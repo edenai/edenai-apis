@@ -122,3 +122,5 @@ Responses to the same `subfeature` even if called from different providers are a
 
 You are more than welcome to contribute to our project, just `Fork the project`, `push` your modifications into a `branch` and open a `Pull Request`. We will be happy to check and eventually merge your **contributions** into our project.
 
+## License :
+[Apache License 2.0](LICENSE)
