@@ -1,0 +1,1044 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "projects/148983085864/locations/europe-west1/operations/14359320093156391082",
+  "original_response": {
+    "@type": "type.googleapis.com/google.cloud.videointelligence.v1.AnnotateVideoResponse",
+    "annotationResults": [
+      {
+        "inputUri": "/audios-speech2text/1665584143labels_video_.mp4",
+        "segmentLabelAnnotations": [
+          {
+            "entity": {
+              "entityId": "/m/017kvv",
+              "description": "infrastructure",
+              "languageCode": "en-US"
+            },
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.34805954
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/014mpm",
+              "description": "intersection",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/01c8br",
+                "description": "street",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.35470298
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/01j0ry",
+              "description": "traffic congestion",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/081pkj",
+                "description": "event",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.9077604
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/06gfj",
+              "description": "road",
+              "languageCode": "en-US"
+            },
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.9055918
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/012f08",
+              "description": "motor vehicle",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/07yv9",
+                "description": "vehicle",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.81586874
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/0cz_0",
+              "description": "highway",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/06gfj",
+                "description": "road",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.77828026
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/02mgm6",
+              "description": "shoulder",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/06gfj",
+                "description": "road",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.37818635
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/0335j",
+              "description": "controlled access highway",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/0cz_0",
+                "description": "highway",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.57971746
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/039jbq",
+              "description": "urban area",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/01n32",
+                "description": "city",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.4695195
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/033j3c",
+              "description": "lane",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/06gfj",
+                "description": "road",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.83384466
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/07yv9",
+              "description": "vehicle",
+              "languageCode": "en-US"
+            },
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.9893714
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/0btp2",
+              "description": "traffic",
+              "languageCode": "en-US"
+            },
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.9283837
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/0k4j",
+              "description": "car",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/07yv9",
+                "description": "vehicle",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.8565858
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/07bsy",
+              "description": "transport",
+              "languageCode": "en-US"
+            },
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.6272184
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/0j_s4",
+              "description": "metropolitan area",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/01n32",
+                "description": "city",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.6217581
+              }
+            ]
+          }
+        ],
+        "shotLabelAnnotations": [
+          {
+            "entity": {
+              "entityId": "/m/014mpm",
+              "description": "intersection",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/01c8br",
+                "description": "street",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.35470298
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/01j0ry",
+              "description": "traffic congestion",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/081pkj",
+                "description": "event",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.88793033
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/06gfj",
+              "description": "road",
+              "languageCode": "en-US"
+            },
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.9055918
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/0cz_0",
+              "description": "highway",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/06gfj",
+                "description": "road",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.77828026
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/012f08",
+              "description": "motor vehicle",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/07yv9",
+                "description": "vehicle",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.81586874
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/02mgm6",
+              "description": "shoulder",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/06gfj",
+                "description": "road",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.37818635
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/039jbq",
+              "description": "urban area",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/01n32",
+                "description": "city",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.49435315
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/0335j",
+              "description": "controlled access highway",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/0cz_0",
+                "description": "highway",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.57971746
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/033j3c",
+              "description": "lane",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/06gfj",
+                "description": "road",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.83384466
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/0k4j",
+              "description": "car",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/07yv9",
+                "description": "vehicle",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.8533301
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/07yv9",
+              "description": "vehicle",
+              "languageCode": "en-US"
+            },
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.9893714
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/0btp2",
+              "description": "traffic",
+              "languageCode": "en-US"
+            },
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.9283837
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/07bsy",
+              "description": "transport",
+              "languageCode": "en-US"
+            },
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.6272184
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/0j_s4",
+              "description": "metropolitan area",
+              "languageCode": "en-US"
+            },
+            "categoryEntities": [
+              {
+                "entityId": "/m/01n32",
+                "description": "city",
+                "languageCode": "en-US"
+              }
+            ],
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.6217581
+              }
+            ]
+          },
+          {
+            "entity": {
+              "entityId": "/m/017kvv",
+              "description": "infrastructure",
+              "languageCode": "en-US"
+            },
+            "segments": [
+              {
+                "segment": {
+                  "startTimeOffset": "0s",
+                  "endTimeOffset": "11.803458s"
+                },
+                "confidence": 0.34805954
+              }
+            ]
+          }
+        ],
+        "segment": {
+          "startTimeOffset": "0s",
+          "endTimeOffset": "11.803458s"
+        }
+      }
+    ]
+  },
+  "standarized_response": {
+    "labels": [
+      {
+        "name": "infrastructure",
+        "confidence": 34.805954,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [],
+        "bounding_box": []
+      },
+      {
+        "name": "intersection",
+        "confidence": 35.470298,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "street"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "traffic congestion",
+        "confidence": 90.77604000000001,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "event"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "road",
+        "confidence": 90.55918,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [],
+        "bounding_box": []
+      },
+      {
+        "name": "motor vehicle",
+        "confidence": 81.586874,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "vehicle"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "highway",
+        "confidence": 77.828026,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "road"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "shoulder",
+        "confidence": 37.818635,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "road"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "controlled access highway",
+        "confidence": 57.971746,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "highway"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "urban area",
+        "confidence": 46.95195,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "city"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "lane",
+        "confidence": 83.384466,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "road"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "vehicle",
+        "confidence": 98.93714,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [],
+        "bounding_box": []
+      },
+      {
+        "name": "traffic",
+        "confidence": 92.83837,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [],
+        "bounding_box": []
+      },
+      {
+        "name": "car",
+        "confidence": 85.65858,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "vehicle"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "transport",
+        "confidence": 62.72183999999999,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [],
+        "bounding_box": []
+      },
+      {
+        "name": "metropolitan area",
+        "confidence": 62.17581,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "city"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "intersection",
+        "confidence": 35.470298,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "street"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "traffic congestion",
+        "confidence": 88.793033,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "event"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "road",
+        "confidence": 90.55918,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [],
+        "bounding_box": []
+      },
+      {
+        "name": "highway",
+        "confidence": 77.828026,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "road"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "motor vehicle",
+        "confidence": 81.586874,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "vehicle"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "shoulder",
+        "confidence": 37.818635,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "road"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "urban area",
+        "confidence": 49.435315,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "city"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "controlled access highway",
+        "confidence": 57.971746,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "highway"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "lane",
+        "confidence": 83.384466,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "road"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "car",
+        "confidence": 85.33301,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "vehicle"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "vehicle",
+        "confidence": 98.93714,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [],
+        "bounding_box": []
+      },
+      {
+        "name": "traffic",
+        "confidence": 92.83837,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [],
+        "bounding_box": []
+      },
+      {
+        "name": "transport",
+        "confidence": 62.72183999999999,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [],
+        "bounding_box": []
+      },
+      {
+        "name": "metropolitan area",
+        "confidence": 62.17581,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [
+          "city"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "infrastructure",
+        "confidence": 34.805954,
+        "timestamp": [
+          {
+            "start": 0.0,
+            "end": 11.803458
+          }
+        ],
+        "category": [],
+        "bounding_box": []
+      }
+    ]
+  }
+}

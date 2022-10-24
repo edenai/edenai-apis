@@ -1,0 +1,24 @@
+{
+  "original_response": {
+    "id": "cmpl-60Tf2PQrjnwqQTAeYO2ZXKUs6a3vS",
+    "object": "text_completion",
+    "created": 1665572036,
+    "model": "text-davinci-002",
+    "choices": [
+      {
+        "text": " Barack Obama was the 44th President of the United States and was the first African-American to hold the office.",
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 77,
+      "completion_tokens": 23,
+      "total_tokens": 100
+    }
+  },
+  "standarized_response": {
+    "result": " Barack Obama was the 44th President of the United States and was the first African-American to hold the office."
+  }
+}

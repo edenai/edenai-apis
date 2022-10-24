@@ -1,0 +1,88 @@
+{
+  "original_response": [
+    {
+      "image": "test_9.jpg",
+      "score": 92.9
+    },
+    {
+      "image": "test_8.jpg",
+      "score": 92.9
+    },
+    {
+      "image": "image_name.jpg",
+      "score": 92.9
+    },
+    {
+      "image": "test_10.jpg",
+      "score": 92.9
+    },
+    {
+      "image": "test_11.jpg",
+      "score": 92.9
+    },
+    {
+      "image": "test_12.jpg",
+      "score": 92.9
+    },
+    {
+      "image": "test_13.jpg",
+      "score": 92.9
+    },
+    {
+      "image": "test_14.jpg",
+      "score": 92.9
+    },
+    {
+      "image": "test_15.jpg",
+      "score": 92.9
+    },
+    {
+      "image": "test_16.jpg",
+      "score": 92.9
+    }
+  ],
+  "standarized_response": {
+    "items": [
+      {
+        "image_name": "test_9.jpg",
+        "score": 92.9
+      },
+      {
+        "image_name": "test_8.jpg",
+        "score": 92.9
+      },
+      {
+        "image_name": "image_name.jpg",
+        "score": 92.9
+      },
+      {
+        "image_name": "test_10.jpg",
+        "score": 92.9
+      },
+      {
+        "image_name": "test_11.jpg",
+        "score": 92.9
+      },
+      {
+        "image_name": "test_12.jpg",
+        "score": 92.9
+      },
+      {
+        "image_name": "test_13.jpg",
+        "score": 92.9
+      },
+      {
+        "image_name": "test_14.jpg",
+        "score": 92.9
+      },
+      {
+        "image_name": "test_15.jpg",
+        "score": 92.9
+      },
+      {
+        "image_name": "test_16.jpg",
+        "score": 92.9
+      }
+    ]
+  }
+}

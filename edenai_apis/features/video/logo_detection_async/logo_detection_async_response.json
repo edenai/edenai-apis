@@ -1,0 +1,68 @@
+{
+    "logos": [
+      {
+        "description": "Koh-i-Noor Hardtmuth",
+        "tracking": [
+          {
+            "timestamp": 5.5055,
+            "bounding_box": {
+              "top": 0.9172453,
+              "left": 0.43818593,
+              "height": 0.9598406,
+              "width": 0.45948356
+            }
+          },
+          {
+            "timestamp": 5.630625,
+            "bounding_box": {
+              "top": 0.9357612,
+              "left": 0.44380248,
+              "height": 0.9783565,
+              "width": 0.4651001
+            }
+          }
+        ]
+      },
+      {
+        "description": "Wisconsin Badgers",
+        "tracking": [
+          {
+            "timestamp": 0.0,
+            "bounding_box": {
+              "top": 0.44206923,
+              "left": 0.5511915,
+              "height": 0.49424022,
+              "width": 0.5685801
+            }
+          },
+          {
+            "timestamp": 0.125125,
+            "bounding_box": {
+              "top": 0.44307142,
+              "left": 0.5526141,
+              "height": 0.49524242,
+              "width": 0.5700027
+            }
+          },
+          {
+            "timestamp": 0.25025,
+            "bounding_box": {
+              "top": 0.44512537,
+              "left": 0.5515299,
+              "height": 0.49729636,
+              "width": 0.56891847
+            }
+          },
+          {
+            "timestamp": 0.375375,
+            "bounding_box": {
+              "top": 0.44717023,
+              "left": 0.5519637,
+              "height": 0.49934122,
+              "width": 0.56935227
+            }
+          }
+        ]
+      }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+  "original_response": {
+    "result": {
+      "namedEntities": [
+        {
+          "start": 24,
+          "end": 38,
+          "source": "06 21 32 43 54",
+          "value": "06 21 32 43 54",
+          "refValue": "0-6",
+          "tags": [
+            "Thing/Abstract/PhoneNumber"
+          ]
+        },
+        {
+          "start": 13,
+          "end": 16,
+          "source": "Luc",
+          "value": "Luc",
+          "refValue": "0-3",
+          "tags": [
+            "Thing/Concrete/Animate/Livingbeing/Human"
+          ]
+        }
+      ],
+      "annotatedValue": "Le num\u00e9ro de <THING/CONCRETE/ANIMATE/LIVINGBEING/HUMAN_915777810>  est le <THING/ABSTRACT/PHONENUMBER_538122288> ."
+    },
+    "code": 0,
+    "startTime": 1665571745341,
+    "endTime": 1665571745343,
+    "message": "OK"
+  },
+  "standarized_response": {
+    "result": "Le num\u00e9ro de <THING/CONCRETE/ANIMATE/LIVINGBEING/HUMAN_915777810>  est le <THING/ABSTRACT/PHONENUMBER_538122288> ."
+  }
+}

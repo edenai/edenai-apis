@@ -1,0 +1,255 @@
+{
+  "original_response": {
+    "Entities": [
+      {
+        "Score": 0.9960151314735413,
+        "Type": "PERSON",
+        "Text": "Barack Hussein Obama",
+        "BeginOffset": 0,
+        "EndOffset": 20
+      },
+      {
+        "Score": 0.9943374991416931,
+        "Type": "OTHER",
+        "Text": "American",
+        "BeginOffset": 27,
+        "EndOffset": 35
+      },
+      {
+        "Score": 0.8183709383010864,
+        "Type": "QUANTITY",
+        "Text": "44th president",
+        "BeginOffset": 65,
+        "EndOffset": 79
+      },
+      {
+        "Score": 0.8509750366210938,
+        "Type": "LOCATION",
+        "Text": "United States",
+        "BeginOffset": 87,
+        "EndOffset": 100
+      },
+      {
+        "Score": 0.9990425705909729,
+        "Type": "DATE",
+        "Text": "2009",
+        "BeginOffset": 106,
+        "EndOffset": 110
+      },
+      {
+        "Score": 0.994526207447052,
+        "Type": "DATE",
+        "Text": "2017",
+        "BeginOffset": 114,
+        "EndOffset": 118
+      },
+      {
+        "Score": 0.9991411566734314,
+        "Type": "ORGANIZATION",
+        "Text": "Democratic Party",
+        "BeginOffset": 136,
+        "EndOffset": 152
+      },
+      {
+        "Score": 0.99968421459198,
+        "Type": "PERSON",
+        "Text": "Obama",
+        "BeginOffset": 154,
+        "EndOffset": 159
+      },
+      {
+        "Score": 0.9900199174880981,
+        "Type": "QUANTITY",
+        "Text": "first",
+        "BeginOffset": 168,
+        "EndOffset": 173
+      },
+      {
+        "Score": 0.9452006220817566,
+        "Type": "OTHER",
+        "Text": "African-American",
+        "BeginOffset": 174,
+        "EndOffset": 190
+      },
+      {
+        "Score": 0.9460242390632629,
+        "Type": "LOCATION",
+        "Text": "United States",
+        "BeginOffset": 208,
+        "EndOffset": 221
+      },
+      {
+        "Score": 0.9084259867668152,
+        "Type": "LOCATION",
+        "Text": "U.S.",
+        "BeginOffset": 249,
+        "EndOffset": 253
+      },
+      {
+        "Score": 0.9805331230163574,
+        "Type": "LOCATION",
+        "Text": "Illinois",
+        "BeginOffset": 267,
+        "EndOffset": 275
+      },
+      {
+        "Score": 0.999678373336792,
+        "Type": "DATE",
+        "Text": "2005",
+        "BeginOffset": 281,
+        "EndOffset": 285
+      },
+      {
+        "Score": 0.9976561069488525,
+        "Type": "DATE",
+        "Text": "2008",
+        "BeginOffset": 289,
+        "EndOffset": 293
+      },
+      {
+        "Score": 0.9859099388122559,
+        "Type": "LOCATION",
+        "Text": "Illinois",
+        "BeginOffset": 304,
+        "EndOffset": 312
+      },
+      {
+        "Score": 0.9996833801269531,
+        "Type": "DATE",
+        "Text": "1997",
+        "BeginOffset": 332,
+        "EndOffset": 336
+      },
+      {
+        "Score": 0.9972879886627197,
+        "Type": "DATE",
+        "Text": "2004",
+        "BeginOffset": 340,
+        "EndOffset": 344
+      }
+    ],
+    "ResponseMetadata": {
+      "RequestId": "e4b10a1e-5af6-4f89-a28d-38b6b61bbc66",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "e4b10a1e-5af6-4f89-a28d-38b6b61bbc66",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "1764",
+        "date": "Wed, 12 Oct 2022 10:41:00 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "entity": "Barack Hussein Obama",
+        "category": "PERSON",
+        "importance": 0.9960151314735413,
+        "url": ""
+      },
+      {
+        "entity": "American",
+        "category": "OTHER",
+        "importance": 0.9943374991416931,
+        "url": ""
+      },
+      {
+        "entity": "44th president",
+        "category": "QUANTITY",
+        "importance": 0.8183709383010864,
+        "url": ""
+      },
+      {
+        "entity": "United States",
+        "category": "LOCATION",
+        "importance": 0.8509750366210938,
+        "url": ""
+      },
+      {
+        "entity": "2009",
+        "category": "DATE",
+        "importance": 0.9990425705909729,
+        "url": ""
+      },
+      {
+        "entity": "2017",
+        "category": "DATE",
+        "importance": 0.994526207447052,
+        "url": ""
+      },
+      {
+        "entity": "Democratic Party",
+        "category": "ORGANIZATION",
+        "importance": 0.9991411566734314,
+        "url": ""
+      },
+      {
+        "entity": "Obama",
+        "category": "PERSON",
+        "importance": 0.99968421459198,
+        "url": ""
+      },
+      {
+        "entity": "first",
+        "category": "QUANTITY",
+        "importance": 0.9900199174880981,
+        "url": ""
+      },
+      {
+        "entity": "African-American",
+        "category": "OTHER",
+        "importance": 0.9452006220817566,
+        "url": ""
+      },
+      {
+        "entity": "United States",
+        "category": "LOCATION",
+        "importance": 0.9460242390632629,
+        "url": ""
+      },
+      {
+        "entity": "U.S.",
+        "category": "LOCATION",
+        "importance": 0.9084259867668152,
+        "url": ""
+      },
+      {
+        "entity": "Illinois",
+        "category": "LOCATION",
+        "importance": 0.9805331230163574,
+        "url": ""
+      },
+      {
+        "entity": "2005",
+        "category": "DATE",
+        "importance": 0.999678373336792,
+        "url": ""
+      },
+      {
+        "entity": "2008",
+        "category": "DATE",
+        "importance": 0.9976561069488525,
+        "url": ""
+      },
+      {
+        "entity": "Illinois",
+        "category": "LOCATION",
+        "importance": 0.9859099388122559,
+        "url": ""
+      },
+      {
+        "entity": "1997",
+        "category": "DATE",
+        "importance": 0.9996833801269531,
+        "url": ""
+      },
+      {
+        "entity": "2004",
+        "category": "DATE",
+        "importance": 0.9972879886627197,
+        "url": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "projects/148983085864/locations/europe-west1/operations/13356662317526139969",
+  "original_response": {
+    "@type": "type.googleapis.com/google.cloud.videointelligence.v1.AnnotateVideoResponse",
+    "annotationResults": [
+      {
+        "inputUri": "/audios-speech2text/1665584081explicit_video_.mp4",
+        "explicitAnnotation": {
+          "frames": [
+            {
+              "timeOffset": "0.424126s",
+              "pornographyLikelihood": "UNLIKELY"
+            },
+            {
+              "timeOffset": "1.262779s",
+              "pornographyLikelihood": "POSSIBLE"
+            },
+            {
+              "timeOffset": "2.324652s",
+              "pornographyLikelihood": "LIKELY"
+            },
+            {
+              "timeOffset": "3.442539s",
+              "pornographyLikelihood": "POSSIBLE"
+            },
+            {
+              "timeOffset": "4.361987s",
+              "pornographyLikelihood": "POSSIBLE"
+            },
+            {
+              "timeOffset": "5.271355s",
+              "pornographyLikelihood": "VERY_UNLIKELY"
+            },
+            {
+              "timeOffset": "6.441619s",
+              "pornographyLikelihood": "VERY_UNLIKELY"
+            },
+            {
+              "timeOffset": "7.478453s",
+              "pornographyLikelihood": "VERY_UNLIKELY"
+            },
+            {
+              "timeOffset": "8.298241s",
+              "pornographyLikelihood": "VERY_UNLIKELY"
+            }
+          ]
+        },
+        "segment": {
+          "startTimeOffset": "0s",
+          "endTimeOffset": "9.200s"
+        }
+      }
+    ]
+  },
+  "standarized_response": {
+    "moderation": [
+      {
+        "timestamp": 0.424126,
+        "confidence": 0.4,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 1.262779,
+        "confidence": 0.6,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 2.324652,
+        "confidence": 0.8,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 3.442539,
+        "confidence": 0.6,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 4.361987,
+        "confidence": 0.6,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 5.271355,
+        "confidence": 0.2,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 6.441619,
+        "confidence": 0.2,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 7.478453,
+        "confidence": 0.2,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 8.298241,
+        "confidence": 0.2,
+        "category": "Explicit Nudity"
+      }
+    ]
+  }
+}

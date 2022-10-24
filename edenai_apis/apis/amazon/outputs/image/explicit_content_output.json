@@ -1,0 +1,40 @@
+{
+  "original_response": {
+    "ModerationLabels": [
+      {
+        "Confidence": 99.8125991821289,
+        "Name": "Graphic Violence Or Gore",
+        "ParentName": "Violence"
+      },
+      {
+        "Confidence": 99.8125991821289,
+        "Name": "Violence",
+        "ParentName": ""
+      }
+    ],
+    "ModerationModelVersion": "5.0",
+    "ResponseMetadata": {
+      "RequestId": "d10b9328-b5e4-4fca-b043-465ca601c54a",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "d10b9328-b5e4-4fca-b043-465ca601c54a",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "209",
+        "date": "Wed, 12 Oct 2022 10:39:56 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "label": "Graphic Violence Or Gore",
+        "likelihood": 5
+      },
+      {
+        "label": "Violence",
+        "likelihood": 5
+      }
+    ]
+  }
+}

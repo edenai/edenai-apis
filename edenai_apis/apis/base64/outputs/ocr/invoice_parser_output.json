@@ -1,0 +1,791 @@
+{
+  "original_response": [
+    {
+      "model": {
+        "name": "Invoice",
+        "confidence": 1,
+        "type": "finance/invoice",
+        "isValid": true
+      },
+      "fields": {
+        "companyName": {
+          "key": "Company name",
+          "value": "647-444-1234",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 678,
+              "y": 76
+            },
+            "topRight": {
+              "x": 806,
+              "y": 76
+            },
+            "bottomLeft": {
+              "x": 678,
+              "y": 101
+            },
+            "bottomRight": {
+              "x": 806,
+              "y": 101
+            },
+            "pageNumber": 0
+          }
+        },
+        "billTo": {
+          "key": "Bill to",
+          "value": "Client Name 1 Client Address City, State, Country ZIP CODE",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 69,
+              "y": 326
+            },
+            "topRight": {
+              "x": 250,
+              "y": 326
+            },
+            "bottomLeft": {
+              "x": 69,
+              "y": 487
+            },
+            "bottomRight": {
+              "x": 250,
+              "y": 487
+            },
+            "pageNumber": 0
+          }
+        },
+        "invoiceNumber": {
+          "key": "Invoice number",
+          "value": "000000",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 380,
+              "y": 327
+            },
+            "topRight": {
+              "x": 510,
+              "y": 327
+            },
+            "bottomLeft": {
+              "x": 380,
+              "y": 383
+            },
+            "bottomRight": {
+              "x": 510,
+              "y": 383
+            },
+            "pageNumber": 0
+          }
+        },
+        "invoiceDate": {
+          "key": "Invoice date",
+          "value": "2014-10-07",
+          "confidence": 1,
+          "isValid": true,
+          "type": "date",
+          "location": {
+            "topLeft": {
+              "x": 381,
+              "y": 431
+            },
+            "topRight": {
+              "x": 493,
+              "y": 431
+            },
+            "bottomLeft": {
+              "x": 381,
+              "y": 486
+            },
+            "bottomRight": {
+              "x": 493,
+              "y": 486
+            },
+            "pageNumber": 0
+          }
+        },
+        "dueDate": {
+          "key": "Due date",
+          "value": "2027-02-21",
+          "isValid": true,
+          "type": "date",
+          "confidence": 1
+        },
+        "currency": {
+          "key": "Currency",
+          "value": "USD",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 799,
+              "y": 1319
+            },
+            "topRight": {
+              "x": 860,
+              "y": 1320
+            },
+            "bottomLeft": {
+              "x": 799,
+              "y": 1345
+            },
+            "bottomRight": {
+              "x": 860,
+              "y": 1346
+            },
+            "pageNumber": 0
+          }
+        },
+        "subtotal": {
+          "key": "Subtotal",
+          "value": "4,000.00",
+          "confidence": 1,
+          "isValid": true,
+          "location": {
+            "topLeft": {
+              "x": 784,
+              "y": 1138
+            },
+            "topRight": {
+              "x": 1075,
+              "y": 1139
+            },
+            "bottomLeft": {
+              "x": 784,
+              "y": 1158
+            },
+            "bottomRight": {
+              "x": 1075,
+              "y": 1159
+            },
+            "pageNumber": 0
+          }
+        },
+        "discount": {
+          "key": "Discount",
+          "value": "0.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 378,
+              "y": 364
+            },
+            "topRight": {
+              "x": 449,
+              "y": 364
+            },
+            "bottomLeft": {
+              "x": 378,
+              "y": 386
+            },
+            "bottomRight": {
+              "x": 449,
+              "y": 386
+            },
+            "pageNumber": 0
+          }
+        },
+        "deposit": {
+          "key": "Deposit",
+          "value": "0.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 378,
+              "y": 364
+            },
+            "topRight": {
+              "x": 449,
+              "y": 364
+            },
+            "bottomLeft": {
+              "x": 378,
+              "y": 386
+            },
+            "bottomRight": {
+              "x": 449,
+              "y": 386
+            },
+            "pageNumber": 0
+          }
+        },
+        "tax": {
+          "key": "Tax",
+          "value": "520.00",
+          "confidence": 0.99,
+          "isValid": true,
+          "location": {
+            "topLeft": {
+              "x": 827,
+              "y": 1185
+            },
+            "topRight": {
+              "x": 1075,
+              "y": 1185
+            },
+            "bottomLeft": {
+              "x": 827,
+              "y": 1205
+            },
+            "bottomRight": {
+              "x": 1075,
+              "y": 1205
+            },
+            "pageNumber": 0
+          }
+        },
+        "total": {
+          "key": "Total",
+          "value": "4,520.00",
+          "confidence": 0.58,
+          "isValid": true,
+          "location": {
+            "topLeft": {
+              "x": 859,
+              "y": 328
+            },
+            "topRight": {
+              "x": 1097,
+              "y": 328
+            },
+            "bottomLeft": {
+              "x": 859,
+              "y": 417
+            },
+            "bottomRight": {
+              "x": 1097,
+              "y": 417
+            },
+            "pageNumber": 0
+          }
+        },
+        "amountDue": {
+          "key": "Amount Due (USD)",
+          "value": "4520.00",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 858,
+              "y": 366
+            },
+            "topRight": {
+              "x": 1086,
+              "y": 366
+            },
+            "bottomLeft": {
+              "x": 858,
+              "y": 420
+            },
+            "bottomRight": {
+              "x": 1086,
+              "y": 420
+            },
+            "pageNumber": 0
+          }
+        },
+        "balanceDue": {
+          "key": "Balance due",
+          "value": "4,520.00",
+          "confidence": 1
+        },
+        "lineItem1Description": {
+          "key": "Line item 1 description",
+          "value": "Your item Name\nItem description goes here",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 61,
+              "y": 658
+            },
+            "topRight": {
+              "x": 448,
+              "y": 659
+            },
+            "bottomLeft": {
+              "x": 61,
+              "y": 753
+            },
+            "bottomRight": {
+              "x": 448,
+              "y": 754
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem1LineTotal": {
+          "key": "Line item 1 line total",
+          "value": "1,000.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 941,
+              "y": 660
+            },
+            "topRight": {
+              "x": 1103,
+              "y": 660
+            },
+            "bottomLeft": {
+              "x": 941,
+              "y": 755
+            },
+            "bottomRight": {
+              "x": 1103,
+              "y": 755
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem1ShippedQuantity": {
+          "key": "Line item 1 shipped quantity",
+          "value": "1",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 759,
+              "y": 659
+            },
+            "topRight": {
+              "x": 941,
+              "y": 660
+            },
+            "bottomLeft": {
+              "x": 759,
+              "y": 754
+            },
+            "bottomRight": {
+              "x": 941,
+              "y": 755
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem1UnitPrice": {
+          "key": "Line item 1 unit price",
+          "value": "1,000.00",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem2Description": {
+          "key": "Line item 2 description",
+          "value": "Your item Name\nItem description goes here",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 61,
+              "y": 753
+            },
+            "topRight": {
+              "x": 448,
+              "y": 754
+            },
+            "bottomLeft": {
+              "x": 61,
+              "y": 847
+            },
+            "bottomRight": {
+              "x": 448,
+              "y": 848
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem2LineTotal": {
+          "key": "Line item 2 line total",
+          "value": "1,000.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 941,
+              "y": 755
+            },
+            "topRight": {
+              "x": 1103,
+              "y": 755
+            },
+            "bottomLeft": {
+              "x": 941,
+              "y": 849
+            },
+            "bottomRight": {
+              "x": 1103,
+              "y": 849
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem2ShippedQuantity": {
+          "key": "Line item 2 shipped quantity",
+          "value": "1",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 759,
+              "y": 754
+            },
+            "topRight": {
+              "x": 941,
+              "y": 755
+            },
+            "bottomLeft": {
+              "x": 759,
+              "y": 848
+            },
+            "bottomRight": {
+              "x": 941,
+              "y": 849
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem2UnitPrice": {
+          "key": "Line item 2 unit price",
+          "value": "1,000.00",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem3Description": {
+          "key": "Line item 3 description",
+          "value": "Your item Name\nItem description goes here",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 61,
+              "y": 847
+            },
+            "topRight": {
+              "x": 448,
+              "y": 848
+            },
+            "bottomLeft": {
+              "x": 61,
+              "y": 943
+            },
+            "bottomRight": {
+              "x": 448,
+              "y": 944
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem3LineTotal": {
+          "key": "Line item 3 line total",
+          "value": "1,000.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 941,
+              "y": 849
+            },
+            "topRight": {
+              "x": 1103,
+              "y": 849
+            },
+            "bottomLeft": {
+              "x": 941,
+              "y": 945
+            },
+            "bottomRight": {
+              "x": 1103,
+              "y": 945
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem3ShippedQuantity": {
+          "key": "Line item 3 shipped quantity",
+          "value": "1",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 759,
+              "y": 848
+            },
+            "topRight": {
+              "x": 941,
+              "y": 849
+            },
+            "bottomLeft": {
+              "x": 759,
+              "y": 944
+            },
+            "bottomRight": {
+              "x": 941,
+              "y": 945
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem3UnitPrice": {
+          "key": "Line item 3 unit price",
+          "value": "1,000.00",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem4Description": {
+          "key": "Line item 4 description",
+          "value": "Your item Name\nItem description goes here",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 61,
+              "y": 943
+            },
+            "topRight": {
+              "x": 448,
+              "y": 944
+            },
+            "bottomLeft": {
+              "x": 60,
+              "y": 1038
+            },
+            "bottomRight": {
+              "x": 447,
+              "y": 1039
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem4LineTotal": {
+          "key": "Line item 4 line total",
+          "value": "1,000.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 941,
+              "y": 945
+            },
+            "topRight": {
+              "x": 1103,
+              "y": 945
+            },
+            "bottomLeft": {
+              "x": 940,
+              "y": 1040
+            },
+            "bottomRight": {
+              "x": 1102,
+              "y": 1040
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem4ShippedQuantity": {
+          "key": "Line item 4 shipped quantity",
+          "value": "1",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 759,
+              "y": 944
+            },
+            "topRight": {
+              "x": 941,
+              "y": 945
+            },
+            "bottomLeft": {
+              "x": 758,
+              "y": 1039
+            },
+            "bottomRight": {
+              "x": 940,
+              "y": 1040
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem4UnitPrice": {
+          "key": "Line item 4 unit price",
+          "value": "1,000.00",
+          "confidence": 1,
+          "isValid": true
+        },
+        "yourItemName": {
+          "key": "Your item Name",
+          "value": "Item description goes here",
+          "confidence": 0.96,
+          "location": {
+            "topLeft": {
+              "x": 72,
+              "y": 711
+            },
+            "topRight": {
+              "x": 289,
+              "y": 711
+            },
+            "bottomLeft": {
+              "x": 72,
+              "y": 732
+            },
+            "bottomRight": {
+              "x": 289,
+              "y": 732
+            },
+            "pageNumber": 0
+          }
+        },
+        "yourItemName2": {
+          "key": "Your item Name 2",
+          "value": "Item description goes here",
+          "confidence": 0.9,
+          "location": {
+            "topLeft": {
+              "x": 75,
+              "y": 874
+            },
+            "topRight": {
+              "x": 292,
+              "y": 874
+            },
+            "bottomLeft": {
+              "x": 75,
+              "y": 922
+            },
+            "bottomRight": {
+              "x": 292,
+              "y": 922
+            },
+            "pageNumber": 0
+          }
+        },
+        "yourItemName3": {
+          "key": "Your item Name 3",
+          "value": "Item description goes here",
+          "confidence": 0.9,
+          "location": {
+            "topLeft": {
+              "x": 73,
+              "y": 778
+            },
+            "topRight": {
+              "x": 291,
+              "y": 778
+            },
+            "bottomLeft": {
+              "x": 73,
+              "y": 828
+            },
+            "bottomRight": {
+              "x": 291,
+              "y": 828
+            },
+            "pageNumber": 0
+          }
+        }
+      },
+      "features": {
+        "tables": [
+          [
+            [
+              "Description",
+              "Unit Cost",
+              "Qty / Hr Rate",
+              "Amount"
+            ],
+            [
+              "Your item Name\nItem description goes here",
+              "$1000",
+              "1",
+              "1000"
+            ],
+            [
+              "Your item Name\nItem description goes here",
+              "$1000",
+              "1",
+              "1000"
+            ],
+            [
+              "Your item Name\nItem description goes here",
+              "$1000",
+              "1",
+              "1000"
+            ],
+            [
+              "Your item Name\nItem description goes here",
+              "$1000",
+              "1",
+              "1000"
+            ]
+          ]
+        ],
+        "creditsSpent": 2,
+        "properties": {
+          "mimeType": "image/png",
+          "rotationAngle": 0.12,
+          "width": 1176,
+          "height": 1528,
+          "isInFocus": true,
+          "isGlareFree": true
+        }
+      },
+      "ocr": "647-444-1234\nINVOICE\nZIP CODE\n1 Your Address\nyour@email.com\nCity, State, Country\nyourwebsite.com\nBilled To\nInvoice Number\nInvoice Total\nClient Name\n000000\n$4520.00\n1 Client Address\nDate Of Issue\nCity, State, Country\nZIP CODE\n10/07/14\nDescription\nUnit Cost\nQty / Hr Rate\nAmount\nYour item Name\nItem description goes here\n$1000\n1 1000\nYour item Name\n$1000\n1 1000\nItem description goes here\nYour item Name\n$1000\n1 1000\nItem description goes here\nYour item Name\nItem description goes here\n$1000\n1 1000\nSubtotal\n$4000.00\nTax\n$520.00\nTotal\n$4520.00\nInvoice Terms\nEx. Please pay your invoice by ....\nAmount Due (USD)\n$4520.00\n",
+      "uuid": "2c7c9bd3-b98c-488d-a3be-2aa6abb74989"
+    }
+  ],
+  "standarized_response": {
+    "extracted_data": [
+      {
+        "invoice_number": "000000",
+        "invoice_total": 4520.0,
+        "date": null,
+        "invoice_subtotal": 4000.0,
+        "due_date": null,
+        "customer_information": {
+          "customer_name": "Client Name 1 Client Address City, State, Country ZIP CODE",
+          "customer_address": null
+        },
+        "merchant_information": {
+          "merchant_name": "647-444-1234",
+          "merchant_address": null
+        },
+        "locale": {
+          "currency": "USD",
+          "language": null
+        },
+        "taxes": [
+          {
+            "value": 520.0,
+            "rate": null
+          }
+        ],
+        "item_lines": [
+          {
+            "description": "Your item Name\nItem description goes here",
+            "quantity": 1,
+            "amount": 1000.0,
+            "unit_price": 1000.0
+          },
+          {
+            "description": "Your item Name\nItem description goes here",
+            "quantity": 1,
+            "amount": 1000.0,
+            "unit_price": 1000.0
+          },
+          {
+            "description": "Your item Name\nItem description goes here",
+            "quantity": 1,
+            "amount": 1000.0,
+            "unit_price": 1000.0
+          },
+          {
+            "description": "Your item Name\nItem description goes here",
+            "quantity": 1,
+            "amount": 1000.0,
+            "unit_price": 1000.0
+          }
+        ]
+      }
+    ]
+  }
+}

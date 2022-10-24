@@ -1,0 +1,60 @@
+{
+  "original_response": {
+    "concepts": [
+      {
+        "id": "ai_QD1zClSd",
+        "name": "safe",
+        "value": 0.99999666,
+        "app_id": "main"
+      },
+      {
+        "id": "ai_8QQwMjQR",
+        "name": "drug",
+        "value": 2.3394784e-06,
+        "app_id": "main"
+      },
+      {
+        "id": "ai_V76bvrtj",
+        "name": "explicit",
+        "value": 9.990083e-07,
+        "app_id": "main"
+      },
+      {
+        "id": "ai_RtXh5qkR",
+        "name": "suggestive",
+        "value": 4.8847287e-08,
+        "app_id": "main"
+      },
+      {
+        "id": "ai_kBBGf7r8",
+        "name": "gore",
+        "value": 2.165323e-09,
+        "app_id": "main"
+      }
+    ]
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "label": "safe",
+        "likelihood": 5
+      },
+      {
+        "label": "drug",
+        "likelihood": 1
+      },
+      {
+        "label": "explicit",
+        "likelihood": 1
+      },
+      {
+        "label": "suggestive",
+        "likelihood": 1
+      },
+      {
+        "label": "gore",
+        "likelihood": 1
+      }
+    ]
+  }
+}

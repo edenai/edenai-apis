@@ -1,0 +1,55 @@
+{
+  "original_response": {
+    "jobId": "bd7b3bc1-b585-427e-9ef2-48c90cedb2e0",
+    "lastUpdateDateTime": "2022-10-12T14:21:39Z",
+    "createdDateTime": "2022-10-12T14:21:36Z",
+    "expirationDateTime": "2022-10-13T14:21:36Z",
+    "status": "succeeded",
+    "errors": [],
+    "tasks": {
+      "completed": 1,
+      "failed": 0,
+      "inProgress": 0,
+      "total": 1,
+      "extractiveSummarizationTasks": [
+        {
+          "lastUpdateDateTime": "2022-10-12T14:21:39.9408869Z",
+          "state": "succeeded",
+          "results": {
+            "documents": [
+              {
+                "id": "1",
+                "sentences": [
+                  {
+                    "text": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017.",
+                    "rankScore": 1.0,
+                    "offset": 0,
+                    "length": 119
+                  },
+                  {
+                    "text": "A member of the Democratic Party, Obama was the first African-American president of the United States.",
+                    "rankScore": 0.74,
+                    "offset": 120,
+                    "length": 102
+                  },
+                  {
+                    "text": "He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+                    "rankScore": 0.0,
+                    "offset": 223,
+                    "length": 122
+                  }
+                ],
+                "warnings": []
+              }
+            ],
+            "errors": [],
+            "modelVersion": "2021-08-01"
+          }
+        }
+      ]
+    }
+  },
+  "standarized_response": {
+    "result": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004."
+  }
+}

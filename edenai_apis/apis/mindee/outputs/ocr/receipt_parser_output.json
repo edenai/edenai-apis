@@ -1,0 +1,222 @@
+{
+  "original_response": {
+    "api_request": {
+      "error": {},
+      "resources": [
+        "document"
+      ],
+      "status": "success",
+      "status_code": 201,
+      "url": "https://api.mindee.net/v1/products/mindee/expense_receipts/v3/predict?local=langage&local=country"
+    },
+    "document": {
+      "id": "d34f1fab-c734-4466-b52e-f693834f2ece",
+      "inference": {
+        "extras": {},
+        "finished_at": "2022-10-12T10:53:39+00:00",
+        "is_rotation_applied": true,
+        "pages": [
+          {
+            "extras": {},
+            "id": 0,
+            "orientation": {
+              "value": 0
+            },
+            "prediction": {
+              "category": {
+                "confidence": 0.78,
+                "value": "food"
+              },
+              "date": {
+                "confidence": 0.0,
+                "polygon": [],
+                "raw": null,
+                "value": null
+              },
+              "locale": {
+                "confidence": 0.0,
+                "country": null,
+                "currency": null,
+                "language": null,
+                "value": null
+              },
+              "orientation": {
+                "confidence": 0.99,
+                "degrees": 0
+              },
+              "supplier": {
+                "confidence": 0.52,
+                "polygon": [
+                  [
+                    0.368,
+                    0.125
+                  ],
+                  [
+                    0.581,
+                    0.125
+                  ],
+                  [
+                    0.581,
+                    0.146
+                  ],
+                  [
+                    0.368,
+                    0.146
+                  ]
+                ],
+                "value": "BON FISCAL"
+              },
+              "taxes": [],
+              "time": {
+                "confidence": 0.0,
+                "polygon": [],
+                "raw": null,
+                "value": null
+              },
+              "total_incl": {
+                "confidence": 0.8,
+                "polygon": [
+                  [
+                    0.768,
+                    0.518
+                  ],
+                  [
+                    0.895,
+                    0.518
+                  ],
+                  [
+                    0.895,
+                    0.533
+                  ],
+                  [
+                    0.768,
+                    0.533
+                  ]
+                ],
+                "value": 168.95
+              }
+            }
+          }
+        ],
+        "prediction": {
+          "category": {
+            "confidence": 0.78,
+            "value": "food"
+          },
+          "date": {
+            "confidence": 0.0,
+            "page_id": null,
+            "polygon": [],
+            "raw": null,
+            "value": null
+          },
+          "locale": {
+            "confidence": 0.0,
+            "country": null,
+            "currency": null,
+            "language": null,
+            "value": null
+          },
+          "supplier": {
+            "confidence": 0.52,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.368,
+                0.125
+              ],
+              [
+                0.581,
+                0.125
+              ],
+              [
+                0.581,
+                0.146
+              ],
+              [
+                0.368,
+                0.146
+              ]
+            ],
+            "value": "BON FISCAL"
+          },
+          "taxes": [],
+          "time": {
+            "confidence": 0.0,
+            "page_id": null,
+            "polygon": [],
+            "raw": null,
+            "value": null
+          },
+          "total_incl": {
+            "confidence": 0.8,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.768,
+                0.518
+              ],
+              [
+                0.895,
+                0.518
+              ],
+              [
+                0.895,
+                0.533
+              ],
+              [
+                0.768,
+                0.533
+              ]
+            ],
+            "value": 168.95
+          }
+        },
+        "processing_time": 1.363,
+        "product": {
+          "features": [
+            "locale",
+            "category",
+            "date",
+            "time",
+            "total_incl",
+            "taxes",
+            "supplier",
+            "orientation"
+          ],
+          "name": "mindee/expense_receipts",
+          "type": "standard",
+          "version": "3.1"
+        },
+        "started_at": "2022-10-12T10:53:38+00:00"
+      },
+      "n_pages": 1,
+      "name": "receipt.jpg"
+    }
+  },
+  "standarized_response": {
+    "extracted_data": [
+      {
+        "invoice_number": null,
+        "invoice_total": 168.95,
+        "date": null,
+        "invoice_subtotal": null,
+        "customer_information": {
+          "customer_name": null
+        },
+        "merchant_information": {
+          "merchant_name": "BON FISCAL"
+        },
+        "locale": {
+          "currency": null
+        },
+        "taxes": [],
+        "receipt_infos": {
+          "language": null,
+          "category": "food"
+        },
+        "item_lines": []
+      }
+    ]
+  }
+}

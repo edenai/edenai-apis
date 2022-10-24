@@ -1,0 +1,35 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "2880343573166102303",
+  "original_response": {
+    "name": "2880343573166102303",
+    "metadata": {
+      "@type": "type.googleapis.com/google.cloud.speech.v1.LongRunningRecognizeMetadata",
+      "progressPercent": 100,
+      "startTime": "2022-10-12T14:12:43.132906Z",
+      "lastUpdateTime": "2022-10-12T14:12:49.013761Z",
+      "uri": "gs://audios-speech2text/1665583961conversation.flac"
+    },
+    "done": true,
+    "response": {
+      "@type": "type.googleapis.com/google.cloud.speech.v1.LongRunningRecognizeResponse",
+      "results": [
+        {
+          "alternatives": [
+            {
+              "transcript": "unit 1 page 14 real conversations nice to meet you.",
+              "confidence": 0.897069
+            }
+          ],
+          "resultEndTime": "17.010s",
+          "languageCode": "en-us"
+        }
+      ],
+      "totalBilledTime": "30s",
+      "requestId": "2880343573166102303"
+    }
+  },
+  "standarized_response": {
+    "text": "unit 1 page 14 real conversations nice to meet you."
+  }
+}

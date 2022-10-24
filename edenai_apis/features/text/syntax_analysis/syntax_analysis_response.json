@@ -1,0 +1,546 @@
+{
+  "items": [
+    {
+      "word": "Barack",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "Barack",
+      "others": {
+        "number": "SINGULAR",
+        "proper_name": "PROPER"
+      }
+    },
+    {
+      "word": "Hussein",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "Hussein",
+      "others": {
+        "number": "SINGULAR",
+        "proper_name": "PROPER"
+      }
+    },
+    {
+      "word": "Obama",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "Obama",
+      "others": {
+        "number": "SINGULAR",
+        "proper_name": "PROPER"
+      }
+    },
+    {
+      "word": "is",
+      "importance": null,
+      "tag": "Verb",
+      "lemma": "be",
+      "others": {
+        "mood": "INDICATIVE",
+        "number": "SINGULAR",
+        "person": "THIRD",
+        "tense": "PRESENT"
+      }
+    },
+    {
+      "word": "an",
+      "importance": null,
+      "tag": "Determiner",
+      "lemma": "an",
+      "others": {}
+    },
+    {
+      "word": "American",
+      "importance": null,
+      "tag": "Adjactive",
+      "lemma": "American",
+      "others": {}
+    },
+    {
+      "word": "politician",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "politician",
+      "others": {
+        "number": "SINGULAR"
+      }
+    },
+    {
+      "word": "who",
+      "importance": null,
+      "tag": "Pronoun",
+      "lemma": "who",
+      "others": {
+        "person": "THIRD"
+      }
+    },
+    {
+      "word": "served",
+      "importance": null,
+      "tag": "Verb",
+      "lemma": "serve",
+      "others": {
+        "mood": "INDICATIVE",
+        "tense": "PAST"
+      }
+    },
+    {
+      "word": "as",
+      "importance": null,
+      "tag": "Adposition",
+      "lemma": "as",
+      "others": {}
+    },
+    {
+      "word": "the",
+      "importance": null,
+      "tag": "Determiner",
+      "lemma": "the",
+      "others": {}
+    },
+    {
+      "word": "44th",
+      "importance": null,
+      "tag": "Adjactive",
+      "lemma": "44th",
+      "others": {
+        "number": "SINGULAR"
+      }
+    },
+    {
+      "word": "president",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "president",
+      "others": {
+        "number": "SINGULAR"
+      }
+    },
+    {
+      "word": "of",
+      "importance": null,
+      "tag": "Adposition",
+      "lemma": "of",
+      "others": {}
+    },
+    {
+      "word": "the",
+      "importance": null,
+      "tag": "Determiner",
+      "lemma": "the",
+      "others": {}
+    },
+    {
+      "word": "United",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "United",
+      "others": {
+        "number": "SINGULAR",
+        "proper_name": "PROPER"
+      }
+    },
+    {
+      "word": "States",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "States",
+      "others": {
+        "number": "SINGULAR",
+        "proper_name": "PROPER"
+      }
+    },
+    {
+      "word": "from",
+      "importance": null,
+      "tag": "Adposition",
+      "lemma": "from",
+      "others": {}
+    },
+    {
+      "word": "2009",
+      "importance": null,
+      "tag": "Cardinal_number",
+      "lemma": "2009",
+      "others": {}
+    },
+    {
+      "word": "to",
+      "importance": null,
+      "tag": "Adposition",
+      "lemma": "to",
+      "others": {}
+    },
+    {
+      "word": "2017",
+      "importance": null,
+      "tag": "Cardinal_number",
+      "lemma": "2017",
+      "others": {}
+    },
+    {
+      "word": ".",
+      "importance": null,
+      "tag": "Punctuation",
+      "lemma": ".",
+      "others": {}
+    },
+    {
+      "word": "A",
+      "importance": null,
+      "tag": "Determiner",
+      "lemma": "A",
+      "others": {}
+    },
+    {
+      "word": "member",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "member",
+      "others": {
+        "number": "SINGULAR"
+      }
+    },
+    {
+      "word": "of",
+      "importance": null,
+      "tag": "Adposition",
+      "lemma": "of",
+      "others": {}
+    },
+    {
+      "word": "the",
+      "importance": null,
+      "tag": "Determiner",
+      "lemma": "the",
+      "others": {}
+    },
+    {
+      "word": "Democratic",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "Democratic",
+      "others": {
+        "number": "SINGULAR",
+        "proper_name": "PROPER"
+      }
+    },
+    {
+      "word": "Party",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "Party",
+      "others": {
+        "number": "SINGULAR",
+        "proper_name": "PROPER"
+      }
+    },
+    {
+      "word": ",",
+      "importance": null,
+      "tag": "Punctuation",
+      "lemma": ",",
+      "others": {}
+    },
+    {
+      "word": "Obama",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "Obama",
+      "others": {
+        "number": "SINGULAR",
+        "proper_name": "PROPER"
+      }
+    },
+    {
+      "word": "was",
+      "importance": null,
+      "tag": "Verb",
+      "lemma": "be",
+      "others": {
+        "mood": "INDICATIVE",
+        "number": "SINGULAR",
+        "person": "THIRD",
+        "tense": "PAST"
+      }
+    },
+    {
+      "word": "the",
+      "importance": null,
+      "tag": "Determiner",
+      "lemma": "the",
+      "others": {}
+    },
+    {
+      "word": "first",
+      "importance": null,
+      "tag": "Adjactive",
+      "lemma": "first",
+      "others": {}
+    },
+    {
+      "word": "African",
+      "importance": null,
+      "tag": "Adjactive",
+      "lemma": "African",
+      "others": {
+        "number": "SINGULAR"
+      }
+    },
+    {
+      "word": "-",
+      "importance": null,
+      "tag": "Punctuation",
+      "lemma": "-",
+      "others": {}
+    },
+    {
+      "word": "American",
+      "importance": null,
+      "tag": "Adjactive",
+      "lemma": "American",
+      "others": {}
+    },
+    {
+      "word": "president",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "president",
+      "others": {
+        "number": "SINGULAR"
+      }
+    },
+    {
+      "word": "of",
+      "importance": null,
+      "tag": "Adposition",
+      "lemma": "of",
+      "others": {}
+    },
+    {
+      "word": "the",
+      "importance": null,
+      "tag": "Determiner",
+      "lemma": "the",
+      "others": {}
+    },
+    {
+      "word": "United",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "United",
+      "others": {
+        "number": "SINGULAR",
+        "proper_name": "PROPER"
+      }
+    },
+    {
+      "word": "States",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "States",
+      "others": {
+        "number": "SINGULAR",
+        "proper_name": "PROPER"
+      }
+    },
+    {
+      "word": ".",
+      "importance": null,
+      "tag": "Punctuation",
+      "lemma": ".",
+      "others": {}
+    },
+    {
+      "word": "He",
+      "importance": null,
+      "tag": "Pronoun",
+      "lemma": "He",
+      "others": {
+        "case": "NOMINATIVE",
+        "gender": "MASCULINE",
+        "number": "SINGULAR",
+        "person": "THIRD"
+      }
+    },
+    {
+      "word": "previously",
+      "importance": null,
+      "tag": "Adverb",
+      "lemma": "previously",
+      "others": {}
+    },
+    {
+      "word": "served",
+      "importance": null,
+      "tag": "Verb",
+      "lemma": "serve",
+      "others": {
+        "mood": "INDICATIVE",
+        "tense": "PAST"
+      }
+    },
+    {
+      "word": "as",
+      "importance": null,
+      "tag": "Adposition",
+      "lemma": "as",
+      "others": {}
+    },
+    {
+      "word": "a",
+      "importance": null,
+      "tag": "Determiner",
+      "lemma": "a",
+      "others": {}
+    },
+    {
+      "word": "U.S.",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "U.S.",
+      "others": {
+        "number": "SINGULAR",
+        "proper_name": "PROPER"
+      }
+    },
+    {
+      "word": "senator",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "senator",
+      "others": {
+        "number": "SINGULAR"
+      }
+    },
+    {
+      "word": "from",
+      "importance": null,
+      "tag": "Adposition",
+      "lemma": "from",
+      "others": {}
+    },
+    {
+      "word": "Illinois",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "Illinois",
+      "others": {
+        "number": "SINGULAR",
+        "proper_name": "PROPER"
+      }
+    },
+    {
+      "word": "from",
+      "importance": null,
+      "tag": "Adposition",
+      "lemma": "from",
+      "others": {}
+    },
+    {
+      "word": "2005",
+      "importance": null,
+      "tag": "Cardinal_number",
+      "lemma": "2005",
+      "others": {}
+    },
+    {
+      "word": "to",
+      "importance": null,
+      "tag": "Adposition",
+      "lemma": "to",
+      "others": {}
+    },
+    {
+      "word": "2008",
+      "importance": null,
+      "tag": "Cardinal_number",
+      "lemma": "2008",
+      "others": {}
+    },
+    {
+      "word": "and",
+      "importance": null,
+      "tag": "Coordinating_Conjunction",
+      "lemma": "and",
+      "others": {}
+    },
+    {
+      "word": "as",
+      "importance": null,
+      "tag": "Adposition",
+      "lemma": "as",
+      "others": {}
+    },
+    {
+      "word": "an",
+      "importance": null,
+      "tag": "Determiner",
+      "lemma": "an",
+      "others": {}
+    },
+    {
+      "word": "Illinois",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "Illinois",
+      "others": {
+        "number": "SINGULAR",
+        "proper_name": "PROPER"
+      }
+    },
+    {
+      "word": "state",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "state",
+      "others": {
+        "number": "SINGULAR"
+      }
+    },
+    {
+      "word": "senator",
+      "importance": null,
+      "tag": "Noun",
+      "lemma": "senator",
+      "others": {
+        "number": "SINGULAR"
+      }
+    },
+    {
+      "word": "from",
+      "importance": null,
+      "tag": "Adposition",
+      "lemma": "from",
+      "others": {}
+    },
+    {
+      "word": "1997",
+      "importance": null,
+      "tag": "Cardinal_number",
+      "lemma": "1997",
+      "others": {}
+    },
+    {
+      "word": "to",
+      "importance": null,
+      "tag": "Adposition",
+      "lemma": "to",
+      "others": {}
+    },
+    {
+      "word": "2004",
+      "importance": null,
+      "tag": "Cardinal_number",
+      "lemma": "2004",
+      "others": {}
+    },
+    {
+      "word": ".",
+      "importance": null,
+      "tag": "Punctuation",
+      "lemma": ".",
+      "others": {}
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "original_response": {
+    "score": 0.7636144757270813,
+    "start": 25,
+    "end": 43,
+    "answer": "Geopelia humeralis"
+  },
+  "standarized_response": {
+    "answers": [
+      "Geopelia humeralis"
+    ]
+  }
+}

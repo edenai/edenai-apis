@@ -1,0 +1,16 @@
+{
+  "text": {
+    "question_answer": {
+      "version": "v3.0.0"
+    },
+    "summarize": {
+      "constraints": {
+        "allow_null_language": true
+      },
+      "version": "v3.0.0"
+    },
+    "search": {
+      "version": "v3.0.0"
+    }
+  }
+}

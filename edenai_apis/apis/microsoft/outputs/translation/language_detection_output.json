@@ -1,0 +1,28 @@
+{
+  "original_response": {
+    "kind": "LanguageDetectionResults",
+    "results": {
+      "documents": [
+        {
+          "id": "1",
+          "detectedLanguage": {
+            "name": "Italian",
+            "iso6391Name": "it",
+            "confidenceScore": 1.0
+          },
+          "warnings": []
+        }
+      ],
+      "errors": [],
+      "modelVersion": "2021-11-20"
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "language": "it",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

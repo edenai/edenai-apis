@@ -1,0 +1,199 @@
+{
+  "original_response": [
+    "regions {\n  id: \"6ab4394a1a551c6a1670d67ff88a90fd\"\n  region_info {\n    bounding_box {\n      top_row: 0.12809917330741882\n      left_col: 0.130952388048172\n      bottom_row: 0.1900826394557953\n      right_col: 0.8928571343421936\n    }\n  }\n  data {\n    text {\n      raw: \"AAhg\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"6d27104de11114a954f2b266607f35bc\"\n  region_info {\n    bounding_box {\n      top_row: 0.2458677738904953\n      left_col: 0.1964285671710968\n      bottom_row: 0.2871900796890259\n      right_col: 0.7916666865348816\n    }\n  }\n  data {\n    text {\n      raw: \";:1||!1:;!}1}13#!:%!|!#}14|(#!\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"80a235a398dd0d133c283a04e54e4214\"\n  region_info {\n    bounding_box {\n      top_row: 0.30371901392936707\n      left_col: 0.3720238208770752\n      bottom_row: 0.34504133462905884\n      right_col: 0.6220238208770752\n    }\n  }\n  data {\n    text {\n      raw: \"he LHtiA\\\";\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"f8c1dee4a03bf82911c15db05ce1f4b3\"\n  region_info {\n    bounding_box {\n      top_row: 0.4028925597667694\n      left_col: 0.1755952388048172\n      bottom_row: 0.4359503984451294\n      right_col: 0.8601190447807312\n    }\n  }\n  data {\n    text {\n      raw: \".!!1%:#2#139?}!#;[\\\"###115#194#\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"eba2b838b03366249aaeb6179002970c\"\n  region_info {\n    bounding_box {\n      top_row: 0.4442148804664612\n      left_col: 0.122023805975914\n      bottom_row: 0.47314050793647766\n      right_col: 0.4017857015132904\n    }\n  }\n  data {\n    text {\n      raw: \"!11:4\\\"!_!1\\'413g\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"f306ac1b09dc4ca5694c103e2a1362b2\"\n  region_info {\n    bounding_box {\n      top_row: 0.4442148804664612\n      left_col: 0.4196428656578064\n      bottom_row: 0.47314050793647766\n      right_col: 0.6041666865348816\n    }\n  }\n  data {\n    text {\n      raw: \"##7##!1\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"6d58d692678d16bd6dc68a7c09a0ad6d\"\n  region_info {\n    bounding_box {\n      top_row: 0.4442148804664612\n      left_col: 0.6160714030265808\n      bottom_row: 0.47314050793647766\n      right_col: 0.6934523582458496\n    }\n  }\n  data {\n    text {\n      raw: \"H?_\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"fb2350cbaa0b10db6803f7bed37b5fc6\"\n  region_info {\n    bounding_box {\n      top_row: 0.4442148804664612\n      left_col: 0.7232142686843872\n      bottom_row: 0.47314050793647766\n      right_col: 0.8720238208770752\n    }\n  }\n  data {\n    text {\n      raw: \"#4!A#\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"548b19119cddaffaa6a1253cf0390c4e\"\n  region_info {\n    bounding_box {\n      top_row: 0.48553720116615295\n      left_col: 0.122023805975914\n      bottom_row: 0.5144628286361694\n      right_col: 0.247023805975914\n    }\n  }\n  data {\n    text {\n      raw: \"`#g#5\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"ffa0b85cc7d851044b71440c74e8ed3d\"\n  region_info {\n    bounding_box {\n      top_row: 0.48553720116615295\n      left_col: 0.2648809552192688\n      bottom_row: 0.5144628286361694\n      right_col: 0.6726190447807312\n    }\n  }\n  data {\n    text {\n      raw: \"11!8}i#5;11\\\"11}1;114:#11.\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"cd2f270c99c442623b87fb3b6401015a\"\n  region_info {\n    bounding_box {\n      top_row: 0.5185950398445129\n      left_col: 0.1636904776096344\n      bottom_row: 0.547520637512207\n      right_col: 0.425595223903656\n    }\n  }\n  data {\n    text {\n      raw: \"-#1|77518:;3[\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"4eb97cdd9f6274f6a4bcfb38d2dcb6b2\"\n  region_info {\n    bounding_box {\n      top_row: 0.5599173307418823\n      left_col: 0.1755952388048172\n      bottom_row: 0.5929751992225647\n      right_col: 0.711309552192688\n    }\n  }\n  data {\n    text {\n      raw: \";#1#.:19#|##d[\\\"|###1&=#\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"d76c57abb3ec5a47256b24baeacb86da\"\n  region_info {\n    bounding_box {\n      top_row: 0.5599173307418823\n      left_col: 0.7232142686843872\n      bottom_row: 0.5888429880142212\n      right_col: 0.8779761791229248\n    }\n  }\n  data {\n    text {\n      raw: \"_illt\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"0134fc1d151fb178595264aa865e17d2\"\n  region_info {\n    bounding_box {\n      top_row: 0.6012396812438965\n      left_col: 0.122023805975914\n      bottom_row: 0.6301652789115906\n      right_col: 0.1994047611951828\n    }\n  }\n  data {\n    text {\n      raw: \"##:\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"a9fc47e75869e48c6838e6b6967079aa\"\n  region_info {\n    bounding_box {\n      top_row: 0.6012396812438965\n      left_col: 0.2113095223903656\n      bottom_row: 0.6301652789115906\n      right_col: 0.4791666567325592\n    }\n  }\n  data {\n    text {\n      raw: \"!u2L; #4_%|:\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"ddf6f3d6d0fda18c1a01206a945a855a\"\n  region_info {\n    bounding_box {\n      top_row: 0.6012396812438965\n      left_col: 0.4910714328289032\n      bottom_row: 0.6301652789115906\n      right_col: 0.6458333134651184\n    }\n  }\n  data {\n    text {\n      raw: \"Lssi2\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"a66890bf9c7e543a36b4e99762860d06\"\n  region_info {\n    bounding_box {\n      top_row: 0.6012396812438965\n      left_col: 0.675595223903656\n      bottom_row: 0.6301652789115906\n      right_col: 0.8065476417541504\n    }\n  }\n  data {\n    text {\n      raw: \"4##;\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"f5769efbafb8960cd1481ee11a21432f\"\n  region_info {\n    bounding_box {\n      top_row: 0.6363636255264282\n      left_col: 0.193452388048172\n      bottom_row: 0.6714876294136047\n      right_col: 0.6220238208770752\n    }\n  }\n  data {\n    text {\n      raw: \"####!:#AI###4#_\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"afc47fc5ed853899c2c7a9308d1a0f36\"\n  region_info {\n    bounding_box {\n      top_row: 0.6797520518302917\n      left_col: 0.1636904776096344\n      bottom_row: 0.7086777091026306\n      right_col: 0.3720238208770752\n    }\n  }\n  data {\n    text {\n      raw: \"1\\';4####\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"33a448d0b88d778169586a876e3ee9dd\"\n  region_info {\n    bounding_box {\n      top_row: 0.7169421315193176\n      left_col: 0.1755952388048172\n      bottom_row: 0.75\n      right_col: 0.8779761791229248\n    }\n  }\n  data {\n    text {\n      raw: \"!.1 1%4:4#4*^#, #+. ###5#4#!4#i*\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"8c3603ce3f9802b92d73b021214524ce\"\n  region_info {\n    bounding_box {\n      top_row: 0.7582644820213318\n      left_col: 0.122023805975914\n      bottom_row: 0.7871900796890259\n      right_col: 0.3660714328289032\n    }\n  }\n  data {\n    text {\n      raw: \"\\\"!(##1##{##!\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"3a93e4cbe6694de6b30e3f43e2f5c2fc\"\n  region_info {\n    bounding_box {\n      top_row: 0.7954545617103577\n      left_col: 0.2291666716337204\n      bottom_row: 0.8285123705863953\n      right_col: 0.586309552192688\n    }\n  }\n  data {\n    text {\n      raw: \"+*#!7#7##{63#.\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"6737c515e0b128a7e10f579fa8542071\"\n  region_info {\n    bounding_box {\n      top_row: 0.836776852607727\n      left_col: 0.1517857164144516\n      bottom_row: 0.8657024502754211\n      right_col: 0.2708333432674408\n    }\n  }\n  data {\n    text {\n      raw: \"#5##\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"4f7a9c5feb9496dc923668c02a10480e\"\n  region_info {\n    bounding_box {\n      top_row: 0.836776852607727\n      left_col: 0.2886904776096344\n      bottom_row: 0.8657024502754211\n      right_col: 0.4136904776096344\n    }\n  }\n  data {\n    text {\n      raw: \"[|{g#+\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"96dbb49cca17c5fee748cb6ae8c72f21\"\n  region_info {\n    bounding_box {\n      top_row: 0.8739669322967529\n      left_col: 0.181547611951828\n      bottom_row: 0.9028925895690918\n      right_col: 0.5029761791229248\n    }\n  }\n  data {\n    text {\n      raw: \":411,1##!1.9}|!]:1?0!8\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"cb1508da3ddc34e908f3e85ea2e39038\"\n  region_info {\n    bounding_box {\n      top_row: 0.8739669322967529\n      left_col: 0.5327380895614624\n      bottom_row: 0.9028925895690918\n      right_col: 0.6339285969734192\n    }\n  }\n  data {\n    text {\n      raw: \"1?)!4\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\nregions {\n  id: \"1ffa70d8877fc32ec3f2b882c2647e6a\"\n  region_info {\n    bounding_box {\n      top_row: 0.8739669322967529\n      left_col: 0.663690447807312\n      bottom_row: 0.9028925895690918\n      right_col: 0.8779761791229248\n    }\n  }\n  data {\n    text {\n      raw: \"!?1;09 ##4\"\n      text_info {\n        encoding: \"UnknownTextEnc\"\n      }\n    }\n  }\n}\n"
+  ],
+  "standarized_response": {
+    "text": "AAhg;:1||!1:;!}1}13#!:%!|!#}14|(#!he LHtiA\";.!!1%:#2#139?}!#;[\"###115#194#!11:4\"!_!1'413g##7##!1H?_#4!A#`#g#511!8}i#5;11\"11}1;114:#11.-#1|77518:;3[;#1#.:19#|##d[\"|###1&=#_illt##:!u2L; #4_%|:Lssi24##;####!:#AI###4#_1';4####!.1 1%4:4#4*^#, #+. ###5#4#!4#i*\"!(##1##{##!+*#!7#7##{63#.#5##[|{g#+:411,1##!1.9}|!]:1?0!81?)!4!?1;09 ##4",
+    "bounding_boxes": [
+      {
+        "text": "AAhg",
+        "left": 0.130952388048172,
+        "top": 0.12809917330741882,
+        "width": 0.7619047462940216,
+        "height": 0.061983466148376465
+      },
+      {
+        "text": ";:1||!1:;!}1}13#!:%!|!#}14|(#!",
+        "left": 0.1964285671710968,
+        "top": 0.2458677738904953,
+        "width": 0.5952381193637848,
+        "height": 0.04132230579853058
+      },
+      {
+        "text": "he LHtiA\";",
+        "left": 0.3720238208770752,
+        "top": 0.30371901392936707,
+        "width": 0.25,
+        "height": 0.04132232069969177
+      },
+      {
+        "text": ".!!1%:#2#139?}!#;[\"###115#194#",
+        "left": 0.1755952388048172,
+        "top": 0.4028925597667694,
+        "width": 0.684523805975914,
+        "height": 0.033057838678359985
+      },
+      {
+        "text": "!11:4\"!_!1'413g",
+        "left": 0.122023805975914,
+        "top": 0.4442148804664612,
+        "width": 0.2797618955373764,
+        "height": 0.02892562747001648
+      },
+      {
+        "text": "##7##!1",
+        "left": 0.4196428656578064,
+        "top": 0.4442148804664612,
+        "width": 0.1845238208770752,
+        "height": 0.02892562747001648
+      },
+      {
+        "text": "H?_",
+        "left": 0.6160714030265808,
+        "top": 0.4442148804664612,
+        "width": 0.0773809552192688,
+        "height": 0.02892562747001648
+      },
+      {
+        "text": "#4!A#",
+        "left": 0.7232142686843872,
+        "top": 0.4442148804664612,
+        "width": 0.148809552192688,
+        "height": 0.02892562747001648
+      },
+      {
+        "text": "`#g#5",
+        "left": 0.122023805975914,
+        "top": 0.48553720116615295,
+        "width": 0.125,
+        "height": 0.02892562747001648
+      },
+      {
+        "text": "11!8}i#5;11\"11}1;114:#11.",
+        "left": 0.2648809552192688,
+        "top": 0.48553720116615295,
+        "width": 0.4077380895614624,
+        "height": 0.02892562747001648
+      },
+      {
+        "text": "-#1|77518:;3[",
+        "left": 0.1636904776096344,
+        "top": 0.5185950398445129,
+        "width": 0.2619047462940216,
+        "height": 0.028925597667694092
+      },
+      {
+        "text": ";#1#.:19#|##d[\"|###1&=#",
+        "left": 0.1755952388048172,
+        "top": 0.5599173307418823,
+        "width": 0.5357143133878708,
+        "height": 0.03305786848068237
+      },
+      {
+        "text": "_illt",
+        "left": 0.7232142686843872,
+        "top": 0.5599173307418823,
+        "width": 0.1547619104385376,
+        "height": 0.028925657272338867
+      },
+      {
+        "text": "##:",
+        "left": 0.122023805975914,
+        "top": 0.6012396812438965,
+        "width": 0.0773809552192688,
+        "height": 0.028925597667694092
+      },
+      {
+        "text": "!u2L; #4_%|:",
+        "left": 0.2113095223903656,
+        "top": 0.6012396812438965,
+        "width": 0.2678571343421936,
+        "height": 0.028925597667694092
+      },
+      {
+        "text": "Lssi2",
+        "left": 0.4910714328289032,
+        "top": 0.6012396812438965,
+        "width": 0.1547618806362152,
+        "height": 0.028925597667694092
+      },
+      {
+        "text": "4##;",
+        "left": 0.675595223903656,
+        "top": 0.6012396812438965,
+        "width": 0.13095241785049438,
+        "height": 0.028925597667694092
+      },
+      {
+        "text": "####!:#AI###4#_",
+        "left": 0.193452388048172,
+        "top": 0.6363636255264282,
+        "width": 0.4285714328289032,
+        "height": 0.035124003887176514
+      },
+      {
+        "text": "1';4####",
+        "left": 0.1636904776096344,
+        "top": 0.6797520518302917,
+        "width": 0.2083333432674408,
+        "height": 0.028925657272338867
+      },
+      {
+        "text": "!.1 1%4:4#4*^#, #+. ###5#4#!4#i*",
+        "left": 0.1755952388048172,
+        "top": 0.7169421315193176,
+        "width": 0.7023809403181076,
+        "height": 0.03305786848068237
+      },
+      {
+        "text": "\"!(##1##{##!",
+        "left": 0.122023805975914,
+        "top": 0.7582644820213318,
+        "width": 0.2440476268529892,
+        "height": 0.028925597667694092
+      },
+      {
+        "text": "+*#!7#7##{63#.",
+        "left": 0.2291666716337204,
+        "top": 0.7954545617103577,
+        "width": 0.3571428805589676,
+        "height": 0.0330578088760376
+      },
+      {
+        "text": "#5##",
+        "left": 0.1517857164144516,
+        "top": 0.836776852607727,
+        "width": 0.1190476268529892,
+        "height": 0.028925597667694092
+      },
+      {
+        "text": "[|{g#+",
+        "left": 0.2886904776096344,
+        "top": 0.836776852607727,
+        "width": 0.125,
+        "height": 0.028925597667694092
+      },
+      {
+        "text": ":411,1##!1.9}|!]:1?0!8",
+        "left": 0.181547611951828,
+        "top": 0.8739669322967529,
+        "width": 0.3214285671710968,
+        "height": 0.028925657272338867
+      },
+      {
+        "text": "1?)!4",
+        "left": 0.5327380895614624,
+        "top": 0.8739669322967529,
+        "width": 0.10119050741195679,
+        "height": 0.028925657272338867
+      },
+      {
+        "text": "!?1;09 ##4",
+        "left": 0.663690447807312,
+        "top": 0.8739669322967529,
+        "width": 0.2142857313156128,
+        "height": 0.028925657272338867
+      }
+    ]
+  }
+}

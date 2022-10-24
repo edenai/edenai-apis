@@ -1,0 +1,49 @@
+{
+    "moderation": [
+      {
+        "timestamp": 0.424126,
+        "confidence": 0.4,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 1.262779,
+        "confidence": 0.6,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 2.324652,
+        "confidence": 0.8,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 3.442539,
+        "confidence": 0.6,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 4.361987,
+        "confidence": 0.6,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 5.271355,
+        "confidence": 0.2,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 6.441619,
+        "confidence": 0.2,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 7.478453,
+        "confidence": 0.2,
+        "category": "Explicit Nudity"
+      },
+      {
+        "timestamp": 8.298241,
+        "confidence": 0.2,
+        "category": "Explicit Nudity"
+      }
+    ]
+  }

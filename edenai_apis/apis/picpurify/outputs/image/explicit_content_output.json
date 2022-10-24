@@ -1,0 +1,65 @@
+{
+  "original_response": {
+    "suggestive_nudity_moderation": {
+      "compute_time": 0.1927,
+      "confidence_score": 0.99999964237213,
+      "suggestive_nudity_content": false
+    },
+    "gore_moderation": {
+      "compute_time": 0.2015,
+      "confidence_score": 0.98961967229843,
+      "gore_content": true
+    },
+    "weapon_moderation": {
+      "compute_time": 0.2039,
+      "confidence_score": 0.99999988079071,
+      "weapon_content": false
+    },
+    "drug_moderation": {
+      "compute_time": 0.185,
+      "confidence_score": 0.98628717660904,
+      "drug_content": false
+    },
+    "hate_sign_moderation": {
+      "compute_time": 0.1549,
+      "confidence_score": 0.99998784065247,
+      "hate_sign_content": false
+    },
+    "task_call": "suggestive_nudity_moderation,gore_moderation,weapon_moderation,drug_moderation,hate_sign_moderation",
+    "sub_calls": [
+      "suggestive_nudity_moderation",
+      "gore_moderation",
+      "weapon_moderation",
+      "drug_moderation",
+      "hate_sign_moderation"
+    ],
+    "status": "success",
+    "performed": [
+      "suggestive_nudity_moderation",
+      "gore_moderation",
+      "weapon_moderation",
+      "drug_moderation",
+      "hate_sign_moderation"
+    ],
+    "final_decision": "KO",
+    "reject_criteria": [
+      "gore_moderation"
+    ],
+    "confidence_score_decision": 0.98961967229843,
+    "media": {
+      "url_image": "",
+      "file_image": "explicit_content.jpeg",
+      "media_id": "6cd8e91098f08833b5fdee12be79c2bd"
+    },
+    "units_consumed": 5,
+    "total_compute_time": 0.39806199073792
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "label": "gore_content",
+        "likelihood": 5
+      }
+    ]
+  }
+}

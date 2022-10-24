@@ -1,0 +1,10 @@
+[run]
+source =
+    ./
+omit =
+    apis/*
+    interfaces/*
+    samples/*
+    scripts/*
+    **/test*
+    **/__init__.py

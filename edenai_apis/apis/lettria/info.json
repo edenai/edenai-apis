@@ -1,0 +1,31 @@
+{
+    "text": {
+        "named_entity_recognition": {
+            "constraints": {
+                "languages": [
+                    "en-US",
+                    "fr-FR"
+                ]
+            },
+            "version": "v5.5.2"
+        },
+        "sentiment_analysis": {
+            "constraints": {
+                "languages": [
+                    "en-US",
+                    "fr-FR"
+                ]
+            },
+            "version": "v5.5.2"
+        },
+        "syntax_analysis": {
+            "constraints": {
+                "languages": [
+                    "en-US",
+                    "fr-FR"
+                ]
+            },
+            "version": "v5.5.2"
+        }
+    }
+}

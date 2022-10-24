@@ -1,0 +1,1879 @@
+{
+  "original_response": [
+    {
+      "fields": {
+        "Items": {
+          "value_type": "list",
+          "name": "Items",
+          "value": [
+            {
+              "value_type": "dictionary",
+              "name": "Items",
+              "value": {
+                "Name": {
+                  "value_type": "string",
+                  "name": "Name",
+                  "value": "STICKERE PUISOR OUA",
+                  "confidence": 0.924,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "STICKERE PUISOR OUA",
+                    "bounding_box": [
+                      {
+                        "x": 11.6,
+                        "y": 288.0
+                      },
+                      {
+                        "x": 144.0,
+                        "y": 285.1
+                      },
+                      {
+                        "x": 144.3,
+                        "y": 301.1
+                      },
+                      {
+                        "x": 12.0,
+                        "y": 304.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Price": {
+                  "value_type": "float",
+                  "name": "Price",
+                  "value": 1600.0,
+                  "confidence": 0.947,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "16,00",
+                    "bounding_box": [
+                      {
+                        "x": 141.0,
+                        "y": 301.0
+                      },
+                      {
+                        "x": 176.0,
+                        "y": 301.0
+                      },
+                      {
+                        "x": 176.0,
+                        "y": 317.0
+                      },
+                      {
+                        "x": 141.0,
+                        "y": 318.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Quantity": {
+                  "value_type": "float",
+                  "name": "Quantity",
+                  "value": 1.0,
+                  "confidence": 0.949,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "1",
+                    "bounding_box": [
+                      {
+                        "x": 86.0,
+                        "y": 303.0
+                      },
+                      {
+                        "x": 94.0,
+                        "y": 303.0
+                      },
+                      {
+                        "x": 95.0,
+                        "y": 318.0
+                      },
+                      {
+                        "x": 86.0,
+                        "y": 319.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "TotalPrice": {
+                  "value_type": "float",
+                  "name": "TotalPrice",
+                  "value": 1600.0,
+                  "confidence": 0.961,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "16,00",
+                    "bounding_box": [
+                      {
+                        "x": 238.0,
+                        "y": 298.0
+                      },
+                      {
+                        "x": 271.0,
+                        "y": 298.0
+                      },
+                      {
+                        "x": 271.0,
+                        "y": 316.0
+                      },
+                      {
+                        "x": 238.0,
+                        "y": 316.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                }
+              },
+              "confidence": 1.0,
+              "label_data": null,
+              "value_data": null
+            },
+            {
+              "value_type": "dictionary",
+              "name": "Items",
+              "value": {
+                "Name": {
+                  "value_type": "string",
+                  "name": "Name",
+                  "value": "SELECLINE FIERBATOR",
+                  "confidence": 0.949,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "SELECLINE FIERBATOR",
+                    "bounding_box": [
+                      {
+                        "x": 10.9,
+                        "y": 320.5
+                      },
+                      {
+                        "x": 144.0,
+                        "y": 319.5
+                      },
+                      {
+                        "x": 144.1,
+                        "y": 338.0
+                      },
+                      {
+                        "x": 11.0,
+                        "y": 339.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Price": {
+                  "value_type": "float",
+                  "name": "Price",
+                  "value": 4401.0,
+                  "confidence": 0.93,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "44,01",
+                    "bounding_box": [
+                      {
+                        "x": 139.0,
+                        "y": 337.0
+                      },
+                      {
+                        "x": 178.0,
+                        "y": 336.0
+                      },
+                      {
+                        "x": 178.0,
+                        "y": 354.0
+                      },
+                      {
+                        "x": 139.0,
+                        "y": 354.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Quantity": {
+                  "value_type": "float",
+                  "name": "Quantity",
+                  "value": 1.0,
+                  "confidence": 0.929,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "1",
+                    "bounding_box": [
+                      {
+                        "x": 87.0,
+                        "y": 338.0
+                      },
+                      {
+                        "x": 94.0,
+                        "y": 338.0
+                      },
+                      {
+                        "x": 94.0,
+                        "y": 355.0
+                      },
+                      {
+                        "x": 88.0,
+                        "y": 355.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "TotalPrice": {
+                  "value_type": "float",
+                  "name": "TotalPrice",
+                  "value": 4401.0,
+                  "confidence": 0.946,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "44,01",
+                    "bounding_box": [
+                      {
+                        "x": 235.0,
+                        "y": 335.0
+                      },
+                      {
+                        "x": 271.0,
+                        "y": 334.0
+                      },
+                      {
+                        "x": 271.0,
+                        "y": 352.0
+                      },
+                      {
+                        "x": 235.0,
+                        "y": 352.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                }
+              },
+              "confidence": 1.0,
+              "label_data": null,
+              "value_data": null
+            },
+            {
+              "value_type": "dictionary",
+              "name": "Items",
+              "value": {
+                "Name": {
+                  "value_type": "string",
+                  "name": "Name",
+                  "value": "TAXA VERDE",
+                  "confidence": 0.95,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "TAXA VERDE",
+                    "bounding_box": [
+                      {
+                        "x": 10.7,
+                        "y": 358.0
+                      },
+                      {
+                        "x": 83.0,
+                        "y": 356.8
+                      },
+                      {
+                        "x": 83.3,
+                        "y": 374.8
+                      },
+                      {
+                        "x": 11.0,
+                        "y": 376.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Price": {
+                  "value_type": "float",
+                  "name": "Price",
+                  "value": 89.0,
+                  "confidence": 0.929,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "0,89",
+                    "bounding_box": [
+                      {
+                        "x": 145.0,
+                        "y": 356.0
+                      },
+                      {
+                        "x": 178.0,
+                        "y": 355.0
+                      },
+                      {
+                        "x": 178.0,
+                        "y": 372.0
+                      },
+                      {
+                        "x": 145.0,
+                        "y": 373.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Quantity": {
+                  "value_type": "float",
+                  "name": "Quantity",
+                  "value": 1.0,
+                  "confidence": 0.93,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "1",
+                    "bounding_box": [
+                      {
+                        "x": 92.0,
+                        "y": 357.0
+                      },
+                      {
+                        "x": 99.0,
+                        "y": 357.0
+                      },
+                      {
+                        "x": 100.0,
+                        "y": 374.0
+                      },
+                      {
+                        "x": 93.0,
+                        "y": 374.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "TotalPrice": {
+                  "value_type": "float",
+                  "name": "TotalPrice",
+                  "value": 89.0,
+                  "confidence": 0.941,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "0,89",
+                    "bounding_box": [
+                      {
+                        "x": 240.0,
+                        "y": 353.0
+                      },
+                      {
+                        "x": 271.0,
+                        "y": 352.0
+                      },
+                      {
+                        "x": 271.0,
+                        "y": 369.0
+                      },
+                      {
+                        "x": 241.0,
+                        "y": 370.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                }
+              },
+              "confidence": 1.0,
+              "label_data": null,
+              "value_data": null
+            },
+            {
+              "value_type": "dictionary",
+              "name": "Items",
+              "value": {
+                "Name": {
+                  "value_type": "string",
+                  "name": "Name",
+                  "value": "COS DREPTUNG CARLIGE",
+                  "confidence": 0.938,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "COS DREPTUNG CARLIGE",
+                    "bounding_box": [
+                      {
+                        "x": 10.0,
+                        "y": 376.0
+                      },
+                      {
+                        "x": 149.0,
+                        "y": 373.6
+                      },
+                      {
+                        "x": 149.3,
+                        "y": 392.0
+                      },
+                      {
+                        "x": 10.3,
+                        "y": 394.4
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Price": {
+                  "value_type": "float",
+                  "name": "Price",
+                  "value": 555.0,
+                  "confidence": 0.937,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "5,55",
+                    "bounding_box": [
+                      {
+                        "x": 145.0,
+                        "y": 394.0
+                      },
+                      {
+                        "x": 176.0,
+                        "y": 393.0
+                      },
+                      {
+                        "x": 176.0,
+                        "y": 411.0
+                      },
+                      {
+                        "x": 145.0,
+                        "y": 410.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Quantity": {
+                  "value_type": "float",
+                  "name": "Quantity",
+                  "value": 1.0,
+                  "confidence": 0.947,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "1",
+                    "bounding_box": [
+                      {
+                        "x": 94.0,
+                        "y": 395.0
+                      },
+                      {
+                        "x": 99.0,
+                        "y": 395.0
+                      },
+                      {
+                        "x": 100.0,
+                        "y": 411.0
+                      },
+                      {
+                        "x": 95.0,
+                        "y": 411.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "TotalPrice": {
+                  "value_type": "float",
+                  "name": "TotalPrice",
+                  "value": 555.0,
+                  "confidence": 0.955,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "5,55",
+                    "bounding_box": [
+                      {
+                        "x": 241.0,
+                        "y": 391.0
+                      },
+                      {
+                        "x": 271.0,
+                        "y": 390.0
+                      },
+                      {
+                        "x": 271.0,
+                        "y": 407.0
+                      },
+                      {
+                        "x": 242.0,
+                        "y": 408.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                }
+              },
+              "confidence": 1.0,
+              "label_data": null,
+              "value_data": null
+            },
+            {
+              "value_type": "dictionary",
+              "name": "Items",
+              "value": {
+                "Name": {
+                  "value_type": "string",
+                  "name": "Name",
+                  "value": "CROISSANT 7 DAYS SPU",
+                  "confidence": 0.93,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "CROISSANT 7 DAYS SPU",
+                    "bounding_box": [
+                      {
+                        "x": 9.7,
+                        "y": 414.0
+                      },
+                      {
+                        "x": 150.0,
+                        "y": 411.7
+                      },
+                      {
+                        "x": 150.3,
+                        "y": 430.7
+                      },
+                      {
+                        "x": 10.0,
+                        "y": 433.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Price": {
+                  "value_type": "float",
+                  "name": "Price",
+                  "value": 175.0,
+                  "confidence": 0.929,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "1,75",
+                    "bounding_box": [
+                      {
+                        "x": 146.0,
+                        "y": 432.0
+                      },
+                      {
+                        "x": 177.0,
+                        "y": 431.0
+                      },
+                      {
+                        "x": 177.0,
+                        "y": 448.0
+                      },
+                      {
+                        "x": 146.0,
+                        "y": 449.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Quantity": {
+                  "value_type": "float",
+                  "name": "Quantity",
+                  "value": 1.0,
+                  "confidence": 0.931,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "1",
+                    "bounding_box": [
+                      {
+                        "x": 93.0,
+                        "y": 433.0
+                      },
+                      {
+                        "x": 100.0,
+                        "y": 433.0
+                      },
+                      {
+                        "x": 100.0,
+                        "y": 450.0
+                      },
+                      {
+                        "x": 93.0,
+                        "y": 450.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "TotalPrice": {
+                  "value_type": "float",
+                  "name": "TotalPrice",
+                  "value": 175.0,
+                  "confidence": 0.947,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "1,75",
+                    "bounding_box": [
+                      {
+                        "x": 243.0,
+                        "y": 427.0
+                      },
+                      {
+                        "x": 270.0,
+                        "y": 427.0
+                      },
+                      {
+                        "x": 270.0,
+                        "y": 445.0
+                      },
+                      {
+                        "x": 243.0,
+                        "y": 445.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                }
+              },
+              "confidence": 1.0,
+              "label_data": null,
+              "value_data": null
+            },
+            {
+              "value_type": "dictionary",
+              "name": "Items",
+              "value": {
+                "Name": {
+                  "value_type": "string",
+                  "name": "Name",
+                  "value": "PAINE CU MAIA SI MAS",
+                  "confidence": 0.91,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "PAINE CU MAIA SI MAS",
+                    "bounding_box": [
+                      {
+                        "x": 9.0,
+                        "y": 451.9
+                      },
+                      {
+                        "x": 150.0,
+                        "y": 449.7
+                      },
+                      {
+                        "x": 150.3,
+                        "y": 468.8
+                      },
+                      {
+                        "x": 9.3,
+                        "y": 471.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Price": {
+                  "value_type": "float",
+                  "name": "Price",
+                  "value": 360.0,
+                  "confidence": 0.929,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "3,60",
+                    "bounding_box": [
+                      {
+                        "x": 145.0,
+                        "y": 469.0
+                      },
+                      {
+                        "x": 176.0,
+                        "y": 469.0
+                      },
+                      {
+                        "x": 177.0,
+                        "y": 486.0
+                      },
+                      {
+                        "x": 146.0,
+                        "y": 487.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Quantity": {
+                  "value_type": "float",
+                  "name": "Quantity",
+                  "value": 1.0,
+                  "confidence": 0.931,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "1",
+                    "bounding_box": [
+                      {
+                        "x": 94.0,
+                        "y": 471.0
+                      },
+                      {
+                        "x": 101.0,
+                        "y": 470.0
+                      },
+                      {
+                        "x": 101.0,
+                        "y": 487.0
+                      },
+                      {
+                        "x": 95.0,
+                        "y": 487.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "TotalPrice": {
+                  "value_type": "float",
+                  "name": "TotalPrice",
+                  "value": 360.0,
+                  "confidence": 0.936,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "3,60",
+                    "bounding_box": [
+                      {
+                        "x": 242.0,
+                        "y": 466.0
+                      },
+                      {
+                        "x": 270.0,
+                        "y": 466.0
+                      },
+                      {
+                        "x": 270.0,
+                        "y": 483.0
+                      },
+                      {
+                        "x": 242.0,
+                        "y": 483.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                }
+              },
+              "confidence": 1.0,
+              "label_data": null,
+              "value_data": null
+            },
+            {
+              "value_type": "dictionary",
+              "name": "Items",
+              "value": {
+                "Name": {
+                  "value_type": "string",
+                  "name": "Name",
+                  "value": "PATE DE PORC 20% 120",
+                  "confidence": 0.908,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "PATE DE PORC 20% 120",
+                    "bounding_box": [
+                      {
+                        "x": 9.0,
+                        "y": 490.0
+                      },
+                      {
+                        "x": 149.0,
+                        "y": 487.5
+                      },
+                      {
+                        "x": 149.3,
+                        "y": 506.6
+                      },
+                      {
+                        "x": 9.3,
+                        "y": 509.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Price": {
+                  "value_type": "float",
+                  "name": "Price",
+                  "value": 355.0,
+                  "confidence": 0.931,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "3,55",
+                    "bounding_box": [
+                      {
+                        "x": 145.0,
+                        "y": 507.0
+                      },
+                      {
+                        "x": 176.0,
+                        "y": 507.0
+                      },
+                      {
+                        "x": 176.0,
+                        "y": 524.0
+                      },
+                      {
+                        "x": 146.0,
+                        "y": 525.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Quantity": {
+                  "value_type": "float",
+                  "name": "Quantity",
+                  "value": 2.0,
+                  "confidence": 0.947,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "2",
+                    "bounding_box": [
+                      {
+                        "x": 92.0,
+                        "y": 508.0
+                      },
+                      {
+                        "x": 99.0,
+                        "y": 508.0
+                      },
+                      {
+                        "x": 99.0,
+                        "y": 525.0
+                      },
+                      {
+                        "x": 92.0,
+                        "y": 525.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "TotalPrice": {
+                  "value_type": "float",
+                  "name": "TotalPrice",
+                  "value": 7.1,
+                  "confidence": 0.879,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "7.10",
+                    "bounding_box": [
+                      {
+                        "x": 242.0,
+                        "y": 504.0
+                      },
+                      {
+                        "x": 269.0,
+                        "y": 503.0
+                      },
+                      {
+                        "x": 269.0,
+                        "y": 520.0
+                      },
+                      {
+                        "x": 242.0,
+                        "y": 521.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                }
+              },
+              "confidence": 1.0,
+              "label_data": null,
+              "value_data": null
+            },
+            {
+              "value_type": "dictionary",
+              "name": "Items",
+              "value": {
+                "Name": {
+                  "value_type": "string",
+                  "name": "Name",
+                  "value": "NUTELLA 700G",
+                  "confidence": 0.932,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "NUTELLA 700G",
+                    "bounding_box": [
+                      {
+                        "x": 9.8,
+                        "y": 528.0
+                      },
+                      {
+                        "x": 93.8,
+                        "y": 527.2
+                      },
+                      {
+                        "x": 94.0,
+                        "y": 545.2
+                      },
+                      {
+                        "x": 10.0,
+                        "y": 546.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Price": {
+                  "value_type": "float",
+                  "name": "Price",
+                  "value": 1940.0,
+                  "confidence": 0.926,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "19,40",
+                    "bounding_box": [
+                      {
+                        "x": 139.0,
+                        "y": 545.0
+                      },
+                      {
+                        "x": 176.0,
+                        "y": 545.0
+                      },
+                      {
+                        "x": 176.0,
+                        "y": 562.0
+                      },
+                      {
+                        "x": 139.0,
+                        "y": 562.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Quantity": {
+                  "value_type": "float",
+                  "name": "Quantity",
+                  "value": 1.0,
+                  "confidence": 0.931,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "1",
+                    "bounding_box": [
+                      {
+                        "x": 88.0,
+                        "y": 545.0
+                      },
+                      {
+                        "x": 93.0,
+                        "y": 545.0
+                      },
+                      {
+                        "x": 93.0,
+                        "y": 562.0
+                      },
+                      {
+                        "x": 88.0,
+                        "y": 562.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "TotalPrice": {
+                  "value_type": "float",
+                  "name": "TotalPrice",
+                  "value": 1940.0,
+                  "confidence": 0.934,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "19,40",
+                    "bounding_box": [
+                      {
+                        "x": 235.0,
+                        "y": 542.0
+                      },
+                      {
+                        "x": 269.0,
+                        "y": 541.0
+                      },
+                      {
+                        "x": 270.0,
+                        "y": 558.0
+                      },
+                      {
+                        "x": 236.0,
+                        "y": 559.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                }
+              },
+              "confidence": 1.0,
+              "label_data": null,
+              "value_data": null
+            },
+            {
+              "value_type": "dictionary",
+              "name": "Items",
+              "value": {
+                "Name": {
+                  "value_type": "string",
+                  "name": "Name",
+                  "value": "RADIERA GALET",
+                  "confidence": 0.948,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "RADIERA GALET",
+                    "bounding_box": [
+                      {
+                        "x": 8.0,
+                        "y": 565.0
+                      },
+                      {
+                        "x": 99.0,
+                        "y": 565.0
+                      },
+                      {
+                        "x": 99.0,
+                        "y": 582.0
+                      },
+                      {
+                        "x": 8.0,
+                        "y": 582.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Price": {
+                  "value_type": "float",
+                  "name": "Price",
+                  "value": 455.0,
+                  "confidence": 0.951,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "4,55",
+                    "bounding_box": [
+                      {
+                        "x": 145.0,
+                        "y": 581.0
+                      },
+                      {
+                        "x": 176.0,
+                        "y": 580.0
+                      },
+                      {
+                        "x": 176.0,
+                        "y": 597.0
+                      },
+                      {
+                        "x": 145.0,
+                        "y": 598.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Quantity": {
+                  "value_type": "float",
+                  "name": "Quantity",
+                  "value": 1.0,
+                  "confidence": 0.954,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "1",
+                    "bounding_box": [
+                      {
+                        "x": 90.0,
+                        "y": 583.0
+                      },
+                      {
+                        "x": 99.0,
+                        "y": 583.0
+                      },
+                      {
+                        "x": 99.0,
+                        "y": 599.0
+                      },
+                      {
+                        "x": 91.0,
+                        "y": 599.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "TotalPrice": {
+                  "value_type": "float",
+                  "name": "TotalPrice",
+                  "value": 455.0,
+                  "confidence": 0.962,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "4,55",
+                    "bounding_box": [
+                      {
+                        "x": 240.0,
+                        "y": 577.0
+                      },
+                      {
+                        "x": 269.0,
+                        "y": 576.0
+                      },
+                      {
+                        "x": 270.0,
+                        "y": 594.0
+                      },
+                      {
+                        "x": 241.0,
+                        "y": 595.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                }
+              },
+              "confidence": 1.0,
+              "label_data": null,
+              "value_data": null
+            },
+            {
+              "value_type": "dictionary",
+              "name": "Items",
+              "value": {
+                "Name": {
+                  "value_type": "string",
+                  "name": "Name",
+                  "value": "GP SUPER ALKALINE LR",
+                  "confidence": 0.93,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "GP SUPER ALKALINE LR",
+                    "bounding_box": [
+                      {
+                        "x": 10.5,
+                        "y": 601.4
+                      },
+                      {
+                        "x": 147.9,
+                        "y": 597.6
+                      },
+                      {
+                        "x": 148.4,
+                        "y": 616.2
+                      },
+                      {
+                        "x": 11.0,
+                        "y": 620.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Price": {
+                  "value_type": "float",
+                  "name": "Price",
+                  "value": 1870.0,
+                  "confidence": 0.929,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "18,70",
+                    "bounding_box": [
+                      {
+                        "x": 138.0,
+                        "y": 617.0
+                      },
+                      {
+                        "x": 175.0,
+                        "y": 616.0
+                      },
+                      {
+                        "x": 175.0,
+                        "y": 633.0
+                      },
+                      {
+                        "x": 138.0,
+                        "y": 634.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Quantity": {
+                  "value_type": "float",
+                  "name": "Quantity",
+                  "value": 1.0,
+                  "confidence": 0.931,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "1",
+                    "bounding_box": [
+                      {
+                        "x": 86.0,
+                        "y": 618.0
+                      },
+                      {
+                        "x": 91.0,
+                        "y": 618.0
+                      },
+                      {
+                        "x": 92.0,
+                        "y": 635.0
+                      },
+                      {
+                        "x": 87.0,
+                        "y": 635.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "TotalPrice": {
+                  "value_type": "float",
+                  "name": "TotalPrice",
+                  "value": 1870.0,
+                  "confidence": 0.947,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "18,70",
+                    "bounding_box": [
+                      {
+                        "x": 236.0,
+                        "y": 615.0
+                      },
+                      {
+                        "x": 269.0,
+                        "y": 614.0
+                      },
+                      {
+                        "x": 269.0,
+                        "y": 631.0
+                      },
+                      {
+                        "x": 236.0,
+                        "y": 631.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                }
+              },
+              "confidence": 1.0,
+              "label_data": null,
+              "value_data": null
+            },
+            {
+              "value_type": "dictionary",
+              "name": "Items",
+              "value": {
+                "Name": {
+                  "value_type": "string",
+                  "name": "Name",
+                  "value": "NIVEA BALS DUPA RAS",
+                  "confidence": 0.93,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "NIVEA BALS DUPA RAS",
+                    "bounding_box": [
+                      {
+                        "x": 9.0,
+                        "y": 637.7
+                      },
+                      {
+                        "x": 141.7,
+                        "y": 635.1
+                      },
+                      {
+                        "x": 142.0,
+                        "y": 653.4
+                      },
+                      {
+                        "x": 9.4,
+                        "y": 656.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Price": {
+                  "value_type": "float",
+                  "name": "Price",
+                  "value": 3050.0,
+                  "confidence": 0.929,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "30,50",
+                    "bounding_box": [
+                      {
+                        "x": 137.0,
+                        "y": 653.0
+                      },
+                      {
+                        "x": 175.0,
+                        "y": 652.0
+                      },
+                      {
+                        "x": 176.0,
+                        "y": 669.0
+                      },
+                      {
+                        "x": 138.0,
+                        "y": 670.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Quantity": {
+                  "value_type": "float",
+                  "name": "Quantity",
+                  "value": 1.0,
+                  "confidence": 0.931,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "1",
+                    "bounding_box": [
+                      {
+                        "x": 86.0,
+                        "y": 655.0
+                      },
+                      {
+                        "x": 91.0,
+                        "y": 655.0
+                      },
+                      {
+                        "x": 92.0,
+                        "y": 672.0
+                      },
+                      {
+                        "x": 87.0,
+                        "y": 672.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "TotalPrice": {
+                  "value_type": "float",
+                  "name": "TotalPrice",
+                  "value": 3050.0,
+                  "confidence": 0.945,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "30,50",
+                    "bounding_box": [
+                      {
+                        "x": 234.0,
+                        "y": 650.0
+                      },
+                      {
+                        "x": 270.0,
+                        "y": 649.0
+                      },
+                      {
+                        "x": 270.0,
+                        "y": 666.0
+                      },
+                      {
+                        "x": 234.0,
+                        "y": 667.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                }
+              },
+              "confidence": 1.0,
+              "label_data": null,
+              "value_data": null
+            },
+            {
+              "value_type": "dictionary",
+              "name": "Items",
+              "value": {
+                "Name": {
+                  "value_type": "string",
+                  "name": "Name",
+                  "value": "AUC VV LICHID PARBRC",
+                  "confidence": 0.895,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "AUC VV LICHID PARBRC",
+                    "bounding_box": [
+                      {
+                        "x": 8.6,
+                        "y": 675.0
+                      },
+                      {
+                        "x": 149.0,
+                        "y": 672.0
+                      },
+                      {
+                        "x": 149.4,
+                        "y": 691.0
+                      },
+                      {
+                        "x": 9.0,
+                        "y": 694.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Price": {
+                  "value_type": "float",
+                  "name": "Price",
+                  "value": 1690.0,
+                  "confidence": 0.925,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "16,90",
+                    "bounding_box": [
+                      {
+                        "x": 139.0,
+                        "y": 691.0
+                      },
+                      {
+                        "x": 175.0,
+                        "y": 690.0
+                      },
+                      {
+                        "x": 176.0,
+                        "y": 708.0
+                      },
+                      {
+                        "x": 139.0,
+                        "y": 709.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "Quantity": {
+                  "value_type": "float",
+                  "name": "Quantity",
+                  "value": 1.0,
+                  "confidence": 0.931,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "1",
+                    "bounding_box": [
+                      {
+                        "x": 87.0,
+                        "y": 693.0
+                      },
+                      {
+                        "x": 93.0,
+                        "y": 693.0
+                      },
+                      {
+                        "x": 93.0,
+                        "y": 709.0
+                      },
+                      {
+                        "x": 86.0,
+                        "y": 709.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                },
+                "TotalPrice": {
+                  "value_type": "float",
+                  "name": "TotalPrice",
+                  "value": 1690.0,
+                  "confidence": 0.947,
+                  "label_data": null,
+                  "value_data": {
+                    "text": "16,90",
+                    "bounding_box": [
+                      {
+                        "x": 235.0,
+                        "y": 686.0
+                      },
+                      {
+                        "x": 269.0,
+                        "y": 686.0
+                      },
+                      {
+                        "x": 269.0,
+                        "y": 704.0
+                      },
+                      {
+                        "x": 235.0,
+                        "y": 705.0
+                      }
+                    ],
+                    "page_number": 1,
+                    "field_elements": []
+                  }
+                }
+              },
+              "confidence": 1.0,
+              "label_data": null,
+              "value_data": null
+            }
+          ],
+          "confidence": 1.0,
+          "label_data": null,
+          "value_data": null
+        },
+        "MerchantAddress": {
+          "value_type": "string",
+          "name": "MerchantAddress",
+          "value": "STR. ZAHARIA STANCU, NR. 1 BRASOV, JUD. BRASOV",
+          "confidence": 0.884,
+          "label_data": null,
+          "value_data": {
+            "text": "STR. ZAHARIA STANCU, NR. 1 BRASOV, JUD. BRASOV",
+            "bounding_box": [
+              {
+                "x": 62.0,
+                "y": 125.1
+              },
+              {
+                "x": 241.3,
+                "y": 128.0
+              },
+              {
+                "x": 240.7,
+                "y": 164.8
+              },
+              {
+                "x": 61.4,
+                "y": 161.9
+              }
+            ],
+            "page_number": 1,
+            "field_elements": []
+          }
+        },
+        "MerchantName": {
+          "value_type": "string",
+          "name": "MerchantName",
+          "value": "SC AUCHAN ROMANIA SA",
+          "confidence": 0.495,
+          "label_data": null,
+          "value_data": {
+            "text": "SC AUCHAN ROMANIA SA",
+            "bounding_box": [
+              {
+                "x": 82.0,
+                "y": 91.0
+              },
+              {
+                "x": 221.0,
+                "y": 91.0
+              },
+              {
+                "x": 221.0,
+                "y": 108.0
+              },
+              {
+                "x": 82.0,
+                "y": 108.0
+              }
+            ],
+            "page_number": 1,
+            "field_elements": []
+          }
+        },
+        "ReceiptType": {
+          "value_type": "string",
+          "name": "ReceiptType",
+          "value": "Itemized",
+          "confidence": 0.99,
+          "label_data": null,
+          "value_data": null
+        },
+        "Tax": {
+          "value_type": "float",
+          "name": "Tax",
+          "value": 2452.0,
+          "confidence": 0.975,
+          "label_data": null,
+          "value_data": {
+            "text": "24,52",
+            "bounding_box": [
+              {
+                "x": 124.0,
+                "y": 1296.0
+              },
+              {
+                "x": 162.0,
+                "y": 1296.0
+              },
+              {
+                "x": 162.0,
+                "y": 1313.0
+              },
+              {
+                "x": 124.0,
+                "y": 1313.0
+              }
+            ],
+            "page_number": 1,
+            "field_elements": []
+          }
+        },
+        "Total": {
+          "value_type": "float",
+          "name": "Total",
+          "value": 16895.0,
+          "confidence": 0.811,
+          "label_data": null,
+          "value_data": {
+            "text": "168,95",
+            "bounding_box": [
+              {
+                "x": 243.0,
+                "y": 783.0
+              },
+              {
+                "x": 284.0,
+                "y": 782.0
+              },
+              {
+                "x": 284.0,
+                "y": 813.0
+              },
+              {
+                "x": 243.0,
+                "y": 814.0
+              }
+            ],
+            "page_number": 1,
+            "field_elements": []
+          }
+        },
+        "TransactionDate": {
+          "value_type": "date",
+          "name": "TransactionDate",
+          "value": "2022-02-04",
+          "confidence": 0.853,
+          "label_data": null,
+          "value_data": {
+            "text": "02.04.2022",
+            "bounding_box": [
+              {
+                "x": 15.0,
+                "y": 1508.0
+              },
+              {
+                "x": 87.0,
+                "y": 1508.0
+              },
+              {
+                "x": 87.0,
+                "y": 1525.0
+              },
+              {
+                "x": 15.0,
+                "y": 1526.0
+              }
+            ],
+            "page_number": 1,
+            "field_elements": []
+          }
+        },
+        "TransactionTime": {
+          "value_type": "time",
+          "name": "TransactionTime",
+          "value": "12:29:23",
+          "confidence": 0.949,
+          "label_data": null,
+          "value_data": {
+            "text": "12:29:23",
+            "bounding_box": [
+              {
+                "x": 230.0,
+                "y": 1083.0
+              },
+              {
+                "x": 289.0,
+                "y": 1083.0
+              },
+              {
+                "x": 290.0,
+                "y": 1101.0
+              },
+              {
+                "x": 231.0,
+                "y": 1101.0
+              }
+            ],
+            "page_number": 1,
+            "field_elements": []
+          }
+        }
+      },
+      "form_type": "prebuilt:receipt",
+      "pages": [
+        {
+          "page_number": 1,
+          "text_angle": -0.6862,
+          "width": 315.0,
+          "height": 1600.0,
+          "unit": "pixel",
+          "tables": [],
+          "lines": [],
+          "selection_marks": []
+        }
+      ],
+      "model_id": null,
+      "form_type_confidence": null,
+      "page_range": {
+        "first_page_number": 1,
+        "last_page_number": 1
+      }
+    }
+  ],
+  "standarized_response": {
+    "extracted_data": [
+      {
+        "invoice_number": null,
+        "invoice_total": 16895.0,
+        "date": "2022-02-04",
+        "invoice_subtotal": null,
+        "customer_information": {
+          "customer_name": null
+        },
+        "merchant_information": {
+          "merchant_name": "SC AUCHAN ROMANIA SA"
+        },
+        "locale": {
+          "currency": null
+        },
+        "taxes": [
+          {
+            "taxes": 2452.0,
+            "rate": null
+          }
+        ],
+        "receipt_infos": {
+          "value_type": "string",
+          "name": "ReceiptType",
+          "value": "Itemized",
+          "confidence": 0.99,
+          "label_data": null,
+          "value_data": null
+        },
+        "item_lines": [
+          {
+            "description": "STICKERE PUISOR OUA",
+            "quantity": 1,
+            "amount": 1600.0,
+            "unit_price": 1600.0
+          },
+          {
+            "description": "SELECLINE FIERBATOR",
+            "quantity": 1,
+            "amount": 4401.0,
+            "unit_price": 4401.0
+          },
+          {
+            "description": "TAXA VERDE",
+            "quantity": 1,
+            "amount": 89.0,
+            "unit_price": 89.0
+          },
+          {
+            "description": "COS DREPTUNG CARLIGE",
+            "quantity": 1,
+            "amount": 555.0,
+            "unit_price": 555.0
+          },
+          {
+            "description": "CROISSANT 7 DAYS SPU",
+            "quantity": 1,
+            "amount": 175.0,
+            "unit_price": 175.0
+          },
+          {
+            "description": "PAINE CU MAIA SI MAS",
+            "quantity": 1,
+            "amount": 360.0,
+            "unit_price": 360.0
+          },
+          {
+            "description": "PATE DE PORC 20% 120",
+            "quantity": 2,
+            "amount": 7.1,
+            "unit_price": 355.0
+          },
+          {
+            "description": "NUTELLA 700G",
+            "quantity": 1,
+            "amount": 1940.0,
+            "unit_price": 1940.0
+          },
+          {
+            "description": "RADIERA GALET",
+            "quantity": 1,
+            "amount": 455.0,
+            "unit_price": 455.0
+          },
+          {
+            "description": "GP SUPER ALKALINE LR",
+            "quantity": 1,
+            "amount": 1870.0,
+            "unit_price": 1870.0
+          },
+          {
+            "description": "NIVEA BALS DUPA RAS",
+            "quantity": 1,
+            "amount": 3050.0,
+            "unit_price": 3050.0
+          },
+          {
+            "description": "AUC VV LICHID PARBRC",
+            "quantity": 1,
+            "amount": 1690.0,
+            "unit_price": 1690.0
+          }
+        ]
+      }
+    ]
+  }
+}

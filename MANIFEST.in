@@ -1,0 +1,4 @@
+include edenai_apis/apis/*/outputs/*/*.json
+include edenai_apis/apis/*/info.json
+include edenai_apis/features/*/data/*
+recursive-include edenai_apis/utils *

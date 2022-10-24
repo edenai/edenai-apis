@@ -1,0 +1,35 @@
+{
+  "original_response": {
+    "adult": {
+      "isAdultContent": false,
+      "isRacyContent": false,
+      "isGoryContent": false,
+      "adultScore": 0.008926989510655403,
+      "racyScore": 0.011913830414414406,
+      "goreScore": 0.5288680791854858
+    },
+    "requestId": "bbd0c49a-4aaf-4eb7-9409-409a7a8c3367",
+    "metadata": {
+      "height": 168,
+      "width": 300,
+      "format": "Jpeg"
+    },
+    "modelVersion": "2021-05-01"
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "label": "Gore",
+        "likelihood": 3
+      },
+      {
+        "label": "Adult",
+        "likelihood": 1
+      },
+      {
+        "label": "Racy",
+        "likelihood": 1
+      }
+    ]
+  }
+}

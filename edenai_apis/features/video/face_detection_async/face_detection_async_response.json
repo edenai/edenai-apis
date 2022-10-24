@@ -1,0 +1,208 @@
+{
+  "faces": [
+    {
+      "offset": 13.48,
+      "bounding_box": {
+        "top": 0.2258707880973816,
+        "left": 0.438291072845459,
+        "height": 0.1591854691505432,
+        "width": 0.061013124883174896
+      },
+      "attributes": {
+        "headwear": null,
+        "frontal_gaze": null,
+        "eyes_visible": null,
+        "glasses": null,
+        "mouth_open": null,
+        "smiling": null,
+        "brightness": 0.3162029075622559,
+        "sharpness": 0.057756686210632326,
+        "pose": {
+          "pitch": 0.06221282482147217,
+          "roll": -0.16097736358642578,
+          "yawn": 0.09882977485656738
+        }
+      },
+      "landmarks": {
+        "eye_left": [],
+        "eye_right": [],
+        "nose": [
+          0.48376011848449707,
+          0.3117826581001282
+        ],
+        "mouth_left": [],
+        "mouth_right": []
+      }
+    },
+    {
+      "offset": 13.98,
+      "bounding_box": {
+        "top": 0.23832623660564423,
+        "left": 0.3363484740257263,
+        "height": 0.14078541100025177,
+        "width": 0.08698241412639618
+      },
+      "attributes": {
+        "headwear": null,
+        "frontal_gaze": null,
+        "eyes_visible": null,
+        "glasses": null,
+        "mouth_open": null,
+        "smiling": null,
+        "brightness": 0.7101451873779296,
+        "sharpness": 0.057756686210632326,
+        "pose": {
+          "pitch": -0.4649413299560547,
+          "roll": 0.14279417037963868,
+          "yawn": 0.2202740478515625
+        }
+      },
+      "landmarks": {
+        "eye_left": [],
+        "eye_right": [],
+        "nose": [
+          0.38060009479522705,
+          0.353053480386734
+        ],
+        "mouth_left": [],
+        "mouth_right": []
+      }
+    },
+    {
+      "offset": 13.98,
+      "bounding_box": {
+        "top": 0.21411073207855225,
+        "left": 0.4389990270137787,
+        "height": 0.13249817490577698,
+        "width": 0.0681639164686203
+      },
+      "attributes": {
+        "headwear": null,
+        "frontal_gaze": null,
+        "eyes_visible": null,
+        "glasses": null,
+        "mouth_open": null,
+        "smiling": null,
+        "brightness": 0.6825818634033203,
+        "sharpness": 0.09912903785705567,
+        "pose": {
+          "pitch": 0.4151375961303711,
+          "roll": -0.021704661846160888,
+          "yawn": 0.1702326774597168
+        }
+      },
+      "landmarks": {
+        "eye_left": [],
+        "eye_right": [],
+        "nose": [
+          0.4864809513092041,
+          0.2602881193161011
+        ],
+        "mouth_left": [],
+        "mouth_right": []
+      }
+    },
+    {
+      "offset": 13.98,
+      "bounding_box": {
+        "top": 0.1389966905117035,
+        "left": 0.5056558847427368,
+        "height": 0.15001332759857178,
+        "width": 0.041938018053770065
+      },
+      "attributes": {
+        "headwear": null,
+        "frontal_gaze": null,
+        "eyes_visible": null,
+        "glasses": null,
+        "mouth_open": null,
+        "smiling": null,
+        "brightness": 0.7218522644042968,
+        "sharpness": 0.09912903785705567,
+        "pose": {
+          "pitch": -0.04731866836547852,
+          "roll": -0.10763541221618653,
+          "yawn": -0.766193618774414
+        }
+      },
+      "landmarks": {
+        "eye_left": [],
+        "eye_right": [],
+        "nose": [
+          0.49948829412460327,
+          0.24617482721805573
+        ],
+        "mouth_left": [],
+        "mouth_right": []
+      }
+    },
+    {
+      "offset": 14.481,
+      "bounding_box": {
+        "top": 0.23859846591949463,
+        "left": 0.3216480612754822,
+        "height": 0.1447013020515442,
+        "width": 0.08565008640289307
+      },
+      "attributes": {
+        "headwear": null,
+        "frontal_gaze": null,
+        "eyes_visible": null,
+        "glasses": null,
+        "mouth_open": null,
+        "smiling": null,
+        "brightness": 0.7240332794189454,
+        "sharpness": 0.04374836921691894,
+        "pose": {
+          "pitch": -0.4097434616088867,
+          "roll": 0.20534135818481444,
+          "yawn": 0.13713459968566893
+        }
+      },
+      "landmarks": {
+        "eye_left": [],
+        "eye_right": [],
+        "nose": [
+          0.3603477478027344,
+          0.3470472991466522
+        ],
+        "mouth_left": [],
+        "mouth_right": []
+      }
+    },
+    {
+      "offset": 14.481,
+      "bounding_box": {
+        "top": 0.09513121843338013,
+        "left": 0.5377917885780334,
+        "height": 0.1386154443025589,
+        "width": 0.047226715832948685
+      },
+      "attributes": {
+        "headwear": null,
+        "frontal_gaze": null,
+        "eyes_visible": null,
+        "glasses": null,
+        "mouth_open": null,
+        "smiling": null,
+        "brightness": 0.7452859497070312,
+        "sharpness": 0.04374836921691894,
+        "pose": {
+          "pitch": -0.21563554763793946,
+          "roll": 0.04588217258453369,
+          "yawn": -0.7602508544921875
+        }
+      },
+      "landmarks": {
+        "eye_left": [],
+        "eye_right": [],
+        "nose": [
+          0.5414773225784302,
+          0.18724407255649567
+        ],
+        "mouth_left": [],
+        "mouth_right": []
+      }
+    }
+  ]
+}

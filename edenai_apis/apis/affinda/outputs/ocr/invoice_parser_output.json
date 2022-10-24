@@ -1,0 +1,259 @@
+{
+  "original_response": {
+    "data": {
+      "payment_amount_base": {
+        "rectangles": [
+          {
+            "x0": 967.8436767281601,
+            "y0": 1114.09644376403,
+            "x1": 1054.8966727456236,
+            "y1": 1137.0917535608407
+          }
+        ],
+        "isAutoVerified": false,
+        "isClientVerified": false,
+        "id": 32490106,
+        "rectangle": {
+          "x0": 967.8436767281601,
+          "y0": 1114.09644376403,
+          "x1": 1054.8966727456236,
+          "y1": 1137.0917535608407
+        },
+        "page_index": 0,
+        "raw": "$4000.00",
+        "confidence": 0.842,
+        "is_verified": false,
+        "classification": "paymentAmountBase",
+        "parsed": "4000.00"
+      },
+      "payment_amount_tax": {
+        "rectangles": [
+          {
+            "x0": 980.9500999221009,
+            "y0": 1159.8880331687392,
+            "x1": 1057.949893715616,
+            "y1": 1183.8902832011104
+          }
+        ],
+        "isAutoVerified": false,
+        "isClientVerified": false,
+        "id": 32490108,
+        "rectangle": {
+          "x0": 980.9500999221009,
+          "y0": 1159.8880331687392,
+          "x1": 1057.949893715616,
+          "y1": 1183.8902832011104
+        },
+        "page_index": 0,
+        "raw": "$520.00",
+        "confidence": 0.842,
+        "is_verified": false,
+        "classification": "paymentAmountTax",
+        "parsed": "520.00"
+      },
+      "payment_amount_total": {
+        "rectangles": [
+          {
+            "x0": 969.1098190702107,
+            "y0": 1203.8902296409844,
+            "x1": 1057.1095834056566,
+            "y1": 1229.0938214887838
+          }
+        ],
+        "isAutoVerified": false,
+        "isClientVerified": false,
+        "id": 32490109,
+        "rectangle": {
+          "x0": 969.1098190702107,
+          "y0": 1203.8902296409844,
+          "x1": 1057.1095834056566,
+          "y1": 1229.0938214887838
+        },
+        "page_index": 0,
+        "raw": "$4520.00",
+        "confidence": 0.842,
+        "is_verified": false,
+        "classification": "paymentAmountTotal",
+        "parsed": "4520.00"
+      },
+      "payment_amount_due": {
+        "rectangles": [
+          {
+            "x0": 969.260248864156,
+            "y0": 1294.0936474183745,
+            "x1": 1056.2623301821304,
+            "y1": 1317.8945529573111
+          }
+        ],
+        "isAutoVerified": false,
+        "isClientVerified": false,
+        "id": 32490107,
+        "rectangle": {
+          "x0": 969.260248864156,
+          "y0": 1294.0936474183745,
+          "x1": 1056.2623301821304,
+          "y1": 1317.8945529573111
+        },
+        "page_index": 0,
+        "raw": "$4520.00",
+        "confidence": 0.842,
+        "is_verified": false,
+        "classification": "paymentAmountDue",
+        "parsed": "4520.00"
+      },
+      "customer_number": {
+        "rectangles": [
+          {
+            "x0": 369.13963306503206,
+            "y0": 357.3181121760208,
+            "x1": 439.0908452096243,
+            "y1": 379.3203675644045
+          }
+        ],
+        "isAutoVerified": false,
+        "isClientVerified": false,
+        "id": 32490082,
+        "rectangle": {
+          "x0": 369.13963306503206,
+          "y0": 357.3181121760208,
+          "x1": 439.0908452096243,
+          "y1": 379.3203675644045
+        },
+        "page_index": 0,
+        "raw": "000000",
+        "confidence": 0.912,
+        "is_verified": false,
+        "classification": "customerNumber",
+        "parsed": "000000"
+      },
+      "supplier_phone_number": {
+        "rectangles": [
+          {
+            "x0": 661.4862145339168,
+            "y0": 74.80046316081587,
+            "x1": 789.4395856586661,
+            "y1": 97.5087991968694
+          }
+        ],
+        "isAutoVerified": false,
+        "isClientVerified": false,
+        "id": 32490084,
+        "rectangle": {
+          "x0": 661.4862145339168,
+          "y0": 74.80046316081587,
+          "x1": 789.4395856586661,
+          "y1": 97.5087991968694
+        },
+        "page_index": 0,
+        "raw": "647-444-1234",
+        "confidence": 0.894,
+        "is_verified": false,
+        "classification": "supplierPhoneNumber",
+        "parsed": "647-444-1234"
+      },
+      "supplier_email": {
+        "rectangles": [
+          {
+            "x0": 634.5719161074096,
+            "y0": 108.518026956889,
+            "x1": 784.5159710979315,
+            "y1": 132.8651083630732
+          }
+        ],
+        "isAutoVerified": false,
+        "isClientVerified": false,
+        "id": 32490083,
+        "rectangle": {
+          "x0": 634.5719161074096,
+          "y0": 108.518026956889,
+          "x1": 784.5159710979315,
+          "y1": 132.8651083630732
+        },
+        "page_index": 0,
+        "raw": "your@email.com",
+        "confidence": 0.81,
+        "is_verified": false,
+        "classification": "supplierEmail",
+        "parsed": "your@email.com"
+      },
+      "supplier_website": {
+        "rectangles": [
+          {
+            "x0": 634.5973734571542,
+            "y0": 143.520247531191,
+            "x1": 783.5969744342159,
+            "y1": 165.86501998886547
+          }
+        ],
+        "isAutoVerified": false,
+        "isClientVerified": false,
+        "id": 32490085,
+        "rectangle": {
+          "x0": 634.5973734571542,
+          "y0": 143.520247531191,
+          "x1": 783.5969744342159,
+          "y1": 165.86501998886547
+        },
+        "page_index": 0,
+        "raw": "yourwebsite.com",
+        "confidence": 0.897,
+        "is_verified": false,
+        "classification": "supplierWebsite",
+        "parsed": "yourwebsite.com"
+      },
+      "custom_fields": {}
+    },
+    "meta": {
+      "review_url": "https://app.affinda.com/review/OkjrYZBj?signature=eyJ1c2VyX2lkIjoyNDIzLCJ1c2VybmFtZSI6ImNvbnRhY3QifQ:1oiZ8m:1CDcTYDjn7xV_dK_g63yUZENIow9sCCTIOjc8T6GEXU:1oiZ8m:BY0BE4cW5v8TIrQQyIiAneUa4j2NISU8MwdZmgLMi4U",
+      "identifier": "OkjrYZBj",
+      "file_name": "invoice.png",
+      "ready": true,
+      "ready_dt": "2022-10-12T10:39:07.279077Z",
+      "failed": false,
+      "language": "en",
+      "pdf": "https://affinda-api.s3.amazonaws.com/media/documents/ocr_2916033_M4Pis3x.pdf?AWSAccessKeyId=ASIAU2V7FN3BR63HZROT&Signature=s2h4P5szM5uKDjKeDo%2B3primsmI%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEMH%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAJ7kadUV%2Buy7u7VAeU3cWy7XkXeCUSShR6332T4arlnGAiEA0kbS4hfmslqv3SJao8KEfXO1vyOX4rdvQjjVEzOHm4sq9wMIiv%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwzMzIxODcxMzU2ODMiDJEwojMcMwc5CgdcgyrLA8XQOcnc24NJzQF8De0FyJ52XFQjXRS7WTJPp7KOumweDptuh%2BkIJQ5QLiW2m%2BaFxEYsNi4%2FDPT54%2FIhTr8%2Bg2602oPpIbDzCXgakOLqD3qthrK0BYW%2F9%2B0QuExpfW3myXHW5pH2Ldu255%2FUgW3RrZKDJRF%2FWM9VYYoLBOq2DC71%2BOXXeKF3tyI%2BXzygZZkKSOG4bSdnLuXPJyeUt5S1YUAmjbsEcdn8pCU0Ith2N0azMQyXGBMvJBqHysuDDHWVewQvgcBp4wCtoyEUVNXpcYjexpayDNEvK%2FJZE%2Bi1NTgbZp0m8%2B9tDQ5dVNdo%2FTSATXz%2FrjKnonXlsMRQ05nW5%2Bz3pEpYaduL7%2B04KyJopMhxOYQmJpgPZTCIzMYzJQUKjomlSLvMBRDeLauw%2F%2BzOic6xelMQRv12TfCsRS9AsVb60I51Bqb2HI%2FUIxgWy36OzI08EbKUytJFH0%2FACluQdRgAN7Cdpjjs8WVi0DR5ucLQQ%2F%2BtKliFuHZwLpVe6UFBf7Ig1LMhD8P4KBmgHMm3qV8gbHIM8qEh72sUgzqgWfz0EjnPj4q%2FXVift5Eot%2BiDLcTOI0UZfOL5fXRUciN5FHkQlTEqgBGDAUpgszChhZqaBjqkAYK7lqA4KK%2B0F7IuO64OWI3sIHbXOVZUS7k%2BA9A144MfLitgWy%2FaacuHy5yDkN1iHI61BjJiiIQpToPG90wYJ2NYpLDNohvb%2F%2FQKcWeNKx6frYMxOKkvyEeeZSH%2FxrOFkOZNwcuEcEuZFhLXUWERhuP8RGQi0W4kgLMzwNhgUeyHL%2FmgG7pm98zyEFoKn89%2BWIY773NViMOysghQtPSVtTNNtGKb&Expires=1665574748",
+      "child_documents": [],
+      "pages": [
+        {
+          "id": 6679895,
+          "page_index": 0,
+          "image": "https://affinda-api.s3.amazonaws.com/media/pages/6679895.png?AWSAccessKeyId=ASIAU2V7FN3BR63HZROT&Signature=BXtGIu9mOxzNBzDM4dAv%2BEoidFE%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEMH%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAJ7kadUV%2Buy7u7VAeU3cWy7XkXeCUSShR6332T4arlnGAiEA0kbS4hfmslqv3SJao8KEfXO1vyOX4rdvQjjVEzOHm4sq9wMIiv%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwzMzIxODcxMzU2ODMiDJEwojMcMwc5CgdcgyrLA8XQOcnc24NJzQF8De0FyJ52XFQjXRS7WTJPp7KOumweDptuh%2BkIJQ5QLiW2m%2BaFxEYsNi4%2FDPT54%2FIhTr8%2Bg2602oPpIbDzCXgakOLqD3qthrK0BYW%2F9%2B0QuExpfW3myXHW5pH2Ldu255%2FUgW3RrZKDJRF%2FWM9VYYoLBOq2DC71%2BOXXeKF3tyI%2BXzygZZkKSOG4bSdnLuXPJyeUt5S1YUAmjbsEcdn8pCU0Ith2N0azMQyXGBMvJBqHysuDDHWVewQvgcBp4wCtoyEUVNXpcYjexpayDNEvK%2FJZE%2Bi1NTgbZp0m8%2B9tDQ5dVNdo%2FTSATXz%2FrjKnonXlsMRQ05nW5%2Bz3pEpYaduL7%2B04KyJopMhxOYQmJpgPZTCIzMYzJQUKjomlSLvMBRDeLauw%2F%2BzOic6xelMQRv12TfCsRS9AsVb60I51Bqb2HI%2FUIxgWy36OzI08EbKUytJFH0%2FACluQdRgAN7Cdpjjs8WVi0DR5ucLQQ%2F%2BtKliFuHZwLpVe6UFBf7Ig1LMhD8P4KBmgHMm3qV8gbHIM8qEh72sUgzqgWfz0EjnPj4q%2FXVift5Eot%2BiDLcTOI0UZfOL5fXRUciN5FHkQlTEqgBGDAUpgszChhZqaBjqkAYK7lqA4KK%2B0F7IuO64OWI3sIHbXOVZUS7k%2BA9A144MfLitgWy%2FaacuHy5yDkN1iHI61BjJiiIQpToPG90wYJ2NYpLDNohvb%2F%2FQKcWeNKx6frYMxOKkvyEeeZSH%2FxrOFkOZNwcuEcEuZFhLXUWERhuP8RGQi0W4kgLMzwNhgUeyHL%2FmgG7pm98zyEFoKn89%2BWIY773NViMOysghQtPSVtTNNtGKb&Expires=1665574748",
+          "height": 1500.0,
+          "width": 1154.0,
+          "rotation": 0
+        }
+      ]
+    },
+    "error": {}
+  },
+  "standarized_response": {
+    "extracted_data": [
+      {
+        "invoice_number": null,
+        "invoice_total": 4520.0,
+        "date": null,
+        "invoice_subtotal": 4000.0,
+        "due_date": null,
+        "customer_information": {
+          "customer_name": null,
+          "customer_address": null
+        },
+        "merchant_information": {
+          "merchant_name": null,
+          "merchant_address": null
+        },
+        "locale": {
+          "currency": null,
+          "language": null
+        },
+        "taxes": [
+          {
+            "value": 520.0,
+            "rate": null
+          }
+        ],
+        "item_lines": []
+      }
+    ]
+  }
+}

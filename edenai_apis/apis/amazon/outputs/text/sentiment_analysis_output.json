@@ -1,0 +1,42 @@
+{
+  "original_response": {
+    "Sentiment": "MIXED",
+    "SentimentScore": {
+      "Positive": 0.0035689708311110735,
+      "Negative": 0.4015013873577118,
+      "Neutral": 0.0014319419860839844,
+      "Mixed": 0.5934977531433105
+    },
+    "ResponseMetadata": {
+      "RequestId": "d51db9b2-c1b9-4f0c-b4dc-3ce8faa5bd15",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "d51db9b2-c1b9-4f0c-b4dc-3ce8faa5bd15",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "162",
+        "date": "Wed, 12 Oct 2022 10:41:02 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "sentiment": "Positive",
+        "sentiment_rate": 0.0035689708311110735
+      },
+      {
+        "sentiment": "Negative",
+        "sentiment_rate": 0.4015013873577118
+      },
+      {
+        "sentiment": "Neutral",
+        "sentiment_rate": 0.0014319419860839844
+      },
+      {
+        "sentiment": "Mixed",
+        "sentiment_rate": 0.5934977531433105
+      }
+    ]
+  }
+}

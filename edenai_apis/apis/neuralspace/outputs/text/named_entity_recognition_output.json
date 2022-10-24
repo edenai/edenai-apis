@@ -1,0 +1,198 @@
+{
+  "original_response": {
+    "text": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+    "entities": [
+      {
+        "start_idx": 0,
+        "end_idx": 20,
+        "text": "Barack Hussein Obama",
+        "type": "person",
+        "value": "Barack Hussein Obama"
+      },
+      {
+        "start_idx": 27,
+        "end_idx": 35,
+        "text": "American",
+        "type": "norp",
+        "value": "American"
+      },
+      {
+        "start_idx": 65,
+        "end_idx": 69,
+        "text": "44th",
+        "type": "ordinal",
+        "value": "44th"
+      },
+      {
+        "start_idx": 83,
+        "end_idx": 100,
+        "text": "the United States",
+        "type": "geo-political-entities",
+        "value": "the United States"
+      },
+      {
+        "start_idx": 106,
+        "end_idx": 110,
+        "text": "2009",
+        "type": "date",
+        "value": "2009"
+      },
+      {
+        "start_idx": 65,
+        "end_idx": 69,
+        "text": "44th",
+        "type": "ordinal",
+        "value": "44"
+      },
+      {
+        "start_idx": 101,
+        "end_idx": 118,
+        "text": "from 2009 to 2017",
+        "type": "money",
+        "value": {
+          "to": 2017,
+          "from": 2009
+        }
+      },
+      {
+        "start_idx": 101,
+        "end_idx": 118,
+        "text": "from 2009 to 2017",
+        "type": "time",
+        "value": {
+          "to": null,
+          "from": "2009-01-01T00:00:00.000-08:00"
+        }
+      },
+      {
+        "start_idx": 164,
+        "end_idx": 173,
+        "text": "the first",
+        "type": "time",
+        "value": "2022-11-01T00:00:00.000-07:00"
+      },
+      {
+        "start_idx": 276,
+        "end_idx": 293,
+        "text": "from 2005 to 2008",
+        "type": "money",
+        "value": {
+          "to": 2008,
+          "from": 2005
+        }
+      },
+      {
+        "start_idx": 276,
+        "end_idx": 293,
+        "text": "from 2005 to 2008",
+        "type": "time",
+        "value": {
+          "to": null,
+          "from": "2005-01-01T00:00:00.000-08:00"
+        }
+      },
+      {
+        "start_idx": 327,
+        "end_idx": 344,
+        "text": "from 1997 to 2004",
+        "type": "money",
+        "value": {
+          "to": 2004,
+          "from": 1997
+        }
+      },
+      {
+        "start_idx": 327,
+        "end_idx": 344,
+        "text": "from 1997 to 2004",
+        "type": "time",
+        "value": {
+          "to": null,
+          "from": "1997-01-01T00:00:00.000-08:00"
+        }
+      }
+    ]
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "entity": "Barack Hussein Obama",
+        "category": "person",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "American",
+        "category": "norp",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "44th",
+        "category": "ordinal",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "the United States",
+        "category": "geo-political-entities",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "2009",
+        "category": "date",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "44th",
+        "category": "ordinal",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "from 2009 to 2017",
+        "category": "money",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "from 2009 to 2017",
+        "category": "time",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "the first",
+        "category": "time",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "from 2005 to 2008",
+        "category": "money",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "from 2005 to 2008",
+        "category": "time",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "from 1997 to 2004",
+        "category": "money",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "from 1997 to 2004",
+        "category": "time",
+        "importance": null,
+        "url": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,290 @@
+{
+    "audio": {
+        "speech_to_text_async": {
+            "constraints": {
+                "languages": [
+                    "af-ZA",
+                    "ar-AE",
+                    "ar-SA",
+                    "zh-CN",
+                    "zh-TW",
+                    "da-DK",
+                    "nl-NL",
+                    "en-AU",
+                    "en-GB",
+                    "en-IN",
+                    "en-IE",
+                    "en-NZ",
+                    "en-ZA",
+                    "en-US",
+                    "fr-FR",
+                    "fr-CA",
+                    "fa-IR",
+                    "de-DE",
+                    "de-CH",
+                    "he-IL",
+                    "hi-IN",
+                    "id-ID",
+                    "it-IT",
+                    "ja-JP",
+                    "ko-KR",
+                    "ms-MY",
+                    "pt-PT",
+                    "pt-BR",
+                    "ru-RU",
+                    "es-ES",
+                    "es-US",
+                    "ta-IN",
+                    "te-IN",
+                    "th-TH",
+                    "tr-TR"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "text_to_speech": {
+            "constraints": {
+                "languages": [
+                    "en-US",
+                    "fr-FR",
+                    "es-ES",
+                    "ar-XA",
+                    "de-DE",
+                    "en-GB",
+                    "nl-NL",
+                    "it-IT",
+                    "ja-JP",
+                    "cmn-CN",
+                    "ru-RU",
+                    "pt-BR",
+                    "da-DK",
+                    "ko-KR",
+                    "pt-PT"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        }
+    },
+    "ocr": {
+        "ocr": {
+            "constraints": {
+                "languages": [
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "de"
+                ],
+                "allow_null_language": true
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "ocr_tables_async": {
+            "constraints": {
+                "languages": [
+                    "en-US",
+                    "fr-FR",
+                    "es-ES",
+                    "de-DE",
+                    "it-IT",
+                    "pt-PT"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        }
+    },
+    "text": {
+        "keyword_extraction": {
+            "constraints": {
+                "languages": [
+                    "de",
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "ja",
+                    "ko",
+                    "hi",
+                    "ar",
+                    "zh",
+                    "zh-TW"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "named_entity_recognition": {
+            "constraints": {
+                "languages": [
+                    "de",
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "ja",
+                    "ko",
+                    "hi",
+                    "ar",
+                    "zh",
+                    "zh-TW"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "sentiment_analysis": {
+            "constraints": {
+                "languages": [
+                    "de",
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "ja",
+                    "ko",
+                    "hi",
+                    "ar",
+                    "zh",
+                    "zh-TW"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "syntax_analysis": {
+            "constraints": {
+                "languages": [
+                    "de",
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "ja",
+                    "ko",
+                    "hi",
+                    "ar",
+                    "zh",
+                    "zh-TW"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        }
+    },
+    "translation": {
+        "automatic_translation": {
+            "constraints": {
+                "languages": [
+                    "af",
+                    "sq",
+                    "am",
+                    "ar",
+                    "hy",
+                    "az",
+                    "bn",
+                    "bs",
+                    "bg",
+                    "ca",
+                    "zh",
+                    "zh-TW",
+                    "hr",
+                    "cs",
+                    "da",
+                    "fa-AF",
+                    "nl",
+                    "en",
+                    "et",
+                    "fa",
+                    "tl",
+                    "fi",
+                    "fr",
+                    "fr-CA",
+                    "ka",
+                    "de",
+                    "el",
+                    "gu",
+                    "ht",
+                    "ha",
+                    "he",
+                    "hi",
+                    "hu",
+                    "is",
+                    "id",
+                    "ga",
+                    "it",
+                    "ja",
+                    "kn",
+                    "kk",
+                    "ko",
+                    "lv",
+                    "lt",
+                    "mk",
+                    "ms",
+                    "ml",
+                    "mt",
+                    "mr",
+                    "mn",
+                    "no",
+                    "ps",
+                    "pl",
+                    "pt",
+                    "pt-PT",
+                    "pa",
+                    "ro",
+                    "ru",
+                    "sr",
+                    "si",
+                    "sk",
+                    "sl",
+                    "so",
+                    "es",
+                    "es-MX",
+                    "sw",
+                    "sv",
+                    "ta",
+                    "te",
+                    "th",
+                    "tr",
+                    "uk",
+                    "ur",
+                    "uz",
+                    "vi",
+                    "cy"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "language_detection": {
+            "version": "boto3 (v1.15.18)"
+        }
+    },
+    "image": {
+        "explicit_content": {
+            "version": "boto3 (v1.15.18)"
+        },
+        "face_detection": {
+            "version": "boto3 (v1.15.18)"
+        },
+        "object_detection": {
+            "version": "boto3 (v1.15.18)"
+        }
+    },
+    "video": {
+        "label_detection_async" : {
+            "version":"boto3"
+        },
+        "text_detection_async" : {
+            "version":"boto3"
+        },
+        "face_detection_async" : {
+            "version":"boto3"
+        },
+        "person_tracking_async" : {
+            "version":"boto3"
+        },
+        "explicit_content_detection_async" : {
+            "version":"boto3"
+        }
+    }
+}

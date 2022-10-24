@@ -1,0 +1,13 @@
+{
+  "original_response": {
+    "sentiment": -0.27
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "sentiment": "negative",
+        "sentiment_rate": 0.27
+      }
+    ]
+  }
+}

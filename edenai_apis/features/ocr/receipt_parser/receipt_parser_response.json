@@ -1,0 +1,106 @@
+{
+  "extracted_data": [
+    {
+      "invoice_number": null,
+      "invoice_total": 168.95,
+      "date": "2022-04-02 12:29:23",
+      "invoice_subtotal": 168.95,
+      "customer_information": {
+        "customer_name": null
+      },
+      "merchant_information": {
+        "merchant_name": "SC AUCHAN ROMANIA SA"
+      },
+      "locale": {
+        "currency": ""
+      },
+      "taxes": [],
+      "receipt_infos": {
+        "address": "",
+        "barcodes": [
+          [
+            "9138579073918",
+            "EAN13"
+          ]
+        ],
+        "Etablishment": "SC AUCHAN ROMANIA SA",
+        "payment": "Mastercard",
+        "phone_number": ""
+      },
+      "item_lines": [
+        {
+          "description": "BUC X 16,00",
+          "quantity": 1,
+          "amount": 16.0,
+          "unit_price": null
+        },
+        {
+          "description": "BUC X 44,01",
+          "quantity": 1,
+          "amount": 44.01,
+          "unit_price": null
+        },
+        {
+          "description": "TAXA VERDE BUC X 0,89",
+          "quantity": 1,
+          "amount": 0.89,
+          "unit_price": null
+        },
+        {
+          "description": "BUC X 5,55",
+          "quantity": 1,
+          "amount": 5.55,
+          "unit_price": null
+        },
+        {
+          "description": "BUC X 1,75",
+          "quantity": 1,
+          "amount": 1.75,
+          "unit_price": null
+        },
+        {
+          "description": "BUC X 3,60",
+          "quantity": 1,
+          "amount": 3.6,
+          "unit_price": null
+        },
+        {
+          "description": "BUC X 3,55",
+          "quantity": 2,
+          "amount": 7.1,
+          "unit_price": null
+        },
+        {
+          "description": "BUC X 19,40",
+          "quantity": 1,
+          "amount": 19.4,
+          "unit_price": null
+        },
+        {
+          "description": "BUC X 4,55",
+          "quantity": 1,
+          "amount": 4.55,
+          "unit_price": null
+        },
+        {
+          "description": "BUC X 18,70",
+          "quantity": 1,
+          "amount": 18.7,
+          "unit_price": null
+        },
+        {
+          "description": "BUC X 30,50",
+          "quantity": 1,
+          "amount": 30.5,
+          "unit_price": null
+        },
+        {
+          "description": "BUC X 16,90",
+          "quantity": 1,
+          "amount": 16.9,
+          "unit_price": null
+        }
+      ]
+    }
+  ]
+}

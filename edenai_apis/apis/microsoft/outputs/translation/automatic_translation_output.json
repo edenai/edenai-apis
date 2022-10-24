@@ -1,0 +1,15 @@
+{
+  "original_response": [
+    {
+      "translations": [
+        {
+          "text": "Artificial intelligence, also known as intelligent weapons, machine intelligence, refers to the wisdom expressed by machines made by people. Usually artificial intelligence refers to the technology that presents human intelligence through ordinary computer programs. The term also points to the study of whether such intelligent systems can be achieved, and how. At the same time, through advances in medicine, neuroscience, robotics, and statistics, normal forecasts believe that many human occupations are gradually being replaced by them",
+          "to": "en"
+        }
+      ]
+    }
+  ],
+  "standarized_response": {
+    "text": "Artificial intelligence, also known as intelligent weapons, machine intelligence, refers to the wisdom expressed by machines made by people. Usually artificial intelligence refers to the technology that presents human intelligence through ordinary computer programs. The term also points to the study of whether such intelligent systems can be achieved, and how. At the same time, through advances in medicine, neuroscience, robotics, and statistics, normal forecasts believe that many human occupations are gradually being replaced by them"
+  }
+}

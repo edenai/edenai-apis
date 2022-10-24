@@ -1,0 +1,79 @@
+{
+  "original_response": {
+    "objects": [
+      {
+        "rectangle": {
+          "x": 795,
+          "y": 553,
+          "w": 455,
+          "h": 202
+        },
+        "object": "couch",
+        "confidence": 0.771,
+        "parent": {
+          "object": "seating",
+          "confidence": 0.784
+        }
+      },
+      {
+        "rectangle": {
+          "x": 1256,
+          "y": 507,
+          "w": 358,
+          "h": 305
+        },
+        "object": "person",
+        "confidence": 0.71
+      },
+      {
+        "rectangle": {
+          "x": 1285,
+          "y": 546,
+          "w": 512,
+          "h": 453
+        },
+        "object": "couch",
+        "confidence": 0.699,
+        "parent": {
+          "object": "seating",
+          "confidence": 0.764
+        }
+      }
+    ],
+    "requestId": "4751dbc8-4eda-4eaf-b4a6-8f8fa76d0dfa",
+    "metadata": {
+      "height": 1080,
+      "width": 1920,
+      "format": "Png"
+    },
+    "modelVersion": "2021-04-01"
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "label": "couch",
+        "confidence": 0.771,
+        "x_min": 0.4140625,
+        "x_max": 0.6510416666666666,
+        "y_min": 0.5120370370370371,
+        "y_max": 0.6990740740740741
+      },
+      {
+        "label": "person",
+        "confidence": 0.71,
+        "x_min": 0.6541666666666667,
+        "x_max": 0.840625,
+        "y_min": 0.46944444444444444,
+        "y_max": 0.7518518518518519
+      },
+      {
+        "label": "couch",
+        "confidence": 0.699,
+        "x_min": 0.6692708333333334,
+        "x_max": 0.9359375,
+        "y_min": 0.5055555555555555,
+        "y_max": 0.925
+      }
+    ]
+  }
+}

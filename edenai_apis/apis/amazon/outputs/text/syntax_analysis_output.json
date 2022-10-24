@@ -1,0 +1,1143 @@
+{
+  "original_response": {
+    "SyntaxTokens": [
+      {
+        "TokenId": 1,
+        "Text": "Barack",
+        "BeginOffset": 0,
+        "EndOffset": 6,
+        "PartOfSpeech": {
+          "Tag": "PROPN",
+          "Score": 0.9989722371101379
+        }
+      },
+      {
+        "TokenId": 2,
+        "Text": "Hussein",
+        "BeginOffset": 7,
+        "EndOffset": 14,
+        "PartOfSpeech": {
+          "Tag": "PROPN",
+          "Score": 0.999951183795929
+        }
+      },
+      {
+        "TokenId": 3,
+        "Text": "Obama",
+        "BeginOffset": 15,
+        "EndOffset": 20,
+        "PartOfSpeech": {
+          "Tag": "PROPN",
+          "Score": 0.9997590780258179
+        }
+      },
+      {
+        "TokenId": 4,
+        "Text": "is",
+        "BeginOffset": 21,
+        "EndOffset": 23,
+        "PartOfSpeech": {
+          "Tag": "VERB",
+          "Score": 0.998971164226532
+        }
+      },
+      {
+        "TokenId": 5,
+        "Text": "an",
+        "BeginOffset": 24,
+        "EndOffset": 26,
+        "PartOfSpeech": {
+          "Tag": "DET",
+          "Score": 0.9999935626983643
+        }
+      },
+      {
+        "TokenId": 6,
+        "Text": "American",
+        "BeginOffset": 27,
+        "EndOffset": 35,
+        "PartOfSpeech": {
+          "Tag": "ADJ",
+          "Score": 0.9837486743927002
+        }
+      },
+      {
+        "TokenId": 7,
+        "Text": "politician",
+        "BeginOffset": 36,
+        "EndOffset": 46,
+        "PartOfSpeech": {
+          "Tag": "NOUN",
+          "Score": 0.9999579191207886
+        }
+      },
+      {
+        "TokenId": 8,
+        "Text": "who",
+        "BeginOffset": 47,
+        "EndOffset": 50,
+        "PartOfSpeech": {
+          "Tag": "PRON",
+          "Score": 1.0
+        }
+      },
+      {
+        "TokenId": 9,
+        "Text": "served",
+        "BeginOffset": 51,
+        "EndOffset": 57,
+        "PartOfSpeech": {
+          "Tag": "VERB",
+          "Score": 0.9998955726623535
+        }
+      },
+      {
+        "TokenId": 10,
+        "Text": "as",
+        "BeginOffset": 58,
+        "EndOffset": 60,
+        "PartOfSpeech": {
+          "Tag": "ADP",
+          "Score": 0.9925481081008911
+        }
+      },
+      {
+        "TokenId": 11,
+        "Text": "the",
+        "BeginOffset": 61,
+        "EndOffset": 64,
+        "PartOfSpeech": {
+          "Tag": "DET",
+          "Score": 0.9999978542327881
+        }
+      },
+      {
+        "TokenId": 12,
+        "Text": "44th",
+        "BeginOffset": 65,
+        "EndOffset": 69,
+        "PartOfSpeech": {
+          "Tag": "ADJ",
+          "Score": 0.9883918762207031
+        }
+      },
+      {
+        "TokenId": 13,
+        "Text": "president",
+        "BeginOffset": 70,
+        "EndOffset": 79,
+        "PartOfSpeech": {
+          "Tag": "NOUN",
+          "Score": 0.9915927648544312
+        }
+      },
+      {
+        "TokenId": 14,
+        "Text": "of",
+        "BeginOffset": 80,
+        "EndOffset": 82,
+        "PartOfSpeech": {
+          "Tag": "ADP",
+          "Score": 0.9989113211631775
+        }
+      },
+      {
+        "TokenId": 15,
+        "Text": "the",
+        "BeginOffset": 83,
+        "EndOffset": 86,
+        "PartOfSpeech": {
+          "Tag": "DET",
+          "Score": 0.9999891519546509
+        }
+      },
+      {
+        "TokenId": 16,
+        "Text": "United",
+        "BeginOffset": 87,
+        "EndOffset": 93,
+        "PartOfSpeech": {
+          "Tag": "PROPN",
+          "Score": 0.9999334216117859
+        }
+      },
+      {
+        "TokenId": 17,
+        "Text": "States",
+        "BeginOffset": 94,
+        "EndOffset": 100,
+        "PartOfSpeech": {
+          "Tag": "PROPN",
+          "Score": 0.9987675547599792
+        }
+      },
+      {
+        "TokenId": 18,
+        "Text": "from",
+        "BeginOffset": 101,
+        "EndOffset": 105,
+        "PartOfSpeech": {
+          "Tag": "ADP",
+          "Score": 0.9999016523361206
+        }
+      },
+      {
+        "TokenId": 19,
+        "Text": "2009",
+        "BeginOffset": 106,
+        "EndOffset": 110,
+        "PartOfSpeech": {
+          "Tag": "NUM",
+          "Score": 0.9996697902679443
+        }
+      },
+      {
+        "TokenId": 20,
+        "Text": "to",
+        "BeginOffset": 111,
+        "EndOffset": 113,
+        "PartOfSpeech": {
+          "Tag": "ADP",
+          "Score": 0.9997149109840393
+        }
+      },
+      {
+        "TokenId": 21,
+        "Text": "2017",
+        "BeginOffset": 114,
+        "EndOffset": 118,
+        "PartOfSpeech": {
+          "Tag": "NUM",
+          "Score": 0.999664843082428
+        }
+      },
+      {
+        "TokenId": 22,
+        "Text": ".",
+        "BeginOffset": 118,
+        "EndOffset": 119,
+        "PartOfSpeech": {
+          "Tag": "PUNCT",
+          "Score": 0.9999929070472717
+        }
+      },
+      {
+        "TokenId": 23,
+        "Text": "A",
+        "BeginOffset": 120,
+        "EndOffset": 121,
+        "PartOfSpeech": {
+          "Tag": "DET",
+          "Score": 0.9996535181999207
+        }
+      },
+      {
+        "TokenId": 24,
+        "Text": "member",
+        "BeginOffset": 122,
+        "EndOffset": 128,
+        "PartOfSpeech": {
+          "Tag": "NOUN",
+          "Score": 0.9998375177383423
+        }
+      },
+      {
+        "TokenId": 25,
+        "Text": "of",
+        "BeginOffset": 129,
+        "EndOffset": 131,
+        "PartOfSpeech": {
+          "Tag": "ADP",
+          "Score": 0.9998909831047058
+        }
+      },
+      {
+        "TokenId": 26,
+        "Text": "the",
+        "BeginOffset": 132,
+        "EndOffset": 135,
+        "PartOfSpeech": {
+          "Tag": "DET",
+          "Score": 0.9999839067459106
+        }
+      },
+      {
+        "TokenId": 27,
+        "Text": "Democratic",
+        "BeginOffset": 136,
+        "EndOffset": 146,
+        "PartOfSpeech": {
+          "Tag": "PROPN",
+          "Score": 0.9700098037719727
+        }
+      },
+      {
+        "TokenId": 28,
+        "Text": "Party",
+        "BeginOffset": 147,
+        "EndOffset": 152,
+        "PartOfSpeech": {
+          "Tag": "PROPN",
+          "Score": 0.9993690848350525
+        }
+      },
+      {
+        "TokenId": 29,
+        "Text": ",",
+        "BeginOffset": 152,
+        "EndOffset": 153,
+        "PartOfSpeech": {
+          "Tag": "PUNCT",
+          "Score": 0.9999986886978149
+        }
+      },
+      {
+        "TokenId": 30,
+        "Text": "Obama",
+        "BeginOffset": 154,
+        "EndOffset": 159,
+        "PartOfSpeech": {
+          "Tag": "PROPN",
+          "Score": 0.9995593428611755
+        }
+      },
+      {
+        "TokenId": 31,
+        "Text": "was",
+        "BeginOffset": 160,
+        "EndOffset": 163,
+        "PartOfSpeech": {
+          "Tag": "VERB",
+          "Score": 0.9982597827911377
+        }
+      },
+      {
+        "TokenId": 32,
+        "Text": "the",
+        "BeginOffset": 164,
+        "EndOffset": 167,
+        "PartOfSpeech": {
+          "Tag": "DET",
+          "Score": 0.999994695186615
+        }
+      },
+      {
+        "TokenId": 33,
+        "Text": "first",
+        "BeginOffset": 168,
+        "EndOffset": 173,
+        "PartOfSpeech": {
+          "Tag": "ADJ",
+          "Score": 0.9758985638618469
+        }
+      },
+      {
+        "TokenId": 34,
+        "Text": "African",
+        "BeginOffset": 174,
+        "EndOffset": 181,
+        "PartOfSpeech": {
+          "Tag": "ADJ",
+          "Score": 0.9811393618583679
+        }
+      },
+      {
+        "TokenId": 35,
+        "Text": "-",
+        "BeginOffset": 181,
+        "EndOffset": 182,
+        "PartOfSpeech": {
+          "Tag": "PUNCT",
+          "Score": 0.9999794363975525
+        }
+      },
+      {
+        "TokenId": 36,
+        "Text": "American",
+        "BeginOffset": 182,
+        "EndOffset": 190,
+        "PartOfSpeech": {
+          "Tag": "ADJ",
+          "Score": 0.9968791604042053
+        }
+      },
+      {
+        "TokenId": 37,
+        "Text": "president",
+        "BeginOffset": 191,
+        "EndOffset": 200,
+        "PartOfSpeech": {
+          "Tag": "NOUN",
+          "Score": 0.9996508955955505
+        }
+      },
+      {
+        "TokenId": 38,
+        "Text": "of",
+        "BeginOffset": 201,
+        "EndOffset": 203,
+        "PartOfSpeech": {
+          "Tag": "ADP",
+          "Score": 0.9998366236686707
+        }
+      },
+      {
+        "TokenId": 39,
+        "Text": "the",
+        "BeginOffset": 204,
+        "EndOffset": 207,
+        "PartOfSpeech": {
+          "Tag": "DET",
+          "Score": 0.9999855756759644
+        }
+      },
+      {
+        "TokenId": 40,
+        "Text": "United",
+        "BeginOffset": 208,
+        "EndOffset": 214,
+        "PartOfSpeech": {
+          "Tag": "PROPN",
+          "Score": 0.999966025352478
+        }
+      },
+      {
+        "TokenId": 41,
+        "Text": "States",
+        "BeginOffset": 215,
+        "EndOffset": 221,
+        "PartOfSpeech": {
+          "Tag": "PROPN",
+          "Score": 0.9994139671325684
+        }
+      },
+      {
+        "TokenId": 42,
+        "Text": ".",
+        "BeginOffset": 221,
+        "EndOffset": 222,
+        "PartOfSpeech": {
+          "Tag": "PUNCT",
+          "Score": 0.999999463558197
+        }
+      },
+      {
+        "TokenId": 43,
+        "Text": "He",
+        "BeginOffset": 223,
+        "EndOffset": 225,
+        "PartOfSpeech": {
+          "Tag": "PRON",
+          "Score": 0.9997744560241699
+        }
+      },
+      {
+        "TokenId": 44,
+        "Text": "previously",
+        "BeginOffset": 226,
+        "EndOffset": 236,
+        "PartOfSpeech": {
+          "Tag": "ADV",
+          "Score": 0.9999989867210388
+        }
+      },
+      {
+        "TokenId": 45,
+        "Text": "served",
+        "BeginOffset": 237,
+        "EndOffset": 243,
+        "PartOfSpeech": {
+          "Tag": "VERB",
+          "Score": 0.9990741014480591
+        }
+      },
+      {
+        "TokenId": 46,
+        "Text": "as",
+        "BeginOffset": 244,
+        "EndOffset": 246,
+        "PartOfSpeech": {
+          "Tag": "ADP",
+          "Score": 0.979859471321106
+        }
+      },
+      {
+        "TokenId": 47,
+        "Text": "a",
+        "BeginOffset": 247,
+        "EndOffset": 248,
+        "PartOfSpeech": {
+          "Tag": "DET",
+          "Score": 0.9999747276306152
+        }
+      },
+      {
+        "TokenId": 48,
+        "Text": "U.S.",
+        "BeginOffset": 249,
+        "EndOffset": 253,
+        "PartOfSpeech": {
+          "Tag": "PROPN",
+          "Score": 0.9988380074501038
+        }
+      },
+      {
+        "TokenId": 49,
+        "Text": "senator",
+        "BeginOffset": 254,
+        "EndOffset": 261,
+        "PartOfSpeech": {
+          "Tag": "NOUN",
+          "Score": 0.9835609793663025
+        }
+      },
+      {
+        "TokenId": 50,
+        "Text": "from",
+        "BeginOffset": 262,
+        "EndOffset": 266,
+        "PartOfSpeech": {
+          "Tag": "ADP",
+          "Score": 0.999751091003418
+        }
+      },
+      {
+        "TokenId": 51,
+        "Text": "Illinois",
+        "BeginOffset": 267,
+        "EndOffset": 275,
+        "PartOfSpeech": {
+          "Tag": "PROPN",
+          "Score": 0.9928861260414124
+        }
+      },
+      {
+        "TokenId": 52,
+        "Text": "from",
+        "BeginOffset": 276,
+        "EndOffset": 280,
+        "PartOfSpeech": {
+          "Tag": "ADP",
+          "Score": 0.9999338388442993
+        }
+      },
+      {
+        "TokenId": 53,
+        "Text": "2005",
+        "BeginOffset": 281,
+        "EndOffset": 285,
+        "PartOfSpeech": {
+          "Tag": "NUM",
+          "Score": 0.9998795986175537
+        }
+      },
+      {
+        "TokenId": 54,
+        "Text": "to",
+        "BeginOffset": 286,
+        "EndOffset": 288,
+        "PartOfSpeech": {
+          "Tag": "ADP",
+          "Score": 0.9993954300880432
+        }
+      },
+      {
+        "TokenId": 55,
+        "Text": "2008",
+        "BeginOffset": 289,
+        "EndOffset": 293,
+        "PartOfSpeech": {
+          "Tag": "NUM",
+          "Score": 0.9997551441192627
+        }
+      },
+      {
+        "TokenId": 56,
+        "Text": "and",
+        "BeginOffset": 294,
+        "EndOffset": 297,
+        "PartOfSpeech": {
+          "Tag": "CONJ",
+          "Score": 0.9999564290046692
+        }
+      },
+      {
+        "TokenId": 57,
+        "Text": "as",
+        "BeginOffset": 298,
+        "EndOffset": 300,
+        "PartOfSpeech": {
+          "Tag": "ADP",
+          "Score": 0.8117667436599731
+        }
+      },
+      {
+        "TokenId": 58,
+        "Text": "an",
+        "BeginOffset": 301,
+        "EndOffset": 303,
+        "PartOfSpeech": {
+          "Tag": "DET",
+          "Score": 0.9999781250953674
+        }
+      },
+      {
+        "TokenId": 59,
+        "Text": "Illinois",
+        "BeginOffset": 304,
+        "EndOffset": 312,
+        "PartOfSpeech": {
+          "Tag": "PROPN",
+          "Score": 0.984591007232666
+        }
+      },
+      {
+        "TokenId": 60,
+        "Text": "state",
+        "BeginOffset": 313,
+        "EndOffset": 318,
+        "PartOfSpeech": {
+          "Tag": "NOUN",
+          "Score": 0.9982637763023376
+        }
+      },
+      {
+        "TokenId": 61,
+        "Text": "senator",
+        "BeginOffset": 319,
+        "EndOffset": 326,
+        "PartOfSpeech": {
+          "Tag": "NOUN",
+          "Score": 0.9966917037963867
+        }
+      },
+      {
+        "TokenId": 62,
+        "Text": "from",
+        "BeginOffset": 327,
+        "EndOffset": 331,
+        "PartOfSpeech": {
+          "Tag": "ADP",
+          "Score": 0.9999603629112244
+        }
+      },
+      {
+        "TokenId": 63,
+        "Text": "1997",
+        "BeginOffset": 332,
+        "EndOffset": 336,
+        "PartOfSpeech": {
+          "Tag": "NUM",
+          "Score": 0.9999339580535889
+        }
+      },
+      {
+        "TokenId": 64,
+        "Text": "to",
+        "BeginOffset": 337,
+        "EndOffset": 339,
+        "PartOfSpeech": {
+          "Tag": "ADP",
+          "Score": 0.9998021721839905
+        }
+      },
+      {
+        "TokenId": 65,
+        "Text": "2004",
+        "BeginOffset": 340,
+        "EndOffset": 344,
+        "PartOfSpeech": {
+          "Tag": "NUM",
+          "Score": 0.9998699426651001
+        }
+      },
+      {
+        "TokenId": 66,
+        "Text": ".",
+        "BeginOffset": 344,
+        "EndOffset": 345,
+        "PartOfSpeech": {
+          "Tag": "PUNCT",
+          "Score": 0.9999957084655762
+        }
+      }
+    ],
+    "ResponseMetadata": {
+      "RequestId": "6176a48d-5f0b-4bff-be78-5691fe88d213",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "6176a48d-5f0b-4bff-be78-5691fe88d213",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "7875",
+        "date": "Wed, 12 Oct 2022 10:41:04 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "word": "Barack",
+        "importance": 0.9989722371101379,
+        "tag": "Proper_noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "Hussein",
+        "importance": 0.999951183795929,
+        "tag": "Proper_noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "Obama",
+        "importance": 0.9997590780258179,
+        "tag": "Proper_noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "is",
+        "importance": 0.998971164226532,
+        "tag": "Verb",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "an",
+        "importance": 0.9999935626983643,
+        "tag": "Determiner",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "American",
+        "importance": 0.9837486743927002,
+        "tag": "Adjactive",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "politician",
+        "importance": 0.9999579191207886,
+        "tag": "Noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "who",
+        "importance": 1.0,
+        "tag": "Pronoun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "served",
+        "importance": 0.9998955726623535,
+        "tag": "Verb",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "as",
+        "importance": 0.9925481081008911,
+        "tag": "Adposition",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "the",
+        "importance": 0.9999978542327881,
+        "tag": "Determiner",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "44th",
+        "importance": 0.9883918762207031,
+        "tag": "Adjactive",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "president",
+        "importance": 0.9915927648544312,
+        "tag": "Noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "of",
+        "importance": 0.9989113211631775,
+        "tag": "Adposition",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "the",
+        "importance": 0.9999891519546509,
+        "tag": "Determiner",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "United",
+        "importance": 0.9999334216117859,
+        "tag": "Proper_noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "States",
+        "importance": 0.9987675547599792,
+        "tag": "Proper_noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "from",
+        "importance": 0.9999016523361206,
+        "tag": "Adposition",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "2009",
+        "importance": 0.9996697902679443,
+        "tag": "Cardinal_number",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "to",
+        "importance": 0.9997149109840393,
+        "tag": "Adposition",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "2017",
+        "importance": 0.999664843082428,
+        "tag": "Cardinal_number",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": ".",
+        "importance": 0.9999929070472717,
+        "tag": "Punctuation",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "A",
+        "importance": 0.9996535181999207,
+        "tag": "Determiner",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "member",
+        "importance": 0.9998375177383423,
+        "tag": "Noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "of",
+        "importance": 0.9998909831047058,
+        "tag": "Adposition",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "the",
+        "importance": 0.9999839067459106,
+        "tag": "Determiner",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "Democratic",
+        "importance": 0.9700098037719727,
+        "tag": "Proper_noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "Party",
+        "importance": 0.9993690848350525,
+        "tag": "Proper_noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": ",",
+        "importance": 0.9999986886978149,
+        "tag": "Punctuation",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "Obama",
+        "importance": 0.9995593428611755,
+        "tag": "Proper_noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "was",
+        "importance": 0.9982597827911377,
+        "tag": "Verb",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "the",
+        "importance": 0.999994695186615,
+        "tag": "Determiner",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "first",
+        "importance": 0.9758985638618469,
+        "tag": "Adjactive",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "African",
+        "importance": 0.9811393618583679,
+        "tag": "Adjactive",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "-",
+        "importance": 0.9999794363975525,
+        "tag": "Punctuation",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "American",
+        "importance": 0.9968791604042053,
+        "tag": "Adjactive",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "president",
+        "importance": 0.9996508955955505,
+        "tag": "Noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "of",
+        "importance": 0.9998366236686707,
+        "tag": "Adposition",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "the",
+        "importance": 0.9999855756759644,
+        "tag": "Determiner",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "United",
+        "importance": 0.999966025352478,
+        "tag": "Proper_noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "States",
+        "importance": 0.9994139671325684,
+        "tag": "Proper_noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": ".",
+        "importance": 0.999999463558197,
+        "tag": "Punctuation",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "He",
+        "importance": 0.9997744560241699,
+        "tag": "Pronoun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "previously",
+        "importance": 0.9999989867210388,
+        "tag": "Adverb",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "served",
+        "importance": 0.9990741014480591,
+        "tag": "Verb",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "as",
+        "importance": 0.979859471321106,
+        "tag": "Adposition",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "a",
+        "importance": 0.9999747276306152,
+        "tag": "Determiner",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "U.S.",
+        "importance": 0.9988380074501038,
+        "tag": "Proper_noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "senator",
+        "importance": 0.9835609793663025,
+        "tag": "Noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "from",
+        "importance": 0.999751091003418,
+        "tag": "Adposition",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "Illinois",
+        "importance": 0.9928861260414124,
+        "tag": "Proper_noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "from",
+        "importance": 0.9999338388442993,
+        "tag": "Adposition",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "2005",
+        "importance": 0.9998795986175537,
+        "tag": "Cardinal_number",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "to",
+        "importance": 0.9993954300880432,
+        "tag": "Adposition",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "2008",
+        "importance": 0.9997551441192627,
+        "tag": "Cardinal_number",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "and",
+        "importance": 0.9999564290046692,
+        "tag": "Coordinating_Conjunction",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "as",
+        "importance": 0.8117667436599731,
+        "tag": "Adposition",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "an",
+        "importance": 0.9999781250953674,
+        "tag": "Determiner",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "Illinois",
+        "importance": 0.984591007232666,
+        "tag": "Proper_noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "state",
+        "importance": 0.9982637763023376,
+        "tag": "Noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "senator",
+        "importance": 0.9966917037963867,
+        "tag": "Noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "from",
+        "importance": 0.9999603629112244,
+        "tag": "Adposition",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "1997",
+        "importance": 0.9999339580535889,
+        "tag": "Cardinal_number",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "to",
+        "importance": 0.9998021721839905,
+        "tag": "Adposition",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "2004",
+        "importance": 0.9998699426651001,
+        "tag": "Cardinal_number",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": ".",
+        "importance": 0.9999957084655762,
+        "tag": "Punctuation",
+        "lemma": null,
+        "others": {}
+      }
+    ]
+  }
+}

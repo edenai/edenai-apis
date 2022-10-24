@@ -1,0 +1,88 @@
+{
+  "original_response": [
+    "test_18.jpg",
+    "test_17.jpg",
+    "test_16.jpg",
+    "test_15.jpg",
+    "test_14.jpg",
+    "test_13.jpg",
+    "test_12.jpg",
+    "test_11.jpg",
+    "test_10.jpg",
+    "test_9.jpg",
+    "test_8.jpg",
+    "test_7.jpg",
+    "test_6.jpg",
+    "test_5.jpg",
+    "test_4.jpg",
+    "test_3.jpg",
+    "test_2.jpg",
+    "test_1.jpg",
+    "image_name.jpg",
+    "image1.jpg"
+  ],
+  "standarized_response": {
+    "list_images": [
+      {
+        "image_name": "test_18.jpg"
+      },
+      {
+        "image_name": "test_17.jpg"
+      },
+      {
+        "image_name": "test_16.jpg"
+      },
+      {
+        "image_name": "test_15.jpg"
+      },
+      {
+        "image_name": "test_14.jpg"
+      },
+      {
+        "image_name": "test_13.jpg"
+      },
+      {
+        "image_name": "test_12.jpg"
+      },
+      {
+        "image_name": "test_11.jpg"
+      },
+      {
+        "image_name": "test_10.jpg"
+      },
+      {
+        "image_name": "test_9.jpg"
+      },
+      {
+        "image_name": "test_8.jpg"
+      },
+      {
+        "image_name": "test_7.jpg"
+      },
+      {
+        "image_name": "test_6.jpg"
+      },
+      {
+        "image_name": "test_5.jpg"
+      },
+      {
+        "image_name": "test_4.jpg"
+      },
+      {
+        "image_name": "test_3.jpg"
+      },
+      {
+        "image_name": "test_2.jpg"
+      },
+      {
+        "image_name": "test_1.jpg"
+      },
+      {
+        "image_name": "image_name.jpg"
+      },
+      {
+        "image_name": "image1.jpg"
+      }
+    ]
+  }
+}

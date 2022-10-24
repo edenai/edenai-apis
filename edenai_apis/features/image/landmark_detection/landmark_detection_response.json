@@ -1,0 +1,64 @@
+{
+  "items": [
+    {
+      "description": "Saint Basil's Cathedral",
+      "confidence": 0.9167088,
+      "bounding_box": [
+        {
+          "x": 91,
+          "y": 182
+        },
+        {
+          "x": 410,
+          "y": 182
+        },
+        {
+          "x": 410,
+          "y": 404
+        },
+        {
+          "x": 91,
+          "y": 404
+        }
+      ],
+      "locations": [
+        {
+          "lat_lng": {
+            "latitude": 55.752912,
+            "longitude": 37.622315883636475
+          }
+        }
+      ]
+    },
+    {
+      "description": "St. Basil's Cathedral",
+      "confidence": 0.8605267,
+      "bounding_box": [
+        {
+          "x": 156,
+          "y": 73
+        },
+        {
+          "x": 424,
+          "y": 73
+        },
+        {
+          "x": 424,
+          "y": 407
+        },
+        {
+          "x": 156,
+          "y": 407
+        }
+      ],
+      "locations": [
+        {
+          "lat_lng": {
+            "latitude": 55.752522899999995,
+            "longitude": 37.623086799999996
+          }
+        }
+      ]
+    }
+  ]
+}

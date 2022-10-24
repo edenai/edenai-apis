@@ -1,0 +1,20 @@
+{
+  "original_response": [
+    {
+      "label": "unsafe",
+      "score": 0.0
+    },
+    {
+      "label": "safe",
+      "score": 100.0
+    }
+  ],
+  "standarized_response": {
+    "items": [
+      {
+        "label": "nudity",
+        "likelihood": 0
+      }
+    ]
+  }
+}

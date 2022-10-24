@@ -1,0 +1,66 @@
+{
+  "original_response": {
+    "kind": "KeyPhraseExtractionResults",
+    "results": {
+      "documents": [
+        {
+          "id": "1",
+          "keyPhrases": [
+            "U.S. senator",
+            "first African-American president",
+            "Barack Hussein Obama",
+            "Illinois state senator",
+            "44th president",
+            "American politician",
+            "United States",
+            "Democratic Party",
+            "member"
+          ],
+          "warnings": []
+        }
+      ],
+      "errors": [],
+      "modelVersion": "2022-07-01"
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "keyword": "U.S. senator",
+        "importance": null
+      },
+      {
+        "keyword": "first African-American president",
+        "importance": null
+      },
+      {
+        "keyword": "Barack Hussein Obama",
+        "importance": null
+      },
+      {
+        "keyword": "Illinois state senator",
+        "importance": null
+      },
+      {
+        "keyword": "44th president",
+        "importance": null
+      },
+      {
+        "keyword": "American politician",
+        "importance": null
+      },
+      {
+        "keyword": "United States",
+        "importance": null
+      },
+      {
+        "keyword": "Democratic Party",
+        "importance": null
+      },
+      {
+        "keyword": "member",
+        "importance": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+    "ocr": {
+        "ocr": {
+            "constraints": {
+                "languages": [
+                    "ru-RU",
+                    "pt-PT",
+                    "ko-KR",
+                    "ja-JP",
+                    "it-IT",
+                    "fr-FR",
+                    "de-DE",
+                    "zh-TW",
+                    "zh-CN",
+                    "ar-XA",
+                    "es-ES",
+                    "en-US"
+                ]
+            },
+            "version": "8.0.0"
+        }
+    },
+    "image": {
+        "explicit_content": {
+            "version": "8.0.0"
+        },
+        "face_detection": {
+            "version": "8.0.0"
+        },
+        "object_detection": {
+            "version": "8.0.0"
+        }
+    }
+}

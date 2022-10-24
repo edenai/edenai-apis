@@ -1,0 +1,85 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "33a919a65b1434afaa946529ba24d849de0da54b96225a1517c50b017078f5cb",
+  "original_response": {
+    "JobStatus": "SUCCEEDED",
+    "VideoMetadata": {
+      "Codec": "h264",
+      "DurationMillis": 11778,
+      "Format": "QuickTime / MOV",
+      "FrameRate": 29.970029830932617,
+      "FrameHeight": 360,
+      "FrameWidth": 640,
+      "ColorRange": "LIMITED"
+    },
+    "TextDetections": [
+      {
+        "Timestamp": 11044,
+        "TextDetection": {
+          "DetectedText": "Images\u2122",
+          "Type": "WORD",
+          "Id": 11,
+          "ParentId": 3,
+          "Confidence": 95.85286712646484,
+          "Geometry": {
+            "BoundingBox": {
+              "Width": 0.12224845588207245,
+              "Height": 0.05585937574505806,
+              "Left": 0.49533611536026,
+              "Top": 0.5749520659446716
+            },
+            "Polygon": [
+              {
+                "X": 0.49558156728744507,
+                "Y": 0.5749520659446716
+              },
+              {
+                "X": 0.6175845861434937,
+                "Y": 0.5767012238502502
+              },
+              {
+                "X": 0.6173390746116638,
+                "Y": 0.6308114528656006
+              },
+              {
+                "X": 0.49533611536026,
+                "Y": 0.629062294960022
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "TextModelVersion": "3.1",
+    "ResponseMetadata": {
+      "RequestId": "0489dca7-6882-4c1f-94f7-0b931a7c756b",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "0489dca7-6882-4c1f-94f7-0b931a7c756b",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "709",
+        "date": "Wed, 12 Oct 2022 10:45:05 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standarized_response": {
+    "texts": [
+      {
+        "text": "Images\u2122",
+        "frames": [
+          {
+            "confidence": 95.85286712646484,
+            "timestamp": 11.044,
+            "bounding_box": {
+              "top": 0.5749520659446716,
+              "left": 0.49533611536026,
+              "height": 0.05585937574505806,
+              "width": 0.12224845588207245
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

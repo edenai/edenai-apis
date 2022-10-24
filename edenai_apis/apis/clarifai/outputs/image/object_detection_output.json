@@ -1,0 +1,700 @@
+{
+  "original_response": {
+    "regions": [
+      {
+        "id": "06545e755a04de1fe547857288e4b0cd",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.51708305,
+            "left_col": 0.6814497,
+            "bottom_row": 0.7307087,
+            "right_col": 0.83617514
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_h0XtN8cG",
+              "name": "Clothing",
+              "value": 0.89644414,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.89644414
+      },
+      {
+        "id": "cc48c9a66d3d905240ab2e32319831d6",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.105178185,
+            "left_col": 0.32020876,
+            "bottom_row": 0.6972176,
+            "right_col": 0.4021018
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_NtNnPh8S",
+              "name": "Curtain",
+              "value": 0.734484,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.734484
+      },
+      {
+        "id": "6111d6e5c72863544f4f9ef089a1b32a",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.5276788,
+            "left_col": 0.674165,
+            "bottom_row": 0.9126989,
+            "right_col": 0.9331067
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_JXsW2Gs8",
+              "name": "Couch",
+              "value": 0.67614526,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.67614526
+      },
+      {
+        "id": "f72dbbef230cf723e14a7987893e7fb1",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.015252693,
+            "left_col": 0.019715799,
+            "bottom_row": 0.9541081,
+            "right_col": 0.9832136
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_ddnpXJdp",
+              "name": "House",
+              "value": 0.6560371,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.6560371
+      },
+      {
+        "id": "0eb895984968d8948fffe223ab2f96ec",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.6416893,
+            "left_col": 0.38131875,
+            "bottom_row": 0.9031049,
+            "right_col": 0.66858953
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_k8h86dz9",
+              "name": "Coffee table",
+              "value": 0.5853401,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.5853401
+      },
+      {
+        "id": "6858d6a51137c88261a44689006e39b4",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.09490048,
+            "left_col": 0.80095077,
+            "bottom_row": 0.5134875,
+            "right_col": 0.94917464
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_Tt1pWqPZ",
+              "name": "Window",
+              "value": 0.58307046,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.58307046
+      },
+      {
+        "id": "2e60f098c7f937d6fd986980c9fb4073",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.13672593,
+            "left_col": 0.4323828,
+            "bottom_row": 0.5436361,
+            "right_col": 0.63985944
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_Tt1pWqPZ",
+              "name": "Window",
+              "value": 0.57837254,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.57837254
+      },
+      {
+        "id": "1e5f4c05863826f65e1ff6db8b36b88a",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.501599,
+            "left_col": 0.3981044,
+            "bottom_row": 0.6868936,
+            "right_col": 0.6702463
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_JXsW2Gs8",
+              "name": "Couch",
+              "value": 0.5683306,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.5683306
+      },
+      {
+        "id": "8b3df6def57106860a70d1952013da1c",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.47904685,
+            "left_col": 0.7713931,
+            "bottom_row": 0.5407142,
+            "right_col": 0.7967755
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_XQmNlTrs",
+              "name": "Human face",
+              "value": 0.5269308,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.5269308
+      },
+      {
+        "id": "797de31f73dd9dfb0539b6d4cf88d5c1",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.1087867,
+            "left_col": 0.6710669,
+            "bottom_row": 0.53203183,
+            "right_col": 0.75017715
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_NtNnPh8S",
+              "name": "Curtain",
+              "value": 0.49142942,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.49142942
+      },
+      {
+        "id": "baf5fe4529cad452bb936a6ac2840afd",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.46188837,
+            "left_col": 0.6469467,
+            "bottom_row": 0.78981936,
+            "right_col": 0.859907
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_ZGs91rfG",
+              "name": "Woman",
+              "value": 0.4596227,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.4596227
+      },
+      {
+        "id": "43df0701b76cab25fe745ce1cb434783",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.68181366,
+            "left_col": 0.15110222,
+            "bottom_row": 0.92381763,
+            "right_col": 0.4018321
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_xVVLRp7N",
+              "name": "Chair",
+              "value": 0.4393106,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.4393106
+      },
+      {
+        "id": "9f228d349c3683a56c539ac10c6af01c",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.6744109,
+            "left_col": 0.75919795,
+            "bottom_row": 0.92376053,
+            "right_col": 0.9380631
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_xVVLRp7N",
+              "name": "Chair",
+              "value": 0.4196434,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.4196434
+      },
+      {
+        "id": "55865a8e767ff12f63d45726639b82fe",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.5376572,
+            "left_col": 0.51348746,
+            "bottom_row": 0.58110714,
+            "right_col": 0.53855014
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_XQmNlTrs",
+              "name": "Human face",
+              "value": 0.41313717,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.41313717
+      },
+      {
+        "id": "00f9d1b226464bffea3b43fd363f4fd7",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.13725756,
+            "left_col": 0.624748,
+            "bottom_row": 0.5414588,
+            "right_col": 0.66841996
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_Tt1pWqPZ",
+              "name": "Window",
+              "value": 0.4119214,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.4119214
+      },
+      {
+        "id": "0ce9e250b782ce80311bccc765f4068d",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.33155304,
+            "left_col": 0.20510127,
+            "bottom_row": 0.44076225,
+            "right_col": 0.25858188
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_M5wzhtLg",
+              "name": "Plant",
+              "value": 0.39147264,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.39147264
+      },
+      {
+        "id": "0482198e2040740779dca5df92605be4",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.55392635,
+            "left_col": 0.5027826,
+            "bottom_row": 0.6276002,
+            "right_col": 0.5442276
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_xdMdHrPG",
+              "name": "Person",
+              "value": 0.39135808,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.39135808
+      },
+      {
+        "id": "4f5cedc5377d0c0ab62e7b455340d59f",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.5905774,
+            "left_col": 0.6878231,
+            "bottom_row": 0.70733166,
+            "right_col": 0.7791296
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_h0XtN8cG",
+              "name": "Clothing",
+              "value": 0.3836032,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.3836032
+      },
+      {
+        "id": "3c0205548002105cd36d445d9dd0c0a1",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.32393286,
+            "left_col": 0.21129946,
+            "bottom_row": 0.36370194,
+            "right_col": 0.2380523
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_fsXD6jnV",
+              "name": "Flower",
+              "value": 0.38266745,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.38266745
+      },
+      {
+        "id": "3fb089cc73503ab4ccfa39bfc6f2e6b7",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.12453045,
+            "left_col": 0.391575,
+            "bottom_row": 0.5895702,
+            "right_col": 0.4383898
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_Tt1pWqPZ",
+              "name": "Window",
+              "value": 0.36772433,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.36772433
+      },
+      {
+        "id": "7e7f0079cf2da56b4075aa61ecac6e96",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.5102555,
+            "left_col": 0.4371793,
+            "bottom_row": 0.57790166,
+            "right_col": 0.52689016
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_Bh3F7qrd",
+              "name": "Pillow",
+              "value": 0.36052826,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.36052826
+      },
+      {
+        "id": "595c3915e2dc41e7c006d5ba14ceab18",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.46381092,
+            "left_col": 0.7720833,
+            "bottom_row": 0.54252136,
+            "right_col": 0.8175764
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_DMHt1gfF",
+              "name": "Human hair",
+              "value": 0.3515357,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.3515357
+      },
+      {
+        "id": "5a5d403db5151d12734b487a6b4a6870",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.49879467,
+            "left_col": 0.784471,
+            "bottom_row": 0.536382,
+            "right_col": 0.8032416
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_ZtQ4vlBB",
+              "name": "Fashion accessory",
+              "value": 0.3366793,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.3366793
+      }
+    ]
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "label": "Clothing",
+        "confidence": 0.89644414,
+        "x_min": 0.6814497,
+        "x_max": 0.83617514,
+        "y_min": 0.51708305,
+        "y_max": 0.7307087
+      },
+      {
+        "label": "Curtain",
+        "confidence": 0.734484,
+        "x_min": 0.32020876,
+        "x_max": 0.4021018,
+        "y_min": 0.105178185,
+        "y_max": 0.6972176
+      },
+      {
+        "label": "Couch",
+        "confidence": 0.67614526,
+        "x_min": 0.674165,
+        "x_max": 0.9331067,
+        "y_min": 0.5276788,
+        "y_max": 0.9126989
+      },
+      {
+        "label": "House",
+        "confidence": 0.6560371,
+        "x_min": 0.019715799,
+        "x_max": 0.9832136,
+        "y_min": 0.015252693,
+        "y_max": 0.9541081
+      },
+      {
+        "label": "Coffee table",
+        "confidence": 0.5853401,
+        "x_min": 0.38131875,
+        "x_max": 0.66858953,
+        "y_min": 0.6416893,
+        "y_max": 0.9031049
+      },
+      {
+        "label": "Window",
+        "confidence": 0.58307046,
+        "x_min": 0.80095077,
+        "x_max": 0.94917464,
+        "y_min": 0.09490048,
+        "y_max": 0.5134875
+      },
+      {
+        "label": "Window",
+        "confidence": 0.57837254,
+        "x_min": 0.4323828,
+        "x_max": 0.63985944,
+        "y_min": 0.13672593,
+        "y_max": 0.5436361
+      },
+      {
+        "label": "Couch",
+        "confidence": 0.5683306,
+        "x_min": 0.3981044,
+        "x_max": 0.6702463,
+        "y_min": 0.501599,
+        "y_max": 0.6868936
+      },
+      {
+        "label": "Human face",
+        "confidence": 0.5269308,
+        "x_min": 0.7713931,
+        "x_max": 0.7967755,
+        "y_min": 0.47904685,
+        "y_max": 0.5407142
+      },
+      {
+        "label": "Curtain",
+        "confidence": 0.49142942,
+        "x_min": 0.6710669,
+        "x_max": 0.75017715,
+        "y_min": 0.1087867,
+        "y_max": 0.53203183
+      },
+      {
+        "label": "Woman",
+        "confidence": 0.4596227,
+        "x_min": 0.6469467,
+        "x_max": 0.859907,
+        "y_min": 0.46188837,
+        "y_max": 0.78981936
+      },
+      {
+        "label": "Chair",
+        "confidence": 0.4393106,
+        "x_min": 0.15110222,
+        "x_max": 0.4018321,
+        "y_min": 0.68181366,
+        "y_max": 0.92381763
+      },
+      {
+        "label": "Chair",
+        "confidence": 0.4196434,
+        "x_min": 0.75919795,
+        "x_max": 0.9380631,
+        "y_min": 0.6744109,
+        "y_max": 0.92376053
+      },
+      {
+        "label": "Human face",
+        "confidence": 0.41313717,
+        "x_min": 0.51348746,
+        "x_max": 0.53855014,
+        "y_min": 0.5376572,
+        "y_max": 0.58110714
+      },
+      {
+        "label": "Window",
+        "confidence": 0.4119214,
+        "x_min": 0.624748,
+        "x_max": 0.66841996,
+        "y_min": 0.13725756,
+        "y_max": 0.5414588
+      },
+      {
+        "label": "Plant",
+        "confidence": 0.39147264,
+        "x_min": 0.20510127,
+        "x_max": 0.25858188,
+        "y_min": 0.33155304,
+        "y_max": 0.44076225
+      },
+      {
+        "label": "Person",
+        "confidence": 0.39135808,
+        "x_min": 0.5027826,
+        "x_max": 0.5442276,
+        "y_min": 0.55392635,
+        "y_max": 0.6276002
+      },
+      {
+        "label": "Clothing",
+        "confidence": 0.3836032,
+        "x_min": 0.6878231,
+        "x_max": 0.7791296,
+        "y_min": 0.5905774,
+        "y_max": 0.70733166
+      },
+      {
+        "label": "Flower",
+        "confidence": 0.38266745,
+        "x_min": 0.21129946,
+        "x_max": 0.2380523,
+        "y_min": 0.32393286,
+        "y_max": 0.36370194
+      },
+      {
+        "label": "Window",
+        "confidence": 0.36772433,
+        "x_min": 0.391575,
+        "x_max": 0.4383898,
+        "y_min": 0.12453045,
+        "y_max": 0.5895702
+      },
+      {
+        "label": "Pillow",
+        "confidence": 0.36052826,
+        "x_min": 0.4371793,
+        "x_max": 0.52689016,
+        "y_min": 0.5102555,
+        "y_max": 0.57790166
+      },
+      {
+        "label": "Human hair",
+        "confidence": 0.3515357,
+        "x_min": 0.7720833,
+        "x_max": 0.8175764,
+        "y_min": 0.46381092,
+        "y_max": 0.54252136
+      },
+      {
+        "label": "Fashion accessory",
+        "confidence": 0.3366793,
+        "x_min": 0.784471,
+        "x_max": 0.8032416,
+        "y_min": 0.49879467,
+        "y_max": 0.536382
+      }
+    ]
+  }
+}

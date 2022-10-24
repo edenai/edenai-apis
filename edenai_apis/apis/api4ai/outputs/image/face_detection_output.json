@@ -1,0 +1,206 @@
+{
+  "original_response": {
+    "results": [
+      {
+        "status": {
+          "code": "ok",
+          "message": "Success"
+        },
+        "name": "face.jpeg",
+        "md5": "533c3e2300f8ddc5eb261a9f2d8d87d3",
+        "entities": [
+          {
+            "kind": "objects",
+            "name": "face-detector",
+            "objects": [
+              {
+                "box": [
+                  0.2931367974543039,
+                  0.1336476319097939,
+                  0.6403101791812056,
+                  0.6403101791812056
+                ],
+                "entities": [
+                  {
+                    "kind": "classes",
+                    "name": "face",
+                    "classes": {
+                      "face": 0.9920044541358948
+                    }
+                  },
+                  {
+                    "kind": "namedpoints",
+                    "name": "face-landmarks",
+                    "namedpoints": {
+                      "left-eye": [
+                        0.5686073875427247,
+                        0.3465519905090332
+                      ],
+                      "right-eye": [
+                        0.764842004776001,
+                        0.3802739334106445
+                      ],
+                      "nose-tip": [
+                        0.6892597675323486,
+                        0.48434698820114136
+                      ],
+                      "mouth-left-corner": [
+                        0.5597362375259399,
+                        0.5910256290435791
+                      ],
+                      "mouth-right-corner": [
+                        0.7118245601654053,
+                        0.6196095657348633
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "confidence": 0.9920044541358948,
+        "landmarks": {
+          "left_eye": [
+            0.5686073875427247,
+            0.3465519905090332
+          ],
+          "left_eye_top": [],
+          "left_eye_right": [],
+          "left_eye_bottom": [],
+          "left_eye_left": [],
+          "right_eye": [
+            0.764842004776001,
+            0.3802739334106445
+          ],
+          "right_eye_top": [],
+          "right_eye_right": [],
+          "right_eye_bottom": [],
+          "right_eye_left": [],
+          "left_eyebrow_left": [],
+          "left_eyebrow_right": [],
+          "left_eyebrow_top": [],
+          "right_eyebrow_left": [],
+          "right_eyebrow_right": [],
+          "left_pupil": [],
+          "right_pupil": [],
+          "nose_tip": [
+            0.6892597675323486,
+            0.48434698820114136
+          ],
+          "nose_bottom_right": [],
+          "nose_bottom_left": [],
+          "mouth_left": [
+            0.5597362375259399,
+            0.5910256290435791
+          ],
+          "mouth_right": [
+            0.7118245601654053,
+            0.6196095657348633
+          ],
+          "right_eyebrow_top": [],
+          "midpoint_between_eyes": [],
+          "nose_bottom_center": [],
+          "nose_left_alar_out_tip": [],
+          "nose_left_alar_top": [],
+          "nose_right_alar_out_tip": [],
+          "nose_right_alar_top": [],
+          "nose_root_left": [],
+          "nose_root_right": [],
+          "upper_lip": [],
+          "under_lip": [],
+          "under_lip_bottom": [],
+          "under_lip_top": [],
+          "upper_lip_bottom": [],
+          "upper_lip_top": [],
+          "mouth_center": [],
+          "mouth_top": [],
+          "mouth_bottom": [],
+          "left_ear_tragion": [],
+          "right_ear_tragion": [],
+          "forehead_glabella": [],
+          "chin_gnathion": [],
+          "chin_left_gonion": [],
+          "chin_right_gonion": [],
+          "upper_jawline_left": [],
+          "mid_jawline_left": [],
+          "mid_jawline_right": [],
+          "upper_jawline_right": [],
+          "left_cheek_center": [],
+          "right_cheek_center": []
+        },
+        "emotions": {
+          "joy": null,
+          "sorrow": null,
+          "anger": null,
+          "surprise": null,
+          "disgust": null,
+          "fear": null,
+          "confusion": null,
+          "calm": null,
+          "unknown": null,
+          "neutral": null,
+          "contempt": null
+        },
+        "poses": {
+          "pitch": null,
+          "roll": null,
+          "yaw": null
+        },
+        "age": null,
+        "gender": null,
+        "bounding_box": {
+          "x_min": 0.2931367974543039,
+          "x_max": 0.2931367974543039,
+          "y_min": 0.2931367974543039,
+          "y_max": 0.2931367974543039
+        },
+        "hair": {
+          "hair_color": [],
+          "bald": null,
+          "invisible": null
+        },
+        "facial_hair": {
+          "moustache": null,
+          "beard": null,
+          "sideburns": null
+        },
+        "quality": {
+          "noise": null,
+          "exposure": null,
+          "blur": null,
+          "brightness": null,
+          "sharpness": null
+        },
+        "makeup": {
+          "eye_make": null,
+          "lip_make": null
+        },
+        "accessories": {
+          "sunglasses": null,
+          "reading_glasses": null,
+          "swimming_goggles": null,
+          "face_mask": null,
+          "eyeglasses": null,
+          "headwear": null
+        },
+        "occlusions": {
+          "eye_occluded": null,
+          "forehead_occluded": null,
+          "mouth_occluded": null
+        },
+        "features": {
+          "eyes_open": null,
+          "smile": null,
+          "mouth_open": null
+        }
+      }
+    ]
+  }
+}

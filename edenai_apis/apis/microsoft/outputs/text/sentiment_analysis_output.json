@@ -1,0 +1,94 @@
+{
+  "original_response": {
+    "kind": "SentimentAnalysisResults",
+    "results": {
+      "documents": [
+        {
+          "id": "1",
+          "sentiment": "mixed",
+          "confidenceScores": {
+            "positive": 0.2,
+            "neutral": 0.01,
+            "negative": 0.79
+          },
+          "sentences": [
+            {
+              "sentiment": "positive",
+              "confidenceScores": {
+                "positive": 0.77,
+                "neutral": 0.01,
+                "negative": 0.22
+              },
+              "offset": 0,
+              "length": 96,
+              "text": "Overall I am satisfied with my experience at Amazon, but two areas of major improvement needed. "
+            },
+            {
+              "sentiment": "neutral",
+              "confidenceScores": {
+                "positive": 0.12,
+                "neutral": 0.68,
+                "negative": 0.2
+              },
+              "offset": 96,
+              "length": 42,
+              "text": "First is the product reviews and pricing. "
+            },
+            {
+              "sentiment": "negative",
+              "confidenceScores": {
+                "positive": 0.0,
+                "neutral": 0.0,
+                "negative": 0.99
+              },
+              "offset": 138,
+              "length": 145,
+              "text": "There are thousands of positive reviews for so many items, and it's clear that the reviews are bogus or not really associated with that product. "
+            },
+            {
+              "sentiment": "negative",
+              "confidenceScores": {
+                "positive": 0.01,
+                "neutral": 0.04,
+                "negative": 0.96
+              },
+              "offset": 283,
+              "length": 188,
+              "text": "There needs to be a way to only view products sold by Amazon directly, because many market sellers way overprice items that can be purchased cheaper elsewhere (like Walmart, Target, etc). "
+            },
+            {
+              "sentiment": "negative",
+              "confidenceScores": {
+                "positive": 0.0,
+                "neutral": 0.0,
+                "negative": 0.99
+              },
+              "offset": 471,
+              "length": 95,
+              "text": "The second issue is they make it too difficult to get help when there's an issue with an order."
+            }
+          ],
+          "warnings": []
+        }
+      ],
+      "errors": [],
+      "modelVersion": "2022-06-01"
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.2
+      },
+      {
+        "sentiment": "neutral",
+        "sentiment_rate": 0.01
+      },
+      {
+        "sentiment": "negative",
+        "sentiment_rate": 0.79
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+    "items": [
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.2
+      },
+      {
+        "sentiment": "neutral",
+        "sentiment_rate": 0.01
+      },
+      {
+        "sentiment": "negative",
+        "sentiment_rate": 0.79
+      }
+    ]
+}

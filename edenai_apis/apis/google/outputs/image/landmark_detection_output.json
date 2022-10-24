@@ -1,0 +1,144 @@
+{
+  "original_response": [
+    {
+      "mid": "/m/014lft",
+      "description": "Saint Basil's Cathedral",
+      "score": 0.92191577,
+      "bounding_poly": {
+        "vertices": [
+          {
+            "x": 73,
+            "y": 175
+          },
+          {
+            "x": 410,
+            "y": 175
+          },
+          {
+            "x": 410,
+            "y": 404
+          },
+          {
+            "x": 73,
+            "y": 404
+          }
+        ],
+        "normalized_vertices": []
+      },
+      "locations": [
+        {
+          "lat_lng": {
+            "latitude": 55.752912,
+            "longitude": 37.622315883636475
+          }
+        }
+      ],
+      "locale": "",
+      "confidence": 0.0,
+      "topicality": 0.0,
+      "properties": []
+    },
+    {
+      "mid": "/m/014lft",
+      "description": "St. Basil's Cathedral",
+      "score": 0.85232186,
+      "bounding_poly": {
+        "vertices": [
+          {
+            "x": 161,
+            "y": 73
+          },
+          {
+            "x": 410,
+            "y": 73
+          },
+          {
+            "x": 410,
+            "y": 407
+          },
+          {
+            "x": 161,
+            "y": 407
+          }
+        ],
+        "normalized_vertices": []
+      },
+      "locations": [
+        {
+          "lat_lng": {
+            "latitude": 55.752522899999995,
+            "longitude": 37.623086799999996
+          }
+        }
+      ],
+      "locale": "",
+      "confidence": 0.0,
+      "topicality": 0.0,
+      "properties": []
+    }
+  ],
+  "standarized_response": {
+    "items": [
+      {
+        "description": "Saint Basil's Cathedral",
+        "confidence": 0.92191577,
+        "bounding_box": [
+          {
+            "x": 73,
+            "y": 175
+          },
+          {
+            "x": 410,
+            "y": 175
+          },
+          {
+            "x": 410,
+            "y": 404
+          },
+          {
+            "x": 73,
+            "y": 404
+          }
+        ],
+        "locations": [
+          {
+            "lat_lng": {
+              "latitude": 55.752912,
+              "longitude": 37.622315883636475
+            }
+          }
+        ]
+      },
+      {
+        "description": "St. Basil's Cathedral",
+        "confidence": 0.85232186,
+        "bounding_box": [
+          {
+            "x": 161,
+            "y": 73
+          },
+          {
+            "x": 410,
+            "y": 73
+          },
+          {
+            "x": 410,
+            "y": 407
+          },
+          {
+            "x": 161,
+            "y": 407
+          }
+        ],
+        "locations": [
+          {
+            "lat_lng": {
+              "latitude": 55.752522899999995,
+              "longitude": 37.623086799999996
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

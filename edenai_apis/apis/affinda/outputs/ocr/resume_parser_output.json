@@ -1,0 +1,290 @@
+{
+  "original_response": {
+    "data": {
+      "name": {
+        "raw": "Amanda",
+        "first": "Amanda",
+        "last": "",
+        "middle": "",
+        "title": ""
+      },
+      "phone_numbers": [
+        "594-348-2740",
+        "594-348-2741"
+      ],
+      "websites": [],
+      "emails": [
+        "modelgal@aim.com"
+      ],
+      "location": {
+        "formatted": "398 Wilshire Blvd, Santa Monica, CA 90401, USA",
+        "postal_code": "90401",
+        "state": "California",
+        "country": "United States",
+        "country_code": "US",
+        "raw_input": "398 Wilshire Blvd. Los Angeles, CA",
+        "street_number": "398",
+        "street": "Wilshire Boulevard",
+        "city": "Santa Monica"
+      },
+      "objective": "To build and maintain a successful role in the world of high fashion modeling.",
+      "languages": [
+        "Hawaiian",
+        "Spanish",
+        "French",
+        "Italian",
+        "English"
+      ],
+      "summary": "",
+      "total_years_experience": 0,
+      "education": [
+        {
+          "id": 5601011,
+          "organization": "New York University",
+          "accreditation": {
+            "education": "Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting)",
+            "input_str": "Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting)",
+            "match_str": "",
+            "education_level": "bachelors"
+          },
+          "dates": {
+            "completion_date": "2003-01-01",
+            "is_current": false
+          }
+        }
+      ],
+      "work_experience": [],
+      "skills": [
+        {
+          "id": 59279873,
+          "emsi_id": "KS127CD6TFVHL5L08RCS",
+          "name": "Opera (Web Browser)",
+          "type": "hard_skill",
+          "sources": [
+            {
+              "section": "Skills/Interests/Languages"
+            }
+          ]
+        },
+        {
+          "id": 59279875,
+          "emsi_id": "KS120WC5WQLKTJTG7TLX",
+          "name": "Ballet",
+          "type": "hard_skill",
+          "sources": [
+            {
+              "section": "Skills/Interests/Languages"
+            }
+          ]
+        },
+        {
+          "id": 59279877,
+          "emsi_id": "KS1200H6XYN1CR0G5NZ0",
+          "name": "Microsoft Excel",
+          "type": "soft_skill",
+          "sources": [
+            {
+              "section": "Skills/Interests/Languages"
+            }
+          ]
+        },
+        {
+          "id": 59279879,
+          "emsi_id": "ES9C0ADA3C9397DD6AED",
+          "name": "Agile Software Development",
+          "type": "hard_skill",
+          "sources": [
+            {
+              "section": "Skills/Interests/Languages"
+            }
+          ]
+        },
+        {
+          "id": 59279880,
+          "emsi_id": "KS1209G6J8YRRLRDQ03Y",
+          "name": "Aerobics",
+          "type": "hard_skill",
+          "sources": [
+            {
+              "section": "Skills/Interests/Languages"
+            }
+          ]
+        },
+        {
+          "id": 59279881,
+          "emsi_id": "KS7G1PB6LNV1DF9GXHBG",
+          "name": "Jazz",
+          "type": "hard_skill",
+          "sources": [
+            {
+              "section": "Skills/Interests/Languages"
+            }
+          ]
+        }
+      ],
+      "certifications": [],
+      "publications": [],
+      "referees": [],
+      "sections": [
+        {
+          "section_type": "PersonalDetails",
+          "bbox": [
+            107.0,
+            185.0,
+            530.0,
+            418.0
+          ],
+          "page_index": 0,
+          "text": "Amanda Smith 398 Wilshire Blvd. Los Angeles, CA Home: 594-348-2740 Cell: 594-348-2741 E-mail: modelgal@aim.com"
+        },
+        {
+          "section_type": "Summary",
+          "bbox": [
+            103.0,
+            478.0,
+            457.0,
+            600.0
+          ],
+          "page_index": 0,
+          "text": "Objective To build and maintain a successful role in the world of high fashion modeling."
+        },
+        {
+          "section_type": "Skills/Interests/Languages",
+          "bbox": [
+            105.0,
+            657.0,
+            975.0,
+            856.0
+          ],
+          "page_index": 0,
+          "text": "Special Skills \u00b7 Dancing: Experienced in Ballet, Tap, Jazz, and Modem Dance \u00b7 Sports: Extremely athletic and agile; avid swimmer and golfer. Also excel in ice skating, aerobics, baseball, basketball, volleyball and tennis. \u00b7 Music: Classically taught opera singer and pianist. Languages: English is native language. Also fluent in Spanish, Italian, and French."
+        },
+        {
+          "section_type": "Education",
+          "bbox": [
+            104.0,
+            897.0,
+            957.0,
+            1005.0
+          ],
+          "page_index": 0,
+          "text": "Education Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting) - New York University (2003)"
+        },
+        {
+          "section_type": "WorkExperience",
+          "bbox": [
+            105.0,
+            1052.0,
+            956.0,
+            1388.0
+          ],
+          "page_index": 0,
+          "text": "Work Experience \u00b7 Fashion Show: Ed Hardy Fashion Show, Los Angeles, CA, March 2008 Featured Model: Los Angeles Fashion Week, Los Angeles, CA, March 2008 \u00b7 Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 \u00b7 Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 \u00b7 Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 \u00b7 Fashion Show: Macy's NYC Fashion Show New York, December 2006 \u00b7 Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006"
+        }
+      ],
+      "is_resume_probability": 70,
+      "raw_text": "Amanda Smith 398 Wilshire Blvd. Los Angeles, CA Home: 594-348-2740 Cell: 594-348-2741 E-mail: modelgal@aim.com\nObjective To build and maintain a successful role in the world of high fashion modeling.\nSpecial Skills \u00b7 Dancing: Experienced in Ballet, Tap, Jazz, and Modem Dance \u00b7 Sports: Extremely athletic and agile; avid swimmer and golfer. Also excel in ice skating, aerobics, baseball, basketball, volleyball and tennis. \u00b7 Music: Classically taught opera singer and pianist. Languages: English is native language. Also fluent in Spanish, Italian, and French.\nEducation Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting) - New York University (2003)\nWork Experience \u00b7 Fashion Show: Ed Hardy Fashion Show, Los Angeles, CA, March 2008 Featured Model: Los Angeles Fashion Week, Los Angeles, CA, March 2008 \u00b7 Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 \u00b7 Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 \u00b7 Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 \u00b7 Fashion Show: Macy's NYC Fashion Show New York, December 2006 \u00b7 Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006"
+    },
+    "meta": {
+      "identifier": "IYDSxjCm",
+      "file_name": "resume.jpg",
+      "ready": true,
+      "ready_dt": "2022-10-12T10:39:21.720063Z",
+      "failed": false,
+      "language": "en",
+      "pdf": "https://affinda-api.s3.amazonaws.com/media/documents/ocr_2916037.pdf?AWSAccessKeyId=ASIAU2V7FN3BR63HZROT&Signature=GwRufICYjygJ0Mk91CWmCsmjmno%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEMH%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAJ7kadUV%2Buy7u7VAeU3cWy7XkXeCUSShR6332T4arlnGAiEA0kbS4hfmslqv3SJao8KEfXO1vyOX4rdvQjjVEzOHm4sq9wMIiv%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwzMzIxODcxMzU2ODMiDJEwojMcMwc5CgdcgyrLA8XQOcnc24NJzQF8De0FyJ52XFQjXRS7WTJPp7KOumweDptuh%2BkIJQ5QLiW2m%2BaFxEYsNi4%2FDPT54%2FIhTr8%2Bg2602oPpIbDzCXgakOLqD3qthrK0BYW%2F9%2B0QuExpfW3myXHW5pH2Ldu255%2FUgW3RrZKDJRF%2FWM9VYYoLBOq2DC71%2BOXXeKF3tyI%2BXzygZZkKSOG4bSdnLuXPJyeUt5S1YUAmjbsEcdn8pCU0Ith2N0azMQyXGBMvJBqHysuDDHWVewQvgcBp4wCtoyEUVNXpcYjexpayDNEvK%2FJZE%2Bi1NTgbZp0m8%2B9tDQ5dVNdo%2FTSATXz%2FrjKnonXlsMRQ05nW5%2Bz3pEpYaduL7%2B04KyJopMhxOYQmJpgPZTCIzMYzJQUKjomlSLvMBRDeLauw%2F%2BzOic6xelMQRv12TfCsRS9AsVb60I51Bqb2HI%2FUIxgWy36OzI08EbKUytJFH0%2FACluQdRgAN7Cdpjjs8WVi0DR5ucLQQ%2F%2BtKliFuHZwLpVe6UFBf7Ig1LMhD8P4KBmgHMm3qV8gbHIM8qEh72sUgzqgWfz0EjnPj4q%2FXVift5Eot%2BiDLcTOI0UZfOL5fXRUciN5FHkQlTEqgBGDAUpgszChhZqaBjqkAYK7lqA4KK%2B0F7IuO64OWI3sIHbXOVZUS7k%2BA9A144MfLitgWy%2FaacuHy5yDkN1iHI61BjJiiIQpToPG90wYJ2NYpLDNohvb%2F%2FQKcWeNKx6frYMxOKkvyEeeZSH%2FxrOFkOZNwcuEcEuZFhLXUWERhuP8RGQi0W4kgLMzwNhgUeyHL%2FmgG7pm98zyEFoKn89%2BWIY773NViMOysghQtPSVtTNNtGKb&Expires=1665574762",
+      "child_documents": [],
+      "pages": [
+        {
+          "id": 6679903,
+          "page_index": 0,
+          "height": 1500.0,
+          "width": 1159.0,
+          "rotation": 0
+        }
+      ]
+    },
+    "error": {}
+  },
+  "standarized_response": {
+    "extracted_data": {
+      "personal_infos": {
+        "first_name": "Amanda",
+        "last_name": "",
+        "address": "398 Wilshire Blvd, Santa Monica, CA 90401, USA",
+        "self_summary": "",
+        "phones": [
+          "594-348-2740",
+          "594-348-2741"
+        ],
+        "mails": [
+          "modelgal@aim.com"
+        ],
+        "urls": [],
+        "current_profession": null,
+        "driving_licence": null,
+        "gender": null
+      },
+      "education": {
+        "total_years_education": null,
+        "entries": []
+      },
+      "work_experience": {
+        "total_years_experience": 0,
+        "entries": []
+      },
+      "languages": [
+        {
+          "name": "Hawaiian",
+          "value": null
+        },
+        {
+          "name": "Spanish",
+          "value": null
+        },
+        {
+          "name": "French",
+          "value": null
+        },
+        {
+          "name": "Italian",
+          "value": null
+        },
+        {
+          "name": "English",
+          "value": null
+        }
+      ],
+      "skills": [
+        {
+          "name": "Opera (Web Browser)",
+          "type": "hard"
+        },
+        {
+          "name": "Ballet",
+          "type": "hard"
+        },
+        {
+          "name": "Microsoft Excel",
+          "type": "soft"
+        },
+        {
+          "name": "Agile Software Development",
+          "type": "hard"
+        },
+        {
+          "name": "Aerobics",
+          "type": "hard"
+        },
+        {
+          "name": "Jazz",
+          "type": "hard"
+        }
+      ],
+      "certifications": [],
+      "courses": [],
+      "publications": [],
+      "interests": []
+    }
+  }
+}

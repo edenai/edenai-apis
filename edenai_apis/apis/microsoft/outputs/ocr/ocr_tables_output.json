@@ -1,0 +1,6997 @@
+{
+  "original_response": [
+    {
+      "page_number": 1,
+      "text_angle": 0.0,
+      "width": 690.0,
+      "height": 441.0,
+      "unit": "pixel",
+      "tables": [
+        {
+          "page_number": 1,
+          "row_count": 9,
+          "column_count": 7,
+          "cells": [
+            {
+              "text": "Station",
+              "row_index": 0,
+              "column_index": 0,
+              "row_span": 2,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": true,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 0.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 0.0,
+                  "y": 56.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "Station",
+                  "bounding_box": [
+                    {
+                      "x": 13.0,
+                      "y": 13.0
+                    },
+                    {
+                      "x": 87.0,
+                      "y": 14.0
+                    },
+                    {
+                      "x": 87.0,
+                      "y": 36.0
+                    },
+                    {
+                      "x": 12.0,
+                      "y": 36.0
+                    }
+                  ],
+                  "confidence": 0.996,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "Latitude",
+              "row_index": 0,
+              "column_index": 1,
+              "row_span": 2,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": true,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 119.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 56.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "Latitude",
+                  "bounding_box": [
+                    {
+                      "x": 131.0,
+                      "y": 14.0
+                    },
+                    {
+                      "x": 225.0,
+                      "y": 13.0
+                    },
+                    {
+                      "x": 226.0,
+                      "y": 37.0
+                    },
+                    {
+                      "x": 132.0,
+                      "y": 37.0
+                    }
+                  ],
+                  "confidence": 0.991,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "Longitude",
+              "row_index": 0,
+              "column_index": 2,
+              "row_span": 2,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": true,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 240.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 56.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "Longitude",
+                  "bounding_box": [
+                    {
+                      "x": 254.0,
+                      "y": 14.0
+                    },
+                    {
+                      "x": 362.0,
+                      "y": 14.0
+                    },
+                    {
+                      "x": 362.0,
+                      "y": 37.0
+                    },
+                    {
+                      "x": 254.0,
+                      "y": 38.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "Year",
+              "row_index": 0,
+              "column_index": 3,
+              "row_span": 1,
+              "column_span": 4,
+              "confidence": 1.0,
+              "is_header": true,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 377.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 22.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 22.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "Year",
+                  "bounding_box": [
+                    {
+                      "x": 517.0,
+                      "y": 0.0
+                    },
+                    {
+                      "x": 564.0,
+                      "y": 2.0
+                    },
+                    {
+                      "x": 564.0,
+                      "y": 18.0
+                    },
+                    {
+                      "x": 517.0,
+                      "y": 18.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "1993",
+              "row_index": 1,
+              "column_index": 3,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": true,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 377.0,
+                  "y": 22.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 22.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 56.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "1993",
+                  "bounding_box": [
+                    {
+                      "x": 399.0,
+                      "y": 29.0
+                    },
+                    {
+                      "x": 442.0,
+                      "y": 29.0
+                    },
+                    {
+                      "x": 442.0,
+                      "y": 49.0
+                    },
+                    {
+                      "x": 399.0,
+                      "y": 48.0
+                    }
+                  ],
+                  "confidence": 0.985,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "1994",
+              "row_index": 1,
+              "column_index": 4,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": true,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 464.0,
+                  "y": 22.0
+                },
+                {
+                  "x": 552.0,
+                  "y": 22.0
+                },
+                {
+                  "x": 552.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 56.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "1994",
+                  "bounding_box": [
+                    {
+                      "x": 485.0,
+                      "y": 29.0
+                    },
+                    {
+                      "x": 529.0,
+                      "y": 29.0
+                    },
+                    {
+                      "x": 529.0,
+                      "y": 48.0
+                    },
+                    {
+                      "x": 485.0,
+                      "y": 48.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "2012",
+              "row_index": 1,
+              "column_index": 5,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": true,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 552.0,
+                  "y": 22.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 22.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 552.0,
+                  "y": 56.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "2012",
+                  "bounding_box": [
+                    {
+                      "x": 566.0,
+                      "y": 30.0
+                    },
+                    {
+                      "x": 610.0,
+                      "y": 30.0
+                    },
+                    {
+                      "x": 610.0,
+                      "y": 48.0
+                    },
+                    {
+                      "x": 566.0,
+                      "y": 48.0
+                    }
+                  ],
+                  "confidence": 0.988,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "2013",
+              "row_index": 1,
+              "column_index": 6,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": true,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 628.0,
+                  "y": 22.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 22.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 56.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "2013",
+                  "bounding_box": [
+                    {
+                      "x": 644.0,
+                      "y": 30.0
+                    },
+                    {
+                      "x": 688.0,
+                      "y": 30.0
+                    },
+                    {
+                      "x": 688.0,
+                      "y": 48.0
+                    },
+                    {
+                      "x": 644.0,
+                      "y": 48.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "Kishngarh",
+              "row_index": 2,
+              "column_index": 0,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 0.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 101.0
+                },
+                {
+                  "x": 0.0,
+                  "y": 99.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "Kishngarh",
+                  "bounding_box": [
+                    {
+                      "x": 0.0,
+                      "y": 71.0
+                    },
+                    {
+                      "x": 101.0,
+                      "y": 70.0
+                    },
+                    {
+                      "x": 101.0,
+                      "y": 93.0
+                    },
+                    {
+                      "x": 0.0,
+                      "y": 91.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "27.82",
+              "row_index": 2,
+              "column_index": 1,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 119.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 101.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "27.82",
+                  "bounding_box": [
+                    {
+                      "x": 152.0,
+                      "y": 70.0
+                    },
+                    {
+                      "x": 205.0,
+                      "y": 70.0
+                    },
+                    {
+                      "x": 205.0,
+                      "y": 89.0
+                    },
+                    {
+                      "x": 152.0,
+                      "y": 89.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "76.72",
+              "row_index": 2,
+              "column_index": 2,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 240.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 102.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "76.72",
+                  "bounding_box": [
+                    {
+                      "x": 282.0,
+                      "y": 70.0
+                    },
+                    {
+                      "x": 334.0,
+                      "y": 70.0
+                    },
+                    {
+                      "x": 334.0,
+                      "y": 89.0
+                    },
+                    {
+                      "x": 282.0,
+                      "y": 89.0
+                    }
+                  ],
+                  "confidence": 0.996,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "563.5",
+              "row_index": 2,
+              "column_index": 3,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 377.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 102.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "563.5",
+                  "bounding_box": [
+                    {
+                      "x": 393.0,
+                      "y": 70.0
+                    },
+                    {
+                      "x": 446.0,
+                      "y": 70.0
+                    },
+                    {
+                      "x": 446.0,
+                      "y": 89.0
+                    },
+                    {
+                      "x": 393.0,
+                      "y": 89.0
+                    }
+                  ],
+                  "confidence": 0.993,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "563.5",
+              "row_index": 2,
+              "column_index": 4,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 464.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 552.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 551.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 102.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "563.5",
+                  "bounding_box": [
+                    {
+                      "x": 480.0,
+                      "y": 70.0
+                    },
+                    {
+                      "x": 534.0,
+                      "y": 70.0
+                    },
+                    {
+                      "x": 534.0,
+                      "y": 90.0
+                    },
+                    {
+                      "x": 480.0,
+                      "y": 90.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "490",
+              "row_index": 2,
+              "column_index": 5,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 552.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 551.0,
+                  "y": 102.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "490",
+                  "bounding_box": [
+                    {
+                      "x": 571.0,
+                      "y": 69.0
+                    },
+                    {
+                      "x": 605.0,
+                      "y": 70.0
+                    },
+                    {
+                      "x": 604.0,
+                      "y": 89.0
+                    },
+                    {
+                      "x": 570.0,
+                      "y": 88.0
+                    }
+                  ],
+                  "confidence": 0.997,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "804",
+              "row_index": 2,
+              "column_index": 6,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 628.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 56.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 102.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "804",
+                  "bounding_box": [
+                    {
+                      "x": 648.0,
+                      "y": 70.0
+                    },
+                    {
+                      "x": 682.0,
+                      "y": 69.0
+                    },
+                    {
+                      "x": 683.0,
+                      "y": 89.0
+                    },
+                    {
+                      "x": 649.0,
+                      "y": 90.0
+                    }
+                  ],
+                  "confidence": 0.997,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "Bansur",
+              "row_index": 3,
+              "column_index": 0,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 0.0,
+                  "y": 99.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 101.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 0.0,
+                  "y": 149.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "Bansur",
+                  "bounding_box": [
+                    {
+                      "x": 17.0,
+                      "y": 117.0
+                    },
+                    {
+                      "x": 87.0,
+                      "y": 117.0
+                    },
+                    {
+                      "x": 87.0,
+                      "y": 136.0
+                    },
+                    {
+                      "x": 17.0,
+                      "y": 137.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "27.70",
+              "row_index": 3,
+              "column_index": 1,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 119.0,
+                  "y": 101.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 149.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "27.70",
+                  "bounding_box": [
+                    {
+                      "x": 153.0,
+                      "y": 115.0
+                    },
+                    {
+                      "x": 204.0,
+                      "y": 115.0
+                    },
+                    {
+                      "x": 205.0,
+                      "y": 135.0
+                    },
+                    {
+                      "x": 153.0,
+                      "y": 135.0
+                    }
+                  ],
+                  "confidence": 0.996,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "76.35",
+              "row_index": 3,
+              "column_index": 2,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 240.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 149.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "76.35",
+                  "bounding_box": [
+                    {
+                      "x": 282.0,
+                      "y": 115.0
+                    },
+                    {
+                      "x": 335.0,
+                      "y": 115.0
+                    },
+                    {
+                      "x": 335.0,
+                      "y": 136.0
+                    },
+                    {
+                      "x": 282.0,
+                      "y": 135.0
+                    }
+                  ],
+                  "confidence": 0.996,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "780.7",
+              "row_index": 3,
+              "column_index": 3,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 377.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 149.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "780.7",
+                  "bounding_box": [
+                    {
+                      "x": 394.0,
+                      "y": 115.0
+                    },
+                    {
+                      "x": 447.0,
+                      "y": 115.0
+                    },
+                    {
+                      "x": 447.0,
+                      "y": 135.0
+                    },
+                    {
+                      "x": 394.0,
+                      "y": 135.0
+                    }
+                  ],
+                  "confidence": 0.996,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "580",
+              "row_index": 3,
+              "column_index": 4,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 464.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 551.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 551.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 149.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "580",
+                  "bounding_box": [
+                    {
+                      "x": 489.0,
+                      "y": 116.0
+                    },
+                    {
+                      "x": 522.0,
+                      "y": 115.0
+                    },
+                    {
+                      "x": 523.0,
+                      "y": 135.0
+                    },
+                    {
+                      "x": 490.0,
+                      "y": 136.0
+                    }
+                  ],
+                  "confidence": 0.997,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "776",
+              "row_index": 3,
+              "column_index": 5,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 551.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 551.0,
+                  "y": 149.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "776",
+                  "bounding_box": [
+                    {
+                      "x": 572.0,
+                      "y": 115.0
+                    },
+                    {
+                      "x": 606.0,
+                      "y": 116.0
+                    },
+                    {
+                      "x": 606.0,
+                      "y": 136.0
+                    },
+                    {
+                      "x": 571.0,
+                      "y": 135.0
+                    }
+                  ],
+                  "confidence": 0.997,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "720",
+              "row_index": 3,
+              "column_index": 6,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 628.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 102.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 149.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "720",
+                  "bounding_box": [
+                    {
+                      "x": 649.0,
+                      "y": 115.0
+                    },
+                    {
+                      "x": 682.0,
+                      "y": 115.0
+                    },
+                    {
+                      "x": 682.0,
+                      "y": 135.0
+                    },
+                    {
+                      "x": 649.0,
+                      "y": 135.0
+                    }
+                  ],
+                  "confidence": 0.997,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "Tijara",
+              "row_index": 4,
+              "column_index": 0,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 0.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 0.0,
+                  "y": 195.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "Tijara",
+                  "bounding_box": [
+                    {
+                      "x": 21.0,
+                      "y": 162.0
+                    },
+                    {
+                      "x": 81.0,
+                      "y": 162.0
+                    },
+                    {
+                      "x": 81.0,
+                      "y": 186.0
+                    },
+                    {
+                      "x": 21.0,
+                      "y": 186.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "27.95",
+              "row_index": 4,
+              "column_index": 1,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 119.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 195.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "27.95",
+                  "bounding_box": [
+                    {
+                      "x": 152.0,
+                      "y": 160.0
+                    },
+                    {
+                      "x": 208.0,
+                      "y": 160.0
+                    },
+                    {
+                      "x": 208.0,
+                      "y": 184.0
+                    },
+                    {
+                      "x": 152.0,
+                      "y": 184.0
+                    }
+                  ],
+                  "confidence": 0.996,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "76.85",
+              "row_index": 4,
+              "column_index": 2,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 240.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 195.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "76.85",
+                  "bounding_box": [
+                    {
+                      "x": 281.0,
+                      "y": 162.0
+                    },
+                    {
+                      "x": 335.0,
+                      "y": 163.0
+                    },
+                    {
+                      "x": 335.0,
+                      "y": 183.0
+                    },
+                    {
+                      "x": 281.0,
+                      "y": 182.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "590",
+              "row_index": 4,
+              "column_index": 3,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 377.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 195.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "590",
+                  "bounding_box": [
+                    {
+                      "x": 402.0,
+                      "y": 163.0
+                    },
+                    {
+                      "x": 437.0,
+                      "y": 163.0
+                    },
+                    {
+                      "x": 438.0,
+                      "y": 182.0
+                    },
+                    {
+                      "x": 402.0,
+                      "y": 183.0
+                    }
+                  ],
+                  "confidence": 0.997,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "645",
+              "row_index": 4,
+              "column_index": 4,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 464.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 551.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 551.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 195.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "645",
+                  "bounding_box": [
+                    {
+                      "x": 489.0,
+                      "y": 163.0
+                    },
+                    {
+                      "x": 525.0,
+                      "y": 163.0
+                    },
+                    {
+                      "x": 525.0,
+                      "y": 182.0
+                    },
+                    {
+                      "x": 489.0,
+                      "y": 182.0
+                    }
+                  ],
+                  "confidence": 0.991,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "633",
+              "row_index": 4,
+              "column_index": 5,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 551.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 551.0,
+                  "y": 195.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "633",
+                  "bounding_box": [
+                    {
+                      "x": 571.0,
+                      "y": 163.0
+                    },
+                    {
+                      "x": 607.0,
+                      "y": 163.0
+                    },
+                    {
+                      "x": 607.0,
+                      "y": 183.0
+                    },
+                    {
+                      "x": 571.0,
+                      "y": 183.0
+                    }
+                  ],
+                  "confidence": 0.997,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "653",
+              "row_index": 4,
+              "column_index": 6,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 628.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 149.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 195.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "653",
+                  "bounding_box": [
+                    {
+                      "x": 648.0,
+                      "y": 163.0
+                    },
+                    {
+                      "x": 684.0,
+                      "y": 163.0
+                    },
+                    {
+                      "x": 683.0,
+                      "y": 183.0
+                    },
+                    {
+                      "x": 648.0,
+                      "y": 182.0
+                    }
+                  ],
+                  "confidence": 0.997,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "Tapukara",
+              "row_index": 5,
+              "column_index": 0,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 0.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 0.0,
+                  "y": 242.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "Tapukara",
+                  "bounding_box": [
+                    {
+                      "x": 6.0,
+                      "y": 209.0
+                    },
+                    {
+                      "x": 99.0,
+                      "y": 208.0
+                    },
+                    {
+                      "x": 99.0,
+                      "y": 233.0
+                    },
+                    {
+                      "x": 6.0,
+                      "y": 233.0
+                    }
+                  ],
+                  "confidence": 0.995,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "28.05",
+              "row_index": 5,
+              "column_index": 1,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 119.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 242.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "28.05",
+                  "bounding_box": [
+                    {
+                      "x": 152.0,
+                      "y": 208.0
+                    },
+                    {
+                      "x": 206.0,
+                      "y": 208.0
+                    },
+                    {
+                      "x": 206.0,
+                      "y": 228.0
+                    },
+                    {
+                      "x": 152.0,
+                      "y": 228.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "76.85",
+              "row_index": 5,
+              "column_index": 2,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 240.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 242.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "76.85",
+                  "bounding_box": [
+                    {
+                      "x": 282.0,
+                      "y": 208.0
+                    },
+                    {
+                      "x": 334.0,
+                      "y": 208.0
+                    },
+                    {
+                      "x": 335.0,
+                      "y": 228.0
+                    },
+                    {
+                      "x": 282.0,
+                      "y": 228.0
+                    }
+                  ],
+                  "confidence": 0.993,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "658",
+              "row_index": 5,
+              "column_index": 3,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 377.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 242.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "658",
+                  "bounding_box": [
+                    {
+                      "x": 402.0,
+                      "y": 208.0
+                    },
+                    {
+                      "x": 437.0,
+                      "y": 208.0
+                    },
+                    {
+                      "x": 437.0,
+                      "y": 228.0
+                    },
+                    {
+                      "x": 402.0,
+                      "y": 228.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "570",
+              "row_index": 5,
+              "column_index": 4,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 464.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 551.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 550.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 242.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "570",
+                  "bounding_box": [
+                    {
+                      "x": 490.0,
+                      "y": 207.0
+                    },
+                    {
+                      "x": 524.0,
+                      "y": 207.0
+                    },
+                    {
+                      "x": 524.0,
+                      "y": 230.0
+                    },
+                    {
+                      "x": 490.0,
+                      "y": 230.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "485",
+              "row_index": 5,
+              "column_index": 5,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 551.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 550.0,
+                  "y": 242.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "485",
+                  "bounding_box": [
+                    {
+                      "x": 571.0,
+                      "y": 208.0
+                    },
+                    {
+                      "x": 607.0,
+                      "y": 209.0
+                    },
+                    {
+                      "x": 606.0,
+                      "y": 229.0
+                    },
+                    {
+                      "x": 570.0,
+                      "y": 228.0
+                    }
+                  ],
+                  "confidence": 0.997,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "342",
+              "row_index": 5,
+              "column_index": 6,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 628.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 195.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 242.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "342",
+                  "bounding_box": [
+                    {
+                      "x": 648.0,
+                      "y": 208.0
+                    },
+                    {
+                      "x": 683.0,
+                      "y": 208.0
+                    },
+                    {
+                      "x": 683.0,
+                      "y": 228.0
+                    },
+                    {
+                      "x": 648.0,
+                      "y": 228.0
+                    }
+                  ],
+                  "confidence": 0.993,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "Behror",
+              "row_index": 6,
+              "column_index": 0,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 0.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 0.0,
+                  "y": 288.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "Behror",
+                  "bounding_box": [
+                    {
+                      "x": 17.0,
+                      "y": 256.0
+                    },
+                    {
+                      "x": 86.0,
+                      "y": 258.0
+                    },
+                    {
+                      "x": 86.0,
+                      "y": 276.0
+                    },
+                    {
+                      "x": 17.0,
+                      "y": 276.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "27.88",
+              "row_index": 6,
+              "column_index": 1,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 119.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 288.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "27.88",
+                  "bounding_box": [
+                    {
+                      "x": 153.0,
+                      "y": 255.0
+                    },
+                    {
+                      "x": 206.0,
+                      "y": 255.0
+                    },
+                    {
+                      "x": 206.0,
+                      "y": 275.0
+                    },
+                    {
+                      "x": 153.0,
+                      "y": 275.0
+                    }
+                  ],
+                  "confidence": 0.996,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "76.28",
+              "row_index": 6,
+              "column_index": 2,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 240.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 288.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "76.28",
+                  "bounding_box": [
+                    {
+                      "x": 282.0,
+                      "y": 255.0
+                    },
+                    {
+                      "x": 335.0,
+                      "y": 255.0
+                    },
+                    {
+                      "x": 335.0,
+                      "y": 275.0
+                    },
+                    {
+                      "x": 282.0,
+                      "y": 275.0
+                    }
+                  ],
+                  "confidence": 0.996,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "555",
+              "row_index": 6,
+              "column_index": 3,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 377.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 288.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "555",
+                  "bounding_box": [
+                    {
+                      "x": 402.0,
+                      "y": 256.0
+                    },
+                    {
+                      "x": 438.0,
+                      "y": 256.0
+                    },
+                    {
+                      "x": 438.0,
+                      "y": 275.0
+                    },
+                    {
+                      "x": 402.0,
+                      "y": 275.0
+                    }
+                  ],
+                  "confidence": 0.997,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "401.3",
+              "row_index": 6,
+              "column_index": 4,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 464.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 550.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 550.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 288.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "401.3",
+                  "bounding_box": [
+                    {
+                      "x": 480.0,
+                      "y": 255.0
+                    },
+                    {
+                      "x": 534.0,
+                      "y": 255.0
+                    },
+                    {
+                      "x": 534.0,
+                      "y": 276.0
+                    },
+                    {
+                      "x": 480.0,
+                      "y": 275.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "487",
+              "row_index": 6,
+              "column_index": 5,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 550.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 550.0,
+                  "y": 288.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "487",
+                  "bounding_box": [
+                    {
+                      "x": 571.0,
+                      "y": 255.0
+                    },
+                    {
+                      "x": 607.0,
+                      "y": 255.0
+                    },
+                    {
+                      "x": 607.0,
+                      "y": 275.0
+                    },
+                    {
+                      "x": 571.0,
+                      "y": 275.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "746",
+              "row_index": 6,
+              "column_index": 6,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 628.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 242.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 288.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "746",
+                  "bounding_box": [
+                    {
+                      "x": 648.0,
+                      "y": 255.0
+                    },
+                    {
+                      "x": 682.0,
+                      "y": 255.0
+                    },
+                    {
+                      "x": 682.0,
+                      "y": 275.0
+                    },
+                    {
+                      "x": 648.0,
+                      "y": 275.0
+                    }
+                  ],
+                  "confidence": 0.997,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "Neemrana",
+              "row_index": 7,
+              "column_index": 0,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 0.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 334.0
+                },
+                {
+                  "x": 0.0,
+                  "y": 334.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "Neemrana",
+                  "bounding_box": [
+                    {
+                      "x": 3.0,
+                      "y": 301.0
+                    },
+                    {
+                      "x": 102.0,
+                      "y": 301.0
+                    },
+                    {
+                      "x": 102.0,
+                      "y": 324.0
+                    },
+                    {
+                      "x": 2.0,
+                      "y": 324.0
+                    }
+                  ],
+                  "confidence": 0.995,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "28.00",
+              "row_index": 7,
+              "column_index": 1,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 119.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 334.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "28.00",
+                  "bounding_box": [
+                    {
+                      "x": 152.0,
+                      "y": 301.0
+                    },
+                    {
+                      "x": 206.0,
+                      "y": 301.0
+                    },
+                    {
+                      "x": 206.0,
+                      "y": 321.0
+                    },
+                    {
+                      "x": 152.0,
+                      "y": 320.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "76.38",
+              "row_index": 7,
+              "column_index": 2,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 240.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 377.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 378.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 335.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "76.38",
+                  "bounding_box": [
+                    {
+                      "x": 282.0,
+                      "y": 301.0
+                    },
+                    {
+                      "x": 335.0,
+                      "y": 302.0
+                    },
+                    {
+                      "x": 335.0,
+                      "y": 322.0
+                    },
+                    {
+                      "x": 282.0,
+                      "y": 321.0
+                    }
+                  ],
+                  "confidence": 0.996,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "1008",
+              "row_index": 7,
+              "column_index": 3,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 377.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 464.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 463.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 378.0,
+                  "y": 335.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "1008",
+                  "bounding_box": [
+                    {
+                      "x": 398.0,
+                      "y": 302.0
+                    },
+                    {
+                      "x": 443.0,
+                      "y": 302.0
+                    },
+                    {
+                      "x": 443.0,
+                      "y": 321.0
+                    },
+                    {
+                      "x": 398.0,
+                      "y": 321.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "795",
+              "row_index": 7,
+              "column_index": 4,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 464.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 550.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 550.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 463.0,
+                  "y": 335.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "795",
+                  "bounding_box": [
+                    {
+                      "x": 491.0,
+                      "y": 300.0
+                    },
+                    {
+                      "x": 524.0,
+                      "y": 300.0
+                    },
+                    {
+                      "x": 525.0,
+                      "y": 323.0
+                    },
+                    {
+                      "x": 491.0,
+                      "y": 323.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "566",
+              "row_index": 7,
+              "column_index": 5,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 550.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 628.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 627.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 550.0,
+                  "y": 335.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "566",
+                  "bounding_box": [
+                    {
+                      "x": 571.0,
+                      "y": 302.0
+                    },
+                    {
+                      "x": 606.0,
+                      "y": 302.0
+                    },
+                    {
+                      "x": 606.0,
+                      "y": 321.0
+                    },
+                    {
+                      "x": 571.0,
+                      "y": 321.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "456",
+              "row_index": 7,
+              "column_index": 6,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 628.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 288.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 627.0,
+                  "y": 335.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "456",
+                  "bounding_box": [
+                    {
+                      "x": 648.0,
+                      "y": 302.0
+                    },
+                    {
+                      "x": 682.0,
+                      "y": 302.0
+                    },
+                    {
+                      "x": 682.0,
+                      "y": 321.0
+                    },
+                    {
+                      "x": 648.0,
+                      "y": 321.0
+                    }
+                  ],
+                  "confidence": 0.997,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "Mundawar",
+              "row_index": 8,
+              "column_index": 0,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 0.0,
+                  "y": 334.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 334.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 382.0
+                },
+                {
+                  "x": 0.0,
+                  "y": 382.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "Mundawar",
+                  "bounding_box": [
+                    {
+                      "x": 2.0,
+                      "y": 348.0
+                    },
+                    {
+                      "x": 106.0,
+                      "y": 348.0
+                    },
+                    {
+                      "x": 107.0,
+                      "y": 371.0
+                    },
+                    {
+                      "x": 2.0,
+                      "y": 371.0
+                    }
+                  ],
+                  "confidence": 0.995,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "27.87",
+              "row_index": 8,
+              "column_index": 1,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 119.0,
+                  "y": 334.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 382.0
+                },
+                {
+                  "x": 119.0,
+                  "y": 382.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "27.87",
+                  "bounding_box": [
+                    {
+                      "x": 152.0,
+                      "y": 348.0
+                    },
+                    {
+                      "x": 206.0,
+                      "y": 348.0
+                    },
+                    {
+                      "x": 206.0,
+                      "y": 368.0
+                    },
+                    {
+                      "x": 152.0,
+                      "y": 368.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "76.55",
+              "row_index": 8,
+              "column_index": 2,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 240.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 378.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 378.0,
+                  "y": 382.0
+                },
+                {
+                  "x": 240.0,
+                  "y": 382.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "76.55",
+                  "bounding_box": [
+                    {
+                      "x": 282.0,
+                      "y": 347.0
+                    },
+                    {
+                      "x": 333.0,
+                      "y": 347.0
+                    },
+                    {
+                      "x": 333.0,
+                      "y": 369.0
+                    },
+                    {
+                      "x": 282.0,
+                      "y": 369.0
+                    }
+                  ],
+                  "confidence": 0.993,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "1010",
+              "row_index": 8,
+              "column_index": 3,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 378.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 463.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 463.0,
+                  "y": 382.0
+                },
+                {
+                  "x": 378.0,
+                  "y": 382.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "1010",
+                  "bounding_box": [
+                    {
+                      "x": 398.0,
+                      "y": 348.0
+                    },
+                    {
+                      "x": 442.0,
+                      "y": 349.0
+                    },
+                    {
+                      "x": 441.0,
+                      "y": 368.0
+                    },
+                    {
+                      "x": 398.0,
+                      "y": 367.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "931",
+              "row_index": 8,
+              "column_index": 4,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 463.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 550.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 550.0,
+                  "y": 382.0
+                },
+                {
+                  "x": 463.0,
+                  "y": 382.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "931",
+                  "bounding_box": [
+                    {
+                      "x": 490.0,
+                      "y": 347.0
+                    },
+                    {
+                      "x": 523.0,
+                      "y": 347.0
+                    },
+                    {
+                      "x": 524.0,
+                      "y": 369.0
+                    },
+                    {
+                      "x": 490.0,
+                      "y": 369.0
+                    }
+                  ],
+                  "confidence": 0.994,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "483",
+              "row_index": 8,
+              "column_index": 5,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 550.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 627.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 627.0,
+                  "y": 382.0
+                },
+                {
+                  "x": 550.0,
+                  "y": 382.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "483",
+                  "bounding_box": [
+                    {
+                      "x": 571.0,
+                      "y": 349.0
+                    },
+                    {
+                      "x": 606.0,
+                      "y": 349.0
+                    },
+                    {
+                      "x": 606.0,
+                      "y": 368.0
+                    },
+                    {
+                      "x": 571.0,
+                      "y": 368.0
+                    }
+                  ],
+                  "confidence": 0.997,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            },
+            {
+              "text": "775",
+              "row_index": 8,
+              "column_index": 6,
+              "row_span": 1,
+              "column_span": 1,
+              "confidence": 1.0,
+              "is_header": false,
+              "is_footer": false,
+              "page_number": 1,
+              "bounding_box": [
+                {
+                  "x": 627.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 335.0
+                },
+                {
+                  "x": 690.0,
+                  "y": 382.0
+                },
+                {
+                  "x": 627.0,
+                  "y": 382.0
+                }
+              ],
+              "field_elements": [
+                {
+                  "text": "775",
+                  "bounding_box": [
+                    {
+                      "x": 648.0,
+                      "y": 348.0
+                    },
+                    {
+                      "x": 684.0,
+                      "y": 348.0
+                    },
+                    {
+                      "x": 684.0,
+                      "y": 368.0
+                    },
+                    {
+                      "x": 648.0,
+                      "y": 368.0
+                    }
+                  ],
+                  "confidence": 0.991,
+                  "page_number": 1,
+                  "kind": "word"
+                }
+              ]
+            }
+          ],
+          "bounding_box": [
+            {
+              "x": 0.0,
+              "y": 8.0
+            },
+            {
+              "x": 690.0,
+              "y": 8.0
+            },
+            {
+              "x": 690.0,
+              "y": 385.0
+            },
+            {
+              "x": 0.0,
+              "y": 385.0
+            }
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "text": "Station",
+          "bounding_box": [
+            {
+              "x": 9.0,
+              "y": 12.0
+            },
+            {
+              "x": 90.0,
+              "y": 13.0
+            },
+            {
+              "x": 89.0,
+              "y": 36.0
+            },
+            {
+              "x": 9.0,
+              "y": 36.0
+            }
+          ],
+          "words": [
+            {
+              "text": "Station",
+              "bounding_box": [
+                {
+                  "x": 13.0,
+                  "y": 13.0
+                },
+                {
+                  "x": 87.0,
+                  "y": 14.0
+                },
+                {
+                  "x": 87.0,
+                  "y": 36.0
+                },
+                {
+                  "x": 12.0,
+                  "y": 36.0
+                }
+              ],
+              "confidence": 0.996,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "Latitude",
+          "bounding_box": [
+            {
+              "x": 131.0,
+              "y": 13.0
+            },
+            {
+              "x": 226.0,
+              "y": 13.0
+            },
+            {
+              "x": 226.0,
+              "y": 36.0
+            },
+            {
+              "x": 131.0,
+              "y": 36.0
+            }
+          ],
+          "words": [
+            {
+              "text": "Latitude",
+              "bounding_box": [
+                {
+                  "x": 131.0,
+                  "y": 14.0
+                },
+                {
+                  "x": 225.0,
+                  "y": 13.0
+                },
+                {
+                  "x": 226.0,
+                  "y": 37.0
+                },
+                {
+                  "x": 132.0,
+                  "y": 37.0
+                }
+              ],
+              "confidence": 0.991,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "Longitude",
+          "bounding_box": [
+            {
+              "x": 253.0,
+              "y": 14.0
+            },
+            {
+              "x": 363.0,
+              "y": 14.0
+            },
+            {
+              "x": 363.0,
+              "y": 37.0
+            },
+            {
+              "x": 253.0,
+              "y": 37.0
+            }
+          ],
+          "words": [
+            {
+              "text": "Longitude",
+              "bounding_box": [
+                {
+                  "x": 254.0,
+                  "y": 14.0
+                },
+                {
+                  "x": 362.0,
+                  "y": 14.0
+                },
+                {
+                  "x": 362.0,
+                  "y": 37.0
+                },
+                {
+                  "x": 254.0,
+                  "y": 38.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "Year",
+          "bounding_box": [
+            {
+              "x": 516.0,
+              "y": 0.0
+            },
+            {
+              "x": 568.0,
+              "y": 1.0
+            },
+            {
+              "x": 567.0,
+              "y": 18.0
+            },
+            {
+              "x": 516.0,
+              "y": 17.0
+            }
+          ],
+          "words": [
+            {
+              "text": "Year",
+              "bounding_box": [
+                {
+                  "x": 517.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 564.0,
+                  "y": 2.0
+                },
+                {
+                  "x": 564.0,
+                  "y": 18.0
+                },
+                {
+                  "x": 517.0,
+                  "y": 18.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "1993",
+          "bounding_box": [
+            {
+              "x": 399.0,
+              "y": 29.0
+            },
+            {
+              "x": 443.0,
+              "y": 29.0
+            },
+            {
+              "x": 442.0,
+              "y": 49.0
+            },
+            {
+              "x": 398.0,
+              "y": 47.0
+            }
+          ],
+          "words": [
+            {
+              "text": "1993",
+              "bounding_box": [
+                {
+                  "x": 399.0,
+                  "y": 29.0
+                },
+                {
+                  "x": 442.0,
+                  "y": 29.0
+                },
+                {
+                  "x": 442.0,
+                  "y": 49.0
+                },
+                {
+                  "x": 399.0,
+                  "y": 48.0
+                }
+              ],
+              "confidence": 0.985,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "1994",
+          "bounding_box": [
+            {
+              "x": 485.0,
+              "y": 29.0
+            },
+            {
+              "x": 531.0,
+              "y": 29.0
+            },
+            {
+              "x": 531.0,
+              "y": 48.0
+            },
+            {
+              "x": 485.0,
+              "y": 48.0
+            }
+          ],
+          "words": [
+            {
+              "text": "1994",
+              "bounding_box": [
+                {
+                  "x": 485.0,
+                  "y": 29.0
+                },
+                {
+                  "x": 529.0,
+                  "y": 29.0
+                },
+                {
+                  "x": 529.0,
+                  "y": 48.0
+                },
+                {
+                  "x": 485.0,
+                  "y": 48.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "2012",
+          "bounding_box": [
+            {
+              "x": 565.0,
+              "y": 30.0
+            },
+            {
+              "x": 612.0,
+              "y": 30.0
+            },
+            {
+              "x": 611.0,
+              "y": 48.0
+            },
+            {
+              "x": 565.0,
+              "y": 48.0
+            }
+          ],
+          "words": [
+            {
+              "text": "2012",
+              "bounding_box": [
+                {
+                  "x": 566.0,
+                  "y": 30.0
+                },
+                {
+                  "x": 610.0,
+                  "y": 30.0
+                },
+                {
+                  "x": 610.0,
+                  "y": 48.0
+                },
+                {
+                  "x": 566.0,
+                  "y": 48.0
+                }
+              ],
+              "confidence": 0.988,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "2013",
+          "bounding_box": [
+            {
+              "x": 643.0,
+              "y": 30.0
+            },
+            {
+              "x": 689.0,
+              "y": 31.0
+            },
+            {
+              "x": 689.0,
+              "y": 46.0
+            },
+            {
+              "x": 642.0,
+              "y": 48.0
+            }
+          ],
+          "words": [
+            {
+              "text": "2013",
+              "bounding_box": [
+                {
+                  "x": 644.0,
+                  "y": 30.0
+                },
+                {
+                  "x": 688.0,
+                  "y": 30.0
+                },
+                {
+                  "x": 688.0,
+                  "y": 48.0
+                },
+                {
+                  "x": 644.0,
+                  "y": 48.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "Kishngarh",
+          "bounding_box": [
+            {
+              "x": 0.0,
+              "y": 70.0
+            },
+            {
+              "x": 104.0,
+              "y": 70.0
+            },
+            {
+              "x": 104.0,
+              "y": 94.0
+            },
+            {
+              "x": 0.0,
+              "y": 93.0
+            }
+          ],
+          "words": [
+            {
+              "text": "Kishngarh",
+              "bounding_box": [
+                {
+                  "x": 0.0,
+                  "y": 71.0
+                },
+                {
+                  "x": 101.0,
+                  "y": 70.0
+                },
+                {
+                  "x": 101.0,
+                  "y": 93.0
+                },
+                {
+                  "x": 0.0,
+                  "y": 91.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "27.82",
+          "bounding_box": [
+            {
+              "x": 151.0,
+              "y": 70.0
+            },
+            {
+              "x": 207.0,
+              "y": 70.0
+            },
+            {
+              "x": 206.0,
+              "y": 89.0
+            },
+            {
+              "x": 151.0,
+              "y": 89.0
+            }
+          ],
+          "words": [
+            {
+              "text": "27.82",
+              "bounding_box": [
+                {
+                  "x": 152.0,
+                  "y": 70.0
+                },
+                {
+                  "x": 205.0,
+                  "y": 70.0
+                },
+                {
+                  "x": 205.0,
+                  "y": 89.0
+                },
+                {
+                  "x": 152.0,
+                  "y": 89.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "76.72",
+          "bounding_box": [
+            {
+              "x": 282.0,
+              "y": 70.0
+            },
+            {
+              "x": 337.0,
+              "y": 70.0
+            },
+            {
+              "x": 337.0,
+              "y": 89.0
+            },
+            {
+              "x": 281.0,
+              "y": 89.0
+            }
+          ],
+          "words": [
+            {
+              "text": "76.72",
+              "bounding_box": [
+                {
+                  "x": 282.0,
+                  "y": 70.0
+                },
+                {
+                  "x": 334.0,
+                  "y": 70.0
+                },
+                {
+                  "x": 334.0,
+                  "y": 89.0
+                },
+                {
+                  "x": 282.0,
+                  "y": 89.0
+                }
+              ],
+              "confidence": 0.996,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "563.5",
+          "bounding_box": [
+            {
+              "x": 392.0,
+              "y": 70.0
+            },
+            {
+              "x": 448.0,
+              "y": 70.0
+            },
+            {
+              "x": 447.0,
+              "y": 89.0
+            },
+            {
+              "x": 392.0,
+              "y": 89.0
+            }
+          ],
+          "words": [
+            {
+              "text": "563.5",
+              "bounding_box": [
+                {
+                  "x": 393.0,
+                  "y": 70.0
+                },
+                {
+                  "x": 446.0,
+                  "y": 70.0
+                },
+                {
+                  "x": 446.0,
+                  "y": 89.0
+                },
+                {
+                  "x": 393.0,
+                  "y": 89.0
+                }
+              ],
+              "confidence": 0.993,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "563.5",
+          "bounding_box": [
+            {
+              "x": 480.0,
+              "y": 70.0
+            },
+            {
+              "x": 535.0,
+              "y": 70.0
+            },
+            {
+              "x": 535.0,
+              "y": 90.0
+            },
+            {
+              "x": 480.0,
+              "y": 90.0
+            }
+          ],
+          "words": [
+            {
+              "text": "563.5",
+              "bounding_box": [
+                {
+                  "x": 480.0,
+                  "y": 70.0
+                },
+                {
+                  "x": 534.0,
+                  "y": 70.0
+                },
+                {
+                  "x": 534.0,
+                  "y": 90.0
+                },
+                {
+                  "x": 480.0,
+                  "y": 90.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "490",
+          "bounding_box": [
+            {
+              "x": 571.0,
+              "y": 69.0
+            },
+            {
+              "x": 609.0,
+              "y": 70.0
+            },
+            {
+              "x": 609.0,
+              "y": 89.0
+            },
+            {
+              "x": 570.0,
+              "y": 88.0
+            }
+          ],
+          "words": [
+            {
+              "text": "490",
+              "bounding_box": [
+                {
+                  "x": 571.0,
+                  "y": 69.0
+                },
+                {
+                  "x": 605.0,
+                  "y": 70.0
+                },
+                {
+                  "x": 604.0,
+                  "y": 89.0
+                },
+                {
+                  "x": 570.0,
+                  "y": 88.0
+                }
+              ],
+              "confidence": 0.997,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "804",
+          "bounding_box": [
+            {
+              "x": 648.0,
+              "y": 70.0
+            },
+            {
+              "x": 685.0,
+              "y": 69.0
+            },
+            {
+              "x": 685.0,
+              "y": 88.0
+            },
+            {
+              "x": 648.0,
+              "y": 90.0
+            }
+          ],
+          "words": [
+            {
+              "text": "804",
+              "bounding_box": [
+                {
+                  "x": 648.0,
+                  "y": 70.0
+                },
+                {
+                  "x": 682.0,
+                  "y": 69.0
+                },
+                {
+                  "x": 683.0,
+                  "y": 89.0
+                },
+                {
+                  "x": 649.0,
+                  "y": 90.0
+                }
+              ],
+              "confidence": 0.997,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "Bansur",
+          "bounding_box": [
+            {
+              "x": 17.0,
+              "y": 116.0
+            },
+            {
+              "x": 87.0,
+              "y": 116.0
+            },
+            {
+              "x": 87.0,
+              "y": 136.0
+            },
+            {
+              "x": 17.0,
+              "y": 136.0
+            }
+          ],
+          "words": [
+            {
+              "text": "Bansur",
+              "bounding_box": [
+                {
+                  "x": 17.0,
+                  "y": 117.0
+                },
+                {
+                  "x": 87.0,
+                  "y": 117.0
+                },
+                {
+                  "x": 87.0,
+                  "y": 136.0
+                },
+                {
+                  "x": 17.0,
+                  "y": 137.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "27.70",
+          "bounding_box": [
+            {
+              "x": 152.0,
+              "y": 116.0
+            },
+            {
+              "x": 207.0,
+              "y": 115.0
+            },
+            {
+              "x": 207.0,
+              "y": 135.0
+            },
+            {
+              "x": 152.0,
+              "y": 135.0
+            }
+          ],
+          "words": [
+            {
+              "text": "27.70",
+              "bounding_box": [
+                {
+                  "x": 153.0,
+                  "y": 115.0
+                },
+                {
+                  "x": 204.0,
+                  "y": 115.0
+                },
+                {
+                  "x": 205.0,
+                  "y": 135.0
+                },
+                {
+                  "x": 153.0,
+                  "y": 135.0
+                }
+              ],
+              "confidence": 0.996,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "76.35",
+          "bounding_box": [
+            {
+              "x": 281.0,
+              "y": 115.0
+            },
+            {
+              "x": 337.0,
+              "y": 115.0
+            },
+            {
+              "x": 337.0,
+              "y": 136.0
+            },
+            {
+              "x": 281.0,
+              "y": 135.0
+            }
+          ],
+          "words": [
+            {
+              "text": "76.35",
+              "bounding_box": [
+                {
+                  "x": 282.0,
+                  "y": 115.0
+                },
+                {
+                  "x": 335.0,
+                  "y": 115.0
+                },
+                {
+                  "x": 335.0,
+                  "y": 136.0
+                },
+                {
+                  "x": 282.0,
+                  "y": 135.0
+                }
+              ],
+              "confidence": 0.996,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "780.7",
+          "bounding_box": [
+            {
+              "x": 393.0,
+              "y": 115.0
+            },
+            {
+              "x": 448.0,
+              "y": 115.0
+            },
+            {
+              "x": 447.0,
+              "y": 135.0
+            },
+            {
+              "x": 393.0,
+              "y": 135.0
+            }
+          ],
+          "words": [
+            {
+              "text": "780.7",
+              "bounding_box": [
+                {
+                  "x": 394.0,
+                  "y": 115.0
+                },
+                {
+                  "x": 447.0,
+                  "y": 115.0
+                },
+                {
+                  "x": 447.0,
+                  "y": 135.0
+                },
+                {
+                  "x": 394.0,
+                  "y": 135.0
+                }
+              ],
+              "confidence": 0.996,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "580",
+          "bounding_box": [
+            {
+              "x": 489.0,
+              "y": 116.0
+            },
+            {
+              "x": 526.0,
+              "y": 115.0
+            },
+            {
+              "x": 526.0,
+              "y": 135.0
+            },
+            {
+              "x": 489.0,
+              "y": 136.0
+            }
+          ],
+          "words": [
+            {
+              "text": "580",
+              "bounding_box": [
+                {
+                  "x": 489.0,
+                  "y": 116.0
+                },
+                {
+                  "x": 522.0,
+                  "y": 115.0
+                },
+                {
+                  "x": 523.0,
+                  "y": 135.0
+                },
+                {
+                  "x": 490.0,
+                  "y": 136.0
+                }
+              ],
+              "confidence": 0.997,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "776",
+          "bounding_box": [
+            {
+              "x": 571.0,
+              "y": 115.0
+            },
+            {
+              "x": 609.0,
+              "y": 116.0
+            },
+            {
+              "x": 609.0,
+              "y": 136.0
+            },
+            {
+              "x": 571.0,
+              "y": 135.0
+            }
+          ],
+          "words": [
+            {
+              "text": "776",
+              "bounding_box": [
+                {
+                  "x": 572.0,
+                  "y": 115.0
+                },
+                {
+                  "x": 606.0,
+                  "y": 116.0
+                },
+                {
+                  "x": 606.0,
+                  "y": 136.0
+                },
+                {
+                  "x": 571.0,
+                  "y": 135.0
+                }
+              ],
+              "confidence": 0.997,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "720",
+          "bounding_box": [
+            {
+              "x": 648.0,
+              "y": 116.0
+            },
+            {
+              "x": 685.0,
+              "y": 115.0
+            },
+            {
+              "x": 685.0,
+              "y": 135.0
+            },
+            {
+              "x": 649.0,
+              "y": 135.0
+            }
+          ],
+          "words": [
+            {
+              "text": "720",
+              "bounding_box": [
+                {
+                  "x": 649.0,
+                  "y": 115.0
+                },
+                {
+                  "x": 682.0,
+                  "y": 115.0
+                },
+                {
+                  "x": 682.0,
+                  "y": 135.0
+                },
+                {
+                  "x": 649.0,
+                  "y": 135.0
+                }
+              ],
+              "confidence": 0.997,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "Tijara",
+          "bounding_box": [
+            {
+              "x": 20.0,
+              "y": 162.0
+            },
+            {
+              "x": 81.0,
+              "y": 162.0
+            },
+            {
+              "x": 81.0,
+              "y": 186.0
+            },
+            {
+              "x": 21.0,
+              "y": 186.0
+            }
+          ],
+          "words": [
+            {
+              "text": "Tijara",
+              "bounding_box": [
+                {
+                  "x": 21.0,
+                  "y": 162.0
+                },
+                {
+                  "x": 81.0,
+                  "y": 162.0
+                },
+                {
+                  "x": 81.0,
+                  "y": 186.0
+                },
+                {
+                  "x": 21.0,
+                  "y": 186.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "27.95",
+          "bounding_box": [
+            {
+              "x": 151.0,
+              "y": 161.0
+            },
+            {
+              "x": 209.0,
+              "y": 160.0
+            },
+            {
+              "x": 209.0,
+              "y": 184.0
+            },
+            {
+              "x": 151.0,
+              "y": 184.0
+            }
+          ],
+          "words": [
+            {
+              "text": "27.95",
+              "bounding_box": [
+                {
+                  "x": 152.0,
+                  "y": 160.0
+                },
+                {
+                  "x": 208.0,
+                  "y": 160.0
+                },
+                {
+                  "x": 208.0,
+                  "y": 184.0
+                },
+                {
+                  "x": 152.0,
+                  "y": 184.0
+                }
+              ],
+              "confidence": 0.996,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "76.85",
+          "bounding_box": [
+            {
+              "x": 280.0,
+              "y": 162.0
+            },
+            {
+              "x": 337.0,
+              "y": 163.0
+            },
+            {
+              "x": 337.0,
+              "y": 183.0
+            },
+            {
+              "x": 280.0,
+              "y": 182.0
+            }
+          ],
+          "words": [
+            {
+              "text": "76.85",
+              "bounding_box": [
+                {
+                  "x": 281.0,
+                  "y": 162.0
+                },
+                {
+                  "x": 335.0,
+                  "y": 163.0
+                },
+                {
+                  "x": 335.0,
+                  "y": 183.0
+                },
+                {
+                  "x": 281.0,
+                  "y": 182.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "590",
+          "bounding_box": [
+            {
+              "x": 401.0,
+              "y": 163.0
+            },
+            {
+              "x": 440.0,
+              "y": 163.0
+            },
+            {
+              "x": 439.0,
+              "y": 182.0
+            },
+            {
+              "x": 402.0,
+              "y": 183.0
+            }
+          ],
+          "words": [
+            {
+              "text": "590",
+              "bounding_box": [
+                {
+                  "x": 402.0,
+                  "y": 163.0
+                },
+                {
+                  "x": 437.0,
+                  "y": 163.0
+                },
+                {
+                  "x": 438.0,
+                  "y": 182.0
+                },
+                {
+                  "x": 402.0,
+                  "y": 183.0
+                }
+              ],
+              "confidence": 0.997,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "645",
+          "bounding_box": [
+            {
+              "x": 489.0,
+              "y": 163.0
+            },
+            {
+              "x": 526.0,
+              "y": 163.0
+            },
+            {
+              "x": 526.0,
+              "y": 182.0
+            },
+            {
+              "x": 489.0,
+              "y": 182.0
+            }
+          ],
+          "words": [
+            {
+              "text": "645",
+              "bounding_box": [
+                {
+                  "x": 489.0,
+                  "y": 163.0
+                },
+                {
+                  "x": 525.0,
+                  "y": 163.0
+                },
+                {
+                  "x": 525.0,
+                  "y": 182.0
+                },
+                {
+                  "x": 489.0,
+                  "y": 182.0
+                }
+              ],
+              "confidence": 0.991,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "633",
+          "bounding_box": [
+            {
+              "x": 570.0,
+              "y": 163.0
+            },
+            {
+              "x": 608.0,
+              "y": 163.0
+            },
+            {
+              "x": 608.0,
+              "y": 183.0
+            },
+            {
+              "x": 571.0,
+              "y": 183.0
+            }
+          ],
+          "words": [
+            {
+              "text": "633",
+              "bounding_box": [
+                {
+                  "x": 571.0,
+                  "y": 163.0
+                },
+                {
+                  "x": 607.0,
+                  "y": 163.0
+                },
+                {
+                  "x": 607.0,
+                  "y": 183.0
+                },
+                {
+                  "x": 571.0,
+                  "y": 183.0
+                }
+              ],
+              "confidence": 0.997,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "653",
+          "bounding_box": [
+            {
+              "x": 647.0,
+              "y": 163.0
+            },
+            {
+              "x": 685.0,
+              "y": 163.0
+            },
+            {
+              "x": 684.0,
+              "y": 183.0
+            },
+            {
+              "x": 648.0,
+              "y": 182.0
+            }
+          ],
+          "words": [
+            {
+              "text": "653",
+              "bounding_box": [
+                {
+                  "x": 648.0,
+                  "y": 163.0
+                },
+                {
+                  "x": 684.0,
+                  "y": 163.0
+                },
+                {
+                  "x": 683.0,
+                  "y": 183.0
+                },
+                {
+                  "x": 648.0,
+                  "y": 182.0
+                }
+              ],
+              "confidence": 0.997,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "Tapukara",
+          "bounding_box": [
+            {
+              "x": 4.0,
+              "y": 208.0
+            },
+            {
+              "x": 100.0,
+              "y": 208.0
+            },
+            {
+              "x": 100.0,
+              "y": 232.0
+            },
+            {
+              "x": 4.0,
+              "y": 232.0
+            }
+          ],
+          "words": [
+            {
+              "text": "Tapukara",
+              "bounding_box": [
+                {
+                  "x": 6.0,
+                  "y": 209.0
+                },
+                {
+                  "x": 99.0,
+                  "y": 208.0
+                },
+                {
+                  "x": 99.0,
+                  "y": 233.0
+                },
+                {
+                  "x": 6.0,
+                  "y": 233.0
+                }
+              ],
+              "confidence": 0.995,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "28.05",
+          "bounding_box": [
+            {
+              "x": 151.0,
+              "y": 208.0
+            },
+            {
+              "x": 206.0,
+              "y": 208.0
+            },
+            {
+              "x": 206.0,
+              "y": 228.0
+            },
+            {
+              "x": 151.0,
+              "y": 228.0
+            }
+          ],
+          "words": [
+            {
+              "text": "28.05",
+              "bounding_box": [
+                {
+                  "x": 152.0,
+                  "y": 208.0
+                },
+                {
+                  "x": 206.0,
+                  "y": 208.0
+                },
+                {
+                  "x": 206.0,
+                  "y": 228.0
+                },
+                {
+                  "x": 152.0,
+                  "y": 228.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "76.85",
+          "bounding_box": [
+            {
+              "x": 282.0,
+              "y": 209.0
+            },
+            {
+              "x": 337.0,
+              "y": 208.0
+            },
+            {
+              "x": 336.0,
+              "y": 228.0
+            },
+            {
+              "x": 282.0,
+              "y": 228.0
+            }
+          ],
+          "words": [
+            {
+              "text": "76.85",
+              "bounding_box": [
+                {
+                  "x": 282.0,
+                  "y": 208.0
+                },
+                {
+                  "x": 334.0,
+                  "y": 208.0
+                },
+                {
+                  "x": 335.0,
+                  "y": 228.0
+                },
+                {
+                  "x": 282.0,
+                  "y": 228.0
+                }
+              ],
+              "confidence": 0.993,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "658",
+          "bounding_box": [
+            {
+              "x": 402.0,
+              "y": 209.0
+            },
+            {
+              "x": 439.0,
+              "y": 208.0
+            },
+            {
+              "x": 439.0,
+              "y": 228.0
+            },
+            {
+              "x": 402.0,
+              "y": 228.0
+            }
+          ],
+          "words": [
+            {
+              "text": "658",
+              "bounding_box": [
+                {
+                  "x": 402.0,
+                  "y": 208.0
+                },
+                {
+                  "x": 437.0,
+                  "y": 208.0
+                },
+                {
+                  "x": 437.0,
+                  "y": 228.0
+                },
+                {
+                  "x": 402.0,
+                  "y": 228.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "570",
+          "bounding_box": [
+            {
+              "x": 490.0,
+              "y": 207.0
+            },
+            {
+              "x": 527.0,
+              "y": 207.0
+            },
+            {
+              "x": 527.0,
+              "y": 229.0
+            },
+            {
+              "x": 490.0,
+              "y": 230.0
+            }
+          ],
+          "words": [
+            {
+              "text": "570",
+              "bounding_box": [
+                {
+                  "x": 490.0,
+                  "y": 207.0
+                },
+                {
+                  "x": 524.0,
+                  "y": 207.0
+                },
+                {
+                  "x": 524.0,
+                  "y": 230.0
+                },
+                {
+                  "x": 490.0,
+                  "y": 230.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "485",
+          "bounding_box": [
+            {
+              "x": 570.0,
+              "y": 208.0
+            },
+            {
+              "x": 608.0,
+              "y": 209.0
+            },
+            {
+              "x": 608.0,
+              "y": 229.0
+            },
+            {
+              "x": 570.0,
+              "y": 228.0
+            }
+          ],
+          "words": [
+            {
+              "text": "485",
+              "bounding_box": [
+                {
+                  "x": 571.0,
+                  "y": 208.0
+                },
+                {
+                  "x": 607.0,
+                  "y": 209.0
+                },
+                {
+                  "x": 606.0,
+                  "y": 229.0
+                },
+                {
+                  "x": 570.0,
+                  "y": 228.0
+                }
+              ],
+              "confidence": 0.997,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "342",
+          "bounding_box": [
+            {
+              "x": 647.0,
+              "y": 209.0
+            },
+            {
+              "x": 684.0,
+              "y": 208.0
+            },
+            {
+              "x": 684.0,
+              "y": 228.0
+            },
+            {
+              "x": 647.0,
+              "y": 228.0
+            }
+          ],
+          "words": [
+            {
+              "text": "342",
+              "bounding_box": [
+                {
+                  "x": 648.0,
+                  "y": 208.0
+                },
+                {
+                  "x": 683.0,
+                  "y": 208.0
+                },
+                {
+                  "x": 683.0,
+                  "y": 228.0
+                },
+                {
+                  "x": 648.0,
+                  "y": 228.0
+                }
+              ],
+              "confidence": 0.993,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "Behror",
+          "bounding_box": [
+            {
+              "x": 17.0,
+              "y": 256.0
+            },
+            {
+              "x": 86.0,
+              "y": 257.0
+            },
+            {
+              "x": 85.0,
+              "y": 276.0
+            },
+            {
+              "x": 17.0,
+              "y": 275.0
+            }
+          ],
+          "words": [
+            {
+              "text": "Behror",
+              "bounding_box": [
+                {
+                  "x": 17.0,
+                  "y": 256.0
+                },
+                {
+                  "x": 86.0,
+                  "y": 258.0
+                },
+                {
+                  "x": 86.0,
+                  "y": 276.0
+                },
+                {
+                  "x": 17.0,
+                  "y": 276.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "27.88",
+          "bounding_box": [
+            {
+              "x": 152.0,
+              "y": 256.0
+            },
+            {
+              "x": 207.0,
+              "y": 255.0
+            },
+            {
+              "x": 208.0,
+              "y": 275.0
+            },
+            {
+              "x": 152.0,
+              "y": 275.0
+            }
+          ],
+          "words": [
+            {
+              "text": "27.88",
+              "bounding_box": [
+                {
+                  "x": 153.0,
+                  "y": 255.0
+                },
+                {
+                  "x": 206.0,
+                  "y": 255.0
+                },
+                {
+                  "x": 206.0,
+                  "y": 275.0
+                },
+                {
+                  "x": 153.0,
+                  "y": 275.0
+                }
+              ],
+              "confidence": 0.996,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "76.28",
+          "bounding_box": [
+            {
+              "x": 281.0,
+              "y": 256.0
+            },
+            {
+              "x": 336.0,
+              "y": 255.0
+            },
+            {
+              "x": 337.0,
+              "y": 275.0
+            },
+            {
+              "x": 281.0,
+              "y": 275.0
+            }
+          ],
+          "words": [
+            {
+              "text": "76.28",
+              "bounding_box": [
+                {
+                  "x": 282.0,
+                  "y": 255.0
+                },
+                {
+                  "x": 335.0,
+                  "y": 255.0
+                },
+                {
+                  "x": 335.0,
+                  "y": 275.0
+                },
+                {
+                  "x": 282.0,
+                  "y": 275.0
+                }
+              ],
+              "confidence": 0.996,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "555",
+          "bounding_box": [
+            {
+              "x": 401.0,
+              "y": 256.0
+            },
+            {
+              "x": 439.0,
+              "y": 256.0
+            },
+            {
+              "x": 439.0,
+              "y": 275.0
+            },
+            {
+              "x": 401.0,
+              "y": 275.0
+            }
+          ],
+          "words": [
+            {
+              "text": "555",
+              "bounding_box": [
+                {
+                  "x": 402.0,
+                  "y": 256.0
+                },
+                {
+                  "x": 438.0,
+                  "y": 256.0
+                },
+                {
+                  "x": 438.0,
+                  "y": 275.0
+                },
+                {
+                  "x": 402.0,
+                  "y": 275.0
+                }
+              ],
+              "confidence": 0.997,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "401.3",
+          "bounding_box": [
+            {
+              "x": 481.0,
+              "y": 256.0
+            },
+            {
+              "x": 535.0,
+              "y": 255.0
+            },
+            {
+              "x": 535.0,
+              "y": 276.0
+            },
+            {
+              "x": 480.0,
+              "y": 274.0
+            }
+          ],
+          "words": [
+            {
+              "text": "401.3",
+              "bounding_box": [
+                {
+                  "x": 480.0,
+                  "y": 255.0
+                },
+                {
+                  "x": 534.0,
+                  "y": 255.0
+                },
+                {
+                  "x": 534.0,
+                  "y": 276.0
+                },
+                {
+                  "x": 480.0,
+                  "y": 275.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "487",
+          "bounding_box": [
+            {
+              "x": 571.0,
+              "y": 256.0
+            },
+            {
+              "x": 608.0,
+              "y": 255.0
+            },
+            {
+              "x": 608.0,
+              "y": 275.0
+            },
+            {
+              "x": 571.0,
+              "y": 274.0
+            }
+          ],
+          "words": [
+            {
+              "text": "487",
+              "bounding_box": [
+                {
+                  "x": 571.0,
+                  "y": 255.0
+                },
+                {
+                  "x": 607.0,
+                  "y": 255.0
+                },
+                {
+                  "x": 607.0,
+                  "y": 275.0
+                },
+                {
+                  "x": 571.0,
+                  "y": 275.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "746",
+          "bounding_box": [
+            {
+              "x": 647.0,
+              "y": 255.0
+            },
+            {
+              "x": 685.0,
+              "y": 255.0
+            },
+            {
+              "x": 685.0,
+              "y": 275.0
+            },
+            {
+              "x": 647.0,
+              "y": 275.0
+            }
+          ],
+          "words": [
+            {
+              "text": "746",
+              "bounding_box": [
+                {
+                  "x": 648.0,
+                  "y": 255.0
+                },
+                {
+                  "x": 682.0,
+                  "y": 255.0
+                },
+                {
+                  "x": 682.0,
+                  "y": 275.0
+                },
+                {
+                  "x": 648.0,
+                  "y": 275.0
+                }
+              ],
+              "confidence": 0.997,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "Neemrana",
+          "bounding_box": [
+            {
+              "x": 2.0,
+              "y": 301.0
+            },
+            {
+              "x": 103.0,
+              "y": 301.0
+            },
+            {
+              "x": 103.0,
+              "y": 323.0
+            },
+            {
+              "x": 2.0,
+              "y": 323.0
+            }
+          ],
+          "words": [
+            {
+              "text": "Neemrana",
+              "bounding_box": [
+                {
+                  "x": 3.0,
+                  "y": 301.0
+                },
+                {
+                  "x": 102.0,
+                  "y": 301.0
+                },
+                {
+                  "x": 102.0,
+                  "y": 324.0
+                },
+                {
+                  "x": 2.0,
+                  "y": 324.0
+                }
+              ],
+              "confidence": 0.995,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "28.00",
+          "bounding_box": [
+            {
+              "x": 151.0,
+              "y": 301.0
+            },
+            {
+              "x": 207.0,
+              "y": 302.0
+            },
+            {
+              "x": 207.0,
+              "y": 321.0
+            },
+            {
+              "x": 151.0,
+              "y": 321.0
+            }
+          ],
+          "words": [
+            {
+              "text": "28.00",
+              "bounding_box": [
+                {
+                  "x": 152.0,
+                  "y": 301.0
+                },
+                {
+                  "x": 206.0,
+                  "y": 301.0
+                },
+                {
+                  "x": 206.0,
+                  "y": 321.0
+                },
+                {
+                  "x": 152.0,
+                  "y": 320.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "76.38",
+          "bounding_box": [
+            {
+              "x": 281.0,
+              "y": 301.0
+            },
+            {
+              "x": 337.0,
+              "y": 302.0
+            },
+            {
+              "x": 337.0,
+              "y": 322.0
+            },
+            {
+              "x": 281.0,
+              "y": 321.0
+            }
+          ],
+          "words": [
+            {
+              "text": "76.38",
+              "bounding_box": [
+                {
+                  "x": 282.0,
+                  "y": 301.0
+                },
+                {
+                  "x": 335.0,
+                  "y": 302.0
+                },
+                {
+                  "x": 335.0,
+                  "y": 322.0
+                },
+                {
+                  "x": 282.0,
+                  "y": 321.0
+                }
+              ],
+              "confidence": 0.996,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "1008",
+          "bounding_box": [
+            {
+              "x": 398.0,
+              "y": 303.0
+            },
+            {
+              "x": 446.0,
+              "y": 302.0
+            },
+            {
+              "x": 446.0,
+              "y": 321.0
+            },
+            {
+              "x": 398.0,
+              "y": 321.0
+            }
+          ],
+          "words": [
+            {
+              "text": "1008",
+              "bounding_box": [
+                {
+                  "x": 398.0,
+                  "y": 302.0
+                },
+                {
+                  "x": 443.0,
+                  "y": 302.0
+                },
+                {
+                  "x": 443.0,
+                  "y": 321.0
+                },
+                {
+                  "x": 398.0,
+                  "y": 321.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "795",
+          "bounding_box": [
+            {
+              "x": 491.0,
+              "y": 301.0
+            },
+            {
+              "x": 526.0,
+              "y": 300.0
+            },
+            {
+              "x": 526.0,
+              "y": 323.0
+            },
+            {
+              "x": 491.0,
+              "y": 323.0
+            }
+          ],
+          "words": [
+            {
+              "text": "795",
+              "bounding_box": [
+                {
+                  "x": 491.0,
+                  "y": 300.0
+                },
+                {
+                  "x": 524.0,
+                  "y": 300.0
+                },
+                {
+                  "x": 525.0,
+                  "y": 323.0
+                },
+                {
+                  "x": 491.0,
+                  "y": 323.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "566",
+          "bounding_box": [
+            {
+              "x": 571.0,
+              "y": 302.0
+            },
+            {
+              "x": 609.0,
+              "y": 302.0
+            },
+            {
+              "x": 609.0,
+              "y": 321.0
+            },
+            {
+              "x": 571.0,
+              "y": 321.0
+            }
+          ],
+          "words": [
+            {
+              "text": "566",
+              "bounding_box": [
+                {
+                  "x": 571.0,
+                  "y": 302.0
+                },
+                {
+                  "x": 606.0,
+                  "y": 302.0
+                },
+                {
+                  "x": 606.0,
+                  "y": 321.0
+                },
+                {
+                  "x": 571.0,
+                  "y": 321.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "456",
+          "bounding_box": [
+            {
+              "x": 647.0,
+              "y": 302.0
+            },
+            {
+              "x": 686.0,
+              "y": 302.0
+            },
+            {
+              "x": 685.0,
+              "y": 321.0
+            },
+            {
+              "x": 647.0,
+              "y": 321.0
+            }
+          ],
+          "words": [
+            {
+              "text": "456",
+              "bounding_box": [
+                {
+                  "x": 648.0,
+                  "y": 302.0
+                },
+                {
+                  "x": 682.0,
+                  "y": 302.0
+                },
+                {
+                  "x": 682.0,
+                  "y": 321.0
+                },
+                {
+                  "x": 648.0,
+                  "y": 321.0
+                }
+              ],
+              "confidence": 0.997,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "Mundawar",
+          "bounding_box": [
+            {
+              "x": 1.0,
+              "y": 348.0
+            },
+            {
+              "x": 107.0,
+              "y": 347.0
+            },
+            {
+              "x": 107.0,
+              "y": 370.0
+            },
+            {
+              "x": 1.0,
+              "y": 370.0
+            }
+          ],
+          "words": [
+            {
+              "text": "Mundawar",
+              "bounding_box": [
+                {
+                  "x": 2.0,
+                  "y": 348.0
+                },
+                {
+                  "x": 106.0,
+                  "y": 348.0
+                },
+                {
+                  "x": 107.0,
+                  "y": 371.0
+                },
+                {
+                  "x": 2.0,
+                  "y": 371.0
+                }
+              ],
+              "confidence": 0.995,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "27.87",
+          "bounding_box": [
+            {
+              "x": 151.0,
+              "y": 349.0
+            },
+            {
+              "x": 208.0,
+              "y": 348.0
+            },
+            {
+              "x": 207.0,
+              "y": 368.0
+            },
+            {
+              "x": 152.0,
+              "y": 368.0
+            }
+          ],
+          "words": [
+            {
+              "text": "27.87",
+              "bounding_box": [
+                {
+                  "x": 152.0,
+                  "y": 348.0
+                },
+                {
+                  "x": 206.0,
+                  "y": 348.0
+                },
+                {
+                  "x": 206.0,
+                  "y": 368.0
+                },
+                {
+                  "x": 152.0,
+                  "y": 368.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "76.55",
+          "bounding_box": [
+            {
+              "x": 282.0,
+              "y": 347.0
+            },
+            {
+              "x": 334.0,
+              "y": 347.0
+            },
+            {
+              "x": 334.0,
+              "y": 369.0
+            },
+            {
+              "x": 282.0,
+              "y": 369.0
+            }
+          ],
+          "words": [
+            {
+              "text": "76.55",
+              "bounding_box": [
+                {
+                  "x": 282.0,
+                  "y": 347.0
+                },
+                {
+                  "x": 333.0,
+                  "y": 347.0
+                },
+                {
+                  "x": 333.0,
+                  "y": 369.0
+                },
+                {
+                  "x": 282.0,
+                  "y": 369.0
+                }
+              ],
+              "confidence": 0.993,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "1010",
+          "bounding_box": [
+            {
+              "x": 398.0,
+              "y": 348.0
+            },
+            {
+              "x": 446.0,
+              "y": 349.0
+            },
+            {
+              "x": 446.0,
+              "y": 368.0
+            },
+            {
+              "x": 398.0,
+              "y": 367.0
+            }
+          ],
+          "words": [
+            {
+              "text": "1010",
+              "bounding_box": [
+                {
+                  "x": 398.0,
+                  "y": 348.0
+                },
+                {
+                  "x": 442.0,
+                  "y": 349.0
+                },
+                {
+                  "x": 441.0,
+                  "y": 368.0
+                },
+                {
+                  "x": 398.0,
+                  "y": 367.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "931",
+          "bounding_box": [
+            {
+              "x": 490.0,
+              "y": 348.0
+            },
+            {
+              "x": 525.0,
+              "y": 347.0
+            },
+            {
+              "x": 525.0,
+              "y": 369.0
+            },
+            {
+              "x": 490.0,
+              "y": 369.0
+            }
+          ],
+          "words": [
+            {
+              "text": "931",
+              "bounding_box": [
+                {
+                  "x": 490.0,
+                  "y": 347.0
+                },
+                {
+                  "x": 523.0,
+                  "y": 347.0
+                },
+                {
+                  "x": 524.0,
+                  "y": 369.0
+                },
+                {
+                  "x": 490.0,
+                  "y": 369.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "483",
+          "bounding_box": [
+            {
+              "x": 570.0,
+              "y": 349.0
+            },
+            {
+              "x": 609.0,
+              "y": 349.0
+            },
+            {
+              "x": 608.0,
+              "y": 368.0
+            },
+            {
+              "x": 570.0,
+              "y": 368.0
+            }
+          ],
+          "words": [
+            {
+              "text": "483",
+              "bounding_box": [
+                {
+                  "x": 571.0,
+                  "y": 349.0
+                },
+                {
+                  "x": 606.0,
+                  "y": 349.0
+                },
+                {
+                  "x": 606.0,
+                  "y": 368.0
+                },
+                {
+                  "x": 571.0,
+                  "y": 368.0
+                }
+              ],
+              "confidence": 0.997,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "775",
+          "bounding_box": [
+            {
+              "x": 647.0,
+              "y": 348.0
+            },
+            {
+              "x": 685.0,
+              "y": 348.0
+            },
+            {
+              "x": 685.0,
+              "y": 368.0
+            },
+            {
+              "x": 648.0,
+              "y": 368.0
+            }
+          ],
+          "words": [
+            {
+              "text": "775",
+              "bounding_box": [
+                {
+                  "x": 648.0,
+                  "y": 348.0
+                },
+                {
+                  "x": 684.0,
+                  "y": 348.0
+                },
+                {
+                  "x": 684.0,
+                  "y": 368.0
+                },
+                {
+                  "x": 648.0,
+                  "y": 368.0
+                }
+              ],
+              "confidence": 0.991,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "V.",
+          "bounding_box": [
+            {
+              "x": 193.0,
+              "y": 411.0
+            },
+            {
+              "x": 220.0,
+              "y": 411.0
+            },
+            {
+              "x": 219.0,
+              "y": 436.0
+            },
+            {
+              "x": 192.0,
+              "y": 436.0
+            }
+          ],
+          "words": [
+            {
+              "text": "V.",
+              "bounding_box": [
+                {
+                  "x": 193.0,
+                  "y": 411.0
+                },
+                {
+                  "x": 219.0,
+                  "y": 411.0
+                },
+                {
+                  "x": 219.0,
+                  "y": 436.0
+                },
+                {
+                  "x": 193.0,
+                  "y": 436.0
+                }
+              ],
+              "confidence": 0.979,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        },
+        {
+          "text": "ANALYSIS FOR RWH",
+          "bounding_box": [
+            {
+              "x": 257.0,
+              "y": 412.0
+            },
+            {
+              "x": 516.0,
+              "y": 412.0
+            },
+            {
+              "x": 516.0,
+              "y": 436.0
+            },
+            {
+              "x": 257.0,
+              "y": 436.0
+            }
+          ],
+          "words": [
+            {
+              "text": "ANALYSIS",
+              "bounding_box": [
+                {
+                  "x": 261.0,
+                  "y": 412.0
+                },
+                {
+                  "x": 381.0,
+                  "y": 413.0
+                },
+                {
+                  "x": 381.0,
+                  "y": 437.0
+                },
+                {
+                  "x": 261.0,
+                  "y": 437.0
+                }
+              ],
+              "confidence": 0.995,
+              "page_number": 1,
+              "kind": "word"
+            },
+            {
+              "text": "FOR",
+              "bounding_box": [
+                {
+                  "x": 386.0,
+                  "y": 413.0
+                },
+                {
+                  "x": 434.0,
+                  "y": 413.0
+                },
+                {
+                  "x": 434.0,
+                  "y": 437.0
+                },
+                {
+                  "x": 386.0,
+                  "y": 437.0
+                }
+              ],
+              "confidence": 0.994,
+              "page_number": 1,
+              "kind": "word"
+            },
+            {
+              "text": "RWH",
+              "bounding_box": [
+                {
+                  "x": 440.0,
+                  "y": 413.0
+                },
+                {
+                  "x": 504.0,
+                  "y": 413.0
+                },
+                {
+                  "x": 504.0,
+                  "y": 436.0
+                },
+                {
+                  "x": 440.0,
+                  "y": 437.0
+                }
+              ],
+              "confidence": 0.999,
+              "page_number": 1,
+              "kind": "word"
+            }
+          ],
+          "page_number": 1,
+          "kind": "line",
+          "appearance": {
+            "style_name": "other",
+            "style_confidence": 0.878
+          }
+        }
+      ],
+      "selection_marks": []
+    }
+  ],
+  "standarized_response": {
+    "pages": [
+      {
+        "tables": [
+          {
+            "rows": [
+              {
+                "cells": [
+                  {
+                    "text": "Station",
+                    "row_span": 2,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.17246376811594202,
+                      "height": 0.12698412698412698,
+                      "top": 0.0,
+                      "left": 0.0
+                    }
+                  },
+                  {
+                    "text": "Latitude",
+                    "row_span": 2,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.1753623188405797,
+                      "height": 0.12698412698412698,
+                      "top": 0.2698412698412698,
+                      "left": 0.0
+                    }
+                  },
+                  {
+                    "text": "Longitude",
+                    "row_span": 2,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.19855072463768117,
+                      "height": 0.12698412698412698,
+                      "top": 0.54421768707483,
+                      "left": 0.0
+                    }
+                  },
+                  {
+                    "text": "Year",
+                    "row_span": 1,
+                    "col_span": 4,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.45362318840579713,
+                      "height": 0.049886621315192746,
+                      "top": 0.854875283446712,
+                      "left": 0.0
+                    }
+                  }
+                ],
+                "is_header": true
+              },
+              {
+                "cells": [
+                  {
+                    "text": "1993",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.12608695652173912,
+                      "height": 0.07709750566893424,
+                      "top": 0.854875283446712,
+                      "left": 0.03188405797101449
+                    }
+                  },
+                  {
+                    "text": "1994",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.12753623188405797,
+                      "height": 0.07709750566893424,
+                      "top": 1.0521541950113378,
+                      "left": 0.03188405797101449
+                    }
+                  },
+                  {
+                    "text": "2012",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.11014492753623188,
+                      "height": 0.07709750566893424,
+                      "top": 1.251700680272109,
+                      "left": 0.03188405797101449
+                    }
+                  },
+                  {
+                    "text": "2013",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.08985507246376812,
+                      "height": 0.07709750566893424,
+                      "top": 1.4240362811791383,
+                      "left": 0.03188405797101449
+                    }
+                  }
+                ],
+                "is_header": true
+              },
+              {
+                "cells": [
+                  {
+                    "text": "Kishngarh",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.17246376811594202,
+                      "height": 0.10204081632653061,
+                      "top": 0.0,
+                      "left": 0.08115942028985507
+                    }
+                  },
+                  {
+                    "text": "27.82",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.1753623188405797,
+                      "height": 0.10430839002267574,
+                      "top": 0.2698412698412698,
+                      "left": 0.08115942028985507
+                    }
+                  },
+                  {
+                    "text": "76.72",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.19855072463768117,
+                      "height": 0.10430839002267574,
+                      "top": 0.54421768707483,
+                      "left": 0.08115942028985507
+                    }
+                  },
+                  {
+                    "text": "563.5",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.12608695652173912,
+                      "height": 0.10430839002267574,
+                      "top": 0.854875283446712,
+                      "left": 0.08115942028985507
+                    }
+                  },
+                  {
+                    "text": "563.5",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.12608695652173912,
+                      "height": 0.10430839002267574,
+                      "top": 1.0521541950113378,
+                      "left": 0.08115942028985507
+                    }
+                  },
+                  {
+                    "text": "490",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.11014492753623188,
+                      "height": 0.10430839002267574,
+                      "top": 1.251700680272109,
+                      "left": 0.08115942028985507
+                    }
+                  },
+                  {
+                    "text": "804",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.08985507246376812,
+                      "height": 0.10430839002267574,
+                      "top": 1.4240362811791383,
+                      "left": 0.08115942028985507
+                    }
+                  }
+                ]
+              },
+              {
+                "cells": [
+                  {
+                    "text": "Bansur",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.17246376811594202,
+                      "height": 0.11337868480725624,
+                      "top": 0.0,
+                      "left": 0.14347826086956522
+                    }
+                  },
+                  {
+                    "text": "27.70",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.1753623188405797,
+                      "height": 0.10884353741496598,
+                      "top": 0.2698412698412698,
+                      "left": 0.1463768115942029
+                    }
+                  },
+                  {
+                    "text": "76.35",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.19855072463768117,
+                      "height": 0.10657596371882086,
+                      "top": 0.54421768707483,
+                      "left": 0.14782608695652175
+                    }
+                  },
+                  {
+                    "text": "780.7",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.12608695652173912,
+                      "height": 0.10657596371882086,
+                      "top": 0.854875283446712,
+                      "left": 0.14782608695652175
+                    }
+                  },
+                  {
+                    "text": "580",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.12608695652173912,
+                      "height": 0.10657596371882086,
+                      "top": 1.0521541950113378,
+                      "left": 0.14782608695652175
+                    }
+                  },
+                  {
+                    "text": "776",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.11159420289855072,
+                      "height": 0.10657596371882086,
+                      "top": 1.2494331065759636,
+                      "left": 0.14782608695652175
+                    }
+                  },
+                  {
+                    "text": "720",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.08985507246376812,
+                      "height": 0.10657596371882086,
+                      "top": 1.4240362811791383,
+                      "left": 0.14782608695652175
+                    }
+                  }
+                ]
+              },
+              {
+                "cells": [
+                  {
+                    "text": "Tijara",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.17246376811594202,
+                      "height": 0.10430839002267574,
+                      "top": 0.0,
+                      "left": 0.21594202898550724
+                    }
+                  },
+                  {
+                    "text": "27.95",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.1753623188405797,
+                      "height": 0.10430839002267574,
+                      "top": 0.2698412698412698,
+                      "left": 0.21594202898550724
+                    }
+                  },
+                  {
+                    "text": "76.85",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.19855072463768117,
+                      "height": 0.10430839002267574,
+                      "top": 0.54421768707483,
+                      "left": 0.21594202898550724
+                    }
+                  },
+                  {
+                    "text": "590",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.12608695652173912,
+                      "height": 0.10430839002267574,
+                      "top": 0.854875283446712,
+                      "left": 0.21594202898550724
+                    }
+                  },
+                  {
+                    "text": "645",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.12608695652173912,
+                      "height": 0.10430839002267574,
+                      "top": 1.0521541950113378,
+                      "left": 0.21594202898550724
+                    }
+                  },
+                  {
+                    "text": "633",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.11159420289855072,
+                      "height": 0.10430839002267574,
+                      "top": 1.2494331065759636,
+                      "left": 0.21594202898550724
+                    }
+                  },
+                  {
+                    "text": "653",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.08985507246376812,
+                      "height": 0.10430839002267574,
+                      "top": 1.4240362811791383,
+                      "left": 0.21594202898550724
+                    }
+                  }
+                ]
+              },
+              {
+                "cells": [
+                  {
+                    "text": "Tapukara",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.17246376811594202,
+                      "height": 0.10657596371882086,
+                      "top": 0.0,
+                      "left": 0.2826086956521739
+                    }
+                  },
+                  {
+                    "text": "28.05",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.1753623188405797,
+                      "height": 0.10657596371882086,
+                      "top": 0.2698412698412698,
+                      "left": 0.2826086956521739
+                    }
+                  },
+                  {
+                    "text": "76.85",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.19855072463768117,
+                      "height": 0.10657596371882086,
+                      "top": 0.54421768707483,
+                      "left": 0.2826086956521739
+                    }
+                  },
+                  {
+                    "text": "658",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.12608695652173912,
+                      "height": 0.10657596371882086,
+                      "top": 0.854875283446712,
+                      "left": 0.2826086956521739
+                    }
+                  },
+                  {
+                    "text": "570",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.1246376811594203,
+                      "height": 0.10657596371882086,
+                      "top": 1.0521541950113378,
+                      "left": 0.2826086956521739
+                    }
+                  },
+                  {
+                    "text": "485",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.11159420289855072,
+                      "height": 0.10657596371882086,
+                      "top": 1.2494331065759636,
+                      "left": 0.2826086956521739
+                    }
+                  },
+                  {
+                    "text": "342",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.08985507246376812,
+                      "height": 0.10657596371882086,
+                      "top": 1.4240362811791383,
+                      "left": 0.2826086956521739
+                    }
+                  }
+                ]
+              },
+              {
+                "cells": [
+                  {
+                    "text": "Behror",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.17246376811594202,
+                      "height": 0.10430839002267574,
+                      "top": 0.0,
+                      "left": 0.3507246376811594
+                    }
+                  },
+                  {
+                    "text": "27.88",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.1753623188405797,
+                      "height": 0.10430839002267574,
+                      "top": 0.2698412698412698,
+                      "left": 0.3507246376811594
+                    }
+                  },
+                  {
+                    "text": "76.28",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.19855072463768117,
+                      "height": 0.10430839002267574,
+                      "top": 0.54421768707483,
+                      "left": 0.3507246376811594
+                    }
+                  },
+                  {
+                    "text": "555",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.12608695652173912,
+                      "height": 0.10430839002267574,
+                      "top": 0.854875283446712,
+                      "left": 0.3507246376811594
+                    }
+                  },
+                  {
+                    "text": "401.3",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.1246376811594203,
+                      "height": 0.10430839002267574,
+                      "top": 1.0521541950113378,
+                      "left": 0.3507246376811594
+                    }
+                  },
+                  {
+                    "text": "487",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.11304347826086956,
+                      "height": 0.10430839002267574,
+                      "top": 1.2471655328798186,
+                      "left": 0.3507246376811594
+                    }
+                  },
+                  {
+                    "text": "746",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.08985507246376812,
+                      "height": 0.10430839002267574,
+                      "top": 1.4240362811791383,
+                      "left": 0.3507246376811594
+                    }
+                  }
+                ]
+              },
+              {
+                "cells": [
+                  {
+                    "text": "Neemrana",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.17246376811594202,
+                      "height": 0.10430839002267574,
+                      "top": 0.0,
+                      "left": 0.41739130434782606
+                    }
+                  },
+                  {
+                    "text": "28.00",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.1753623188405797,
+                      "height": 0.10657596371882086,
+                      "top": 0.2698412698412698,
+                      "left": 0.41739130434782606
+                    }
+                  },
+                  {
+                    "text": "76.38",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.2,
+                      "height": 0.10657596371882086,
+                      "top": 0.54421768707483,
+                      "left": 0.41739130434782606
+                    }
+                  },
+                  {
+                    "text": "1008",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.1246376811594203,
+                      "height": 0.10657596371882086,
+                      "top": 0.854875283446712,
+                      "left": 0.41739130434782606
+                    }
+                  },
+                  {
+                    "text": "795",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.1246376811594203,
+                      "height": 0.10657596371882086,
+                      "top": 1.0521541950113378,
+                      "left": 0.41739130434782606
+                    }
+                  },
+                  {
+                    "text": "566",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.11159420289855072,
+                      "height": 0.10657596371882086,
+                      "top": 1.2471655328798186,
+                      "left": 0.41739130434782606
+                    }
+                  },
+                  {
+                    "text": "456",
+                    "row_span": 1,
+                    "col_span": 1,
+                    "confidence": 1.0,
+                    "bounding_box": {
+                      "width": 0.08985507246376812,
+                      "height": 0.10657596371882086,
+                      "top": 1.4240362811791383,
+                      "left": 0.41739130434782606
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,453 @@
+{
+  "original_response": {
+    "api_request": {
+      "error": {},
+      "resources": [
+        "document"
+      ],
+      "status": "success",
+      "status_code": 201,
+      "url": "https://api.mindee.net/v1/products/mindee/invoices/v3/predict?locale=language"
+    },
+    "document": {
+      "id": "a3852320-ef30-4666-868d-7d4324d7ccab",
+      "inference": {
+        "extras": {},
+        "finished_at": "2022-10-12T10:53:36+00:00",
+        "is_rotation_applied": true,
+        "pages": [
+          {
+            "extras": {},
+            "id": 0,
+            "orientation": {
+              "value": 0
+            },
+            "prediction": {
+              "company_registration": [],
+              "customer": {
+                "confidence": 0.88,
+                "polygon": [
+                  [
+                    0.06,
+                    0.24
+                  ],
+                  [
+                    0.157,
+                    0.24
+                  ],
+                  [
+                    0.157,
+                    0.253
+                  ],
+                  [
+                    0.06,
+                    0.253
+                  ]
+                ],
+                "value": "CLIENT NAME"
+              },
+              "customer_address": {
+                "confidence": 0.52,
+                "polygon": [
+                  [
+                    0.06,
+                    0.262
+                  ],
+                  [
+                    0.212,
+                    0.262
+                  ],
+                  [
+                    0.212,
+                    0.319
+                  ],
+                  [
+                    0.06,
+                    0.319
+                  ]
+                ],
+                "value": "1 Client Address City, State, Country ZIP CODE"
+              },
+              "customer_company_registration": [],
+              "date": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.324,
+                    0.306
+                  ],
+                  [
+                    0.394,
+                    0.306
+                  ],
+                  [
+                    0.394,
+                    0.319
+                  ],
+                  [
+                    0.324,
+                    0.319
+                  ]
+                ],
+                "value": "2014-10-07"
+              },
+              "document_type": {
+                "value": "INVOICE"
+              },
+              "due_date": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.324,
+                    0.306
+                  ],
+                  [
+                    0.393,
+                    0.306
+                  ],
+                  [
+                    0.393,
+                    0.319
+                  ],
+                  [
+                    0.324,
+                    0.319
+                  ]
+                ],
+                "raw": "2014-10-07",
+                "value": "2014-10-07"
+              },
+              "invoice_number": {
+                "confidence": 0.94,
+                "polygon": [
+                  [
+                    0.324,
+                    0.238
+                  ],
+                  [
+                    0.383,
+                    0.238
+                  ],
+                  [
+                    0.383,
+                    0.252
+                  ],
+                  [
+                    0.324,
+                    0.252
+                  ]
+                ],
+                "value": "000000"
+              },
+              "locale": {
+                "confidence": 0.8,
+                "currency": "USD",
+                "language": "en"
+              },
+              "orientation": {
+                "confidence": 0.99,
+                "degrees": 0
+              },
+              "payment_details": [],
+              "supplier": {
+                "confidence": 0.0,
+                "polygon": [],
+                "value": null
+              },
+              "supplier_address": {
+                "confidence": 0.0,
+                "polygon": [],
+                "value": null
+              },
+              "taxes": [],
+              "total_excl": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.842,
+                    0.744
+                  ],
+                  [
+                    0.92,
+                    0.744
+                  ],
+                  [
+                    0.92,
+                    0.761
+                  ],
+                  [
+                    0.842,
+                    0.761
+                  ]
+                ],
+                "value": 4000.0
+              },
+              "total_incl": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.729,
+                    0.239
+                  ],
+                  [
+                    0.937,
+                    0.239
+                  ],
+                  [
+                    0.937,
+                    0.275
+                  ],
+                  [
+                    0.729,
+                    0.275
+                  ]
+                ],
+                "value": 4520.0
+              }
+            }
+          }
+        ],
+        "prediction": {
+          "company_registration": [],
+          "customer": {
+            "confidence": 0.88,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.06,
+                0.24
+              ],
+              [
+                0.157,
+                0.24
+              ],
+              [
+                0.157,
+                0.253
+              ],
+              [
+                0.06,
+                0.253
+              ]
+            ],
+            "value": "CLIENT NAME"
+          },
+          "customer_address": {
+            "confidence": 0.52,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.06,
+                0.262
+              ],
+              [
+                0.212,
+                0.262
+              ],
+              [
+                0.212,
+                0.319
+              ],
+              [
+                0.06,
+                0.319
+              ]
+            ],
+            "value": "1 Client Address City, State, Country ZIP CODE"
+          },
+          "customer_company_registration": [],
+          "date": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.324,
+                0.306
+              ],
+              [
+                0.394,
+                0.306
+              ],
+              [
+                0.394,
+                0.319
+              ],
+              [
+                0.324,
+                0.319
+              ]
+            ],
+            "value": "2014-10-07"
+          },
+          "document_type": {
+            "value": "INVOICE"
+          },
+          "due_date": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.324,
+                0.306
+              ],
+              [
+                0.393,
+                0.306
+              ],
+              [
+                0.393,
+                0.319
+              ],
+              [
+                0.324,
+                0.319
+              ]
+            ],
+            "raw": "2014-10-07",
+            "value": "2014-10-07"
+          },
+          "invoice_number": {
+            "confidence": 0.94,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.324,
+                0.238
+              ],
+              [
+                0.383,
+                0.238
+              ],
+              [
+                0.383,
+                0.252
+              ],
+              [
+                0.324,
+                0.252
+              ]
+            ],
+            "value": "000000"
+          },
+          "locale": {
+            "confidence": 0.8,
+            "currency": "USD",
+            "language": "en"
+          },
+          "payment_details": [],
+          "supplier": {
+            "confidence": 0.0,
+            "page_id": 0,
+            "polygon": [],
+            "value": null
+          },
+          "supplier_address": {
+            "confidence": 0.0,
+            "page_id": null,
+            "polygon": [],
+            "value": null
+          },
+          "taxes": [],
+          "total_excl": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.842,
+                0.744
+              ],
+              [
+                0.92,
+                0.744
+              ],
+              [
+                0.92,
+                0.761
+              ],
+              [
+                0.842,
+                0.761
+              ]
+            ],
+            "value": 4000.0
+          },
+          "total_incl": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.729,
+                0.239
+              ],
+              [
+                0.937,
+                0.239
+              ],
+              [
+                0.937,
+                0.275
+              ],
+              [
+                0.729,
+                0.275
+              ]
+            ],
+            "value": 4520.0
+          }
+        },
+        "processing_time": 0.763,
+        "product": {
+          "features": [
+            "locale",
+            "invoice_number",
+            "date",
+            "due_date",
+            "total_excl",
+            "total_incl",
+            "taxes",
+            "payment_details",
+            "supplier",
+            "company_registration",
+            "supplier_address",
+            "customer",
+            "customer_company_registration",
+            "customer_address",
+            "document_type",
+            "orientation"
+          ],
+          "name": "mindee/invoices",
+          "type": "standard",
+          "version": "3.1"
+        },
+        "started_at": "2022-10-12T10:53:35+00:00"
+      },
+      "n_pages": 1,
+      "name": "invoice.png"
+    }
+  },
+  "standarized_response": {
+    "extracted_data": [
+      {
+        "invoice_number": "000000",
+        "invoice_total": 4520.0,
+        "date": null,
+        "invoice_subtotal": 4000.0,
+        "due_date": null,
+        "customer_information": {
+          "customer_name": "CLIENT NAME",
+          "customer_address": "1 Client Address City, State, Country ZIP CODE"
+        },
+        "merchant_information": {
+          "merchant_name": null,
+          "merchant_address": null
+        },
+        "locale": {
+          "currency": "USD",
+          "language": "en"
+        },
+        "taxes": [],
+        "item_lines": []
+      }
+    ]
+  }
+}

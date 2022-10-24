@@ -1,0 +1,26 @@
+{
+  "original_response": {
+    "id": "cmpl-60Tew9M74VoeY4ifVw6zW6gJLvcRU",
+    "object": "text_completion",
+    "created": 1665572030,
+    "model": "text-davinci-002",
+    "choices": [
+      {
+        "text": "Geopelia humeralis",
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 154,
+      "completion_tokens": 6,
+      "total_tokens": 160
+    }
+  },
+  "standarized_response": {
+    "answers": [
+      "Geopelia humeralis"
+    ]
+  }
+}

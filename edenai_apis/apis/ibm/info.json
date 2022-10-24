@@ -1,0 +1,241 @@
+{
+    "audio": {
+        "speech_to_text_async": {
+            "constraints": {
+                "languages": [
+                    "cs-CZ",
+                    "en-AU",
+                    "fr-CA",
+                    "es-ES",
+                    "es-LA",
+                    "pt-BR",
+                    "it-IT",
+                    "es-MX",
+                    "es-CL",
+                    "es-PE",
+                    "nl-BE",
+                    "es-CO",
+                    "ar-AR",
+                    "hi-IN",
+                    "ar-MS",
+                    "de-DE",
+                    "nl-NL",
+                    "es-AR",
+                    "en-US",
+                    "en-GB",
+                    "ja-JP",
+                    "zh-CN",
+                    "ko-KR",
+                    "fr-FR",
+                    "en-IN"
+                ]
+            },
+            "version": "v1"
+        },
+        "text_to_speech": {
+            "constraints": {
+                "languages": [
+                    "fr-CA",
+                    "es-LA",
+                    "en-AU",
+                    "nl-NL",
+                    "ar-MS",
+                    "en-US",
+                    "zh-CN",
+                    "cs-CZ",
+                    "es-US",
+                    "de-DE",
+                    "it-IT",
+                    "nl-BE",
+                    "es-ES",
+                    "ko-KR",
+                    "ja-JP",
+                    "pt-BR",
+                    "fr-FR",
+                    "en-GB",
+                    "sv-SE"
+                ]
+            },
+            "version": "v1"
+        }
+    },
+    "text": {
+        "keyword_extraction": {
+            "constraints": {
+                "languages": [
+                    "ar",
+                    "zh",
+                    "cs",
+                    "da",
+                    "nl",
+                    "en",
+                    "fi",
+                    "fr",
+                    "de",
+                    "he",
+                    "hi",
+                    "it",
+                    "ja",
+                    "ko",
+                    "no",
+                    "no",
+                    "no",
+                    "pl",
+                    "pt",
+                    "ro",
+                    "ru",
+                    "sk",
+                    "es",
+                    "sv",
+                    "tr"
+                ],
+                "allow_null_language" : true
+            },
+            "version": "v1 (2021-08-01)"
+        },
+        "named_entity_recognition": {
+            "constraints": {
+                "languages": [
+                    "ar",
+                    "zh",
+                    "nl",
+                    "en",
+                    "fr",
+                    "de",
+                    "it",
+                    "ja",
+                    "ko",
+                    "pt",
+                    "ru",
+                    "es",
+                    "sv"
+                ],
+                "allow_null_language" : true
+            },
+            "version": "v1 (2021-08-01)"
+        },
+        "sentiment_analysis": {
+            "constraints": {
+                "languages": [
+                    "ar",
+                    "zh",
+                    "nl",
+                    "en",
+                    "fr",
+                    "de",
+                    "it",
+                    "ja",
+                    "ko",
+                    "pt",
+                    "ru",
+                    "es"
+                ],
+                "allow_null_language" : true
+            },
+            "version": "v1 (2021-08-01)"
+        },
+        "syntax_analysis": {
+            "constraints": {
+                "languages": [
+                    "ar",
+                    "zh",
+                    "cs",
+                    "da",
+                    "nl",
+                    "en",
+                    "fi",
+                    "fr",
+                    "de",
+                    "he",
+                    "hi",
+                    "it",
+                    "ja",
+                    "ko",
+                    "no",
+                    "no",
+                    "no",
+                    "pl",
+                    "pt",
+                    "ro",
+                    "ru",
+                    "sk",
+                    "es",
+                    "sv",
+                    "tr"
+                ],
+                "allow_null_language" : true
+            },
+            "version": "v1 (2021-08-01)"
+        }
+    },
+    "translation": {
+        "automatic_translation": {
+            "constraints": {
+                "languages": [
+                    "ar-AR",
+                    "bg-BG",
+                    "bn-BD",
+                    "bs-BA",
+                    "ca-ES",
+                    "cnr-ME",
+                    "cs-CZ",
+                    "cy-GB",
+                    "da-DK",
+                    "de-DE",
+                    "el-GR",
+                    "en-US",
+                    "es-ES",
+                    "et-EE",
+                    "eu-ES",
+                    "fi-FI",
+                    "fr-FR",
+                    "fr-CA",
+                    "ga-IE",
+                    "gu-IN",
+                    "he-IL",
+                    "hi-IN",
+                    "hr-HR",
+                    "hu-HU",
+                    "id-ID",
+                    "it-IT",
+                    "ja-JP",
+                    "kn-IN",
+                    "ko-KR",
+                    "lt-LT",
+                    "lv-LV",
+                    "ml-IN",
+                    "mr-IN",
+                    "ms-MY",
+                    "mt-MT",
+                    "nb-NO",
+                    "ne-NP",
+                    "nl-NL",
+                    "pa-IN",
+                    "pl-PL",
+                    "pt-BR",
+                    "ro-RO",
+                    "ru-RU",
+                    "si-LK",
+                    "sk-SK",
+                    "sl-SI",
+                    "sr-RS",
+                    "sv-SE",
+                    "ta-IN",
+                    "te-IN",
+                    "th-TH",
+                    "tr-TR",
+                    "uk-UA",
+                    "ur-PK",
+                    "vi-VN",
+                    "zh-CN",
+                    "zh-TW"
+                ],
+                "allow_null_language" : true
+            },
+            "version": "v3 (2018-05-01)"
+        },
+        "language_detection": {
+            "version": "v1 (2021-08-01)"
+        }
+    }
+}

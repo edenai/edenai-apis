@@ -1,0 +1,47 @@
+{
+  "original_response": {
+    "categories": [
+      {
+        "name": "building_",
+        "score": 0.4453125,
+        "detail": {
+          "landmarks": [
+            {
+              "name": "Saint Basil's Cathedral",
+              "confidence": 0.9888749122619629
+            }
+          ]
+        }
+      },
+      {
+        "name": "outdoor_",
+        "score": 0.00390625,
+        "detail": {
+          "landmarks": [
+            {
+              "name": "Saint Basil's Cathedral",
+              "confidence": 0.9888749122619629
+            }
+          ]
+        }
+      }
+    ],
+    "requestId": "b76212eb-4506-47dc-bc65-8fa1242e0d42",
+    "metadata": {
+      "height": 650,
+      "width": 503,
+      "format": "Jpeg"
+    },
+    "modelVersion": "2021-05-01"
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "description": "Saint Basil's Cathedral",
+        "confidence": 0.9888749122619629,
+        "bounding_box": [],
+        "locations": []
+      }
+    ]
+  }
+}

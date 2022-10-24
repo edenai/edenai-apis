@@ -1,0 +1,18 @@
+{
+  "natural_language_understanding": {
+    "apikey": "",
+    "url": ""
+  },
+  "speech_to_text": {
+    "apikey": "",
+    "url": ""
+  },
+  "text_to_speech": {
+    "apikey": "",
+    "url": ""
+  },
+  "translator": {
+    "apikey": "",
+    "url": ""
+  }
+}

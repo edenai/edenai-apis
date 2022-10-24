@@ -1,0 +1,24 @@
+{
+  "original_response": {
+    "results": [
+      {
+        "status": {
+          "code": "ok",
+          "message": "Success"
+        },
+        "name": "logo_detection.jpeg",
+        "md5": "86287133d46820bb0856057514d319e3",
+        "entities": [
+          {
+            "kind": "objects",
+            "name": "logo-detector",
+            "objects": []
+          }
+        ]
+      }
+    ]
+  },
+  "standarized_response": {
+    "items": []
+  }
+}

@@ -1,0 +1,108 @@
+{
+    "items": [
+      {
+        "label": "Furniture",
+        "confidence": 99.92650604248047,
+        "x_min": null,
+        "x_max": null,
+        "y_min": null,
+        "y_max": null
+      },
+      {
+        "label": "Living Room",
+        "confidence": 99.36504364013672,
+        "x_min": null,
+        "x_max": null,
+        "y_min": null,
+        "y_max": null
+      },
+      {
+        "label": "Room",
+        "confidence": 99.36504364013672,
+        "x_min": null,
+        "x_max": null,
+        "y_min": null,
+        "y_max": null
+      },
+      {
+        "label": "Indoors",
+        "confidence": 99.36504364013672,
+        "x_min": null,
+        "x_max": null,
+        "y_min": null,
+        "y_max": null
+      },
+      {
+        "label": "Person",
+        "confidence": 97.21466827392578,
+        "x_min": 0.6479311585426331,
+        "x_max": 0.8345104157924652,
+        "y_min": 0.46442657709121704,
+        "y_max": 0.8138136267662048
+      },
+      {
+        "label": "Human",
+        "confidence": 97.21466827392578,
+        "x_min": null,
+        "x_max": null,
+        "y_min": null,
+        "y_max": null
+      },
+      {
+        "label": "Pillow",
+        "confidence": 93.40451049804688,
+        "x_min": null,
+        "x_max": null,
+        "y_min": null,
+        "y_max": null
+      },
+      {
+        "label": "Cushion",
+        "confidence": 93.40451049804688,
+        "x_min": null,
+        "x_max": null,
+        "y_min": null,
+        "y_max": null
+      },
+      {
+        "label": "Couch",
+        "confidence": 92.15170288085938,
+        "x_min": null,
+        "x_max": null,
+        "y_min": null,
+        "y_max": null
+      },
+      {
+        "label": "Interior Design",
+        "confidence": 91.31050109863281,
+        "x_min": null,
+        "x_max": null,
+        "y_min": null,
+        "y_max": null
+      },
+      {
+        "label": "Rug",
+        "confidence": 82.717529296875,
+        "x_min": 0.3259349763393402,
+        "x_max": 0.7225979566574097,
+        "y_min": 0.561676561832428,
+        "y_max": 0.9896693229675293
+      },
+      {
+        "label": "Screen",
+        "confidence": 71.09355926513672,
+        "x_min": null,
+        "x_max": null,
+        "y_min": null,
+        "y_max": null
+      },
+      {
+        "label": "Electronics",
+        "confidence": 71.09355926513672,
+        "x_min": null,
+        "x_max": null,
+        "y_min": null,
+        "y_max": null
+      }
+    ]
+}

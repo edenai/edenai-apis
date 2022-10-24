@@ -1,0 +1,54 @@
+{
+  "original_response": {
+    "language": "en",
+    "textAngle": 0.0,
+    "orientation": "Up",
+    "regions": [
+      {
+        "boundingBox": "43,331,32,65",
+        "lines": [
+          {
+            "boundingBox": "43,331,6,8",
+            "words": [
+              {
+                "boundingBox": "43,331,6,8",
+                "text": "2."
+              }
+            ]
+          },
+          {
+            "boundingBox": "61,388,14,8",
+            "words": [
+              {
+                "boundingBox": "61,388,14,8",
+                "text": "2.2"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "modelVersion": "2021-04-01",
+    "width": 336,
+    "height": 484
+  },
+  "standarized_response": {
+    "text": "2. 2.2",
+    "bounding_boxes": [
+      {
+        "text": "2.",
+        "left": 0.12797619047619047,
+        "top": 0.6838842975206612,
+        "width": 0.017857142857142856,
+        "height": 0.01652892561983471
+      },
+      {
+        "text": "2.2",
+        "left": 0.18154761904761904,
+        "top": 0.8016528925619835,
+        "width": 0.041666666666666664,
+        "height": 0.01652892561983471
+      }
+    ]
+  }
+}

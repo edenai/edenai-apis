@@ -1,0 +1,636 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "96a2212403b8072b5d401825d098d462f0d5bf73bb8c5f92057ed56a85773603",
+  "original_response": {
+    "JobStatus": "SUCCEEDED",
+    "VideoMetadata": {
+      "Codec": "h264",
+      "DurationMillis": 14581,
+      "Format": "QuickTime / MOV",
+      "FrameRate": 29.969999313354492,
+      "FrameHeight": 360,
+      "FrameWidth": 640,
+      "ColorRange": "LIMITED"
+    },
+    "Persons": [
+      {
+        "Timestamp": 14180,
+        "Person": {
+          "Index": 2,
+          "BoundingBox": {
+            "Width": 0.4437499940395355,
+            "Height": 0.8472222089767456,
+            "Left": 0.3343749940395355,
+            "Top": 0.13333334028720856
+          },
+          "Face": {
+            "BoundingBox": {
+              "Width": 0.04268155246973038,
+              "Height": 0.1405760645866394,
+              "Left": 0.5173633694648743,
+              "Top": 0.11638819426298141
+            },
+            "Landmarks": [
+              {
+                "Type": "eyeLeft",
+                "X": 0.5389173626899719,
+                "Y": 0.21560685336589813
+              },
+              {
+                "Type": "eyeRight",
+                "X": 0.5350323915481567,
+                "Y": 0.2204989492893219
+              },
+              {
+                "Type": "mouthLeft",
+                "X": 0.5291590690612793,
+                "Y": 0.1716761738061905
+              },
+              {
+                "Type": "mouthRight",
+                "X": 0.5261327028274536,
+                "Y": 0.17624658346176147
+              },
+              {
+                "Type": "nose",
+                "X": 0.520147442817688,
+                "Y": 0.20304256677627563
+              }
+            ],
+            "Pose": {
+              "Roll": -9.759303092956543,
+              "Yaw": -76.09953308105469,
+              "Pitch": -4.906827449798584
+            },
+            "Quality": {
+              "Brightness": 76.12115478515625,
+              "Sharpness": 4.3748369216918945
+            },
+            "Confidence": 95.78128814697266
+          }
+        }
+      },
+      {
+        "Timestamp": 14247,
+        "Person": {
+          "Index": 0,
+          "BoundingBox": {
+            "Width": 0.24687500298023224,
+            "Height": 0.4888888895511627,
+            "Left": 0.23593750596046448,
+            "Top": 0.13055555522441864
+          }
+        }
+      },
+      {
+        "Timestamp": 14247,
+        "Person": {
+          "Index": 2,
+          "BoundingBox": {
+            "Width": 0.4390625059604645,
+            "Height": 0.8500000238418579,
+            "Left": 0.3343749940395355,
+            "Top": 0.13055555522441864
+          }
+        }
+      },
+      {
+        "Timestamp": 14314,
+        "Person": {
+          "Index": 0,
+          "BoundingBox": {
+            "Width": 0.23593750596046448,
+            "Height": 0.49166667461395264,
+            "Left": 0.23593750596046448,
+            "Top": 0.13333334028720856
+          }
+        }
+      },
+      {
+        "Timestamp": 14314,
+        "Person": {
+          "Index": 2,
+          "BoundingBox": {
+            "Width": 0.4390625059604645,
+            "Height": 0.855555534362793,
+            "Left": 0.33281248807907104,
+            "Top": 0.12777778506278992
+          }
+        }
+      },
+      {
+        "Timestamp": 14381,
+        "Person": {
+          "Index": 0,
+          "BoundingBox": {
+            "Width": 0.22968749701976776,
+            "Height": 0.5055555701255798,
+            "Left": 0.23906250298023224,
+            "Top": 0.13333334028720856
+          },
+          "Face": {
+            "BoundingBox": {
+              "Width": 0.08605007827281952,
+              "Height": 0.14483150839805603,
+              "Left": 0.32348889112472534,
+              "Top": 0.23926395177841187
+            },
+            "Landmarks": [
+              {
+                "Type": "eyeLeft",
+                "X": 0.3542875647544861,
+                "Y": 0.29746705293655396
+              },
+              {
+                "Type": "eyeRight",
+                "X": 0.38256198167800903,
+                "Y": 0.3172021806240082
+              },
+              {
+                "Type": "mouthLeft",
+                "X": 0.341906875371933,
+                "Y": 0.3374536633491516
+              },
+              {
+                "Type": "mouthRight",
+                "X": 0.3658532202243805,
+                "Y": 0.3539603054523468
+              },
+              {
+                "Type": "nose",
+                "X": 0.3610745370388031,
+                "Y": 0.34712809324264526
+              }
+            ],
+            "Pose": {
+              "Roll": 21.50367546081543,
+              "Yaw": 13.420023918151855,
+              "Pitch": -40.336692810058594
+            },
+            "Quality": {
+              "Brightness": 73.04838562011719,
+              "Sharpness": 4.3748369216918945
+            },
+            "Confidence": 99.96359252929688
+          }
+        }
+      },
+      {
+        "Timestamp": 14381,
+        "Person": {
+          "Index": 2,
+          "BoundingBox": {
+            "Width": 0.44218748807907104,
+            "Height": 0.8583333492279053,
+            "Left": 0.3296875059604645,
+            "Top": 0.12222222238779068
+          },
+          "Face": {
+            "BoundingBox": {
+              "Width": 0.04438662528991699,
+              "Height": 0.14021939039230347,
+              "Left": 0.5298271179199219,
+              "Top": 0.09783878177404404
+            },
+            "Landmarks": [
+              {
+                "Type": "eyeLeft",
+                "X": 0.5541722774505615,
+                "Y": 0.19489319622516632
+              },
+              {
+                "Type": "eyeRight",
+                "X": 0.5501971244812012,
+                "Y": 0.20100639760494232
+              },
+              {
+                "Type": "mouthLeft",
+                "X": 0.543124794960022,
+                "Y": 0.15499256551265717
+              },
+              {
+                "Type": "mouthRight",
+                "X": 0.5400335788726807,
+                "Y": 0.1605936586856842
+              },
+              {
+                "Type": "nose",
+                "X": 0.5349479913711548,
+                "Y": 0.18725374341011047
+              }
+            ],
+            "Pose": {
+              "Roll": -8.009773254394531,
+              "Yaw": -75.75617218017578,
+              "Pitch": -7.253818988800049
+            },
+            "Quality": {
+              "Brightness": 76.94717407226562,
+              "Sharpness": 4.3748369216918945
+            },
+            "Confidence": 98.53301239013672
+          }
+        }
+      },
+      {
+        "Timestamp": 14447,
+        "Person": {
+          "Index": 2,
+          "BoundingBox": {
+            "Width": 0.453125,
+            "Height": 0.855555534362793,
+            "Left": 0.328125,
+            "Top": 0.11944444477558136
+          }
+        }
+      },
+      {
+        "Timestamp": 14514,
+        "Person": {
+          "Index": 0,
+          "BoundingBox": {
+            "Width": 0.22968749701976776,
+            "Height": 0.5055555701255798,
+            "Left": 0.23749999701976776,
+            "Top": 0.13333334028720856
+          }
+        }
+      },
+      {
+        "Timestamp": 14514,
+        "Person": {
+          "Index": 2,
+          "BoundingBox": {
+            "Width": 0.4609375,
+            "Height": 0.8472222089767456,
+            "Left": 0.3218750059604645,
+            "Top": 0.13055555522441864
+          }
+        }
+      }
+    ],
+    "ResponseMetadata": {
+      "RequestId": "46e9519b-200f-4f84-96dc-213c94a0f5f4",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "46e9519b-200f-4f84-96dc-213c94a0f5f4",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "3840",
+        "date": "Wed, 12 Oct 2022 10:44:44 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standarized_response": {
+    "persons": [
+      {
+        "tracked": [
+          {
+            "offset": 14.247,
+            "attributes": {
+              "upper_cloths": [],
+              "lower_cloths": []
+            },
+            "landmarks": {
+              "eye_left": [],
+              "eye_right": [],
+              "nose": [],
+              "ear_left": [],
+              "ear_right": [],
+              "shoulder_left": [],
+              "shoulder_right": [],
+              "elbow_left": [],
+              "elbow_right": [],
+              "wrist_left": [],
+              "wrist_right": [],
+              "hip_left": [],
+              "hip_right": [],
+              "knee_left": [],
+              "knee_right": [],
+              "ankle_left": [],
+              "ankle_right": [],
+              "mouth_left": [],
+              "mouth_right": []
+            },
+            "bounding_box": {
+              "top": 0.13055555522441864,
+              "left": 0.23593750596046448,
+              "height": 0.4888888895511627,
+              "width": 0.24687500298023224
+            }
+          },
+          {
+            "offset": 14.314,
+            "attributes": {
+              "upper_cloths": [],
+              "lower_cloths": []
+            },
+            "landmarks": {
+              "eye_left": [],
+              "eye_right": [],
+              "nose": [],
+              "ear_left": [],
+              "ear_right": [],
+              "shoulder_left": [],
+              "shoulder_right": [],
+              "elbow_left": [],
+              "elbow_right": [],
+              "wrist_left": [],
+              "wrist_right": [],
+              "hip_left": [],
+              "hip_right": [],
+              "knee_left": [],
+              "knee_right": [],
+              "ankle_left": [],
+              "ankle_right": [],
+              "mouth_left": [],
+              "mouth_right": []
+            },
+            "bounding_box": {
+              "top": 0.13333334028720856,
+              "left": 0.23593750596046448,
+              "height": 0.49166667461395264,
+              "width": 0.23593750596046448
+            }
+          },
+          {
+            "offset": 14.381,
+            "attributes": {
+              "upper_cloths": [],
+              "lower_cloths": []
+            },
+            "landmarks": {
+              "eye_left": [],
+              "eye_right": [],
+              "nose": [],
+              "ear_left": [],
+              "ear_right": [],
+              "shoulder_left": [],
+              "shoulder_right": [],
+              "elbow_left": [],
+              "elbow_right": [],
+              "wrist_left": [],
+              "wrist_right": [],
+              "hip_left": [],
+              "hip_right": [],
+              "knee_left": [],
+              "knee_right": [],
+              "ankle_left": [],
+              "ankle_right": [],
+              "mouth_left": [],
+              "mouth_right": []
+            },
+            "bounding_box": {
+              "top": 0.13333334028720856,
+              "left": 0.23906250298023224,
+              "height": 0.5055555701255798,
+              "width": 0.22968749701976776
+            }
+          },
+          {
+            "offset": 14.514,
+            "attributes": {
+              "upper_cloths": [],
+              "lower_cloths": []
+            },
+            "landmarks": {
+              "eye_left": [],
+              "eye_right": [],
+              "nose": [],
+              "ear_left": [],
+              "ear_right": [],
+              "shoulder_left": [],
+              "shoulder_right": [],
+              "elbow_left": [],
+              "elbow_right": [],
+              "wrist_left": [],
+              "wrist_right": [],
+              "hip_left": [],
+              "hip_right": [],
+              "knee_left": [],
+              "knee_right": [],
+              "ankle_left": [],
+              "ankle_right": [],
+              "mouth_left": [],
+              "mouth_right": []
+            },
+            "bounding_box": {
+              "top": 0.13333334028720856,
+              "left": 0.23749999701976776,
+              "height": 0.5055555701255798,
+              "width": 0.22968749701976776
+            }
+          }
+        ]
+      },
+      {
+        "tracked": [
+          {
+            "offset": 14.18,
+            "attributes": {
+              "upper_cloths": [],
+              "lower_cloths": []
+            },
+            "landmarks": {
+              "eye_left": [],
+              "eye_right": [],
+              "nose": [],
+              "ear_left": [],
+              "ear_right": [],
+              "shoulder_left": [],
+              "shoulder_right": [],
+              "elbow_left": [],
+              "elbow_right": [],
+              "wrist_left": [],
+              "wrist_right": [],
+              "hip_left": [],
+              "hip_right": [],
+              "knee_left": [],
+              "knee_right": [],
+              "ankle_left": [],
+              "ankle_right": [],
+              "mouth_left": [],
+              "mouth_right": []
+            },
+            "bounding_box": {
+              "top": 0.13333334028720856,
+              "left": 0.3343749940395355,
+              "height": 0.8472222089767456,
+              "width": 0.4437499940395355
+            }
+          },
+          {
+            "offset": 14.247,
+            "attributes": {
+              "upper_cloths": [],
+              "lower_cloths": []
+            },
+            "landmarks": {
+              "eye_left": [],
+              "eye_right": [],
+              "nose": [],
+              "ear_left": [],
+              "ear_right": [],
+              "shoulder_left": [],
+              "shoulder_right": [],
+              "elbow_left": [],
+              "elbow_right": [],
+              "wrist_left": [],
+              "wrist_right": [],
+              "hip_left": [],
+              "hip_right": [],
+              "knee_left": [],
+              "knee_right": [],
+              "ankle_left": [],
+              "ankle_right": [],
+              "mouth_left": [],
+              "mouth_right": []
+            },
+            "bounding_box": {
+              "top": 0.13055555522441864,
+              "left": 0.3343749940395355,
+              "height": 0.8500000238418579,
+              "width": 0.4390625059604645
+            }
+          },
+          {
+            "offset": 14.314,
+            "attributes": {
+              "upper_cloths": [],
+              "lower_cloths": []
+            },
+            "landmarks": {
+              "eye_left": [],
+              "eye_right": [],
+              "nose": [],
+              "ear_left": [],
+              "ear_right": [],
+              "shoulder_left": [],
+              "shoulder_right": [],
+              "elbow_left": [],
+              "elbow_right": [],
+              "wrist_left": [],
+              "wrist_right": [],
+              "hip_left": [],
+              "hip_right": [],
+              "knee_left": [],
+              "knee_right": [],
+              "ankle_left": [],
+              "ankle_right": [],
+              "mouth_left": [],
+              "mouth_right": []
+            },
+            "bounding_box": {
+              "top": 0.12777778506278992,
+              "left": 0.33281248807907104,
+              "height": 0.855555534362793,
+              "width": 0.4390625059604645
+            }
+          },
+          {
+            "offset": 14.381,
+            "attributes": {
+              "upper_cloths": [],
+              "lower_cloths": []
+            },
+            "landmarks": {
+              "eye_left": [],
+              "eye_right": [],
+              "nose": [],
+              "ear_left": [],
+              "ear_right": [],
+              "shoulder_left": [],
+              "shoulder_right": [],
+              "elbow_left": [],
+              "elbow_right": [],
+              "wrist_left": [],
+              "wrist_right": [],
+              "hip_left": [],
+              "hip_right": [],
+              "knee_left": [],
+              "knee_right": [],
+              "ankle_left": [],
+              "ankle_right": [],
+              "mouth_left": [],
+              "mouth_right": []
+            },
+            "bounding_box": {
+              "top": 0.12222222238779068,
+              "left": 0.3296875059604645,
+              "height": 0.8583333492279053,
+              "width": 0.44218748807907104
+            }
+          },
+          {
+            "offset": 14.447,
+            "attributes": {
+              "upper_cloths": [],
+              "lower_cloths": []
+            },
+            "landmarks": {
+              "eye_left": [],
+              "eye_right": [],
+              "nose": [],
+              "ear_left": [],
+              "ear_right": [],
+              "shoulder_left": [],
+              "shoulder_right": [],
+              "elbow_left": [],
+              "elbow_right": [],
+              "wrist_left": [],
+              "wrist_right": [],
+              "hip_left": [],
+              "hip_right": [],
+              "knee_left": [],
+              "knee_right": [],
+              "ankle_left": [],
+              "ankle_right": [],
+              "mouth_left": [],
+              "mouth_right": []
+            },
+            "bounding_box": {
+              "top": 0.11944444477558136,
+              "left": 0.328125,
+              "height": 0.855555534362793,
+              "width": 0.453125
+            }
+          },
+          {
+            "offset": 14.514,
+            "attributes": {
+              "upper_cloths": [],
+              "lower_cloths": []
+            },
+            "landmarks": {
+              "eye_left": [],
+              "eye_right": [],
+              "nose": [],
+              "ear_left": [],
+              "ear_right": [],
+              "shoulder_left": [],
+              "shoulder_right": [],
+              "elbow_left": [],
+              "elbow_right": [],
+              "wrist_left": [],
+              "wrist_right": [],
+              "hip_left": [],
+              "hip_right": [],
+              "knee_left": [],
+              "knee_right": [],
+              "ankle_left": [],
+              "ankle_right": [],
+              "mouth_left": [],
+              "mouth_right": []
+            },
+            "bounding_box": {
+              "top": 0.13055555522441864,
+              "left": 0.3218750059604645,
+              "height": 0.8472222089767456,
+              "width": 0.4609375
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

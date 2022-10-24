@@ -1,0 +1,18 @@
+{
+  "original_response": {
+    "languages": [
+      {
+        "languageCode": "it",
+        "confidence": 1.0
+      }
+    ]
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "language": "it",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

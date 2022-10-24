@@ -1,0 +1,13 @@
+{
+    "audio": {
+        "speech_to_text_async": {
+            "constraints": {
+                "languages": [
+                    "fr",
+                    "en"
+                ]
+            },
+            "version": "v1"
+        }
+    }
+}

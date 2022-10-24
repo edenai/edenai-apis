@@ -1,0 +1,28 @@
+{
+    "ocr": {
+        "invoice_parser": {
+            "constraints": {
+                "languages": [
+                    "en-US"
+                ]
+            },
+            "version": "latest"
+        },
+        "ocr": {
+            "constraints": {
+                "languages": [
+                    "en-US"
+                ]
+            },
+            "version": "latest"
+        },
+        "receipt_parser": {
+            "constraints": {
+                "languages": [
+                    "en-US"
+                ]
+            },
+            "version": "latest"
+        }
+    }
+}

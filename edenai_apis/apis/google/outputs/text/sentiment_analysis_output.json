@@ -1,0 +1,62 @@
+{
+  "original_response": {
+    "documentSentiment": {
+      "magnitude": 2.2,
+      "score": -0.4
+    },
+    "language": "en",
+    "sentences": [
+      {
+        "text": {
+          "content": "Overall I am satisfied with my experience at Amazon, but two areas of major improvement needed."
+        },
+        "sentiment": {}
+      },
+      {
+        "text": {
+          "content": "First is the product reviews and pricing.",
+          "beginOffset": 96
+        },
+        "sentiment": {}
+      },
+      {
+        "text": {
+          "content": "There are thousands of positive reviews for so many items, and it's clear that the reviews are bogus or not really associated with that product.",
+          "beginOffset": 138
+        },
+        "sentiment": {
+          "magnitude": 0.5,
+          "score": -0.5
+        }
+      },
+      {
+        "text": {
+          "content": "There needs to be a way to only view products sold by Amazon directly, because many market sellers way overprice items that can be purchased cheaper elsewhere (like Walmart, Target, etc).",
+          "beginOffset": 283
+        },
+        "sentiment": {
+          "magnitude": 0.6,
+          "score": -0.6
+        }
+      },
+      {
+        "text": {
+          "content": "The second issue is they make it too difficult to get help when there's an issue with an order.",
+          "beginOffset": 471
+        },
+        "sentiment": {
+          "magnitude": 0.8,
+          "score": -0.8
+        }
+      }
+    ]
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "sentiment": "Negative",
+        "sentiment_rate": 0.4
+      }
+    ]
+  }
+}

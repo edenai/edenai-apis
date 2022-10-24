@@ -1,0 +1,12 @@
+{
+    "ocr": {
+        "receipt_parser": {
+            "constraints": {
+                "languages": [
+                    "en-US"
+                ]
+            },
+            "version": "latest"
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "audio": {
+        "speech_to_text_async": {
+            "constraints": {
+                "languages": [
+                    "spa-ES",
+                    "spa-MX",
+                    "fre-FR",
+                    "ita-IT",
+                    "ger-DE",
+                    "fre-CA",
+                    "spa-AR",
+                    "eng-US",
+                    "spa-PA",
+                    "por-BR",
+                    "spa-CO"
+                ]
+            },
+            "version": "v1"
+        }
+    }
+}

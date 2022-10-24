@@ -1,0 +1,36 @@
+{
+  "original_response": {
+    "results": [
+      {
+        "status": {
+          "code": "ok",
+          "message": "Success"
+        },
+        "name": "explicit_content.jpeg",
+        "md5": "06a9c420d3a206a0481c9288b6116416",
+        "entities": [
+          {
+            "kind": "classes",
+            "name": "nsfw-classes",
+            "classes": {
+              "nsfw": 0.00019603680175350746,
+              "sfw": 0.9998039528727531
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "label": "nsfw",
+        "likelihood": 1
+      },
+      {
+        "label": "sfw",
+        "likelihood": 5
+      }
+    ]
+  }
+}

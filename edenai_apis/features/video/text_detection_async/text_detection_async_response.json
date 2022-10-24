@@ -1,0 +1,4139 @@
+{
+    "texts": [
+      {
+        "text": "MESSENGER",
+        "frames": [
+          {
+            "confidence": 0.9913524,
+            "timestamp": 0.0,
+            "bounding_box": {
+              "top": 0.20462963,
+              "left": 0.30052084,
+              "height": 0.04537036999999999,
+              "width": 0.21249996000000004
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 0.12,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.02248912,
+              "width": 0.21038767000000003
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 0.24,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.022299750000000007,
+              "width": 0.21038586999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 0.36,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.022583800000000015,
+              "width": 0.21038853999999996
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 0.48,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30572918,
+              "height": 0.021975560000000005,
+              "width": 0.20987048999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 0.6,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.021827960000000007,
+              "width": 0.21039006999999998
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 0.72,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.02268239999999999,
+              "width": 0.21038943
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 0.84,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.02235339,
+              "width": 0.21038636999999993
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 0.96,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.022792980000000018,
+              "width": 0.21039047
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 1.08,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.023330889999999993,
+              "width": 0.21090780999999992
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 1.2,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.022270590000000007,
+              "width": 0.21039390000000002
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 1.32,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.023778789999999994,
+              "width": 0.21039096999999995
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 1.44,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.022150730000000007,
+              "width": 0.21038442000000002
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 1.56,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.023391440000000013,
+              "width": 0.21038747000000002
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 1.68,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.022214380000000006,
+              "width": 0.21038501999999992
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 1.8,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.023333290000000007,
+              "width": 0.21038692999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 1.92,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.021897670000000008,
+              "width": 0.21039067
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 2.04,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.022318420000000005,
+              "width": 0.21038603
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 2.16,
+            "bounding_box": {
+              "top": 0.21666667,
+              "left": 0.30520833,
+              "height": 0.021188109999999982,
+              "width": 0.21038406999999992
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 2.28,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.02183326000000002,
+              "width": 0.21039016999999993
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 2.4,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.02258991000000002,
+              "width": 0.21038857
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 2.52,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.02236378,
+              "width": 0.21038650999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 2.64,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.022632380000000007,
+              "width": 0.21038901
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 2.76,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.3046875,
+              "height": 0.02285782,
+              "width": 0.21091187
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 2.88,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.3046875,
+              "height": 0.023373489999999997,
+              "width": 0.2109082
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 3.0,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.02257933000000001,
+              "width": 0.21038846999999994
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 3.12,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.3046875,
+              "height": 0.02247453000000002,
+              "width": 0.21142936
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 3.24,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.022598090000000015,
+              "width": 0.21038866999999994
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 3.36,
+            "bounding_box": {
+              "top": 0.2361111,
+              "left": 0.29791668,
+              "height": 0.03806207000000003,
+              "width": 0.21666142000000005
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 3.6,
+            "bounding_box": {
+              "top": 0.21944444,
+              "left": 0.38229167,
+              "height": 0.027855569999999996,
+              "width": 0.17237683000000004
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 3.84,
+            "bounding_box": {
+              "top": 0.2175926,
+              "left": 0.328125,
+              "height": 0.021684520000000013,
+              "width": 0.19841622999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 3.96,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.31041667,
+              "height": 0.023699350000000008,
+              "width": 0.20830663
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 4.08,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30260417,
+              "height": 0.021479340000000013,
+              "width": 0.21194023
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 4.2,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.29791668,
+              "height": 0.023161680000000018,
+              "width": 0.21454307
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 4.32,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.296875,
+              "height": 0.02223937000000001,
+              "width": 0.21506404999999995
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 4.44,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.2984375,
+              "height": 0.022186449999999996,
+              "width": 0.21402159999999992
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 4.56,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.3,
+              "height": 0.022424090000000008,
+              "width": 0.21350324999999998
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 4.68,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30208334,
+              "height": 0.02109045000000001,
+              "width": 0.21194581000000007
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 4.8,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.303125,
+              "height": 0.023193540000000012,
+              "width": 0.21142735000000001
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 4.92,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.3046875,
+              "height": 0.021459210000000006,
+              "width": 0.21038670000000004
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 5.04,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.022521470000000016,
+              "width": 0.21038796999999998
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 5.16,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.02337271000000002,
+              "width": 0.21090816999999995
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 5.28,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.02171509000000002,
+              "width": 0.21038906999999996
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 5.4,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.021326010000000006,
+              "width": 0.21038543999999992
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 5.52,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.022713420000000012,
+              "width": 0.21038972999999994
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 5.64,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.023615589999999992,
+              "width": 0.21038946999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 5.76,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.022898630000000003,
+              "width": 0.21039133999999993
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 5.88,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.02261246,
+              "width": 0.21038882999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 6.0,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.02168994000000002,
+              "width": 0.21038882999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 6.12,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.02284084,
+              "width": 0.21039087
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 6.24,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.023848129999999995,
+              "width": 0.21039156999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 6.36,
+            "bounding_box": {
+              "top": 0.21666667,
+              "left": 0.30572918,
+              "height": 0.021046499999999996,
+              "width": 0.20987042000000006
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 6.48,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.02207363000000001,
+              "width": 0.21038367000000002
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 6.6,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.02180259000000001,
+              "width": 0.21038986999999998
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 6.72,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.02318031000000001,
+              "width": 0.21039376999999992
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 6.84,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.022738520000000012,
+              "width": 0.21038996999999993
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 6.96,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.022487550000000023,
+              "width": 0.21038767000000003
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 7.08,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.02172434000000001,
+              "width": 0.21038912999999992
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 7.2,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30572918,
+              "height": 0.021815320000000027,
+              "width": 0.20986906
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 7.32,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.021336560000000004,
+              "width": 0.21038546999999996
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 7.44,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.023356280000000007,
+              "width": 0.21038711
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 7.56,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.021531300000000003,
+              "width": 0.21038736999999996
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 7.68,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.022521330000000006,
+              "width": 0.21038796999999998
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 7.8,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.022061320000000023,
+              "width": 0.21038352999999999
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 7.92,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.023849549999999997,
+              "width": 0.21039156999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 8.04,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.022456930000000014,
+              "width": 0.21038736999999996
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 8.16,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.023635430000000013,
+              "width": 0.21038966999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 8.28,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.021649570000000007,
+              "width": 0.21038846999999994
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 8.4,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.023474949999999994,
+              "width": 0.21038824
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 8.52,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.02322346,
+              "width": 0.21038586999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 8.64,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.021999390000000008,
+              "width": 0.21038292999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 8.76,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.02329356000000002,
+              "width": 0.21038650999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 8.88,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.023265570000000013,
+              "width": 0.21038627
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 9.0,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.021234660000000016,
+              "width": 0.21038457
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 9.12,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.023248970000000008,
+              "width": 0.21039432000000002
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 9.24,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30572918,
+              "height": 0.021561120000000017,
+              "width": 0.20986672
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 9.36,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.021939810000000004,
+              "width": 0.21039107
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 9.48,
+            "bounding_box": {
+              "top": 0.21574074,
+              "left": 0.30520833,
+              "height": 0.022278060000000016,
+              "width": 0.21038566999999997
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 9.6,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30520833,
+              "height": 0.023574730000000016,
+              "width": 0.21091001999999992
+            }
+          },
+          {
+            "confidence": 0.9913524,
+            "timestamp": 9.72,
+            "bounding_box": {
+              "top": 0.21481481,
+              "left": 0.30572918,
+              "height": 0.0305966,
+              "width": 0.21038552000000005
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 0.0,
+            "bounding_box": {
+              "top": 0.4212963,
+              "left": 0.21510416,
+              "height": 0.06545039999999996,
+              "width": 0.29685064000000005
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 0.12,
+            "bounding_box": {
+              "top": 0.44074073,
+              "left": 0.27760416,
+              "height": 0.03470966999999997,
+              "width": 0.23487139
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 0.24,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.27135417,
+              "height": 0.06467852000000002,
+              "width": 0.24215897999999997
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 0.36,
+            "bounding_box": {
+              "top": 0.42592594,
+              "left": 0.2734375,
+              "height": 0.06584349,
+              "width": 0.23747295000000002
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 0.48,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.26354167,
+              "height": 0.04885092000000002,
+              "width": 0.24892142999999994
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 0.6,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.27395833,
+              "height": 0.06226376,
+              "width": 0.23379916999999995
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 0.72,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.2609375,
+              "height": 0.05025554000000004,
+              "width": 0.25152154
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 0.84,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.27135417,
+              "height": 0.06449436000000003,
+              "width": 0.24215736999999998
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 0.96,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.20729166,
+              "height": 0.04747093000000002,
+              "width": 0.30516631000000005
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 1.08,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.27135417,
+              "height": 0.06408228999999999,
+              "width": 0.24215362999999995
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 1.2,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.27135417,
+              "height": 0.06361505,
+              "width": 0.24214907999999996
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 1.32,
+            "bounding_box": {
+              "top": 0.4287037,
+              "left": 0.26354167,
+              "height": 0.0464716,
+              "width": 0.24840422999999995
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 1.44,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.27135417,
+              "height": 0.06411596000000003,
+              "width": 0.24215393000000002
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 1.56,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.27135417,
+              "height": 0.06396940000000001,
+              "width": 0.24215252999999998
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 1.68,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.2734375,
+              "height": 0.06368986000000004,
+              "width": 0.23745170000000004
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 1.8,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.2734375,
+              "height": 0.0647701,
+              "width": 0.23746310000000004
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 1.92,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.2703125,
+              "height": 0.06303810999999998,
+              "width": 0.23954795999999995
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 2.04,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.2703125,
+              "height": 0.06345056999999998,
+              "width": 0.23955180000000004
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 2.16,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.26458332,
+              "height": 0.04788795000000001,
+              "width": 0.24787924
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 2.28,
+            "bounding_box": {
+              "top": 0.42962962,
+              "left": 0.27291667,
+              "height": 0.05313898,
+              "width": 0.24062113000000007
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 2.4,
+            "bounding_box": {
+              "top": 0.42592594,
+              "left": 0.27395833,
+              "height": 0.06590818999999998,
+              "width": 0.24059887000000002
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 2.52,
+            "bounding_box": {
+              "top": 0.42962962,
+              "left": 0.27291667,
+              "height": 0.05370370000000002,
+              "width": 0.24062497000000005
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 2.64,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.2703125,
+              "height": 0.06305192999999998,
+              "width": 0.23954809999999999
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 2.76,
+            "bounding_box": {
+              "top": 0.4287037,
+              "left": 0.2640625,
+              "height": 0.046648739999999966,
+              "width": 0.24786620000000004
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 2.88,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.27135417,
+              "height": 0.06427798000000001,
+              "width": 0.24215543
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 3.0,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.26354167,
+              "height": 0.048223970000000005,
+              "width": 0.24891513000000004
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 3.12,
+            "bounding_box": {
+              "top": 0.42962962,
+              "left": 0.27291667,
+              "height": 0.04967299000000003,
+              "width": 0.23958023000000006
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 3.24,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.26354167,
+              "height": 0.04857286999999999,
+              "width": 0.24891868
+            }
+          },
+          {
+            "confidence": 0.9874829,
+            "timestamp": 3.36,
+            "bounding_box": {
+              "top": 0.46574074,
+              "left": 0.26666668,
+              "height": 0.04767266000000003,
+              "width": 0.24477482
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 3.72,
+            "bounding_box": {
+              "top": 0.36851853,
+              "left": 0.28020832,
+              "height": 0.048944529999999986,
+              "width": 0.23227627999999995
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 3.84,
+            "bounding_box": {
+              "top": 0.4101852,
+              "left": 0.28229168,
+              "height": 0.03606246999999996,
+              "width": 0.23019865
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 3.96,
+            "bounding_box": {
+              "top": 0.42222223,
+              "left": 0.25260416,
+              "height": 0.058527470000000026,
+              "width": 0.25883003999999993
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 4.08,
+            "bounding_box": {
+              "top": 0.4351852,
+              "left": 0.271875,
+              "height": 0.04460826000000001,
+              "width": 0.24163237000000004
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 4.2,
+            "bounding_box": {
+              "top": 0.44074073,
+              "left": 0.25,
+              "height": 0.05492052999999997,
+              "width": 0.2614193
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 4.32,
+            "bounding_box": {
+              "top": 0.45185184,
+              "left": 0.27604166,
+              "height": 0.03356076000000002,
+              "width": 0.23640383999999998
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 4.44,
+            "bounding_box": {
+              "top": 0.44074073,
+              "left": 0.27083334,
+              "height": 0.043706599999999984,
+              "width": 0.24162332000000003
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 4.56,
+            "bounding_box": {
+              "top": 0.43703705,
+              "left": 0.27083334,
+              "height": 0.05446398000000002,
+              "width": 0.24684670999999997
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 4.68,
+            "bounding_box": {
+              "top": 0.4351852,
+              "left": 0.27291667,
+              "height": 0.045500030000000025,
+              "width": 0.23955673
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 4.8,
+            "bounding_box": {
+              "top": 0.43148148,
+              "left": 0.27291667,
+              "height": 0.050016420000000006,
+              "width": 0.23957437999999998
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 4.92,
+            "bounding_box": {
+              "top": 0.43148148,
+              "left": 0.27291667,
+              "height": 0.049092140000000006,
+              "width": 0.23957833000000006
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 5.04,
+            "bounding_box": {
+              "top": 0.43888888,
+              "left": 0.278125,
+              "height": 0.042592620000000025,
+              "width": 0.23437499999999994
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 5.16,
+            "bounding_box": {
+              "top": 0.42962962,
+              "left": 0.26354167,
+              "height": 0.046202450000000006,
+              "width": 0.24841003
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 5.28,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.2734375,
+              "height": 0.06531376,
+              "width": 0.23746829999999997
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 5.4,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.27135417,
+              "height": 0.06387016000000001,
+              "width": 0.24215159000000003
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 5.52,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.27135417,
+              "height": 0.06360891000000002,
+              "width": 0.24214903000000004
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 5.64,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.265625,
+              "height": 0.04760751000000002,
+              "width": 0.24631369999999997
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 5.76,
+            "bounding_box": {
+              "top": 0.42962962,
+              "left": 0.27291667,
+              "height": 0.055555560000000004,
+              "width": 0.24062497000000005
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 5.88,
+            "bounding_box": {
+              "top": 0.42962962,
+              "left": 0.271875,
+              "height": 0.058148809999999995,
+              "width": 0.24582769999999998
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 6.0,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.271875,
+              "height": 0.061111130000000013,
+              "width": 0.25104170000000003
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 6.12,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.2703125,
+              "height": 0.06292659,
+              "width": 0.2395468
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 6.24,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.26822916,
+              "height": 0.06483224000000004,
+              "width": 0.24424383999999993
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 6.36,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.2703125,
+              "height": 0.06339821000000001,
+              "width": 0.23955129999999997
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 6.48,
+            "bounding_box": {
+              "top": 0.42592594,
+              "left": 0.2734375,
+              "height": 0.06537384000000002,
+              "width": 0.23746884000000001
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 6.6,
+            "bounding_box": {
+              "top": 0.42592594,
+              "left": 0.27395833,
+              "height": 0.06482673,
+              "width": 0.24058913999999998
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 6.72,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.2734375,
+              "height": 0.06518326000000002,
+              "width": 0.23746710000000004
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 6.84,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.27135417,
+              "height": 0.06441134000000004,
+              "width": 0.24215658999999995
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 6.96,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.2640625,
+              "height": 0.048480210000000024,
+              "width": 0.24839684000000006
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 7.08,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.27135417,
+              "height": 0.06439381999999999,
+              "width": 0.24215647
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 7.2,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.27135417,
+              "height": 0.06433786000000002,
+              "width": 0.24215592999999996
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 7.32,
+            "bounding_box": {
+              "top": 0.4287037,
+              "left": 0.27135417,
+              "height": 0.06327495,
+              "width": 0.24214556999999998
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 7.44,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.2734375,
+              "height": 0.06333598000000001,
+              "width": 0.23745793000000004
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 7.56,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.2734375,
+              "height": 0.06539996000000003,
+              "width": 0.2374691
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 7.68,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.2734375,
+              "height": 0.06484774000000004,
+              "width": 0.23746389999999995
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 7.8,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.26354167,
+              "height": 0.04804203000000001,
+              "width": 0.2489132
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 7.92,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.27135417,
+              "height": 0.06389592999999999,
+              "width": 0.24215183
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 8.04,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.2734375,
+              "height": 0.06521591000000004,
+              "width": 0.2374674
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 8.16,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.2734375,
+              "height": 0.06571320000000003,
+              "width": 0.23747189999999996
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 8.28,
+            "bounding_box": {
+              "top": 0.4287037,
+              "left": 0.27135417,
+              "height": 0.06260057999999996,
+              "width": 0.24213822999999995
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 8.4,
+            "bounding_box": {
+              "top": 0.44166666,
+              "left": 0.27760416,
+              "height": 0.03237337000000001,
+              "width": 0.23433769000000004
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 8.52,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.2734375,
+              "height": 0.06323849999999998,
+              "width": 0.23745686
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 8.64,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.27135417,
+              "height": 0.06320977,
+              "width": 0.24214492999999998
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 8.76,
+            "bounding_box": {
+              "top": 0.42962962,
+              "left": 0.27135417,
+              "height": 0.06067714000000002,
+              "width": 0.24212633
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 8.88,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.2734375,
+              "height": 0.06559651999999999,
+              "width": 0.23747079999999998
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 9.0,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.27135417,
+              "height": 0.06382668000000002,
+              "width": 0.24215117000000003
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 9.12,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.25,
+              "height": 0.06516331000000003,
+              "width": 0.26247007
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 9.24,
+            "bounding_box": {
+              "top": 0.42777777,
+              "left": 0.26822916,
+              "height": 0.04763498999999999,
+              "width": 0.24371828999999995
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 9.36,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.27135417,
+              "height": 0.06398706000000004,
+              "width": 0.24215272999999998
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 9.48,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.2609375,
+              "height": 0.04975518000000001,
+              "width": 0.25152579999999997
+            }
+          },
+          {
+            "confidence": 0.9848917,
+            "timestamp": 9.6,
+            "bounding_box": {
+              "top": 0.42685184,
+              "left": 0.27395833,
+              "height": 0.06375449999999999,
+              "width": 0.24058771
+            }
+          }
+        ]
+      },
+      {
+        "text": "Notification",
+        "frames": [
+          {
+            "confidence": 0.9995703,
+            "timestamp": 0.0,
+            "bounding_box": {
+              "top": 0.27592593,
+              "left": 0.225,
+              "height": 0.05833334000000001,
+              "width": 0.21822917
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 0.12,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.029369289999999992,
+              "width": 0.21872555999999999
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 0.24,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.029599369999999958,
+              "width": 0.21872746999999998
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 0.36,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.029544199999999965,
+              "width": 0.21872702
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 0.48,
+            "bounding_box": {
+              "top": 0.29074073,
+              "left": 0.221875,
+              "height": 0.031176119999999974,
+              "width": 0.22341320000000003
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 0.6,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.22239584,
+              "height": 0.029230499999999993,
+              "width": 0.22289154
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 0.72,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.225,
+              "height": 0.03028019999999998,
+              "width": 0.22028812
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 0.84,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.2265625,
+              "height": 0.02832686000000001,
+              "width": 0.2182037
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 0.96,
+            "bounding_box": {
+              "top": 0.29074073,
+              "left": 0.221875,
+              "height": 0.030092569999999985,
+              "width": 0.2234119
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 1.08,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.029356769999999976,
+              "width": 0.21872546999999998
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 1.2,
+            "bounding_box": {
+              "top": 0.28796297,
+              "left": 0.22135417,
+              "height": 0.033650100000000016,
+              "width": 0.22393153000000002
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 1.32,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.03003591,
+              "width": 0.21872335999999998
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 1.44,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.030077279999999984,
+              "width": 0.21820279999999997
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 1.56,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.029479439999999968,
+              "width": 0.2187265
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 1.68,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.2265625,
+              "height": 0.02841937,
+              "width": 0.21820446999999998
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 1.8,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.2234375,
+              "height": 0.03476425999999999,
+              "width": 0.22184958
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 1.92,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22604166,
+              "height": 0.034905589999999986,
+              "width": 0.21924630999999997
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 2.04,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.03003486999999999,
+              "width": 0.21872333
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 2.16,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22135417,
+              "height": 0.03460681999999998,
+              "width": 0.22393181000000004
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 2.28,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.030047889999999966,
+              "width": 0.21872344999999999
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 2.4,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.2265625,
+              "height": 0.028350350000000024,
+              "width": 0.2187248
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 2.52,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.02996504,
+              "width": 0.21872272999999998
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 2.64,
+            "bounding_box": {
+              "top": 0.28796297,
+              "left": 0.2265625,
+              "height": 0.03378863000000004,
+              "width": 0.21872376999999998
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 2.76,
+            "bounding_box": {
+              "top": 0.28796297,
+              "left": 0.22604166,
+              "height": 0.033833150000000034,
+              "width": 0.21924506000000002
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 2.88,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.2265625,
+              "height": 0.028562630000000033,
+              "width": 0.21872655000000002
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 3.0,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.029167940000000003,
+              "width": 0.21872386
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 3.12,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.02988179999999996,
+              "width": 0.21872200000000003
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 3.24,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.2265625,
+              "height": 0.029203809999999997,
+              "width": 0.21872416
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 3.36,
+            "bounding_box": {
+              "top": 0.31388888,
+              "left": 0.221875,
+              "height": 0.043431319999999995,
+              "width": 0.22186477
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 3.72,
+            "bounding_box": {
+              "top": 0.27962962,
+              "left": 0.27708334,
+              "height": 0.042414339999999995,
+              "width": 0.20259736
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 3.84,
+            "bounding_box": {
+              "top": 0.2888889,
+              "left": 0.25520834,
+              "height": 0.02986810000000001,
+              "width": 0.20519346000000005
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 3.96,
+            "bounding_box": {
+              "top": 0.2851852,
+              "left": 0.22864583,
+              "height": 0.037215399999999954,
+              "width": 0.22081915000000002
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 4.08,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2234375,
+              "height": 0.03099523999999998,
+              "width": 0.22029371999999997
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 4.2,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.21458334,
+              "height": 0.03552706,
+              "width": 0.22600675999999997
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 4.32,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.2171875,
+              "height": 0.02882471000000003,
+              "width": 0.22287905
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 4.44,
+            "bounding_box": {
+              "top": 0.28796297,
+              "left": 0.21770833,
+              "height": 0.033876510000000026,
+              "width": 0.22288327000000002
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 4.56,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2203125,
+              "height": 0.030323979999999973,
+              "width": 0.221322
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 4.68,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.221875,
+              "height": 0.029611550000000042,
+              "width": 0.22132400000000002
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 4.8,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.22447917,
+              "height": 0.030016089999999995,
+              "width": 0.21924406000000002
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 4.92,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.22552083,
+              "height": 0.029926419999999954,
+              "width": 0.21924327
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 5.04,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.22604166,
+              "height": 0.02830748999999999,
+              "width": 0.21872441
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 5.16,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.2265625,
+              "height": 0.02842184000000003,
+              "width": 0.21872538000000002
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 5.28,
+            "bounding_box": {
+              "top": 0.28611112,
+              "left": 0.225,
+              "height": 0.03570245999999999,
+              "width": 0.22028699999999998
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 5.4,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.029439599999999955,
+              "width": 0.21872616
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 5.52,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.029085839999999974,
+              "width": 0.21872312
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 5.64,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22395833,
+              "height": 0.034657159999999965,
+              "width": 0.22132777
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 5.76,
+            "bounding_box": {
+              "top": 0.28796297,
+              "left": 0.22239584,
+              "height": 0.03382542999999999,
+              "width": 0.22289124
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 5.88,
+            "bounding_box": {
+              "top": 0.28611112,
+              "left": 0.22239584,
+              "height": 0.03578150000000002,
+              "width": 0.22289209999999998
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 6.0,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22552083,
+              "height": 0.03455150999999995,
+              "width": 0.21976413
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 6.12,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22135417,
+              "height": 0.034761339999999974,
+              "width": 0.22393313
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 6.24,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22135417,
+              "height": 0.034609679999999976,
+              "width": 0.22393181000000004
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 6.36,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22239584,
+              "height": 0.034336900000000004,
+              "width": 0.22288759999999996
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 6.48,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.029087119999999966,
+              "width": 0.21820223
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 6.6,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.029438279999999983,
+              "width": 0.21820524000000002
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 6.72,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22135417,
+              "height": 0.034647439999999974,
+              "width": 0.22393213000000003
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 6.84,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22239584,
+              "height": 0.03457061,
+              "width": 0.22288968999999997
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 6.96,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.221875,
+              "height": 0.03453925999999996,
+              "width": 0.22341032
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 7.08,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22135417,
+              "height": 0.03499109,
+              "width": 0.22393503
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 7.2,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.2265625,
+              "height": 0.02825411,
+              "width": 0.21820307
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 7.32,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.030265719999999996,
+              "width": 0.21872532
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 7.44,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.2265625,
+              "height": 0.02924361000000003,
+              "width": 0.2187245
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 7.56,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22135417,
+              "height": 0.03471609999999997,
+              "width": 0.22393273
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 7.68,
+            "bounding_box": {
+              "top": 0.2898148,
+              "left": 0.221875,
+              "height": 0.03189582000000002,
+              "width": 0.22341148
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 7.8,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.2265625,
+              "height": 0.02824333000000001,
+              "width": 0.21872386
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 7.92,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.2265625,
+              "height": 0.028608310000000026,
+              "width": 0.21820604999999998
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 8.04,
+            "bounding_box": {
+              "top": 0.28796297,
+              "left": 0.221875,
+              "height": 0.03373733000000001,
+              "width": 0.22341140000000004
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 8.16,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.029141360000000005,
+              "width": 0.21820270000000003
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 8.28,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22604166,
+              "height": 0.034604429999999964,
+              "width": 0.21924372
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 8.4,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22239584,
+              "height": 0.03445750999999997,
+              "width": 0.22288868
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 8.52,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22135417,
+              "height": 0.034523059999999994,
+              "width": 0.22393106
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 8.64,
+            "bounding_box": {
+              "top": 0.28796297,
+              "left": 0.22239584,
+              "height": 0.03386480000000003,
+              "width": 0.22289156
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 8.76,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.2265625,
+              "height": 0.028592339999999994,
+              "width": 0.2187268
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 8.88,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.030184500000000003,
+              "width": 0.21872464000000003
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 9.0,
+            "bounding_box": {
+              "top": 0.29259259,
+              "left": 0.2265625,
+              "height": 0.02928358000000003,
+              "width": 0.21872485000000003
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 9.12,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.029091739999999977,
+              "width": 0.21872318000000002
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 9.24,
+            "bounding_box": {
+              "top": 0.2888889,
+              "left": 0.221875,
+              "height": 0.032973980000000014,
+              "width": 0.22341276
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 9.36,
+            "bounding_box": {
+              "top": 0.28703704,
+              "left": 0.22135417,
+              "height": 0.03488515999999997,
+              "width": 0.22393413000000004
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 9.48,
+            "bounding_box": {
+              "top": 0.29074073,
+              "left": 0.2265625,
+              "height": 0.030927670000000018,
+              "width": 0.21872306000000002
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 9.6,
+            "bounding_box": {
+              "top": 0.29166666,
+              "left": 0.2265625,
+              "height": 0.030392969999999964,
+              "width": 0.2187264
+            }
+          },
+          {
+            "confidence": 0.9995703,
+            "timestamp": 9.72,
+            "bounding_box": {
+              "top": 0.2824074,
+              "left": 0.22708334,
+              "height": 0.047970100000000016,
+              "width": 0.21874701
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 0.0,
+            "bounding_box": {
+              "top": 0.5175926,
+              "left": 0.19322917,
+              "height": 0.08055557000000002,
+              "width": 0.23750000999999998
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 0.12,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.18541667,
+              "height": 0.06628520000000004,
+              "width": 0.25937196
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 0.24,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.18645833,
+              "height": 0.06681500000000007,
+              "width": 0.25728987
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 0.36,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.184375,
+              "height": 0.06632460000000007,
+              "width": 0.25103863
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 0.48,
+            "bounding_box": {
+              "top": 0.52037036,
+              "left": 0.184375,
+              "height": 0.06851854000000002,
+              "width": 0.25104167
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 0.6,
+            "bounding_box": {
+              "top": 0.52037036,
+              "left": 0.184375,
+              "height": 0.06851854000000002,
+              "width": 0.25208332
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 0.72,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.184375,
+              "height": 0.06666670000000008,
+              "width": 0.25104167
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 0.84,
+            "bounding_box": {
+              "top": 0.5185185,
+              "left": 0.184375,
+              "height": 0.06481480000000006,
+              "width": 0.25104167
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 0.96,
+            "bounding_box": {
+              "top": 0.52037036,
+              "left": 0.184375,
+              "height": 0.06666664,
+              "width": 0.25208332
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 1.08,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.184375,
+              "height": 0.06481480000000006,
+              "width": 0.25104167
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 1.2,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.06433323999999996,
+              "width": 0.25207992
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 1.32,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.06612996000000004,
+              "width": 0.26041322
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 1.44,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.05888466000000003,
+              "width": 0.25103854
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 1.56,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.184375,
+              "height": 0.06873616000000005,
+              "width": 0.25103997
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 1.68,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.06025115000000003,
+              "width": 0.25103705
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 1.8,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.184375,
+              "height": 0.06296330000000006,
+              "width": 0.25103949999999997
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 1.92,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.18125,
+              "height": 0.06296297000000006,
+              "width": 0.25416667000000004
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 2.04,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.18541667,
+              "height": 0.06621350000000004,
+              "width": 0.25103831
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 2.16,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.18541667,
+              "height": 0.06101050000000008,
+              "width": 0.24999758
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 2.28,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.184375,
+              "height": 0.06836344999999999,
+              "width": 0.26041422999999997
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 2.4,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.18541667,
+              "height": 0.06460790000000005,
+              "width": 0.24999733000000002
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 2.52,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.18541667,
+              "height": 0.060606600000000066,
+              "width": 0.24999648000000002
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 2.64,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.18541667,
+              "height": 0.06108716999999997,
+              "width": 0.24999776
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 2.76,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.184375,
+              "height": 0.06451573,
+              "width": 0.25208042999999997
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 2.88,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.05870763000000001,
+              "width": 0.25103802999999997
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 3.0,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.184375,
+              "height": 0.06616266999999998,
+              "width": 0.25207986
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 3.12,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.184375,
+              "height": 0.06637456000000008,
+              "width": 0.25208046
+            }
+          },
+          {
+            "confidence": 0.99755746,
+            "timestamp": 3.24,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.06666664,
+              "width": 0.25208332
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 3.6,
+            "bounding_box": {
+              "top": 0.41574073,
+              "left": 0.20625,
+              "height": 0.048840470000000025,
+              "width": 0.23332284000000003
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 3.72,
+            "bounding_box": {
+              "top": 0.4537037,
+              "left": 0.19479166,
+              "height": 0.05969289999999999,
+              "width": 0.24270137
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 3.84,
+            "bounding_box": {
+              "top": 0.4925926,
+              "left": 0.18958333,
+              "height": 0.05283884,
+              "width": 0.24686164
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 3.96,
+            "bounding_box": {
+              "top": 0.51111114,
+              "left": 0.18645833,
+              "height": 0.07407403000000001,
+              "width": 0.25729167
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 4.08,
+            "bounding_box": {
+              "top": 0.52592593,
+              "left": 0.18020834,
+              "height": 0.07037037000000002,
+              "width": 0.26354166
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 4.2,
+            "bounding_box": {
+              "top": 0.53333336,
+              "left": 0.18020834,
+              "height": 0.06746607999999998,
+              "width": 0.25520310999999996
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 4.32,
+            "bounding_box": {
+              "top": 0.53333336,
+              "left": 0.18020834,
+              "height": 0.05960387,
+              "width": 0.25415964
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 4.44,
+            "bounding_box": {
+              "top": 0.53333336,
+              "left": 0.18020834,
+              "height": 0.05512554000000003,
+              "width": 0.25415604
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 4.56,
+            "bounding_box": {
+              "top": 0.5277778,
+              "left": 0.184375,
+              "height": 0.06296294000000002,
+              "width": 0.25
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 4.68,
+            "bounding_box": {
+              "top": 0.53333336,
+              "left": 0.184375,
+              "height": 0.05118674000000001,
+              "width": 0.249996
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 4.8,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.17916666,
+              "height": 0.07037035000000003,
+              "width": 0.26458333999999994
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 4.92,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.06834784999999999,
+              "width": 0.25937252
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 5.04,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.18541667,
+              "height": 0.06726376,
+              "width": 0.25832742999999997
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 5.16,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.18020834,
+              "height": 0.06563620000000003,
+              "width": 0.26457836
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 5.28,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.184375,
+              "height": 0.06856640000000003,
+              "width": 0.25937303
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 5.4,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.18541667,
+              "height": 0.06799587000000007,
+              "width": 0.25937155
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 5.52,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.184375,
+              "height": 0.06503420000000004,
+              "width": 0.25104
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 5.64,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.18541667,
+              "height": 0.07037040000000006,
+              "width": 0.25104165
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 5.76,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.184375,
+              "height": 0.06867240000000008,
+              "width": 0.26041492
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 5.88,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.06771705000000006,
+              "width": 0.25103723
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 6.0,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.06301705000000002,
+              "width": 0.25103964
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 6.12,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.05943509999999996,
+              "width": 0.25103383
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 6.24,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.055755699999999964,
+              "width": 0.25103395
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 6.36,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.057116550000000044,
+              "width": 0.24999709999999997
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 6.48,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.06208024000000001,
+              "width": 0.25103696
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 6.6,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.05905674000000005,
+              "width": 0.25103902
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 6.72,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.06764970000000003,
+              "width": 0.2520787
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 6.84,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.18541667,
+              "height": 0.06851854000000002,
+              "width": 0.25104165
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 6.96,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.18541667,
+              "height": 0.05636255000000001,
+              "width": 0.24895300999999997
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 7.08,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.06610590000000005,
+              "width": 0.26041313
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 7.2,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.06586139999999996,
+              "width": 0.26041238
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 7.32,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.184375,
+              "height": 0.06862540000000006,
+              "width": 0.26041483
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 7.44,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.18541667,
+              "height": 0.05686895000000003,
+              "width": 0.24999639
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 7.56,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.18020834,
+              "height": 0.05833430000000006,
+              "width": 0.25416185999999996
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 7.68,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.18541667,
+              "height": 0.07037040000000006,
+              "width": 0.25937499999999997
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 7.8,
+            "bounding_box": {
+              "top": 0.52037036,
+              "left": 0.18541667,
+              "height": 0.06666664,
+              "width": 0.25
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 7.92,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.18541667,
+              "height": 0.06854584000000008,
+              "width": 0.25937298
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 8.04,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.18645833,
+              "height": 0.06856859999999998,
+              "width": 0.25833135
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 8.16,
+            "bounding_box": {
+              "top": 0.52037036,
+              "left": 0.184375,
+              "height": 0.06481481,
+              "width": 0.25104167
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 8.28,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.05875037000000005,
+              "width": 0.25103815
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 8.4,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.184375,
+              "height": 0.06606975999999998,
+              "width": 0.25103788
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 8.52,
+            "bounding_box": {
+              "top": 0.5222222,
+              "left": 0.18541667,
+              "height": 0.0631545,
+              "width": 0.24999823
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 8.64,
+            "bounding_box": {
+              "top": 0.52037036,
+              "left": 0.18541667,
+              "height": 0.07222224,
+              "width": 0.25104165
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 8.76,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.18541667,
+              "height": 0.061139799999999966,
+              "width": 0.25103956
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 8.88,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.18541667,
+              "height": 0.0678915,
+              "width": 0.25937125
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 9.0,
+            "bounding_box": {
+              "top": 0.52037036,
+              "left": 0.18541667,
+              "height": 0.06666664,
+              "width": 0.25
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 9.12,
+            "bounding_box": {
+              "top": 0.52037036,
+              "left": 0.184375,
+              "height": 0.06481481,
+              "width": 0.25104167
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 9.24,
+            "bounding_box": {
+              "top": 0.52037036,
+              "left": 0.18541667,
+              "height": 0.06481481,
+              "width": 0.25
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 9.36,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.18541667,
+              "height": 0.05840420000000002,
+              "width": 0.24999535
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 9.48,
+            "bounding_box": {
+              "top": 0.52037036,
+              "left": 0.18541667,
+              "height": 0.06296294000000002,
+              "width": 0.25
+            }
+          },
+          {
+            "confidence": 1.0,
+            "timestamp": 9.6,
+            "bounding_box": {
+              "top": 0.5240741,
+              "left": 0.18020834,
+              "height": 0.06238270000000001,
+              "width": 0.25624634
+            }
+          }
+        ]
+      },
+      {
+        "text": "Monday 17 September",
+        "frames": [
+          {
+            "confidence": 0.99993396,
+            "timestamp": 0.0,
+            "bounding_box": {
+              "top": 0.03888889,
+              "left": 0.4046875,
+              "height": 0.06374350000000001,
+              "width": 0.5634789
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 0.12,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03951937,
+              "width": 0.54889264
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 0.24,
+            "bounding_box": {
+              "top": 0.05277778,
+              "left": 0.41041666,
+              "height": 0.041729209999999996,
+              "width": 0.54993744
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 0.36,
+            "bounding_box": {
+              "top": 0.055555556,
+              "left": 0.41041666,
+              "height": 0.037472364,
+              "width": 0.54889884
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 0.48,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039749969999999996,
+              "width": 0.54889459
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 0.6,
+            "bounding_box": {
+              "top": 0.055555556,
+              "left": 0.41041666,
+              "height": 0.039502143999999996,
+              "width": 0.54890024
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 0.72,
+            "bounding_box": {
+              "top": 0.053703703,
+              "left": 0.41041666,
+              "height": 0.041505747,
+              "width": 0.5489015
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 0.84,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03948266,
+              "width": 0.54889224
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 0.96,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03951797,
+              "width": 0.54889254
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 1.08,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.04006954,
+              "width": 0.5488972400000001
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 1.2,
+            "bounding_box": {
+              "top": 0.05277778,
+              "left": 0.41041666,
+              "height": 0.04173770999999999,
+              "width": 0.5499375400000001
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 1.32,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039932949999999995,
+              "width": 0.54889614
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 1.44,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03995841,
+              "width": 0.54889638
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 1.56,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03968856,
+              "width": 0.54889404
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 1.68,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039816135,
+              "width": 0.5488951400000001
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 1.8,
+            "bounding_box": {
+              "top": 0.05648148,
+              "left": 0.41145834,
+              "height": 0.037834530000000005,
+              "width": 0.5468104200000001
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 1.92,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039781449999999996,
+              "width": 0.54889484
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 2.04,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03985195,
+              "width": 0.54889548
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 2.16,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03958669000000001,
+              "width": 0.54889314
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 2.28,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41145834,
+              "height": 0.0397294,
+              "width": 0.5478526100000001
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 2.4,
+            "bounding_box": {
+              "top": 0.055555556,
+              "left": 0.41041666,
+              "height": 0.038420659,
+              "width": 0.54889107
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 2.52,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.040015339999999996,
+              "width": 0.54889684
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 2.64,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03951698000000001,
+              "width": 0.54889254
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 2.76,
+            "bounding_box": {
+              "top": 0.05648148,
+              "left": 0.41145834,
+              "height": 0.037582920000000006,
+              "width": 0.54785006
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 2.88,
+            "bounding_box": {
+              "top": 0.05648148,
+              "left": 0.41145834,
+              "height": 0.03759008999999999,
+              "width": 0.54785011
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 3.0,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41145834,
+              "height": 0.039810583999999996,
+              "width": 0.54785332
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 3.12,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03976794,
+              "width": 0.54993654
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 3.24,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41145834,
+              "height": 0.0396914,
+              "width": 0.54785226
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 3.36,
+            "bounding_box": {
+              "top": 0.055555556,
+              "left": 0.41041666,
+              "height": 0.037779944,
+              "width": 0.54888534
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 3.48,
+            "bounding_box": {
+              "top": 0.055555556,
+              "left": 0.41041666,
+              "height": 0.038146724,
+              "width": 0.54888864
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 3.6,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41145834,
+              "height": 0.03951277,
+              "width": 0.54785076
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 3.72,
+            "bounding_box": {
+              "top": 0.055555556,
+              "left": 0.41041666,
+              "height": 0.03822074400000001,
+              "width": 0.54888928
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 3.84,
+            "bounding_box": {
+              "top": 0.055555556,
+              "left": 0.41041666,
+              "height": 0.038196448,
+              "width": 0.5488891
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 3.96,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039881230000000004,
+              "width": 0.54889574
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 4.08,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03959675,
+              "width": 0.54889328
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 4.2,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039712540000000005,
+              "width": 0.54889429
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 4.32,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41145834,
+              "height": 0.038298650000000004,
+              "width": 0.54785616
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 4.44,
+            "bounding_box": {
+              "top": 0.05277778,
+              "left": 0.41041666,
+              "height": 0.04186415999999999,
+              "width": 0.54993864
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 4.56,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.04016135,
+              "width": 0.54889804
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 4.68,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41145834,
+              "height": 0.03803882,
+              "width": 0.5468122100000001
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 4.8,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.04000832,
+              "width": 0.54993854
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 4.92,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03971023,
+              "width": 0.54993604
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 5.04,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41145834,
+              "height": 0.038122566,
+              "width": 0.54681293
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 5.16,
+            "bounding_box": {
+              "top": 0.05277778,
+              "left": 0.41041666,
+              "height": 0.04171016,
+              "width": 0.54993734
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 5.28,
+            "bounding_box": {
+              "top": 0.055555556,
+              "left": 0.41041666,
+              "height": 0.039331354000000006,
+              "width": 0.54889888
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 5.4,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03975457,
+              "width": 0.54889464
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 5.52,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039600250000000004,
+              "width": 0.54889328
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 5.64,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03967541000000001,
+              "width": 0.54889394
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 5.76,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03958188,
+              "width": 0.54993494
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 5.88,
+            "bounding_box": {
+              "top": 0.05648148,
+              "left": 0.41145834,
+              "height": 0.035940074,
+              "width": 0.5468100600000001
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 6.0,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039350414,
+              "width": 0.54889114
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 6.12,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03955214,
+              "width": 0.54889284
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 6.24,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039703415000000006,
+              "width": 0.54889414
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 6.36,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039854446,
+              "width": 0.54889548
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 6.48,
+            "bounding_box": {
+              "top": 0.053703703,
+              "left": 0.41041666,
+              "height": 0.041230552,
+              "width": 0.54889924
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 6.6,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03980224,
+              "width": 0.548895
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 6.72,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.040013136000000005,
+              "width": 0.54889679
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 6.84,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03924188000000001,
+              "width": 0.54889018
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 6.96,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03982703,
+              "width": 0.54889524
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 7.08,
+            "bounding_box": {
+              "top": 0.05277778,
+              "left": 0.41041666,
+              "height": 0.04177763,
+              "width": 0.54993784
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 7.2,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039795910000000004,
+              "width": 0.548895
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 7.32,
+            "bounding_box": {
+              "top": 0.055555556,
+              "left": 0.41041666,
+              "height": 0.039311307999999996,
+              "width": 0.5488987
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 7.44,
+            "bounding_box": {
+              "top": 0.055555556,
+              "left": 0.41041666,
+              "height": 0.039268703999999995,
+              "width": 0.54889834
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 7.56,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039611969999999996,
+              "width": 0.54889339
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 7.68,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.040097339999999995,
+              "width": 0.54889751
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 7.8,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41145834,
+              "height": 0.040416160000000007,
+              "width": 0.54785839
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 7.92,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03992516,
+              "width": 0.54889608
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 8.04,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039816455,
+              "width": 0.5488951400000001
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 8.16,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03965264,
+              "width": 0.54889374
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 8.28,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03966449,
+              "width": 0.5499356400000001
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 8.4,
+            "bounding_box": {
+              "top": 0.05277778,
+              "left": 0.41041666,
+              "height": 0.04183896,
+              "width": 0.5499383800000001
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 8.52,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039884814000000005,
+              "width": 0.5499375400000001
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 8.64,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.039886014,
+              "width": 0.54889574
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 8.76,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03954402,
+              "width": 0.5488928
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 8.88,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03943466500000001,
+              "width": 0.54993367
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 9.0,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.0397585,
+              "width": 0.54993644
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 9.12,
+            "bounding_box": {
+              "top": 0.055555556,
+              "left": 0.41041666,
+              "height": 0.038413923999999995,
+              "width": 0.54889104
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 9.24,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.040456790000000006,
+              "width": 0.54994224
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 9.36,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03965323,
+              "width": 0.54889374
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 9.48,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41145834,
+              "height": 0.039927420000000005,
+              "width": 0.54785426
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 9.6,
+            "bounding_box": {
+              "top": 0.05462963,
+              "left": 0.41041666,
+              "height": 0.03945419,
+              "width": 0.54889204
+            }
+          },
+          {
+            "confidence": 0.99993396,
+            "timestamp": 9.72,
+            "bounding_box": {
+              "top": 0.047222223,
+              "left": 0.4171875,
+              "height": 0.050596277,
+              "width": 0.54212065
+            }
+          }
+        ]
+      },
+      {
+        "text": "Yn",
+        "frames": [
+          {
+            "confidence": 0.7451931,
+            "timestamp": 0.12,
+            "bounding_box": {
+              "top": 0.3611111,
+              "left": 0.52239585,
+              "height": 0.026443999999999968,
+              "width": 0.07498925000000001
+            }
+          },
+          {
+            "confidence": 0.7451931,
+            "timestamp": 0.36,
+            "bounding_box": {
+              "top": 0.3611111,
+              "left": 0.52708334,
+              "height": 0.02581319999999998,
+              "width": 0.08958142999999996
+            }
+          }
+        ]
+      },
+      {
+        "text": "e",
+        "frames": [
+          {
+            "confidence": 0.82511616,
+            "timestamp": 3.96,
+            "bounding_box": {
+              "top": 0.6898148,
+              "left": 0.1828125,
+              "height": 0.08611113000000004,
+              "width": 0.014062500000000006
+            }
+          },
+          {
+            "confidence": 0.82511616,
+            "timestamp": 4.44,
+            "bounding_box": {
+              "top": 0.712037,
+              "left": 0.18385416,
+              "height": 0.08703704999999995,
+              "width": 0.01458334
+            }
+          }
+        ]
+      },
+      {
+        "text": "wL",
+        "frames": [
+          {
+            "confidence": 0.7856487,
+            "timestamp": 2.52,
+            "bounding_box": {
+              "top": 0.36481482,
+              "left": 0.48489583,
+              "height": 0.023580480000000015,
+              "width": 0.050514569999999925
+            }
+          },
+          {
+            "confidence": 0.7856487,
+            "timestamp": 2.76,
+            "bounding_box": {
+              "top": 0.36481482,
+              "left": 0.48125,
+              "height": 0.023605260000000017,
+              "width": 0.054681900000000006
+            }
+          },
+          {
+            "confidence": 0.8018353,
+            "timestamp": 8.16,
+            "bounding_box": {
+              "top": 0.35555556,
+              "left": 0.47395834,
+              "height": 0.042570339999999984,
+              "width": 0.037496260000000003
+            }
+          },
+          {
+            "confidence": 0.8018353,
+            "timestamp": 8.28,
+            "bounding_box": {
+              "top": 0.35555556,
+              "left": 0.4734375,
+              "height": 0.04236044,
+              "width": 0.07030949999999997
+            }
+          }
+        ]
+      },
+      {
+        "text": "n",
+        "frames": [
+          {
+            "confidence": 0.70069385,
+            "timestamp": 9.12,
+            "bounding_box": {
+              "top": 0.36481482,
+              "left": 0.49322918,
+              "height": 0.02151406,
+              "width": 0.09372952000000007
+            }
+          },
+          {
+            "confidence": 0.70069385,
+            "timestamp": 9.48,
+            "bounding_box": {
+              "top": 0.36203703,
+              "left": 0.5229167,
+              "height": 0.024976670000000034,
+              "width": 0.08540216999999994
+            }
+          }
+        ]
+      }
+    ]
+  }

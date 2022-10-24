@@ -1,0 +1,40 @@
+{
+    "ocr": {
+        "invoice_parser": {
+            "constraints": {
+                "languages": [
+                    "ca",
+                    "de",
+                    "en",
+                    "es",
+                    "fr",
+                    "it",
+                    "nl",
+                    "pt"
+                ],
+                "allow_null_language": true
+            },
+            "version": "v2"
+        },
+        "receipt_parser": {
+            "constraints": {
+                "languages": [
+                    "ca-ES",
+                    "de-DE",
+                    "de-CH",
+                    "en-US",
+                    "en-GB",
+                    "es-ES",
+                    "fr-FR",
+                    "fr-CA",
+                    "fr-CH",
+                    "it-IT",
+                    "it-CH",
+                    "nl-NL",
+                    "pt-PT"
+                ]
+            },
+            "version": "v2"
+        }
+    }
+}

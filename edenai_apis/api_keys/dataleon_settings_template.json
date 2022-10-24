@@ -1,0 +1,9 @@
+{
+  "invoice_parser": {
+    "url": ""
+  },
+  "key": "",
+  "receipt_parser": {
+    "url": ""
+  }
+}

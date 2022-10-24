@@ -1,0 +1,396 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "qlSABIDNIZMFUAGY",
+  "original_response": {
+    "monologues": [
+      {
+        "speaker": 0,
+        "elements": [
+          {
+            "type": "text",
+            "value": "Unit",
+            "ts": 0.03,
+            "end_ts": 0.43,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "one",
+            "ts": 0.43,
+            "end_ts": 0.83,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": ","
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "page",
+            "ts": 1.3,
+            "end_ts": 1.79,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "14",
+            "ts": 2.23,
+            "end_ts": 2.47,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": ","
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "real",
+            "ts": 3.18,
+            "end_ts": 3.67,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "conversations",
+            "ts": 3.69,
+            "end_ts": 4.55,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": "."
+          },
+          {
+            "type": "punct",
+            "value": " "
+          }
+        ]
+      },
+      {
+        "speaker": 1,
+        "elements": [
+          {
+            "type": "text",
+            "value": "Hello",
+            "ts": 6.71,
+            "end_ts": 7.27,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": "?"
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "Hi",
+            "ts": 7.56,
+            "end_ts": 7.91,
+            "confidence": 0.98
+          },
+          {
+            "type": "punct",
+            "value": ","
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "what's",
+            "ts": 7.91,
+            "end_ts": 8.51,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "your",
+            "ts": 8.51,
+            "end_ts": 8.63,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "name",
+            "ts": 8.63,
+            "end_ts": 8.83,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": "?"
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "Claudia",
+            "ts": 8.96,
+            "end_ts": 9.63,
+            "confidence": 0.88
+          },
+          {
+            "type": "punct",
+            "value": "."
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "What's",
+            "ts": 10.3,
+            "end_ts": 10.91,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "your",
+            "ts": 10.91,
+            "end_ts": 11.07,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "name",
+            "ts": 11.07,
+            "end_ts": 11.31,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": "?"
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "I'm",
+            "ts": 11.33,
+            "end_ts": 11.75,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "Chihiro",
+            "ts": 11.75,
+            "end_ts": 12.23,
+            "confidence": 0.79
+          },
+          {
+            "type": "punct",
+            "value": "."
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "Nice",
+            "ts": 12.5,
+            "end_ts": 12.99,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "to",
+            "ts": 12.99,
+            "end_ts": 13.19,
+            "confidence": 0.94
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "meet",
+            "ts": 13.19,
+            "end_ts": 13.35,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "you",
+            "ts": 13.35,
+            "end_ts": 13.59,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": ","
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "Chihiro",
+            "ts": 14.44,
+            "end_ts": 15.11,
+            "confidence": 0.53
+          },
+          {
+            "type": "punct",
+            "value": "."
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "Yeah",
+            "ts": 15.11,
+            "end_ts": 15.47,
+            "confidence": 0.95
+          },
+          {
+            "type": "punct",
+            "value": ","
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "that's",
+            "ts": 15.47,
+            "end_ts": 15.75,
+            "confidence": 0.97
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "right",
+            "ts": 15.75,
+            "end_ts": 15.91,
+            "confidence": 0.98
+          },
+          {
+            "type": "punct",
+            "value": "."
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "Um",
+            "ts": 16.0,
+            "end_ts": 16.35,
+            "confidence": 0.42
+          },
+          {
+            "type": "punct",
+            "value": ","
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "where",
+            "ts": 16.35,
+            "end_ts": 16.55,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "you",
+            "ts": 16.55,
+            "end_ts": 16.71,
+            "confidence": 0.98
+          },
+          {
+            "type": "punct",
+            "value": " "
+          },
+          {
+            "type": "text",
+            "value": "from",
+            "ts": 16.71,
+            "end_ts": 16.83,
+            "confidence": 0.99
+          },
+          {
+            "type": "punct",
+            "value": "?"
+          }
+        ]
+      }
+    ]
+  },
+  "standarized_response": {
+    "text": "Unit one, page 14, real conversations. Hello? Hi, what's your name? Claudia. What's your name? I'm Chihiro. Nice to meet you, Chihiro. Yeah, that's right. Um, where you from?"
+  }
+}

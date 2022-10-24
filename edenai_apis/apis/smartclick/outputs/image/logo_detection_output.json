@@ -1,0 +1,40 @@
+{
+  "original_response": {
+    "bboxes": [
+      [
+        634.0,
+        560.0,
+        722.0,
+        691.0
+      ]
+    ]
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "bounding_poly": {
+          "vertices": [
+            {
+              "x": 634.0,
+              "y": 560.0
+            },
+            {
+              "x": 722.0,
+              "y": 560.0
+            },
+            {
+              "x": 722.0,
+              "y": 691.0
+            },
+            {
+              "x": 634.0,
+              "y": 691.0
+            }
+          ]
+        },
+        "description": null,
+        "score": null
+      }
+    ]
+  }
+}

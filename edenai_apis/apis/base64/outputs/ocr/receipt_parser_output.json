@@ -1,0 +1,1638 @@
+{
+  "original_response": [
+    {
+      "model": {
+        "name": "US receipt",
+        "confidence": 1,
+        "type": "finance/receipt/usa",
+        "isValid": true
+      },
+      "fields": {
+        "6855": {
+          "key": "************6855",
+          "value": "EXP.: ****",
+          "confidence": 0.96,
+          "location": {
+            "topLeft": {
+              "x": 220,
+              "y": 1008
+            },
+            "topRight": {
+              "x": 290,
+              "y": 1007
+            },
+            "bottomLeft": {
+              "x": 220,
+              "y": 1023
+            },
+            "bottomRight": {
+              "x": 290,
+              "y": 1022
+            },
+            "pageNumber": 0
+          }
+        },
+        "companyName": {
+          "key": "Company name",
+          "value": "SC AUCHAN ROMANIA SA",
+          "confidence": 0.96,
+          "location": {
+            "topLeft": {
+              "x": 73,
+              "y": 89
+            },
+            "topRight": {
+              "x": 211,
+              "y": 87
+            },
+            "bottomLeft": {
+              "x": 73,
+              "y": 110
+            },
+            "bottomRight": {
+              "x": 211,
+              "y": 108
+            },
+            "pageNumber": 0
+          }
+        },
+        "address": {
+          "key": "Address",
+          "value": "1 BUC X 3,60\nPATE DE",
+          "confidence": 0.9,
+          "location": {
+            "topLeft": {
+              "x": 88,
+              "y": 471
+            },
+            "topRight": {
+              "x": 169,
+              "y": 470
+            },
+            "bottomLeft": {
+              "x": 89,
+              "y": 487
+            },
+            "bottomRight": {
+              "x": 170,
+              "y": 486
+            },
+            "pageNumber": 0
+          }
+        },
+        "cardNumber": {
+          "key": "Card number",
+          "value": "168,95",
+          "confidence": 0.57,
+          "location": {
+            "topLeft": {
+              "x": 14,
+              "y": 834
+            },
+            "topRight": {
+              "x": 284,
+              "y": 830
+            },
+            "bottomLeft": {
+              "x": 15,
+              "y": 855
+            },
+            "bottomRight": {
+              "x": 285,
+              "y": 851
+            },
+            "pageNumber": 0
+          }
+        },
+        "date": {
+          "key": "Date",
+          "value": "2022-04-02",
+          "confidence": 1,
+          "isValid": true,
+          "type": "date"
+        },
+        "time": {
+          "key": "Time",
+          "value": "12:29:23",
+          "confidence": 1,
+          "isValid": true,
+          "location": {
+            "topLeft": {
+              "x": 234,
+              "y": 1082
+            },
+            "topRight": {
+              "x": 293,
+              "y": 1081
+            },
+            "bottomLeft": {
+              "x": 234,
+              "y": 1098
+            },
+            "bottomRight": {
+              "x": 293,
+              "y": 1097
+            },
+            "pageNumber": 0
+          }
+        },
+        "cardType": {
+          "key": "Card type",
+          "value": "Mastercard",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 220,
+              "y": 1025
+            },
+            "topRight": {
+              "x": 290,
+              "y": 1024
+            },
+            "bottomLeft": {
+              "x": 220,
+              "y": 1039
+            },
+            "bottomRight": {
+              "x": 290,
+              "y": 1038
+            },
+            "pageNumber": 0
+          }
+        },
+        "subtotal": {
+          "key": "Subtotal",
+          "value": "168,95",
+          "confidence": 0.98,
+          "isValid": true,
+          "location": {
+            "topLeft": {
+              "x": 241,
+              "y": 782
+            },
+            "topRight": {
+              "x": 285,
+              "y": 781
+            },
+            "bottomLeft": {
+              "x": 241,
+              "y": 812
+            },
+            "bottomRight": {
+              "x": 285,
+              "y": 811
+            },
+            "pageNumber": 0
+          }
+        },
+        "total": {
+          "key": "TOTAL",
+          "value": "168,95",
+          "confidence": 0.98,
+          "isValid": true,
+          "location": {
+            "topLeft": {
+              "x": 241,
+              "y": 782
+            },
+            "topRight": {
+              "x": 285,
+              "y": 781
+            },
+            "bottomLeft": {
+              "x": 241,
+              "y": 812
+            },
+            "bottomRight": {
+              "x": 285,
+              "y": 811
+            },
+            "pageNumber": 0
+          }
+        },
+        "00018038": {
+          "key": "00018 038",
+          "value": "46150 0038",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 14,
+              "y": 873
+            },
+            "topRight": {
+              "x": 150,
+              "y": 871
+            },
+            "bottomLeft": {
+              "x": 14,
+              "y": 890
+            },
+            "bottomRight": {
+              "x": 150,
+              "y": 888
+            },
+            "pageNumber": 0
+          }
+        },
+        "02042022": {
+          "key": "02.04.2022",
+          "value": "12:29:53",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 250,
+              "y": 1504
+            },
+            "topRight": {
+              "x": 305,
+              "y": 1503
+            },
+            "bottomLeft": {
+              "x": 250,
+              "y": 1521
+            },
+            "bottomRight": {
+              "x": 305,
+              "y": 1520
+            },
+            "pageNumber": 0
+          }
+        },
+        "aid": {
+          "key": "AID",
+          "value": "A0000000041010",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 49,
+              "y": 1032
+            },
+            "topRight": {
+              "x": 145,
+              "y": 1030
+            },
+            "bottomLeft": {
+              "x": 49,
+              "y": 1045
+            },
+            "bottomRight": {
+              "x": 145,
+              "y": 1043
+            },
+            "pageNumber": 0
+          }
+        },
+        "batch": {
+          "key": "BATCH",
+          "value": "000268",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 62,
+              "y": 1069
+            },
+            "topRight": {
+              "x": 106,
+              "y": 1069
+            },
+            "bottomLeft": {
+              "x": 62,
+              "y": 1083
+            },
+            "bottomRight": {
+              "x": 106,
+              "y": 1083
+            },
+            "pageNumber": 0
+          }
+        },
+        "casa": {
+          "key": "CASA",
+          "value": "38",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 53,
+              "y": 873
+            },
+            "topRight": {
+              "x": 76,
+              "y": 873
+            },
+            "bottomLeft": {
+              "x": 53,
+              "y": 888
+            },
+            "bottomRight": {
+              "x": 76,
+              "y": 888
+            },
+            "pageNumber": 0
+          }
+        },
+        "casier": {
+          "key": "CASIER",
+          "value": "CASA RAPIDA 38",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 25,
+              "y": 1449
+            },
+            "topRight": {
+              "x": 303,
+              "y": 1445
+            },
+            "bottomLeft": {
+              "x": 25,
+              "y": 1467
+            },
+            "bottomRight": {
+              "x": 303,
+              "y": 1463
+            },
+            "pageNumber": 0
+          }
+        },
+        "chitanta": {
+          "key": "CHITANTA",
+          "value": "023673",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 247,
+              "y": 1062
+            },
+            "topRight": {
+              "x": 292,
+              "y": 1061
+            },
+            "bottomLeft": {
+              "x": 247,
+              "y": 1077
+            },
+            "bottomRight": {
+              "x": 292,
+              "y": 1076
+            },
+            "pageNumber": 0
+          }
+        },
+        "cIF": {
+          "key": "C.I.F.",
+          "value": "R017233051",
+          "confidence": 0.22
+        },
+        "comerciant": {
+          "key": "COMERCIANT",
+          "value": "2AUCHQ08",
+          "confidence": 0.83,
+          "location": {
+            "topLeft": {
+              "x": 232,
+              "y": 951
+            },
+            "topRight": {
+              "x": 288,
+              "y": 950
+            },
+            "bottomLeft": {
+              "x": 232,
+              "y": 966
+            },
+            "bottomRight": {
+              "x": 288,
+              "y": 965
+            },
+            "pageNumber": 0
+          }
+        },
+        "data": {
+          "key": "DATA",
+          "value": "02 APR 2022",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 15,
+              "y": 1089
+            },
+            "topRight": {
+              "x": 135,
+              "y": 1087
+            },
+            "bottomLeft": {
+              "x": 15,
+              "y": 1106
+            },
+            "bottomRight": {
+              "x": 135,
+              "y": 1104
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem10Description": {
+          "key": "Line item 10 description",
+          "value": "GP SUPER ALKALINE LR",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 6,
+              "y": 603
+            },
+            "topRight": {
+              "x": 145,
+              "y": 601
+            },
+            "bottomLeft": {
+              "x": 6,
+              "y": 619
+            },
+            "bottomRight": {
+              "x": 145,
+              "y": 617
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem10LineTotal": {
+          "key": "Line item 10 line total",
+          "value": "1,870.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 233,
+              "y": 613
+            },
+            "topRight": {
+              "x": 285,
+              "y": 612
+            },
+            "bottomLeft": {
+              "x": 234,
+              "y": 630
+            },
+            "bottomRight": {
+              "x": 286,
+              "y": 629
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem10ShippedQuantity": {
+          "key": "Line item 10 shipped quantity",
+          "value": "1",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem10UnitPrice": {
+          "key": "Line item 10 unit price",
+          "value": "1,870.00",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem11Description": {
+          "key": "Line item 11 description",
+          "value": "NIVEA BALS DUPA RAS",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 9,
+              "y": 639
+            },
+            "topRight": {
+              "x": 139,
+              "y": 637
+            },
+            "bottomLeft": {
+              "x": 9,
+              "y": 656
+            },
+            "bottomRight": {
+              "x": 139,
+              "y": 654
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem11LineTotal": {
+          "key": "Line item 11 line total",
+          "value": "3,050.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 233,
+              "y": 649
+            },
+            "topRight": {
+              "x": 285,
+              "y": 648
+            },
+            "bottomLeft": {
+              "x": 233,
+              "y": 665
+            },
+            "bottomRight": {
+              "x": 285,
+              "y": 664
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem11ShippedQuantity": {
+          "key": "Line item 11 shipped quantity",
+          "value": "1",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem11UnitPrice": {
+          "key": "Line item 11 unit price",
+          "value": "3,050.00",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem12Description": {
+          "key": "Line item 12 description",
+          "value": "AUC WV LICHID PARBRC",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 7,
+              "y": 676
+            },
+            "topRight": {
+              "x": 147,
+              "y": 674
+            },
+            "bottomLeft": {
+              "x": 8,
+              "y": 694
+            },
+            "bottomRight": {
+              "x": 147,
+              "y": 692
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem12LineTotal": {
+          "key": "Line item 12 line total",
+          "value": "1,690.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 234,
+              "y": 687
+            },
+            "topRight": {
+              "x": 288,
+              "y": 686
+            },
+            "bottomLeft": {
+              "x": 235,
+              "y": 703
+            },
+            "bottomRight": {
+              "x": 289,
+              "y": 702
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem12ShippedQuantity": {
+          "key": "Line item 12 shipped quantity",
+          "value": "1",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem12UnitPrice": {
+          "key": "Line item 12 unit price",
+          "value": "1,690.00",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem1Description": {
+          "key": "Line item 1 description",
+          "value": "STICKERE PUISOR OUA",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 3,
+              "y": 288
+            },
+            "topRight": {
+              "x": 136,
+              "y": 286
+            },
+            "bottomLeft": {
+              "x": 3,
+              "y": 304
+            },
+            "bottomRight": {
+              "x": 136,
+              "y": 302
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem1LineTotal": {
+          "key": "Line item 1 line total",
+          "value": "1,600.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 231,
+              "y": 298
+            },
+            "topRight": {
+              "x": 275,
+              "y": 297
+            },
+            "bottomLeft": {
+              "x": 231,
+              "y": 315
+            },
+            "bottomRight": {
+              "x": 275,
+              "y": 314
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem1ShippedQuantity": {
+          "key": "Line item 1 shipped quantity",
+          "value": "1",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 80,
+              "y": 305
+            },
+            "topRight": {
+              "x": 89,
+              "y": 305
+            },
+            "bottomLeft": {
+              "x": 80,
+              "y": 319
+            },
+            "bottomRight": {
+              "x": 89,
+              "y": 319
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem1UnitPrice": {
+          "key": "Line item 1 unit price",
+          "value": "1,600.00",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem2Description": {
+          "key": "Line item 2 description",
+          "value": "SELECLINE FIERBATOR",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 2,
+              "y": 322
+            },
+            "topRight": {
+              "x": 136,
+              "y": 320
+            },
+            "bottomLeft": {
+              "x": 3,
+              "y": 338
+            },
+            "bottomRight": {
+              "x": 137,
+              "y": 336
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem2LineTotal": {
+          "key": "Line item 2 line total",
+          "value": "4,401.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 231,
+              "y": 333
+            },
+            "topRight": {
+              "x": 265,
+              "y": 332
+            },
+            "bottomLeft": {
+              "x": 232,
+              "y": 350
+            },
+            "bottomRight": {
+              "x": 266,
+              "y": 349
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem2ShippedQuantity": {
+          "key": "Line item 2 shipped quantity",
+          "value": "1",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 80,
+              "y": 339
+            },
+            "topRight": {
+              "x": 90,
+              "y": 339
+            },
+            "bottomLeft": {
+              "x": 80,
+              "y": 355
+            },
+            "bottomRight": {
+              "x": 90,
+              "y": 355
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem2UnitPrice": {
+          "key": "Line item 2 unit price",
+          "value": "4,401.00",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem3Description": {
+          "key": "Line item 3 description",
+          "value": "TAXA VERDE",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 5,
+              "y": 361
+            },
+            "topRight": {
+              "x": 74,
+              "y": 360
+            },
+            "bottomLeft": {
+              "x": 5,
+              "y": 376
+            },
+            "bottomRight": {
+              "x": 74,
+              "y": 375
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem3LineTotal": {
+          "key": "Line item 3 line total",
+          "value": "89.00",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 237,
+              "y": 354
+            },
+            "topRight": {
+              "x": 275,
+              "y": 353
+            },
+            "bottomLeft": {
+              "x": 237,
+              "y": 368
+            },
+            "bottomRight": {
+              "x": 275,
+              "y": 367
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem3ShippedQuantity": {
+          "key": "Line item 3 shipped quantity",
+          "value": "1 BUC X 1.75",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 88,
+              "y": 433
+            },
+            "topRight": {
+              "x": 174,
+              "y": 432
+            },
+            "bottomLeft": {
+              "x": 88,
+              "y": 449
+            },
+            "bottomRight": {
+              "x": 174,
+              "y": 448
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem3UnitPrice": {
+          "key": "Line item 3 unit price",
+          "value": "7.57",
+          "confidence": 1
+        },
+        "lineItem4Description": {
+          "key": "Line item 4 description",
+          "value": "COS DREPTUNG CARLIGE",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 3,
+              "y": 377
+            },
+            "topRight": {
+              "x": 143,
+              "y": 375
+            },
+            "bottomLeft": {
+              "x": 3,
+              "y": 395
+            },
+            "bottomRight": {
+              "x": 143,
+              "y": 393
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem4LineTotal": {
+          "key": "Line item 4 line total",
+          "value": "555.00",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 237,
+              "y": 390
+            },
+            "topRight": {
+              "x": 286,
+              "y": 389
+            },
+            "bottomLeft": {
+              "x": 238,
+              "y": 406
+            },
+            "bottomRight": {
+              "x": 286,
+              "y": 405
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem4ShippedQuantity": {
+          "key": "Line item 4 shipped quantity",
+          "value": "1 BUC X 3,60",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 90,
+              "y": 471
+            },
+            "topRight": {
+              "x": 173,
+              "y": 470
+            },
+            "bottomLeft": {
+              "x": 91,
+              "y": 486
+            },
+            "bottomRight": {
+              "x": 174,
+              "y": 485
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem4UnitPrice": {
+          "key": "Line item 4 unit price",
+          "value": "40.81",
+          "confidence": 1
+        },
+        "lineItem5Description": {
+          "key": "Line item 5 description",
+          "value": "CROISSANT 7 DAYS SPU",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 4,
+              "y": 416
+            },
+            "topRight": {
+              "x": 143,
+              "y": 414
+            },
+            "bottomLeft": {
+              "x": 4,
+              "y": 433
+            },
+            "bottomRight": {
+              "x": 143,
+              "y": 431
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem5LineTotal": {
+          "key": "Line item 5 line total",
+          "value": "175.00",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 238,
+              "y": 428
+            },
+            "topRight": {
+              "x": 279,
+              "y": 427
+            },
+            "bottomLeft": {
+              "x": 238,
+              "y": 446
+            },
+            "bottomRight": {
+              "x": 279,
+              "y": 445
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem5ShippedQuantity": {
+          "key": "Line item 5 shipped quantity",
+          "value": "2 BUC X 3,55",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 87,
+              "y": 509
+            },
+            "topRight": {
+              "x": 173,
+              "y": 508
+            },
+            "bottomLeft": {
+              "x": 87,
+              "y": 524
+            },
+            "bottomRight": {
+              "x": 173,
+              "y": 523
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem5UnitPrice": {
+          "key": "Line item 5 unit price",
+          "value": "7.43",
+          "confidence": 1
+        },
+        "lineItem6Description": {
+          "key": "Line item 6 description",
+          "value": "PAINE CU MAIA SI MAS",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 6,
+              "y": 455
+            },
+            "topRight": {
+              "x": 143,
+              "y": 453
+            },
+            "bottomLeft": {
+              "x": 6,
+              "y": 470
+            },
+            "bottomRight": {
+              "x": 143,
+              "y": 468
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem6LineTotal": {
+          "key": "Line item 6 line total",
+          "value": "360.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 236,
+              "y": 466
+            },
+            "topRight": {
+              "x": 276,
+              "y": 465
+            },
+            "bottomLeft": {
+              "x": 237,
+              "y": 482
+            },
+            "bottomRight": {
+              "x": 277,
+              "y": 481
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem6ShippedQuantity": {
+          "key": "Line item 6 shipped quantity",
+          "value": "1",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 88,
+              "y": 584
+            },
+            "topRight": {
+              "x": 98,
+              "y": 584
+            },
+            "bottomLeft": {
+              "x": 88,
+              "y": 598
+            },
+            "bottomRight": {
+              "x": 98,
+              "y": 598
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem6UnitPrice": {
+          "key": "Line item 6 unit price",
+          "value": "360.00",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem7Description": {
+          "key": "Line item 7 description",
+          "value": "PATE DE PORC 20% 120",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 5,
+              "y": 492
+            },
+            "topRight": {
+              "x": 143,
+              "y": 490
+            },
+            "bottomLeft": {
+              "x": 5,
+              "y": 509
+            },
+            "bottomRight": {
+              "x": 143,
+              "y": 507
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem7LineTotal": {
+          "key": "Line item 7 line total",
+          "value": "710.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 238,
+              "y": 505
+            },
+            "topRight": {
+              "x": 271,
+              "y": 504
+            },
+            "bottomLeft": {
+              "x": 238,
+              "y": 519
+            },
+            "bottomRight": {
+              "x": 271,
+              "y": 518
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem7ShippedQuantity": {
+          "key": "Line item 7 shipped quantity",
+          "value": "1",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 80,
+              "y": 620
+            },
+            "topRight": {
+              "x": 90,
+              "y": 620
+            },
+            "bottomLeft": {
+              "x": 81,
+              "y": 635
+            },
+            "bottomRight": {
+              "x": 91,
+              "y": 635
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem7UnitPrice": {
+          "key": "Line item 7 unit price",
+          "value": "710.00",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem8Description": {
+          "key": "Line item 8 description",
+          "value": "NUTELLA 700G",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 5,
+              "y": 531
+            },
+            "topRight": {
+              "x": 92,
+              "y": 530
+            },
+            "bottomLeft": {
+              "x": 5,
+              "y": 546
+            },
+            "bottomRight": {
+              "x": 92,
+              "y": 545
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem8LineTotal": {
+          "key": "Line item 8 line total",
+          "value": "19.40",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 233,
+              "y": 542
+            },
+            "topRight": {
+              "x": 279,
+              "y": 541
+            },
+            "bottomLeft": {
+              "x": 234,
+              "y": 558
+            },
+            "bottomRight": {
+              "x": 280,
+              "y": 557
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem8ShippedQuantity": {
+          "key": "Line item 8 shipped quantity",
+          "value": "1",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 82,
+              "y": 657
+            },
+            "topRight": {
+              "x": 92,
+              "y": 657
+            },
+            "bottomLeft": {
+              "x": 82,
+              "y": 672
+            },
+            "bottomRight": {
+              "x": 92,
+              "y": 672
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem8UnitPrice": {
+          "key": "Line item 8 unit price",
+          "value": "19.40",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem9Description": {
+          "key": "Line item 9 description",
+          "value": "RADIERA GALET",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 6,
+              "y": 567
+            },
+            "topRight": {
+              "x": 98,
+              "y": 566
+            },
+            "bottomLeft": {
+              "x": 6,
+              "y": 583
+            },
+            "bottomRight": {
+              "x": 98,
+              "y": 582
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem9LineTotal": {
+          "key": "Line item 9 line total",
+          "value": "455.00",
+          "isValid": true,
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 237,
+              "y": 577
+            },
+            "topRight": {
+              "x": 279,
+              "y": 576
+            },
+            "bottomLeft": {
+              "x": 237,
+              "y": 593
+            },
+            "bottomRight": {
+              "x": 279,
+              "y": 592
+            },
+            "pageNumber": 0
+          }
+        },
+        "lineItem9ShippedQuantity": {
+          "key": "Line item 9 shipped quantity",
+          "value": "1",
+          "confidence": 1,
+          "isValid": true
+        },
+        "lineItem9UnitPrice": {
+          "key": "Line item 9 unit price",
+          "value": "455.00",
+          "confidence": 1,
+          "isValid": true
+        },
+        "ntAutoriz": {
+          "key": "NT. AUTORIZ.",
+          "value": "291808",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 248,
+              "y": 1102
+            },
+            "topRight": {
+              "x": 292,
+              "y": 1101
+            },
+            "bottomLeft": {
+              "x": 248,
+              "y": 1118
+            },
+            "bottomRight": {
+              "x": 292,
+              "y": 1117
+            },
+            "pageNumber": 0
+          }
+        },
+        "numarBon": {
+          "key": "NUMAR BON",
+          "value": "1081-00024",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 234,
+              "y": 1486
+            },
+            "topRight": {
+              "x": 305,
+              "y": 1485
+            },
+            "bottomLeft": {
+              "x": 234,
+              "y": 1502
+            },
+            "bottomRight": {
+              "x": 305,
+              "y": 1501
+            },
+            "pageNumber": 0
+          }
+        },
+        "ora": {
+          "key": "ORA",
+          "value": "12:29:23",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 234,
+              "y": 1082
+            },
+            "topRight": {
+              "x": 293,
+              "y": 1081
+            },
+            "bottomLeft": {
+              "x": 234,
+              "y": 1098
+            },
+            "bottomRight": {
+              "x": 293,
+              "y": 1097
+            },
+            "pageNumber": 0
+          }
+        },
+        "rrn": {
+          "key": "RRN",
+          "value": "209207265765",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 49,
+              "y": 1108
+            },
+            "topRight": {
+              "x": 135,
+              "y": 1106
+            },
+            "bottomLeft": {
+              "x": 49,
+              "y": 1123
+            },
+            "bottomRight": {
+              "x": 135,
+              "y": 1121
+            },
+            "pageNumber": 0
+          }
+        },
+        "semnaturaDus": {
+          "key": "SEMNATURA DUS.",
+          "value": "NU MAI ESTE NECESARA",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 18,
+              "y": 1180
+            },
+            "topRight": {
+              "x": 260,
+              "y": 1177
+            },
+            "bottomLeft": {
+              "x": 19,
+              "y": 1200
+            },
+            "bottomRight": {
+              "x": 261,
+              "y": 1197
+            },
+            "pageNumber": 0
+          }
+        },
+        "terminal": {
+          "key": "TERMINAL",
+          "value": "2AUCH008",
+          "confidence": 0.73
+        },
+        "terminalId": {
+          "key": "TERMINAL ID.",
+          "value": "2AUCHQ08",
+          "confidence": 0.83,
+          "location": {
+            "topLeft": {
+              "x": 232,
+              "y": 951
+            },
+            "topRight": {
+              "x": 288,
+              "y": 950
+            },
+            "bottomLeft": {
+              "x": 232,
+              "y": 966
+            },
+            "bottomRight": {
+              "x": 288,
+              "y": 965
+            },
+            "pageNumber": 0
+          }
+        },
+        "toateArticoleScanate": {
+          "key": "TOATE ARTICOLE SCANATE",
+          "value": "13",
+          "confidence": 1,
+          "location": {
+            "topLeft": {
+              "x": 173,
+              "y": 729
+            },
+            "topRight": {
+              "x": 187,
+              "y": 729
+            },
+            "bottomLeft": {
+              "x": 173,
+              "y": 744
+            },
+            "bottomRight": {
+              "x": 187,
+              "y": 744
+            },
+            "pageNumber": 0
+          }
+        },
+        "totalTaxe": {
+          "key": "TOTAL TAXE",
+          "value": "21,89 137.10\n24,52",
+          "confidence": 0.9,
+          "location": {
+            "topLeft": {
+              "x": 20,
+              "y": 1258
+            },
+            "topRight": {
+              "x": 298,
+              "y": 1254
+            },
+            "bottomLeft": {
+              "x": 21,
+              "y": 1317
+            },
+            "bottomRight": {
+              "x": 299,
+              "y": 1313
+            },
+            "pageNumber": 0
+          }
+        }
+      },
+      "features": {
+        "creditsSpent": 1,
+        "properties": {
+          "mimeType": "image/jpeg",
+          "rotationAngle": -0.8,
+          "width": 315,
+          "height": 1600,
+          "isInFocus": true,
+          "isGlareFree": false
+        },
+        "glares": [
+          {
+            "left": 168,
+            "top": 182,
+            "width": 77,
+            "height": 575,
+            "confidence": 0.5,
+            "image": "data:image/png;base64,/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAKyAFwDAREAAhEBAxEB/8QAGgAAAwADAQAAAAAAAAAAAAAAAAECAwQFBv/EAD4QAAEEAQMCAwYFAwIDCQEAAAEAAgMRBAUhMRJBE1FhBhQicZGxMkKBocEV0fAjM1JiwiRDU3KCkpOy4fH/xAAXAQEBAQEAAAAAAAAAAAAAAAAAAQID/8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAMAwEAAhEDEQA/ADS83GyTKIvgbECC4igKXZxjMcyCRmJIHtLZz0xn1N/dCNeXOwW/C6rt1hrdhRIN/REZvExHCSVwY4R0D862QbLseMxhhY0svqIrvv8A3RYw5nhQYzpZQPBiYRuOG7IREubi4xjJc3rkYKrkg8INrGyIsqLxICC29/Q+SDLdgUhGu7IjGY3GLv8AVc0uA86QjZGw3QAcEHk8mf3X2d1EsB6n5b4wGiybcg54eMzDxIsWw7FzJDGDsQGsLmoNn2TnZnyZs027JGSPrs0Olff7IjO1rGaTrTYwTH7wOk+nUEHqXPBkpvbevRFcj2vBPsxqIBLS6PpB8rIQeTgych3tLp8QYHT4rfDew+gcR+1IPW+zbwdNflPLWmeV0jgOGm6pB2Gjnsg5uW1rde09/QPwS38vhQdQCgaQIAINH+nQhjG1xN47f/Nd7oVLcGCPMdkCmyl5d6GxR/ZCudFoOFjw+HH1xCnAkGraXF33KI2P6RD4rnNc9rX9BdHex6QK/hBswY8jNXnyXPuN0QY1pPBHKLWXNx25uFLjO2ZLTTX1QrVZo+KNbdqEQIyXUSfWiP4QZotOiixZIGFzY3Sl9D1NlBvDsgxux2Pnjld+NgIH6oMze5QDhughxKI4GvzBmoQNLJXMOPK4BnmBsg4bc9k8DxNNIZTixhhB26zY+9fRB2Y82Y61iteSGNZHFK3/AJ3MJ/6UGqJp8XAnyHyObmRske5rjsfkgy6q6XCbjjHkfvA2Z9nycL+6Dr6Zk++Z2oStdcUbxE39Gm/uiukB00EDHKBu5QMeqAPKDTxWytjInIc7rcQR2BNhEc7U4cs6nj5GI1j+iJzaf6lBzsDQJIMLJiJDnubG5pPZzXEn7osZf6NNJkPy3OcMh2S2XnamikIWdp2dnwtx5WRt6WP+Pu4kUERttwsmeRz8xjWBuMYGgdyUG3oOCdO0mGCSjNu+V3m4/wCBFdJu7d0FNG6AI3QCA5QcPEy8rL00zMjZHK2V7HgnagiNfE1DOycaGRuPGC8Ok6ifyg0EEf1qZ2EcxmMBBHE2RxJNuvyRWf8Aq8jCx8sIbjukDB578oMo1eoBK6Ehj2OfGSeemz9kRmwMySfFdMY2EeGHta14uiLCDNo2Uc/S8fMLCx0gvpPZFbzR/wDxBkCCSDaBoJPKDzZbPD7L6h4QPvBdKWj5mkRj13I93jxNPia8NlaA57Bs1o5CDX1t8M+j5GC2KVoaxvgdA5obI0WtSDNjxoIYZG5sczYwK+HjlAw4TYmBE+KRxxYJPHFdi2kZb+hiD3578NkjYGY7Q4Ob+YHb9tkG37KsfHoGGx7S1zQbH/qRXVApBQJpAdRQK0AgwHpAoAUUEFjS4EtaavkdjygfS0gfCNqA243QPoaXFxALj+at+UFMY0G2tA+Xf5ogjaxriWirq6QZGtDR0t2bRoIqkDA2QI7IFaBoMLgFKtKilCG1qsrpAwKRYTUIyG6CBoAmkCO6BdqQUgwP2/FsASL+xSCwbG4I+f8AnkkEjex3CIYs9kF0EUhygsB1IH0lAHhBI4QJBSDxD8eabNfojsmUXOZQ+9+gMvp+qpWYahLi6Rp0Ly98wzvdnOPJo0T8qQru4cjn6lqjCSRG+MD/ANl/yoRvtd5oRdIBo3KC9uEFWgnsixIQhoQCz2Qjyen5Q1D2hwZJWeHkxRStkbxRAoKstb2wD/fIhjgNbi402S4D5sAPz5QdvR3F+q6u9n4S6Mj/AOMf3UV1Sd0GRgtAN/Eguh1IEUDRUUgLQArsAg8Vh5GOfbqXMMgGK9j4mv8Ay9Qbuqy52Vj5PtJNnZMeQ6GKDGIHSf8AcaTY+yDteyWoQyHJdI+NksrYC1pO5/0gor05okUUGViC6QNv4kAQglFJBKAI8kHHf7PYEmC3EMNRNd1gg7381UbOJp2NiY8sUUYDJIxGfQAUg57PZrAZkiVrHdbQ0Ag/8IoKDvNF7gbBBbeEFAoH3QFoJcikglArpAq+KkoZbttwlDbtSIRsE+RQW3hAG0Fd0EuQJFpoVN7oVLuUKCaFnnsiLPIANX3PHCAI+Oh5FAhTnEdx2tARva8fAer1HCB3dIK9UCQK0AdkB+VBJolBzcwRTdOU+ZxxWROHS00XOJ2SJWkfeBh6C6WSRrnZLQWk8tJ4KQr0EtNa9zj+UpFryGp5MmHpml5cb3eLlN6JDfZzbP8AZIV1scjF16LFisQyYfiOb/zWg7A7fNBd7IBArCAcdkE/lQBQcnXMLLmlxBhsj8CIl7muNW7t81UjZmxZp24L5S3xIshkrq7Ud0IzSwyyZ7X9Y938N4ezuSUHKfor5ooYcmbrx4WubC1o/DwAfog3MPAfFluypZfEnMYiafJt3t5qK6FgPrf6fVBaAQTsgD5ICtqtAkHIk1SafQ8XOxi2N8xDS0j8xPA/dVY7UbXsjYJN318VfOkI4mbq8kGuTY7Q0QNjLes/+L0F1KVIuTKnlZoDGP8ADdnV4pA4/wBIuSkamPNnPjPVl26XMdA09NdDA48boOhpEs5y9RxZ3mQY8jWtceT1Rg7/AFCDp15oABAHYoEQgEBSDzcWk6hinDhi8KTEglkkAc7c2fhKqu/IcgyY3h+H0eJc1/8AD0390HnpfZh8xfM/Id7y7JMxs23pJrj5FRHTxdPyPG012TIzpwmnpDRzYI+yBP0x/uTI45GiVmT47SfO7pBsaZhvxZMuaV4knyZA51egAH7AIN0iwgAKKAd5oEgaAQWQEq0q+vCUoI9fVEI7EeSBEXSBHZBXZArQLmygV78IKSBWkGS9yPJAEoC/NBPdA0CIQCAQSNgUDcQQPNAu17/4VQhv3QaWZmytz5MTEDeqGDx39XcEmgPooNPG1o5WNlZkLGiHGprgeSdv7oO4KoEX9eEB3QOwgSBWgaBHhFiHX0kDYkVaEeYlzsiHT2smmkfJJnyQOfGLd0jqP/Sqjp6PPJJjyATuPRIW1Js4cbH6oIyfHi1KfKZA58eVhtjFcteCf7/soOfiabl4WnZ+miEOdlPa8SD8vnf0QerNCmg790B3QM/NBNoABA7QI8IpFBwv6dPHFGWdBlZmPyAHH8rrv7lVG7pOCI48h+aWGeaYyO6TtuAP4QdIcUNvkoBopAyUWEeUITtkQNQNyLEg2KQgBQIH4kCJ+K0qJNWbFlKMwQUOUCIRSdsgXzRAUBeyKDwgAN0CPdBKIRbZQY8rNx8R7GZEzWOfwCgv3uFuZHjOlAnkb1NaN7HmgzWSikQgAhAUIEAUADR3Qqbsn/P82QrTwtQgy8WbKiePAie5hcfMf/qIyaZlRZ+DFlMd0skFtvyQcvPp2br3XREWNH02L6bbugUsZ/rfs2/pHiugka5w8vCH8lB373oIoJQIlABA6QNAqPdEc3X3ZLdJyBgsc6d46B07kA8oPK4bMmTQsnDxMSVsLc9zZRdfDQJ/cIPQeyIE/s3glzCwNYWht8AOKDZ1DRoc2YSOklbbRHJ4btnj1/ZINiXDjflYOQOr/szXBoHG7aSDaLiQLRaLQqbsFCmDX6oVVoC0CskhEBG/0Qa7IocaN4YBG17i95vYuKQXiNjix2MgY1sYGwCQeb9oNQmgzstpzpsYQRNdC2Nlgkg11fQKjE/OmMz8h2e5mQ3MbC3H6h0dBfQ/bdB69w6XFQQdkC7FA/JBXkinW6A4IRATug4+qf6uqaXjPsxSOke5oNdRa0V91RGiSTRtzoWPb4cOXJG0P5AB4QYtWwst8+oNghifHlxtaHOdu00b+6lEzYebLPHD4cBjEsb/ABr+LpFf2Sj0Pe0EuCArYoF3QXzVItMd0KdFESg0dS09uY6CRsj4siFxdHIzkWN1Q9Pwo8HH8MPLnOcZHvduXOO5KDd9KCgkt3sIHW9oEDRNoH2KBAboDhBbeCge9IJtAX9VQ6BqxaBccqA713QFoERZQUeECpAkFIAk9KCPyoAG+EopKMMmRCx4ZJMxrzXwk70UE+94xm8L3iMzH8l78IM7uAUAgAgpBPUgrtaBD8JQI8INPPzYsJkJma9xlf4bGsFklBmglMsQeWOZf5XDcfNBwNXjkxdWztQOFFLDGyJ5e+y6m31Bv1CCYy/B1F2VNh45gmzA1svMh69mn5Xf0Qend3rzQFb0gpAHlBDqtBTOUAO6BFBytbgZkz4EZyjjPZKZARsXDpIr57oVl9n8x78BwlcZSyWRgeRu4BxF/shWDU9IdnS5LTlzsx5wBJG07Gv8CBu0UOyYS/JyDAyYTNiJFWOB8rKDqtQUgECN2gQ5QVw5AzwSggoMU+NHkNAlYHdJsX2+SIImthjDIgGNF7AeZv8AlBmdRrZFPz43QLugoCxaBOQYySgYQMH4t0FhBKAJ2NbIQhwhFOFIJ54QX2QJAOQY3HhAcIG3lBkQSeEC7IDhBz9Q1fHwJC3Ihyq6w0ObESCSdggvE1OPJyXwwQ5BDJHROk8M9ILSQf3CDo0glAFAdI2QSeUDArdBSBOGyDna5my6dpUuVBAZ3RiyL4FcoNuCQSwsfR+JoP1FoNHUw2XWtMxiAWtD567WygP3cg44DMDNZlYupGQ5GonrhBFU4nqbXmCg9bZQJABAFAEboBA0CPkg52vxmTRNQYwFznwObQ5NhBuYnWMWH4fyN+wQW+GM5LZukeK0FoPkDRI+oCDUj0nBjyveI8aMTdRf11v1EUT80G8gECCAd5oAG0AdkC6vRAHzQQTdeloKa4tFIMh5QF+iApBJ2CBoEdwgQ27oBx2QAQInZAqFoBBlI+GyRSBV8z6gICygThsgLCBXwgk2EAdwgBwgED7WgnqZ3eAg4+RrGQc7LjxIoHDGkbE5sjqfK4gH4fqgMbWpp/d8kQNbgSzmBh36wdwCf1BQd07X6IETaCaQHkgTyQgEBSAQcfXmOcwSzZk2Nhwsc54gHxFx47INj2dkky9Dw5sp/XI5mzroltmr9aQea1CLHjzPaBk+M92oyzh2OekkkdDQDfHIKDc0lsg03T9OkhkGVDll77HYPcQb47/ug9Y7v6oGgSApBI3q0BRQOkEoNDUTmsma/EhjyGFvS5j3dO/YoMnsxiN0/RcfGy3gzMsnpFgWSf5QbrgOrdoJPBO9VwgR7Vv2/wD1BQ7oGgK2QIlBPUNkFWgSCUCr9kB+EkboMjgLQFIDzQNAupAnoFW6BoBBLe6Bt25QMEIGb3NcIHv5Hfj13QJA0E9+EAgdboBBCA80GOXJghH+vkQxHfZ7+nj5oGyRszeuORr2HhzTYKDgZmQ0+007cibObEx0XhiLaJoLfzbIFpk7DrU7smTNMj8mWNnWT4OxJAG3kg9OgO6BOG6LBSEBKEAQifzFCEAhHF9qIIpcDw3RtdPkObAwuaCR1Hcj9LKEdTGx48HHjxYBUUTQxoDewCEc7UYNRyJJ44xjnFle1wkN9TRtYri9kQ2Yuoz5uP747H93hndL4jCQ8iiGiv1Qdo8oESL5QMmgKCKXZBJ5QOiOUEk8oEgxZeO3Jdj9bi0wyCRvT5gEfyg2DJIyhTeN/mgZG/62hD733/z+UIDvuEIohCJuiAgALcgR5QBOxtBBNdggdIGAP0QJwBO4J/VBZ5QFeaBWANkA126BHnlBTeEEnlAHhA278oEdigRPKABQEj2tewPcGl56Wg9z5IMMWbiy5b8ePJifOwEviDt2oM5G6BgC0AQOUDbwgHgeSDGeUFs3pBqapnRafgzZWQHmOJpc4MFmh5BBqy6vE3wmxxTTSSQ+PTWj4WHgnf0KDdxZ48jGinY4BsjQ4A80g8tqupRS+2OC2eZzGYkzY2xhp+ImN3U5BsYcYbiezswY0TSzu630LdbHl2/fcBB6tzTaCe9IGWlA6QM7A2gwnlBkj4QaGuAHR88O2uCQX3/Cf7oOBO6CBuLK/P8Ac8g4DGPJbtI0A7D6lB2NBjcND09pq2wMHxAk8INvJ07HyJ8ad8bfEhk8QbcmiN/qhWDD0XFxMtuRF4pLC4sa99tYT3A7IV1AbCCa3tAkDaTXKAJskIIPKCxwhUSNbIxzXtDmuFEFCtfIwsadrBNCx4YOlocLoUgyNjZQHTsAAADVAD0QZyKJQhht2hANggWyAA3QK62KA72gCN0BeyEBCEBGyCCKQZiB2I7d+EWhpHSShR2G6IRAQK90ARZQAFhAdkCIRonVaADr7IyDudhYQcXH1SbI13IxHZ+NC2GcRNgdGOt4od79UC9ndVOo5DzLnwve4vrGayiKJHN70g9ARVA81aCTygSABpAydkEu4QIbIUiDYQrge1uoS4uCcfFdWU8B53/CwOF0g75cBVNcbF2EHl9UY+bLycfG0lzM6TMieMoAdLg1wPV1fIfugzYcckmo6aINMfiCCeR88hADSKdsD3skFB6jqsc7IJ7oAjdBIO6B3eyAIQRaEHLr8kI4ftDoONq0b5Hg+8mPw2u6iBRpB3YCIY2sZ1BoA7X2QZCDR9f7IJIs+Yu/8+iBtJGxQK9ygHeaCRygAd0DJ4QSUAOEBuCSBygHAuNjb5IMziUElAkC/N80DPCBAblBLgb2QIHZAygYcEAHbIDfsg1Haxp/vAg97j8VzwwN3suPZBePqOJlTmHHnZJIL2HeuaQbNFBYGwQB4QY7q0ACbQTuge/kg1dTzYNNw35OU4tjbV00n7IMM2qwQSGLonkeIvGd4bbDW+pQbmPNHkY8U0DiY5GhzSfIoOPqcTMjV5aY3qwsR8rNh/uPBAPzHSpRg09sTB7LiHoDjE8uaKv8Iu/1CUenFk0OFQwdkAUGMoE60EoLuuUHP9oiP6HnbXURdXqg81q7om6hk+8Z8uDGdNZ0eH/3pq6KD0mj2NHwOpvSfAbtxSDoDHjbPLM1o65Ghryd7AuvuVBhxtOxcZ/iQY7GSV0h3kDzSDb7bqg4QSSgg9kCvZAAIC/NAOaHtLHAFpFEHuEEOhjk6PFiZIGCm9TQaCDI6NhDQRwKFbIM1bFQMAUgEokpQjyqIcNwgmkFDhA6HcIE4UdggYQIoM1j5efooAVQ3549UC4O6BFAjwqEgnugsDbZAnBAyKb9/RBDnBpHUQ0HuUFGhzsg4UOsTnU89s+ZjtixZZR7sWfG5re9qQZdNzs92Thvy5Y34+dEXtY1tGOmg/YpB2+d0C+SBHhKBKEPNKGCBwQlDsJRydbw48rw5J2yzxwgkY0b+kyE8XuEo8xoValHkx5vW9mNATFG55/03Xdc71SUer03I8bTMOSV9vdE0nZKORqkUmcybDg08wySzucZ9umqNm/W1RtadFlOyNNE+O6L3OB7HOLgeo9IA+yDu2NtlAiaOyALhSCLPmgYJpBNlAElBztRxcid0MuFlHHmj6gD020g9t0HLx/Z9+NjgRahIyWRhZO8NHx2Sb9Cg6jRLjRRQY8fVHGwMBcaOyDp15m1RJ5/hBV/CoBvCBmq4QTYooH2KBdkEnhBjedh9kEoERaDZVAQgBwoBgtBRGyBNAsoDgFBH5UASKQYHu+I+SA7WgaDZIs8gHy7pRIcCSO45F8f4UoZ47fogcfKCn8IJHBQI8IJ/Ig1yTaQYMzKhw4TNkvDY20DfmUg18vU8bFla15e55YJD0tNNae58kg3GuD2h0Z6mkAghIPL6tmQYhmyWTPGqtzw0AuP4C+gK8ulB0sKTwXaFJH1F+Z1iUuOx+Av/j90HogbPl5oMsfKBnhBA5KAI3QYpT5IMThuqNDXGNdpGWJGhwETiOrfjgoOLksy5c3NfjZfgMixIyWll9XwnY32Qd3S5jkaXhzBrQZIWOIG1WLQaOpabqGfM6CVmP7s7IZL7wP9wMa4Or9lBnwdLyWZGA3MdCYMCzGGH4nEtLbP6FB2q2+Lnugtl2gcnHr5IMdutBRQY3IICoxZMDcjHkhk/A9pafkUGhnaPjZbgZC8O8MRfC8jqA80Gx4bo2Rsx2NbG1gaATxSDqgcqA/zZAnCx6oBt2gHizaBE01AchBLhsgxP2VCsd0EO5pBP7/NB0CoIHZBRB6tkDAo7oByCXDZBLgkASK5SDG5KMbqSiW7myqFXqg3GuBGzgQRYI7qCm7npG4CDC7MxRA+YzxeCw9LndYIDttvnugMfKgyWl+NNHKAaJabo+SDPyAgRQJUQQgl4UGJ6A281RjQZXtyPfscQhgwxG4St7h9jpr6qDbA2IO6Dg6Zh4gbqUUscbIxqPW1pHwlxaz+UBoDJ4tV1hmWGCbxIzUQ6W9PTtXqg7xIoIE4oE5KIeUohBjegx+ioKQZX4zzmY2R7xKGwscHRj8LyQNz9FBuhBoZGk480OXG/r6ciUTGjRa4ACx9AgnTdMg04zuie+R87w+R8rupziONyg3xXkglAIE5thBFBBglKDE/bhUMONIOg2gRex5G6grayA5pI7AoI8VlPqVhDKunDZBjdkRBhe6ZgYDRPUEDdkRNa1xka1ruDfKCfeYWvDTILdx62gRyofeDEHW8dgNkA3Lif1BvVYF/hKDAzLjMTpOmYhp3Hhmz8kg1Zs5ggE5incwkjpEZtIFJmMYIiYZ3CQXszj5pQ5cnwndPgyu2uw1KOqMaNzw8tpwFBBTcaJpsRgE9+6CRjQMDw2Jg6x8W3KCDjQtYWNiYGE2R0oLDGdIBYwgcWOPkgtrG7HpbYqtvJA6HYAO7mt0Ek1uNigwuO5o1ZVGI7GwT37oEeD6qCDug6n5bIQDj6oId90EO3tBTAO6CxSCXA9vrRQYnO86A377oMTgb77+iUSQL4pKII+HyPke6CXGjVfwg23e8GQeHJF4Qq7BPCAHjeM4vmYWb/CG+aDEY8iperJFu/CQz8KAbjze7eGct7pbvxGtF15IKEEgjYBkyBzRR2G6C5IS6Vr/HkHT223QYxCGzuk8eU9X5S7ZBhfB/uDxZXdYr8ZsfJBjGKGRFnizEHuXm0CkxGPiDHOkrz6t0ET4MMoja/rqP8JDyCgwTaZi5EhklYXPPJ6z/AHQdlhI+VoL5btsgKI7nte6B7beYQIFA7IvdBLjuEGF/4ttkE0gCKcEGvl5EON4ZyJGsEjxG2+S41VfVByNV9p9J0rMdi5kzmTNAJAaTVoPSDf5IG7nlBQJPKB7oJ4G6BkoIdyEGJ27kDQST3IQcL2l09k8unZ7pHB+LkxhrQdviO5pBpPy9Ch1DUW6u7HOV7w78bLPTQrsg9gyg3flBHVbtkFA0gA4koL5G6BgbIIcgghBKA5G6Dn66KwYtzvkw/wD2QaGFpkWbl6pM+IPd75ICSAeKQeg3JKAFhBVoJBIJ32QU1xQW123KAcEEHhBBCCg2wg0tdhklw4mxNLiJ43GvIO3QeY1fN1rStWzI9O0p2VjyyeMJA7kkC/sg9qOSgHIEgnzQNAkGVqAPCCT2QUxAdz+qCOw+SD//2Q=="
+          }
+        ]
+      },
+      "ocr": "SC AUCHAN ROMANIA SA\nHYPERMARCHE AUCHAN\nSTR. ZAHARIA STANCU, NR. 1\nBRASOV, JUD. BRASOV\nC.I.F .: RO17233051\nBON FISCAL\nZILNIC 07.00-21.00\nPETR 30724BAZ. AUTO\n335\nSTICKERE PUISOR OUA\n1 BUC \u00d7 16,00\n16,00 D\nSELECLINE FIERBATOR\n1 BUC \u00d7 44,01\nTAXA VERDE 1 BUC \u00d7 0,89\nCOS DREPTUNG CARLIGE\n1 BUC X 5,55\n44,01 D\n0,89 D\n5,55 D\nCROISSANT 7 DAYS SPU\n1 BUC X 1,75\nPAINE CU MAIA SI MAS\n1 BUC X 3,60\nPATE DE PORC 20% 120\n2 BUC X 3,55\n1,75 B\n3,60 B\n7,10 B\nNUTELLA 700G\n1 BUC \u00d7 19,40\nRADIERA GALET\n1 BUC \u00d7 4,55\n19,40 B\n4,55 D\nGP SUPER ALKALINE LR\n1 BUC \u00d7 18,70\nNIVEA BALS DUPA RAS\n1 BUC X 30,50\nAUC VV LICHID PARBRC\n1 BUC \u00d7 16,90\n18,70 D\n30,50 D\n16,90 D\nEND ELEMENTE\nTOATE ARTICOLE SCANATE: 13\nTOTAL : 168,95\n168,95\nCARD\n00018 038 46150 0038\n9138579073918\nTERMINAL: 2AUCHQ08\nTERMINAL ID .: 2AUCHQ08\nCOMERCIANT: 2AUCHQ08\n************ 6855\nEXP .: ****\nMASTERCARD\nAID: A0000000041010\nVANZARE\nBATCH: 000268\nCHITANTA: 023673\nORA: 12:29:23\nNT. AUTORIZ .: 291808\nDATA: 02 APR 2022\nRRN: 209207265765\nTOTAL: RON 168,95\nPIN VERIFICAT\nSEMNATURA DUS. NU MAI ESTE NECESARA\nVALOARE\nTOTAL\nTVA\nB-TVA 9%\nD-TVA 19%\n2,63\n21,89\n31,85\n137,10\nTOTAL TAXE: 24,52\nATI FOST MULTUMIT AZI DE AUCHAN?\nRASPUNDETI PE Q.AUCHAN.RO\nSERVICIUL CLIENTI 021-9141\nVA MULTUMIM CA NE-ATI ALES!\nAUCHAN ... SI VIATA SE SCHIMBA\nCASIER: CASA RAPIDA 38\nCASA: 38\nNUMAR BON: 1081-00024\n12:29:53\n02.04.2022\nFZ 1000440358\nBON FISCAL\n-----\n",
+      "uuid": "a89d060a-26b5-4a3c-a665-6b213e3dbc37"
+    }
+  ],
+  "standarized_response": {
+    "extracted_data": [
+      {
+        "invoice_number": null,
+        "invoice_total": 16895.0,
+        "date": "2022-04-02",
+        "invoice_subtotal": 16895.0,
+        "customer_information": {
+          "customer_name": null
+        },
+        "merchant_information": {
+          "merchant_name": "SC AUCHAN ROMANIA SA"
+        },
+        "locale": {
+          "currency": null
+        },
+        "taxes": [
+          {
+            "taxes": null,
+            "rate": null
+          }
+        ],
+        "receipt_infos": {
+          "payment_code": null,
+          "host": null,
+          "payment_id": null,
+          "card_type": "Mastercard",
+          "receipt_number": null
+        },
+        "item_lines": [
+          {
+            "description": "GP SUPER ALKALINE LR",
+            "quantity": 1,
+            "amount": 1870.0,
+            "unit_price": 1870.0
+          },
+          {
+            "description": "NIVEA BALS DUPA RAS",
+            "quantity": 1,
+            "amount": 3050.0,
+            "unit_price": 3050.0
+          },
+          {
+            "description": "AUC WV LICHID PARBRC",
+            "quantity": 1,
+            "amount": 1690.0,
+            "unit_price": 1690.0
+          },
+          {
+            "description": "STICKERE PUISOR OUA",
+            "quantity": 1,
+            "amount": 1600.0,
+            "unit_price": 1600.0
+          },
+          {
+            "description": "SELECLINE FIERBATOR",
+            "quantity": 1,
+            "amount": 4401.0,
+            "unit_price": 4401.0
+          },
+          {
+            "description": "TAXA VERDE",
+            "quantity": 1,
+            "amount": 89.0,
+            "unit_price": 7.57
+          },
+          {
+            "description": "COS DREPTUNG CARLIGE",
+            "quantity": 1,
+            "amount": 555.0,
+            "unit_price": 40.81
+          },
+          {
+            "description": "CROISSANT 7 DAYS SPU",
+            "quantity": 2,
+            "amount": 175.0,
+            "unit_price": 7.43
+          },
+          {
+            "description": "PAINE CU MAIA SI MAS",
+            "quantity": 1,
+            "amount": 360.0,
+            "unit_price": 360.0
+          },
+          {
+            "description": "PATE DE PORC 20% 120",
+            "quantity": 1,
+            "amount": 710.0,
+            "unit_price": 710.0
+          },
+          {
+            "description": "NUTELLA 700G",
+            "quantity": 1,
+            "amount": 19.4,
+            "unit_price": 19.4
+          },
+          {
+            "description": "RADIERA GALET",
+            "quantity": 1,
+            "amount": 455.0,
+            "unit_price": 455.0
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,528 @@
+{
+  "original_response": {
+    "entities": [
+      {
+        "name": "Barack Hussein Obama",
+        "type": "PERSON",
+        "metadata": {
+          "mid": "/m/02mjmr",
+          "wikipedia_url": "https://en.wikipedia.org/wiki/Barack_Obama"
+        },
+        "salience": 0.74435586,
+        "mentions": [
+          {
+            "text": {
+              "content": "Barack Hussein Obama"
+            },
+            "type": "PROPER"
+          },
+          {
+            "text": {
+              "content": "politician",
+              "beginOffset": 36
+            },
+            "type": "COMMON"
+          },
+          {
+            "text": {
+              "content": "Obama",
+              "beginOffset": 154
+            },
+            "type": "PROPER"
+          }
+        ]
+      },
+      {
+        "name": "president",
+        "type": "PERSON",
+        "salience": 0.07021436,
+        "mentions": [
+          {
+            "text": {
+              "content": "member",
+              "beginOffset": 122
+            },
+            "type": "COMMON"
+          },
+          {
+            "text": {
+              "content": "president",
+              "beginOffset": 191
+            },
+            "type": "COMMON"
+          }
+        ]
+      },
+      {
+        "name": "American",
+        "type": "LOCATION",
+        "metadata": {
+          "wikipedia_url": "https://en.wikipedia.org/wiki/United_States",
+          "mid": "/m/09c7w0"
+        },
+        "salience": 0.066377416,
+        "mentions": [
+          {
+            "text": {
+              "content": "American",
+              "beginOffset": 27
+            },
+            "type": "PROPER"
+          },
+          {
+            "text": {
+              "content": "United States",
+              "beginOffset": 87
+            },
+            "type": "PROPER"
+          },
+          {
+            "text": {
+              "content": "United States",
+              "beginOffset": 208
+            },
+            "type": "PROPER"
+          },
+          {
+            "text": {
+              "content": "U.S.",
+              "beginOffset": 249
+            },
+            "type": "PROPER"
+          }
+        ]
+      },
+      {
+        "name": "president",
+        "type": "PERSON",
+        "salience": 0.04346809,
+        "mentions": [
+          {
+            "text": {
+              "content": "president",
+              "beginOffset": 70
+            },
+            "type": "COMMON"
+          }
+        ]
+      },
+      {
+        "name": "African-American",
+        "type": "PERSON",
+        "salience": 0.007983226,
+        "mentions": [
+          {
+            "text": {
+              "content": "African-American",
+              "beginOffset": 174
+            },
+            "type": "PROPER"
+          }
+        ]
+      },
+      {
+        "name": "Democratic Party",
+        "type": "ORGANIZATION",
+        "metadata": {
+          "mid": "/m/0d075m",
+          "wikipedia_url": "https://en.wikipedia.org/wiki/Democratic_Party_(United_States)"
+        },
+        "salience": 0.00764491,
+        "mentions": [
+          {
+            "text": {
+              "content": "Democratic Party",
+              "beginOffset": 136
+            },
+            "type": "PROPER"
+          }
+        ]
+      },
+      {
+        "name": "state senator",
+        "type": "PERSON",
+        "salience": 0.0070930053,
+        "mentions": [
+          {
+            "text": {
+              "content": "state senator",
+              "beginOffset": 313
+            },
+            "type": "COMMON"
+          }
+        ]
+      },
+      {
+        "name": "Illinois",
+        "type": "LOCATION",
+        "metadata": {
+          "wikipedia_url": "https://en.wikipedia.org/wiki/Illinois",
+          "mid": "/m/03v0t"
+        },
+        "salience": 0.005297011,
+        "mentions": [
+          {
+            "text": {
+              "content": "Illinois",
+              "beginOffset": 267
+            },
+            "type": "PROPER"
+          },
+          {
+            "text": {
+              "content": "Illinois",
+              "beginOffset": 304
+            },
+            "type": "PROPER"
+          }
+        ]
+      },
+      {
+        "name": "senator",
+        "type": "PERSON",
+        "salience": 0.004453033,
+        "mentions": [
+          {
+            "text": {
+              "content": "senator",
+              "beginOffset": 254
+            },
+            "type": "COMMON"
+          }
+        ]
+      },
+      {
+        "name": "2009",
+        "type": "DATE",
+        "metadata": {
+          "year": "2009"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2009",
+              "beginOffset": 106
+            }
+          }
+        ]
+      },
+      {
+        "name": "2017",
+        "type": "DATE",
+        "metadata": {
+          "year": "2017"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2017",
+              "beginOffset": 114
+            }
+          }
+        ]
+      },
+      {
+        "name": "2005",
+        "type": "DATE",
+        "metadata": {
+          "year": "2005"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2005",
+              "beginOffset": 281
+            }
+          }
+        ]
+      },
+      {
+        "name": "2008",
+        "type": "DATE",
+        "metadata": {
+          "year": "2008"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2008",
+              "beginOffset": 289
+            }
+          }
+        ]
+      },
+      {
+        "name": "1997",
+        "type": "DATE",
+        "metadata": {
+          "year": "1997"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "1997",
+              "beginOffset": 332
+            }
+          }
+        ]
+      },
+      {
+        "name": "2004",
+        "type": "DATE",
+        "metadata": {
+          "year": "2004"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2004",
+              "beginOffset": 340
+            }
+          }
+        ]
+      },
+      {
+        "name": "2017",
+        "type": "NUMBER",
+        "metadata": {
+          "value": "2017"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2017",
+              "beginOffset": 114
+            }
+          }
+        ]
+      },
+      {
+        "name": "2008",
+        "type": "NUMBER",
+        "metadata": {
+          "value": "2008"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2008",
+              "beginOffset": 289
+            }
+          }
+        ]
+      },
+      {
+        "name": "1997",
+        "type": "NUMBER",
+        "metadata": {
+          "value": "1997"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "1997",
+              "beginOffset": 332
+            }
+          }
+        ]
+      },
+      {
+        "name": "44",
+        "type": "NUMBER",
+        "metadata": {
+          "value": "44"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "44",
+              "beginOffset": 65
+            }
+          }
+        ]
+      },
+      {
+        "name": "2004",
+        "type": "NUMBER",
+        "metadata": {
+          "value": "2004"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2004",
+              "beginOffset": 340
+            }
+          }
+        ]
+      },
+      {
+        "name": "2009",
+        "type": "NUMBER",
+        "metadata": {
+          "value": "2009"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2009",
+              "beginOffset": 106
+            }
+          }
+        ]
+      },
+      {
+        "name": "2005",
+        "type": "NUMBER",
+        "metadata": {
+          "value": "2005"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2005",
+              "beginOffset": 281
+            }
+          }
+        ]
+      }
+    ],
+    "language": "en"
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "entity": "Barack Hussein Obama",
+        "category": "PERSON",
+        "importance": 0.74435586,
+        "url": "https://en.wikipedia.org/wiki/Barack_Obama"
+      },
+      {
+        "entity": "president",
+        "category": "PERSON",
+        "importance": 0.07021436,
+        "url": null
+      },
+      {
+        "entity": "American",
+        "category": "LOCATION",
+        "importance": 0.066377416,
+        "url": "https://en.wikipedia.org/wiki/United_States"
+      },
+      {
+        "entity": "president",
+        "category": "PERSON",
+        "importance": 0.04346809,
+        "url": null
+      },
+      {
+        "entity": "African-American",
+        "category": "PERSON",
+        "importance": 0.007983226,
+        "url": null
+      },
+      {
+        "entity": "Democratic Party",
+        "category": "ORGANIZATION",
+        "importance": 0.00764491,
+        "url": "https://en.wikipedia.org/wiki/Democratic_Party_(United_States)"
+      },
+      {
+        "entity": "state senator",
+        "category": "PERSON",
+        "importance": 0.0070930053,
+        "url": null
+      },
+      {
+        "entity": "Illinois",
+        "category": "LOCATION",
+        "importance": 0.005297011,
+        "url": "https://en.wikipedia.org/wiki/Illinois"
+      },
+      {
+        "entity": "senator",
+        "category": "PERSON",
+        "importance": 0.004453033,
+        "url": null
+      },
+      {
+        "entity": "2009",
+        "category": "DATE",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "2017",
+        "category": "DATE",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "2005",
+        "category": "DATE",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "2008",
+        "category": "DATE",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "1997",
+        "category": "DATE",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "2004",
+        "category": "DATE",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "2017",
+        "category": "NUMBER",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "2008",
+        "category": "NUMBER",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "1997",
+        "category": "NUMBER",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "44",
+        "category": "NUMBER",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "2004",
+        "category": "NUMBER",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "2009",
+        "category": "NUMBER",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "2005",
+        "category": "NUMBER",
+        "importance": null,
+        "url": null
+      }
+    ]
+  }
+}

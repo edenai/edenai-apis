@@ -1,0 +1,143 @@
+from abc import abstractmethod
+from typing import List, Optional
+from edenai_apis.features.text import (
+    KeywordExtractionDataClass,
+    NamedEntityRecognitionDataClass,
+    QuestionAnswerDataClass,
+    SentimentAnalysisDataClass,
+    SyntaxAnalysisDataClass,
+    AnonymizationDataClass,
+    SummarizeDataClass,
+    SearchDataClass
+)
+from edenai_apis.utils.types import ResponseType
+
+
+class Text:
+    @abstractmethod
+    def text__anonymization(
+        self, text: str, language: str
+    ) -> ResponseType[AnonymizationDataClass]:
+        """
+        Anonymize text by hiding every *sensitive* words
+        that could be used to identify a person
+
+        Args:
+            text (str): text to anonymize
+            language (str): text's language code in ISO format
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def text__keyword_extraction(
+        self, language: str, text: str
+    ) -> ResponseType[KeywordExtractionDataClass]:
+        """
+        Extract Keywords from a given text
+
+        Args:
+            text (str): text to analyze
+            language (str): text's language code in ISO format
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def text__named_entity_recognition(
+        self, language: str, text: str
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        """
+        Automatically identifies named entities in a text
+        and classifies them into predefined categories.
+
+        Args:
+            text (str): text to analyze
+            language (str): text's language code in ISO format
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def text__question_answer(
+        self,
+        texts: List[str],
+        question: str,
+        temperature: float,
+        examples_context: str,
+        examples: List[List[str]],
+        model: Optional[str]
+    ) -> ResponseType[QuestionAnswerDataClass]:
+        """
+        Ask question related to given texts and get an answer
+
+        Args:
+            texts (List[str]): texts to analyze
+            question (str): your query
+            temperature (float): value between 0 and 1, represent the degree
+                of risk the model will take, Higher values mean the model will
+                take more risks and value 0 (argmax sampling) works better for
+                scenarios with a well-defined answer.
+            examples_context (str): example text serving as context
+            examples (List[str]): List of example question/answer pairs
+                related to `examples_context`
+            model (str, optional): which openai model to use, default to `None`
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def text__search(
+        self, texts: List[str], query: str, model: Optional[str] = None
+    ) -> ResponseType[SearchDataClass]:
+        """
+        Do sementic search over a set of texts
+
+        Args:
+            texts (List[str]): texts to analyze
+            query (str): your query
+            model (str, optional): which openai model to use, Default to `None`.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def text__sentiment_analysis(
+        self, language: str, text: str
+    ) -> ResponseType[SentimentAnalysisDataClass]:
+        """
+        Analyze sentiment of a text
+
+        Args:
+            text (str): text to analyze
+            language (str): text's language code in ISO format
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def text__summarize(
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: Optional[str],
+    ) -> ResponseType[SummarizeDataClass]:
+        """
+        Summarize a given text in a given number of sentences
+
+        Args:
+            text (str): text to analyze
+            output_sentences (int): number of sentence in the returned summary
+            language (str): text's language code in ISO format
+            model (str, optional): which openai model to use, Default to `None`.
+        """
+        raise NotImplementedError
+
+    ### Syntax analysis
+    @abstractmethod
+    def text__syntax_analysis(
+        self, language: str, text: str
+    ) -> ResponseType[SyntaxAnalysisDataClass]:
+        """
+        Syntax analysis consists principally in highlighting the structure of a text.
+
+        Args:
+            text (str): text to analyze
+            language (str): text's language code in ISO format
+        """
+        raise NotImplementedError

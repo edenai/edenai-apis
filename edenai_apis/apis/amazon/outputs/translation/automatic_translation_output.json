@@ -1,0 +1,22 @@
+{
+  "original_response": {
+    "TranslatedText": "Artificial intelligence, also known as intelligent devices and equipment intelligence, refers to the wisdom expressed by devices manufactured by humans. Generally, artificial intelligence refers to technology that presents human intelligence through ordinary computer programs. This phrase also indicates whether research such an intelligent system can be realized and how it can be implemented. At the same time, through advances in medicine, neuroscience, robot science, statistics, etc., many occupations recognized as human by the Normal Predictive Rules have gradually been replaced by them",
+    "SourceLanguageCode": "zh",
+    "TargetLanguageCode": "en",
+    "ResponseMetadata": {
+      "RequestId": "45e56d02-d587-4dc4-b880-3ea9bd4f0c14",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "45e56d02-d587-4dc4-b880-3ea9bd4f0c14",
+        "cache-control": "no-cache",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "668",
+        "date": "Wed, 12 Oct 2022 10:41:06 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standarized_response": {
+    "text": "Artificial intelligence, also known as intelligent devices and equipment intelligence, refers to the wisdom expressed by devices manufactured by humans. Generally, artificial intelligence refers to technology that presents human intelligence through ordinary computer programs. This phrase also indicates whether research such an intelligent system can be realized and how it can be implemented. At the same time, through advances in medicine, neuroscience, robot science, statistics, etc., many occupations recognized as human by the Normal Predictive Rules have gradually been replaced by them"
+  }
+}

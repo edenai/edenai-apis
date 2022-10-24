@@ -1,0 +1,24 @@
+{
+    "ocr": {
+        "invoice_parser": {
+            "constraints": {
+                "languages": [
+                    "en",
+                    "fr",
+                    "es"
+                ]
+            },
+            "version": "affinda 1.0.2"
+        },
+        "resume_parser": {
+            "constraints": {
+                "languages": [
+                    "en",
+                    "fr",
+                    "ar"
+                ]
+            },
+            "version": "affinda 1.0.2"
+        }
+    }
+}

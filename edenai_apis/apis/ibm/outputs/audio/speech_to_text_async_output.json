@@ -1,0 +1,32 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "d74ce6e6-4a1b-11ed-b45a-0b1b2fcae25b",
+  "original_response": [
+    {
+      "result_index": 0,
+      "results": [
+        {
+          "final": true,
+          "alternatives": [
+            {
+              "transcript": "unit one page fourteen real conversations ",
+              "confidence": 0.97
+            }
+          ]
+        },
+        {
+          "final": true,
+          "alternatives": [
+            {
+              "transcript": "hello hi my name's Cody %HESITATION what's your name I'm she hero nice to meet you she he ro yeah that's right %HESITATION we've from ",
+              "confidence": 0.73
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "standarized_response": {
+    "text": "unit one page fourteen real conversations  hello hi my name's Cody %HESITATION what's your name I'm she hero nice to meet you she he ro yeah that's right %HESITATION we've from "
+  }
+}

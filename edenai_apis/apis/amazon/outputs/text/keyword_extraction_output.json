@@ -1,0 +1,171 @@
+{
+  "original_response": {
+    "KeyPhrases": [
+      {
+        "Score": 0.9999486207962036,
+        "Text": "Barack Hussein Obama",
+        "BeginOffset": 0,
+        "EndOffset": 20
+      },
+      {
+        "Score": 0.9999716281890869,
+        "Text": "an American politician",
+        "BeginOffset": 24,
+        "EndOffset": 46
+      },
+      {
+        "Score": 0.9999203085899353,
+        "Text": "the 44th president",
+        "BeginOffset": 61,
+        "EndOffset": 79
+      },
+      {
+        "Score": 0.9999923706054688,
+        "Text": "the United States",
+        "BeginOffset": 83,
+        "EndOffset": 100
+      },
+      {
+        "Score": 0.9978654384613037,
+        "Text": "2009 to 2017",
+        "BeginOffset": 106,
+        "EndOffset": 118
+      },
+      {
+        "Score": 0.9999291896820068,
+        "Text": "A member",
+        "BeginOffset": 120,
+        "EndOffset": 128
+      },
+      {
+        "Score": 0.9998463988304138,
+        "Text": "the Democratic Party",
+        "BeginOffset": 132,
+        "EndOffset": 152
+      },
+      {
+        "Score": 0.9717541933059692,
+        "Text": "Obama",
+        "BeginOffset": 154,
+        "EndOffset": 159
+      },
+      {
+        "Score": 0.9999843239784241,
+        "Text": "the first African-American president",
+        "BeginOffset": 164,
+        "EndOffset": 200
+      },
+      {
+        "Score": 0.9999887943267822,
+        "Text": "the United States",
+        "BeginOffset": 204,
+        "EndOffset": 221
+      },
+      {
+        "Score": 0.999945342540741,
+        "Text": "a U.S. senator",
+        "BeginOffset": 247,
+        "EndOffset": 261
+      },
+      {
+        "Score": 0.9998075366020203,
+        "Text": "Illinois",
+        "BeginOffset": 267,
+        "EndOffset": 275
+      },
+      {
+        "Score": 0.9952043890953064,
+        "Text": "2005 to 2008",
+        "BeginOffset": 281,
+        "EndOffset": 293
+      },
+      {
+        "Score": 0.9995349645614624,
+        "Text": "an Illinois state senator",
+        "BeginOffset": 301,
+        "EndOffset": 326
+      },
+      {
+        "Score": 0.9981316924095154,
+        "Text": "1997 to 2004",
+        "BeginOffset": 332,
+        "EndOffset": 344
+      }
+    ],
+    "ResponseMetadata": {
+      "RequestId": "a0ef0ee6-b48d-445f-89e3-497fe0170e8c",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "a0ef0ee6-b48d-445f-89e3-497fe0170e8c",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "1348",
+        "date": "Wed, 12 Oct 2022 10:40:57 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "keyword": "Barack Hussein Obama",
+        "importance": 0.9999486207962036
+      },
+      {
+        "keyword": "an American politician",
+        "importance": 0.9999716281890869
+      },
+      {
+        "keyword": "the 44th president",
+        "importance": 0.9999203085899353
+      },
+      {
+        "keyword": "the United States",
+        "importance": 0.9999923706054688
+      },
+      {
+        "keyword": "2009 to 2017",
+        "importance": 0.9978654384613037
+      },
+      {
+        "keyword": "A member",
+        "importance": 0.9999291896820068
+      },
+      {
+        "keyword": "the Democratic Party",
+        "importance": 0.9998463988304138
+      },
+      {
+        "keyword": "Obama",
+        "importance": 0.9717541933059692
+      },
+      {
+        "keyword": "the first African-American president",
+        "importance": 0.9999843239784241
+      },
+      {
+        "keyword": "the United States",
+        "importance": 0.9999887943267822
+      },
+      {
+        "keyword": "a U.S. senator",
+        "importance": 0.999945342540741
+      },
+      {
+        "keyword": "Illinois",
+        "importance": 0.9998075366020203
+      },
+      {
+        "keyword": "2005 to 2008",
+        "importance": 0.9952043890953064
+      },
+      {
+        "keyword": "an Illinois state senator",
+        "importance": 0.9995349645614624
+      },
+      {
+        "keyword": "1997 to 2004",
+        "importance": 0.9981316924095154
+      }
+    ]
+  }
+}

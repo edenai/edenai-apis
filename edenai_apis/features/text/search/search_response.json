@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "object": "search_result",
+      "document": 0,
+      "score": 470.482
+    },
+    {
+      "object": "search_result",
+      "document": 1,
+      "score": 465.931
+    },
+    {
+      "object": "search_result",
+      "document": 2,
+      "score": 84.615
+    },
+    {
+      "object": "search_result",
+      "document": 3,
+      "score": -155.513
+    },
+    {
+      "object": "search_result",
+      "document": 4,
+      "score": -411.355
+    }
+  ]
+}

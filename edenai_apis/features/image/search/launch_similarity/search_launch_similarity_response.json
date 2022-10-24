@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "image_name": "test_7.jpg",
+      "score": 92.9
+    },
+    {
+      "image_name": "test_6.jpg",
+      "score": 92.9
+    },
+    {
+      "image_name": "test_5.jpg",
+      "score": 92.9
+    },
+    {
+      "image_name": "image_name.jpg",
+      "score": 92.9
+    },
+    {
+      "image_name": "test_4.jpg",
+      "score": 39.9
+    },
+    {
+      "image_name": "test_3.jpg",
+      "score": 39.9
+    },
+    {
+      "image_name": "test_2.jpg",
+      "score": 39.9
+    },
+    {
+      "image_name": "test_1.jpg",
+      "score": 39.9
+    },
+    {
+      "image_name": "image1.jpg",
+      "score": 33.7
+    }
+  ]
+}

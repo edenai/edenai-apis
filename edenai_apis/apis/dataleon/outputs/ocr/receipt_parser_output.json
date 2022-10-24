@@ -1,0 +1,219 @@
+{
+  "original_response": {
+    "metadata": {
+      "task": "detection",
+      "height": 1600,
+      "width": 315,
+      "time_processing": 6.4355552196502686,
+      "documents": [
+        {
+          "filename": "receipt.jpg",
+          "extension": "jpg",
+          "pages": 1,
+          "key": "613e3a7c-099d-42cb-b29a-d47730d978f3.jpg",
+          "id": "7ac8b335-9e93-4852-9583-3cdf79c1b207",
+          "dimensions": [
+            {
+              "keyname": "613e3a7c-099d-42cb-b29a-d47730d978f3.jpg",
+              "kc": "anno-image-907ffcbe-c093-4036-832a-036f5d754582.jpg",
+              "page": 1,
+              "width": 315,
+              "height": 1600
+            }
+          ]
+        }
+      ],
+      "status": "PROCESSED",
+      "task_id": "a194ea59-9bc7-4f31-ab37-d0b6911e4f6a",
+      "api_version": "09-06-2022"
+    },
+    "tables": [],
+    "entities": [
+      {
+        "id": "bf5154b6-9951-4efc-81f0-19161aa7a7bb",
+        "text": "02.04.2022",
+        "name": "IssueDate",
+        "confidence": 0.99986732006073,
+        "color": "#bdc3c7",
+        "bounding_box": [
+          [
+            16,
+            1510
+          ],
+          [
+            83,
+            1509
+          ],
+          [
+            83,
+            1521
+          ],
+          [
+            16,
+            1522
+          ]
+        ],
+        "value": "02/04/2022",
+        "type": "date",
+        "page": 1,
+        "document_number": 1,
+        "document_name": "receipt.jpg",
+        "document_id": "7ac8b335-9e93-4852-9583-3cdf79c1b207"
+      },
+      {
+        "id": "4a4f1a2f-74fb-4859-b1f9-5e95420e0e4d",
+        "text": "2,63",
+        "name": "Tax",
+        "confidence": 0.9998195767402649,
+        "color": "#9b59b6",
+        "bounding_box": [
+          [
+            128,
+            1239
+          ],
+          [
+            158,
+            1239
+          ],
+          [
+            158,
+            1253
+          ],
+          [
+            128,
+            1253
+          ]
+        ],
+        "value": 2.63,
+        "type": "number",
+        "page": 1,
+        "document_number": 1,
+        "document_name": "receipt.jpg",
+        "document_id": "7ac8b335-9e93-4852-9583-3cdf79c1b207"
+      },
+      {
+        "id": "ada5c5a5-0af3-467b-8e3f-3aa9beb71ce5",
+        "text": "168,95",
+        "name": "Total",
+        "confidence": 0.9975283741950989,
+        "color": "#d35400",
+        "bounding_box": [
+          [
+            240,
+            787
+          ],
+          [
+            285,
+            786
+          ],
+          [
+            286,
+            811
+          ],
+          [
+            241,
+            812
+          ]
+        ],
+        "value": 168.95,
+        "type": "number",
+        "page": 1,
+        "document_number": 1,
+        "document_name": "receipt.jpg",
+        "document_id": "7ac8b335-9e93-4852-9583-3cdf79c1b207"
+      },
+      {
+        "id": "30eac4a0-c663-4922-ae46-052883e0d51c",
+        "text": "SC AUCHAN ROMANIA SA",
+        "name": "VendorName",
+        "confidence": 0.9850118088285733,
+        "color": "#1abc9c",
+        "bounding_box": [
+          [
+            84,
+            92
+          ],
+          [
+            219,
+            92
+          ],
+          [
+            219,
+            104
+          ],
+          [
+            84,
+            104
+          ]
+        ],
+        "value": "SC AUCHAN ROMANIA SA",
+        "type": "text",
+        "page": 1,
+        "document_number": 1,
+        "document_name": "receipt.jpg",
+        "document_id": "7ac8b335-9e93-4852-9583-3cdf79c1b207"
+      },
+      {
+        "id": "198c8419-a9e2-42e0-8213-a1accd98449d",
+        "text": "RO17233051",
+        "name": "TVANumber",
+        "confidence": 0.8738685250282288,
+        "color": "#e67e22",
+        "bounding_box": [
+          [
+            143,
+            165
+          ],
+          [
+            211,
+            166
+          ],
+          [
+            211,
+            180
+          ],
+          [
+            143,
+            179
+          ]
+        ],
+        "value": "RO17233051",
+        "type": "text",
+        "page": 1,
+        "document_number": 1,
+        "document_name": "receipt.jpg",
+        "document_id": "7ac8b335-9e93-4852-9583-3cdf79c1b207"
+      }
+    ],
+    "validations": [],
+    "alerts": [],
+    "class": []
+  },
+  "standarized_response": {
+    "extracted_data": [
+      {
+        "invoice_number": null,
+        "invoice_total": 16895.0,
+        "date": "02.04.2022",
+        "invoice_subtotal": null,
+        "customer_information": {
+          "customer_name": null
+        },
+        "merchant_information": {
+          "merchant_name": "SC AUCHAN ROMANIA SA"
+        },
+        "locale": {
+          "currency": null
+        },
+        "taxes": [
+          {
+            "taxes": 263.0,
+            "rate": null
+          }
+        ],
+        "receipt_infos": {},
+        "item_lines": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+    "image": {
+        "object_detection": {
+            "version": "1.9.2"
+        },
+        "logo_detection": {
+            "version": "v1.0.0"
+        },
+        "face_detection": {
+            "version": "v1.0.0"
+        },
+        "anonymization": {
+            "version": "v1.0.0"
+        },
+        "explicit_content": {
+            "version": "v1.0.0"
+        }
+    },
+    "ocr": {
+        "ocr": {
+            "version": "v1.0.0"
+        }
+    }
+}

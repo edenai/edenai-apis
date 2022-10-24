@@ -1,0 +1,51 @@
+{
+  "original_response": {
+    "brands": [
+      {
+        "name": "Apple",
+        "confidence": 0.725,
+        "rectangle": {
+          "x": 637,
+          "y": 551,
+          "w": 88,
+          "h": 158
+        }
+      }
+    ],
+    "requestId": "715609a6-05d4-4847-aa19-ef6930c86573",
+    "metadata": {
+      "height": 734,
+      "width": 980,
+      "format": "Jpeg"
+    },
+    "modelVersion": "2021-05-01"
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "bounding_poly": {
+          "vertices": [
+            {
+              "x": 637.0,
+              "y": 551.0
+            },
+            {
+              "x": 725.0,
+              "y": 551.0
+            },
+            {
+              "x": 725.0,
+              "y": 709.0
+            },
+            {
+              "x": 637.0,
+              "y": 709.0
+            }
+          ]
+        },
+        "description": "Apple",
+        "score": 0.725
+      }
+    ]
+  }
+}

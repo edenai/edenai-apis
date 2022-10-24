@@ -1,0 +1,33 @@
+{
+  "original_response": {
+    "adult": "VERY_UNLIKELY",
+    "spoof": "VERY_UNLIKELY",
+    "medical": "UNLIKELY",
+    "violence": "LIKELY",
+    "racy": "VERY_UNLIKELY"
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "label": "Adult",
+        "likelihood": 1
+      },
+      {
+        "label": "Spoof",
+        "likelihood": 1
+      },
+      {
+        "label": "Medical",
+        "likelihood": 2
+      },
+      {
+        "label": "Gore",
+        "likelihood": 4
+      },
+      {
+        "label": "Racy",
+        "likelihood": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "face_detection": {
+    "url": ""
+  },
+  "key": "",
+  "logo_detection": {
+    "url": ""
+  },
+  "object_detection": {
+    "url": ""
+  }
+}

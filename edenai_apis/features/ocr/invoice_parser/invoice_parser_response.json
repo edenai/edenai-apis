@@ -1,0 +1,25 @@
+{
+  "extracted_data": [
+    {
+      "invoice_number": "000000",
+      "invoice_total": 4520.0,
+      "date": null,
+      "invoice_subtotal": 4000.0,
+      "due_date": null,
+      "customer_information": {
+        "customer_name": "CLIENT NAME",
+        "customer_address": "1 Client Address City, State, Country ZIP CODE"
+      },
+      "merchant_information": {
+        "merchant_name": null,
+        "merchant_address": null
+      },
+      "locale": {
+        "currency": "USD",
+        "language": "en"
+      },
+      "taxes": [],
+      "item_lines": []
+    }
+  ]
+}

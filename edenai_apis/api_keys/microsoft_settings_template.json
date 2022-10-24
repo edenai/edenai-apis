@@ -1,0 +1,35 @@
+{
+  "face": {
+    "subscription_key": "",
+    "url": ""
+  },
+  "ocr_invoice": {
+    "subscription_key": "",
+    "url": ""
+  },
+  "ocr_tables_async": {
+    "subscription_key": "",
+    "url": ""
+  },
+  "speech": {
+    "service_region": "",
+    "subscription_key": "",
+    "url": ""
+  },
+  "summarization": {
+    "url": ""
+  },
+  "text": {
+    "subscription_key": "",
+    "url": ""
+  },
+  "translator": {
+    "service_region": "",
+    "subscription_key": "",
+    "url": ""
+  },
+  "vision": {
+    "subscription_key": "",
+    "url": ""
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "extracted_data": {
+    "personal_infos": {
+      "first_name": "Amanda",
+      "last_name": "Smith",
+      "address": "398 Wilshire Blvd, Santa Monica, CA 90401, USA",
+      "gender": null,
+      "phones": ["594-348-2740", "594-348-2741"],
+      "mails": ["modelgal@aim.com"],
+      "urls": [],
+      "self_summary": "",
+      "current_profession": null,
+      "driving_licence": null
+    },
+    "education": {
+      "entries": [
+        {
+          "title": null,
+          "start_date": null,
+          "end_date": null,
+          "location": null,
+          "establishment": "New York University",
+          "description": null
+        }
+      ],
+      "total_years_education": 0
+    },
+    "work_experience": {
+      "entries": [],
+      "total_years_experience": 0
+    },
+    "languages": [
+      {
+        "name": "French",
+        "value": null
+      },
+      {
+        "name": "English",
+        "value": null
+      },
+      {
+        "name": "Spanish",
+        "value": null
+      },
+      {
+        "name": "Italian",
+        "value": null
+      },
+      {
+        "name": "Hawaiian",
+        "value": null
+      }
+    ],
+    "skills": [
+      {
+        "name": "Aerobics",
+        "type": "hard"
+      },
+      {
+        "name": "Agile Software Development",
+        "type": "hard"
+      },
+      {
+        "name": "model",
+        "type": "hard"
+      },
+      {
+        "name": "Las",
+        "type": "hard"
+      },
+      {
+        "name": "Jazz",
+        "type": "hard"
+      },
+      {
+        "name": "Microsoft Excel",
+        "type": "soft"
+      },
+      {
+        "name": "Model",
+        "type": "hard"
+      },
+      {
+        "name": "Opera (Web Browser)",
+        "type": "hard"
+      },
+      {
+        "name": "Ballet",
+        "type": "hard"
+      }
+    ],
+    "certifications": [],
+    "courses": [],
+    "publications": [],
+    "interests": []
+  }
+}

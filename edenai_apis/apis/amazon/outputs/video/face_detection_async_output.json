@@ -1,0 +1,525 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "365c93f511b7d3cabddaa94964b0aae0cdd53227e1d6951ca9a475b856d3c040",
+  "original_response": {
+    "JobStatus": "SUCCEEDED",
+    "VideoMetadata": {
+      "Codec": "h264",
+      "DurationMillis": 14581,
+      "Format": "QuickTime / MOV",
+      "FrameRate": 29.969999313354492,
+      "FrameHeight": 360,
+      "FrameWidth": 640,
+      "ColorRange": "LIMITED"
+    },
+    "Faces": [
+      {
+        "Timestamp": 13480,
+        "Face": {
+          "BoundingBox": {
+            "Width": 0.061013124883174896,
+            "Height": 0.1591854691505432,
+            "Left": 0.438291072845459,
+            "Top": 0.2258707880973816
+          },
+          "Landmarks": [
+            {
+              "Type": "eyeLeft",
+              "X": 0.4617324769496918,
+              "Y": 0.2950538396835327
+            },
+            {
+              "Type": "eyeRight",
+              "X": 0.48516082763671875,
+              "Y": 0.28155553340911865
+            },
+            {
+              "Type": "mouthLeft",
+              "X": 0.4703262746334076,
+              "Y": 0.34328192472457886
+            },
+            {
+              "Type": "mouthRight",
+              "X": 0.4898161292076111,
+              "Y": 0.3317307233810425
+            },
+            {
+              "Type": "nose",
+              "X": 0.48376011848449707,
+              "Y": 0.3117826581001282
+            }
+          ],
+          "Pose": {
+            "Roll": -16.097736358642578,
+            "Yaw": 9.882977485656738,
+            "Pitch": 6.221282482147217
+          },
+          "Quality": {
+            "Brightness": 31.620290756225586,
+            "Sharpness": 5.775668621063232
+          },
+          "Confidence": 99.8713150024414
+        }
+      },
+      {
+        "Timestamp": 13980,
+        "Face": {
+          "BoundingBox": {
+            "Width": 0.08698241412639618,
+            "Height": 0.14078541100025177,
+            "Left": 0.3363484740257263,
+            "Top": 0.23832623660564423
+          },
+          "Landmarks": [
+            {
+              "Type": "eyeLeft",
+              "X": 0.3727310597896576,
+              "Y": 0.3025323152542114
+            },
+            {
+              "Type": "eyeRight",
+              "X": 0.4001469612121582,
+              "Y": 0.3168674409389496
+            },
+            {
+              "Type": "mouthLeft",
+              "X": 0.3577515780925751,
+              "Y": 0.3405819833278656
+            },
+            {
+              "Type": "mouthRight",
+              "X": 0.38100719451904297,
+              "Y": 0.35239002108573914
+            },
+            {
+              "Type": "nose",
+              "X": 0.38060009479522705,
+              "Y": 0.353053480386734
+            }
+          ],
+          "Pose": {
+            "Roll": 14.279417037963867,
+            "Yaw": 22.02740478515625,
+            "Pitch": -46.49413299560547
+          },
+          "Quality": {
+            "Brightness": 71.01451873779297,
+            "Sharpness": 5.775668621063232
+          },
+          "Confidence": 99.95780944824219
+        }
+      },
+      {
+        "Timestamp": 13980,
+        "Face": {
+          "BoundingBox": {
+            "Width": 0.0681639164686203,
+            "Height": 0.13249817490577698,
+            "Left": 0.4389990270137787,
+            "Top": 0.21411073207855225
+          },
+          "Landmarks": [
+            {
+              "Type": "eyeLeft",
+              "X": 0.4631568491458893,
+              "Y": 0.25938913226127625
+            },
+            {
+              "Type": "eyeRight",
+              "X": 0.48841729760169983,
+              "Y": 0.2577347755432129
+            },
+            {
+              "Type": "mouthLeft",
+              "X": 0.47497478127479553,
+              "Y": 0.30196642875671387
+            },
+            {
+              "Type": "mouthRight",
+              "X": 0.49583539366722107,
+              "Y": 0.300493061542511
+            },
+            {
+              "Type": "nose",
+              "X": 0.4864809513092041,
+              "Y": 0.2602881193161011
+            }
+          ],
+          "Pose": {
+            "Roll": -2.170466184616089,
+            "Yaw": 17.02326774597168,
+            "Pitch": 41.51375961303711
+          },
+          "Quality": {
+            "Brightness": 68.25818634033203,
+            "Sharpness": 9.912903785705566
+          },
+          "Confidence": 99.88796997070312
+        }
+      },
+      {
+        "Timestamp": 13980,
+        "Face": {
+          "BoundingBox": {
+            "Width": 0.041938018053770065,
+            "Height": 0.15001332759857178,
+            "Left": 0.5056558847427368,
+            "Top": 0.1389966905117035
+          },
+          "Landmarks": [
+            {
+              "Type": "eyeLeft",
+              "X": 0.5174739360809326,
+              "Y": 0.23037013411521912
+            },
+            {
+              "Type": "eyeRight",
+              "X": 0.5193023085594177,
+              "Y": 0.23133544623851776
+            },
+            {
+              "Type": "mouthLeft",
+              "X": 0.5163272023200989,
+              "Y": 0.23626886308193207
+            },
+            {
+              "Type": "mouthRight",
+              "X": 0.5178714990615845,
+              "Y": 0.2379273921251297
+            },
+            {
+              "Type": "nose",
+              "X": 0.49948829412460327,
+              "Y": 0.24617482721805573
+            }
+          ],
+          "Pose": {
+            "Roll": -10.763541221618652,
+            "Yaw": -76.6193618774414,
+            "Pitch": -4.731866836547852
+          },
+          "Quality": {
+            "Brightness": 72.18522644042969,
+            "Sharpness": 9.912903785705566
+          },
+          "Confidence": 96.98240661621094
+        }
+      },
+      {
+        "Timestamp": 14481,
+        "Face": {
+          "BoundingBox": {
+            "Width": 0.08565008640289307,
+            "Height": 0.1447013020515442,
+            "Left": 0.3216480612754822,
+            "Top": 0.23859846591949463
+          },
+          "Landmarks": [
+            {
+              "Type": "eyeLeft",
+              "X": 0.353244811296463,
+              "Y": 0.29764488339424133
+            },
+            {
+              "Type": "eyeRight",
+              "X": 0.3816046714782715,
+              "Y": 0.31669414043426514
+            },
+            {
+              "Type": "mouthLeft",
+              "X": 0.3411455452442169,
+              "Y": 0.33773720264434814
+            },
+            {
+              "Type": "mouthRight",
+              "X": 0.3651633858680725,
+              "Y": 0.35367316007614136
+            },
+            {
+              "Type": "nose",
+              "X": 0.3603477478027344,
+              "Y": 0.3470472991466522
+            }
+          ],
+          "Pose": {
+            "Roll": 20.534135818481445,
+            "Yaw": 13.713459968566895,
+            "Pitch": -40.97434616088867
+          },
+          "Quality": {
+            "Brightness": 72.40332794189453,
+            "Sharpness": 4.3748369216918945
+          },
+          "Confidence": 99.9632339477539
+        }
+      },
+      {
+        "Timestamp": 14481,
+        "Face": {
+          "BoundingBox": {
+            "Width": 0.047226715832948685,
+            "Height": 0.1386154443025589,
+            "Left": 0.5377917885780334,
+            "Top": 0.09513121843338013
+          },
+          "Landmarks": [
+            {
+              "Type": "eyeLeft",
+              "X": 0.5529460310935974,
+              "Y": 0.17076057195663452
+            },
+            {
+              "Type": "eyeRight",
+              "X": 0.5539919137954712,
+              "Y": 0.16528122127056122
+            },
+            {
+              "Type": "mouthLeft",
+              "X": 0.5583419799804688,
+              "Y": 0.19037990272045135
+            },
+            {
+              "Type": "mouthRight",
+              "X": 0.5591304898262024,
+              "Y": 0.186604306101799
+            },
+            {
+              "Type": "nose",
+              "X": 0.5414773225784302,
+              "Y": 0.18724407255649567
+            }
+          ],
+          "Pose": {
+            "Roll": 4.588217258453369,
+            "Yaw": -76.02508544921875,
+            "Pitch": -21.563554763793945
+          },
+          "Quality": {
+            "Brightness": 74.52859497070312,
+            "Sharpness": 4.3748369216918945
+          },
+          "Confidence": 98.05773162841797
+        }
+      }
+    ],
+    "ResponseMetadata": {
+      "RequestId": "8d5be8bf-260c-4251-b9d0-432d29972640",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "8d5be8bf-260c-4251-b9d0-432d29972640",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "4343",
+        "date": "Wed, 12 Oct 2022 10:42:17 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standarized_response": {
+    "faces": [
+      {
+        "offset": 13.48,
+        "bounding_box": {
+          "top": 0.2258707880973816,
+          "left": 0.438291072845459,
+          "height": 0.1591854691505432,
+          "width": 0.061013124883174896
+        },
+        "attributes": {
+          "headwear": null,
+          "frontal_gaze": null,
+          "eyes_visible": null,
+          "glasses": null,
+          "mouth_open": null,
+          "smiling": null,
+          "brightness": 0.3162029075622559,
+          "sharpness": 0.057756686210632326,
+          "pose": {
+            "pitch": 0.06221282482147217,
+            "roll": -0.16097736358642578,
+            "yawn": 0.09882977485656738
+          }
+        },
+        "landmarks": {
+          "eye_left": [],
+          "eye_right": [],
+          "nose": [
+            0.48376011848449707,
+            0.3117826581001282
+          ],
+          "mouth_left": [],
+          "mouth_right": []
+        }
+      },
+      {
+        "offset": 13.98,
+        "bounding_box": {
+          "top": 0.23832623660564423,
+          "left": 0.3363484740257263,
+          "height": 0.14078541100025177,
+          "width": 0.08698241412639618
+        },
+        "attributes": {
+          "headwear": null,
+          "frontal_gaze": null,
+          "eyes_visible": null,
+          "glasses": null,
+          "mouth_open": null,
+          "smiling": null,
+          "brightness": 0.7101451873779296,
+          "sharpness": 0.057756686210632326,
+          "pose": {
+            "pitch": -0.4649413299560547,
+            "roll": 0.14279417037963868,
+            "yawn": 0.2202740478515625
+          }
+        },
+        "landmarks": {
+          "eye_left": [],
+          "eye_right": [],
+          "nose": [
+            0.38060009479522705,
+            0.353053480386734
+          ],
+          "mouth_left": [],
+          "mouth_right": []
+        }
+      },
+      {
+        "offset": 13.98,
+        "bounding_box": {
+          "top": 0.21411073207855225,
+          "left": 0.4389990270137787,
+          "height": 0.13249817490577698,
+          "width": 0.0681639164686203
+        },
+        "attributes": {
+          "headwear": null,
+          "frontal_gaze": null,
+          "eyes_visible": null,
+          "glasses": null,
+          "mouth_open": null,
+          "smiling": null,
+          "brightness": 0.6825818634033203,
+          "sharpness": 0.09912903785705567,
+          "pose": {
+            "pitch": 0.4151375961303711,
+            "roll": -0.021704661846160888,
+            "yawn": 0.1702326774597168
+          }
+        },
+        "landmarks": {
+          "eye_left": [],
+          "eye_right": [],
+          "nose": [
+            0.4864809513092041,
+            0.2602881193161011
+          ],
+          "mouth_left": [],
+          "mouth_right": []
+        }
+      },
+      {
+        "offset": 13.98,
+        "bounding_box": {
+          "top": 0.1389966905117035,
+          "left": 0.5056558847427368,
+          "height": 0.15001332759857178,
+          "width": 0.041938018053770065
+        },
+        "attributes": {
+          "headwear": null,
+          "frontal_gaze": null,
+          "eyes_visible": null,
+          "glasses": null,
+          "mouth_open": null,
+          "smiling": null,
+          "brightness": 0.7218522644042968,
+          "sharpness": 0.09912903785705567,
+          "pose": {
+            "pitch": -0.04731866836547852,
+            "roll": -0.10763541221618653,
+            "yawn": -0.766193618774414
+          }
+        },
+        "landmarks": {
+          "eye_left": [],
+          "eye_right": [],
+          "nose": [
+            0.49948829412460327,
+            0.24617482721805573
+          ],
+          "mouth_left": [],
+          "mouth_right": []
+        }
+      },
+      {
+        "offset": 14.481,
+        "bounding_box": {
+          "top": 0.23859846591949463,
+          "left": 0.3216480612754822,
+          "height": 0.1447013020515442,
+          "width": 0.08565008640289307
+        },
+        "attributes": {
+          "headwear": null,
+          "frontal_gaze": null,
+          "eyes_visible": null,
+          "glasses": null,
+          "mouth_open": null,
+          "smiling": null,
+          "brightness": 0.7240332794189454,
+          "sharpness": 0.04374836921691894,
+          "pose": {
+            "pitch": -0.4097434616088867,
+            "roll": 0.20534135818481444,
+            "yawn": 0.13713459968566893
+          }
+        },
+        "landmarks": {
+          "eye_left": [],
+          "eye_right": [],
+          "nose": [
+            0.3603477478027344,
+            0.3470472991466522
+          ],
+          "mouth_left": [],
+          "mouth_right": []
+        }
+      },
+      {
+        "offset": 14.481,
+        "bounding_box": {
+          "top": 0.09513121843338013,
+          "left": 0.5377917885780334,
+          "height": 0.1386154443025589,
+          "width": 0.047226715832948685
+        },
+        "attributes": {
+          "headwear": null,
+          "frontal_gaze": null,
+          "eyes_visible": null,
+          "glasses": null,
+          "mouth_open": null,
+          "smiling": null,
+          "brightness": 0.7452859497070312,
+          "sharpness": 0.04374836921691894,
+          "pose": {
+            "pitch": -0.21563554763793946,
+            "roll": 0.04588217258453369,
+            "yawn": -0.7602508544921875
+          }
+        },
+        "landmarks": {
+          "eye_left": [],
+          "eye_right": [],
+          "nose": [
+            0.5414773225784302,
+            0.18724407255649567
+          ],
+          "mouth_left": [],
+          "mouth_right": []
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,317 @@
+{
+  "original_response": {
+    "kind": "EntityRecognitionResults",
+    "results": {
+      "documents": [
+        {
+          "id": "1",
+          "entities": [
+            {
+              "text": "Barack Hussein Obama",
+              "category": "Person",
+              "offset": 0,
+              "length": 20,
+              "confidenceScore": 1.0
+            },
+            {
+              "text": "American",
+              "category": "PersonType",
+              "offset": 27,
+              "length": 8,
+              "confidenceScore": 0.87
+            },
+            {
+              "text": "politician",
+              "category": "PersonType",
+              "offset": 36,
+              "length": 10,
+              "confidenceScore": 0.57
+            },
+            {
+              "text": "44th",
+              "category": "Quantity",
+              "subcategory": "Ordinal",
+              "offset": 65,
+              "length": 4,
+              "confidenceScore": 0.8
+            },
+            {
+              "text": "president",
+              "category": "PersonType",
+              "offset": 70,
+              "length": 9,
+              "confidenceScore": 0.94
+            },
+            {
+              "text": "United States",
+              "category": "Location",
+              "subcategory": "GPE",
+              "offset": 87,
+              "length": 13,
+              "confidenceScore": 0.97
+            },
+            {
+              "text": "from 2009 to 2017",
+              "category": "DateTime",
+              "subcategory": "DateRange",
+              "offset": 101,
+              "length": 17,
+              "confidenceScore": 0.8
+            },
+            {
+              "text": "member",
+              "category": "PersonType",
+              "offset": 122,
+              "length": 6,
+              "confidenceScore": 0.74
+            },
+            {
+              "text": "Democratic Party",
+              "category": "Organization",
+              "offset": 136,
+              "length": 16,
+              "confidenceScore": 0.98
+            },
+            {
+              "text": "Obama",
+              "category": "Person",
+              "offset": 154,
+              "length": 5,
+              "confidenceScore": 1.0
+            },
+            {
+              "text": "first",
+              "category": "Quantity",
+              "subcategory": "Ordinal",
+              "offset": 168,
+              "length": 5,
+              "confidenceScore": 0.8
+            },
+            {
+              "text": "African-American",
+              "category": "PersonType",
+              "offset": 174,
+              "length": 16,
+              "confidenceScore": 0.86
+            },
+            {
+              "text": "president",
+              "category": "PersonType",
+              "offset": 191,
+              "length": 9,
+              "confidenceScore": 0.57
+            },
+            {
+              "text": "United States",
+              "category": "Location",
+              "subcategory": "GPE",
+              "offset": 208,
+              "length": 13,
+              "confidenceScore": 0.99
+            },
+            {
+              "text": "previously",
+              "category": "DateTime",
+              "offset": 226,
+              "length": 10,
+              "confidenceScore": 0.8
+            },
+            {
+              "text": "U.S.",
+              "category": "Location",
+              "subcategory": "GPE",
+              "offset": 249,
+              "length": 4,
+              "confidenceScore": 0.74
+            },
+            {
+              "text": "senator",
+              "category": "PersonType",
+              "offset": 254,
+              "length": 7,
+              "confidenceScore": 0.65
+            },
+            {
+              "text": "Illinois",
+              "category": "Location",
+              "subcategory": "GPE",
+              "offset": 267,
+              "length": 8,
+              "confidenceScore": 0.97
+            },
+            {
+              "text": "from 2005 to 2008",
+              "category": "DateTime",
+              "subcategory": "DateRange",
+              "offset": 276,
+              "length": 17,
+              "confidenceScore": 0.8
+            },
+            {
+              "text": "Illinois",
+              "category": "Location",
+              "subcategory": "GPE",
+              "offset": 304,
+              "length": 8,
+              "confidenceScore": 0.85
+            },
+            {
+              "text": "state senator",
+              "category": "PersonType",
+              "offset": 313,
+              "length": 13,
+              "confidenceScore": 0.55
+            },
+            {
+              "text": "from 1997 to 2004",
+              "category": "DateTime",
+              "subcategory": "DateRange",
+              "offset": 327,
+              "length": 17,
+              "confidenceScore": 0.8
+            }
+          ],
+          "warnings": []
+        }
+      ],
+      "errors": [],
+      "modelVersion": "2021-06-01"
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "entity": "Barack Hussein Obama",
+        "category": "PERSON",
+        "importance": 1.0,
+        "url": ""
+      },
+      {
+        "entity": "American",
+        "category": "PERSONTYPE",
+        "importance": 0.87,
+        "url": ""
+      },
+      {
+        "entity": "politician",
+        "category": "PERSONTYPE",
+        "importance": 0.57,
+        "url": ""
+      },
+      {
+        "entity": "44th",
+        "category": "QUANTITY",
+        "importance": 0.8,
+        "url": ""
+      },
+      {
+        "entity": "president",
+        "category": "PERSONTYPE",
+        "importance": 0.94,
+        "url": ""
+      },
+      {
+        "entity": "United States",
+        "category": "LOCATION",
+        "importance": 0.97,
+        "url": ""
+      },
+      {
+        "entity": "from 2009 to 2017",
+        "category": "DATETIME",
+        "importance": 0.8,
+        "url": ""
+      },
+      {
+        "entity": "member",
+        "category": "PERSONTYPE",
+        "importance": 0.74,
+        "url": ""
+      },
+      {
+        "entity": "Democratic Party",
+        "category": "ORGANIZATION",
+        "importance": 0.98,
+        "url": ""
+      },
+      {
+        "entity": "Obama",
+        "category": "PERSON",
+        "importance": 1.0,
+        "url": ""
+      },
+      {
+        "entity": "first",
+        "category": "QUANTITY",
+        "importance": 0.8,
+        "url": ""
+      },
+      {
+        "entity": "African-American",
+        "category": "PERSONTYPE",
+        "importance": 0.86,
+        "url": ""
+      },
+      {
+        "entity": "president",
+        "category": "PERSONTYPE",
+        "importance": 0.57,
+        "url": ""
+      },
+      {
+        "entity": "United States",
+        "category": "LOCATION",
+        "importance": 0.99,
+        "url": ""
+      },
+      {
+        "entity": "previously",
+        "category": "DATETIME",
+        "importance": 0.8,
+        "url": ""
+      },
+      {
+        "entity": "U.S.",
+        "category": "LOCATION",
+        "importance": 0.74,
+        "url": ""
+      },
+      {
+        "entity": "senator",
+        "category": "PERSONTYPE",
+        "importance": 0.65,
+        "url": ""
+      },
+      {
+        "entity": "Illinois",
+        "category": "LOCATION",
+        "importance": 0.97,
+        "url": ""
+      },
+      {
+        "entity": "from 2005 to 2008",
+        "category": "DATETIME",
+        "importance": 0.8,
+        "url": ""
+      },
+      {
+        "entity": "Illinois",
+        "category": "LOCATION",
+        "importance": 0.85,
+        "url": ""
+      },
+      {
+        "entity": "state senator",
+        "category": "PERSONTYPE",
+        "importance": 0.55,
+        "url": ""
+      },
+      {
+        "entity": "from 1997 to 2004",
+        "category": "DATETIME",
+        "importance": 0.8,
+        "url": ""
+      }
+    ]
+  }
+}

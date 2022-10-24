@@ -1,0 +1,138 @@
+{
+  "original_response": {
+    "result": {
+      "emotions": [
+        {
+          "refTrigger": "0-6",
+          "trigger": "experience",
+          "emitter": "I",
+          "value": "joy"
+        },
+        {
+          "refTrigger": "0-15",
+          "trigger": "improvement",
+          "emitter": "I",
+          "value": "joy"
+        },
+        {
+          "refTrigger": "1-4",
+          "trigger": "reviews",
+          "emitter": "I",
+          "value": "admiration"
+        },
+        {
+          "refTrigger": "1-6",
+          "trigger": "pricing",
+          "emitter": "I",
+          "value": "joy"
+        },
+        {
+          "refTrigger": "2-1",
+          "trigger": "thousands",
+          "emitter": "I",
+          "value": "disgust"
+        },
+        {
+          "refTrigger": "2-16",
+          "trigger": "reviews",
+          "emitter": "I",
+          "value": "disgust"
+        },
+        {
+          "refTrigger": "2-24",
+          "trigger": "product",
+          "emitter": "I",
+          "value": "joy"
+        },
+        {
+          "refTrigger": "3-0",
+          "trigger": "There",
+          "emitter": "I",
+          "value": "admiration"
+        },
+        {
+          "refTrigger": "3-9",
+          "trigger": "products",
+          "emitter": "I",
+          "value": "admiration"
+        },
+        {
+          "refTrigger": "3-32",
+          "trigger": "Target",
+          "emitter": "I",
+          "value": "sadness"
+        },
+        {
+          "refTrigger": "4-9",
+          "trigger": "get help",
+          "emitter": "I",
+          "value": "disgust"
+        }
+      ]
+    },
+    "code": 0,
+    "startTime": 1666183074218,
+    "endTime": 1666183074218,
+    "message": "OK"
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.873
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.924
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.814
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.346
+      },
+      {
+        "sentiment": "negative",
+        "sentiment_rate": 0.88
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.076
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.864
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.853
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.07
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.853
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.853
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.078
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.833
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.833
+      }
+    ]
+  }
+}

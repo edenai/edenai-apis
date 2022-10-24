@@ -1,0 +1,402 @@
+{
+  "original_response": {
+    "metadata": {
+      "task": "detection",
+      "height": 1528,
+      "width": 1176,
+      "time_processing": 2.6042370796203613,
+      "documents": [
+        {
+          "filename": "invoice.png",
+          "extension": "png",
+          "pages": 1,
+          "key": "51c6c8c9-cab4-4912-98f9-351416ba81b3.png",
+          "id": "21ca6426-8534-4d67-9ebf-ea022270df1e",
+          "dimensions": [
+            {
+              "keyname": "51c6c8c9-cab4-4912-98f9-351416ba81b3.png",
+              "kc": "anno-image-8c786dec-d949-4154-822c-23c3092a0538.jpg",
+              "page": 1,
+              "width": 1176,
+              "height": 1528
+            }
+          ]
+        }
+      ],
+      "status": "PROCESSED",
+      "task_id": "8551c86e-ae6d-46c4-b46d-d712e0ba3a8e",
+      "api_version": "09-06-2022"
+    },
+    "tables": [],
+    "entities": [
+      {
+        "id": "e04d1d37-0a73-4fbc-bd41-167238e46945",
+        "text": "000000",
+        "name": "ID",
+        "confidence": 0.9994582533836365,
+        "color": "#1abc9c",
+        "bounding_box": [
+          [
+            381,
+            367
+          ],
+          [
+            449,
+            367
+          ],
+          [
+            449,
+            380
+          ],
+          [
+            381,
+            380
+          ]
+        ],
+        "value": "000000",
+        "type": "text",
+        "verified": true,
+        "page": 1,
+        "document_number": 1,
+        "document_name": "invoice.png",
+        "document_id": "21ca6426-8534-4d67-9ebf-ea022270df1e"
+      },
+      {
+        "id": "4c3691ea-d9db-47c0-b9db-069f667b9037",
+        "text": "10/07/14",
+        "name": "IssueDate",
+        "confidence": 0.9976856708526611,
+        "color": "#e67e22",
+        "bounding_box": [
+          [
+            382,
+            469
+          ],
+          [
+            459,
+            469
+          ],
+          [
+            459,
+            483
+          ],
+          [
+            382,
+            483
+          ]
+        ],
+        "value": "10/07/2014",
+        "type": "date",
+        "verified": true,
+        "page": 1,
+        "document_number": 1,
+        "document_name": "invoice.png",
+        "document_id": "21ca6426-8534-4d67-9ebf-ea022270df1e"
+      },
+      {
+        "id": "377454e8-5131-4c23-abab-d5b12a5f146b",
+        "text": "$ 4520.00",
+        "name": "Total",
+        "confidence": 0.9975922703742981,
+        "color": "#34495e",
+        "bounding_box": [
+          [
+            990,
+            1322
+          ],
+          [
+            1075,
+            1322
+          ],
+          [
+            1075,
+            1337
+          ],
+          [
+            990,
+            1337
+          ]
+        ],
+        "value": 4520.0,
+        "type": "number",
+        "page": 1,
+        "document_number": 1,
+        "document_name": "invoice.png",
+        "document_id": "21ca6426-8534-4d67-9ebf-ea022270df1e"
+      },
+      {
+        "id": "2066ace5-1b89-41ac-adff-acc9ea5d0db3",
+        "text": "$ 4000.00",
+        "name": "Subtotal",
+        "confidence": 0.9890585695884675,
+        "color": "#f39c12",
+        "bounding_box": [
+          [
+            990,
+            1140
+          ],
+          [
+            1075,
+            1140
+          ],
+          [
+            1075,
+            1155
+          ],
+          [
+            990,
+            1155
+          ]
+        ],
+        "value": 4000.0,
+        "type": "number",
+        "page": 1,
+        "document_number": 1,
+        "document_name": "invoice.png",
+        "document_id": "21ca6426-8534-4d67-9ebf-ea022270df1e"
+      },
+      {
+        "id": "7c4966d2-d6e1-470b-8c11-532edff17704",
+        "text": "$ 4520.00",
+        "name": "Total",
+        "confidence": 0.9532725811004639,
+        "color": "#34495e",
+        "bounding_box": [
+          [
+            989,
+            1232
+          ],
+          [
+            1074,
+            1232
+          ],
+          [
+            1074,
+            1247
+          ],
+          [
+            989,
+            1247
+          ]
+        ],
+        "value": 4520.0,
+        "type": "number",
+        "page": 1,
+        "document_number": 1,
+        "document_name": "invoice.png",
+        "document_id": "21ca6426-8534-4d67-9ebf-ea022270df1e"
+      },
+      {
+        "id": "b165ecf1-e12d-48ae-a841-0f85771ff9de",
+        "text": "INVOICE",
+        "name": "VendorName",
+        "confidence": 0.9078617691993713,
+        "color": "#e74c3c",
+        "bounding_box": [
+          [
+            60,
+            82
+          ],
+          [
+            380,
+            82
+          ],
+          [
+            380,
+            141
+          ],
+          [
+            60,
+            141
+          ]
+        ],
+        "value": "INVOICE",
+        "type": "text",
+        "page": 1,
+        "document_number": 1,
+        "document_name": "invoice.png",
+        "document_id": "21ca6426-8534-4d67-9ebf-ea022270df1e"
+      },
+      {
+        "id": "0bf61f54-fd68-4f0b-88cd-4e6d7e073d51",
+        "text": "$ 4520.00",
+        "name": "Total",
+        "confidence": 0.893642783164978,
+        "color": "#34495e",
+        "bounding_box": [
+          [
+            857,
+            368
+          ],
+          [
+            1090,
+            368
+          ],
+          [
+            1090,
+            410
+          ],
+          [
+            857,
+            410
+          ]
+        ],
+        "value": 4520.0,
+        "type": "number",
+        "page": 1,
+        "document_number": 1,
+        "document_name": "invoice.png",
+        "document_id": "21ca6426-8534-4d67-9ebf-ea022270df1e"
+      },
+      {
+        "id": "1bf9994b-73a7-4b81-bac9-c85459165d9c",
+        "text": "$ 4520.00",
+        "name": "Subtotal",
+        "confidence": 0.8658680319786072,
+        "color": "#f39c12",
+        "bounding_box": [
+          [
+            989,
+            1232
+          ],
+          [
+            1074,
+            1232
+          ],
+          [
+            1074,
+            1247
+          ],
+          [
+            989,
+            1247
+          ]
+        ],
+        "value": 4520.0,
+        "type": "number",
+        "page": 1,
+        "document_number": 1,
+        "document_name": "invoice.png",
+        "document_id": "21ca6426-8534-4d67-9ebf-ea022270df1e"
+      },
+      {
+        "id": "947bfdf8-7b9b-4215-bf96-74088a52f0b1",
+        "text": "Client Name",
+        "name": "CustomerName",
+        "confidence": 0.5809147953987122,
+        "color": "#2ecc71",
+        "bounding_box": [
+          [
+            70,
+            370
+          ],
+          [
+            184,
+            370
+          ],
+          [
+            184,
+            384
+          ],
+          [
+            70,
+            384
+          ]
+        ],
+        "value": "Client Name",
+        "type": "text",
+        "page": 1,
+        "document_number": 1,
+        "document_name": "invoice.png",
+        "document_id": "21ca6426-8534-4d67-9ebf-ea022270df1e"
+      }
+    ],
+    "validations": [
+      {
+        "message": "\ud83d\udc49 ID n'a \u00e9t\u00e9 valid\u00e9 \u274c",
+        "id": "668cce16-6462-41aa-9875-c3be919adb51",
+        "type": "node",
+        "page": 1,
+        "nodes": [],
+        "name": "ID",
+        "weight": 1,
+        "validate": false,
+        "type_validation": "ID",
+        "document_number": 1,
+        "document_name": "invoice.png",
+        "document_id": "21ca6426-8534-4d67-9ebf-ea022270df1e"
+      },
+      {
+        "message": "\ud83d\udc49 Les dates n'ont \u00e9t\u00e9 valid\u00e9es \u274c",
+        "id": "349e2010-6434-4de6-8753-960c774bed0f",
+        "type": "node",
+        "page": 1,
+        "nodes": [],
+        "name": "Date",
+        "weight": 1,
+        "validate": false,
+        "type_validation": "Date",
+        "document_number": 1,
+        "document_name": "invoice.png",
+        "document_id": "21ca6426-8534-4d67-9ebf-ea022270df1e"
+      },
+      {
+        "message": "\ud83d\udc49 Les dates n'ont \u00e9t\u00e9 valid\u00e9es \u274c",
+        "id": "6c0f18c4-33d4-4a28-b533-6679253abb08",
+        "type": "node",
+        "page": 1,
+        "nodes": [],
+        "name": "Date",
+        "weight": 1,
+        "validate": false,
+        "type_validation": "Date",
+        "document_number": 1,
+        "document_name": "invoice.png",
+        "document_id": "21ca6426-8534-4d67-9ebf-ea022270df1e"
+      }
+    ],
+    "alerts": [],
+    "class": [
+      {
+        "id": "968c505a-fc4d-4686-804f-82f5491324bc",
+        "color": "#dddddd",
+        "confidence": 1,
+        "page": 1,
+        "name": "FR",
+        "document_number": 1,
+        "document_name": "invoice.png",
+        "document_id": "21ca6426-8534-4d67-9ebf-ea022270df1e"
+      }
+    ]
+  },
+  "standarized_response": {
+    "extracted_data": [
+      {
+        "invoice_number": "000000",
+        "invoice_total": 4520.0,
+        "date": "10/07/14",
+        "invoice_subtotal": 4520.0,
+        "due_date": null,
+        "customer_information": {
+          "customer_name": "Client Name",
+          "customer_address": null
+        },
+        "merchant_information": {
+          "merchant_name": "INVOICE",
+          "merchant_address": null
+        },
+        "locale": {
+          "currency": null,
+          "language": null
+        },
+        "taxes": [
+          {
+            "value": null,
+            "rate": null
+          }
+        ],
+        "item_lines": []
+      }
+    ]
+  }
+}

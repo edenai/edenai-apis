@@ -1,0 +1,154 @@
+{
+  "original_response": {
+    "regions": [
+      {
+        "id": "f315ecc2a0dbe41ebaa067cd017f1a1b",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.14422482,
+            "left_col": 0.3420691,
+            "bottom_row": 0.81390166,
+            "right_col": 0.80318236
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_b1b1b1b1",
+              "name": "BINARY_POSITIVE",
+              "value": 0.9999963,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.9999963
+      }
+    ]
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "confidence": 0.9999963,
+        "landmarks": {
+          "left_eye": [],
+          "left_eye_top": [],
+          "left_eye_right": [],
+          "left_eye_bottom": [],
+          "left_eye_left": [],
+          "right_eye": [],
+          "right_eye_top": [],
+          "right_eye_right": [],
+          "right_eye_bottom": [],
+          "right_eye_left": [],
+          "left_eyebrow_left": [],
+          "left_eyebrow_right": [],
+          "left_eyebrow_top": [],
+          "right_eyebrow_left": [],
+          "right_eyebrow_right": [],
+          "left_pupil": [],
+          "right_pupil": [],
+          "nose_tip": [],
+          "nose_bottom_right": [],
+          "nose_bottom_left": [],
+          "mouth_left": [],
+          "mouth_right": [],
+          "right_eyebrow_top": [],
+          "midpoint_between_eyes": [],
+          "nose_bottom_center": [],
+          "nose_left_alar_out_tip": [],
+          "nose_left_alar_top": [],
+          "nose_right_alar_out_tip": [],
+          "nose_right_alar_top": [],
+          "nose_root_left": [],
+          "nose_root_right": [],
+          "upper_lip": [],
+          "under_lip": [],
+          "under_lip_bottom": [],
+          "under_lip_top": [],
+          "upper_lip_bottom": [],
+          "upper_lip_top": [],
+          "mouth_center": [],
+          "mouth_top": [],
+          "mouth_bottom": [],
+          "left_ear_tragion": [],
+          "right_ear_tragion": [],
+          "forehead_glabella": [],
+          "chin_gnathion": [],
+          "chin_left_gonion": [],
+          "chin_right_gonion": [],
+          "upper_jawline_left": [],
+          "mid_jawline_left": [],
+          "mid_jawline_right": [],
+          "upper_jawline_right": [],
+          "left_cheek_center": [],
+          "right_cheek_center": []
+        },
+        "emotions": {
+          "joy": null,
+          "sorrow": null,
+          "anger": null,
+          "surprise": null,
+          "disgust": null,
+          "fear": null,
+          "confusion": null,
+          "calm": null,
+          "unknown": null,
+          "neutral": null,
+          "contempt": null
+        },
+        "poses": {
+          "pitch": null,
+          "roll": null,
+          "yaw": null
+        },
+        "age": null,
+        "gender": null,
+        "bounding_box": {
+          "x_min": 0.3420691,
+          "x_max": 0.80318236,
+          "y_min": 0.14422482,
+          "y_max": 0.81390166
+        },
+        "hair": {
+          "hair_color": [],
+          "bald": null,
+          "invisible": null
+        },
+        "facial_hair": {
+          "moustache": null,
+          "beard": null,
+          "sideburns": null
+        },
+        "quality": {
+          "noise": null,
+          "exposure": null,
+          "blur": null,
+          "brightness": null,
+          "sharpness": null
+        },
+        "makeup": {
+          "eye_make": null,
+          "lip_make": null
+        },
+        "accessories": {
+          "sunglasses": null,
+          "reading_glasses": null,
+          "swimming_goggles": null,
+          "face_mask": null,
+          "eyeglasses": null,
+          "headwear": null
+        },
+        "occlusions": {
+          "eye_occluded": null,
+          "forehead_occluded": null,
+          "mouth_occluded": null
+        },
+        "features": {
+          "eyes_open": null,
+          "smile": null,
+          "mouth_open": null
+        }
+      }
+    ]
+  }
+}

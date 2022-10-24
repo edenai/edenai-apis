@@ -1,0 +1,119 @@
+{
+    "items": [
+      {
+        "entity": "Barack Hussein Obama",
+        "importance": 0.74435586,
+        "category": "PERSON",
+        "url": "https://en.wikipedia.org/wiki/Barack_Obama"
+      },
+      {
+        "entity": "president",
+        "importance": 0.07021436,
+        "category": "PERSON"
+      },
+      {
+        "entity": "American",
+        "importance": 0.066377416,
+        "category": "LOCATION",
+        "url": "https://en.wikipedia.org/wiki/United_States"
+      },
+      {
+        "entity": "president",
+        "importance": 0.04346809,
+        "category": "PERSON"
+      },
+      {
+        "entity": "African-American",
+        "importance": 0.007983226,
+        "category": "PERSON",
+        "url": "https://en.wikipedia.org/wiki/African_Americans"
+      },
+      {
+        "entity": "Democratic Party",
+        "importance": 0.00764491,
+        "category": "ORGANIZATION",
+        "url": "https://en.wikipedia.org/wiki/Democratic_Party_(United_States)"
+      },
+      {
+        "entity": "state senator",
+        "importance": 0.0070930053,
+        "category": "PERSON"
+      },
+      {
+        "entity": "Illinois",
+        "importance": 0.005297011,
+        "category": "LOCATION",
+        "url": "https://en.wikipedia.org/wiki/Illinois"
+      },
+      {
+        "entity": "senator",
+        "importance": 0.004453033,
+        "category": "PERSON"
+      },
+      {
+        "entity": "2009",
+        "importance": null,
+        "category": "DATE"
+      },
+      {
+        "entity": "2017",
+        "importance": null,
+        "category": "DATE"
+      },
+      {
+        "entity": "2005",
+        "importance": null,
+        "category": "DATE"
+      },
+      {
+        "entity": "2008",
+        "importance": null,
+        "category": "DATE"
+      },
+      {
+        "entity": "1997",
+        "importance": null,
+        "category": "DATE"
+      },
+      {
+        "entity": "2004",
+        "importance": null,
+        "category": "DATE"
+      },
+      {
+        "entity": "2005",
+        "importance": null,
+        "category": "NUMBER"
+      },
+      {
+        "entity": "1997",
+        "importance": null,
+        "category": "NUMBER"
+      },
+      {
+        "entity": "2009",
+        "importance": null,
+        "category": "NUMBER"
+      },
+      {
+        "entity": "2017",
+        "importance": null,
+        "category": "NUMBER"
+      },
+      {
+        "entity": "2008",
+        "importance": null,
+        "category": "NUMBER"
+      },
+      {
+        "entity": "2004",
+        "importance": null,
+        "category": "NUMBER"
+      },
+      {
+        "entity": "44",
+        "importance": null,
+        "category": "NUMBER"
+      }
+    ]
+}

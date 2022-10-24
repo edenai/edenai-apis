@@ -1,0 +1,201 @@
+{
+  "status": "succeed",
+  "original_response": [
+    {
+      "Confidence": 0.98,
+      "Duration": 0.47,
+      "Lexical": "one.",
+      "Speaker": "SPEAKER_01",
+      "Start_time": 0.5,
+      "Words": [
+        {
+          "Confidence": 0.9786999123562455,
+          "Duration": 0.04,
+          "Offset": 0.02,
+          "Word": "one"
+        }
+      ]
+    },
+    {
+      "Confidence": 1.0,
+      "Duration": 3.36,
+      "Lexical": "page fourteen real conversations.",
+      "Speaker": "SPEAKER_01",
+      "Start_time": 1.44,
+      "Words": [
+        {
+          "Confidence": 0.9998710270996795,
+          "Duration": 0.24,
+          "Offset": 0.04,
+          "Word": "page"
+        },
+        {
+          "Confidence": 0.9999239223712395,
+          "Duration": 0.54,
+          "Offset": 0.44,
+          "Word": "fourteen"
+        },
+        {
+          "Confidence": 0.9866524966891776,
+          "Duration": 0.22,
+          "Offset": 1.92,
+          "Word": "real"
+        },
+        {
+          "Confidence": 0.9979557846272065,
+          "Duration": 0.58,
+          "Offset": 2.3,
+          "Word": "conversations"
+        }
+      ]
+    },
+    {
+      "Confidence": 0.73,
+      "Duration": 2.6,
+      "Lexical": "hillo, find your name.",
+      "Speaker": "SPEAKER_00",
+      "Start_time": 6.83,
+      "Words": [
+        {
+          "Confidence": 0.5500302685860824,
+          "Duration": 0.16,
+          "Offset": 0.04,
+          "Word": "hillo"
+        },
+        {
+          "Confidence": 0.441741951744035,
+          "Duration": 0.7,
+          "Offset": 0.72,
+          "Word": "find"
+        },
+        {
+          "Confidence": 0.9176131741564563,
+          "Duration": 0.08,
+          "Offset": 1.56,
+          "Word": "your"
+        },
+        {
+          "Confidence": 0.9983673569294377,
+          "Duration": 0.02,
+          "Offset": 1.7,
+          "Word": "name"
+        }
+      ]
+    },
+    {
+      "Confidence": 0.83,
+      "Duration": 7.53,
+      "Lexical": "cudia. butt your name. i m ch hero. next meets you. chihiro gets right. are away from.",
+      "Speaker": "SPEAKER_02",
+      "Start_time": 9.42,
+      "Words": [
+        {
+          "Confidence": 0.10930545256018506,
+          "Duration": 0.28,
+          "Offset": 0.0,
+          "Word": "cudia"
+        },
+        {
+          "Confidence": 0.28419579964073405,
+          "Duration": 0.12,
+          "Offset": 1.16,
+          "Word": "butt"
+        },
+        {
+          "Confidence": 0.998984872060333,
+          "Duration": 0.1,
+          "Offset": 1.4,
+          "Word": "your"
+        },
+        {
+          "Confidence": 0.9987218049387528,
+          "Duration": 0.02,
+          "Offset": 1.58,
+          "Word": "name"
+        },
+        {
+          "Confidence": 0.9965386215669052,
+          "Duration": 0.02,
+          "Offset": 2.04,
+          "Word": "i"
+        },
+        {
+          "Confidence": 0.9839293686973369,
+          "Duration": 0.06,
+          "Offset": 2.14,
+          "Word": "m"
+        },
+        {
+          "Confidence": 0.4054438429435384,
+          "Duration": 0.02,
+          "Offset": 2.28,
+          "Word": "ch"
+        },
+        {
+          "Confidence": 0.877893490981722,
+          "Duration": 0.16,
+          "Offset": 2.42,
+          "Word": "hero"
+        },
+        {
+          "Confidence": 0.9993541837449561,
+          "Duration": 0.02,
+          "Offset": 3.3,
+          "Word": "next"
+        },
+        {
+          "Confidence": 0.738525704118993,
+          "Duration": 0.24,
+          "Offset": 3.66,
+          "Word": "meets"
+        },
+        {
+          "Confidence": 0.9818023900943496,
+          "Duration": 0.02,
+          "Offset": 3.96,
+          "Word": "you"
+        },
+        {
+          "Confidence": 0.854426724243704,
+          "Duration": 0.94,
+          "Offset": 4.6,
+          "Word": "chihiro"
+        },
+        {
+          "Confidence": 0.9835642638971239,
+          "Duration": 0.2,
+          "Offset": 5.9,
+          "Word": "gets"
+        },
+        {
+          "Confidence": 0.9911275232131209,
+          "Duration": 0.02,
+          "Offset": 6.24,
+          "Word": "right"
+        },
+        {
+          "Confidence": 0.9785852587017697,
+          "Duration": 0.02,
+          "Offset": 6.78,
+          "Word": "are"
+        },
+        {
+          "Confidence": 0.9973897892623693,
+          "Duration": 0.12,
+          "Offset": 6.96,
+          "Word": "away"
+        },
+        {
+          "Confidence": 0.9990753149200459,
+          "Duration": 0.02,
+          "Offset": 7.34,
+          "Word": "from"
+        }
+      ]
+    }
+  ],
+  "standarized_response": {
+    "text": "one. page fourteen real conversations. hillo, find your name. cudia. butt your name. i m ch hero. next meets you. chihiro gets right. are away from."
+  },
+  "provider_job_id": "111ee55c-432a-11ed-a89b-0242ac12000b"
+}
