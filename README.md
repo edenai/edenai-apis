@@ -124,5 +124,9 @@ Responses to the same `subfeature` even if called from different providers are a
 
 You are more than welcome to contribute to our project, just `Fork the project`, `push` your modifications into a `branch` and open a `Pull Request`. We will be happy to check and eventually merge your **contributions** into our project.
 
+## Join the community!
+Join our friendly community to improve your skills, focus on the integration of AI engines, get help to use Eden AI API and much more !
+![Discord Logo]https://logo-marque.com/wp-content/uploads/2020/12/Discord-Logo.png
+
 ## License :
 [Apache License 2.0](LICENSE)
