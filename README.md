@@ -130,7 +130,7 @@ You can create an account on [Eden AI](https://app.edenai.run/user/register) and
 ## Join the community!
 Join our friendly community to improve your skills, focus on the integration of AI engines, get help to use Eden AI API and much more !
 
-[![](https://dcbadge.vercel.app/api/server/INVITEID)](https://discord.com/invite/VYwTbMQc8u)
+[![](https://dcbadge.vercel.app/api/server/VYwTbMQc8u)](https://discord.com/invite/VYwTbMQc8u)
 
 
 ## License :
