@@ -37,8 +37,14 @@ class RevAIApi(ProviderApi, Audio):
         original_response = response.json()
 
         if response.status_code != 200:
+            message = f"{original_response.get('title','')}: {original_response.get('details','')}"
+            if message and message[0] == ":":
+                if len(message) > 2:
+                    message = message[2:]
+                else:
+                    message = "An error has occurred..."
             raise ProviderException(
-                message=f"{original_response['title']}: {original_response['details']}",
+                message=message,
                 code=response.status_code,
             )
         return AsyncLaunchJobResponseType(provider_job_id=original_response["id"])
@@ -54,7 +60,7 @@ class RevAIApi(ProviderApi, Audio):
         original_response = response.json()
         if response.status_code != 200:
             raise ProviderException(
-                message=f"{original_response['title']}: {original_response['details']}",
+                message=f"{original_response.get('title','')}: {original_response.get('details','')}",
                 code=response.status_code,
             )
         else:
@@ -66,7 +72,7 @@ class RevAIApi(ProviderApi, Audio):
                 )
                 if response.status_code != 200:
                     raise ProviderException(
-                        message=f"{original_response['title']}: {original_response['details']}",
+                        message=f"{original_response.get('title','')}: {original_response.get('details','')}",
                         code=response.status_code,
                     )
                 else:
