@@ -126,9 +126,9 @@ You are more than welcome to contribute to our project, just `Fork the project`,
 You can create an account on [Eden AI](https://app.edenai.run/user/register) and have access to all the AI technologies and providers directly through our API.
 
 ## Join the community!
-Join our friendly community to improve your skills, focus on the integration of AI engines, get help to use Eden AI API and much more !
 
-[![Discord](Discord-Logo-Edenai.png)](https://discord.com/invite/VYwTbMQc8u)
+[![Discord](Discord-Logo-Edenai.png)](https://discord.com/invite/VYwTbMQc8u) Join our friendly community to improve your skills, focus on the integration of AI engines, get help to use Eden AI API and much more !
+
 
 ## License :
 [Apache License 2.0](LICENSE)
