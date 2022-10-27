@@ -24,7 +24,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import format_string_url_language
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.types import ResponseType, SUCCESS, ResponseSuccess
+from edenai_apis.utils.types import ResponseType, ResponseSuccess
 from .sentisight_helpers import calculate_bounding_box, get_formatted_language
 
 
@@ -210,7 +210,7 @@ class SentiSightApi(ProviderApi, Ocr, Image):
 
         if response.status_code != 200:
             raise ProviderException(response.text)
-        return ResponseSuccess
+        return ResponseSuccess()
 
     def image__search__get_images(
         self, project_id: str
