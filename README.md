@@ -1,4 +1,4 @@
-![alt text](https://github.com/edenai/edenai-apis/master/EdenAI-WrittenLogo(1).png "Logo Title Text 1")
+![alt text](EdenAI-WrittenLogo(1).png "Logo Title Text 1")
 
 # EdenAI - Providers Connectors
 
