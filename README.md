@@ -1,3 +1,5 @@
+![alt text](https://github.com/edenai/edenai-apis/master/EdenAI-WrittenLogo(1).png "Logo Title Text 1")
+
 # EdenAI - Providers Connectors
 
 Eden AI aims to simplify the use and deployment of AI technologies by providing a unique API (application programming interface) that connects to the best possible AI engines. These engines are either proprietary or Open source AI engines, and can be used for different purposes, e.g, face
