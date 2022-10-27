@@ -1116,44 +1116,43 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
     ) -> AsyncBaseResponseType[FaceDetectionAsyncDataClass]:
         result = google_video_get_job(provider_job_id)
         if result.get("done"):
-            annotations = result["response"]["annotationResults"][0][
-                "faceDetectionAnnotations"
-            ]
             faces = []
-            for annotation in annotations:
-                for track in annotation["tracks"]:
-                    timestamp = float(track["timestampedObjects"][0]["timeOffset"][:-1])
-                    bounding_box = VideoBoundingBox(
-                        top=track["timestampedObjects"][0]["normalizedBoundingBox"][
-                            "top"
-                        ],
-                        left=track["timestampedObjects"][0]["normalizedBoundingBox"][
-                            "left"
-                        ],
-                        height=track["timestampedObjects"][0]["normalizedBoundingBox"][
-                            "bottom"
-                        ],
-                        width=track["timestampedObjects"][0]["normalizedBoundingBox"][
-                            "right"
-                        ],
-                    )
-                    attribute_dict = {}
-                    for attr in track["timestampedObjects"][0].get("attributes", []):
-                        attribute_dict[attr["name"]] = attr["confidence"]
-                    attributs = FaceAttributes(
-                        headwear=attribute_dict["headwear"],
-                        frontal_gaze=attribute_dict["headwear"],
-                        eyes_visible=attribute_dict["eyes_visible"],
-                        glasses=attribute_dict["glasses"],
-                        mouth_open=attribute_dict["mouth_open"],
-                        smiling=attribute_dict["smiling"],
-                    )
-                    face = VideoFace(
-                        offset=timestamp,
-                        bounding_box=bounding_box,
-                        attributes=attributs,
-                    )
-                    faces.append(face)
+            response = result["response"]["annotationResults"][0]
+            if response.get("faceDetectionAnnotations") is not None:
+                for annotation in response['faceDetectionAnnotations']:
+                    for track in annotation["tracks"]:
+                        timestamp = float(track["timestampedObjects"][0]["timeOffset"][:-1])
+                        bounding_box = VideoBoundingBox(
+                            top=track["timestampedObjects"][0]["normalizedBoundingBox"][
+                                "top"
+                            ],
+                            left=track["timestampedObjects"][0]["normalizedBoundingBox"][
+                                "left"
+                            ],
+                            height=track["timestampedObjects"][0]["normalizedBoundingBox"][
+                                "bottom"
+                            ],
+                            width=track["timestampedObjects"][0]["normalizedBoundingBox"][
+                                "right"
+                            ],
+                        )
+                        attribute_dict = {}
+                        for attr in track["timestampedObjects"][0].get("attributes", []):
+                            attribute_dict[attr["name"]] = attr["confidence"]
+                        attributs = FaceAttributes(
+                            headwear=attribute_dict["headwear"],
+                            frontal_gaze=attribute_dict["headwear"],
+                            eyes_visible=attribute_dict["eyes_visible"],
+                            glasses=attribute_dict["glasses"],
+                            mouth_open=attribute_dict["mouth_open"],
+                            smiling=attribute_dict["smiling"],
+                        )
+                        face = VideoFace(
+                            offset=timestamp,
+                            bounding_box=bounding_box,
+                            attributes=attributs,
+                        )
+                        faces.append(face)
             standarized_response = FaceDetectionAsyncDataClass(faces=faces)
             return AsyncResponseType[FaceDetectionAsyncDataClass](
                 status="succeeded",
