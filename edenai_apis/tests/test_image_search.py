@@ -77,7 +77,7 @@ class CommonImageSearchTests:
             feature=FEATURE,
             phase="upload_image",
             args=args,
-        )
+        ).dict()
         print("status :", status)
         assert status["status"] == "success"
 
@@ -96,7 +96,7 @@ class CommonImageSearchTests:
             feature=FEATURE,
             phase="delete_image",
             args=args,
-        )
+        ).dict()
         print("status :", status)
         assert status["status"] == "success"
 
