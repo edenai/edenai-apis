@@ -1,13 +1,13 @@
-![alt text](EdenAI-WrittenLogo(1).png "Logo Title Text 1")
+![Eden AI Logo](EdenAI-WrittenLogo(1).png "Logo Title Text 1")
 
 # EdenAI - Providers Connectors
 
 Eden AI aims to simplify the use and deployment of AI technologies by providing a unique API (application programming interface) that connects to the best possible AI engines. These engines are either proprietary or Open source AI engines, and can be used for different purposes, e.g, face
 detection, OCR (receipt, invoice, table...), keyword extraction, sentiment analysis, face detection, and much more. These technologies are provided by the best suppliers in the market. We can cite briefly some of them: Amazon, Google, Microsoft, Dataleon, and Mindee and many others. Eden AI take care of providing to it’s clients the best AI engine suited to their projects, and this, with the goal of keeping AI light and easy to any developer. 
 
-[Join us on discord !](https://discord.gg/baX77uwa)
+[Join us on discord !](https://discord.com/invite/VYwTbMQc8u)
 
-![EdenAI_logo](https://media-exp1.licdn.com/dms/image/D4E3DAQELmESPpY1T7w/image-scale_191_1128/0/1664541418002?e=1666281600&v=beta&t=VE98W7VHQGF-wYGFiv4erS-V74R6l4UMrA7aGjYGeYw)
+![EdenAI Gif](ezgif.com-gif-maker(1).gif)
 
 ## Introduction to the package
 
