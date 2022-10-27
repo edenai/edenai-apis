@@ -196,7 +196,7 @@ class SentiSightApi(ProviderApi, Ocr, Image):
         # Handle response error
         if response.status_code != 200:
             raise ProviderException(response.text)
-        return SUCCESS
+        return ResponseSuccess()
 
     def image__search__delete_image(
         self, image_name: str, project_id: str
@@ -210,7 +210,7 @@ class SentiSightApi(ProviderApi, Ocr, Image):
 
         if response.status_code != 200:
             raise ProviderException(response.text)
-        return SUCCESS
+        return ResponseSuccess
 
     def image__search__get_images(
         self, project_id: str
