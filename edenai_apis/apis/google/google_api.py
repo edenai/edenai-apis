@@ -1272,30 +1272,33 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[LogoDetectionAsyncDataClass]:
         result = google_video_get_job(provider_job_id)
+        print('RESULT', result)
         if result.get("done"):
             response = result["response"]["annotationResults"][0]
             tracks = []
-            for logo in response["logoRecognitionAnnotations"]:
-                objects = []
-                description = logo["entity"]["description"]
-                for track in logo["tracks"]:
-                    for time_stamped_object in track["timestampedObjects"]:
-                        timestamp = float(time_stamped_object["timeOffset"][:-1])
-                        bounding_box = VideoLogoBoundingBox(
-                            top=time_stamped_object["normalizedBoundingBox"]["top"],
-                            left=time_stamped_object["normalizedBoundingBox"]["left"],
-                            height=time_stamped_object["normalizedBoundingBox"][
-                                "bottom"
-                            ],
-                            width=time_stamped_object["normalizedBoundingBox"]["right"],
-                        )
-                        objects.append(
-                            VideoLogo(
-                                timestamp=timestamp,
-                                bounding_box=bounding_box,
+            print('RESPONSE', response)
+            if 'logoRecognitionAnnotations' in response:
+                for logo in response["logoRecognitionAnnotations"]:
+                    objects = []
+                    description = logo["entity"]["description"]
+                    for track in logo["tracks"]:
+                        for time_stamped_object in track["timestampedObjects"]:
+                            timestamp = float(time_stamped_object["timeOffset"][:-1])
+                            bounding_box = VideoLogoBoundingBox(
+                                top=time_stamped_object["normalizedBoundingBox"]["top"],
+                                left=time_stamped_object["normalizedBoundingBox"]["left"],
+                                height=time_stamped_object["normalizedBoundingBox"][
+                                    "bottom"
+                                ],
+                                width=time_stamped_object["normalizedBoundingBox"]["right"],
                             )
-                        )
-                tracks.append(LogoTrack(description=description, tracking=objects))
+                            objects.append(
+                                VideoLogo(
+                                    timestamp=timestamp,
+                                    bounding_box=bounding_box,
+                                )
+                            )
+                    tracks.append(LogoTrack(description=description, tracking=objects))
             standarized_response = LogoDetectionAsyncDataClass(logos=tracks)
 
             return AsyncResponseType[LogoDetectionAsyncDataClass](
