@@ -126,7 +126,7 @@ You are more than welcome to contribute to our project, just `Fork the project`,
 
 ## Join the community!
 Join our friendly community to improve your skills, focus on the integration of AI engines, get help to use Eden AI API and much more !
-![Discord](Discord-Logo.png)
+![Discord](Discord-Logo-Edenai.png)
 
 ## License :
 [Apache License 2.0](LICENSE)
