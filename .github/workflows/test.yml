@@ -28,7 +28,7 @@ jobs:
           sudo apt-get install ffmpeg -y
           pip install -r requirements.txt
       - name: Set Env variables
-        run: "echo 'export TEST_SCOPE=CICD-OPENSOURCE' >> $GITHUB_ENV"
+        run: "echo TEST_SCOPE=CICD-OPENSOURCE >> $GITHUB_ENV"
       - name: Run Test suite
         run: |
           pytest -vvv -s -n auto --maxprocesses=8
