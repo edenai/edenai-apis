@@ -1,5 +1,5 @@
 
-# Tests :
+# Tests
 
 ### test_classes.py
 Test if providers classes are well formed :
