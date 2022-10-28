@@ -1,53 +1,50 @@
-from io import BufferedReader
-
 import base64
-
+from io import BufferedReader
 from typing import Sequence
 
-from ibm_watson.natural_language_understanding_v1 import (
-    SentimentOptions,
-    Features,
-    KeywordsOptions,
-    EntitiesOptions,
-    SyntaxOptions,
-    SyntaxOptionsTokens,
-)
-from edenai_apis.features.audio import (
-    SpeechToTextAsyncDataClass,
-    TextToSpeechDataClass
-)
-
-from edenai_apis.features.text import(
+from edenai_apis.features import Audio, ProviderApi, Text, Translation
+from edenai_apis.features.audio import SpeechToTextAsyncDataClass, TextToSpeechDataClass
+from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
-    KeywordExtractionDataClass,
     InfosNamedEntityRecognitionDataClass,
+    InfosSyntaxAnalysisDataClass,
+    Items,
+    KeywordExtractionDataClass,
     NamedEntityRecognitionDataClass,
     SentimentAnalysisDataClass,
-    InfosSyntaxAnalysisDataClass,
     SyntaxAnalysisDataClass,
-    Items
 )
-
 from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
     InfosLanguageDetectionDataClass,
-    LanguageDetectionDataClass
+    LanguageDetectionDataClass,
 )
-
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import wav_converter
 from edenai_apis.utils.exception import ProviderException
-
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
-    ResponseType
-    )
-from edenai_apis.features import ProviderApi, Translation, Audio, Text
+    ResponseType,
+)
+from ibm_watson.natural_language_understanding_v1 import (
+    EntitiesOptions,
+    Features,
+    KeywordsOptions,
+    SentimentOptions,
+    SyntaxOptions,
+    SyntaxOptionsTokens,
+)
+from watson_developer_cloud import LanguageTranslatorV3, NaturalLanguageUnderstandingV1
+from watson_developer_cloud.speech_to_text_v1 import SpeechToTextV1
+from watson_developer_cloud.text_to_speech_v1 import TextToSpeechV1
 
-from .config import clients, audio_voices_ids, tags
+from .config import audio_voices_ids, tags
+
 
 class IbmApi(
     ProviderApi,
@@ -58,6 +55,30 @@ class IbmApi(
 
     provider_name = "ibm"
 
+    def __init__(self) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, "ibm")
+
+        self.clients = {
+            "text": NaturalLanguageUnderstandingV1(
+                version="2021-08-01",
+                iam_apikey=self.api_settings["natural_language_understanding"]["apikey"],
+                url=self.api_settings["natural_language_understanding"]["url"],
+            ),
+            "texttospeech": TextToSpeechV1(
+                iam_apikey=self.api_settings["text_to_speech"]["apikey"],
+                url=self.api_settings["text_to_speech"]["url"],
+            ),
+            "translation": LanguageTranslatorV3(
+                version="2018-05-01",
+                iam_apikey=self.api_settings["translator"]["apikey"],
+                url=self.api_settings["translator"]["url"],
+            ),
+            "speech": SpeechToTextV1(
+                iam_apikey=self.api_settings["speech_to_text"]["apikey"],
+                url=self.api_settings["speech_to_text"]["url"],
+            ),
+        }
+
     def translation__automatic_translation(
         self, source_language: str,
         target_language: str,
@@ -66,7 +87,7 @@ class IbmApi(
         # Getting response of API
 
         response = (
-            clients["translation"]
+            self.clients["translation"]
             .translate(text=text, source=source_language, target=target_language)
             .get_result()
         )
@@ -94,7 +115,7 @@ class IbmApi(
         :return:            String that contains output result
         """
 
-        response = clients["translation"].identify(text).get_result()
+        response = self.clients["translation"].identify(text).get_result()
 
         # Getting the language's code detected and its score of confidence
         items: Sequence[InfosLanguageDetectionDataClass] = []
@@ -121,7 +142,7 @@ class IbmApi(
         text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
         response = (
-            clients["text"]
+            self.clients["text"]
             .analyze(
                 text=text,
                 language=language,
@@ -164,7 +185,7 @@ class IbmApi(
         voiceid = audio_voices_ids[language][option]
 
         response = (
-            clients["texttospeech"]
+            self.clients["texttospeech"]
             .synthesize(text=text, accept="audio/mp3", voice=voiceid)
             .get_result()
         )
@@ -190,7 +211,7 @@ class IbmApi(
         :return:
         """
         response = (
-            clients["text"]
+            self.clients["text"]
             .analyze(
                 text=text,
                 language=language,
@@ -225,7 +246,7 @@ class IbmApi(
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
 
         response = (
-            clients["text"]
+            self.clients["text"]
             .analyze(
                 text=text,
                 language=language,
@@ -270,7 +291,7 @@ class IbmApi(
         """
 
         response = (
-            clients["text"]
+            self.clients["text"]
             .analyze(
                 text=text,
                 language=language,
@@ -320,7 +341,7 @@ class IbmApi(
     ) -> AsyncLaunchJobResponseType:
         wav_file, *_options = wav_converter(file)
         language_audio = language
-        response = clients["speech"].create_job(
+        response = self.clients["speech"].create_job(
             audio=wav_file,
             content_type="audio/wav",
             model=f"{language_audio}_NarrowbandModel",
@@ -337,7 +358,7 @@ class IbmApi(
         self,
         provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-        response = clients["speech"].check_job(provider_job_id)
+        response = self.clients["speech"].check_job(provider_job_id)
         status = response.result["status"]
         if status == "completed":
             original_response = response.result["results"]

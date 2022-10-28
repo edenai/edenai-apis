@@ -1,12 +1,8 @@
 import json
 import urllib
-from io import BufferedReader
-from time import time
-from typing import Dict, TypeVar, Sequence
-from pathlib import Path
-import requests
-from trp import Document
+from typing import Dict, Sequence, TypeVar
 
+import requests
 from edenai_apis.features.ocr import (
     BoundixBoxOCRTable,
     Cell,
@@ -15,15 +11,13 @@ from edenai_apis.features.ocr import (
     Row,
     Table,
 )
-
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncErrorResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
 )
-
-from .config import clients, storage_clients, api_settings
+from trp import Document
 
 
 def content_processing(confidence):
@@ -113,72 +107,6 @@ def amazon_ocr_tables_parser(original_result) -> OcrTablesAsyncDataClass:
 
 
 T = TypeVar("T")
-
-# Video analysis async
-def _upload_video_file_to_amazon_server(file: BufferedReader, file_name: str):
-    """
-    :param video:       String that contains the video file path
-    :return:            String that contains the filename on the server
-    """
-    # Store file in an Amazon server
-    file_extension = file.name.split(".")[-1]
-    filename = str(int(time())) + file_name.stem + "_video_." + file_extension
-    storage_clients["speech"].meta.client.upload_fileobj(file, "sp2t-2", filename)
-
-    return filename
-
-
-def amazon_launch_video_job(file: BufferedReader, feature: str):
-    # Upload video to amazon server
-    filename = _upload_video_file_to_amazon_server(file, Path(file.name))
-
-    # Get response
-    role = "arn:aws:iam::222535268301:role/TextractRole"
-    topic = "arn:aws:sns:eu-west-1:222535268301:AmazonTextract-async-ocr-tables"
-    bucket = "sp2t-2"
-
-    features = {
-        "LABEL": clients["video"].start_label_detection(
-            Video={"S3Object": {"Bucket": bucket, "Name": filename}},
-            NotificationChannel={
-                "RoleArn": role,
-                "SNSTopicArn": topic,
-            },
-        ),
-        "TEXT": clients["video"].start_text_detection(
-            Video={"S3Object": {"Bucket": bucket, "Name": filename}},
-            NotificationChannel={
-                "RoleArn": role,
-                "SNSTopicArn": topic,
-            },
-        ),
-        "FACE": clients["video"].start_face_detection(
-            Video={"S3Object": {"Bucket": bucket, "Name": filename}},
-            NotificationChannel={
-                "RoleArn": role,
-                "SNSTopicArn": topic,
-            },
-        ),
-        "PERSON": clients["video"].start_person_tracking(
-            Video={"S3Object": {"Bucket": bucket, "Name": filename}},
-            NotificationChannel={
-                "RoleArn": role,
-                "SNSTopicArn": topic,
-            },
-        ),
-        "EXPLICIT": clients["video"].start_content_moderation(
-            Video={"S3Object": {"Bucket": bucket, "Name": filename}},
-            NotificationChannel={
-                "RoleArn": role,
-                "SNSTopicArn": topic,
-            },
-        ),
-    }
-    response = features.get(feature)
-    # return job id
-    job_id = response["JobId"]
-    return job_id
-
 
 def amazon_video_response_formatter(
     response: Dict, standarized_response: T, provider_job_id: str

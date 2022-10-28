@@ -1,95 +1,92 @@
+import base64
 import json
+import urllib
 from io import BufferedReader, BytesIO
+from pathlib import Path
 from time import time
 from typing import Sequence
-import base64
 
-import urllib
-from pathlib import Path
-from pdf2image.pdf2image import convert_from_bytes
-from PIL import Image as Img
-
-from edenai_apis.features.base_provider.provider_api import ProviderApi
+import boto3
 from edenai_apis.apis.amazon.helpers import content_processing
-from edenai_apis.features import Audio, Video, Text, Image, Ocr, Translation
+from edenai_apis.features import Audio, Image, Ocr, Text, Translation, Video
 from edenai_apis.features.audio import SpeechToTextAsyncDataClass, TextToSpeechDataClass
-from edenai_apis.features.ocr import (
-    OcrTablesAsyncDataClass,
-    Bounding_box,
-    OcrDataClass,
-)
+from edenai_apis.features.base_provider.provider_api import ProviderApi
 from edenai_apis.features.image import (
-    ObjectItem,
-    ObjectDetectionDataClass,
-    FaceFeatures,
+    ExplicitContentDataClass,
+    ExplicitItem,
     FaceAccessories,
     FaceBoundingBox,
     FaceDetectionDataClass,
     FaceEmotions,
     FaceFacialHair,
+    FaceFeatures,
     FaceItem,
     FaceLandmarks,
-    FaceQuality,
     FacePoses,
-    ExplicitContentDataClass,
-    ExplicitItem,
+    FaceQuality,
+    ObjectDetectionDataClass,
+    ObjectItem,
 )
+from edenai_apis.features.ocr import Bounding_box, OcrDataClass, OcrTablesAsyncDataClass
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
-    KeywordExtractionDataClass,
-    Items,
-    SentimentAnalysisDataClass,
     InfosNamedEntityRecognitionDataClass,
-    NamedEntityRecognitionDataClass,
     InfosSyntaxAnalysisDataClass,
+    Items,
+    KeywordExtractionDataClass,
+    NamedEntityRecognitionDataClass,
+    SentimentAnalysisDataClass,
     SyntaxAnalysisDataClass,
 )
 from edenai_apis.features.translation import (
+    AutomaticTranslationDataClass,
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass,
-    AutomaticTranslationDataClass,
 )
 from edenai_apis.features.video import (
+    ContentNSFW,
+    ExplicitContentDetectionAsyncDataClass,
     FaceAttributes,
     FaceDetectionAsyncDataClass,
+    LabelDetectionAsyncDataClass,
     LandmarksVideo,
+    PersonTracking,
+    PersonTrackingAsyncDataClass,
+    TextDetectionAsyncDataClass,
     VideoBoundingBox,
     VideoFace,
     VideoFacePoses,
-    LabelDetectionAsyncDataClass,
     VideoLabel,
     VideoLabelBoundingBox,
     VideoLabelTimeStamp,
-    TextDetectionAsyncDataClass,
     VideoText,
     VideoTextBoundingBox,
     VideoTextFrames,
-    ContentNSFW,
-    ExplicitContentDetectionAsyncDataClass,
-    PersonTracking,
-    PersonTrackingAsyncDataClass,
     VideoTrackingBoundingBox,
     VideoTrackingPerson,
 )
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import wav_converter
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
+    AsyncBaseResponseType,
     AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
-    AsyncBaseResponseType,
-    ResponseType,
     AsyncResponseType,
+    ResponseType,
 )
+from pdf2image.pdf2image import convert_from_bytes
+from PIL import Image as Img
 
-from .config import clients, audio_voices_ids, tags, storage_clients, api_settings
-
+from .config import audio_voices_ids, tags
 from .helpers import (
-    check_webhook_result,
-    amazon_launch_video_job,
+    amazon_ocr_tables_parser,
     amazon_video_response_formatter,
-    amazon_ocr_tables_parser
+    check_webhook_result,
 )
+
 
 class AmazonApi(
     ProviderApi,
@@ -102,13 +99,95 @@ class AmazonApi(
 ):
     provider_name = "amazon"
 
+    def __init__(self) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, "amazon")
+
+        self.clients = {
+            "speech": boto3.client(
+                "transcribe",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ),
+            "texttospeech": boto3.client(
+                "polly",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ),
+            "image": boto3.client(
+                "rekognition",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ),
+            "textract": boto3.client(
+                "textract",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ),
+            "text": boto3.client(
+                "comprehend",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ),
+            "translate": boto3.client(
+                "translate",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ),
+            "video": boto3.client(
+                "rekognition",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ),
+            "text_classification": boto3.client(
+                "sts",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ),
+            "s3": boto3.client(
+                "s3",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ),
+        }
+        self.storage_clients = {
+            "speech": boto3.resource(
+                "s3",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ),
+            "textract": boto3.resource(
+                "s3",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ),
+            "text_classification": boto3.resource(
+                "s3",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ),
+            "image": None,
+            "text": None,
+        }
+
     def image__object_detection(
         self, file: BufferedReader
     ) -> ResponseType[ObjectDetectionDataClass]:
 
         file_content = file.read()
         # Getting API response
-        original_response = clients["image"].detect_labels(
+        original_response = self.clients["image"].detect_labels(
             Image={"Bytes": file_content}, MinConfidence=70
         )
         # Standarization
@@ -150,7 +229,7 @@ class AmazonApi(
         file_content = file.read()
 
         # Getting Response
-        original_response = clients["image"].detect_faces(
+        original_response = self.clients["image"].detect_faces(
             Image={"Bytes": file_content}, Attributes=["ALL"]
         )
 
@@ -289,7 +368,7 @@ class AmazonApi(
         self, file: BufferedReader
     ) -> ResponseType[ExplicitContentDataClass]:
         file_content = file.read()
-        response = clients["image"].detect_moderation_labels(
+        response = self.clients["image"].detect_moderation_labels(
             Image={"Bytes": file_content}, MinConfidence=20
         )
 
@@ -324,7 +403,7 @@ class AmazonApi(
                 ocr_image_buffer = BytesIO()
                 ocr_image.save(ocr_image_buffer, format="JPEG")
 
-                response = clients.get("textract").detect_document_text(
+                response = self.clients.get("textract").detect_document_text(
                     Document={
                         "Bytes": ocr_image_buffer.getvalue(),
                         "S3Object": {"Bucket": "sp2t-2", "Name": f"{index}.jpeg"},
@@ -335,7 +414,7 @@ class AmazonApi(
                 index += 1
 
         else:
-            response = clients.get("textract").detect_document_text(
+            response = self.clients.get("textract").detect_document_text(
                 Document={
                     "Bytes": file_content,
                     "S3Object": {"Bucket": "sp2t-2", "Name": f"{index}.jpeg"},
@@ -382,7 +461,7 @@ class AmazonApi(
     ) -> ResponseType[SentimentAnalysisDataClass]:
         # Getting response
         try:
-            response = clients["text"].detect_sentiment(
+            response = self.clients["text"].detect_sentiment(
                 Text=text, LanguageCode=language
             )
         except KeyError as exc:
@@ -406,7 +485,7 @@ class AmazonApi(
     ) -> ResponseType[KeywordExtractionDataClass]:
         # Getting response
         try:
-            response = clients["text"].detect_key_phrases(
+            response = self.clients["text"].detect_key_phrases(
                 Text=text, LanguageCode=language
             )
         except KeyError as exc:
@@ -432,7 +511,7 @@ class AmazonApi(
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         # Getting response
         try:
-            response = clients["text"].detect_entities(Text=text, LanguageCode=language)
+            response = self.clients["text"].detect_entities(Text=text, LanguageCode=language)
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
 
@@ -460,7 +539,7 @@ class AmazonApi(
 
         # Getting response
         try:
-            response = clients["text"].detect_syntax(Text=text, LanguageCode=language)
+            response = self.clients["text"].detect_syntax(Text=text, LanguageCode=language)
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
 
@@ -490,7 +569,7 @@ class AmazonApi(
     def translation__language_detection(
         self, text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
-        response = clients["text"].detect_dominant_language(Text=text)
+        response = self.clients["text"].detect_dominant_language(Text=text)
 
         # Create output TextDetectLanguage object
         # Analyze response
@@ -514,7 +593,7 @@ class AmazonApi(
         self, source_language: str, target_language: str, text: str
     ) -> ResponseType[AutomaticTranslationDataClass]:
         try:
-            response = clients["translate"].translate_text(
+            response = self.clients["translate"].translate_text(
                 Text=text,
                 SourceLanguageCode=source_language,
                 TargetLanguageCode=target_language,
@@ -537,7 +616,7 @@ class AmazonApi(
         formated_language = language
         voiceid = audio_voices_ids[formated_language][option]
 
-        response = clients["texttospeech"].synthesize_speech(
+        response = self.clients["texttospeech"].synthesize_speech(
             VoiceId=voiceid, OutputFormat="mp3", Text=text
         )
 
@@ -558,11 +637,11 @@ class AmazonApi(
         file_content = file.read()
 
         # upload file first
-        storage_clients["textract"].Bucket("sp2t-2").put_object(
+        self.storage_clients["textract"].Bucket("sp2t-2").put_object(
             Key=file.name, Body=file_content
         )
 
-        response = clients["textract"].start_document_analysis(
+        response = self.clients["textract"].start_document_analysis(
             DocumentLocation={
                 "S3Object": {"Bucket": "sp2t-2", "Name": file.name},
             },
@@ -593,7 +672,7 @@ class AmazonApi(
         job_id = msg["JobId"]
 
         if msg["Status"] == "SUCCEEDED":
-            original_result = clients["textract"].get_document_analysis(JobId=job_id)
+            original_result = self.clients["textract"].get_document_analysis(JobId=job_id)
 
             standarized_response = amazon_ocr_tables_parser(original_result)
             return AsyncResponseType[OcrTablesAsyncDataClass](
@@ -618,7 +697,7 @@ class AmazonApi(
         """
         # Store file in an Amazon server
         filename = str(int(time())) + "_" + str(file_name)
-        storage_clients["speech"].meta.client.upload_fileobj(file, "sp2t-2", filename)
+        self.storage_clients["speech"].meta.client.upload_fileobj(file, "sp2t-2", filename)
 
         return filename
 
@@ -631,9 +710,9 @@ class AmazonApi(
             wav_file, Path(file.name).stem + ".wav"
         )
         try:
-            clients["speech"].start_transcription_job(
+            self.clients["speech"].start_transcription_job(
                 TranscriptionJobName=filename,
-                Media={"MediaFileUri": api_settings["storage_url"] + filename},
+                Media={"MediaFileUri": self.api_settings["storage_url"] + filename},
                 MediaFormat="wav",
                 LanguageCode=language,
                 MediaSampleRateHertz=frame_rate,
@@ -649,7 +728,7 @@ class AmazonApi(
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-        job_details = clients["speech"].get_transcription_job(
+        job_details = self.clients["speech"].get_transcription_job(
             TranscriptionJobName=provider_job_id
         )
         job_status = job_details["TranscriptionJob"]["TranscriptionJobStatus"]
@@ -677,25 +756,25 @@ class AmazonApi(
 
     # Launch job label detection
     def video__label_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "LABEL"))
+        return AsyncLaunchJobResponseType(provider_job_id=self._amazon_launch_video_job(file, "LABEL"))
 
     # Launch job text detection
     def video__text_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "TEXT"))
+        return AsyncLaunchJobResponseType(provider_job_id=self._amazon_launch_video_job(file, "TEXT"))
 
     # Launch job face detection
     def video__face_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "FACE"))
+        return AsyncLaunchJobResponseType(provider_job_id=self._amazon_launch_video_job(file, "FACE"))
 
     # Launch job person tracking
     def video__person_tracking_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "PERSON"))
+        return AsyncLaunchJobResponseType(provider_job_id=self._amazon_launch_video_job(file, "PERSON"))
 
     # Launch job explicit content detection
     def video__explicit_content_detection_async__launch_job(
         self, file: BufferedReader
     ) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "EXPLICIT"))
+        return AsyncLaunchJobResponseType(provider_job_id=self._amazon_launch_video_job(file, "EXPLICIT"))
 
     # Get job result for label detection
     def video__label_detection_async__get_job_result(
@@ -705,7 +784,7 @@ class AmazonApi(
         max_result = 20
         finished = False
         while not finished:
-            response = clients["video"].get_label_detection(
+            response = self.clients["video"].get_label_detection(
                 JobId=provider_job_id,
                 MaxResults=max_result,
                 NextToken=pagination_token,
@@ -762,7 +841,7 @@ class AmazonApi(
         finished = False
 
         while not finished:
-            response = clients["video"].get_text_detection(
+            response = self.clients["video"].get_text_detection(
                 JobId=provider_job_id,
                 MaxResults=max_results,
                 NextToken=pagination_token,
@@ -826,7 +905,7 @@ class AmazonApi(
         finished = False
 
         while not finished:
-            response = clients["video"].get_face_detection(
+            response = self.clients["video"].get_face_detection(
                 JobId=provider_job_id,
                 MaxResults=max_results,
                 NextToken=pagination_token,
@@ -897,7 +976,7 @@ class AmazonApi(
         finished = False
 
         while not finished:
-            response = clients["video"].get_person_tracking(
+            response = self.clients["video"].get_person_tracking(
                 JobId=provider_job_id,
                 MaxResults=max_results,
                 NextToken=pagination_token,
@@ -951,7 +1030,7 @@ class AmazonApi(
         finished = False
 
         while not finished:
-            response = clients["video"].get_content_moderation(
+            response = self.clients["video"].get_content_moderation(
                 JobId=provider_job_id,
                 MaxResults=max_results,
                 NextToken=pagination_token,
@@ -981,3 +1060,68 @@ class AmazonApi(
         return amazon_video_response_formatter(
             response, standarized_response, provider_job_id
         )
+
+    # Video analysis async
+    def _upload_video_file_to_amazon_server(self, file: BufferedReader, file_name: str):
+        """
+        :param video:       String that contains the video file path
+        :return:            String that contains the filename on the server
+        """
+        # Store file in an Amazon server
+        file_extension = file.name.split(".")[-1]
+        filename = str(int(time())) + file_name.stem + "_video_." + file_extension
+        self.storage_clients["speech"].meta.client.upload_fileobj(file, "sp2t-2", filename)
+
+        return filename
+
+
+    def _amazon_launch_video_job(self, file: BufferedReader, feature: str):
+        # Upload video to amazon server
+        filename = self._upload_video_file_to_amazon_server(file, Path(file.name))
+
+        # Get response
+        role = "arn:aws:iam::222535268301:role/TextractRole"
+        topic = "arn:aws:sns:eu-west-1:222535268301:AmazonTextract-async-ocr-tables"
+        bucket = "sp2t-2"
+
+        features = {
+            "LABEL": self.clients["video"].start_label_detection(
+                Video={"S3Object": {"Bucket": bucket, "Name": filename}},
+                NotificationChannel={
+                    "RoleArn": role,
+                    "SNSTopicArn": topic,
+                },
+            ),
+            "TEXT": self.clients["video"].start_text_detection(
+                Video={"S3Object": {"Bucket": bucket, "Name": filename}},
+                NotificationChannel={
+                    "RoleArn": role,
+                    "SNSTopicArn": topic,
+                },
+            ),
+            "FACE": self.clients["video"].start_face_detection(
+                Video={"S3Object": {"Bucket": bucket, "Name": filename}},
+                NotificationChannel={
+                    "RoleArn": role,
+                    "SNSTopicArn": topic,
+                },
+            ),
+            "PERSON": self.clients["video"].start_person_tracking(
+                Video={"S3Object": {"Bucket": bucket, "Name": filename}},
+                NotificationChannel={
+                    "RoleArn": role,
+                    "SNSTopicArn": topic,
+                },
+            ),
+            "EXPLICIT": self.clients["video"].start_content_moderation(
+                Video={"S3Object": {"Bucket": bucket, "Name": filename}},
+                NotificationChannel={
+                    "RoleArn": role,
+                    "SNSTopicArn": topic,
+                },
+            ),
+        }
+        response = features.get(feature)
+        # return job id
+        job_id = response["JobId"]
+        return job_id

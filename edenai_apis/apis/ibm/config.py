@@ -1,34 +1,3 @@
-from watson_developer_cloud import NaturalLanguageUnderstandingV1, LanguageTranslatorV3
-from watson_developer_cloud.text_to_speech_v1 import TextToSpeechV1
-from watson_developer_cloud.speech_to_text_v1 import SpeechToTextV1
-
-from edenai_apis.loaders.data_loader import ProviderDataEnum
-from edenai_apis.loaders.loaders import load_provider
-
-
-api_settings = load_provider(ProviderDataEnum.KEY, "ibm")
-
-clients = {
-    "text": NaturalLanguageUnderstandingV1(
-        version="2021-08-01",
-        iam_apikey=api_settings["natural_language_understanding"]["apikey"],
-        url=api_settings["natural_language_understanding"]["url"],
-    ),
-    "texttospeech": TextToSpeechV1(
-        iam_apikey=api_settings["text_to_speech"]["apikey"],
-        url=api_settings["text_to_speech"]["url"],
-    ),
-    "translation": LanguageTranslatorV3(
-        version="2018-05-01",
-        iam_apikey=api_settings["translator"]["apikey"],
-        url=api_settings["translator"]["url"],
-    ),
-    "speech": SpeechToTextV1(
-        iam_apikey=api_settings["speech_to_text"]["apikey"],
-        url=api_settings["speech_to_text"]["url"],
-    ),
-}
-
 models = {
     "fr-FR": "fr-FR_NarrowbandModel",
     "en-US": "en-US_NarrowbandModel",
