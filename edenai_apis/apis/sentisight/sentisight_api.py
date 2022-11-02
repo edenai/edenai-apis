@@ -1,6 +1,7 @@
 from io import BufferedReader
 from typing import Sequence
 from PIL import Image as Img
+import base64
 import requests
 
 from edenai_apis.features import ProviderApi, Ocr, Image
@@ -245,7 +246,9 @@ class SentiSightApi(ProviderApi, Ocr, Image):
         if response.status_code != 200:
             raise ProviderException(response.text)
 
-        image = SearchGetImageDataClass(image=response.content)
+        image_b64 = base64.b64encode(response.content)
+
+        image = SearchGetImageDataClass(image=image_b64)
         # Return the image as bytes
         return ResponseType[SearchGetImageDataClass](
             original_response=response.content,
