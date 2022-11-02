@@ -67,6 +67,9 @@ class VoxistApi(ProviderApi, Audio):
             url=f"{self.base_url}transcription", headers=headers, files=files, data=data
         )
 
+        if response.status_code == 504:
+            raise ProviderException(message="Gateway Timeout")
+
         original_response = response.json()
 
         # Raise error
