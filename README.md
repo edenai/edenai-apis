@@ -93,5 +93,10 @@ Join our friendly community to improve your skills, focus on the integration of 
 [![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/edenai/) [![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://edenai.medium.com/)
 
 
+## Join the community!
+Join our friendly community to improve your skills, focus on the integration of AI engines, get help to use Eden AI API and much more !
+
+[![Discord](Discord-Logo-Edenai.png)](https://discord.com/invite/VYwTbMQc8u)
+
 ## License :
 [Apache License 2.0](LICENSE)

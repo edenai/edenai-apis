@@ -1,6 +1,7 @@
 from io import BufferedReader
 from typing import Sequence
 from PIL import Image as Img
+import base64
 import requests
 
 from edenai_apis.features import ProviderApi, Ocr, Image
@@ -240,14 +241,18 @@ class SentiSightApi(ProviderApi, Ocr, Image):
 
         # Build the request
         response = requests.get(get_image_url, headers=self.headers, data={})
+
         # Handle provider error
         if response.status_code != 200:
             raise ProviderException(response.text)
 
-        image = SearchGetImageDataClass(image=str(response.content))
+        image_b64 = base64.b64encode(response.content)
+
+        image = SearchGetImageDataClass(image=image_b64)
         # Return the image as bytes
         return ResponseType[SearchGetImageDataClass](
-            original_response=str(response.content), standarized_response=image
+            original_response=response.content,
+            standarized_response=image
         )
 
     def image__search__launch_similarity(
