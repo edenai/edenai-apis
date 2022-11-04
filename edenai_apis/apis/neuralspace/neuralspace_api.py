@@ -1,3 +1,4 @@
+from io import BufferedReader
 from typing import Sequence
 import requests
 
@@ -11,9 +12,20 @@ from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
     InfosLanguageDetectionDataClass,
 )
+from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
+    SpeechToTextAsyncDataClass,
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.types import (
+    AsyncBaseResponseType,
+    AsyncErrorResponseType,
+    AsyncPendingResponseType,
+    AsyncResponseType,
+    AsyncLaunchJobResponseType, ResponseType
+)
+from edenai_apis.utils.exception import ProviderException
+from .config import get_domain_language_from_code
 
 
 class NeuralSpaceApi(ProviderApi, Text, Translation):
@@ -110,4 +122,85 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
 
         return ResponseType[LanguageDetectionDataClass](
             original_response=data, standarized_response=standarized_response
+        )
+
+    def audio__speech_to_text_async__launch_job(
+        self, file: BufferedReader, language: str
+    ) -> AsyncLaunchJobResponseType:
+
+        url_file_upload = f"{self.url}file/upload"
+        url_file_transcribe = f"{self.url}transcription/v1/file/transcribe"
+        # first, upload file
+        headers = {
+            "Authorization" : f"{self.api_key}"
+        }
+        files = {"files" : file}
+        response = requests.post(
+            url= url_file_upload,
+            headers=headers,
+            files= files
+        )
+        if response.status_code != 200:
+            raise ProviderException("Failed to upload file for transcription", response.status_code)
+
+        original_response = response.json()
+        fileId = original_response.get('data').get('fileId')
+    
+        # then, call spech to text api
+        language_domain = get_domain_language_from_code(language)
+        print(language_domain)
+        payload= {
+            "fileId": fileId,
+            "language": language_domain.get('language'),
+            "domain" : language_domain.get('domain')
+        }
+
+        response = requests.post(
+            url = url_file_transcribe,
+            headers=headers,
+            data= payload
+        )
+        original_response = response.json()
+        if response.status_code != 201:
+            raise ProviderException(original_response.get('data').get('error'))
+        
+        transcribeId = original_response.get('data').get('transcribeId')
+
+        return AsyncLaunchJobResponseType(
+            provider_job_id = transcribeId
+        )
+
+    
+    def audio__speech_to_text_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
+
+        url_transcribe = f"{self.url}transcription/v1/single/transcription?transcribeId={provider_job_id}"
+        headers = {
+            "Authorization" : f"{self.api_key}"
+        }
+
+        response= requests.get(
+            url= url_transcribe,
+            headers=headers
+        )
+
+        if response.status_code != 200:
+            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
+                provider_job_id = provider_job_id
+            )
+        
+        original_response = response.json()
+        status = original_response.get('data').get('transcriptionStatus')
+        if status != "Completed":
+            return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
+                provider_job_id=provider_job_id
+            )
+
+        return AsyncResponseType[SpeechToTextAsyncDataClass](
+            original_response = original_response,
+            standarized_response = SpeechToTextAsyncDataClass(
+                text = original_response.get('data').get('transcripts')
+            ),
+            provider_job_id = provider_job_id
         )
