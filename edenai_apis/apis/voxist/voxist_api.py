@@ -16,6 +16,7 @@ from edenai_apis.utils.types import (
     AsyncErrorResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
+    AsyncLaunchJobResponseType
 )
 
 
@@ -44,7 +45,7 @@ class VoxistApi(ProviderApi, Audio):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str
-    ) -> AsyncErrorResponseType:
+    ) -> AsyncLaunchJobResponseType:
         # Convert audio file to Mono 16kHz wav
         wav_file = wav_converter(file, frame_rate=16000, channels=1)[0]
 
@@ -76,7 +77,7 @@ class VoxistApi(ProviderApi, Audio):
         if response.status_code != 200:
             raise ProviderException(message=original_response.get("error"))
 
-        return AsyncErrorResponseType(
+        return AsyncLaunchJobResponseType(
             provider_job_id=original_response.get("jobid")
         )
 
