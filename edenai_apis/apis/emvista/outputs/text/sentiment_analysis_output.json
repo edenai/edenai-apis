@@ -77,8 +77,8 @@
       ]
     },
     "code": 0,
-    "startTime": 1667383701428,
-    "endTime": 1667383701428,
+    "startTime": 1667552729751,
+    "endTime": 1667552729751,
     "message": "OK"
   },
   "standarized_response": {
@@ -102,10 +102,6 @@
       {
         "sentiment": "positive",
         "sentiment_rate": 0.853
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.07
       },
       {
         "sentiment": "positive",
