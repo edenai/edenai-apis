@@ -3,88 +3,86 @@
     "result": {
       "emotions": [
         {
-          "refTrigger": "0-6",
-          "trigger": "experience",
-          "emitter": "I",
+          "refTrigger": "-1--1",
+          "trigger": "major",
+          "emitter": "",
           "value": "joy"
         },
         {
-          "refTrigger": "0-15",
-          "trigger": "improvement",
-          "emitter": "I",
+          "refTrigger": "-1--1",
+          "trigger": "positive",
+          "emitter": "",
           "value": "joy"
         },
         {
-          "refTrigger": "1-4",
-          "trigger": "reviews",
-          "emitter": "I",
-          "value": "admiration"
-        },
-        {
-          "refTrigger": "1-6",
-          "trigger": "pricing",
-          "emitter": "I",
-          "value": "joy"
-        },
-        {
-          "refTrigger": "2-1",
-          "trigger": "thousands",
-          "emitter": "I",
-          "value": "disgust"
-        },
-        {
-          "refTrigger": "2-16",
-          "trigger": "reviews",
-          "emitter": "I",
-          "value": "disgust"
-        },
-        {
-          "refTrigger": "2-24",
-          "trigger": "product",
-          "emitter": "I",
-          "value": "joy"
-        },
-        {
-          "refTrigger": "3-0",
-          "trigger": "There",
-          "emitter": "I",
+          "refTrigger": "-1--1",
+          "trigger": "many",
+          "emitter": "",
           "value": "admiration"
         },
         {
           "refTrigger": "3-9",
           "trigger": "products",
-          "emitter": "I",
+          "emitter": "",
           "value": "admiration"
         },
         {
-          "refTrigger": "3-32",
-          "trigger": "Target",
-          "emitter": "I",
-          "value": "sadness"
+          "refTrigger": "-1--1",
+          "trigger": "overprice",
+          "emitter": "",
+          "value": "disgust"
         },
         {
-          "refTrigger": "4-9",
-          "trigger": "get help",
+          "refTrigger": "-1--1",
+          "trigger": "second",
+          "emitter": "",
+          "value": "joy"
+        },
+        {
+          "refTrigger": "4-10",
+          "trigger": "help",
+          "emitter": "they",
+          "value": "joy"
+        },
+        {
+          "refTrigger": "-1-0",
+          "trigger": "satisfied",
           "emitter": "I",
+          "value": "joy"
+        },
+        {
+          "refTrigger": "-1-0",
+          "trigger": "positive",
+          "emitter": "",
+          "value": "admiration"
+        },
+        {
+          "refTrigger": "-1-0",
+          "trigger": "bogus",
+          "emitter": "",
+          "value": "admiration"
+        },
+        {
+          "refTrigger": "-1-0",
+          "trigger": "clear",
+          "emitter": "",
           "value": "disgust"
+        },
+        {
+          "refTrigger": "-1-0",
+          "trigger": "help",
+          "emitter": "",
+          "value": "joy"
         }
       ]
     },
     "code": 0,
-    "startTime": 1666183074218,
-    "endTime": 1666183074218,
+    "startTime": 1667552729751,
+    "endTime": 1667552729751,
     "message": "OK"
   },
   "standarized_response": {
     "items": [
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.873
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.924
-      },
       {
         "sentiment": "positive",
         "sentiment_rate": 0.814
@@ -94,8 +92,8 @@
         "sentiment_rate": 0.346
       },
       {
-        "sentiment": "negative",
-        "sentiment_rate": 0.88
+        "sentiment": "positive",
+        "sentiment_rate": 0.854
       },
       {
         "sentiment": "positive",
@@ -103,23 +101,15 @@
       },
       {
         "sentiment": "positive",
-        "sentiment_rate": 0.864
-      },
-      {
-        "sentiment": "positive",
         "sentiment_rate": 0.853
       },
       {
         "sentiment": "positive",
-        "sentiment_rate": 0.07
+        "sentiment_rate": 0.854
       },
       {
-        "sentiment": "positive",
-        "sentiment_rate": 0.853
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.853
+        "sentiment": "negative",
+        "sentiment_rate": 0.28
       },
       {
         "sentiment": "positive",
@@ -127,11 +117,27 @@
       },
       {
         "sentiment": "positive",
-        "sentiment_rate": 0.833
+        "sentiment_rate": 0.038
       },
       {
         "sentiment": "positive",
         "sentiment_rate": 0.833
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.23
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.823
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.23
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.823
       }
     ]
   }

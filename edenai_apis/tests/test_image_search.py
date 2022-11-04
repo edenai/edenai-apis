@@ -77,7 +77,7 @@ class CommonImageSearchTests:
             feature=FEATURE,
             phase="upload_image",
             args=args,
-        )
+        ).dict()
         print("status :", status)
         assert status["status"] == "success"
 
@@ -96,7 +96,7 @@ class CommonImageSearchTests:
             feature=FEATURE,
             phase="delete_image",
             args=args,
-        )
+        ).dict()
         print("status :", status)
         assert status["status"] == "success"
 
@@ -146,7 +146,7 @@ class CommonImageSearchTests:
         standarized_response = image.get("standarized_response")
         assert original_response is not None
         assert standarized_response is not None
-        assert isinstance(standarized_response["image"], str)
+        assert isinstance(standarized_response["image"], bytes)
 
     def _test_real_output_search_(self, provider):
         """Test API Call for launch search similarity"""

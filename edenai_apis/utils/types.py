@@ -5,8 +5,8 @@ from pydantic.generics import GenericModel
 
 T = TypeVar('T')
 
-ResponseSuccess = TypeVar("ResponseSuccess")
-SUCCESS = {"status": "success"}
+class ResponseSuccess(BaseModel):
+    status: StrictStr = 'success'
 
 class ResponseType(GenericModel, Generic[T]):
     original_response: Any

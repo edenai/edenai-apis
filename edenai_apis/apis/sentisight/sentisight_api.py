@@ -1,6 +1,7 @@
 from io import BufferedReader
 from typing import Sequence
 from PIL import Image as Img
+import base64
 import requests
 
 from edenai_apis.features import ProviderApi, Ocr, Image
@@ -24,7 +25,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import format_string_url_language
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.types import ResponseType, SUCCESS, ResponseSuccess
+from edenai_apis.utils.types import ResponseType, ResponseSuccess
 from .sentisight_helpers import calculate_bounding_box, get_formatted_language
 
 
@@ -196,7 +197,7 @@ class SentiSightApi(ProviderApi, Ocr, Image):
         # Handle response error
         if response.status_code != 200:
             raise ProviderException(response.text)
-        return SUCCESS
+        return ResponseSuccess()
 
     def image__search__delete_image(
         self, image_name: str, project_id: str
@@ -210,7 +211,7 @@ class SentiSightApi(ProviderApi, Ocr, Image):
 
         if response.status_code != 200:
             raise ProviderException(response.text)
-        return SUCCESS
+        return ResponseSuccess()
 
     def image__search__get_images(
         self, project_id: str
@@ -240,14 +241,18 @@ class SentiSightApi(ProviderApi, Ocr, Image):
 
         # Build the request
         response = requests.get(get_image_url, headers=self.headers, data={})
+
         # Handle provider error
         if response.status_code != 200:
             raise ProviderException(response.text)
 
-        image = SearchGetImageDataClass(image=str(response.content))
+        image_b64 = base64.b64encode(response.content)
+
+        image = SearchGetImageDataClass(image=image_b64)
         # Return the image as bytes
         return ResponseType[SearchGetImageDataClass](
-            original_response=str(response.content), standarized_response=image
+            original_response=response.content,
+            standarized_response=image
         )
 
     def image__search__launch_similarity(
