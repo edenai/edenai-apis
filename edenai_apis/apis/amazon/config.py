@@ -43,7 +43,7 @@ clients = {
     ),
     "video": boto3.client(
         "rekognition",
-        region_name=api_settings["region_name"],
+        region_name=api_settings["video-region"],
         aws_access_key_id=api_settings["aws_access_key_id"],
         aws_secret_access_key=api_settings["aws_secret_access_key"],
     ),
@@ -81,6 +81,12 @@ storage_clients = {
     ),
     "image": None,
     "text": None,
+    "video": boto3.resource(
+        "s3",
+        region_name=api_settings["video-region"],
+        aws_access_key_id=api_settings["aws_access_key_id"],
+        aws_secret_access_key=api_settings["aws_secret_access_key"],
+    ),
 }
 
 audio_voices_ids = {

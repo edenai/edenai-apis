@@ -327,7 +327,7 @@ class AmazonApi(
                 response = clients.get("textract").detect_document_text(
                     Document={
                         "Bytes": ocr_image_buffer.getvalue(),
-                        "S3Object": {"Bucket": "sp2t-2", "Name": f"{index}.jpeg"},
+                        "S3Object": {"Bucket": api_settings['bucket'], "Name": f"{index}.jpeg"},
                     }
                 )
                 response["width"], response["height"] = ocr_image.size
@@ -338,7 +338,7 @@ class AmazonApi(
             response = clients.get("textract").detect_document_text(
                 Document={
                     "Bytes": file_content,
-                    "S3Object": {"Bucket": "sp2t-2", "Name": f"{index}.jpeg"},
+                    "S3Object": {"Bucket": api_settings['bucket'], "Name": f"{index}.jpeg"},
                 }
             )
 
@@ -558,20 +558,20 @@ class AmazonApi(
         file_content = file.read()
 
         # upload file first
-        storage_clients["textract"].Bucket("sp2t-2").put_object(
+        storage_clients["textract"].Bucket(api_settings['bucket']).put_object(
             Key=file.name, Body=file_content
         )
 
         response = clients["textract"].start_document_analysis(
             DocumentLocation={
-                "S3Object": {"Bucket": "sp2t-2", "Name": file.name},
+                "S3Object": {"Bucket": api_settings['bucket'], "Name": file.name},
             },
             FeatureTypes=[
                 "TABLES",
             ],
             NotificationChannel={
-                "SNSTopicArn": "arn:aws:sns:eu-west-1:222535268301:AmazonTextract-async-ocr-tables",
-                "RoleArn": "arn:aws:iam::222535268301:role/TextractRole",
+                "SNSTopicArn": api_settings['topic'],
+                "RoleArn": api_settings['role'],
             },
         )
 
@@ -618,7 +618,7 @@ class AmazonApi(
         """
         # Store file in an Amazon server
         filename = str(int(time())) + "_" + str(file_name)
-        storage_clients["speech"].meta.client.upload_fileobj(file, "sp2t-2", filename)
+        storage_clients["speech"].meta.client.upload_fileobj(file, api_settings['bucket'], filename)
 
         return filename
 

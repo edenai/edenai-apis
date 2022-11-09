@@ -15,6 +15,8 @@ from edenai_apis.features.ocr import (
     Row,
     Table,
 )
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
 
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -123,7 +125,7 @@ def _upload_video_file_to_amazon_server(file: BufferedReader, file_name: str):
     # Store file in an Amazon server
     file_extension = file.name.split(".")[-1]
     filename = str(int(time())) + file_name.stem + "_video_." + file_extension
-    storage_clients["speech"].meta.client.upload_fileobj(file, "sp2t-2", filename)
+    storage_clients["video"].meta.client.upload_fileobj(file, api_settings['bucket_video'], filename)
 
     return filename
 
@@ -132,10 +134,12 @@ def amazon_launch_video_job(file: BufferedReader, feature: str):
     # Upload video to amazon server
     filename = _upload_video_file_to_amazon_server(file, Path(file.name))
 
+    api_settings = load_provider(ProviderDataEnum.KEY, "amazon")
+
     # Get response
-    role = "arn:aws:iam::222535268301:role/TextractRole"
-    topic = "arn:aws:sns:eu-west-1:222535268301:AmazonTextract-async-ocr-tables"
-    bucket = "sp2t-2"
+    role = api_settings['role']
+    topic = api_settings['topic_video']
+    bucket = api_settings['bucket_video']
 
     features = {
         "LABEL": clients["video"].start_label_detection(
