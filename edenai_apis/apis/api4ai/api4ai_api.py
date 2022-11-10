@@ -1,6 +1,8 @@
-from io import BufferedReader
+from io import BufferedReader, BytesIO
 from typing import Sequence
 import requests
+from pdf2image.pdf2image import convert_from_bytes
+import json
 
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
@@ -237,33 +239,58 @@ class Api4aiApi(
         payload = {
             "image": file,
         }
-        # Get response
-        response = requests.post(self.urls["ocr"], files=payload)
 
-        # Handle errors
-        if response.status_code != 200:
-            raise ProviderException(response.json()["result"][0]["status"]["message"])
+        file_content = file.read()
+        is_pdf = file.name.lower().endswith(".pdf")
+        responses = []
 
-        original_response = response.json()
-        if "failure" in original_response["results"][0]["status"]["code"]:
-            raise ProviderException(
-                original_response["results"][0]["status"]["message"]
+        if is_pdf:
+            ocr_file_images = convert_from_bytes(
+                file_content, fmt="jpeg", poppler_path=None
             )
+            for ocr_image in ocr_file_images:
+                ocr_image_buffer = BytesIO()
+                ocr_image.save(ocr_image_buffer, format="JPEG")
+                ocr_image_buffer.seek(0)
 
-        # Get result
-        entities = original_response["results"][0]["entities"][0]["objects"]
-        full_text = ""
-        boxes = []
-        for text in entities:
-            box = Bounding_box(
-                text=text["entities"][0]["text"],
-                top=text["box"][0],
-                left=text["box"][1],
-                width=text["box"][2],
-                height=text["box"][3],
-            )
-            full_text += text["entities"][0]["text"]
-            boxes.append(box)
+                response = requests.post(self.urls["ocr"], files= {"image" : BufferedReader(ocr_image_buffer)})
+                if response.status_code == 200 and not "failure" in response.json()["results"][0]["status"]["code"]:
+                    response = response.json()
+                    responses.append(response)
+            if len(responses) == 0:
+                raise ProviderException(f"Can not convert the given file: {file.name}")
+                
+        else:
+            file.seek(0)
+            response = requests.post(self.urls["ocr"], files=payload)
+            if response.status_code != 200 or "failure" in response.json()["results"][0]["status"]["code"]:
+                raise ProviderException(response.json()["result"][0]["status"]["message"])
+            response = response.json()
+            responses.append(response)
+
+
+        final_text = ""
+        output_value = json.dumps(responses, ensure_ascii=False)
+        messages_list = json.loads(output_value)
+        boxes: Sequence[Bounding_box] = []
+
+        for original_response in messages_list:
+            # original_response = response.json()
+            entities = original_response["results"][0]["entities"][0]["objects"]
+            full_text = ""
+            for text in entities:
+                box = Bounding_box(
+                    text=text["entities"][0]["text"],
+                    top=text["box"][0],
+                    left=text["box"][1],
+                    width=text["box"][2],
+                    height=text["box"][3],
+                )
+                full_text += text["entities"][0]["text"]
+                boxes.append(box)
+
+            final_text += " " + full_text
+
         standarized_response = OcrDataClass(text=full_text, bounding_boxes=boxes).dict()
         result = ResponseType[OcrDataClass](
             original_response=original_response,

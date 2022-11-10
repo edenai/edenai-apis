@@ -19,7 +19,7 @@ class LocaleInvoice(BaseModel):
 
 
 class ItemLinesInvoice(BaseModel):
-    description: StrictStr
+    description: Optional[StrictStr]
     quantity: int
     amount: float
     unit_price: float

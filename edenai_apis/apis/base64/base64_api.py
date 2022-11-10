@@ -90,7 +90,7 @@ class Base64Api(ProviderApi, Ocr):
             )  # avoid cases where the quantity is concatenated with a string
             items.append(
                 item_lines_type(
-                    description=item[0],
+                    description=item[0] if item[0] else "",
                     quantity=convert_string_to_number(item_quantity, int),
                     amount=convert_string_to_number(item[2], float),
                     unit_price=convert_string_to_number(item[3], float),
