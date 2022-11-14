@@ -44,7 +44,7 @@ class ResumeEducation(BaseModel):
 class ResumePersonalInfo(BaseModel):
     first_name: StrictStr
     last_name: StrictStr
-    address: StrictStr
+    address: Optional[StrictStr]
     self_summary: StrictStr
     phones: Sequence[str] = Field(default_factory=list)
     mails: Sequence[str] = Field(default_factory=list)

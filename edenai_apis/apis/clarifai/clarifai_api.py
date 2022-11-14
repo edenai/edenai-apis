@@ -1,4 +1,4 @@
-from io import BufferedReader
+from io import BufferedReader, BytesIO
 from typing import Sequence
 from google.protobuf.json_format import MessageToDict
 from clarifai_grpc.grpc.api import resources_pb2, service_pb2, service_pb2_grpc
@@ -7,6 +7,7 @@ from clarifai_grpc.grpc.api.status import status_code_pb2
 from edenai_apis.features.image.object_detection.object_detection_dataclass import (
     ObjectItem,
 )
+from pdf2image.pdf2image import convert_from_bytes
 
 from edenai_apis.features.ocr import Bounding_box, OcrDataClass
 from edenai_apis.features.image import (
@@ -54,7 +55,39 @@ class ClarifaiApi(
             user_id=self.user_id, app_id=self.app_id
         )
 
-        post_model_outputs_response = stub.PostModelOutputs(
+        is_pdf = file.name.lower().endswith(".pdf")
+        responses = []
+        if is_pdf:
+            ocr_file_images = convert_from_bytes(
+                file_content, fmt="jpeg", poppler_path=None
+            )
+            for ocr_image in ocr_file_images:
+                ocr_image_buffer = BytesIO()
+                ocr_image.save(ocr_image_buffer, format="JPEG")
+                post_model_outputs_response = stub.PostModelOutputs(
+                    service_pb2.PostModelOutputsRequest(
+                        # The user_data_object is created in the overview and is required when using a PAT
+                        user_app_id=user_data_object,
+                        model_id=get_formatted_language(language),
+                        inputs=[
+                            resources_pb2.Input(
+                                data=resources_pb2.Data(
+                                    image=resources_pb2.Image(base64=ocr_image_buffer.getvalue())
+                                )
+                            )
+                        ],
+                    ),
+                    metadata=metadata,
+                )
+                if post_model_outputs_response.status.code == status_code_pb2.SUCCESS:
+                    responses.append(post_model_outputs_response.outputs)
+                else:
+                    print(post_model_outputs_response)
+            if len(responses) == 0:
+                raise ProviderException(f"Can not convert the given file: {file.name}")
+
+        else:
+            post_model_outputs_response = stub.PostModelOutputs(
             service_pb2.PostModelOutputsRequest(
                 # The user_data_object is created in the overview and is required when using a PAT
                 user_app_id=user_data_object,
@@ -68,20 +101,24 @@ class ClarifaiApi(
                 ],
             ),
             metadata=metadata,
-        )
+            )
+            if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
+                raise ProviderException("Error calling Clarifai API")
+            responses.append(post_model_outputs_response.outputs)
 
-        if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
-            raise ProviderException("Error calling Clarifai API")
-        else:
+
+        boxes: Sequence[Bounding_box] = []
+        final_final_text = ""
+        number_of_pages = 0
+        original_response = []
+
+        for post_model_output in responses:
             final_text = ""
-            boxes: Sequence[Bounding_box] = []
-            original_response = []
-            number_of_pages = 0
-            for output in post_model_outputs_response.outputs:
-                number_of_pages += 1
+            for output in post_model_output:
+                number_of_pages +=1
                 original_response.append(str(output.data))
                 for region in output.data.regions:
-                    final_text += region.data.text.raw
+                    final_text += " " + region.data.text.raw
                     bb_info = region.region_info.bounding_box
                     pos_x1 = float(bb_info.left_col)
                     pos_x2 = float(bb_info.right_col)
@@ -97,13 +134,14 @@ class ClarifaiApi(
                             height=pos_y2 - pos_y1,
                         )
                     )
-
-            standarized_response = OcrDataClass(bounding_boxes=boxes, text=final_text)
-            result = ResponseType[OcrDataClass](
-                original_response=original_response,
-                standarized_response=standarized_response,
-            )
-            return result
+            final_final_text += " " + final_text
+        
+        standarized_response = OcrDataClass(bounding_boxes=boxes, text=final_final_text.replace("\n", " ").strip())
+        result = ResponseType[OcrDataClass](
+            original_response=original_response,
+            standarized_response=standarized_response,
+        )
+        return result
 
     def image__explicit_content(
         self, file: BufferedReader

@@ -1,7 +1,10 @@
-from io import BufferedReader
+from io import BufferedReader, BytesIO
 from typing import Sequence
 from PIL import Image as Img
+import base64
 import requests
+from pdf2image.pdf2image import convert_from_bytes
+import json
 
 from edenai_apis.features import ProviderApi, Ocr, Image
 from edenai_apis.features.image import (
@@ -41,43 +44,88 @@ class SentiSightApi(ProviderApi, Ocr, Image):
         self, file: BufferedReader, language: str
     ) -> ResponseType[OcrDataClass]:
         url = f"{self.base_url}Text-recognition"
-        response = requests.post(
-            format_string_url_language(
-                url, get_formatted_language(language), "lang", self.provider_name
-            ),
-            headers={
-                "accept": "*/*",
-                "X-Auth-token": self.key,
-                "Content-Type": "application/octet-stream",
-            },
-            data=file,
-        )
-        img = Img.open(file)
-        width = img.width
-        height = img.height
-        if response.status_code != 200:
-            raise ProviderException(response.text)
-        original_response = response.json()
-        bounding_boxes: Sequence[Bounding_box] = []
-        text = ""
-        for item in original_response:
-            if text == "":
-                text = item["label"]
-            else:
-                text = text + " " + item["label"]
-            bounding_box = calculate_bounding_box(item["points"], width, height)
-            bounding_boxes.append(
-                Bounding_box(
-                    text=item["label"],
-                    left=float(bounding_box["x"]),
-                    top=float(bounding_box["y"]),
-                    width=float(bounding_box["width"]),
-                    height=float(bounding_box["height"]),
-                )
+        
+        is_pdf = file.name.lower().endswith(".pdf")
+        file_content = file.read()
+        responses = []
+        widths_heights = []
+        if is_pdf:
+            ocr_file_images = convert_from_bytes(
+                file_content, fmt="jpeg", poppler_path=None
             )
-        standarized_response = OcrDataClass(text=text, bounding_boxes=bounding_boxes)
+            for ocr_image in ocr_file_images:
+                ocr_image_buffer = BytesIO()
+                ocr_image.save(ocr_image_buffer, format="JPEG")
+
+                # call
+                response = requests.post(
+                    format_string_url_language(
+                        url, get_formatted_language(language), "lang", self.provider_name
+                    ),
+                    headers={
+                        "accept": "*/*",
+                        "X-Auth-token": self.key,
+                        "Content-Type": "application/octet-stream",
+                    },
+                    data=ocr_image_buffer.getvalue(),
+                )
+                if response.status_code == 200:
+                    response = response.json()
+                    widths_heights.append(ocr_image.size)
+                    responses.append(response)
+            if len(responses) == 0:
+                raise ProviderException(f"Can not convert the given file: {file.name}")
+
+        else:
+            file.seek(0)
+            response = requests.post(
+                format_string_url_language(
+                    url, get_formatted_language(language), "lang", self.provider_name
+                ),
+                headers={
+                    "accept": "*/*",
+                    "X-Auth-token": self.key,
+                    "Content-Type": "application/octet-stream",
+                },
+                data=file,
+           )
+            if response.status_code != 200:
+                raise ProviderException(response.text)
+            response= response.json()
+            widths_heights.append(Img.open(file).size)
+            # response["width"], response["height"] = Img.open(file).size
+            responses.append(response)
+
+        final_text = ""
+        output_value = json.dumps(responses, ensure_ascii=False)
+        messages_list = json.loads(output_value)
+        bounding_boxes: Sequence[Bounding_box] = []
+
+        for response_index in range(len(messages_list)):
+            response = messages_list[response_index]
+            text = ""
+            for item in response:
+                if text == "":
+                    text = item["label"]
+                else:
+                    text = text + " " + item["label"]
+                width_height = widths_heights[response_index]
+                bounding_box = calculate_bounding_box(item["points"], *width_height)
+                bounding_boxes.append(
+                    Bounding_box(
+                        text=item["label"],
+                        left=float(bounding_box["x"]),
+                        top=float(bounding_box["y"]),
+                        width=float(bounding_box["width"]),
+                        height=float(bounding_box["height"]),
+                    )
+                )
+            final_text += " " + text
+            
+
+        standarized_response = OcrDataClass(text=final_text.replace("\n", " ").strip(), bounding_boxes=bounding_boxes)
         result = ResponseType[OcrDataClass](
-            original_response=original_response,
+            original_response=messages_list,
             standarized_response=standarized_response,
         )
         return result
@@ -240,14 +288,18 @@ class SentiSightApi(ProviderApi, Ocr, Image):
 
         # Build the request
         response = requests.get(get_image_url, headers=self.headers, data={})
+
         # Handle provider error
         if response.status_code != 200:
             raise ProviderException(response.text)
 
-        image = SearchGetImageDataClass(image=str(response.content))
+        image_b64 = base64.b64encode(response.content)
+
+        image = SearchGetImageDataClass(image=image_b64)
         # Return the image as bytes
         return ResponseType[SearchGetImageDataClass](
-            original_response=str(response.content), standarized_response=image
+            original_response=response.content,
+            standarized_response=image
         )
 
     def image__search__launch_similarity(

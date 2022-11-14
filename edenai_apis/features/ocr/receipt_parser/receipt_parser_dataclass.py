@@ -20,7 +20,7 @@ class Locale(BaseModel):
 
 
 class ItemLines(BaseModel):
-    description: StrictStr
+    description: Optional[StrictStr]
     quantity: int
     amount: Optional[float]
     unit_price: Optional[float]

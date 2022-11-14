@@ -18,6 +18,9 @@
     },
     "ocr": {
         "ocr": {
+            "constraints": {
+                "allow_null_language": true
+            },
             "version": "v1.0.0"
         }
     }

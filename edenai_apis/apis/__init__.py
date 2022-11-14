@@ -22,7 +22,7 @@ from .dataleon import DataleonApi
 from .api4ai import Api4aiApi
 from .sentisight import SentiSightApi
 from .picpurify import PicpurifyApi
-from .phedone import PhedomeApi
+from .phedone import PhedoneApi
 from .voxist import VoxistApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

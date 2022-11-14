@@ -92,6 +92,5 @@ Join our friendly community to improve your skills, focus on the integration of 
 [![](https://dcbadge.vercel.app/api/server/VYwTbMQc8u)](https://discord.com/invite/VYwTbMQc8u)
 [![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/edenai/) [![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://edenai.medium.com/)
 
-
 ## License :
 [Apache License 2.0](LICENSE)

@@ -1,1 +1,1 @@
-from .phedone_api import PhedomeApi
+from .phedone_api import PhedoneApi

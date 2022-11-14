@@ -11,7 +11,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
 
-class PhedomeApi(ProviderApi, Translation):
+class PhedoneApi(ProviderApi, Translation):
     """
     attributes:
       provider_name: str = 'phedone'
