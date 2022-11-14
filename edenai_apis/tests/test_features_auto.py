@@ -165,8 +165,6 @@ class TestFeatureSubfeature(CommonProvidersSubfeaturesTests):
         failures = []
         # List of providers with wokring / not working
         for provider in providers:
-            if provider == "google":
-                continue
             self._test_saved_output(provider, feature, subfeature)
             try:
                 self._test_real_output(provider, feature, subfeature)
@@ -182,6 +180,4 @@ class TestFeatureSubfeature(CommonProvidersSubfeaturesTests):
     def test_compute_subfeature_output(self, providers, feature, subfeature):
         """Test call compute subfeature with fake = True"""
         for provider in providers:
-            if provider == "google":
-                continue
             self._test_compute_subfeature_output(provider, feature, subfeature)
