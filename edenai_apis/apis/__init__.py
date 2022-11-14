@@ -8,6 +8,7 @@ from .huggingface import HuggingfaceApi
 from .affinda import AffindaApi
 from .clarifai import ClarifaiApi
 from .base64 import Base64Api
+from .deepL import DeepLApi
 from .lettria import LettriaApi
 from .meaningcloud import MeaningcloudApi
 from .mindee import MindeeApi
