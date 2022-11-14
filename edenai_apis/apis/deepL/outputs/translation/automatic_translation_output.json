@@ -1,0 +1,13 @@
+{
+  "original_response": {
+    "translations": [
+      {
+        "detected_source_language": "ZH",
+        "text": "Artificial intelligence, also known as robotics and machine intelligence, refers to the intelligence expressed by human-made machines. Usually artificial intelligence refers to the technology of presenting human intelligence through ordinary computer programs. The term also refers to the study of whether and how such an intelligent system can be realized. At the same time, through advances in medicine, neuroscience, robotics and statistics, the norm is predicted that many human occupations are gradually being replaced by them."
+      }
+    ]
+  },
+  "standarized_response": {
+    "text": "Artificial intelligence, also known as robotics and machine intelligence, refers to the intelligence expressed by human-made machines. Usually artificial intelligence refers to the technology of presenting human intelligence through ordinary computer programs. The term also refers to the study of whether and how such an intelligent system can be realized. At the same time, through advances in medicine, neuroscience, robotics and statistics, the norm is predicted that many human occupations are gradually being replaced by them."
+  }
+}
