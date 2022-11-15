@@ -12,7 +12,12 @@ from PIL import Image as Img
 from edenai_apis.features.base_provider.provider_api import ProviderApi
 from edenai_apis.apis.amazon.helpers import content_processing
 from edenai_apis.features import Audio, Video, Text, Image, Ocr, Translation
-from edenai_apis.features.audio import SpeechToTextAsyncDataClass, TextToSpeechDataClass
+from edenai_apis.features.audio import (
+    SpeechToTextAsyncDataClass,
+    TextToSpeechDataClass,
+    SpeechDiarization,
+    SpeechDiarizationEntry
+)
 from edenai_apis.features.ocr import (
     OcrTablesAsyncDataClass,
     Bounding_box,
@@ -637,7 +642,11 @@ class AmazonApi(
                 MediaFormat="wav",
                 LanguageCode=language,
                 MediaSampleRateHertz=frame_rate,
-                Settings={"ShowSpeakerLabels": False, "ChannelIdentification": False},
+                Settings={
+                        "ShowSpeakerLabels": True, 
+                        "ChannelIdentification": False,
+                        "MaxSpeakerLabels" : 10
+                        },
             )
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
@@ -659,8 +668,61 @@ class AmazonApi(
             ]
             with urllib.request.urlopen(json_res) as url:
                 original_response = json.loads(url.read().decode("utf-8"))
+
+                #diarization
+                diarization_entries = []
+                words_info = original_response["results"]["items"]
+                speakers = original_response["results"]["speaker_labels"]["speakers"]
+
+                words_length = len(words_info)
+                last_instance = {
+                    "start_time": words_info[0]["start_time"],
+                    "end_time": words_info[0]["end_time"],
+                    "text": words_info[0]["alternatives"][0]["content"],
+                    "speaker_tag": words_info[0]["speaker_label"].split("spk_")[1]
+                    }
+                words_index = 1
+
+
+                while words_index < words_length:
+                    if words_info[words_index].get('speaker_label'):
+                        if words_info[words_index]["speaker_label"] == f"spk_{last_instance['speaker_tag']}":
+                            last_instance.update({
+                                "end_time": words_info[words_index]["end_time"],
+                                "text": f"{last_instance['text']} {words_info[words_index]['alternatives'][0]['content']}"
+                            })
+                        else:
+                            diarization_entries.append(
+                                SpeechDiarizationEntry(
+                                    text= last_instance["text"],
+                                    start_time= last_instance["start_time"],
+                                    end_time= last_instance["end_time"],
+                                    speaker_tag= int(last_instance["speaker_tag"])
+                                )
+                            )
+                            last_instance = {
+                                "start_time": words_info[words_index]["start_time"],
+                                "end_time": words_info[words_index]["end_time"],
+                                "text": words_info[words_index]["alternatives"][0]["content"],
+                                "speaker_tag": words_info[0]["speaker_label"].split("spk_")[1]
+                            }
+                    else:
+                        last_instance.update({
+                            "text": f"{last_instance['text']}{words_info[words_index]['alternatives'][0]['content']}",
+                        })
+                    words_index +=1
+                diarization_entries.append(
+                        SpeechDiarizationEntry(
+                            text= last_instance["text"],
+                            start_time= last_instance["start_time"],
+                            end_time= last_instance["end_time"],
+                            speaker_tag= int(last_instance["speaker_tag"])
+                        )
+                    ) # diarization end
+
                 standarized_response = SpeechToTextAsyncDataClass(
-                    text=original_response["results"]["transcripts"][0]["transcript"]
+                    text=original_response["results"]["transcripts"][0]["transcript"],
+                    diarization= SpeechDiarization(total_speakers=speakers, entries=diarization_entries)
                 )
                 return AsyncResponseType[SpeechToTextAsyncDataClass](
                     original_response=original_response,
