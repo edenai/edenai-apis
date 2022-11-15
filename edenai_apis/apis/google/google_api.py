@@ -35,6 +35,8 @@ from edenai_apis.apis.google.google_helpers import (
 from edenai_apis.features import Audio, Image, Ocr, ProviderApi, Text, Translation, Video
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechToTextAsyncDataClass,
+    SpeechDiarizationEntry,
+    SpeechDiarization
 )
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
@@ -729,10 +731,16 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         # Launch file transcription
         client = speech.SpeechClient()
         audio = speech.RecognitionAudio(uri=gcs_uri)
+        diarization = speech.SpeakerDiarizationConfig(
+            enable_speaker_diarization=True,
+            min_speaker_count=1,
+            max_speaker_count=10,
+        )
         config = speech.RecognitionConfig(
             # encoding="LINEAR16",
             language_code=language,
             audio_channel_count=channels,
+            diarization_config = diarization
             # sample_rate_hertz=frame_rate
         )
         operation = client.long_running_recognize(config=config, audio=audio)
@@ -745,6 +753,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         service = googleapiclient.discovery.build("speech", "v1")
         service_request_ = service.operations().get(name=provider_job_id)
         original_response = service_request_.execute()
+        
         if original_response.get("error") is not None:
             return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id
@@ -752,11 +761,63 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         if original_response.get("done"):
             text = ", ".join(
                 [
-                    entry["alternatives"][0]["transcript"].strip()
+                    entry["alternatives"][0]["transcript"].strip() if 
+                    entry["alternatives"][0].get("transcript") else ""
                     for entry in original_response["response"]["results"]
                 ]
             )
-            standarized_response = SpeechToTextAsyncDataClass(text=text)
+
+            diarization_entries = []
+            result = original_response["response"]["results"][-1]
+            words_info = result["alternatives"][0]["words"]
+            speakers = set()
+
+            words_length = len(words_info)
+            last_instance = {
+                "start_time": words_info[0]["startTime"],
+                "end_time": words_info[0]["endTime"],
+                "text": words_info[0]["word"].strip(),
+                "speaker_tag": words_info[0]["speakerTag"]
+                }
+            words_index = 1
+
+
+            while words_index < words_length:
+                if words_info[words_index]["speakerTag"] == last_instance["speaker_tag"]:
+                    last_instance.update({
+                        "end_time": words_info[words_index]["endTime"],
+                        "text": f"{last_instance['text']} {words_info[words_index]['word'].strip()}",
+                    })
+                else:
+                    speakers.add(last_instance["speaker_tag"])
+                    diarization_entries.append(
+                        SpeechDiarizationEntry(
+                            text= last_instance["text"],
+                            start_time= last_instance["start_time"],
+                            end_time= last_instance["end_time"],
+                            speaker_tag= last_instance["speaker_tag"]
+                        )
+                    )
+                    last_instance = {
+                        "start_time": words_info[words_index]["startTime"],
+                        "end_time": words_info[words_index]["endTime"],
+                        "text": words_info[words_index]["word"].strip(),
+                        "speaker_tag": words_info[words_index]["speakerTag"]
+                    }
+                words_index +=1
+            diarization_entries.append(
+                    SpeechDiarizationEntry(
+                        text= last_instance["text"],
+                        start_time= last_instance["start_time"],
+                        end_time= last_instance["end_time"],
+                        speaker_tag= last_instance["speaker_tag"]
+                    )
+                )
+            speakers.add(last_instance["speaker_tag"])
+            
+            diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
+            
+            standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,
                 standarized_response=standarized_response,
