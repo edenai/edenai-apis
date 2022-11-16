@@ -753,44 +753,64 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         service = googleapiclient.discovery.build("speech", "v1")
         service_request_ = service.operations().get(name=provider_job_id)
         original_response = service_request_.execute()
-        
+        print(json.dumps(original_response, indent=2))
+
         if original_response.get("error") is not None:
             return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id
             )
+        text = ""
+        diarization = SpeechDiarization(total_speakers=0, entries= [])
         if original_response.get("done"):
-            text = ", ".join(
-                [
-                    entry["alternatives"][0]["transcript"].strip() if 
-                    entry["alternatives"][0].get("transcript") else ""
-                    for entry in original_response["response"]["results"]
-                ]
-            )
+            if original_response["response"].get("results"):
+                text = ", ".join(
+                    [
+                        entry["alternatives"][0]["transcript"].strip() if 
+                        entry["alternatives"][0].get("transcript") else ""
+                        for entry in original_response["response"]["results"]
+                    ]
+                )
 
-            diarization_entries = []
-            result = original_response["response"]["results"][-1]
-            words_info = result["alternatives"][0]["words"]
-            speakers = set()
+                diarization_entries = []
+                result = original_response["response"]["results"][-1]
+                words_info = result["alternatives"][0]["words"]
+                speakers = set()
 
-            words_length = len(words_info)
-            last_instance = {
-                "start_time": words_info[0]["startTime"],
-                "end_time": words_info[0]["endTime"],
-                "text": words_info[0]["word"].strip(),
-                "speaker_tag": words_info[0]["speakerTag"]
-                }
-            words_index = 1
+                words_length = len(words_info)
+                last_instance = {
+                    "start_time": words_info[0]["startTime"],
+                    "end_time": words_info[0]["endTime"],
+                    "text": words_info[0]["word"].strip(),
+                    "speaker_tag": words_info[0]["speakerTag"]
+                    }
+                words_index = 1
 
 
-            while words_index < words_length:
-                if words_info[words_index]["speakerTag"] == last_instance["speaker_tag"]:
-                    last_instance.update({
-                        "end_time": words_info[words_index]["endTime"],
-                        "text": f"{last_instance['text']} {words_info[words_index]['word'].strip()}",
-                    })
-                else:
-                    speakers.add(last_instance["speaker_tag"])
-                    diarization_entries.append(
+                while words_index < words_length:
+                    if words_info[words_index]["speakerTag"] == last_instance["speaker_tag"]:
+                        if set(words_info[words_index].values()) != set(last_instance.values()):
+                            last_instance.update({
+                                "end_time": words_info[words_index]["endTime"],
+                                "text": f"{last_instance['text']} {words_info[words_index]['word'].strip()}",
+                            })
+                    else:
+                        speakers.add(last_instance["speaker_tag"])
+                        diarization_entries.append(
+                            SpeechDiarizationEntry(
+                                text= last_instance["text"],
+                                start_time= last_instance["start_time"],
+                                end_time= last_instance["end_time"],
+                                speaker_tag= last_instance["speaker_tag"]
+                            )
+                        )
+                        last_instance = {
+                            "start_time": words_info[words_index]["startTime"],
+                            "end_time": words_info[words_index]["endTime"],
+                            "text": words_info[words_index]["word"].strip(),
+                            "speaker_tag": words_info[words_index]["speakerTag"]
+                        }
+                    words_index +=1
+                diarization_entries.append(
                         SpeechDiarizationEntry(
                             text= last_instance["text"],
                             start_time= last_instance["start_time"],
@@ -798,24 +818,9 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                             speaker_tag= last_instance["speaker_tag"]
                         )
                     )
-                    last_instance = {
-                        "start_time": words_info[words_index]["startTime"],
-                        "end_time": words_info[words_index]["endTime"],
-                        "text": words_info[words_index]["word"].strip(),
-                        "speaker_tag": words_info[words_index]["speakerTag"]
-                    }
-                words_index +=1
-            diarization_entries.append(
-                    SpeechDiarizationEntry(
-                        text= last_instance["text"],
-                        start_time= last_instance["start_time"],
-                        end_time= last_instance["end_time"],
-                        speaker_tag= last_instance["speaker_tag"]
-                    )
-                )
-            speakers.add(last_instance["speaker_tag"])
-            
-            diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
+                speakers.add(last_instance["speaker_tag"])
+                
+                diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
             
             standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](

@@ -668,7 +668,7 @@ class AmazonApi(
             ]
             with urllib.request.urlopen(json_res) as url:
                 original_response = json.loads(url.read().decode("utf-8"))
-
+                print(json.dumps(original_response, indent=2))
                 #diarization
                 diarization_entries = []
                 words_info = original_response["results"]["items"]
@@ -688,8 +688,12 @@ class AmazonApi(
                     if words_info[words_index].get('speaker_label'):
                         if words_info[words_index]["speaker_label"] == f"spk_{last_instance['speaker_tag']}":
                             last_instance.update({
-                                "end_time": words_info[words_index]["end_time"],
-                                "text": f"{last_instance['text']} {words_info[words_index]['alternatives'][0]['content']}"
+                                "end_time": words_info[words_index]["end_time"] 
+                                    if words_info[words_index].get("end_time") 
+                                    else last_instance["end_time"],
+                                "text": f"{last_instance['text']} {words_info[words_index]['alternatives'][0]['content']}" if
+                                    words_info[words_index]["alternatives"][0]["content"] == "pronunciation" else
+                                    f"{last_instance['text']}{words_info[words_index]['alternatives'][0]['content']}"
                             })
                         else:
                             diarization_entries.append(
