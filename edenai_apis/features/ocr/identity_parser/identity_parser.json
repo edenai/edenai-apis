@@ -1,0 +1,18 @@
+{
+    "extracted_data": [{
+        "documentType": "",
+        "age": "",
+        "last_name": "",
+        "given_name": [],
+        "date_of_birth": "",
+        "birth_place": "",
+        "document_id": "",
+        "country": "",
+        "address": "",
+        "nationality": "",
+        "expire_date": "",
+        "issuance_date": "",
+        "gender": "",
+        "mrz": ""
+    }]
+}

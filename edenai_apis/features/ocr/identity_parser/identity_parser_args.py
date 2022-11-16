@@ -1,0 +1,11 @@
+import os
+from typing import Dict
+
+feature_path = os.path.dirname(os.path.dirname(__file__))
+
+data_path = os.path.join(feature_path, "data")
+
+
+def identity_parser_arguments() -> Dict:
+    filename = 'passport-GB.jpg'
+    return {"file": open(f"{data_path}/{filename}", "rb"), "filename": filename}

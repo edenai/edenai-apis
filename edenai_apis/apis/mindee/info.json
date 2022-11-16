@@ -35,6 +35,9 @@
                 ]
             },
             "version": "v2"
+        },
+        "identity_parser": {
+            "version": "v2"
         }
     }
 }

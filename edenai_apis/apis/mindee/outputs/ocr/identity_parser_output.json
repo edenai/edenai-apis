@@ -1,0 +1,574 @@
+{
+  "original_response": {
+    "api_request": {
+      "error": {},
+      "resources": [
+        "document"
+      ],
+      "status": "success",
+      "status_code": 201,
+      "url": "https://api.mindee.net/v1/products/mindee/passport/v1/predict"
+    },
+    "document": {
+      "id": "a06f81b3-f76a-4cb5-a839-a736286a4ad1",
+      "inference": {
+        "extras": {},
+        "finished_at": "2022-11-16T16:12:50+00:00",
+        "is_rotation_applied": true,
+        "pages": [
+          {
+            "extras": {},
+            "id": 0,
+            "orientation": {
+              "value": 0
+            },
+            "prediction": {
+              "birth_date": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.395,
+                    0.645
+                  ],
+                  [
+                    0.558,
+                    0.645
+                  ],
+                  [
+                    0.558,
+                    0.664
+                  ],
+                  [
+                    0.395,
+                    0.664
+                  ]
+                ],
+                "value": "1960-04-25"
+              },
+              "birth_place": {
+                "confidence": 0.92,
+                "polygon": [
+                  [
+                    0.47,
+                    0.67
+                  ],
+                  [
+                    0.548,
+                    0.67
+                  ],
+                  [
+                    0.548,
+                    0.684
+                  ],
+                  [
+                    0.47,
+                    0.684
+                  ]
+                ],
+                "value": "LONDON"
+              },
+              "country": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.517,
+                    0.559
+                  ],
+                  [
+                    0.553,
+                    0.559
+                  ],
+                  [
+                    0.553,
+                    0.572
+                  ],
+                  [
+                    0.517,
+                    0.572
+                  ]
+                ],
+                "value": "GBR"
+              },
+              "expiry_date": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.395,
+                    0.718
+                  ],
+                  [
+                    0.573,
+                    0.718
+                  ],
+                  [
+                    0.573,
+                    0.738
+                  ],
+                  [
+                    0.395,
+                    0.738
+                  ]
+                ],
+                "value": "2023-10-09"
+              },
+              "gender": {
+                "confidence": 0.0,
+                "polygon": [
+                  [
+                    0.161,
+                    0.804
+                  ],
+                  [
+                    0.838,
+                    0.804
+                  ],
+                  [
+                    0.838,
+                    0.824
+                  ],
+                  [
+                    0.161,
+                    0.824
+                  ]
+                ],
+                "value": null
+              },
+              "given_names": [
+                {
+                  "confidence": 0.88,
+                  "polygon": [
+                    [
+                      0.397,
+                      0.601
+                    ],
+                    [
+                      0.442,
+                      0.601
+                    ],
+                    [
+                      0.442,
+                      0.615
+                    ],
+                    [
+                      0.397,
+                      0.615
+                    ]
+                  ],
+                  "value": "JOHN"
+                },
+                {
+                  "confidence": 0.88,
+                  "polygon": [
+                    [
+                      0.459,
+                      0.601
+                    ],
+                    [
+                      0.519,
+                      0.601
+                    ],
+                    [
+                      0.519,
+                      0.615
+                    ],
+                    [
+                      0.459,
+                      0.615
+                    ]
+                  ],
+                  "value": "JAMES"
+                }
+              ],
+              "id_number": {
+                "confidence": 0.86,
+                "polygon": [
+                  [
+                    0.603,
+                    0.556
+                  ],
+                  [
+                    0.706,
+                    0.556
+                  ],
+                  [
+                    0.706,
+                    0.572
+                  ],
+                  [
+                    0.603,
+                    0.572
+                  ]
+                ],
+                "value": "123456789"
+              },
+              "issuance_date": {
+                "confidence": 0.33,
+                "polygon": [
+                  [
+                    0.395,
+                    0.692
+                  ],
+                  [
+                    0.539,
+                    0.692
+                  ],
+                  [
+                    0.539,
+                    0.711
+                  ],
+                  [
+                    0.395,
+                    0.711
+                  ]
+                ],
+                "value": "1984-01-09"
+              },
+              "mrz1": {
+                "confidence": 0.88,
+                "polygon": [
+                  [
+                    0.162,
+                    0.775
+                  ],
+                  [
+                    0.834,
+                    0.775
+                  ],
+                  [
+                    0.834,
+                    0.795
+                  ],
+                  [
+                    0.162,
+                    0.795
+                  ]
+                ],
+                "value": "P<GBRSMITH<<JOHN<JAMES<<<<<<<<<<<<<<<<<<<<<<"
+              },
+              "mrz2": {
+                "confidence": 0.0,
+                "polygon": [],
+                "value": null
+              },
+              "orientation": {
+                "confidence": 0.99,
+                "degrees": 0
+              },
+              "surname": {
+                "confidence": 0.88,
+                "polygon": [
+                  [
+                    0.397,
+                    0.579
+                  ],
+                  [
+                    0.459,
+                    0.579
+                  ],
+                  [
+                    0.459,
+                    0.594
+                  ],
+                  [
+                    0.397,
+                    0.594
+                  ]
+                ],
+                "value": "SMITH"
+              }
+            }
+          }
+        ],
+        "prediction": {
+          "birth_date": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.395,
+                0.645
+              ],
+              [
+                0.558,
+                0.645
+              ],
+              [
+                0.558,
+                0.664
+              ],
+              [
+                0.395,
+                0.664
+              ]
+            ],
+            "value": "1960-04-25"
+          },
+          "birth_place": {
+            "confidence": 0.92,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.47,
+                0.67
+              ],
+              [
+                0.548,
+                0.67
+              ],
+              [
+                0.548,
+                0.684
+              ],
+              [
+                0.47,
+                0.684
+              ]
+            ],
+            "value": "LONDON"
+          },
+          "country": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.517,
+                0.559
+              ],
+              [
+                0.553,
+                0.559
+              ],
+              [
+                0.553,
+                0.572
+              ],
+              [
+                0.517,
+                0.572
+              ]
+            ],
+            "value": "GBR"
+          },
+          "expiry_date": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.395,
+                0.718
+              ],
+              [
+                0.573,
+                0.718
+              ],
+              [
+                0.573,
+                0.738
+              ],
+              [
+                0.395,
+                0.738
+              ]
+            ],
+            "value": "2023-10-09"
+          },
+          "gender": {
+            "confidence": 0.1,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.161,
+                0.804
+              ],
+              [
+                0.838,
+                0.804
+              ],
+              [
+                0.838,
+                0.824
+              ],
+              [
+                0.161,
+                0.824
+              ]
+            ],
+            "value": null
+          },
+          "given_names": [
+            {
+              "confidence": 0.88,
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.397,
+                  0.601
+                ],
+                [
+                  0.442,
+                  0.601
+                ],
+                [
+                  0.442,
+                  0.615
+                ],
+                [
+                  0.397,
+                  0.615
+                ]
+              ],
+              "value": "JOHN"
+            },
+            {
+              "confidence": 0.88,
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.459,
+                  0.601
+                ],
+                [
+                  0.519,
+                  0.601
+                ],
+                [
+                  0.519,
+                  0.615
+                ],
+                [
+                  0.459,
+                  0.615
+                ]
+              ],
+              "value": "JAMES"
+            }
+          ],
+          "id_number": {
+            "confidence": 0.86,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.603,
+                0.556
+              ],
+              [
+                0.706,
+                0.556
+              ],
+              [
+                0.706,
+                0.572
+              ],
+              [
+                0.603,
+                0.572
+              ]
+            ],
+            "value": "123456789"
+          },
+          "issuance_date": {
+            "confidence": 0.33,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.395,
+                0.692
+              ],
+              [
+                0.539,
+                0.692
+              ],
+              [
+                0.539,
+                0.711
+              ],
+              [
+                0.395,
+                0.711
+              ]
+            ],
+            "value": "1984-01-09"
+          },
+          "mrz1": {
+            "confidence": 0.88,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.162,
+                0.775
+              ],
+              [
+                0.834,
+                0.775
+              ],
+              [
+                0.834,
+                0.795
+              ],
+              [
+                0.162,
+                0.795
+              ]
+            ],
+            "value": "P<GBRSMITH<<JOHN<JAMES<<<<<<<<<<<<<<<<<<<<<<"
+          },
+          "mrz2": {
+            "confidence": 0.0,
+            "page_id": null,
+            "polygon": [],
+            "value": null
+          },
+          "surname": {
+            "confidence": 0.88,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.397,
+                0.579
+              ],
+              [
+                0.459,
+                0.579
+              ],
+              [
+                0.459,
+                0.594
+              ],
+              [
+                0.397,
+                0.594
+              ]
+            ],
+            "value": "SMITH"
+          }
+        },
+        "processing_time": 0.999,
+        "product": {
+          "features": [
+            "country",
+            "id_number",
+            "given_names",
+            "surname",
+            "birth_date",
+            "birth_place",
+            "gender",
+            "issuance_date",
+            "expiry_date",
+            "orientation",
+            "mrz1",
+            "mrz2"
+          ],
+          "name": "mindee/passport",
+          "type": "standard",
+          "version": "1.0"
+        },
+        "started_at": "2022-11-16T16:12:49+00:00"
+      },
+      "n_pages": 1,
+      "name": "passport-GB.jpg"
+    }
+  },
+  "standarized_response": {
+    "extracted_data": []
+  }
+}

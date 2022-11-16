@@ -1,6 +1,6 @@
 from io import BufferedReader
 from collections import defaultdict
-from typing import List, Sequence, TypeVar
+from typing import List, Optional, Sequence, TypeVar
 import requests
 
 from edenai_apis.features import ProviderApi, Ocr
@@ -9,6 +9,10 @@ from edenai_apis.features.ocr import (
     InfosInvoiceParserDataClass,
     InfosReceiptParserDataClass,
     InvoiceParserDataClass,
+    IdentityParserDataClass,
+    InfosIdentityParserDataClass,
+    BoundingBox,
+    FieldIdentityParserDataClass,
 )
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     CustomerInformationInvoice,
@@ -40,8 +44,9 @@ class MindeeApi(ProviderApi, Ocr):
         self.url = self.api_settings["ocr_invoice"]["url"]
         self.url_receipt = self.api_settings["ocr_receipt"]["url"]
         self.api_key_receipt = self.api_settings["ocr_receipt"]["subscription_key"]
+        self.url_identity = self.api_settings['ocr_id']['url']
 
-    def _get_api_attributes(self, file: BufferedReader, language: str) -> ParamsApi:
+    def _get_api_attributes(self, file: BufferedReader, language: Optional[str] = None) -> ParamsApi:
         params: ParamsApi = {
             "headers": {"Authorization": self.api_key_receipt},
             "files": {"document": file},
@@ -50,7 +55,7 @@ class MindeeApi(ProviderApi, Ocr):
                     "langage": language.split("-")[0],
                     "country": language.split("-")[1],
                 }
-            },
+            } if language else None,
         }
         return params
 
@@ -183,3 +188,36 @@ class MindeeApi(ProviderApi, Ocr):
             standarized_response=standarized_response,
         )
         return result
+
+    def _get_info_field(field_name: str, data: dict) -> FieldIdentityParserDataClass:
+        bouding_box = BoundingBox(
+            
+        )
+        
+        return FieldIdentityParserDataClass(
+            value=data[field_name]['value'],
+            bounding_box=bouding_box,
+            confidence=data[field_name]['confidence']
+        )
+
+
+    def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
+        args = self._get_api_attributes(file)
+
+        response = requests.post(url=self.url_identity, files=args['files'], headers=args['headers'])
+
+        original_response = response.json()
+
+        if response.status_code != 201:
+            raise ProviderException(message=original_response['error']['message'], code=response.status_code)
+
+        identity_data = original_response["document"]["inference"]["prediction"]
+
+
+
+        standarized_response = IdentityParserDataClass()
+
+        return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standarized_response=standarized_response
+        )
