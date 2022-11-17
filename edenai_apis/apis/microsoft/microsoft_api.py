@@ -124,7 +124,7 @@ class MicrosoftApi(
                 response = requests.post(
                     format_string_url_language(
                         url, language, "language", self.provider_name
-                    ),
+                    ) if language else url,
                     headers=self.headers["vision"],
                     data=ocr_image_buffer.getbuffer(),
                 ).json()
@@ -136,7 +136,7 @@ class MicrosoftApi(
             response = requests.post(
                 format_string_url_language(
                     url, language, "language", self.provider_name
-                ),
+                ) if language else url,
                 headers=self.headers["vision"],
                 data=file_content,
             ).json()
