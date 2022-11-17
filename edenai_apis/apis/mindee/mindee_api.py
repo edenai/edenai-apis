@@ -1,6 +1,7 @@
 from io import BufferedReader
 from collections import defaultdict
 from typing import List, Optional, Sequence, TypeVar
+from pydantic import StrictStr
 import requests
 
 from edenai_apis.features import ProviderApi, Ocr
@@ -11,9 +12,8 @@ from edenai_apis.features.ocr import (
     InvoiceParserDataClass,
     IdentityParserDataClass,
     InfosIdentityParserDataClass,
-    BoundingBox,
-    FieldIdentityParserDataClass,
 )
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import InfoCountry, format_date, get_info_country
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     CustomerInformationInvoice,
     LocaleInvoice,
@@ -189,18 +189,6 @@ class MindeeApi(ProviderApi, Ocr):
         )
         return result
 
-    def _get_info_field(field_name: str, data: dict) -> FieldIdentityParserDataClass:
-        bouding_box = BoundingBox(
-            
-        )
-        
-        return FieldIdentityParserDataClass(
-            value=data[field_name]['value'],
-            bounding_box=bouding_box,
-            confidence=data[field_name]['confidence']
-        )
-
-
     def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
         args = self._get_api_attributes(file)
 
@@ -213,9 +201,36 @@ class MindeeApi(ProviderApi, Ocr):
 
         identity_data = original_response["document"]["inference"]["prediction"]
 
+        given_names: Sequence[StrictStr] = []
 
+        for given_name in identity_data['given_names']:
+            given_names.append(given_name['value'])
 
-        standarized_response = IdentityParserDataClass()
+        last_name = identity_data['surname']['value']
+        birth_date = identity_data['birth_date']['value']
+        birth_place = identity_data['birth_place']['value']
+        country = get_info_country(key=InfoCountry.ALPHA3, value=identity_data['country']['value'])
+        issuance_date = identity_data['issuance_date']['value']
+        expire_date = identity_data['expiry_date']['value']
+        document_id = identity_data['id_number']['value']
+        gender = identity_data['gender']['value']
+        mrz = identity_data['mrz1']['value']
+
+        items: Sequence[InfosIdentityParserDataClass] = []
+        items.append(InfosIdentityParserDataClass(
+            last_name=last_name,
+            given_names=given_names,
+            birth_date=birth_date,
+            birth_place=birth_place,
+            country=country,
+            issuance_date=issuance_date,
+            expire_date=expire_date,
+            document_id=document_id,
+            gender=gender,
+            mrz=mrz,
+        ))
+
+        standarized_response = IdentityParserDataClass(extracted_data=items)
 
         return ResponseType[IdentityParserDataClass](
             original_response=original_response,
