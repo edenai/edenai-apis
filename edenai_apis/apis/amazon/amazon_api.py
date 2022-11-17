@@ -1,5 +1,7 @@
+import datetime
 import json
 from io import BufferedReader, BytesIO
+from pprint import pprint
 from time import time
 from typing import Sequence
 import base64
@@ -17,6 +19,9 @@ from edenai_apis.features.ocr import (
     OcrTablesAsyncDataClass,
     Bounding_box,
     OcrDataClass,
+    InfosIdentityParserDataClass,
+    InfoCountry,
+    get_info_country,
 )
 from edenai_apis.features.image import (
     ObjectItem,
@@ -34,6 +39,7 @@ from edenai_apis.features.image import (
     ExplicitContentDataClass,
     ExplicitItem,
 )
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass, format_date
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
     KeywordExtractionDataClass,
@@ -376,6 +382,51 @@ class AmazonApi(
         return ResponseType[OcrDataClass](
             original_response=messages_list, standarized_response=standarized
         )
+
+    def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
+        original_response = clients.get('textract').analyze_id(DocumentPages=[{
+            "Bytes": file.read(),
+            "S3Object": { 'Bucket': api_settings['bucket'], 'Name': filename}
+        }])
+
+        items = []
+        for document in original_response['IdentityDocuments']:
+            infos = {}
+            infos['given_names'] = []
+            for field in document['IdentityDocumentFields']:
+                field_type = field['Type']['Text']
+                value = field['ValueDetection']['Text'] if field['ValueDetection']['Text'] != "" else None
+                if field_type == 'LAST_NAME':
+                    infos['last_name'] = value
+                elif (field_type == 'FIRST_NAME' or field_type == 'MIDDLE_NAME') and value:
+                    infos['given_names'].append(value)
+                elif field_type == 'DOCUMENT_NUMBER':
+                    infos['document_id'] = value
+                elif field_type == 'EXPIRATION_DATE':
+                    infos['expire_date'] = format_date(value, '%d %b %Y')
+                elif field_type == 'DATE_OF_BIRTH':
+                    infos['birth_date'] = format_date(value, '%d %b %Y')
+                elif field_type == 'DATE_OF_ISSUE':
+                    infos['issuance_date'] = format_date(value, '%d %b %Y')      
+                elif field_type == 'ID_TYPE':
+                    infos['document_type'] = value
+                elif field_type == 'ADDRESS':
+                    infos['address'] = value
+                elif field_type == 'COUNTY' and value:
+                    infos['country'] = get_info_country(InfoCountry.NAME, value)
+                elif field_type == 'MRZ_CODE':
+                    infos['mrz'] = value
+            
+            items.append(infos)
+
+
+        standarized_response = IdentityParserDataClass(extracted_data=items)
+
+        return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standarized_response=standarized_response
+        )
+
 
     def text__sentiment_analysis(
         self, language: str, text: str

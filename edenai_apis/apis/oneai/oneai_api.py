@@ -245,8 +245,16 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
         original_response = response.json()
 
         if response.status_code == 200:
-            pprint(original_response)
+            # pprint(original_response)
             if original_response['status'] == StatusEnum.SUCCESS:
+                list = original_response['result']['input_text'].split('\n\n')
+                for item in list:
+                    if item != '':
+                        diarization, text = item.split('\n')
+                        pprint(diarization.split(' ')[0])
+                        pprint(int(diarization.split(' ')[2][0]))
+                        pprint(text)
+                        print('\n')
                 return AsyncResponseType[SpeechToTextAsyncDataClass](
                     original_response=original_response,
                     standarized_response=SpeechToTextAsyncDataClass(text=original_response['result']['input_text']),
