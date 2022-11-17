@@ -1,42 +1,39 @@
 {
-    "text": {
-        "sentiment_analysis": {
+    "translation": {
+        "automatic_translation": {
             "constraints": {
                 "languages": [
-                    "en",
-                    "ar",
-                    "bn",
+                    "bg",
+                    "cs",
                     "da",
                     "de",
+                    "el",
+                    "en",
                     "es",
+                    "et",
                     "fi",
                     "fr",
-                    "hi",
+                    "hu",
                     "id",
                     "it",
                     "ja",
-                    "ko",
+                    "lt",
+                    "lv",
                     "nl",
-                    "no",
-                    "pa",
                     "pl",
                     "pt",
                     "ro",
                     "ru",
+                    "sk",
+                    "sl",
                     "sv",
-                    "ta",
                     "tr",
                     "uk",
                     "zh"
-                ]
-            },
-            "version": "v1.0"
-        },
-        "summarize": {
-            "constraints": {
+                ],
                 "allow_null_language": true
             },
-            "version": "v1.0"
+            "version": "v2"
         }
-    }
+    }   
 }
