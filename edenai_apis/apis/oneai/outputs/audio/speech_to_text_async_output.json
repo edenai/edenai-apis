@@ -1,0 +1,30 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "39c1433f-1fc1-4c9c-af67-b137584451ee",
+  "original_response": {
+    "result": {
+      "input_text": "[00:00:00.230] speaker 1:\nUnit one, page 14 real conversations.\n\n[00:00:06.890] speaker 2:\nHello.\n\n[00:00:07.670] speaker 2:\nHi.\n\n[00:00:08.210] speaker 2:\nWhat's your name?\n\n[00:00:09.470] speaker 2:\nClaudia.\n\n[00:00:10.670] speaker 2:\nWhat's your name?\n\n[00:00:11.510] speaker 2:\nI'm chihiro.\n\n[00:00:12.830] speaker 2:\nNice to meet you.\n\n[00:00:15.350] speaker 2:\nYeah, that's right.\n\n[00:00:16.490] speaker 2:\nWhere are you from?\n\n",
+      "status": "success",
+      "output": [
+        {
+          "text_generated_by_step_name": "transcribe",
+          "text_generated_by_step_id": 1,
+          "text": "[00:00:00.230] speaker 1:\nUnit one, page 14 real conversations.\n\n[00:00:06.890] speaker 2:\nHello.\n\n[00:00:07.670] speaker 2:\nHi.\n\n[00:00:08.210] speaker 2:\nWhat's your name?\n\n[00:00:09.470] speaker 2:\nClaudia.\n\n[00:00:10.670] speaker 2:\nWhat's your name?\n\n[00:00:11.510] speaker 2:\nI'm chihiro.\n\n[00:00:12.830] speaker 2:\nNice to meet you.\n\n[00:00:15.350] speaker 2:\nYeah, that's right.\n\n[00:00:16.490] speaker 2:\nWhere are you from?\n\n",
+          "labels": []
+        }
+      ],
+      "stats": {
+        "concurrency_wait_time": 0.0,
+        "total_running_jobs": 1,
+        "total_waiting_jobs": 0
+      }
+    },
+    "task_id": "39c1433f-1fc1-4c9c-af67-b137584451ee",
+    "status": "COMPLETED",
+    "completion_time": "2022-11-17T08:11:32.134000",
+    "creation_time": "2022-11-17T08:11:23.390000"
+  },
+  "standarized_response": {
+    "text": "[00:00:00.230] speaker 1:\nUnit one, page 14 real conversations.\n\n[00:00:06.890] speaker 2:\nHello.\n\n[00:00:07.670] speaker 2:\nHi.\n\n[00:00:08.210] speaker 2:\nWhat's your name?\n\n[00:00:09.470] speaker 2:\nClaudia.\n\n[00:00:10.670] speaker 2:\nWhat's your name?\n\n[00:00:11.510] speaker 2:\nI'm chihiro.\n\n[00:00:12.830] speaker 2:\nNice to meet you.\n\n[00:00:15.350] speaker 2:\nYeah, that's right.\n\n[00:00:16.490] speaker 2:\nWhere are you from?\n\n"
+  }
+}

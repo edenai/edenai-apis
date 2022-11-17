@@ -1,4 +1,4 @@
-import base64
+from pprint import pprint
 from io import BufferedReader
 import json
 from typing import Optional
@@ -27,10 +27,16 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
+    AsyncPendingResponseType,
+    AsyncErrorResponseType,
+    AsyncResponseType,
     ResponseType
 )
 
-
+class StatusEnum(enumerate):
+    SUCCESS = 'COMPLETED'
+    RUNNING = 'RUNNING'
+    FAILED = 'FAILED'
 class OneaiApi(ProviderApi, Text, Translation, Audio):
     provider_name = 'oneai'
 
@@ -204,9 +210,8 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
 
     def audio__speech_to_text_async__launch_job(self, file: BufferedReader, language: str) -> AsyncLaunchJobResponseType:
         wav_file = wav_converter(file, frame_rate=16000, channels=1)[0]
-        text = base64.b64encode(wav_file.read()).decode('utf-8')
+
         data = json.dumps({
-            "input": text,
             "input_type": 'conversation',
             "content_type": "audio/wav",
             "steps": [
@@ -219,15 +224,37 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
             ]
         })
 
-        response = requests.post(url=self.url, headers=self.header, data=data)
+        response = requests.post(url=f"{self.url}/async/file?pipeline={data}", headers=self.header, data=wav_file.read())
+        
+        print(response)
+        
         original_response = response.json()
         print(original_response)
 
         if response.status_code != 200:
             raise ProviderException(message=original_response['message'], code=response.status_code)
-        
 
+        return AsyncLaunchJobResponseType(
+            provider_job_id=original_response['task_id']
+        )        
 
 
     def audio__speech_to_text_async__get_job_result(self, provider_job_id: str) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-        pass
+        response = requests.get(url=f"{self.url}/async/tasks/{provider_job_id}", headers=self.header)
+
+        original_response = response.json()
+
+        if response.status_code == 200:
+            pprint(original_response)
+            if original_response['status'] == StatusEnum.SUCCESS:
+                return AsyncResponseType[SpeechToTextAsyncDataClass](
+                    original_response=original_response,
+                    standarized_response=SpeechToTextAsyncDataClass(text=original_response['result']['input_text']),
+                    provider_job_id=provider_job_id
+                )
+            elif original_response['status'] == StatusEnum.RUNNING:
+                return AsyncPendingResponseType[SpeechToTextAsyncDataClass](provider_job_id=provider_job_id)
+            else:
+                return AsyncErrorResponseType(provider_job_id=provider_job_id, error=original_response)
+        else:
+            return AsyncErrorResponseType(provider_job_id=provider_job_id, error=original_response)
