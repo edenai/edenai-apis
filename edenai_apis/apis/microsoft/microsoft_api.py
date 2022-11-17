@@ -1,3 +1,5 @@
+from asyncio import sleep
+from pprint import pprint
 import sys
 import base64
 import json
@@ -36,6 +38,7 @@ from edenai_apis.features.ocr import (
     MerchantInformation, ReceiptParserDataClass,
     InvoiceParserDataClass
 )
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass
 from edenai_apis.features.ocr.ocr_class import Ocr
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass, KeywordExtractionDataClass,
@@ -329,6 +332,45 @@ class MicrosoftApi(
             standarized_response=ReceiptParserDataClass(extracted_data=[receipt])
         )
 
+    def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
+        file_content = file.read()
+
+        headers = {
+            "Ocp-Apim-Subscription-Key": self.api_settings["ocr_id"]["subscription_key"],
+            "Content-Type": "application/octet-stream",
+        }
+
+        response = requests.post(
+            url=f"{self.api_settings['ocr_id']['url']}:analyze?{self.api_settings['ocr_id']['api_version']}",
+            headers=headers,
+            data=file_content
+        )
+
+        request_id = response.headers['apim-request-id']
+
+        response = requests.get(
+            url=f"{self.api_settings['ocr_id']['url']}/analyzeResults/{request_id}?{self.api_settings['ocr_id']['api_version']}",
+            headers=headers,
+        )
+
+        while response.json()['status'] == 'running':
+            response = requests.get(
+            url=f"{self.api_settings['ocr_id']['url']}/analyzeResults/{request_id}?{self.api_settings['ocr_id']['api_version']}",
+            headers=headers,
+            )
+            sleep(500)
+
+        original_response = response.json()
+        pprint(original_response)
+
+        items = []
+
+        standarized_response = IdentityParserDataClass(extracted_data=items)
+
+        return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standarized_response=standarized_response
+        )
 
     def image__explicit_content(self,
         file: BufferedReader
