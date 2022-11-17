@@ -1,11 +1,19 @@
 from io import BufferedReader
 from itertools import zip_longest
+import json
+from pprint import pprint
 from typing import Dict, Sequence, TypeVar, Union
 from collections import defaultdict
 import mimetypes
 import base64
 from enum import Enum
 import requests
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    IdentityParserDataClass,
+    InfoCountry,
+    get_info_country,
+    InfosIdentityParserDataClass
+)
 from edenai_apis.features.ocr.invoice_parser import (
     CustomerInformationInvoice,
     InfosInvoiceParserDataClass,
@@ -240,3 +248,57 @@ class Base64Api(ProviderApi, Ocr):
         self, file: BufferedReader, language: str
     ) -> ResponseType[ReceiptParserDataClass]:
         return self._ocr_finance_document(file, SubfeatureParser.RECEIPT)
+
+    def ocr__identity_parser(
+        self,
+        file: BufferedReader,
+        filename: str
+    ) -> ResponseType[IdentityParserDataClass]:
+        image_as_base64 = (
+            f"data:{mimetypes.guess_type(file.name)[0]};base64,"
+            + base64.b64encode(file.read()).decode()
+        )
+
+        payload = json.dumps({
+            "image": image_as_base64
+        })
+        
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': self.api_key
+        }
+        
+        response = requests.post(url=self.url, headers=headers, data=payload)
+        
+        original_response = response.json()
+        if response.status_code != 200:
+            raise ProviderException(message=original_response['message'])
+
+        items = []
+
+        for document in original_response:
+            image_id=[doc.get('image', []) for doc in document['features'].get('faces', {})]
+            image_signature=[doc.get('image', []) for doc in document['features'].get('signatures', {})]
+            given_names=document['fields'].get('givenName', {}).get('value', "").split(' ') if document['fields'].get('givenName', {}).get('value', "") != "" else None
+            
+            items.append(InfosIdentityParserDataClass(
+                document_type=document['fields']['documentType']['value'],
+                last_name=document['fields'].get('familyName', {}).get('value', None),
+                given_names=given_names,
+                birth_date=document['fields'].get('dateOfBirth', {}).get('value', None),
+                country=get_info_country(key=InfoCountry.ALPHA3, value=document['fields'].get('countryCode', {}).get('value', "")),
+                document_id=document['fields'].get('documentNu,ber', {}).get('value', None),
+                age=document['fields'].get('age', {}).get('value', None),
+                nationality=document['fields'].get('nationality', {}).get('value', None),
+                issuing_state=document['fields'].get('issuingState', {}).get('value', None),
+                image_id=image_id,
+                image_signature=image_signature
+            ))
+
+
+        standarized_response = IdentityParserDataClass(extracted_data=items)
+
+        return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standarized_response=standarized_response,
+        )
