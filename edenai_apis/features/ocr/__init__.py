@@ -47,8 +47,9 @@ from .resume_parser import (
 
 from .identity_parser import (
     identity_parser_arguments,
+    get_info_country,
+    format_date,
+    InfoCountry,
     InfosIdentityParserDataClass,
     IdentityParserDataClass,
-    BoundingBox,
-    FieldIdentityParserDataClass
 )

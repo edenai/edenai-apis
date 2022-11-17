@@ -7,5 +7,7 @@ data_path = os.path.join(feature_path, "data")
 
 
 def identity_parser_arguments() -> Dict:
-    filename = 'passport-GB.jpg'
+    # filename = 'passport-GB.jpg'
+    # filename = 'card-ID_FR.jpeg'
+    filename = 'passport-US.pdf'
     return {"file": open(f"{data_path}/{filename}", "rb"), "filename": filename}

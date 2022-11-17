@@ -1,37 +1,77 @@
+from datetime import datetime
+import os
+import json
 from typing import Optional, Sequence
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, Field, StrictStr, validator
 
 
-class BoundingBox(BaseModel):
-    top: float
-    left: float
-    width: float
-    height: float
+class Country(BaseModel):
+    name: StrictStr
+    alpha2: StrictStr
+    alpha3: StrictStr
 
+class InfoCountry(enumerate):
+    NAME = 'name'
+    ALPHA2 = 'alpha2'
+    ALPHA3 = 'alpha3'
 
-class FieldIdentityParserDataClass(BaseModel):
+def get_info_country(
+    key: InfoCountry,
     value: StrictStr
-    bounding_box: BoundingBox
-    confidence: float
+    ) -> Optional[Country]:
+    feature_path = os.path.dirname(os.path.dirname(__file__))
 
+    with open(f'{feature_path}/identity_parser/countries.json', 'r') as f:
+        countries = json.load(f)
+        country_idx = next((index for (index, country) in enumerate(countries) if country[key].lower()== value.lower()), None)
+        if country_idx:
+            return countries[country_idx]
+        print(f"{key}: {value} not found")
+    return None
+
+def format_date(value, format):
+    return datetime.strptime(value, format).strftime('%Y-%m-%d')
 
 class InfosIdentityParserDataClass(BaseModel):
-    last_name: FieldIdentityParserDataClass
+    last_name: Optional[StrictStr]
     given_names: Sequence[StrictStr] = Field(default_factory=list)
-    date_of_birth: FieldIdentityParserDataClass
-    birth_place: FieldIdentityParserDataClass
-    country: FieldIdentityParserDataClass
-    address: FieldIdentityParserDataClass
-    nationality: FieldIdentityParserDataClass
-    gender: FieldIdentityParserDataClass
-    issuance_date: FieldIdentityParserDataClass
-    expire_date: FieldIdentityParserDataClass
-    mrz: FieldIdentityParserDataClass
-    document_id: FieldIdentityParserDataClass
-    age: Optional[FieldIdentityParserDataClass]
+    birth_place: Optional[StrictStr]
+    birth_date: Optional[StrictStr]
+    issuance_date: Optional[StrictStr]
+    expire_date: Optional[StrictStr]
+    document_id: Optional[StrictStr]
+    issuing_state: Optional[StrictStr]
+    address: Optional[StrictStr]
+    age: Optional[int]
+    country: Optional[Country]
     document_type: Optional[StrictStr]
+    gender: Optional[StrictStr]
+    image_id: Sequence[StrictStr] = Field(default_factory=list)
+    image_signature: Sequence[StrictStr] = Field(default_factory=list)
+    mrz: Optional[StrictStr]
+    nationality: Optional[StrictStr]
 
+    @validator('last_name')
+    def to_uppercase(cls, value):
+        return value.upper()
 
+    @validator('given_names', each_item=True)
+    def list_to_title(cls, value):
+        return value.title()
+
+    @validator('birth_place', 'nationality', 'issuing_state')
+    def to_title(cls, value):
+        return value.title() if value else value
+
+    @validator('expire_date', 'issuance_date', 'birth_date')
+    def date_validator(cls, value):
+        try:
+            datetime.strptime(value, '%Y-%m-%d')
+        except ValueError:
+            raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+        return value
+
+    
 class IdentityParserDataClass(BaseModel):
     extracted_data: Sequence[InfosIdentityParserDataClass] = Field(default_factory=list)
