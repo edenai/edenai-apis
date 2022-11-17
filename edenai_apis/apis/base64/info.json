@@ -11,7 +11,8 @@
         "ocr": {
             "constraints": {
                 "languages": [
-                    "en-US"
+                    "en-US",
+                    "tr"
                 ]
             },
             "version": "latest"
@@ -19,17 +20,13 @@
         "receipt_parser": {
             "constraints": {
                 "languages": [
-                    "en-US"
+                    "en-US",
+                    "tr"
                 ]
             },
             "version": "latest"
         },
         "identity_parser": {
-            "constraints": {
-                "languages": [
-                    "en-US"
-                ]
-            },
             "version": "latest"
         }
     }
