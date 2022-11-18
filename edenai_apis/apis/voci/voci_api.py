@@ -30,16 +30,21 @@ class VociApi(ProviderApi, Audio):
     ) -> AsyncLaunchJobResponseType:
         wav_file = wav_converter(file, channels=1)[0]
 
-        response = requests.post(
-            url="https://vcloud.vocitec.com/transcribe",
-            data={
+        data_config = {
                 "output": "json",
                 "token": self.key,
-                "model": f"{language.lower()}:callcenter",
                 "filetype": "audio/x-wav",
                 "emotion": "true",
                 "gender": "true",
-            },
+            }
+        if language:
+            data_config.update({
+                "model": f"{language.lower()}:callcenter"
+            })
+
+        response = requests.post(
+            url="https://vcloud.vocitec.com/transcribe",
+            data= data_config,
             files=[("file", wav_file)],
         )
         if response.status_code != 200:
