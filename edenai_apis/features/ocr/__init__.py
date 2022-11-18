@@ -44,3 +44,12 @@ from .resume_parser import (
     ResumeWorkExpEntry,
     resume_parser_arguments,
 )
+
+from .identity_parser import (
+    identity_parser_arguments,
+    get_info_country,
+    format_date,
+    InfoCountry,
+    InfosIdentityParserDataClass,
+    IdentityParserDataClass,
+)

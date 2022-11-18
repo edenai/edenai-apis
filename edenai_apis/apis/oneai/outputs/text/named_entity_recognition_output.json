@@ -1,0 +1,286 @@
+{
+  "original_response": {
+    "input_text": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+    "status": "success",
+    "output": [
+      {
+        "text_generated_by_step_name": "input",
+        "text_generated_by_step_id": 0,
+        "text": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+        "labels": [
+          {
+            "type": "name",
+            "skill": "names",
+            "name": "PERSON",
+            "value": "Barack Obama",
+            "data": {},
+            "span_text": "Barack Hussein Obama",
+            "span": [
+              0,
+              20
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 0,
+                "end": 20
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "skill": "names",
+            "name": "GROUPS",
+            "value": "United States",
+            "data": {},
+            "span_text": "American",
+            "span": [
+              27,
+              35
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 27,
+                "end": 35
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "skill": "names",
+            "name": "GEO",
+            "value": "United States",
+            "data": {
+              "type": "COUNTRY"
+            },
+            "span_text": "the United States",
+            "span": [
+              83,
+              100
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 83,
+                "end": 100
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "skill": "names",
+            "name": "ORG",
+            "value": "Democratic Party (United States)",
+            "data": {},
+            "span_text": "the Democratic Party",
+            "span": [
+              132,
+              152
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 132,
+                "end": 152
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "skill": "names",
+            "name": "PERSON",
+            "value": "Barack Obama",
+            "data": {},
+            "span_text": "Obama",
+            "span": [
+              154,
+              159
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 154,
+                "end": 159
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "skill": "names",
+            "name": "GROUPS",
+            "value": "African Americans",
+            "data": {},
+            "span_text": "African-American",
+            "span": [
+              174,
+              190
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 174,
+                "end": 190
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "skill": "names",
+            "name": "GEO",
+            "value": "United States",
+            "data": {
+              "type": "COUNTRY"
+            },
+            "span_text": "the United States",
+            "span": [
+              204,
+              221
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 204,
+                "end": 221
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "skill": "names",
+            "name": "GEO",
+            "value": "United States",
+            "data": {
+              "type": "COUNTRY"
+            },
+            "span_text": "U.S.",
+            "span": [
+              249,
+              253
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 249,
+                "end": 253
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "skill": "names",
+            "name": "GEO",
+            "value": "Illinois",
+            "data": {
+              "type": "STATE",
+              "country": "UNITED STATES"
+            },
+            "span_text": "Illinois",
+            "span": [
+              267,
+              275
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 267,
+                "end": 275
+              }
+            ]
+          },
+          {
+            "type": "name",
+            "skill": "names",
+            "name": "GEO",
+            "value": "Illinois",
+            "data": {
+              "type": "STATE",
+              "country": "UNITED STATES"
+            },
+            "span_text": "Illinois",
+            "span": [
+              304,
+              312
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 304,
+                "end": 312
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "stats": {
+      "concurrency_wait_time": 0.0,
+      "total_running_jobs": 1,
+      "total_waiting_jobs": 0
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "entity": "Barack Obama",
+        "category": "PERSON",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "United States",
+        "category": "GROUPS",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "United States",
+        "category": "GEO",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "Democratic Party (United States)",
+        "category": "ORG",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "Barack Obama",
+        "category": "PERSON",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "African Americans",
+        "category": "GROUPS",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "United States",
+        "category": "GEO",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "United States",
+        "category": "GEO",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "Illinois",
+        "category": "GEO",
+        "importance": null,
+        "url": null
+      },
+      {
+        "entity": "Illinois",
+        "category": "GEO",
+        "importance": null,
+        "url": null
+      }
+    ]
+  }
+}

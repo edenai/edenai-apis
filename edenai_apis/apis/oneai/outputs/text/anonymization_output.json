@@ -1,0 +1,40 @@
+{
+  "original_response": {
+    "input_text": "Le num\u00e9ro de Luc est le 06 21 32 43 54.",
+    "status": "success",
+    "output": [
+      {
+        "text_generated_by_step_name": "anonymize",
+        "text_generated_by_step_id": 1,
+        "text": "Le num\u00e9ro de *** est le 06 21 32 43 54.",
+        "labels": [
+          {
+            "type": "anonymized",
+            "skill": "anonymize",
+            "value": "Luc, Hautes-Pyr\u00e9n\u00e9es",
+            "span_text": "Luc, Hautes-Pyr\u00e9n\u00e9es",
+            "span": [
+              13,
+              16
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 13,
+                "end": 16
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "stats": {
+      "concurrency_wait_time": 0.0,
+      "total_running_jobs": 1,
+      "total_waiting_jobs": 0
+    }
+  },
+  "standarized_response": {
+    "result": "Le num\u00e9ro de *** est le 06 21 32 43 54."
+  }
+}

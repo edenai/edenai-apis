@@ -1,6 +1,7 @@
 from io import BufferedReader
 from collections import defaultdict
-from typing import List, Sequence, TypeVar
+from typing import List, Optional, Sequence, TypeVar
+from pydantic import StrictStr
 import requests
 
 from edenai_apis.features import ProviderApi, Ocr
@@ -9,7 +10,10 @@ from edenai_apis.features.ocr import (
     InfosInvoiceParserDataClass,
     InfosReceiptParserDataClass,
     InvoiceParserDataClass,
+    IdentityParserDataClass,
+    InfosIdentityParserDataClass,
 )
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import InfoCountry, format_date, get_info_country
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     CustomerInformationInvoice,
     LocaleInvoice,
@@ -40,8 +44,9 @@ class MindeeApi(ProviderApi, Ocr):
         self.url = self.api_settings["ocr_invoice"]["url"]
         self.url_receipt = self.api_settings["ocr_receipt"]["url"]
         self.api_key_receipt = self.api_settings["ocr_receipt"]["subscription_key"]
+        self.url_identity = self.api_settings['ocr_id']['url']
 
-    def _get_api_attributes(self, file: BufferedReader, language: str) -> ParamsApi:
+    def _get_api_attributes(self, file: BufferedReader, language: Optional[str] = None) -> ParamsApi:
         params: ParamsApi = {
             "headers": {"Authorization": self.api_key_receipt},
             "files": {"document": file},
@@ -50,7 +55,7 @@ class MindeeApi(ProviderApi, Ocr):
                     "langage": language.split("-")[0],
                     "country": language.split("-")[1],
                 }
-            },
+            } if language else None,
         }
         return params
 
@@ -183,3 +188,51 @@ class MindeeApi(ProviderApi, Ocr):
             standarized_response=standarized_response,
         )
         return result
+
+    def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
+        args = self._get_api_attributes(file)
+
+        response = requests.post(url=self.url_identity, files=args['files'], headers=args['headers'])
+
+        original_response = response.json()
+
+        if response.status_code != 201:
+            raise ProviderException(message=original_response['error']['message'], code=response.status_code)
+
+        identity_data = original_response["document"]["inference"]["prediction"]
+
+        given_names: Sequence[StrictStr] = []
+
+        for given_name in identity_data['given_names']:
+            given_names.append(given_name['value'])
+
+        last_name = identity_data['surname']['value']
+        birth_date = identity_data['birth_date']['value']
+        birth_place = identity_data['birth_place']['value']
+        country = get_info_country(key=InfoCountry.ALPHA3, value=identity_data['country']['value'])
+        issuance_date = identity_data['issuance_date']['value']
+        expire_date = identity_data['expiry_date']['value']
+        document_id = identity_data['id_number']['value']
+        gender = identity_data['gender']['value']
+        mrz = identity_data['mrz1']['value']
+
+        items: Sequence[InfosIdentityParserDataClass] = []
+        items.append(InfosIdentityParserDataClass(
+            last_name=last_name,
+            given_names=given_names,
+            birth_date=birth_date,
+            birth_place=birth_place,
+            country=country,
+            issuance_date=issuance_date,
+            expire_date=expire_date,
+            document_id=document_id,
+            gender=gender,
+            mrz=mrz,
+        ))
+
+        standarized_response = IdentityParserDataClass(extracted_data=items)
+
+        return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standarized_response=standarized_response
+        )

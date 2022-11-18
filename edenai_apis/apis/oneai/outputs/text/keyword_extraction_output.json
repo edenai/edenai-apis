@@ -1,0 +1,112 @@
+{
+  "original_response": {
+    "input_text": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+    "status": "success",
+    "output": [
+      {
+        "text_generated_by_step_name": "input",
+        "text_generated_by_step_id": 0,
+        "text": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+        "labels": [
+          {
+            "type": "keyword",
+            "skill": "keywords",
+            "name": "44th president",
+            "value": 0.182,
+            "span_text": "44th president",
+            "span": [
+              65,
+              79
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 65,
+                "end": 79
+              }
+            ]
+          },
+          {
+            "type": "keyword",
+            "skill": "keywords",
+            "name": "barack hussein obama",
+            "value": 0.172,
+            "span_text": "Barack Hussein Obama",
+            "span": [
+              0,
+              20
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 0,
+                "end": 20
+              }
+            ]
+          },
+          {
+            "type": "keyword",
+            "skill": "keywords",
+            "name": "united states",
+            "value": 0.153,
+            "span_text": "United States",
+            "span": [
+              87,
+              100
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 87,
+                "end": 100
+              }
+            ]
+          },
+          {
+            "type": "keyword",
+            "skill": "keywords",
+            "name": "united states",
+            "value": 0.153,
+            "span_text": "United States",
+            "span": [
+              208,
+              221
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 208,
+                "end": 221
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "stats": {
+      "concurrency_wait_time": 0.0,
+      "total_running_jobs": 1,
+      "total_waiting_jobs": 0
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "keyword": "44th president",
+        "importance": 0.182
+      },
+      {
+        "keyword": "Barack Hussein Obama",
+        "importance": 0.172
+      },
+      {
+        "keyword": "United States",
+        "importance": 0.153
+      },
+      {
+        "keyword": "United States",
+        "importance": 0.153
+      }
+    ]
+  }
+}

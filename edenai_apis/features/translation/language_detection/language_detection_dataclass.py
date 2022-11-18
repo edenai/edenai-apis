@@ -1,11 +1,11 @@
-from typing import Sequence
+from typing import Sequence, Optional
 
 from pydantic import BaseModel, Field, StrictStr
 
 
 class InfosLanguageDetectionDataClass(BaseModel):
     language: StrictStr
-    confidence: float
+    confidence: Optional[float]
 
 
 class LanguageDetectionDataClass(BaseModel):

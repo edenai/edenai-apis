@@ -1,3 +1,6 @@
+from asyncio import sleep
+import datetime
+from pprint import pprint
 import sys
 import base64
 import json
@@ -34,8 +37,12 @@ from edenai_apis.features.ocr import (
     Bounding_box, OcrDataClass, Taxes,
     InfosReceiptParserDataClass, ItemLines,
     MerchantInformation, ReceiptParserDataClass,
-    InvoiceParserDataClass
+    InvoiceParserDataClass,
+    IdentityParserDataClass,
+    InfosIdentityParserDataClass,
+    get_info_country,
 )
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import InfoCountry, format_date
 from edenai_apis.features.ocr.ocr_class import Ocr
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass, KeywordExtractionDataClass,
@@ -329,6 +336,65 @@ class MicrosoftApi(
             standarized_response=ReceiptParserDataClass(extracted_data=[receipt])
         )
 
+    def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
+        file_content = file.read()
+
+        headers = {
+            "Ocp-Apim-Subscription-Key": self.api_settings["ocr_id"]["subscription_key"],
+            "Content-Type": "application/octet-stream",
+        }
+
+        response = requests.post(
+            url=f"{self.api_settings['ocr_id']['url']}:analyze?{self.api_settings['ocr_id']['api_version']}",
+            headers=headers,
+            data=file_content
+        )
+
+        request_id = response.headers['apim-request-id']
+
+        sleep(2000)
+
+        response = requests.get(
+            url=f"{self.api_settings['ocr_id']['url']}/analyzeResults/{request_id}?{self.api_settings['ocr_id']['api_version']}",
+            headers=headers,
+        )
+
+        while response.json()['status'] == 'running':
+            response = requests.get(
+            url=f"{self.api_settings['ocr_id']['url']}/analyzeResults/{request_id}?{self.api_settings['ocr_id']['api_version']}",
+            headers=headers,
+            )
+            sleep(500)
+
+        original_response = response.json()
+        microsoft_data = original_response['analyzeResult']
+
+        items = []
+
+        for document in microsoft_data['documents']:
+            fields = document['fields']
+            items.append(InfosIdentityParserDataClass(
+                document_type=document.get('docType'),
+                country=get_info_country(key=InfoCountry.ALPHA3, value=fields.get('CountryRegion', {}).get('content')),
+                birth_date=fields.get('DateOfBirth', {}).get('valueDate'),
+                expire_date=fields.get('DateOfExpiration', {}).get('valueDate'),
+                issuance_date=fields.get('DateOfIssue', {}).get('valueDate', None),
+                issuing_state=fields.get('IssuingAuthority', {}).get('content'),
+                document_id=fields.get('DocumentNumber', {}).get('content'),
+                last_name=fields.get('LastName', {}).get('content'),
+                given_names=fields.get('FirstName', {}).get('content', "").split(' '),
+                mrz=fields.get('MachineReadableZone', {}).get('content'),
+                nationality=fields.get('Nationality', {}).get('content'),
+                birth_place=fields.get('PlaceOfBirth', {}).get('content'),
+                gender=fields.get('Sex', {}).get('content'),
+            ))
+
+        standarized_response = IdentityParserDataClass(extracted_data=items)
+
+        return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standarized_response=standarized_response
+        )
 
     def image__explicit_content(self,
         file: BufferedReader

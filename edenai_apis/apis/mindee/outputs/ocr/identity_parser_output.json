@@ -1,0 +1,589 @@
+{
+  "original_response": {
+    "api_request": {
+      "error": {},
+      "resources": [
+        "document"
+      ],
+      "status": "success",
+      "status_code": 201,
+      "url": "https://api.mindee.net/v1/products/mindee/passport/v1/predict"
+    },
+    "document": {
+      "id": "89ef3b68-9831-48d8-ba2c-90e9519be939",
+      "inference": {
+        "extras": {},
+        "finished_at": "2022-11-18T13:53:27.927047",
+        "is_rotation_applied": true,
+        "pages": [
+          {
+            "extras": {},
+            "id": 0,
+            "orientation": {
+              "value": 90
+            },
+            "prediction": {
+              "birth_date": {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.339,
+                    0.48
+                  ],
+                  [
+                    0.498,
+                    0.48
+                  ],
+                  [
+                    0.498,
+                    0.511
+                  ],
+                  [
+                    0.339,
+                    0.511
+                  ]
+                ],
+                "value": "1965-02-05"
+              },
+              "birth_place": {
+                "confidence": 0.96,
+                "polygon": [
+                  [
+                    0.485,
+                    0.589
+                  ],
+                  [
+                    0.525,
+                    0.589
+                  ],
+                  [
+                    0.525,
+                    0.619
+                  ],
+                  [
+                    0.485,
+                    0.619
+                  ]
+                ],
+                "value": "ON"
+              },
+              "country": {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.484,
+                    0.222
+                  ],
+                  [
+                    0.527,
+                    0.222
+                  ],
+                  [
+                    0.527,
+                    0.247
+                  ],
+                  [
+                    0.484,
+                    0.247
+                  ]
+                ],
+                "value": "USA"
+              },
+              "expiry_date": {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.336,
+                    0.702
+                  ],
+                  [
+                    0.496,
+                    0.702
+                  ],
+                  [
+                    0.496,
+                    0.733
+                  ],
+                  [
+                    0.336,
+                    0.733
+                  ]
+                ],
+                "value": "2030-10-14"
+              },
+              "gender": {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.025,
+                    0.876
+                  ],
+                  [
+                    0.962,
+                    0.876
+                  ],
+                  [
+                    0.962,
+                    0.912
+                  ],
+                  [
+                    0.025,
+                    0.912
+                  ]
+                ],
+                "value": "F"
+              },
+              "given_names": [
+                {
+                  "confidence": 0.99,
+                  "polygon": [
+                    [
+                      0.287,
+                      0.361
+                    ],
+                    [
+                      0.371,
+                      0.361
+                    ],
+                    [
+                      0.371,
+                      0.39
+                    ],
+                    [
+                      0.287,
+                      0.39
+                    ]
+                  ],
+                  "value": "HAPPY"
+                }
+              ],
+              "id_number": {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.662,
+                    0.221
+                  ],
+                  [
+                    0.841,
+                    0.221
+                  ],
+                  [
+                    0.841,
+                    0.259
+                  ],
+                  [
+                    0.662,
+                    0.259
+                  ]
+                ],
+                "value": "E00007730"
+              },
+              "issuance_date": {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.025,
+                    0.876
+                  ],
+                  [
+                    0.962,
+                    0.876
+                  ],
+                  [
+                    0.962,
+                    0.912
+                  ],
+                  [
+                    0.025,
+                    0.912
+                  ]
+                ],
+                "value": "2020-10-15"
+              },
+              "mrz1": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.025,
+                    0.799
+                  ],
+                  [
+                    0.959,
+                    0.799
+                  ],
+                  [
+                    0.959,
+                    0.836
+                  ],
+                  [
+                    0.025,
+                    0.836
+                  ]
+                ],
+                "value": "P<USATRAVELER<<HAPPY<<<<<<<<<<<<<<<<<<<<<<<<"
+              },
+              "mrz2": {
+                "confidence": 1.0,
+                "polygon": [
+                  [
+                    0.025,
+                    0.876
+                  ],
+                  [
+                    0.962,
+                    0.876
+                  ],
+                  [
+                    0.962,
+                    0.912
+                  ],
+                  [
+                    0.025,
+                    0.912
+                  ]
+                ],
+                "value": "E000077303USA6502056F3010149500101920<091824"
+              },
+              "orientation": {
+                "confidence": 0.99,
+                "degrees": 90
+              },
+              "surname": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.287,
+                    0.3
+                  ],
+                  [
+                    0.419,
+                    0.3
+                  ],
+                  [
+                    0.419,
+                    0.331
+                  ],
+                  [
+                    0.287,
+                    0.331
+                  ]
+                ],
+                "value": "TRAVELER"
+              }
+            }
+          }
+        ],
+        "prediction": {
+          "birth_date": {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.339,
+                0.48
+              ],
+              [
+                0.498,
+                0.48
+              ],
+              [
+                0.498,
+                0.511
+              ],
+              [
+                0.339,
+                0.511
+              ]
+            ],
+            "value": "1965-02-05"
+          },
+          "birth_place": {
+            "confidence": 0.96,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.485,
+                0.589
+              ],
+              [
+                0.525,
+                0.589
+              ],
+              [
+                0.525,
+                0.619
+              ],
+              [
+                0.485,
+                0.619
+              ]
+            ],
+            "value": "ON"
+          },
+          "country": {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.484,
+                0.222
+              ],
+              [
+                0.527,
+                0.222
+              ],
+              [
+                0.527,
+                0.247
+              ],
+              [
+                0.484,
+                0.247
+              ]
+            ],
+            "value": "USA"
+          },
+          "expiry_date": {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.336,
+                0.702
+              ],
+              [
+                0.496,
+                0.702
+              ],
+              [
+                0.496,
+                0.733
+              ],
+              [
+                0.336,
+                0.733
+              ]
+            ],
+            "value": "2030-10-14"
+          },
+          "gender": {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.025,
+                0.876
+              ],
+              [
+                0.962,
+                0.876
+              ],
+              [
+                0.962,
+                0.912
+              ],
+              [
+                0.025,
+                0.912
+              ]
+            ],
+            "value": "F"
+          },
+          "given_names": [
+            {
+              "confidence": 0.99,
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.287,
+                  0.361
+                ],
+                [
+                  0.371,
+                  0.361
+                ],
+                [
+                  0.371,
+                  0.39
+                ],
+                [
+                  0.287,
+                  0.39
+                ]
+              ],
+              "value": "HAPPY"
+            }
+          ],
+          "id_number": {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.662,
+                0.221
+              ],
+              [
+                0.841,
+                0.221
+              ],
+              [
+                0.841,
+                0.259
+              ],
+              [
+                0.662,
+                0.259
+              ]
+            ],
+            "value": "E00007730"
+          },
+          "issuance_date": {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.025,
+                0.876
+              ],
+              [
+                0.962,
+                0.876
+              ],
+              [
+                0.962,
+                0.912
+              ],
+              [
+                0.025,
+                0.912
+              ]
+            ],
+            "value": "2020-10-15"
+          },
+          "mrz1": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.025,
+                0.799
+              ],
+              [
+                0.959,
+                0.799
+              ],
+              [
+                0.959,
+                0.836
+              ],
+              [
+                0.025,
+                0.836
+              ]
+            ],
+            "value": "P<USATRAVELER<<HAPPY<<<<<<<<<<<<<<<<<<<<<<<<"
+          },
+          "mrz2": {
+            "confidence": 1.0,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.025,
+                0.876
+              ],
+              [
+                0.962,
+                0.876
+              ],
+              [
+                0.962,
+                0.912
+              ],
+              [
+                0.025,
+                0.912
+              ]
+            ],
+            "value": "E000077303USA6502056F3010149500101920<091824"
+          },
+          "surname": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.287,
+                0.3
+              ],
+              [
+                0.419,
+                0.3
+              ],
+              [
+                0.419,
+                0.331
+              ],
+              [
+                0.287,
+                0.331
+              ]
+            ],
+            "value": "TRAVELER"
+          }
+        },
+        "processing_time": 1.045,
+        "product": {
+          "features": [
+            "country",
+            "id_number",
+            "given_names",
+            "surname",
+            "birth_date",
+            "birth_place",
+            "gender",
+            "issuance_date",
+            "expiry_date",
+            "orientation",
+            "mrz1",
+            "mrz2"
+          ],
+          "name": "mindee/passport",
+          "type": "standard",
+          "version": "1.0"
+        },
+        "started_at": "2022-11-18T13:53:26.882539"
+      },
+      "n_pages": 1,
+      "name": "passport-US.pdf"
+    }
+  },
+  "standarized_response": {
+    "extracted_data": [
+      {
+        "last_name": "TRAVELER",
+        "given_names": [
+          "Happy"
+        ],
+        "birth_place": "On",
+        "birth_date": "1965-02-05",
+        "issuance_date": "2020-10-15",
+        "expire_date": "2030-10-14",
+        "document_id": "E00007730",
+        "issuing_state": null,
+        "address": null,
+        "age": null,
+        "country": {
+          "name": "United States of America",
+          "alpha2": "us",
+          "alpha3": "usa"
+        },
+        "document_type": null,
+        "gender": "F",
+        "image_id": [],
+        "image_signature": [],
+        "mrz": "P<USATRAVELER<<HAPPY<<<<<<<<<<<<<<<<<<<<<<<<",
+        "nationality": null
+      }
+    ]
+  }
+}

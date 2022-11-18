@@ -1,0 +1,34 @@
+{
+  "original_response": {
+    "input_text": "Ogni individuo ha diritto all'istruzione. L'istruzione deve essere gratuita almeno per quanto riguarda le classi elementari e fondamentali. L'istruzione elementare deve essere obbligatoria. L'istruzione tecnica e professionale deve essere messa alla portata di tutti e l'istruzione superiore deve essere egualmente accessibile a tutti sulla base del merito.\nL'istruzione deve essere indirizzata al pieno sviluppo della personalit\u00e0 umana ed al rafforzamento del rispetto dei diritti umani e delle libert\u00e0 fondamentali. Essa deve promuovere la comprensione, la tolleranza, l'amicizia fra tutte le Nazioni, i gruppi razziali e religiosi, e deve favorire l'opera delle Nazioni Unite per il mantenimento della pace.\nI genitori hanno diritto di priorit\u00e0 nella scelta del genere di istruzione da impartire ai loro figli.",
+    "status": "success",
+    "output": [
+      {
+        "text_generated_by_step_name": "input",
+        "text_generated_by_step_id": 0,
+        "text": "Ogni individuo ha diritto all'istruzione. L'istruzione deve essere gratuita almeno per quanto riguarda le classi elementari e fondamentali. L'istruzione elementare deve essere obbligatoria. L'istruzione tecnica e professionale deve essere messa alla portata di tutti e l'istruzione superiore deve essere egualmente accessibile a tutti sulla base del merito.\nL'istruzione deve essere indirizzata al pieno sviluppo della personalit\u00e0 umana ed al rafforzamento del rispetto dei diritti umani e delle libert\u00e0 fondamentali. Essa deve promuovere la comprensione, la tolleranza, l'amicizia fra tutte le Nazioni, i gruppi razziali e religiosi, e deve favorire l'opera delle Nazioni Unite per il mantenimento della pace.\nI genitori hanno diritto di priorit\u00e0 nella scelta del genere di istruzione da impartire ai loro figli.",
+        "labels": [
+          {
+            "type": "detect-language",
+            "skill": "detect-language",
+            "name": "language",
+            "value": "Italian"
+          }
+        ]
+      }
+    ],
+    "stats": {
+      "concurrency_wait_time": 0.0,
+      "total_running_jobs": 1,
+      "total_waiting_jobs": 0
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "language": "Italian",
+        "confidence": null
+      }
+    ]
+  }
+}
