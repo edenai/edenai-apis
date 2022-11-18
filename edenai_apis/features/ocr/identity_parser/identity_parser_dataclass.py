@@ -7,9 +7,9 @@ from pydantic import BaseModel, Field, StrictStr, validator
 
 
 class Country(BaseModel):
-    name: StrictStr
-    alpha2: StrictStr
-    alpha3: StrictStr
+    name: Optional[StrictStr]
+    alpha2: Optional[StrictStr]
+    alpha3: Optional[StrictStr]
 
 class InfoCountry(enumerate):
     NAME = 'name'
@@ -22,15 +22,20 @@ def get_info_country(
     ) -> Optional[Country]:
     feature_path = os.path.dirname(os.path.dirname(__file__))
 
+    if not value or not key:
+        return {}
+
     with open(f'{feature_path}/identity_parser/countries.json', 'r') as f:
         countries = json.load(f)
         country_idx = next((index for (index, country) in enumerate(countries) if country[key].lower()== value.lower()), None)
         if country_idx:
             return countries[country_idx]
         print(f"{key}: {value} not found")
-    return None
+    return {}
 
 def format_date(value, format):
+    if not value or not format:
+        return None
     return datetime.strptime(value, format).strftime('%Y-%m-%d')
 
 class InfosIdentityParserDataClass(BaseModel):
@@ -66,6 +71,8 @@ class InfosIdentityParserDataClass(BaseModel):
 
     @validator('expire_date', 'issuance_date', 'birth_date')
     def date_validator(cls, value):
+        if not value:
+            return None
         try:
             datetime.strptime(value, '%Y-%m-%d')
         except ValueError:

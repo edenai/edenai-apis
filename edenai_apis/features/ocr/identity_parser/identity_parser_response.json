@@ -1,3 +1,29 @@
 {
-  "extracted_data": []
+  "extracted_data": [
+    {
+      "last_name": "TRAVELER",
+      "given_names": [
+        "Happy"
+      ],
+      "birth_place": "On",
+      "birth_date": "1965-02-05",
+      "issuance_date": "2020-10-15",
+      "expire_date": "2030-10-14",
+      "document_id": "E00007730",
+      "issuing_state": null,
+      "address": null,
+      "age": null,
+      "country": {
+        "name": "United States of America",
+        "alpha2": "us",
+        "alpha3": "usa"
+      },
+      "document_type": null,
+      "gender": "F",
+      "image_id": [],
+      "image_signature": [],
+      "mrz": "P<USATRAVELER<<HAPPY<<<<<<<<<<<<<<<<<<<<<<<<",
+      "nationality": null
+    }
+  ]
 }

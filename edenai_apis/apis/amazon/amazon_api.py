@@ -403,11 +403,14 @@ class AmazonApi(
                 elif field_type == 'DOCUMENT_NUMBER':
                     infos['document_id'] = value
                 elif field_type == 'EXPIRATION_DATE':
-                    infos['expire_date'] = format_date(value, '%d %b %Y')
+                    value = field['ValueDetection'].get('NormalizedValue', {}).get('Value')
+                    infos['expire_date'] = format_date(value, '%Y-%m-%dT%H:%M:%S')
                 elif field_type == 'DATE_OF_BIRTH':
-                    infos['birth_date'] = format_date(value, '%d %b %Y')
+                    value = field['ValueDetection'].get('NormalizedValue', {}).get('Value')
+                    infos['birth_date'] = format_date(value, '%Y-%m-%dT%H:%M:%S')
                 elif field_type == 'DATE_OF_ISSUE':
-                    infos['issuance_date'] = format_date(value, '%d %b %Y')      
+                    value = field['ValueDetection'].get('NormalizedValue', {}).get('Value')
+                    infos['issuance_date'] = format_date(value, '%Y-%m-%dT%H:%M:%S')      
                 elif field_type == 'ID_TYPE':
                     infos['document_type'] = value
                 elif field_type == 'ADDRESS':

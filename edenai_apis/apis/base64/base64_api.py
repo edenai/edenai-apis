@@ -279,20 +279,24 @@ class Base64Api(ProviderApi, Ocr):
         for document in original_response:
             image_id=[doc.get('image', []) for doc in document['features'].get('faces', {})]
             image_signature=[doc.get('image', []) for doc in document['features'].get('signatures', {})]
-            given_names=document['fields'].get('givenName', {}).get('value', "").split(' ') if document['fields'].get('givenName', {}).get('value', "") != "" else None
+            given_names=document['fields'].get('givenName', {}).get('value', "").split(' ') if document['fields'].get('givenName', {}).get('value', "") != "" else []
             
             items.append(InfosIdentityParserDataClass(
-                document_type=document['fields']['documentType']['value'],
+                document_type=document['fields'].get('documentType', {}).get('value'),
                 last_name=document['fields'].get('familyName', {}).get('value', None),
                 given_names=given_names,
                 birth_date=document['fields'].get('dateOfBirth', {}).get('value', None),
                 country=get_info_country(key=InfoCountry.ALPHA3, value=document['fields'].get('countryCode', {}).get('value', "")),
-                document_id=document['fields'].get('documentNu,ber', {}).get('value', None),
+                document_id=document['fields'].get('documentNumber', {}).get('value', None),
                 age=document['fields'].get('age', {}).get('value', None),
                 nationality=document['fields'].get('nationality', {}).get('value', None),
                 issuing_state=document['fields'].get('issuingState', {}).get('value', None),
                 image_id=image_id,
-                image_signature=image_signature
+                image_signature=image_signature,
+                gender=document['fields'].get('sex', {}).get('value'),
+                expire_date=document['fields'].get('expirationDate', {}).get('value'),
+                issuance_date=document['fields'].get('issueDate', {}).get('value'),
+                address=document['fields'].get('address', {}).get('value'),
             ))
 
 
