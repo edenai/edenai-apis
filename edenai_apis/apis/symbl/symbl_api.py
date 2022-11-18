@@ -60,7 +60,9 @@ class SymblApi(ProviderApi, Audio):
             "Content-Length": str(number_of_bytes),
         }
 
-        params = {"languageCode": language}
+        params = {}
+        if language:
+            params.update({"languageCode": language})
 
         response = requests.post(
             url="https://api.symbl.ai/v1/process/audio",
