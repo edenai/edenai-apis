@@ -634,7 +634,8 @@
           "cy",
           "yua",
           "zu"
-        ]
+        ],
+        "allow_null_language": true
       },
       "version": "v3.0"
     },

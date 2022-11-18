@@ -79,9 +79,7 @@ def format_string_url_language(
         str: the url formatted with the language code
     """
     if not language:
-        raise ProviderException(
-            f"language code: {language} badly formatted or not supported by {provider_name}"
-        )
+        return url
     if is_url:
         return (
             f"{url}&{prefix_lang}={language}"
