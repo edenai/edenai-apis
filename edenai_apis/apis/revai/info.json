@@ -39,7 +39,8 @@
                     "ta",
                     "te",
                     "tr"
-                ]
+                ],
+                "allow_null_language": true
             },
             "version": "v1"
         }
