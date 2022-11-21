@@ -47,23 +47,23 @@ class ItemIdentityParserDataClass(BaseModel):
 
 
 class InfosIdentityParserDataClass(BaseModel):
-    last_name: Optional[ItemIdentityParserDataClass]
+    last_name: Optional[ItemIdentityParserDataClass] = Field(default_factory=ItemIdentityParserDataClass)
     given_names: Sequence[ItemIdentityParserDataClass] = Field(default_factory=list)
-    birth_place: Optional[ItemIdentityParserDataClass]
-    birth_date: Optional[ItemIdentityParserDataClass]
-    issuance_date: Optional[ItemIdentityParserDataClass]
-    expire_date: Optional[ItemIdentityParserDataClass]
-    document_id: Optional[ItemIdentityParserDataClass]
-    issuing_state: Optional[ItemIdentityParserDataClass]
-    address: Optional[ItemIdentityParserDataClass]
-    age: Optional[ItemIdentityParserDataClass]
+    birth_place: Optional[ItemIdentityParserDataClass] = Field(default_factory=ItemIdentityParserDataClass)
+    birth_date: Optional[ItemIdentityParserDataClass] = Field(default_factory=ItemIdentityParserDataClass)
+    issuance_date: Optional[ItemIdentityParserDataClass] = Field(default_factory=ItemIdentityParserDataClass)
+    expire_date: Optional[ItemIdentityParserDataClass] = Field(default_factory=ItemIdentityParserDataClass)
+    document_id: Optional[ItemIdentityParserDataClass] = Field(default_factory=ItemIdentityParserDataClass)
+    issuing_state: Optional[ItemIdentityParserDataClass] = Field(default_factory=ItemIdentityParserDataClass)
+    address: Optional[ItemIdentityParserDataClass] = Field(default_factory=ItemIdentityParserDataClass)
+    age: Optional[ItemIdentityParserDataClass] = Field(default_factory=ItemIdentityParserDataClass)
     country: Optional[Country] = Country()
-    document_type: Optional[ItemIdentityParserDataClass]
-    gender: Optional[ItemIdentityParserDataClass]
+    document_type: Optional[ItemIdentityParserDataClass] = Field(default_factory=ItemIdentityParserDataClass)
+    gender: Optional[ItemIdentityParserDataClass] = Field(default_factory=ItemIdentityParserDataClass)
     image_id: Sequence[ItemIdentityParserDataClass] = Field(default_factory=list)
     image_signature: Sequence[ItemIdentityParserDataClass] = Field(default_factory=list)
-    mrz: Optional[ItemIdentityParserDataClass]
-    nationality: Optional[ItemIdentityParserDataClass]
+    mrz: Optional[ItemIdentityParserDataClass] = Field(default_factory=ItemIdentityParserDataClass)
+    nationality: Optional[ItemIdentityParserDataClass] = Field(default_factory=ItemIdentityParserDataClass)
 
     @validator('last_name')
     def to_uppercase(cls, value):

@@ -1,8 +1,8 @@
 {
   "original_response": {
     "status": "succeeded",
-    "createdDateTime": "2022-11-21T12:56:36Z",
-    "lastUpdatedDateTime": "2022-11-21T12:56:43Z",
+    "createdDateTime": "2022-11-21T14:25:52Z",
+    "lastUpdatedDateTime": "2022-11-21T14:25:58Z",
     "analyzeResult": {
       "apiVersion": "2022-08-31",
       "modelId": "prebuilt-idDocument",
@@ -3042,8 +3042,14 @@
           "value": "United States Department Of State",
           "confidence": 0.99
         },
-        "address": null,
-        "age": null,
+        "address": {
+          "value": null,
+          "confidence": null
+        },
+        "age": {
+          "value": null,
+          "confidence": null
+        },
         "country": {
           "name": "United States of America",
           "alpha2": "us",

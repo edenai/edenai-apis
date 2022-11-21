@@ -261,7 +261,7 @@
           }
         ]
       },
-      "uuid": "c81815df-7a60-4513-a988-a2279f834d8c"
+      "uuid": "d31d1b7a-d4be-4eda-ad2a-6c5f135ce2e4"
     }
   ],
   "standarized_response": {
@@ -277,7 +277,10 @@
             "confidence": 1.0
           }
         ],
-        "birth_place": null,
+        "birth_place": {
+          "value": null,
+          "confidence": null
+        },
         "birth_date": {
           "value": "1965-02-05",
           "confidence": 1.0
@@ -327,7 +330,10 @@
           }
         ],
         "image_signature": [],
-        "mrz": null,
+        "mrz": {
+          "value": null,
+          "confidence": null
+        },
         "nationality": {
           "value": "United States Of America",
           "confidence": 1.0
