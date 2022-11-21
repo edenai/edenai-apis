@@ -23,7 +23,7 @@ def get_info_country(
     feature_path = os.path.dirname(os.path.dirname(__file__))
 
     if not value or not key:
-        return {}
+        return None
 
     with open(f'{feature_path}/identity_parser/countries.json', 'r') as f:
         countries = json.load(f)
@@ -31,7 +31,7 @@ def get_info_country(
         if country_idx:
             return countries[country_idx]
         print(f"{key}: {value} not found")
-    return {}
+    return None
 
 def format_date(value, format):
     if not value or not format:
@@ -49,7 +49,7 @@ class InfosIdentityParserDataClass(BaseModel):
     issuing_state: Optional[StrictStr]
     address: Optional[StrictStr]
     age: Optional[int]
-    country: Optional[Country]
+    country: Optional[Country] = Country()
     document_type: Optional[StrictStr]
     gender: Optional[StrictStr]
     image_id: Sequence[StrictStr] = Field(default_factory=list)
