@@ -21,6 +21,12 @@
           "value": "admiration"
         },
         {
+          "refTrigger": "2-19",
+          "trigger": "or not",
+          "emitter": "",
+          "value": "joy"
+        },
+        {
           "refTrigger": "3-9",
           "trigger": "products",
           "emitter": "",
@@ -77,8 +83,8 @@
       ]
     },
     "code": 0,
-    "startTime": 1667552729751,
-    "endTime": 1667552729751,
+    "startTime": 1668784931582,
+    "endTime": 1668784931582,
     "message": "OK"
   },
   "standarized_response": {
@@ -122,6 +128,10 @@
       {
         "sentiment": "positive",
         "sentiment_rate": 0.833
+      },
+      {
+        "sentiment": "positive",
+        "sentiment_rate": 0.23
       },
       {
         "sentiment": "positive",
