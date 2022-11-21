@@ -42,7 +42,7 @@ from edenai_apis.features.ocr import (
     InfosIdentityParserDataClass,
     get_info_country,
 )
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import InfoCountry, format_date
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import InfoCountry, ItemIdentityParserDataClass, format_date
 from edenai_apis.features.ocr.ocr_class import Ocr
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass, KeywordExtractionDataClass,
@@ -373,20 +373,64 @@ class MicrosoftApi(
 
         for document in microsoft_data['documents']:
             fields = document['fields']
+            country = get_info_country(key=InfoCountry.ALPHA3, value=fields.get('CountryRegion', {}).get('content'))
+            country['confidence'] = fields.get('CountryRegion', {}).get('confidence')
+
+            given_names=fields.get('FirstName', {}).get('content', "").split(' ')
+            final_given_names = []
+            for given_name in given_names:
+                final_given_names.append(ItemIdentityParserDataClass(
+                    value=given_name,
+                    confidence=fields.get('FirstName', {}).get('confidence')
+                ))
+
             items.append(InfosIdentityParserDataClass(
-                document_type=document.get('docType'),
-                country=get_info_country(key=InfoCountry.ALPHA3, value=fields.get('CountryRegion', {}).get('content')),
-                birth_date=fields.get('DateOfBirth', {}).get('valueDate'),
-                expire_date=fields.get('DateOfExpiration', {}).get('valueDate'),
-                issuance_date=fields.get('DateOfIssue', {}).get('valueDate', None),
-                issuing_state=fields.get('IssuingAuthority', {}).get('content'),
-                document_id=fields.get('DocumentNumber', {}).get('content'),
-                last_name=fields.get('LastName', {}).get('content'),
-                given_names=fields.get('FirstName', {}).get('content', "").split(' '),
-                mrz=fields.get('MachineReadableZone', {}).get('content'),
-                nationality=fields.get('Nationality', {}).get('content'),
-                birth_place=fields.get('PlaceOfBirth', {}).get('content'),
-                gender=fields.get('Sex', {}).get('content'),
+                document_type=ItemIdentityParserDataClass(
+                    value=document.get('docType'),
+                    confidence=document.get('confidence')
+                ),
+                country=country,
+                birth_date=ItemIdentityParserDataClass(
+                    value=fields.get('DateOfBirth', {}).get('valueDate'),
+                    confidence=fields.get('DateOfBirth', {}).get('confidence')
+                ),
+                expire_date=ItemIdentityParserDataClass(
+                    value=fields.get('DateOfExpiration', {}).get('valueDate'),
+                    confidence=fields.get('DateOfExpiration', {}).get('confidence')
+                ),
+                issuance_date=ItemIdentityParserDataClass(
+                    value=fields.get('DateOfIssue', {}).get('valueDate'),
+                    confidence=fields.get('DateOfIssue', {}).get('confidence')
+                ),
+                issuing_state=ItemIdentityParserDataClass(
+                    value=fields.get('IssuingAuthority', {}).get('content'),
+                    confidence=fields.get('IssuingAuthority', {}).get('confidence'),
+                ),
+                document_id=ItemIdentityParserDataClass(
+                    value=fields.get('DocumentNumber', {}).get('content'),
+                    confidence=fields.get('DocumentNumber', {}).get('confidence'),
+                ),
+                last_name=ItemIdentityParserDataClass(
+                    value=fields.get('LastName', {}).get('content'),
+                    confidence=fields.get('LastName', {}).get('confidence'),
+                ),
+                given_names=final_given_names,
+                mrz=ItemIdentityParserDataClass(
+                    value=fields.get('MachineReadableZone', {}).get('content'),
+                    confidence=fields.get('MachineReadableZone', {}).get('confidence'),
+                ),
+                nationality=ItemIdentityParserDataClass(
+                    value=fields.get('Nationality', {}).get('content'),
+                    confidence=fields.get('Nationality', {}).get('confidence'),
+                ),
+                birth_place=ItemIdentityParserDataClass(
+                    value=fields.get('PlaceOfBirth', {}).get('content'),
+                    confidence=fields.get('PlaceOfBirth', {}).get('confidence'),
+                ),
+                gender=ItemIdentityParserDataClass(
+                    value=fields.get('Sex', {}).get('content'),
+                    confidence=fields.get('Sex', {}).get('confidence'),
+                )
             ))
 
         standarized_response = IdentityParserDataClass(extracted_data=items)

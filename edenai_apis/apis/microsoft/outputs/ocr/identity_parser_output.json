@@ -1,8 +1,8 @@
 {
   "original_response": {
     "status": "succeeded",
-    "createdDateTime": "2022-11-18T13:53:36Z",
-    "lastUpdatedDateTime": "2022-11-18T13:53:41Z",
+    "createdDateTime": "2022-11-21T12:56:36Z",
+    "lastUpdatedDateTime": "2022-11-21T12:56:43Z",
     "analyzeResult": {
       "apiVersion": "2022-08-31",
       "modelId": "prebuilt-idDocument",
@@ -3008,29 +3008,66 @@
   "standarized_response": {
     "extracted_data": [
       {
-        "last_name": "TRAVELER",
+        "last_name": {
+          "value": "TRAVELER",
+          "confidence": 0.995
+        },
         "given_names": [
-          "Happy"
+          {
+            "value": "Happy",
+            "confidence": 0.995
+          }
         ],
-        "birth_place": "Washington, D.C., U.S.A.",
-        "birth_date": "1965-02-05",
-        "issuance_date": "2020-10-15",
-        "expire_date": "2030-10-14",
-        "document_id": "E00007730",
-        "issuing_state": "United States Department Of State",
+        "birth_place": {
+          "value": "Washington, D.C., U.S.A.",
+          "confidence": 0.99
+        },
+        "birth_date": {
+          "value": "1965-02-05",
+          "confidence": 0.99
+        },
+        "issuance_date": {
+          "value": "2020-10-15",
+          "confidence": 0.99
+        },
+        "expire_date": {
+          "value": "2030-10-14",
+          "confidence": 0.99
+        },
+        "document_id": {
+          "value": "E00007730",
+          "confidence": 0.99
+        },
+        "issuing_state": {
+          "value": "United States Department Of State",
+          "confidence": 0.99
+        },
         "address": null,
         "age": null,
         "country": {
           "name": "United States of America",
           "alpha2": "us",
-          "alpha3": "usa"
+          "alpha3": "usa",
+          "confidence": 0.99
         },
-        "document_type": "Iddocument.Passport",
-        "gender": "F",
+        "document_type": {
+          "value": "Iddocument.Passport",
+          "confidence": 0.995
+        },
+        "gender": {
+          "value": "F",
+          "confidence": 0.99
+        },
         "image_id": [],
         "image_signature": [],
-        "mrz": "P<USATRAVELER << HAPPY <<<<<<<<<<<<<<<<<<<<<<<<\nE000077303USA6502056F3010149500101920<091824",
-        "nationality": "United States Of America"
+        "mrz": {
+          "value": "P<USATRAVELER << HAPPY <<<<<<<<<<<<<<<<<<<<<<<<\nE000077303USA6502056F3010149500101920<091824",
+          "confidence": 0.99
+        },
+        "nationality": {
+          "value": "United States Of America",
+          "confidence": 0.99
+        }
       }
     ]
   }

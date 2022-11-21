@@ -12,8 +12,11 @@ from edenai_apis.features.ocr import (
     InvoiceParserDataClass,
     IdentityParserDataClass,
     InfosIdentityParserDataClass,
+    InfoCountry,
+    format_date,
+    get_info_country,
+    ItemIdentityParserDataClass,
 )
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import InfoCountry, format_date, get_info_country
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     CustomerInformationInvoice,
     LocaleInvoice,
@@ -204,18 +207,45 @@ class MindeeApi(ProviderApi, Ocr):
         given_names: Sequence[StrictStr] = []
 
         for given_name in identity_data['given_names']:
-            given_names.append(given_name['value'])
+            given_names.append(ItemIdentityParserDataClass(
+                value=given_name['value'],
+                confidence=given_name['confidence'])
+            )
 
-        last_name = identity_data['surname']['value']
-        birth_date = identity_data['birth_date']['value']
-        birth_place = identity_data['birth_place']['value']
+        last_name = ItemIdentityParserDataClass(
+            value=identity_data['surname']['value'],
+            confidence=identity_data['surname']['confidence']
+        )
+        birth_date = ItemIdentityParserDataClass(
+            value=identity_data['birth_date']['value'],
+            confidence=identity_data['birth_date']['confidence']
+        )
+        birth_place = ItemIdentityParserDataClass(
+            value=identity_data['birth_place']['value'],
+            confidence=identity_data['birth_place']['confidence']
+        )
         country = get_info_country(key=InfoCountry.ALPHA3, value=identity_data['country']['value'])
-        issuance_date = identity_data['issuance_date']['value']
-        expire_date = identity_data['expiry_date']['value']
-        document_id = identity_data['id_number']['value']
-        gender = identity_data['gender']['value']
-        mrz = identity_data['mrz1']['value']
-
+        country['confidence'] = identity_data['country']['confidence']
+        issuance_date = ItemIdentityParserDataClass(
+            value=identity_data['issuance_date']['value'],
+            confidence=identity_data['issuance_date']['confidence']
+        )
+        expire_date = ItemIdentityParserDataClass(
+            value=identity_data['expiry_date']['value'],
+            confidence=identity_data['expiry_date']['confidence']
+        )
+        document_id = ItemIdentityParserDataClass(
+            value=identity_data['id_number']['value'],
+            confidence=identity_data['id_number']['confidence']
+        )
+        gender = ItemIdentityParserDataClass(
+            value=identity_data['gender']['value'],
+            confidence=identity_data['gender']['confidence']
+        )
+        mrz = ItemIdentityParserDataClass(
+            value=identity_data['mrz1']['value'],
+            confidence=identity_data['mrz1']['confidence']
+        )
         items: Sequence[InfosIdentityParserDataClass] = []
         items.append(InfosIdentityParserDataClass(
             last_name=last_name,

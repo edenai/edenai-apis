@@ -52,4 +52,5 @@ from .identity_parser import (
     InfoCountry,
     InfosIdentityParserDataClass,
     IdentityParserDataClass,
+    ItemIdentityParserDataClass
 )

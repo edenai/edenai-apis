@@ -1,20 +1,27 @@
-from datetime import datetime
-import os
 import json
-from typing import Optional, Sequence
+import os
+from datetime import datetime
+from typing import Optional, Sequence, Any
 
 from pydantic import BaseModel, Field, StrictStr, validator
 
+
+def format_date(value, fmt):
+    if not value or not fmt:
+        return None
+    return datetime.strptime(value, fmt).strftime('%Y-%m-%d')
 
 class Country(BaseModel):
     name: Optional[StrictStr]
     alpha2: Optional[StrictStr]
     alpha3: Optional[StrictStr]
+    confidence: Optional[float]
 
 class InfoCountry(enumerate):
     NAME = 'name'
     ALPHA2 = 'alpha2'
     ALPHA3 = 'alpha3'
+
 
 def get_info_country(
     key: InfoCountry,
@@ -25,7 +32,7 @@ def get_info_country(
     if not value or not key:
         return None
 
-    with open(f'{feature_path}/identity_parser/countries.json', 'r') as f:
+    with open(f'{feature_path}/identity_parser/countries.json', 'r', encoding='utf-8') as f:
         countries = json.load(f)
         country_idx = next((index for (index, country) in enumerate(countries) if country[key].lower()== value.lower()), None)
         if country_idx:
@@ -33,48 +40,52 @@ def get_info_country(
         print(f"{key}: {value} not found")
     return None
 
-def format_date(value, format):
-    if not value or not format:
-        return None
-    return datetime.strptime(value, format).strftime('%Y-%m-%d')
+
+class ItemIdentityParserDataClass(BaseModel):
+    value: Optional[StrictStr]
+    confidence: Optional[float]
+
 
 class InfosIdentityParserDataClass(BaseModel):
-    last_name: Optional[StrictStr]
-    given_names: Sequence[StrictStr] = Field(default_factory=list)
-    birth_place: Optional[StrictStr]
-    birth_date: Optional[StrictStr]
-    issuance_date: Optional[StrictStr]
-    expire_date: Optional[StrictStr]
-    document_id: Optional[StrictStr]
-    issuing_state: Optional[StrictStr]
-    address: Optional[StrictStr]
-    age: Optional[int]
+    last_name: Optional[ItemIdentityParserDataClass]
+    given_names: Sequence[ItemIdentityParserDataClass] = Field(default_factory=list)
+    birth_place: Optional[ItemIdentityParserDataClass]
+    birth_date: Optional[ItemIdentityParserDataClass]
+    issuance_date: Optional[ItemIdentityParserDataClass]
+    expire_date: Optional[ItemIdentityParserDataClass]
+    document_id: Optional[ItemIdentityParserDataClass]
+    issuing_state: Optional[ItemIdentityParserDataClass]
+    address: Optional[ItemIdentityParserDataClass]
+    age: Optional[ItemIdentityParserDataClass]
     country: Optional[Country] = Country()
-    document_type: Optional[StrictStr]
-    gender: Optional[StrictStr]
-    image_id: Sequence[StrictStr] = Field(default_factory=list)
-    image_signature: Sequence[StrictStr] = Field(default_factory=list)
-    mrz: Optional[StrictStr]
-    nationality: Optional[StrictStr]
+    document_type: Optional[ItemIdentityParserDataClass]
+    gender: Optional[ItemIdentityParserDataClass]
+    image_id: Sequence[ItemIdentityParserDataClass] = Field(default_factory=list)
+    image_signature: Sequence[ItemIdentityParserDataClass] = Field(default_factory=list)
+    mrz: Optional[ItemIdentityParserDataClass]
+    nationality: Optional[ItemIdentityParserDataClass]
 
     @validator('last_name')
     def to_uppercase(cls, value):
-        return value.upper() if value else value
+        value.value = value.value.upper() if value else value.value
+        return value
 
     @validator('given_names', each_item=True)
     def list_to_title(cls, value):
-        return value.title() if value else value
+        value.value = value.value.title() if value else value.value
+        return value
 
     @validator('birth_place', 'nationality', 'issuing_state', 'document_type')
     def to_title(cls, value):
-        return value.title() if value else value
+        value.value = value.value.title() if value else value.value
+        return value
 
     @validator('expire_date', 'issuance_date', 'birth_date')
     def date_validator(cls, value):
-        if not value:
+        if not value.value:
             return None
         try:
-            datetime.strptime(value, '%Y-%m-%d')
+            datetime.strptime(value.value, '%Y-%m-%d')
         except ValueError:
             raise ValueError("Incorrect data format, should be YYYY-MM-DD")
         return value

@@ -10,10 +10,10 @@
       "url": "https://api.mindee.net/v1/products/mindee/passport/v1/predict"
     },
     "document": {
-      "id": "89ef3b68-9831-48d8-ba2c-90e9519be939",
+      "id": "ce079bd1-b63b-4ce6-b191-885fae6238e6",
       "inference": {
         "extras": {},
-        "finished_at": "2022-11-18T13:53:27.927047",
+        "finished_at": "2022-11-21T12:56:19.304542",
         "is_rotation_applied": true,
         "pages": [
           {
@@ -531,7 +531,7 @@
             "value": "TRAVELER"
           }
         },
-        "processing_time": 1.045,
+        "processing_time": 1.037,
         "product": {
           "features": [
             "country",
@@ -551,7 +551,7 @@
           "type": "standard",
           "version": "1.0"
         },
-        "started_at": "2022-11-18T13:53:26.882539"
+        "started_at": "2022-11-21T12:56:18.267522"
       },
       "n_pages": 1,
       "name": "passport-US.pdf"
@@ -560,28 +560,56 @@
   "standarized_response": {
     "extracted_data": [
       {
-        "last_name": "TRAVELER",
+        "last_name": {
+          "value": "TRAVELER",
+          "confidence": 0.99
+        },
         "given_names": [
-          "Happy"
+          {
+            "value": "Happy",
+            "confidence": 0.99
+          }
         ],
-        "birth_place": "On",
-        "birth_date": "1965-02-05",
-        "issuance_date": "2020-10-15",
-        "expire_date": "2030-10-14",
-        "document_id": "E00007730",
+        "birth_place": {
+          "value": "On",
+          "confidence": 0.96
+        },
+        "birth_date": {
+          "value": "1965-02-05",
+          "confidence": 1.0
+        },
+        "issuance_date": {
+          "value": "2020-10-15",
+          "confidence": 1.0
+        },
+        "expire_date": {
+          "value": "2030-10-14",
+          "confidence": 1.0
+        },
+        "document_id": {
+          "value": "E00007730",
+          "confidence": 1.0
+        },
         "issuing_state": null,
         "address": null,
         "age": null,
         "country": {
           "name": "United States of America",
           "alpha2": "us",
-          "alpha3": "usa"
+          "alpha3": "usa",
+          "confidence": 1.0
         },
         "document_type": null,
-        "gender": "F",
+        "gender": {
+          "value": "F",
+          "confidence": 1.0
+        },
         "image_id": [],
         "image_signature": [],
-        "mrz": "P<USATRAVELER<<HAPPY<<<<<<<<<<<<<<<<<<<<<<<<",
+        "mrz": {
+          "value": "P<USATRAVELER<<HAPPY<<<<<<<<<<<<<<<<<<<<<<<<",
+          "confidence": 0.99
+        },
         "nationality": null
       }
     ]

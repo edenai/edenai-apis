@@ -5,24 +5,43 @@
       "given_names": [
         "Happy"
       ],
-      "birth_place": "On",
-      "birth_date": "1965-02-05",
-      "issuance_date": "2020-10-15",
-      "expire_date": "2030-10-14",
-      "document_id": "E00007730",
+      "birth_place": null,
+      "birth_date": {
+        "value": "1965-02-05",
+        "confidence": 95.29801940917969
+      },
+      "issuance_date": {
+        "value": "2020-10-15",
+        "confidence": 96.23471069335938
+      },
+      "expire_date": {
+        "value": "2030-10-14",
+        "confidence": 96.21194458007812
+      },
+      "document_id": {
+        "value": "E00007730",
+        "confidence": 96.82079315185547
+      },
       "issuing_state": null,
-      "address": null,
+      "address": {
+        "value": null,
+        "confidence": 99.17523193359375
+      },
       "age": null,
       "country": {
-        "name": "United States of America",
-        "alpha2": "us",
-        "alpha3": "usa"
+        "name": null,
+        "alpha2": null,
+        "alpha3": null,
+        "confidence": null
       },
-      "document_type": null,
-      "gender": "F",
+      "document_type": "Passport",
+      "gender": null,
       "image_id": [],
       "image_signature": [],
-      "mrz": "P<USATRAVELER<<HAPPY<<<<<<<<<<<<<<<<<<<<<<<<",
+      "mrz": {
+        "value": "P<USATRAVELER<<HAPPY<<<<<<<<<<<<<<<<<<<<<<<<\nE000077303USA6502056F3010149500101920<091824",
+        "confidence": 66.18697357177734
+      },
       "nationality": null
     }
   ]

@@ -1,16 +1,16 @@
 from io import BufferedReader
 from itertools import zip_longest
 import json
-from pprint import pprint
 from typing import Dict, Sequence, TypeVar, Union
 from collections import defaultdict
 import mimetypes
 import base64
 from enum import Enum
 import requests
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+from edenai_apis.features.ocr.identity_parser import (
     IdentityParserDataClass,
     InfoCountry,
+    ItemIdentityParserDataClass,
     get_info_country,
     InfosIdentityParserDataClass
 )
@@ -277,26 +277,71 @@ class Base64Api(ProviderApi, Ocr):
         items = []
 
         for document in original_response:
-            image_id=[doc.get('image', []) for doc in document['features'].get('faces', {})]
-            image_signature=[doc.get('image', []) for doc in document['features'].get('signatures', {})]
+            image_id=[ItemIdentityParserDataClass(value=doc.get('image', []), confidence=doc.get('confidence')) for doc in document['features'].get('faces', {})]
+            image_signature=[ItemIdentityParserDataClass(value=doc.get('image', []), confidence=doc.get('confidence')) for doc in document['features'].get('signatures', {})]
             given_names=document['fields'].get('givenName', {}).get('value', "").split(' ') if document['fields'].get('givenName', {}).get('value', "") != "" else []
-            
+            given_names_final = []
+            for given_name in given_names:
+                given_names_final.append(ItemIdentityParserDataClass(
+                    value=given_name,
+                    confidence=document['fields'].get('givenName', {}).get('confidence')
+                ))
+
+            country=get_info_country(
+                key=InfoCountry.ALPHA3,
+                value=document['fields'].get('countryCode', {}).get('value', "")
+            )
+            country['confidence'] = document['fields'].get('countryCode', {}).get('confidence')
+
             items.append(InfosIdentityParserDataClass(
-                document_type=document['fields'].get('documentType', {}).get('value'),
-                last_name=document['fields'].get('familyName', {}).get('value', None),
-                given_names=given_names,
-                birth_date=document['fields'].get('dateOfBirth', {}).get('value', None),
-                country=get_info_country(key=InfoCountry.ALPHA3, value=document['fields'].get('countryCode', {}).get('value', "")),
-                document_id=document['fields'].get('documentNumber', {}).get('value', None),
-                age=document['fields'].get('age', {}).get('value', None),
-                nationality=document['fields'].get('nationality', {}).get('value', None),
-                issuing_state=document['fields'].get('issuingState', {}).get('value', None),
+                document_type=ItemIdentityParserDataClass(
+                    value=document['fields'].get('documentType', {}).get('value'),
+                    confidence=document['fields'].get('documentType', {}).get('confidence')
+                ),
+                last_name=ItemIdentityParserDataClass(
+                    value=document['fields'].get('familyName', {}).get('value'),
+                    confidence=document['fields'].get('familyName', {}).get('confidence')
+                ),
+                given_names=given_names_final,
+                birth_date=ItemIdentityParserDataClass(
+                    value=document['fields'].get('dateOfBirth', {}).get('value'),
+                    confidence=document['fields'].get('dateOfBirth', {}).get('confidence'),
+                ),
+                country=country,
+                document_id=ItemIdentityParserDataClass(
+                    value=document['fields'].get('documentNumber', {}).get('value'),
+                    confidence=document['fields'].get('documentNumber', {}).get('confidence'),
+                ),
+                age=ItemIdentityParserDataClass(
+                    value=str(document['fields'].get('age', {}).get('value')),
+                    confidence=document['fields'].get('age', {}).get('confidence'),
+                ),
+                nationality=ItemIdentityParserDataClass(
+                    value=document['fields'].get('nationality', {}).get('value'),
+                    confidence=document['fields'].get('nationality', {}).get('confidence'),
+                ),
+                issuing_state=ItemIdentityParserDataClass(
+                    value=document['fields'].get('issuingState', {}).get('value'),
+                    confidence=document['fields'].get('issuingState', {}).get('confidence'),
+                ),
                 image_id=image_id,
                 image_signature=image_signature,
-                gender=document['fields'].get('sex', {}).get('value'),
-                expire_date=document['fields'].get('expirationDate', {}).get('value'),
-                issuance_date=document['fields'].get('issueDate', {}).get('value'),
-                address=document['fields'].get('address', {}).get('value'),
+                gender=ItemIdentityParserDataClass(
+                    value=document['fields'].get('sex', {}).get('value'),
+                    confidence=document['fields'].get('sex', {}).get('confidence'),
+                ),
+                expire_date=ItemIdentityParserDataClass(
+                    value=document['fields'].get('expirationDate', {}).get('value'),
+                    confidence=document['fields'].get('expirationDate', {}).get('confidence')
+                ),
+                issuance_date=ItemIdentityParserDataClass(
+                    value=document['fields'].get('issueDate', {}).get('value'),
+                    confidence=document['fields'].get('issueDate', {}).get('confidence'),
+                ),
+                address=ItemIdentityParserDataClass(
+                    value=document['fields'].get('address', {}).get('value'),
+                    confidence=document['fields'].get('address', {}).get('confidence'),
+                )
             ))
 
 

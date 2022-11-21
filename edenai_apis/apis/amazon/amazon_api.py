@@ -39,7 +39,7 @@ from edenai_apis.features.image import (
     ExplicitContentDataClass,
     ExplicitItem,
 )
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass, format_date
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass, ItemIdentityParserDataClass, format_date
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
     KeywordExtractionDataClass,
@@ -395,33 +395,60 @@ class AmazonApi(
             infos['given_names'] = []
             for field in document['IdentityDocumentFields']:
                 field_type = field['Type']['Text']
+                confidence = round(field['ValueDetection']['Confidence'] / 100, 2)
                 value = field['ValueDetection']['Text'] if field['ValueDetection']['Text'] != "" else None
                 if field_type == 'LAST_NAME':
-                    infos['last_name'] = value
-                elif (field_type == 'FIRST_NAME' or field_type == 'MIDDLE_NAME') and value:
-                    infos['given_names'].append(value)
+                    infos['last_name'] = ItemIdentityParserDataClass(
+                        value=value,
+                        confidence=confidence
+                        )
+                elif field_type in ('FIRST_NAME', 'MIDDLE_NAME') and value:
+                    infos['given_names'].append(ItemIdentityParserDataClass(
+                        value=value,
+                        confidence=confidence
+                        ))
                 elif field_type == 'DOCUMENT_NUMBER':
-                    infos['document_id'] = value
+                    infos['document_id'] = ItemIdentityParserDataClass(
+                        value=value,
+                        confidence=confidence
+                        )
                 elif field_type == 'EXPIRATION_DATE':
                     value = field['ValueDetection'].get('NormalizedValue', {}).get('Value')
-                    infos['expire_date'] = format_date(value, '%Y-%m-%dT%H:%M:%S')
+                    infos['expire_date'] = ItemIdentityParserDataClass(
+                        value=format_date(value, '%Y-%m-%dT%H:%M:%S'),
+                        confidence=confidence
+                        )
                 elif field_type == 'DATE_OF_BIRTH':
                     value = field['ValueDetection'].get('NormalizedValue', {}).get('Value')
-                    infos['birth_date'] = format_date(value, '%Y-%m-%dT%H:%M:%S')
+                    infos['birth_date'] = ItemIdentityParserDataClass(
+                        value=format_date(value, '%Y-%m-%dT%H:%M:%S'),
+                        confidence=confidence
+                        )
                 elif field_type == 'DATE_OF_ISSUE':
                     value = field['ValueDetection'].get('NormalizedValue', {}).get('Value')
-                    infos['issuance_date'] = format_date(value, '%Y-%m-%dT%H:%M:%S')      
+                    infos['issuance_date'] = ItemIdentityParserDataClass(
+                        value=format_date(value, '%Y-%m-%dT%H:%M:%S'),
+                        confidence=confidence
+                        )
                 elif field_type == 'ID_TYPE':
-                    infos['document_type'] = value
+                    infos['document_type'] = ItemIdentityParserDataClass(
+                        value=value,
+                        confidence=confidence
+                        )
                 elif field_type == 'ADDRESS':
-                    infos['address'] = value
+                    infos['address'] = ItemIdentityParserDataClass(
+                        value=value,
+                        confidence=confidence
+                        )
                 elif field_type == 'COUNTY' and value:
                     infos['country'] = get_info_country(InfoCountry.NAME, value)
+                    infos['country']['confidence'] = confidence
                 elif field_type == 'MRZ_CODE':
-                    infos['mrz'] = value
-            
+                    infos['mrz'] = ItemIdentityParserDataClass(value=value, confidence=confidence)
+
             items.append(infos)
 
+            pprint(items)
 
         standarized_response = IdentityParserDataClass(extracted_data=items)
 
