@@ -14,7 +14,9 @@ from azure.core.credentials import AzureKeyCredential
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     Audio,
-    TextToSpeechDataClass
+    TextToSpeechDataClass,
+    SpeechDiarization,
+    SpeechDiarizationEntry
 )
 
 from edenai_apis.features.base_provider.provider_api import ProviderApi
@@ -942,6 +944,7 @@ class MicrosoftApi(
             "contentUrls": [content_url],
             "properties": {
                 "wordLevelTimestampsEnabled": True,
+                "diarizationEnabled": True
             },
             "locale": language,
             "displayName": "test batch transcription",
@@ -964,6 +967,8 @@ class MicrosoftApi(
         response = requests.get(
             url=f'{self.url["speech"]}/{provider_job_id}/files', headers=headers
         )
+        original_response=None
+        print(json.dumps(response.json(), indent=2))
         if response.status_code == 200:
             data = response.json()["values"]
             if data:
@@ -973,17 +978,36 @@ class MicrosoftApi(
                     if entry["kind"] == "Transcription"
                 ]
                 text = ""
+                diarization_entries = []
+                speakers = set()
                 for file_url in files_urls:
                     response = requests.get(file_url, headers=headers)
                     original_response = response.json()
-                    if response.ok:
-                        data = original_response["combinedRecognizedPhrases"][0]
-                        text += data["display"]
-                    else:
+                    print(json.dumps(original_response, indent=2))
+                    if not response.ok:
                         return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
                             provider_job_id= provider_job_id
-                        )
-                standarized_response = SpeechToTextAsyncDataClass(text=text)
+                        )    
+
+                    data = original_response["combinedRecognizedPhrases"][0]
+                    text += data["display"]
+                    for recognized_status in original_response["recognizedPhrases"]:
+                        if recognized_status["recognitionStatus"] == "Success":
+                            speaker = recognized_status["speaker"]
+                            for word_info in recognized_status["nBest"]["words"]:
+                                speakers.add(speakers)
+                                diarization_entries.append(
+                                    SpeechDiarizationEntry(
+                                        segment= word_info["word"],
+                                        speaker=speaker,
+                                        start_time= word_info["offset"].split('PT')[1],
+                                        end_time= str(float(word_info["offset"].split('PT')[1])+ float(word_info["duration"].split('PT')[1])),
+                                        confidence= float(word_info["confidence"])
+                                    )
+                                )
+                diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
+
+                standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
                 return AsyncResponseType[SpeechToTextAsyncDataClass](
                     original_response= original_response,
                     standarized_response= standarized_response,
@@ -995,5 +1019,6 @@ class MicrosoftApi(
                 )
         else:
             return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id
+                provider_job_id=provider_job_id,
+                error= response.json()
             )

@@ -3,7 +3,11 @@ import json
 import requests
 
 from edenai_apis.features import ProviderApi, Audio
-from edenai_apis.features.audio import SpeechToTextAsyncDataClass
+from edenai_apis.features.audio import (
+    SpeechToTextAsyncDataClass,
+    SpeechDiarizationEntry,
+    SpeechDiarization
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
@@ -60,7 +64,11 @@ class SymblApi(ProviderApi, Audio):
             "Content-Length": str(number_of_bytes),
         }
 
-        params = {"languageCode": language}
+        params = {
+            "languageCode": language, 
+            "enableSpeakerDiarization" : "true",
+            "diarizationSpeakerCount" : 2
+            }
 
         response = requests.post(
             url="https://api.symbl.ai/v1/process/audio",
@@ -108,10 +116,28 @@ class SymblApi(ProviderApi, Audio):
                 )
 
             original_response = response.json()
+            print(json.dumps(original_response, indent=2))
+            diarization_entries = []
+            speakers = set()
+
             text = " ".join(
                 [message["text"] for message in original_response["messages"]]
             )
-            standarized_response = SpeechToTextAsyncDataClass(text=text)
+
+            for text_info in original_response["messages"]:
+                speakers.add(text_info["from"]["name"])
+                diarization_entries.append(
+                    SpeechDiarizationEntry(
+                        segment= text_info["text"],
+                        speaker= int(text_info["from"]["name"].split("Speaker")[1].strip()),
+                        start_time= str(text_info["timeOffset"]),
+                        end_time= str(text_info["timeOffset"] + text_info["duration"])
+                    )
+                )
+
+            diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
+
+            standarized_response = SpeechToTextAsyncDataClass(text=text, diarization = diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,
                 standarized_response=standarized_response,

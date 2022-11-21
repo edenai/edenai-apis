@@ -16,6 +16,7 @@ from edenai_apis.utils.types import (
     AsyncPendingResponseType,
     AsyncResponseType,
 )
+import json
 
 
 class VociApi(ProviderApi, Audio):
@@ -39,6 +40,7 @@ class VociApi(ProviderApi, Audio):
                 "filetype": "audio/x-wav",
                 "emotion": "true",
                 "gender": "true",
+                "diarize": "true"
             },
             files=[("file", wav_file)],
         )
@@ -70,6 +72,7 @@ class VociApi(ProviderApi, Audio):
                 )
             else:
                 original_response = response_text.json()
+                print(json.dumps(original_response, indent=2))
                 text = ""
                 for utterance in original_response.get("utterances"):
                     for event in utterance.get("events"):

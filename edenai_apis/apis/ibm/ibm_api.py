@@ -4,6 +4,8 @@ import base64
 
 from typing import Sequence
 
+import json
+
 from ibm_watson.natural_language_understanding_v1 import (
     SentimentOptions,
     Features,
@@ -14,7 +16,9 @@ from ibm_watson.natural_language_understanding_v1 import (
 )
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
-    TextToSpeechDataClass
+    TextToSpeechDataClass,
+    SpeechDiarizationEntry,
+    SpeechDiarization
 )
 
 from edenai_apis.features.text import(
@@ -324,6 +328,7 @@ class IbmApi(
             audio=wav_file,
             content_type="audio/wav",
             model=f"{language_audio}_NarrowbandModel",
+            speaker_labels = True
         )
         print(response)
         if response.status_code == 201:
@@ -343,8 +348,25 @@ class IbmApi(
             original_response = response.result["results"]
             data = response.result["results"][0]["results"]
 
+            diarization_entries = []
+            speakers = set()
+
             text = " ".join([entry["alternatives"][0]["transcript"] for entry in data])
-            standarized_response = SpeechToTextAsyncDataClass(text=text)
+
+            time_stamps = [time_stamp for entry in data for time_stamp in entry["alternatives"][0]["timestamps"]]
+            for idx_word, word_info in enumerate(original_response[0]["speaker_labels"]):
+                speakers.add(word_info["speaker"])
+                diarization_entries.append(
+                    SpeechDiarizationEntry(
+                        segment= time_stamps[idx_word][0],
+                        start_time= str(time_stamps[idx_word][1]),
+                        end_time= str(time_stamps[idx_word][2]),
+                        speaker= word_info["speaker"] + 1,
+                        confidence= word_info["confidence"]
+                    )
+                )
+            diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
+            standarized_response = SpeechToTextAsyncDataClass(text=text, diarization= diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response = original_response,
                 standarized_response = standarized_response,

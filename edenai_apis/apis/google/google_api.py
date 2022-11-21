@@ -776,49 +776,16 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 words_info = result["alternatives"][0]["words"]
                 speakers = set()
 
-                words_length = len(words_info)
-                last_instance = {
-                    "start_time": words_info[0]["startTime"],
-                    "end_time": words_info[0]["endTime"],
-                    "text": words_info[0]["word"].strip(),
-                    "speaker_tag": words_info[0]["speakerTag"]
-                    }
-                words_index = 1
-
-
-                while words_index < words_length:
-                    if words_info[words_index]["speakerTag"] == last_instance["speaker_tag"]:
-                        if set(words_info[words_index].values()) != set(last_instance.values()):
-                            last_instance.update({
-                                "end_time": words_info[words_index]["endTime"],
-                                "text": f"{last_instance['text']} {words_info[words_index]['word'].strip()}",
-                            })
-                    else:
-                        speakers.add(last_instance["speaker_tag"])
-                        diarization_entries.append(
-                            SpeechDiarizationEntry(
-                                text= last_instance["text"],
-                                start_time= last_instance["start_time"],
-                                end_time= last_instance["end_time"],
-                                speaker_tag= last_instance["speaker_tag"]
-                            )
-                        )
-                        last_instance = {
-                            "start_time": words_info[words_index]["startTime"],
-                            "end_time": words_info[words_index]["endTime"],
-                            "text": words_info[words_index]["word"].strip(),
-                            "speaker_tag": words_info[words_index]["speakerTag"]
-                        }
-                    words_index +=1
-                diarization_entries.append(
+                for word_info in words_info:
+                    speakers.add(word_info['speakerTag'])
+                    diarization_entries.append(
                         SpeechDiarizationEntry(
-                            text= last_instance["text"],
-                            start_time= last_instance["start_time"],
-                            end_time= last_instance["end_time"],
-                            speaker_tag= last_instance["speaker_tag"]
+                            segment= word_info['word'],
+                            speaker= word_info['speakerTag'],
+                            start_time= word_info['startTime'],
+                            end_time= word_info['endTime']
                         )
                     )
-                speakers.add(last_instance["speaker_tag"])
                 
                 diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
             
