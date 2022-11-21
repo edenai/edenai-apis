@@ -53,7 +53,6 @@ class VoxistApi(ProviderApi, Audio):
         headers = {"Authorization": f"Bearer {self.api_key}"}
 
         config = {
-            "punctuation": "True",
             "diarization": "True",
             "lang": language,
             "sample_rate": 16000,
@@ -67,6 +66,8 @@ class VoxistApi(ProviderApi, Audio):
         response = requests.post(
             url=f"{self.base_url}transcription", headers=headers, files=files, data=data
         )
+
+        print(response.text)
 
         if response.status_code == 504:
             raise ProviderException(message="Gateway Timeout")
