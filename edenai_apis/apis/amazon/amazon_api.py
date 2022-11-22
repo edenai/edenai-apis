@@ -717,20 +717,26 @@ class AmazonApi(
             wav_file, Path(file.name).stem + ".wav"
         )
         try:
-            clients["speech"].start_transcription_job(
-                TranscriptionJobName=filename,
-                Media={"MediaFileUri": api_settings["storage_url"] + filename},
-                MediaFormat="wav",
-                LanguageCode=language,
-                MediaSampleRateHertz=frame_rate,
-                Settings={
-                        "ShowSpeakerLabels": True, 
-                        "ChannelIdentification": False,
-                        "MaxSpeakerLabels" : speakers
-                        },
-            )
+            params = {
+                "TranscriptionJobName" : filename,
+                "Media" : {"MediaFileUri": api_settings["storage_url"] + filename},
+                "MediaFormat" : "wav",
+                "LanguageCode" : language,
+                "MediaSampleRateHertz" : frame_rate,
+                "Settings" : {
+                    "ShowSpeakerLabels": True,
+                    "ChannelIdentification": False,
+                    "MaxSpeakerLabels" : speakers
+                }
+            }
+            if not language:
+                del params["LanguageCode"]
+                params.update({
+                    "IdentifyLanguage" : True
+                })
+            clients["speech"].start_transcription_job(**params)
         except KeyError as exc:
-            raise ProviderException("Language not supported by provider") from exc
+            raise ProviderException(str(exc)) from exc
 
         return AsyncLaunchJobResponseType(
             provider_job_id=filename
