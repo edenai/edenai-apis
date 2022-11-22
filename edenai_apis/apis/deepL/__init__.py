@@ -1,1 +1,1 @@
-from .deepL_api import DeepLApi
+from .deepl_api import DeeplApi
