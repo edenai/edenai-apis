@@ -713,7 +713,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         return result
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str
+        self, file: BufferedReader, language: str, speakers: int
     ) -> AsyncLaunchJobResponseType:
         export_format = "flac"
         wav_file, _, _, channels = wav_converter(file, export_format)
@@ -734,7 +734,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         diarization = speech.SpeakerDiarizationConfig(
             enable_speaker_diarization=True,
             min_speaker_count=1,
-            max_speaker_count=10,
+            max_speaker_count=speakers,
         )
         config = speech.RecognitionConfig(
             # encoding="LINEAR16",
@@ -753,7 +753,6 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         service = googleapiclient.discovery.build("speech", "v1")
         service_request_ = service.operations().get(name=provider_job_id)
         original_response = service_request_.execute()
-        print(json.dumps(original_response, indent=2))
 
         if original_response.get("error") is not None:
             return AsyncErrorResponseType[SpeechToTextAsyncDataClass](

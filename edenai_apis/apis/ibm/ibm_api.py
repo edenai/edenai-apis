@@ -320,7 +320,8 @@ class IbmApi(
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
-        language: str
+        language: str,
+        speakers : int
     ) -> AsyncLaunchJobResponseType:
         wav_file, *_options = wav_converter(file)
         language_audio = language

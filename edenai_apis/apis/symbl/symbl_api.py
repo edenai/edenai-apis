@@ -53,7 +53,8 @@ class SymblApi(ProviderApi, Audio):
         self.access_token = response.json()["accessToken"]
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str
+        self, file: BufferedReader, language: str,
+        speakers : int
     ) -> AsyncLaunchJobResponseType:
         file.seek(0, 2)
         number_of_bytes = file.tell()
@@ -67,7 +68,7 @@ class SymblApi(ProviderApi, Audio):
         params = {
             "languageCode": language, 
             "enableSpeakerDiarization" : "true",
-            "diarizationSpeakerCount" : 2
+            "diarizationSpeakerCount" : speakers
             }
 
         response = requests.post(
@@ -116,7 +117,6 @@ class SymblApi(ProviderApi, Audio):
                 )
 
             original_response = response.json()
-            print(json.dumps(original_response, indent=2))
             diarization_entries = []
             speakers = set()
 

@@ -932,7 +932,8 @@ class MicrosoftApi(
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
-        language: str
+        language: str,
+        speakers : int
     ) -> AsyncLaunchJobResponseType:
         wav_file, *_options = wav_converter(file)
         content_url = upload_file_to_s3(wav_file, Path(file.name).stem + ".wav")
@@ -968,7 +969,6 @@ class MicrosoftApi(
             url=f'{self.url["speech"]}/{provider_job_id}/files', headers=headers
         )
         original_response=None
-        print(json.dumps(response.json(), indent=2))
         if response.status_code == 200:
             data = response.json()["values"]
             if data:

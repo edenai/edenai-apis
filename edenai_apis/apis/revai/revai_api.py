@@ -28,7 +28,8 @@ class RevAIApi(ProviderApi, Audio):
         self.key = self.api_settings["revai_key"]
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str
+        self, file: BufferedReader, language: str,
+        speakers : int
     ) -> AsyncLaunchJobResponseType:
 
         response = requests.post(

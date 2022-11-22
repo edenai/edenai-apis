@@ -628,7 +628,7 @@ class AmazonApi(
         return filename
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str
+        self, file: BufferedReader, language: str, speakers : int
     ) -> AsyncLaunchJobResponseType:
         # Convert audio file in wav
         wav_file, frame_rate = wav_converter(file)[0:2]
@@ -645,7 +645,7 @@ class AmazonApi(
                 Settings={
                         "ShowSpeakerLabels": True, 
                         "ChannelIdentification": False,
-                        "MaxSpeakerLabels" : 10
+                        "MaxSpeakerLabels" : speakers
                         },
             )
         except KeyError as exc:
@@ -668,7 +668,6 @@ class AmazonApi(
             ]
             with urllib.request.urlopen(json_res) as url:
                 original_response = json.loads(url.read().decode("utf-8"))
-                print(json.dumps(original_response, indent=2))
                 #diarization
                 diarization_entries = []
                 words_info = original_response["results"]["items"]
