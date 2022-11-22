@@ -781,8 +781,8 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         SpeechDiarizationEntry(
                             segment= word_info['word'],
                             speaker= word_info['speakerTag'],
-                            start_time= word_info['startTime'],
-                            end_time= word_info['endTime']
+                            start_time= word_info['startTime'][:-1],
+                            end_time= word_info['endTime'][:-1]
                         )
                     )
                 

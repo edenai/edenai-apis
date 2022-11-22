@@ -1093,7 +1093,6 @@ class MicrosoftApi(
                 for file_url in files_urls:
                     response = requests.get(file_url, headers=headers)
                     original_response = response.json()
-                    print(json.dumps(original_response, indent=2))
                     if not response.ok:
                         return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
                             provider_job_id= provider_job_id
@@ -1104,14 +1103,14 @@ class MicrosoftApi(
                     for recognized_status in original_response["recognizedPhrases"]:
                         if recognized_status["recognitionStatus"] == "Success":
                             speaker = recognized_status["speaker"]
-                            for word_info in recognized_status["nBest"]["words"]:
-                                speakers.add(speakers)
+                            for word_info in recognized_status["nBest"][0]["words"]:
+                                speakers.add(speaker)
                                 diarization_entries.append(
                                     SpeechDiarizationEntry(
                                         segment= word_info["word"],
                                         speaker=speaker,
-                                        start_time= word_info["offset"].split('PT')[1],
-                                        end_time= str(float(word_info["offset"].split('PT')[1])+ float(word_info["duration"].split('PT')[1])),
+                                        start_time= word_info["offset"].split('PT')[1][:-1],
+                                        end_time= str(float(word_info["offset"].split('PT')[1][:-1])+ float(word_info["duration"].split('PT')[1][:-1])),
                                         confidence= float(word_info["confidence"])
                                     )
                                 )

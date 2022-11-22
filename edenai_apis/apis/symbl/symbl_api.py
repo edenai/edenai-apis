@@ -110,7 +110,7 @@ class SymblApi(ProviderApi, Audio):
         original_response = response_status.json()
 
         if original_response["status"] == "completed":
-            url = f"https://api.symbl.ai/v1/conversations/{conversation_id}/messages?sentiment=true"
+            url = f"https://api.symbl.ai/v1/conversations/{conversation_id}/messages?sentiment=true&verbose=true"
             response = requests.get(url=url, headers=headers)
             if response.status_code != 200:
                 return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
@@ -126,15 +126,18 @@ class SymblApi(ProviderApi, Audio):
             )
 
             for text_info in original_response["messages"]:
-                speakers.add(text_info["from"]["name"])
-                diarization_entries.append(
-                    SpeechDiarizationEntry(
-                        segment= text_info["text"],
-                        speaker= int(text_info["from"]["name"].split("Speaker")[1].strip()),
-                        start_time= str(text_info["timeOffset"]),
-                        end_time= str(text_info["timeOffset"] + text_info["duration"])
+                words_info = text_info["words"]
+                for word_info in words_info:
+                    speakers.add(word_info["speakerTag"])
+                    diarization_entries.append(
+                        SpeechDiarizationEntry(
+                            segment= word_info["word"],
+                            speaker= word_info["speakerTag"],
+                            start_time= str(word_info["timeOffset"]),
+                            end_time= str(word_info["timeOffset"] + word_info["duration"]),
+                            confidence= word_info["score"]
+                        )
                     )
-                )
 
             diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
 

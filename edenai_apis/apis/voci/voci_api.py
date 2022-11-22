@@ -41,7 +41,7 @@ class VociApi(ProviderApi, Audio):
                 "emotion": "true",
                 "gender": "true",
                 "diarize": "true"
-            },
+            }
         if language:
             data_config.update({
                 "model": f"{language.lower()}:callcenter"
