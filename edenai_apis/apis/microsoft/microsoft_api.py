@@ -374,7 +374,8 @@ class MicrosoftApi(
         for document in microsoft_data['documents']:
             fields = document['fields']
             country = get_info_country(key=InfoCountry.ALPHA3, value=fields.get('CountryRegion', {}).get('content'))
-            country['confidence'] = fields.get('CountryRegion', {}).get('confidence')
+            if country:
+                country['confidence'] = fields.get('CountryRegion', {}).get('confidence')
 
             given_names=fields.get('FirstName', {}).get('content', "").split(' ')
             final_given_names = []
