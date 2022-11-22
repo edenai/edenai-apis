@@ -2,6 +2,8 @@ from io import BufferedReader
 import requests
 from edenai_apis.features.audio.speech_to_text_async import (
     SpeechToTextAsyncDataClass,
+    SpeechDiarizationEntry,
+    SpeechDiarization
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -27,7 +29,8 @@ class VociApi(ProviderApi, Audio):
         self.key = self.api_settings["voci_key"]
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str
+        self, file: BufferedReader, language: str,
+        speakers : int
     ) -> AsyncLaunchJobResponseType:
         wav_file = wav_converter(file, channels=1)[0]
 
@@ -70,19 +73,33 @@ class VociApi(ProviderApi, Audio):
                     f"Call to Voci failed.\nResponse Status: {response.status_code}.\n"
                     + f"Response Content: {response.content}"
                 )
-            else:
-                original_response = response_text.json()
-                print(json.dumps(original_response, indent=2))
-                text = ""
-                for utterance in original_response.get("utterances"):
-                    for event in utterance.get("events"):
-                        text += event.get("word") + " "
-                standarized_response = SpeechToTextAsyncDataClass(text=text)
-                return AsyncResponseType[SpeechToTextAsyncDataClass](
-                    original_response=original_response,
-                    standarized_response=standarized_response,
-                    provider_job_id=provider_job_id,
-                )
+
+            original_response = response_text.json()
+
+            diarization_entries = []
+            speakers = original_response["nchannels"] + 1
+            
+            text = ""
+            for utterance in original_response.get("utterances"):
+                for event in utterance.get("events"):
+                    text += event.get("word") + " "
+                    
+                    diarization_entries.append(
+                        SpeechDiarizationEntry(
+                            segment= event["word"],
+                            start_time= str(event["start"]),
+                            end_time= str(event["end"]),
+                            confidence= event["confidence"],
+                            speaker= utterance["metadata"]["channel"] + 1
+                        )
+                    )
+            diarization = SpeechDiarization(total_speakers=speakers, entries=diarization_entries)
+            standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
+            return AsyncResponseType[SpeechToTextAsyncDataClass](
+                original_response=original_response,
+                standarized_response=standarized_response,
+                provider_job_id=provider_job_id,
+            )
         elif response.status_code == 202:
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id
