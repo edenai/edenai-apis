@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field, StrictStr
 
 
 class Items(BaseModel):
-    sentiment: Optional[StrictStr]
+    sentiment: StrictStr
     sentiment_rate: Optional[float]
 
 

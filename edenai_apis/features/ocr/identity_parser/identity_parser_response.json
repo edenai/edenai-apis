@@ -1,0 +1,72 @@
+{
+  "extracted_data": [
+    {
+      "last_name": {
+        "value": "TRAVELER",
+        "confidence": 0.74
+      },
+      "given_names": [
+        {
+          "value": "Happy",
+          "confidence": 0.83
+        }
+      ],
+      "birth_place": {
+        "value": null,
+        "confidence": null
+      },
+      "birth_date": {
+        "value": "1965-02-05",
+        "confidence": 0.95
+      },
+      "issuance_date": {
+        "value": "2020-10-15",
+        "confidence": 0.96
+      },
+      "expire_date": {
+        "value": "2030-10-14",
+        "confidence": 0.96
+      },
+      "document_id": {
+        "value": "E00007730",
+        "confidence": 0.97
+      },
+      "issuing_state": {
+        "value": "",
+        "confidence": null
+      },
+      "address": {
+        "value": null,
+        "confidence": 0.99
+      },
+      "age": {
+        "value": null,
+        "confidence": null
+      },
+      "country": {
+        "name": null,
+        "alpha2": null,
+        "alpha3": null,
+        "confidence": null
+      },
+      "document_type": {
+        "value": "Passport",
+        "confidence": 0.98
+      },
+      "gender": {
+        "value": null,
+        "confidence": null
+      },
+      "image_id": [],
+      "image_signature": [],
+      "mrz": {
+        "value": "P<USATRAVELER<<HAPPY<<<<<<<<<<<<<<<<<<<<<<<<\nE000077303USA6502056F3010149500101920<091824",
+        "confidence": 0.66
+      },
+      "nationality": {
+        "value": null,
+        "confidence": null
+      }
+    }
+  ]
+}

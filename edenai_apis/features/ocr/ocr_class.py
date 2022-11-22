@@ -1,5 +1,6 @@
 from abc import abstractmethod
 from io import BufferedReader
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass
 
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     InvoiceParserDataClass,
@@ -98,5 +99,18 @@ class Ocr:
         Args:
             file (BufferedReader): resume to analyze
             language (str): language code in ISO format
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def ocr__identity_parser(
+        self,
+        file: BufferedReader,
+        filename: str
+    ) -> ResponseType[IdentityParserDataClass]:
+        """Parse a identity document and returned structured data
+
+        Args:
+            file (BufferedReader): resume to analyze
         """
         raise NotImplementedError

@@ -1,0 +1,66 @@
+{
+  "original_response": {
+    "input_text": "Overall I am satisfied with my experience at Amazon, but two areas of major improvement needed. First is the product reviews and pricing. There are thousands of positive reviews for so many items, and it's clear that the reviews are bogus or not really associated with that product. There needs to be a way to only view products sold by Amazon directly, because many market sellers way overprice items that can be purchased cheaper elsewhere (like Walmart, Target, etc). The second issue is they make it too difficult to get help when there's an issue with an order.",
+    "status": "success",
+    "output": [
+      {
+        "text_generated_by_step_name": "input",
+        "text_generated_by_step_id": 0,
+        "text": "Overall I am satisfied with my experience at Amazon, but two areas of major improvement needed. First is the product reviews and pricing. There are thousands of positive reviews for so many items, and it's clear that the reviews are bogus or not really associated with that product. There needs to be a way to only view products sold by Amazon directly, because many market sellers way overprice items that can be purchased cheaper elsewhere (like Walmart, Target, etc). The second issue is they make it too difficult to get help when there's an issue with an order.",
+        "labels": [
+          {
+            "type": "sentiment",
+            "skill": "sentiments",
+            "value": "POS",
+            "span_text": "Overall I am satisfied with my experience at Amazon, but two areas of major improvement needed.",
+            "span": [
+              0,
+              95
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 0,
+                "end": 95
+              }
+            ]
+          },
+          {
+            "type": "sentiment",
+            "skill": "sentiments",
+            "value": "NEG",
+            "span_text": "The second issue is they make it too difficult to get help when there's an issue with an order.",
+            "span": [
+              471,
+              566
+            ],
+            "output_spans": [
+              {
+                "section": 0,
+                "start": 471,
+                "end": 566
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "stats": {
+      "concurrency_wait_time": 0.0,
+      "total_running_jobs": 1,
+      "total_waiting_jobs": 0
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "sentiment": "positive",
+        "sentiment_rate": null
+      },
+      {
+        "sentiment": "negative",
+        "sentiment_rate": null
+      }
+    ]
+  }
+}

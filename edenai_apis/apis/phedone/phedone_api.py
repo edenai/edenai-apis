@@ -39,6 +39,9 @@ class PhedoneApi(ProviderApi, Translation):
             standarized_response: {},
           }
         """
+
+        if not source_language:
+            source_language = "auto"
         file = {
             "text": text,
             "input_locale": source_language,

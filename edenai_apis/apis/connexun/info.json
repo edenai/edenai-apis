@@ -3,7 +3,31 @@
         "sentiment_analysis": {
             "constraints": {
                 "languages": [
-                    "en"
+                    "en",
+                    "ar",
+                    "bn",
+                    "da",
+                    "de",
+                    "es",
+                    "fi",
+                    "fr",
+                    "hi",
+                    "id",
+                    "it",
+                    "ja",
+                    "ko",
+                    "nl",
+                    "no",
+                    "pa",
+                    "pl",
+                    "pt",
+                    "ro",
+                    "ru",
+                    "sv",
+                    "ta",
+                    "tr",
+                    "uk",
+                    "zh"
                 ]
             },
             "version": "v1.0"

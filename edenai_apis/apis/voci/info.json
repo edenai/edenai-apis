@@ -14,7 +14,8 @@
                     "spa-PA",
                     "por-BR",
                     "spa-CO"
-                ]
+                ],
+                "allow_null_language": true
             },
             "version": "v1"
         }

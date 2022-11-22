@@ -1,11 +1,19 @@
 from io import BufferedReader
 from itertools import zip_longest
+import json
 from typing import Dict, Sequence, TypeVar, Union
 from collections import defaultdict
 import mimetypes
 import base64
 from enum import Enum
 import requests
+from edenai_apis.features.ocr.identity_parser import (
+    IdentityParserDataClass,
+    InfoCountry,
+    ItemIdentityParserDataClass,
+    get_info_country,
+    InfosIdentityParserDataClass
+)
 from edenai_apis.features.ocr.invoice_parser import (
     CustomerInformationInvoice,
     InfosInvoiceParserDataClass,
@@ -240,3 +248,106 @@ class Base64Api(ProviderApi, Ocr):
         self, file: BufferedReader, language: str
     ) -> ResponseType[ReceiptParserDataClass]:
         return self._ocr_finance_document(file, SubfeatureParser.RECEIPT)
+
+    def ocr__identity_parser(
+        self,
+        file: BufferedReader,
+        filename: str
+    ) -> ResponseType[IdentityParserDataClass]:
+        image_as_base64 = (
+            f"data:{mimetypes.guess_type(file.name)[0]};base64,"
+            + base64.b64encode(file.read()).decode()
+        )
+
+        payload = json.dumps({
+            "image": image_as_base64
+        })
+        
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': self.api_key
+        }
+        
+        response = requests.post(url=self.url, headers=headers, data=payload)
+        
+        original_response = response.json()
+        if response.status_code != 200:
+            raise ProviderException(message=original_response['message'])
+
+        items = []
+
+        for document in original_response:
+            image_id=[ItemIdentityParserDataClass(value=doc.get('image', []), confidence=doc.get('confidence')) for doc in document['features'].get('faces', {})]
+            image_signature=[ItemIdentityParserDataClass(value=doc.get('image', []), confidence=doc.get('confidence')) for doc in document['features'].get('signatures', {})]
+            given_names=document['fields'].get('givenName', {}).get('value', "").split(' ') if document['fields'].get('givenName', {}).get('value', "") != "" else []
+            given_names_final = []
+            for given_name in given_names:
+                given_names_final.append(ItemIdentityParserDataClass(
+                    value=given_name,
+                    confidence=document['fields'].get('givenName', {}).get('confidence')
+                ))
+
+            country=get_info_country(
+                key=InfoCountry.ALPHA3,
+                value=document['fields'].get('countryCode', {}).get('value', "")
+            )
+            country['confidence'] = document['fields'].get('countryCode', {}).get('confidence')
+
+            items.append(InfosIdentityParserDataClass(
+                document_type=ItemIdentityParserDataClass(
+                    value=document['fields'].get('documentType', {}).get('value'),
+                    confidence=document['fields'].get('documentType', {}).get('confidence')
+                ),
+                last_name=ItemIdentityParserDataClass(
+                    value=document['fields'].get('familyName', {}).get('value'),
+                    confidence=document['fields'].get('familyName', {}).get('confidence')
+                ),
+                given_names=given_names_final,
+                birth_date=ItemIdentityParserDataClass(
+                    value=document['fields'].get('dateOfBirth', {}).get('value'),
+                    confidence=document['fields'].get('dateOfBirth', {}).get('confidence'),
+                ),
+                country=country,
+                document_id=ItemIdentityParserDataClass(
+                    value=document['fields'].get('documentNumber', {}).get('value'),
+                    confidence=document['fields'].get('documentNumber', {}).get('confidence'),
+                ),
+                age=ItemIdentityParserDataClass(
+                    value=str(document['fields'].get('age', {}).get('value')),
+                    confidence=document['fields'].get('age', {}).get('confidence'),
+                ),
+                nationality=ItemIdentityParserDataClass(
+                    value=document['fields'].get('nationality', {}).get('value'),
+                    confidence=document['fields'].get('nationality', {}).get('confidence'),
+                ),
+                issuing_state=ItemIdentityParserDataClass(
+                    value=document['fields'].get('issuingState', {}).get('value'),
+                    confidence=document['fields'].get('issuingState', {}).get('confidence'),
+                ),
+                image_id=image_id,
+                image_signature=image_signature,
+                gender=ItemIdentityParserDataClass(
+                    value=document['fields'].get('sex', {}).get('value'),
+                    confidence=document['fields'].get('sex', {}).get('confidence'),
+                ),
+                expire_date=ItemIdentityParserDataClass(
+                    value=document['fields'].get('expirationDate', {}).get('value'),
+                    confidence=document['fields'].get('expirationDate', {}).get('confidence')
+                ),
+                issuance_date=ItemIdentityParserDataClass(
+                    value=document['fields'].get('issueDate', {}).get('value'),
+                    confidence=document['fields'].get('issueDate', {}).get('confidence'),
+                ),
+                address=ItemIdentityParserDataClass(
+                    value=document['fields'].get('address', {}).get('value'),
+                    confidence=document['fields'].get('address', {}).get('confidence'),
+                )
+            ))
+
+
+        standarized_response = IdentityParserDataClass(extracted_data=items)
+
+        return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standarized_response=standarized_response,
+        )

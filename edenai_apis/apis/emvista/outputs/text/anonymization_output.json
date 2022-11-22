@@ -23,14 +23,14 @@
           ]
         }
       ],
-      "annotatedValue": "Le num\u00e9ro de <THING/CONCRETE/ANIMATE/LIVINGBEING/HUMAN_915777810>  est le <THING/ABSTRACT/PHONENUMBER_538122288> ."
+      "annotatedValue": "Le num\u00e9ro de <THING/CONCRETE/ANIMATE/LIVINGBEING/HUMAN_637079294>  est le <THING/ABSTRACT/PHONENUMBER_39973140> ."
     },
     "code": 0,
-    "startTime": 1665571745341,
-    "endTime": 1665571745343,
+    "startTime": 1668438595144,
+    "endTime": 1668438595145,
     "message": "OK"
   },
   "standarized_response": {
-    "result": "Le num\u00e9ro de <THING/CONCRETE/ANIMATE/LIVINGBEING/HUMAN_915777810>  est le <THING/ABSTRACT/PHONENUMBER_538122288> ."
+    "result": "Le num\u00e9ro de <THING/CONCRETE/ANIMATE/LIVINGBEING/HUMAN_637079294>  est le <THING/ABSTRACT/PHONENUMBER_39973140> ."
   }
 }

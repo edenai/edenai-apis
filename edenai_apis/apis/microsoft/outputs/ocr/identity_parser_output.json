@@ -1,0 +1,3080 @@
+{
+  "original_response": {
+    "status": "succeeded",
+    "createdDateTime": "2022-11-21T14:25:52Z",
+    "lastUpdatedDateTime": "2022-11-21T14:25:58Z",
+    "analyzeResult": {
+      "apiVersion": "2022-08-31",
+      "modelId": "prebuilt-idDocument",
+      "stringIndexType": "textElements",
+      "content": "PASSPORT PASSEPORT / PASAPORTE\nUSA\nTHE UNITED STATES OF AMERICA\nType/Type/Tipo Code/Code/C\u00f3digo\nPassport No./No. du Passeport/No. de Pasaporte E00007730\nP\nUSA\nSurname/Nom/Apellidos TRAVELER\nGiven names/Pr\u00e9noms/Nombres HAPPY\nNationality/Nationalit\u00e9/Nacionalidad UNITED STATES OF AMERICA\nBECIMEN\n05 FEB 1965\nE00001130\nSex/Sexe/Saxe\nF\nPlace of birth/Liqu de naissance/Lugar de nacimiento WASHINGTON, D.C., U.S.A.\nDate of issue/Date de d\u00e9livrance Fecha de expedici\u00f3n 15 OCT 2020 Date of expiration/Date d'expiration/Fecha de caducidad 14 OCT 2030\nAuthority/Autorit\u00e9/Autoridad UNITED STATES DEPARTMENT OF STATE\n05:02 65\nP<USATRAVELER << HAPPY <<<<<<<<<<<<<<<<<<<<<<<<\nE000077303USA6502056F3010149500101920<091824",
+      "pages": [
+        {
+          "pageNumber": 1,
+          "angle": -89.96759796142578,
+          "width": 8.5,
+          "height": 11,
+          "unit": "inch",
+          "words": [
+            {
+              "content": "PASSPORT",
+              "polygon": [
+                1.084,
+                10.2027,
+                1.0888,
+                8.99,
+                1.3037,
+                8.9948,
+                1.2989,
+                10.2027
+              ],
+              "confidence": 0.995,
+              "span": {
+                "offset": 0,
+                "length": 8
+              }
+            },
+            {
+              "content": "PASSEPORT",
+              "polygon": [
+                1.3132,
+                10.5512,
+                1.3084,
+                9.6536,
+                1.4803,
+                9.6584,
+                1.4899,
+                10.556
+              ],
+              "confidence": 0.932,
+              "span": {
+                "offset": 9,
+                "length": 9
+              }
+            },
+            {
+              "content": "/",
+              "polygon": [
+                1.3084,
+                9.6202,
+                1.3084,
+                9.5629,
+                1.4803,
+                9.5677,
+                1.4803,
+                9.6202
+              ],
+              "confidence": 0.022,
+              "span": {
+                "offset": 19,
+                "length": 1
+              }
+            },
+            {
+              "content": "PASAPORTE",
+              "polygon": [
+                1.3084,
+                9.5295,
+                1.318,
+                8.6081,
+                1.4851,
+                8.6128,
+                1.4803,
+                9.5295
+              ],
+              "confidence": 0.991,
+              "span": {
+                "offset": 21,
+                "length": 9
+              }
+            },
+            {
+              "content": "USA",
+              "polygon": [
+                2.0056,
+                10.3125,
+                2.0199,
+                9.0807,
+                2.5548,
+                9.0855,
+                2.5452,
+                10.3173
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 31,
+                "length": 3
+              }
+            },
+            {
+              "content": "THE",
+              "polygon": [
+                1.0124,
+                7.5004,
+                1.0076,
+                6.6936,
+                1.4278,
+                6.7031,
+                1.4278,
+                7.51
+              ],
+              "confidence": 0.994,
+              "span": {
+                "offset": 35,
+                "length": 3
+              }
+            },
+            {
+              "content": "UNITED",
+              "polygon": [
+                1.0028,
+                6.5694,
+                0.9933,
+                4.9414,
+                1.423,
+                4.951,
+                1.4278,
+                6.5742
+              ],
+              "confidence": 0.993,
+              "span": {
+                "offset": 39,
+                "length": 6
+              }
+            },
+            {
+              "content": "STATES",
+              "polygon": [
+                0.9933,
+                4.8173,
+                0.9837,
+                3.194,
+                1.4183,
+                3.194,
+                1.423,
+                4.822
+              ],
+              "confidence": 0.996,
+              "span": {
+                "offset": 46,
+                "length": 6
+              }
+            },
+            {
+              "content": "OF",
+              "polygon": [
+                0.9837,
+                3.0938,
+                0.9789,
+                2.5161,
+                1.4183,
+                2.5161,
+                1.4183,
+                3.0985
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 53,
+                "length": 2
+              }
+            },
+            {
+              "content": "AMERICA",
+              "polygon": [
+                0.9789,
+                2.3872,
+                0.9789,
+                0.339,
+                1.4183,
+                0.339,
+                1.4183,
+                2.3919
+              ],
+              "confidence": 0.995,
+              "span": {
+                "offset": 56,
+                "length": 7
+              }
+            },
+            {
+              "content": "Type/Type/Tipo",
+              "polygon": [
+                1.6809,
+                7.615,
+                1.6427,
+                6.5122,
+                1.8337,
+                6.5122,
+                1.8624,
+                7.615
+              ],
+              "confidence": 0.765,
+              "span": {
+                "offset": 64,
+                "length": 14
+              }
+            },
+            {
+              "content": "Code/Code/C\u00f3digo",
+              "polygon": [
+                1.6427,
+                6.2639,
+                1.6522,
+                4.8316,
+                1.8242,
+                4.8316,
+                1.8289,
+                6.2639
+              ],
+              "confidence": 0.767,
+              "span": {
+                "offset": 79,
+                "length": 16
+              }
+            },
+            {
+              "content": "Passport",
+              "polygon": [
+                1.6475,
+                4.5165,
+                1.6475,
+                3.8433,
+                1.8194,
+                3.8481,
+                1.8194,
+                4.5165
+              ],
+              "confidence": 0.992,
+              "span": {
+                "offset": 96,
+                "length": 8
+              }
+            },
+            {
+              "content": "No./No.",
+              "polygon": [
+                1.6475,
+                3.8099,
+                1.6522,
+                3.2704,
+                1.8194,
+                3.2704,
+                1.8194,
+                3.8099
+              ],
+              "confidence": 0.882,
+              "span": {
+                "offset": 105,
+                "length": 7
+              }
+            },
+            {
+              "content": "du",
+              "polygon": [
+                1.6522,
+                3.2322,
+                1.6522,
+                3.0365,
+                1.8194,
+                3.0365,
+                1.8194,
+                3.2322
+              ],
+              "confidence": 0.991,
+              "span": {
+                "offset": 113,
+                "length": 2
+              }
+            },
+            {
+              "content": "Passeport/No.",
+              "polygon": [
+                1.6522,
+                2.9983,
+                1.6522,
+                1.9479,
+                1.8194,
+                1.9479,
+                1.8194,
+                3.003
+              ],
+              "confidence": 0.782,
+              "span": {
+                "offset": 116,
+                "length": 13
+              }
+            },
+            {
+              "content": "de",
+              "polygon": [
+                1.6522,
+                1.9097,
+                1.6522,
+                1.7378,
+                1.8194,
+                1.7378,
+                1.8194,
+                1.9145
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 130,
+                "length": 2
+              }
+            },
+            {
+              "content": "Pasaporte",
+              "polygon": [
+                1.6522,
+                1.6997,
+                1.6522,
+                0.931,
+                1.8146,
+                0.931,
+                1.8194,
+                1.7044
+              ],
+              "confidence": 0.947,
+              "span": {
+                "offset": 133,
+                "length": 9
+              }
+            },
+            {
+              "content": "E00007730",
+              "polygon": [
+                1.8528,
+                3.7192,
+                1.8528,
+                1.8238,
+                2.211,
+                1.8286,
+                2.211,
+                3.7096
+              ],
+              "confidence": 0.994,
+              "span": {
+                "offset": 143,
+                "length": 9
+              }
+            },
+            {
+              "content": "P",
+              "polygon": [
+                1.8958,
+                7.0517,
+                1.9006,
+                6.9466,
+                2.0868,
+                6.9514,
+                2.082,
+                7.0564
+              ],
+              "confidence": 0.995,
+              "span": {
+                "offset": 153,
+                "length": 1
+              }
+            },
+            {
+              "content": "USA",
+              "polygon": [
+                1.9053,
+                5.6671,
+                1.9053,
+                5.2756,
+                2.0868,
+                5.2756,
+                2.0868,
+                5.6671
+              ],
+              "confidence": 0.994,
+              "span": {
+                "offset": 155,
+                "length": 3
+              }
+            },
+            {
+              "content": "Surname/Nom/Apellidos",
+              "polygon": [
+                2.359,
+                7.8872,
+                2.3494,
+                6.092,
+                2.5166,
+                6.0872,
+                2.5261,
+                7.8872
+              ],
+              "confidence": 0.881,
+              "span": {
+                "offset": 159,
+                "length": 21
+              }
+            },
+            {
+              "content": "TRAVELER",
+              "polygon": [
+                2.5548,
+                7.8251,
+                2.5548,
+                6.4692,
+                2.8079,
+                6.4692,
+                2.8079,
+                7.8346
+              ],
+              "confidence": 0.994,
+              "span": {
+                "offset": 181,
+                "length": 8
+              }
+            },
+            {
+              "content": "Given",
+              "polygon": [
+                2.8843,
+                7.9063,
+                2.8795,
+                7.4766,
+                3.0371,
+                7.4718,
+                3.0371,
+                7.8967
+              ],
+              "confidence": 0.993,
+              "span": {
+                "offset": 190,
+                "length": 5
+              }
+            },
+            {
+              "content": "names/Pr\u00e9noms/Nombres",
+              "polygon": [
+                2.8795,
+                7.4384,
+                2.8747,
+                5.4952,
+                3.0419,
+                5.4952,
+                3.0371,
+                7.4336
+              ],
+              "confidence": 0.616,
+              "span": {
+                "offset": 196,
+                "length": 21
+              }
+            },
+            {
+              "content": "HAPPY",
+              "polygon": [
+                3.0896,
+                7.8251,
+                3.0801,
+                6.9562,
+                3.3045,
+                6.9609,
+                3.3093,
+                7.8299
+              ],
+              "confidence": 0.993,
+              "span": {
+                "offset": 218,
+                "length": 5
+              }
+            },
+            {
+              "content": "Nationality/Nationalit\u00e9/Nacionalidad",
+              "polygon": [
+                3.4239,
+                7.3095,
+                3.4334,
+                4.6502,
+                3.591,
+                4.6502,
+                3.5958,
+                7.3142
+              ],
+              "confidence": 0.904,
+              "span": {
+                "offset": 224,
+                "length": 36
+              }
+            },
+            {
+              "content": "UNITED",
+              "polygon": [
+                3.6149,
+                7.3095,
+                3.6197,
+                6.5456,
+                3.8202,
+                6.5408,
+                3.8202,
+                7.3142
+              ],
+              "confidence": 0.994,
+              "span": {
+                "offset": 261,
+                "length": 6
+              }
+            },
+            {
+              "content": "STATES",
+              "polygon": [
+                3.6244,
+                6.4453,
+                3.6244,
+                5.6385,
+                3.825,
+                5.6289,
+                3.8202,
+                6.4405
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 268,
+                "length": 6
+              }
+            },
+            {
+              "content": "OF",
+              "polygon": [
+                3.6244,
+                5.5525,
+                3.6244,
+                5.2661,
+                3.825,
+                5.2517,
+                3.825,
+                5.5382
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 275,
+                "length": 2
+              }
+            },
+            {
+              "content": "AMERICA",
+              "polygon": [
+                3.6244,
+                5.1944,
+                3.6149,
+                4.2587,
+                3.8393,
+                4.2348,
+                3.825,
+                5.1753
+              ],
+              "confidence": 0.849,
+              "span": {
+                "offset": 278,
+                "length": 7
+              }
+            },
+            {
+              "content": "BECIMEN",
+              "polygon": [
+                4.1115,
+                6.2161,
+                2.6503,
+                2.4588,
+                3.3475,
+                2.1102,
+                4.866,
+                6.1207
+              ],
+              "confidence": 0.777,
+              "span": {
+                "offset": 286,
+                "length": 7
+              }
+            },
+            {
+              "content": "05",
+              "polygon": [
+                4.059,
+                7.2617,
+                4.059,
+                6.9753,
+                4.3407,
+                6.9705,
+                4.3407,
+                7.2617
+              ],
+              "confidence": 0.994,
+              "span": {
+                "offset": 294,
+                "length": 2
+              }
+            },
+            {
+              "content": "FEB",
+              "polygon": [
+                4.059,
+                6.8941,
+                4.059,
+                6.3737,
+                4.336,
+                6.3642,
+                4.3407,
+                6.8893
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 297,
+                "length": 3
+              }
+            },
+            {
+              "content": "1965",
+              "polygon": [
+                4.059,
+                6.2066,
+                4.0638,
+                5.5812,
+                4.3073,
+                5.5621,
+                4.3312,
+                6.197
+              ],
+              "confidence": 0.991,
+              "span": {
+                "offset": 301,
+                "length": 4
+              }
+            },
+            {
+              "content": "E00001130",
+              "polygon": [
+                1.8098,
+                0.3056,
+                6.1744,
+                0.296,
+                6.1888,
+                0.9262,
+                1.8385,
+                0.9978
+              ],
+              "confidence": 0.667,
+              "span": {
+                "offset": 306,
+                "length": 9
+              }
+            },
+            {
+              "content": "Sex/Sexe/Saxe",
+              "polygon": [
+                4.3598,
+                7.2999,
+                4.3742,
+                6.2209,
+                4.5461,
+                6.2161,
+                4.5174,
+                7.3095
+              ],
+              "confidence": 0.707,
+              "span": {
+                "offset": 316,
+                "length": 13
+              }
+            },
+            {
+              "content": "F",
+              "polygon": [
+                4.5126,
+                7.2665,
+                4.5126,
+                7.1328,
+                4.7562,
+                7.1328,
+                4.7562,
+                7.2665
+              ],
+              "confidence": 0.995,
+              "span": {
+                "offset": 330,
+                "length": 1
+              }
+            },
+            {
+              "content": "Place",
+              "polygon": [
+                4.8278,
+                7.3047,
+                4.8278,
+                6.918,
+                4.9854,
+                6.9227,
+                4.9806,
+                7.3095
+              ],
+              "confidence": 0.993,
+              "span": {
+                "offset": 332,
+                "length": 5
+              }
+            },
+            {
+              "content": "of",
+              "polygon": [
+                4.8326,
+                6.8607,
+                4.8326,
+                6.7079,
+                4.9854,
+                6.7127,
+                4.9854,
+                6.8702
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 338,
+                "length": 2
+              }
+            },
+            {
+              "content": "birth/Liqu",
+              "polygon": [
+                4.8326,
+                6.6745,
+                4.8374,
+                5.9679,
+                4.9902,
+                5.9727,
+                4.9854,
+                6.6793
+              ],
+              "confidence": 0.397,
+              "span": {
+                "offset": 341,
+                "length": 10
+              }
+            },
+            {
+              "content": "de",
+              "polygon": [
+                4.8374,
+                5.9154,
+                4.8374,
+                5.7339,
+                4.9902,
+                5.7387,
+                4.9902,
+                5.9201
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 352,
+                "length": 2
+              }
+            },
+            {
+              "content": "naissance/Lugar",
+              "polygon": [
+                4.8374,
+                5.691,
+                4.8421,
+                4.4401,
+                4.9902,
+                4.4401,
+                4.9902,
+                5.691
+              ],
+              "confidence": 0.885,
+              "span": {
+                "offset": 355,
+                "length": 15
+              }
+            },
+            {
+              "content": "de",
+              "polygon": [
+                4.8421,
+                4.4067,
+                4.8421,
+                4.2253,
+                4.9902,
+                4.2253,
+                4.9902,
+                4.4067
+              ],
+              "confidence": 0.637,
+              "span": {
+                "offset": 371,
+                "length": 2
+              }
+            },
+            {
+              "content": "nacimiento",
+              "polygon": [
+                4.8421,
+                4.1823,
+                4.8421,
+                3.3563,
+                4.9854,
+                3.3563,
+                4.9902,
+                4.1823
+              ],
+              "confidence": 0.751,
+              "span": {
+                "offset": 374,
+                "length": 10
+              }
+            },
+            {
+              "content": "WASHINGTON,",
+              "polygon": [
+                4.9854,
+                7.2474,
+                4.9806,
+                5.1467,
+                5.2671,
+                5.1515,
+                5.248,
+                7.2569
+              ],
+              "confidence": 0.818,
+              "span": {
+                "offset": 385,
+                "length": 11
+              }
+            },
+            {
+              "content": "D.C.,",
+              "polygon": [
+                4.9806,
+                5.0894,
+                4.9806,
+                4.4115,
+                5.2671,
+                4.4162,
+                5.2671,
+                5.0942
+              ],
+              "confidence": 0.818,
+              "span": {
+                "offset": 397,
+                "length": 5
+              }
+            },
+            {
+              "content": "U.S.A.",
+              "polygon": [
+                4.9806,
+                4.3542,
+                4.9854,
+                3.49,
+                5.2719,
+                3.4948,
+                5.2719,
+                4.3589
+              ],
+              "confidence": 0.995,
+              "span": {
+                "offset": 403,
+                "length": 6
+              }
+            },
+            {
+              "content": "Date",
+              "polygon": [
+                5.3006,
+                7.3095,
+                5.3006,
+                6.9848,
+                5.4534,
+                6.9848,
+                5.4534,
+                7.3142
+              ],
+              "confidence": 0.991,
+              "span": {
+                "offset": 410,
+                "length": 4
+              }
+            },
+            {
+              "content": "of",
+              "polygon": [
+                5.3006,
+                6.9466,
+                5.3006,
+                6.7843,
+                5.4581,
+                6.7843,
+                5.4534,
+                6.9514
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 415,
+                "length": 2
+              }
+            },
+            {
+              "content": "issue/Date",
+              "polygon": [
+                5.3006,
+                6.7509,
+                5.3006,
+                5.9631,
+                5.4629,
+                5.9631,
+                5.4581,
+                6.7509
+              ],
+              "confidence": 0.955,
+              "span": {
+                "offset": 418,
+                "length": 10
+              }
+            },
+            {
+              "content": "de",
+              "polygon": [
+                5.3006,
+                5.9249,
+                5.3006,
+                5.7339,
+                5.4629,
+                5.7339,
+                5.4629,
+                5.9249
+              ],
+              "confidence": 0.994,
+              "span": {
+                "offset": 429,
+                "length": 2
+              }
+            },
+            {
+              "content": "d\u00e9livrance",
+              "polygon": [
+                5.3006,
+                5.6957,
+                5.3053,
+                4.9175,
+                5.4677,
+                4.9175,
+                5.4629,
+                5.6957
+              ],
+              "confidence": 0.792,
+              "span": {
+                "offset": 432,
+                "length": 10
+              }
+            },
+            {
+              "content": "Fecha",
+              "polygon": [
+                5.3053,
+                4.8602,
+                5.3053,
+                4.4162,
+                5.4677,
+                4.4162,
+                5.4677,
+                4.8602
+              ],
+              "confidence": 0.849,
+              "span": {
+                "offset": 443,
+                "length": 5
+              }
+            },
+            {
+              "content": "de",
+              "polygon": [
+                5.3053,
+                4.3733,
+                5.3053,
+                4.1775,
+                5.4725,
+                4.1727,
+                5.4677,
+                4.3685
+              ],
+              "confidence": 0.989,
+              "span": {
+                "offset": 449,
+                "length": 2
+              }
+            },
+            {
+              "content": "expedici\u00f3n",
+              "polygon": [
+                5.3053,
+                4.1441,
+                5.3101,
+                3.3325,
+                5.4725,
+                3.3277,
+                5.4725,
+                4.1393
+              ],
+              "confidence": 0.814,
+              "span": {
+                "offset": 452,
+                "length": 10
+              }
+            },
+            {
+              "content": "15",
+              "polygon": [
+                5.439,
+                7.2617,
+                5.439,
+                6.98,
+                5.759,
+                6.9753,
+                5.7638,
+                7.2522
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 463,
+                "length": 2
+              }
+            },
+            {
+              "content": "OCT",
+              "polygon": [
+                5.439,
+                6.9084,
+                5.439,
+                6.3212,
+                5.7542,
+                6.3164,
+                5.759,
+                6.8989
+              ],
+              "confidence": 0.956,
+              "span": {
+                "offset": 466,
+                "length": 3
+              }
+            },
+            {
+              "content": "2020",
+              "polygon": [
+                5.439,
+                6.2543,
+                5.4438,
+                5.5668,
+                5.759,
+                5.5668,
+                5.7542,
+                6.2496
+              ],
+              "confidence": 0.989,
+              "span": {
+                "offset": 470,
+                "length": 4
+              }
+            },
+            {
+              "content": "Date",
+              "polygon": [
+                5.7685,
+                7.3286,
+                5.7685,
+                6.9896,
+                5.9261,
+                6.9896,
+                5.9213,
+                7.3286
+              ],
+              "confidence": 0.991,
+              "span": {
+                "offset": 475,
+                "length": 4
+              }
+            },
+            {
+              "content": "of",
+              "polygon": [
+                5.7685,
+                6.9514,
+                5.7685,
+                6.8034,
+                5.9261,
+                6.8034,
+                5.9261,
+                6.9514
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 480,
+                "length": 2
+              }
+            },
+            {
+              "content": "expiration/Date",
+              "polygon": [
+                5.7685,
+                6.77,
+                5.7685,
+                5.6098,
+                5.9309,
+                5.6098,
+                5.9261,
+                6.77
+              ],
+              "confidence": 0.977,
+              "span": {
+                "offset": 483,
+                "length": 15
+              }
+            },
+            {
+              "content": "d'expiration/Fecha",
+              "polygon": [
+                5.7685,
+                5.5716,
+                5.7685,
+                4.1775,
+                5.9357,
+                4.1727,
+                5.9309,
+                5.5716
+              ],
+              "confidence": 0.738,
+              "span": {
+                "offset": 499,
+                "length": 18
+              }
+            },
+            {
+              "content": "de",
+              "polygon": [
+                5.7638,
+                4.1393,
+                5.7638,
+                3.9484,
+                5.9357,
+                3.9484,
+                5.9357,
+                4.1345
+              ],
+              "confidence": 0.993,
+              "span": {
+                "offset": 518,
+                "length": 2
+              }
+            },
+            {
+              "content": "caducidad",
+              "polygon": [
+                5.7638,
+                3.9102,
+                5.7638,
+                3.1319,
+                5.9357,
+                3.1319,
+                5.9357,
+                3.9102
+              ],
+              "confidence": 0.795,
+              "span": {
+                "offset": 521,
+                "length": 9
+              }
+            },
+            {
+              "content": "14",
+              "polygon": [
+                5.9309,
+                7.2569,
+                5.9309,
+                6.9753,
+                6.2222,
+                6.9896,
+                6.2126,
+                7.2665
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 531,
+                "length": 2
+              }
+            },
+            {
+              "content": "OCT",
+              "polygon": [
+                5.9309,
+                6.9084,
+                5.9309,
+                6.3116,
+                6.2317,
+                6.326,
+                6.2222,
+                6.9227
+              ],
+              "confidence": 0.775,
+              "span": {
+                "offset": 534,
+                "length": 3
+              }
+            },
+            {
+              "content": "2030",
+              "polygon": [
+                5.9309,
+                6.2257,
+                5.9309,
+                5.5668,
+                6.2317,
+                5.5812,
+                6.2317,
+                6.2352
+              ],
+              "confidence": 0.991,
+              "span": {
+                "offset": 538,
+                "length": 4
+              }
+            },
+            {
+              "content": "Authority/Autorit\u00e9/Autoridad",
+              "polygon": [
+                6.2556,
+                7.319,
+                6.2604,
+                5.204,
+                6.4323,
+                5.1992,
+                6.4323,
+                7.319
+              ],
+              "confidence": 0.83,
+              "span": {
+                "offset": 543,
+                "length": 28
+              }
+            },
+            {
+              "content": "UNITED",
+              "polygon": [
+                6.4562,
+                7.319,
+                6.4514,
+                6.5551,
+                6.6615,
+                6.5647,
+                6.6567,
+                7.3286
+              ],
+              "confidence": 0.993,
+              "span": {
+                "offset": 572,
+                "length": 6
+              }
+            },
+            {
+              "content": "STATES",
+              "polygon": [
+                6.4514,
+                6.4644,
+                6.4466,
+                5.6528,
+                6.6711,
+                5.6576,
+                6.6615,
+                6.4692
+              ],
+              "confidence": 0.994,
+              "span": {
+                "offset": 579,
+                "length": 6
+              }
+            },
+            {
+              "content": "DEPARTMENT",
+              "polygon": [
+                6.4466,
+                5.5716,
+                6.4466,
+                4.0534,
+                6.6806,
+                4.0486,
+                6.6711,
+                5.5764
+              ],
+              "confidence": 0.993,
+              "span": {
+                "offset": 586,
+                "length": 10
+              }
+            },
+            {
+              "content": "OF",
+              "polygon": [
+                6.4466,
+                3.9865,
+                6.4466,
+                3.7001,
+                6.6806,
+                3.7001,
+                6.6806,
+                3.9818
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 597,
+                "length": 2
+              }
+            },
+            {
+              "content": "STATE",
+              "polygon": [
+                6.4466,
+                3.6237,
+                6.4466,
+                2.9601,
+                6.6806,
+                2.9553,
+                6.6806,
+                3.6189
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 600,
+                "length": 5
+              }
+            },
+            {
+              "content": "05:02",
+              "polygon": [
+                6.2413,
+                1.9479,
+                6.2413,
+                1.5469,
+                6.4132,
+                1.5469,
+                6.4132,
+                1.9479
+              ],
+              "confidence": 0.622,
+              "span": {
+                "offset": 606,
+                "length": 5
+              }
+            },
+            {
+              "content": "65",
+              "polygon": [
+                6.2413,
+                1.5087,
+                6.2413,
+                1.332,
+                6.418,
+                1.3273,
+                6.4132,
+                1.5039
+              ],
+              "confidence": 0.801,
+              "span": {
+                "offset": 612,
+                "length": 2
+              }
+            },
+            {
+              "content": "P<USATRAVELER",
+              "polygon": [
+                6.7904,
+                10.6753,
+                6.7809,
+                7.7535,
+                7.0817,
+                7.763,
+                7.077,
+                10.6849
+              ],
+              "confidence": 0.981,
+              "span": {
+                "offset": 615,
+                "length": 13
+              }
+            },
+            {
+              "content": "<<",
+              "polygon": [
+                6.7809,
+                7.6819,
+                6.7809,
+                7.3047,
+                7.0817,
+                7.3142,
+                7.0817,
+                7.6914
+              ],
+              "confidence": 0.997,
+              "span": {
+                "offset": 629,
+                "length": 2
+              }
+            },
+            {
+              "content": "HAPPY",
+              "polygon": [
+                6.7809,
+                7.2378,
+                6.7761,
+                6.1302,
+                7.0817,
+                6.1398,
+                7.0817,
+                7.2474
+              ],
+              "confidence": 0.993,
+              "span": {
+                "offset": 632,
+                "length": 5
+              }
+            },
+            {
+              "content": "<<<<<<<<<<<<<<<<<<<<<<<<",
+              "polygon": [
+                6.7761,
+                6.0634,
+                6.7666,
+                0.5013,
+                7.0913,
+                0.5204,
+                7.0817,
+                6.0729
+              ],
+              "confidence": 0.982,
+              "span": {
+                "offset": 638,
+                "length": 24
+              }
+            },
+            {
+              "content": "E000077303USA6502056F3010149500101920<091824",
+              "polygon": [
+                7.4303,
+                10.6944,
+                7.4494,
+                0.4965,
+                7.7694,
+                0.5061,
+                7.7407,
+                10.6992
+              ],
+              "confidence": 0.877,
+              "span": {
+                "offset": 663,
+                "length": 44
+              }
+            }
+          ],
+          "lines": [
+            {
+              "content": "PASSPORT",
+              "polygon": [
+                1.084,
+                10.2027,
+                1.0888,
+                8.9423,
+                1.3037,
+                8.9423,
+                1.2989,
+                10.2027
+              ],
+              "spans": [
+                {
+                  "offset": 0,
+                  "length": 8
+                }
+              ]
+            },
+            {
+              "content": "PASSEPORT / PASAPORTE",
+              "polygon": [
+                1.3084,
+                10.556,
+                1.3084,
+                8.5747,
+                1.4899,
+                8.5747,
+                1.4899,
+                10.556
+              ],
+              "spans": [
+                {
+                  "offset": 9,
+                  "length": 21
+                }
+              ]
+            },
+            {
+              "content": "USA",
+              "polygon": [
+                2.0056,
+                10.3268,
+                2.039,
+                8.8468,
+                2.55,
+                8.8993,
+                2.5452,
+                10.3268
+              ],
+              "spans": [
+                {
+                  "offset": 31,
+                  "length": 3
+                }
+              ]
+            },
+            {
+              "content": "THE UNITED STATES OF AMERICA",
+              "polygon": [
+                1.0028,
+                7.5339,
+                0.9789,
+                0.2578,
+                1.4135,
+                0.2578,
+                1.4326,
+                7.5339
+              ],
+              "spans": [
+                {
+                  "offset": 35,
+                  "length": 28
+                }
+              ]
+            },
+            {
+              "content": "Type/Type/Tipo Code/Code/C\u00f3digo",
+              "polygon": [
+                1.657,
+                7.615,
+                1.6379,
+                4.822,
+                1.8289,
+                4.8173,
+                1.8624,
+                7.615
+              ],
+              "spans": [
+                {
+                  "offset": 64,
+                  "length": 31
+                }
+              ]
+            },
+            {
+              "content": "Passport No./No. du Passeport/No. de Pasaporte",
+              "polygon": [
+                1.6475,
+                4.5165,
+                1.6475,
+                0.9214,
+                1.8194,
+                0.9214,
+                1.8194,
+                4.5165
+              ],
+              "spans": [
+                {
+                  "offset": 96,
+                  "length": 46
+                }
+              ]
+            },
+            {
+              "content": "E00007730",
+              "polygon": [
+                1.8528,
+                3.7192,
+                1.8528,
+                1.7617,
+                2.211,
+                1.7617,
+                2.2157,
+                3.7192
+              ],
+              "spans": [
+                {
+                  "offset": 143,
+                  "length": 9
+                }
+              ]
+            },
+            {
+              "content": "P",
+              "polygon": [
+                1.8958,
+                7.0564,
+                1.9006,
+                6.8845,
+                2.0868,
+                6.8845,
+                2.082,
+                7.0612
+              ],
+              "spans": [
+                {
+                  "offset": 153,
+                  "length": 1
+                }
+              ]
+            },
+            {
+              "content": "USA",
+              "polygon": [
+                1.9101,
+                5.6719,
+                1.9053,
+                5.1992,
+                2.0868,
+                5.204,
+                2.082,
+                5.6719
+              ],
+              "spans": [
+                {
+                  "offset": 155,
+                  "length": 3
+                }
+              ]
+            },
+            {
+              "content": "Surname/Nom/Apellidos",
+              "polygon": [
+                2.3542,
+                7.8872,
+                2.3494,
+                6.0681,
+                2.5166,
+                6.0634,
+                2.5261,
+                7.8872
+              ],
+              "spans": [
+                {
+                  "offset": 159,
+                  "length": 21
+                }
+              ]
+            },
+            {
+              "content": "TRAVELER",
+              "polygon": [
+                2.5596,
+                7.8442,
+                2.5548,
+                6.3928,
+                2.8079,
+                6.3928,
+                2.8079,
+                7.8442
+              ],
+              "spans": [
+                {
+                  "offset": 181,
+                  "length": 8
+                }
+              ]
+            },
+            {
+              "content": "Given names/Pr\u00e9noms/Nombres",
+              "polygon": [
+                2.8747,
+                7.9063,
+                2.8747,
+                5.4761,
+                3.0419,
+                5.4761,
+                3.0419,
+                7.9063
+              ],
+              "spans": [
+                {
+                  "offset": 190,
+                  "length": 27
+                }
+              ]
+            },
+            {
+              "content": "HAPPY",
+              "polygon": [
+                3.0896,
+                7.8346,
+                3.0801,
+                6.875,
+                3.2997,
+                6.875,
+                3.3093,
+                7.8346
+              ],
+              "spans": [
+                {
+                  "offset": 218,
+                  "length": 5
+                }
+              ]
+            },
+            {
+              "content": "Nationality/Nationalit\u00e9/Nacionalidad",
+              "polygon": [
+                3.4143,
+                7.3142,
+                3.4143,
+                4.612,
+                3.6006,
+                4.612,
+                3.5958,
+                7.3142
+              ],
+              "spans": [
+                {
+                  "offset": 224,
+                  "length": 36
+                }
+              ]
+            },
+            {
+              "content": "UNITED STATES OF AMERICA",
+              "polygon": [
+                3.6149,
+                7.3095,
+                3.6149,
+                4.2348,
+                3.8346,
+                4.2348,
+                3.825,
+                7.3095
+              ],
+              "spans": [
+                {
+                  "offset": 261,
+                  "length": 24
+                }
+              ]
+            },
+            {
+              "content": "BECIMEN",
+              "polygon": [
+                4.2022,
+                6.2496,
+                2.5357,
+                2.1437,
+                3.3618,
+                1.862,
+                4.8756,
+                6.0825
+              ],
+              "spans": [
+                {
+                  "offset": 286,
+                  "length": 7
+                }
+              ]
+            },
+            {
+              "content": "05 FEB 1965",
+              "polygon": [
+                4.059,
+                7.2617,
+                4.059,
+                5.4905,
+                4.3312,
+                5.4905,
+                4.3407,
+                7.2617
+              ],
+              "spans": [
+                {
+                  "offset": 294,
+                  "length": 11
+                }
+              ]
+            },
+            {
+              "content": "E00001130",
+              "polygon": [
+                1.8098,
+                0.3056,
+                6.3559,
+                0.296,
+                6.3654,
+                0.9501,
+                1.8146,
+                0.9931
+              ],
+              "spans": [
+                {
+                  "offset": 306,
+                  "length": 9
+                }
+              ]
+            },
+            {
+              "content": "Sex/Sexe/Saxe",
+              "polygon": [
+                4.3598,
+                7.3047,
+                4.3742,
+                6.1732,
+                4.5461,
+                6.1732,
+                4.5222,
+                7.3095
+              ],
+              "spans": [
+                {
+                  "offset": 316,
+                  "length": 13
+                }
+              ]
+            },
+            {
+              "content": "F",
+              "polygon": [
+                4.5126,
+                7.2665,
+                4.5126,
+                7.0898,
+                4.7562,
+                7.0994,
+                4.7562,
+                7.276
+              ],
+              "spans": [
+                {
+                  "offset": 330,
+                  "length": 1
+                }
+              ]
+            },
+            {
+              "content": "Place of birth/Liqu de naissance/Lugar de nacimiento",
+              "polygon": [
+                4.8278,
+                7.3095,
+                4.8326,
+                3.3277,
+                4.9902,
+                3.3277,
+                4.9854,
+                7.3095
+              ],
+              "spans": [
+                {
+                  "offset": 332,
+                  "length": 52
+                }
+              ]
+            },
+            {
+              "content": "WASHINGTON, D.C., U.S.A.",
+              "polygon": [
+                4.9806,
+                7.2522,
+                4.9854,
+                3.4852,
+                5.2719,
+                3.4852,
+                5.2576,
+                7.2522
+              ],
+              "spans": [
+                {
+                  "offset": 385,
+                  "length": 24
+                }
+              ]
+            },
+            {
+              "content": "Date of issue/Date de d\u00e9livrance Fecha de expedici\u00f3n",
+              "polygon": [
+                5.3006,
+                7.3142,
+                5.3101,
+                3.299,
+                5.4725,
+                3.299,
+                5.4581,
+                7.3142
+              ],
+              "spans": [
+                {
+                  "offset": 410,
+                  "length": 52
+                }
+              ]
+            },
+            {
+              "content": "15 OCT 2020",
+              "polygon": [
+                5.439,
+                7.2617,
+                5.439,
+                5.5525,
+                5.7638,
+                5.5525,
+                5.759,
+                7.2617
+              ],
+              "spans": [
+                {
+                  "offset": 463,
+                  "length": 11
+                }
+              ]
+            },
+            {
+              "content": "Date of expiration/Date d'expiration/Fecha de caducidad",
+              "polygon": [
+                5.7638,
+                7.3286,
+                5.7638,
+                3.1033,
+                5.9357,
+                3.1033,
+                5.9309,
+                7.3286
+              ],
+              "spans": [
+                {
+                  "offset": 475,
+                  "length": 55
+                }
+              ]
+            },
+            {
+              "content": "14 OCT 2030",
+              "polygon": [
+                5.9309,
+                7.2665,
+                5.9309,
+                5.5382,
+                6.2317,
+                5.5382,
+                6.227,
+                7.2665
+              ],
+              "spans": [
+                {
+                  "offset": 531,
+                  "length": 11
+                }
+              ]
+            },
+            {
+              "content": "Authority/Autorit\u00e9/Autoridad",
+              "polygon": [
+                6.2556,
+                7.319,
+                6.2604,
+                5.1372,
+                6.4323,
+                5.1372,
+                6.4323,
+                7.319
+              ],
+              "spans": [
+                {
+                  "offset": 543,
+                  "length": 28
+                }
+              ]
+            },
+            {
+              "content": "UNITED STATES DEPARTMENT OF STATE",
+              "polygon": [
+                6.4466,
+                7.3238,
+                6.4466,
+                2.8932,
+                6.6806,
+                2.8932,
+                6.6711,
+                7.3238
+              ],
+              "spans": [
+                {
+                  "offset": 572,
+                  "length": 33
+                }
+              ]
+            },
+            {
+              "content": "05:02 65",
+              "polygon": [
+                6.2413,
+                1.9575,
+                6.2413,
+                1.3034,
+                6.4132,
+                1.3034,
+                6.4132,
+                1.9575
+              ],
+              "spans": [
+                {
+                  "offset": 606,
+                  "length": 8
+                }
+              ]
+            },
+            {
+              "content": "P<USATRAVELER << HAPPY <<<<<<<<<<<<<<<<<<<<<<<<",
+              "polygon": [
+                6.7713,
+                10.6849,
+                6.7666,
+                0.444,
+                7.0913,
+                0.444,
+                7.0961,
+                10.6849
+              ],
+              "spans": [
+                {
+                  "offset": 615,
+                  "length": 47
+                }
+              ]
+            },
+            {
+              "content": "E000077303USA6502056F3010149500101920<091824",
+              "polygon": [
+                7.4256,
+                10.6992,
+                7.4399,
+                0.4536,
+                7.7694,
+                0.4536,
+                7.7407,
+                10.6992
+              ],
+              "spans": [
+                {
+                  "offset": 663,
+                  "length": 44
+                }
+              ]
+            }
+          ],
+          "spans": [
+            {
+              "offset": 0,
+              "length": 707
+            }
+          ],
+          "kind": "document"
+        }
+      ],
+      "paragraphs": [
+        {
+          "spans": [
+            {
+              "offset": 0,
+              "length": 30
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                1.084,
+                10.556,
+                1.084,
+                8.5747,
+                1.4899,
+                8.5747,
+                1.4899,
+                10.556
+              ]
+            }
+          ],
+          "content": "PASSPORT PASSEPORT / PASAPORTE"
+        },
+        {
+          "spans": [
+            {
+              "offset": 31,
+              "length": 3
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                2.0056,
+                10.3268,
+                2.039,
+                8.8468,
+                2.5784,
+                8.859,
+                2.5449,
+                10.339
+              ]
+            }
+          ],
+          "content": "USA"
+        },
+        {
+          "spans": [
+            {
+              "offset": 35,
+              "length": 28
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                0.998,
+                7.535,
+                0.9789,
+                0.2578,
+                1.4135,
+                0.2567,
+                1.4326,
+                7.5339
+              ]
+            }
+          ],
+          "content": "THE UNITED STATES OF AMERICA"
+        },
+        {
+          "spans": [
+            {
+              "offset": 64,
+              "length": 31
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                1.6571,
+                7.6175,
+                1.6236,
+                4.8197,
+                1.8289,
+                4.8173,
+                1.8624,
+                7.615
+              ]
+            }
+          ],
+          "content": "Type/Type/Tipo Code/Code/C\u00f3digo"
+        },
+        {
+          "spans": [
+            {
+              "offset": 96,
+              "length": 56
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                1.6475,
+                4.5165,
+                1.6475,
+                0.9214,
+                2.2157,
+                0.9214,
+                2.2157,
+                4.5165
+              ]
+            }
+          ],
+          "content": "Passport No./No. du Passeport/No. de Pasaporte E00007730"
+        },
+        {
+          "spans": [
+            {
+              "offset": 153,
+              "length": 1
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                1.8958,
+                7.0564,
+                1.9003,
+                6.8798,
+                2.0868,
+                6.8845,
+                2.0823,
+                7.0612
+              ]
+            }
+          ],
+          "content": "P"
+        },
+        {
+          "spans": [
+            {
+              "offset": 155,
+              "length": 3
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                1.9053,
+                5.6719,
+                1.9053,
+                5.1992,
+                2.0868,
+                5.1992,
+                2.0868,
+                5.6719
+              ]
+            }
+          ],
+          "content": "USA"
+        },
+        {
+          "spans": [
+            {
+              "offset": 159,
+              "length": 30
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                2.3542,
+                7.8876,
+                2.3494,
+                6.0638,
+                2.807,
+                6.0626,
+                2.8118,
+                7.8864
+              ]
+            }
+          ],
+          "content": "Surname/Nom/Apellidos TRAVELER"
+        },
+        {
+          "spans": [
+            {
+              "offset": 190,
+              "length": 33
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                2.8747,
+                7.9063,
+                2.8747,
+                5.4761,
+                3.3093,
+                5.4761,
+                3.3093,
+                7.9063
+              ]
+            }
+          ],
+          "content": "Given names/Pr\u00e9noms/Nombres HAPPY"
+        },
+        {
+          "spans": [
+            {
+              "offset": 224,
+              "length": 61
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                3.4059,
+                7.3142,
+                3.4155,
+                4.2335,
+                3.8346,
+                4.2348,
+                3.825,
+                7.3155
+              ]
+            }
+          ],
+          "content": "Nationality/Nationalit\u00e9/Nacionalidad UNITED STATES OF AMERICA"
+        },
+        {
+          "spans": [
+            {
+              "offset": 286,
+              "length": 7
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                2.5357,
+                2.1437,
+                3.3573,
+                1.8494,
+                4.8756,
+                6.0825,
+                4.0539,
+                6.3767
+              ]
+            }
+          ],
+          "content": "BECIMEN"
+        },
+        {
+          "spans": [
+            {
+              "offset": 294,
+              "length": 11
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                4.059,
+                7.2617,
+                4.059,
+                5.4905,
+                4.3407,
+                5.4905,
+                4.3407,
+                7.2617
+              ]
+            }
+          ],
+          "content": "05 FEB 1965"
+        },
+        {
+          "spans": [
+            {
+              "offset": 306,
+              "length": 9
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                1.8146,
+                0.9931,
+                1.8081,
+                0.3056,
+                6.3589,
+                0.2626,
+                6.3654,
+                0.9501
+              ]
+            }
+          ],
+          "content": "E00001130"
+        },
+        {
+          "spans": [
+            {
+              "offset": 316,
+              "length": 13
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                4.3504,
+                7.3059,
+                4.3742,
+                6.1696,
+                4.5461,
+                6.1732,
+                4.5222,
+                7.3095
+              ]
+            }
+          ],
+          "content": "Sex/Sexe/Saxe"
+        },
+        {
+          "spans": [
+            {
+              "offset": 330,
+              "length": 1
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                4.5057,
+                7.2662,
+                4.5126,
+                7.0898,
+                4.7631,
+                7.0997,
+                4.7562,
+                7.276
+              ]
+            }
+          ],
+          "content": "F"
+        },
+        {
+          "spans": [
+            {
+              "offset": 332,
+              "length": 77
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                4.8278,
+                7.3095,
+                4.8326,
+                3.3275,
+                5.2721,
+                3.328,
+                5.2673,
+                7.31
+              ]
+            }
+          ],
+          "content": "Place of birth/Liqu de naissance/Lugar de nacimiento WASHINGTON, D.C., U.S.A."
+        },
+        {
+          "spans": [
+            {
+              "offset": 410,
+              "length": 132
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                5.3005,
+                7.3275,
+                5.3106,
+                3.1018,
+                6.2375,
+                3.104,
+                6.2275,
+                7.3297
+              ]
+            }
+          ],
+          "content": "Date of issue/Date de d\u00e9livrance Fecha de expedici\u00f3n 15 OCT 2020 Date of expiration/Date d'expiration/Fecha de caducidad 14 OCT 2030"
+        },
+        {
+          "spans": [
+            {
+              "offset": 543,
+              "length": 62
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                6.2556,
+                7.3234,
+                6.2652,
+                2.8923,
+                6.6806,
+                2.8932,
+                6.6711,
+                7.3243
+              ]
+            }
+          ],
+          "content": "Authority/Autorit\u00e9/Autoridad UNITED STATES DEPARTMENT OF STATE"
+        },
+        {
+          "spans": [
+            {
+              "offset": 606,
+              "length": 8
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                6.2413,
+                1.9575,
+                6.2413,
+                1.3034,
+                6.4132,
+                1.3034,
+                6.4132,
+                1.9575
+              ]
+            }
+          ],
+          "content": "05:02 65"
+        },
+        {
+          "spans": [
+            {
+              "offset": 615,
+              "length": 47
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                6.7713,
+                10.6851,
+                6.7666,
+                0.444,
+                7.0913,
+                0.4439,
+                7.0961,
+                10.6849
+              ]
+            }
+          ],
+          "content": "P<USATRAVELER << HAPPY <<<<<<<<<<<<<<<<<<<<<<<<"
+        },
+        {
+          "spans": [
+            {
+              "offset": 663,
+              "length": 44
+            }
+          ],
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                7.4256,
+                10.6992,
+                7.4399,
+                0.4531,
+                7.7694,
+                0.4536,
+                7.7551,
+                10.6997
+              ]
+            }
+          ],
+          "content": "E000077303USA6502056F3010149500101920<091824"
+        }
+      ],
+      "styles": [],
+      "documents": [
+        {
+          "docType": "idDocument.passport",
+          "boundingRegions": [
+            {
+              "pageNumber": 1,
+              "polygon": [
+                0,
+                0,
+                8.5,
+                0,
+                8.5,
+                11,
+                0,
+                11
+              ]
+            }
+          ],
+          "fields": {
+            "CountryRegion": {
+              "type": "countryRegion",
+              "valueCountryRegion": "USA",
+              "content": "USA",
+              "boundingRegions": [
+                {
+                  "pageNumber": 1,
+                  "polygon": [
+                    1.9053,
+                    5.6671,
+                    1.9053,
+                    5.2756,
+                    2.0868,
+                    5.2756,
+                    2.0868,
+                    5.6671
+                  ]
+                }
+              ],
+              "confidence": 0.99,
+              "spans": [
+                {
+                  "offset": 155,
+                  "length": 3
+                }
+              ]
+            },
+            "DateOfBirth": {
+              "type": "date",
+              "valueDate": "1965-02-05",
+              "content": "05 FEB 1965",
+              "boundingRegions": [
+                {
+                  "pageNumber": 1,
+                  "polygon": [
+                    4.059,
+                    7.263,
+                    4.0514,
+                    5.5633,
+                    4.3347,
+                    5.562,
+                    4.3424,
+                    7.2617
+                  ]
+                }
+              ],
+              "confidence": 0.99,
+              "spans": [
+                {
+                  "offset": 294,
+                  "length": 11
+                }
+              ]
+            },
+            "DateOfExpiration": {
+              "type": "date",
+              "valueDate": "2030-10-14",
+              "content": "14 OCT 2030",
+              "boundingRegions": [
+                {
+                  "pageNumber": 1,
+                  "polygon": [
+                    5.9174,
+                    7.2642,
+                    5.9309,
+                    5.5668,
+                    6.2377,
+                    5.5692,
+                    6.2242,
+                    7.2666
+                  ]
+                }
+              ],
+              "confidence": 0.99,
+              "spans": [
+                {
+                  "offset": 531,
+                  "length": 11
+                }
+              ]
+            },
+            "DateOfIssue": {
+              "type": "date",
+              "valueDate": "2020-10-15",
+              "content": "15 OCT 2020",
+              "boundingRegions": [
+                {
+                  "pageNumber": 1,
+                  "polygon": [
+                    5.439,
+                    7.2617,
+                    5.432,
+                    5.5668,
+                    5.759,
+                    5.5655,
+                    5.7659,
+                    7.2604
+                  ]
+                }
+              ],
+              "confidence": 0.99,
+              "spans": [
+                {
+                  "offset": 463,
+                  "length": 11
+                }
+              ]
+            },
+            "DocumentNumber": {
+              "type": "string",
+              "valueString": "E00007730",
+              "content": "E00007730",
+              "boundingRegions": [
+                {
+                  "pageNumber": 1,
+                  "polygon": [
+                    1.8528,
+                    3.7192,
+                    1.8528,
+                    1.8238,
+                    2.211,
+                    1.8286,
+                    2.211,
+                    3.7096
+                  ]
+                }
+              ],
+              "confidence": 0.99,
+              "spans": [
+                {
+                  "offset": 143,
+                  "length": 9
+                }
+              ]
+            },
+            "DocumentType": {
+              "type": "string",
+              "valueString": "P",
+              "content": "P",
+              "boundingRegions": [
+                {
+                  "pageNumber": 1,
+                  "polygon": [
+                    1.8958,
+                    7.0517,
+                    1.9006,
+                    6.9466,
+                    2.0868,
+                    6.9514,
+                    2.082,
+                    7.0564
+                  ]
+                }
+              ],
+              "confidence": 0.99,
+              "spans": [
+                {
+                  "offset": 153,
+                  "length": 1
+                }
+              ]
+            },
+            "FirstName": {
+              "type": "string",
+              "valueString": "HAPPY",
+              "content": "HAPPY",
+              "boundingRegions": [
+                {
+                  "pageNumber": 1,
+                  "polygon": [
+                    3.0896,
+                    7.8251,
+                    3.0801,
+                    6.9562,
+                    3.3045,
+                    6.9609,
+                    3.3093,
+                    7.8299
+                  ]
+                }
+              ],
+              "confidence": 0.995,
+              "spans": [
+                {
+                  "offset": 218,
+                  "length": 5
+                }
+              ]
+            },
+            "IssuingAuthority": {
+              "type": "string",
+              "valueString": "UNITED STATES DEPARTMENT OF STATE",
+              "content": "UNITED STATES DEPARTMENT OF STATE",
+              "boundingRegions": [
+                {
+                  "pageNumber": 1,
+                  "polygon": [
+                    6.4466,
+                    7.3286,
+                    6.4466,
+                    2.9553,
+                    6.6806,
+                    2.9553,
+                    6.6806,
+                    7.3286
+                  ]
+                }
+              ],
+              "confidence": 0.99,
+              "spans": [
+                {
+                  "offset": 572,
+                  "length": 33
+                }
+              ]
+            },
+            "LastName": {
+              "type": "string",
+              "valueString": "TRAVELER",
+              "content": "TRAVELER",
+              "boundingRegions": [
+                {
+                  "pageNumber": 1,
+                  "polygon": [
+                    2.5548,
+                    7.8251,
+                    2.5548,
+                    6.4692,
+                    2.8079,
+                    6.4692,
+                    2.8079,
+                    7.8346
+                  ]
+                }
+              ],
+              "confidence": 0.995,
+              "spans": [
+                {
+                  "offset": 181,
+                  "length": 8
+                }
+              ]
+            },
+            "MachineReadableZone": {
+              "type": "object",
+              "valueObject": {
+                "CountryRegion": {
+                  "type": "countryRegion",
+                  "valueCountryRegion": "USA",
+                  "content": "USA"
+                },
+                "DateOfBirth": {
+                  "type": "date",
+                  "valueDate": "1965-02-05",
+                  "content": "650205"
+                },
+                "DateOfExpiration": {
+                  "type": "date",
+                  "valueDate": "2030-10-14",
+                  "content": "301014"
+                },
+                "DocumentNumber": {
+                  "type": "string",
+                  "valueString": "E00007730",
+                  "content": "E00007730"
+                },
+                "FirstName": {
+                  "type": "string",
+                  "valueString": "HAPPY",
+                  "content": "HAPPY"
+                },
+                "LastName": {
+                  "type": "string",
+                  "valueString": "TRAVELER",
+                  "content": "TRAVELER"
+                },
+                "Nationality": {
+                  "type": "countryRegion",
+                  "valueCountryRegion": "USA",
+                  "content": "USA"
+                },
+                "Sex": {
+                  "type": "string",
+                  "valueString": "F",
+                  "content": "F"
+                }
+              },
+              "content": "P<USATRAVELER << HAPPY <<<<<<<<<<<<<<<<<<<<<<<<\nE000077303USA6502056F3010149500101920<091824",
+              "boundingRegions": [
+                {
+                  "pageNumber": 1,
+                  "polygon": [
+                    6.7666,
+                    10.6992,
+                    6.7666,
+                    0.4965,
+                    7.7694,
+                    0.4965,
+                    7.7694,
+                    10.6992
+                  ]
+                }
+              ],
+              "confidence": 0.99,
+              "spans": [
+                {
+                  "offset": 615,
+                  "length": 92
+                }
+              ]
+            },
+            "Nationality": {
+              "type": "countryRegion",
+              "valueCountryRegion": "USA",
+              "content": "UNITED STATES OF AMERICA",
+              "boundingRegions": [
+                {
+                  "pageNumber": 1,
+                  "polygon": [
+                    3.6058,
+                    7.3136,
+                    3.615,
+                    4.2341,
+                    3.8393,
+                    4.2348,
+                    3.8302,
+                    7.3142
+                  ]
+                }
+              ],
+              "confidence": 0.99,
+              "spans": [
+                {
+                  "offset": 261,
+                  "length": 24
+                }
+              ]
+            },
+            "PlaceOfBirth": {
+              "type": "string",
+              "valueString": "WASHINGTON, D.C., U.S.A.",
+              "content": "WASHINGTON, D.C., U.S.A.",
+              "boundingRegions": [
+                {
+                  "pageNumber": 1,
+                  "polygon": [
+                    4.9725,
+                    7.2561,
+                    4.983,
+                    3.49,
+                    5.2743,
+                    3.4908,
+                    5.2639,
+                    7.2569
+                  ]
+                }
+              ],
+              "confidence": 0.99,
+              "spans": [
+                {
+                  "offset": 385,
+                  "length": 24
+                }
+              ]
+            },
+            "Sex": {
+              "type": "string",
+              "valueString": "F",
+              "content": "F",
+              "boundingRegions": [
+                {
+                  "pageNumber": 1,
+                  "polygon": [
+                    4.5126,
+                    7.2665,
+                    4.5126,
+                    7.1328,
+                    4.7562,
+                    7.1328,
+                    4.7562,
+                    7.2665
+                  ]
+                }
+              ],
+              "confidence": 0.99,
+              "spans": [
+                {
+                  "offset": 330,
+                  "length": 1
+                }
+              ]
+            }
+          },
+          "confidence": 0.995,
+          "spans": [
+            {
+              "offset": 0,
+              "length": 707
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "standarized_response": {
+    "extracted_data": [
+      {
+        "last_name": {
+          "value": "TRAVELER",
+          "confidence": 0.995
+        },
+        "given_names": [
+          {
+            "value": "Happy",
+            "confidence": 0.995
+          }
+        ],
+        "birth_place": {
+          "value": "Washington, D.C., U.S.A.",
+          "confidence": 0.99
+        },
+        "birth_date": {
+          "value": "1965-02-05",
+          "confidence": 0.99
+        },
+        "issuance_date": {
+          "value": "2020-10-15",
+          "confidence": 0.99
+        },
+        "expire_date": {
+          "value": "2030-10-14",
+          "confidence": 0.99
+        },
+        "document_id": {
+          "value": "E00007730",
+          "confidence": 0.99
+        },
+        "issuing_state": {
+          "value": "United States Department Of State",
+          "confidence": 0.99
+        },
+        "address": {
+          "value": null,
+          "confidence": null
+        },
+        "age": {
+          "value": null,
+          "confidence": null
+        },
+        "country": {
+          "name": "United States of America",
+          "alpha2": "us",
+          "alpha3": "usa",
+          "confidence": 0.99
+        },
+        "document_type": {
+          "value": "Iddocument.Passport",
+          "confidence": 0.995
+        },
+        "gender": {
+          "value": "F",
+          "confidence": 0.99
+        },
+        "image_id": [],
+        "image_signature": [],
+        "mrz": {
+          "value": "P<USATRAVELER << HAPPY <<<<<<<<<<<<<<<<<<<<<<<<\nE000077303USA6502056F3010149500101920<091824",
+          "confidence": 0.99
+        },
+        "nationality": {
+          "value": "United States Of America",
+          "confidence": 0.99
+        }
+      }
+    ]
+  }
+}

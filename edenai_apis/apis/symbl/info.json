@@ -23,7 +23,8 @@
                     "pt-BR",
                     "pt-PT",
                     "fa-IR"
-                ]
+                ],
+                "allow_null_language": true
             },
             "version": "v1"
         }

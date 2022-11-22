@@ -86,7 +86,11 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
 
         response = requests.request("POST", url, json=files, headers=self.header)
         response = response.json()
+
         data = response["data"]
+
+        if response["success"] == False:
+            raise ProviderException(data["error"])
 
         standarized_response = AutomaticTranslationDataClass(
             text=data["translatedText"]

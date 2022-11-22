@@ -66,10 +66,11 @@ class SymblApi(ProviderApi, Audio):
         }
 
         params = {
-            "languageCode": language, 
             "enableSpeakerDiarization" : "true",
             "diarizationSpeakerCount" : speakers
             }
+        if language:
+            params.update({"languageCode": language})
 
         response = requests.post(
             url="https://api.symbl.ai/v1/process/audio",

@@ -194,9 +194,19 @@
               }
             },
             "lemma": "american",
-            "meaning": [],
+            "meaning": [
+              {
+                "sub": "person_by_official_demonym",
+                "super": "concret|natural_thing|person|person_by_characteristics|person_by_demonym",
+                "derivates": "N",
+                "extra": null,
+                "intensity": 1,
+                "is_perso": false
+              }
+            ],
             "value": null,
             "len": 1,
+            "transform": {},
             "dep": "amod",
             "ref": 4,
             "index": 3,
@@ -306,16 +316,8 @@
             "lemma": "serve",
             "meaning": [
               {
-                "sub": "provide_(sbody)",
-                "super": "root|interact|make_possess|providing",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
-                "sub": "take_place_of",
-                "super": "root|act|being|be_related",
+                "sub": "favour",
+                "super": "root|interact|interactions|positive",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -330,8 +332,8 @@
                 "is_perso": false
               },
               {
-                "sub": "favour",
-                "super": "root|interact|interactions|positive",
+                "sub": "provide_(sbody)",
+                "super": "root|interact|make_possess|providing",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -427,7 +429,9 @@
             "dep": "det",
             "ref": 10,
             "index": 8,
-            "coreference": []
+            "coreference": [
+              3
+            ]
           },
           {
             "source": "44th",
@@ -459,7 +463,9 @@
             "dep": "amod",
             "ref": 10,
             "index": 9,
-            "coreference": []
+            "coreference": [
+              3
+            ]
           },
           {
             "source": "president",
@@ -491,7 +497,9 @@
             "dep": "obl",
             "ref": 6,
             "index": 10,
-            "coreference": []
+            "coreference": [
+              3
+            ]
           },
           {
             "source": "of",
@@ -524,9 +532,11 @@
             "value": null,
             "len": 1,
             "dep": "case",
-            "ref": 10,
+            "ref": 13,
             "index": 11,
-            "coreference": []
+            "coreference": [
+              3
+            ]
           },
           {
             "source": "the",
@@ -551,30 +561,38 @@
             "dep": "det",
             "ref": 13,
             "index": 12,
-            "coreference": []
+            "coreference": [
+              3
+            ]
           },
           {
-            "source": "united states",
+            "source": "United States",
+            "tag": "NP",
             "source_pure": "United States",
             "indexes": [
               87,
               100
             ],
-            "tag": "N",
-            "lemmatizer": {
-              "gender": {
-                "female": false,
-                "plural": false
+            "lemmatizer": {},
+            "lemma": "United States",
+            "meaning": [
+              {
+                "sub": "LOCATION",
+                "super": null,
+                "extra": null,
+                "derivates": null,
+                "intensity": 1,
+                "is_perso": false
               }
-            },
-            "lemma": "united state",
-            "meaning": [],
+            ],
             "value": null,
             "len": 1,
             "dep": "amod",
             "ref": 15,
             "index": 13,
-            "coreference": []
+            "coreference": [
+              3
+            ]
           },
           {
             "source": "from",
@@ -636,7 +654,7 @@
             "ref": 15,
             "index": 14,
             "coreference": [
-              3
+              4
             ]
           },
           {
@@ -676,9 +694,9 @@
             "ref": 16,
             "index": 15,
             "coreference": [
-              3,
               4,
-              5
+              5,
+              6
             ]
           },
           {
@@ -711,9 +729,9 @@
             "ref": 6,
             "index": 16,
             "coreference": [
-              3,
-              5,
-              6
+              4,
+              6,
+              7
             ]
           },
           {
@@ -747,6 +765,12 @@
             "source": "Barack Hussein Obama",
             "value": null,
             "index": 0
+          },
+          {
+            "type": "LOCATION",
+            "source": "United States",
+            "value": null,
+            "index": 13
           }
         ],
         "ml_sentiment": {
@@ -780,7 +804,8 @@
           3,
           4,
           5,
-          6
+          6,
+          7
         ],
         "sentiment": {
           "subsentences": [
@@ -788,7 +813,7 @@
               "start_id": 0,
               "end_id": 17,
               "elements": [],
-              "sentence": "Barack Hussein Obama is an american politician who served as the 44th president of the united states from 2009to 2017 .",
+              "sentence": "Barack Hussein Obama is an american politician who served as the 44th president of the United States from 2009to 2017 .",
               "values": {
                 "positive": 0,
                 "negative": 0,
@@ -837,7 +862,7 @@
               "elements": [],
               "start_id": 0,
               "end_id": 17,
-              "sentence": "Barack Hussein Obama is an american politician who served as the 44th president of the united states from 2009to 2017 ."
+              "sentence": "Barack Hussein Obama is an american politician who served as the 44th president of the United States from 2009to 2017 ."
             }
           ],
           "elements": [],
@@ -883,7 +908,9 @@
             "dep": "det",
             "ref": 1,
             "index": 0,
-            "coreference": []
+            "coreference": [
+              8
+            ]
           },
           {
             "source": "member",
@@ -915,7 +942,9 @@
             "dep": "obl",
             "ref": 7,
             "index": 1,
-            "coreference": []
+            "coreference": [
+              8
+            ]
           },
           {
             "source": "of",
@@ -948,9 +977,11 @@
             "value": null,
             "len": 1,
             "dep": "case",
-            "ref": 5,
+            "ref": 4,
             "index": 2,
-            "coreference": []
+            "coreference": [
+              8
+            ]
           },
           {
             "source": "the",
@@ -973,41 +1004,42 @@
             "value": null,
             "len": 1,
             "dep": "det",
-            "ref": 6,
+            "ref": 4,
             "index": 3,
-            "coreference": []
+            "coreference": [
+              8,
+              9
+            ]
           },
           {
-            "source": "democratic party",
+            "source": "Democratic Party",
+            "tag": "NP",
             "source_pure": "Democratic Party",
             "indexes": [
               136,
               152
             ],
-            "tag": "N",
-            "lemmatizer": {
-              "gender": {
-                "female": false,
-                "plural": false
-              }
-            },
-            "lemma": "democratic party",
+            "lemmatizer": {},
+            "lemma": "Democratic Party",
             "meaning": [
               {
-                "sub": "political_party",
-                "super": "concret|natural_thing|person|human_group",
+                "sub": "ORGANIZATION",
+                "super": null,
                 "extra": null,
-                "intensity": 1,
                 "derivates": null,
+                "intensity": 1,
                 "is_perso": false
               }
             ],
             "value": null,
             "len": 1,
             "dep": "amod",
-            "ref": 6,
+            "ref": 1,
             "index": 4,
-            "coreference": []
+            "coreference": [
+              8,
+              9
+            ]
           },
           {
             "source": ",",
@@ -1053,7 +1085,7 @@
             "ref": 7,
             "index": 6,
             "coreference": [
-              7
+              10
             ]
           },
           {
@@ -1084,24 +1116,8 @@
             "lemma": "be",
             "meaning": [
               {
-                "sub": "be_in_(situation)",
-                "super": "root|act|being|be_related",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
-                "sub": "exist",
-                "super": "root|act|existing",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
-                "sub": "be_measured",
-                "super": "root|act|being|identification/qualification|characteristic",
+                "sub": "be_identified",
+                "super": "root|act|being|identification/qualification",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -1116,8 +1132,16 @@
                 "is_perso": false
               },
               {
-                "sub": "be_identified",
-                "super": "root|act|being|identification/qualification",
+                "sub": "be_measured",
+                "super": "root|act|being|identification/qualification|characteristic",
+                "extra": null,
+                "intensity": 1,
+                "derivates": null,
+                "is_perso": false
+              },
+              {
+                "sub": "exist",
+                "super": "root|act|existing",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -1126,6 +1150,14 @@
               {
                 "sub": "be_characterized",
                 "super": "root|act|being|identification/qualification|characteristic",
+                "extra": null,
+                "intensity": 1,
+                "derivates": null,
+                "is_perso": false
+              },
+              {
+                "sub": "be_in_(situation)",
+                "super": "root|act|being|be_related",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -1175,7 +1207,9 @@
             "dep": "det",
             "ref": 11,
             "index": 8,
-            "coreference": []
+            "coreference": [
+              11
+            ]
           },
           {
             "source": "first",
@@ -1192,13 +1226,25 @@
               }
             },
             "lemma": "first",
-            "meaning": [],
+            "meaning": [
+              {
+                "sub": "ordinal",
+                "super": "abstract|features|quantities|numerals",
+                "derivates": "N",
+                "extra": null,
+                "intensity": 1,
+                "is_perso": false
+              }
+            ],
             "value": null,
             "len": 1,
+            "transform": {},
             "dep": "amod",
             "ref": 11,
             "index": 9,
-            "coreference": []
+            "coreference": [
+              11
+            ]
           },
           {
             "source": "african-american",
@@ -1218,10 +1264,13 @@
             "meaning": [],
             "value": null,
             "len": 1,
+            "transform": {},
             "dep": "amod",
             "ref": 11,
             "index": 10,
-            "coreference": []
+            "coreference": [
+              11
+            ]
           },
           {
             "source": "president",
@@ -1253,7 +1302,9 @@
             "dep": "obj",
             "ref": 7,
             "index": 11,
-            "coreference": []
+            "coreference": [
+              11
+            ]
           },
           {
             "source": "of",
@@ -1288,7 +1339,9 @@
             "dep": "case",
             "ref": 14,
             "index": 12,
-            "coreference": []
+            "coreference": [
+              11
+            ]
           },
           {
             "source": "the",
@@ -1313,30 +1366,40 @@
             "dep": "det",
             "ref": 14,
             "index": 13,
-            "coreference": []
+            "coreference": [
+              11,
+              12
+            ]
           },
           {
-            "source": "united states",
+            "source": "United States",
+            "tag": "NP",
             "source_pure": "United States",
             "indexes": [
               208,
               221
             ],
-            "tag": "N",
-            "lemmatizer": {
-              "gender": {
-                "female": false,
-                "plural": false
+            "lemmatizer": {},
+            "lemma": "United States",
+            "meaning": [
+              {
+                "sub": "LOCATION",
+                "super": null,
+                "extra": null,
+                "derivates": null,
+                "intensity": 1,
+                "is_perso": false
               }
-            },
-            "lemma": "united state",
-            "meaning": [],
+            ],
             "value": null,
             "len": 1,
-            "dep": "advcl",
+            "dep": "obl",
             "ref": 7,
             "index": 14,
-            "coreference": []
+            "coreference": [
+              11,
+              12
+            ]
           },
           {
             "source": ".",
@@ -1365,10 +1428,22 @@
         ],
         "ml_ner": [
           {
+            "type": "ORGANIZATION",
+            "source": "Democratic Party",
+            "value": null,
+            "index": 4
+          },
+          {
             "type": "PERSON",
             "source": "Obama",
             "value": null,
             "index": 6
+          },
+          {
+            "type": "LOCATION",
+            "source": "United States",
+            "value": null,
+            "index": 14
           }
         ],
         "ml_sentiment": {
@@ -1404,7 +1479,11 @@
           ]
         },
         "coreference": [
-          7
+          8,
+          9,
+          10,
+          11,
+          12
         ],
         "sentiment": {
           "subsentences": [
@@ -1412,7 +1491,7 @@
               "start_id": 0,
               "end_id": 15,
               "elements": [],
-              "sentence": "a member of the democratic party , Obama was the first african-american president of the united states .",
+              "sentence": "a member of the Democratic Party , Obama was the first african-american president of the United States .",
               "values": {
                 "positive": 0,
                 "negative": 0,
@@ -1461,7 +1540,7 @@
               "elements": [],
               "start_id": 0,
               "end_id": 15,
-              "sentence": "a member of the democratic party , Obama was the first african-american president of the united states ."
+              "sentence": "a member of the Democratic Party , Obama was the first african-american president of the United States ."
             }
           ],
           "elements": [],
@@ -1514,7 +1593,7 @@
             "ref": 2,
             "index": 0,
             "coreference": [
-              8
+              13
             ]
           },
           {
@@ -1527,17 +1606,33 @@
             "tag": "RB",
             "lemmatizer": {
               "category": [
-                "time and aspect"
+                "manner"
               ]
             },
-            "lemma": "previously",
+            "lemma": "previous",
             "meaning": [
               {
-                "sub": "time and aspect",
+                "sub": "manner",
                 "super": null,
-                "extra": null,
+                "derivates": "JJ",
+                "extra": "manner",
                 "intensity": 1,
-                "derivates": null,
+                "is_perso": false
+              },
+              {
+                "sub": "Anterior",
+                "super": null,
+                "derivates": "JJ",
+                "extra": "manner",
+                "intensity": 0,
+                "is_perso": false
+              },
+              {
+                "sub": "Temporality",
+                "super": null,
+                "derivates": "JJ",
+                "extra": "manner",
+                "intensity": 0,
                 "is_perso": false
               }
             ],
@@ -1571,14 +1666,6 @@
             "lemma": "serve",
             "meaning": [
               {
-                "sub": "give_(sthg)",
-                "super": "root|interact|make_possess|transmitting",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
                 "sub": "favour",
                 "super": "root|interact|interactions|positive",
                 "extra": null,
@@ -1587,16 +1674,16 @@
                 "is_perso": false
               },
               {
-                "sub": "provide_(sbody)",
-                "super": "root|interact|make_possess|providing",
+                "sub": "give_(sthg)",
+                "super": "root|interact|make_possess|transmitting",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
                 "is_perso": false
               },
               {
-                "sub": "take_place_of",
-                "super": "root|act|being|be_related",
+                "sub": "provide_(sbody)",
+                "super": "root|interact|make_possess|providing",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -1692,9 +1779,7 @@
             "dep": "det",
             "ref": 6,
             "index": 4,
-            "coreference": [
-              9
-            ]
+            "coreference": []
           },
           {
             "source": "U.S.",
@@ -1721,9 +1806,7 @@
             "dep": "compound",
             "ref": 6,
             "index": 5,
-            "coreference": [
-              9
-            ]
+            "coreference": []
           },
           {
             "source": "senator",
@@ -1755,9 +1838,7 @@
             "dep": "obl",
             "ref": 2,
             "index": 6,
-            "coreference": [
-              9
-            ]
+            "coreference": []
           },
           {
             "source": "from",
@@ -1818,9 +1899,7 @@
             "dep": "case",
             "ref": 8,
             "index": 7,
-            "coreference": [
-              9
-            ]
+            "coreference": []
           },
           {
             "source": "Illinois",
@@ -1848,8 +1927,7 @@
             "ref": 6,
             "index": 8,
             "coreference": [
-              9,
-              10
+              14
             ]
           },
           {
@@ -1912,7 +1990,7 @@
             "ref": 10,
             "index": 9,
             "coreference": [
-              11
+              15
             ]
           },
           {
@@ -1952,9 +2030,8 @@
             "ref": 2,
             "index": 10,
             "coreference": [
-              11,
-              12,
-              13
+              15,
+              16
             ]
           },
           {
@@ -1987,8 +2064,8 @@
             "ref": 10,
             "index": 11,
             "coreference": [
-              11,
-              13
+              15,
+              16
             ]
           },
           {
@@ -2090,7 +2167,7 @@
             "ref": 16,
             "index": 14,
             "coreference": [
-              14
+              17
             ]
           },
           {
@@ -2119,7 +2196,7 @@
             "ref": 16,
             "index": 15,
             "coreference": [
-              14
+              17
             ]
           },
           {
@@ -2153,7 +2230,7 @@
             "ref": 6,
             "index": 16,
             "coreference": [
-              14
+              17
             ]
           },
           {
@@ -2216,7 +2293,7 @@
             "ref": 18,
             "index": 17,
             "coreference": [
-              15
+              18
             ]
           },
           {
@@ -2256,9 +2333,9 @@
             "ref": 16,
             "index": 18,
             "coreference": [
-              15,
-              16,
-              17
+              18,
+              19,
+              20
             ]
           },
           {
@@ -2291,9 +2368,9 @@
             "ref": 16,
             "index": 19,
             "coreference": [
-              15,
-              17,
-              18
+              18,
+              20,
+              21
             ]
           },
           {
@@ -2366,17 +2443,15 @@
           ]
         },
         "coreference": [
-          8,
-          9,
-          10,
-          11,
-          12,
           13,
           14,
           15,
           16,
           17,
-          18
+          18,
+          19,
+          20,
+          21
         ],
         "sentiment": {
           "subsentences": [
@@ -2500,18 +2575,30 @@
         {
           "sentence_index": 0,
           "token_indexes": [
-            14,
-            15,
-            16
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
           ],
           "cluster_index": 2
         },
         {
           "sentence_index": 0,
           "token_indexes": [
-            15
+            14,
+            15,
+            16
           ],
           "cluster_index": 3
+        },
+        {
+          "sentence_index": 0,
+          "token_indexes": [
+            15
+          ],
+          "cluster_index": 4
         },
         {
           "sentence_index": 0,
@@ -2519,14 +2606,33 @@
             15,
             16
           ],
-          "cluster_index": 4
+          "cluster_index": 5
         },
         {
           "sentence_index": 0,
           "token_indexes": [
             16
           ],
-          "cluster_index": 5
+          "cluster_index": 6
+        },
+        {
+          "sentence_index": 1,
+          "token_indexes": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "cluster_index": 7
+        },
+        {
+          "sentence_index": 1,
+          "token_indexes": [
+            3,
+            4
+          ],
+          "cluster_index": 8
         },
         {
           "sentence_index": 1,
@@ -2534,6 +2640,27 @@
             6
           ],
           "cluster_index": 1
+        },
+        {
+          "sentence_index": 1,
+          "token_indexes": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "cluster_index": 9
+        },
+        {
+          "sentence_index": 1,
+          "token_indexes": [
+            13,
+            14
+          ],
+          "cluster_index": 10
         },
         {
           "sentence_index": 2,
@@ -2545,20 +2672,9 @@
         {
           "sentence_index": 2,
           "token_indexes": [
-            4,
-            5,
-            6,
-            7,
             8
           ],
-          "cluster_index": 6
-        },
-        {
-          "sentence_index": 2,
-          "token_indexes": [
-            8
-          ],
-          "cluster_index": 7
+          "cluster_index": 11
         },
         {
           "sentence_index": 2,
@@ -2567,14 +2683,7 @@
             10,
             11
           ],
-          "cluster_index": 8
-        },
-        {
-          "sentence_index": 2,
-          "token_indexes": [
-            10
-          ],
-          "cluster_index": 9
+          "cluster_index": 12
         },
         {
           "sentence_index": 2,
@@ -2582,7 +2691,7 @@
             10,
             11
           ],
-          "cluster_index": 10
+          "cluster_index": 13
         },
         {
           "sentence_index": 2,
@@ -2591,7 +2700,7 @@
             15,
             16
           ],
-          "cluster_index": 11
+          "cluster_index": 14
         },
         {
           "sentence_index": 2,
@@ -2600,14 +2709,14 @@
             18,
             19
           ],
-          "cluster_index": 12
+          "cluster_index": 15
         },
         {
           "sentence_index": 2,
           "token_indexes": [
             18
           ],
-          "cluster_index": 13
+          "cluster_index": 16
         },
         {
           "sentence_index": 2,
@@ -2615,14 +2724,14 @@
             18,
             19
           ],
-          "cluster_index": 14
+          "cluster_index": 17
         },
         {
           "sentence_index": 2,
           "token_indexes": [
             19
           ],
-          "cluster_index": 15
+          "cluster_index": 18
         }
       ],
       "clusters": [
@@ -2631,9 +2740,9 @@
           1
         ],
         [
-          7,
+          10,
           0,
-          8
+          13
         ],
         [
           3
@@ -2648,19 +2757,19 @@
           6
         ],
         [
-          9
+          7
         ],
         [
-          10
+          8
+        ],
+        [
+          9
         ],
         [
           11
         ],
         [
           12
-        ],
-        [
-          13
         ],
         [
           14
@@ -2676,6 +2785,15 @@
         ],
         [
           18
+        ],
+        [
+          19
+        ],
+        [
+          20
+        ],
+        [
+          21
         ]
       ]
     },
@@ -2697,8 +2815,26 @@
         "url": ""
       },
       {
+        "entity": "United States",
+        "category": "LOCATION",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "Democratic Party",
+        "category": "ORGANIZATION",
+        "importance": null,
+        "url": ""
+      },
+      {
         "entity": "Obama",
         "category": "PERSON",
+        "importance": null,
+        "url": ""
+      },
+      {
+        "entity": "United States",
+        "category": "LOCATION",
         "importance": null,
         "url": ""
       },

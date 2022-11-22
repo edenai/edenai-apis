@@ -1,5 +1,7 @@
+import datetime
 import json
 from io import BufferedReader, BytesIO
+from pprint import pprint
 from time import time
 from typing import Sequence
 import base64
@@ -22,6 +24,9 @@ from edenai_apis.features.ocr import (
     OcrTablesAsyncDataClass,
     Bounding_box,
     OcrDataClass,
+    InfosIdentityParserDataClass,
+    InfoCountry,
+    get_info_country,
 )
 from edenai_apis.features.image import (
     ObjectItem,
@@ -39,6 +44,7 @@ from edenai_apis.features.image import (
     ExplicitContentDataClass,
     ExplicitItem,
 )
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass, ItemIdentityParserDataClass, format_date
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
     KeywordExtractionDataClass,
@@ -332,7 +338,7 @@ class AmazonApi(
                 response = clients.get("textract").detect_document_text(
                     Document={
                         "Bytes": ocr_image_buffer.getvalue(),
-                        "S3Object": {"Bucket": "sp2t-2", "Name": f"{index}.jpeg"},
+                        "S3Object": {"Bucket": api_settings['bucket'], "Name": f"{index}.jpeg"},
                     }
                 )
                 response["width"], response["height"] = ocr_image.size
@@ -343,7 +349,7 @@ class AmazonApi(
             response = clients.get("textract").detect_document_text(
                 Document={
                     "Bytes": file_content,
-                    "S3Object": {"Bucket": "sp2t-2", "Name": f"{index}.jpeg"},
+                    "S3Object": {"Bucket": api_settings['bucket'], "Name": f"{index}.jpeg"},
                 }
             )
 
@@ -381,6 +387,81 @@ class AmazonApi(
         return ResponseType[OcrDataClass](
             original_response=messages_list, standarized_response=standarized
         )
+
+    def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
+        original_response = clients.get('textract').analyze_id(DocumentPages=[{
+            "Bytes": file.read(),
+            "S3Object": { 'Bucket': api_settings['bucket'], 'Name': filename}
+        }])
+
+        items = []
+        for document in original_response['IdentityDocuments']:
+            infos = {}
+            infos['given_names'] = []
+            for field in document['IdentityDocumentFields']:
+                field_type = field['Type']['Text']
+                confidence = round(field['ValueDetection']['Confidence'] / 100, 2)
+                value = field['ValueDetection']['Text'] if field['ValueDetection']['Text'] != "" else None
+                if field_type == 'LAST_NAME':
+                    infos['last_name'] = ItemIdentityParserDataClass(
+                        value=value,
+                        confidence=confidence
+                        )
+                elif field_type in ('FIRST_NAME', 'MIDDLE_NAME') and value:
+                    infos['given_names'].append(ItemIdentityParserDataClass(
+                        value=value,
+                        confidence=confidence
+                        ))
+                elif field_type == 'DOCUMENT_NUMBER':
+                    infos['document_id'] = ItemIdentityParserDataClass(
+                        value=value,
+                        confidence=confidence
+                        )
+                elif field_type == 'EXPIRATION_DATE':
+                    value = field['ValueDetection'].get('NormalizedValue', {}).get('Value')
+                    infos['expire_date'] = ItemIdentityParserDataClass(
+                        value=format_date(value, '%Y-%m-%dT%H:%M:%S'),
+                        confidence=confidence
+                        )
+                elif field_type == 'DATE_OF_BIRTH':
+                    value = field['ValueDetection'].get('NormalizedValue', {}).get('Value')
+                    infos['birth_date'] = ItemIdentityParserDataClass(
+                        value=format_date(value, '%Y-%m-%dT%H:%M:%S'),
+                        confidence=confidence
+                        )
+                elif field_type == 'DATE_OF_ISSUE':
+                    value = field['ValueDetection'].get('NormalizedValue', {}).get('Value')
+                    infos['issuance_date'] = ItemIdentityParserDataClass(
+                        value=format_date(value, '%Y-%m-%dT%H:%M:%S'),
+                        confidence=confidence
+                        )
+                elif field_type == 'ID_TYPE':
+                    infos['document_type'] = ItemIdentityParserDataClass(
+                        value=value,
+                        confidence=confidence
+                        )
+                elif field_type == 'ADDRESS':
+                    infos['address'] = ItemIdentityParserDataClass(
+                        value=value,
+                        confidence=confidence
+                        )
+                elif field_type == 'COUNTY' and value:
+                    infos['country'] = get_info_country(InfoCountry.NAME, value)
+                    infos['country']['confidence'] = confidence
+                elif field_type == 'MRZ_CODE':
+                    infos['mrz'] = ItemIdentityParserDataClass(value=value, confidence=confidence)
+
+            items.append(infos)
+
+            pprint(items)
+
+        standarized_response = IdentityParserDataClass(extracted_data=items)
+
+        return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standarized_response=standarized_response
+        )
+
 
     def text__sentiment_analysis(
         self, language: str, text: str
@@ -563,20 +644,20 @@ class AmazonApi(
         file_content = file.read()
 
         # upload file first
-        storage_clients["textract"].Bucket("sp2t-2").put_object(
+        storage_clients["textract"].Bucket(api_settings['bucket']).put_object(
             Key=file.name, Body=file_content
         )
 
         response = clients["textract"].start_document_analysis(
             DocumentLocation={
-                "S3Object": {"Bucket": "sp2t-2", "Name": file.name},
+                "S3Object": {"Bucket": api_settings['bucket'], "Name": file.name},
             },
             FeatureTypes=[
                 "TABLES",
             ],
             NotificationChannel={
-                "SNSTopicArn": "arn:aws:sns:eu-west-1:222535268301:AmazonTextract-async-ocr-tables",
-                "RoleArn": "arn:aws:iam::222535268301:role/TextractRole",
+                "SNSTopicArn": api_settings['topic'],
+                "RoleArn": api_settings['role'],
             },
         )
 
@@ -623,7 +704,7 @@ class AmazonApi(
         """
         # Store file in an Amazon server
         filename = str(int(time())) + "_" + str(file_name)
-        storage_clients["speech"].meta.client.upload_fileobj(file, "sp2t-2", filename)
+        storage_clients["speech"].meta.client.upload_fileobj(file, api_settings['bucket'], filename)
 
         return filename
 
