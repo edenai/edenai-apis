@@ -5,7 +5,11 @@ from typing import Optional
 
 import requests
 from edenai_apis.features import ProviderApi, Text, Translation, Audio
-from edenai_apis.features.audio import SpeechToTextAsyncDataClass
+from edenai_apis.features.audio import (
+    SpeechToTextAsyncDataClass,
+    SpeechDiarizationEntry,
+    SpeechDiarization
+)
 from edenai_apis.features.text import (
     AnonymizationDataClass,
     KeywordExtractionDataClass,
@@ -208,7 +212,8 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
             standarized_response=standarized_response
         )
 
-    def audio__speech_to_text_async__launch_job(self, file: BufferedReader, language: str) -> AsyncLaunchJobResponseType:
+    def audio__speech_to_text_async__launch_job(self, file: BufferedReader, 
+        language: str, speakers: int) -> AsyncLaunchJobResponseType:
         wav_file = wav_converter(file, frame_rate=16000, channels=1)[0]
 
         data = json.dumps({
@@ -218,7 +223,9 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
                 {
                     "skill": "transcribe",
                     "params": {
-                        "speaker_detection": True
+                        "speaker_detection": True,
+                        "timestamp_per_label": True,
+                        "timestamp_per_word": True
                     }
                 }  
             ]
@@ -255,9 +262,27 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
                         pprint(int(diarization.split(' ')[2][0]))
                         pprint(text)
                         print('\n')
+                
+                diarization_entries = []
+                speakers = set()
+                words_info = original_response["result"]["output"][0]["labels"]
+
+                for word_info in words_info:
+                    speakers.add(word_info["speaker"])
+                    diarization_entries.append(
+                        SpeechDiarizationEntry(
+                            segment= word_info["span_text"],
+                            start_time= word_info["timestamp"],
+                            end_time= word_info["timestamp_end"],
+                            speaker= int(word_info["speaker"].split("speaker")[1])
+                        )
+                    )
+                diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
+                standarized_response=SpeechToTextAsyncDataClass(text=original_response['result']['input_text'],
+                        diarization= diarization)
                 return AsyncResponseType[SpeechToTextAsyncDataClass](
                     original_response=original_response,
-                    standarized_response=SpeechToTextAsyncDataClass(text=original_response['result']['input_text']),
+                    standarized_response=standarized_response,
                     provider_job_id=provider_job_id
                 )
             elif original_response['status'] == StatusEnum.RUNNING:
