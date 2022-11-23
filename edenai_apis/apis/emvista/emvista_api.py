@@ -151,6 +151,9 @@ class EmvistaApi(ProviderApi, Text):
         language: str,
         text: str
         ) -> ResponseType[SentimentAnalysisDataClass]:
+        # check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the Sentiment Analysis function")
         # Prepare request
         files = {
             "text": text,

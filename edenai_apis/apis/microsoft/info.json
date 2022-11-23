@@ -507,7 +507,8 @@
           "pl",
           "ru",
           "sv"
-        ]
+        ],
+        "allow_null_language": true
       },
       "version": "v3.1"
     },
