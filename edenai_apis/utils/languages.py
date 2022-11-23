@@ -7,6 +7,7 @@ from langcodes import closest_supported_match, Language
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.exception import ProviderException
 
 
 def shorten_iso(iso):
@@ -193,16 +194,7 @@ def update_provider_input_language(
                     subfeature=subfeature,
                 )
         except SyntaxError as exc:
-            return {
-                "status": "fail",
-                "provider": provider_name,
-                "error": {
-                    "is_provider_exception": True,
-                    "message": str(exc),
-                    "name": exc.__class__.__name__,
-                    "code": getattr(exc, "code", None),
-                },
-            }
+            raise ProviderException(str(exc))
 
         # weither or not provider require a language
         accepts_null_language = (
@@ -226,15 +218,10 @@ def update_provider_input_language(
                 if supported_source_language is None
                 else target_language
             )
-            return {
-                "provider": provider_name,
-                "status": "fail",
-                "error": {
-                    "is_provider_exception": True,
-                    "message": f"language selected `{unsupported_language}` "
-                    + "is not supported by the providers: `{provider_name}`",
-                },
-            }
+            raise ProviderException(
+                f"language selected `{unsupported_language}` is not supported by"
+                f" the providers: `{provider_name}`"
+            )
 
         # change language argument for the conveted language
         if args.get("language"):

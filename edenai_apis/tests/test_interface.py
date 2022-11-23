@@ -13,7 +13,6 @@ from edenai_apis.interface import (
     list_features,
     list_providers,
 )
-from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
 
@@ -51,28 +50,6 @@ class TestComputeOutput:
         final_result_async = compute_output("p", "f", "s_async", {})
         assert final_result_async
         assert final_result["status"] == "success"
-
-
-    def test_exception(self, mocker: MockerFixture):
-        def fake_call_subfeature_with_error(*args, **kwargs):
-            def raiser(**kwargs):
-                raise ProviderException(self.exception_name)
-            return raiser
-
-        mocker.patch(
-            "edenai_apis.interface.load_provider",
-            side_effect=fake_call_subfeature_with_error,
-        )
-        final_result = compute_output("p", "f", "s_async", {})
-        assert final_result
-        assert final_result["status"] == "fail"
-        assert final_result["error"]["message"] == self.exception_name
-
-
-    def test_fake_calls(self, mocker: MockerFixture):
-        # final_result = compute_output("p", "f", "s", {}, fake=True)
-        # assert final_result
-        pass
 
 
 def test_list_features():
