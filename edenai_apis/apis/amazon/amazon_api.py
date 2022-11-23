@@ -102,7 +102,7 @@ from .helpers import (
     amazon_ocr_tables_parser
 )
 
-from botocore.exceptions import ClientError
+from botocore.exceptions import ClientError, ParamValidationError
 
 class AmazonApi(
     ProviderApi,
@@ -621,6 +621,9 @@ class AmazonApi(
             )
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
+        except ParamValidationError as exc:
+            if "SourceLanguageCode" in str(exc):
+                raise ProviderException("Please provide the source language parameter for the Automatic Translation function")
 
         standarized: AutomaticTranslationDataClass
         if response["TranslatedText"] != "":
