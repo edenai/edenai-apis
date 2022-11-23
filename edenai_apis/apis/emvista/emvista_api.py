@@ -219,6 +219,9 @@ class EmvistaApi(ProviderApi, Text):
             standarized_response: Keyword_extraction(text: str)
           )
         """
+        #check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the Keyword Extraction function")
         # Prepare request
         files = {"text": text, "parameters": [{"name": "lang", "value": language}]}
         headers = {

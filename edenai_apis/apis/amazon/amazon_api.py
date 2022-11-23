@@ -502,6 +502,9 @@ class AmazonApi(
             )
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
+        except ClientError as exc:
+            if "'languageCode'failed to satisfy constraint" in str(exc):
+                raise ProviderException("Please provide an input language parameter for the Keyword Extraction function")
 
         # Analysing response
         items: Sequence[InfosKeywordExtractionDataClass] = []
