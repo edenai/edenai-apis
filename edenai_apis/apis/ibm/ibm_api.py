@@ -138,7 +138,7 @@ class IbmApi(
             )
         except WatsonApiException as exc:
             if "not enough text for language id" in exc.message:
-                raise ProviderException("not enough text for language identification, please provide the language!")
+                raise ProviderException("not enough text for language identification, please provide the language parameter!")
         # Create output object
 
         items: Sequence[Items] = []
@@ -213,7 +213,7 @@ class IbmApi(
             )
         except WatsonApiException as exc:
             if "not enough text for language id" in exc.message:
-                raise ProviderException("not enough text for language identification, please provide the language!")
+                raise ProviderException("not enough text for language identification, please provide the language parameter!")
 
         # Analysing response
         items: Sequence[InfosKeywordExtractionDataClass] = []
@@ -254,7 +254,7 @@ class IbmApi(
             )
         except WatsonApiException as exc:
             if "not enough text for language id" in exc.message:
-                raise ProviderException("not enough text for language identification, please provide the language!")
+                raise ProviderException("not enough text for language identification, please provide the language parameter!")
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
 
@@ -304,7 +304,7 @@ class IbmApi(
             )
         except WatsonApiException as exc:
             if "not enough text for language id" in exc.message:
-                raise ProviderException("not enough text for language identification, please provide the language!")
+                raise ProviderException("not enough text for language identification, please provide the language parameter!")
 
         items: Sequence[InfosSyntaxAnalysisDataClass] = []
 

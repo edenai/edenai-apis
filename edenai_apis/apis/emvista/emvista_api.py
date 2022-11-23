@@ -68,6 +68,10 @@ class EmvistaApi(ProviderApi, Text):
     def text__syntax_analysis(
         self, language: str, text: str
     ) -> ResponseType[SyntaxAnalysisDataClass]:
+
+        #check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the Syntax Analysis function")
         # Prepare request
         files = {"text": text, "parameters": [{"name": "lang", "value": language}]}
         headers = {

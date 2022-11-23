@@ -102,6 +102,8 @@ from .helpers import (
     amazon_ocr_tables_parser
 )
 
+from botocore.exceptions import ClientError
+
 class AmazonApi(
     ProviderApi,
     Image,
@@ -549,6 +551,9 @@ class AmazonApi(
             response = clients["text"].detect_syntax(Text=text, LanguageCode=language)
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
+        except ClientError as exc:
+            if "'languageCode'failed to satisfy constraint" in str(exc):
+                raise ProviderException("Please provide an input language parameter for the Syntax Analysis function")
 
         # Create output TextSyntaxAnalysis object
 
