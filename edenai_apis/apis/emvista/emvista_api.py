@@ -33,6 +33,11 @@ class EmvistaApi(ProviderApi, Text):
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str = None
     ) -> ResponseType[SummarizeDataClass]:
+
+        #check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the Summarize function")
+
         # Prepare request
         files = {"text": text, "parameters": [{"name": "lang", "value": language}]}
         headers = {
