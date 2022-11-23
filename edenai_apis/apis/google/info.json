@@ -230,7 +230,8 @@
                     "sv-SE",
                     "es-ES",
                     "tr-TR"
-                ]
+                ],
+                "allow_null_language":true
             },
             "version": "v1"
         },

@@ -45,6 +45,9 @@ class SentiSightApi(ProviderApi, Ocr, Image):
     ) -> ResponseType[OcrDataClass]:
         url = f"{self.base_url}Text-recognition"
         
+        #check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the OCR function")
         is_pdf = file.name.lower().endswith(".pdf")
         file_content = file.read()
         responses = []
