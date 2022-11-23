@@ -477,7 +477,8 @@
           "es",
           "sv",
           "tr"
-        ]
+        ],
+        "allow_null_language":true
       },
       "version": "v3.1"
     },

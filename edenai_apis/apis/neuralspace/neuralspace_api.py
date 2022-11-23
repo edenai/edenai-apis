@@ -49,8 +49,11 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
         files = {"text": text, "language": language}
 
         response = requests.request("POST", url, json=files, headers=self.header)
-        response = response.json()
+        if response.status_code != 200:
+            if not response.json().get("success"):
+                raise ProviderException(response.json().get("message"))
 
+        response = response.json()
         data = response["data"]
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
