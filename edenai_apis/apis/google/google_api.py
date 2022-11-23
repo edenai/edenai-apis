@@ -596,15 +596,16 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
 
         # Analyse response
         # Getting name of entity, its category and its score of confidence
-        for ent in response["entities"]:
-            items.append(
-                InfosNamedEntityRecognitionDataClass(
-                    entity=ent["name"],
-                    importance=ent.get("salience", None),
-                    category=ent["type"],
-                    url=ent.get("metadata", {}).get("wikipedia_url", None),
+        if response.get("entities") and isinstance(response["entities"], list):
+            for ent in response["entities"]:
+                items.append(
+                    InfosNamedEntityRecognitionDataClass(
+                        entity=ent["name"],
+                        importance=ent.get("salience", None),
+                        category=ent["type"],
+                        url=ent.get("metadata", {}).get("wikipedia_url", None),
+                    )
                 )
-            )
 
         standarized_response = NamedEntityRecognitionDataClass(items=items)
 
