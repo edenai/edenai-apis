@@ -46,6 +46,10 @@ class VociApi(ProviderApi, Audio):
             data_config.update({
                 "model": f"{language.lower()}:callcenter"
             })
+        else:
+            data_config.update({
+                "lid": "true"
+            })
 
         response = requests.post(
             url="https://vcloud.vocitec.com/transcribe",
