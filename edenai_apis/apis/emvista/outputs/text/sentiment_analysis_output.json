@@ -1,90 +1,118 @@
 {
   "original_response": {
     "result": {
-      "emotions": [
+      "globalScore": 0.45346666666666674,
+      "opinions": [
         {
-          "refTrigger": "-1--1",
-          "trigger": "major",
+          "context": null,
+          "refTarget": null,
+          "value": 0.814,
           "emitter": "",
-          "value": "joy"
+          "target": null
         },
         {
-          "refTrigger": "-1--1",
-          "trigger": "positive",
+          "context": null,
+          "refTarget": null,
+          "value": 0.346,
           "emitter": "",
-          "value": "joy"
+          "target": null
         },
         {
-          "refTrigger": "-1--1",
-          "trigger": "many",
+          "context": null,
+          "refTarget": null,
+          "value": 0.854,
           "emitter": "",
-          "value": "admiration"
+          "target": null
         },
         {
-          "refTrigger": "2-19",
-          "trigger": "or not",
+          "context": null,
+          "refTarget": "2-19",
+          "value": 0.076,
           "emitter": "",
-          "value": "joy"
+          "target": "or not"
         },
         {
-          "refTrigger": "3-9",
-          "trigger": "products",
+          "context": null,
+          "refTarget": "3-9",
+          "value": 0.853,
           "emitter": "",
-          "value": "admiration"
+          "target": "products"
         },
         {
-          "refTrigger": "-1--1",
-          "trigger": "overprice",
+          "context": null,
+          "refTarget": null,
+          "value": 0.854,
           "emitter": "",
-          "value": "disgust"
+          "target": null
         },
         {
-          "refTrigger": "-1--1",
-          "trigger": "second",
+          "context": null,
+          "refTarget": null,
+          "value": -0.28,
           "emitter": "",
-          "value": "joy"
+          "target": null
         },
         {
-          "refTrigger": "4-10",
-          "trigger": "help",
+          "context": null,
+          "refTarget": "3-22",
+          "value": 0.078,
+          "emitter": "",
+          "target": "that"
+        },
+        {
+          "context": null,
+          "refTarget": null,
+          "value": 0.038,
+          "emitter": "",
+          "target": null
+        },
+        {
+          "context": null,
+          "refTarget": "4-10",
+          "value": 0.833,
           "emitter": "they",
-          "value": "joy"
+          "target": "help"
         },
         {
-          "refTrigger": "-1-0",
-          "trigger": "satisfied",
-          "emitter": "I",
-          "value": "joy"
-        },
-        {
-          "refTrigger": "-1-0",
-          "trigger": "positive",
+          "context": null,
+          "refTarget": "2-19",
+          "value": 0.23,
           "emitter": "",
-          "value": "admiration"
+          "target": "or not"
         },
         {
-          "refTrigger": "-1-0",
-          "trigger": "bogus",
+          "context": null,
+          "refTarget": "3-9",
+          "value": 0.23,
           "emitter": "",
-          "value": "admiration"
+          "target": "products"
         },
         {
-          "refTrigger": "-1-0",
-          "trigger": "clear",
-          "emitter": "",
-          "value": "disgust"
+          "context": null,
+          "refTarget": "4-10",
+          "value": 0.823,
+          "emitter": "they",
+          "target": "help"
         },
         {
-          "refTrigger": "-1-0",
-          "trigger": "help",
+          "context": null,
+          "refTarget": "3-9",
+          "value": 0.23,
           "emitter": "",
-          "value": "joy"
+          "target": "products"
+        },
+        {
+          "context": null,
+          "refTarget": "4-10",
+          "value": 0.823,
+          "emitter": "",
+          "target": "help"
         }
       ]
     },
     "code": 0,
-    "startTime": 1668784931582,
-    "endTime": 1668784931582,
+    "startTime": 1669289177327,
+    "endTime": 1669289177327,
     "message": "OK"
   },
   "standarized_response": {

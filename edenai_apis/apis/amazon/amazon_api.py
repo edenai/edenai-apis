@@ -43,7 +43,6 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import I
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
     KeywordExtractionDataClass,
-    Items,
     SentimentAnalysisDataClass,
     InfosNamedEntityRecognitionDataClass,
     NamedEntityRecognitionDataClass,

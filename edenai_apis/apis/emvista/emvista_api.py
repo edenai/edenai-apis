@@ -13,7 +13,6 @@ from edenai_apis.features.text import (
     SentimentAnalysisDataClass
 )
 from edenai_apis.features.base_provider.provider_api import ProviderApi
-from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import Items
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
@@ -160,7 +159,7 @@ class EmvistaApi(ProviderApi, Text):
             "Content-Type": "application/json",
             "Accept": "application/json"
         }
-        url = f"{self.base_url}emotions"
+        url = f"{self.base_url}opinions"
 
         # Send request to API
         response = requests.post(url, headers=headers, json=files)

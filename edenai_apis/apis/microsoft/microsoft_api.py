@@ -47,7 +47,7 @@ from edenai_apis.features.ocr.ocr_class import Ocr
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass, KeywordExtractionDataClass,
     InfosNamedEntityRecognitionDataClass, NamedEntityRecognitionDataClass,
-    Items, SentimentAnalysisDataClass, SummarizeDataClass
+    SentimentAnalysisDataClass, SummarizeDataClass
 )
 from edenai_apis.features.text.text_class import Text
 from edenai_apis.features.translation import (
