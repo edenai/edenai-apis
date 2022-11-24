@@ -17,7 +17,8 @@
                     "en",
                     "fr",
                     "ar"
-                ]
+                ],
+                "allow_null_language": true
             },
             "version": "affinda 1.0.2"
         }
