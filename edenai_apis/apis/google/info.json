@@ -244,7 +244,8 @@
                     "de-DE",
                     "it-IT",
                     "pt-PT"
-                ]
+                ],
+                "allow_null_language":true
             },
             "version": "DocumentAI v1 beta3"
         }
