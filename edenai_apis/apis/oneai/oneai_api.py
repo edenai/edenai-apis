@@ -14,8 +14,8 @@ from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
     SentimentAnalysisDataClass,
     SummarizeDataClass,
-    Items,
 )
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SegmentSentimentAnalysisDataClass
 from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
 )
@@ -146,10 +146,27 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
             raise ProviderException(message=original_response['message'], code=response.status_code)
 
         items = []
+        general_sentiment = 0
         for item in original_response['output'][0]['labels']:
-            items.append(Items(sentiment='negative' if item['value'] == 'NEG' else 'positive'))
+            segment = item['span_text']
+            sentiment = 'Negative' if item['value'] == 'NEG' else 'Positive'
+            general_sentiment += 1 if sentiment == 'Positive' else -1
+            items.append(SegmentSentimentAnalysisDataClass(
+                segment=segment,
+                sentiment=sentiment
+            ))
 
-        standarized_response = SentimentAnalysisDataClass(items=items)
+        general_sentiment_text = 'Neutral'
+        if general_sentiment < 0:
+            general_sentiment_text = 'Negative'
+        elif general_sentiment > 0:
+            general_sentiment = 'Positive'
+
+        standarized_response = SentimentAnalysisDataClass(
+            text=original_response['output'][0]['text'],
+            general_sentiment=general_sentiment_text,
+            items=items
+        )
 
         return ResponseType[SentimentAnalysisDataClass](
             original_response=original_response,
@@ -218,7 +235,8 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
                 {
                     "skill": "transcribe",
                     "params": {
-                        "speaker_detection": True
+                        "speaker_detection": True,
+                        "engine": "whisper"
                     }
                 }  
             ]
