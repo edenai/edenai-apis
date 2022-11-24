@@ -32,6 +32,8 @@ class TabscannerApi(ProviderApi, Ocr):
         response = requests.post(
             self.url + "2/process", files=files, data=payload, headers=headers
         ).json()
+        if response.get("success") == False:
+            raise ProviderException(response.get("message"))
         return response["token"]
 
     def _get_response(self, token: str, retry=0) -> Any:

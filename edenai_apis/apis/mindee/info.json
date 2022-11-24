@@ -32,7 +32,8 @@
                     "it-CH",
                     "nl-NL",
                     "pt-PT"
-                ]
+                ],
+                "allow_null_language":true
             },
             "version": "v2"
         },
