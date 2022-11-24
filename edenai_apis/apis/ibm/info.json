@@ -28,7 +28,8 @@
                     "ko-KR",
                     "fr-FR",
                     "en-IN"
-                ]
+                ],
+                "allow_null_language":true
             },
             "version": "v1"
         },

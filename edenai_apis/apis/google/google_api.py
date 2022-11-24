@@ -716,6 +716,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers: int
     ) -> AsyncLaunchJobResponseType:
+
+        #check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the Speech to text function")
         export_format = "flac"
         wav_file, _, _, channels = wav_converter(file, export_format)
         audio_name = str(int(time())) + Path(file.name).stem + "." + export_format

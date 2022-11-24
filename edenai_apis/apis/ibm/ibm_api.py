@@ -343,12 +343,16 @@ class IbmApi(
     ) -> AsyncLaunchJobResponseType:
         wav_file, *_options = wav_converter(file)
         language_audio = language
-        response = clients["speech"].create_job(
-            audio=wav_file,
-            content_type="audio/wav",
-            model=f"{language_audio}_NarrowbandModel",
-            speaker_labels = True
-        )
+        audio_config = {
+            "audio" : wav_file,
+            "content_type" : "audio/wav",
+            "speaker_labels" : True
+        }
+        if language_audio:
+            audio_config.update({
+                "model" : f"{language_audio}_NarrowbandModel"
+            })
+        response = clients["speech"].create_job(**audio_config)
         print(response)
         if response.status_code == 201:
             return AsyncLaunchJobResponseType(
