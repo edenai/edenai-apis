@@ -15,6 +15,8 @@ def convert_string_to_number(
     """convert a `string` to either `int` or `float`"""
     if isinstance(string_number, (int, float)):
         return string_number
+    if not string_number:
+        return None
     return (
         val_type(re.sub(r"[^\d\.]", "", string_number))
         if string_number is not None
