@@ -8,8 +8,8 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
 
 
-class DeepLApi(ProviderApi, Translation):
-    provider_name = "deepL"
+class DeeplApi(ProviderApi, Translation):
+    provider_name = "deepl"
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)

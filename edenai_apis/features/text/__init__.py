@@ -19,7 +19,7 @@ from .search import (
 )
 from .sentiment_analysis import (
     SentimentAnalysisDataClass,
-    Items,
+    SegmentSentimentAnalysisDataClass,
     sentiment_analysis_arguments
 )
 from .summarize import (

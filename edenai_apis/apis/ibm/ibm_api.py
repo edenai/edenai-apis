@@ -29,7 +29,6 @@ from edenai_apis.features.text import(
     SentimentAnalysisDataClass,
     InfosSyntaxAnalysisDataClass,
     SyntaxAnalysisDataClass,
-    Items
 )
 
 from edenai_apis.features.translation import (

@@ -2,44 +2,65 @@
   "text": {
     "anonymization": {
       "constraints": {
-        "allow_null_language": true
+        "languages": [
+          "en"
+        ],
+        "allow_null_language": false
       },
       "version": "v0"
     },
     "keyword_extraction": {
       "constraints": {
-        "allow_null_language": true
+        "languages": [
+          "en"
+        ],
+        "allow_null_language": false
       },
       "version": "v0"
     },
     "named_entity_recognition": {
       "constraints": {
-        "allow_null_language": true
+        "languages": [
+          "en"
+        ],
+        "allow_null_language": false
       },
       "version": "v0"
     },
     "sentiment_analysis": {
       "constraints": {
-        "allow_null_language": true
+        "languages": [
+          "en"
+        ],
+        "allow_null_language": false
       },
       "version": "v0"
     },
     "summarize": {
       "constraints": {
-        "allow_null_language": true
+        "languages": [
+          "en"
+        ],
+        "allow_null_language": false
       },
       "version": "v0"
     }
   },
   "translation": {
     "language_detection": {
+      "languages": [
+        "en"
+      ],
       "version": "v0"
     }
   },
   "audio": {
     "speech_to_text_async": {
       "constraints": {
-        "allow_null_language": true
+        "languages": [
+          "en"
+        ],
+        "allow_null_language": false
       },
       "version": "v0"
     }
