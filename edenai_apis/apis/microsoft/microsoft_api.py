@@ -884,13 +884,14 @@ class MicrosoftApi(
             entity = ent["text"]
             importance = ent["confidenceScore"]
             entity_type = ent["category"].upper()
-
+            if entity_type == 'DATETIME':
+                entity_type = 'DATE'
+            
             items.append(
                 InfosNamedEntityRecognitionDataClass(
                     entity=entity,
                     importance=importance,
                     category=entity_type,
-                    url="",
                 )
             )
 

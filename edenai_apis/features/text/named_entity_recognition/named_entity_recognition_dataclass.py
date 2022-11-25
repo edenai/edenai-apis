@@ -7,7 +7,6 @@ class InfosNamedEntityRecognitionDataClass(BaseModel):
     entity: StrictStr
     category: StrictStr
     importance: Optional[float]
-    url: Optional[StrictStr]
 
 
 class NamedEntityRecognitionDataClass(BaseModel):
