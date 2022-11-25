@@ -13,6 +13,7 @@ from edenai_apis.features.text import (
     SentimentAnalysisDataClass
 )
 from edenai_apis.features.base_provider.provider_api import ProviderApi
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SentimentEnum
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
@@ -141,6 +142,13 @@ class EmvistaApi(ProviderApi, Text):
         )
         return result
 
+    def _normalize_sentiment(self, rate: float) -> SentimentEnum:
+        if rate > 0:
+            return SentimentEnum.POSITIVE
+        if rate < 0:
+            return SentimentEnum.NEGATIVE
+        return SentimentEnum.NEUTRAL
+
     def text__sentiment_analysis(
         self,
         language: str,
@@ -165,27 +173,12 @@ class EmvistaApi(ProviderApi, Text):
         response = requests.post(url, headers=headers, json=files)
         original_response = response.json()
 
-        opinions_response = requests.post(f"{self.base_url}opinions", headers=headers, json=files)
-
-        items: Sequence[Items] = []
-        for opinion in opinions_response.json()["result"].get("opinions", []):
-           if opinion['value'] < 0:
-               items.append(Items(
-                   sentiment="negative",
-                   sentiment_rate=abs(opinion['value'])
-               ))
-           elif opinion['value'] > 0:
-               items.append(Items(
-                   sentiment="positive",
-                   sentiment_rate=opinion['value']
-               ))
-           else:
-               items.append(Items(
-                   sentiment="neutral",
-                   sentiment_rate=opinion['value']
-               ))
-    
-        standarized_response = SentimentAnalysisDataClass(items=items)
+        standarized_response = SentimentAnalysisDataClass(
+            text=text,
+            general_sentiment=self._normalize_sentiment(original_response['result']['globalScore']),
+            general_sentiment_rate=abs(original_response['result']['globalScore'])
+        )
+        
         result = ResponseType[SentimentAnalysisDataClass](
             original_response=original_response,
             standarized_response=standarized_response

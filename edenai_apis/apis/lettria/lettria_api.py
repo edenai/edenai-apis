@@ -9,6 +9,7 @@ from edenai_apis.features.text import (
     SyntaxAnalysisDataClass,
     SentimentAnalysisDataClass,
 )
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SegmentSentimentAnalysisDataClass, SentimentEnum
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
@@ -55,6 +56,15 @@ class LettriaApi(ProviderApi, Text):
         )
         return result
 
+
+    def _normalize_sentiment(self, rate: float) -> SentimentEnum:
+        if rate > 0:
+            return SentimentEnum.POSITIVE
+        if rate < 0:
+            return SentimentEnum.NEGATIVE
+        return SentimentEnum.NEUTRAL
+
+
     def text__sentiment_analysis(
         self, language: str, text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
@@ -62,25 +72,30 @@ class LettriaApi(ProviderApi, Text):
             url=self.url, headers=self.headers, json={"text": text}
         ).json()
 
-        items: Sequence[Items] = []
+        items = []
+        for sentence in original_response['sentences']:
+            score = sentence['sentiment']['subsentences'][0]['values']['total']
+            sentiment = self._normalize_sentiment(score)
+            items.append(SegmentSentimentAnalysisDataClass(
+                segment=sentence['sentiment']['subsentences'][0]['sentence'],
+                sentiment=sentiment,
+                sentiment_rate=abs(sentence['sentiment']['subsentences'][0]['values']['total'])
+            ))
 
-        sentiment: Literal["neutral", "positive", "negative"] = "neutral"
-        if original_response["sentiment"] > 0:
-            sentiment = "positive"
-        elif original_response["sentiment"] < 0:
-            sentiment = "negative"
-        items.append(
-            Items(
-                sentiment=sentiment, sentiment_rate=abs(original_response["sentiment"])
-            )
+        sentiment: Literal["Neutral", "Positive", "Negative"] = self._normalize_sentiment(original_response['sentiment'])
+
+        sentiment=sentiment
+        sentiment_rate=abs(original_response["sentiment"])
+
+        standarize = SentimentAnalysisDataClass(
+            text=text,
+            general_sentiment=sentiment,
+            general_sentiment_rate=sentiment_rate,
+            items=items
         )
 
-        standarize = SentimentAnalysisDataClass(items=items)
-
         result = ResponseType[SentimentAnalysisDataClass](
-            original_response={
-                "sentiment": original_response["sentiment"],
-            },
+            original_response=original_response,
             standarized_response=standarize,
         )
         return result

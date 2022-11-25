@@ -696,12 +696,10 @@ class MicrosoftApi(
             'rate': 0
         }
         for sentiment, value in data['results']['documents'][0]['confidenceScores'].items():
-            print(sentiment, value)
             if best_general_sentiment['rate'] < value:
                     best_general_sentiment['sentiment'] = sentiment
                     best_general_sentiment['rate'] = value
 
-        print(best_general_sentiment)
         standarize = SentimentAnalysisDataClass(
             text=text,
             general_sentiment=best_general_sentiment['sentiment'],

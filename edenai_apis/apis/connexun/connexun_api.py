@@ -41,14 +41,11 @@ class ConnexunApi(ProviderApi, Text):
             raise ProviderException(original_response["message"])
 
         # Return standarized response
-        items: Sequence[Items] = []
-        items.append(
-            Items(
-                sentiment=original_response.get("Sentiment"),
-                sentiment_rate=original_response.get("Value"),
-            )
+        standarized_response = SentimentAnalysisDataClass(
+            text=text,
+            general_sentiment=original_response.get("Sentiment"),
+            general_sentiment_rate=original_response.get("Value"),
         )
-        standarized_response = SentimentAnalysisDataClass(items=items)
 
         return ResponseType[SentimentAnalysisDataClass](
             original_response=original_response,

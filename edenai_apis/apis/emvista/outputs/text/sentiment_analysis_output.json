@@ -111,72 +111,14 @@
       ]
     },
     "code": 0,
-    "startTime": 1669289177327,
-    "endTime": 1669289177327,
+    "startTime": 1669384428796,
+    "endTime": 1669384428796,
     "message": "OK"
   },
   "standarized_response": {
-    "items": [
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.814
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.346
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.854
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.076
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.853
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.854
-      },
-      {
-        "sentiment": "negative",
-        "sentiment_rate": 0.28
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.078
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.038
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.833
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.23
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.23
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.823
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.23
-      },
-      {
-        "sentiment": "positive",
-        "sentiment_rate": 0.823
-      }
-    ]
+    "text": "Overall I am satisfied with my experience at Amazon, but two areas of major improvement needed. First is the product reviews and pricing. There are thousands of positive reviews for so many items, and it's clear that the reviews are bogus or not really associated with that product. There needs to be a way to only view products sold by Amazon directly, because many market sellers way overprice items that can be purchased cheaper elsewhere (like Walmart, Target, etc). The second issue is they make it too difficult to get help when there's an issue with an order.",
+    "general_sentiment": "Positive",
+    "general_sentiment_rate": 0.45,
+    "items": []
   }
 }
