@@ -84,6 +84,7 @@ from edenai_apis.features.text.named_entity_recognition.named_entity_recognition
     NamedEntityRecognitionDataClass,
 )
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
+    SegmentSentimentAnalysisDataClass,
     SentimentAnalysisDataClass,
 )
 from edenai_apis.features.text.syntax_analysis.syntax_analysis_dataclass import (
@@ -636,16 +637,23 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         # Convert response to dict
         response = MessageToDict(response._pb)
         # Create output response
-        items: Sequence[Items] = []
-        items.append(
-            Items(
-                sentiment=score_to_sentiment(
-                    response["documentSentiment"].get("score", 0)
-                ),
-                sentiment_rate=abs(response["documentSentiment"].get("score", 0)),
+        items: Sequence[SegmentSentimentAnalysisDataClass] = []
+        for segment in response['sentences']:
+            items.append(
+                SegmentSentimentAnalysisDataClass(
+                    segment=segment['text'].get('content'),
+                    sentiment=score_to_sentiment(
+                        segment['sentiment'].get("score", 0)
+                    ),
+                    sentiment_rate=abs(segment['sentiment'].get("score", 0)),
             )
         )
-        standarize = SentimentAnalysisDataClass(items=items)
+        standarize = SentimentAnalysisDataClass(
+            text=text,
+            general_sentiment=score_to_sentiment(response['documentSentiment'].get("score", 0)),
+            general_sentiment_rate=abs(response['documentSentiment'].get("score", 0)),
+            items=items,
+        )
 
         return ResponseType[SentimentAnalysisDataClass](
             original_response=response, standarized_response=standarize

@@ -11,6 +11,7 @@ from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import
     Cell,
     Row,
 )
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SentimentEnum
 
 
 class GoogleVideoFeatures(enum.Enum):
@@ -45,10 +46,10 @@ def google_video_get_job(provider_job_id: str):
 
 def score_to_sentiment(score):
     if score > 0:
-        return "Positive"
+        return SentimentEnum.POSITIVE
     elif score < 0:
-        return "Negative"
-    return "Neutral"
+        return SentimentEnum.NEGATIVE
+    return SentimentEnum.NEUTRAL
 
 
 # _Transform score of confidence to level of confidence

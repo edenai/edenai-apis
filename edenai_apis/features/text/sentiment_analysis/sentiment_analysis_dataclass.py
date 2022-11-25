@@ -1,15 +1,18 @@
 from typing import Optional, Sequence, Literal
 from pydantic import BaseModel, Field, validator
 
+class SentimentEnum(enumerate):
+    POSITIVE = 'Positive'
+    NEGATIVE = 'Negative'
+    NEUTRAL = 'Neutral'
 
 class SegmentSentimentAnalysisDataClass(BaseModel):
-    """
-    This class is used in SentimentAnalysisDataClass to describe each segment analyzed.
+    """This class is used in SentimentAnalysisDataClass to describe each segment analyzed.
 
-    Attributes:
-        segment: str -> The segment analyzed
-        sentiment: Literal['Positve', 'Negative', 'Neutral']  (Case is ignore) -> Sentiment of segment
-        sentiment_rate: float (Between 0 and 1) -> Rate of sentiment
+    Args:
+        - segment (str): The segment analyzed
+        - sentiment (Literal['Positve', 'Negative', 'Neutral']) (Case is ignore): Sentiment of segment
+        - sentiment_rate (float between 0 and 1): Rate of sentiment
     """
     segment: str
     sentiment: Literal["Positive", "Negative", "Neutral"]
@@ -23,6 +26,8 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
 
     @validator('sentiment', pre=True)
     def valid_sentiment(cls, value):
+        if not isinstance(value, str):
+            raise TypeError(f"Sentiment must be a string, not {type(value)}")
         value = value.title()
         if not value in ["Positive", "Negative", "Neutral"]:
             raise ValueError(f"{value} are not allowed. Sentiment must be 'Positive' or 'Negative' or 'Neutral'")
@@ -38,14 +43,13 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
 
 
 class SentimentAnalysisDataClass(BaseModel):
-    """
-    This class is used to standardize responses from sentiment_analysis.
-
-    Attributes:
-        text: str -> The text whose has been analyzed
-        general_sentiment: Literal['Positve', 'Negative', 'Neutral']  (Case is ignore) -> General sentiment of text
-        general_sentiment_rate: float (Between 0 and 1) -> Rate of general sentiment
-        items: Sequence[SegmentSentimentAnalysisDataClass] (default: []) -> Lists of the different segments analyzed. For more informations, looks at SegmentSentimentAnalysisDataClass's documentations
+    """This class is used to standardize responses from sentiment_analysis.
+    
+    Args:
+        - text (str): The text whose has been analyzed
+        - general_sentiment (Literal['Positve', 'Negative', 'Neutral']) (Case is ignore): General sentiment of text
+        - general_sentiment_rate (float between 0 and 1): Rate of general sentiment
+        - items (Sequence[SegmentSentimentAnalysisDataClass]): Lists of the different segments analyzed. For more informations, looks at SegmentSentimentAnalysisDataClass's documentations (Default: [])
     """
     text: str
     general_sentiment: Literal["Positive", "Negative", "Neutral"]

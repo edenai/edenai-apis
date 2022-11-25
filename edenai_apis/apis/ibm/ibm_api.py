@@ -29,6 +29,8 @@ from edenai_apis.features.text import(
     SentimentAnalysisDataClass,
     InfosSyntaxAnalysisDataClass,
     SyntaxAnalysisDataClass,
+    SegmentSentimentAnalysisDataClass,
+    SentimentEnum,
 )
 
 from edenai_apis.features.translation import (
@@ -139,17 +141,15 @@ class IbmApi(
             if "not enough text for language id" in exc.message:
                 raise ProviderException("not enough text for language identification, please provide the language parameter!")
         # Create output object
-
-        items: Sequence[Items] = []
-        items.append(
-            Items(
-                sentiment=response["sentiment"]["document"]["label"],
-                sentiment_rate=float(
+        items: Sequence[SegmentSentimentAnalysisDataClass] = []
+        standarize = SentimentAnalysisDataClass(
+            text=text,
+            general_sentiment=response["sentiment"]["document"]["label"],
+            general_sentiment_rate=float(
                     abs(response["sentiment"]["document"]["score"])
                 ),
-            )
+            items=items,
         )
-        standarize = SentimentAnalysisDataClass(items=items)
 
         return ResponseType[SentimentAnalysisDataClass](
             original_response = response,

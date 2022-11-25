@@ -7,17 +7,17 @@
           "id": "1",
           "sentiment": "mixed",
           "confidenceScores": {
-            "positive": 0.2,
-            "neutral": 0.01,
-            "negative": 0.79
+            "positive": 0.33,
+            "neutral": 0.0,
+            "negative": 0.67
           },
           "sentences": [
             {
               "sentiment": "positive",
               "confidenceScores": {
-                "positive": 0.77,
+                "positive": 0.98,
                 "neutral": 0.01,
-                "negative": 0.22
+                "negative": 0.01
               },
               "offset": 0,
               "length": 96,
@@ -26,9 +26,9 @@
             {
               "sentiment": "neutral",
               "confidenceScores": {
-                "positive": 0.12,
-                "neutral": 0.68,
-                "negative": 0.2
+                "positive": 0.0,
+                "neutral": 0.99,
+                "negative": 0.0
               },
               "offset": 96,
               "length": 42,
@@ -39,18 +39,18 @@
               "confidenceScores": {
                 "positive": 0.0,
                 "neutral": 0.0,
-                "negative": 0.99
+                "negative": 1.0
               },
               "offset": 138,
               "length": 145,
               "text": "There are thousands of positive reviews for so many items, and it's clear that the reviews are bogus or not really associated with that product. "
             },
             {
-              "sentiment": "negative",
+              "sentiment": "neutral",
               "confidenceScores": {
-                "positive": 0.01,
-                "neutral": 0.04,
-                "negative": 0.96
+                "positive": 0.02,
+                "neutral": 0.7,
+                "negative": 0.29
               },
               "offset": 283,
               "length": 188,
@@ -61,7 +61,7 @@
               "confidenceScores": {
                 "positive": 0.0,
                 "neutral": 0.0,
-                "negative": 0.99
+                "negative": 1.0
               },
               "offset": 471,
               "length": 95,
@@ -72,22 +72,38 @@
         }
       ],
       "errors": [],
-      "modelVersion": "2022-06-01"
+      "modelVersion": "2022-11-01"
     }
   },
   "standarized_response": {
+    "text": "Overall I am satisfied with my experience at Amazon, but two areas of major improvement needed. First is the product reviews and pricing. There are thousands of positive reviews for so many items, and it's clear that the reviews are bogus or not really associated with that product. There needs to be a way to only view products sold by Amazon directly, because many market sellers way overprice items that can be purchased cheaper elsewhere (like Walmart, Target, etc). The second issue is they make it too difficult to get help when there's an issue with an order.",
+    "general_sentiment": "Negative",
+    "general_sentiment_rate": 0.67,
     "items": [
       {
-        "sentiment": "positive",
-        "sentiment_rate": 0.2
+        "segment": "Overall I am satisfied with my experience at Amazon, but two areas of major improvement needed. ",
+        "sentiment": "Positive",
+        "sentiment_rate": 0.98
       },
       {
-        "sentiment": "neutral",
-        "sentiment_rate": 0.01
+        "segment": "First is the product reviews and pricing. ",
+        "sentiment": "Neutral",
+        "sentiment_rate": 0.99
       },
       {
-        "sentiment": "negative",
-        "sentiment_rate": 0.79
+        "segment": "There are thousands of positive reviews for so many items, and it's clear that the reviews are bogus or not really associated with that product. ",
+        "sentiment": "Negative",
+        "sentiment_rate": 1.0
+      },
+      {
+        "segment": "There needs to be a way to only view products sold by Amazon directly, because many market sellers way overprice items that can be purchased cheaper elsewhere (like Walmart, Target, etc). ",
+        "sentiment": "Neutral",
+        "sentiment_rate": 0.7
+      },
+      {
+        "segment": "The second issue is they make it too difficult to get help when there's an issue with an order.",
+        "sentiment": "Negative",
+        "sentiment_rate": 1.0
       }
     ]
   }

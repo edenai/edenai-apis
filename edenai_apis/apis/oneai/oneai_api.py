@@ -18,6 +18,7 @@ from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
     SentimentAnalysisDataClass,
     SummarizeDataClass,
+    SentimentEnum,
 )
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SegmentSentimentAnalysisDataClass
 from edenai_apis.features.translation import (
@@ -153,18 +154,18 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
         general_sentiment = 0
         for item in original_response['output'][0]['labels']:
             segment = item['span_text']
-            sentiment = 'Negative' if item['value'] == 'NEG' else 'Positive'
-            general_sentiment += 1 if sentiment == 'Positive' else -1
+            sentiment = SentimentEnum.NEGATIVE if item['value'] == 'NEG' else SentimentEnum.POSITIVE
+            general_sentiment += 1 if sentiment == SentimentEnum.POSITIVE else -1
             items.append(SegmentSentimentAnalysisDataClass(
                 segment=segment,
                 sentiment=sentiment
             ))
 
-        general_sentiment_text = 'Neutral'
+        general_sentiment_text = SentimentEnum.NEUTRAL
         if general_sentiment < 0:
-            general_sentiment_text = 'Negative'
+            general_sentiment_text = SentimentEnum.NEGATIVE
         elif general_sentiment > 0:
-            general_sentiment = 'Positive'
+            general_sentiment = SentimentEnum.POSITIVE
 
         standarized_response = SentimentAnalysisDataClass(
             text=original_response['output'][0]['text'],
