@@ -1,14 +1,14 @@
 {
   "status": "succeeded",
-  "provider_job_id": "2880343573166102303",
+  "provider_job_id": "5887256986902064514",
   "original_response": {
-    "name": "2880343573166102303",
+    "name": "5887256986902064514",
     "metadata": {
       "@type": "type.googleapis.com/google.cloud.speech.v1.LongRunningRecognizeMetadata",
       "progressPercent": 100,
-      "startTime": "2022-10-12T14:12:43.132906Z",
-      "lastUpdateTime": "2022-10-12T14:12:49.013761Z",
-      "uri": "gs://audios-speech2text/1665583961conversation.flac"
+      "startTime": "2022-11-25T09:19:37.095863Z",
+      "lastUpdateTime": "2022-11-25T09:19:42.056374Z",
+      "uri": "gs://audios-speech2text/1669367964conversation.flac"
     },
     "done": true,
     "response": {
@@ -18,18 +18,213 @@
           "alternatives": [
             {
               "transcript": "unit 1 page 14 real conversations nice to meet you.",
-              "confidence": 0.897069
+              "confidence": 0.90078765,
+              "words": [
+                {
+                  "startTime": "0s",
+                  "endTime": "0.500s",
+                  "word": "unit"
+                },
+                {
+                  "startTime": "0.500s",
+                  "endTime": "0.900s",
+                  "word": "1"
+                },
+                {
+                  "startTime": "0.900s",
+                  "endTime": "1.800s",
+                  "word": "page"
+                },
+                {
+                  "startTime": "1.800s",
+                  "endTime": "2.600s",
+                  "word": "14"
+                },
+                {
+                  "startTime": "2.600s",
+                  "endTime": "3.700s",
+                  "word": "real"
+                },
+                {
+                  "startTime": "3.700s",
+                  "endTime": "4.700s",
+                  "word": "conversations"
+                },
+                {
+                  "startTime": "4.700s",
+                  "endTime": "13s",
+                  "word": "nice"
+                },
+                {
+                  "startTime": "13s",
+                  "endTime": "13.100s",
+                  "word": "to"
+                },
+                {
+                  "startTime": "13.100s",
+                  "endTime": "13.300s",
+                  "word": "meet"
+                },
+                {
+                  "startTime": "13.300s",
+                  "endTime": "14s",
+                  "word": "you."
+                }
+              ]
             }
           ],
           "resultEndTime": "17.010s",
           "languageCode": "en-us"
+        },
+        {
+          "alternatives": [
+            {
+              "words": [
+                {
+                  "startTime": "0s",
+                  "endTime": "0.500s",
+                  "word": "unit",
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "0.500s",
+                  "endTime": "0.900s",
+                  "word": "1",
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "0.900s",
+                  "endTime": "1.800s",
+                  "word": "page",
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "1.800s",
+                  "endTime": "2.600s",
+                  "word": "14",
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "2.600s",
+                  "endTime": "3.700s",
+                  "word": "real",
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "3.700s",
+                  "endTime": "4.700s",
+                  "word": "conversations",
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "4.700s",
+                  "endTime": "13s",
+                  "word": "nice",
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "13s",
+                  "endTime": "13.100s",
+                  "word": "to",
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "13.100s",
+                  "endTime": "13.300s",
+                  "word": "meet",
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "13.300s",
+                  "endTime": "14s",
+                  "word": "you.",
+                  "speakerTag": 1
+                }
+              ]
+            }
+          ]
         }
       ],
-      "totalBilledTime": "30s",
-      "requestId": "2880343573166102303"
+      "totalBilledTime": "18s",
+      "requestId": "5887256986902064514"
     }
   },
   "standarized_response": {
-    "text": "unit 1 page 14 real conversations nice to meet you."
+    "text": "unit 1 page 14 real conversations nice to meet you., ",
+    "diarization": {
+      "total_speakers": 1,
+      "entries": [
+        {
+          "segment": "unit",
+          "start_time": "0",
+          "end_time": "0.500",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "1",
+          "start_time": "0.500",
+          "end_time": "0.900",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "page",
+          "start_time": "0.900",
+          "end_time": "1.800",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "14",
+          "start_time": "1.800",
+          "end_time": "2.600",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "real",
+          "start_time": "2.600",
+          "end_time": "3.700",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "conversations",
+          "start_time": "3.700",
+          "end_time": "4.700",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "nice",
+          "start_time": "4.700",
+          "end_time": "13",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "to",
+          "start_time": "13",
+          "end_time": "13.100",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "meet",
+          "start_time": "13.100",
+          "end_time": "13.300",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "you.",
+          "start_time": "13.300",
+          "end_time": "14",
+          "speaker": 1,
+          "confidence": null
+        }
+      ]
+    }
   }
 }

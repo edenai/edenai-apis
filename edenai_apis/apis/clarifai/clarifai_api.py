@@ -46,6 +46,9 @@ class ClarifaiApi(
     def ocr__ocr(
         self, file: BufferedReader, language: str
     ) -> ResponseType[OcrDataClass]:
+
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the OCR function")
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
         file_content = file.read()

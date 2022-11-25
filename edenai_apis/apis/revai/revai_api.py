@@ -4,6 +4,8 @@ import requests
 from edenai_apis.features import ProviderApi, Audio
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
+    SpeechDiarizationEntry,
+    SpeechDiarization
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -15,6 +17,7 @@ from edenai_apis.utils.types import (
     AsyncPendingResponseType,
     AsyncResponseType,
 )
+import json
 
 
 class RevAIApi(ProviderApi, Audio):
@@ -25,7 +28,8 @@ class RevAIApi(ProviderApi, Audio):
         self.key = self.api_settings["revai_key"]
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str
+        self, file: BufferedReader, language: str,
+        speakers : int
     ) -> AsyncLaunchJobResponseType:
 
         response = requests.post(
@@ -63,36 +67,54 @@ class RevAIApi(ProviderApi, Audio):
                 message=f"{original_response.get('title','')}: {original_response.get('details','')}",
                 code=response.status_code,
             )
-        else:
-            status = original_response["status"]
-            if status == "transcribed":
-                response = requests.get(
-                    url=f"https://ec1.api.rev.ai/speechtotext/v1/jobs/{provider_job_id}/transcript",
-                    headers=headers,
-                )
-                if response.status_code != 200:
-                    raise ProviderException(
-                        message=f"{original_response.get('title','')}: {original_response.get('details','')}",
-                        code=response.status_code,
-                    )
-                else:
-                    original_response = response.json()
-                    text = ""
-                    for monologue in original_response["monologues"]:
-                        text += "".join(
-                            [element["value"] for element in monologue["elements"]]
-                        )
-                    standarized_response = SpeechToTextAsyncDataClass(text=text)
-                    return AsyncResponseType[SpeechToTextAsyncDataClass](
-                        original_response=original_response,
-                        standarized_response=standarized_response,
-                        provider_job_id=provider_job_id,
-                    )
-            elif status == "failed":
-                return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                    error=original_response["failure_detail"],
-                    provider_job_id=provider_job_id,
-                )
-            return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id
+
+        status = original_response["status"]
+        if status == "transcribed":
+            response = requests.get(
+                url=f"https://ec1.api.rev.ai/speechtotext/v1/jobs/{provider_job_id}/transcript",
+                headers=headers,
             )
+            if response.status_code != 200:
+                raise ProviderException(
+                    message=f"{original_response.get('title','')}: {original_response.get('details','')}",
+                    code=response.status_code,
+                )
+
+            diarization_entries = []
+            speakers = set()
+
+            original_response = response.json()
+            text = ""
+            for monologue in original_response["monologues"]:
+                text += "".join(
+                    [element["value"] for element in monologue["elements"]]
+                )
+                speakers.add(monologue["speaker"])
+                for word_info in monologue["elements"]:
+                    if word_info["type"] == "text":
+                        diarization_entries.append(
+                            SpeechDiarizationEntry(
+                                speaker= monologue["speaker"] + 1,
+                                segment= word_info["value"],
+                                start_time= str(word_info["ts"]),
+                                end_time= str(word_info["end_ts"]),
+                                confidence= word_info["confidence"]
+                            )
+                        )
+
+            diarization = SpeechDiarization(total_speakers= len(speakers), entries= diarization_entries)
+
+            standarized_response = SpeechToTextAsyncDataClass(text=text, diarization= diarization)
+            return AsyncResponseType[SpeechToTextAsyncDataClass](
+                original_response=original_response,
+                standarized_response=standarized_response,
+                provider_job_id=provider_job_id,
+            )
+        elif status == "failed":
+            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
+                error=original_response["failure_detail"],
+                provider_job_id=provider_job_id,
+            )
+        return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
+            provider_job_id=provider_job_id
+        )

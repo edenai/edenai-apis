@@ -1,15 +1,1024 @@
 {
-  "status": "failed",
-  "provider_job_id": "2a5b9ec4-3ccb-4a27-b997-1d7f945ad721",
-  "error": {
+  "status": "succeeded",
+  "provider_job_id": "9ac9ea60-9cce-42a3-a81d-35689d39e53e",
+  "original_response": {
     "result": {
-      "status_code": 50000,
-      "message": "Server error",
-      "request_id": "2a5b9ec4-3ccb-4a27-b997-1d7f945ad721"
+      "input_text": "[00:00:00.290] speaker 1:\nUnit one, page 14.\n\n[00:00:03.530] speaker 1:\nReal conversations.\n\n[00:00:06.950] speaker 2:\nHello.\n\n[00:00:07.670] speaker 2:\nHi.\n\n[00:00:08.270] speaker 2:\nWhat's your name?\n\n[00:00:09.410] speaker 3:\nClaudia.\n\n[00:00:10.670] speaker 3:\nWhat's your name?\n\n[00:00:12.890] speaker 3:\nNice to meet you.\n\n[00:00:15.350] speaker 4:\nYeah, that's right.\n\n[00:00:16.490] speaker 4:\nWhere are you from?\n\n",
+      "status": "success",
+      "output": [
+        {
+          "text_generated_by_step_name": "transcribe",
+          "text_generated_by_step_id": 1,
+          "text": "[00:00:00.290] speaker 1:\nUnit one, page 14.\n\n[00:00:03.530] speaker 1:\nReal conversations.\n\n[00:00:06.950] speaker 2:\nHello.\n\n[00:00:07.670] speaker 2:\nHi.\n\n[00:00:08.270] speaker 2:\nWhat's your name?\n\n[00:00:09.410] speaker 3:\nClaudia.\n\n[00:00:10.670] speaker 3:\nWhat's your name?\n\n[00:00:12.890] speaker 3:\nNice to meet you.\n\n[00:00:15.350] speaker 4:\nYeah, that's right.\n\n[00:00:16.490] speaker 4:\nWhere are you from?\n\n",
+          "labels": [
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 1",
+              "span_text": "Unit",
+              "span": [
+                26,
+                30
+              ],
+              "output_spans": [
+                {
+                  "section": 0,
+                  "start": 0,
+                  "end": 4
+                }
+              ],
+              "timestamp": "00:00:00.290",
+              "timestamp_end": "00:00:00.410"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 1",
+              "span_text": "one",
+              "span": [
+                31,
+                34
+              ],
+              "output_spans": [
+                {
+                  "section": 0,
+                  "start": 5,
+                  "end": 8
+                }
+              ],
+              "timestamp": "00:00:00.650",
+              "timestamp_end": "00:00:00.710"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 1",
+              "span_text": ",",
+              "span": [
+                34,
+                35
+              ],
+              "output_spans": [
+                {
+                  "section": 0,
+                  "start": 8,
+                  "end": 9
+                }
+              ],
+              "timestamp": "00:00:01.190",
+              "timestamp_end": "00:00:01.250"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 1",
+              "span_text": "page",
+              "span": [
+                36,
+                40
+              ],
+              "output_spans": [
+                {
+                  "section": 0,
+                  "start": 10,
+                  "end": 14
+                }
+              ],
+              "timestamp": "00:00:01.670",
+              "timestamp_end": "00:00:01.730"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 1",
+              "span_text": "14",
+              "span": [
+                41,
+                43
+              ],
+              "output_spans": [
+                {
+                  "section": 0,
+                  "start": 15,
+                  "end": 17
+                }
+              ],
+              "timestamp": "00:00:02.030",
+              "timestamp_end": "00:00:02.090"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 1",
+              "span_text": ".",
+              "span": [
+                43,
+                44
+              ],
+              "output_spans": [
+                {
+                  "section": 0,
+                  "start": 17,
+                  "end": 18
+                }
+              ],
+              "timestamp": "00:00:02.750",
+              "timestamp_end": "00:00:02.810"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 1",
+              "span_text": "Real",
+              "span": [
+                72,
+                76
+              ],
+              "output_spans": [
+                {
+                  "section": 1,
+                  "start": 0,
+                  "end": 4
+                }
+              ],
+              "timestamp": "00:00:03.530",
+              "timestamp_end": "00:00:03.590"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 1",
+              "span_text": "conversations",
+              "span": [
+                77,
+                90
+              ],
+              "output_spans": [
+                {
+                  "section": 1,
+                  "start": 5,
+                  "end": 18
+                }
+              ],
+              "timestamp": "00:00:04.130",
+              "timestamp_end": "00:00:04.430"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 1",
+              "span_text": ".",
+              "span": [
+                90,
+                91
+              ],
+              "output_spans": [
+                {
+                  "section": 1,
+                  "start": 18,
+                  "end": 19
+                }
+              ],
+              "timestamp": "00:00:04.910",
+              "timestamp_end": "00:00:04.970"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 2",
+              "span_text": "Hello",
+              "span": [
+                119,
+                124
+              ],
+              "output_spans": [
+                {
+                  "section": 2,
+                  "start": 0,
+                  "end": 5
+                }
+              ],
+              "timestamp": "00:00:06.950",
+              "timestamp_end": "00:00:07.010"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 2",
+              "span_text": ".",
+              "span": [
+                124,
+                125
+              ],
+              "output_spans": [
+                {
+                  "section": 2,
+                  "start": 5,
+                  "end": 6
+                }
+              ],
+              "timestamp": "00:00:07.370",
+              "timestamp_end": "00:00:07.430"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 2",
+              "span_text": "Hi",
+              "span": [
+                153,
+                155
+              ],
+              "output_spans": [
+                {
+                  "section": 3,
+                  "start": 0,
+                  "end": 2
+                }
+              ],
+              "timestamp": "00:00:07.670",
+              "timestamp_end": "00:00:07.730"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 2",
+              "span_text": ".",
+              "span": [
+                155,
+                156
+              ],
+              "output_spans": [
+                {
+                  "section": 3,
+                  "start": 2,
+                  "end": 3
+                }
+              ],
+              "timestamp": "00:00:07.910",
+              "timestamp_end": "00:00:07.970"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 2",
+              "span_text": "What's",
+              "span": [
+                184,
+                190
+              ],
+              "output_spans": [
+                {
+                  "section": 4,
+                  "start": 0,
+                  "end": 6
+                }
+              ],
+              "timestamp": "00:00:08.270",
+              "timestamp_end": "00:00:08.330"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 2",
+              "span_text": "your",
+              "span": [
+                191,
+                195
+              ],
+              "output_spans": [
+                {
+                  "section": 4,
+                  "start": 7,
+                  "end": 11
+                }
+              ],
+              "timestamp": "00:00:08.450",
+              "timestamp_end": "00:00:08.510"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 2",
+              "span_text": "name",
+              "span": [
+                196,
+                200
+              ],
+              "output_spans": [
+                {
+                  "section": 4,
+                  "start": 12,
+                  "end": 16
+                }
+              ],
+              "timestamp": "00:00:08.630",
+              "timestamp_end": "00:00:08.690"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 2",
+              "span_text": "?",
+              "span": [
+                200,
+                201
+              ],
+              "output_spans": [
+                {
+                  "section": 4,
+                  "start": 16,
+                  "end": 17
+                }
+              ],
+              "timestamp": "00:00:08.750",
+              "timestamp_end": "00:00:08.810"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": "Claudia",
+              "span": [
+                229,
+                236
+              ],
+              "output_spans": [
+                {
+                  "section": 5,
+                  "start": 0,
+                  "end": 7
+                }
+              ],
+              "timestamp": "00:00:09.410",
+              "timestamp_end": "00:00:09.710"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": ".",
+              "span": [
+                236,
+                237
+              ],
+              "output_spans": [
+                {
+                  "section": 5,
+                  "start": 7,
+                  "end": 8
+                }
+              ],
+              "timestamp": "00:00:10.130",
+              "timestamp_end": "00:00:10.190"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": "What's",
+              "span": [
+                265,
+                271
+              ],
+              "output_spans": [
+                {
+                  "section": 6,
+                  "start": 0,
+                  "end": 6
+                }
+              ],
+              "timestamp": "00:00:10.670",
+              "timestamp_end": "00:00:10.730"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": "your",
+              "span": [
+                272,
+                276
+              ],
+              "output_spans": [
+                {
+                  "section": 6,
+                  "start": 7,
+                  "end": 11
+                }
+              ],
+              "timestamp": "00:00:10.850",
+              "timestamp_end": "00:00:10.910"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": "name",
+              "span": [
+                277,
+                281
+              ],
+              "output_spans": [
+                {
+                  "section": 6,
+                  "start": 12,
+                  "end": 16
+                }
+              ],
+              "timestamp": "00:00:11.090",
+              "timestamp_end": "00:00:11.150"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": "?",
+              "span": [
+                281,
+                282
+              ],
+              "output_spans": [
+                {
+                  "section": 6,
+                  "start": 16,
+                  "end": 17
+                }
+              ],
+              "timestamp": "00:00:11.270",
+              "timestamp_end": "00:00:11.330"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": "Nice",
+              "span": [
+                310,
+                314
+              ],
+              "output_spans": [
+                {
+                  "section": 7,
+                  "start": 0,
+                  "end": 4
+                }
+              ],
+              "timestamp": "00:00:12.890",
+              "timestamp_end": "00:00:12.950"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": "to",
+              "span": [
+                315,
+                317
+              ],
+              "output_spans": [
+                {
+                  "section": 7,
+                  "start": 5,
+                  "end": 7
+                }
+              ],
+              "timestamp": "00:00:13.010",
+              "timestamp_end": "00:00:13.070"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": "meet",
+              "span": [
+                318,
+                322
+              ],
+              "output_spans": [
+                {
+                  "section": 7,
+                  "start": 8,
+                  "end": 12
+                }
+              ],
+              "timestamp": "00:00:13.130",
+              "timestamp_end": "00:00:13.190"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": "you",
+              "span": [
+                323,
+                326
+              ],
+              "output_spans": [
+                {
+                  "section": 7,
+                  "start": 13,
+                  "end": 16
+                }
+              ],
+              "timestamp": "00:00:13.370",
+              "timestamp_end": "00:00:13.430"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": ".",
+              "span": [
+                326,
+                327
+              ],
+              "output_spans": [
+                {
+                  "section": 7,
+                  "start": 16,
+                  "end": 17
+                }
+              ],
+              "timestamp": "00:00:13.790",
+              "timestamp_end": "00:00:13.850"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 4",
+              "span_text": "Yeah",
+              "span": [
+                355,
+                359
+              ],
+              "output_spans": [
+                {
+                  "section": 8,
+                  "start": 0,
+                  "end": 4
+                }
+              ],
+              "timestamp": "00:00:15.350",
+              "timestamp_end": "00:00:15.410"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 4",
+              "span_text": ",",
+              "span": [
+                359,
+                360
+              ],
+              "output_spans": [
+                {
+                  "section": 8,
+                  "start": 4,
+                  "end": 5
+                }
+              ],
+              "timestamp": "00:00:15.410",
+              "timestamp_end": "00:00:15.470"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 4",
+              "span_text": "that's",
+              "span": [
+                361,
+                367
+              ],
+              "output_spans": [
+                {
+                  "section": 8,
+                  "start": 6,
+                  "end": 12
+                }
+              ],
+              "timestamp": "00:00:15.590",
+              "timestamp_end": "00:00:15.650"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 4",
+              "span_text": "right",
+              "span": [
+                368,
+                373
+              ],
+              "output_spans": [
+                {
+                  "section": 8,
+                  "start": 13,
+                  "end": 18
+                }
+              ],
+              "timestamp": "00:00:15.710",
+              "timestamp_end": "00:00:15.770"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 4",
+              "span_text": ".",
+              "span": [
+                373,
+                374
+              ],
+              "output_spans": [
+                {
+                  "section": 8,
+                  "start": 18,
+                  "end": 19
+                }
+              ],
+              "timestamp": "00:00:16.130",
+              "timestamp_end": "00:00:16.190"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 4",
+              "span_text": "Where",
+              "span": [
+                402,
+                407
+              ],
+              "output_spans": [
+                {
+                  "section": 9,
+                  "start": 0,
+                  "end": 5
+                }
+              ],
+              "timestamp": "00:00:16.490",
+              "timestamp_end": "00:00:16.550"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 4",
+              "span_text": "are",
+              "span": [
+                408,
+                411
+              ],
+              "output_spans": [
+                {
+                  "section": 9,
+                  "start": 6,
+                  "end": 9
+                }
+              ],
+              "timestamp": "00:00:16.610",
+              "timestamp_end": "00:00:16.670"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 4",
+              "span_text": "you",
+              "span": [
+                412,
+                415
+              ],
+              "output_spans": [
+                {
+                  "section": 9,
+                  "start": 10,
+                  "end": 13
+                }
+              ],
+              "timestamp": "00:00:16.670",
+              "timestamp_end": "00:00:16.730"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 4",
+              "span_text": "from",
+              "span": [
+                416,
+                420
+              ],
+              "output_spans": [
+                {
+                  "section": 9,
+                  "start": 14,
+                  "end": 18
+                }
+              ],
+              "timestamp": "00:00:16.850",
+              "timestamp_end": "00:00:16.910"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 4",
+              "span_text": "?",
+              "span": [
+                420,
+                421
+              ],
+              "output_spans": [
+                {
+                  "section": 9,
+                  "start": 18,
+                  "end": 19
+                }
+              ],
+              "timestamp": "00:00:16.970",
+              "timestamp_end": "00:00:17.030"
+            }
+          ]
+        }
+      ],
+      "stats": {
+        "concurrency_wait_time": 0.0,
+        "total_running_jobs": 1,
+        "total_waiting_jobs": 0
+      }
     },
-    "task_id": "2a5b9ec4-3ccb-4a27-b997-1d7f945ad721",
-    "status": "FAILED",
-    "completion_time": "2022-11-24T16:45:13.232000",
-    "creation_time": "2022-11-24T16:45:10.904000"
+    "task_id": "9ac9ea60-9cce-42a3-a81d-35689d39e53e",
+    "status": "COMPLETED",
+    "completion_time": "2022-11-25T09:28:47.924000",
+    "creation_time": "2022-11-25T09:28:40.033000"
+  },
+  "standarized_response": {
+    "text": "[00:00:00.290] speaker 1:\nUnit one, page 14.\n\n[00:00:03.530] speaker 1:\nReal conversations.\n\n[00:00:06.950] speaker 2:\nHello.\n\n[00:00:07.670] speaker 2:\nHi.\n\n[00:00:08.270] speaker 2:\nWhat's your name?\n\n[00:00:09.410] speaker 3:\nClaudia.\n\n[00:00:10.670] speaker 3:\nWhat's your name?\n\n[00:00:12.890] speaker 3:\nNice to meet you.\n\n[00:00:15.350] speaker 4:\nYeah, that's right.\n\n[00:00:16.490] speaker 4:\nWhere are you from?\n\n",
+    "diarization": {
+      "total_speakers": 4,
+      "entries": [
+        {
+          "segment": "Unit",
+          "start_time": "00:00:00.290",
+          "end_time": "00:00:00.410",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "one",
+          "start_time": "00:00:00.650",
+          "end_time": "00:00:00.710",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": ",",
+          "start_time": "00:00:01.190",
+          "end_time": "00:00:01.250",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "page",
+          "start_time": "00:00:01.670",
+          "end_time": "00:00:01.730",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "14",
+          "start_time": "00:00:02.030",
+          "end_time": "00:00:02.090",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": ".",
+          "start_time": "00:00:02.750",
+          "end_time": "00:00:02.810",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "Real",
+          "start_time": "00:00:03.530",
+          "end_time": "00:00:03.590",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "conversations",
+          "start_time": "00:00:04.130",
+          "end_time": "00:00:04.430",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": ".",
+          "start_time": "00:00:04.910",
+          "end_time": "00:00:04.970",
+          "speaker": 1,
+          "confidence": null
+        },
+        {
+          "segment": "Hello",
+          "start_time": "00:00:06.950",
+          "end_time": "00:00:07.010",
+          "speaker": 2,
+          "confidence": null
+        },
+        {
+          "segment": ".",
+          "start_time": "00:00:07.370",
+          "end_time": "00:00:07.430",
+          "speaker": 2,
+          "confidence": null
+        },
+        {
+          "segment": "Hi",
+          "start_time": "00:00:07.670",
+          "end_time": "00:00:07.730",
+          "speaker": 2,
+          "confidence": null
+        },
+        {
+          "segment": ".",
+          "start_time": "00:00:07.910",
+          "end_time": "00:00:07.970",
+          "speaker": 2,
+          "confidence": null
+        },
+        {
+          "segment": "What's",
+          "start_time": "00:00:08.270",
+          "end_time": "00:00:08.330",
+          "speaker": 2,
+          "confidence": null
+        },
+        {
+          "segment": "your",
+          "start_time": "00:00:08.450",
+          "end_time": "00:00:08.510",
+          "speaker": 2,
+          "confidence": null
+        },
+        {
+          "segment": "name",
+          "start_time": "00:00:08.630",
+          "end_time": "00:00:08.690",
+          "speaker": 2,
+          "confidence": null
+        },
+        {
+          "segment": "?",
+          "start_time": "00:00:08.750",
+          "end_time": "00:00:08.810",
+          "speaker": 2,
+          "confidence": null
+        },
+        {
+          "segment": "Claudia",
+          "start_time": "00:00:09.410",
+          "end_time": "00:00:09.710",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": ".",
+          "start_time": "00:00:10.130",
+          "end_time": "00:00:10.190",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": "What's",
+          "start_time": "00:00:10.670",
+          "end_time": "00:00:10.730",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": "your",
+          "start_time": "00:00:10.850",
+          "end_time": "00:00:10.910",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": "name",
+          "start_time": "00:00:11.090",
+          "end_time": "00:00:11.150",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": "?",
+          "start_time": "00:00:11.270",
+          "end_time": "00:00:11.330",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": "Nice",
+          "start_time": "00:00:12.890",
+          "end_time": "00:00:12.950",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": "to",
+          "start_time": "00:00:13.010",
+          "end_time": "00:00:13.070",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": "meet",
+          "start_time": "00:00:13.130",
+          "end_time": "00:00:13.190",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": "you",
+          "start_time": "00:00:13.370",
+          "end_time": "00:00:13.430",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": ".",
+          "start_time": "00:00:13.790",
+          "end_time": "00:00:13.850",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": "Yeah",
+          "start_time": "00:00:15.350",
+          "end_time": "00:00:15.410",
+          "speaker": 4,
+          "confidence": null
+        },
+        {
+          "segment": ",",
+          "start_time": "00:00:15.410",
+          "end_time": "00:00:15.470",
+          "speaker": 4,
+          "confidence": null
+        },
+        {
+          "segment": "that's",
+          "start_time": "00:00:15.590",
+          "end_time": "00:00:15.650",
+          "speaker": 4,
+          "confidence": null
+        },
+        {
+          "segment": "right",
+          "start_time": "00:00:15.710",
+          "end_time": "00:00:15.770",
+          "speaker": 4,
+          "confidence": null
+        },
+        {
+          "segment": ".",
+          "start_time": "00:00:16.130",
+          "end_time": "00:00:16.190",
+          "speaker": 4,
+          "confidence": null
+        },
+        {
+          "segment": "Where",
+          "start_time": "00:00:16.490",
+          "end_time": "00:00:16.550",
+          "speaker": 4,
+          "confidence": null
+        },
+        {
+          "segment": "are",
+          "start_time": "00:00:16.610",
+          "end_time": "00:00:16.670",
+          "speaker": 4,
+          "confidence": null
+        },
+        {
+          "segment": "you",
+          "start_time": "00:00:16.670",
+          "end_time": "00:00:16.730",
+          "speaker": 4,
+          "confidence": null
+        },
+        {
+          "segment": "from",
+          "start_time": "00:00:16.850",
+          "end_time": "00:00:16.910",
+          "speaker": 4,
+          "confidence": null
+        },
+        {
+          "segment": "?",
+          "start_time": "00:00:16.970",
+          "end_time": "00:00:17.030",
+          "speaker": 4,
+          "confidence": null
+        }
+      ]
+    }
   }
 }

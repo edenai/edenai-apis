@@ -4,7 +4,8 @@
             "constraints": {
                 "languages": [
                     "en-US"
-                ]
+                ],
+                "allow_null_language": true
             },
             "version": "latest"
         },
@@ -22,7 +23,8 @@
                 "languages": [
                     "en-US",
                     "tr"
-                ]
+                ],
+                "allow_null_language":true
             },
             "version": "latest"
         },

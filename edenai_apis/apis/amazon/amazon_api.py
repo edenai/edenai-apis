@@ -14,7 +14,12 @@ from PIL import Image as Img
 from edenai_apis.features.base_provider.provider_api import ProviderApi
 from edenai_apis.apis.amazon.helpers import content_processing
 from edenai_apis.features import Audio, Video, Text, Image, Ocr, Translation
-from edenai_apis.features.audio import SpeechToTextAsyncDataClass, TextToSpeechDataClass
+from edenai_apis.features.audio import (
+    SpeechToTextAsyncDataClass,
+    TextToSpeechDataClass,
+    SpeechDiarization,
+    SpeechDiarizationEntry
+)
 from edenai_apis.features.ocr import (
     OcrTablesAsyncDataClass,
     Bounding_box,
@@ -96,6 +101,8 @@ from .helpers import (
     amazon_video_response_formatter,
     amazon_ocr_tables_parser
 )
+
+from botocore.exceptions import ClientError, ParamValidationError
 
 class AmazonApi(
     ProviderApi,
@@ -468,6 +475,9 @@ class AmazonApi(
             )
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
+        except ClientError as exc:
+            if "'languageCode'failed to satisfy constraint" in str(exc):
+                raise ProviderException("Please provide an input language parameter for the Sentiment Analysis function")
 
         # Analysing response
 
@@ -507,6 +517,9 @@ class AmazonApi(
             )
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
+        except ClientError as exc:
+            if "'languageCode'failed to satisfy constraint" in str(exc):
+                raise ProviderException("Please provide an input language parameter for the Keyword Extraction function")
 
         # Analysing response
         items: Sequence[InfosKeywordExtractionDataClass] = []
@@ -531,6 +544,9 @@ class AmazonApi(
             response = clients["text"].detect_entities(Text=text, LanguageCode=language)
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
+        except ClientError as exc:
+            if "'languageCode'failed to satisfy constraint" in str(exc):
+                raise ProviderException("Please provide an input language parameter for the Named Entity Recognition function")
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
         for ent in response["Entities"]:
@@ -559,6 +575,9 @@ class AmazonApi(
             response = clients["text"].detect_syntax(Text=text, LanguageCode=language)
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
+        except ClientError as exc:
+            if "'languageCode'failed to satisfy constraint" in str(exc):
+                raise ProviderException("Please provide an input language parameter for the Syntax Analysis function")
 
         # Create output TextSyntaxAnalysis object
 
@@ -617,6 +636,9 @@ class AmazonApi(
             )
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
+        except ParamValidationError as exc:
+            if "SourceLanguageCode" in str(exc):
+                raise ProviderException("Please provide the source language parameter for the Automatic Translation function")
 
         standarized: AutomaticTranslationDataClass
         if response["TranslatedText"] != "":
@@ -719,7 +741,7 @@ class AmazonApi(
         return filename
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str
+        self, file: BufferedReader, language: str, speakers : int
     ) -> AsyncLaunchJobResponseType:
         # Convert audio file in wav
         wav_file, frame_rate = wav_converter(file)[0:2]
@@ -727,16 +749,26 @@ class AmazonApi(
             wav_file, Path(file.name).stem + ".wav"
         )
         try:
-            clients["speech"].start_transcription_job(
-                TranscriptionJobName=filename,
-                Media={"MediaFileUri": api_settings["storage_url"] + filename},
-                MediaFormat="wav",
-                LanguageCode=language,
-                MediaSampleRateHertz=frame_rate,
-                Settings={"ShowSpeakerLabels": False, "ChannelIdentification": False},
-            )
+            params = {
+                "TranscriptionJobName" : filename,
+                "Media" : {"MediaFileUri": api_settings["storage_url"] + filename},
+                "MediaFormat" : "wav",
+                "LanguageCode" : language,
+                "MediaSampleRateHertz" : frame_rate,
+                "Settings" : {
+                    "ShowSpeakerLabels": True,
+                    "ChannelIdentification": False,
+                    "MaxSpeakerLabels" : speakers
+                }
+            }
+            if not language:
+                del params["LanguageCode"]
+                params.update({
+                    "IdentifyLanguage" : True
+                })
+            clients["speech"].start_transcription_job(**params)
         except KeyError as exc:
-            raise ProviderException("Language not supported by provider") from exc
+            raise ProviderException(str(exc)) from exc
 
         return AsyncLaunchJobResponseType(
             provider_job_id=filename
@@ -755,8 +787,32 @@ class AmazonApi(
             ]
             with urllib.request.urlopen(json_res) as url:
                 original_response = json.loads(url.read().decode("utf-8"))
+                #diarization
+                diarization_entries = []
+                words_info = original_response["results"]["items"]
+                speakers = original_response["results"]["speaker_labels"]["speakers"]
+
+                for word_info in words_info:
+                    if word_info.get('speaker_label'):
+                        if word_info["type"] == "pronunciation":
+                            diarization_entries.append(
+                                SpeechDiarizationEntry(
+                                    segment= word_info["alternatives"][0]["content"],
+                                    speaker= int(word_info['speaker_label'].split("spk_")[1])+1,
+                                    start_time= word_info['start_time'],
+                                    end_time= word_info['end_time'],
+                                    confidence= word_info["alternatives"][0]["confidence"]
+                                )
+                            )
+                        else:
+                            diarization_entries[len(diarization_entries)-1].segment = (
+                                f"{diarization_entries[len(diarization_entries)-1].segment}"
+                                f"{word_info['alternatives'][0]['content']}"
+                            )
+
                 standarized_response = SpeechToTextAsyncDataClass(
-                    text=original_response["results"]["transcripts"][0]["transcript"]
+                    text=original_response["results"]["transcripts"][0]["transcript"],
+                    diarization= SpeechDiarization(total_speakers=speakers, entries=diarization_entries)
                 )
                 return AsyncResponseType[SpeechToTextAsyncDataClass](
                     original_response=original_response,

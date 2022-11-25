@@ -1,8 +1,8 @@
 {
   "status": "succeeded",
-  "provider_job_id": "1665571164_conversation.wav",
+  "provider_job_id": "1669367503_conversation.wav",
   "original_response": {
-    "jobName": "1665571164_conversation.wav",
+    "jobName": "1669367503_conversation.wav",
     "accountId": "222535268301",
     "results": {
       "transcripts": [
@@ -10,9 +10,180 @@
           "transcript": "Unit one, page 14 Real Conversations. Hello, Hi, what's your name, Claudia. What's your name? I'm chihiro. Nice to meet you, see here. Oh, yeah, that's right. Where you from?"
         }
       ],
+      "speaker_labels": {
+        "channel_label": "ch_0",
+        "speakers": 2,
+        "segments": [
+          {
+            "start_time": "0.0",
+            "speaker_label": "spk_0",
+            "end_time": "4.89",
+            "items": [
+              {
+                "start_time": "0.0",
+                "speaker_label": "spk_0",
+                "end_time": "0.47"
+              },
+              {
+                "start_time": "0.47",
+                "speaker_label": "spk_0",
+                "end_time": "1.06"
+              },
+              {
+                "start_time": "1.25",
+                "speaker_label": "spk_0",
+                "end_time": "1.87"
+              },
+              {
+                "start_time": "1.87",
+                "speaker_label": "spk_0",
+                "end_time": "2.77"
+              },
+              {
+                "start_time": "3.28",
+                "speaker_label": "spk_0",
+                "end_time": "3.7"
+              },
+              {
+                "start_time": "3.7",
+                "speaker_label": "spk_0",
+                "end_time": "4.89"
+              }
+            ]
+          },
+          {
+            "start_time": "6.67",
+            "speaker_label": "spk_1",
+            "end_time": "17.04",
+            "items": [
+              {
+                "start_time": "6.67",
+                "speaker_label": "spk_1",
+                "end_time": "7.51"
+              },
+              {
+                "start_time": "7.51",
+                "speaker_label": "spk_1",
+                "end_time": "8.18"
+              },
+              {
+                "start_time": "8.18",
+                "speaker_label": "spk_1",
+                "end_time": "8.36"
+              },
+              {
+                "start_time": "8.36",
+                "speaker_label": "spk_1",
+                "end_time": "8.49"
+              },
+              {
+                "start_time": "8.49",
+                "speaker_label": "spk_1",
+                "end_time": "8.96"
+              },
+              {
+                "start_time": "8.97",
+                "speaker_label": "spk_1",
+                "end_time": "10.23"
+              },
+              {
+                "start_time": "10.24",
+                "speaker_label": "spk_1",
+                "end_time": "10.82"
+              },
+              {
+                "start_time": "10.82",
+                "speaker_label": "spk_1",
+                "end_time": "10.98"
+              },
+              {
+                "start_time": "10.98",
+                "speaker_label": "spk_1",
+                "end_time": "11.46"
+              },
+              {
+                "start_time": "11.47",
+                "speaker_label": "spk_1",
+                "end_time": "11.66"
+              },
+              {
+                "start_time": "11.66",
+                "speaker_label": "spk_1",
+                "end_time": "12.52"
+              },
+              {
+                "start_time": "12.54",
+                "speaker_label": "spk_1",
+                "end_time": "12.96"
+              },
+              {
+                "start_time": "12.96",
+                "speaker_label": "spk_1",
+                "end_time": "13.07"
+              },
+              {
+                "start_time": "13.07",
+                "speaker_label": "spk_1",
+                "end_time": "13.4"
+              },
+              {
+                "start_time": "13.4",
+                "speaker_label": "spk_1",
+                "end_time": "13.96"
+              },
+              {
+                "start_time": "14.07",
+                "speaker_label": "spk_1",
+                "end_time": "14.28"
+              },
+              {
+                "start_time": "14.28",
+                "speaker_label": "spk_1",
+                "end_time": "15.02"
+              },
+              {
+                "start_time": "15.02",
+                "speaker_label": "spk_1",
+                "end_time": "15.28"
+              },
+              {
+                "start_time": "15.29",
+                "speaker_label": "spk_1",
+                "end_time": "15.45"
+              },
+              {
+                "start_time": "15.45",
+                "speaker_label": "spk_1",
+                "end_time": "15.68"
+              },
+              {
+                "start_time": "15.68",
+                "speaker_label": "spk_1",
+                "end_time": "16.07"
+              },
+              {
+                "start_time": "16.21",
+                "speaker_label": "spk_1",
+                "end_time": "16.6"
+              },
+              {
+                "start_time": "16.6",
+                "speaker_label": "spk_1",
+                "end_time": "16.71"
+              },
+              {
+                "start_time": "16.71",
+                "speaker_label": "spk_1",
+                "end_time": "17.04"
+              }
+            ]
+          }
+        ]
+      },
       "items": [
         {
           "start_time": "0.0",
+          "speaker_label": "spk_0",
           "end_time": "0.47",
           "alternatives": [
             {
@@ -24,6 +195,7 @@
         },
         {
           "start_time": "0.47",
+          "speaker_label": "spk_0",
           "end_time": "1.06",
           "alternatives": [
             {
@@ -34,6 +206,7 @@
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_0",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -43,7 +216,8 @@
           "type": "punctuation"
         },
         {
-          "start_time": "1.24",
+          "start_time": "1.25",
+          "speaker_label": "spk_0",
           "end_time": "1.87",
           "alternatives": [
             {
@@ -55,7 +229,8 @@
         },
         {
           "start_time": "1.87",
-          "end_time": "3.1",
+          "speaker_label": "spk_0",
+          "end_time": "2.77",
           "alternatives": [
             {
               "confidence": "1.0",
@@ -66,6 +241,7 @@
         },
         {
           "start_time": "3.28",
+          "speaker_label": "spk_0",
           "end_time": "3.7",
           "alternatives": [
             {
@@ -77,6 +253,7 @@
         },
         {
           "start_time": "3.7",
+          "speaker_label": "spk_0",
           "end_time": "4.89",
           "alternatives": [
             {
@@ -87,6 +264,7 @@
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_0",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -97,6 +275,7 @@
         },
         {
           "start_time": "6.67",
+          "speaker_label": "spk_1",
           "end_time": "7.51",
           "alternatives": [
             {
@@ -107,6 +286,7 @@
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_1",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -117,6 +297,7 @@
         },
         {
           "start_time": "7.51",
+          "speaker_label": "spk_1",
           "end_time": "8.18",
           "alternatives": [
             {
@@ -127,6 +308,7 @@
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_1",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -137,10 +319,11 @@
         },
         {
           "start_time": "8.18",
+          "speaker_label": "spk_1",
           "end_time": "8.36",
           "alternatives": [
             {
-              "confidence": "0.8299",
+              "confidence": "0.8298",
               "content": "what's"
             }
           ],
@@ -148,6 +331,7 @@
         },
         {
           "start_time": "8.36",
+          "speaker_label": "spk_1",
           "end_time": "8.49",
           "alternatives": [
             {
@@ -159,6 +343,7 @@
         },
         {
           "start_time": "8.49",
+          "speaker_label": "spk_1",
           "end_time": "8.96",
           "alternatives": [
             {
@@ -169,6 +354,7 @@
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_1",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -179,6 +365,7 @@
         },
         {
           "start_time": "8.97",
+          "speaker_label": "spk_1",
           "end_time": "10.23",
           "alternatives": [
             {
@@ -189,6 +376,7 @@
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_1",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -199,6 +387,7 @@
         },
         {
           "start_time": "10.24",
+          "speaker_label": "spk_1",
           "end_time": "10.82",
           "alternatives": [
             {
@@ -210,6 +399,7 @@
         },
         {
           "start_time": "10.82",
+          "speaker_label": "spk_1",
           "end_time": "10.98",
           "alternatives": [
             {
@@ -221,6 +411,7 @@
         },
         {
           "start_time": "10.98",
+          "speaker_label": "spk_1",
           "end_time": "11.46",
           "alternatives": [
             {
@@ -231,6 +422,7 @@
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_1",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -241,6 +433,7 @@
         },
         {
           "start_time": "11.47",
+          "speaker_label": "spk_1",
           "end_time": "11.66",
           "alternatives": [
             {
@@ -252,6 +445,7 @@
         },
         {
           "start_time": "11.66",
+          "speaker_label": "spk_1",
           "end_time": "12.52",
           "alternatives": [
             {
@@ -262,6 +456,7 @@
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_1",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -272,6 +467,7 @@
         },
         {
           "start_time": "12.54",
+          "speaker_label": "spk_1",
           "end_time": "12.96",
           "alternatives": [
             {
@@ -283,6 +479,7 @@
         },
         {
           "start_time": "12.96",
+          "speaker_label": "spk_1",
           "end_time": "13.07",
           "alternatives": [
             {
@@ -294,6 +491,7 @@
         },
         {
           "start_time": "13.07",
+          "speaker_label": "spk_1",
           "end_time": "13.4",
           "alternatives": [
             {
@@ -305,6 +503,7 @@
         },
         {
           "start_time": "13.4",
+          "speaker_label": "spk_1",
           "end_time": "13.96",
           "alternatives": [
             {
@@ -315,6 +514,7 @@
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_1",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -325,10 +525,11 @@
         },
         {
           "start_time": "14.07",
+          "speaker_label": "spk_1",
           "end_time": "14.28",
           "alternatives": [
             {
-              "confidence": "0.7375",
+              "confidence": "0.7376",
               "content": "see"
             }
           ],
@@ -336,16 +537,18 @@
         },
         {
           "start_time": "14.28",
+          "speaker_label": "spk_1",
           "end_time": "15.02",
           "alternatives": [
             {
-              "confidence": "0.8464",
+              "confidence": "0.8457",
               "content": "here"
             }
           ],
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_1",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -356,16 +559,18 @@
         },
         {
           "start_time": "15.02",
+          "speaker_label": "spk_1",
           "end_time": "15.28",
           "alternatives": [
             {
-              "confidence": "0.8916",
+              "confidence": "0.8908",
               "content": "Oh"
             }
           ],
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_1",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -376,16 +581,18 @@
         },
         {
           "start_time": "15.29",
+          "speaker_label": "spk_1",
           "end_time": "15.45",
           "alternatives": [
             {
-              "confidence": "0.8435",
+              "confidence": "0.8425",
               "content": "yeah"
             }
           ],
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_1",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -396,10 +603,11 @@
         },
         {
           "start_time": "15.45",
+          "speaker_label": "spk_1",
           "end_time": "15.68",
           "alternatives": [
             {
-              "confidence": "0.9697",
+              "confidence": "0.9695",
               "content": "that's"
             }
           ],
@@ -407,6 +615,7 @@
         },
         {
           "start_time": "15.68",
+          "speaker_label": "spk_1",
           "end_time": "16.07",
           "alternatives": [
             {
@@ -417,6 +626,7 @@
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_1",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -427,6 +637,7 @@
         },
         {
           "start_time": "16.21",
+          "speaker_label": "spk_1",
           "end_time": "16.6",
           "alternatives": [
             {
@@ -438,6 +649,7 @@
         },
         {
           "start_time": "16.6",
+          "speaker_label": "spk_1",
           "end_time": "16.71",
           "alternatives": [
             {
@@ -449,6 +661,7 @@
         },
         {
           "start_time": "16.71",
+          "speaker_label": "spk_1",
           "end_time": "17.04",
           "alternatives": [
             {
@@ -459,6 +672,7 @@
           "type": "pronunciation"
         },
         {
+          "speaker_label": "spk_1",
           "alternatives": [
             {
               "confidence": "0.0",
@@ -472,6 +686,221 @@
     "status": "COMPLETED"
   },
   "standarized_response": {
-    "text": "Unit one, page 14 Real Conversations. Hello, Hi, what's your name, Claudia. What's your name? I'm chihiro. Nice to meet you, see here. Oh, yeah, that's right. Where you from?"
+    "text": "Unit one, page 14 Real Conversations. Hello, Hi, what's your name, Claudia. What's your name? I'm chihiro. Nice to meet you, see here. Oh, yeah, that's right. Where you from?",
+    "diarization": {
+      "total_speakers": 2,
+      "entries": [
+        {
+          "segment": "Unit",
+          "start_time": "0.0",
+          "end_time": "0.47",
+          "speaker": 1,
+          "confidence": 0.9982
+        },
+        {
+          "segment": "one,",
+          "start_time": "0.47",
+          "end_time": "1.06",
+          "speaker": 1,
+          "confidence": 1.0
+        },
+        {
+          "segment": "page",
+          "start_time": "1.25",
+          "end_time": "1.87",
+          "speaker": 1,
+          "confidence": 1.0
+        },
+        {
+          "segment": "14",
+          "start_time": "1.87",
+          "end_time": "2.77",
+          "speaker": 1,
+          "confidence": 1.0
+        },
+        {
+          "segment": "Real",
+          "start_time": "3.28",
+          "end_time": "3.7",
+          "speaker": 1,
+          "confidence": 1.0
+        },
+        {
+          "segment": "Conversations.",
+          "start_time": "3.7",
+          "end_time": "4.89",
+          "speaker": 1,
+          "confidence": 0.9997
+        },
+        {
+          "segment": "Hello,",
+          "start_time": "6.67",
+          "end_time": "7.51",
+          "speaker": 2,
+          "confidence": 1.0
+        },
+        {
+          "segment": "Hi,",
+          "start_time": "7.51",
+          "end_time": "8.18",
+          "speaker": 2,
+          "confidence": 1.0
+        },
+        {
+          "segment": "what's",
+          "start_time": "8.18",
+          "end_time": "8.36",
+          "speaker": 2,
+          "confidence": 0.8298
+        },
+        {
+          "segment": "your",
+          "start_time": "8.36",
+          "end_time": "8.49",
+          "speaker": 2,
+          "confidence": 1.0
+        },
+        {
+          "segment": "name,",
+          "start_time": "8.49",
+          "end_time": "8.96",
+          "speaker": 2,
+          "confidence": 1.0
+        },
+        {
+          "segment": "Claudia.",
+          "start_time": "8.97",
+          "end_time": "10.23",
+          "speaker": 2,
+          "confidence": 0.9965
+        },
+        {
+          "segment": "What's",
+          "start_time": "10.24",
+          "end_time": "10.82",
+          "speaker": 2,
+          "confidence": 0.9842
+        },
+        {
+          "segment": "your",
+          "start_time": "10.82",
+          "end_time": "10.98",
+          "speaker": 2,
+          "confidence": 1.0
+        },
+        {
+          "segment": "name?",
+          "start_time": "10.98",
+          "end_time": "11.46",
+          "speaker": 2,
+          "confidence": 1.0
+        },
+        {
+          "segment": "I'm",
+          "start_time": "11.47",
+          "end_time": "11.66",
+          "speaker": 2,
+          "confidence": 0.9873
+        },
+        {
+          "segment": "chihiro.",
+          "start_time": "11.66",
+          "end_time": "12.52",
+          "speaker": 2,
+          "confidence": 0.9953
+        },
+        {
+          "segment": "Nice",
+          "start_time": "12.54",
+          "end_time": "12.96",
+          "speaker": 2,
+          "confidence": 1.0
+        },
+        {
+          "segment": "to",
+          "start_time": "12.96",
+          "end_time": "13.07",
+          "speaker": 2,
+          "confidence": 1.0
+        },
+        {
+          "segment": "meet",
+          "start_time": "13.07",
+          "end_time": "13.4",
+          "speaker": 2,
+          "confidence": 1.0
+        },
+        {
+          "segment": "you,",
+          "start_time": "13.4",
+          "end_time": "13.96",
+          "speaker": 2,
+          "confidence": 1.0
+        },
+        {
+          "segment": "see",
+          "start_time": "14.07",
+          "end_time": "14.28",
+          "speaker": 2,
+          "confidence": 0.7376
+        },
+        {
+          "segment": "here.",
+          "start_time": "14.28",
+          "end_time": "15.02",
+          "speaker": 2,
+          "confidence": 0.8457
+        },
+        {
+          "segment": "Oh,",
+          "start_time": "15.02",
+          "end_time": "15.28",
+          "speaker": 2,
+          "confidence": 0.8908
+        },
+        {
+          "segment": "yeah,",
+          "start_time": "15.29",
+          "end_time": "15.45",
+          "speaker": 2,
+          "confidence": 0.8425
+        },
+        {
+          "segment": "that's",
+          "start_time": "15.45",
+          "end_time": "15.68",
+          "speaker": 2,
+          "confidence": 0.9695
+        },
+        {
+          "segment": "right.",
+          "start_time": "15.68",
+          "end_time": "16.07",
+          "speaker": 2,
+          "confidence": 0.9997
+        },
+        {
+          "segment": "Where",
+          "start_time": "16.21",
+          "end_time": "16.6",
+          "speaker": 2,
+          "confidence": 1.0
+        },
+        {
+          "segment": "you",
+          "start_time": "16.6",
+          "end_time": "16.71",
+          "speaker": 2,
+          "confidence": 0.9953
+        },
+        {
+          "segment": "from?",
+          "start_time": "16.71",
+          "end_time": "17.04",
+          "speaker": 2,
+          "confidence": 1.0
+        }
+      ]
+    }
   }
 }

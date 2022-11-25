@@ -17,7 +17,9 @@ from azure.core.credentials import AzureKeyCredential
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     Audio,
-    TextToSpeechDataClass
+    TextToSpeechDataClass,
+    SpeechDiarization,
+    SpeechDiarizationEntry
 )
 
 from edenai_apis.features.base_provider.provider_api import ProviderApi
@@ -88,6 +90,7 @@ from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import
     Table,
 )
 from .config import audio_voice_ids
+from edenai_apis.utils.audio import wav_converter
 
 class MicrosoftApi(
     ProviderApi,
@@ -1065,9 +1068,14 @@ class MicrosoftApi(
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
-        language: str
+        language: str,
+        speakers : int
     ) -> AsyncLaunchJobResponseType:
-        wav_file, *_options = wav_converter(file)
+
+        #check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the Speech to text function")
+        wav_file, *_options = wav_converter(file, channels=1)
         content_url = upload_file_to_s3(wav_file, Path(file.name).stem + ".wav")
 
         headers = self.headers["speech"]
@@ -1077,19 +1085,24 @@ class MicrosoftApi(
             "contentUrls": [content_url],
             "properties": {
                 "wordLevelTimestampsEnabled": True,
+                "diarizationEnabled": True,
             },
             "locale": language,
             "displayName": "test batch transcription",
         }
+        # if not profanity_filter:
+        #     config["properties"]["profanityFilterMode"] = "Removed"
+
         response = requests.post(
             url=self.url["speech"], headers=headers, data=json.dumps(config)
         )
+        print(response.json())
         if response.status_code == 201:
             result_location = response.headers["Location"]
             provider_id = result_location.split("/")[-1]
             return AsyncLaunchJobResponseType(provider_job_id=provider_id)
         else:
-            raise Exception("Call to Microsoft did not work.")
+            raise Exception(response.json().get("message"))
 
     def audio__speech_to_text_async__get_job_result(self,
         provider_job_id: str
@@ -1099,6 +1112,8 @@ class MicrosoftApi(
         response = requests.get(
             url=f'{self.url["speech"]}/{provider_job_id}/files', headers=headers
         )
+        print(response.json())
+        original_response=None
         if response.status_code == 200:
             data = response.json()["values"]
             if data:
@@ -1108,17 +1123,35 @@ class MicrosoftApi(
                     if entry["kind"] == "Transcription"
                 ]
                 text = ""
+                diarization_entries = []
+                speakers = set()
                 for file_url in files_urls:
                     response = requests.get(file_url, headers=headers)
                     original_response = response.json()
-                    if response.ok:
-                        data = original_response["combinedRecognizedPhrases"][0]
-                        text += data["display"]
-                    else:
+                    if not response.ok:
                         return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
                             provider_job_id= provider_job_id
-                        )
-                standarized_response = SpeechToTextAsyncDataClass(text=text)
+                        )    
+                    print(json.dumps(original_response, indent=2))
+                    data = original_response["combinedRecognizedPhrases"][0]
+                    text += data["display"]
+                    for recognized_status in original_response["recognizedPhrases"]:
+                        if recognized_status["recognitionStatus"] == "Success":
+                            speaker = recognized_status["speaker"]
+                            for word_info in recognized_status["nBest"][0]["words"]:
+                                speakers.add(speaker)
+                                diarization_entries.append(
+                                    SpeechDiarizationEntry(
+                                        segment= word_info["word"],
+                                        speaker=speaker,
+                                        start_time= word_info["offset"].split('PT')[1][:-1],
+                                        end_time= str(float(word_info["offset"].split('PT')[1][:-1])+ float(word_info["duration"].split('PT')[1][:-1])),
+                                        confidence= float(word_info["confidence"])
+                                    )
+                                )
+                diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
+
+                standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
                 return AsyncResponseType[SpeechToTextAsyncDataClass](
                     original_response= original_response,
                     standarized_response= standarized_response,
@@ -1130,5 +1163,6 @@ class MicrosoftApi(
                 )
         else:
             return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id
+                provider_job_id=provider_job_id,
+                error= response.json()
             )

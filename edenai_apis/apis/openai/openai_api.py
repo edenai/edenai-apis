@@ -55,7 +55,7 @@ class OpenaiApi(ProviderApi, Text):
         self, text: str, output_sentences: int, language: str, model: Optional[str]
     ) -> ResponseType[SummarizeDataClass]:
 
-        if model is None:
+        if not model:
             model = "text-davinci-002"
 
         url = f"{self.url}/engines/{model}/completions"

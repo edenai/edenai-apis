@@ -35,6 +35,8 @@ from edenai_apis.apis.google.google_helpers import (
 from edenai_apis.features import Audio, Image, Ocr, ProviderApi, Text, Translation, Video
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechToTextAsyncDataClass,
+    SpeechDiarizationEntry,
+    SpeechDiarization
 )
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
@@ -594,15 +596,16 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
 
         # Analyse response
         # Getting name of entity, its category and its score of confidence
-        for ent in response["entities"]:
-            items.append(
-                InfosNamedEntityRecognitionDataClass(
-                    entity=ent["name"],
-                    importance=ent.get("salience", None),
-                    category=ent["type"],
-                    url=ent.get("metadata", {}).get("wikipedia_url", None),
+        if response.get("entities") and isinstance(response["entities"], list):
+            for ent in response["entities"]:
+                items.append(
+                    InfosNamedEntityRecognitionDataClass(
+                        entity=ent["name"],
+                        importance=ent.get("salience", None),
+                        category=ent["type"],
+                        url=ent.get("metadata", {}).get("wikipedia_url", None),
+                    )
                 )
-            )
 
         standarized_response = NamedEntityRecognitionDataClass(items=items)
 
@@ -718,8 +721,12 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         return result
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str
+        self, file: BufferedReader, language: str, speakers: int
     ) -> AsyncLaunchJobResponseType:
+
+        #check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the Speech to text function")
         export_format = "flac"
         wav_file, _, _, channels = wav_converter(file, export_format)
         audio_name = str(int(time())) + Path(file.name).stem + "." + export_format
@@ -736,10 +743,16 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         # Launch file transcription
         client = speech.SpeechClient()
         audio = speech.RecognitionAudio(uri=gcs_uri)
+        diarization = speech.SpeakerDiarizationConfig(
+            enable_speaker_diarization=True,
+            min_speaker_count=1,
+            max_speaker_count=speakers,
+        )
         config = speech.RecognitionConfig(
             # encoding="LINEAR16",
             language_code=language,
             audio_channel_count=channels,
+            diarization_config = diarization,
             # sample_rate_hertz=frame_rate
         )
         operation = client.long_running_recognize(config=config, audio=audio)
@@ -752,18 +765,42 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         service = googleapiclient.discovery.build("speech", "v1")
         service_request_ = service.operations().get(name=provider_job_id)
         original_response = service_request_.execute()
+
         if original_response.get("error") is not None:
             return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id
             )
+        text = ""
+        diarization = SpeechDiarization(total_speakers=0, entries= [])
         if original_response.get("done"):
-            text = ", ".join(
-                [
-                    entry["alternatives"][0]["transcript"].strip()
-                    for entry in original_response["response"]["results"]
-                ]
-            )
-            standarized_response = SpeechToTextAsyncDataClass(text=text)
+            if original_response["response"].get("results"):
+                text = ", ".join(
+                    [
+                        entry["alternatives"][0]["transcript"].strip() if 
+                        entry["alternatives"][0].get("transcript") else ""
+                        for entry in original_response["response"]["results"]
+                    ]
+                )
+
+                diarization_entries = []
+                result = original_response["response"]["results"][-1]
+                words_info = result["alternatives"][0]["words"]
+                speakers = set()
+
+                for word_info in words_info:
+                    speakers.add(word_info['speakerTag'])
+                    diarization_entries.append(
+                        SpeechDiarizationEntry(
+                            segment= word_info['word'],
+                            speaker= word_info['speakerTag'],
+                            start_time= word_info['startTime'][:-1],
+                            end_time= word_info['endTime'][:-1]
+                        )
+                    )
+                
+                diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
+            
+            standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,
                 standarized_response=standarized_response,

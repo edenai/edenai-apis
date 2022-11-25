@@ -1,181 +1,652 @@
 {
   "status": "succeeded",
-  "provider_job_id": "268d409d-e04c-4b72-8b9b-e9e638ae390b###5844475067236352",
+  "provider_job_id": "c343c58a-b40c-4574-8330-b39ac8f3cebc###4656687783346176",
   "original_response": {
     "messages": [
       {
-        "id": "5624280516132864",
+        "id": "4833512358674432",
         "text": "Unit one page.",
-        "from": {},
-        "startTime": "2022-10-12T10:55:00.339Z",
-        "endTime": "2022-10-12T10:55:02.139Z",
+        "from": {
+          "id": "f23fc74e-0bf4-4cfe-902e-fd5b9c146855",
+          "name": "Speaker 2"
+        },
+        "startTime": "2022-11-25T09:20:22.928Z",
+        "endTime": "2022-11-25T09:20:24.728Z",
         "timeOffset": 0.1,
         "duration": 1.8,
-        "conversationId": "5844475067236352",
+        "conversationId": "4656687783346176",
         "phrases": [],
         "sentiment": {
           "polarity": {
             "score": -0.092
           },
           "suggested": "neutral"
-        }
+        },
+        "words": [
+          {
+            "word": "Unit",
+            "startTime": "2022-11-25T09:20:22.928Z",
+            "endTime": "2022-11-25T09:20:23.328Z",
+            "speakerTag": 2,
+            "score": 0.91,
+            "timeOffset": 0.1,
+            "duration": 0.4
+          },
+          {
+            "word": "one",
+            "startTime": "2022-11-25T09:20:23.328Z",
+            "endTime": "2022-11-25T09:20:23.928Z",
+            "speakerTag": 2,
+            "score": 0.91,
+            "timeOffset": 0.5,
+            "duration": 0.6
+          },
+          {
+            "word": "page.",
+            "startTime": "2022-11-25T09:20:24.228Z",
+            "endTime": "2022-11-25T09:20:24.728Z",
+            "speakerTag": 2,
+            "score": 0.91,
+            "timeOffset": 1.4,
+            "duration": 0.5
+          }
+        ]
       },
       {
-        "id": "6160342883762176",
+        "id": "5033896775778304",
         "text": "14.",
-        "from": {},
-        "startTime": "2022-10-12T10:55:02.139Z",
-        "endTime": "2022-10-12T10:55:03.039Z",
+        "from": {
+          "id": "f23fc74e-0bf4-4cfe-902e-fd5b9c146855",
+          "name": "Speaker 2"
+        },
+        "startTime": "2022-11-25T09:20:24.728Z",
+        "endTime": "2022-11-25T09:20:25.628Z",
         "timeOffset": 1.9,
         "duration": 0.9,
-        "conversationId": "5844475067236352",
+        "conversationId": "4656687783346176",
         "phrases": [],
         "sentiment": {
           "polarity": {
             "score": -0.297
           },
           "suggested": "neutral"
-        }
+        },
+        "words": [
+          {
+            "word": "14.",
+            "startTime": "2022-11-25T09:20:24.728Z",
+            "endTime": "2022-11-25T09:20:25.628Z",
+            "speakerTag": 2,
+            "score": 0.91,
+            "timeOffset": 1.9,
+            "duration": 0.9
+          }
+        ]
       },
       {
-        "id": "6613185260421120",
+        "id": "6004636492759040",
         "text": "Real conversations.",
-        "from": {},
-        "startTime": "2022-10-12T10:55:03.539Z",
-        "endTime": "2022-10-12T10:55:05.139Z",
+        "from": {
+          "id": "f23fc74e-0bf4-4cfe-902e-fd5b9c146855",
+          "name": "Speaker 2"
+        },
+        "startTime": "2022-11-25T09:20:26.128Z",
+        "endTime": "2022-11-25T09:20:27.728Z",
         "timeOffset": 3.3,
         "duration": 1.6,
-        "conversationId": "5844475067236352",
+        "conversationId": "4656687783346176",
         "phrases": [],
         "sentiment": {
           "polarity": {
             "score": 0.023
           },
           "suggested": "neutral"
-        }
+        },
+        "words": [
+          {
+            "word": "Real",
+            "startTime": "2022-11-25T09:20:26.128Z",
+            "endTime": "2022-11-25T09:20:26.528Z",
+            "speakerTag": 2,
+            "score": 0.91,
+            "timeOffset": 3.3,
+            "duration": 0.4
+          },
+          {
+            "word": "conversations.",
+            "startTime": "2022-11-25T09:20:26.528Z",
+            "endTime": "2022-11-25T09:20:27.728Z",
+            "speakerTag": 2,
+            "score": 0.91,
+            "timeOffset": 3.7,
+            "duration": 1.2
+          }
+        ]
       },
       {
-        "id": "4536487689846784",
+        "id": "5405967108276224",
         "text": "Hello.",
-        "from": {},
-        "startTime": "2022-10-12T10:55:07.039Z",
-        "endTime": "2022-10-12T10:55:07.839Z",
+        "from": {
+          "id": "048674d1-76a9-4c82-931a-ff74c0cdc750",
+          "name": "Speaker 1"
+        },
+        "startTime": "2022-11-25T09:20:29.628Z",
+        "endTime": "2022-11-25T09:20:30.428Z",
         "timeOffset": 6.8,
         "duration": 0.8,
-        "conversationId": "5844475067236352",
+        "conversationId": "4656687783346176",
         "phrases": [],
         "sentiment": {
           "polarity": {
             "score": -0.3
           },
           "suggested": "neutral"
-        }
+        },
+        "words": [
+          {
+            "word": "Hello.",
+            "startTime": "2022-11-25T09:20:29.628Z",
+            "endTime": "2022-11-25T09:20:30.428Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 6.8,
+            "duration": 0.8
+          }
+        ]
       },
       {
-        "id": "4853669330157568",
+        "id": "6337511826128896",
         "text": "Hi named Claudia.",
-        "from": {},
-        "startTime": "2022-10-12T10:55:07.839Z",
-        "endTime": "2022-10-12T10:55:10.339Z",
+        "from": {
+          "id": "048674d1-76a9-4c82-931a-ff74c0cdc750",
+          "name": "Speaker 1"
+        },
+        "startTime": "2022-11-25T09:20:30.428Z",
+        "endTime": "2022-11-25T09:20:32.928Z",
         "timeOffset": 7.6,
         "duration": 2.5,
-        "conversationId": "5844475067236352",
+        "conversationId": "4656687783346176",
         "phrases": [],
         "sentiment": {
           "polarity": {
             "score": 0.11
           },
           "suggested": "neutral"
-        }
+        },
+        "words": [
+          {
+            "word": "Hi",
+            "startTime": "2022-11-25T09:20:30.428Z",
+            "endTime": "2022-11-25T09:20:31.228Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 7.6,
+            "duration": 0.8
+          },
+          {
+            "word": "named",
+            "startTime": "2022-11-25T09:20:31.328Z",
+            "endTime": "2022-11-25T09:20:31.828Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 8.5,
+            "duration": 0.5
+          },
+          {
+            "word": "Claudia.",
+            "startTime": "2022-11-25T09:20:32.128Z",
+            "endTime": "2022-11-25T09:20:32.928Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 9.3,
+            "duration": 0.8
+          }
+        ]
       },
       {
-        "id": "5748745581363200",
+        "id": "6116669271834624",
         "text": "What's your name?",
-        "from": {},
-        "startTime": "2022-10-12T10:55:10.839Z",
-        "endTime": "2022-10-12T10:55:11.739Z",
+        "from": {
+          "id": "048674d1-76a9-4c82-931a-ff74c0cdc750",
+          "name": "Speaker 1"
+        },
+        "startTime": "2022-11-25T09:20:33.428Z",
+        "endTime": "2022-11-25T09:20:34.328Z",
         "timeOffset": 10.6,
         "duration": 0.9,
-        "conversationId": "5844475067236352",
+        "conversationId": "4656687783346176",
         "phrases": [],
         "sentiment": {
           "polarity": {
             "score": 0.076
           },
           "suggested": "neutral"
-        }
+        },
+        "words": [
+          {
+            "word": "What's",
+            "startTime": "2022-11-25T09:20:33.428Z",
+            "endTime": "2022-11-25T09:20:33.628Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 10.6,
+            "duration": 0.2
+          },
+          {
+            "word": "your",
+            "startTime": "2022-11-25T09:20:33.628Z",
+            "endTime": "2022-11-25T09:20:33.828Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 10.8,
+            "duration": 0.2
+          },
+          {
+            "word": "name?",
+            "startTime": "2022-11-25T09:20:33.828Z",
+            "endTime": "2022-11-25T09:20:34.328Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 11,
+            "duration": 0.5
+          }
+        ]
       },
       {
-        "id": "6566931516096512",
+        "id": "4931789565460480",
         "text": "I am Chihiro.",
-        "from": {},
-        "startTime": "2022-10-12T10:55:11.739Z",
-        "endTime": "2022-10-12T10:55:12.639Z",
+        "from": {
+          "id": "048674d1-76a9-4c82-931a-ff74c0cdc750",
+          "name": "Speaker 1"
+        },
+        "startTime": "2022-11-25T09:20:34.328Z",
+        "endTime": "2022-11-25T09:20:35.228Z",
         "timeOffset": 11.5,
         "duration": 0.9,
-        "conversationId": "5844475067236352",
+        "conversationId": "4656687783346176",
         "phrases": [],
         "sentiment": {
           "polarity": {
             "score": 0.031
           },
           "suggested": "neutral"
-        }
+        },
+        "words": [
+          {
+            "word": "I'm",
+            "startTime": "2022-11-25T09:20:34.328Z",
+            "endTime": "2022-11-25T09:20:34.528Z",
+            "speakerTag": 1,
+            "score": 0.76,
+            "timeOffset": 11.5,
+            "duration": 0.2
+          },
+          {
+            "word": "Chihiro.",
+            "startTime": "2022-11-25T09:20:34.528Z",
+            "endTime": "2022-11-25T09:20:35.228Z",
+            "speakerTag": 1,
+            "score": 0.9,
+            "timeOffset": 11.7,
+            "duration": 0.7
+          }
+        ]
       },
       {
-        "id": "5310344881242112",
+        "id": "4607528158101504",
         "text": "Nice to meet you Chihiro.",
-        "from": {},
-        "startTime": "2022-10-12T10:55:12.939Z",
-        "endTime": "2022-10-12T10:55:15.539Z",
+        "from": {
+          "id": "048674d1-76a9-4c82-931a-ff74c0cdc750",
+          "name": "Speaker 1"
+        },
+        "startTime": "2022-11-25T09:20:35.528Z",
+        "endTime": "2022-11-25T09:20:38.128Z",
         "timeOffset": 12.7,
         "duration": 2.6,
-        "conversationId": "5844475067236352",
+        "conversationId": "4656687783346176",
         "phrases": [],
         "sentiment": {
           "polarity": {
             "score": 1
           },
           "suggested": "positive"
-        }
+        },
+        "words": [
+          {
+            "word": "Nice",
+            "startTime": "2022-11-25T09:20:35.528Z",
+            "endTime": "2022-11-25T09:20:35.828Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 12.7,
+            "duration": 0.3
+          },
+          {
+            "word": "to",
+            "startTime": "2022-11-25T09:20:35.828Z",
+            "endTime": "2022-11-25T09:20:35.928Z",
+            "speakerTag": 1,
+            "score": 0.9,
+            "timeOffset": 13,
+            "duration": 0.1
+          },
+          {
+            "word": "meet",
+            "startTime": "2022-11-25T09:20:35.928Z",
+            "endTime": "2022-11-25T09:20:36.228Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 13.1,
+            "duration": 0.3
+          },
+          {
+            "word": "you",
+            "startTime": "2022-11-25T09:20:36.228Z",
+            "endTime": "2022-11-25T09:20:36.728Z",
+            "speakerTag": 1,
+            "score": 0.89,
+            "timeOffset": 13.4,
+            "duration": 0.5
+          },
+          {
+            "word": "Chihiro.",
+            "startTime": "2022-11-25T09:20:36.728Z",
+            "endTime": "2022-11-25T09:20:38.128Z",
+            "speakerTag": 1,
+            "score": 0.86,
+            "timeOffset": 13.9,
+            "duration": 1.4
+          }
+        ]
       },
       {
-        "id": "4744049383178240",
+        "id": "5778020630003712",
         "text": "Yeah, that's right.",
-        "from": {},
-        "startTime": "2022-10-12T10:55:15.539Z",
-        "endTime": "2022-10-12T10:55:16.439Z",
+        "from": {
+          "id": "048674d1-76a9-4c82-931a-ff74c0cdc750",
+          "name": "Speaker 1"
+        },
+        "startTime": "2022-11-25T09:20:38.128Z",
+        "endTime": "2022-11-25T09:20:39.028Z",
         "timeOffset": 15.3,
         "duration": 0.9,
-        "conversationId": "5844475067236352",
+        "conversationId": "4656687783346176",
         "phrases": [],
         "sentiment": {
           "polarity": {
             "score": -0.244
           },
           "suggested": "neutral"
-        }
+        },
+        "words": [
+          {
+            "word": "Yeah,",
+            "startTime": "2022-11-25T09:20:38.128Z",
+            "endTime": "2022-11-25T09:20:38.328Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 15.3,
+            "duration": 0.2
+          },
+          {
+            "word": "that's",
+            "startTime": "2022-11-25T09:20:38.328Z",
+            "endTime": "2022-11-25T09:20:38.528Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 15.5,
+            "duration": 0.2
+          },
+          {
+            "word": "right.",
+            "startTime": "2022-11-25T09:20:38.528Z",
+            "endTime": "2022-11-25T09:20:39.028Z",
+            "speakerTag": 1,
+            "score": 0.83,
+            "timeOffset": 15.7,
+            "duration": 0.5
+          }
+        ]
       },
       {
-        "id": "6064122882424832",
+        "id": "4961227204198400",
         "text": "Where you from.",
-        "from": {},
-        "startTime": "2022-10-12T10:55:16.639Z",
-        "endTime": "2022-10-12T10:55:17.139Z",
+        "from": {
+          "id": "048674d1-76a9-4c82-931a-ff74c0cdc750",
+          "name": "Speaker 1"
+        },
+        "startTime": "2022-11-25T09:20:39.228Z",
+        "endTime": "2022-11-25T09:20:39.728Z",
         "timeOffset": 16.4,
         "duration": 0.5,
-        "conversationId": "5844475067236352",
+        "conversationId": "4656687783346176",
         "phrases": [],
         "sentiment": {
           "polarity": {
             "score": -0.122
           },
           "suggested": "neutral"
-        }
+        },
+        "words": [
+          {
+            "word": "Where",
+            "startTime": "2022-11-25T09:20:39.228Z",
+            "endTime": "2022-11-25T09:20:39.428Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 16.4,
+            "duration": 0.2
+          },
+          {
+            "word": "you",
+            "startTime": "2022-11-25T09:20:39.428Z",
+            "endTime": "2022-11-25T09:20:39.528Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 16.6,
+            "duration": 0.1
+          },
+          {
+            "word": "from",
+            "startTime": "2022-11-25T09:20:39.528Z",
+            "endTime": "2022-11-25T09:20:39.728Z",
+            "speakerTag": 1,
+            "score": 0.91,
+            "timeOffset": 16.7,
+            "duration": 0.2
+          }
+        ]
       }
     ]
   },
   "standarized_response": {
-    "text": "Unit one page. 14. Real conversations. Hello. Hi named Claudia. What's your name? I am Chihiro. Nice to meet you Chihiro. Yeah, that's right. Where you from."
+    "text": "Unit one page. 14. Real conversations. Hello. Hi named Claudia. What's your name? I am Chihiro. Nice to meet you Chihiro. Yeah, that's right. Where you from.",
+    "diarization": {
+      "total_speakers": 2,
+      "entries": [
+        {
+          "segment": "Unit",
+          "start_time": "0.1",
+          "end_time": "0.5",
+          "speaker": 2,
+          "confidence": 0.91
+        },
+        {
+          "segment": "one",
+          "start_time": "0.5",
+          "end_time": "1.1",
+          "speaker": 2,
+          "confidence": 0.91
+        },
+        {
+          "segment": "page.",
+          "start_time": "1.4",
+          "end_time": "1.9",
+          "speaker": 2,
+          "confidence": 0.91
+        },
+        {
+          "segment": "14.",
+          "start_time": "1.9",
+          "end_time": "2.8",
+          "speaker": 2,
+          "confidence": 0.91
+        },
+        {
+          "segment": "Real",
+          "start_time": "3.3",
+          "end_time": "3.6999999999999997",
+          "speaker": 2,
+          "confidence": 0.91
+        },
+        {
+          "segment": "conversations.",
+          "start_time": "3.7",
+          "end_time": "4.9",
+          "speaker": 2,
+          "confidence": 0.91
+        },
+        {
+          "segment": "Hello.",
+          "start_time": "6.8",
+          "end_time": "7.6",
+          "speaker": 1,
+          "confidence": 0.91
+        },
+        {
+          "segment": "Hi",
+          "start_time": "7.6",
+          "end_time": "8.4",
+          "speaker": 1,
+          "confidence": 0.91
+        },
+        {
+          "segment": "named",
+          "start_time": "8.5",
+          "end_time": "9.0",
+          "speaker": 1,
+          "confidence": 0.91
+        },
+        {
+          "segment": "Claudia.",
+          "start_time": "9.3",
+          "end_time": "10.100000000000001",
+          "speaker": 1,
+          "confidence": 0.91
+        },
+        {
+          "segment": "What's",
+          "start_time": "10.6",
+          "end_time": "10.799999999999999",
+          "speaker": 1,
+          "confidence": 0.91
+        },
+        {
+          "segment": "your",
+          "start_time": "10.8",
+          "end_time": "11.0",
+          "speaker": 1,
+          "confidence": 0.91
+        },
+        {
+          "segment": "name?",
+          "start_time": "11",
+          "end_time": "11.5",
+          "speaker": 1,
+          "confidence": 0.91
+        },
+        {
+          "segment": "I'm",
+          "start_time": "11.5",
+          "end_time": "11.7",
+          "speaker": 1,
+          "confidence": 0.76
+        },
+        {
+          "segment": "Chihiro.",
+          "start_time": "11.7",
+          "end_time": "12.399999999999999",
+          "speaker": 1,
+          "confidence": 0.9
+        },
+        {
+          "segment": "Nice",
+          "start_time": "12.7",
+          "end_time": "13.0",
+          "speaker": 1,
+          "confidence": 0.91
+        },
+        {
+          "segment": "to",
+          "start_time": "13",
+          "end_time": "13.1",
+          "speaker": 1,
+          "confidence": 0.9
+        },
+        {
+          "segment": "meet",
+          "start_time": "13.1",
+          "end_time": "13.4",
+          "speaker": 1,
+          "confidence": 0.91
+        },
+        {
+          "segment": "you",
+          "start_time": "13.4",
+          "end_time": "13.9",
+          "speaker": 1,
+          "confidence": 0.89
+        },
+        {
+          "segment": "Chihiro.",
+          "start_time": "13.9",
+          "end_time": "15.3",
+          "speaker": 1,
+          "confidence": 0.86
+        },
+        {
+          "segment": "Yeah,",
+          "start_time": "15.3",
+          "end_time": "15.5",
+          "speaker": 1,
+          "confidence": 0.91
+        },
+        {
+          "segment": "that's",
+          "start_time": "15.5",
+          "end_time": "15.7",
+          "speaker": 1,
+          "confidence": 0.91
+        },
+        {
+          "segment": "right.",
+          "start_time": "15.7",
+          "end_time": "16.2",
+          "speaker": 1,
+          "confidence": 0.83
+        },
+        {
+          "segment": "Where",
+          "start_time": "16.4",
+          "end_time": "16.599999999999998",
+          "speaker": 1,
+          "confidence": 0.91
+        },
+        {
+          "segment": "you",
+          "start_time": "16.6",
+          "end_time": "16.700000000000003",
+          "speaker": 1,
+          "confidence": 0.91
+        },
+        {
+          "segment": "from",
+          "start_time": "16.7",
+          "end_time": "16.9",
+          "speaker": 1,
+          "confidence": 0.91
+        }
+      ]
+    }
   }
 }

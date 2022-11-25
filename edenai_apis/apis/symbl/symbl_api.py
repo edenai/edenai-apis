@@ -3,7 +3,11 @@ import json
 import requests
 
 from edenai_apis.features import ProviderApi, Audio
-from edenai_apis.features.audio import SpeechToTextAsyncDataClass
+from edenai_apis.features.audio import (
+    SpeechToTextAsyncDataClass,
+    SpeechDiarizationEntry,
+    SpeechDiarization
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
@@ -49,7 +53,8 @@ class SymblApi(ProviderApi, Audio):
         self.access_token = response.json()["accessToken"]
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str
+        self, file: BufferedReader, language: str,
+        speakers : int
     ) -> AsyncLaunchJobResponseType:
         file.seek(0, 2)
         number_of_bytes = file.tell()
@@ -60,7 +65,10 @@ class SymblApi(ProviderApi, Audio):
             "Content-Length": str(number_of_bytes),
         }
 
-        params = {}
+        params = {
+            "enableSpeakerDiarization" : "true",
+            "diarizationSpeakerCount" : speakers
+            }
         if language:
             params.update({"languageCode": language})
 
@@ -102,7 +110,7 @@ class SymblApi(ProviderApi, Audio):
         original_response = response_status.json()
 
         if original_response["status"] == "completed":
-            url = f"https://api.symbl.ai/v1/conversations/{conversation_id}/messages?sentiment=true"
+            url = f"https://api.symbl.ai/v1/conversations/{conversation_id}/messages?sentiment=true&verbose=true"
             response = requests.get(url=url, headers=headers)
             if response.status_code != 200:
                 return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
@@ -110,10 +118,30 @@ class SymblApi(ProviderApi, Audio):
                 )
 
             original_response = response.json()
+            diarization_entries = []
+            speakers = set()
+
             text = " ".join(
                 [message["text"] for message in original_response["messages"]]
             )
-            standarized_response = SpeechToTextAsyncDataClass(text=text)
+
+            for text_info in original_response["messages"]:
+                words_info = text_info["words"]
+                for word_info in words_info:
+                    speakers.add(word_info["speakerTag"])
+                    diarization_entries.append(
+                        SpeechDiarizationEntry(
+                            segment= word_info["word"],
+                            speaker= word_info["speakerTag"],
+                            start_time= str(word_info["timeOffset"]),
+                            end_time= str(word_info["timeOffset"] + word_info["duration"]),
+                            confidence= word_info["score"]
+                        )
+                    )
+
+            diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
+
+            standarized_response = SpeechToTextAsyncDataClass(text=text, diarization = diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,
                 standarized_response=standarized_response,

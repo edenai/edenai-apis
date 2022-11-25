@@ -10,7 +10,8 @@
                     "pt-PT",
                     "it-IT",
                     "da-DK"
-                ]
+                ],
+                "allow_null_language":true
             },
             "version": "v3.1.0"
         },
@@ -24,7 +25,8 @@
                     "pt-PT",
                     "it-IT",
                     "da-DK"
-                ]
+                ],
+                "allow_null_language":true
             },
             "version": "v3.1.0"
         }

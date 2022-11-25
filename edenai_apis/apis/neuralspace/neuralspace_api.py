@@ -14,6 +14,8 @@ from edenai_apis.features.translation import (
 )
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechToTextAsyncDataClass,
+    SpeechDiarizationEntry,
+    SpeechDiarization
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -49,8 +51,11 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
         files = {"text": text, "language": language}
 
         response = requests.request("POST", url, json=files, headers=self.header)
-        response = response.json()
+        if response.status_code != 200:
+            if not response.json().get("success"):
+                raise ProviderException(response.json().get("message"))
 
+        response = response.json()
         data = response["data"]
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
@@ -129,7 +134,7 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
         )
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str
+        self, file: BufferedReader, language: str, speakers: int
     ) -> AsyncLaunchJobResponseType:
 
         url_file_upload = f"{self.url}file/upload"
@@ -194,6 +199,7 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
                 provider_job_id = provider_job_id
             )
         
+        diarization = SpeechDiarization(total_speakers=0, entries= [])
         original_response = response.json()
         status = original_response.get('data').get('transcriptionStatus')
         if status != "Completed":
@@ -204,7 +210,8 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
         return AsyncResponseType[SpeechToTextAsyncDataClass](
             original_response = original_response,
             standarized_response = SpeechToTextAsyncDataClass(
-                text = original_response.get('data').get('transcripts')
+                text = original_response.get('data').get('transcripts'),
+                diarization= diarization
             ),
             provider_job_id = provider_job_id
         )
