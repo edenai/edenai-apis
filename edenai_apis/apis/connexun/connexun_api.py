@@ -4,7 +4,6 @@ import requests
 from edenai_apis.features import ProviderApi, Text
 from edenai_apis.features.text import (
     SentimentAnalysisDataClass,
-    Items,
     SummarizeDataClass,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum

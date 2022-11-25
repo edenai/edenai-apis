@@ -5,7 +5,6 @@ from edenai_apis.features import ProviderApi, Text
 from edenai_apis.features.text import (
     InfosNamedEntityRecognitionDataClass,
     NamedEntityRecognitionDataClass,
-    Items,
     InfosSyntaxAnalysisDataClass,
     SyntaxAnalysisDataClass,
     SentimentAnalysisDataClass,

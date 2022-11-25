@@ -84,7 +84,6 @@ from edenai_apis.features.text.named_entity_recognition.named_entity_recognition
     NamedEntityRecognitionDataClass,
 )
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
-    Items,
     SentimentAnalysisDataClass,
 )
 from edenai_apis.features.text.syntax_analysis.syntax_analysis_dataclass import (

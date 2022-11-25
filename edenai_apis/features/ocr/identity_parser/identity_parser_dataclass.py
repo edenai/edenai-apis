@@ -67,17 +67,17 @@ class InfosIdentityParserDataClass(BaseModel):
 
     @validator('last_name')
     def to_uppercase(cls, value):
-        value.value = value.value.upper() if value else value.value
+        value.value = value.value.upper() if value.value else None
         return value
 
     @validator('given_names', each_item=True)
     def list_to_title(cls, value):
-        value.value = value.value.title() if value else value.value
+        value.value = value.value.title() if value.value else None
         return value
 
     @validator('birth_place', 'nationality', 'issuing_state', 'document_type')
     def to_title(cls, value):
-        value.value = value.value.title() if value else value.value
+        value.value = value.value.title() if value.value else None
         return value
 
     @validator('expire_date', 'issuance_date', 'birth_date')

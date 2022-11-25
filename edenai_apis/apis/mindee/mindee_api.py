@@ -225,7 +225,8 @@ class MindeeApi(ProviderApi, Ocr):
             confidence=identity_data['birth_place']['confidence']
         )
         country = get_info_country(key=InfoCountry.ALPHA3, value=identity_data['country']['value'])
-        country['confidence'] = identity_data['country']['confidence']
+        if country:
+            country['confidence'] = identity_data['country']['confidence']
         issuance_date = ItemIdentityParserDataClass(
             value=identity_data['issuance_date']['value'],
             confidence=identity_data['issuance_date']['confidence']

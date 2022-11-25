@@ -291,7 +291,8 @@ class Base64Api(ProviderApi, Ocr):
                 key=InfoCountry.ALPHA3,
                 value=document['fields'].get('countryCode', {}).get('value', "")
             )
-            country['confidence'] = document['fields'].get('countryCode', {}).get('confidence')
+            if country:
+                country['confidence'] = document['fields'].get('countryCode', {}).get('confidence')
 
             items.append(InfosIdentityParserDataClass(
                 document_type=ItemIdentityParserDataClass(
