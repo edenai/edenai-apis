@@ -10,7 +10,6 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
-    AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
@@ -89,10 +88,8 @@ class RevAIApi(ProviderApi, Audio):
                         provider_job_id=provider_job_id,
                     )
             elif status == "failed":
-                return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                    error=original_response["failure_detail"],
-                    provider_job_id=provider_job_id,
-                )
+                error = original_response.get("failure_detail")
+                raise ProviderException(error)
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id
             )

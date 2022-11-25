@@ -917,9 +917,7 @@ class MicrosoftApi(
         response = requests.get(url, headers=headers)
         data = response.json()
         if data.get("error"):
-            return AsyncErrorResponseType[OcrTablesAsyncDataClass](
-                provider_job_id= job_id
-            )
+            raise ProviderException(data.get("error"))
         if data["status"] == "succeeded":
             original_result = data["analyzeResult"]
 
@@ -1042,13 +1040,12 @@ class MicrosoftApi(
                 for file_url in files_urls:
                     response = requests.get(file_url, headers=headers)
                     original_response = response.json()
-                    if response.ok:
+                    if response.status_code == 200:
                         data = original_response["combinedRecognizedPhrases"][0]
                         text += data["display"]
                     else:
-                        return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                            provider_job_id= provider_job_id
-                        )
+                        error = original_response.get("message")
+                        raise ProviderException(error)
                 standarized_response = SpeechToTextAsyncDataClass(text=text)
                 return AsyncResponseType[SpeechToTextAsyncDataClass](
                     original_response= original_response,
@@ -1060,6 +1057,5 @@ class MicrosoftApi(
                     provider_job_id=provider_job_id
                 )
         else:
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id
-            )
+            error = response.json().get("message")
+            raise ProviderException(error)

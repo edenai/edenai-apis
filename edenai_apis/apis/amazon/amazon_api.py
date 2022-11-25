@@ -80,7 +80,6 @@ from edenai_apis.features.video import (
 from edenai_apis.utils.audio import wav_converter
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
-    AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncBaseResponseType,
@@ -644,6 +643,7 @@ class AmazonApi(
             )
 
         msg = json.loads(data.get("Message"))
+        # ref: https://docs.aws.amazon.com/textract/latest/dg/async-notification-payload.html
         job_id = msg["JobId"]
 
         if msg["Status"] == "SUCCEEDED":
@@ -655,12 +655,15 @@ class AmazonApi(
                 standarized_response=standarized_response,
                 provider_job_id=job_id,
             )
+        elif msg["Status"] == "PROCESSING":
+            return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)
 
-        if msg["Status"] == "FAIL":
-            return AsyncErrorResponseType[OcrTablesAsyncDataClass](
-                provider_job_id=job_id
-            )
-        return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)
+        else:
+            original_result = clients["textract"].get_document_analysis(JobId=job_id)
+            if original_result.get("JobStatus") == "FAILED":
+                error = original_result.get("StatusMessage")
+                raise ProviderException(error)
+
 
     # Speech to text async
     def _upload_audio_file_to_amazon_server(
@@ -722,9 +725,8 @@ class AmazonApi(
                     provider_job_id=provider_job_id,
                 )
         elif job_status == "FAILED":
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id
-            )
+            error = job_details["TranscriptionJob"].get("FailureReason")
+            raise ProviderException(error)
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
             provider_job_id=provider_job_id
         )

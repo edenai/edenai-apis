@@ -2,7 +2,7 @@ import json
 import urllib
 from io import BufferedReader
 from time import time
-from typing import Dict, TypeVar, Sequence
+from typing import Dict, Optional, TypeVar, Sequence
 from pathlib import Path
 import requests
 from trp import Document
@@ -17,10 +17,10 @@ from edenai_apis.features.ocr import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.exception import ProviderException
 
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
-    AsyncErrorResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
 )
@@ -193,7 +193,9 @@ def amazon_video_response_formatter(
             standarized_response=standarized_response,
             provider_job_id=provider_job_id,
         )
-
     elif response["JobStatus"] == "IN_PROGRESS":
         return AsyncPendingResponseType[T](provider_job_id=provider_job_id)
-    return AsyncErrorResponseType[T](provider_job_id=provider_job_id)
+    elif response["JobStatus"] == "FAILED":
+        error: Optional[str] = response.get("StatusMessage")
+        raise ProviderException(error)
+    raise ProviderException("Amazon did not return a JobStatus")

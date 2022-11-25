@@ -212,7 +212,6 @@ class Base64Api(ProviderApi, Ocr):
         response = requests.post(url=self.url, headers=headers, json=data)
 
         if response.status_code != 200:
-            print("base64 response.text", response.text)
             raise ProviderException(response.text)
 
         return response.json()

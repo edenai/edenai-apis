@@ -145,7 +145,6 @@ from edenai_apis.utils.audio import wav_converter
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
-    AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
@@ -560,11 +559,8 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             )
 
         elif res["metadata"]["state"] == "FAILED":
-            return AsyncErrorResponseType[OcrTablesAsyncDataClass](
-                status="failed",
-                error=res.get("error"),
-                provider_job_id=job_id,
-            )
+            raise ProviderException(res.get("error"))
+
         return AsyncPendingResponseType[OcrTablesAsyncDataClass](
             status="pending", provider_job_id=job_id
         )
@@ -746,9 +742,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         service_request_ = service.operations().get(name=provider_job_id)
         original_response = service_request_.execute()
         if original_response.get("error") is not None:
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id
-            )
+            raise ProviderException(original_response['error'])
         if original_response.get("done"):
             text = ", ".join(
                 [

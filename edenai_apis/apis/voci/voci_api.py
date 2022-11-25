@@ -11,7 +11,6 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.features import Audio
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
-    AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
@@ -71,7 +70,7 @@ class VociApi(ProviderApi, Audio):
             if response_text.status_code != 200:
                 raise ProviderException(
                     f"Call to Voci failed.\nResponse Status: {response.status_code}.\n"
-                    + f"Response Content: {response.content}"
+                    + f"Response Content: {response.text}"
                 )
             else:
                 original_response = response_text.json()
@@ -90,7 +89,4 @@ class VociApi(ProviderApi, Audio):
                 provider_job_id=provider_job_id
             )
         else:
-            error = response.status_code
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                error=error, provider_job_id=provider_job_id
-            )
+            raise ProviderException(response.text)

@@ -9,7 +9,6 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
-    AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
@@ -105,9 +104,7 @@ class SymblApi(ProviderApi, Audio):
             url = f"https://api.symbl.ai/v1/conversations/{conversation_id}/messages?sentiment=true"
             response = requests.get(url=url, headers=headers)
             if response.status_code != 200:
-                return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                    error=response_status.text, provider_job_id=provider_job_id
-                )
+                raise ProviderException(response_status.text)
 
             original_response = response.json()
             text = " ".join(
@@ -120,9 +117,7 @@ class SymblApi(ProviderApi, Audio):
                 provider_job_id=provider_job_id,
             )
         elif original_response["status"] == "failed":
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                error=response_status.text, provider_job_id=provider_job_id
-            )
+                raise ProviderException(response_status.text)
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
             provider_job_id=provider_job_id
         )
