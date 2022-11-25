@@ -49,6 +49,7 @@ from edenai_apis.features.text import (
     InfosNamedEntityRecognitionDataClass, NamedEntityRecognitionDataClass,
     SentimentAnalysisDataClass, SummarizeDataClass
 )
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SegmentSentimentAnalysisDataClass
 from edenai_apis.features.text.text_class import Text
 from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
@@ -669,19 +670,44 @@ class MicrosoftApi(
         data = response.json()
         self._check_microsoft_error(data)
 
-        items: Sequence[Items] = []
+        items: Sequence[SegmentSentimentAnalysisDataClass] = []
 
         # Getting the explicit label and its score of image
-        for sentiment in ["positive", "neutral", "negative"]:
+        for sentence in data['results']['documents'][0]['sentences']:
+            best_sentiment = {
+                'sentiment': None,
+                'rate': 0,
+            }
+            for sentiment, value in sentence['confidenceScores'].items():
+                if best_sentiment['rate'] < value:
+                    best_sentiment['sentiment'] = sentiment
+                    best_sentiment['rate'] = value
+
             items.append(
-                Items(
-                    sentiment=sentiment,
-                    sentiment_rate=data["results"]["documents"][0]["confidenceScores"][
-                        sentiment
-                    ],
+                SegmentSentimentAnalysisDataClass(
+                    segment=sentence['text'],
+                    sentiment=best_sentiment['sentiment'],
+                    sentiment_rate=best_sentiment['rate'],
                 )
             )
-        standarize = SentimentAnalysisDataClass(items=items)
+
+        best_general_sentiment = {
+            'sentiment': None,
+            'rate': 0
+        }
+        for sentiment, value in data['results']['documents'][0]['confidenceScores'].items():
+            print(sentiment, value)
+            if best_general_sentiment['rate'] < value:
+                    best_general_sentiment['sentiment'] = sentiment
+                    best_general_sentiment['rate'] = value
+
+        print(best_general_sentiment)
+        standarize = SentimentAnalysisDataClass(
+            text=text,
+            general_sentiment=best_general_sentiment['sentiment'],
+            general_sentiment_rate=best_general_sentiment['rate'],
+            items=items
+        )
 
         return ResponseType[SentimentAnalysisDataClass](
             original_response= data,

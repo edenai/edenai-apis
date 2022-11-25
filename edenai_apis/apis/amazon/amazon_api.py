@@ -49,6 +49,7 @@ from edenai_apis.features.text import (
     InfosSyntaxAnalysisDataClass,
     SyntaxAnalysisDataClass,
 )
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SegmentSentimentAnalysisDataClass
 from edenai_apis.features.translation import (
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass,
@@ -470,12 +471,27 @@ class AmazonApi(
 
         # Analysing response
 
-        items: Sequence[Items] = []
+        best_sentiment = {
+            "text": text,
+            "general_sentiment": None,
+            "general_sentiment_rate": 0,
+            "items": []
+        }
+        
         for key in response["SentimentScore"]:
-            items.append(
-                Items(sentiment=key, sentiment_rate=response["SentimentScore"][key])
-            )
-        standarize = SentimentAnalysisDataClass(items=items)
+            if key == 'Mixed':
+                continue
+
+            if best_sentiment['general_sentiment_rate'] <= response["SentimentScore"][key]:
+                best_sentiment["general_sentiment"] = key
+                best_sentiment['general_sentiment_rate'] = response["SentimentScore"][key]
+
+        standarize = SentimentAnalysisDataClass(
+            text=best_sentiment['text'],
+            general_sentiment=best_sentiment['general_sentiment'],
+            general_sentiment_rate=best_sentiment['general_sentiment_rate'],
+            items=[]
+        )
 
         return ResponseType[SentimentAnalysisDataClass](
             original_response=response, standarized_response=standarize

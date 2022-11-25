@@ -8,35 +8,21 @@
       "Mixed": 0.5934977531433105
     },
     "ResponseMetadata": {
-      "RequestId": "d51db9b2-c1b9-4f0c-b4dc-3ce8faa5bd15",
+      "RequestId": "97515898-47ff-4bb3-a036-c32fc6a21a09",
       "HTTPStatusCode": 200,
       "HTTPHeaders": {
-        "x-amzn-requestid": "d51db9b2-c1b9-4f0c-b4dc-3ce8faa5bd15",
+        "x-amzn-requestid": "97515898-47ff-4bb3-a036-c32fc6a21a09",
         "content-type": "application/x-amz-json-1.1",
         "content-length": "162",
-        "date": "Wed, 12 Oct 2022 10:41:02 GMT"
+        "date": "Fri, 25 Nov 2022 11:18:34 GMT"
       },
       "RetryAttempts": 0
     }
   },
   "standarized_response": {
-    "items": [
-      {
-        "sentiment": "Positive",
-        "sentiment_rate": 0.0035689708311110735
-      },
-      {
-        "sentiment": "Negative",
-        "sentiment_rate": 0.4015013873577118
-      },
-      {
-        "sentiment": "Neutral",
-        "sentiment_rate": 0.0014319419860839844
-      },
-      {
-        "sentiment": "Mixed",
-        "sentiment_rate": 0.5934977531433105
-      }
-    ]
+    "text": "Overall I am satisfied with my experience at Amazon, but two areas of major improvement needed. First is the product reviews and pricing. There are thousands of positive reviews for so many items, and it's clear that the reviews are bogus or not really associated with that product. There needs to be a way to only view products sold by Amazon directly, because many market sellers way overprice items that can be purchased cheaper elsewhere (like Walmart, Target, etc). The second issue is they make it too difficult to get help when there's an issue with an order.",
+    "general_sentiment": "Negative",
+    "general_sentiment_rate": 0.4,
+    "items": []
   }
 }
