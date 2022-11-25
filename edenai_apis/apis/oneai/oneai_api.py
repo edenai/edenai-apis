@@ -243,7 +243,7 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
                         "speaker_detection": True,
                         "timestamp_per_label": True,
                         "timestamp_per_word": True,
-                        "engine": "whisper"
+                        "engine": "default"
                     }
                 }  
             ]
@@ -272,6 +272,12 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
         if response.status_code == 200:
             # pprint(original_response)
             if original_response['status'] == StatusEnum.SUCCESS:
+                final_text = ""
+                phrase = original_response['result']['input_text'].split('\n\n')
+                for item in phrase:
+                    if item != '':
+                        *options, text = item.split('\n')
+                        final_text += f"{text} "
                 
                 diarization_entries = []
                 speakers = set()
@@ -288,7 +294,7 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
                         )
                     )
                 diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
-                standarized_response=SpeechToTextAsyncDataClass(text=original_response['result']['input_text'],
+                standarized_response=SpeechToTextAsyncDataClass(text=final_text.strip(),
                         diarization= diarization)
                 return AsyncResponseType[SpeechToTextAsyncDataClass](
                     original_response=original_response,
