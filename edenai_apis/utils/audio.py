@@ -38,7 +38,8 @@ def wav_converter(
             # print(audio_out.frame_rate)
         if channels:
             # print(audio_out.frame_rate)
-            audio_out = audio_out.set_channels(channels)
+            if audio_out.channels != channels:
+                audio_out = audio_out.set_channels(channels)
         # audio_out = audio_out.set_channels(1)
 
         return (

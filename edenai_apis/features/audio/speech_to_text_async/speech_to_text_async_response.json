@@ -1,3 +1,218 @@
 {
-  "text": "Henry cavill brings us a new series of The Witcher. It's on netflix from the 17th of december, and you were here to talk about the first season. Obviously you hope it's gonna go well, you hope people would like it."
+  "text": "Unit one, page 14 Real Conversations. Hello, Hi, what's your name, Claudia. What's your name? I'm chihiro. Nice to meet you, see here. Oh, yeah, that's right. Where you from?",
+  "diarization": {
+    "total_speakers": 2,
+    "entries": [
+      {
+        "segment": "Unit",
+        "start_time": "0.0",
+        "end_time": "0.47",
+        "speaker": 1,
+        "confidence": 0.9982
+      },
+      {
+        "segment": "one,",
+        "start_time": "0.47",
+        "end_time": "1.06",
+        "speaker": 1,
+        "confidence": 1.0
+      },
+      {
+        "segment": "page",
+        "start_time": "1.25",
+        "end_time": "1.87",
+        "speaker": 1,
+        "confidence": 1.0
+      },
+      {
+        "segment": "14",
+        "start_time": "1.87",
+        "end_time": "2.77",
+        "speaker": 1,
+        "confidence": 1.0
+      },
+      {
+        "segment": "Real",
+        "start_time": "3.28",
+        "end_time": "3.7",
+        "speaker": 1,
+        "confidence": 1.0
+      },
+      {
+        "segment": "Conversations.",
+        "start_time": "3.7",
+        "end_time": "4.89",
+        "speaker": 1,
+        "confidence": 0.9997
+      },
+      {
+        "segment": "Hello,",
+        "start_time": "6.67",
+        "end_time": "7.51",
+        "speaker": 2,
+        "confidence": 1.0
+      },
+      {
+        "segment": "Hi,",
+        "start_time": "7.51",
+        "end_time": "8.18",
+        "speaker": 2,
+        "confidence": 1.0
+      },
+      {
+        "segment": "what's",
+        "start_time": "8.18",
+        "end_time": "8.36",
+        "speaker": 2,
+        "confidence": 0.8298
+      },
+      {
+        "segment": "your",
+        "start_time": "8.36",
+        "end_time": "8.49",
+        "speaker": 2,
+        "confidence": 1.0
+      },
+      {
+        "segment": "name,",
+        "start_time": "8.49",
+        "end_time": "8.96",
+        "speaker": 2,
+        "confidence": 1.0
+      },
+      {
+        "segment": "Claudia.",
+        "start_time": "8.97",
+        "end_time": "10.23",
+        "speaker": 2,
+        "confidence": 0.9965
+      },
+      {
+        "segment": "What's",
+        "start_time": "10.24",
+        "end_time": "10.82",
+        "speaker": 2,
+        "confidence": 0.9842
+      },
+      {
+        "segment": "your",
+        "start_time": "10.82",
+        "end_time": "10.98",
+        "speaker": 2,
+        "confidence": 1.0
+      },
+      {
+        "segment": "name?",
+        "start_time": "10.98",
+        "end_time": "11.46",
+        "speaker": 2,
+        "confidence": 1.0
+      },
+      {
+        "segment": "I'm",
+        "start_time": "11.47",
+        "end_time": "11.66",
+        "speaker": 2,
+        "confidence": 0.9873
+      },
+      {
+        "segment": "chihiro.",
+        "start_time": "11.66",
+        "end_time": "12.52",
+        "speaker": 2,
+        "confidence": 0.9953
+      },
+      {
+        "segment": "Nice",
+        "start_time": "12.54",
+        "end_time": "12.96",
+        "speaker": 2,
+        "confidence": 1.0
+      },
+      {
+        "segment": "to",
+        "start_time": "12.96",
+        "end_time": "13.07",
+        "speaker": 2,
+        "confidence": 1.0
+      },
+      {
+        "segment": "meet",
+        "start_time": "13.07",
+        "end_time": "13.4",
+        "speaker": 2,
+        "confidence": 1.0
+      },
+      {
+        "segment": "you,",
+        "start_time": "13.4",
+        "end_time": "13.96",
+        "speaker": 2,
+        "confidence": 1.0
+      },
+      {
+        "segment": "see",
+        "start_time": "14.07",
+        "end_time": "14.28",
+        "speaker": 2,
+        "confidence": 0.7376
+      },
+      {
+        "segment": "here.",
+        "start_time": "14.28",
+        "end_time": "15.02",
+        "speaker": 2,
+        "confidence": 0.8457
+      },
+      {
+        "segment": "Oh,",
+        "start_time": "15.02",
+        "end_time": "15.28",
+        "speaker": 2,
+        "confidence": 0.8908
+      },
+      {
+        "segment": "yeah,",
+        "start_time": "15.29",
+        "end_time": "15.45",
+        "speaker": 2,
+        "confidence": 0.8425
+      },
+      {
+        "segment": "that's",
+        "start_time": "15.45",
+        "end_time": "15.68",
+        "speaker": 2,
+        "confidence": 0.9695
+      },
+      {
+        "segment": "right.",
+        "start_time": "15.68",
+        "end_time": "16.07",
+        "speaker": 2,
+        "confidence": 0.9997
+      },
+      {
+        "segment": "Where",
+        "start_time": "16.21",
+        "end_time": "16.6",
+        "speaker": 2,
+        "confidence": 1.0
+      },
+      {
+        "segment": "you",
+        "start_time": "16.6",
+        "end_time": "16.71",
+        "speaker": 2,
+        "confidence": 0.9953
+      },
+      {
+        "segment": "from?",
+        "start_time": "16.71",
+        "end_time": "17.04",
+        "speaker": 2,
+        "confidence": 1.0
+      }
+    ]
+  }
 }
