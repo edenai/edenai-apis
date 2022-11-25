@@ -101,6 +101,8 @@ from .helpers import (
     amazon_ocr_tables_parser
 )
 
+from botocore.exceptions import ClientError, ParamValidationError
+
 class AmazonApi(
     ProviderApi,
     Image,
@@ -472,6 +474,9 @@ class AmazonApi(
             )
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
+        except ClientError as exc:
+            if "'languageCode'failed to satisfy constraint" in str(exc):
+                raise ProviderException("Please provide an input language parameter for the Sentiment Analysis function")
 
         # Analysing response
 
@@ -496,6 +501,9 @@ class AmazonApi(
             )
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
+        except ClientError as exc:
+            if "'languageCode'failed to satisfy constraint" in str(exc):
+                raise ProviderException("Please provide an input language parameter for the Keyword Extraction function")
 
         # Analysing response
         items: Sequence[InfosKeywordExtractionDataClass] = []
@@ -520,6 +528,9 @@ class AmazonApi(
             response = clients["text"].detect_entities(Text=text, LanguageCode=language)
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
+        except ClientError as exc:
+            if "'languageCode'failed to satisfy constraint" in str(exc):
+                raise ProviderException("Please provide an input language parameter for the Named Entity Recognition function")
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
         for ent in response["Entities"]:
@@ -548,6 +559,9 @@ class AmazonApi(
             response = clients["text"].detect_syntax(Text=text, LanguageCode=language)
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
+        except ClientError as exc:
+            if "'languageCode'failed to satisfy constraint" in str(exc):
+                raise ProviderException("Please provide an input language parameter for the Syntax Analysis function")
 
         # Create output TextSyntaxAnalysis object
 
@@ -606,6 +620,9 @@ class AmazonApi(
             )
         except KeyError as exc:
             raise ProviderException("Language not supported by provider") from exc
+        except ParamValidationError as exc:
+            if "SourceLanguageCode" in str(exc):
+                raise ProviderException("Please provide the source language parameter for the Automatic Translation function")
 
         standarized: AutomaticTranslationDataClass
         if response["TranslatedText"] != "":

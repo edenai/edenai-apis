@@ -5,7 +5,8 @@
                 "languages": [
                     "en-US",
                     "fr-FR"
-                ]
+                ],
+                "allow_null_language": true
             },
             "version": "v5.5.2"
         },
@@ -14,7 +15,8 @@
                 "languages": [
                     "en-US",
                     "fr-FR"
-                ]
+                ],
+                "allow_null_language":true
             },
             "version": "v5.5.2"
         },
@@ -23,7 +25,8 @@
                 "languages": [
                     "en-US",
                     "fr-FR"
-                ]
+                ],
+                "allow_null_language": true
             },
             "version": "v5.5.2"
         }

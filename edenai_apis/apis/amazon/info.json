@@ -90,7 +90,8 @@
                     "de-DE",
                     "it-IT",
                     "pt-PT"
-                ]
+                ],
+                "allow_null_language":true
             },
             "version": "boto3 (v1.15.18)"
         },

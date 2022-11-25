@@ -179,7 +179,8 @@
           "it",
           "pt",
           "nl"
-        ]
+        ],
+        "allow_null_language":true
       },
       "version": "v2.1-preview.3"
     },
@@ -378,7 +379,8 @@
           "de-DE",
           "it-IT",
           "pt-PT"
-        ]
+        ],
+        "allow_null_language":true
       },
       "version": "rest API 3.0"
     },
@@ -391,7 +393,8 @@
           "de-DE",
           "it-IT",
           "pt-PT"
-        ]
+        ],
+        "allow_null_language":true
       },
       "version": "rest API 3.0"
     },
@@ -445,7 +448,8 @@
           "sl",
           "sv",
           "tr"
-        ]
+        ],
+        "allow_null_language":true
       },
       "version": "v3.1"
     },
@@ -477,7 +481,8 @@
           "es",
           "sv",
           "tr"
-        ]
+        ],
+        "allow_null_language":true
       },
       "version": "v3.1"
     },
@@ -507,7 +512,8 @@
           "pl",
           "ru",
           "sv"
-        ]
+        ],
+        "allow_null_language": true
       },
       "version": "v3.1"
     },

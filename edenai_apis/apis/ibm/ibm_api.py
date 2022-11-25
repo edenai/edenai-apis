@@ -52,6 +52,8 @@ from edenai_apis.features import ProviderApi, Translation, Audio, Text
 
 from .config import clients, audio_voices_ids, tags
 
+from watson_developer_cloud.watson_service import WatsonApiException
+
 class IbmApi(
     ProviderApi,
     Translation,
@@ -123,15 +125,19 @@ class IbmApi(
         language: str,
         text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
-        response = (
-            clients["text"]
-            .analyze(
-                text=text,
-                language=language,
-                features=Features(sentiment=SentimentOptions()),
+        try:
+            response = (
+                clients["text"]
+                .analyze(
+                    text=text,
+                    language=language,
+                    features=Features(sentiment=SentimentOptions()),
+                )
+                .get_result()
             )
-            .get_result()
-        )
+        except WatsonApiException as exc:
+            if "not enough text for language id" in exc.message:
+                raise ProviderException("not enough text for language identification, please provide the language parameter!")
         # Create output object
 
         items: Sequence[Items] = []
@@ -192,17 +198,21 @@ class IbmApi(
         :param text:        String that contains input text
         :return:
         """
-        response = (
-            clients["text"]
-            .analyze(
-                text=text,
-                language=language,
-                features=Features(
-                    keywords=KeywordsOptions(emotion=True, sentiment=True)
-                ),
+        try:
+            response = (
+                clients["text"]
+                .analyze(
+                    text=text,
+                    language=language,
+                    features=Features(
+                        keywords=KeywordsOptions(emotion=True, sentiment=True)
+                    ),
+                )
+                .get_result()
             )
-            .get_result()
-        )
+        except WatsonApiException as exc:
+            if "not enough text for language id" in exc.message:
+                raise ProviderException("not enough text for language identification, please provide the language parameter!")
 
         # Analysing response
         items: Sequence[InfosKeywordExtractionDataClass] = []
@@ -227,19 +237,23 @@ class IbmApi(
         text:str
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
 
-        response = (
-            clients["text"]
-            .analyze(
-                text=text,
-                language=language,
-                features=Features(
-                    entities=EntitiesOptions(
-                        sentiment=True, mentions=True, emotion=True
-                    )
-                ),
+        try:
+            response = (
+                clients["text"]
+                .analyze(
+                    text=text,
+                    language=language,
+                    features=Features(
+                        entities=EntitiesOptions(
+                            sentiment=True, mentions=True, emotion=True
+                        )
+                    ),
+                )
+                .get_result()
             )
-            .get_result()
-        )
+        except WatsonApiException as exc:
+            if "not enough text for language id" in exc.message:
+                raise ProviderException("not enough text for language identification, please provide the language parameter!")
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
 
@@ -272,20 +286,24 @@ class IbmApi(
         contains the sentiments and their syntax
         """
 
-        response = (
-            clients["text"]
-            .analyze(
-                text=text,
-                language=language,
-                features=Features(
-                    syntax=SyntaxOptions(
-                        sentences=True,
-                        tokens=SyntaxOptionsTokens(lemma=True, part_of_speech=True),
-                    )
-                ),
+        try:
+            response = (
+                clients["text"]
+                .analyze(
+                    text=text,
+                    language=language,
+                    features=Features(
+                        syntax=SyntaxOptions(
+                            sentences=True,
+                            tokens=SyntaxOptionsTokens(lemma=True, part_of_speech=True),
+                        )
+                    ),
+                )
+                .get_result()
             )
-            .get_result()
-        )
+        except WatsonApiException as exc:
+            if "not enough text for language id" in exc.message:
+                raise ProviderException("not enough text for language identification, please provide the language parameter!")
 
         items: Sequence[InfosSyntaxAnalysisDataClass] = []
 
@@ -324,12 +342,16 @@ class IbmApi(
     ) -> AsyncLaunchJobResponseType:
         wav_file, *_options = wav_converter(file)
         language_audio = language
-        response = clients["speech"].create_job(
-            audio=wav_file,
-            content_type="audio/wav",
-            model=f"{language_audio}_NarrowbandModel",
-            speaker_labels = True
-        )
+        audio_config = {
+            "audio" : wav_file,
+            "content_type" : "audio/wav",
+            "speaker_labels" : True
+        }
+        if language_audio:
+            audio_config.update({
+                "model" : f"{language_audio}_NarrowbandModel"
+            })
+        response = clients["speech"].create_job(**audio_config)
         print(response)
         if response.status_code == 201:
             return AsyncLaunchJobResponseType(

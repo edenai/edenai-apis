@@ -1047,6 +1047,10 @@ class MicrosoftApi(
         language: str,
         speakers : int
     ) -> AsyncLaunchJobResponseType:
+
+        #check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the Speech to text function")
         wav_file, *_options = wav_converter(file, channels=1)
         content_url = upload_file_to_s3(wav_file, Path(file.name).stem + ".wav")
 
@@ -1074,8 +1078,7 @@ class MicrosoftApi(
             provider_id = result_location.split("/")[-1]
             return AsyncLaunchJobResponseType(provider_job_id=provider_id)
         else:
-            print(response.json())
-            raise Exception("Call to Microsoft did not work.")
+            raise Exception(response.json().get("message"))
 
     def audio__speech_to_text_async__get_job_result(self,
         provider_job_id: str

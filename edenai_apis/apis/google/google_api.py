@@ -595,15 +595,16 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
 
         # Analyse response
         # Getting name of entity, its category and its score of confidence
-        for ent in response["entities"]:
-            items.append(
-                InfosNamedEntityRecognitionDataClass(
-                    entity=ent["name"],
-                    importance=ent.get("salience", None),
-                    category=ent["type"],
-                    url=ent.get("metadata", {}).get("wikipedia_url", None),
+        if response.get("entities") and isinstance(response["entities"], list):
+            for ent in response["entities"]:
+                items.append(
+                    InfosNamedEntityRecognitionDataClass(
+                        entity=ent["name"],
+                        importance=ent.get("salience", None),
+                        category=ent["type"],
+                        url=ent.get("metadata", {}).get("wikipedia_url", None),
+                    )
                 )
-            )
 
         standarized_response = NamedEntityRecognitionDataClass(items=items)
 
@@ -714,6 +715,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers: int
     ) -> AsyncLaunchJobResponseType:
+
+        #check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the Speech to text function")
         export_format = "flac"
         wav_file, _, _, channels = wav_converter(file, export_format)
         audio_name = str(int(time())) + Path(file.name).stem + "." + export_format

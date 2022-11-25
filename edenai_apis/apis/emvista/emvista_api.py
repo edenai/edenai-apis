@@ -32,6 +32,11 @@ class EmvistaApi(ProviderApi, Text):
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str = None
     ) -> ResponseType[SummarizeDataClass]:
+
+        #check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the Summarize function")
+
         # Prepare request
         files = {"text": text, "parameters": [{"name": "lang", "value": language}]}
         headers = {
@@ -67,6 +72,10 @@ class EmvistaApi(ProviderApi, Text):
     def text__syntax_analysis(
         self, language: str, text: str
     ) -> ResponseType[SyntaxAnalysisDataClass]:
+
+        #check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the Syntax Analysis function")
         # Prepare request
         files = {"text": text, "parameters": [{"name": "lang", "value": language}]}
         headers = {
@@ -146,6 +155,9 @@ class EmvistaApi(ProviderApi, Text):
         language: str,
         text: str
         ) -> ResponseType[SentimentAnalysisDataClass]:
+        # check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the Sentiment Analysis function")
         # Prepare request
         files = {
             "text": text,
@@ -206,6 +218,9 @@ class EmvistaApi(ProviderApi, Text):
             standarized_response: Keyword_extraction(text: str)
           )
         """
+        #check language
+        if not language:
+            raise ProviderException("Please provide an input language parameter for the Keyword Extraction function")
         # Prepare request
         files = {"text": text, "parameters": [{"name": "lang", "value": language}]}
         headers = {

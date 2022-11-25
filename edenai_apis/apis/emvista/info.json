@@ -5,8 +5,7 @@
         "languages": [
           "en",
           "fr"
-        ],
-        "allow_null_language": false
+        ]
       },
       "version": "v1.0"
     },
@@ -15,8 +14,7 @@
         "languages": [
           "en",
           "fr"
-        ],
-        "allow_null_language": false
+        ]
       },
       "version": "v1.0"
     },
@@ -44,8 +42,7 @@
         "languages": [
           "en",
           "fr"
-        ],
-        "allow_null_language": false
+        ]
       },
       "version": "v1.0"
     }
