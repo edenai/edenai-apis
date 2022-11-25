@@ -89,6 +89,7 @@ from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import
     Table,
 )
 from .config import audio_voice_ids
+from edenai_apis.utils.audio import wav_converter
 
 class MicrosoftApi(
     ProviderApi,
@@ -1045,7 +1046,7 @@ class MicrosoftApi(
         language: str,
         speakers : int
     ) -> AsyncLaunchJobResponseType:
-        wav_file, *_options = wav_converter(file)
+        wav_file, *_options = wav_converter(file, channels=1)
         content_url = upload_file_to_s3(wav_file, Path(file.name).stem + ".wav")
 
         headers = self.headers["speech"]
@@ -1055,19 +1056,24 @@ class MicrosoftApi(
             "contentUrls": [content_url],
             "properties": {
                 "wordLevelTimestampsEnabled": True,
-                "diarizationEnabled": True
+                "diarizationEnabled": True,
             },
             "locale": language,
             "displayName": "test batch transcription",
         }
+        # if not profanity_filter:
+        #     config["properties"]["profanityFilterMode"] = "Removed"
+
         response = requests.post(
             url=self.url["speech"], headers=headers, data=json.dumps(config)
         )
+        print(response.json())
         if response.status_code == 201:
             result_location = response.headers["Location"]
             provider_id = result_location.split("/")[-1]
             return AsyncLaunchJobResponseType(provider_job_id=provider_id)
         else:
+            print(response.json())
             raise Exception("Call to Microsoft did not work.")
 
     def audio__speech_to_text_async__get_job_result(self,
@@ -1078,6 +1084,7 @@ class MicrosoftApi(
         response = requests.get(
             url=f'{self.url["speech"]}/{provider_job_id}/files', headers=headers
         )
+        print(response.json())
         original_response=None
         if response.status_code == 200:
             data = response.json()["values"]
@@ -1097,7 +1104,7 @@ class MicrosoftApi(
                         return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
                             provider_job_id= provider_job_id
                         )    
-
+                    print(json.dumps(original_response, indent=2))
                     data = original_response["combinedRecognizedPhrases"][0]
                     text += data["display"]
                     for recognized_status in original_response["recognizedPhrases"]:

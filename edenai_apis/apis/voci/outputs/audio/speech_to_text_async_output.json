@@ -1,19 +1,19 @@
 {
   "status": "succeeded",
-  "provider_job_id": "08626a87-88a4-4253-bf44-9f7f6647298b",
+  "provider_job_id": "5f17d784-2846-4929-b964-db892eb9e772",
   "original_response": {
     "emotion": "Neutral",
-    "asr": "7.4.0-3",
+    "asr": "7.4.0-4",
     "confidence": 0.81,
-    "donedate": "2022-10-12 06:55:26.324055",
+    "donedate": "2022-11-25 04:23:29.569238",
     "sentiment": "Neutral",
     "utterances": [
       {
         "emotion": "Neutral",
-        "donedate": "2022-10-12 06:55:26.281282",
+        "donedate": "2022-11-25 04:23:29.568205",
         "recvtz": [
-          "EDT",
-          -14400
+          "EST",
+          -18000
         ],
         "sentimentex": [
           [
@@ -22,11 +22,11 @@
           ],
           []
         ],
-        "confidence": 0.86,
-        "end": 4.79,
+        "confidence": 0.75,
+        "end": 0.82,
         "sentiment": "Neutral",
         "start": 0.08,
-        "recvdate": "2022-10-12 06:55:25.540660",
+        "recvdate": "2022-11-25 04:23:28.718395",
         "events": [
           {
             "confidence": 0.61,
@@ -35,35 +35,11 @@
             "word": "Unit"
           },
           {
-            "confidence": 0.96,
-            "end": 0.92,
+            "confidence": 0.9,
+            "end": 0.82,
             "start": 0.47,
             "wordex": "one(2)",
             "word": "one"
-          },
-          {
-            "confidence": 0.97,
-            "end": 1.85,
-            "start": 1.4,
-            "word": "page"
-          },
-          {
-            "confidence": 0.93,
-            "end": 2.63,
-            "start": 1.85,
-            "word": "14"
-          },
-          {
-            "confidence": 0.93,
-            "end": 3.71,
-            "start": 3.29,
-            "word": "real"
-          },
-          {
-            "confidence": 0.79,
-            "end": 4.79,
-            "start": 3.71,
-            "word": "conversations."
           }
         ],
         "metadata": {
@@ -76,10 +52,181 @@
       },
       {
         "emotion": "Neutral",
-        "donedate": "2022-10-12 06:55:26.324055",
+        "donedate": "2022-11-25 04:23:29.568387",
         "recvtz": [
-          "EDT",
-          -14400
+          "EST",
+          -18000
+        ],
+        "sentimentex": [
+          [
+            0,
+            0
+          ],
+          []
+        ],
+        "confidence": 0.95,
+        "end": 2.45,
+        "sentiment": "Neutral",
+        "start": 1.44,
+        "recvdate": "2022-11-25 04:23:28.719368",
+        "events": [
+          {
+            "confidence": 1.0,
+            "end": 1.86,
+            "start": 1.44,
+            "word": "page"
+          },
+          {
+            "confidence": 0.92,
+            "end": 2.45,
+            "start": 1.86,
+            "word": "14"
+          }
+        ],
+        "metadata": {
+          "source": "file.wav",
+          "model": "eng-us:callcenter",
+          "uttid": 1,
+          "channel": 0
+        },
+        "gender": "male"
+      },
+      {
+        "emotion": "Neutral",
+        "donedate": "2022-11-25 04:23:29.568558",
+        "recvtz": [
+          "EST",
+          -18000
+        ],
+        "sentimentex": [
+          [
+            0,
+            0
+          ],
+          []
+        ],
+        "confidence": 0.81,
+        "end": 4.72,
+        "sentiment": "Neutral",
+        "start": 3.31,
+        "recvdate": "2022-11-25 04:23:28.720681",
+        "events": [
+          {
+            "confidence": 0.95,
+            "end": 3.73,
+            "start": 3.31,
+            "word": "real"
+          },
+          {
+            "confidence": 0.75,
+            "end": 4.72,
+            "start": 3.73,
+            "word": "conversations."
+          }
+        ],
+        "metadata": {
+          "source": "file.wav",
+          "model": "eng-us:callcenter",
+          "uttid": 2,
+          "channel": 0
+        },
+        "gender": "male"
+      },
+      {
+        "emotion": "Neutral",
+        "donedate": "2022-11-25 04:23:29.568734",
+        "recvtz": [
+          "EST",
+          -18000
+        ],
+        "sentimentex": [
+          [
+            0,
+            0
+          ],
+          []
+        ],
+        "confidence": 0.85,
+        "end": 8.87,
+        "sentiment": "Neutral",
+        "start": 6.84,
+        "recvdate": "2022-11-25 04:23:28.722409",
+        "events": [
+          {
+            "confidence": 0.9,
+            "end": 7.47,
+            "start": 6.84,
+            "word": "Hello."
+          },
+          {
+            "confidence": 0.91,
+            "end": 8.43,
+            "start": 7.47,
+            "word": "Hi,"
+          },
+          {
+            "confidence": 0.48,
+            "end": 8.49,
+            "start": 8.43,
+            "wordex": "my(2)",
+            "word": "my"
+          },
+          {
+            "confidence": 0.7,
+            "end": 8.87,
+            "start": 8.49,
+            "word": "name's"
+          }
+        ],
+        "metadata": {
+          "source": "file.wav",
+          "model": "eng-us:callcenter",
+          "uttid": 0,
+          "channel": 1
+        },
+        "gender": "female"
+      },
+      {
+        "emotion": "Neutral",
+        "donedate": "2022-11-25 04:23:29.568882",
+        "recvtz": [
+          "EST",
+          -18000
+        ],
+        "sentimentex": [
+          [
+            0,
+            0
+          ],
+          []
+        ],
+        "confidence": 0.9,
+        "end": 9.97,
+        "sentiment": "Neutral",
+        "start": 9.28,
+        "recvdate": "2022-11-25 04:23:28.730871",
+        "events": [
+          {
+            "confidence": 0.9,
+            "end": 9.97,
+            "start": 9.28,
+            "word": "Claudia,"
+          }
+        ],
+        "metadata": {
+          "source": "file.wav",
+          "model": "eng-us:callcenter",
+          "uttid": 1,
+          "channel": 1
+        },
+        "gender": "female"
+      },
+      {
+        "emotion": "Neutral",
+        "donedate": "2022-11-25 04:23:29.569036",
+        "recvtz": [
+          "EST",
+          -18000
         ],
         "sentimentex": [
           [
@@ -89,92 +236,90 @@
           []
         ],
         "confidence": 0.79,
-        "end": 17.02,
+        "end": 11.36,
         "sentiment": "Neutral",
-        "start": 6.82,
-        "recvdate": "2022-10-12 06:55:25.560392",
+        "start": 10.55,
+        "recvdate": "2022-11-25 04:23:28.732020",
         "events": [
           {
-            "confidence": 0.96,
-            "end": 7.48,
-            "start": 6.82,
-            "word": "Hello."
-          },
-          {
-            "confidence": 0.92,
-            "end": 8.41,
-            "start": 7.48,
-            "word": "Hi,"
-          },
-          {
-            "confidence": 0.49,
-            "end": 8.47,
-            "start": 8.41,
-            "wordex": "my(2)",
-            "word": "my"
-          },
-          {
-            "confidence": 0.65,
-            "end": 8.86,
-            "start": 8.47,
-            "word": "name's"
-          },
-          {
-            "confidence": 0.9,
-            "end": 9.94,
-            "start": 9.28,
-            "word": "Claudia,"
-          },
-          {
-            "confidence": 0.78,
-            "end": 10.75,
-            "start": 10.54,
+            "confidence": 0.7,
+            "end": 10.76,
+            "start": 10.55,
             "word": "but"
           },
           {
-            "confidence": 0.66,
-            "end": 11.02,
-            "start": 10.75,
-            "word": "soon"
+            "confidence": 0.64,
+            "end": 10.97,
+            "start": 10.76,
+            "word": "sue"
           },
           {
-            "confidence": 0.85,
-            "end": 11.35,
-            "start": 11.02,
+            "confidence": 0.92,
+            "end": 11.36,
+            "start": 10.97,
             "word": "name"
-          },
+          }
+        ],
+        "metadata": {
+          "source": "file.wav",
+          "model": "eng-us:callcenter",
+          "uttid": 2,
+          "channel": 1
+        },
+        "gender": "female"
+      },
+      {
+        "emotion": "Neutral",
+        "donedate": "2022-11-25 04:23:29.569238",
+        "recvtz": [
+          "EST",
+          -18000
+        ],
+        "sentimentex": [
+          [
+            0,
+            0
+          ],
+          []
+        ],
+        "confidence": 0.75,
+        "end": 16.99,
+        "sentiment": "Neutral",
+        "start": 12.67,
+        "recvdate": "2022-11-25 04:23:28.733893",
+        "events": [
           {
-            "confidence": 0.53,
-            "end": 13.03,
-            "start": 12.64,
+            "confidence": 0.52,
+            "end": 13.0,
+            "start": 12.67,
             "word": "place"
           },
           {
-            "confidence": 0.84,
+            "confidence": 0.82,
             "end": 13.27,
             "start": 13.06,
             "word": "me"
           },
           {
-            "confidence": 0.83,
+            "confidence": 0.85,
             "end": 13.75,
             "start": 13.3,
             "word": "to"
           },
           {
-            "confidence": 0.65,
+            "confidence": 0.7,
             "end": 14.98,
             "start": 13.87,
             "word": "cheat."
           },
           {
-            "confidence": 0.64,
+            "confidence": 0.66,
             "end": 15.22,
             "start": 14.98,
             "word": "Oh,"
           },
           {
-            "confidence": 0.78,
+            "confidence": 0.79,
             "end": 15.46,
             "start": 15.28,
             "word": "yeah,"
@@ -198,14 +343,14 @@
             "word": "where"
           },
           {
-            "confidence": 0.83,
+            "confidence": 0.84,
             "end": 16.69,
             "start": 16.6,
             "word": "you"
           },
           {
-            "confidence": 0.94,
-            "end": 17.02,
+            "confidence": 0.92,
+            "end": 16.99,
             "start": 16.69,
             "word": "from."
           }
@@ -213,24 +358,58 @@
         "metadata": {
           "source": "file.wav",
           "model": "eng-us:callcenter",
-          "uttid": 1,
-          "channel": 0
+          "uttid": 3,
+          "channel": 1
         },
-        "gender": "female"
+        "gender": "male"
       }
     ],
-    "ended": "2022-10-12 06:55:26.325954",
-    "started": "2022-10-12 06:55:25.504213",
+    "ended": "2022-11-25 04:23:29.571101",
+    "started": "2022-11-25 04:23:28.697706",
     "streamtags": {
       "emotion": true,
       "gender": true,
-      "model": "eng-us:callcenter"
+      "model": "eng-us:callcenter",
+      "diarize": true
     },
     "nchannels": 1,
     "audiosecs": 17.05,
     "recvtz": [
-      "EDT",
-      -14400
+      "EST",
+      -18000
+    ],
+    "diascore": 0.95,
+    "chaninfo": [
+      {
+        "emotion": "Neutral",
+        "textinfo": {
+          "turns": 1,
+          "wordtime": [
+            3.16,
+            0.185
+          ],
+          "words": 6,
+          "silence": [
+            13.89,
+            0.815
+          ]
+        }
+      },
+      {
+        "emotion": "Neutral",
+        "textinfo": {
+          "turns": 1,
+          "wordtime": [
+            7.16,
+            0.42
+          ],
+          "words": 19,
+          "silence": [
+            9.89,
+            0.58
+          ]
+        }
+      }
     ],
     "source": "file.wav",
     "sentiment_scores": [
@@ -238,21 +417,202 @@
       0
     ],
     "textinfo": {
+      "turns": 2,
       "wordtime": [
-        10.8,
-        0.633
+        10.32,
+        0.605
       ],
       "words": 25,
       "silence": [
-        6.25,
-        0.367
+        6.73,
+        0.395
       ]
     },
     "model": "eng-us:callcenter",
-    "recvdate": "2022-10-12 06:55:25.540660",
-    "requestid": "08626a87-88a4-4253-bf44-9f7f6647298b"
+    "recvdate": "2022-11-25 04:23:28.718395",
+    "requestid": "5f17d784-2846-4929-b964-db892eb9e772"
   },
   "standarized_response": {
-    "text": "Unit one page 14 real conversations. Hello. Hi, my name's Claudia, but soon name place me to cheat. Oh, yeah, that's right where you from. "
+    "text": "Unit one page 14 real conversations. Hello. Hi, my name's Claudia, but sue name place me to cheat. Oh, yeah, that's right where you from. ",
+    "diarization": {
+      "total_speakers": 2,
+      "entries": [
+        {
+          "segment": "Unit",
+          "start_time": "0.08",
+          "end_time": "0.47",
+          "speaker": 1,
+          "confidence": 0.61
+        },
+        {
+          "segment": "one",
+          "start_time": "0.47",
+          "end_time": "0.82",
+          "speaker": 1,
+          "confidence": 0.9
+        },
+        {
+          "segment": "page",
+          "start_time": "1.44",
+          "end_time": "1.86",
+          "speaker": 1,
+          "confidence": 1.0
+        },
+        {
+          "segment": "14",
+          "start_time": "1.86",
+          "end_time": "2.45",
+          "speaker": 1,
+          "confidence": 0.92
+        },
+        {
+          "segment": "real",
+          "start_time": "3.31",
+          "end_time": "3.73",
+          "speaker": 1,
+          "confidence": 0.95
+        },
+        {
+          "segment": "conversations.",
+          "start_time": "3.73",
+          "end_time": "4.72",
+          "speaker": 1,
+          "confidence": 0.75
+        },
+        {
+          "segment": "Hello.",
+          "start_time": "6.84",
+          "end_time": "7.47",
+          "speaker": 2,
+          "confidence": 0.9
+        },
+        {
+          "segment": "Hi,",
+          "start_time": "7.47",
+          "end_time": "8.43",
+          "speaker": 2,
+          "confidence": 0.91
+        },
+        {
+          "segment": "my",
+          "start_time": "8.43",
+          "end_time": "8.49",
+          "speaker": 2,
+          "confidence": 0.48
+        },
+        {
+          "segment": "name's",
+          "start_time": "8.49",
+          "end_time": "8.87",
+          "speaker": 2,
+          "confidence": 0.7
+        },
+        {
+          "segment": "Claudia,",
+          "start_time": "9.28",
+          "end_time": "9.97",
+          "speaker": 2,
+          "confidence": 0.9
+        },
+        {
+          "segment": "but",
+          "start_time": "10.55",
+          "end_time": "10.76",
+          "speaker": 2,
+          "confidence": 0.7
+        },
+        {
+          "segment": "sue",
+          "start_time": "10.76",
+          "end_time": "10.97",
+          "speaker": 2,
+          "confidence": 0.64
+        },
+        {
+          "segment": "name",
+          "start_time": "10.97",
+          "end_time": "11.36",
+          "speaker": 2,
+          "confidence": 0.92
+        },
+        {
+          "segment": "place",
+          "start_time": "12.67",
+          "end_time": "13.0",
+          "speaker": 2,
+          "confidence": 0.52
+        },
+        {
+          "segment": "me",
+          "start_time": "13.06",
+          "end_time": "13.27",
+          "speaker": 2,
+          "confidence": 0.82
+        },
+        {
+          "segment": "to",
+          "start_time": "13.3",
+          "end_time": "13.75",
+          "speaker": 2,
+          "confidence": 0.85
+        },
+        {
+          "segment": "cheat.",
+          "start_time": "13.87",
+          "end_time": "14.98",
+          "speaker": 2,
+          "confidence": 0.7
+        },
+        {
+          "segment": "Oh,",
+          "start_time": "14.98",
+          "end_time": "15.22",
+          "speaker": 2,
+          "confidence": 0.66
+        },
+        {
+          "segment": "yeah,",
+          "start_time": "15.28",
+          "end_time": "15.46",
+          "speaker": 2,
+          "confidence": 0.79
+        },
+        {
+          "segment": "that's",
+          "start_time": "15.46",
+          "end_time": "15.67",
+          "speaker": 2,
+          "confidence": 0.65
+        },
+        {
+          "segment": "right",
+          "start_time": "15.67",
+          "end_time": "16.0",
+          "speaker": 2,
+          "confidence": 0.98
+        },
+        {
+          "segment": "where",
+          "start_time": "16.42",
+          "end_time": "16.6",
+          "speaker": 2,
+          "confidence": 0.54
+        },
+        {
+          "segment": "you",
+          "start_time": "16.6",
+          "end_time": "16.69",
+          "speaker": 2,
+          "confidence": 0.84
+        },
+        {
+          "segment": "from.",
+          "start_time": "16.69",
+          "end_time": "16.99",
+          "speaker": 2,
+          "confidence": 0.92
+        }
+      ]
+    }
   }
 }

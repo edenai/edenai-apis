@@ -740,7 +740,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             # encoding="LINEAR16",
             language_code=language,
             audio_channel_count=channels,
-            diarization_config = diarization
+            diarization_config = diarization,
             # sample_rate_hertz=frame_rate
         )
         operation = client.long_running_recognize(config=config, audio=audio)

@@ -195,7 +195,11 @@
     }
   ],
   "standarized_response": {
-    "text": "one. page fourteen real conversations. hillo, find your name. cudia. butt your name. i m ch hero. next meets you. chihiro gets right. are away from."
+    "text": "one. page fourteen real conversations. hillo, find your name. cudia. butt your name. i m ch hero. next meets you. chihiro gets right. are away from.",
+    "diarization": {
+      "total_speakers": 0,
+      "entries": []
+    }
   },
   "provider_job_id": "111ee55c-432a-11ed-a89b-0242ac12000b"
 }

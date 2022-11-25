@@ -1,359 +1,280 @@
 {
   "status": "succeeded",
-  "provider_job_id": "28bde718-b375-4137-9d8e-9ccbf52af42a",
+  "provider_job_id": "d4d66271-cc72-44c3-a6a9-6ec6156c44cd",
   "original_response": {
-    "source": "https://providers-upload.s3.amazonaws.com/60b91401-7001-40c3-9d29-0488af8f69e3_out.wav?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIATHUBCW7GVRGGRDEW%2F20221028%2Feu-west-3%2Fs3%2Faws4_request&X-Amz-Date=20221028T083614Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=3f3bbf734742a3bd9d1f31fc7994b8bdade774e73b0c8c237c87790f046d6673",
-    "timestamp": "2022-10-28T08:36:16Z",
-    "durationInTicks": 36000000,
-    "duration": "PT3.6S",
+    "source": "https://providers-upload.s3.amazonaws.com/64c143e0-bbf5-4c54-ba45-56cd1dd4faf3_conversation.wav?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIATHUBCW7GVRGGRDEW%2F20221125%2Feu-west-3%2Fs3%2Faws4_request&X-Amz-Date=20221125T104422Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=a4a961647bc209272f0b6da0a4c81782dc7b7d3ac9fbfddd5110445e3ce1c2fa",
+    "timestamp": "2022-11-25T10:44:33Z",
+    "durationInTicks": 170600000,
+    "duration": "PT17.06S",
     "combinedRecognizedPhrases": [
       {
         "channel": 0,
-        "lexical": "help me find something in the internet",
-        "itn": "help me find something in the internet",
-        "maskedITN": "help me find something in the internet",
-        "display": "Help me find something in the Internet."
+        "lexical": "unit one page fourteen real conversations hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+        "itn": "unit 1 page 14 real conversations hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+        "maskedITN": "unit 1 page 14 real conversations hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+        "display": "Unit 1, page 14, real conversations. Hello. Hi. What's your name? Claudia. What's your name? I'm chihiro. Nice to meet you, Chihiro. Yeah, that's right. Where you from?"
       }
     ],
     "recognizedPhrases": [
       {
         "recognitionStatus": "Success",
         "channel": 0,
-        "offset": "PT1.64S",
-        "duration": "PT1.77S",
-        "offsetInTicks": 16400000.0,
-        "durationInTicks": 17700000.0,
+        "speaker": 1,
+        "offset": "PT0.17S",
+        "duration": "PT4.69S",
+        "offsetInTicks": 1700000.0,
+        "durationInTicks": 46900000.0,
         "nBest": [
           {
-            "confidence": 0.9023295,
-            "lexical": "help me find something in the internet",
-            "itn": "help me find something in the internet",
-            "maskedITN": "help me find something in the internet",
-            "display": "Help me find something in the Internet.",
+            "confidence": 0.9012127,
+            "lexical": "unit one page fourteen real conversations",
+            "itn": "unit 1 page 14 real conversations",
+            "maskedITN": "unit 1 page 14 real conversations",
+            "display": "Unit 1, page 14, real conversations.",
             "words": [
               {
-                "word": "help",
-                "offset": "PT1.64S",
-                "duration": "PT0.27S",
-                "offsetInTicks": 16400000.0,
-                "durationInTicks": 2700000.0,
-                "confidence": 0.90376055
+                "word": "unit",
+                "offset": "PT0.17S",
+                "duration": "PT0.39S",
+                "offsetInTicks": 1700000.0,
+                "durationInTicks": 3900000.0,
+                "confidence": 0.67008686
               },
               {
-                "word": "me",
-                "offset": "PT1.92S",
+                "word": "one",
+                "offset": "PT0.57S",
+                "duration": "PT0.57S",
+                "offsetInTicks": 5700000.0,
+                "durationInTicks": 5700000.0,
+                "confidence": 0.96784246
+              },
+              {
+                "word": "page",
+                "offset": "PT1.53S",
+                "duration": "PT0.45S",
+                "offsetInTicks": 15300000.0,
+                "durationInTicks": 4500000.0,
+                "confidence": 0.9794514
+              },
+              {
+                "word": "fourteen",
+                "offset": "PT1.99S",
+                "duration": "PT0.85S",
+                "offsetInTicks": 19900000.0,
+                "durationInTicks": 8500000.0,
+                "confidence": 0.90195274
+              },
+              {
+                "word": "real",
+                "offset": "PT3.39S",
+                "duration": "PT0.41S",
+                "offsetInTicks": 33900000.0,
+                "durationInTicks": 4100000.0,
+                "confidence": 0.7830527
+              },
+              {
+                "word": "conversations",
+                "offset": "PT3.81S",
+                "duration": "PT1.05S",
+                "offsetInTicks": 38100000.0,
+                "durationInTicks": 10500000.0,
+                "confidence": 0.96423733
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "recognitionStatus": "Success",
+        "channel": 0,
+        "speaker": 1,
+        "offset": "PT6.85S",
+        "duration": "PT10.17S",
+        "offsetInTicks": 68500000.0,
+        "durationInTicks": 101700000.0,
+        "nBest": [
+          {
+            "confidence": 0.6878293,
+            "lexical": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+            "itn": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+            "maskedITN": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+            "display": "Hello. Hi. What's your name? Claudia. What's your name? I'm chihiro. Nice to meet you, Chihiro. Yeah, that's right. Where you from?",
+            "words": [
+              {
+                "word": "hello",
+                "offset": "PT6.85S",
+                "duration": "PT0.72S",
+                "offsetInTicks": 68500000.0,
+                "durationInTicks": 7200000.0,
+                "confidence": 0.9506586
+              },
+              {
+                "word": "hi",
+                "offset": "PT7.63S",
+                "duration": "PT0.61S",
+                "offsetInTicks": 76300000.0,
+                "durationInTicks": 6100000.0,
+                "confidence": 0.7629032
+              },
+              {
+                "word": "what's",
+                "offset": "PT8.28S",
+                "duration": "PT0.21S",
+                "offsetInTicks": 82800000.0,
+                "durationInTicks": 2100000.0,
+                "confidence": 0.7019136
+              },
+              {
+                "word": "your",
+                "offset": "PT8.5S",
+                "duration": "PT0.16S",
+                "offsetInTicks": 85000000.0,
+                "durationInTicks": 1600000.0,
+                "confidence": 0.9794821
+              },
+              {
+                "word": "name",
+                "offset": "PT8.67S",
+                "duration": "PT0.63S",
+                "offsetInTicks": 86700000.0,
+                "durationInTicks": 6300000.0,
+                "confidence": 0.9812765
+              },
+              {
+                "word": "claudia",
+                "offset": "PT9.35S",
+                "duration": "PT0.97S",
+                "offsetInTicks": 93500000.0,
+                "durationInTicks": 9700000.0,
+                "confidence": 0.5540923
+              },
+              {
+                "word": "what's",
+                "offset": "PT10.59S",
+                "duration": "PT0.32S",
+                "offsetInTicks": 105900000.0,
+                "durationInTicks": 3200000.0,
+                "confidence": 0.7124803
+              },
+              {
+                "word": "your",
+                "offset": "PT10.92S",
+                "duration": "PT0.16S",
+                "offsetInTicks": 109200000.0,
+                "durationInTicks": 1600000.0,
+                "confidence": 0.96313727
+              },
+              {
+                "word": "name",
+                "offset": "PT11.09S",
+                "duration": "PT0.41S",
+                "offsetInTicks": 110900000.0,
+                "durationInTicks": 4100000.0,
+                "confidence": 0.9862133
+              },
+              {
+                "word": "i'm",
+                "offset": "PT11.57S",
+                "duration": "PT0.19S",
+                "offsetInTicks": 115700000.0,
+                "durationInTicks": 1900000.0,
+                "confidence": 0.9412626
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT11.77S",
+                "duration": "PT0.89S",
+                "offsetInTicks": 117700000.0,
+                "durationInTicks": 8900000.0,
+                "confidence": 0.31672636
+              },
+              {
+                "word": "nice",
+                "offset": "PT12.71S",
+                "duration": "PT0.37S",
+                "offsetInTicks": 127100000.0,
+                "durationInTicks": 3700000.0,
+                "confidence": 0.73674166
+              },
+              {
+                "word": "to",
+                "offset": "PT13.09S",
+                "duration": "PT0.09S",
+                "offsetInTicks": 130900000.0,
+                "durationInTicks": 900000.0,
+                "confidence": 0.9453697
+              },
+              {
+                "word": "meet",
+                "offset": "PT13.19S",
+                "duration": "PT0.29S",
+                "offsetInTicks": 131900000.0,
+                "durationInTicks": 2900000.0,
+                "confidence": 0.9923939
+              },
+              {
+                "word": "you",
+                "offset": "PT13.49S",
+                "duration": "PT0.47S",
+                "offsetInTicks": 134900000.0,
+                "durationInTicks": 4700000.0,
+                "confidence": 0.976344
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT14.01S",
+                "duration": "PT1.33S",
+                "offsetInTicks": 140100000.0,
+                "durationInTicks": 13300000.0,
+                "confidence": 0.2352753
+              },
+              {
+                "word": "yeah",
+                "offset": "PT15.39S",
+                "duration": "PT0.16S",
+                "offsetInTicks": 153900000.0,
+                "durationInTicks": 1600000.0,
+                "confidence": 0.64124495
+              },
+              {
+                "word": "that's",
+                "offset": "PT15.56S",
+                "duration": "PT0.22S",
+                "offsetInTicks": 155600000.0,
+                "durationInTicks": 2200000.0,
+                "confidence": 0.7976506
+              },
+              {
+                "word": "right",
+                "offset": "PT15.79S",
+                "duration": "PT0.45S",
+                "offsetInTicks": 157900000.0,
+                "durationInTicks": 4500000.0,
+                "confidence": 0.9513746
+              },
+              {
+                "word": "where",
+                "offset": "PT16.41S",
+                "duration": "PT0.32S",
+                "offsetInTicks": 164100000.0,
+                "durationInTicks": 3200000.0,
+                "confidence": 0.32918867
+              },
+              {
+                "word": "you",
+                "offset": "PT16.74S",
                 "duration": "PT0.13S",
-                "offsetInTicks": 19200000.0,
+                "offsetInTicks": 167400000.0,
                 "durationInTicks": 1300000.0,
-                "confidence": 0.78123367
+                "confidence": 0.87535477
               },
               {
-                "word": "find",
-                "offset": "PT2.06S",
-                "duration": "PT0.21S",
-                "offsetInTicks": 20600000.0,
-                "durationInTicks": 2100000.0,
-                "confidence": 0.9726927
-              },
-              {
-                "word": "something",
-                "offset": "PT2.28S",
-                "duration": "PT0.34S",
-                "offsetInTicks": 22800000.0,
-                "durationInTicks": 3400000.0,
-                "confidence": 0.8531263
-              },
-              {
-                "word": "in",
-                "offset": "PT2.63S",
-                "duration": "PT0.08S",
-                "offsetInTicks": 26300000.0,
-                "durationInTicks": 800000.0,
-                "confidence": 0.9257491
-              },
-              {
-                "word": "the",
-                "offset": "PT2.72S",
-                "duration": "PT0.11S",
-                "offsetInTicks": 27200000.0,
-                "durationInTicks": 1100000.0,
-                "confidence": 0.7971817
-              },
-              {
-                "word": "internet",
-                "offset": "PT2.84S",
-                "duration": "PT0.57S",
-                "offsetInTicks": 28400000.0,
-                "durationInTicks": 5700000.0,
-                "confidence": 0.9519911
-              }
-            ]
-          },
-          {
-            "confidence": 0.89092374,
-            "lexical": "help me find something on the internet",
-            "itn": "help me find something on the internet",
-            "maskedITN": "help me find something on the internet",
-            "display": "help me find something on the internet",
-            "words": [
-              {
-                "word": "help",
-                "offset": "PT1.64S",
-                "duration": "PT0.27S",
-                "offsetInTicks": 16400000.0,
-                "durationInTicks": 2700000.0,
-                "confidence": 0.90376055
-              },
-              {
-                "word": "me",
-                "offset": "PT1.92S",
-                "duration": "PT0.13S",
-                "offsetInTicks": 19200000.0,
-                "durationInTicks": 1300000.0,
-                "confidence": 0.78123367
-              },
-              {
-                "word": "find",
-                "offset": "PT2.06S",
-                "duration": "PT0.21S",
-                "offsetInTicks": 20600000.0,
-                "durationInTicks": 2100000.0,
-                "confidence": 0.9726927
-              },
-              {
-                "word": "something",
-                "offset": "PT2.28S",
-                "duration": "PT0.35S",
-                "offsetInTicks": 22800000.0,
-                "durationInTicks": 3500000.0,
-                "confidence": 0.7997769
-              },
-              {
-                "word": "on",
-                "offset": "PT2.64S",
-                "duration": "PT0.06S",
-                "offsetInTicks": 26400000.0,
-                "durationInTicks": 600000.0,
-                "confidence": 0.44102508
-              },
-              {
-                "word": "the",
-                "offset": "PT2.71S",
-                "duration": "PT0.12S",
-                "offsetInTicks": 27100000.0,
-                "durationInTicks": 1200000.0,
-                "confidence": 0.88644284
-              },
-              {
-                "word": "internet",
-                "offset": "PT2.84S",
-                "duration": "PT0.57S",
-                "offsetInTicks": 28400000.0,
-                "durationInTicks": 5700000.0,
-                "confidence": 0.9920642
-              }
-            ]
-          },
-          {
-            "confidence": 0.84664375,
-            "lexical": "helped me find something in the internet",
-            "itn": "helped me find something in the internet",
-            "maskedITN": "helped me find something in the internet",
-            "display": "helped me find something in the internet",
-            "words": [
-              {
-                "word": "helped",
-                "offset": "PT1.64S",
-                "duration": "PT0.28S",
-                "offsetInTicks": 16400000.0,
-                "durationInTicks": 2800000.0,
-                "confidence": 0.56282115
-              },
-              {
-                "word": "me",
-                "offset": "PT1.93S",
-                "duration": "PT0.12S",
-                "offsetInTicks": 19300000.0,
-                "durationInTicks": 1200000.0,
-                "confidence": 0.9181833
-              },
-              {
-                "word": "find",
-                "offset": "PT2.06S",
-                "duration": "PT0.21S",
-                "offsetInTicks": 20600000.0,
-                "durationInTicks": 2100000.0,
-                "confidence": 0.92077005
-              },
-              {
-                "word": "something",
-                "offset": "PT2.28S",
-                "duration": "PT0.34S",
-                "offsetInTicks": 22800000.0,
-                "durationInTicks": 3400000.0,
-                "confidence": 0.83068687
-              },
-              {
-                "word": "in",
-                "offset": "PT2.63S",
-                "duration": "PT0.08S",
-                "offsetInTicks": 26300000.0,
-                "durationInTicks": 800000.0,
-                "confidence": 0.9257491
-              },
-              {
-                "word": "the",
-                "offset": "PT2.72S",
-                "duration": "PT0.11S",
-                "offsetInTicks": 27200000.0,
-                "durationInTicks": 1100000.0,
-                "confidence": 0.7971817
-              },
-              {
-                "word": "internet",
-                "offset": "PT2.84S",
-                "duration": "PT0.57S",
-                "offsetInTicks": 28400000.0,
-                "durationInTicks": 5700000.0,
-                "confidence": 0.9519911
-              }
-            ]
-          },
-          {
-            "confidence": 0.8339392,
-            "lexical": "helped me find something on the internet",
-            "itn": "helped me find something on the internet",
-            "maskedITN": "helped me find something on the internet",
-            "display": "helped me find something on the internet",
-            "words": [
-              {
-                "word": "helped",
-                "offset": "PT1.64S",
-                "duration": "PT0.28S",
-                "offsetInTicks": 16400000.0,
-                "durationInTicks": 2800000.0,
-                "confidence": 0.56282115
-              },
-              {
-                "word": "me",
-                "offset": "PT1.93S",
-                "duration": "PT0.12S",
-                "offsetInTicks": 19300000.0,
-                "durationInTicks": 1200000.0,
-                "confidence": 0.9181833
-              },
-              {
-                "word": "find",
-                "offset": "PT2.06S",
-                "duration": "PT0.21S",
-                "offsetInTicks": 20600000.0,
-                "durationInTicks": 2100000.0,
-                "confidence": 0.92077005
-              },
-              {
-                "word": "something",
-                "offset": "PT2.28S",
-                "duration": "PT0.35S",
-                "offsetInTicks": 22800000.0,
-                "durationInTicks": 3500000.0,
-                "confidence": 0.77153844
-              },
-              {
-                "word": "on",
-                "offset": "PT2.64S",
-                "duration": "PT0.06S",
-                "offsetInTicks": 26400000.0,
-                "durationInTicks": 600000.0,
-                "confidence": 0.44102508
-              },
-              {
-                "word": "the",
-                "offset": "PT2.71S",
-                "duration": "PT0.12S",
-                "offsetInTicks": 27100000.0,
-                "durationInTicks": 1200000.0,
-                "confidence": 0.88644284
-              },
-              {
-                "word": "internet",
-                "offset": "PT2.84S",
-                "duration": "PT0.57S",
-                "offsetInTicks": 28400000.0,
-                "durationInTicks": 5700000.0,
-                "confidence": 0.9920642
-              }
-            ]
-          },
-          {
-            "confidence": 0.87474996,
-            "lexical": "help me find something in the internet and",
-            "itn": "help me find something in the internet and",
-            "maskedITN": "help me find something in the internet and",
-            "display": "help me find something in the internet and",
-            "words": [
-              {
-                "word": "help",
-                "offset": "PT1.64S",
-                "duration": "PT0.27S",
-                "offsetInTicks": 16400000.0,
-                "durationInTicks": 2700000.0,
-                "confidence": 0.90376055
-              },
-              {
-                "word": "me",
-                "offset": "PT1.92S",
-                "duration": "PT0.13S",
-                "offsetInTicks": 19200000.0,
-                "durationInTicks": 1300000.0,
-                "confidence": 0.78123367
-              },
-              {
-                "word": "find",
-                "offset": "PT2.06S",
-                "duration": "PT0.21S",
-                "offsetInTicks": 20600000.0,
-                "durationInTicks": 2100000.0,
-                "confidence": 0.9726927
-              },
-              {
-                "word": "something",
-                "offset": "PT2.28S",
-                "duration": "PT0.34S",
-                "offsetInTicks": 22800000.0,
-                "durationInTicks": 3400000.0,
-                "confidence": 0.8531263
-              },
-              {
-                "word": "in",
-                "offset": "PT2.63S",
-                "duration": "PT0.08S",
-                "offsetInTicks": 26300000.0,
-                "durationInTicks": 800000.0,
-                "confidence": 0.9257491
-              },
-              {
-                "word": "the",
-                "offset": "PT2.72S",
-                "duration": "PT0.11S",
-                "offsetInTicks": 27200000.0,
-                "durationInTicks": 1100000.0,
-                "confidence": 0.7971817
-              },
-              {
-                "word": "internet",
-                "offset": "PT2.84S",
-                "duration": "PT0.48S",
-                "offsetInTicks": 28400000.0,
-                "durationInTicks": 4800000.0,
-                "confidence": 0.90184647
-              },
-              {
-                "word": "and",
-                "offset": "PT3.33S",
-                "duration": "PT0.08S",
-                "offsetInTicks": 33300000.0,
-                "durationInTicks": 800000.0,
-                "confidence": 0.6795398
+                "word": "from",
+                "offset": "PT16.88S",
+                "duration": "PT0.14S",
+                "offsetInTicks": 168800000.0,
+                "durationInTicks": 1400000.0,
+                "confidence": 0.9609313
               }
             ]
           }
@@ -362,6 +283,207 @@
     ]
   },
   "standarized_response": {
-    "text": "Help me find something in the Internet."
+    "text": "Unit 1, page 14, real conversations. Hello. Hi. What's your name? Claudia. What's your name? I'm chihiro. Nice to meet you, Chihiro. Yeah, that's right. Where you from?",
+    "diarization": {
+      "total_speakers": 1,
+      "entries": [
+        {
+          "segment": "unit",
+          "start_time": "0.17",
+          "end_time": "0.56",
+          "speaker": 1,
+          "confidence": 0.67008686
+        },
+        {
+          "segment": "one",
+          "start_time": "0.57",
+          "end_time": "1.14",
+          "speaker": 1,
+          "confidence": 0.96784246
+        },
+        {
+          "segment": "page",
+          "start_time": "1.53",
+          "end_time": "1.98",
+          "speaker": 1,
+          "confidence": 0.9794514
+        },
+        {
+          "segment": "fourteen",
+          "start_time": "1.99",
+          "end_time": "2.84",
+          "speaker": 1,
+          "confidence": 0.90195274
+        },
+        {
+          "segment": "real",
+          "start_time": "3.39",
+          "end_time": "3.8000000000000003",
+          "speaker": 1,
+          "confidence": 0.7830527
+        },
+        {
+          "segment": "conversations",
+          "start_time": "3.81",
+          "end_time": "4.86",
+          "speaker": 1,
+          "confidence": 0.96423733
+        },
+        {
+          "segment": "hello",
+          "start_time": "6.85",
+          "end_time": "7.569999999999999",
+          "speaker": 1,
+          "confidence": 0.9506586
+        },
+        {
+          "segment": "hi",
+          "start_time": "7.63",
+          "end_time": "8.24",
+          "speaker": 1,
+          "confidence": 0.7629032
+        },
+        {
+          "segment": "what's",
+          "start_time": "8.28",
+          "end_time": "8.49",
+          "speaker": 1,
+          "confidence": 0.7019136
+        },
+        {
+          "segment": "your",
+          "start_time": "8.5",
+          "end_time": "8.66",
+          "speaker": 1,
+          "confidence": 0.9794821
+        },
+        {
+          "segment": "name",
+          "start_time": "8.67",
+          "end_time": "9.3",
+          "speaker": 1,
+          "confidence": 0.9812765
+        },
+        {
+          "segment": "claudia",
+          "start_time": "9.35",
+          "end_time": "10.32",
+          "speaker": 1,
+          "confidence": 0.5540923
+        },
+        {
+          "segment": "what's",
+          "start_time": "10.59",
+          "end_time": "10.91",
+          "speaker": 1,
+          "confidence": 0.7124803
+        },
+        {
+          "segment": "your",
+          "start_time": "10.92",
+          "end_time": "11.08",
+          "speaker": 1,
+          "confidence": 0.96313727
+        },
+        {
+          "segment": "name",
+          "start_time": "11.09",
+          "end_time": "11.5",
+          "speaker": 1,
+          "confidence": 0.9862133
+        },
+        {
+          "segment": "i'm",
+          "start_time": "11.57",
+          "end_time": "11.76",
+          "speaker": 1,
+          "confidence": 0.9412626
+        },
+        {
+          "segment": "chihiro",
+          "start_time": "11.77",
+          "end_time": "12.66",
+          "speaker": 1,
+          "confidence": 0.31672636
+        },
+        {
+          "segment": "nice",
+          "start_time": "12.71",
+          "end_time": "13.08",
+          "speaker": 1,
+          "confidence": 0.73674166
+        },
+        {
+          "segment": "to",
+          "start_time": "13.09",
+          "end_time": "13.18",
+          "speaker": 1,
+          "confidence": 0.9453697
+        },
+        {
+          "segment": "meet",
+          "start_time": "13.19",
+          "end_time": "13.479999999999999",
+          "speaker": 1,
+          "confidence": 0.9923939
+        },
+        {
+          "segment": "you",
+          "start_time": "13.49",
+          "end_time": "13.96",
+          "speaker": 1,
+          "confidence": 0.976344
+        },
+        {
+          "segment": "chihiro",
+          "start_time": "14.01",
+          "end_time": "15.34",
+          "speaker": 1,
+          "confidence": 0.2352753
+        },
+        {
+          "segment": "yeah",
+          "start_time": "15.39",
+          "end_time": "15.55",
+          "speaker": 1,
+          "confidence": 0.64124495
+        },
+        {
+          "segment": "that's",
+          "start_time": "15.56",
+          "end_time": "15.780000000000001",
+          "speaker": 1,
+          "confidence": 0.7976506
+        },
+        {
+          "segment": "right",
+          "start_time": "15.79",
+          "end_time": "16.24",
+          "speaker": 1,
+          "confidence": 0.9513746
+        },
+        {
+          "segment": "where",
+          "start_time": "16.41",
+          "end_time": "16.73",
+          "speaker": 1,
+          "confidence": 0.32918867
+        },
+        {
+          "segment": "you",
+          "start_time": "16.74",
+          "end_time": "16.869999999999997",
+          "speaker": 1,
+          "confidence": 0.87535477
+        },
+        {
+          "segment": "from",
+          "start_time": "16.88",
+          "end_time": "17.02",
+          "speaker": 1,
+          "confidence": 0.9609313
+        }
+      ]
+    }
   }
 }

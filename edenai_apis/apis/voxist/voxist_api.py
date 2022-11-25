@@ -6,6 +6,8 @@ from edenai_apis.features.base_provider.provider_api import ProviderApi
 from edenai_apis.features import Audio
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechToTextAsyncDataClass,
+    SpeechDiarizationEntry,
+    SpeechDiarization
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -44,7 +46,7 @@ class VoxistApi(ProviderApi, Audio):
         self.api_key = response.json().get("access_token")
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str
+        self, file: BufferedReader, language: str, speakers: int
     ) -> AsyncLaunchJobResponseType:
         # Convert audio file to Mono 16kHz wav
         wav_file = wav_converter(file, frame_rate=16000, channels=1)[0]
@@ -104,13 +106,14 @@ class VoxistApi(ProviderApi, Audio):
 
         original_response = response.json()
         text = ""
+        diarization = SpeechDiarization(total_speakers=0, entries= [])
 
         for i, word in enumerate(original_response):
             text += word["Lexical"]
             if i != len(original_response) - 1:
                 text += " "
 
-        standarized_response = SpeechToTextAsyncDataClass(text=text)
+        standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
 
         return AsyncResponseType[SpeechToTextAsyncDataClass](
             original_response=original_response,
