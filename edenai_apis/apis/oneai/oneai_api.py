@@ -120,7 +120,11 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
 
         items = []
         for item in original_response['output'][0]['labels']:
-            items.append(InfosNamedEntityRecognitionDataClass(entity=item['value'], category=item['name']))
+            entity = item['value']
+            category = item['name']
+            if category == 'GEO':
+                category = 'LOCATION'
+            items.append(InfosNamedEntityRecognitionDataClass(entity=entity, category=category))
 
         standarized_response = NamedEntityRecognitionDataClass(items=items)
 

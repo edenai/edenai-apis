@@ -7,23 +7,31 @@
           "id": "1",
           "entities": [
             {
+              "text": "19th century",
+              "category": "DateTime",
+              "subcategory": "DateRange",
+              "offset": 0,
+              "length": 12,
+              "confidenceScore": 0.8
+            },
+            {
               "text": "Barack Hussein Obama",
               "category": "Person",
-              "offset": 0,
+              "offset": 13,
               "length": 20,
               "confidenceScore": 1.0
             },
             {
               "text": "American",
               "category": "PersonType",
-              "offset": 27,
+              "offset": 40,
               "length": 8,
-              "confidenceScore": 0.87
+              "confidenceScore": 0.88
             },
             {
               "text": "politician",
               "category": "PersonType",
-              "offset": 36,
+              "offset": 49,
               "length": 10,
               "confidenceScore": 0.57
             },
@@ -31,14 +39,14 @@
               "text": "44th",
               "category": "Quantity",
               "subcategory": "Ordinal",
-              "offset": 65,
+              "offset": 78,
               "length": 4,
               "confidenceScore": 0.8
             },
             {
               "text": "president",
               "category": "PersonType",
-              "offset": 70,
+              "offset": 83,
               "length": 9,
               "confidenceScore": 0.94
             },
@@ -46,36 +54,36 @@
               "text": "United States",
               "category": "Location",
               "subcategory": "GPE",
-              "offset": 87,
+              "offset": 100,
               "length": 13,
-              "confidenceScore": 0.97
+              "confidenceScore": 0.98
             },
             {
               "text": "from 2009 to 2017",
               "category": "DateTime",
               "subcategory": "DateRange",
-              "offset": 101,
+              "offset": 114,
               "length": 17,
               "confidenceScore": 0.8
             },
             {
               "text": "member",
               "category": "PersonType",
-              "offset": 122,
+              "offset": 135,
               "length": 6,
               "confidenceScore": 0.74
             },
             {
               "text": "Democratic Party",
               "category": "Organization",
-              "offset": 136,
+              "offset": 149,
               "length": 16,
               "confidenceScore": 0.98
             },
             {
               "text": "Obama",
               "category": "Person",
-              "offset": 154,
+              "offset": 167,
               "length": 5,
               "confidenceScore": 1.0
             },
@@ -83,21 +91,21 @@
               "text": "first",
               "category": "Quantity",
               "subcategory": "Ordinal",
-              "offset": 168,
+              "offset": 181,
               "length": 5,
               "confidenceScore": 0.8
             },
             {
               "text": "African-American",
               "category": "PersonType",
-              "offset": 174,
+              "offset": 187,
               "length": 16,
               "confidenceScore": 0.86
             },
             {
               "text": "president",
               "category": "PersonType",
-              "offset": 191,
+              "offset": 204,
               "length": 9,
               "confidenceScore": 0.57
             },
@@ -105,14 +113,14 @@
               "text": "United States",
               "category": "Location",
               "subcategory": "GPE",
-              "offset": 208,
+              "offset": 221,
               "length": 13,
               "confidenceScore": 0.99
             },
             {
               "text": "previously",
               "category": "DateTime",
-              "offset": 226,
+              "offset": 239,
               "length": 10,
               "confidenceScore": 0.8
             },
@@ -120,14 +128,14 @@
               "text": "U.S.",
               "category": "Location",
               "subcategory": "GPE",
-              "offset": 249,
+              "offset": 262,
               "length": 4,
               "confidenceScore": 0.74
             },
             {
               "text": "senator",
               "category": "PersonType",
-              "offset": 254,
+              "offset": 267,
               "length": 7,
               "confidenceScore": 0.65
             },
@@ -135,7 +143,7 @@
               "text": "Illinois",
               "category": "Location",
               "subcategory": "GPE",
-              "offset": 267,
+              "offset": 280,
               "length": 8,
               "confidenceScore": 0.97
             },
@@ -143,7 +151,7 @@
               "text": "from 2005 to 2008",
               "category": "DateTime",
               "subcategory": "DateRange",
-              "offset": 276,
+              "offset": 289,
               "length": 17,
               "confidenceScore": 0.8
             },
@@ -151,14 +159,14 @@
               "text": "Illinois",
               "category": "Location",
               "subcategory": "GPE",
-              "offset": 304,
+              "offset": 317,
               "length": 8,
               "confidenceScore": 0.85
             },
             {
               "text": "state senator",
               "category": "PersonType",
-              "offset": 313,
+              "offset": 326,
               "length": 13,
               "confidenceScore": 0.55
             },
@@ -166,7 +174,7 @@
               "text": "from 1997 to 2004",
               "category": "DateTime",
               "subcategory": "DateRange",
-              "offset": 327,
+              "offset": 340,
               "length": 17,
               "confidenceScore": 0.8
             }
@@ -181,6 +189,12 @@
   "standarized_response": {
     "items": [
       {
+        "entity": "19th century",
+        "category": "DATETIME",
+        "importance": 0.8,
+        "url": ""
+      },
+      {
         "entity": "Barack Hussein Obama",
         "category": "PERSON",
         "importance": 1.0,
@@ -189,7 +203,7 @@
       {
         "entity": "American",
         "category": "PERSONTYPE",
-        "importance": 0.87,
+        "importance": 0.88,
         "url": ""
       },
       {
@@ -213,7 +227,7 @@
       {
         "entity": "United States",
         "category": "LOCATION",
-        "importance": 0.97,
+        "importance": 0.98,
         "url": ""
       },
       {

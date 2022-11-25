@@ -43,7 +43,6 @@ class LettriaApi(ProviderApi, Text):
                         entity=entity["source"],
                         importance=None,
                         category=entity["type"],
-                        url="",
                     )
                 )
 

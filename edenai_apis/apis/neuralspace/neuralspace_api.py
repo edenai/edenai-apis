@@ -57,13 +57,17 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
 
         if len(data["entities"]) > 0:
             for entity in data["entities"]:
-
+                text = entity["text"]
+                if entity["type"] == 'time':
+                    category = 'DATE'
+                else:
+                    category = entity["type"].upper()
+                
                 items.append(
                     InfosNamedEntityRecognitionDataClass(
-                        entity=entity["text"],
+                        entity=text,
                         importance=None,
-                        category=entity["type"],
-                        url="",
+                        category=category.replace('-',''),
                     )
                 )
 

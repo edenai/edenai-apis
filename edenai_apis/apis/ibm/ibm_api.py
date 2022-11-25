@@ -240,12 +240,14 @@ class IbmApi(
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
 
         for ent in response["entities"]:
+            category = ent["type"].upper()
+            if category == 'JOBTITLE':
+                category = 'PERSONTYPE'
             items.append(
                 InfosNamedEntityRecognitionDataClass(
                     entity=ent["text"],
                     importance=ent["relevance"],
-                    category=ent["type"].upper(),
-                    url="",
+                    category=category,
                 )
             )
 

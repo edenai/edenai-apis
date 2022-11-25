@@ -524,7 +524,6 @@ class AmazonApi(
                     entity=ent["Text"],
                     importance=ent["Score"],
                     category=ent["Type"],
-                    url="",
                 )
             )
 
