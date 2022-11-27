@@ -83,7 +83,10 @@ from edenai_apis.features.video import (
     VideoTrackingPerson,
 )
 from edenai_apis.utils.audio import wav_converter
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import (
+    ProviderException,
+    LanguageException
+)
 from edenai_apis.utils.types import (
     AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
@@ -473,11 +476,9 @@ class AmazonApi(
             response = clients["text"].detect_sentiment(
                 Text=text, LanguageCode=language
             )
-        except KeyError as exc:
-            raise ProviderException("Language not supported by provider") from exc
         except ClientError as exc:
             if "'languageCode'failed to satisfy constraint" in str(exc):
-                raise ProviderException("Please provide an input language parameter for the Sentiment Analysis function")
+                raise LanguageException(str(exc))
 
         # Analysing response
 
@@ -515,11 +516,9 @@ class AmazonApi(
             response = clients["text"].detect_key_phrases(
                 Text=text, LanguageCode=language
             )
-        except KeyError as exc:
-            raise ProviderException("Language not supported by provider") from exc
         except ClientError as exc:
             if "'languageCode'failed to satisfy constraint" in str(exc):
-                raise ProviderException("Please provide an input language parameter for the Keyword Extraction function")
+                raise LanguageException(str(exc))
 
         # Analysing response
         items: Sequence[InfosKeywordExtractionDataClass] = []
@@ -542,11 +541,9 @@ class AmazonApi(
         # Getting response
         try:
             response = clients["text"].detect_entities(Text=text, LanguageCode=language)
-        except KeyError as exc:
-            raise ProviderException("Language not supported by provider") from exc
         except ClientError as exc:
             if "'languageCode'failed to satisfy constraint" in str(exc):
-                raise ProviderException("Please provide an input language parameter for the Named Entity Recognition function")
+                raise LanguageException(str(exc))
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
         for ent in response["Entities"]:
@@ -573,11 +570,9 @@ class AmazonApi(
         # Getting response
         try:
             response = clients["text"].detect_syntax(Text=text, LanguageCode=language)
-        except KeyError as exc:
-            raise ProviderException("Language not supported by provider") from exc
         except ClientError as exc:
             if "'languageCode'failed to satisfy constraint" in str(exc):
-                raise ProviderException("Please provide an input language parameter for the Syntax Analysis function")
+                raise LanguageException(str(exc))
 
         # Create output TextSyntaxAnalysis object
 
@@ -634,11 +629,9 @@ class AmazonApi(
                 SourceLanguageCode=source_language,
                 TargetLanguageCode=target_language,
             )
-        except KeyError as exc:
-            raise ProviderException("Language not supported by provider") from exc
         except ParamValidationError as exc:
             if "SourceLanguageCode" in str(exc):
-                raise ProviderException("Please provide the source language parameter for the Automatic Translation function")
+                raise LanguageException(str(exc))
 
         standarized: AutomaticTranslationDataClass
         if response["TranslatedText"] != "":

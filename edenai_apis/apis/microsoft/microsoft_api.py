@@ -64,7 +64,7 @@ from edenai_apis.loaders.loaders import load_provider
 
 from edenai_apis.utils.audio import wav_converter
 from edenai_apis.utils.conversion import format_string_url_language
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncErrorResponseType,
@@ -1074,7 +1074,7 @@ class MicrosoftApi(
 
         #check language
         if not language:
-            raise ProviderException("Please provide an input language parameter for the Speech to text function")
+            raise LanguageException("Language not provided")
         wav_file, *_options = wav_converter(file, channels=1)
         content_url = upload_file_to_s3(wav_file, Path(file.name).stem + ".wav")
 

@@ -40,7 +40,7 @@ from edenai_apis.features.translation import (
 )
 
 from edenai_apis.utils.audio import wav_converter
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import ProviderException, LanguageException
 
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -139,7 +139,7 @@ class IbmApi(
             )
         except WatsonApiException as exc:
             if "not enough text for language id" in exc.message:
-                raise ProviderException("not enough text for language identification, please provide the language parameter!")
+                raise LanguageException(exc.message)
         # Create output object
         items: Sequence[SegmentSentimentAnalysisDataClass] = []
         standarize = SentimentAnalysisDataClass(
@@ -212,7 +212,7 @@ class IbmApi(
             )
         except WatsonApiException as exc:
             if "not enough text for language id" in exc.message:
-                raise ProviderException("not enough text for language identification, please provide the language parameter!")
+                raise LanguageException(exc.message)
 
         # Analysing response
         items: Sequence[InfosKeywordExtractionDataClass] = []
@@ -253,7 +253,7 @@ class IbmApi(
             )
         except WatsonApiException as exc:
             if "not enough text for language id" in exc.message:
-                raise ProviderException("not enough text for language identification, please provide the language parameter!")
+                raise LanguageException(exc.message)
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
 
@@ -303,7 +303,7 @@ class IbmApi(
             )
         except WatsonApiException as exc:
             if "not enough text for language id" in exc.message:
-                raise ProviderException("not enough text for language identification, please provide the language parameter!")
+                raise LanguageException(exc.message)
 
         items: Sequence[InfosSyntaxAnalysisDataClass] = []
 
