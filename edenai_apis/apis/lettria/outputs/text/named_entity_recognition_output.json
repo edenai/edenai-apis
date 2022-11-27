@@ -92,22 +92,6 @@
                 "is_perso": false
               },
               {
-                "sub": "be_located",
-                "super": "root|act|being|be_related",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
-                "sub": "be_measured",
-                "super": "root|act|being|identification/qualification|characteristic",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
                 "sub": "exist",
                 "super": "root|act|existing",
                 "extra": null,
@@ -126,6 +110,22 @@
               {
                 "sub": "be_in_(situation)",
                 "super": "root|act|being|be_related",
+                "extra": null,
+                "intensity": 1,
+                "derivates": null,
+                "is_perso": false
+              },
+              {
+                "sub": "be_located",
+                "super": "root|act|being|be_related",
+                "extra": null,
+                "intensity": 1,
+                "derivates": null,
+                "is_perso": false
+              },
+              {
+                "sub": "be_measured",
+                "super": "root|act|being|identification/qualification|characteristic",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -1132,7 +1132,7 @@
                 "is_perso": false
               },
               {
-                "sub": "be_measured",
+                "sub": "be_characterized",
                 "super": "root|act|being|identification/qualification|characteristic",
                 "extra": null,
                 "intensity": 1,
@@ -1148,16 +1148,16 @@
                 "is_perso": false
               },
               {
-                "sub": "be_characterized",
-                "super": "root|act|being|identification/qualification|characteristic",
+                "sub": "be_in_(situation)",
+                "super": "root|act|being|be_related",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
                 "is_perso": false
               },
               {
-                "sub": "be_in_(situation)",
-                "super": "root|act|being|be_related",
+                "sub": "be_measured",
+                "super": "root|act|being|identification/qualification|characteristic",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -2811,50 +2811,42 @@
       {
         "entity": "Barack Hussein Obama",
         "category": "PERSON",
-        "importance": null,
-        "url": ""
+        "importance": null
       },
       {
         "entity": "United States",
         "category": "LOCATION",
-        "importance": null,
-        "url": ""
+        "importance": null
       },
       {
         "entity": "Democratic Party",
         "category": "ORGANIZATION",
-        "importance": null,
-        "url": ""
+        "importance": null
       },
       {
         "entity": "Obama",
         "category": "PERSON",
-        "importance": null,
-        "url": ""
+        "importance": null
       },
       {
         "entity": "United States",
         "category": "LOCATION",
-        "importance": null,
-        "url": ""
+        "importance": null
       },
       {
         "entity": "U.S.",
         "category": "LOCATION",
-        "importance": null,
-        "url": ""
+        "importance": null
       },
       {
         "entity": "Illinois",
         "category": "LOCATION",
-        "importance": null,
-        "url": ""
+        "importance": null
       },
       {
         "entity": "Illinois state",
         "category": "LOCATION",
-        "importance": null,
-        "url": ""
+        "importance": null
       }
     ]
   }
