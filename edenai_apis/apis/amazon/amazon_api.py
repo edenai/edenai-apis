@@ -477,7 +477,7 @@ class AmazonApi(
                 Text=text, LanguageCode=language
             )
         except ClientError as exc:
-            if "'languageCode'failed to satisfy constraint" in str(exc):
+            if "languageCode" in str(exc):
                 raise LanguageException(str(exc))
 
         # Analysing response
@@ -517,7 +517,7 @@ class AmazonApi(
                 Text=text, LanguageCode=language
             )
         except ClientError as exc:
-            if "'languageCode'failed to satisfy constraint" in str(exc):
+            if "languageCode" in str(exc):
                 raise LanguageException(str(exc))
 
         # Analysing response
@@ -542,7 +542,7 @@ class AmazonApi(
         try:
             response = clients["text"].detect_entities(Text=text, LanguageCode=language)
         except ClientError as exc:
-            if "'languageCode'failed to satisfy constraint" in str(exc):
+            if "languageCode" in str(exc):
                 raise LanguageException(str(exc))
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
@@ -570,7 +570,7 @@ class AmazonApi(
         try:
             response = clients["text"].detect_syntax(Text=text, LanguageCode=language)
         except ClientError as exc:
-            if "'languageCode'failed to satisfy constraint" in str(exc):
+            if "languageCode" in str(exc):
                 raise LanguageException(str(exc))
 
         # Create output TextSyntaxAnalysis object
