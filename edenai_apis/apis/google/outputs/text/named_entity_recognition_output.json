@@ -57,8 +57,8 @@
         "name": "American",
         "type": "LOCATION",
         "metadata": {
-          "wikipedia_url": "https://en.wikipedia.org/wiki/United_States",
-          "mid": "/m/09c7w0"
+          "mid": "/m/09c7w0",
+          "wikipedia_url": "https://en.wikipedia.org/wiki/United_States"
         },
         "salience": 0.066377416,
         "mentions": [
@@ -109,6 +109,10 @@
       {
         "name": "African-American",
         "type": "PERSON",
+        "metadata": {
+          "mid": "/m/0x67",
+          "wikipedia_url": "https://en.wikipedia.org/wiki/African_Americans"
+        },
         "salience": 0.007983226,
         "mentions": [
           {
@@ -282,16 +286,46 @@
         ]
       },
       {
-        "name": "2017",
+        "name": "44",
         "type": "NUMBER",
         "metadata": {
-          "value": "2017"
+          "value": "44"
         },
         "mentions": [
           {
             "text": {
-              "content": "2017",
-              "beginOffset": 114
+              "content": "44",
+              "beginOffset": 65
+            }
+          }
+        ]
+      },
+      {
+        "name": "2005",
+        "type": "NUMBER",
+        "metadata": {
+          "value": "2005"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2005",
+              "beginOffset": 281
+            }
+          }
+        ]
+      },
+      {
+        "name": "2009",
+        "type": "NUMBER",
+        "metadata": {
+          "value": "2009"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2009",
+              "beginOffset": 106
             }
           }
         ]
@@ -327,16 +361,16 @@
         ]
       },
       {
-        "name": "44",
+        "name": "2017",
         "type": "NUMBER",
         "metadata": {
-          "value": "44"
+          "value": "2017"
         },
         "mentions": [
           {
             "text": {
-              "content": "44",
-              "beginOffset": 65
+              "content": "2017",
+              "beginOffset": 114
             }
           }
         ]
@@ -355,36 +389,6 @@
             }
           }
         ]
-      },
-      {
-        "name": "2009",
-        "type": "NUMBER",
-        "metadata": {
-          "value": "2009"
-        },
-        "mentions": [
-          {
-            "text": {
-              "content": "2009",
-              "beginOffset": 106
-            }
-          }
-        ]
-      },
-      {
-        "name": "2005",
-        "type": "NUMBER",
-        "metadata": {
-          "value": "2005"
-        },
-        "mentions": [
-          {
-            "text": {
-              "content": "2005",
-              "beginOffset": 281
-            }
-          }
-        ]
       }
     ],
     "language": "en"
@@ -394,134 +398,47 @@
       {
         "entity": "Barack Hussein Obama",
         "category": "PERSON",
-        "importance": 0.74435586,
-        "url": "https://en.wikipedia.org/wiki/Barack_Obama"
+        "importance": 0.74435586
       },
       {
         "entity": "president",
         "category": "PERSON",
-        "importance": 0.07021436,
-        "url": null
+        "importance": 0.07021436
       },
       {
         "entity": "American",
         "category": "LOCATION",
-        "importance": 0.066377416,
-        "url": "https://en.wikipedia.org/wiki/United_States"
+        "importance": 0.066377416
       },
       {
         "entity": "president",
         "category": "PERSON",
-        "importance": 0.04346809,
-        "url": null
+        "importance": 0.04346809
       },
       {
         "entity": "African-American",
         "category": "PERSON",
-        "importance": 0.007983226,
-        "url": null
+        "importance": 0.007983226
       },
       {
         "entity": "Democratic Party",
         "category": "ORGANIZATION",
-        "importance": 0.00764491,
-        "url": "https://en.wikipedia.org/wiki/Democratic_Party_(United_States)"
+        "importance": 0.00764491
       },
       {
         "entity": "state senator",
         "category": "PERSON",
-        "importance": 0.0070930053,
-        "url": null
+        "importance": 0.0070930053
       },
       {
         "entity": "Illinois",
         "category": "LOCATION",
-        "importance": 0.005297011,
-        "url": "https://en.wikipedia.org/wiki/Illinois"
+        "importance": 0.005297011
       },
       {
         "entity": "senator",
         "category": "PERSON",
-        "importance": 0.004453033,
-        "url": null
-      },
-      {
-        "entity": "2009",
-        "category": "DATE",
-        "importance": null,
-        "url": null
-      },
-      {
-        "entity": "2017",
-        "category": "DATE",
-        "importance": null,
-        "url": null
-      },
-      {
-        "entity": "2005",
-        "category": "DATE",
-        "importance": null,
-        "url": null
-      },
-      {
-        "entity": "2008",
-        "category": "DATE",
-        "importance": null,
-        "url": null
-      },
-      {
-        "entity": "1997",
-        "category": "DATE",
-        "importance": null,
-        "url": null
-      },
-      {
-        "entity": "2004",
-        "category": "DATE",
-        "importance": null,
-        "url": null
-      },
-      {
-        "entity": "2017",
-        "category": "NUMBER",
-        "importance": null,
-        "url": null
-      },
-      {
-        "entity": "2008",
-        "category": "NUMBER",
-        "importance": null,
-        "url": null
-      },
-      {
-        "entity": "1997",
-        "category": "NUMBER",
-        "importance": null,
-        "url": null
-      },
-      {
-        "entity": "44",
-        "category": "NUMBER",
-        "importance": null,
-        "url": null
-      },
-      {
-        "entity": "2004",
-        "category": "NUMBER",
-        "importance": null,
-        "url": null
-      },
-      {
-        "entity": "2009",
-        "category": "NUMBER",
-        "importance": null,
-        "url": null
-      },
-      {
-        "entity": "2005",
-        "category": "NUMBER",
-        "importance": null,
-        "url": null
+        "importance": 0.004453033
       }
     ]
   }
