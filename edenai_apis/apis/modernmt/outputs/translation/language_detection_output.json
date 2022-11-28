@@ -1,0 +1,14 @@
+{
+  "original_response": {
+    "detectedLanguage": "it",
+    "billedCharacters": 0
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "language": "it",
+        "confidence": null
+      }
+    ]
+  }
+}

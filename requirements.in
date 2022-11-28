@@ -55,3 +55,6 @@ lettria==6.0.0
 azure-ai-formrecognizer==3.1.2
 azure-cognitiveservices-speech
 azure-core
+
+#modernMT
+modernmt
