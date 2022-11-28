@@ -722,7 +722,8 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         return result
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str, speakers: int
+        self, file: BufferedReader, language: str, speakers: int,
+        profanity_filter: bool
     ) -> AsyncLaunchJobResponseType:
 
         #check language
@@ -754,6 +755,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             language_code=language,
             audio_channel_count=channels,
             diarization_config = diarization,
+            profanity_filter = profanity_filter
             # sample_rate_hertz=frame_rate
         )
         operation = client.long_running_recognize(config=config, audio=audio)
