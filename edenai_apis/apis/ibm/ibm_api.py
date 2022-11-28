@@ -340,14 +340,15 @@ class IbmApi(
         self,
         file: BufferedReader,
         language: str,
-        speakers : int
+        speakers : int, profanity_filter: bool
     ) -> AsyncLaunchJobResponseType:
         wav_file, *_options = wav_converter(file)
         language_audio = language
         audio_config = {
             "audio" : wav_file,
             "content_type" : "audio/wav",
-            "speaker_labels" : True
+            "speaker_labels" : True,
+            "profanity_filter" : profanity_filter
         }
         if language_audio:
             audio_config.update({
