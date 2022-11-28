@@ -29,18 +29,29 @@ class RevAIApi(ProviderApi, Audio):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
-        speakers : int
+        speakers : int, profanity_filter: bool
     ) -> AsyncLaunchJobResponseType:
+
+        data_config = {
+            "options": json.dumps({
+                "language": language,
+                "filter_profanity": profanity_filter,
+            })
+        } 
 
         response = requests.post(
             url="https://ec1.api.rev.ai/speechtotext/v1/jobs",
-            headers={"Authorization": f"Bearer {self.key}"},
-            data={"options": "{}", "language": f"{language}"},
+            headers={"Authorization": f"Bearer {self.key}",},
+            data= data_config,
             files=[("media", ("audio_file", file))],
         )
         original_response = response.json()
 
         if response.status_code != 200:
+            parameters = original_response.get('parameters')
+            for key, value in parameters.items():
+                if "filter_profanity" in key:
+                    raise ProviderException(f"{key}: {value[0]} Use 'en' language for profanity filter")
             message = f"{original_response.get('title','')}: {original_response.get('details','')}"
             if message and message[0] == ":":
                 if len(message) > 2:
