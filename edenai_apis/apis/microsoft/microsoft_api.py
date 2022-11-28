@@ -1070,7 +1070,7 @@ class MicrosoftApi(
         self,
         file: BufferedReader,
         language: str,
-        speakers : int
+        speakers : int, profanity_filter: bool
     ) -> AsyncLaunchJobResponseType:
 
         #check language
@@ -1087,10 +1087,15 @@ class MicrosoftApi(
             "properties": {
                 "wordLevelTimestampsEnabled": True,
                 "diarizationEnabled": True,
+                "profanityFilterMode" : "None"
             },
             "locale": language,
             "displayName": "test batch transcription",
         }
+        if profanity_filter:
+            config["properties"].update({
+                "profanityFilterMode" : "Masked"
+            })
         # if not profanity_filter:
         #     config["properties"]["profanityFilterMode"] = "Removed"
 
