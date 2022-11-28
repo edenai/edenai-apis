@@ -32,12 +32,17 @@ class RevAIApi(ProviderApi, Audio):
         speakers : int, profanity_filter: bool
     ) -> AsyncLaunchJobResponseType:
 
-        data_config = {
-            "options": json.dumps({
+        config = {
+            "filter_profanity": profanity_filter,
+        }
+
+        if language:
+            config.update({
                 "language": language,
-                "filter_profanity": profanity_filter,
             })
-        } 
+        data_config = {
+            "options": json.dumps(config)
+        }
 
         response = requests.post(
             url="https://ec1.api.rev.ai/speechtotext/v1/jobs",
