@@ -733,7 +733,8 @@ class AmazonApi(
         return filename
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str, speakers : int
+        self, file: BufferedReader, language: str, speakers : int,
+        profanity_filter: bool
     ) -> AsyncLaunchJobResponseType:
         # Convert audio file in wav
         wav_file, frame_rate = wav_converter(file)[0:2]

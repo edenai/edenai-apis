@@ -30,7 +30,7 @@ class VociApi(ProviderApi, Audio):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
-        speakers : int
+        speakers : int, profanity_filter: bool
     ) -> AsyncLaunchJobResponseType:
         wav_file = wav_converter(file, channels=1)[0]
 

@@ -54,7 +54,7 @@ class SymblApi(ProviderApi, Audio):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
-        speakers : int
+        speakers : int, profanity_filter: bool
     ) -> AsyncLaunchJobResponseType:
         file.seek(0, 2)
         number_of_bytes = file.tell()
