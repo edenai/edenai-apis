@@ -129,13 +129,13 @@
       }
     ],
     "ResponseMetadata": {
-      "RequestId": "e4b10a1e-5af6-4f89-a28d-38b6b61bbc66",
+      "RequestId": "0dc0ca87-6b5b-4550-992a-2d6a5f9fb2f2",
       "HTTPStatusCode": 200,
       "HTTPHeaders": {
-        "x-amzn-requestid": "e4b10a1e-5af6-4f89-a28d-38b6b61bbc66",
+        "x-amzn-requestid": "0dc0ca87-6b5b-4550-992a-2d6a5f9fb2f2",
         "content-type": "application/x-amz-json-1.1",
         "content-length": "1764",
-        "date": "Wed, 12 Oct 2022 10:41:00 GMT"
+        "date": "Sun, 27 Nov 2022 17:46:01 GMT"
       },
       "RetryAttempts": 0
     }
@@ -145,110 +145,92 @@
       {
         "entity": "Barack Hussein Obama",
         "category": "PERSON",
-        "importance": 0.9960151314735413,
-        "url": ""
+        "importance": 0.9960151314735413
       },
       {
         "entity": "American",
         "category": "OTHER",
-        "importance": 0.9943374991416931,
-        "url": ""
+        "importance": 0.9943374991416931
       },
       {
         "entity": "44th president",
         "category": "QUANTITY",
-        "importance": 0.8183709383010864,
-        "url": ""
+        "importance": 0.8183709383010864
       },
       {
         "entity": "United States",
         "category": "LOCATION",
-        "importance": 0.8509750366210938,
-        "url": ""
+        "importance": 0.8509750366210938
       },
       {
         "entity": "2009",
         "category": "DATE",
-        "importance": 0.9990425705909729,
-        "url": ""
+        "importance": 0.9990425705909729
       },
       {
         "entity": "2017",
         "category": "DATE",
-        "importance": 0.994526207447052,
-        "url": ""
+        "importance": 0.994526207447052
       },
       {
         "entity": "Democratic Party",
         "category": "ORGANIZATION",
-        "importance": 0.9991411566734314,
-        "url": ""
+        "importance": 0.9991411566734314
       },
       {
         "entity": "Obama",
         "category": "PERSON",
-        "importance": 0.99968421459198,
-        "url": ""
+        "importance": 0.99968421459198
       },
       {
         "entity": "first",
         "category": "QUANTITY",
-        "importance": 0.9900199174880981,
-        "url": ""
+        "importance": 0.9900199174880981
       },
       {
         "entity": "African-American",
         "category": "OTHER",
-        "importance": 0.9452006220817566,
-        "url": ""
+        "importance": 0.9452006220817566
       },
       {
         "entity": "United States",
         "category": "LOCATION",
-        "importance": 0.9460242390632629,
-        "url": ""
+        "importance": 0.9460242390632629
       },
       {
         "entity": "U.S.",
         "category": "LOCATION",
-        "importance": 0.9084259867668152,
-        "url": ""
+        "importance": 0.9084259867668152
       },
       {
         "entity": "Illinois",
         "category": "LOCATION",
-        "importance": 0.9805331230163574,
-        "url": ""
+        "importance": 0.9805331230163574
       },
       {
         "entity": "2005",
         "category": "DATE",
-        "importance": 0.999678373336792,
-        "url": ""
+        "importance": 0.999678373336792
       },
       {
         "entity": "2008",
         "category": "DATE",
-        "importance": 0.9976561069488525,
-        "url": ""
+        "importance": 0.9976561069488525
       },
       {
         "entity": "Illinois",
         "category": "LOCATION",
-        "importance": 0.9859099388122559,
-        "url": ""
+        "importance": 0.9859099388122559
       },
       {
         "entity": "1997",
         "category": "DATE",
-        "importance": 0.9996833801269531,
-        "url": ""
+        "importance": 0.9996833801269531
       },
       {
         "entity": "2004",
         "category": "DATE",
-        "importance": 0.9972879886627197,
-        "url": ""
+        "importance": 0.9972879886627197
       }
     ]
   }

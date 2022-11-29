@@ -1,6 +1,6 @@
 {
   "status": "succeeded",
-  "provider_job_id": "9ac9ea60-9cce-42a3-a81d-35689d39e53e",
+  "provider_job_id": "2ae1a4d8-a180-42f5-90ca-1d6c57becd0d",
   "original_response": {
     "result": {
       "input_text": "[00:00:00.290] speaker 1:\nUnit one, page 14.\n\n[00:00:03.530] speaker 1:\nReal conversations.\n\n[00:00:06.950] speaker 2:\nHello.\n\n[00:00:07.670] speaker 2:\nHi.\n\n[00:00:08.270] speaker 2:\nWhat's your name?\n\n[00:00:09.410] speaker 3:\nClaudia.\n\n[00:00:10.670] speaker 3:\nWhat's your name?\n\n[00:00:12.890] speaker 3:\nNice to meet you.\n\n[00:00:15.350] speaker 4:\nYeah, that's right.\n\n[00:00:16.490] speaker 4:\nWhere are you from?\n\n",
@@ -742,13 +742,13 @@
         "total_waiting_jobs": 0
       }
     },
-    "task_id": "9ac9ea60-9cce-42a3-a81d-35689d39e53e",
+    "task_id": "2ae1a4d8-a180-42f5-90ca-1d6c57becd0d",
     "status": "COMPLETED",
-    "completion_time": "2022-11-25T09:28:47.924000",
-    "creation_time": "2022-11-25T09:28:40.033000"
+    "completion_time": "2022-11-25T14:21:20.261000",
+    "creation_time": "2022-11-25T14:21:12.446000"
   },
   "standarized_response": {
-    "text": "[00:00:00.290] speaker 1:\nUnit one, page 14.\n\n[00:00:03.530] speaker 1:\nReal conversations.\n\n[00:00:06.950] speaker 2:\nHello.\n\n[00:00:07.670] speaker 2:\nHi.\n\n[00:00:08.270] speaker 2:\nWhat's your name?\n\n[00:00:09.410] speaker 3:\nClaudia.\n\n[00:00:10.670] speaker 3:\nWhat's your name?\n\n[00:00:12.890] speaker 3:\nNice to meet you.\n\n[00:00:15.350] speaker 4:\nYeah, that's right.\n\n[00:00:16.490] speaker 4:\nWhere are you from?\n\n",
+    "text": "Unit one, page 14. Real conversations. Hello. Hi. What's your name? Claudia. What's your name? Nice to meet you. Yeah, that's right. Where are you from?",
     "diarization": {
       "total_speakers": 4,
       "entries": [

@@ -302,51 +302,43 @@
     "items": [
       {
         "entity": "American politician",
-        "category": "JOBTITLE",
-        "importance": 0.950395,
-        "url": ""
+        "category": "PERSONTYPE",
+        "importance": 0.950395
       },
       {
         "entity": "Barack Hussein Obama",
         "category": "PERSON",
-        "importance": 0.617417,
-        "url": ""
+        "importance": 0.617417
       },
       {
         "entity": "president",
-        "category": "JOBTITLE",
-        "importance": 0.426224,
-        "url": ""
+        "category": "PERSONTYPE",
+        "importance": 0.426224
       },
       {
         "entity": "United States",
         "category": "LOCATION",
-        "importance": 0.408988,
-        "url": ""
+        "importance": 0.408988
       },
       {
         "entity": "Democratic Party",
         "category": "ORGANIZATION",
-        "importance": 0.348958,
-        "url": ""
+        "importance": 0.348958
       },
       {
         "entity": "U.S. senator",
-        "category": "JOBTITLE",
-        "importance": 0.348567,
-        "url": ""
+        "category": "PERSONTYPE",
+        "importance": 0.348567
       },
       {
         "entity": "Illinois",
         "category": "LOCATION",
-        "importance": 0.161957,
-        "url": ""
+        "importance": 0.161957
       },
       {
         "entity": "state senator",
-        "category": "JOBTITLE",
-        "importance": 0.054396,
-        "url": ""
+        "category": "PERSONTYPE",
+        "importance": 0.054396
       }
     ]
   }

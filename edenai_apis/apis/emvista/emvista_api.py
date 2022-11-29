@@ -16,7 +16,10 @@ from edenai_apis.features.base_provider.provider_api import ProviderApi
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SentimentEnum
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import (
+    ProviderException,
+    LanguageException
+)
 from edenai_apis.utils.types import ResponseType
 from .emvista_tags import tags
 
@@ -36,7 +39,7 @@ class EmvistaApi(ProviderApi, Text):
 
         #check language
         if not language:
-            raise ProviderException("Please provide an input language parameter for the Summarize function")
+            raise LanguageException("Language not provided")
 
         # Prepare request
         files = {"text": text, "parameters": [{"name": "lang", "value": language}]}
@@ -76,7 +79,7 @@ class EmvistaApi(ProviderApi, Text):
 
         #check language
         if not language:
-            raise ProviderException("Please provide an input language parameter for the Syntax Analysis function")
+            raise LanguageException("Language not provided")
         # Prepare request
         files = {"text": text, "parameters": [{"name": "lang", "value": language}]}
         headers = {
@@ -167,7 +170,7 @@ class EmvistaApi(ProviderApi, Text):
         ) -> ResponseType[SentimentAnalysisDataClass]:
         # check language
         if not language:
-            raise ProviderException("Please provide an input language parameter for the Sentiment Analysis function")
+            raise LanguageException("Language not provided")
         # Prepare request
         files = {
             "text": text,
@@ -217,7 +220,7 @@ class EmvistaApi(ProviderApi, Text):
         """
         #check language
         if not language:
-            raise ProviderException("Please provide an input language parameter for the Keyword Extraction function")
+            raise LanguageException("Language not provided")
         # Prepare request
         files = {"text": text, "parameters": [{"name": "lang", "value": language}]}
         headers = {

@@ -183,134 +183,112 @@
       {
         "entity": "Barack Hussein Obama",
         "category": "PERSON",
-        "importance": 1.0,
-        "url": ""
+        "importance": 1.0
       },
       {
         "entity": "American",
         "category": "PERSONTYPE",
-        "importance": 0.87,
-        "url": ""
+        "importance": 0.87
       },
       {
         "entity": "politician",
         "category": "PERSONTYPE",
-        "importance": 0.57,
-        "url": ""
+        "importance": 0.57
       },
       {
         "entity": "44th",
         "category": "QUANTITY",
-        "importance": 0.8,
-        "url": ""
+        "importance": 0.8
       },
       {
         "entity": "president",
         "category": "PERSONTYPE",
-        "importance": 0.94,
-        "url": ""
+        "importance": 0.94
       },
       {
         "entity": "United States",
         "category": "LOCATION",
-        "importance": 0.97,
-        "url": ""
+        "importance": 0.97
       },
       {
         "entity": "from 2009 to 2017",
-        "category": "DATETIME",
-        "importance": 0.8,
-        "url": ""
+        "category": "DATE",
+        "importance": 0.8
       },
       {
         "entity": "member",
         "category": "PERSONTYPE",
-        "importance": 0.74,
-        "url": ""
+        "importance": 0.74
       },
       {
         "entity": "Democratic Party",
         "category": "ORGANIZATION",
-        "importance": 0.98,
-        "url": ""
+        "importance": 0.98
       },
       {
         "entity": "Obama",
         "category": "PERSON",
-        "importance": 1.0,
-        "url": ""
+        "importance": 1.0
       },
       {
         "entity": "first",
         "category": "QUANTITY",
-        "importance": 0.8,
-        "url": ""
+        "importance": 0.8
       },
       {
         "entity": "African-American",
         "category": "PERSONTYPE",
-        "importance": 0.86,
-        "url": ""
+        "importance": 0.86
       },
       {
         "entity": "president",
         "category": "PERSONTYPE",
-        "importance": 0.57,
-        "url": ""
+        "importance": 0.57
       },
       {
         "entity": "United States",
         "category": "LOCATION",
-        "importance": 0.99,
-        "url": ""
+        "importance": 0.99
       },
       {
         "entity": "previously",
-        "category": "DATETIME",
-        "importance": 0.8,
-        "url": ""
+        "category": "DATE",
+        "importance": 0.8
       },
       {
         "entity": "U.S.",
         "category": "LOCATION",
-        "importance": 0.74,
-        "url": ""
+        "importance": 0.74
       },
       {
         "entity": "senator",
         "category": "PERSONTYPE",
-        "importance": 0.65,
-        "url": ""
+        "importance": 0.65
       },
       {
         "entity": "Illinois",
         "category": "LOCATION",
-        "importance": 0.97,
-        "url": ""
+        "importance": 0.97
       },
       {
         "entity": "from 2005 to 2008",
-        "category": "DATETIME",
-        "importance": 0.8,
-        "url": ""
+        "category": "DATE",
+        "importance": 0.8
       },
       {
         "entity": "Illinois",
         "category": "LOCATION",
-        "importance": 0.85,
-        "url": ""
+        "importance": 0.85
       },
       {
         "entity": "state senator",
         "category": "PERSONTYPE",
-        "importance": 0.55,
-        "url": ""
+        "importance": 0.55
       },
       {
         "entity": "from 1997 to 2004",
-        "category": "DATETIME",
-        "importance": 0.8,
-        "url": ""
+        "category": "DATE",
+        "importance": 0.8
       }
     ]
   }

@@ -69,7 +69,7 @@
         "end_idx": 173,
         "text": "the first",
         "type": "time",
-        "value": "2022-11-01T00:00:00.000-07:00"
+        "value": "2022-12-01T00:00:00.000-08:00"
       },
       {
         "start_idx": 276,
@@ -117,81 +117,68 @@
     "items": [
       {
         "entity": "Barack Hussein Obama",
-        "category": "person",
-        "importance": null,
-        "url": ""
+        "category": "PERSON",
+        "importance": null
       },
       {
         "entity": "American",
-        "category": "norp",
-        "importance": null,
-        "url": ""
+        "category": "NORP",
+        "importance": null
       },
       {
         "entity": "44th",
-        "category": "ordinal",
-        "importance": null,
-        "url": ""
+        "category": "ORDINAL",
+        "importance": null
       },
       {
         "entity": "the United States",
-        "category": "geo-political-entities",
-        "importance": null,
-        "url": ""
+        "category": "GEOPOLITICALENTITIES",
+        "importance": null
       },
       {
         "entity": "2009",
-        "category": "date",
-        "importance": null,
-        "url": ""
+        "category": "DATE",
+        "importance": null
       },
       {
         "entity": "44th",
-        "category": "ordinal",
-        "importance": null,
-        "url": ""
+        "category": "ORDINAL",
+        "importance": null
       },
       {
         "entity": "from 2009 to 2017",
-        "category": "money",
-        "importance": null,
-        "url": ""
+        "category": "MONEY",
+        "importance": null
       },
       {
         "entity": "from 2009 to 2017",
-        "category": "time",
-        "importance": null,
-        "url": ""
+        "category": "DATE",
+        "importance": null
       },
       {
         "entity": "the first",
-        "category": "time",
-        "importance": null,
-        "url": ""
+        "category": "DATE",
+        "importance": null
       },
       {
         "entity": "from 2005 to 2008",
-        "category": "money",
-        "importance": null,
-        "url": ""
+        "category": "MONEY",
+        "importance": null
       },
       {
         "entity": "from 2005 to 2008",
-        "category": "time",
-        "importance": null,
-        "url": ""
+        "category": "DATE",
+        "importance": null
       },
       {
         "entity": "from 1997 to 2004",
-        "category": "money",
-        "importance": null,
-        "url": ""
+        "category": "MONEY",
+        "importance": null
       },
       {
         "entity": "from 1997 to 2004",
-        "category": "time",
-        "importance": null,
-        "url": ""
+        "category": "DATE",
+        "importance": null
       }
     ]
   }

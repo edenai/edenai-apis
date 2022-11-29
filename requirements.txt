@@ -195,6 +195,8 @@ marshmallow==3.14.1
     # via amazon-textract-response-parser
 mccabe==0.7.0
     # via pylint
+modernmt==1.1.0
+    # via -r requirements.in
 msal==1.20.0
     # via
     #   azure-identity
@@ -335,6 +337,7 @@ requests==2.28.1
     #   ibm-cloud-sdk-core
     #   ibm-watson
     #   lettria
+    #   modernmt
     #   msal
     #   msrest
     #   requests-oauthlib

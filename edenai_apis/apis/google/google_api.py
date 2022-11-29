@@ -144,7 +144,7 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import wav_converter
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncErrorResponseType,
@@ -598,14 +598,15 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         # Getting name of entity, its category and its score of confidence
         if response.get("entities") and isinstance(response["entities"], list):
             for ent in response["entities"]:
-                items.append(
-                    InfosNamedEntityRecognitionDataClass(
-                        entity=ent["name"],
-                        importance=ent.get("salience", None),
-                        category=ent["type"],
-                        url=ent.get("metadata", {}).get("wikipedia_url", None),
+                if ent.get("salience"):
+                    items.append(
+                        InfosNamedEntityRecognitionDataClass(
+                            entity=ent["name"],
+                            importance=ent.get("salience"),
+                            category=ent["type"],
+                        #    url=ent.get("metadata", {}).get("wikipedia_url", None),
+                        )
                     )
-                )
 
         standarized_response = NamedEntityRecognitionDataClass(items=items)
 
@@ -726,7 +727,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
 
         #check language
         if not language:
-            raise ProviderException("Please provide an input language parameter for the Speech to text function")
+            raise LanguageException("Language not provided")
         export_format = "flac"
         wav_file, _, _, channels = wav_converter(file, export_format)
         audio_name = str(int(time())) + Path(file.name).stem + "." + export_format

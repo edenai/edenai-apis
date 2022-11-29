@@ -21,7 +21,10 @@ from edenai_apis.features.image import (
 from edenai_apis.features import ProviderApi, Ocr, Image
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import (
+    ProviderException,
+    LanguageException
+)
 from edenai_apis.utils.types import ResponseType
 
 from .clarifai_helpers import explicit_content_likelihood, get_formatted_language
@@ -48,7 +51,7 @@ class ClarifaiApi(
     ) -> ResponseType[OcrDataClass]:
 
         if not language:
-            raise ProviderException("Please provide an input language parameter for the OCR function")
+            raise LanguageException("Language not provided")
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
         file_content = file.read()
