@@ -2562,16 +2562,16 @@
                 "is_perso": false
               },
               {
-                "sub": "be_located",
-                "super": "root|act|being|be_related",
+                "sub": "exist",
+                "super": "root|act|existing",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
                 "is_perso": false
               },
               {
-                "sub": "exist",
-                "super": "root|act|existing",
+                "sub": "be_located",
+                "super": "root|act|being|be_related",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -2658,14 +2658,6 @@
                 "is_perso": false
               },
               {
-                "sub": "manner_(n)",
-                "super": "abstract|features",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
                 "sub": "road",
                 "super": "concret|fabricated_thing|object|created_location|territory",
                 "extra": null,
@@ -2676,6 +2668,14 @@
               {
                 "sub": "way",
                 "super": "abstract|entity|space|space_between_things",
+                "extra": null,
+                "intensity": 1,
+                "derivates": null,
+                "is_perso": false
+              },
+              {
+                "sub": "manner_(n)",
+                "super": "abstract|features",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -3240,16 +3240,16 @@
                 "is_perso": false
               },
               {
-                "sub": "shop",
-                "super": "concret|fabricated_thing|object|created_location|building",
+                "sub": "fair",
+                "super": "abstract|entity|event",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
                 "is_perso": false
               },
               {
-                "sub": "fair",
-                "super": "abstract|entity|event",
+                "sub": "shop",
+                "super": "concret|fabricated_thing|object|created_location|building",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -3315,14 +3315,6 @@
                 "is_perso": false
               },
               {
-                "sub": "manner_(n)",
-                "super": "abstract|features",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
                 "sub": "road",
                 "super": "concret|fabricated_thing|object|created_location|territory",
                 "extra": null,
@@ -3333,6 +3325,14 @@
               {
                 "sub": "way",
                 "super": "abstract|entity|space|space_between_things",
+                "extra": null,
+                "intensity": 1,
+                "derivates": null,
+                "is_perso": false
+              },
+              {
+                "sub": "manner_(n)",
+                "super": "abstract|features",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -3564,14 +3564,6 @@
                 "is_perso": false
               },
               {
-                "sub": "be_located",
-                "super": "root|act|being|be_related",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
                 "sub": "exist",
                 "super": "root|act|existing",
                 "extra": null,
@@ -3580,16 +3572,24 @@
                 "is_perso": false
               },
               {
-                "sub": "be_measured",
-                "super": "root|act|being|identification/qualification|characteristic",
+                "sub": "be_identified",
+                "super": "root|act|being|identification/qualification",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
                 "is_perso": false
               },
               {
-                "sub": "be_identified",
-                "super": "root|act|being|identification/qualification",
+                "sub": "be_located",
+                "super": "root|act|being|be_related",
+                "extra": null,
+                "intensity": 1,
+                "derivates": null,
+                "is_perso": false
+              },
+              {
+                "sub": "be_measured",
+                "super": "root|act|being|identification/qualification|characteristic",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -4153,16 +4153,16 @@
             "lemma": "issue",
             "meaning": [
               {
-                "sub": "theme",
-                "super": "abstract|features|attribute",
+                "sub": "issue",
+                "super": "abstract|entity|indefinite_things|related_things|agents/results|agents|issues/solutions",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
                 "is_perso": false
               },
               {
-                "sub": "issue",
-                "super": "abstract|entity|indefinite_things|related_things|agents/results|agents|issues/solutions",
+                "sub": "theme",
+                "super": "abstract|features|attribute",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -4711,16 +4711,16 @@
                 "is_perso": false
               },
               {
-                "sub": "begin_(sthg)",
-                "super": "root|interact|make_exist|progression",
+                "sub": "make_do",
+                "super": "root|interact|do_on/with|make_do",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
                 "is_perso": false
               },
               {
-                "sub": "contact",
-                "super": "root|interact|communicating",
+                "sub": "arrive",
+                "super": "root|act|moving|place|to/from",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -4743,48 +4743,16 @@
                 "is_perso": false
               },
               {
-                "sub": "arrive",
-                "super": "root|act|moving|place|to/from",
+                "sub": "begin_(sthg)",
+                "super": "root|interact|make_exist|progression",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
                 "is_perso": false
               },
               {
-                "sub": "make_do",
-                "super": "root|interact|do_on/with|make_do",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
-                "sub": "endure_(sthg)",
-                "super": "root|interact|interactions|negative",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
-                "sub": "bring_(sthg)",
-                "super": "root|interact|make_move|place",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
-                "sub": "take",
-                "super": "root|interact|do_on/with|handling",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
-                "sub": "irritate_(sbody)",
-                "super": "root|interact|make_feel|bad",
+                "sub": "contact",
+                "super": "root|interact|communicating",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -4799,8 +4767,40 @@
                 "is_perso": false
               },
               {
+                "sub": "irritate_(sbody)",
+                "super": "root|interact|make_feel|bad",
+                "extra": null,
+                "intensity": 1,
+                "derivates": null,
+                "is_perso": false
+              },
+              {
                 "sub": "prepare",
                 "super": "root|interact|do_on/with|managing",
+                "extra": null,
+                "intensity": 1,
+                "derivates": null,
+                "is_perso": false
+              },
+              {
+                "sub": "endure_(sthg)",
+                "super": "root|interact|interactions|negative",
+                "extra": null,
+                "intensity": 1,
+                "derivates": null,
+                "is_perso": false
+              },
+              {
+                "sub": "take",
+                "super": "root|interact|do_on/with|handling",
+                "extra": null,
+                "intensity": 1,
+                "derivates": null,
+                "is_perso": false
+              },
+              {
+                "sub": "bring_(sthg)",
+                "super": "root|interact|make_move|place",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -5055,16 +5055,16 @@
             "lemma": "issue",
             "meaning": [
               {
-                "sub": "theme",
-                "super": "abstract|features|attribute",
+                "sub": "issue",
+                "super": "abstract|entity|indefinite_things|related_things|agents/results|agents|issues/solutions",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
                 "is_perso": false
               },
               {
-                "sub": "issue",
-                "super": "abstract|entity|indefinite_things|related_things|agents/results|agents|issues/solutions",
+                "sub": "theme",
+                "super": "abstract|features|attribute",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -5193,8 +5193,24 @@
                 "is_perso": false
               },
               {
-                "sub": "other_kind",
+                "sub": "taxonomic_kind",
                 "super": "abstract|features|attribute|kinds",
+                "extra": null,
+                "intensity": 1,
+                "derivates": null,
+                "is_perso": false
+              },
+              {
+                "sub": "structure",
+                "super": "abstract|features|manner_(n)",
+                "extra": null,
+                "intensity": 1,
+                "derivates": null,
+                "is_perso": false
+              },
+              {
+                "sub": "purchase",
+                "super": "abstract|entity|indefinite_things|related_things|possessed_things",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -5217,22 +5233,6 @@
                 "is_perso": false
               },
               {
-                "sub": "other_rank",
-                "super": "abstract|features|attribute|ranks",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
-                "sub": "structure",
-                "super": "abstract|features|manner_(n)",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
                 "sub": "professional_group",
                 "super": "concret|natural_thing|person|human_group",
                 "extra": null,
@@ -5241,16 +5241,16 @@
                 "is_perso": false
               },
               {
-                "sub": "taxonomic_kind",
-                "super": "abstract|features|attribute|kinds",
+                "sub": "other_rank",
+                "super": "abstract|features|attribute|ranks",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
                 "is_perso": false
               },
               {
-                "sub": "purchase",
-                "super": "abstract|entity|indefinite_things|related_things|possessed_things",
+                "sub": "other_kind",
+                "super": "abstract|features|attribute|kinds",
                 "extra": null,
                 "intensity": 1,
                 "derivates": null,
@@ -5703,7 +5703,6 @@
     "patterns": null
   },
   "standarized_response": {
-    "text": "Overall I am satisfied with my experience at Amazon, but two areas of major improvement needed. First is the product reviews and pricing. There are thousands of positive reviews for so many items, and it's clear that the reviews are bogus or not really associated with that product. There needs to be a way to only view products sold by Amazon directly, because many market sellers way overprice items that can be purchased cheaper elsewhere (like Walmart, Target, etc). The second issue is they make it too difficult to get help when there's an issue with an order.",
     "general_sentiment": "Negative",
     "general_sentiment_rate": 0.27,
     "items": [

@@ -704,7 +704,6 @@ class MicrosoftApi(
                     best_general_sentiment['rate'] = value
 
         standarize = SentimentAnalysisDataClass(
-            text=text,
             general_sentiment=best_general_sentiment['sentiment'],
             general_sentiment_rate=best_general_sentiment['rate'],
             items=items

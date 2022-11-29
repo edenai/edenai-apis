@@ -8,19 +8,18 @@
       "Mixed": 0.5934977531433105
     },
     "ResponseMetadata": {
-      "RequestId": "97515898-47ff-4bb3-a036-c32fc6a21a09",
+      "RequestId": "795e0c6e-47e7-487b-84cc-dad5247f87f0",
       "HTTPStatusCode": 200,
       "HTTPHeaders": {
-        "x-amzn-requestid": "97515898-47ff-4bb3-a036-c32fc6a21a09",
+        "x-amzn-requestid": "795e0c6e-47e7-487b-84cc-dad5247f87f0",
         "content-type": "application/x-amz-json-1.1",
         "content-length": "162",
-        "date": "Fri, 25 Nov 2022 11:18:34 GMT"
+        "date": "Tue, 29 Nov 2022 14:19:46 GMT"
       },
       "RetryAttempts": 0
     }
   },
   "standarized_response": {
-    "text": "Overall I am satisfied with my experience at Amazon, but two areas of major improvement needed. First is the product reviews and pricing. There are thousands of positive reviews for so many items, and it's clear that the reviews are bogus or not really associated with that product. There needs to be a way to only view products sold by Amazon directly, because many market sellers way overprice items that can be purchased cheaper elsewhere (like Walmart, Target, etc). The second issue is they make it too difficult to get help when there's an issue with an order.",
     "general_sentiment": "Negative",
     "general_sentiment_rate": 0.4,
     "items": []

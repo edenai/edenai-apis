@@ -172,7 +172,6 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
             general_sentiment = SentimentEnum.POSITIVE
 
         standarized_response = SentimentAnalysisDataClass(
-            text=original_response['output'][0]['text'],
             general_sentiment=general_sentiment_text,
             items=items
         )

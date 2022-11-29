@@ -483,7 +483,6 @@ class AmazonApi(
         # Analysing response
 
         best_sentiment = {
-            "text": text,
             "general_sentiment": None,
             "general_sentiment_rate": 0,
             "items": []
@@ -498,7 +497,6 @@ class AmazonApi(
                 best_sentiment['general_sentiment_rate'] = response["SentimentScore"][key]
 
         standarize = SentimentAnalysisDataClass(
-            text=best_sentiment['text'],
             general_sentiment=best_sentiment['general_sentiment'],
             general_sentiment_rate=best_sentiment['general_sentiment_rate'],
             items=[]

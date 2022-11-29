@@ -650,7 +650,6 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             )
         )
         standarize = SentimentAnalysisDataClass(
-            text=text,
             general_sentiment=score_to_sentiment(response['documentSentiment'].get("score", 0)),
             general_sentiment_rate=abs(response['documentSentiment'].get("score", 0)),
             items=items,

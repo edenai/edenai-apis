@@ -87,7 +87,6 @@ class LettriaApi(ProviderApi, Text):
         sentiment_rate=abs(original_response["sentiment"])
 
         standarize = SentimentAnalysisDataClass(
-            text=text,
             general_sentiment=sentiment,
             general_sentiment_rate=sentiment_rate,
             items=items

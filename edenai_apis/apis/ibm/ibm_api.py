@@ -143,7 +143,6 @@ class IbmApi(
         # Create output object
         items: Sequence[SegmentSentimentAnalysisDataClass] = []
         standarize = SentimentAnalysisDataClass(
-            text=text,
             general_sentiment=response["sentiment"]["document"]["label"],
             general_sentiment_rate=float(
                     abs(response["sentiment"]["document"]["score"])
