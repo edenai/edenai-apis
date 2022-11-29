@@ -28,6 +28,11 @@
                     "ko-KR",
                     "fr-FR",
                     "en-IN"
+                ],
+                "file_types": [
+                    "flac",
+                    "mp3",
+                    "m4a"
                 ]
             },
             "version": "v1"

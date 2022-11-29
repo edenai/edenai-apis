@@ -185,6 +185,12 @@
     },
     "ocr": {
       "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp"
+        ],
         "languages": [
           "tt",
           "et",

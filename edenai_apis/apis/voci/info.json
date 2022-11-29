@@ -15,6 +15,9 @@
                     "por-BR",
                     "spa-CO"
                 ],
+                "file_type": [
+                    "wav"
+                ],
                 "allow_null_language": true
             },
             "version": "v1"

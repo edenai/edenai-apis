@@ -10,6 +10,9 @@
         },
         "ocr": {
             "constraints": {
+                "file_types": [
+                    "image/*"
+                ],
                 "languages": [
                     "en-US",
                     "tr"
