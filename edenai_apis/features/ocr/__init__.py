@@ -41,7 +41,9 @@ from .resume_parser import (
     ResumePersonalInfo,
     ResumeSkill,
     ResumeWorkExp,
+    ResumePersonalName,
     ResumeWorkExpEntry,
+    ResumeLocation,
     resume_parser_arguments,
 )
 
