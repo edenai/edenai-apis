@@ -69,6 +69,12 @@
     "ocr": {
         "ocr": {
             "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "application/pdf",
+                    "image/tiff"
+                ],
                 "languages": [
                     "en",
                     "es",

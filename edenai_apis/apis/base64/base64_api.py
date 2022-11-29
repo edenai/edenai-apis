@@ -212,7 +212,6 @@ class Base64Api(ProviderApi, Ocr):
         response = requests.post(url=self.url, headers=headers, json=data)
 
         if response.status_code != 200:
-            print("base64 response.text", response.text)
             raise ProviderException(response.text)
 
         return response.json()
@@ -236,7 +235,7 @@ class Base64Api(ProviderApi, Ocr):
 
     def ocr__ocr(self, file: BufferedReader, language: str):
         raise ProviderException(
-            message="This provider is depricated. You won't be charged for your call."
+            message="This provider is deprecated. You won't be charged for your call."
         )
 
     def ocr__invoice_parser(

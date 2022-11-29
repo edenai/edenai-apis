@@ -88,7 +88,6 @@ from edenai_apis.utils.exception import (
     LanguageException
 )
 from edenai_apis.utils.types import (
-    AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncBaseResponseType,
@@ -327,70 +326,43 @@ class AmazonApi(
     def ocr__ocr(
         self, file: BufferedReader, language: str
     ) -> ResponseType[OcrDataClass]:
-        is_pdf = file.name.lower().endswith(".pdf")
         file_content = file.read()
-        responses = []
-        index = 1
 
-        if is_pdf:
-            ocr_file_images = convert_from_bytes(
-                file_content, fmt="jpeg", poppler_path=None
-            )
-            for ocr_image in ocr_file_images:
-                ocr_image_buffer = BytesIO()
-                ocr_image.save(ocr_image_buffer, format="JPEG")
-
-                response = clients.get("textract").detect_document_text(
-                    Document={
-                        "Bytes": ocr_image_buffer.getvalue(),
-                        "S3Object": {"Bucket": api_settings['bucket'], "Name": f"{index}.jpeg"},
-                    }
-                )
-                response["width"], response["height"] = ocr_image.size
-                responses.append(response)
-                index += 1
-
-        else:
-            response = clients.get("textract").detect_document_text(
-                Document={
-                    "Bytes": file_content,
-                    "S3Object": {"Bucket": api_settings['bucket'], "Name": f"{index}.jpeg"},
-                }
-            )
-
-            response["width"], response["height"] = Img.open(file).size
-            responses.append(response)
+        response = clients["textract"].detect_document_text(
+            Document={
+                "Bytes": file_content,
+                "S3Object": {"Bucket": api_settings["bucket"], "Name": file.name},
+            }
+        )
 
         final_text = ""
-        output_value = json.dumps(responses, ensure_ascii=False)
-        messages_list = json.loads(output_value)
+        output_value = json.dumps(response, ensure_ascii=False)
+        original_response = json.loads(output_value)
         boxes: Sequence[Bounding_box] = []
+
         # Get region of text
-        for response in messages_list:
+        for region in original_response.get("Blocks"):
+            if region.get("BlockType") == "LINE":
+                # Read line by region
+                final_text += " " + region.get("Text")
 
-            for region in response.get("Blocks"):
-                if region.get("BlockType") == "LINE":
-                    # Read line by region
-                    final_text += " " + region.get("Text")
-
-                if region.get("BlockType") == "WORD":
-                    boxes.append(
-                        Bounding_box(
-                            text=region.get("Text"),
-                            left=region["Geometry"]["BoundingBox"]["Left"],
-                            top=region["Geometry"]["BoundingBox"]["Top"],
-                            width=region["Geometry"]["BoundingBox"]["Width"],
-                            height=region["Geometry"]["BoundingBox"]["Height"],
-                        )
+            if region.get("BlockType") == "WORD":
+                boxes.append(
+                    Bounding_box(
+                        text=region.get("Text"),
+                        left=region["Geometry"]["BoundingBox"]["Left"],
+                        top=region["Geometry"]["BoundingBox"]["Top"],
+                        width=region["Geometry"]["BoundingBox"]["Width"],
+                        height=region["Geometry"]["BoundingBox"]["Height"],
                     )
+                )
 
-            response.pop("width")
-            response.pop("height")
-        standarized = OcrDataClass(
+        standardized = OcrDataClass(
             text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
         )
+
         return ResponseType[OcrDataClass](
-            original_response=messages_list, standarized_response=standarized
+            original_response=original_response, standarized_response=standardized
         )
 
     def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
@@ -554,10 +526,10 @@ class AmazonApi(
                 )
             )
 
-        standarized = NamedEntityRecognitionDataClass(items=items)
+        standardized = NamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[NamedEntityRecognitionDataClass](
-            original_response=response, standarized_response=standarized
+            original_response=response, standarized_response=standardized
         )
 
     def text__syntax_analysis(
@@ -630,12 +602,12 @@ class AmazonApi(
             if "SourceLanguageCode" in str(exc):
                 raise LanguageException(str(exc))
 
-        standarized: AutomaticTranslationDataClass
+        standardized: AutomaticTranslationDataClass
         if response["TranslatedText"] != "":
-            standarized = AutomaticTranslationDataClass(text=response["TranslatedText"])
+            standardized = AutomaticTranslationDataClass(text=response["TranslatedText"])
 
         return ResponseType[AutomaticTranslationDataClass](
-            original_response=response, standarized_response=standarized.dict()
+            original_response=response, standarized_response=standardized.dict()
         )
 
     def audio__text_to_speech(
@@ -698,6 +670,7 @@ class AmazonApi(
             )
 
         msg = json.loads(data.get("Message"))
+        # ref: https://docs.aws.amazon.com/textract/latest/dg/async-notification-payload.html
         job_id = msg["JobId"]
 
         if msg["Status"] == "SUCCEEDED":
@@ -709,12 +682,15 @@ class AmazonApi(
                 standarized_response=standarized_response,
                 provider_job_id=job_id,
             )
+        elif msg["Status"] == "PROCESSING":
+            return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)
 
-        if msg["Status"] == "FAIL":
-            return AsyncErrorResponseType[OcrTablesAsyncDataClass](
-                provider_job_id=job_id
-            )
-        return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)
+        else:
+            original_result = clients["textract"].get_document_analysis(JobId=job_id)
+            if original_result.get("JobStatus") == "FAILED":
+                error = original_result.get("StatusMessage")
+                raise ProviderException(error)
+
 
     # Speech to text async
     def _upload_audio_file_to_amazon_server(
@@ -810,9 +786,8 @@ class AmazonApi(
                     provider_job_id=provider_job_id,
                 )
         elif job_status == "FAILED":
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id
-            )
+            error = job_details["TranscriptionJob"].get("FailureReason")
+            raise ProviderException(error)
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
             provider_job_id=provider_job_id
         )

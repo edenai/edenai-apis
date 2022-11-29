@@ -33,7 +33,6 @@ from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
-    AsyncErrorResponseType,
     AsyncResponseType,
     ResponseType
 )
@@ -308,6 +307,6 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
             elif original_response['status'] == StatusEnum.RUNNING:
                 return AsyncPendingResponseType[SpeechToTextAsyncDataClass](provider_job_id=provider_job_id)
             else:
-                return AsyncErrorResponseType(provider_job_id=provider_job_id, error=original_response)
+                raise ProviderException(original_response)
         else:
-            return AsyncErrorResponseType(provider_job_id=provider_job_id, error=original_response)
+            raise ProviderException(original_response)

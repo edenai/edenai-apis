@@ -2,6 +2,9 @@
     "ocr": {
         "ocr": {
             "constraints": {
+                "file_types": [
+                    "image/*"
+                ],
                 "languages": [
                     "ru-RU",
                     "pt-PT",

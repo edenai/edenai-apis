@@ -208,6 +208,16 @@
     "ocr": {
         "ocr": {
             "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "image/gif",
+                    "image/x-ms-bmp",
+                    "image/webp",
+                    "image/vnd.microsoft.icon",
+                    "application/pdf",
+                    "image/tiff"
+                ],
                 "languages": [
                     "ar-XA",
                     "zh-CN",

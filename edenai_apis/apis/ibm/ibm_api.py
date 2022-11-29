@@ -44,7 +44,6 @@ from edenai_apis.utils.exception import ProviderException, LanguageException
 
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
-    AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
@@ -397,9 +396,9 @@ class IbmApi(
             )
 
         if status == "failed":
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id = provider_job_id
-            )
+            # Apparently no error message present in response
+            # ref: https://cloud.ibm.com/apidocs/speech-to-text?code=python#checkjob
+            raise ProviderException
 
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
             provider_job_id=provider_job_id
