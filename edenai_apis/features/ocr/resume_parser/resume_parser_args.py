@@ -7,4 +7,4 @@ data_path = os.path.join(feature_path, "data")
 
 
 def resume_parser_arguments() -> Dict:
-    return {"file": open(f"{data_path}/resume.jpg", "rb")}
+    return {"file": open(f"{data_path}/resume.pdf", "rb")}

@@ -8,5 +8,7 @@ from .resume_parser_dataclass import (
     ResumePersonalInfo,
     ResumeSkill,
     ResumeWorkExpEntry,
-    ResumeWorkExp
+    ResumeWorkExp,
+    ResumePersonalName,
+    ResumeLocation
 )
