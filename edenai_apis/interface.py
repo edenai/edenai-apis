@@ -6,7 +6,7 @@ from uuid import uuid4
 from edenai_apis.features.base_provider.provider_api import ProviderApi
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
-from edenai_apis.utils.languages import update_provider_input_language
+from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.compare import assert_equivalent_dict
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
 
@@ -195,6 +195,9 @@ def compute_output(
 
     status = "success"
 
+    # if language input, update args with a standardized language
+    args = validate_all_provider_constraints(provider_name, feature, subfeature, args)
+
     if fake:
         # Return mocked results
         if is_async:
@@ -227,12 +230,6 @@ def compute_output(
 
     else:
         # Fake == False : Compute real output
-        language_output = update_provider_input_language(
-            args, provider_name, feature, subfeature
-        )
-        # means that an error was found
-        if isinstance(language_output, dict):
-            return language_output
 
         subfeature_result = load_provider(
             ProviderDataEnum.SUBFEATURE,
