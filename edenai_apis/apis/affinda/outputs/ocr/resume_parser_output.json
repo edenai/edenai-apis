@@ -2,15 +2,14 @@
   "original_response": {
     "data": {
       "name": {
-        "raw": "Amanda",
+        "raw": "Amanda Smith",
         "first": "Amanda",
-        "last": "",
+        "last": "Smith",
         "middle": "",
         "title": ""
       },
       "phone_numbers": [
-        "594-348-2740",
-        "594-348-2741"
+        "594-348-2740 594-348-2741"
       ],
       "websites": [],
       "emails": [
@@ -31,15 +30,15 @@
       "languages": [
         "Hawaiian",
         "Spanish",
-        "French",
         "Italian",
+        "French",
         "English"
       ],
       "summary": "",
       "total_years_experience": 0,
       "education": [
         {
-          "id": 5601011,
+          "id": 7159906,
           "organization": "New York University",
           "accreditation": {
             "education": "Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting)",
@@ -53,54 +52,32 @@
           }
         }
       ],
-      "work_experience": [],
+      "work_experience": [
+        {
+          "id": 13641940,
+          "job_title": "",
+          "organization": "MODET",
+          "location": {
+            "formatted": "Los Angeles, CA, USA",
+            "state": "California",
+            "country": "United States",
+            "country_code": "US",
+            "raw_input": "Los Angeles, CA,",
+            "city": "Los Angeles"
+          },
+          "job_description": "Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 . Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 . Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 . Fashion Show: Macy's NYC Fashion Show New York, December 2006 . Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006 ",
+          "dates": {
+            "end_date": "2007-09-01",
+            "is_current": false
+          },
+          "occupation": {
+            "job_title": ""
+          }
+        }
+      ],
       "skills": [
         {
-          "id": 59279873,
-          "emsi_id": "KS127CD6TFVHL5L08RCS",
-          "name": "Opera (Web Browser)",
-          "type": "hard_skill",
-          "sources": [
-            {
-              "section": "Skills/Interests/Languages"
-            }
-          ]
-        },
-        {
-          "id": 59279875,
-          "emsi_id": "KS120WC5WQLKTJTG7TLX",
-          "name": "Ballet",
-          "type": "hard_skill",
-          "sources": [
-            {
-              "section": "Skills/Interests/Languages"
-            }
-          ]
-        },
-        {
-          "id": 59279877,
-          "emsi_id": "KS1200H6XYN1CR0G5NZ0",
-          "name": "Microsoft Excel",
-          "type": "soft_skill",
-          "sources": [
-            {
-              "section": "Skills/Interests/Languages"
-            }
-          ]
-        },
-        {
-          "id": 59279879,
-          "emsi_id": "ES9C0ADA3C9397DD6AED",
-          "name": "Agile Software Development",
-          "type": "hard_skill",
-          "sources": [
-            {
-              "section": "Skills/Interests/Languages"
-            }
-          ]
-        },
-        {
-          "id": 59279880,
+          "id": 72793232,
           "emsi_id": "KS1209G6J8YRRLRDQ03Y",
           "name": "Aerobics",
           "type": "hard_skill",
@@ -111,9 +88,53 @@
           ]
         },
         {
-          "id": 59279881,
+          "id": 72793233,
           "emsi_id": "KS7G1PB6LNV1DF9GXHBG",
           "name": "Jazz",
+          "type": "hard_skill",
+          "sources": [
+            {
+              "section": "Skills/Interests/Languages"
+            }
+          ]
+        },
+        {
+          "id": 72793234,
+          "emsi_id": "KS1200H6XYN1CR0G5NZ0",
+          "name": "Microsoft Excel",
+          "type": "soft_skill",
+          "sources": [
+            {
+              "section": "Skills/Interests/Languages"
+            }
+          ]
+        },
+        {
+          "id": 72793236,
+          "emsi_id": "KS127CD6TFVHL5L08RCS",
+          "name": "Opera (Web Browser)",
+          "type": "hard_skill",
+          "sources": [
+            {
+              "section": "Skills/Interests/Languages"
+            }
+          ]
+        },
+        {
+          "id": 72793237,
+          "emsi_id": "KS120WC5WQLKTJTG7TLX",
+          "name": "Ballet",
+          "type": "hard_skill",
+          "sources": [
+            {
+              "section": "Skills/Interests/Languages"
+            }
+          ]
+        },
+        {
+          "id": 72793242,
+          "emsi_id": "ES9C0ADA3C9397DD6AED",
+          "name": "Agile Software Development",
           "type": "hard_skill",
           "sources": [
             {
@@ -129,10 +150,10 @@
         {
           "section_type": "PersonalDetails",
           "bbox": [
-            107.0,
-            185.0,
-            530.0,
-            418.0
+            54.0,
+            131.0,
+            273.0,
+            251.0
           ],
           "page_index": 0,
           "text": "Amanda Smith 398 Wilshire Blvd. Los Angeles, CA Home: 594-348-2740 Cell: 594-348-2741 E-mail: modelgal@aim.com"
@@ -140,10 +161,10 @@
         {
           "section_type": "Summary",
           "bbox": [
-            103.0,
-            478.0,
-            457.0,
-            600.0
+            53.0,
+            281.0,
+            235.0,
+            345.0
           ],
           "page_index": 0,
           "text": "Objective To build and maintain a successful role in the world of high fashion modeling."
@@ -151,21 +172,21 @@
         {
           "section_type": "Skills/Interests/Languages",
           "bbox": [
-            105.0,
-            657.0,
-            975.0,
-            856.0
+            54.0,
+            373.0,
+            501.0,
+            476.0
           ],
           "page_index": 0,
-          "text": "Special Skills \u00b7 Dancing: Experienced in Ballet, Tap, Jazz, and Modem Dance \u00b7 Sports: Extremely athletic and agile; avid swimmer and golfer. Also excel in ice skating, aerobics, baseball, basketball, volleyball and tennis. \u00b7 Music: Classically taught opera singer and pianist. Languages: English is native language. Also fluent in Spanish, Italian, and French."
+          "text": "Special Skills . Dancing: Experienced in Ballet, Tap, Jazz, and Modem Dance \u00b7 Sports: Extremely athletic and agile; avid swimmer and golfer. Also excel in ice skating, aerobics, baseball, basketball, volleyball and tennis. Music: Classically taught opera singer and pianist. . Languages: English is native language. Also fluent in Spanish, Italian, and French."
         },
         {
           "section_type": "Education",
           "bbox": [
-            104.0,
-            897.0,
-            957.0,
-            1005.0
+            54.0,
+            496.0,
+            491.0,
+            552.0
           ],
           "page_index": 0,
           "text": "Education Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting) - New York University (2003)"
@@ -173,33 +194,37 @@
         {
           "section_type": "WorkExperience",
           "bbox": [
-            105.0,
-            1052.0,
-            956.0,
-            1388.0
+            53.0,
+            575.0,
+            491.0,
+            749.0
           ],
           "page_index": 0,
-          "text": "Work Experience \u00b7 Fashion Show: Ed Hardy Fashion Show, Los Angeles, CA, March 2008 Featured Model: Los Angeles Fashion Week, Los Angeles, CA, March 2008 \u00b7 Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 \u00b7 Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 \u00b7 Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 \u00b7 Fashion Show: Macy's NYC Fashion Show New York, December 2006 \u00b7 Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006"
+          "text": "Work Experience . Fashion Show: Ed Hardy Fashion Show, Los Angeles, CA, March 2008 . Featured Modet Los Angeles Fashion Week, Los Angeles, CA, March 2008 Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 . Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 . Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 . Fashion Show: Macy's NYC Fashion Show New York, December 2006 . Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006"
         }
       ],
-      "is_resume_probability": 70,
-      "raw_text": "Amanda Smith 398 Wilshire Blvd. Los Angeles, CA Home: 594-348-2740 Cell: 594-348-2741 E-mail: modelgal@aim.com\nObjective To build and maintain a successful role in the world of high fashion modeling.\nSpecial Skills \u00b7 Dancing: Experienced in Ballet, Tap, Jazz, and Modem Dance \u00b7 Sports: Extremely athletic and agile; avid swimmer and golfer. Also excel in ice skating, aerobics, baseball, basketball, volleyball and tennis. \u00b7 Music: Classically taught opera singer and pianist. Languages: English is native language. Also fluent in Spanish, Italian, and French.\nEducation Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting) - New York University (2003)\nWork Experience \u00b7 Fashion Show: Ed Hardy Fashion Show, Los Angeles, CA, March 2008 Featured Model: Los Angeles Fashion Week, Los Angeles, CA, March 2008 \u00b7 Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 \u00b7 Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 \u00b7 Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 \u00b7 Fashion Show: Macy's NYC Fashion Show New York, December 2006 \u00b7 Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006"
+      "is_resume_probability": 83,
+      "raw_text": "Amanda Smith 398 Wilshire Blvd. Los Angeles, CA Home: 594-348-2740 Cell: 594-348-2741 E-mail: modelgal@aim.com\nObjective To build and maintain a successful role in the world of high fashion modeling.\nSpecial Skills . Dancing: Experienced in Ballet, Tap, Jazz, and Modem Dance \u00b7 Sports: Extremely athletic and agile; avid swimmer and golfer. Also excel in ice skating, aerobics, baseball, basketball, volleyball and tennis. Music: Classically taught opera singer and pianist. . Languages: English is native language. Also fluent in Spanish, Italian, and French.\nEducation Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting) - New York University (2003)\nWork Experience . Fashion Show: Ed Hardy Fashion Show, Los Angeles, CA, March 2008 . Featured Modet Los Angeles Fashion Week, Los Angeles, CA, March 2008 Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 . Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 . Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 . Fashion Show: Macy's NYC Fashion Show New York, December 2006 . Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006"
     },
     "meta": {
-      "identifier": "IYDSxjCm",
-      "file_name": "resume.jpg",
+      "reviewUrl": "https://app.affinda.com/review/qFuBzpqi?signature=eyJ1c2VyX2lkIjoyNDIzLCJ1c2VybmFtZSI6ImNvbnRhY3QifQ:1p02ow:rQ6fYFM1GoFrtiZltKhpXzLYmoNf1QkKQVEK1VbVOG8:1p02ow:NC0fLGEGpl6Z3HbhIQsr-dchp-GiSpQSbStUWJRM7C4",
+      "ocrConfidence": 0.9668269230769229,
+      "documentType": "resume",
+      "isVerified": false,
+      "identifier": "qFuBzpqi",
+      "file_name": "resume.pdf",
       "ready": true,
-      "ready_dt": "2022-10-12T10:39:21.720063Z",
+      "ready_dt": "2022-11-29T15:46:53.692755Z",
       "failed": false,
       "language": "en",
-      "pdf": "https://affinda-api.s3.amazonaws.com/media/documents/ocr_2916037.pdf?AWSAccessKeyId=ASIAU2V7FN3BR63HZROT&Signature=GwRufICYjygJ0Mk91CWmCsmjmno%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEMH%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAJ7kadUV%2Buy7u7VAeU3cWy7XkXeCUSShR6332T4arlnGAiEA0kbS4hfmslqv3SJao8KEfXO1vyOX4rdvQjjVEzOHm4sq9wMIiv%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwzMzIxODcxMzU2ODMiDJEwojMcMwc5CgdcgyrLA8XQOcnc24NJzQF8De0FyJ52XFQjXRS7WTJPp7KOumweDptuh%2BkIJQ5QLiW2m%2BaFxEYsNi4%2FDPT54%2FIhTr8%2Bg2602oPpIbDzCXgakOLqD3qthrK0BYW%2F9%2B0QuExpfW3myXHW5pH2Ldu255%2FUgW3RrZKDJRF%2FWM9VYYoLBOq2DC71%2BOXXeKF3tyI%2BXzygZZkKSOG4bSdnLuXPJyeUt5S1YUAmjbsEcdn8pCU0Ith2N0azMQyXGBMvJBqHysuDDHWVewQvgcBp4wCtoyEUVNXpcYjexpayDNEvK%2FJZE%2Bi1NTgbZp0m8%2B9tDQ5dVNdo%2FTSATXz%2FrjKnonXlsMRQ05nW5%2Bz3pEpYaduL7%2B04KyJopMhxOYQmJpgPZTCIzMYzJQUKjomlSLvMBRDeLauw%2F%2BzOic6xelMQRv12TfCsRS9AsVb60I51Bqb2HI%2FUIxgWy36OzI08EbKUytJFH0%2FACluQdRgAN7Cdpjjs8WVi0DR5ucLQQ%2F%2BtKliFuHZwLpVe6UFBf7Ig1LMhD8P4KBmgHMm3qV8gbHIM8qEh72sUgzqgWfz0EjnPj4q%2FXVift5Eot%2BiDLcTOI0UZfOL5fXRUciN5FHkQlTEqgBGDAUpgszChhZqaBjqkAYK7lqA4KK%2B0F7IuO64OWI3sIHbXOVZUS7k%2BA9A144MfLitgWy%2FaacuHy5yDkN1iHI61BjJiiIQpToPG90wYJ2NYpLDNohvb%2F%2FQKcWeNKx6frYMxOKkvyEeeZSH%2FxrOFkOZNwcuEcEuZFhLXUWERhuP8RGQi0W4kgLMzwNhgUeyHL%2FmgG7pm98zyEFoKn89%2BWIY773NViMOysghQtPSVtTNNtGKb&Expires=1665574762",
+      "pdf": "https://affinda-api.s3.amazonaws.com/media/documents/resume_pkYvrr1.pdf?AWSAccessKeyId=ASIAU2V7FN3BUVJEXTPV&Signature=ljy2Z2A91bZNXwy8bIId0Ha2vvA%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEEcaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAKRCazBI4c4pJ5PAgXllH5zmmUORTnSGiiugL4rgFlSTAiEA3ImkYDWoFs51KhGXtR6%2FBTZXF4lS7HxV%2FHr5JN%2BtuqIq7gMIYBAAGgwzMzIxODcxMzU2ODMiDBjnh7nix95x4joDsyrLA%2B3DRkujitu1vf7N5QQoQ%2FNAyrrTPejRGoGtjFoLACjzUkJHDRbCVo746m11Ft2iWFicdQXOsnwAZJkgBUKUoOloKe2sZN6lyjSiNRCMoRUVUIDXR5opWZ6sh74YtBYjCG2KtuaPfD7bxQfQkUTTrJoxX2eBxeVUP2ZxZyx52QD67fV%2FaPm0pdBZZPrFnxGe3D1%2BsOtRV6NI7sEXjsV%2Fx3xSvNITn4Z2pQyHEQVeA4jyEWXViTRmmxiRloc5N8sTHLKWI51AExtKfxDzzxlyoOuqU6TePkPtPiyg6lh6oxbI%2B2vgt%2BLRoe1Y5r%2B45RZjoBEcgyhz9cQuoPnwxflkfHkgxQBZpxF6zrJaw0cOL6%2BwTG6rS5aJcEFpXalF7K6LoRWQbpquGhmEskthA523L8beqYt8peYmj9qaVJ7%2FfIkcbPXyvVRQxryaIctvKh9CFuucNJzoKXZyWRLX5fvdsdesPAB5Pzwq1CvXoAQ4YlEJiAEn4O8QfnX2RjTNTg360AEvm5jq1Daqrphl9A3yCyX4Xs8SLP9WnwI93LcZ56aidkJuodRidZ%2BFI6A3TU2Ipkc5sj4RLZp3%2B0TjxXX9lLZx%2FmW9VTrvwimxVTDiwpicBjqkAbskY1XRNmiAE8UgHA6%2FtfnvVBSUaiPxLMWEbOmmoD%2B9%2Fhc79nUWVgZWNG4Pf4Sxm7qtbKu1gbDS40j2W%2BFbrMu2%2BOVlXlARazyJelmFBJrYLFuOKcjhYeCm7EtgdNCzPwiI8l1OlTV9kXq8YRLLoBI0zaldN5MIhuG0KO%2FSdR5D%2BxO6kUHm2v3f29fD1CqVW3JFMvbxD%2BQ28Wbh8g6LkpZY7WGW&Expires=1669740414",
       "child_documents": [],
       "pages": [
         {
-          "id": 6679903,
+          "id": 8270404,
           "page_index": 0,
-          "height": 1500.0,
-          "width": 1159.0,
+          "height": 842.0,
+          "width": 595.0,
           "rotation": 0
         }
       ]
@@ -209,53 +234,108 @@
   "standarized_response": {
     "extracted_data": {
       "personal_infos": {
-        "first_name": "Amanda",
-        "last_name": "",
-        "address": "398 Wilshire Blvd, Santa Monica, CA 90401, USA",
+        "name": {
+          "raw_name": "Amanda Smith",
+          "first_name": "Amanda",
+          "last_name": "Smith",
+          "middle": "",
+          "title": "",
+          "prefix": "NOT PROVIDED",
+          "sufix": "NOT PROVIDED"
+        },
+        "address": {
+          "formatted_location": "NOT PROVIDED",
+          "postal_code": "",
+          "region": "California",
+          "country": "United States",
+          "country_code": "",
+          "raw_input_location": null,
+          "street": "Wilshire Boulevard",
+          "street_number": "",
+          "appartment_number": ""
+        },
         "self_summary": "",
+        "objective": "To build and maintain a successful role in the world of high fashion modeling.",
+        "date_of_birth": null,
+        "place_of_birth": "NOT PROVIDED",
         "phones": [
-          "594-348-2740",
-          "594-348-2741"
+          "594-348-2740 594-348-2741"
         ],
         "mails": [
           "modelgal@aim.com"
         ],
         "urls": [],
+        "fax": [],
         "current_profession": null,
-        "driving_licence": null,
-        "gender": null
+        "dateOfBirth": "NOT PROVIDED",
+        "gender": "NOT PROVIDED",
+        "nationality": "NOT PROVIDED",
+        "martial_status": "NOT PROVIDED",
+        "current_salary": "NOT PROVIDED"
       },
       "education": {
         "total_years_education": null,
         "entries": []
       },
       "work_experience": {
-        "total_years_experience": 0,
-        "entries": []
+        "total_years_experience": "0",
+        "entries": [
+          {
+            "title": "",
+            "start_date": null,
+            "end_date": "2007-09-01",
+            "company": "MODET",
+            "location": {
+              "formatted_location": "NOT PROVIDED",
+              "postal_code": "",
+              "region": "California",
+              "country": "United States",
+              "country_code": "",
+              "raw_input_location": null,
+              "street": "",
+              "street_number": "",
+              "appartment_number": ""
+            },
+            "description": "Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 . Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 . Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 . Fashion Show: Macy's NYC Fashion Show New York, December 2006 . Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006 ",
+            "industry": "NOT PROVIDED"
+          }
+        ]
       },
       "languages": [
         {
           "name": "Hawaiian",
-          "value": null
+          "code": null
         },
         {
           "name": "Spanish",
-          "value": null
-        },
-        {
-          "name": "French",
-          "value": null
+          "code": null
         },
         {
           "name": "Italian",
-          "value": null
+          "code": null
+        },
+        {
+          "name": "French",
+          "code": null
         },
         {
           "name": "English",
-          "value": null
+          "code": null
         }
       ],
       "skills": [
+        {
+          "name": "Aerobics",
+          "type": "hard"
+        },
+        {
+          "name": "Jazz",
+          "type": "hard"
+        },
+        {
+          "name": "Microsoft Excel",
+          "type": "soft"
+        },
         {
           "name": "Opera (Web Browser)",
           "type": "hard"
@@ -265,19 +345,7 @@
           "type": "hard"
         },
         {
-          "name": "Microsoft Excel",
-          "type": "soft"
-        },
-        {
           "name": "Agile Software Development",
-          "type": "hard"
-        },
-        {
-          "name": "Aerobics",
-          "type": "hard"
-        },
-        {
-          "name": "Jazz",
           "type": "hard"
         }
       ],

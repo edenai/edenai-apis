@@ -10,6 +10,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from typing import Sequence
 import json
+import requests
 from modernmt import ModernMT
 
 
@@ -23,22 +24,35 @@ class ModernmtApi(
     def __init__(self):
         super().__init__()
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
-        self.client = ModernMT(self.api_settings["api_key"])
+        self.header = {
+            'MMT-ApiKey' : self.api_settings["api_key"]
+        }
+        self.url = self.api_settings["url"]
+
         
     def translation__language_detection(
         self, text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
         
+        data = {
+            "q" : text,
+        }
+        
         # Api output
-        output = self.client.detect_language(text)
-        response = output.__dict__
+        output = requests.get("https://api.modernmt.com/translate/detect", 
+                              headers=self.header, data= data)
+        response=output.json()
+
+        # Handle errors :
+        if response['status'] != 200:
+            raise ProviderException(message=response['error']['message'], code=response['status'])
 
         # Create output TextDetectLanguage object
         # Analyze response
         items: Sequence[InfosLanguageDetectionDataClass] = []
         items.append(
                     InfosLanguageDetectionDataClass(
-                        language=response['detectedLanguage'],
+                        language=response['data']['detectedLanguage'],
                     )
                 )
 
@@ -50,17 +64,24 @@ class ModernmtApi(
         
     def translation__automatic_translation(self, source_language: str, target_language: str, text: str
                                            )-> ResponseType[AutomaticTranslationDataClass]:
+        data = {
+            "source" : source_language,
+            "target" : target_language,
+            "q" : text,
+        }
         
-        #Api output
-        output = self.client.translate(source_language, target_language, text)
-        response = output.__dict__
+        # Api output
+        output = requests.get('https://api.modernmt.com/translate',
+                              headers = self.header, data=data)
+        response = output.json()
 
-        # if response.status_code != 200:
-        #     raise ProviderException(message=original_response['message'], code=response.status_code)
+        # Handle error 
+        if response['status'] != 200:
+            raise ProviderException(message=response['error']['message'], code=response['status'])
 
 
         standarized_response = AutomaticTranslationDataClass(
-            text=response['translation']
+            text=response['data']['translation']
         )
 
         return ResponseType[AutomaticTranslationDataClass](

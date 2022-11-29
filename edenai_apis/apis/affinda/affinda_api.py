@@ -8,6 +8,8 @@ from edenai_apis.features.ocr import (
     ResumeLang,
     ResumeParserDataClass,
     ResumePersonalInfo,
+    ResumePersonalName,
+    ResumeLocation,
     ResumeSkill,
     ResumeWorkExp,
     ResumeWorkExpEntry,
@@ -44,35 +46,88 @@ class AffindaApi(ProviderApi, Ocr):
             raise ProviderException(original_response["detail"])
 
         resume = original_response["data"]
-
+        # 1. Personal informations
+        # 1.1 Name 
+        name = resume.get('name',{})
+        names = ResumePersonalName(
+            raw_name = name.get('raw'),
+            first_name = name.get('first'),
+            last_name = name.get('last'),
+            middle = name.get('middle'),
+            title = name.get('title')
+        )
+        
+        # 1.2 Address
+        location = resume.get('location',{})
+        address = ResumeLocation(
+            raw_input = location.get('rawInput',''),
+            postal_code = location.get('postalCode',''),
+            region = location.get('state',''),
+            country_code = location.get('countryCode',''),
+            country = location.get('country',''),
+            appartment_number = location.get('apartmentNumber',''),
+            city = location.get('city',''),
+            street = location.get('street',''),
+            street_number = location.get('streetNumber','')
+        )
+        
+        # 1.3 Others
         personal_infos = ResumePersonalInfo(
-            first_name=resume["name"].get("first"),
-            last_name=resume["name"].get("last"),
-            address=resume.get("location", {}).get("formatted"),
+            name = names,
+            address=address,
             phones=resume.get("phone_numbers"),
             mails=resume.get("emails"),
             urls=resume.get("websites"),
             self_summary=resume.get("summary"),
             current_profession=resume.get("profession"),
+            objective = resume.get('objective'),
+            date_of_birth = resume.get('dateOfBirth')
         )
 
-        # Education
+        # 2. Education
         edu_entries = []
         for i in resume["education"]:
+            location = i.get("location", {})
+            address = ResumeLocation(
+                raw_input = location.get('rawInput',''),
+                postal_code = location.get('postalCode',''),
+                region = location.get('state',''),
+                country = location.get('country',''),
+                country_code = location.get('countryCode',''),
+                street_number = location.get('streetNumber',''),
+                street = location.get('street',''),
+                appartment_number = location.get('appartmentNumber',''),
+                city = location.get('city','')
+            )
             dates = i.get("dates", {})
             edu_entries.append(
                 ResumeEducationEntry(
+                    location = address,
                     start_date=dates.get("start_date"),
                     end_date=dates.get("end_date"),
                     establishment=i.get("organization"),
+                    gpa = i.get('grade',{}).get('value')
                 )
             )
+
         edu = ResumeEducationEntry(entries=edu_entries)
 
         # Work experience
         work_entries = []
         for i in resume["work_experience"]:
             dates = i.get("dates", {})
+            location = i.get("location", {})
+            address = ResumeLocation(
+                raw_input = location.get('rawInput',''),
+                postal_code = location.get('postalCode',''),
+                region = location.get('state',''),
+                country = location.get('country',''),
+                country_code = location.get('countryCode',''),
+                street_number = location.get('streetNumber',''),
+                street = location.get('street',''),
+                appartment_number = location.get('appartmentNumber',''),
+                city = location.get('city','')
+            )
             work_entries.append(
                 ResumeWorkExpEntry(
                     title=i.get("job_title"),
@@ -80,11 +135,11 @@ class AffindaApi(ProviderApi, Ocr):
                     start_date=dates.get("start_date"),
                     end_date=dates.get("end_date"),
                     description=i.get("job_description"),
-                    location=i.get("location", {}).get("formatted"),
+                    location=address,
                 )
             )
         duration = resume.get("total_years_experience")
-        work = ResumeWorkExp(total_years_experience=duration, entries=work_entries)
+        work = ResumeWorkExp(total_years_experience=str(duration), entries=work_entries)
 
         # Others
         skills = []
@@ -96,7 +151,6 @@ class AffindaApi(ProviderApi, Ocr):
         languages = [ResumeLang(name=i) for i in resume.get("languages", [])]
         certifications = [ResumeSkill(name=i) for i in resume.get("certifications", [])]
         publications = [ResumeSkill(name=i) for i in resume.get("publications", [])]
-
         std = ResumeParserDataClass(
             extracted_data=ResumeExtractedData(
                 personal_infos=personal_infos,
