@@ -44,88 +44,49 @@ class SentiSightApi(ProviderApi, Ocr, Image):
         self, file: BufferedReader, language: str
     ) -> ResponseType[OcrDataClass]:
         url = f"{self.base_url}Text-recognition"
-        
-        is_pdf = file.name.lower().endswith(".pdf")
-        file_content = file.read()
-        responses = []
-        widths_heights = []
-        if is_pdf:
-            ocr_file_images = convert_from_bytes(
-                file_content, fmt="jpeg", poppler_path=None
-            )
-            for ocr_image in ocr_file_images:
-                ocr_image_buffer = BytesIO()
-                ocr_image.save(ocr_image_buffer, format="JPEG")
 
-                # call
-                response = requests.post(
-                    format_string_url_language(
-                        url, get_formatted_language(language), "lang", self.provider_name
-                    ),
-                    headers={
-                        "accept": "*/*",
-                        "X-Auth-token": self.key,
-                        "Content-Type": "application/octet-stream",
-                    },
-                    data=ocr_image_buffer.getvalue(),
-                )
-                if response.status_code == 200:
-                    response = response.json()
-                    widths_heights.append(ocr_image.size)
-                    responses.append(response)
-            if len(responses) == 0:
-                raise ProviderException(f"Can not convert the given file: {file.name}")
+        response = requests.post(
+            format_string_url_language(
+                url, get_formatted_language(language), "lang", self.provider_name
+            ),
+            headers={
+                "accept": "*/*",
+                "X-Auth-token": self.key,
+                "Content-Type": "application/octet-stream",
+            },
+            data=file,
+        )
+        if response.status_code != 200:
+            raise ProviderException(response.text)
+        response = response.json()
+        width, height = Img.open(file).size
+        # response["width"], response["height"] = Img.open(file).size
 
-        else:
-            file.seek(0)
-            response = requests.post(
-                format_string_url_language(
-                    url, get_formatted_language(language), "lang", self.provider_name
-                ),
-                headers={
-                    "accept": "*/*",
-                    "X-Auth-token": self.key,
-                    "Content-Type": "application/octet-stream",
-                },
-                data=file,
-           )
-            if response.status_code != 200:
-                raise ProviderException(response.text)
-            response= response.json()
-            widths_heights.append(Img.open(file).size)
-            # response["width"], response["height"] = Img.open(file).size
-            responses.append(response)
-
-        final_text = ""
-        output_value = json.dumps(responses, ensure_ascii=False)
-        messages_list = json.loads(output_value)
         bounding_boxes: Sequence[Bounding_box] = []
 
-        for response_index in range(len(messages_list)):
-            response = messages_list[response_index]
-            text = ""
-            for item in response:
-                if text == "":
-                    text = item["label"]
-                else:
-                    text = text + " " + item["label"]
-                width_height = widths_heights[response_index]
-                bounding_box = calculate_bounding_box(item["points"], *width_height)
-                bounding_boxes.append(
-                    Bounding_box(
-                        text=item["label"],
-                        left=float(bounding_box["x"]),
-                        top=float(bounding_box["y"]),
-                        width=float(bounding_box["width"]),
-                        height=float(bounding_box["height"]),
-                    )
+        text = ""
+        for item in response:
+            if text == "":
+                text = item["label"]
+            else:
+                text = text + " " + item["label"]
+            bounding_box = calculate_bounding_box(item["points"], width, height)
+            bounding_boxes.append(
+                Bounding_box(
+                    text=item["label"],
+                    left=float(bounding_box["x"]),
+                    top=float(bounding_box["y"]),
+                    width=float(bounding_box["width"]),
+                    height=float(bounding_box["height"]),
                 )
-            final_text += " " + text
-            
+            )
 
-        standarized_response = OcrDataClass(text=final_text.replace("\n", " ").strip(), bounding_boxes=bounding_boxes)
+
+        standarized_response = OcrDataClass(
+            text=text.replace("\n", " ").strip(), bounding_boxes=bounding_boxes
+        )
         result = ResponseType[OcrDataClass](
-            original_response=messages_list,
+            original_response=response,
             standarized_response=standarized_response,
         )
         return result

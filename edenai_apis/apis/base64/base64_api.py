@@ -235,7 +235,7 @@ class Base64Api(ProviderApi, Ocr):
 
     def ocr__ocr(self, file: BufferedReader, language: str):
         raise ProviderException(
-            message="This provider is depricated. You won't be charged for your call."
+            message="This provider is deprecated. You won't be charged for your call."
         )
 
     def ocr__invoice_parser(
