@@ -30,12 +30,14 @@ class TestComputeOutput:
             def faker(**kwargs):
                 return ResponseType[Dict](original_response={}, standarized_response={})
             return faker
+        def fake_load_provider_info_file(*args, **kwargs):
+            return {}
 
         mocker.patch(
             "edenai_apis.interface.load_provider", side_effect=fake_load_provider
         )
         mocker.patch(
-            "edenai_apis.utils.constraints.load_provider", side_effect=fake_load_provider
+            "edenai_apis.utils.constraints.load_provider", side_effect=fake_load_provider_info_file
         )
 
         final_result = compute_output("p", "f", "s", {})
