@@ -34,6 +34,9 @@ class TestComputeOutput:
         mocker.patch(
             "edenai_apis.interface.load_provider", side_effect=fake_load_provider
         )
+        mocker.patch(
+            "edenai_apis.utils.constraints.load_provider", side_effect=fake_load_provider
+        )
 
         final_result = compute_output("p", "f", "s", {})
         assert final_result
