@@ -1,5 +1,6 @@
 from io import BufferedReader
 import requests
+import sys
 from pprint import pprint
 from edenai_apis.features import Ocr
 from edenai_apis.features.ocr import (
@@ -38,26 +39,29 @@ class HireabilityApi(ProviderApi, Ocr):
         files = {'document': file}
 
         # Generate Api output
-        response = requests.post(self.url, data={
-        'product_code' : self.product_code,
-        'document_title' : file.name,
-        }, files=files)
-        original_response = response.json()
-                   
+        try:
+            response = requests.post(self.url, data={
+            'product_code' : self.product_code,
+            'document_title' : file.name,
+            }, files=files)
+            original_response = response.json()
+        except Exception as exc:
+            raise ProviderException(f"Unexpected error! {sys.exc_info()[0]}") from exc
         # Handle provider error
-        errors = original_response['Results'][0]['HireAbilityJSONResults'][1]['ProcessingErrors'][0]
-        print("The errors are ", errors)
-        infos = original_response['Results'][0]['HireAbilityJSONResults'][0]
-        if errors['Error'][0]['ErrorMessage']:
-            raise ProviderException(errors['Error'][0]['ErrorMEssage'],code = errors['Error'][0]['ErrorCode'])        
+        #errors = original_response['Results'][0]['HireAbilityJSONResults'][1]['ProcessingErrors'][0]
+        #print("The errors are ", errors)
+        # if errors['Error'][0]['ErrorMessage']:
+        #     raise ProviderException(errors['Error'][0]['ErrorMEssage'],code = errors['Error'][0]['ErrorCode'])  
+        
+        infos = original_response['Results'][0]['HireAbilityJSONResults'][0]      
 
         # Resume parser std 
         
         # 1. Personal informations
         # 1.1 Resume name
         personal_names = ResumePersonalName(
-            raw_name = infos.get('FormattedName'), first_name = infos.get('GivenName'), 
-            last_name = infos.get('FamilyName')
+            raw_name = infos.get('FormattedName',''), first_name = infos.get('GivenName',''), 
+            last_name = infos.get('FamilyName','')
         )
         # 1.2 Address
         address = ResumeLocation(
