@@ -4,11 +4,11 @@
       {
         "HireAbilityJSONResults": [
           {
-            "id": "2910466531235",
+            "id": "2910233032235",
             "usageLimitType": "allocation",
             "usageLimit": "100",
-            "currentUsage": "41",
-            "remainingUsage": "59",
+            "currentUsage": "56",
+            "remainingUsage": "44",
             "accountValidThrough": "12-18-2022",
             "GivenName": "Amanda",
             "FamilyName": "Smith",
@@ -44,7 +44,7 @@
               {
                 "Error": [
                   {
-                    "Id": "2910466531235",
+                    "Id": "2910233032235",
                     "ErrorCode": "",
                     "ErrorMessage": ""
                   }
@@ -63,26 +63,26 @@
           "raw_name": "Amanda Smith",
           "first_name": "Amanda",
           "last_name": "Smith",
-          "middle": "NOT PROVIDED",
-          "title": "NOT PROVIDED",
-          "prefix": "NOT PROVIDED",
-          "sufix": "NOT PROVIDED"
+          "middle": null,
+          "title": null,
+          "prefix": null,
+          "sufix": null
         },
         "address": {
-          "formatted_location": "NOT PROVIDED",
+          "formatted_location": null,
           "postal_code": "",
           "region": "",
-          "country": "NOT PROVIDED",
+          "country": null,
           "country_code": "",
           "raw_input_location": null,
           "street": "",
-          "street_number": "NOT PROVIDED",
-          "appartment_number": "NOT PROVIDED"
+          "street_number": null,
+          "appartment_number": null
         },
-        "self_summary": "NOT PROVIDED",
+        "self_summary": null,
         "objective": "i To build and maintain a successful role in the world of high fashion modeling. special sinus ~ Dancing: Experienced in l 1'lll(:'fl, _lf1| '), _| (1 7, and .Nflodern Dance ' Sports: Extremely athletic and agile avid swimmer and golfer. Also excel in ice skating, aerobics, baseball basketball, volleyball and tennis. - .N/Iusic: Classicaily taught opera singer and pianist. \u00b0 Languages: English is nati/-'e language. //lso fluent in Spanish, italian, and French. Educanon Bachelor of Arts in journalisin and Mass Corninuitications, Nlinor in Performance Studies (film und acting) - New York Llniversity' (2003) iNon<Expenence \u00bb Fashion Show: Fd Hardy Fashion Show, |_os Angeles, CA, .'//larch 2003 - Featured Model: Los Angeles fashion Wee l<, | _os Angeles, CA, .//'larch 2008 \u00b0 l`ilm: llappy Day Productions, llxtra in three scenes of independent filn1, 'l`)aylight' l, as Vegas, NV, December 2007 \u00b0 .//lodelling Competition: llawaiian Tropic, Swimsuit Competition, I-lonolitlu, l~~lawaii Second Runner-Up September 2007 \u00b0 Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 \u00bb Print: Bright Lights Swimsuit Catalog. Featured Model, New York, ja| 1uar}-' 2007 \u00b0 Fashion Show: Mac -\"s NYC Fashion Show New York, December 2005 - l~`ilm: I-lalo Productions featured extra in independent film, \"l`he Student' New jersey, September 2006 | - 'IW _ 11. 'f -A l'",
-        "date_of_birth": "",
-        "place_of_birth": "",
+        "date_of_birth": null,
+        "place_of_birth": null,
         "phones": [
           "594 6482740"
         ],
@@ -91,12 +91,12 @@
         ],
         "urls": [],
         "fax": [],
-        "current_profession": "NOT PROVIDED",
-        "dateOfBirth": "NOT PROVIDED",
-        "gender": "",
-        "nationality": "",
-        "martial_status": "NOT PROVIDED",
-        "current_salary": ""
+        "current_profession": null,
+        "dateOfBirth": null,
+        "gender": null,
+        "nationality": null,
+        "martial_status": null,
+        "current_salary": null
       },
       "education": {
         "total_years_education": null,

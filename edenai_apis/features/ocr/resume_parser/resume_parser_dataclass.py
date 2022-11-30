@@ -4,15 +4,15 @@ from pydantic import BaseModel, Field, StrictStr
 
 
 class ResumeLocation(BaseModel):
-    formatted_location : StrictStr = 'NOT PROVIDED' # Affinda ?
+    formatted_location : Optional[StrictStr]  # Affinda ?
     postal_code : StrictStr # All
     region : StrictStr # All
-    country : Optional[StrictStr] = 'NOT PROVIDED' # Affinda
-    country_code : Optional[StrictStr] = 'NOT PROIDED' # All
+    country : Optional[StrictStr]  # Affinda
+    country_code : Optional[StrictStr] # All
     raw_input_location : Optional[StrictStr] # All
-    street : Optional[StrictStr] = 'NOT PROVIDED' # Affinda
-    street_number : Optional[StrictStr] = 'NOT PROVIDED' # Affinda
-    appartment_number : Optional[StrictStr] = 'NOT PROVIDED' # Affinda
+    street : Optional[StrictStr]  # Affinda
+    street_number : Optional[StrictStr]  # Affinda
+    appartment_number : Optional[StrictStr]  # Affinda
     city = StrictStr # All
 
 class ResumeSkill(BaseModel):
@@ -32,11 +32,11 @@ class ResumeWorkExpEntry(BaseModel):
     company: Optional[StrictStr]
     location: Optional[ResumeLocation]
     description: Optional[StrictStr]
-    industry : Optional[StrictStr] = 'NOT PROVIDED' # Hireability
+    industry : Optional[StrictStr]  # Hireability
 
 
 class ResumeWorkExp(BaseModel):
-    total_years_experience: Optional[StrictStr] = 'NOT PROVIDED' # Affinda
+    total_years_experience: Optional[StrictStr] # Affinda
     entries: Sequence[ResumeWorkExpEntry] = Field(default_factory=list)
 
 
@@ -47,8 +47,8 @@ class ResumeEducationEntry(BaseModel):
     location: Optional[ResumeLocation]
     establishment: Optional[StrictStr] # All
     description: Optional[StrictStr]
-    gpa : Optional[StrictStr] = 'NOT PROVIDED' # Hireability
-    accreditation : Optional[StrictStr] = 'NOT PROVIDED' # Affinda 
+    gpa : Optional[StrictStr] # Hireability
+    accreditation : Optional[StrictStr]  # Affinda 
 
 
 class ResumeEducation(BaseModel):
@@ -59,27 +59,27 @@ class ResumePersonalName(BaseModel):
     raw_name : StrictStr # all
     first_name : StrictStr # all
     last_name : StrictStr # all
-    middle : Optional[StrictStr] = 'NOT PROVIDED' # all
-    title : Optional[StrictStr] = 'NOT PROVIDED' # Affinda
-    prefix : Optional[StrictStr] = 'NOT PROVIDED' # Affinda
-    sufix : Optional[StrictStr] = 'NOT PROVIDED' # Affinda
+    middle : Optional[StrictStr] # all
+    title : Optional[StrictStr] # Affinda
+    prefix : Optional[StrictStr] # Affinda
+    sufix : Optional[StrictStr] # Affinda
 class ResumePersonalInfo(BaseModel):
     name : ResumePersonalName
     address: ResumeLocation
-    self_summary: Optional[StrictStr] = 'NOT PROVIDED' # all
-    objective : Optional[StrictStr] = 'NOT PROVIDED' # Hireability
-    date_of_birth : Optional[StrictStr] = 'NOT PROVIDED' # Affinda
-    place_of_birth : Optional[StrictStr] = 'NOT PROVIDED' # Hireability
+    self_summary: Optional[StrictStr] # all
+    objective : Optional[StrictStr] # Hireability
+    date_of_birth : Optional[StrictStr] # Affinda
+    place_of_birth : Optional[StrictStr] # Hireability
     phones: Sequence[str] = Field(default_factory=list)
     mails: Sequence[str] = Field(default_factory=list)
     urls: Sequence[str] = Field(default_factory=list)
     fax : Sequence[str] = Field(default_factory=list)
-    current_profession: Optional[StrictStr] = 'NOT PROVIDED' # ??
-    dateOfBirth: Optional[StrictStr] = 'NOT PROVIDED' # affinda
-    gender: Optional[StrictStr] = 'NOT PROVIDED' # Hireability
-    nationality: Optional[StrictStr] = 'NOT PROVIDED' # Hireability
-    martial_status : Optional[StrictStr] = 'NOT PROVIDED' # Hireability
-    current_salary : Optional[StrictStr] = 'NOT PROVIDED' # Hireability
+    current_profession: Optional[StrictStr]  # ??
+    dateOfBirth: Optional[StrictStr]  # affinda
+    gender: Optional[StrictStr]  # Hireability
+    nationality: Optional[StrictStr]  # Hireability
+    martial_status : Optional[StrictStr]  # Hireability
+    current_salary : Optional[StrictStr]  # Hireability
 
 
 class ResumeExtractedData(BaseModel):
