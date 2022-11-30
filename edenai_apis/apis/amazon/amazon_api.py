@@ -5,6 +5,7 @@ from pprint import pprint
 from time import time
 from typing import Sequence
 import base64
+import uuid
 
 import urllib
 from pathlib import Path
@@ -728,50 +729,133 @@ class AmazonApi(
         """
         # Store file in an Amazon server
         filename = str(int(time())) + "_" + str(file_name)
-        storage_clients["speech"].meta.client.upload_fileobj(file, api_settings['bucket'], filename)
+        storage_clients["speech"].meta.client.upload_fileobj(
+            file, 
+            api_settings['bucket'], 
+            filename
+        )
 
         return filename
 
+    def _create_vocabulary(self, language:str, list_vocabs: list):
+        list_vocabs = ["-".join(vocab.strip().split()) for vocab in list_vocabs]
+        vocab_name = str(uuid.uuid4())
+        try:
+            clients["speech"].create_vocabulary(
+            LanguageCode = language,
+            VocabularyName = vocab_name,
+            Phrases = list_vocabs
+        )
+        except Exception as exc:
+            raise ProviderException(str(exc)) from exc
+
+        return vocab_name
+
+    def _launch_transcribe(
+        self, filename:str, frame_rate, 
+        language:str, speakers: int, vocab_name:str=None,
+        initiate_vocab:bool= False):
+        params = {
+            "TranscriptionJobName" : filename,
+            "Media" : {"MediaFileUri": api_settings["storage_url"] + filename},
+            "MediaFormat" : "wav",
+            "LanguageCode" : language,
+            "MediaSampleRateHertz" : frame_rate,
+            "Settings" : {
+                "ShowSpeakerLabels": True,
+                "ChannelIdentification": False,
+                "MaxSpeakerLabels" : speakers
+            }
+        }
+        if not language:
+            del params["LanguageCode"]
+            params.update({
+                "IdentifyLanguage" : True
+            })
+        if vocab_name:
+            params["Settings"].update({
+                "VocabularyName": vocab_name
+            })
+            if initiate_vocab:
+                params["checked"]= False
+                extention_index = filename.rfind(".")
+                filename = f"{filename[:-(len(filename) - extention_index)]}_settings.txt"
+                storage_clients["speech"].meta.client.put_object(
+                    Bucket=api_settings['bucket'], 
+                    Body=json.dumps(params).encode(), 
+                    Key=filename
+                )
+                return 
+        try:
+            clients["speech"].start_transcription_job(**params)
+        except KeyError as exc:
+            raise ProviderException(str(exc)) from exc
+
+
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers : int,
-        profanity_filter: bool
+        p: bool, vocabulary: list
     ) -> AsyncLaunchJobResponseType:
         # Convert audio file in wav
         wav_file, frame_rate = wav_converter(file)[0:2]
         filename = self._upload_audio_file_to_amazon_server(
             wav_file, Path(file.name).stem + ".wav"
         )
-        try:
-            params = {
-                "TranscriptionJobName" : filename,
-                "Media" : {"MediaFileUri": api_settings["storage_url"] + filename},
-                "MediaFormat" : "wav",
-                "LanguageCode" : language,
-                "MediaSampleRateHertz" : frame_rate,
-                "Settings" : {
-                    "ShowSpeakerLabels": True,
-                    "ChannelIdentification": False,
-                    "MaxSpeakerLabels" : speakers
-                }
-            }
-            if not language:
-                del params["LanguageCode"]
-                params.update({
-                    "IdentifyLanguage" : True
-                })
-            clients["speech"].start_transcription_job(**params)
-        except KeyError as exc:
-            raise ProviderException(str(exc)) from exc
+        if vocabulary:
+            vocab_name = self._create_vocabulary(language, vocabulary)
+            self._launch_transcribe(filename, frame_rate, language, speakers, vocab_name, True)
+            return AsyncLaunchJobResponseType(
+                provider_job_id=f"{filename}EdenAI{vocab_name}"
+            )
 
+        self._launch_transcribe(filename, frame_rate, language, speakers)
         return AsyncLaunchJobResponseType(
             provider_job_id=filename
         )
 
+        
+
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
+
+        # check custom vocabilory job state
+        job_id, *vocab = provider_job_id.split("EdenAI")
+        if vocab: # if vocabilory is used and
+            vocab_name = vocab[0]
+            job_vocab_details = clients["speech"].get_vocabulary(VocabularyName = vocab_name)
+            if job_vocab_details['VocabularyState'] == "FAILED":
+                return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
+                    provider_job_id=provider_job_id
+                )
+            if job_vocab_details['VocabularyState'] != "READY":
+                return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
+                    provider_job_id=provider_job_id
+                )
+            setting_content = storage_clients["speech"].meta.client.get_object(Bucket= api_settings['bucket'], Key= f"{job_id[:-4]}_settings.txt")
+            settings = json.loads(setting_content['Body'].read().decode('utf-8'))
+            if not settings["checked"]: # check if the vocabulary has been created or not
+                self._launch_transcribe(
+                            settings['TranscriptionJobName'],
+                            settings['MediaSampleRateHertz'], 
+                            settings['LanguageCode'], 
+                            settings['Settings']['MaxSpeakerLabels'], 
+                            settings['Settings']['VocabularyName']
+                )
+                settings["checked"] = True # conform vocabulary creation
+                extention_index = job_id.rfind("."),
+                storage_clients["speech"].meta.client.put_object(
+                    Bucket=api_settings['bucket'], 
+                    Body=json.dumps(settings).encode(),
+                    key = f"{job_id[:-(len(job_id) - extention_index)]}_settings.txt"
+                )
+                return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
+                        provider_job_id=provider_job_id
+                    )
+
+        #check transcribe status
         job_details = clients["speech"].get_transcription_job(
-            TranscriptionJobName=provider_job_id
+            TranscriptionJobName=job_id
         )
         job_status = job_details["TranscriptionJob"]["TranscriptionJobStatus"]
         if job_status == "COMPLETED":
