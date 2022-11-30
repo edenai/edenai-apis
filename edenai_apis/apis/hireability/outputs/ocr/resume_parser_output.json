@@ -4,11 +4,11 @@
       {
         "HireAbilityJSONResults": [
           {
-            "id": "2914041116135",
+            "id": "2910466531235",
             "usageLimitType": "allocation",
             "usageLimit": "100",
-            "currentUsage": "40",
-            "remainingUsage": "60",
+            "currentUsage": "41",
+            "remainingUsage": "59",
             "accountValidThrough": "12-18-2022",
             "GivenName": "Amanda",
             "FamilyName": "Smith",
@@ -44,7 +44,7 @@
               {
                 "Error": [
                   {
-                    "Id": "2914041116135",
+                    "Id": "2910466531235",
                     "ErrorCode": "",
                     "ErrorMessage": ""
                   }
@@ -64,17 +64,16 @@
           "first_name": "Amanda",
           "last_name": "Smith",
           "middle": "NOT PROVIDED",
-          "preferred_given_name": "NOT PROVIDED",
           "title": "NOT PROVIDED",
           "prefix": "NOT PROVIDED",
           "sufix": "NOT PROVIDED"
         },
         "address": {
           "formatted_location": "NOT PROVIDED",
-          "postal_code": "NO DATA",
+          "postal_code": "",
           "region": "",
           "country": "NOT PROVIDED",
-          "country_code": "NO DATA",
+          "country_code": "",
           "raw_input_location": null,
           "street": "",
           "street_number": "NOT PROVIDED",
@@ -93,10 +92,11 @@
         "urls": [],
         "fax": [],
         "current_profession": "NOT PROVIDED",
-        "driving_licence": "NOT PROVIDED",
+        "dateOfBirth": "NOT PROVIDED",
         "gender": "",
         "nationality": "",
-        "martial_status": "NOT PROVIDED"
+        "martial_status": "NOT PROVIDED",
+        "current_salary": ""
       },
       "education": {
         "total_years_education": null,
