@@ -24,7 +24,7 @@ def test_file_type_constraints_on_all_providers_wrong_file_type(provider, featur
     # test only when there is file types constraints
     if constraints is not None and "file_types" in constraints:
         file_with_wrong_file_type_path = os.path.join(
-            tests_path, "data", "file_type_constraints.ice"
+            tests_path, "data", "wrong_file_type_constraints.jar"
         )
         with open(file_with_wrong_file_type_path, "bw") as f:
             # arguments that should fail all constraints
