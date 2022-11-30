@@ -7,6 +7,7 @@ from io import BufferedReader
 from pathlib import Path
 from time import time
 from typing import Sequence
+import uuid
 
 import googleapiclient.discovery
 import numpy as np
@@ -721,9 +722,32 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         )
         return result
 
+    
+        
+    def _create_vocabulary(self, list_vocabs: list):
+        adaptation_client = speech.AdaptationClient()
+        parent = f"projects/{self.project_id}/locations/global"
+        phrases = [{"value": value} for value in list_vocabs]
+        phrase_set_id = str(uuid.uuid4())
+        try:
+            phrase_set_response = adaptation_client.create_phrase_set(
+                {
+                    "parent": parent,
+                    "phrase_set_id": phrase_set_id,
+                    "phrase_set": {
+                        "boost": 10,
+                        "phrases": phrases
+                    },
+                }
+            )
+        except Exception as exc:
+            raise ProviderException(str(exc)) from exc
+        return phrase_set_response.name
+
+
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers: int,
-        profanity_filter: bool
+        profanity_filter: bool, vocabulary: list
     ) -> AsyncLaunchJobResponseType:
 
         #check language
@@ -739,8 +763,6 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         blob = bucket.blob(audio_name)
         blob.upload_from_file(wav_file)
 
-        # blob.download_to_filename(audio_name)
-
         gcs_uri = f"gs://{bucket_name}/{audio_name}"
         # Launch file transcription
         client = speech.SpeechClient()
@@ -750,14 +772,23 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             min_speaker_count=1,
             max_speaker_count=speakers,
         )
-        config = speech.RecognitionConfig(
-            # encoding="LINEAR16",
-            language_code=language,
-            audio_channel_count=channels,
-            diarization_config = diarization,
-            profanity_filter = profanity_filter
-            # sample_rate_hertz=frame_rate
-        )
+
+        params = {
+            "language_code" : language,
+            "audio_channel_count" : channels,
+            "diarization_config" : diarization,
+            "profanity_filter" : profanity_filter
+        }
+
+        # create custum vocabulary phrase_set
+        if vocabulary:
+            name = self._create_vocabulary(vocabulary)
+            speech_adaptation = speech.SpeechAdaptation(phrase_set_references=[name])
+            params.update({
+                "adaptation": speech_adaptation
+            })
+            
+        config = speech.RecognitionConfig(**params)
         operation = client.long_running_recognize(config=config, audio=audio)
         operation_name = operation.operation.name
         return AsyncLaunchJobResponseType(provider_job_id=operation_name)
