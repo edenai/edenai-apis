@@ -29,12 +29,7 @@
                     "fr-FR",
                     "en-IN"
                 ],
-                "allow_null_language": true,
-                "file_types": [
-                    "flac",
-                    "mp3",
-                    "m4a"
-                ]
+                "allow_null_language": true
             },
             "version": "v1"
         },

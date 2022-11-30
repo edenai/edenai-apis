@@ -5,9 +5,7 @@ from typing import Dict, List, Optional, Union
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.languages import (
-    provide_appropriate_language,
-)
+from edenai_apis.utils.languages import provide_appropriate_language
 
 
 def validate_all_provider_constraints(
@@ -35,17 +33,23 @@ def validate_all_provider_constraints(
     ).get("constraints")
 
     if provider_constraints is not None:
-        ## validate here
+        validated_args = args.copy()
+        ## Validate here
 
         # file types
-        args = validate_input_file_type(provider_constraints, args, provider)
+        validated_args = validate_input_file_type(
+            provider_constraints, validated_args, provider
+        )
 
         # languages
-        args = validate_input_language(
-            provider_constraints, args, provider, feature, subfeature
+        validated_args = validate_input_language(
+            provider_constraints, validated_args, provider, feature, subfeature
         )
 
         # ...
+
+        return validated_args
+
     return args
 
 
@@ -72,7 +76,7 @@ def validate_input_file_type(constraints: dict, args: dict, provider: str) -> di
 
         if input_file_type is None:
             # if mimetype is not recognized we don't validate it
-            # eg: ( RAW images files, webp files  are not recognized but accepted by google in python 3.8)
+            # eg: webp and raw images are not recognized but are accepted by google ocr
             return args
 
         # constraint can be written as "image/*" for example
