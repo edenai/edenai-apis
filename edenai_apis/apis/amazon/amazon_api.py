@@ -843,11 +843,12 @@ class AmazonApi(
                             settings['Settings']['VocabularyName']
                 )
                 settings["checked"] = True # conform vocabulary creation
-                extention_index = job_id.rfind("."),
+                extention_index = job_id.rfind(".")
+                index_last = len(job_id) - extention_index
                 storage_clients["speech"].meta.client.put_object(
                     Bucket=api_settings['bucket'], 
                     Body=json.dumps(settings).encode(),
-                    key = f"{job_id[:-(len(job_id) - extention_index)]}_settings.txt"
+                    key = f"{job_id[:-index_last]}_settings.txt"
                 )
                 return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                         provider_job_id=provider_job_id
