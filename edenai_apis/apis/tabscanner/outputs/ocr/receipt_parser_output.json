@@ -704,28 +704,48 @@
       {
         "invoice_number": null,
         "invoice_total": 168.95,
-        "date": "2022-04-02 12:29:23",
         "invoice_subtotal": 168.95,
+        "barcodes": [
+          "9138579073918",
+          "EAN13"
+        ],
+        "category": null,
+        "date": "2022-04-02",
+        "due_date": null,
+        "time": "12:29:23",
         "customer_information": {
           "customer_name": null
         },
         "merchant_information": {
-          "merchant_name": "SC AUCHAN ROMANIA SA"
+          "merchant_name": "SC AUCHAN ROMANIA SA",
+          "merchant_address": "",
+          "merchant_phone": "",
+          "merchant_url": "",
+          "merchant_siret": null,
+          "merchant_siren": null
+        },
+        "payment_information": {
+          "card_type": "Mastercard",
+          "card_number": null,
+          "cash": "0",
+          "tip": "0",
+          "discount": "0",
+          "change": "0"
         },
         "locale": {
-          "currency": ""
+          "currency": null,
+          "language": null,
+          "country": null
         },
         "taxes": [],
         "receipt_infos": {
           "address": "",
           "barcodes": [
-            [
-              "9138579073918",
-              "EAN13"
-            ]
+            "9138579073918",
+            "EAN13"
           ],
-          "Etablishment": "SC AUCHAN ROMANIA SA",
-          "payment": "Mastercard",
+          "Etablishment": "",
+          "payment": "",
           "phone_number": ""
         },
         "item_lines": [

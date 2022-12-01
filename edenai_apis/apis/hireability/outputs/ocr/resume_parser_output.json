@@ -4,11 +4,11 @@
       {
         "HireAbilityJSONResults": [
           {
-            "id": "2910233032235",
+            "id": "2910142234235",
             "usageLimitType": "allocation",
             "usageLimit": "100",
-            "currentUsage": "56",
-            "remainingUsage": "44",
+            "currentUsage": "60",
+            "remainingUsage": "40",
             "accountValidThrough": "12-18-2022",
             "GivenName": "Amanda",
             "FamilyName": "Smith",
@@ -44,7 +44,7 @@
               {
                 "Error": [
                   {
-                    "Id": "2910233032235",
+                    "Id": "2910142234235",
                     "ErrorCode": "",
                     "ErrorMessage": ""
                   }
@@ -70,12 +70,12 @@
         },
         "address": {
           "formatted_location": null,
-          "postal_code": "",
-          "region": "",
+          "postal_code": null,
+          "region": null,
           "country": null,
-          "country_code": "",
+          "country_code": null,
           "raw_input_location": null,
-          "street": "",
+          "street": null,
           "street_number": null,
           "appartment_number": null
         },

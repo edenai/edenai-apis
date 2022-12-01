@@ -2,6 +2,7 @@ from asyncio import sleep
 import datetime
 from pprint import pprint
 import sys
+from collections import defaultdict
 import base64
 import json
 from pathlib import Path
@@ -38,7 +39,7 @@ from edenai_apis.features.image.image_class import Image
 from edenai_apis.features.ocr import (
     Bounding_box, OcrDataClass, Taxes,
     InfosReceiptParserDataClass, ItemLines,
-    MerchantInformation, ReceiptParserDataClass,
+    MerchantInformation, ReceiptParserDataClass, PaymentInformation,
     InvoiceParserDataClass,
     IdentityParserDataClass,
     InfosIdentityParserDataClass,
@@ -250,37 +251,43 @@ class MicrosoftApi(
         poller = document_analysis_client.begin_recognize_receipts(receipt_file_content)
         form_pages = poller.result()
         result = [el.to_dict() for el in form_pages]
-
+    
         # Normalize the response
-        fields = result[0].get("fields", {})
+        default_dict = defaultdict(lambda: None)
+        fields = result[0].get("fields", default_dict)
         # 1. Invoice number
-        invoice_total = fields.get("Total", {}).get("value")
+        invoice_total = fields.get("Total",default_dict).get("value")
 
-        # 2. Date
-        date = fields.get("TransactionDate", {}).get("value")
+        # 2. Date & time
+        date = fields.get("TransactionDate", default_dict).get("value")
+        time = fields.get("TransactionTime", default_dict).get("value")
 
         # 3. invoice_subtotal
-        sub_total = fields.get("Subtotal", {}).get("value")
+        sub_total = fields.get("Subtotal", default_dict).get("value")
 
         # 4. merchant informations
-        # 4.1 merchant_name
         merchant = MerchantInformation(
-            merchant_name=fields.get("MerchantName", {}).get("value")
+            merchant_name=fields.get("MerchantName", default_dict).get("value"),
+            merchant_address = fields.get("MerchantAddress", default_dict).get("value"),
+            merchant_phone = fields.get("MerchantPhoneNumber", default_dict).get("vale")
         )
 
         # 5. Taxes
-        taxes = [Taxes(taxes=fields.get("Tax", {}).get("value"))]
+        taxes = [Taxes(taxes=fields.get("Tax", default_dict).get("value"))]
 
-        # 6. Receipt infos
+        # 6. Receipt infos / payment informations
         receipt_infos = fields.get("ReceiptType")
+        payment_infos = PaymentInformation(
+            tip = fields.get("Tip", default_dict).get("value")
+        )
 
         # 7. Items
         items = []
-        for item in fields.get("Items", {}).get("value", []):
-            description = item["value"].get("Name", {}).get("value")
-            price = item["value"].get("Price", {}).get("value")
-            quantity = int(item["value"].get("Quantity", {}).get("value"))
-            total = item["value"].get("TotalPrice", {}).get("value")
+        for item in fields.get("Items", default_dict).get("value", []):
+            description = item["value"].get("Name", default_dict).get("value")
+            price = item["value"].get("Price", default_dict).get("value")
+            quantity = int(item["value"].get("Quantity", default_dict).get("value"))
+            total = item["value"].get("TotalPrice", default_dict).get("value")
             items.append(
                 ItemLines(
                     amount=total,
@@ -297,6 +304,8 @@ class MicrosoftApi(
             invoice_subtotal=sub_total,
             invoice_total=invoice_total,
             date=str(date),
+            time = str(time),
+            payment_information = payment_infos,
             receipt_infos=receipt_infos,
         )
         return ResponseType[ReceiptParserDataClass](

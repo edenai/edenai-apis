@@ -39,19 +39,18 @@ class HireabilityApi(ProviderApi, Ocr):
         files = {'document': file}
 
         # Generate Api output
-        try:
-            response = requests.post(self.url, data={
-            'product_code' : self.product_code,
-            'document_title' : file.name,
-            }, files=files)
-            original_response = response.json()
-        except Exception as exc:
-            raise ProviderException(f"Unexpected error! {sys.exc_info()[0]}") from exc
+        response = requests.post(self.url, data={
+        'product_code' : self.product_code,
+        'document_title' : file.name,
+        }, files=files)
+        original_response = response.json()
+        print("The response is ",original_response)
+        
         # Handle provider error
-        #errors = original_response['Results'][0]['HireAbilityJSONResults'][1]['ProcessingErrors'][0]
-        #print("The errors are ", errors)
-        # if errors['Error'][0]['ErrorMessage']:
-        #     raise ProviderException(errors['Error'][0]['ErrorMEssage'],code = errors['Error'][0]['ErrorCode'])  
+        if original_response['Results'][0]['HireAbilityJSONResults'][0].get('ProcessingErrors'):
+            errors = original_response['Results'][0]['HireAbilityJSONResults'][0]['ProcessingErrors'][0]
+            raise ProviderException(errors['Error'][0]['ErrorMessage'],code = errors['Error'][0]['ErrorCode']) 
+
         
         infos = original_response['Results'][0]['HireAbilityJSONResults'][0]      
 
@@ -65,8 +64,8 @@ class HireabilityApi(ProviderApi, Ocr):
         )
         # 1.2 Address
         address = ResumeLocation(
-            country_code = infos.get('CountryCode',''), region = infos.get('CountrySubDivisionCode',''),
-            postal_code = infos.get('PostalCode',''), street = infos.get('AddressLine',''),
+            country_code = infos.get('CountryCode'), region = infos.get('CountrySubDivisionCode'),
+            postal_code = infos.get('PostalCode'), street = infos.get('AddressLine'),
             city = infos.get('CityName','')
         )
         # 1.3 Others
@@ -90,8 +89,8 @@ class HireabilityApi(ProviderApi, Ocr):
         for i in infos.get("EducationOrganizationAttendance",{}):
             title = i.get('EducationLevel',[{}])[0].get('Name')
             location = ResumeLocation(
-                country_code = i.get('ReferenceLocation',{}).get('CountryCode',''),
-                region = i.get('ReferenceLocation',{}).get('CountrySubDivisionCode',''),
+                country_code = i.get('ReferenceLocation',{}).get('CountryCode'),
+                region = i.get('ReferenceLocation',{}).get('CountrySubDivisionCode'),
                 city = i.get('ReferenceLocation',{}).get('CityName','')
             )
             edu_entries.append(
@@ -111,8 +110,8 @@ class HireabilityApi(ProviderApi, Ocr):
         work_entries = []
         for i in infos.get("PositionHistory",{}):
             work_location = ResumeLocation(
-                country_code = i.get('ReferenceLocation',{}).get('CountryCode',''),
-                region = i.get('ReferenceLocation',{}).get('CountrySubDivisionCode',''),
+                country_code = i.get('ReferenceLocation',{}).get('CountryCode'),
+                region = i.get('ReferenceLocation',{}).get('CountrySubDivisionCode'),
                 city = i.get('ReferenceLocation',{}).get('CityName','')
             )
             work_entries.append(
