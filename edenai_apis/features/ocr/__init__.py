@@ -31,6 +31,7 @@ from .receipt_parser import (
     Taxes,
     InfosReceiptParserDataClass,
     ReceiptParserDataClass,
+    PaymentInformation,
 )
 from .resume_parser import (
     ResumeParserDataClass,

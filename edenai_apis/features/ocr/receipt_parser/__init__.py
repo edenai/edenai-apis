@@ -7,4 +7,5 @@ from .receipt_parser_dataclass import (
     Taxes,
     InfosReceiptParserDataClass,
     ReceiptParserDataClass,
+    PaymentInformation,
 )

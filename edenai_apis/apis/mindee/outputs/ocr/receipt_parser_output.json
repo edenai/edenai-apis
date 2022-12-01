@@ -10,10 +10,10 @@
       "url": "https://api.mindee.net/v1/products/mindee/expense_receipts/v3/predict?local=langage&local=country"
     },
     "document": {
-      "id": "d34f1fab-c734-4466-b52e-f693834f2ece",
+      "id": "091d6d64-cd72-43d2-9444-a88285af05c1",
       "inference": {
         "extras": {},
-        "finished_at": "2022-10-12T10:53:39+00:00",
+        "finished_at": "2022-12-01T10:57:34.680163",
         "is_rotation_applied": true,
         "pages": [
           {
@@ -172,7 +172,7 @@
             "value": 168.95
           }
         },
-        "processing_time": 1.363,
+        "processing_time": 0.93,
         "product": {
           "features": [
             "locale",
@@ -188,7 +188,7 @@
           "type": "standard",
           "version": "3.1"
         },
-        "started_at": "2022-10-12T10:53:38+00:00"
+        "started_at": "2022-12-01T10:57:33.750312"
       },
       "n_pages": 1,
       "name": "receipt.jpg"
@@ -199,16 +199,35 @@
       {
         "invoice_number": null,
         "invoice_total": 168.95,
-        "date": null,
         "invoice_subtotal": null,
+        "barcodes": [],
+        "category": null,
+        "date": null,
+        "due_date": null,
+        "time": null,
         "customer_information": {
           "customer_name": null
         },
         "merchant_information": {
-          "merchant_name": "BON FISCAL"
+          "merchant_name": "BON FISCAL",
+          "merchant_address": null,
+          "merchant_phone": null,
+          "merchant_url": null,
+          "merchant_siret": null,
+          "merchant_siren": null
+        },
+        "payment_information": {
+          "card_type": null,
+          "card_number": null,
+          "cash": null,
+          "tip": null,
+          "discount": null,
+          "change": null
         },
         "locale": {
-          "currency": null
+          "currency": null,
+          "language": null,
+          "country": null
         },
         "taxes": [],
         "receipt_infos": {
