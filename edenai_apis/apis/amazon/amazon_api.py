@@ -822,19 +822,19 @@ class AmazonApi(
         # check custom vocabilory job state
         job_id, *vocab = provider_job_id.split("EdenAI")
         if vocab: # if vocabilory is used and
-            vocab_name = vocab[0]
-            job_vocab_details = clients["speech"].get_vocabulary(VocabularyName = vocab_name)
-            if job_vocab_details['VocabularyState'] == "FAILED":
-                return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                    provider_job_id=provider_job_id
-                )
-            if job_vocab_details['VocabularyState'] != "READY":
-                return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
-                    provider_job_id=provider_job_id
-                )
             setting_content = storage_clients["speech"].meta.client.get_object(Bucket= api_settings['bucket'], Key= f"{job_id[:-4]}_settings.txt")
             settings = json.loads(setting_content['Body'].read().decode('utf-8'))
             if not settings["checked"]: # check if the vocabulary has been created or not
+                vocab_name = vocab[0]
+                job_vocab_details = clients["speech"].get_vocabulary(VocabularyName = vocab_name)
+                if job_vocab_details['VocabularyState'] == "FAILED":
+                    return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
+                        provider_job_id=provider_job_id
+                    )
+                if job_vocab_details['VocabularyState'] != "READY":
+                    return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
+                        provider_job_id=provider_job_id
+                    )
                 self._launch_transcribe(
                             settings['TranscriptionJobName'],
                             settings['MediaSampleRateHertz'], 
@@ -848,7 +848,7 @@ class AmazonApi(
                 storage_clients["speech"].meta.client.put_object(
                     Bucket=api_settings['bucket'], 
                     Body=json.dumps(settings).encode(),
-                    key = f"{job_id[:-index_last]}_settings.txt"
+                    Key = f"{job_id[:-index_last]}_settings.txt"
                 )
                 return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                         provider_job_id=provider_job_id
@@ -860,6 +860,13 @@ class AmazonApi(
         )
         job_status = job_details["TranscriptionJob"]["TranscriptionJobStatus"]
         if job_status == "COMPLETED":
+            #delete vocabulary
+            try:
+                clients["speech"].delete_vocabulary(
+                    VocabularyName = vocab[0]
+                )
+            except Exception as exc:
+                raise ProviderException(str(exc)) from exc
             json_res = job_details["TranscriptionJob"]["Transcript"][
                 "TranscriptFileUri"
             ]
@@ -898,6 +905,13 @@ class AmazonApi(
                     provider_job_id=provider_job_id,
                 )
         elif job_status == "FAILED":
+            #delete vocabulary
+            try:
+                clients["speech"].delete_vocabulary(
+                    VocabularyName = vocab[0]
+                )
+            except Exception as exc:
+                raise ProviderException(str(exc)) from exc
             return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id
             )
