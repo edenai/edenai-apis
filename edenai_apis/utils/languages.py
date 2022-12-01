@@ -9,11 +9,22 @@ from edenai_apis.loaders.loaders import load_provider
 from langcodes import Language, closest_supported_match
 
 
+class LanguageErrorMessage:
+    LANGUAGE_REQUIRED = (
+        "This provider doesn't auto-detect languages, "
+        "please provide a valid language"
+    )
+    LANGUAGE_NOT_SUPPORTED = lambda lang: (
+        f"Provider does not support selected language: `{lang}`"
+    )
+
+
 def check_language_format(iso_code):
     """Checks if language code name is formatted correctly (lang-extlang-Script-Reg)"""
     return bool(
         re.fullmatch(
-            r"^[a-z]{2,3}(-[a-z]{2,3})?(-[A-Z][a-z]{3})?(-([A-Z]{2,3}|\d{3}))?", iso_code
+            r"^[a-z]{2,3}(-[a-z]{2,3})?(-[A-Z][a-z]{3})?(-([A-Z]{2,3}|\d{3}))?",
+            iso_code,
         )
     )
 

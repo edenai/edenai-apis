@@ -1,11 +1,14 @@
 import io
 import mimetypes
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.languages import provide_appropriate_language
+from edenai_apis.utils.languages import (
+    LanguageErrorMessage,
+    provide_appropriate_language,
+)
 
 
 def validate_all_provider_constraints(
@@ -42,7 +45,7 @@ def validate_all_provider_constraints(
         )
 
         # languages
-        validated_args = validate_input_language(
+        validated_args = validate_all_input_languages(
             provider_constraints, validated_args, provider, feature, subfeature
         )
 
@@ -100,69 +103,85 @@ def validate_input_file_type(constraints: dict, args: dict, provider: str) -> di
     return args
 
 
-def validate_input_language(
+def validate_single_language(
+    provider_name: str,
+    feature,
+    subfeature,
+    language: Optional[str],
+    null_language_accepted: bool,
+) -> Optional[str]:
+    """
+    Validate and format given language
+
+    Args:
+        - provider_name (str)
+        - feature (str): feature name
+        - subfeature (str): subfeature name
+        - language (str | None): language to validate, can be None
+        - null_language_accepted (bool): if Provider can auto-detect langauages (accepts providing None as language)
+
+    Returns:
+        - language (str | None) validated language, can be None if provider accepts it
+
+    Raises:
+        - `ProviderException`: if language is not supported or cannot be None
+    """
+    if null_language_accepted is False and not language:
+        raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED)
+    try:
+        formated_language = provide_appropriate_language(
+            language,
+            provider_name=provider_name,
+            feature=feature,
+            subfeature=subfeature,
+        )
+    except SyntaxError as exc:
+        raise ProviderException(str(exc))
+
+    if formated_language is None:
+        raise ProviderException(
+            LanguageErrorMessage.LANGUAGE_NOT_SUPPORTED(language)
+        )
+
+    return formated_language
+
+
+def validate_all_input_languages(
     constraints: dict, args: dict, provider_name: str, feature: str, subfeature: str
 ) -> Dict:
-    """Updates the args input to provide the appropriate language
+    """
+    Updates the args input to provide the appropriate language
     supported by the provider from user input language,
     while checking at the same time if None language is acceptable
+
     Args:
-        args (dict): feature arguments, exp: {text: 'alleluia', language='en'} \n
-        provider_name (str): the provider name, exp: Google\n
-        feature (str): the feature name, exp: text\n
-        subfeature (str): the subfeature name, exp: sentiment_analysis\n
+        - constraints: provider constraints for this subfeature
+        - args (dict): feature arguments, exp: {text: 'alleluia', language='en'} \n
+        - provider_name (str): the provider name, exp: Google\n
+        - feature (str): the feature name, exp: text\n
+        - subfeature (str): the subfeature name, exp: sentiment_analysis\n
+
     Returns:
-        Union[str,Dict]: return a dict representing an error if the language or
-        source_language is None and the provider do not accept None values,
-        or if the target_language is None. Otherwise, returns a string 'Done!'
+        - dict: updated args
     """
-    # get languages
-    source_language = args.get("language") or args.get("source_language")
-    target_language = args.get("target_language")
-    if source_language:
-        try:
-            # convert languages, return None if not supported
-            supported_source_language: Union[str, None] = provide_appropriate_language(
-                source_language,
-                provider_name=provider_name,
-                feature=feature,
-                subfeature=subfeature,
-            )
-            if target_language:
-                supported_target_language: Union[
-                    str, None
-                ] = provide_appropriate_language(
-                    target_language,
-                    provider_name=provider_name,
-                    feature=feature,
-                    subfeature=subfeature,
-                )
-        except SyntaxError as exc:
-            raise ProviderException(str(exc))
 
-        # weither or not provider require a language
-        accepts_null_language = constraints.get("allow_null_language", False)
+    accepts_null_language = constraints.get("allow_null_language", False)
 
-        # if source language is not supported or
-        # if there is a target language and it is not supported
-        if (supported_source_language is None and not accepts_null_language) or (
-            target_language and supported_target_language is None
-        ):
-            unsupported_language = (
-                source_language
-                if supported_source_language is None
-                else target_language
-            )
-            raise ProviderException(
-                f"language selected `{unsupported_language}` is not supported by"
-                f" the providers: `{provider_name}`"
-            )
+    if "language" in args:
+        language = validate_single_language(
+            provider_name, feature, subfeature, args["language"], accepts_null_language
+        )
+        args["language"] = language
 
-        # change language argument for the conveted language
-        if args.get("language"):
-            args["language"] = supported_source_language
-        elif args.get("source_language") and args.get("target_language"):
-            args["source_language"] = supported_source_language
-        if target_language:
-            args["target_language"] = supported_target_language
+    # translation feature have an input and output language
+    if "target_language" in args and "source_language" in args:
+        source_language = validate_single_language(
+            provider_name, feature, subfeature, args["source_language"], accepts_null_language
+        )
+        target_language = validate_single_language(
+            provider_name, feature, subfeature, args["target_language"], False
+        )
+        args["target_language"] = target_language
+        args["source_language"] = source_language
+
     return args
