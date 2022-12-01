@@ -61,8 +61,8 @@ class AffindaApi(ProviderApi, Ocr):
         location = resume.get('location',{})
         address = ResumeLocation(
             raw_input = location.get('rawInput'),
-            postal_code = location.get('postalCode',''),
-            region = location.get('state',''),
+            postal_code = location.get('postalCode'),
+            region = location.get('state'),
             country_code = location.get('countryCode'),
             country = location.get('country'),
             appartment_number = location.get('apartmentNumber'),
@@ -90,8 +90,8 @@ class AffindaApi(ProviderApi, Ocr):
             location = i.get("location", {})
             address = ResumeLocation(
                 raw_input = location.get('rawInput'),
-                postal_code = location.get('postalCode',''),
-                region = location.get('state',''),
+                postal_code = location.get('postalCode'),
+                region = location.get('state'),
                 country = location.get('country'),
                 country_code = location.get('countryCode'),
                 street_number = location.get('streetNumber'),
@@ -119,8 +119,8 @@ class AffindaApi(ProviderApi, Ocr):
             location = i.get("location", {})
             address = ResumeLocation(
                 raw_input = location.get('rawInput'),
-                postal_code = location.get('postalCode',''),
-                region = location.get('state',''),
+                postal_code = location.get('postalCode'),
+                region = location.get('state'),
                 country = location.get('country'),
                 country_code = location.get('countryCode'),
                 street_number = location.get('streetNumber'),
