@@ -28,17 +28,17 @@
       },
       "objective": "To build and maintain a successful role in the world of high fashion modeling.",
       "languages": [
-        "Spanish",
-        "Hawaiian",
         "Italian",
         "English",
-        "French"
+        "French",
+        "Hawaiian",
+        "Spanish"
       ],
       "summary": "",
       "total_years_experience": 0,
       "education": [
         {
-          "id": 7363312,
+          "id": 7484819,
           "organization": "New York University",
           "accreditation": {
             "education": "Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting)",
@@ -55,7 +55,7 @@
       "profession": "Modelador 3D",
       "work_experience": [
         {
-          "id": 13896712,
+          "id": 14064655,
           "job_title": "Featured Model",
           "location": {
             "formatted": "Los Angeles, CA, USA",
@@ -86,29 +86,7 @@
       ],
       "skills": [
         {
-          "id": 74105909,
-          "emsi_id": "KS1200H6XYN1CR0G5NZ0",
-          "name": "Microsoft Excel",
-          "type": "soft_skill",
-          "sources": [
-            {
-              "section": "Skills/Interests/Languages"
-            }
-          ]
-        },
-        {
-          "id": 74105910,
-          "emsi_id": "KS127CD6TFVHL5L08RCS",
-          "name": "Opera (Web Browser)",
-          "type": "hard_skill",
-          "sources": [
-            {
-              "section": "Skills/Interests/Languages"
-            }
-          ]
-        },
-        {
-          "id": 74105913,
+          "id": 74951034,
           "emsi_id": "ES9C0ADA3C9397DD6AED",
           "name": "Agile Software Development",
           "type": "hard_skill",
@@ -119,18 +97,7 @@
           ]
         },
         {
-          "id": 74105914,
-          "emsi_id": "KS7G1PB6LNV1DF9GXHBG",
-          "name": "Jazz",
-          "type": "hard_skill",
-          "sources": [
-            {
-              "section": "Skills/Interests/Languages"
-            }
-          ]
-        },
-        {
-          "id": 74105915,
+          "id": 74951036,
           "emsi_id": "KS1209G6J8YRRLRDQ03Y",
           "name": "Aerobics",
           "type": "hard_skill",
@@ -141,7 +108,40 @@
           ]
         },
         {
-          "id": 74105916,
+          "id": 74951037,
+          "emsi_id": "KS1200H6XYN1CR0G5NZ0",
+          "name": "Microsoft Excel",
+          "type": "soft_skill",
+          "sources": [
+            {
+              "section": "Skills/Interests/Languages"
+            }
+          ]
+        },
+        {
+          "id": 74951038,
+          "emsi_id": "KS127CD6TFVHL5L08RCS",
+          "name": "Opera (Web Browser)",
+          "type": "hard_skill",
+          "sources": [
+            {
+              "section": "Skills/Interests/Languages"
+            }
+          ]
+        },
+        {
+          "id": 74951042,
+          "emsi_id": "KS7G1PB6LNV1DF9GXHBG",
+          "name": "Jazz",
+          "type": "hard_skill",
+          "sources": [
+            {
+              "section": "Skills/Interests/Languages"
+            }
+          ]
+        },
+        {
+          "id": 74951043,
           "emsi_id": "KS120WC5WQLKTJTG7TLX",
           "name": "Ballet",
           "type": "hard_skill",
@@ -216,21 +216,21 @@
       "raw_text": "Amanda Smith 398 Wilshire Blvd. Los Angeles, CA Home: 594-348-2740 Cell: 594-348-2741 E-mail: modelgal@aim.com\nObjective To build and maintain a successful role in the world of high fashion modeling.\nSpecial Skills . Dancing: Experienced in Ballet, Tap, Jazz, and Modem Dance \u00b7 Sports: Extremely athletic and agile; avid swimmer and golfer. Also excel in ice skating, aerobics, baseball, basketball, volleyball and tennis. Music: Classically taught opera singer and pianist. . Languages: English is native language. Also fluent in Spanish, Italian, and French.\nEducation Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting) - New York University (2003)\nWork Experience . Fashion Show: Ed Hardy Fashion Show, Los Angeles, CA, March 2008 . Featured Model Los Angeles Fashion Week, Los Angeles, CA, March 2008 . Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 . Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 . Fashion Show: Macy's NYC Fashion Show New York, December 2006 . Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006"
     },
     "meta": {
-      "reviewUrl": "https://app.affinda.com/review/KIdawIes?signature=eyJ1c2VyX2lkIjoyNDIzLCJ1c2VybmFtZSI6ImNvbnRhY3QifQ:1p0Pdq:uwJ14DdzTe6LfwcgItYyqvw0OAhOzUmfY2ZKOyDdHuo:1p0Pdq:vpeYYy7lEicw9qjxbZlo8DjD8c2-bvpj21pxQJTuTS0",
       "documentType": "resume",
-      "isVerified": false,
       "ocrConfidence": 0.9660961538461538,
-      "identifier": "KIdawIes",
+      "isVerified": false,
+      "reviewUrl": "https://app.affinda.com/review/RIbrKMZW?signature=eyJ1c2VyX2lkIjoyNDIzLCJ1c2VybmFtZSI6ImNvbnRhY3QifQ:1p0fb0:whXAVgavhcp3tYMuMXre6P7yuisx2mdrWsmbm_-Bfds:1p0fb0:LybkrZwZ7APN8r9oTDbItSscfe6fujC0njwjGwtnFhc",
+      "identifier": "RIbrKMZW",
       "file_name": "resume.pdf",
       "ready": true,
-      "ready_dt": "2022-11-30T16:08:57.77068Z",
+      "ready_dt": "2022-12-01T09:11:06.055559Z",
       "failed": false,
       "language": "en",
-      "pdf": "https://affinda-api.s3.amazonaws.com/media/documents/resume_rSaeHcu.pdf?AWSAccessKeyId=ASIAU2V7FN3BTMW33MQE&Signature=zoXo1T5NSHC0fy3zuIimrDwSoE0%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEGAaDmFwLXNvdXRoZWFzdC0yIkYwRAIgfC4GK6IqKWot7czINkRZV1jbJLPaHvai1QL6NFV6gNkCIGMkEG1jYj7V74XoAZNwjfnlkso%2F9zr7z9PJKeASgDanKu4DCHkQABoMMzMyMTg3MTM1NjgzIgymEUNwehn2vwSTHrMqywP7mQs2SXc2edIQlpOxc8LdGgSccUClx0kKbuHAxsXSVUoJNCvRF1Ct5o2YcdX4fp2rM7xU4n4IR6ATQcQcDsUr%2B%2FJvRxo2ImJDe1tk0rxfjiWxLetXQA1ZKkZtIzpUeU7452s3%2BCBFVAu%2FMRn42%2Fl%2Bf9kqCQ8pi5b3EuiluzLAc0TpdHvpMHomF6K9Jy3J1nnsu4qAJRIrwiFs6Y6E1kFEt33QJEktmFyp7wYqLfkB0d6AVLq0lH2QC6PQrI2WVRxsvpl8fjtefZsHe6QQeLz%2B2JlH%2BWqg6Spd%2FZ50R6OUOgqD1zjXX7wEPfO83PgcKxswxywCGURy8uLRvw4JUPfwrCpW55Mrz8W5MPylo9wepvPupeeqJdLhPornKDk9JXoFRzs0nFJHV6FaX%2BI515p%2FrJJnXt6Tfopk0yXFJ%2FnQSOv4XuUsJvMX3H8VEYuRz3NI50NWaTqQg%2BXaEoVunRjqUZj9GcAQ1BJkNPi0Mg5wJC4n%2B4XR0BqfMHoGHdBXZTF5eL64MaGtQ9XzOG1PslJPR%2BEohneDxWWBeLA8VdW0xvuy0URPcNofwd%2FBv3qkwZ51hgeRspYA2XmxcKA4W3Pwq%2FYyhXmRL9YS3w4w3u2dnAY6pgFjj9x2lZjv8TA6qyyEnb71hGx6VQ5HBxr1m%2By6z%2F%2Be8oB5Q4fKWB6eZvdp4130IIK0eVv4q5SCk5IyinZi2vKKUqLcSIOBmdli1Nlq0GSULLfeMLOujCyB3owc5IRntMEd18eju8PQhKzLnls9ISys6T03NCBN4xG5y4pCqdpI9lgaiwHuVITyjb%2FHYbAK3dUMKJCFwLHj%2B6HRutPmRGu660klCapw&Expires=1669828138",
+      "pdf": "https://affinda-api.s3.amazonaws.com/media/documents/resume_zIm73Rf.pdf?AWSAccessKeyId=ASIAU2V7FN3BUNLUMPH2&Signature=adnTaA2cew8wcXVN7Z1VA8YGmTQ%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEG8aDmFwLXNvdXRoZWFzdC0yIkgwRgIhAIukEuL35NJBypVXN%2B1pp7PCx%2Fkd3jH0Imugid8KMV0pAiEA2gKdhRR%2BkL%2BrRQJZx3Gchy1ScK%2Bezm8w9ERHWD5w0aMq6wMIiP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwzMzIxODcxMzU2ODMiDAhFzu%2F06NnJX%2B%2B8tyq%2FA%2F1r2WiY1uwjpSJhu%2BMTerJR%2FDM%2B4r6pFhXXMTyPsQFhWNFh46CBed%2F%2B5IGqAk00i3PmN%2BYsrMrGrvXc%2F%2BYh2f8SEcScEYBvzRsb6n%2B094AjC3cq3gO3d5EwORi05mU2w2fdRCmhgmMzPTWX48Y6Vsa72i7iqw1LuX1xD1h1OC1E%2B4pGPJXbuT3uFVddtztQ1oNOb123veg4zsmq4%2BtrtZdTPnsxWfG%2BvqqPwr0%2F9gEBmqkKSTxz1g5dhP8t6hLt0E4F8V8AVEilKf58jHNC9d46RekuEtewVzx8%2FmwfG6BVPkMbIks5avvY0O8caj3lw0G8M8G6MMhYaLOHc4MVg1adYgnaYME%2F5JaVFmLYlzMLO01trIP32v3kzslJ3zl9aiCDQqQS5X2STdI%2BIRqF%2FL2Fnrmfdy%2BzyHGCulsoSzsk5ntJM0SIlWHBAOcAvFAXLalCNVw1ZTwsp1LeKZC8vpP%2FVpYAAvNnAFfRlX%2Bl7RGsmP%2F61%2FawYFI1VC%2FP97jE22Jx47juJzN6kfXjEaDU6jsxRpkMK6otZzCuilqdgoBjF10r%2BbjAHrFXizOT5uIQdy8PIwO2K7XwokNuQPn3CTCPqqGcBjqkATYpFV8eugRA2ZLacOjmbC0T6Sa0mMNr%2FsvZG7YgkA7z9jYjnlre5nYrQG9CfYIoXA0juh1edOfKyspPgBVyZK0fKyMEOH8nOKwqHMhLGBQWjLy7T3jWrbQHovMabKxV3fRLFOofaR36PtZJTZj%2FTn9HXx7ZnmP3%2F8pIud6iaRnmnkr0XrbaqXgo6DdSLBr3mjzOg5Lf91SLqb8lTC0jpwdMg9WY&Expires=1669889466",
       "child_documents": [],
       "pages": [
         {
-          "id": 8449840,
+          "id": 8563839,
           "page_index": 0,
           "height": 842.0,
           "width": 595.0,
@@ -254,7 +254,7 @@
         },
         "address": {
           "formatted_location": null,
-          "postal_code": "",
+          "postal_code": null,
           "region": "California",
           "country": "United States",
           "country_code": null,
@@ -296,7 +296,7 @@
             "company": null,
             "location": {
               "formatted_location": null,
-              "postal_code": "",
+              "postal_code": null,
               "region": "California",
               "country": "United States",
               "country_code": null,
@@ -312,14 +312,6 @@
       },
       "languages": [
         {
-          "name": "Spanish",
-          "code": null
-        },
-        {
-          "name": "Hawaiian",
-          "code": null
-        },
-        {
           "name": "Italian",
           "code": null
         },
@@ -330,9 +322,25 @@
         {
           "name": "French",
           "code": null
+        },
+        {
+          "name": "Hawaiian",
+          "code": null
+        },
+        {
+          "name": "Spanish",
+          "code": null
         }
       ],
       "skills": [
+        {
+          "name": "Agile Software Development",
+          "type": "hard"
+        },
+        {
+          "name": "Aerobics",
+          "type": "hard"
+        },
         {
           "name": "Microsoft Excel",
           "type": "soft"
@@ -342,15 +350,7 @@
           "type": "hard"
         },
         {
-          "name": "Agile Software Development",
-          "type": "hard"
-        },
-        {
           "name": "Jazz",
-          "type": "hard"
-        },
-        {
-          "name": "Aerobics",
           "type": "hard"
         },
         {

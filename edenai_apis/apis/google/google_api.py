@@ -1,42 +1,38 @@
 # pylint: disable=locally-disabled, too-many-lines
 import base64
-import io
 import json
+import mimetypes
 import os
 from io import BufferedReader
 from pathlib import Path
 from time import time
 from typing import Sequence
 
+import PyPDF2
+from edenai_apis.utils.pdfs import get_pdf_width_height
 import googleapiclient.discovery
 import numpy as np
-from pdf2image.pdf2image import convert_from_bytes
-from PIL import Image as Img
-import google.auth
-from google.cloud import documentai_v1beta3 as documentai
-from google.cloud import speech, storage, texttospeech
-from google.cloud import translate_v3 as translate
-from google.cloud import videointelligence, vision
-from google.cloud.language import Document as GoogleDocument
-from google.cloud.language import LanguageServiceClient
-from google.cloud.vision_v1.types.image_annotator import (
-    AnnotateImageResponse,
-    EntityAnnotation,
-)
-from google.protobuf.json_format import MessageToDict
 from edenai_apis.apis.google.google_helpers import (
     GoogleVideoFeatures,
+    get_tag_name,
     google_video_get_job,
     ocr_tables_async_response_add_rows,
     score_to_content,
     score_to_sentiment,
-    get_tag_name,
 )
-from edenai_apis.features import Audio, Image, Ocr, ProviderApi, Text, Translation, Video
+from edenai_apis.features import (
+    Audio,
+    Image,
+    Ocr,
+    ProviderApi,
+    Text,
+    Translation,
+    Video,
+)
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
-    SpeechToTextAsyncDataClass,
+    SpeechDiarization,
     SpeechDiarizationEntry,
-    SpeechDiarization
+    SpeechToTextAsyncDataClass,
 )
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
@@ -144,7 +140,7 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import wav_converter
-from edenai_apis.utils.exception import ProviderException, LanguageException
+from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -152,7 +148,20 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
+from PIL import Image as Img
 
+import google.auth
+from google.cloud import documentai_v1beta3 as documentai
+from google.cloud import speech, storage, texttospeech
+from google.cloud import translate_v3 as translate
+from google.cloud import videointelligence, vision
+from google.cloud.language import Document as GoogleDocument
+from google.cloud.language import LanguageServiceClient
+from google.cloud.vision_v1.types.image_annotator import (
+    AnnotateImageResponse,
+    EntityAnnotation,
+)
+from google.protobuf.json_format import MessageToDict
 
 
 class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
@@ -895,7 +904,13 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         image = vision.Image(content=file_content)
         response = self.clients["image"].text_detection(image=image)
 
-        width, height = Img.open(file).size
+        mimetype = mimetypes.guess_type(file.name)[0] or "unrecognized"
+        if mimetype.startswith("image"):
+            width, height = Img.open(file).size
+        elif mimetype == "application/pdf":
+            width, height = get_pdf_width_height(file)
+
+
         messages_list = []
         boxes: Sequence[Bounding_box] = []
         final_text = ""

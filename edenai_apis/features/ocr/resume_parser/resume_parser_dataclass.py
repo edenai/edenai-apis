@@ -5,8 +5,8 @@ from pydantic import BaseModel, Field, StrictStr
 
 class ResumeLocation(BaseModel):
     formatted_location : Optional[StrictStr]  # Affinda ?
-    postal_code : StrictStr # All
-    region : StrictStr # All
+    postal_code : Optional[StrictStr] # All
+    region : Optional[StrictStr] # All
     country : Optional[StrictStr]  # Affinda
     country_code : Optional[StrictStr] # All
     raw_input_location : Optional[StrictStr] # All

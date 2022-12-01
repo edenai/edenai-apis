@@ -5,8 +5,8 @@
         "raw_name": "Amanda Smith",
         "first_name": "Amanda",
         "last_name": "Smith",
-        "middle": "",
-        "title": "",
+        "middle": null,
+        "title": null,
         "prefix": null,
         "sufix": null
       },

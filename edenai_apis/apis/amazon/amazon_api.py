@@ -335,12 +335,15 @@ class AmazonApi(
     ) -> ResponseType[OcrDataClass]:
         file_content = file.read()
 
-        response = self.clients["textract"].detect_document_text(
-            Document={
-                "Bytes": file_content,
-                "S3Object": {"Bucket": api_settings["bucket"], "Name": file.name},
-            }
-        )
+        try:
+            response = self.clients["textract"].detect_document_text(
+                Document={
+                    "Bytes": file_content,
+                    "S3Object": {"Bucket": api_settings["bucket"], "Name": file.name},
+                }
+            )
+        except Exception as amazon_call_exception:
+            raise ProviderException(str(amazon_call_exception))
 
         final_text = ""
         output_value = json.dumps(response, ensure_ascii=False)
