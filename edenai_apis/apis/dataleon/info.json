@@ -2,6 +2,12 @@
     "ocr": {
         "invoice_parser": {
             "constraints": {
+                "file_types": [
+                    "image/png",
+                    "image/jpeg",
+                    "image/tiff",
+                    "application/pdf"
+                ],
                 "languages": [
                     "en-US",
                     "fr-FR",
@@ -17,6 +23,12 @@
         },
         "receipt_parser": {
             "constraints": {
+                "file_types": [
+                    "image/png",
+                    "image/jpeg",
+                    "image/tiff",
+                    "application/pdf"
+                ],
                 "languages": [
                     "en-US",
                     "fr-FR",

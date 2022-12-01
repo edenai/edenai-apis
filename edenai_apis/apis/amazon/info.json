@@ -89,6 +89,12 @@
         },
         "ocr_tables_async": {
             "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "application/pdf",
+                    "image/tiff"
+                ],
                 "languages": [
                     "en-US",
                     "fr-FR",
@@ -103,6 +109,13 @@
         },
         "identity_parser": {
             "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "image/webp",
+                    "application/pdf",
+                    "image/tiff"
+                ],
                 "languages": [
                     "en-US",
                     "fr-FR",
