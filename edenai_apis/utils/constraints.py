@@ -90,10 +90,11 @@ def validate_input_file_type(constraints: dict, args: dict, provider: str) -> di
         if input_file_type not in provider_file_type_constraints and not any(
             [global_type in input_file_type for global_type in type_glob]
         ):
+            supported_types = ",".join(provider_file_type_constraints)
             raise ProviderException(
                 f"Provider {provider} doesn't support file type: {input_file_type} "
-                f"for this feature. \n"
-                f"Supported types are {provider_file_type_constraints}"
+                f"for this feature. "
+                f"Supported mimetypes are {supported_types}"
             )
 
     return args
