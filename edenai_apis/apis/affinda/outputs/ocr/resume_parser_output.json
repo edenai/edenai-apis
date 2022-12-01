@@ -28,17 +28,17 @@
       },
       "objective": "To build and maintain a successful role in the world of high fashion modeling.",
       "languages": [
-        "French",
-        "English",
         "Spanish",
+        "Hawaiian",
         "Italian",
-        "Hawaiian"
+        "English",
+        "French"
       ],
       "summary": "",
       "total_years_experience": 0,
       "education": [
         {
-          "id": 7358429,
+          "id": 7363312,
           "organization": "New York University",
           "accreditation": {
             "education": "Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting)",
@@ -55,7 +55,7 @@
       "profession": "Modelador 3D",
       "work_experience": [
         {
-          "id": 13887072,
+          "id": 13896712,
           "job_title": "Featured Model",
           "location": {
             "formatted": "Los Angeles, CA, USA",
@@ -86,10 +86,10 @@
       ],
       "skills": [
         {
-          "id": 74055325,
-          "emsi_id": "ES9C0ADA3C9397DD6AED",
-          "name": "Agile Software Development",
-          "type": "hard_skill",
+          "id": 74105909,
+          "emsi_id": "KS1200H6XYN1CR0G5NZ0",
+          "name": "Microsoft Excel",
+          "type": "soft_skill",
           "sources": [
             {
               "section": "Skills/Interests/Languages"
@@ -97,7 +97,7 @@
           ]
         },
         {
-          "id": 74055328,
+          "id": 74105910,
           "emsi_id": "KS127CD6TFVHL5L08RCS",
           "name": "Opera (Web Browser)",
           "type": "hard_skill",
@@ -108,9 +108,9 @@
           ]
         },
         {
-          "id": 74055329,
-          "emsi_id": "KS1209G6J8YRRLRDQ03Y",
-          "name": "Aerobics",
+          "id": 74105913,
+          "emsi_id": "ES9C0ADA3C9397DD6AED",
+          "name": "Agile Software Development",
           "type": "hard_skill",
           "sources": [
             {
@@ -119,7 +119,7 @@
           ]
         },
         {
-          "id": 74055332,
+          "id": 74105914,
           "emsi_id": "KS7G1PB6LNV1DF9GXHBG",
           "name": "Jazz",
           "type": "hard_skill",
@@ -130,9 +130,9 @@
           ]
         },
         {
-          "id": 74055333,
-          "emsi_id": "KS120WC5WQLKTJTG7TLX",
-          "name": "Ballet",
+          "id": 74105915,
+          "emsi_id": "KS1209G6J8YRRLRDQ03Y",
+          "name": "Aerobics",
           "type": "hard_skill",
           "sources": [
             {
@@ -141,10 +141,10 @@
           ]
         },
         {
-          "id": 74055334,
-          "emsi_id": "KS1200H6XYN1CR0G5NZ0",
-          "name": "Microsoft Excel",
-          "type": "soft_skill",
+          "id": 74105916,
+          "emsi_id": "KS120WC5WQLKTJTG7TLX",
+          "name": "Ballet",
+          "type": "hard_skill",
           "sources": [
             {
               "section": "Skills/Interests/Languages"
@@ -216,21 +216,21 @@
       "raw_text": "Amanda Smith 398 Wilshire Blvd. Los Angeles, CA Home: 594-348-2740 Cell: 594-348-2741 E-mail: modelgal@aim.com\nObjective To build and maintain a successful role in the world of high fashion modeling.\nSpecial Skills . Dancing: Experienced in Ballet, Tap, Jazz, and Modem Dance \u00b7 Sports: Extremely athletic and agile; avid swimmer and golfer. Also excel in ice skating, aerobics, baseball, basketball, volleyball and tennis. Music: Classically taught opera singer and pianist. . Languages: English is native language. Also fluent in Spanish, Italian, and French.\nEducation Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting) - New York University (2003)\nWork Experience . Fashion Show: Ed Hardy Fashion Show, Los Angeles, CA, March 2008 . Featured Model Los Angeles Fashion Week, Los Angeles, CA, March 2008 . Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 . Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 . Fashion Show: Macy's NYC Fashion Show New York, December 2006 . Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006"
     },
     "meta": {
-      "isVerified": false,
-      "reviewUrl": "https://app.affinda.com/review/XsniOaPC?signature=eyJ1c2VyX2lkIjoyNDIzLCJ1c2VybmFtZSI6ImNvbnRhY3QifQ:1p0I7N:MObNjTFCuq8ORJ40Q2cbduHupaDX3fKRivmxSOjX5UE:1p0I7N:NaLtD-ytb8VWrd0XRjhfO_EaFWBn4oHaifxUN2QYgk8",
+      "reviewUrl": "https://app.affinda.com/review/KIdawIes?signature=eyJ1c2VyX2lkIjoyNDIzLCJ1c2VybmFtZSI6ImNvbnRhY3QifQ:1p0Pdq:uwJ14DdzTe6LfwcgItYyqvw0OAhOzUmfY2ZKOyDdHuo:1p0Pdq:vpeYYy7lEicw9qjxbZlo8DjD8c2-bvpj21pxQJTuTS0",
       "documentType": "resume",
+      "isVerified": false,
       "ocrConfidence": 0.9660961538461538,
-      "identifier": "XsniOaPC",
+      "identifier": "KIdawIes",
       "file_name": "resume.pdf",
       "ready": true,
-      "ready_dt": "2022-11-30T08:06:56.608848Z",
+      "ready_dt": "2022-11-30T16:08:57.77068Z",
       "failed": false,
       "language": "en",
-      "pdf": "https://affinda-api.s3.amazonaws.com/media/documents/resume_jj67LJr.pdf?AWSAccessKeyId=ASIAU2V7FN3B6LXMRQPI&Signature=d6I2bZTpe%2B1Ojb1Lo9Y%2By2oVsqQ%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEFgaDmFwLXNvdXRoZWFzdC0yIkcwRQIgU2qvTAMZp%2Bd1S5nQ%2Ft1NrBP9Xit5cxQoMZzHC3J0GlYCIQCoQ%2F57OnMDBOGnr%2BKC9KYR6gofriyIpnkvRTCQtLhEhiruAwhxEAAaDDMzMjE4NzEzNTY4MyIM%2F1OL1gKvwF5tLSIcKssD34sTXOpY3cU4RROPeswpMoHlp09irzFzs3DdTMQpMvcq6JW3vog6022EP94FETHU%2FeqtS88Ny5qNHcKEgpYkIpzDTDrTKElooLYCwRjmPlcZu%2FE%2FV1KsuMVXn5bDpnaO%2B7BdHlfF2wmLYQa81EzHi13PMro8oeGouFaw88r1n4iljnml%2FPQaHT4GCOfHcej1Q4b6dMfPn55Va5vr4EmeNynxsqm5FSLD8NIaynRuaWfeOX6iQ3wJLhBPcMDd3XfYbxpsfUEf0bd9eUFz2lMcyRuSU2%2FsmBN4q6%2FhTsLfK%2FVxeUh8YaHyNhCvjmvYloEUlfVySqQwfnBGGErXmzgr8po6S2yuaJWAiyy8fvC5fLc7TBnH9HyCab%2Bq7HvhhORvpp%2BmqBrmtOTzSnubHwgaSbKumhGwXukzFB41Nb1yH%2BRFOvkF%2BCFjx9qm00oYS5lHcIHL8mb43bbz8G6wI4lzig%2BIfWsy1f3TxRZAgweRk2PMFZ9igesFMAblFJ2uPzOTapDsaA31q6o30xhAR9hQ1%2BXlkygS%2Fx4t0J%2Bzk8s1gGJF5qfDSR8%2BEoj6khmuYWIwYvYn4QBoQaKQA7ZbUS1yx4NXhmESoRM9li6VMI2WnJwGOqUBiGiv4sAhQjs%2FNdTg5jq0uKsAFd3SOxkiAvJR4CnyfwiTPi%2BabFaIMZfIg3LJ2jnrKjwARJ1LyJJEo538XtEAGbrHkZa2eeLbB0w98nHazL3sW9DOFox3aWurllCKea6eeEDs9oxFoaWv%2Bs%2BgY0dkwnMg%2B1X2aZiNM4U6V5ceMHDUuDpaJdJRIMzr4tKd%2FWMoz4TNE197bCxd5OPEAtqOKxrw3q1o&Expires=1669799217",
+      "pdf": "https://affinda-api.s3.amazonaws.com/media/documents/resume_rSaeHcu.pdf?AWSAccessKeyId=ASIAU2V7FN3BTMW33MQE&Signature=zoXo1T5NSHC0fy3zuIimrDwSoE0%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEGAaDmFwLXNvdXRoZWFzdC0yIkYwRAIgfC4GK6IqKWot7czINkRZV1jbJLPaHvai1QL6NFV6gNkCIGMkEG1jYj7V74XoAZNwjfnlkso%2F9zr7z9PJKeASgDanKu4DCHkQABoMMzMyMTg3MTM1NjgzIgymEUNwehn2vwSTHrMqywP7mQs2SXc2edIQlpOxc8LdGgSccUClx0kKbuHAxsXSVUoJNCvRF1Ct5o2YcdX4fp2rM7xU4n4IR6ATQcQcDsUr%2B%2FJvRxo2ImJDe1tk0rxfjiWxLetXQA1ZKkZtIzpUeU7452s3%2BCBFVAu%2FMRn42%2Fl%2Bf9kqCQ8pi5b3EuiluzLAc0TpdHvpMHomF6K9Jy3J1nnsu4qAJRIrwiFs6Y6E1kFEt33QJEktmFyp7wYqLfkB0d6AVLq0lH2QC6PQrI2WVRxsvpl8fjtefZsHe6QQeLz%2B2JlH%2BWqg6Spd%2FZ50R6OUOgqD1zjXX7wEPfO83PgcKxswxywCGURy8uLRvw4JUPfwrCpW55Mrz8W5MPylo9wepvPupeeqJdLhPornKDk9JXoFRzs0nFJHV6FaX%2BI515p%2FrJJnXt6Tfopk0yXFJ%2FnQSOv4XuUsJvMX3H8VEYuRz3NI50NWaTqQg%2BXaEoVunRjqUZj9GcAQ1BJkNPi0Mg5wJC4n%2B4XR0BqfMHoGHdBXZTF5eL64MaGtQ9XzOG1PslJPR%2BEohneDxWWBeLA8VdW0xvuy0URPcNofwd%2FBv3qkwZ51hgeRspYA2XmxcKA4W3Pwq%2FYyhXmRL9YS3w4w3u2dnAY6pgFjj9x2lZjv8TA6qyyEnb71hGx6VQ5HBxr1m%2By6z%2F%2Be8oB5Q4fKWB6eZvdp4130IIK0eVv4q5SCk5IyinZi2vKKUqLcSIOBmdli1Nlq0GSULLfeMLOujCyB3owc5IRntMEd18eju8PQhKzLnls9ISys6T03NCBN4xG5y4pCqdpI9lgaiwHuVITyjb%2FHYbAK3dUMKJCFwLHj%2B6HRutPmRGu660klCapw&Expires=1669828138",
       "child_documents": [],
       "pages": [
         {
-          "id": 8444410,
+          "id": 8449840,
           "page_index": 0,
           "height": 842.0,
           "width": 595.0,
@@ -249,24 +249,24 @@
           "last_name": "Smith",
           "middle": "",
           "title": "",
-          "prefix": "NOT PROVIDED",
-          "sufix": "NOT PROVIDED"
+          "prefix": null,
+          "sufix": null
         },
         "address": {
-          "formatted_location": "NOT PROVIDED",
+          "formatted_location": null,
           "postal_code": "",
           "region": "California",
           "country": "United States",
-          "country_code": "",
+          "country_code": null,
           "raw_input_location": null,
           "street": "Wilshire Boulevard",
-          "street_number": "",
-          "appartment_number": ""
+          "street_number": null,
+          "appartment_number": null
         },
         "self_summary": "",
         "objective": "To build and maintain a successful role in the world of high fashion modeling.",
         "date_of_birth": null,
-        "place_of_birth": "NOT PROVIDED",
+        "place_of_birth": null,
         "phones": [
           "594-348-2740 594-348-2741"
         ],
@@ -276,11 +276,11 @@
         "urls": [],
         "fax": [],
         "current_profession": "Modelador 3D",
-        "dateOfBirth": "NOT PROVIDED",
-        "gender": "NOT PROVIDED",
-        "nationality": "NOT PROVIDED",
-        "martial_status": "NOT PROVIDED",
-        "current_salary": "NOT PROVIDED"
+        "dateOfBirth": null,
+        "gender": null,
+        "nationality": null,
+        "martial_status": null,
+        "current_salary": null
       },
       "education": {
         "total_years_education": null,
@@ -295,32 +295,28 @@
             "end_date": "2007-12-01",
             "company": null,
             "location": {
-              "formatted_location": "NOT PROVIDED",
+              "formatted_location": null,
               "postal_code": "",
               "region": "California",
               "country": "United States",
-              "country_code": "",
+              "country_code": null,
               "raw_input_location": null,
-              "street": "",
-              "street_number": "",
-              "appartment_number": ""
+              "street": null,
+              "street_number": null,
+              "appartment_number": null
             },
             "description": ". Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 . Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 . Fashion Show: Macy's NYC Fashion Show New York, December 2006 . Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006 ",
-            "industry": "NOT PROVIDED"
+            "industry": null
           }
         ]
       },
       "languages": [
         {
-          "name": "French",
-          "code": null
-        },
-        {
-          "name": "English",
-          "code": null
-        },
-        {
           "name": "Spanish",
+          "code": null
+        },
+        {
+          "name": "Hawaiian",
           "code": null
         },
         {
@@ -328,21 +324,25 @@
           "code": null
         },
         {
-          "name": "Hawaiian",
+          "name": "English",
+          "code": null
+        },
+        {
+          "name": "French",
           "code": null
         }
       ],
       "skills": [
         {
-          "name": "Agile Software Development",
-          "type": "hard"
+          "name": "Microsoft Excel",
+          "type": "soft"
         },
         {
           "name": "Opera (Web Browser)",
           "type": "hard"
         },
         {
-          "name": "Aerobics",
+          "name": "Agile Software Development",
           "type": "hard"
         },
         {
@@ -350,12 +350,12 @@
           "type": "hard"
         },
         {
-          "name": "Ballet",
+          "name": "Aerobics",
           "type": "hard"
         },
         {
-          "name": "Microsoft Excel",
-          "type": "soft"
+          "name": "Ballet",
+          "type": "hard"
         }
       ],
       "certifications": [],

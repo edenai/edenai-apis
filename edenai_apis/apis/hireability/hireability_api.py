@@ -1,5 +1,6 @@
 from io import BufferedReader
 import requests
+import sys
 from pprint import pprint
 from edenai_apis.features import Ocr
 from edenai_apis.features.ocr import (
@@ -38,18 +39,21 @@ class HireabilityApi(ProviderApi, Ocr):
         files = {'document': file}
 
         # Generate Api output
-        response = requests.post(self.url, data={
-        'product_code' : self.product_code,
-        'document_title' : file.name,
-        }, files=files)
-        original_response = response.json()
-                   
+        try:
+            response = requests.post(self.url, data={
+            'product_code' : self.product_code,
+            'document_title' : file.name,
+            }, files=files)
+            original_response = response.json()
+        except Exception as exc:
+            raise ProviderException(f"Unexpected error! {sys.exc_info()[0]}") from exc
         # Handle provider error
-        errors = original_response['Results'][0]['HireAbilityJSONResults'][1]['ProcessingErrors'][0]
-        print("The errors are ", errors)
-        infos = original_response['Results'][0]['HireAbilityJSONResults'][0]
-        if errors['Error'][0]['ErrorMessage']:
-            raise ProviderException(errors['Error'][0]['ErrorMEssage'],code = errors['Error'][0]['ErrorCode'])        
+        #errors = original_response['Results'][0]['HireAbilityJSONResults'][1]['ProcessingErrors'][0]
+        #print("The errors are ", errors)
+        # if errors['Error'][0]['ErrorMessage']:
+        #     raise ProviderException(errors['Error'][0]['ErrorMEssage'],code = errors['Error'][0]['ErrorCode'])  
+        
+        infos = original_response['Results'][0]['HireAbilityJSONResults'][0]      
 
         # Resume parser std 
         
@@ -72,19 +76,19 @@ class HireabilityApi(ProviderApi, Ocr):
             phones=[phone['Number'] for phone in infos.get('Phone') if phone['Number']],
             mails=[mail['Address'] for mail in infos.get('Email') if mail['Address']],
             urls=[],
-            gender = infos.get('Gender',''),
-            date_of_birth = infos.get('DateOfBirth',''),
-            place_of_birth = infos.get('PlaceOfBirth',''),
-            nationality = infos.get('Nationality',''),
-            marital_status = infos.get('MaritalStatus',''),
-            objective = infos.get('Objective',''),
-            current_salary = infos.get('Salary','')
+            gender = infos.get('Gender'),
+            date_of_birth = infos.get('DateOfBirth'),
+            place_of_birth = infos.get('PlaceOfBirth'),
+            nationality = infos.get('Nationality'),
+            marital_status = infos.get('MaritalStatus'),
+            objective = infos.get('Objective'),
+            current_salary = infos.get('Salary')
         )
 
         # 2 Education
         edu_entries = []
         for i in infos.get("EducationOrganizationAttendance",{}):
-            title = i.get('EducationLevel',[{}])[0].get('Name','')
+            title = i.get('EducationLevel',[{}])[0].get('Name')
             location = ResumeLocation(
                 country_code = i.get('ReferenceLocation',{}).get('CountryCode',''),
                 region = i.get('ReferenceLocation',{}).get('CountrySubDivisionCode',''),
@@ -113,11 +117,11 @@ class HireabilityApi(ProviderApi, Ocr):
             )
             work_entries.append(
                 ResumeWorkExpEntry(
-                    title=i.get("PositionTitle",''),
-                    company=i.get("Employer",''),
-                    start_date=i.get("StartDate",''),
-                    end_date=i.get("EndDate",''),
-                    description=i.get("Description",''),
+                    title=i.get("PositionTitle"),
+                    company=i.get("Employer"),
+                    start_date=i.get("StartDate"),
+                    end_date=i.get("EndDate"),
+                    description=i.get("Description"),
                     location=work_location,
                     industry = i.get('Industry',{}).get('Name')
                 )
@@ -127,9 +131,9 @@ class HireabilityApi(ProviderApi, Ocr):
 
         # 4 Others
         skills = []
-        for i in infos.get("PersonCompetency",''):
-            skill = i.get("CompetencyName",'')
-            skill_type = i.get("CompetencyLevel",'')
+        for i in infos.get("PersonCompetency"):
+            skill = i.get("CompetencyName")
+            skill_type = i.get("CompetencyLevel")
             skills.append(ResumeSkill(name=skill, type=skill_type))
 
         languages = [ResumeLang(name=i.get('LanguageCode')) for i in infos.get("Languages", [])]
