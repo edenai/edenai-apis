@@ -30,7 +30,8 @@ class VociApi(ProviderApi, Audio):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
-        speakers : int, profanity_filter: bool
+        speakers : int, profanity_filter: bool,
+        vocabulary: list
     ) -> AsyncLaunchJobResponseType:
         wav_file = wav_converter(file, channels=1)[0]
 
@@ -50,6 +51,12 @@ class VociApi(ProviderApi, Audio):
             data_config.update({
                 "lid": "true"
             })
+        # if vocabulary:
+        #     data_config.update({
+        #         "hints": json.dumps({
+        #             "other" : vocabulary
+        #         })
+        #     })
 
         response = requests.post(
             url="https://vcloud.vocitec.com/transcribe",

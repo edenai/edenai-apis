@@ -52,9 +52,11 @@ class SymblApi(ProviderApi, Audio):
         )
         self.access_token = response.json()["accessToken"]
 
+
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
-        speakers : int, profanity_filter: bool
+        speakers : int, profanity_filter: bool,
+        vocabulary: list
     ) -> AsyncLaunchJobResponseType:
         file.seek(0, 2)
         number_of_bytes = file.tell()
@@ -71,6 +73,10 @@ class SymblApi(ProviderApi, Audio):
             }
         if language:
             params.update({"languageCode": language})
+        if vocabulary:
+            params.update({
+                "customVocabulary": vocabulary
+            })
 
         response = requests.post(
             url="https://api.symbl.ai/v1/process/audio",
