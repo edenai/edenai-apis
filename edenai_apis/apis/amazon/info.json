@@ -306,19 +306,49 @@
     },
     "video": {
         "label_detection_async" : {
-            "version":"boto3"
+            "version":"boto3",
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/quicktime"
+                ]
+            }
         },
         "text_detection_async" : {
-            "version":"boto3"
+            "version":"boto3",
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/quicktime"
+                ]
+            }
         },
         "face_detection_async" : {
-            "version":"boto3"
+            "version":"boto3",
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/quicktime"
+                ]
+            }
         },
         "person_tracking_async" : {
-            "version":"boto3"
+            "version":"boto3",
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/quicktime"
+                ]
+            }
         },
         "explicit_content_detection_async" : {
-            "version":"boto3"
+            "version":"boto3",
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/quicktime"
+                ]
+            }
         }
     }
 }

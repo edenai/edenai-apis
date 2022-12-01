@@ -459,24 +459,73 @@
     },
     "video": {
         "label_detection_async": {
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/x-msvideo",
+                    "video/quicktime"
+                ]
+            },
             "version": "Video intelligence v1"
         },
         "text_detection_async": {
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/x-msvideo",
+                    "video/quicktime"
+                ]
+            },
             "version": "Video intelligence v1"
         },
         "face_detection_async": {
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/x-msvideo",
+                    "video/quicktime"
+                ]
+            },
             "version": "Video intelligence v1"
         },
         "person_tracking_async": {
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/x-msvideo",
+                    "video/quicktime"
+                ]
+            },
             "version": "Video intelligence v1"
         },
         "explicit_content_detection_async": {
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/x-msvideo",
+                    "video/quicktime"
+                ]
+            },
             "version": "Video intelligence v1"
         },
         "logo_detection_async": {
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/x-msvideo",
+                    "video/quicktime"
+                ]
+            },
             "version": "Video intelligence v1"
         },
         "object_tracking_async": {
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/x-msvideo",
+                    "video/quicktime"
+                ]
+            },
             "version": "Video intelligence v1"
         }
     },
