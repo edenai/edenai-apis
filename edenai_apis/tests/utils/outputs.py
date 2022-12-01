@@ -48,11 +48,9 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
         subfeature=subfeature,
         phase=phase,
     )
-    constraints = load_provider(
-        ProviderDataEnum.INFO_FILE,
-        feature=feature,
-        subfeature=subfeature,
-    ).get("constraints", {})
+    constraints = load_provider(ProviderDataEnum.INFO_FILE, provider_name=provider)[
+        feature
+    ][subfeature].get("constraints", {})
 
     print("------------------------------------------------------------")
     validate_all_input_languages(

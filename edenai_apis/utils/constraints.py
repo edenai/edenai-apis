@@ -28,12 +28,14 @@ def validate_all_provider_constraints(
     """
 
     # load provider constraints
-    provider_constraints = load_provider(
+    provider_info = load_provider(
         ProviderDataEnum.PROVIDER_INFO,
         provider_name=provider,
         feature=feature,
         subfeature=subfeature,
-    ).get("constraints")
+    )
+    provider_constraints = provider_info.get("constraints")
+
 
     if provider_constraints is not None:
         validated_args = args.copy()
@@ -126,8 +128,6 @@ def validate_single_language(
     Raises:
         - `ProviderException`: if language is not supported or cannot be None
     """
-    if null_language_accepted is False and not language:
-        raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED)
     try:
         formated_language = provide_appropriate_language(
             language,
@@ -138,10 +138,13 @@ def validate_single_language(
     except SyntaxError as exc:
         raise ProviderException(str(exc))
 
-    if formated_language is None:
-        raise ProviderException(
-            LanguageErrorMessage.LANGUAGE_NOT_SUPPORTED(language)
-        )
+    if null_language_accepted is False:
+        if not language:
+            raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED)
+        if formated_language is None:
+            raise ProviderException(
+                LanguageErrorMessage.LANGUAGE_NOT_SUPPORTED(language)
+            )
 
     return formated_language
 
