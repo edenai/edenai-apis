@@ -7,4 +7,4 @@ data_path = os.path.join(feature_path, "data")
 
 
 def invoice_parser_arguments() -> Dict:
-    return {"file": open(f"{data_path}/invoice.png", "rb"), "language": "en-US"}
+    return {"file": open(f"{data_path}/invoice.png", "rb"), "language": "en"}
