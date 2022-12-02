@@ -340,7 +340,7 @@ class AmazonApi(
             response = self.clients["textract"].detect_document_text(
                 Document={
                     "Bytes": file_content,
-                    "S3Object": {"Bucket": api_settings["bucket"], "Name": file.name},
+                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file.name},
                 }
             )
         except Exception as amazon_call_exception:
@@ -379,7 +379,7 @@ class AmazonApi(
     def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
         original_response = self.clients.get('textract').analyze_id(DocumentPages=[{
             "Bytes": file.read(),
-            "S3Object": { 'Bucket': api_settings['bucket'], 'Name': filename}
+            "S3Object": { 'Bucket': self.api_settings['bucket'], 'Name': filename}
         }])
 
         items = []
@@ -649,20 +649,20 @@ class AmazonApi(
         file_content = file.read()
 
         # upload file first
-        self.storage_clients["textract"].Bucket(api_settings['bucket']).put_object(
+        self.storage_clients["textract"].Bucket(self.api_settings['bucket']).put_object(
             Key=file.name, Body=file_content
         )
 
         response = self.clients["textract"].start_document_analysis(
             DocumentLocation={
-                "S3Object": {"Bucket": api_settings['bucket'], "Name": file.name},
+                "S3Object": {"Bucket": self.api_settings['bucket'], "Name": file.name},
             },
             FeatureTypes=[
                 "TABLES",
             ],
             NotificationChannel={
-                "SNSTopicArn": api_settings['topic'],
-                "RoleArn": api_settings['role'],
+                "SNSTopicArn": self.api_settings['topic'],
+                "RoleArn": self.api_settings['role'],
             },
         )
 
@@ -721,7 +721,7 @@ class AmazonApi(
         list_vocabs = ["-".join(vocab.strip().split()) for vocab in list_vocabs]
         vocab_name = str(uuid.uuid4())
         try:
-            clients["speech"].create_vocabulary(
+            self.clients["speech"].create_vocabulary(
             LanguageCode = language,
             VocabularyName = vocab_name,
             Phrases = list_vocabs
@@ -760,14 +760,14 @@ class AmazonApi(
                 params["checked"]= False
                 extention_index = filename.rfind(".")
                 filename = f"{filename[:-(len(filename) - extention_index)]}_settings.txt"
-                storage_clients["speech"].meta.client.put_object(
-                    Bucket=api_settings['bucket'], 
+                self.storage_clients["speech"].meta.client.put_object(
+                    Bucket=self.api_settings['bucket'], 
                     Body=json.dumps(params).encode(), 
                     Key=filename
                 )
                 return 
         try:
-            clients["speech"].start_transcription_job(**params)
+            self.clients["speech"].start_transcription_job(**params)
         except KeyError as exc:
             raise ProviderException(str(exc)) from exc
 
@@ -802,11 +802,11 @@ class AmazonApi(
         # check custom vocabilory job state
         job_id, *vocab = provider_job_id.split("EdenAI")
         if vocab: # if vocabilory is used and
-            setting_content = storage_clients["speech"].meta.client.get_object(Bucket= api_settings['bucket'], Key= f"{job_id[:-4]}_settings.txt")
+            setting_content = self.storage_clients["speech"].meta.client.get_object(Bucket= self.api_settings['bucket'], Key= f"{job_id[:-4]}_settings.txt")
             settings = json.loads(setting_content['Body'].read().decode('utf-8'))
             if not settings["checked"]: # check if the vocabulary has been created or not
                 vocab_name = vocab[0]
-                job_vocab_details = clients["speech"].get_vocabulary(VocabularyName = vocab_name)
+                job_vocab_details = self.clients["speech"].get_vocabulary(VocabularyName = vocab_name)
                 if job_vocab_details['VocabularyState'] == "FAILED":
                     error = job_vocab_details.get("FailureReason")
                     raise ProviderException(error)
@@ -824,7 +824,7 @@ class AmazonApi(
                 settings["checked"] = True # conform vocabulary creation
                 extention_index = job_id.rfind(".")
                 index_last = len(job_id) - extention_index
-                storage_clients["speech"].meta.client.put_object(
+                self.storage_clients["speech"].meta.client.put_object(
                     Bucket=self.api_settings['bucket'], 
                     Body=json.dumps(settings).encode(),
                     Key = f"{job_id[:-index_last]}_settings.txt"
@@ -834,14 +834,14 @@ class AmazonApi(
                     )
 
         #check transcribe status
-        job_details = clients["speech"].get_transcription_job(
+        job_details = self.clients["speech"].get_transcription_job(
             TranscriptionJobName=job_id
         )
         job_status = job_details["TranscriptionJob"]["TranscriptionJobStatus"]
         if job_status == "COMPLETED":
             #delete vocabulary
             try:
-                clients["speech"].delete_vocabulary(
+                self.clients["speech"].delete_vocabulary(
                     VocabularyName = vocab[0]
                 )
             except IndexError as ir: # if not vocabulary was created
@@ -888,7 +888,7 @@ class AmazonApi(
         elif job_status == "FAILED":
             #delete vocabulary
             try:
-                clients["speech"].delete_vocabulary(
+                self.clients["speech"].delete_vocabulary(
                     VocabularyName = vocab[0]
                 )
             except IndexError as ir: # if not vocabulary was created
@@ -903,25 +903,25 @@ class AmazonApi(
 
     # Launch job label detection
     def video__label_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "LABEL"))
+        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "LABEL", self.api_settings))
 
     # Launch job text detection
     def video__text_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "TEXT"))
+        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "TEXT", self.api_settings))
 
     # Launch job face detection
     def video__face_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "FACE"))
+        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "FACE", self.api_settings))
 
     # Launch job person tracking
     def video__person_tracking_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "PERSON"))
+        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "PERSON", self.api_settings))
 
     # Launch job explicit content detection
     def video__explicit_content_detection_async__launch_job(
         self, file: BufferedReader
     ) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "EXPLICIT"))
+        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "EXPLICIT", self.api_settings))
 
     # Get job result for label detection
     def video__label_detection_async__get_job_result(

@@ -29,6 +29,7 @@ class RevAIApi(ProviderApi, Audio):
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+        self.api_settings_amazon = load_provider(ProviderDataEnum.KEY, "amazon")
         self.key = self.api_settings["revai_key"]
         self.bucket_name = self.api_settings["bucket"]
         self.bucket_region = self.api_settings["region_name"]
@@ -82,7 +83,7 @@ class RevAIApi(ProviderApi, Audio):
             if initiate_vocab:
                 config["checked"]= False
                 filename = f"{vocab_name}_settings.txt"
-                storage_clients["speech"].meta.client.put_object(
+                storage_clients(self.api_settings_amazon)["speech"].meta.client.put_object(
                     Bucket= self.bucket_name, 
                     Body=json.dumps(config).encode(), 
                     Key=filename
@@ -131,7 +132,7 @@ class RevAIApi(ProviderApi, Audio):
 
         # upload file to amazon S3
         file_name = str(int(time())) + "_" + str(file.name.split("/")[-1])
-        storage_clients["speech"].meta.client.upload_fileobj(
+        storage_clients(self.api_settings_amazon)["speech"].meta.client.upload_fileobj(
             Fileobj = file, 
             Bucket = self.bucket_name, 
             Key= file_name 
@@ -157,7 +158,7 @@ class RevAIApi(ProviderApi, Audio):
         headers = {"Authorization": f"Bearer {self.key}"}
         # check if custom vocabulary
         try: # check if job id of vocabulary or not
-            config_content = storage_clients["speech"].meta.client.get_object(
+            config_content = storage_clients(self.api_settings_amazon)["speech"].meta.client.get_object(
                 Bucket = self.bucket_name,
                 Key= f"{provider_job_id}_settings.txt"
                 )
@@ -211,7 +212,7 @@ class RevAIApi(ProviderApi, Audio):
         status = original_response["status"]
         if status == "transcribed":
             # delete audio file
-            storage_clients["speech"].meta.client.delete_object(
+            storage_clients(self.api_settings_amazon)["speech"].meta.client.delete_object(
                 Bucket= self.bucket_name, 
                 Key= file_name
             )
