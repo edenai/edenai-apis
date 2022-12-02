@@ -11,5 +11,6 @@ def speech_to_text_arguments() -> Dict:
         "file": open(f"{data_path}/conversation.mp3", 
         "rb"), "language": "en", 
         "speakers" : 2, 
-        "profanity_filter": False
+        "profanity_filter": False,
+        "vocabulary" : []
         }
