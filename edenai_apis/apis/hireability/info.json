@@ -1,0 +1,26 @@
+{
+    "ocr": {
+        "resume_parser": {
+            "constraints": {
+                "file_types": [
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document'",
+                    "application/pdf",
+                    "text/plain",
+                    "application/vnd.ms-word.document.macroEnabled.12",
+                    "application/rtf",
+                    "application/vnd.oasis.opendocument.text",
+                    "application/vnd.ms-excel",
+                    "application/vnd.ms-excel.sheet.macroEnabled.12",
+                    "text/html",
+                    "application/xhtml+xml",
+                    "message/rfc822"
+                ],
+                "languages": [
+                ],
+                "allow_null_language": true
+            },
+            "version": "hireability 1.0.0"
+        }
+    }
+}

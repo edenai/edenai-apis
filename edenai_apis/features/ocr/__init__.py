@@ -31,6 +31,7 @@ from .receipt_parser import (
     Taxes,
     InfosReceiptParserDataClass,
     ReceiptParserDataClass,
+    PaymentInformation,
 )
 from .resume_parser import (
     ResumeParserDataClass,
@@ -41,7 +42,9 @@ from .resume_parser import (
     ResumePersonalInfo,
     ResumeSkill,
     ResumeWorkExp,
+    ResumePersonalName,
     ResumeWorkExpEntry,
+    ResumeLocation,
     resume_parser_arguments,
 )
 

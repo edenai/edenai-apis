@@ -51,16 +51,9 @@ class SentimentAnalysisDataClass(BaseModel):
         - general_sentiment_rate (float between 0 and 1): Rate of general sentiment
         - items (Sequence[SegmentSentimentAnalysisDataClass]): Lists of the different segments analyzed. For more informations, looks at SegmentSentimentAnalysisDataClass's documentations (Default: [])
     """
-    text: str
     general_sentiment: Literal["Positive", "Negative", "Neutral"]
     general_sentiment_rate: Optional[float]
     items: Sequence[SegmentSentimentAnalysisDataClass] = Field(default_factory=list)
-
-    @validator('text', pre=True)
-    def valid_text(cls, value):
-        if not isinstance(value, str):
-            raise TypeError(f"Text must be a string, not {type(value)}")
-        return value
 
     @validator('general_sentiment', pre=True)
     def valid_general_sentiment(cls, value):

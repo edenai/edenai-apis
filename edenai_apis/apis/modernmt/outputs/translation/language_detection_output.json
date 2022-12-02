@@ -1,0 +1,17 @@
+{
+  "original_response": {
+    "status": 200,
+    "data": {
+      "detectedLanguage": "it",
+      "billedCharacters": 0
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "language": "it",
+        "confidence": null
+      }
+    ]
+  }
+}

@@ -33,7 +33,6 @@ from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
-    AsyncErrorResponseType,
     AsyncResponseType,
     ResponseType
 )
@@ -172,7 +171,6 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
             general_sentiment = SentimentEnum.POSITIVE
 
         standarized_response = SentimentAnalysisDataClass(
-            text=original_response['output'][0]['text'],
             general_sentiment=general_sentiment_text,
             items=items
         )
@@ -310,6 +308,6 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
             elif original_response['status'] == StatusEnum.RUNNING:
                 return AsyncPendingResponseType[SpeechToTextAsyncDataClass](provider_job_id=provider_job_id)
             else:
-                return AsyncErrorResponseType(provider_job_id=provider_job_id, error=original_response)
+                raise ProviderException(original_response)
         else:
-            return AsyncErrorResponseType(provider_job_id=provider_job_id, error=original_response)
+            raise ProviderException(original_response)

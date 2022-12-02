@@ -42,7 +42,6 @@ class ConnexunApi(ProviderApi, Text):
 
         # Return standarized response
         standarized_response = SentimentAnalysisDataClass(
-            text=text,
             general_sentiment=original_response.get("Sentiment"),
             general_sentiment_rate=original_response.get("Value"),
         )

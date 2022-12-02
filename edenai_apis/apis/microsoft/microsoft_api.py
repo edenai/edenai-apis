@@ -2,6 +2,7 @@ from asyncio import sleep
 import datetime
 from pprint import pprint
 import sys
+from collections import defaultdict
 import base64
 import json
 from pathlib import Path
@@ -38,7 +39,7 @@ from edenai_apis.features.image.image_class import Image
 from edenai_apis.features.ocr import (
     Bounding_box, OcrDataClass, Taxes,
     InfosReceiptParserDataClass, ItemLines,
-    MerchantInformation, ReceiptParserDataClass,
+    MerchantInformation, ReceiptParserDataClass, PaymentInformation,
     InvoiceParserDataClass,
     IdentityParserDataClass,
     InfosIdentityParserDataClass,
@@ -115,84 +116,48 @@ class MicrosoftApi(
         language: str
     ) -> ResponseType[OcrDataClass]:
 
-        responses = []
-        index = 1
-
         file_content = file.read()
 
-        is_pdf = file.name.lower().endswith(".pdf")
         url = f"{self.api_settings['vision']['url']}/ocr?detectOrientation=true"
-        if is_pdf:
-            # Read the image
-            ocr_file_images = convert_from_bytes(
-                file_content, fmt="jpeg", poppler_path=None
-            )
-            index = 0
-            for ocr_image in ocr_file_images:
-                ocr_image_buffer = BytesIO()
-                ocr_image.save(ocr_image_buffer, format="JPEG")
-                # Call api
-                response = requests.post(
-                    format_string_url_language(
-                        url, language, "language", self.provider_name
-                    ) if language else url,
-                    headers=self.headers["vision"],
-                    data=ocr_image_buffer.getbuffer(),
-                ).json()
-                response["width"], response["height"] = ocr_image.size
-                responses.append(response)
-                index += 1
-        else:
-            # Call api
-            response = requests.post(
-                format_string_url_language(
-                    url, language, "language", self.provider_name
-                ) if language else url,
-                headers=self.headers["vision"],
-                data=file_content,
-            ).json()
-            response["width"], response["height"] = Img.open(file).size
-            responses.append(response)
 
-        outputs = responses
+        response = requests.post(
+            format_string_url_language(url, language, "language", self.provider_name)
+            if language
+            else url,
+            headers=self.headers["vision"],
+            data=file_content,
+        ).json()
 
-        messages_list = []
         final_text = ""
 
-        for output in outputs:
-            if "error" in output:
-                raise Exception(output["error"]["message"])
+        if "error" in response:
+            raise Exception(response["error"]["message"])
 
-            output_value = json.dumps(output, ensure_ascii=False)
-            data = json.loads(output_value)
-            # Get width and hight
-            width, hight = data["width"], data["height"]
-            messages_list.append(data)
-            boxes: Sequence[Bounding_box] = []
-            # Get region of text
-            for region in data["regions"]:
-                # Read line by region
-                for line in region["lines"]:
-                    for word in line["words"]:
-                        final_text += " " + word["text"]
-                        boxes.append(
-                            Bounding_box(
-                                text=word["text"],
-                                left=float(word["boundingBox"].split(",")[0]) / width,
-                                top=float(word["boundingBox"].split(",")[1]) / hight,
-                                width=float(word["boundingBox"].split(",")[2]) / width,
-                                height=float(word["boundingBox"].split(",")[3]) / hight,
-                            )
+        # Get width and hight
+        width, height = Img.open(file).size
+
+        boxes: Sequence[Bounding_box] = []
+        # Get region of text
+        for region in response["regions"]:
+            # Read line by region
+            for line in region["lines"]:
+                for word in line["words"]:
+                    final_text += " " + word["text"]
+                    boxes.append(
+                        Bounding_box(
+                            text=word["text"],
+                            left=float(word["boundingBox"].split(",")[0]) / width,
+                            top=float(word["boundingBox"].split(",")[1]) / height,
+                            width=float(word["boundingBox"].split(",")[2]) / width,
+                            height=float(word["boundingBox"].split(",")[3]) / height,
                         )
-            data.pop("width")
-            data.pop("height")
-            standarized = OcrDataClass(
-                text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
-            )
+                    )
+        standarized = OcrDataClass(
+            text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
+        )
 
         return ResponseType[OcrDataClass](
-            original_response=response,
-            standarized_response=standarized
+            original_response=response, standarized_response=standarized
         )
 
 
@@ -286,37 +251,43 @@ class MicrosoftApi(
         poller = document_analysis_client.begin_recognize_receipts(receipt_file_content)
         form_pages = poller.result()
         result = [el.to_dict() for el in form_pages]
-
+    
         # Normalize the response
-        fields = result[0].get("fields", {})
+        default_dict = defaultdict(lambda: None)
+        fields = result[0].get("fields", default_dict)
         # 1. Invoice number
-        invoice_total = fields.get("Total", {}).get("value")
+        invoice_total = fields.get("Total",default_dict).get("value")
 
-        # 2. Date
-        date = fields.get("TransactionDate", {}).get("value")
+        # 2. Date & time
+        date = fields.get("TransactionDate", default_dict).get("value")
+        time = fields.get("TransactionTime", default_dict).get("value")
 
         # 3. invoice_subtotal
-        sub_total = fields.get("Subtotal", {}).get("value")
+        sub_total = fields.get("Subtotal", default_dict).get("value")
 
         # 4. merchant informations
-        # 4.1 merchant_name
         merchant = MerchantInformation(
-            merchant_name=fields.get("MerchantName", {}).get("value")
+            merchant_name=fields.get("MerchantName", default_dict).get("value"),
+            merchant_address = fields.get("MerchantAddress", default_dict).get("value"),
+            merchant_phone = fields.get("MerchantPhoneNumber", default_dict).get("vale")
         )
 
         # 5. Taxes
-        taxes = [Taxes(taxes=fields.get("Tax", {}).get("value"))]
+        taxes = [Taxes(taxes=fields.get("Tax", default_dict).get("value"))]
 
-        # 6. Receipt infos
+        # 6. Receipt infos / payment informations
         receipt_infos = fields.get("ReceiptType")
+        payment_infos = PaymentInformation(
+            tip = fields.get("Tip", default_dict).get("value")
+        )
 
         # 7. Items
         items = []
-        for item in fields.get("Items", {}).get("value", []):
-            description = item["value"].get("Name", {}).get("value")
-            price = item["value"].get("Price", {}).get("value")
-            quantity = int(item["value"].get("Quantity", {}).get("value"))
-            total = item["value"].get("TotalPrice", {}).get("value")
+        for item in fields.get("Items", default_dict).get("value", []):
+            description = item["value"].get("Name", default_dict).get("value")
+            price = item["value"].get("Price", default_dict).get("value")
+            quantity = int(item["value"].get("Quantity", default_dict).get("value"))
+            total = item["value"].get("TotalPrice", default_dict).get("value")
             items.append(
                 ItemLines(
                     amount=total,
@@ -333,6 +304,8 @@ class MicrosoftApi(
             invoice_subtotal=sub_total,
             invoice_total=invoice_total,
             date=str(date),
+            time = str(time),
+            payment_information = payment_infos,
             receipt_infos=receipt_infos,
         )
         return ResponseType[ReceiptParserDataClass](
@@ -557,7 +530,7 @@ class MicrosoftApi(
             raise ProviderException(
                 f'Error calling Microsoft Api: {response["error"].get("message", "error 500")}'
             )
-        # Create output VisionFaceDetection object
+        # Create response VisionFaceDetection object
 
         faces_list : List = miscrosoft_normalize_face_detection_response(response, img_size)
 
@@ -704,7 +677,6 @@ class MicrosoftApi(
                     best_general_sentiment['rate'] = value
 
         standarize = SentimentAnalysisDataClass(
-            text=text,
             general_sentiment=best_general_sentiment['sentiment'],
             general_sentiment_rate=best_general_sentiment['rate'],
             items=items
@@ -990,9 +962,7 @@ class MicrosoftApi(
         response = requests.get(url, headers=headers)
         data = response.json()
         if data.get("error"):
-            return AsyncErrorResponseType[OcrTablesAsyncDataClass](
-                provider_job_id= job_id
-            )
+            raise ProviderException(data.get("error"))
         if data["status"] == "succeeded":
             original_result = data["analyzeResult"]
 
@@ -1134,11 +1104,10 @@ class MicrosoftApi(
                 for file_url in files_urls:
                     response = requests.get(file_url, headers=headers)
                     original_response = response.json()
-                    if not response.ok:
-                        return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                            provider_job_id= provider_job_id
-                        )    
-                    print(json.dumps(original_response, indent=2))
+                    if response.status_code != 200:
+                        error = original_response.get("message")
+                        raise ProviderException(error)
+
                     data = original_response["combinedRecognizedPhrases"][0]
                     text += data["display"]
                     for recognized_status in original_response["recognizedPhrases"]:
@@ -1168,7 +1137,5 @@ class MicrosoftApi(
                     provider_job_id=provider_job_id
                 )
         else:
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id,
-                error= response.json()
-            )
+            error = response.json().get("message")
+            raise ProviderException(error)

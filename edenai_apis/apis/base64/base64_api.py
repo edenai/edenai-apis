@@ -31,6 +31,7 @@ from edenai_apis.features.ocr.receipt_parser import (
     MerchantInformation,
     ReceiptParserDataClass,
     Taxes,
+    PaymentInformation,
 )
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -159,7 +160,7 @@ class Base64Api(ProviderApi, Ocr):
         items: Sequence[ItemLines] = self._extract_item_lignes(fields, ItemLines)
 
         default_dict = defaultdict(lambda: None)
-        invoice_number = fields.get("invoiceNumber", default_dict)["value"]
+        invoice_number = fields.get("receiptNo", default_dict)["value"]
         invoice_total = fields.get("total", default_dict)["value"]
         invoice_total = convert_string_to_number(invoice_total, float)
         date = fields.get("date", default_dict)["value"]
@@ -169,7 +170,10 @@ class Base64Api(ProviderApi, Ocr):
         invoice_subtotal = convert_string_to_number(invoice_subtotal, float)
         customer_name = fields.get("shipTo", default_dict)["value"]
         merchant_name = fields.get("companyName", default_dict)["value"]
+        merchant_address = fields.get("addressBlock", default_dict)["value"]
         currency = fields.get("currency", default_dict)["value"]
+        card_number = fields.get("cardNumber",default_dict)["value"]
+        card_type = fields.get("cardType", default_dict)["value"]
 
         taxe = fields.get("tax", default_dict)["value"]
         taxe = convert_string_to_number(taxe, float)
@@ -178,8 +182,8 @@ class Base64Api(ProviderApi, Ocr):
             "payment_code": fields.get("paymentCode", default_dict)["value"],
             "host": fields.get("host", default_dict)["value"],
             "payment_id": fields.get("paymentId", default_dict)["value"],
-            "card_type": fields.get("cardType", default_dict)["value"],
-            "receipt_number": fields.get("receiptNo", default_dict)["value"],
+            "card_type": card_type,
+            "receipt_number": invoice_number,
         }
 
         receipt_parser = InfosReceiptParserDataClass(
@@ -187,12 +191,14 @@ class Base64Api(ProviderApi, Ocr):
             invoice_total=invoice_total,
             invoice_subtotal=invoice_subtotal,
             locale=Locale(currency=currency),
-            merchant_information=MerchantInformation(merchant_name=merchant_name),
+            merchant_information=MerchantInformation(merchant_name=merchant_name, merchant_address=merchant_address),
+            customer_information=CustomerInformation(customer_name=customer_name),
+            payment_information = PaymentInformation(card_number=card_number, card_type=card_type),
             date=str(date),
+            time = str(time),
             receipt_infos=receipt_infos,
             item_lines=items,
             taxes=taxes,
-            customer_information=CustomerInformation(customer_name=customer_name),
         )
 
         standarized_response = ReceiptParserDataClass(extracted_data=[receipt_parser])
@@ -212,7 +218,6 @@ class Base64Api(ProviderApi, Ocr):
         response = requests.post(url=self.url, headers=headers, json=data)
 
         if response.status_code != 200:
-            print("base64 response.text", response.text)
             raise ProviderException(response.text)
 
         return response.json()
@@ -236,7 +241,7 @@ class Base64Api(ProviderApi, Ocr):
 
     def ocr__ocr(self, file: BufferedReader, language: str):
         raise ProviderException(
-            message="This provider is depricated. You won't be charged for your call."
+            message="This provider is deprecated. You won't be charged for your call."
         )
 
     def ocr__invoice_parser(

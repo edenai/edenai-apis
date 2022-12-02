@@ -15,7 +15,6 @@ from edenai_apis.utils.audio import wav_converter
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
-    AsyncErrorResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
     AsyncLaunchJobResponseType
@@ -101,9 +100,9 @@ class VoxistApi(ProviderApi, Audio):
             )
 
         if response.status_code != 200:
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id
-            )
+            error = response.json().get("error")
+            raise ProviderException(error)
+
 
         diarization_entries = []
         speakers = set()

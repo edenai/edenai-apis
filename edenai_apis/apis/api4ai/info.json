@@ -19,6 +19,10 @@
     "ocr": {
         "ocr": {
             "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png"
+                ],
                 "allow_null_language": true
             },
             "version": "v1.0.0"

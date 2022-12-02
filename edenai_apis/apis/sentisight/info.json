@@ -30,6 +30,9 @@
   "ocr": {
     "ocr": {
       "constraints": {
+        "file_types": [
+          "image/*"
+        ],
         "languages": [
           "af",
           "az",

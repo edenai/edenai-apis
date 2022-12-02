@@ -155,6 +155,8 @@ class EmvistaApi(ProviderApi, Text):
         return result
 
     def _normalize_sentiment(self, rate: float) -> SentimentEnum:
+        if rate == 'NaN':
+            return SentimentEnum.NEUTRAL
         if rate > 0:
             return SentimentEnum.POSITIVE
         if rate < 0:
@@ -188,10 +190,11 @@ class EmvistaApi(ProviderApi, Text):
         response = requests.post(url, headers=headers, json=files)
         original_response = response.json()
 
+        print(original_response['result']['globalScore'])
+
         standarized_response = SentimentAnalysisDataClass(
-            text=text,
             general_sentiment=self._normalize_sentiment(original_response['result']['globalScore']),
-            general_sentiment_rate=abs(original_response['result']['globalScore'])
+            general_sentiment_rate=abs(original_response['result']['globalScore']) if original_response['result']['globalScore'] != 'NaN' else 0
         )
         
         result = ResponseType[SentimentAnalysisDataClass](

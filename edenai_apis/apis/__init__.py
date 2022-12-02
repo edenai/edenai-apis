@@ -26,5 +26,7 @@ from .sentisight import SentiSightApi
 from .picpurify import PicpurifyApi
 from .phedone import PhedoneApi
 from .voxist import VoxistApi
+from .modernmt import ModernmtApi
+from .hireability import HireabilityApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

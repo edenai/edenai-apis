@@ -2,6 +2,14 @@
     "ocr": {
         "invoice_parser": {
             "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "image/tiff",
+                    "application/pdf",
+                    "image/heic",
+                    "image/webp"
+                ],
                 "languages": [
                     "ca",
                     "de",
@@ -18,6 +26,14 @@
         },
         "receipt_parser": {
             "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "image/tiff",
+                    "application/pdf",
+                    "image/heic",
+                    "image/webp"
+                ],
                 "languages": [
                     "ca-ES",
                     "de-DE",
@@ -38,7 +54,17 @@
             "version": "v2"
         },
         "identity_parser": {
-            "version": "v2"
+            "version": "v2",
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "image/webp",
+                    "application/pdf",
+                    "image/tiff",
+                    "image/heic"
+                ]
+            }
         }
     }
 }

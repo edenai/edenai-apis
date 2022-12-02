@@ -1,0 +1,126 @@
+{
+  "original_response": {
+    "Results": [
+      {
+        "HireAbilityJSONResults": [
+          {
+            "id": "2910142234235",
+            "usageLimitType": "allocation",
+            "usageLimit": "100",
+            "currentUsage": "60",
+            "remainingUsage": "40",
+            "accountValidThrough": "12-18-2022",
+            "GivenName": "Amanda",
+            "FamilyName": "Smith",
+            "FormattedName": "Amanda Smith",
+            "DisabilityIndicator": false,
+            "Phone": [
+              {
+                "Number": "594 6482740",
+                "Label": "personal"
+              }
+            ],
+            "Email": [
+              {
+                "Address": "modelgal@aim.com",
+                "Label": "personal"
+              }
+            ],
+            "Objective": "i To build and maintain a successful role in the world of high fashion modeling. special sinus ~ Dancing: Experienced in l 1'lll(:'fl, _lf1| '), _| (1 7, and .Nflodern Dance ' Sports: Extremely athletic and agile avid swimmer and golfer. Also excel in ice skating, aerobics, baseball basketball, volleyball and tennis. - .N/Iusic: Classicaily taught opera singer and pianist. \u00b0 Languages: English is nati/-'e language. //lso fluent in Spanish, italian, and French. Educanon Bachelor of Arts in journalisin and Mass Corninuitications, Nlinor in Performance Studies (film und acting) - New York Llniversity' (2003) iNon<Expenence \u00bb Fashion Show: Fd Hardy Fashion Show, |_os Angeles, CA, .'//larch 2003 - Featured Model: Los Angeles fashion Wee l<, | _os Angeles, CA, .//'larch 2008 \u00b0 l`ilm: llappy Day Productions, llxtra in three scenes of independent filn1, 'l`)aylight' l, as Vegas, NV, December 2007 \u00b0 .//lodelling Competition: llawaiian Tropic, Swimsuit Competition, I-lonolitlu, l~~lawaii Second Runner-Up September 2007 \u00b0 Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 \u00bb Print: Bright Lights Swimsuit Catalog. Featured Model, New York, ja| 1uar}-' 2007 \u00b0 Fashion Show: Mac -\"s NYC Fashion Show New York, December 2005 - l~`ilm: I-lalo Productions featured extra in independent film, \"l`he Student' New jersey, September 2006 | - 'IW _ 11. 'f -A l'",
+            "PersonCompetency": [
+              {
+                "CompetencyName": "Agile",
+                "CompetencyLevel": "unknown"
+              },
+              {
+                "CompetencyName": "Agile methodology",
+                "CompetencyLevel": "unknown"
+              }
+            ],
+            "TextResume": "QW1hbmRhIFNtaXRoDQoNCjM5OCBXaWxzbHRpcmUgQmx2ZC4NCg0KTG9zIEFuZ2VsZXMsIEMvXA0KDQpIb21lOiA1OTQ2NDgtMjc0MCBuIC0NCg0KQ2ZpbGxpIDU5NCczNDN+Mjc0MSAsUiBmDQoNCkkxLW1haWw6IG1vZGVsZ2FsQGFpbS5jb20gY2YNCg0KT2JqZWN0aXZlIGkNCg0KVG8gYnVpbGQgYW5kIG1haW50YWluIGEgc3VjY2Vzc2Z1bCByb2xlDQoNCmluIHRoZSB3b3JsZCBvZiBoaWdoIGZhc2hpb24gbW9kZWxpbmcuDQoNCnNwZWNpYWwgc2ludXMNCg0KfiBEYW5jaW5nOiBFeHBlcmllbmNlZCBpbiBsKjEnbGxsKDonZmwsX2xmMXwnKSxffCgxPzcsIGFuZCAuTmZsb2Rlcm4gRGFuY2UNCg0KJyBTcG9ydHM6IEV4dHJlbWVseSBhdGhsZXRpYyBhbmQgYWdpbGU7IGF2aWQgc3dpbW1lciBhbmQgZ29sZmVyLiBBbHNvIGV4Y2VsIGluIGljZSBza2F0aW5nLCBhZXJvYmljcywgYmFzZWJhbGwNCg0KYmFza2V0YmFsbCwgdm9sbGV5YmFsbCBhbmQgdGVubmlzLg0KDQotIC5OL0l1c2ljOiBDbGFzc2ljYWlseSB0YXVnaHQgb3BlcmEgc2luZ2VyIGFuZCBwaWFuaXN0Lg0KDQrCsCBMYW5ndWFnZXM6IEVuZ2xpc2ggaXMgbmF0aVwtJ2UgbGFuZ3VhZ2UuIC9cbHNvIGZsdWVudCBpbiBTcGFuaXNoLCBpdGFsaWFuLCBhbmQgRnJlbmNoLg0KDQpFZHVjYW5vbg0KDQpCYWNoZWxvciBvZiBBcnRzIGluIGpvdXJuYWxpc2luIGFuZCBNYXNzIENvcm5pbnVpdGljYXRpb25zLCBObGlub3IgaW4gUGVyZm9ybWFuY2UgU3R1ZGllcyAoZmlsbSB1bmQgYWN0aW5nKQ0KDQotIE5ldyBZb3JrIExsbml2ZXJzaXR5JyAoMjAwMykNCg0KaU5vbjxFeHBlbmVuY2UNCg0KwrsgRmFzaGlvbiBTaG93OiBGZCBIYXJkeSBGYXNoaW9uIFNob3csIHxfb3MgQW5nZWxlcywgQ0EsIC4nXC9sYXJjaCAyMDAzDQoNCi0gRmVhdHVyZWQgTW9kZWw6IExvcyBBbmdlbGVzIGZhc2hpb24gV2VlIGw8LHxfb3MgQW5nZWxlcywgQ0EsIC5cLydsYXJjaCAyMDA4DQoNCsKwIGxgaWxtOiBsbGFwcHkgRGF5IFByb2R1Y3Rpb25zLCBsbHh0cmEgaW4gdGhyZWUgc2NlbmVzIG9mIGluZGVwZW5kZW50IGZpbG4xLCdsYClheWxpZ2h0JyBsLGFzIFZlZ2FzLCBOViwNCg0KRGVjZW1iZXIgMjAwNw0KDQrCsCAuXC9sb2RlbGxpbmcgQ29tcGV0aXRpb246IGxsYXdhaWlhbiBUcm9waWMsIFN3aW1zdWl0IENvbXBldGl0aW9uLCBJLWxvbm9saXRsdSwgbH5+bGF3YWlpIFNlY29uZCBSdW5uZXItVXANCg0KU2VwdGVtYmVyIDIwMDcNCg0KwrAgUHJpbnQ6IFN1bm55IERheXMgQ2xvdGhpbmcgQ2F0YWxvZywgRmVhdHVyZWQgTW9kZWwsIE5ldyBZb3JrLCBNYXJjaCAyMDA3DQoNCsK7IFByaW50OiBCcmlnaHQgTGlnaHRzIFN3aW1zdWl0IENhdGFsb2cuIEZlYXR1cmVkIE1vZGVsLCBOZXcgWW9yayxqYXwxdWFyfS0nIDIwMDcNCg0KwrAgRmFzaGlvbiBTaG93OiBNYWM7LSJzIE5ZQyBGYXNoaW9uIFNob3cgTmV3IFlvcmssIERlY2VtYmVyIDIwMDUNCg0KLSBsfmBpbG06IEktbGFsbyBQcm9kdWN0aW9ucyBmZWF0dXJlZCBleHRyYSBpbiBpbmRlcGVuZGVudCBmaWxtLCAibGBoZSBTdHVkZW50JyBOZXcgamVyc2V5LCBTZXB0ZW1iZXIgMjAwNg0KDQogIHwgLSAnSVcgXw0KDQoxMS4gJ2YgLUENCg0KbCcNCiANCg=="
+          },
+          {
+            "ProcessingErrors": [
+              {
+                "Error": [
+                  {
+                    "Id": "2910142234235",
+                    "ErrorCode": "",
+                    "ErrorMessage": ""
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "standarized_response": {
+    "extracted_data": {
+      "personal_infos": {
+        "name": {
+          "raw_name": "Amanda Smith",
+          "first_name": "Amanda",
+          "last_name": "Smith",
+          "middle": null,
+          "title": null,
+          "prefix": null,
+          "sufix": null
+        },
+        "address": {
+          "formatted_location": null,
+          "postal_code": null,
+          "region": null,
+          "country": null,
+          "country_code": null,
+          "raw_input_location": null,
+          "street": null,
+          "street_number": null,
+          "appartment_number": null
+        },
+        "self_summary": null,
+        "objective": "i To build and maintain a successful role in the world of high fashion modeling. special sinus ~ Dancing: Experienced in l 1'lll(:'fl, _lf1| '), _| (1 7, and .Nflodern Dance ' Sports: Extremely athletic and agile avid swimmer and golfer. Also excel in ice skating, aerobics, baseball basketball, volleyball and tennis. - .N/Iusic: Classicaily taught opera singer and pianist. \u00b0 Languages: English is nati/-'e language. //lso fluent in Spanish, italian, and French. Educanon Bachelor of Arts in journalisin and Mass Corninuitications, Nlinor in Performance Studies (film und acting) - New York Llniversity' (2003) iNon<Expenence \u00bb Fashion Show: Fd Hardy Fashion Show, |_os Angeles, CA, .'//larch 2003 - Featured Model: Los Angeles fashion Wee l<, | _os Angeles, CA, .//'larch 2008 \u00b0 l`ilm: llappy Day Productions, llxtra in three scenes of independent filn1, 'l`)aylight' l, as Vegas, NV, December 2007 \u00b0 .//lodelling Competition: llawaiian Tropic, Swimsuit Competition, I-lonolitlu, l~~lawaii Second Runner-Up September 2007 \u00b0 Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 \u00bb Print: Bright Lights Swimsuit Catalog. Featured Model, New York, ja| 1uar}-' 2007 \u00b0 Fashion Show: Mac -\"s NYC Fashion Show New York, December 2005 - l~`ilm: I-lalo Productions featured extra in independent film, \"l`he Student' New jersey, September 2006 | - 'IW _ 11. 'f -A l'",
+        "date_of_birth": null,
+        "place_of_birth": null,
+        "phones": [
+          "594 6482740"
+        ],
+        "mails": [
+          "modelgal@aim.com"
+        ],
+        "urls": [],
+        "fax": [],
+        "current_profession": null,
+        "dateOfBirth": null,
+        "gender": null,
+        "nationality": null,
+        "martial_status": null,
+        "current_salary": null
+      },
+      "education": {
+        "total_years_education": null,
+        "entries": []
+      },
+      "work_experience": {
+        "total_years_experience": null,
+        "entries": []
+      },
+      "languages": [],
+      "skills": [
+        {
+          "name": "Agile",
+          "type": "unknown"
+        },
+        {
+          "name": "Agile methodology",
+          "type": "unknown"
+        }
+      ],
+      "certifications": [],
+      "courses": [],
+      "publications": [],
+      "interests": []
+    }
+  }
+}
