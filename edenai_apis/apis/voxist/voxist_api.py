@@ -46,7 +46,8 @@ class VoxistApi(ProviderApi, Audio):
         self.api_key = response.json().get("access_token")
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str, speakers: int
+        self, file: BufferedReader, language: str, speakers: int,
+        profanity_filter: bool, vocabulary: list
     ) -> AsyncLaunchJobResponseType:
         # Convert audio file to Mono 16kHz wav
         wav_file = wav_converter(file, frame_rate=16000, channels=1)[0]
@@ -104,14 +105,31 @@ class VoxistApi(ProviderApi, Audio):
                 provider_job_id=provider_job_id
             )
 
+        diarization_entries = []
+        speakers = set()
+
         original_response = response.json()
         text = ""
-        diarization = SpeechDiarization(total_speakers=0, entries= [])
 
-        for i, word in enumerate(original_response):
-            text += word["Lexical"]
+        for i, phrase in enumerate(original_response):
+            text += phrase["Lexical"]
             if i != len(original_response) - 1:
                 text += " "
+            
+            speakers.add(phrase['Speaker'])
+            for word in phrase['Words']:
+                start_time = phrase['Start_time']+ word['Offset']
+                diarization_entries.append(
+                    SpeechDiarizationEntry(
+                        segment= word['Word'],
+                        speaker= int(phrase['Speaker'].split('_')[-1]),
+                        start_time= str(start_time),
+                        end_time= str(start_time+ word['Duration']),
+                        confidence= word['Confidence']
+                    )
+                )
+        
+        diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
 
         standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
 
