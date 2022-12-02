@@ -27,12 +27,12 @@ from apis.amazon.config import clients, storage_clients
 class RevAIApi(ProviderApi, Audio):
     provider_name = "revai"
 
-    bucket_name = "716b4c0d6f124c75be2049d329cd0783"
-    bucket_region = "eu-west-1"
-
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
         self.key = self.api_settings["revai_key"]
+        self.bucket_name = self.api_settings["bucket"]
+        self.bucket_region = self.api_settings["region_name"]
+        self.storage_url = self.api_settings["storage_url"]
 
 
     def _create_vocabulary(self, list_vocabs: list):
@@ -64,7 +64,7 @@ class RevAIApi(ProviderApi, Audio):
         profanity_filter: bool, vocab_name:str=None, 
         initiate_vocab:bool= False):
 
-        file_url = f"https://{self.bucket_name}.s3.{self.bucket_region}.amazonaws.com/{filename}"
+        file_url = f"{self.storage_url}{filename}"
 
         config = {
             "filter_profanity": profanity_filter,
@@ -95,7 +95,6 @@ class RevAIApi(ProviderApi, Audio):
                     "url" : file_url
                 }
             }
-        print(data_config)
         response = requests.post(
             url="https://ec1.api.rev.ai/speechtotext/v1/jobs",
             headers={
@@ -108,7 +107,6 @@ class RevAIApi(ProviderApi, Audio):
         original_response = response.json()
     
         if response.status_code != 200:
-            print(response.json())
             parameters = original_response.get('parameters')
             for key, value in parameters.items():
                 if "filter_profanity" in key:
@@ -182,10 +180,8 @@ class RevAIApi(ProviderApi, Audio):
                         provider_job_id=provider_job_id
                     )
                 if status == "failed":
-                    return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                        error=original_response["failure_detail"],
-                        provider_job_id=provider_job_id,
-                    )
+                    error = original_response.get("failure_detail")
+                    raise ProviderException(error)
                 provider_job = self._launch_transcribe(
                     config["source_config"]["url"].split("/")[-1],
                     config.get("language"),

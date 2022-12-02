@@ -805,9 +805,8 @@ class AmazonApi(
                 vocab_name = vocab[0]
                 job_vocab_details = clients["speech"].get_vocabulary(VocabularyName = vocab_name)
                 if job_vocab_details['VocabularyState'] == "FAILED":
-                    return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                        provider_job_id=provider_job_id
-                    )
+                    error = job_vocab_details.get("FailureReason")
+                    raise ProviderException(error)
                 if job_vocab_details['VocabularyState'] != "READY":
                     return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                         provider_job_id=provider_job_id
