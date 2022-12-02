@@ -137,7 +137,8 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
         )
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str, speakers: int
+        self, file: BufferedReader, language: str, speakers: int,
+        profanity_filter: bool, vocabulary: list
     ) -> AsyncLaunchJobResponseType:
 
         url_file_upload = f"{self.url}file/upload"

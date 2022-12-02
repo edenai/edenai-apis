@@ -27,7 +27,7 @@ class HuggingfaceApi(ProviderApi, Text, Translation):
         }
 
     def _post(self, url: str, inputs: dict):
-        return requests.post(url, headers=self.headers, json={"inputs": inputs}).json()
+        return requests.post(url, headers=self.headers, json={"inputs": inputs})
 
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str
@@ -130,6 +130,8 @@ class HuggingfaceApi(ProviderApi, Text, Translation):
         url = f"{self.base_url}/deepset/roberta-base-squad2"
         # Create standarized response
         response = self._post(url, {"question": question, "context": texts[0]})
+        if response.status_code != 200:
+            raise ProviderException(response.json().get('error'))
 
         standarized_response = QuestionAnswerDataClass(answers=[response.get("answer")])
 
