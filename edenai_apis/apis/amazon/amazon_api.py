@@ -903,25 +903,25 @@ class AmazonApi(
 
     # Launch job label detection
     def video__label_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "LABEL", self.api_settings))
+        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "LABEL"))
 
     # Launch job text detection
     def video__text_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "TEXT", self.api_settings))
+        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "TEXT"))
 
     # Launch job face detection
     def video__face_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "FACE", self.api_settings))
+        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "FACE"))
 
     # Launch job person tracking
     def video__person_tracking_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "PERSON", self.api_settings))
+        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "PERSON"))
 
     # Launch job explicit content detection
     def video__explicit_content_detection_async__launch_job(
         self, file: BufferedReader
     ) -> AsyncLaunchJobResponseType:
-        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "EXPLICIT", self.api_settings))
+        return AsyncLaunchJobResponseType(provider_job_id=amazon_launch_video_job(file, "EXPLICIT"))
 
     # Get job result for label detection
     def video__label_detection_async__get_job_result(

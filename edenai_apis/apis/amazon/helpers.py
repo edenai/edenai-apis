@@ -130,11 +130,10 @@ def _upload_video_file_to_amazon_server(file: BufferedReader, file_name: str, ap
     return filename
 
 
-def amazon_launch_video_job(file: BufferedReader, feature: str, api_settings: Dict):
+def amazon_launch_video_job(file: BufferedReader, feature: str):
+    api_settings = load_provider(ProviderDataEnum.KEY, "amazon")
     # Upload video to amazon server
     filename = _upload_video_file_to_amazon_server(file, Path(file.name), api_settings)
-
-    api_settings = load_provider(ProviderDataEnum.KEY, "amazon")
 
     # Get response
     role = api_settings['role']
