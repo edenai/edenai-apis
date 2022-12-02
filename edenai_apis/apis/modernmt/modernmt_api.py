@@ -11,7 +11,6 @@ from edenai_apis.utils.types import ResponseType
 from typing import Sequence
 import json
 import requests
-from modernmt import ModernMT
 
 
 class ModernmtApi(
