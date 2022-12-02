@@ -10,10 +10,10 @@
       "url": "https://api.mindee.net/v1/products/mindee/invoices/v3/predict?locale=language"
     },
     "document": {
-      "id": "a3852320-ef30-4666-868d-7d4324d7ccab",
+      "id": "318be077-360d-4ac7-8052-5cc727184796",
       "inference": {
         "extras": {},
-        "finished_at": "2022-10-12T10:53:36+00:00",
+        "finished_at": "2022-12-02T15:49:42.264290",
         "is_rotation_applied": true,
         "pages": [
           {
@@ -25,71 +25,71 @@
             "prediction": {
               "company_registration": [],
               "customer": {
-                "confidence": 0.88,
+                "confidence": 0.8,
                 "polygon": [
                   [
-                    0.06,
-                    0.24
+                    0.4,
+                    0.301
                   ],
                   [
-                    0.157,
-                    0.24
+                    0.517,
+                    0.301
                   ],
                   [
-                    0.157,
-                    0.253
+                    0.517,
+                    0.313
                   ],
                   [
-                    0.06,
-                    0.253
+                    0.4,
+                    0.313
                   ]
                 ],
-                "value": "CLIENT NAME"
+                "value": "JESSIE M HORNE"
               },
               "customer_address": {
-                "confidence": 0.52,
+                "confidence": 0.62,
                 "polygon": [
                   [
-                    0.06,
-                    0.262
+                    0.072,
+                    0.318
                   ],
                   [
-                    0.212,
-                    0.262
+                    0.228,
+                    0.318
                   ],
                   [
-                    0.212,
-                    0.319
+                    0.228,
+                    0.35
                   ],
                   [
-                    0.06,
-                    0.319
+                    0.072,
+                    0.35
                   ]
                 ],
-                "value": "1 Client Address City, State, Country ZIP CODE"
+                "value": "2019 Redbud Drive New York, NY 1001 1"
               },
               "customer_company_registration": [],
               "date": {
                 "confidence": 0.99,
                 "polygon": [
                   [
-                    0.324,
-                    0.306
+                    0.845,
+                    0.19
                   ],
                   [
-                    0.394,
-                    0.306
+                    0.929,
+                    0.19
                   ],
                   [
-                    0.394,
-                    0.319
+                    0.929,
+                    0.204
                   ],
                   [
-                    0.324,
-                    0.319
+                    0.845,
+                    0.204
                   ]
                 ],
-                "value": "2014-10-07"
+                "value": "2019-11-02"
               },
               "document_type": {
                 "value": "INVOICE"
@@ -98,49 +98,49 @@
                 "confidence": 0.99,
                 "polygon": [
                   [
-                    0.324,
-                    0.306
+                    0.845,
+                    0.238
                   ],
                   [
-                    0.393,
-                    0.306
+                    0.929,
+                    0.238
                   ],
                   [
-                    0.393,
-                    0.319
+                    0.929,
+                    0.253
                   ],
                   [
-                    0.324,
-                    0.319
+                    0.845,
+                    0.253
                   ]
                 ],
-                "raw": "2014-10-07",
-                "value": "2014-10-07"
+                "raw": "2019-11-26",
+                "value": "2019-11-26"
               },
               "invoice_number": {
-                "confidence": 0.94,
+                "confidence": 0.97,
                 "polygon": [
                   [
-                    0.324,
-                    0.238
+                    0.866,
+                    0.167
                   ],
                   [
-                    0.383,
-                    0.238
+                    0.928,
+                    0.167
                   ],
                   [
-                    0.383,
-                    0.252
+                    0.928,
+                    0.179
                   ],
                   [
-                    0.324,
-                    0.252
+                    0.866,
+                    0.179
                   ]
                 ],
-                "value": "000000"
+                "value": "INT-001"
               },
               "locale": {
-                "confidence": 0.8,
+                "confidence": 0.82,
                 "currency": "USD",
                 "language": "en"
               },
@@ -150,59 +150,117 @@
               },
               "payment_details": [],
               "supplier": {
-                "confidence": 0.0,
-                "polygon": [],
-                "value": null
+                "confidence": 0.59,
+                "polygon": [
+                  [
+                    0.073,
+                    0.19
+                  ],
+                  [
+                    0.219,
+                    0.19
+                  ],
+                  [
+                    0.219,
+                    0.203
+                  ],
+                  [
+                    0.073,
+                    0.203
+                  ]
+                ],
+                "value": "MACHINARIUM LLC"
               },
               "supplier_address": {
-                "confidence": 0.0,
-                "polygon": [],
-                "value": null
+                "confidence": 0.28,
+                "polygon": [
+                  [
+                    0.072,
+                    0.207
+                  ],
+                  [
+                    0.208,
+                    0.207
+                  ],
+                  [
+                    0.208,
+                    0.239
+                  ],
+                  [
+                    0.072,
+                    0.239
+                  ]
+                ],
+                "value": "4490 Qak Drive Albany, NY 12210"
               },
-              "taxes": [],
+              "taxes": [
+                {
+                  "confidence": 0.87,
+                  "polygon": [
+                    [
+                      0.692,
+                      0.562
+                    ],
+                    [
+                      0.921,
+                      0.562
+                    ],
+                    [
+                      0.921,
+                      0.578
+                    ],
+                    [
+                      0.692,
+                      0.578
+                    ]
+                  ],
+                  "rate": 5.0,
+                  "value": 9.75
+                }
+              ],
               "total_excl": {
                 "confidence": 0.99,
                 "polygon": [
                   [
-                    0.842,
-                    0.744
+                    0.867,
+                    0.535
                   ],
                   [
-                    0.92,
-                    0.744
+                    0.927,
+                    0.535
                   ],
                   [
-                    0.92,
-                    0.761
+                    0.927,
+                    0.551
                   ],
                   [
-                    0.842,
-                    0.761
+                    0.867,
+                    0.551
                   ]
                 ],
-                "value": 4000.0
+                "value": 195.0
               },
               "total_incl": {
                 "confidence": 0.99,
                 "polygon": [
                   [
-                    0.729,
-                    0.239
+                    0.788,
+                    0.604
                   ],
                   [
-                    0.937,
-                    0.239
+                    0.925,
+                    0.604
                   ],
                   [
-                    0.937,
-                    0.275
+                    0.925,
+                    0.634
                   ],
                   [
-                    0.729,
-                    0.275
+                    0.788,
+                    0.634
                   ]
                 ],
-                "value": 4520.0
+                "value": 204.75
               }
             }
           }
@@ -210,50 +268,50 @@
         "prediction": {
           "company_registration": [],
           "customer": {
-            "confidence": 0.88,
+            "confidence": 0.8,
             "page_id": 0,
             "polygon": [
               [
-                0.06,
-                0.24
+                0.4,
+                0.301
               ],
               [
-                0.157,
-                0.24
+                0.517,
+                0.301
               ],
               [
-                0.157,
-                0.253
+                0.517,
+                0.313
               ],
               [
-                0.06,
-                0.253
+                0.4,
+                0.313
               ]
             ],
-            "value": "CLIENT NAME"
+            "value": "JESSIE M HORNE"
           },
           "customer_address": {
-            "confidence": 0.52,
+            "confidence": 0.62,
             "page_id": 0,
             "polygon": [
               [
-                0.06,
-                0.262
+                0.072,
+                0.318
               ],
               [
-                0.212,
-                0.262
+                0.228,
+                0.318
               ],
               [
-                0.212,
-                0.319
+                0.228,
+                0.35
               ],
               [
-                0.06,
-                0.319
+                0.072,
+                0.35
               ]
             ],
-            "value": "1 Client Address City, State, Country ZIP CODE"
+            "value": "2019 Redbud Drive New York, NY 1001 1"
           },
           "customer_company_registration": [],
           "date": {
@@ -261,23 +319,23 @@
             "page_id": 0,
             "polygon": [
               [
-                0.324,
-                0.306
+                0.845,
+                0.19
               ],
               [
-                0.394,
-                0.306
+                0.929,
+                0.19
               ],
               [
-                0.394,
-                0.319
+                0.929,
+                0.204
               ],
               [
-                0.324,
-                0.319
+                0.845,
+                0.204
               ]
             ],
-            "value": "2014-10-07"
+            "value": "2019-11-02"
           },
           "document_type": {
             "value": "INVOICE"
@@ -287,115 +345,174 @@
             "page_id": 0,
             "polygon": [
               [
-                0.324,
-                0.306
+                0.845,
+                0.238
               ],
               [
-                0.393,
-                0.306
+                0.929,
+                0.238
               ],
               [
-                0.393,
-                0.319
+                0.929,
+                0.253
               ],
               [
-                0.324,
-                0.319
+                0.845,
+                0.253
               ]
             ],
-            "raw": "2014-10-07",
-            "value": "2014-10-07"
+            "raw": "2019-11-26",
+            "value": "2019-11-26"
           },
           "invoice_number": {
-            "confidence": 0.94,
+            "confidence": 0.97,
             "page_id": 0,
             "polygon": [
               [
-                0.324,
-                0.238
+                0.866,
+                0.167
               ],
               [
-                0.383,
-                0.238
+                0.928,
+                0.167
               ],
               [
-                0.383,
-                0.252
+                0.928,
+                0.179
               ],
               [
-                0.324,
-                0.252
+                0.866,
+                0.179
               ]
             ],
-            "value": "000000"
+            "value": "INT-001"
           },
           "locale": {
-            "confidence": 0.8,
+            "confidence": 0.82,
             "currency": "USD",
             "language": "en"
           },
           "payment_details": [],
           "supplier": {
-            "confidence": 0.0,
+            "confidence": 0.59,
             "page_id": 0,
-            "polygon": [],
-            "value": null
+            "polygon": [
+              [
+                0.073,
+                0.19
+              ],
+              [
+                0.219,
+                0.19
+              ],
+              [
+                0.219,
+                0.203
+              ],
+              [
+                0.073,
+                0.203
+              ]
+            ],
+            "value": "MACHINARIUM LLC"
           },
           "supplier_address": {
-            "confidence": 0.0,
-            "page_id": null,
-            "polygon": [],
-            "value": null
+            "confidence": 0.28,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.072,
+                0.207
+              ],
+              [
+                0.208,
+                0.207
+              ],
+              [
+                0.208,
+                0.239
+              ],
+              [
+                0.072,
+                0.239
+              ]
+            ],
+            "value": "4490 Qak Drive Albany, NY 12210"
           },
-          "taxes": [],
+          "taxes": [
+            {
+              "confidence": 0.87,
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.692,
+                  0.562
+                ],
+                [
+                  0.921,
+                  0.562
+                ],
+                [
+                  0.921,
+                  0.578
+                ],
+                [
+                  0.692,
+                  0.578
+                ]
+              ],
+              "rate": 5.0,
+              "value": 9.75
+            }
+          ],
           "total_excl": {
             "confidence": 0.99,
             "page_id": 0,
             "polygon": [
               [
-                0.842,
-                0.744
+                0.867,
+                0.535
               ],
               [
-                0.92,
-                0.744
+                0.927,
+                0.535
               ],
               [
-                0.92,
-                0.761
+                0.927,
+                0.551
               ],
               [
-                0.842,
-                0.761
+                0.867,
+                0.551
               ]
             ],
-            "value": 4000.0
+            "value": 195.0
           },
           "total_incl": {
             "confidence": 0.99,
             "page_id": 0,
             "polygon": [
               [
-                0.729,
-                0.239
+                0.788,
+                0.604
               ],
               [
-                0.937,
-                0.239
+                0.925,
+                0.604
               ],
               [
-                0.937,
-                0.275
+                0.925,
+                0.634
               ],
               [
-                0.729,
-                0.275
+                0.788,
+                0.634
               ]
             ],
-            "value": 4520.0
+            "value": 204.75
           }
         },
-        "processing_time": 0.763,
+        "processing_time": 0.99,
         "product": {
           "features": [
             "locale",
@@ -417,35 +534,71 @@
           ],
           "name": "mindee/invoices",
           "type": "standard",
-          "version": "3.1"
+          "version": "3.2"
         },
-        "started_at": "2022-10-12T10:53:35+00:00"
+        "started_at": "2022-12-02T15:49:41.274605"
       },
       "n_pages": 1,
-      "name": "invoice.png"
+      "name": "invoice_b64.png"
     }
   },
   "standarized_response": {
     "extracted_data": [
       {
-        "invoice_number": "000000",
-        "invoice_total": 4520.0,
-        "date": null,
-        "invoice_subtotal": 4000.0,
-        "due_date": null,
         "customer_information": {
-          "customer_name": "CLIENT NAME",
-          "customer_address": "1 Client Address City, State, Country ZIP CODE"
+          "customer_name": "JESSIE M HORNE",
+          "customer_address": "2019 Redbud Drive New York, NY 1001 1",
+          "customer_email": null,
+          "customer_id": null,
+          "customer_tax_id": null,
+          "customer_mailing_address": "2019 Redbud Drive New York, NY 1001 1",
+          "customer_billing_address": null,
+          "customer_shipping_address": null,
+          "customer_service_address": null,
+          "customer_remittance_address": null
         },
         "merchant_information": {
-          "merchant_name": null,
-          "merchant_address": null
+          "merchant_name": "MACHINARIUM LLC",
+          "merchant_address": "4490 Qak Drive Albany, NY 12210",
+          "merchant_phone": null,
+          "merchant_email": null,
+          "merchant_fax": null,
+          "merchant_website": null,
+          "merchant_tax_id": null,
+          "merchant_siret": null,
+          "merchant_siren": null
         },
+        "invoice_number": "INT-001",
+        "invoice_total": 204.75,
+        "invoice_subtotal": 195.0,
+        "amount_due": null,
+        "previous_unpaid_balance": null,
+        "discount": null,
+        "taxes": [
+          {
+            "value": 9.75,
+            "rate": 5.0
+          }
+        ],
+        "payment_term": null,
+        "purchase_order": null,
+        "date": null,
+        "due_date": null,
+        "service_date": null,
+        "service_due_date": null,
         "locale": {
           "currency": "USD",
           "language": "en"
         },
-        "taxes": [],
+        "bank_informations": {
+          "account_number": null,
+          "iban": null,
+          "bsb": null,
+          "sort_code": null,
+          "vat_number": null,
+          "rooting_number": null,
+          "swift": null
+        },
         "item_lines": []
       }
     ]

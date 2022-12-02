@@ -39,11 +39,11 @@
           "location": {
             "topLeft": {
               "x": 69,
-              "y": 326
+              "y": 325
             },
             "topRight": {
               "x": 250,
-              "y": 326
+              "y": 325
             },
             "bottomLeft": {
               "x": 69,
@@ -63,18 +63,18 @@
           "location": {
             "topLeft": {
               "x": 380,
-              "y": 327
+              "y": 326
             },
             "topRight": {
-              "x": 510,
-              "y": 327
+              "x": 511,
+              "y": 326
             },
             "bottomLeft": {
               "x": 380,
               "y": 383
             },
             "bottomRight": {
-              "x": 510,
+              "x": 511,
               "y": 383
             },
             "pageNumber": 0
@@ -83,17 +83,17 @@
         "invoiceDate": {
           "key": "Invoice date",
           "value": "2014-10-07",
-          "confidence": 1,
+          "confidence": 0.99,
           "isValid": true,
           "type": "date",
           "location": {
             "topLeft": {
               "x": 381,
-              "y": 431
+              "y": 430
             },
             "topRight": {
               "x": 493,
-              "y": 431
+              "y": 430
             },
             "bottomLeft": {
               "x": 381,
@@ -105,13 +105,6 @@
             },
             "pageNumber": 0
           }
-        },
-        "dueDate": {
-          "key": "Due date",
-          "value": "2027-02-21",
-          "isValid": true,
-          "type": "date",
-          "confidence": 1
         },
         "currency": {
           "key": "Currency",
@@ -144,20 +137,20 @@
           "isValid": true,
           "location": {
             "topLeft": {
-              "x": 784,
-              "y": 1138
+              "x": 783,
+              "y": 1137
             },
             "topRight": {
-              "x": 1075,
-              "y": 1139
+              "x": 1076,
+              "y": 1138
             },
             "bottomLeft": {
-              "x": 784,
-              "y": 1158
+              "x": 783,
+              "y": 1159
             },
             "bottomRight": {
-              "x": 1075,
-              "y": 1159
+              "x": 1076,
+              "y": 1160
             },
             "pageNumber": 0
           }
@@ -215,24 +208,24 @@
         "tax": {
           "key": "Tax",
           "value": "520.00",
-          "confidence": 0.99,
+          "confidence": 1,
           "isValid": true,
           "location": {
             "topLeft": {
               "x": 827,
-              "y": 1185
+              "y": 1184
             },
             "topRight": {
-              "x": 1075,
-              "y": 1185
+              "x": 1076,
+              "y": 1184
             },
             "bottomLeft": {
               "x": 827,
-              "y": 1205
+              "y": 1206
             },
             "bottomRight": {
-              "x": 1075,
-              "y": 1205
+              "x": 1076,
+              "y": 1206
             },
             "pageNumber": 0
           }
@@ -240,48 +233,48 @@
         "total": {
           "key": "Total",
           "value": "4,520.00",
-          "confidence": 0.58,
+          "confidence": 1,
           "isValid": true,
           "location": {
             "topLeft": {
-              "x": 859,
-              "y": 328
+              "x": 858,
+              "y": 327
             },
             "topRight": {
-              "x": 1097,
-              "y": 328
+              "x": 1096,
+              "y": 327
             },
             "bottomLeft": {
-              "x": 859,
-              "y": 417
+              "x": 858,
+              "y": 418
             },
             "bottomRight": {
-              "x": 1097,
-              "y": 417
+              "x": 1096,
+              "y": 418
             },
             "pageNumber": 0
           }
         },
         "amountDue": {
-          "key": "Amount Due (USD)",
+          "key": "Amount due",
           "value": "4520.00",
-          "confidence": 1,
+          "confidence": 0.99,
           "location": {
             "topLeft": {
-              "x": 858,
-              "y": 366
+              "x": 680,
+              "y": 1320
             },
             "topRight": {
-              "x": 1086,
-              "y": 366
+              "x": 1076,
+              "y": 1321
             },
             "bottomLeft": {
-              "x": 858,
-              "y": 420
+              "x": 680,
+              "y": 1344
             },
             "bottomRight": {
-              "x": 1086,
-              "y": 420
+              "x": 1076,
+              "y": 1345
             },
             "pageNumber": 0
           }
@@ -291,26 +284,31 @@
           "value": "4,520.00",
           "confidence": 1
         },
+        "iban": {
+          "key": "IBAN",
+          "value": "",
+          "confidence": 1
+        },
         "lineItem1Description": {
           "key": "Line item 1 description",
           "value": "Your item Name\nItem description goes here",
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 61,
-              "y": 658
+              "x": 73,
+              "y": 684
             },
             "topRight": {
-              "x": 448,
-              "y": 659
+              "x": 289,
+              "y": 684
             },
             "bottomLeft": {
-              "x": 61,
-              "y": 753
+              "x": 73,
+              "y": 733
             },
             "bottomRight": {
-              "x": 448,
-              "y": 754
+              "x": 289,
+              "y": 733
             },
             "pageNumber": 0
           }
@@ -322,20 +320,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 941,
-              "y": 660
+              "x": 1029,
+              "y": 686
             },
             "topRight": {
-              "x": 1103,
-              "y": 660
+              "x": 1076,
+              "y": 686
             },
             "bottomLeft": {
-              "x": 941,
-              "y": 755
+              "x": 1029,
+              "y": 705
             },
             "bottomRight": {
-              "x": 1103,
-              "y": 755
+              "x": 1076,
+              "y": 705
             },
             "pageNumber": 0
           }
@@ -347,20 +345,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 759,
-              "y": 659
+              "x": 895,
+              "y": 686
             },
             "topRight": {
-              "x": 941,
-              "y": 660
+              "x": 913,
+              "y": 686
             },
             "bottomLeft": {
-              "x": 759,
-              "y": 754
+              "x": 895,
+              "y": 705
             },
             "bottomRight": {
-              "x": 941,
-              "y": 755
+              "x": 913,
+              "y": 705
             },
             "pageNumber": 0
           }
@@ -377,20 +375,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 61,
-              "y": 753
+              "x": 73,
+              "y": 778
             },
             "topRight": {
-              "x": 448,
-              "y": 754
+              "x": 290,
+              "y": 778
             },
             "bottomLeft": {
-              "x": 61,
-              "y": 847
+              "x": 73,
+              "y": 827
             },
             "bottomRight": {
-              "x": 448,
-              "y": 848
+              "x": 290,
+              "y": 827
             },
             "pageNumber": 0
           }
@@ -402,20 +400,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 941,
-              "y": 755
+              "x": 1029,
+              "y": 780
             },
             "topRight": {
-              "x": 1103,
-              "y": 755
+              "x": 1076,
+              "y": 780
             },
             "bottomLeft": {
-              "x": 941,
-              "y": 849
+              "x": 1029,
+              "y": 799
             },
             "bottomRight": {
-              "x": 1103,
-              "y": 849
+              "x": 1076,
+              "y": 799
             },
             "pageNumber": 0
           }
@@ -427,20 +425,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 759,
-              "y": 754
+              "x": 895,
+              "y": 780
             },
             "topRight": {
-              "x": 941,
-              "y": 755
+              "x": 913,
+              "y": 780
             },
             "bottomLeft": {
-              "x": 759,
-              "y": 848
+              "x": 895,
+              "y": 799
             },
             "bottomRight": {
-              "x": 941,
-              "y": 849
+              "x": 913,
+              "y": 799
             },
             "pageNumber": 0
           }
@@ -457,20 +455,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 61,
-              "y": 847
+              "x": 73,
+              "y": 873
             },
             "topRight": {
-              "x": 448,
-              "y": 848
+              "x": 291,
+              "y": 873
             },
             "bottomLeft": {
-              "x": 61,
-              "y": 943
+              "x": 73,
+              "y": 921
             },
             "bottomRight": {
-              "x": 448,
-              "y": 944
+              "x": 291,
+              "y": 921
             },
             "pageNumber": 0
           }
@@ -482,20 +480,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 941,
-              "y": 849
+              "x": 1029,
+              "y": 875
             },
             "topRight": {
-              "x": 1103,
-              "y": 849
+              "x": 1076,
+              "y": 875
             },
             "bottomLeft": {
-              "x": 941,
-              "y": 945
+              "x": 1029,
+              "y": 894
             },
             "bottomRight": {
-              "x": 1103,
-              "y": 945
+              "x": 1076,
+              "y": 894
             },
             "pageNumber": 0
           }
@@ -507,20 +505,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 759,
-              "y": 848
+              "x": 896,
+              "y": 875
             },
             "topRight": {
-              "x": 941,
-              "y": 849
+              "x": 913,
+              "y": 875
             },
             "bottomLeft": {
-              "x": 759,
-              "y": 944
+              "x": 896,
+              "y": 894
             },
             "bottomRight": {
-              "x": 941,
-              "y": 945
+              "x": 913,
+              "y": 894
             },
             "pageNumber": 0
           }
@@ -537,20 +535,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 61,
-              "y": 943
+              "x": 73,
+              "y": 967
             },
             "topRight": {
-              "x": 448,
-              "y": 944
+              "x": 290,
+              "y": 967
             },
             "bottomLeft": {
-              "x": 60,
-              "y": 1038
+              "x": 72,
+              "y": 1016
             },
             "bottomRight": {
-              "x": 447,
-              "y": 1039
+              "x": 289,
+              "y": 1016
             },
             "pageNumber": 0
           }
@@ -562,20 +560,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 941,
-              "y": 945
+              "x": 1029,
+              "y": 969
             },
             "topRight": {
-              "x": 1103,
-              "y": 945
+              "x": 1076,
+              "y": 969
             },
             "bottomLeft": {
-              "x": 940,
-              "y": 1040
+              "x": 1029,
+              "y": 989
             },
             "bottomRight": {
-              "x": 1102,
-              "y": 1040
+              "x": 1076,
+              "y": 989
             },
             "pageNumber": 0
           }
@@ -587,20 +585,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 759,
-              "y": 944
+              "x": 895,
+              "y": 969
             },
             "topRight": {
-              "x": 941,
-              "y": 945
+              "x": 913,
+              "y": 969
             },
             "bottomLeft": {
-              "x": 758,
-              "y": 1039
+              "x": 895,
+              "y": 989
             },
             "bottomRight": {
-              "x": 940,
-              "y": 1040
+              "x": 913,
+              "y": 989
             },
             "pageNumber": 0
           }
@@ -611,80 +609,105 @@
           "confidence": 1,
           "isValid": true
         },
-        "yourItemName": {
-          "key": "Your item Name",
-          "value": "Item description goes here",
-          "confidence": 0.96,
+        "name": {
+          "key": "Name",
+          "value": "Client Name",
+          "confidence": 0.93,
           "location": {
             "topLeft": {
-              "x": 72,
-              "y": 711
+              "x": 70,
+              "y": 366
             },
             "topRight": {
-              "x": 289,
-              "y": 711
+              "x": 186,
+              "y": 366
             },
             "bottomLeft": {
-              "x": 72,
-              "y": 732
+              "x": 70,
+              "y": 386
             },
             "bottomRight": {
-              "x": 289,
-              "y": 732
+              "x": 186,
+              "y": 386
             },
             "pageNumber": 0
           }
         },
-        "yourItemName2": {
-          "key": "Your item Name 2",
-          "value": "Item description goes here",
-          "confidence": 0.9,
+        "receiverName": {
+          "key": "Receiver name",
+          "value": "Client Name",
+          "confidence": 0.93,
           "location": {
             "topLeft": {
-              "x": 75,
-              "y": 874
+              "x": 70,
+              "y": 366
             },
             "topRight": {
-              "x": 292,
-              "y": 874
+              "x": 186,
+              "y": 366
             },
             "bottomLeft": {
-              "x": 75,
-              "y": 922
+              "x": 70,
+              "y": 386
             },
             "bottomRight": {
-              "x": 292,
-              "y": 922
+              "x": 186,
+              "y": 386
             },
             "pageNumber": 0
           }
         },
-        "yourItemName3": {
-          "key": "Your item Name 3",
-          "value": "Item description goes here",
-          "confidence": 0.9,
+        "vendorPhone": {
+          "key": "Vendor phone",
+          "value": "647-444-1234",
+          "confidence": 0.99,
           "location": {
             "topLeft": {
-              "x": 73,
-              "y": 778
+              "x": 677,
+              "y": 77
             },
             "topRight": {
-              "x": 291,
-              "y": 778
+              "x": 809,
+              "y": 77
             },
             "bottomLeft": {
-              "x": 73,
-              "y": 828
+              "x": 677,
+              "y": 98
             },
             "bottomRight": {
-              "x": 291,
-              "y": 828
+              "x": 809,
+              "y": 98
+            },
+            "pageNumber": 0
+          }
+        },
+        "vendorUrl": {
+          "key": "Vendor url",
+          "value": "yourwebsite.com",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 650,
+              "y": 145
+            },
+            "topRight": {
+              "x": 809,
+              "y": 145
+            },
+            "bottomLeft": {
+              "x": 650,
+              "y": 168
+            },
+            "bottomRight": {
+              "x": 809,
+              "y": 168
             },
             "pageNumber": 0
           }
         }
       },
       "features": {
+        "creditsSpent": 2,
         "tables": [
           [
             [
@@ -719,70 +742,117 @@
             ]
           ]
         ],
-        "creditsSpent": 2,
         "properties": {
           "mimeType": "image/png",
           "rotationAngle": 0.12,
           "width": 1176,
           "height": 1528,
+          "pageCount": 1,
           "isInFocus": true,
           "isGlareFree": true
         }
       },
-      "ocr": "647-444-1234\nINVOICE\nZIP CODE\n1 Your Address\nyour@email.com\nCity, State, Country\nyourwebsite.com\nBilled To\nInvoice Number\nInvoice Total\nClient Name\n000000\n$4520.00\n1 Client Address\nDate Of Issue\nCity, State, Country\nZIP CODE\n10/07/14\nDescription\nUnit Cost\nQty / Hr Rate\nAmount\nYour item Name\nItem description goes here\n$1000\n1 1000\nYour item Name\n$1000\n1 1000\nItem description goes here\nYour item Name\n$1000\n1 1000\nItem description goes here\nYour item Name\nItem description goes here\n$1000\n1 1000\nSubtotal\n$4000.00\nTax\n$520.00\nTotal\n$4520.00\nInvoice Terms\nEx. Please pay your invoice by ....\nAmount Due (USD)\n$4520.00\n",
-      "uuid": "2c7c9bd3-b98c-488d-a3be-2aa6abb74989"
+      "ocr": "647-444-1234\nINVOICE\nZIP CODE\n1 Your Address\nyour@email.com\nCity, State, Country\nyourwebsite.com\nBilled To\nInvoice Number\nInvoice Total\nClient Name\n000000\n$4520.00\n1 Client Address\nDate Of Issue\nCity, State, Country\nZIP CODE\n10/07/14\nDescription\nUnit Cost\nQty / Hr Rate\nAmount\nYour item Name\nItem description goes here\n$1000\n1 1000\nYour item Name\n$1000\n1\n1000\nItem description goes here\nYour item Name\n$1000\n1 1000\nItem description goes here\nYour item Name\nItem description goes here\n$1000\n1 1000\nSubtotal\n$4000.00\nTax\n$520.00\nTotal\n$4520.00\nInvoice Terms\nEx. Please pay your invoice by ....\nAmount Due (USD)\n$4520.00",
+      "uuid": "ba1b9bb9-d967-4770-89bb-b8405dda34eb"
     }
   ],
   "standarized_response": {
     "extracted_data": [
       {
-        "invoice_number": "000000",
-        "invoice_total": 4520.0,
-        "date": null,
-        "invoice_subtotal": 4000.0,
-        "due_date": null,
         "customer_information": {
           "customer_name": "Client Name 1 Client Address City, State, Country ZIP CODE",
-          "customer_address": null
+          "customer_address": null,
+          "customer_email": null,
+          "customer_id": null,
+          "customer_tax_id": null,
+          "customer_mailing_address": null,
+          "customer_billing_address": "Client Name 1 Client Address City, State, Country ZIP CODE",
+          "customer_shipping_address": null,
+          "customer_service_address": null,
+          "customer_remittance_address": null
         },
         "merchant_information": {
           "merchant_name": "647-444-1234",
-          "merchant_address": null
+          "merchant_address": null,
+          "merchant_phone": null,
+          "merchant_email": null,
+          "merchant_fax": null,
+          "merchant_website": null,
+          "merchant_tax_id": null,
+          "merchant_siret": null,
+          "merchant_siren": null
         },
-        "locale": {
-          "currency": "USD",
-          "language": null
-        },
+        "invoice_number": "000000",
+        "invoice_total": 4520.0,
+        "invoice_subtotal": 4000.0,
+        "amount_due": 4520.0,
+        "previous_unpaid_balance": null,
+        "discount": 0.0,
         "taxes": [
           {
             "value": 520.0,
             "rate": null
           }
         ],
+        "payment_term": null,
+        "purchase_order": null,
+        "date": null,
+        "due_date": null,
+        "service_date": null,
+        "service_due_date": null,
+        "locale": {
+          "currency": "USD",
+          "language": null
+        },
+        "bank_informations": {
+          "account_number": null,
+          "iban": "",
+          "bsb": null,
+          "sort_code": null,
+          "vat_number": null,
+          "rooting_number": null,
+          "swift": null
+        },
         "item_lines": [
           {
             "description": "Your item Name\nItem description goes here",
             "quantity": 1,
             "amount": 1000.0,
-            "unit_price": 1000.0
+            "unit_price": 1000.0,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null
           },
           {
             "description": "Your item Name\nItem description goes here",
             "quantity": 1,
             "amount": 1000.0,
-            "unit_price": 1000.0
+            "unit_price": 1000.0,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null
           },
           {
             "description": "Your item Name\nItem description goes here",
             "quantity": 1,
             "amount": 1000.0,
-            "unit_price": 1000.0
+            "unit_price": 1000.0,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null
           },
           {
             "description": "Your item Name\nItem description goes here",
             "quantity": 1,
             "amount": 1000.0,
-            "unit_price": 1000.0
+            "unit_price": 1000.0,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null
           }
         ]
       }

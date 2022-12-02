@@ -22,6 +22,7 @@ from edenai_apis.features.ocr.invoice_parser import (
     LocaleInvoice,
     MerchantInformationInvoice,
     TaxesInvoice,
+    BankInvoice,
 )
 from edenai_apis.features.ocr.receipt_parser import (
     CustomerInformation,
@@ -115,39 +116,64 @@ class Base64Api(ProviderApi, Ocr):
         )
 
         default_dict = defaultdict(lambda: None)
+        #----------------------Merchant & customer informations----------------------#
+        merchant_name = fields.get("companyName", default_dict)["value"]
+        merchant_address = fields.get("from", default_dict)["value"]
+        customer_name = fields.get("billTo", default_dict)["value"]
+        customer_address = fields.get("address",default_dict)["value"] # Deprecated need to be removed
+        customer_mailing_address = fields.get("address", default_dict)["value"]
+        customer_billing_address = fields.get("billTo", default_dict)["value"]
+        customer_shipping_address = fields.get("shipTo", default_dict)["value"]
+        customer_remittance_address = fields.get("soldTo", default_dict)["value"]
+        #---------------------- invoice  informations----------------------#
         invoice_number = fields.get("invoiceNumber", default_dict)["value"]
         invoice_total = fields.get("total", default_dict)["value"]
         invoice_total = convert_string_to_number(invoice_total, float)
+        invoice_subtotal = fields.get("subtotal", default_dict)["value"]
+        invoice_subtotal = convert_string_to_number(invoice_subtotal, float)
+        amount_due = fields.get("balanceDue",default_dict)["value"]
+        amount_due = convert_string_to_number(amount_due, float)
+        discount  = fields.get("discount",default_dict)["value"]
+        discount = convert_string_to_number(discount, float)
+        taxe = fields.get("tax", default_dict)["value"]
+        taxe = convert_string_to_number(taxe, float)
+        taxes: Sequence[TaxesInvoice] = [(TaxesInvoice(value=taxe))]
+        #---------------------- payment informations----------------------#
+        payment_term = fields.get("paymentTerms",default_dict)["value"]
+        purchase_order = fields.get("purchaseOrder",default_dict)["value"]
         date = fields.get("invoiceDate", default_dict)["value"]
         time = fields.get("invoiceTime", default_dict)["value"]
         date = combine_date_with_time(date, time)
         due_date = fields.get("dueDate", default_dict)["value"]
         due_time = fields.get("dueTime", default_dict)["value"]
         due_date = combine_date_with_time(due_date, due_time)
-        invoice_subtotal = fields.get("subtotal", default_dict)["value"]
-        invoice_subtotal = convert_string_to_number(invoice_subtotal, float)
-        customer_name = fields.get("billTo", default_dict)["value"]
-        merchant_name = fields.get("companyName", default_dict)["value"]
+        #---------------------- bank and local informations----------------------#
+        iban = fields.get("iban",default_dict)["value"]
+        account_number = fields.get("accountNumber",default_dict)["value"]
         currency = fields.get("currency", default_dict)["value"]
-
-        taxe = fields.get("tax", default_dict)["value"]
-        taxe = convert_string_to_number(taxe, float)
-        taxes: Sequence[TaxesInvoice] = [(TaxesInvoice(value=taxe))]
+        
         invoice_parser = InfosInvoiceParserDataClass(
-            invoice_number=invoice_number,
-            date=date,
-            due_date=due_date,
-            locale=LocaleInvoice(currency=currency),
-            customer_information=CustomerInformationInvoice(
-                customer_name=customer_name
+            merchant_information = MerchantInformationInvoice(
+                merchant_name = merchant_name, merchant_address = merchant_address
             ),
-            merchant_information=MerchantInformationInvoice(
-                merchant_name=merchant_name
+            customer_information = CustomerInformationInvoice(
+              customer_name = customer_name, customer_address = customer_address, customer_mailing_address = customer_mailing_address
+              , customer_remittance_address = customer_remittance_address, customer_shipping_address = customer_shipping_address
+              ,customer_billing_address = customer_billing_address
             ),
-            invoice_total=invoice_total,
-            invoice_subtotal=invoice_subtotal,
+            invoice_number = invoice_number,
+            invoice_total = invoice_total,
+            invoice_subtotal = invoice_subtotal,
+            amount_due = amount_due,
+            discount = discount,
+            taxes = taxes,
+            payment_term = payment_term,
+            purchase_order = purchase_order,
+            date = date,
+            due_date = due_date,
+            locale = LocaleInvoice(currency=currency),
+            bank_informations = BankInvoice(iban=iban,account_number=account_number),
             item_lines=items,
-            taxes=taxes,
         )
 
         standarized_response = InvoiceParserDataClass(extracted_data=[invoice_parser])
