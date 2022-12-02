@@ -25,7 +25,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 
-from .config import clients, storage_clients, api_settings
+from .config import clients, storage_clients
 
 
 def content_processing(confidence):
@@ -43,7 +43,7 @@ def content_processing(confidence):
         return 0
 
 
-def check_webhook_result(job_id: str) -> Dict:
+def check_webhook_result(job_id: str, api_settings: dict) -> Dict:
     """Try get result on webhook.site with job id
 
     Args:
