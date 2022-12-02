@@ -91,15 +91,17 @@ class VociApi(ProviderApi, Audio):
                 )
 
             original_response = response_text.json()
+            print(original_response)
 
             diarization_entries = []
-            speakers = original_response["nchannels"] + 1
+            speakers = set()
             
             text = ""
             for utterance in original_response.get("utterances"):
                 for event in utterance.get("events"):
                     text += event.get("word") + " "
                     
+                    speakers.add(utterance["metadata"]["channel"])
                     diarization_entries.append(
                         SpeechDiarizationEntry(
                             segment= event["word"],
@@ -109,7 +111,7 @@ class VociApi(ProviderApi, Audio):
                             speaker= utterance["metadata"]["channel"] + 1
                         )
                     )
-            diarization = SpeechDiarization(total_speakers=speakers, entries=diarization_entries)
+            diarization = SpeechDiarization(total_speakers=len(speakers), entries=diarization_entries)
             standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,

@@ -1069,8 +1069,8 @@ class MicrosoftApi(
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
-        language: str,
-        speakers : int, profanity_filter: bool
+        language: str, speakers : int, profanity_filter: bool,
+        vocabulary: list
     ) -> AsyncLaunchJobResponseType:
 
         #check language

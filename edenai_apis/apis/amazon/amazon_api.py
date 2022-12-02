@@ -865,6 +865,8 @@ class AmazonApi(
                 clients["speech"].delete_vocabulary(
                     VocabularyName = vocab[0]
                 )
+            except IndexError as ir: # if not vocabulary was created
+                pass
             except Exception as exc:
                 raise ProviderException(str(exc)) from exc
             json_res = job_details["TranscriptionJob"]["Transcript"][
