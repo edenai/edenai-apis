@@ -233,7 +233,8 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
         )
 
     def audio__speech_to_text_async__launch_job(self, file: BufferedReader, 
-        language: str, speakers: int) -> AsyncLaunchJobResponseType:
+        language: str, speakers: int, profanity_filter: bool, vocabulary: list
+        ) -> AsyncLaunchJobResponseType:
         wav_file = wav_converter(file, frame_rate=16000, channels=1)[0]
 
         data = json.dumps({

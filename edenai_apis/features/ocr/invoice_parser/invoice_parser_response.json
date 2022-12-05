@@ -1,25 +1,102 @@
 {
   "extracted_data": [
     {
-      "invoice_number": "000000",
-      "invoice_total": 4520.0,
-      "date": null,
-      "invoice_subtotal": 4000.0,
-      "due_date": null,
       "customer_information": {
-        "customer_name": "CLIENT NAME",
-        "customer_address": "1 Client Address City, State, Country ZIP CODE"
+        "customer_name": null,
+        "customer_address": null,
+        "customer_email": null,
+        "customer_id": null,
+        "customer_tax_id": null,
+        "customer_mailing_address": null,
+        "customer_billing_address": null,
+        "customer_shipping_address": null,
+        "customer_service_address": null,
+        "customer_remittance_address": null
       },
       "merchant_information": {
         "merchant_name": null,
-        "merchant_address": null
+        "merchant_address": null,
+        "merchant_phone": null,
+        "merchant_email": null,
+        "merchant_fax": null,
+        "merchant_website": null,
+        "merchant_tax_id": null,
+        "merchant_siret": null,
+        "merchant_siren": null
       },
+      "invoice_number": "000000",
+      "invoice_total": 4520.0,
+      "invoice_subtotal": 4000.0,
+      "amount_due": 4520.0,
+      "previous_unpaid_balance": null,
+      "discount": null,
+      "taxes": [
+        {
+          "value": 520.0,
+          "rate": null
+        }
+      ],
+      "payment_term": null,
+      "purchase_order": null,
+      "date": null,
+      "due_date": null,
+      "service_date": null,
+      "service_due_date": null,
       "locale": {
-        "currency": "USD",
-        "language": "en"
+        "currency": null,
+        "language": null
       },
-      "taxes": [],
-      "item_lines": []
+      "bank_informations": {
+        "account_number": null,
+        "iban": null,
+        "bsb": null,
+        "sort_code": null,
+        "vat_number": null,
+        "rooting_number": null,
+        "swift": null
+      },
+      "item_lines": [
+        {
+          "description": "Your item Name Item description goes here",
+          "quantity": 1,
+          "amount": 1000.0,
+          "unit_price": 1000.0,
+          "discount": null,
+          "product_code": null,
+          "date_item": null,
+          "tax_item": null
+        },
+        {
+          "description": "Your item Name Item description goes here",
+          "quantity": 1,
+          "amount": 1000.0,
+          "unit_price": 1000.0,
+          "discount": null,
+          "product_code": null,
+          "date_item": null,
+          "tax_item": null
+        },
+        {
+          "description": "Your item Name Item description goes here",
+          "quantity": 1,
+          "amount": 1000.0,
+          "unit_price": 1000.0,
+          "discount": null,
+          "product_code": null,
+          "date_item": null,
+          "tax_item": null
+        },
+        {
+          "description": "Your item Name Item description goes here",
+          "quantity": 1,
+          "amount": 1000.0,
+          "unit_price": 1000.0,
+          "discount": null,
+          "product_code": null,
+          "date_item": null,
+          "tax_item": null
+        }
+      ]
     }
   ]
 }

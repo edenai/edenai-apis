@@ -25,7 +25,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 
-from .config import clients, storage_clients, api_settings
+from .config import clients, storage_clients
 
 
 def content_processing(confidence: Union[int, None]):
@@ -44,7 +44,7 @@ def content_processing(confidence: Union[int, None]):
         return 0
 
 
-def check_webhook_result(job_id: str) -> Dict:
+def check_webhook_result(job_id: str, api_settings: dict) -> Dict:
     """Try get result on webhook.site with job id
 
     Args:
@@ -118,7 +118,7 @@ def amazon_ocr_tables_parser(original_result) -> OcrTablesAsyncDataClass:
 T = TypeVar("T")
 
 # Video analysis async
-def _upload_video_file_to_amazon_server(file: BufferedReader, file_name: str):
+def _upload_video_file_to_amazon_server(file: BufferedReader, file_name: str, api_settings : Dict):
     """
     :param video:       String that contains the video file path
     :return:            String that contains the filename on the server
@@ -126,16 +126,15 @@ def _upload_video_file_to_amazon_server(file: BufferedReader, file_name: str):
     # Store file in an Amazon server
     file_extension = file.name.split(".")[-1]
     filename = str(int(time())) + file_name.stem + "_video_." + file_extension
-    storage_clients["video"].meta.client.upload_fileobj(file, api_settings['bucket_video'], filename)
+    storage_clients(api_settings)["video"].meta.client.upload_fileobj(file, api_settings['bucket_video'], filename)
 
     return filename
 
 
 def amazon_launch_video_job(file: BufferedReader, feature: str):
-    # Upload video to amazon server
-    filename = _upload_video_file_to_amazon_server(file, Path(file.name))
-
     api_settings = load_provider(ProviderDataEnum.KEY, "amazon")
+    # Upload video to amazon server
+    filename = _upload_video_file_to_amazon_server(file, Path(file.name), api_settings)
 
     # Get response
     role = api_settings['role']
@@ -143,35 +142,35 @@ def amazon_launch_video_job(file: BufferedReader, feature: str):
     bucket = api_settings['bucket_video']
 
     features = {
-        "LABEL": clients["video"].start_label_detection(
+        "LABEL": clients(api_settings)["video"].start_label_detection(
             Video={"S3Object": {"Bucket": bucket, "Name": filename}},
             NotificationChannel={
                 "RoleArn": role,
                 "SNSTopicArn": topic,
             },
         ),
-        "TEXT": clients["video"].start_text_detection(
+        "TEXT": clients(api_settings)["video"].start_text_detection(
             Video={"S3Object": {"Bucket": bucket, "Name": filename}},
             NotificationChannel={
                 "RoleArn": role,
                 "SNSTopicArn": topic,
             },
         ),
-        "FACE": clients["video"].start_face_detection(
+        "FACE": clients(api_settings)["video"].start_face_detection(
             Video={"S3Object": {"Bucket": bucket, "Name": filename}},
             NotificationChannel={
                 "RoleArn": role,
                 "SNSTopicArn": topic,
             },
         ),
-        "PERSON": clients["video"].start_person_tracking(
+        "PERSON": clients(api_settings)["video"].start_person_tracking(
             Video={"S3Object": {"Bucket": bucket, "Name": filename}},
             NotificationChannel={
                 "RoleArn": role,
                 "SNSTopicArn": topic,
             },
         ),
-        "EXPLICIT": clients["video"].start_content_moderation(
+        "EXPLICIT": clients(api_settings)["video"].start_content_moderation(
             Video={"S3Object": {"Bucket": bucket, "Name": filename}},
             NotificationChannel={
                 "RoleArn": role,

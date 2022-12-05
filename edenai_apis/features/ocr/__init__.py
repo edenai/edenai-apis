@@ -11,6 +11,7 @@ from .invoice_parser import (
     LocaleInvoice,
     MerchantInformationInvoice,
     CustomerInformationInvoice,
+    BankInvoice,
     invoice_parser_arguments,
 )
 from .ocr_tables_async import (

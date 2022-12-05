@@ -93,28 +93,23 @@ class DataleonApi(ProviderApi, Ocr):
         ]
 
         invoice_parser = InfosInvoiceParserDataClass(
+            merchant_information = MerchantInformationInvoice(
+                merchant_name=normalized_response["merchant_information"].get(
+                    "merchant_name"
+                ),
+                merchant_siret = normalized_response["merchant_information"].get("siret"),
+                merchant_siren = normalized_response["merchant_information"].get("siren"),
+                merchant_address = normalized_response["merchant_information"].get("merchant_address"),
+            ),
+            customer_information = CustomerInformationInvoice(
+                customer_name = normalized_response["customer_information"].get("customer_name")
+            ),
             invoice_number=normalized_response.get("invoice_number"),
             invoice_total=convert_string_to_number(
                 normalized_response.get("invoice_total"), float
             ),
             invoice_subtotal=convert_string_to_number(
                 normalized_response.get("subtotal"), float
-            ),
-            customer_information=CustomerInformationInvoice(
-                customer_name=normalized_response["customer_information"].get(
-                    "customer_name"
-                ),
-                customer_address=normalized_response["customer_information"].get(
-                    "customer_address"
-                ),
-            ),
-            merchant_information=MerchantInformationInvoice(
-                merchant_name=normalized_response["merchant_information"].get(
-                    "merchant_name"
-                ),
-                merchant_address=normalized_response["merchant_information"].get(
-                    "merchant_address"
-                ),
             ),
             date=normalized_response.get("date"),
             due_date=normalized_response.get("due_date"),

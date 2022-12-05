@@ -1056,8 +1056,8 @@ class MicrosoftApi(
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
-        language: str,
-        speakers : int
+        language: str, speakers : int, profanity_filter: bool,
+        vocabulary: list
     ) -> AsyncLaunchJobResponseType:
 
         #check language
@@ -1074,10 +1074,15 @@ class MicrosoftApi(
             "properties": {
                 "wordLevelTimestampsEnabled": True,
                 "diarizationEnabled": True,
+                "profanityFilterMode" : "None"
             },
             "locale": language,
             "displayName": "test batch transcription",
         }
+        if profanity_filter:
+            config["properties"].update({
+                "profanityFilterMode" : "Masked"
+            })
         # if not profanity_filter:
         #     config["properties"]["profanityFilterMode"] = "Removed"
 
