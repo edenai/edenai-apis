@@ -98,7 +98,7 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
 
         items = []
         for item in original_response['output'][0]['labels']:
-            items.append(InfosKeywordExtractionDataClass(keyword=item['span_text'], importance=item['value']))
+            items.append(InfosKeywordExtractionDataClass(keyword=item['span_text'], importance=round(item['value'], 2)))
 
         standarized_response = KeywordExtractionDataClass(items=items)
 
@@ -247,7 +247,7 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
                         "speaker_detection": True,
                         "timestamp_per_label": True,
                         "timestamp_per_word": True,
-                        "engine": "default"
+                        "engine": "whisper"
                     }
                 }  
             ]
