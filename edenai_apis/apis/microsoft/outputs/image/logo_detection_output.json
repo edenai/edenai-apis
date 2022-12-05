@@ -3,19 +3,19 @@
     "brands": [
       {
         "name": "Apple",
-        "confidence": 0.725,
+        "confidence": 0.891,
         "rectangle": {
-          "x": 637,
-          "y": 551,
-          "w": 88,
-          "h": 158
+          "x": 301,
+          "y": 124,
+          "w": 242,
+          "h": 276
         }
       }
     ],
-    "requestId": "715609a6-05d4-4847-aa19-ef6930c86573",
+    "requestId": "95cc2971-9086-4a38-ad81-37ff0910d32d",
     "metadata": {
-      "height": 734,
-      "width": 980,
+      "height": 720,
+      "width": 1280,
       "format": "Jpeg"
     },
     "modelVersion": "2021-05-01"
@@ -26,25 +26,25 @@
         "bounding_poly": {
           "vertices": [
             {
-              "x": 637.0,
-              "y": 551.0
+              "x": 301.0,
+              "y": 124.0
             },
             {
-              "x": 725.0,
-              "y": 551.0
+              "x": 543.0,
+              "y": 124.0
             },
             {
-              "x": 725.0,
-              "y": 709.0
+              "x": 543.0,
+              "y": 400.0
             },
             {
-              "x": 637.0,
-              "y": 709.0
+              "x": 301.0,
+              "y": 400.0
             }
           ]
         },
         "description": "Apple",
-        "score": 0.725
+        "score": 0.891
       }
     ]
   }

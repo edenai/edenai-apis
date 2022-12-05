@@ -564,17 +564,21 @@ class MicrosoftApi(
         """
         :param image_path:  String that contains the path to the image file
         """
-
-        # Getting response of API
         response = requests.post(
             f"{self.url['vision']}/analyze?visualFeatures=Brands",
             headers=self.headers["vision"],
             data=file,
-        ).json()
+        )
+        data = response.json()
+
+        if response.status_code != 200:
+            # sometimes no "error" key in repsonse
+            # ref: https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-2/operations/56f91f2e778daf14a499f21b
+            error_msg = data.get("message", data.get("error", "message"))
+            raise ProviderException(error_msg)
 
         items: Sequence[LogoItem] = []
-        for key in response.get("brands"):
-
+        for key in data.get("brands"):
             x_cordinate = float(key.get("rectangle").get("x"))
             y_cordinate = float(key.get("rectangle").get("y"))
             height = float(key.get("rectangle").get("h"))
@@ -594,10 +598,8 @@ class MicrosoftApi(
             )
 
         return ResponseType[LogoDetectionDataClass](
-            original_response= response,
-            standarized_response= LogoDetectionDataClass(items=items)
+            original_response=data, standarized_response=LogoDetectionDataClass(items=items)
         )
-
 
 
     def image__landmark_detection(self,

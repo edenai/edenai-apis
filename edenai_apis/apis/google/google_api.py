@@ -382,16 +382,17 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         self, file: BufferedReader
     ) -> ResponseType[LogoDetectionDataClass]:
         image = vision.Image(content=file.read())
-        response = self.clients["image"].logo_detection(image=image)
+
+        try:
+            response = self.clients["image"].logo_detection(image=image)
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
         response = MessageToDict(response._pb)
 
         # Handle error
-        if response.get("error", {}).get("message"):
-            raise Exception(
-                f"{response.get('error', {}).get('message')}\n"
-                + "For more info on error messages, check: "
-                + "https://cloud.google.com/apis/design/errors"
-            )
+        if response.get("error", {}).get("message") is not None:
+            raise ProviderException(response['error']['message'])
 
         items: Sequence[LogoItem] = []
         for key in response.get("logoAnnotations", []):

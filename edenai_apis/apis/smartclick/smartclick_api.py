@@ -36,13 +36,13 @@ class SmartClickApi(ProviderApi, Image):
         # Get URL for the image
         content_url = upload_file_to_s3(file, file.name)
 
-        # Get response from the API
         payload = {"url": content_url}
         response = requests.request("POST", url, json=payload, headers=self.headers)
 
-        # Handle error : if response is not 200, raise an exception
         if response.status_code != 200:
-            raise ProviderException(message=response.content, code=response.status_code)
+            # Poorly documented
+            # ref: https://smartclick.ai/api/logo-detection/
+            raise ProviderException(message=response.text)
 
         # Standarized response : description/score/bounding_box
         items: Sequence[LogoItem] = []
