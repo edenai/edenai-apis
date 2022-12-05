@@ -228,7 +228,10 @@ class Api4aiApi(
                     label=classe, likelihood=content_processing(nsfw_response[classe])
                 )
             )
-        standarized_response = ExplicitContentDataClass(items=nsfw_items)
+
+        nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(nsfw_items)
+        standarized_response = ExplicitContentDataClass(items=nsfw_items, nsfw_likelihood=nsfw_likelihood)
+
         result = ResponseType[ExplicitContentDataClass](
             original_response=original_response,
             standarized_response=standarized_response
@@ -236,64 +239,38 @@ class Api4aiApi(
         return result
 
     def ocr__ocr(self, file: BufferedReader, language: str) -> ResponseType[OcrDataClass]:
-        payload = {
-            "image": file,
-        }
 
-        file_content = file.read()
-        is_pdf = file.name.lower().endswith(".pdf")
-        responses = []
+        response = requests.post(self.urls["ocr"], files={"image": file})
 
-        if is_pdf:
-            ocr_file_images = convert_from_bytes(
-                file_content, fmt="jpeg", poppler_path=None
-            )
-            for ocr_image in ocr_file_images:
-                ocr_image_buffer = BytesIO()
-                ocr_image.save(ocr_image_buffer, format="JPEG")
-                ocr_image_buffer.seek(0)
-
-                response = requests.post(self.urls["ocr"], files= {"image" : BufferedReader(ocr_image_buffer)})
-                if response.status_code == 200 and not "failure" in response.json()["results"][0]["status"]["code"]:
-                    response = response.json()
-                    responses.append(response)
-            if len(responses) == 0:
-                raise ProviderException(f"Can not convert the given file: {file.name}")
-                
-        else:
-            file.seek(0)
-            response = requests.post(self.urls["ocr"], files=payload)
-            if response.status_code != 200 or "failure" in response.json()["results"][0]["status"]["code"]:
-                raise ProviderException(response.json()["result"][0]["status"]["message"])
-            response = response.json()
-            responses.append(response)
-
+        if (
+            response.status_code != 200
+            or "failure" in response.json()["results"][0]["status"]["code"]
+        ):
+            raise ProviderException(response.json()["result"][0]["status"]["message"])
+        response = response.json()
 
         final_text = ""
-        output_value = json.dumps(responses, ensure_ascii=False)
-        messages_list = json.loads(output_value)
         boxes: Sequence[Bounding_box] = []
 
-        for original_response in messages_list:
-            # original_response = response.json()
-            entities = original_response["results"][0]["entities"][0]["objects"]
-            full_text = ""
-            for text in entities:
-                box = Bounding_box(
-                    text=text["entities"][0]["text"],
-                    top=text["box"][0],
-                    left=text["box"][1],
-                    width=text["box"][2],
-                    height=text["box"][3],
-                )
-                full_text += text["entities"][0]["text"]
-                boxes.append(box)
+        # original_response = response.json()
+        entities = response["results"][0]["entities"][0]["objects"]
+        full_text = ""
+        for text in entities:
+            box = Bounding_box(
+                text=text["entities"][0]["text"],
+                top=text["box"][0],
+                left=text["box"][1],
+                width=text["box"][2],
+                height=text["box"][3],
+            )
+            full_text += text["entities"][0]["text"]
+            boxes.append(box)
 
-            final_text += " " + full_text
+        final_text += " " + full_text
 
         standarized_response = OcrDataClass(text=full_text, bounding_boxes=boxes).dict()
         result = ResponseType[OcrDataClass](
-            original_response=original_response,
+            original_response=response,
             standarized_response=standarized_response,
         )
         return result

@@ -11,6 +11,7 @@ from .invoice_parser import (
     LocaleInvoice,
     MerchantInformationInvoice,
     CustomerInformationInvoice,
+    BankInvoice,
     invoice_parser_arguments,
 )
 from .ocr_tables_async import (
@@ -31,6 +32,7 @@ from .receipt_parser import (
     Taxes,
     InfosReceiptParserDataClass,
     ReceiptParserDataClass,
+    PaymentInformation,
 )
 from .resume_parser import (
     ResumeParserDataClass,
@@ -41,7 +43,9 @@ from .resume_parser import (
     ResumePersonalInfo,
     ResumeSkill,
     ResumeWorkExp,
+    ResumePersonalName,
     ResumeWorkExpEntry,
+    ResumeLocation,
     resume_parser_arguments,
 )
 

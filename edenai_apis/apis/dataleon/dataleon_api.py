@@ -66,10 +66,10 @@ class DataleonApi(ProviderApi, Ocr):
                 continue
             field_value = entity.get("text", None)
 
-            if field_name in ["customer_name", "customer_address", "siret", "siren"]:
+            if field_name in ["customer_name", "customer_address"]:
                 normalized_response["customer_information"][field_name] = field_value
 
-            elif field_name in ["merchant_address", "merchant_name"]:
+            elif field_name in ["merchant_address", "merchant_name", "siret", "siren"]:
                 normalized_response["merchant_information"][field_name] = field_value
             else:
                 normalized_response[field_name] = field_value
@@ -93,28 +93,23 @@ class DataleonApi(ProviderApi, Ocr):
         ]
 
         invoice_parser = InfosInvoiceParserDataClass(
+            merchant_information = MerchantInformationInvoice(
+                merchant_name=normalized_response["merchant_information"].get(
+                    "merchant_name"
+                ),
+                merchant_siret = normalized_response["merchant_information"].get("siret"),
+                merchant_siren = normalized_response["merchant_information"].get("siren"),
+                merchant_address = normalized_response["merchant_information"].get("merchant_address"),
+            ),
+            customer_information = CustomerInformationInvoice(
+                customer_name = normalized_response["customer_information"].get("customer_name")
+            ),
             invoice_number=normalized_response.get("invoice_number"),
             invoice_total=convert_string_to_number(
                 normalized_response.get("invoice_total"), float
             ),
             invoice_subtotal=convert_string_to_number(
                 normalized_response.get("subtotal"), float
-            ),
-            customer_information=CustomerInformationInvoice(
-                customer_name=normalized_response["customer_information"].get(
-                    "customer_name"
-                ),
-                customer_address=normalized_response["customer_information"].get(
-                    "customer_address"
-                ),
-            ),
-            merchant_information=MerchantInformationInvoice(
-                merchant_name=normalized_response["merchant_information"].get(
-                    "merchant_name"
-                ),
-                merchant_address=normalized_response["merchant_information"].get(
-                    "merchant_address"
-                ),
             ),
             date=normalized_response.get("date"),
             due_date=normalized_response.get("due_date"),
@@ -150,10 +145,11 @@ class DataleonApi(ProviderApi, Ocr):
             invoice_total=convert_string_to_number(
                 normalized_response.get("invoice_total"), float
             ),
-            date=normalized_response.get("date"),
             invoice_subtotal=convert_string_to_number(
                 normalized_response.get("subtotal"), float
             ),
+            date=normalized_response.get("date"),
+            due_date = normalized_response.get("due_date"),
             customer_information=CustomerInformation(
                 customer_name=normalized_response["customer_information"].get(
                     "customer_name"
@@ -163,6 +159,9 @@ class DataleonApi(ProviderApi, Ocr):
                 merchant_name=normalized_response["merchant_information"].get(
                     "merchant_name"
                 ),
+                merchant_siret = normalized_response["merchant_information"].get("siret"),
+                merchant_siren = normalized_response["merchant_information"].get("siren"),
+                merchant_address = normalized_response["merchant_information"].get("merchant_address")
             ),
             taxes=taxes,
             locale=Locale(currency=normalized_response.get("currency")),

@@ -2,6 +2,10 @@
     "ocr": {
         "receipt_parser": {
             "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png"
+                ],
                 "languages": [
                     "en-US"
                 ],

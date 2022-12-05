@@ -13,7 +13,6 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.features import Audio
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
-    AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
@@ -30,7 +29,8 @@ class VociApi(ProviderApi, Audio):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
-        speakers : int
+        speakers : int, profanity_filter: bool,
+        vocabulary: list
     ) -> AsyncLaunchJobResponseType:
         wav_file = wav_converter(file, channels=1)[0]
 
@@ -50,6 +50,12 @@ class VociApi(ProviderApi, Audio):
             data_config.update({
                 "lid": "true"
             })
+        # if vocabulary:
+        #     data_config.update({
+        #         "hints": json.dumps({
+        #             "other" : vocabulary
+        #         })
+        #     })
 
         response = requests.post(
             url="https://vcloud.vocitec.com/transcribe",
@@ -80,19 +86,21 @@ class VociApi(ProviderApi, Audio):
             if response_text.status_code != 200:
                 raise ProviderException(
                     f"Call to Voci failed.\nResponse Status: {response.status_code}.\n"
-                    + f"Response Content: {response.content}"
+                    + f"Response Content: {response.text}"
                 )
 
             original_response = response_text.json()
+            print(original_response)
 
             diarization_entries = []
-            speakers = original_response["nchannels"] + 1
+            speakers = set()
             
             text = ""
             for utterance in original_response.get("utterances"):
                 for event in utterance.get("events"):
                     text += event.get("word") + " "
                     
+                    speakers.add(utterance["metadata"]["channel"])
                     diarization_entries.append(
                         SpeechDiarizationEntry(
                             segment= event["word"],
@@ -102,7 +110,7 @@ class VociApi(ProviderApi, Audio):
                             speaker= utterance["metadata"]["channel"] + 1
                         )
                     )
-            diarization = SpeechDiarization(total_speakers=speakers, entries=diarization_entries)
+            diarization = SpeechDiarization(total_speakers=len(speakers), entries=diarization_entries)
             standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,
@@ -114,7 +122,4 @@ class VociApi(ProviderApi, Audio):
                 provider_job_id=provider_job_id
             )
         else:
-            error = response.status_code
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                error=error, provider_job_id=provider_job_id
-            )
+            raise ProviderException(response.text)

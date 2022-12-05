@@ -6,9 +6,8 @@ from uuid import uuid4
 from edenai_apis.features.base_provider.provider_api import ProviderApi
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
-from edenai_apis.utils.languages import update_provider_input_language
+from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.compare import assert_equivalent_dict
-from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
 
 ProviderDict = Dict[
@@ -196,6 +195,9 @@ def compute_output(
 
     status = "success"
 
+    # if language input, update args with a standardized language
+    args = validate_all_provider_constraints(provider_name, feature, subfeature, args)
+
     if fake:
         # Return mocked results
         if is_async:
@@ -228,32 +230,15 @@ def compute_output(
 
     else:
         # Fake == False : Compute real output
-        language_output = update_provider_input_language(
-            args, provider_name, feature, subfeature
-        )
-        # means that an error was found
-        if isinstance(language_output, dict):
-            return language_output
 
-        try:
-            subfeature_result = load_provider(
-                ProviderDataEnum.SUBFEATURE,
-                provider_name=provider_name,
-                feature=feature,
-                subfeature=subfeature,
-                phase=phase,
-                suffix=suffix,
-            )(**args).dict()
-
-        except ProviderException as exception:
-            subfeature_result = {
-                "error": {
-                    "message": str(exception),
-                    "code": getattr(exception, "code", None),
-                }
-            }
-
-            status = "fail"
+        subfeature_result = load_provider(
+            ProviderDataEnum.SUBFEATURE,
+            provider_name=provider_name,
+            feature=feature,
+            subfeature=subfeature,
+            phase=phase,
+            suffix=suffix,
+        )(**args).dict()
 
     final_result: Dict[str, Any] = {
         "status": status,
@@ -365,26 +350,15 @@ def get_async_job_result(
 
         return fake_result
 
-    try:
-        subfeature_result = load_provider(
-            ProviderDataEnum.SUBFEATURE,
-            provider_name=provider_name,
-            subfeature=subfeature,
-            feature=feature,
-            phase=phase,
-            suffix="__get_job_result",
-        )(async_job_id).dict()
+    subfeature_result = load_provider(
+        ProviderDataEnum.SUBFEATURE,
+        provider_name=provider_name,
+        subfeature=subfeature,
+        feature=feature,
+        phase=phase,
+        suffix="__get_job_result",
+    )(async_job_id).dict()
 
-    except ProviderException as exception:
-        subfeature_result = {
-            "status": "failed",
-            "provider": provider_name,
-            "provider_job_id": async_job_id,
-            "error": {
-                "message": str(exception),
-                "code": getattr(exception, "code", None),
-            },
-        }
     return subfeature_result
 
 def get_async_job_webhook_result(
@@ -413,16 +387,3 @@ def get_async_job_webhook_result(
         return subfeature_result
     except AttributeError:
         pass
-    except Exception as exception:
-        is_provider_exception = isinstance(exception, ProviderException)
-        subfeature_result = {
-            "status": "failed",
-            "provider": provider_name,
-            "error": {
-                "is_provider_exception": is_provider_exception,
-                "message": str(exception),
-                "name": exception.__class__.__name__,
-                "code": getattr(exception, "code", None),
-            },
-        }
-        return subfeature_result

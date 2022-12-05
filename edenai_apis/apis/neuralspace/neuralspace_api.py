@@ -21,7 +21,6 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
-    AsyncErrorResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
     AsyncLaunchJobResponseType, ResponseType
@@ -138,7 +137,8 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
         )
 
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str, speakers: int
+        self, file: BufferedReader, language: str, speakers: int,
+        profanity_filter: bool, vocabulary: list
     ) -> AsyncLaunchJobResponseType:
 
         url_file_upload = f"{self.url}file/upload"
@@ -199,10 +199,12 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
         )
 
         if response.status_code != 200:
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id = provider_job_id
-            )
-        
+            data = response.json().get("data") or {}
+            # two message possible
+            # ref: https://docs.neuralspace.ai/speech-to-text/transcribe-file
+            error = response.json().get("message") or data.get("message")
+            raise ProviderException(error)
+
         diarization = SpeechDiarization(total_speakers=0, entries= [])
         original_response = response.json()
         status = original_response.get('data').get('transcriptionStatus')

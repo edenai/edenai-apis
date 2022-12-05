@@ -1,42 +1,40 @@
 # pylint: disable=locally-disabled, too-many-lines
 import base64
-import io
 import json
+import mimetypes
 import os
 from io import BufferedReader
 from pathlib import Path
 from time import time
 from typing import Sequence
+import uuid
 
+import PyPDF2
+from edenai_apis.utils.pdfs import get_pdf_width_height
 import googleapiclient.discovery
 import numpy as np
-from pdf2image.pdf2image import convert_from_bytes
-from PIL import Image as Img
-import google.auth
-from google.cloud import documentai_v1beta3 as documentai
-from google.cloud import speech, storage, texttospeech
-from google.cloud import translate_v3 as translate
-from google.cloud import videointelligence, vision
-from google.cloud.language import Document as GoogleDocument
-from google.cloud.language import LanguageServiceClient
-from google.cloud.vision_v1.types.image_annotator import (
-    AnnotateImageResponse,
-    EntityAnnotation,
-)
-from google.protobuf.json_format import MessageToDict
 from edenai_apis.apis.google.google_helpers import (
+    GoogleExplicitContentLikelihood,
     GoogleVideoFeatures,
+    get_tag_name,
     google_video_get_job,
     ocr_tables_async_response_add_rows,
     score_to_content,
     score_to_sentiment,
-    get_tag_name,
 )
-from edenai_apis.features import Audio, Image, Ocr, ProviderApi, Text, Translation, Video
+from edenai_apis.features import (
+    Audio,
+    Image,
+    Ocr,
+    ProviderApi,
+    Text,
+    Translation,
+    Video,
+)
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
-    SpeechToTextAsyncDataClass,
+    SpeechDiarization,
     SpeechDiarizationEntry,
-    SpeechDiarization
+    SpeechToTextAsyncDataClass,
 )
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
@@ -144,16 +142,28 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import wav_converter
-from edenai_apis.utils.exception import ProviderException, LanguageException
+from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
-    AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
     ResponseType,
 )
+from PIL import Image as Img
 
+import google.auth
+from google.cloud import documentai_v1beta3 as documentai
+from google.cloud import speech, storage, texttospeech
+from google.cloud import translate_v3 as translate
+from google.cloud import videointelligence, vision
+from google.cloud.language import Document as GoogleDocument
+from google.cloud.language import LanguageServiceClient
+from google.cloud.vision_v1.types.image_annotator import (
+    AnnotateImageResponse,
+    EntityAnnotation,
+)
+from google.protobuf.json_format import MessageToDict
 
 
 class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
@@ -203,6 +213,9 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         y_min=y_min,
                         y_max=y_max,
                     )
+
+
+
                 )
 
         return ResponseType[ObjectDetectionDataClass](
@@ -562,11 +575,8 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             )
 
         elif res["metadata"]["state"] == "FAILED":
-            return AsyncErrorResponseType[OcrTablesAsyncDataClass](
-                status="failed",
-                error=res.get("error"),
-                provider_job_id=job_id,
-            )
+            raise ProviderException(res.get("error"))
+
         return AsyncPendingResponseType[OcrTablesAsyncDataClass](
             status="pending", provider_job_id=job_id
         )
@@ -720,8 +730,32 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         )
         return result
 
+    
+        
+    def _create_vocabulary(self, list_vocabs: list):
+        adaptation_client = speech.AdaptationClient()
+        parent = f"projects/{self.project_id}/locations/global"
+        phrases = [{"value": value} for value in list_vocabs]
+        phrase_set_id = str(uuid.uuid4())
+        try:
+            phrase_set_response = adaptation_client.create_phrase_set(
+                {
+                    "parent": parent,
+                    "phrase_set_id": phrase_set_id,
+                    "phrase_set": {
+                        "boost": 10,
+                        "phrases": phrases
+                    },
+                }
+            )
+        except Exception as exc:
+            raise ProviderException(str(exc)) from exc
+        return phrase_set_response.name
+
+
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str, speakers: int
+        self, file: BufferedReader, language: str, speakers: int,
+        profanity_filter: bool, vocabulary: list
     ) -> AsyncLaunchJobResponseType:
 
         #check language
@@ -737,8 +771,6 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         blob = bucket.blob(audio_name)
         blob.upload_from_file(wav_file)
 
-        # blob.download_to_filename(audio_name)
-
         gcs_uri = f"gs://{bucket_name}/{audio_name}"
         # Launch file transcription
         client = speech.SpeechClient()
@@ -748,13 +780,26 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             min_speaker_count=1,
             max_speaker_count=speakers,
         )
-        config = speech.RecognitionConfig(
-            # encoding="LINEAR16",
-            language_code=language,
-            audio_channel_count=channels,
-            diarization_config = diarization,
-            # sample_rate_hertz=frame_rate
-        )
+
+        params = {
+            "language_code" : language,
+            "audio_channel_count" : channels,
+            "diarization_config" : diarization,
+            "profanity_filter" : profanity_filter,
+            "enable_word_confidence": True,
+            "enable_automatic_punctuation": True,
+            "enable_spoken_punctuation" : True
+        }
+
+        # create custum vocabulary phrase_set
+        if vocabulary:
+            name = self._create_vocabulary(vocabulary)
+            speech_adaptation = speech.SpeechAdaptation(phrase_set_references=[name])
+            params.update({
+                "adaptation": speech_adaptation
+            })
+            
+        config = speech.RecognitionConfig(**params)
         operation = client.long_running_recognize(config=config, audio=audio)
         operation_name = operation.operation.name
         return AsyncLaunchJobResponseType(provider_job_id=operation_name)
@@ -767,12 +812,12 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         original_response = service_request_.execute()
 
         if original_response.get("error") is not None:
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id
-            )
+            raise ProviderException(original_response['error'])
+
         text = ""
         diarization = SpeechDiarization(total_speakers=0, entries= [])
         if original_response.get("done"):
+            print(json.dumps(original_response, indent=2))
             if original_response["response"].get("results"):
                 text = ", ".join(
                     [
@@ -794,7 +839,8 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                             segment= word_info['word'],
                             speaker= word_info['speakerTag'],
                             start_time= word_info['startTime'][:-1],
-                            end_time= word_info['endTime'][:-1]
+                            end_time= word_info['endTime'][:-1],
+                            confidence= word_info['confidence']
                         )
                     )
                 
@@ -813,30 +859,37 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
     ) -> ResponseType[ExplicitContentDataClass]:
 
         image = vision.Image(content=file.read())
-        response = self.clients["image"].safe_search_detection(image=image)
+
+        try:
+            response = self.clients["image"].safe_search_detection(image=image)
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
         # Convert response to dict
-        response = MessageToDict(response._pb)
+        response = AnnotateImageResponse.to_dict(response)
+
+        # check for error
+        if response.get("error") is not None:
+            raise ProviderException(response['error'])
 
         # Analyse response
         # Getting the explicit label and its score of image
-        response = response["safeSearchAnnotation"]
+        response = response["safe_search_annotation"]
 
-        items = [
-            ExplicitItem(label="Adult", likelihood=score_to_content(response["adult"])),
-            ExplicitItem(label="Spoof", likelihood=score_to_content(response["spoof"])),
-            ExplicitItem(
-                label="Medical", likelihood=score_to_content(response["medical"])
-            ),
-            ExplicitItem(
-                label="Gore", likelihood=score_to_content(response["violence"])
-            ),
-            ExplicitItem(label="Racy", likelihood=score_to_content(response["racy"])),
-        ]
+        items = []
+        for safe_search_annotation, likelihood in response.items():
+            items.append(
+                ExplicitItem(label=safe_search_annotation.capitalize(), likelihood=likelihood)
+            )
 
-        return ResponseType(
+        nsfw_likelihood = max(map(lambda item: item.likelihood, items))
+
+        res =  ResponseType(
             original_response=response,
-            standarized_response=ExplicitContentDataClass(items=items),
+            standarized_response=ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw_likelihood),
         )
+        print(res.dict())
+        return res
 
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str
@@ -895,56 +948,43 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
     def ocr__ocr(
         self, file: BufferedReader, language: str
     ) -> ResponseType[OcrDataClass]:
-        is_pdf = file.name.lower().endswith(".pdf")
-        responses = []
-        index = 1
         file_content = file.read()
 
-        if is_pdf:
-            ocr_file_images = convert_from_bytes(
-                file_content, fmt="jpeg", poppler_path=None
-            )
-            for ocr_image in ocr_file_images:
-                ocr_image_buffer = io.BytesIO()
-                ocr_image.save(ocr_image_buffer, format="JPEG")
-                image = vision.Image(content=ocr_image_buffer.getvalue())
-                response = self.clients["image"].text_detection(image=image)
-                responses.append((response, ocr_image.size))
-                index += 1
-        else:
-            image = vision.Image(content=file_content)
-            response = self.clients["image"].text_detection(image=image)
-            responses.append((response, Img.open(file).size))
+        image = vision.Image(content=file_content)
+        response = self.clients["image"].text_detection(image=image)
+
+        mimetype = mimetypes.guess_type(file.name)[0] or "unrecognized"
+        if mimetype.startswith("image"):
+            width, height = Img.open(file).size
+        elif mimetype == "application/pdf":
+            width, height = get_pdf_width_height(file)
+
 
         messages_list = []
         boxes: Sequence[Bounding_box] = []
         final_text = ""
-        for output in responses:
-            image_response: AnnotateImageResponse = output[0]
-            # TO DO better original_response
-            messages_list.append(image_response)
+        image_response: AnnotateImageResponse = response
+        # TO DO better original_response
+        messages_list.append(image_response)
 
-            # Get width and hight
-            width, hight = output[1]
-
-            text_annotations: Sequence[
-                EntityAnnotation
-            ] = image_response.text_annotations
-            final_text += text_annotations[0].description.replace("\n", " ")
-            for text in text_annotations[1:]:
-                xleft = float(text.bounding_poly.vertices[0].x)
-                xright = float(text.bounding_poly.vertices[1].x)
-                ytop = float(text.bounding_poly.vertices[0].y)
-                ybottom = float(text.bounding_poly.vertices[2].y)
-                boxes.append(
-                    Bounding_box(
-                        text=text.description,
-                        left=float(xleft / width),
-                        top=float(ytop / hight),
-                        width=(xright - xleft) / width,
-                        height=(ybottom - ytop) / hight,
-                    )
+        text_annotations: Sequence[
+            EntityAnnotation
+        ] = image_response.text_annotations
+        final_text += text_annotations[0].description.replace("\n", " ")
+        for text in text_annotations[1:]:
+            xleft = float(text.bounding_poly.vertices[0].x)
+            xright = float(text.bounding_poly.vertices[1].x)
+            ytop = float(text.bounding_poly.vertices[0].y)
+            ybottom = float(text.bounding_poly.vertices[2].y)
+            boxes.append(
+                Bounding_box(
+                    text=text.description,
+                    left=float(xleft / width),
+                    top=float(ytop / height),
+                    width=(xright - xleft) / width,
+                    height=(ybottom - ytop) / height,
                 )
+            )
         standarized = OcrDataClass(
             text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
         )

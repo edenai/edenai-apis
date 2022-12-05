@@ -1,7 +1,7 @@
 from typing import Sequence
 from typing import Tuple
 
-from google.oauth2.utils import enum
+import enum
 import google.auth
 import google
 import googleapiclient.discovery
@@ -55,8 +55,18 @@ def score_to_sentiment(score):
 # _Transform score of confidence to level of confidence
 
 
+class GoogleExplicitContentLikelihood(enum.Enum):
+    UNKNOWN = 0
+    VERY_UNLIKELY = 1
+    UNLIKELY = 2
+    POSSIBLE = 3
+    LIKELY = 4
+    VERY_LIKELY = 5
+
 def score_to_content(score):
-    if score == "VERY_UNLIKELY":
+    if score == "UNKNOW":
+        return 0
+    elif score == "VERY_UNLIKELY":
         return 1
     elif score == "UNLIKELY":
         return 2

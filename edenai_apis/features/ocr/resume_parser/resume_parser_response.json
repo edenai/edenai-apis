@@ -1,59 +1,102 @@
 {
   "extracted_data": {
     "personal_infos": {
-      "first_name": "Amanda",
-      "last_name": "Smith",
-      "address": "398 Wilshire Blvd, Santa Monica, CA 90401, USA",
-      "gender": null,
-      "phones": ["594-348-2740", "594-348-2741"],
-      "mails": ["modelgal@aim.com"],
-      "urls": [],
+      "name": {
+        "raw_name": "Amanda Smith",
+        "first_name": "Amanda",
+        "last_name": "Smith",
+        "middle": null,
+        "title": null,
+        "prefix": null,
+        "sufix": null
+      },
+      "address": {
+        "formatted_location": null,
+        "postal_code": "",
+        "region": "California",
+        "country": "United States",
+        "country_code": null,
+        "raw_input_location": null,
+        "street": "Wilshire Boulevard",
+        "street_number": null,
+        "appartment_number": null
+      },
       "self_summary": "",
-      "current_profession": null,
-      "driving_licence": null
+      "objective": "To build and maintain a successful role in the world of high fashion modeling.",
+      "date_of_birth": null,
+      "place_of_birth": null,
+      "phones": [
+        "594-348-2740 594-348-2741"
+      ],
+      "mails": [
+        "modelgal@aim.com"
+      ],
+      "urls": [],
+      "fax": [],
+      "current_profession": "Modelador 3D",
+      "dateOfBirth": null,
+      "gender": null,
+      "nationality": null,
+      "martial_status": null,
+      "current_salary": null
     },
     "education": {
-      "entries": [
-        {
-          "title": null,
-          "start_date": null,
-          "end_date": null,
-          "location": null,
-          "establishment": "New York University",
-          "description": null
-        }
-      ],
-      "total_years_education": 0
+      "total_years_education": null,
+      "entries": []
     },
     "work_experience": {
-      "entries": [],
-      "total_years_experience": 0
+      "total_years_experience": "0",
+      "entries": [
+        {
+          "title": "Featured Model",
+          "start_date": null,
+          "end_date": "2007-12-01",
+          "company": null,
+          "location": {
+            "formatted_location": null,
+            "postal_code": "",
+            "region": "California",
+            "country": "United States",
+            "country_code": null,
+            "raw_input_location": null,
+            "street": null,
+            "street_number": null,
+            "appartment_number": null
+          },
+          "description": ". Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 . Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 . Fashion Show: Macy's NYC Fashion Show New York, December 2006 . Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006 ",
+          "industry": null
+        }
+      ]
     },
     "languages": [
       {
-        "name": "French",
-        "value": null
-      },
-      {
-        "name": "English",
-        "value": null
-      },
-      {
         "name": "Spanish",
-        "value": null
-      },
-      {
-        "name": "Italian",
-        "value": null
+        "code": null
       },
       {
         "name": "Hawaiian",
-        "value": null
+        "code": null
+      },
+      {
+        "name": "Italian",
+        "code": null
+      },
+      {
+        "name": "English",
+        "code": null
+      },
+      {
+        "name": "French",
+        "code": null
       }
     ],
     "skills": [
       {
-        "name": "Aerobics",
+        "name": "Microsoft Excel",
+        "type": "soft"
+      },
+      {
+        "name": "Opera (Web Browser)",
         "type": "hard"
       },
       {
@@ -61,27 +104,11 @@
         "type": "hard"
       },
       {
-        "name": "model",
-        "type": "hard"
-      },
-      {
-        "name": "Las",
-        "type": "hard"
-      },
-      {
         "name": "Jazz",
         "type": "hard"
       },
       {
-        "name": "Microsoft Excel",
-        "type": "soft"
-      },
-      {
-        "name": "Model",
-        "type": "hard"
-      },
-      {
-        "name": "Opera (Web Browser)",
+        "name": "Aerobics",
         "type": "hard"
       },
       {

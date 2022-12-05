@@ -2,6 +2,7 @@
   "original_response": {
     "data": {
       "payment_amount_base": {
+        "isAutoVerified": false,
         "rectangles": [
           {
             "x0": 967.8436767281601,
@@ -10,9 +11,8 @@
             "y1": 1137.0917535608407
           }
         ],
-        "isAutoVerified": false,
         "isClientVerified": false,
-        "id": 32490106,
+        "id": 36751076,
         "rectangle": {
           "x0": 967.8436767281601,
           "y0": 1114.09644376403,
@@ -21,12 +21,13 @@
         },
         "page_index": 0,
         "raw": "$4000.00",
-        "confidence": 0.842,
+        "confidence": 0.843,
         "is_verified": false,
         "classification": "paymentAmountBase",
         "parsed": "4000.00"
       },
       "payment_amount_tax": {
+        "isAutoVerified": false,
         "rectangles": [
           {
             "x0": 980.9500999221009,
@@ -35,9 +36,8 @@
             "y1": 1183.8902832011104
           }
         ],
-        "isAutoVerified": false,
         "isClientVerified": false,
-        "id": 32490108,
+        "id": 36751078,
         "rectangle": {
           "x0": 980.9500999221009,
           "y0": 1159.8880331687392,
@@ -46,12 +46,13 @@
         },
         "page_index": 0,
         "raw": "$520.00",
-        "confidence": 0.842,
+        "confidence": 0.843,
         "is_verified": false,
         "classification": "paymentAmountTax",
         "parsed": "520.00"
       },
       "payment_amount_total": {
+        "isAutoVerified": false,
         "rectangles": [
           {
             "x0": 969.1098190702107,
@@ -60,9 +61,8 @@
             "y1": 1229.0938214887838
           }
         ],
-        "isAutoVerified": false,
         "isClientVerified": false,
-        "id": 32490109,
+        "id": 36751079,
         "rectangle": {
           "x0": 969.1098190702107,
           "y0": 1203.8902296409844,
@@ -71,12 +71,13 @@
         },
         "page_index": 0,
         "raw": "$4520.00",
-        "confidence": 0.842,
+        "confidence": 0.843,
         "is_verified": false,
         "classification": "paymentAmountTotal",
         "parsed": "4520.00"
       },
       "payment_amount_due": {
+        "isAutoVerified": false,
         "rectangles": [
           {
             "x0": 969.260248864156,
@@ -85,9 +86,8 @@
             "y1": 1317.8945529573111
           }
         ],
-        "isAutoVerified": false,
         "isClientVerified": false,
-        "id": 32490107,
+        "id": 36751077,
         "rectangle": {
           "x0": 969.260248864156,
           "y0": 1294.0936474183745,
@@ -96,12 +96,13 @@
         },
         "page_index": 0,
         "raw": "$4520.00",
-        "confidence": 0.842,
+        "confidence": 0.843,
         "is_verified": false,
         "classification": "paymentAmountDue",
         "parsed": "4520.00"
       },
       "customer_number": {
+        "isAutoVerified": false,
         "rectangles": [
           {
             "x0": 369.13963306503206,
@@ -110,9 +111,8 @@
             "y1": 379.3203675644045
           }
         ],
-        "isAutoVerified": false,
         "isClientVerified": false,
-        "id": 32490082,
+        "id": 36751051,
         "rectangle": {
           "x0": 369.13963306503206,
           "y0": 357.3181121760208,
@@ -127,6 +127,7 @@
         "parsed": "000000"
       },
       "supplier_phone_number": {
+        "isAutoVerified": false,
         "rectangles": [
           {
             "x0": 661.4862145339168,
@@ -135,9 +136,8 @@
             "y1": 97.5087991968694
           }
         ],
-        "isAutoVerified": false,
         "isClientVerified": false,
-        "id": 32490084,
+        "id": 36751053,
         "rectangle": {
           "x0": 661.4862145339168,
           "y0": 74.80046316081587,
@@ -152,6 +152,7 @@
         "parsed": "647-444-1234"
       },
       "supplier_email": {
+        "isAutoVerified": false,
         "rectangles": [
           {
             "x0": 634.5719161074096,
@@ -160,9 +161,8 @@
             "y1": 132.8651083630732
           }
         ],
-        "isAutoVerified": false,
         "isClientVerified": false,
-        "id": 32490083,
+        "id": 36751052,
         "rectangle": {
           "x0": 634.5719161074096,
           "y0": 108.518026956889,
@@ -171,12 +171,13 @@
         },
         "page_index": 0,
         "raw": "your@email.com",
-        "confidence": 0.81,
+        "confidence": 0.791,
         "is_verified": false,
         "classification": "supplierEmail",
         "parsed": "your@email.com"
       },
       "supplier_website": {
+        "isAutoVerified": false,
         "rectangles": [
           {
             "x0": 634.5973734571542,
@@ -185,9 +186,8 @@
             "y1": 165.86501998886547
           }
         ],
-        "isAutoVerified": false,
         "isClientVerified": false,
-        "id": 32490085,
+        "id": 36751054,
         "rectangle": {
           "x0": 634.5973734571542,
           "y0": 143.520247531191,
@@ -204,20 +204,23 @@
       "custom_fields": {}
     },
     "meta": {
-      "review_url": "https://app.affinda.com/review/OkjrYZBj?signature=eyJ1c2VyX2lkIjoyNDIzLCJ1c2VybmFtZSI6ImNvbnRhY3QifQ:1oiZ8m:1CDcTYDjn7xV_dK_g63yUZENIow9sCCTIOjc8T6GEXU:1oiZ8m:BY0BE4cW5v8TIrQQyIiAneUa4j2NISU8MwdZmgLMi4U",
-      "identifier": "OkjrYZBj",
+      "review_url": "https://app.affinda.com/review/IKBSayaK?signature=eyJ1c2VyX2lkIjoyNDIzLCJ1c2VybmFtZSI6ImNvbnRhY3QifQ:1p18RV:jBfo-iBYYPgOIAS9-a0hZp-ygufWidEd8ZSeIt2mzT8:1p18RV:pKveSQxmHEQlbTUhaTbf7537ac13HTUW4jHqH3bCjew",
+      "documentType": "invoice",
+      "isVerified": false,
+      "ocrConfidence": 0.9788217821782177,
+      "identifier": "IKBSayaK",
       "file_name": "invoice.png",
       "ready": true,
-      "ready_dt": "2022-10-12T10:39:07.279077Z",
+      "ready_dt": "2022-12-02T15:59:12.315759Z",
       "failed": false,
       "language": "en",
-      "pdf": "https://affinda-api.s3.amazonaws.com/media/documents/ocr_2916033_M4Pis3x.pdf?AWSAccessKeyId=ASIAU2V7FN3BR63HZROT&Signature=s2h4P5szM5uKDjKeDo%2B3primsmI%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEMH%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAJ7kadUV%2Buy7u7VAeU3cWy7XkXeCUSShR6332T4arlnGAiEA0kbS4hfmslqv3SJao8KEfXO1vyOX4rdvQjjVEzOHm4sq9wMIiv%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwzMzIxODcxMzU2ODMiDJEwojMcMwc5CgdcgyrLA8XQOcnc24NJzQF8De0FyJ52XFQjXRS7WTJPp7KOumweDptuh%2BkIJQ5QLiW2m%2BaFxEYsNi4%2FDPT54%2FIhTr8%2Bg2602oPpIbDzCXgakOLqD3qthrK0BYW%2F9%2B0QuExpfW3myXHW5pH2Ldu255%2FUgW3RrZKDJRF%2FWM9VYYoLBOq2DC71%2BOXXeKF3tyI%2BXzygZZkKSOG4bSdnLuXPJyeUt5S1YUAmjbsEcdn8pCU0Ith2N0azMQyXGBMvJBqHysuDDHWVewQvgcBp4wCtoyEUVNXpcYjexpayDNEvK%2FJZE%2Bi1NTgbZp0m8%2B9tDQ5dVNdo%2FTSATXz%2FrjKnonXlsMRQ05nW5%2Bz3pEpYaduL7%2B04KyJopMhxOYQmJpgPZTCIzMYzJQUKjomlSLvMBRDeLauw%2F%2BzOic6xelMQRv12TfCsRS9AsVb60I51Bqb2HI%2FUIxgWy36OzI08EbKUytJFH0%2FACluQdRgAN7Cdpjjs8WVi0DR5ucLQQ%2F%2BtKliFuHZwLpVe6UFBf7Ig1LMhD8P4KBmgHMm3qV8gbHIM8qEh72sUgzqgWfz0EjnPj4q%2FXVift5Eot%2BiDLcTOI0UZfOL5fXRUciN5FHkQlTEqgBGDAUpgszChhZqaBjqkAYK7lqA4KK%2B0F7IuO64OWI3sIHbXOVZUS7k%2BA9A144MfLitgWy%2FaacuHy5yDkN1iHI61BjJiiIQpToPG90wYJ2NYpLDNohvb%2F%2FQKcWeNKx6frYMxOKkvyEeeZSH%2FxrOFkOZNwcuEcEuZFhLXUWERhuP8RGQi0W4kgLMzwNhgUeyHL%2FmgG7pm98zyEFoKn89%2BWIY773NViMOysghQtPSVtTNNtGKb&Expires=1665574748",
+      "pdf": "https://affinda-api.s3.amazonaws.com/media/documents/ocr_3907617_TwS5acf.pdf?AWSAccessKeyId=ASIAU2V7FN3B276TVP53&Signature=mM%2BCgXr4tAwcRTKLkMU4Bxk30x0%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEI%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkYwRAIgc5A3MTHCAIIszbzIO8Ilp4dO0qPtEByUCOouqz9KcD8CIEaKSU1Juh6Dw5zyNoobXUaVI2WpGTl7B1Sfp5ACWoTqKusDCKj%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMzMyMTg3MTM1NjgzIgxi1odEXRqNa3zWuIgqvwOSajb1znWbylbJbhMZP0sRccVK0A3yqYYKnPT%2FwVkiIcR2gEuYR0H5EkA%2FoLGlL%2F07sB3O6Vqc66kV9xqQGQ5XqI1Yglgofa6buPRYeyz7VVugrAU5dbZsqrAUVnbhp3xpoYkcdf1kiWf94qxI3Uqg0s%2FQ2HbMnPFIeCaZRCPWuK9WphCjn74uTz%2BjZSQyFJELrR1zlxDrkJwe0Lv8lmpH49855X4q3dKzc0jOJv4xAa%2FXhbMSG7XHTdYQ1RuFU46TCzyVwvsQ41mt8DOlJMymBmLqO%2Bch0ClrGRVRyEFU%2BLtw98p%2FfOdcCPBuJ9IXboq3NrSm9Mt0%2FuT3KY%2FJ4ANjlheGYFOvwUmlf4hWde3fI2kUDX%2FknJEh9gF68BaC5FIpjOyzk%2B0leFluN%2Bc2%2B%2BIlQkUpJSBTmiwBqFcFIJ7RscoU45Ev8K1a7%2B7yYhb1lKVUidFUlbTbESxl7zkATdr5uH6P8YDG4R69tV82LQmwkPBhyY90QnmsV%2FzREJ%2BK6BSy2PLffuA81beMVdgAi37yNGoF9YWBEvvhC1eNdZL0tVG3RVMBjyTNRTwxwxlCYV5N%2Ft15eSkYutwuUASuRwEw1a%2BonAY6pgHLAFqwrGWWc0LiINzi8ggDHvwrZ8%2BH%2Fe4QyktqI279M25E9nlkTC%2BkX2m4omWyRqVd88LvvG67A9%2BTxZh0AFAxeFX0E7tKqIFOv6cDNcOZAiuPIAH9CpGHmVZPtPhq39M8g9SljxQ5HnVapBgD8tvCsm9IhgSKCU3H%2Fnjjb099Ca42XR0AublJOVHHihr6DvW5T7nEIGrg6RzMpnxBWZ8t57Bx7IJN&Expires=1670000353",
       "child_documents": [],
       "pages": [
         {
-          "id": 6679895,
+          "id": 8658545,
           "page_index": 0,
-          "image": "https://affinda-api.s3.amazonaws.com/media/pages/6679895.png?AWSAccessKeyId=ASIAU2V7FN3BR63HZROT&Signature=BXtGIu9mOxzNBzDM4dAv%2BEoidFE%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEMH%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAJ7kadUV%2Buy7u7VAeU3cWy7XkXeCUSShR6332T4arlnGAiEA0kbS4hfmslqv3SJao8KEfXO1vyOX4rdvQjjVEzOHm4sq9wMIiv%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwzMzIxODcxMzU2ODMiDJEwojMcMwc5CgdcgyrLA8XQOcnc24NJzQF8De0FyJ52XFQjXRS7WTJPp7KOumweDptuh%2BkIJQ5QLiW2m%2BaFxEYsNi4%2FDPT54%2FIhTr8%2Bg2602oPpIbDzCXgakOLqD3qthrK0BYW%2F9%2B0QuExpfW3myXHW5pH2Ldu255%2FUgW3RrZKDJRF%2FWM9VYYoLBOq2DC71%2BOXXeKF3tyI%2BXzygZZkKSOG4bSdnLuXPJyeUt5S1YUAmjbsEcdn8pCU0Ith2N0azMQyXGBMvJBqHysuDDHWVewQvgcBp4wCtoyEUVNXpcYjexpayDNEvK%2FJZE%2Bi1NTgbZp0m8%2B9tDQ5dVNdo%2FTSATXz%2FrjKnonXlsMRQ05nW5%2Bz3pEpYaduL7%2B04KyJopMhxOYQmJpgPZTCIzMYzJQUKjomlSLvMBRDeLauw%2F%2BzOic6xelMQRv12TfCsRS9AsVb60I51Bqb2HI%2FUIxgWy36OzI08EbKUytJFH0%2FACluQdRgAN7Cdpjjs8WVi0DR5ucLQQ%2F%2BtKliFuHZwLpVe6UFBf7Ig1LMhD8P4KBmgHMm3qV8gbHIM8qEh72sUgzqgWfz0EjnPj4q%2FXVift5Eot%2BiDLcTOI0UZfOL5fXRUciN5FHkQlTEqgBGDAUpgszChhZqaBjqkAYK7lqA4KK%2B0F7IuO64OWI3sIHbXOVZUS7k%2BA9A144MfLitgWy%2FaacuHy5yDkN1iHI61BjJiiIQpToPG90wYJ2NYpLDNohvb%2F%2FQKcWeNKx6frYMxOKkvyEeeZSH%2FxrOFkOZNwcuEcEuZFhLXUWERhuP8RGQi0W4kgLMzwNhgUeyHL%2FmgG7pm98zyEFoKn89%2BWIY773NViMOysghQtPSVtTNNtGKb&Expires=1665574748",
+          "image": "https://affinda-api.s3.amazonaws.com/media/pages/8658545.png?AWSAccessKeyId=ASIAU2V7FN3B276TVP53&Signature=IMF%2BhaHXqAsLtZfnvXYVlXr4j6w%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEI%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkYwRAIgc5A3MTHCAIIszbzIO8Ilp4dO0qPtEByUCOouqz9KcD8CIEaKSU1Juh6Dw5zyNoobXUaVI2WpGTl7B1Sfp5ACWoTqKusDCKj%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMMzMyMTg3MTM1NjgzIgxi1odEXRqNa3zWuIgqvwOSajb1znWbylbJbhMZP0sRccVK0A3yqYYKnPT%2FwVkiIcR2gEuYR0H5EkA%2FoLGlL%2F07sB3O6Vqc66kV9xqQGQ5XqI1Yglgofa6buPRYeyz7VVugrAU5dbZsqrAUVnbhp3xpoYkcdf1kiWf94qxI3Uqg0s%2FQ2HbMnPFIeCaZRCPWuK9WphCjn74uTz%2BjZSQyFJELrR1zlxDrkJwe0Lv8lmpH49855X4q3dKzc0jOJv4xAa%2FXhbMSG7XHTdYQ1RuFU46TCzyVwvsQ41mt8DOlJMymBmLqO%2Bch0ClrGRVRyEFU%2BLtw98p%2FfOdcCPBuJ9IXboq3NrSm9Mt0%2FuT3KY%2FJ4ANjlheGYFOvwUmlf4hWde3fI2kUDX%2FknJEh9gF68BaC5FIpjOyzk%2B0leFluN%2Bc2%2B%2BIlQkUpJSBTmiwBqFcFIJ7RscoU45Ev8K1a7%2B7yYhb1lKVUidFUlbTbESxl7zkATdr5uH6P8YDG4R69tV82LQmwkPBhyY90QnmsV%2FzREJ%2BK6BSy2PLffuA81beMVdgAi37yNGoF9YWBEvvhC1eNdZL0tVG3RVMBjyTNRTwxwxlCYV5N%2Ft15eSkYutwuUASuRwEw1a%2BonAY6pgHLAFqwrGWWc0LiINzi8ggDHvwrZ8%2BH%2Fe4QyktqI279M25E9nlkTC%2BkX2m4omWyRqVd88LvvG67A9%2BTxZh0AFAxeFX0E7tKqIFOv6cDNcOZAiuPIAH9CpGHmVZPtPhq39M8g9SljxQ5HnVapBgD8tvCsm9IhgSKCU3H%2Fnjjb099Ca42XR0AublJOVHHihr6DvW5T7nEIGrg6RzMpnxBWZ8t57Bx7IJN&Expires=1670000353",
           "height": 1500.0,
           "width": 1154.0,
           "rotation": 0
@@ -229,29 +232,60 @@
   "standarized_response": {
     "extracted_data": [
       {
-        "invoice_number": null,
-        "invoice_total": 4520.0,
-        "date": null,
-        "invoice_subtotal": 4000.0,
-        "due_date": null,
         "customer_information": {
           "customer_name": null,
-          "customer_address": null
+          "customer_address": null,
+          "customer_email": null,
+          "customer_id": "000000",
+          "customer_tax_id": null,
+          "customer_mailing_address": null,
+          "customer_billing_address": null,
+          "customer_shipping_address": null,
+          "customer_service_address": null,
+          "customer_remittance_address": null
         },
         "merchant_information": {
           "merchant_name": null,
-          "merchant_address": null
+          "merchant_address": null,
+          "merchant_phone": "647-444-1234",
+          "merchant_email": "your@email.com",
+          "merchant_fax": null,
+          "merchant_website": "yourwebsite.com",
+          "merchant_tax_id": null,
+          "merchant_siret": null,
+          "merchant_siren": null
         },
-        "locale": {
-          "currency": null,
-          "language": null
-        },
+        "invoice_number": null,
+        "invoice_total": 4520.0,
+        "invoice_subtotal": 4000.0,
+        "amount_due": 4520.0,
+        "previous_unpaid_balance": null,
+        "discount": null,
         "taxes": [
           {
             "value": 520.0,
             "rate": null
           }
         ],
+        "payment_term": null,
+        "purchase_order": null,
+        "date": null,
+        "due_date": null,
+        "service_date": null,
+        "service_due_date": null,
+        "locale": {
+          "currency": null,
+          "language": null
+        },
+        "bank_informations": {
+          "account_number": null,
+          "iban": null,
+          "bsb": null,
+          "sort_code": null,
+          "vat_number": null,
+          "rooting_number": null,
+          "swift": null
+        },
         "item_lines": []
       }
     ]

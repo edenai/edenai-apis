@@ -10,6 +10,7 @@ from edenai_apis.features.ocr import (
     ItemLines,
     Locale,
     MerchantInformation,
+    PaymentInformation,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -55,15 +56,34 @@ class TabscannerApi(ProviderApi, Ocr):
             raise ProviderException(original_response["message"])
 
         receipt = original_response.get("result")
-        address = receipt.get("address")
-        barcodes = receipt.get("barcodes")
-        date = receipt.get("date")
-        currency = receipt.get("currency")
-        establishment = receipt.get("establishment")
-        payment = receipt.get("paymentMethod")
+        
+        # Merchant information
+        merchant_information = MerchantInformation(
+            merchant_name = receipt.get("establishment"),
+            merchant_address = receipt.get("address"),
+            merchant_phone = receipt.get("phoneNumber"),
+            merchant_url = receipt.get("url")
+        )
+        # Date & time
+        full_date = receipt.get("date").split()
+        date = full_date[0]
+        time = full_date[1]
+
+        # Barcodes
+        barcodes = receipt.get("barcodes",[[]])[0]
+        # Local
+        locale = Locale(currecy = receipt.get("currency"))
+        # Payment information
+        payment_information = PaymentInformation(
+            card_type = str(receipt.get("paymentMethod")),
+            cash = str(receipt.get("cash")),
+            tip = str(receipt.get("tip")),
+            change = str(receipt.get("change")),
+            discount = str(receipt.get("discount"))
+        )
+        # Total & subtotal
         subtotal = receipt.get("subTotal")
         total = receipt.get("total")
-        phone_number = receipt.get("phoneNumber")
 
         list_items: Sequence[ItemLines] = [
             ItemLines(
@@ -79,19 +99,22 @@ class TabscannerApi(ProviderApi, Ocr):
             for json_element in receipt["lineItems"]
         ]
         receipt_info = {
-            "address": address,
+            "address": "",
             "barcodes": barcodes,
-            "Etablishment": establishment,
-            "payment": payment,
-            "phone_number": phone_number,
+            "Etablishment": "",
+            "payment": "",
+            "phone_number": "",
         }
 
         ocr_receipt = InfosReceiptParserDataClass(
-            date=date,
             invoice_subtotal=subtotal,
             invoice_total=total,
-            merchant_information=MerchantInformation(merchant_name=establishment),
-            locale=Locale(currency=currency),
+            date = date,
+            time = time,
+            merchant_information=merchant_information,
+            payment_information = payment_information,
+            barcodes = barcodes,
+            locale=locale,
             receipt_infos=receipt_info,
             item_lines=list_items,
         )

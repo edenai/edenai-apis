@@ -5,6 +5,7 @@ from pprint import pprint
 from time import time
 from typing import Sequence
 import base64
+import uuid
 
 import urllib
 from pathlib import Path
@@ -12,6 +13,8 @@ from pdf2image.pdf2image import convert_from_bytes
 from PIL import Image as Img
 
 from edenai_apis.features.base_provider.provider_api import ProviderApi
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.apis.amazon.helpers import content_processing
 from edenai_apis.features import Audio, Video, Text, Image, Ocr, Translation
 from edenai_apis.features.audio import (
@@ -88,7 +91,6 @@ from edenai_apis.utils.exception import (
     LanguageException
 )
 from edenai_apis.utils.types import (
-    AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncBaseResponseType,
@@ -96,7 +98,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 
-from .config import clients, audio_voices_ids, tags, storage_clients, api_settings
+from .config import clients, audio_voices_ids, tags, storage_clients
 
 from .helpers import (
     check_webhook_result,
@@ -117,14 +119,19 @@ class AmazonApi(
     Audio,
 ):
     provider_name = "amazon"
-
+    
+    def __init__(self):
+        self.api_settings = load_provider(ProviderDataEnum.KEY, "amazon")
+        self.clients = clients(self.api_settings)
+        self.storage_clients = storage_clients(self.api_settings)
+        
     def image__object_detection(
         self, file: BufferedReader
     ) -> ResponseType[ObjectDetectionDataClass]:
 
         file_content = file.read()
         # Getting API response
-        original_response = clients["image"].detect_labels(
+        original_response = self.clients["image"].detect_labels(
             Image={"Bytes": file_content}, MinConfidence=70
         )
         # Standarization
@@ -166,7 +173,7 @@ class AmazonApi(
         file_content = file.read()
 
         # Getting Response
-        original_response = clients["image"].detect_faces(
+        original_response = self.clients["image"].detect_faces(
             Image={"Bytes": file_content}, Attributes=["ALL"]
         )
 
@@ -305,12 +312,16 @@ class AmazonApi(
         self, file: BufferedReader
     ) -> ResponseType[ExplicitContentDataClass]:
         file_content = file.read()
-        response = clients["image"].detect_moderation_labels(
-            Image={"Bytes": file_content}, MinConfidence=20
-        )
+
+        try:
+            response = self.clients["image"].detect_moderation_labels(
+                Image={"Bytes": file_content}, MinConfidence=20
+            )
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
 
         items = []
-        for label in response.get("ModerationLabels"):
+        for label in response.get("ModerationLabels", []):
             items.append(
                 ExplicitItem(
                     label=label.get("Name"),
@@ -318,7 +329,8 @@ class AmazonApi(
                 )
             )
 
-        standarized_response = ExplicitContentDataClass(items=items)
+        nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+        standarized_response = ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw_likelihood)
 
         return ResponseType[ExplicitContentDataClass](
             original_response=response, standarized_response=standarized_response
@@ -327,76 +339,52 @@ class AmazonApi(
     def ocr__ocr(
         self, file: BufferedReader, language: str
     ) -> ResponseType[OcrDataClass]:
-        is_pdf = file.name.lower().endswith(".pdf")
         file_content = file.read()
-        responses = []
-        index = 1
 
-        if is_pdf:
-            ocr_file_images = convert_from_bytes(
-                file_content, fmt="jpeg", poppler_path=None
-            )
-            for ocr_image in ocr_file_images:
-                ocr_image_buffer = BytesIO()
-                ocr_image.save(ocr_image_buffer, format="JPEG")
-
-                response = clients.get("textract").detect_document_text(
-                    Document={
-                        "Bytes": ocr_image_buffer.getvalue(),
-                        "S3Object": {"Bucket": api_settings['bucket'], "Name": f"{index}.jpeg"},
-                    }
-                )
-                response["width"], response["height"] = ocr_image.size
-                responses.append(response)
-                index += 1
-
-        else:
-            response = clients.get("textract").detect_document_text(
+        try:
+            response = self.clients["textract"].detect_document_text(
                 Document={
                     "Bytes": file_content,
-                    "S3Object": {"Bucket": api_settings['bucket'], "Name": f"{index}.jpeg"},
+                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file.name},
                 }
             )
-
-            response["width"], response["height"] = Img.open(file).size
-            responses.append(response)
+        except Exception as amazon_call_exception:
+            raise ProviderException(str(amazon_call_exception))
 
         final_text = ""
-        output_value = json.dumps(responses, ensure_ascii=False)
-        messages_list = json.loads(output_value)
+        output_value = json.dumps(response, ensure_ascii=False)
+        original_response = json.loads(output_value)
         boxes: Sequence[Bounding_box] = []
+
         # Get region of text
-        for response in messages_list:
+        for region in original_response.get("Blocks"):
+            if region.get("BlockType") == "LINE":
+                # Read line by region
+                final_text += " " + region.get("Text")
 
-            for region in response.get("Blocks"):
-                if region.get("BlockType") == "LINE":
-                    # Read line by region
-                    final_text += " " + region.get("Text")
-
-                if region.get("BlockType") == "WORD":
-                    boxes.append(
-                        Bounding_box(
-                            text=region.get("Text"),
-                            left=region["Geometry"]["BoundingBox"]["Left"],
-                            top=region["Geometry"]["BoundingBox"]["Top"],
-                            width=region["Geometry"]["BoundingBox"]["Width"],
-                            height=region["Geometry"]["BoundingBox"]["Height"],
-                        )
+            if region.get("BlockType") == "WORD":
+                boxes.append(
+                    Bounding_box(
+                        text=region.get("Text"),
+                        left=region["Geometry"]["BoundingBox"]["Left"],
+                        top=region["Geometry"]["BoundingBox"]["Top"],
+                        width=region["Geometry"]["BoundingBox"]["Width"],
+                        height=region["Geometry"]["BoundingBox"]["Height"],
                     )
+                )
 
-            response.pop("width")
-            response.pop("height")
-        standarized = OcrDataClass(
+        standardized = OcrDataClass(
             text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
         )
+
         return ResponseType[OcrDataClass](
-            original_response=messages_list, standarized_response=standarized
+            original_response=original_response, standarized_response=standardized
         )
 
     def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
-        original_response = clients.get('textract').analyze_id(DocumentPages=[{
+        original_response = self.clients.get('textract').analyze_id(DocumentPages=[{
             "Bytes": file.read(),
-            "S3Object": { 'Bucket': api_settings['bucket'], 'Name': filename}
+            "S3Object": { 'Bucket': self.api_settings['bucket'], 'Name': filename}
         }])
 
         items = []
@@ -473,7 +461,7 @@ class AmazonApi(
     ) -> ResponseType[SentimentAnalysisDataClass]:
         # Getting response
         try:
-            response = clients["text"].detect_sentiment(
+            response = self.clients["text"].detect_sentiment(
                 Text=text, LanguageCode=language
             )
         except ClientError as exc:
@@ -511,7 +499,7 @@ class AmazonApi(
     ) -> ResponseType[KeywordExtractionDataClass]:
         # Getting response
         try:
-            response = clients["text"].detect_key_phrases(
+            response = self.clients["text"].detect_key_phrases(
                 Text=text, LanguageCode=language
             )
         except ClientError as exc:
@@ -538,7 +526,7 @@ class AmazonApi(
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         # Getting response
         try:
-            response = clients["text"].detect_entities(Text=text, LanguageCode=language)
+            response = self.clients["text"].detect_entities(Text=text, LanguageCode=language)
         except ClientError as exc:
             if "languageCode" in str(exc):
                 raise LanguageException(str(exc))
@@ -554,10 +542,10 @@ class AmazonApi(
                 )
             )
 
-        standarized = NamedEntityRecognitionDataClass(items=items)
+        standardized = NamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[NamedEntityRecognitionDataClass](
-            original_response=response, standarized_response=standarized
+            original_response=response, standarized_response=standardized
         )
 
     def text__syntax_analysis(
@@ -566,7 +554,7 @@ class AmazonApi(
 
         # Getting response
         try:
-            response = clients["text"].detect_syntax(Text=text, LanguageCode=language)
+            response = self.clients["text"].detect_syntax(Text=text, LanguageCode=language)
         except ClientError as exc:
             if "languageCode" in str(exc):
                 raise LanguageException(str(exc))
@@ -597,7 +585,7 @@ class AmazonApi(
     def translation__language_detection(
         self, text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
-        response = clients["text"].detect_dominant_language(Text=text)
+        response = self.clients["text"].detect_dominant_language(Text=text)
 
         # Create output TextDetectLanguage object
         # Analyze response
@@ -621,7 +609,7 @@ class AmazonApi(
         self, source_language: str, target_language: str, text: str
     ) -> ResponseType[AutomaticTranslationDataClass]:
         try:
-            response = clients["translate"].translate_text(
+            response = self.clients["translate"].translate_text(
                 Text=text,
                 SourceLanguageCode=source_language,
                 TargetLanguageCode=target_language,
@@ -630,12 +618,12 @@ class AmazonApi(
             if "SourceLanguageCode" in str(exc):
                 raise LanguageException(str(exc))
 
-        standarized: AutomaticTranslationDataClass
+        standardized: AutomaticTranslationDataClass
         if response["TranslatedText"] != "":
-            standarized = AutomaticTranslationDataClass(text=response["TranslatedText"])
+            standardized = AutomaticTranslationDataClass(text=response["TranslatedText"])
 
         return ResponseType[AutomaticTranslationDataClass](
-            original_response=response, standarized_response=standarized.dict()
+            original_response=response, standarized_response=standardized.dict()
         )
 
     def audio__text_to_speech(
@@ -645,7 +633,7 @@ class AmazonApi(
         formated_language = language
         voiceid = audio_voices_ids[formated_language][option]
 
-        response = clients["texttospeech"].synthesize_speech(
+        response = self.clients["texttospeech"].synthesize_speech(
             VoiceId=voiceid, OutputFormat="mp3", Text=text
         )
 
@@ -666,20 +654,20 @@ class AmazonApi(
         file_content = file.read()
 
         # upload file first
-        storage_clients["textract"].Bucket(api_settings['bucket']).put_object(
+        self.storage_clients["textract"].Bucket(self.api_settings['bucket']).put_object(
             Key=file.name, Body=file_content
         )
 
-        response = clients["textract"].start_document_analysis(
+        response = self.clients["textract"].start_document_analysis(
             DocumentLocation={
-                "S3Object": {"Bucket": api_settings['bucket'], "Name": file.name},
+                "S3Object": {"Bucket": self.api_settings['bucket'], "Name": file.name},
             },
             FeatureTypes=[
                 "TABLES",
             ],
             NotificationChannel={
-                "SNSTopicArn": api_settings['topic'],
-                "RoleArn": api_settings['role'],
+                "SNSTopicArn": self.api_settings['topic'],
+                "RoleArn": self.api_settings['role'],
             },
         )
 
@@ -691,17 +679,18 @@ class AmazonApi(
         self, job_id: str
     ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
         # Getting results from webhook.site
-        data = check_webhook_result(job_id)
+        data = check_webhook_result(job_id, self.api_settings)
         if data is None :
             return AsyncPendingResponseType[OcrTablesAsyncDataClass](
                 provider_job_id=job_id
             )
 
         msg = json.loads(data.get("Message"))
+        # ref: https://docs.aws.amazon.com/textract/latest/dg/async-notification-payload.html
         job_id = msg["JobId"]
 
         if msg["Status"] == "SUCCEEDED":
-            original_result = clients["textract"].get_document_analysis(JobId=job_id)
+            original_result = self.clients["textract"].get_document_analysis(JobId=job_id)
 
             standarized_response = amazon_ocr_tables_parser(original_result)
             return AsyncResponseType[OcrTablesAsyncDataClass](
@@ -709,12 +698,15 @@ class AmazonApi(
                 standarized_response=standarized_response,
                 provider_job_id=job_id,
             )
+        elif msg["Status"] == "PROCESSING":
+            return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)
 
-        if msg["Status"] == "FAIL":
-            return AsyncErrorResponseType[OcrTablesAsyncDataClass](
-                provider_job_id=job_id
-            )
-        return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)
+        else:
+            original_result = self.clients["textract"].get_document_analysis(JobId=job_id)
+            if original_result.get("JobStatus") == "FAILED":
+                error = original_result.get("StatusMessage")
+                raise ProviderException(error)
+
 
     # Speech to text async
     def _upload_audio_file_to_amazon_server(
@@ -726,52 +718,141 @@ class AmazonApi(
         """
         # Store file in an Amazon server
         filename = str(int(time())) + "_" + str(file_name)
-        storage_clients["speech"].meta.client.upload_fileobj(file, api_settings['bucket'], filename)
+        self.storage_clients["speech"].meta.client.upload_fileobj(file, self.api_settings['bucket'], filename)
 
         return filename
 
+    def _create_vocabulary(self, language:str, list_vocabs: list):
+        list_vocabs = ["-".join(vocab.strip().split()) for vocab in list_vocabs]
+        vocab_name = str(uuid.uuid4())
+        try:
+            self.clients["speech"].create_vocabulary(
+            LanguageCode = language,
+            VocabularyName = vocab_name,
+            Phrases = list_vocabs
+        )
+        except Exception as exc:
+            raise ProviderException(str(exc)) from exc
+
+        return vocab_name
+
+    def _launch_transcribe(
+        self, filename:str, frame_rate, 
+        language:str, speakers: int, vocab_name:str=None,
+        initiate_vocab:bool= False):
+        params = {
+            "TranscriptionJobName" : filename,
+            "Media" : {"MediaFileUri": self.api_settings["storage_url"] + filename},
+            "MediaFormat" : "wav",
+            "LanguageCode" : language,
+            "MediaSampleRateHertz" : frame_rate,
+            "Settings" : {
+                "ShowSpeakerLabels": True,
+                "ChannelIdentification": False,
+                "MaxSpeakerLabels" : speakers
+            }
+        }
+        if not language:
+            del params["LanguageCode"]
+            params.update({
+                "IdentifyLanguage" : True
+            })
+        if vocab_name:
+            params["Settings"].update({
+                "VocabularyName": vocab_name
+            })
+            if initiate_vocab:
+                params["checked"]= False
+                extention_index = filename.rfind(".")
+                filename = f"{filename[:-(len(filename) - extention_index)]}_settings.txt"
+                self.storage_clients["speech"].meta.client.put_object(
+                    Bucket=self.api_settings['bucket'], 
+                    Body=json.dumps(params).encode(), 
+                    Key=filename
+                )
+                return 
+        try:
+            self.clients["speech"].start_transcription_job(**params)
+        except KeyError as exc:
+            raise ProviderException(str(exc)) from exc
+
+
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str, speakers : int
+        self, file: BufferedReader, language: str, speakers : int,
+        profanity_filter: bool, vocabulary: list
     ) -> AsyncLaunchJobResponseType:
         # Convert audio file in wav
         wav_file, frame_rate = wav_converter(file)[0:2]
         filename = self._upload_audio_file_to_amazon_server(
             wav_file, Path(file.name).stem + ".wav"
         )
-        try:
-            params = {
-                "TranscriptionJobName" : filename,
-                "Media" : {"MediaFileUri": api_settings["storage_url"] + filename},
-                "MediaFormat" : "wav",
-                "LanguageCode" : language,
-                "MediaSampleRateHertz" : frame_rate,
-                "Settings" : {
-                    "ShowSpeakerLabels": True,
-                    "ChannelIdentification": False,
-                    "MaxSpeakerLabels" : speakers
-                }
-            }
-            if not language:
-                del params["LanguageCode"]
-                params.update({
-                    "IdentifyLanguage" : True
-                })
-            clients["speech"].start_transcription_job(**params)
-        except KeyError as exc:
-            raise ProviderException(str(exc)) from exc
+        if vocabulary:
+            vocab_name = self._create_vocabulary(language, vocabulary)
+            self._launch_transcribe(filename, frame_rate, language, speakers, vocab_name, True)
+            return AsyncLaunchJobResponseType(
+                provider_job_id=f"{filename}EdenAI{vocab_name}"
+            )
 
+        self._launch_transcribe(filename, frame_rate, language, speakers)
         return AsyncLaunchJobResponseType(
             provider_job_id=filename
         )
 
+        
+
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-        job_details = clients["speech"].get_transcription_job(
-            TranscriptionJobName=provider_job_id
+
+        # check custom vocabilory job state
+        job_id, *vocab = provider_job_id.split("EdenAI")
+        if vocab: # if vocabilory is used and
+            setting_content = self.storage_clients["speech"].meta.client.get_object(Bucket= self.api_settings['bucket'], Key= f"{job_id[:-4]}_settings.txt")
+            settings = json.loads(setting_content['Body'].read().decode('utf-8'))
+            if not settings["checked"]: # check if the vocabulary has been created or not
+                vocab_name = vocab[0]
+                job_vocab_details = self.clients["speech"].get_vocabulary(VocabularyName = vocab_name)
+                if job_vocab_details['VocabularyState'] == "FAILED":
+                    error = job_vocab_details.get("FailureReason")
+                    raise ProviderException(error)
+                if job_vocab_details['VocabularyState'] != "READY":
+                    return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
+                        provider_job_id=provider_job_id
+                    )
+                self._launch_transcribe(
+                            settings['TranscriptionJobName'],
+                            settings['MediaSampleRateHertz'], 
+                            settings['LanguageCode'], 
+                            settings['Settings']['MaxSpeakerLabels'], 
+                            settings['Settings']['VocabularyName']
+                )
+                settings["checked"] = True # conform vocabulary creation
+                extention_index = job_id.rfind(".")
+                index_last = len(job_id) - extention_index
+                self.storage_clients["speech"].meta.client.put_object(
+                    Bucket=self.api_settings['bucket'], 
+                    Body=json.dumps(settings).encode(),
+                    Key = f"{job_id[:-index_last]}_settings.txt"
+                )
+                return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
+                        provider_job_id=provider_job_id
+                    )
+
+        #check transcribe status
+        job_details = self.clients["speech"].get_transcription_job(
+            TranscriptionJobName=job_id
         )
         job_status = job_details["TranscriptionJob"]["TranscriptionJobStatus"]
         if job_status == "COMPLETED":
+            #delete vocabulary
+            try:
+                self.clients["speech"].delete_vocabulary(
+                    VocabularyName = vocab[0]
+                )
+            except IndexError as ir: # if not vocabulary was created
+                pass
+            except Exception as exc:
+                raise ProviderException(str(exc)) from exc
             json_res = job_details["TranscriptionJob"]["Transcript"][
                 "TranscriptFileUri"
             ]
@@ -810,9 +891,17 @@ class AmazonApi(
                     provider_job_id=provider_job_id,
                 )
         elif job_status == "FAILED":
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id
-            )
+            #delete vocabulary
+            try:
+                self.clients["speech"].delete_vocabulary(
+                    VocabularyName = vocab[0]
+                )
+            except IndexError as ir: # if not vocabulary was created
+                pass
+            except Exception as exc:
+                raise ProviderException(str(exc)) from exc
+            error = job_details["TranscriptionJob"].get("FailureReason")
+            raise ProviderException(error)
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
             provider_job_id=provider_job_id
         )
@@ -847,7 +936,7 @@ class AmazonApi(
         max_result = 20
         finished = False
         while not finished:
-            response = clients["video"].get_label_detection(
+            response = self.clients["video"].get_label_detection(
                 JobId=provider_job_id,
                 MaxResults=max_result,
                 NextToken=pagination_token,
@@ -904,7 +993,7 @@ class AmazonApi(
         finished = False
 
         while not finished:
-            response = clients["video"].get_text_detection(
+            response = self.clients["video"].get_text_detection(
                 JobId=provider_job_id,
                 MaxResults=max_results,
                 NextToken=pagination_token,
@@ -968,7 +1057,7 @@ class AmazonApi(
         finished = False
 
         while not finished:
-            response = clients["video"].get_face_detection(
+            response = self.clients["video"].get_face_detection(
                 JobId=provider_job_id,
                 MaxResults=max_results,
                 NextToken=pagination_token,
@@ -1039,7 +1128,7 @@ class AmazonApi(
         finished = False
 
         while not finished:
-            response = clients["video"].get_person_tracking(
+            response = self.clients["video"].get_person_tracking(
                 JobId=provider_job_id,
                 MaxResults=max_results,
                 NextToken=pagination_token,
@@ -1093,7 +1182,7 @@ class AmazonApi(
         finished = False
 
         while not finished:
-            response = clients["video"].get_content_moderation(
+            response = self.clients["video"].get_content_moderation(
                 JobId=provider_job_id,
                 MaxResults=max_results,
                 NextToken=pagination_token,

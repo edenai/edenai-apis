@@ -21,6 +21,7 @@ from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     CustomerInformationInvoice,
     LocaleInvoice,
     MerchantInformationInvoice,
+    BankInvoice,
     TaxesInvoice,
 )
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
@@ -129,24 +130,22 @@ class MindeeApi(ProviderApi, Ocr):
             raise ProviderException(
                 original_response["api_request"]["error"]["message"]
             )
-
+        # Invoice std : 
         invoice_data = original_response["document"]["inference"]["prediction"]
         default_dict = defaultdict(lambda: None)
+        
+        # Customer informations 
+        customer_name = invoice_data.get("customer", default_dict).get("value", None)
+        customer_address = invoice_data.get("customer_address", default_dict).get("value", None)
+        
+        # Merchant information
+        merchant_name = invoice_data.get("supplier", default_dict).get("value", None)
+        merchant_address = invoice_data.get("supplier_address", default_dict).get("value", None)
+        
+        # Others
         date = invoice_data.get("date", default_dict).get("value", None)
         time = invoice_data.get("time", default_dict).get("value", None)
         date = combine_date_with_time(date, time)
-        customer_name = invoice_data.get("customer", default_dict).get(
-            "value", None
-        )
-        customer_address = invoice_data.get("customer_address", default_dict).get(
-            "value", None
-        )
-        merchant_name = invoice_data.get("supplier", default_dict).get(
-            "value", None
-        )
-        merchant_address = invoice_data.get("supplier_address", default_dict).get(
-            "value", None
-        )
         invoice_total = convert_string_to_number(
             invoice_data.get("total_incl", default_dict).get("value", None), float
         )
@@ -167,15 +166,16 @@ class MindeeApi(ProviderApi, Ocr):
         language = invoice_data.get("locale", default_dict)["language"]
 
         invoice_parser = InfosInvoiceParserDataClass(
+            merchant_information=MerchantInformationInvoice(
+            merchant_name=merchant_name, merchant_address=merchant_address
+            ),
+            customer_information = CustomerInformationInvoice(
+            customer_name=customer_name, customer_address=customer_address,
+            customer_mailing_address = customer_address
+            ),
             invoice_number=invoice_number,
             invoice_total=invoice_total,
             invoice_subtotal=invoice_subtotal,
-            customer_information=CustomerInformationInvoice(
-                customer_name=customer_name, customer_address=customer_address
-            ),
-            merchant_information=MerchantInformationInvoice(
-                merchant_name=merchant_name, merchant_address=merchant_address
-            ),
             date=date,
             due_date=due_date,
             taxes=taxes,

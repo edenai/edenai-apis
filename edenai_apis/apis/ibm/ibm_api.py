@@ -44,7 +44,6 @@ from edenai_apis.utils.exception import ProviderException, LanguageException
 
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
-    AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
@@ -52,7 +51,10 @@ from edenai_apis.utils.types import (
     )
 from edenai_apis.features import ProviderApi, Translation, Audio, Text
 
-from .config import clients, audio_voices_ids, tags
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
+
+from .config import ibm_clients, audio_voices_ids, tags
 
 from watson_developer_cloud.watson_service import WatsonApiException
 
@@ -64,6 +66,10 @@ class IbmApi(
 ):
 
     provider_name = "ibm"
+    def __init__(self):
+        self.api_settings = load_provider(ProviderDataEnum.KEY, "ibm")
+        self.clients = ibm_clients(self.api_settings)
+
 
     def translation__automatic_translation(
         self, source_language: str,
@@ -73,7 +79,7 @@ class IbmApi(
         # Getting response of API
 
         response = (
-            clients["translation"]
+            self.clients["translation"]
             .translate(text=text, source=source_language, target=target_language)
             .get_result()
         )
@@ -101,7 +107,7 @@ class IbmApi(
         :return:            String that contains output result
         """
 
-        response = clients["translation"].identify(text).get_result()
+        response = self.clients["translation"].identify(text).get_result()
 
         # Getting the language's code detected and its score of confidence
         items: Sequence[InfosLanguageDetectionDataClass] = []
@@ -129,7 +135,7 @@ class IbmApi(
     ) -> ResponseType[SentimentAnalysisDataClass]:
         try:
             response = (
-                clients["text"]
+                self.clients["text"]
                 .analyze(
                     text=text,
                     language=language,
@@ -172,7 +178,7 @@ class IbmApi(
         voiceid = audio_voices_ids[language][option]
 
         response = (
-            clients["texttospeech"]
+            self.clients["texttospeech"]
             .synthesize(text=text, accept="audio/mp3", voice=voiceid)
             .get_result()
         )
@@ -199,7 +205,7 @@ class IbmApi(
         """
         try:
             response = (
-                clients["text"]
+                self.clients["text"]
                 .analyze(
                     text=text,
                     language=language,
@@ -238,7 +244,7 @@ class IbmApi(
 
         try:
             response = (
-                clients["text"]
+                self.clients["text"]
                 .analyze(
                     text=text,
                     language=language,
@@ -289,7 +295,7 @@ class IbmApi(
 
         try:
             response = (
-                clients["text"]
+                self.clients["text"]
                 .analyze(
                     text=text,
                     language=language,
@@ -338,21 +344,22 @@ class IbmApi(
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
-        language: str,
-        speakers : int
+        language: str, speakers : int, profanity_filter: bool,
+        vocabulary: list
     ) -> AsyncLaunchJobResponseType:
         wav_file, *_options = wav_converter(file)
         language_audio = language
         audio_config = {
             "audio" : wav_file,
             "content_type" : "audio/wav",
-            "speaker_labels" : True
+            "speaker_labels" : True,
+            "profanity_filter" : profanity_filter
         }
         if language_audio:
             audio_config.update({
                 "model" : f"{language_audio}_NarrowbandModel"
             })
-        response = clients["speech"].create_job(**audio_config)
+        response = self.clients["speech"].create_job(**audio_config)
         print(response)
         if response.status_code == 201:
             return AsyncLaunchJobResponseType(
@@ -365,7 +372,7 @@ class IbmApi(
         self,
         provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-        response = clients["speech"].check_job(provider_job_id)
+        response = self.clients["speech"].check_job(provider_job_id)
         status = response.result["status"]
         if status == "completed":
             original_response = response.result["results"]
@@ -397,9 +404,9 @@ class IbmApi(
             )
 
         if status == "failed":
-            return AsyncErrorResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id = provider_job_id
-            )
+            # Apparently no error message present in response
+            # ref: https://cloud.ibm.com/apidocs/speech-to-text?code=python#checkjob
+            raise ProviderException
 
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
             provider_job_id=provider_job_id
