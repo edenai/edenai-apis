@@ -314,7 +314,7 @@ class AmazonApi(
         file_content = file.read()
 
         try:
-            response = clients["image"].detect_moderation_labels(
+            response = self.clients["image"].detect_moderation_labels(
                 Image={"Bytes": file_content}, MinConfidence=20
             )
         except Exception as provider_call_exception:
