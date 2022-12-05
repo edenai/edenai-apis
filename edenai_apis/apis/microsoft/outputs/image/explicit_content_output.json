@@ -8,7 +8,7 @@
       "racyScore": 0.011913830414414406,
       "goreScore": 0.5288680791854858
     },
-    "requestId": "bbd0c49a-4aaf-4eb7-9409-409a7a8c3367",
+    "requestId": "a6f395ce-bf1f-42f8-9d5a-872e6f11bfd2",
     "metadata": {
       "height": 168,
       "width": 300,
@@ -17,6 +17,7 @@
     "modelVersion": "2021-05-01"
   },
   "standarized_response": {
+    "nsfw_likelihood": 3,
     "items": [
       {
         "label": "Gore",

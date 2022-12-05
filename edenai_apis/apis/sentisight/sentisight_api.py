@@ -158,7 +158,9 @@ class SentiSightApi(ProviderApi, Ocr, Image):
                 ),
             )
         )
-        standarized_response = ExplicitContentDataClass(items=items)
+        nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+        standarized_response = ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw_likelihood)
+
         result = ResponseType[ExplicitContentDataClass](
             original_response=original_response,
             standarized_response=standarized_response,

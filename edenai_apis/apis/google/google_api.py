@@ -14,6 +14,7 @@ from edenai_apis.utils.pdfs import get_pdf_width_height
 import googleapiclient.discovery
 import numpy as np
 from edenai_apis.apis.google.google_helpers import (
+    GoogleExplicitContentLikelihood,
     GoogleVideoFeatures,
     get_tag_name,
     google_video_get_job,
@@ -212,6 +213,9 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         y_min=y_min,
                         y_max=y_max,
                     )
+
+
+
                 )
 
         return ResponseType[ObjectDetectionDataClass](
@@ -855,30 +859,37 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
     ) -> ResponseType[ExplicitContentDataClass]:
 
         image = vision.Image(content=file.read())
-        response = self.clients["image"].safe_search_detection(image=image)
+
+        try:
+            response = self.clients["image"].safe_search_detection(image=image)
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
         # Convert response to dict
-        response = MessageToDict(response._pb)
+        response = AnnotateImageResponse.to_dict(response)
+
+        # check for error
+        if response.get("error") is not None:
+            raise ProviderException(response['error'])
 
         # Analyse response
         # Getting the explicit label and its score of image
-        response = response["safeSearchAnnotation"]
+        response = response["safe_search_annotation"]
 
-        items = [
-            ExplicitItem(label="Adult", likelihood=score_to_content(response["adult"])),
-            ExplicitItem(label="Spoof", likelihood=score_to_content(response["spoof"])),
-            ExplicitItem(
-                label="Medical", likelihood=score_to_content(response["medical"])
-            ),
-            ExplicitItem(
-                label="Gore", likelihood=score_to_content(response["violence"])
-            ),
-            ExplicitItem(label="Racy", likelihood=score_to_content(response["racy"])),
-        ]
+        items = []
+        for safe_search_annotation, likelihood in response.items():
+            items.append(
+                ExplicitItem(label=safe_search_annotation.capitalize(), likelihood=likelihood)
+            )
 
-        return ResponseType(
+        nsfw_likelihood = max(map(lambda item: item.likelihood, items))
+
+        res =  ResponseType(
             original_response=response,
-            standarized_response=ExplicitContentDataClass(items=items),
+            standarized_response=ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw_likelihood),
         )
+        print(res.dict())
+        return res
 
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str

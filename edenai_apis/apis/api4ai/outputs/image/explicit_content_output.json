@@ -22,6 +22,7 @@
     ]
   },
   "standarized_response": {
+    "nsfw_likelihood": 1,
     "items": [
       {
         "label": "nsfw",

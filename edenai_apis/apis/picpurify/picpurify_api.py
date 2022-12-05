@@ -1,4 +1,5 @@
 from io import BufferedReader
+import json
 from PIL import Image as Img
 import requests
 
@@ -87,24 +88,26 @@ class PicpurifyApi(ProviderApi, Image):
         if "error" in original_response:
             raise ProviderException(original_response["error"]["errorMsg"])
 
-        # Std response
-        contents = [
-            original_response[content]
-            for content in original_response
-            if "_moderation" in content
-        ]
+        # get moderation label keys from categegories found in image
+        # (eg: 'drug_moderation', 'gore_moderation' etc.)
+        moderation_labels = original_response.get("performed", [])
 
-        true_content = [
-            content for content in contents if content[list(content)[-1]]
-        ]
-        moderations = []
-        for moderation in true_content:
-            likehood = content_processing(moderation["confidence_score"])
-            label = list(moderation.items())[-1][0]
-            moderations.append(ExplicitItem(label=label, likelihood=likehood))
+        items = []
+        for label in moderation_labels:
+            items.append(
+                ExplicitItem(
+                    label=label.replace("moderation", "content"),
+                    likelihood=content_processing(
+                        original_response[label]["confidence_score"]
+                    ),
+                )
+            )
 
-        standarized_response = ExplicitContentDataClass(items=moderations)
-        return ResponseType[ExplicitContentDataClass](
-            original_response=original_response,
-            standarized_response=standarized_response
+        nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+
+        standarized_response = ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw)
+        res = ResponseType[ExplicitContentDataClass](
+            original_response=original_response, standarized_response=standarized_response
         )
+        print(res.dict())
+        return res

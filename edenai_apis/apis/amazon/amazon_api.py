@@ -312,12 +312,16 @@ class AmazonApi(
         self, file: BufferedReader
     ) -> ResponseType[ExplicitContentDataClass]:
         file_content = file.read()
-        response = self.clients["image"].detect_moderation_labels(
-            Image={"Bytes": file_content}, MinConfidence=20
-        )
+
+        try:
+            response = self.clients["image"].detect_moderation_labels(
+                Image={"Bytes": file_content}, MinConfidence=20
+            )
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
 
         items = []
-        for label in response.get("ModerationLabels"):
+        for label in response.get("ModerationLabels", []):
             items.append(
                 ExplicitItem(
                     label=label.get("Name"),
@@ -325,7 +329,8 @@ class AmazonApi(
                 )
             )
 
-        standarized_response = ExplicitContentDataClass(items=items)
+        nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+        standarized_response = ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw_likelihood)
 
         return ResponseType[ExplicitContentDataClass](
             original_response=response, standarized_response=standarized_response
