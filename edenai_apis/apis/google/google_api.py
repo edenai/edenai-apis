@@ -1375,6 +1375,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                                 VideoLogo(
                                     timestamp=timestamp,
                                     bounding_box=bounding_box,
+                                    confidence=track['confidence']
                                 )
                             )
                     tracks.append(LogoTrack(description=description, tracking=objects))
