@@ -83,6 +83,10 @@ class CommonProvidersSubfeaturesTests:
 
     def _test_real_output(self, provider, feature, subfeature, phase=""):
         # get provider output with API call
+
+        # skip in opensource package cicd workflow
+        if os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE':
+            return
         saved_output = load_provider(
             ProviderDataEnum.OUTPUT, provider, feature, subfeature, phase
         )
