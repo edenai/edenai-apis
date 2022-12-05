@@ -14,18 +14,19 @@
     ],
     "ModerationModelVersion": "5.0",
     "ResponseMetadata": {
-      "RequestId": "d10b9328-b5e4-4fca-b043-465ca601c54a",
+      "RequestId": "83039231-5bb5-45b3-b4eb-8aca242e8506",
       "HTTPStatusCode": 200,
       "HTTPHeaders": {
-        "x-amzn-requestid": "d10b9328-b5e4-4fca-b043-465ca601c54a",
+        "x-amzn-requestid": "83039231-5bb5-45b3-b4eb-8aca242e8506",
         "content-type": "application/x-amz-json-1.1",
         "content-length": "209",
-        "date": "Wed, 12 Oct 2022 10:39:56 GMT"
+        "date": "Mon, 05 Dec 2022 10:07:32 GMT"
       },
       "RetryAttempts": 0
     }
   },
   "standarized_response": {
+    "nsfw_likelihood": 5,
     "items": [
       {
         "label": "Graphic Violence Or Gore",
