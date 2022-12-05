@@ -418,8 +418,8 @@ class MicrosoftApi(
             standarized_response=standarized_response
         )
 
-    def image__explicit_content(self,
-        file: BufferedReader
+    def image__explicit_content(
+        self, file: BufferedReader
     ) -> ResponseType[ExplicitContentDataClass]:
         """
         :param image_path:  String that contains the path to the image file
@@ -432,25 +432,42 @@ class MicrosoftApi(
             f"{self.url['vision']}/analyze?visualFeatures=Adult",
             headers=self.headers["vision"],
             data=file,
-        ).json()
+        )
+        data = response.json()
 
-        items = []
-        # Analyze response
+        # error handling
+        if response.status_code != 200:
+            if response.status_code == 415:
+                # 415 response doesn't have 'error' key
+                raise ProviderException(data["message"])
+            else:
+                raise ProviderException(data["error"]["message"])
+
+        # key is adult but contains all categories (gore, racy, adult)
+        moderation_content = data["adult"]
+
         # Getting the explicit label and its score of image
+        items = []
         for explicit_type in ["gore", "adult", "racy"]:
-            if response["adult"].get(f"{explicit_type}Score"):
+            if moderation_content.get(f"{explicit_type}Score"):
                 items.append(
                     ExplicitItem(
-                        label=explicit_type[0].upper() + explicit_type[1:],
+                        label=explicit_type.capitalize(),
                         likelihood=content_processing(
-                            response["adult"][f"{explicit_type}Score"]
+                            moderation_content[f"{explicit_type}Score"]
                         ),
                     )
                 )
-        return ResponseType[ExplicitContentDataClass](
-            original_response = response,
-            standarized_response = ExplicitContentDataClass(items=items)
+        nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+
+        res =  ResponseType[ExplicitContentDataClass](
+            original_response=data,
+            standarized_response=ExplicitContentDataClass(
+                items=items, nsfw_likelihood=nsfw
+            ),
         )
+        print(res.dict())
+        return res
 
 
 

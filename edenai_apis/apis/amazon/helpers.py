@@ -2,7 +2,7 @@ import json
 import urllib
 from io import BufferedReader
 from time import time
-from typing import Dict, Optional, TypeVar, Sequence
+from typing import Dict, Optional, TypeVar, Sequence, Union
 from pathlib import Path
 import requests
 from trp import Document
@@ -28,7 +28,8 @@ from edenai_apis.utils.types import (
 from .config import clients, storage_clients, api_settings
 
 
-def content_processing(confidence):
+def content_processing(confidence: Union[int, None]):
+    confidence = confidence or 0 # if None is passed
     if confidence < 10:
         return 1
     elif confidence < 30:

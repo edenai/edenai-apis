@@ -141,27 +141,26 @@ class ClarifaiApi(
         )
 
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
-            raise ProviderException("Error calling Clarifai API")
-        else:
-            response = MessageToDict(
-                post_model_outputs_response, preserving_proto_field_name=True
-            )
-            output = response.get("outputs", None)[0]
-            original_response = output["data"]
-            items = []
-            for concept in output["data"]["concepts"]:
-                items.append(
-                    ExplicitItem(
-                        label=concept["name"],
-                        likelihood=explicit_content_likelihood(concept["value"]),
-                    )
-                )
+            raise ProviderException(post_model_outputs_response.status.description)
 
-            result = ResponseType[ExplicitContentDataClass](
-                original_response=original_response,
-                standarized_response=ExplicitContentDataClass(items=items),
+        response = MessageToDict(
+            post_model_outputs_response, preserving_proto_field_name=True
+        )
+        original_response = response.get("outputs", [])[0]["data"]
+        items = []
+        for concept in original_response["concepts"]:
+            items.append(
+                ExplicitItem(
+                    label=concept["name"],
+                    likelihood=explicit_content_likelihood(concept["value"]),
+                )
             )
-            return result
+
+        nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+        return ResponseType[ExplicitContentDataClass](
+            original_response=original_response,
+            standarized_response=ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw),
+        )
 
     def image__face_detection(
         self, file: BufferedReader
