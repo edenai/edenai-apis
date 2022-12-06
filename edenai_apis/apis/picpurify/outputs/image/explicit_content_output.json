@@ -1,27 +1,27 @@
 {
   "original_response": {
     "suggestive_nudity_moderation": {
-      "compute_time": 0.1927,
+      "compute_time": 0.1996,
       "confidence_score": 0.99999964237213,
       "suggestive_nudity_content": false
     },
     "gore_moderation": {
-      "compute_time": 0.2015,
+      "compute_time": 0.2007,
       "confidence_score": 0.98961967229843,
       "gore_content": true
     },
     "weapon_moderation": {
-      "compute_time": 0.2039,
+      "compute_time": 0.201,
       "confidence_score": 0.99999988079071,
       "weapon_content": false
     },
     "drug_moderation": {
-      "compute_time": 0.185,
+      "compute_time": 0.1844,
       "confidence_score": 0.98628717660904,
       "drug_content": false
     },
     "hate_sign_moderation": {
-      "compute_time": 0.1549,
+      "compute_time": 0.1966,
       "confidence_score": 0.99998784065247,
       "hate_sign_content": false
     },
@@ -49,15 +49,32 @@
     "media": {
       "url_image": "",
       "file_image": "explicit_content.jpeg",
-      "media_id": "6cd8e91098f08833b5fdee12be79c2bd"
+      "media_id": "4d98027f2f1dd038f0da474aac68953e"
     },
     "units_consumed": 5,
-    "total_compute_time": 0.39806199073792
+    "total_compute_time": 0.35856509208679
   },
   "standarized_response": {
+    "nsfw_likelihood": 5,
     "items": [
       {
+        "label": "suggestive_nudity_content",
+        "likelihood": 5
+      },
+      {
         "label": "gore_content",
+        "likelihood": 5
+      },
+      {
+        "label": "weapon_content",
+        "likelihood": 5
+      },
+      {
+        "label": "drug_content",
+        "likelihood": 5
+      },
+      {
+        "label": "hate_sign_content",
         "likelihood": 5
       }
     ]

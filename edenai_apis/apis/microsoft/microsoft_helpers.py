@@ -1,6 +1,6 @@
 from collections import defaultdict
 from copy import deepcopy
-from typing import Dict, Sequence
+from typing import Dict, Optional, Sequence
 from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FaceAccessories, FaceBoundingBox,
     FaceEmotions, FaceFacialHair,
@@ -225,24 +225,22 @@ def miscrosoft_normalize_face_detection_response(response, img_size):
     return deepcopy(faces_list)
 
 
-# _Transform score of confidence to level of confidence
-def content_processing(confidence):
-
-    if confidence is not None:
-        confidence = confidence * 100
-        processing = 0
-        if confidence < 10:
-            processing = 1
-        elif confidence < 30:
-            processing = 2
-        elif confidence < 60:
-            processing = 3
-        elif confidence < 80:
-            processing = 4
-        elif confidence > 80:
-            processing = 5
-        else:
-            processing = 0
+def content_processing(confidence: Optional[int]):
+    """
+    Transform score of confidence to level of confidence between 0 and 5
+    """
+    processing = 0
+    confidence = confidence * 100 if confidence else 0
+    if confidence < 10:
+        processing = 1
+    elif confidence < 30:
+        processing = 2
+    elif confidence < 60:
+        processing = 3
+    elif confidence < 80:
+        processing = 4
+    elif confidence > 80:
+        processing = 5
     return processing
 
 

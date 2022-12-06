@@ -283,7 +283,6 @@ class Base64Api(ProviderApi, Ocr):
     def ocr__identity_parser(
         self,
         file: BufferedReader,
-        filename: str
     ) -> ResponseType[IdentityParserDataClass]:
         image_as_base64 = (
             f"data:{mimetypes.guess_type(file.name)[0]};base64,"

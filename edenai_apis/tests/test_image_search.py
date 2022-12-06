@@ -229,6 +229,7 @@ class CommonImageSearchTests:
     get_providers_image_search()["ungrouped_providers"],
 )
 class TestProviderImageSearch(CommonImageSearchTests):
+    @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE", reason="Don't make real call in opensource tests")
     def test_search_phases_image(self, provider, feature, subfeature):
         self._test_upload_(provider)
 
@@ -239,9 +240,11 @@ class TestProviderImageSearch(CommonImageSearchTests):
         self._test_delete(provider)
 
     def test_image_search_output(self, provider, feature, subfeature):
-        self._test_real_output_search_(provider)
+        if not os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE":
+            self._test_real_output_search_(provider)
         self._test_saved_output_search(provider)
 
+    @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE", reason="Don't make real call in opensource tests")
     def test_compute_image_search_output(self, provider, feature, subfeature):
         """Test call compute subfeature with fake = True"""
         self._test_compute_image_search_output(provider)

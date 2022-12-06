@@ -228,7 +228,10 @@ class Api4aiApi(
                     label=classe, likelihood=content_processing(nsfw_response[classe])
                 )
             )
-        standarized_response = ExplicitContentDataClass(items=nsfw_items)
+
+        nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(nsfw_items)
+        standarized_response = ExplicitContentDataClass(items=nsfw_items, nsfw_likelihood=nsfw_likelihood)
+
         result = ResponseType[ExplicitContentDataClass](
             original_response=original_response,
             standarized_response=standarized_response

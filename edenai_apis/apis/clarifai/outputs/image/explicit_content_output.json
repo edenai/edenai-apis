@@ -10,30 +10,31 @@
       {
         "id": "ai_8QQwMjQR",
         "name": "drug",
-        "value": 2.3394784e-06,
+        "value": 2.33948e-06,
         "app_id": "main"
       },
       {
         "id": "ai_V76bvrtj",
         "name": "explicit",
-        "value": 9.990083e-07,
+        "value": 9.990057e-07,
         "app_id": "main"
       },
       {
         "id": "ai_RtXh5qkR",
         "name": "suggestive",
-        "value": 4.8847287e-08,
+        "value": 4.884705e-08,
         "app_id": "main"
       },
       {
         "id": "ai_kBBGf7r8",
         "name": "gore",
-        "value": 2.165323e-09,
+        "value": 2.1653201e-09,
         "app_id": "main"
       }
     ]
   },
   "standarized_response": {
+    "nsfw_likelihood": 1,
     "items": [
       {
         "label": "safe",

@@ -1,7 +1,9 @@
 """
     Test load_feature, load_provider functions.
 """
+import os
 from typing import Callable
+import pytest
 
 from pydantic import BaseModel
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
@@ -12,8 +14,6 @@ from edenai_apis.apis.amazon.amazon_api import AmazonApi
 VALID_PROVIDER = "amazon"
 VALID_FEATURE = "audio"
 VALID_SUBFEATURE = "text_to_speech"
-
-
 def test_load_output():
     output = load_provider(
         ProviderDataEnum.OUTPUT, VALID_PROVIDER, VALID_FEATURE, VALID_SUBFEATURE
@@ -21,6 +21,7 @@ def test_load_output():
     assert "standarized_response" in output and "original_response" in output
 
 
+@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
 def test_load_key():
     # without location
     key = load_provider(ProviderDataEnum.KEY, VALID_PROVIDER)
@@ -42,6 +43,7 @@ def test_load_class():
     assert class_instance == AmazonApi
 
 
+@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
 def test_load_subfeature():
     subfeature = load_provider(
         ProviderDataEnum.SUBFEATURE, VALID_PROVIDER, VALID_FEATURE, VALID_SUBFEATURE

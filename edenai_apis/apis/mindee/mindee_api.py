@@ -192,7 +192,7 @@ class MindeeApi(ProviderApi, Ocr):
         )
         return result
 
-    def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
+    def ocr__identity_parser(self, file: BufferedReader) -> ResponseType[IdentityParserDataClass]:
         args = self._get_api_attributes(file)
 
         response = requests.post(url=self.url_identity, files=args['files'], headers=args['headers'])
