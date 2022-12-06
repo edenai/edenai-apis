@@ -313,7 +313,7 @@ class MicrosoftApi(
             standarized_response=ReceiptParserDataClass(extracted_data=[receipt])
         )
 
-    def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
+    def ocr__identity_parser(self, file: BufferedReader) -> ResponseType[IdentityParserDataClass]:
         file_content = file.read()
 
         headers = {

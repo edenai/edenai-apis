@@ -106,7 +106,6 @@ class Ocr:
     def ocr__identity_parser(
         self,
         file: BufferedReader,
-        filename: str
     ) -> ResponseType[IdentityParserDataClass]:
         """Parse a identity document and returned structured data
 
