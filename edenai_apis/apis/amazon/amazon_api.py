@@ -381,10 +381,10 @@ class AmazonApi(
             original_response=original_response, standarized_response=standardized
         )
 
-    def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
+    def ocr__identity_parser(self, file: BufferedReader) -> ResponseType[IdentityParserDataClass]:
         original_response = self.clients.get('textract').analyze_id(DocumentPages=[{
             "Bytes": file.read(),
-            "S3Object": { 'Bucket': self.api_settings['bucket'], 'Name': filename}
+            "S3Object": { 'Bucket': self.api_settings['bucket'], 'Name': 'test'}
         }])
 
         items = []

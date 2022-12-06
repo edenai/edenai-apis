@@ -11,4 +11,4 @@ def identity_parser_arguments() -> Dict:
     # filename = 'card-ID_FR.jpeg'
     filename = 'passport-US.pdf'
     # filename = 'card-ID-UK.png'
-    return {"file": open(f"{data_path}/{filename}", "rb"), "filename": filename}
+    return {"file": open(f"{data_path}/{filename}", "rb")}

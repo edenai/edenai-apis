@@ -786,7 +786,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             "language_code" : language,
             "audio_channel_count" : channels,
             "diarization_config" : diarization,
-            "profanity_filter" : profanity_filter
+            "profanity_filter" : profanity_filter,
+            "enable_word_confidence": True,
+            "enable_automatic_punctuation": True,
+            "enable_spoken_punctuation" : True
         }
 
         # create custum vocabulary phrase_set
@@ -815,6 +818,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         text = ""
         diarization = SpeechDiarization(total_speakers=0, entries= [])
         if original_response.get("done"):
+            print(json.dumps(original_response, indent=2))
             if original_response["response"].get("results"):
                 text = ", ".join(
                     [
@@ -836,7 +840,8 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                             segment= word_info['word'],
                             speaker= word_info['speakerTag'],
                             start_time= word_info['startTime'][:-1],
-                            end_time= word_info['endTime'][:-1]
+                            end_time= word_info['endTime'][:-1],
+                            confidence= word_info['confidence']
                         )
                     )
                 

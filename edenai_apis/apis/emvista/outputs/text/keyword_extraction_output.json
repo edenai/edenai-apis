@@ -277,123 +277,123 @@
       ]
     },
     "code": 0,
-    "startTime": 1665571750699,
-    "endTime": 1665571750700,
+    "startTime": 1670253802439,
+    "endTime": 1670253802439,
     "message": "OK"
   },
   "standarized_response": {
     "items": [
       {
         "keyword": "Barack",
-        "importance": 1.0
+        "importance": 0.25
       },
       {
         "keyword": "Hussein",
-        "importance": 1.0
+        "importance": 0.25
       },
       {
         "keyword": "Obama",
-        "importance": 2.0
+        "importance": 0.5
       },
       {
         "keyword": "be",
-        "importance": 2.0
+        "importance": 0.5
       },
       {
         "keyword": "a",
-        "importance": 4.0
+        "importance": 1.0
       },
       {
         "keyword": "american",
-        "importance": 2.0
+        "importance": 0.5
       },
       {
         "keyword": "politician",
-        "importance": 1.0
+        "importance": 0.25
       },
       {
         "keyword": "serve",
-        "importance": 2.0
+        "importance": 0.5
       },
       {
         "keyword": "as",
-        "importance": 3.0
+        "importance": 0.75
       },
       {
         "keyword": "44th",
-        "importance": 1.0
+        "importance": 0.25
       },
       {
         "keyword": "president",
-        "importance": 2.0
+        "importance": 0.5
       },
       {
         "keyword": "of",
-        "importance": 3.0
+        "importance": 0.75
       },
       {
         "keyword": "United",
-        "importance": 2.0
+        "importance": 0.5
       },
       {
         "keyword": "States",
-        "importance": 2.0
+        "importance": 0.5
       },
       {
         "keyword": "to",
-        "importance": 3.0
+        "importance": 0.75
       },
       {
         "keyword": ".",
-        "importance": 3.0
+        "importance": 0.75
       },
       {
         "keyword": "member",
-        "importance": 1.0
+        "importance": 0.25
       },
       {
         "keyword": "Democratic",
-        "importance": 1.0
+        "importance": 0.25
       },
       {
         "keyword": "Party",
-        "importance": 1.0
+        "importance": 0.25
       },
       {
         "keyword": ",",
-        "importance": 1.0
+        "importance": 0.25
       },
       {
         "keyword": "first",
-        "importance": 1.0
+        "importance": 0.25
       },
       {
         "keyword": "african",
-        "importance": 1.0
+        "importance": 0.25
       },
       {
         "keyword": "-",
-        "importance": 1.0
+        "importance": 0.25
       },
       {
         "keyword": "he",
-        "importance": 1.0
+        "importance": 0.25
       },
       {
         "keyword": "U.S.",
-        "importance": 1.0
+        "importance": 0.25
       },
       {
         "keyword": "senator",
-        "importance": 2.0
+        "importance": 0.5
       },
       {
         "keyword": "Illinois",
-        "importance": 2.0
+        "importance": 0.5
       },
       {
         "keyword": "state",
-        "importance": 1.0
+        "importance": 0.25
       }
     ]
   }

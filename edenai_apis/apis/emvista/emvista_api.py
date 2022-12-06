@@ -242,7 +242,7 @@ class EmvistaApi(ProviderApi, Text):
         for keyword in original_response["result"]["keywords"]:
             items.append(
                 InfosKeywordExtractionDataClass(
-                    keyword=keyword["value"], importance=float(keyword["score"])
+                    keyword=keyword["value"], importance=float(keyword["score"]) * 0.25
                 )
             )
         standarized_response = KeywordExtractionDataClass(items=items)
