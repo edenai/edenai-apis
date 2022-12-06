@@ -14,7 +14,6 @@ from edenai_apis.utils.pdfs import get_pdf_width_height
 import googleapiclient.discovery
 import numpy as np
 from edenai_apis.apis.google.google_helpers import (
-    GoogleExplicitContentLikelihood,
     GoogleVideoFeatures,
     get_tag_name,
     google_video_get_job,
@@ -1438,7 +1437,15 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
     def video__explicit_content_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[ExplicitContentDetectionAsyncDataClass]:
-        result = google_video_get_job(provider_job_id)
+
+        try:
+            result = google_video_get_job(provider_job_id)
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
+        if result.get("error"):
+            raise ProviderException(result['error'].get("message"))
+
         if result.get("done"):
             response = result["response"]["annotationResults"][0]
             moderation = response["explicitAnnotation"]["frames"]

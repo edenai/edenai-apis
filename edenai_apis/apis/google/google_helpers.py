@@ -53,16 +53,6 @@ def score_to_sentiment(score):
 
 
 # _Transform score of confidence to level of confidence
-
-
-class GoogleExplicitContentLikelihood(enum.Enum):
-    UNKNOWN = 0
-    VERY_UNLIKELY = 1
-    UNLIKELY = 2
-    POSSIBLE = 3
-    LIKELY = 4
-    VERY_LIKELY = 5
-
 def score_to_content(score):
     if score == "UNKNOW":
         return 0
