@@ -183,18 +183,19 @@ class Api4aiApi(
         logos = original_response["results"][0]["entities"][0]["objects"]
         items: Sequence[LogoItem] = []
         for logo in logos:
-            classes = logo.get("entities")[0].get("classes")
-            for name in object:
-                description = name
-                score = classes[name]
+            brand = logo.get("entities")[0].get("classes")
+            try:
+                brand_name, score = list(brand.items())[0]
+            except IndexError:
+                continue
             vertices = []
-            vertices.append(LogoVertice(logo["box"][0], logo["box"][1]))
-            vertices.append(LogoVertice(logo["box"][2], logo["box"][1]))
-            vertices.append(LogoVertice(logo["box"][2], logo["box"][3]))
-            vertices.append(LogoVertice(logo["box"][0], logo["box"][3]))
+            vertices.append(LogoVertice(x=logo["box"][0], y=logo["box"][1]))
+            vertices.append(LogoVertice(x=logo["box"][2], y=logo["box"][1]))
+            vertices.append(LogoVertice(x=logo["box"][2], y=logo["box"][3]))
+            vertices.append(LogoVertice(x=logo["box"][0], y=logo["box"][3]))
             items.append(
                 LogoItem(
-                    description=description,
+                    description=brand_name,
                     score=score,
                     bounding_poly=LogoBoundingPoly(vertices=vertices),
                 )

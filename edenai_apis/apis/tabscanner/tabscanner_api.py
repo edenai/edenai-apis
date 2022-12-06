@@ -65,9 +65,7 @@ class TabscannerApi(ProviderApi, Ocr):
             merchant_url = receipt.get("url")
         )
         # Date & time
-        full_date = receipt.get("date").split()
-        date = full_date[0]
-        time = full_date[1]
+        date = receipt.get("date")
 
         # Barcodes
         barcodes = receipt.get("barcodes",[[]])[0]
@@ -110,7 +108,6 @@ class TabscannerApi(ProviderApi, Ocr):
             invoice_subtotal=subtotal,
             invoice_total=total,
             date = date,
-            time = time,
             merchant_information=merchant_information,
             payment_information = payment_information,
             barcodes = barcodes,
