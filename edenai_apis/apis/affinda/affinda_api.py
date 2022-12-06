@@ -234,7 +234,7 @@ class AffindaApi(ProviderApi, Ocr):
             iban=iban, swift = swift, bsb = bsb, sort_code = sort_code, account_number = account_number
         )
         #------------------------------------------------------------#
-        items = invoice_data.get("tables", default_dict)[0].get("rows", [{}])
+        items = invoice_data.get("tables", [default_dict])[0].get("rows", [default_dict])
         item_lines: Sequence[ItemLinesInvoice] = []
         for line in items:
             item_lines.append(ItemLinesInvoice(
