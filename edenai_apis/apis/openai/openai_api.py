@@ -56,7 +56,7 @@ class OpenaiApi(ProviderApi, Text):
     ) -> ResponseType[SummarizeDataClass]:
 
         if not model:
-            model = "text-davinci-002"
+            model = "text-davinci-003"
 
         url = f"{self.url}/engines/{model}/completions"
         payload = {
@@ -87,7 +87,7 @@ class OpenaiApi(ProviderApi, Text):
         self, texts: List[str], query: str, model: str = None
     ) -> ResponseType[SearchDataClass]:
         if model is None:
-            model = "text-davinci-002"
+            model = "text-davinci-003"
 
         prompts = [OpenaiApi._construct_context(query, doc) for doc in [""] + texts]
 
@@ -153,7 +153,7 @@ class OpenaiApi(ProviderApi, Text):
         model: Optional[str],
     ) -> ResponseType[QuestionAnswerDataClass]:
         if not model:
-            model = "text-davinci-002"
+            model = "text-davinci-003"
 
         url = f"{self.url}/completions"
 
