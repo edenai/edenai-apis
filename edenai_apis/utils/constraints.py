@@ -128,6 +128,9 @@ def validate_single_language(
     Raises:
         - `ProviderException`: if language is not supported or cannot be None
     """
+    if null_language_accepted is True and language is None:
+        return language
+
     try:
         formated_language = provide_appropriate_language(
             language,
