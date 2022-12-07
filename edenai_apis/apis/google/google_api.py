@@ -1162,7 +1162,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 frames = []
                 description = annotation["text"]
                 for segment in annotation["segments"]:
-                    confidence = segment["confidence"]
+                    confidence = round(segment["confidence"], 2)
                     for frame in segment["frames"]:
                         offset = frame["timeOffset"]
                         timestamp = float(offset[:-1])
