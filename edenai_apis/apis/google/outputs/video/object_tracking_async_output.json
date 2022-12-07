@@ -1,11 +1,11 @@
 {
   "status": "succeeded",
-  "provider_job_id": "projects/148983085864/locations/europe-west1/operations/8476348470839501836",
+  "provider_job_id": "projects/148983085864/locations/europe-west1/operations/12992176589703989554",
   "original_response": {
     "@type": "type.googleapis.com/google.cloud.videointelligence.v1.AnnotateVideoResponse",
     "annotationResults": [
       {
-        "inputUri": "/audios-speech2text/1665584258labels_video_.mp4",
+        "inputUri": "/audios-speech2text/1670340457labels_video_.mp4",
         "segment": {
           "startTimeOffset": "0s",
           "endTimeOffset": "11.803458s"
@@ -3772,9 +3772,9 @@
             "frames": [
               {
                 "normalizedBoundingBox": {
-                  "left": 0.2685434,
+                  "left": 0.26854342,
                   "top": 0.5723274,
-                  "right": 0.35352942,
+                  "right": 0.3535294,
                   "bottom": 0.7221024
                 },
                 "timeOffset": "0s"
@@ -3784,7 +3784,7 @@
               "startTimeOffset": "0s",
               "endTimeOffset": "0s"
             },
-            "confidence": 0.5572799
+            "confidence": 0.5572811
           },
           {
             "entity": {
@@ -6668,19 +6668,19 @@
             "frames": [
               {
                 "normalizedBoundingBox": {
-                  "left": 0.56291944,
-                  "top": 0.48000973,
-                  "right": 0.6482255,
-                  "bottom": 0.64579254
+                  "left": 0.5629195,
+                  "top": 0.48000962,
+                  "right": 0.6482254,
+                  "bottom": 0.6457925
                 },
                 "timeOffset": "1.376375s"
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.56291944,
-                  "top": 0.48000973,
-                  "right": 0.6482255,
-                  "bottom": 0.64579254
+                  "left": 0.5629195,
+                  "top": 0.48000962,
+                  "right": 0.6482254,
+                  "bottom": 0.6457925
                 },
                 "timeOffset": "1.501500s"
               },
@@ -6696,69 +6696,69 @@
               {
                 "normalizedBoundingBox": {
                   "left": 0.56214976,
-                  "top": 0.46493834,
+                  "top": 0.46493837,
                   "right": 0.6510279,
-                  "bottom": 0.65037745
+                  "bottom": 0.6503775
                 },
                 "timeOffset": "1.751750s"
               },
               {
                 "normalizedBoundingBox": {
                   "left": 0.5622426,
-                  "top": 0.46445912,
+                  "top": 0.46445915,
                   "right": 0.6511208,
-                  "bottom": 0.64989823
+                  "bottom": 0.6498983
                 },
                 "timeOffset": "1.876875s"
               },
               {
                 "normalizedBoundingBox": {
                   "left": 0.56233555,
-                  "top": 0.4639799,
+                  "top": 0.46397993,
                   "right": 0.6512137,
-                  "bottom": 0.649419
+                  "bottom": 0.64941907
                 },
                 "timeOffset": "2.002s"
               },
               {
                 "normalizedBoundingBox": {
                   "left": 0.5624284,
-                  "top": 0.46350068,
+                  "top": 0.4635007,
                   "right": 0.65130657,
-                  "bottom": 0.6489398
+                  "bottom": 0.64893985
                 },
                 "timeOffset": "2.127125s"
               },
               {
                 "normalizedBoundingBox": {
                   "left": 0.56252134,
-                  "top": 0.46302143,
+                  "top": 0.4630215,
                   "right": 0.6513995,
-                  "bottom": 0.64846057
+                  "bottom": 0.6484606
                 },
                 "timeOffset": "2.252250s"
               },
               {
                 "normalizedBoundingBox": {
                   "left": 0.5626142,
-                  "top": 0.4625422,
+                  "top": 0.46254227,
                   "right": 0.65149236,
-                  "bottom": 0.64798135
+                  "bottom": 0.6479814
                 },
                 "timeOffset": "2.377375s"
               },
               {
                 "normalizedBoundingBox": {
                   "left": 0.5627071,
-                  "top": 0.46206298,
+                  "top": 0.46206304,
                   "right": 0.6515853,
-                  "bottom": 0.6475021
+                  "bottom": 0.6475022
                 },
                 "timeOffset": "2.502500s"
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.2039957,
+                  "left": 0.20399572,
                   "top": 0.7145214,
                   "right": 0.32326603,
                   "bottom": 0.9402091
@@ -6770,7 +6770,7 @@
               "startTimeOffset": "1.376375s",
               "endTimeOffset": "2.627625s"
             },
-            "confidence": 0.58013415
+            "confidence": 0.5801344
           },
           {
             "entity": {
@@ -6793,7 +6793,7 @@
               "startTimeOffset": "1.376375s",
               "endTimeOffset": "1.376375s"
             },
-            "confidence": 0.5558518
+            "confidence": 0.55585545
           },
           {
             "entity": {
@@ -7702,9 +7702,9 @@
               {
                 "normalizedBoundingBox": {
                   "left": 0.39810503,
-                  "top": 0.6002742,
+                  "top": 0.60027426,
                   "right": 0.4901386,
-                  "bottom": 0.74262816
+                  "bottom": 0.7426282
                 },
                 "timeOffset": "3.128125s"
               }
@@ -7713,7 +7713,7 @@
               "startTimeOffset": "2.752750s",
               "endTimeOffset": "3.128125s"
             },
-            "confidence": 0.5947502
+            "confidence": 0.59475094
           },
           {
             "entity": {
@@ -8813,7 +8813,7 @@
               "startTimeOffset": "4.379375s",
               "endTimeOffset": "4.879875s"
             },
-            "confidence": 0.5237112
+            "confidence": 0.52371085
           },
           {
             "entity": {
@@ -8824,9 +8824,9 @@
             "frames": [
               {
                 "normalizedBoundingBox": {
-                  "left": 0.4004407,
+                  "left": 0.40044072,
                   "top": 0.5318794,
-                  "right": 0.47966045,
+                  "right": 0.47966042,
                   "bottom": 0.6597357
                 },
                 "timeOffset": "4.879875s"
@@ -8836,7 +8836,7 @@
               "startTimeOffset": "4.879875s",
               "endTimeOffset": "4.879875s"
             },
-            "confidence": 0.5839246
+            "confidence": 0.58392125
           },
           {
             "entity": {
@@ -8847,9 +8847,9 @@
             "frames": [
               {
                 "normalizedBoundingBox": {
-                  "left": 0.26940787,
-                  "top": 0.61976266,
-                  "right": 0.3735316,
+                  "left": 0.2694079,
+                  "top": 0.6197628,
+                  "right": 0.37353155,
                   "bottom": 0.80706763
                 },
                 "timeOffset": "4.879875s"
@@ -8859,7 +8859,7 @@
               "startTimeOffset": "4.879875s",
               "endTimeOffset": "4.879875s"
             },
-            "confidence": 0.510277
+            "confidence": 0.51027447
           },
           {
             "entity": {
@@ -9931,45 +9931,45 @@
               {
                 "normalizedBoundingBox": {
                   "left": 0.40595526,
-                  "top": 0.6131046,
+                  "top": 0.6131045,
                   "right": 0.5023569,
-                  "bottom": 0.7773061
+                  "bottom": 0.77730614
                 },
                 "timeOffset": "6.881875s"
               },
               {
                 "normalizedBoundingBox": {
                   "left": 0.40595526,
-                  "top": 0.6131046,
+                  "top": 0.6131045,
                   "right": 0.5023569,
-                  "bottom": 0.7773061
+                  "bottom": 0.77730614
                 },
                 "timeOffset": "7.007s"
               },
               {
                 "normalizedBoundingBox": {
                   "left": 0.40595526,
-                  "top": 0.6131046,
+                  "top": 0.6131045,
                   "right": 0.5023569,
-                  "bottom": 0.7773061
+                  "bottom": 0.77730614
                 },
                 "timeOffset": "7.132125s"
               },
               {
                 "normalizedBoundingBox": {
                   "left": 0.40595526,
-                  "top": 0.6131046,
+                  "top": 0.6131045,
                   "right": 0.5023569,
-                  "bottom": 0.7773061
+                  "bottom": 0.77730614
                 },
                 "timeOffset": "7.257250s"
               },
               {
                 "normalizedBoundingBox": {
                   "left": 0.4116791,
-                  "top": 0.6407313,
+                  "top": 0.6407312,
                   "right": 0.51417524,
-                  "bottom": 0.8218438
+                  "bottom": 0.82184374
                 },
                 "timeOffset": "7.382375s"
               },
@@ -9984,17 +9984,17 @@
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.41544285,
-                  "top": 0.6583846,
+                  "left": 0.41544282,
+                  "top": 0.65838456,
                   "right": 0.51965034,
-                  "bottom": 0.84325516
+                  "bottom": 0.8432552
                 },
                 "timeOffset": "7.632625s"
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.41762984,
-                  "top": 0.6676837,
+                  "left": 0.4176298,
+                  "top": 0.6676836,
                   "right": 0.52183735,
                   "bottom": 0.85255426
                 },
@@ -10002,8 +10002,8 @@
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.4198168,
-                  "top": 0.6769828,
+                  "left": 0.41981676,
+                  "top": 0.6769827,
                   "right": 0.5240243,
                   "bottom": 0.86185336
                 },
@@ -10011,8 +10011,8 @@
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.42200378,
-                  "top": 0.68628186,
+                  "left": 0.42200375,
+                  "top": 0.68628174,
                   "right": 0.52621126,
                   "bottom": 0.8711524
                 },
@@ -10020,9 +10020,9 @@
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.42419076,
-                  "top": 0.69558096,
-                  "right": 0.5283983,
+                  "left": 0.4241907,
+                  "top": 0.69558084,
+                  "right": 0.5283982,
                   "bottom": 0.8804515
                 },
                 "timeOffset": "8.133125s"
@@ -10048,9 +10048,9 @@
               {
                 "normalizedBoundingBox": {
                   "left": 0.42160764,
-                  "top": 0.7362305,
+                  "top": 0.73623055,
                   "right": 0.54083705,
-                  "bottom": 0.9409473
+                  "bottom": 0.9409474
                 },
                 "timeOffset": "8.508500s"
               },
@@ -10093,18 +10093,18 @@
               {
                 "normalizedBoundingBox": {
                   "left": 0.2683735,
-                  "top": 0.6377727,
+                  "top": 0.63777274,
                   "right": 0.35564232,
-                  "bottom": 0.7720968
+                  "bottom": 0.77209675
                 },
                 "timeOffset": "9.134125s"
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.24689914,
-                  "top": 0.62289834,
-                  "right": 0.33241147,
-                  "bottom": 0.76040393
+                  "left": 0.24689919,
+                  "top": 0.6228984,
+                  "right": 0.33241144,
+                  "bottom": 0.760404
                 },
                 "timeOffset": "9.259250s"
               },
@@ -10112,7 +10112,7 @@
                 "normalizedBoundingBox": {
                   "left": 0.23444858,
                   "top": 0.62160623,
-                  "right": 0.32288522,
+                  "right": 0.3228852,
                   "bottom": 0.7577917
                 },
                 "timeOffset": "9.384375s"
@@ -10122,7 +10122,7 @@
               "startTimeOffset": "6.881875s",
               "endTimeOffset": "9.384375s"
             },
-            "confidence": 0.6087645
+            "confidence": 0.6087637
           },
           {
             "entity": {
@@ -10333,27 +10333,27 @@
               {
                 "normalizedBoundingBox": {
                   "left": 0.2227216,
-                  "top": 0.7681819,
+                  "top": 0.76818186,
                   "right": 0.3395981,
-                  "bottom": 0.9576537
+                  "bottom": 0.9576538
                 },
                 "timeOffset": "7.632625s"
               },
               {
                 "normalizedBoundingBox": {
                   "left": 0.22261652,
-                  "top": 0.76933676,
+                  "top": 0.7693367,
                   "right": 0.339493,
-                  "bottom": 0.95880854
+                  "bottom": 0.95880866
                 },
                 "timeOffset": "7.757750s"
               },
               {
                 "normalizedBoundingBox": {
                   "left": 0.22251143,
-                  "top": 0.7704916,
+                  "top": 0.77049154,
                   "right": 0.3393879,
-                  "bottom": 0.9599634
+                  "bottom": 0.9599635
                 },
                 "timeOffset": "7.882875s"
               },
@@ -10362,7 +10362,7 @@
                   "left": 0.22240634,
                   "top": 0.77164644,
                   "right": 0.3392828,
-                  "bottom": 0.9611182
+                  "bottom": 0.9611184
                 },
                 "timeOffset": "8.008s"
               },
@@ -10422,7 +10422,7 @@
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.41210383,
+                  "left": 0.4121038,
                   "top": 0.5710858,
                   "right": 0.5058537,
                   "bottom": 0.72849303
@@ -10440,9 +10440,9 @@
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.414568,
+                  "left": 0.41456804,
                   "top": 0.5782548,
-                  "right": 0.5083179,
+                  "right": 0.50831795,
                   "bottom": 0.73566204
                 },
                 "timeOffset": "9.134125s"
@@ -10450,9 +10450,9 @@
               {
                 "normalizedBoundingBox": {
                   "left": 0.39516744,
-                  "top": 0.608723,
+                  "top": 0.6087229,
                   "right": 0.4929196,
-                  "bottom": 0.77548283
+                  "bottom": 0.7754829
                 },
                 "timeOffset": "9.259250s"
               }
@@ -10461,7 +10461,7 @@
               "startTimeOffset": "7.507500s",
               "endTimeOffset": "9.259250s"
             },
-            "confidence": 0.5551443
+            "confidence": 0.55514413
           },
           {
             "entity": {
@@ -10917,7 +10917,7 @@
               "startTimeOffset": "9.259250s",
               "endTimeOffset": "9.384375s"
             },
-            "confidence": 0.62101734
+            "confidence": 0.6210176
           },
           {
             "entity": {
@@ -11080,34 +11080,34 @@
                   "left": 0.3830217,
                   "top": 0.6934728,
                   "right": 0.49843484,
-                  "bottom": 0.8995849
+                  "bottom": 0.8995848
                 },
                 "timeOffset": "10.635625s"
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.38320968,
+                  "left": 0.3832097,
                   "top": 0.70250523,
-                  "right": 0.49830014,
+                  "right": 0.4983001,
                   "bottom": 0.91239786
                 },
                 "timeOffset": "10.760750s"
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.3803474,
-                  "top": 0.7143714,
-                  "right": 0.5016805,
-                  "bottom": 0.922956
+                  "left": 0.38034737,
+                  "top": 0.7143713,
+                  "right": 0.50168055,
+                  "bottom": 0.92295593
                 },
                 "timeOffset": "10.885875s"
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.38051596,
-                  "top": 0.72536343,
-                  "right": 0.50184906,
-                  "bottom": 0.93394804
+                  "left": 0.38051593,
+                  "top": 0.7253634,
+                  "right": 0.5018491,
+                  "bottom": 0.933948
                 },
                 "timeOffset": "11.011s"
               },
@@ -11115,7 +11115,7 @@
                 "normalizedBoundingBox": {
                   "left": 0.3806845,
                   "top": 0.7363555,
-                  "right": 0.5020176,
+                  "right": 0.5020177,
                   "bottom": 0.9449401
                 },
                 "timeOffset": "11.136125s"
@@ -11134,7 +11134,7 @@
               "startTimeOffset": "10.510500s",
               "endTimeOffset": "11.261250s"
             },
-            "confidence": 0.54612523
+            "confidence": 0.54612505
           },
           {
             "entity": {
@@ -11154,7 +11154,7 @@
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.19416386,
+                  "left": 0.19416384,
                   "top": 0.74091536,
                   "right": 0.30453312,
                   "bottom": 0.90437746
@@ -11172,16 +11172,16 @@
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.18073967,
+                  "left": 0.18073966,
                   "top": 0.7601778,
-                  "right": 0.29494557,
+                  "right": 0.29494554,
                   "bottom": 0.9384844
                 },
                 "timeOffset": "11.011s"
               },
               {
                 "normalizedBoundingBox": {
-                  "left": 0.17316632,
+                  "left": 0.17316633,
                   "top": 0.77461433,
                   "right": 0.29007044,
                   "bottom": 0.95660377
@@ -11193,7 +11193,7 @@
               "startTimeOffset": "10.635625s",
               "endTimeOffset": "11.136125s"
             },
-            "confidence": 0.54474235
+            "confidence": 0.5447423
           },
           {
             "entity": {
@@ -11380,6 +11380,7 @@
     "objects": [
       {
         "description": "car",
+        "confidence": 0.98700136,
         "frames": [
           {
             "timestamp": 0.0,
@@ -11682,6 +11683,7 @@
       },
       {
         "description": "bus",
+        "confidence": 0.9812525,
         "frames": [
           {
             "timestamp": 0.0,
@@ -12254,6 +12256,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.9626058,
         "frames": [
           {
             "timestamp": 0.0,
@@ -13114,6 +13117,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.9737992,
         "frames": [
           {
             "timestamp": 0.0,
@@ -13974,6 +13978,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.9728674,
         "frames": [
           {
             "timestamp": 0.0,
@@ -14519,6 +14524,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.98305154,
         "frames": [
           {
             "timestamp": 0.0,
@@ -14956,6 +14962,7 @@
       },
       {
         "description": "person",
+        "confidence": 0.8892334,
         "frames": [
           {
             "timestamp": 0.0,
@@ -15069,20 +15076,22 @@
       },
       {
         "description": "toy vehicle",
+        "confidence": 0.5572811,
         "frames": [
           {
             "timestamp": 0.0,
             "bounding_box": {
               "top": 0.5723274,
-              "left": 0.2685434,
+              "left": 0.26854342,
               "height": 0.7221024,
-              "width": 0.35352942
+              "width": 0.3535294
             }
           }
         ]
       },
       {
         "description": "car",
+        "confidence": 0.97419643,
         "frames": [
           {
             "timestamp": 0.375375,
@@ -15790,6 +15799,7 @@
       },
       {
         "description": "person",
+        "confidence": 0.90178835,
         "frames": [
           {
             "timestamp": 0.375375,
@@ -16281,6 +16291,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.8870162,
         "frames": [
           {
             "timestamp": 0.375375,
@@ -17114,6 +17125,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.95533526,
         "frames": [
           {
             "timestamp": 0.75075,
@@ -17920,23 +17932,24 @@
       },
       {
         "description": "toy vehicle",
+        "confidence": 0.5801344,
         "frames": [
           {
             "timestamp": 1.376375,
             "bounding_box": {
-              "top": 0.48000973,
-              "left": 0.56291944,
-              "height": 0.64579254,
-              "width": 0.6482255
+              "top": 0.48000962,
+              "left": 0.5629195,
+              "height": 0.6457925,
+              "width": 0.6482254
             }
           },
           {
             "timestamp": 1.5015,
             "bounding_box": {
-              "top": 0.48000973,
-              "left": 0.56291944,
-              "height": 0.64579254,
-              "width": 0.6482255
+              "top": 0.48000962,
+              "left": 0.5629195,
+              "height": 0.6457925,
+              "width": 0.6482254
             }
           },
           {
@@ -17951,63 +17964,63 @@
           {
             "timestamp": 1.75175,
             "bounding_box": {
-              "top": 0.46493834,
+              "top": 0.46493837,
               "left": 0.56214976,
-              "height": 0.65037745,
+              "height": 0.6503775,
               "width": 0.6510279
             }
           },
           {
             "timestamp": 1.876875,
             "bounding_box": {
-              "top": 0.46445912,
+              "top": 0.46445915,
               "left": 0.5622426,
-              "height": 0.64989823,
+              "height": 0.6498983,
               "width": 0.6511208
             }
           },
           {
             "timestamp": 2.002,
             "bounding_box": {
-              "top": 0.4639799,
+              "top": 0.46397993,
               "left": 0.56233555,
-              "height": 0.649419,
+              "height": 0.64941907,
               "width": 0.6512137
             }
           },
           {
             "timestamp": 2.127125,
             "bounding_box": {
-              "top": 0.46350068,
+              "top": 0.4635007,
               "left": 0.5624284,
-              "height": 0.6489398,
+              "height": 0.64893985,
               "width": 0.65130657
             }
           },
           {
             "timestamp": 2.25225,
             "bounding_box": {
-              "top": 0.46302143,
+              "top": 0.4630215,
               "left": 0.56252134,
-              "height": 0.64846057,
+              "height": 0.6484606,
               "width": 0.6513995
             }
           },
           {
             "timestamp": 2.377375,
             "bounding_box": {
-              "top": 0.4625422,
+              "top": 0.46254227,
               "left": 0.5626142,
-              "height": 0.64798135,
+              "height": 0.6479814,
               "width": 0.65149236
             }
           },
           {
             "timestamp": 2.5025,
             "bounding_box": {
-              "top": 0.46206298,
+              "top": 0.46206304,
               "left": 0.5627071,
-              "height": 0.6475021,
+              "height": 0.6475022,
               "width": 0.6515853
             }
           },
@@ -18015,7 +18028,7 @@
             "timestamp": 2.627625,
             "bounding_box": {
               "top": 0.7145214,
-              "left": 0.2039957,
+              "left": 0.20399572,
               "height": 0.9402091,
               "width": 0.32326603
             }
@@ -18024,6 +18037,7 @@
       },
       {
         "description": "toy vehicle",
+        "confidence": 0.55585545,
         "frames": [
           {
             "timestamp": 1.376375,
@@ -18038,6 +18052,7 @@
       },
       {
         "description": "person",
+        "confidence": 0.8885266,
         "frames": [
           {
             "timestamp": 1.5015,
@@ -18070,6 +18085,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.90268356,
         "frames": [
           {
             "timestamp": 1.876875,
@@ -18795,6 +18811,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.828411,
         "frames": [
           {
             "timestamp": 1.876875,
@@ -18881,6 +18898,7 @@
       },
       {
         "description": "toy vehicle",
+        "confidence": 0.59475094,
         "frames": [
           {
             "timestamp": 2.75275,
@@ -18912,9 +18930,9 @@
           {
             "timestamp": 3.128125,
             "bounding_box": {
-              "top": 0.6002742,
+              "top": 0.60027426,
               "left": 0.39810503,
-              "height": 0.74262816,
+              "height": 0.7426282,
               "width": 0.4901386
             }
           }
@@ -18922,6 +18940,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.9233834,
         "frames": [
           {
             "timestamp": 3.378375,
@@ -19332,6 +19351,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.88690704,
         "frames": [
           {
             "timestamp": 4.129125,
@@ -19418,6 +19438,7 @@
       },
       {
         "description": "person",
+        "confidence": 0.8816351,
         "frames": [
           {
             "timestamp": 4.129125,
@@ -19936,6 +19957,7 @@
       },
       {
         "description": "toy vehicle",
+        "confidence": 0.52371085,
         "frames": [
           {
             "timestamp": 4.379375,
@@ -19986,34 +20008,37 @@
       },
       {
         "description": "toy vehicle",
+        "confidence": 0.58392125,
         "frames": [
           {
             "timestamp": 4.879875,
             "bounding_box": {
               "top": 0.5318794,
-              "left": 0.4004407,
+              "left": 0.40044072,
               "height": 0.6597357,
-              "width": 0.47966045
+              "width": 0.47966042
             }
           }
         ]
       },
       {
         "description": "toy vehicle",
+        "confidence": 0.51027447,
         "frames": [
           {
             "timestamp": 4.879875,
             "bounding_box": {
-              "top": 0.61976266,
-              "left": 0.26940787,
+              "top": 0.6197628,
+              "left": 0.2694079,
               "height": 0.80706763,
-              "width": 0.3735316
+              "width": 0.37353155
             }
           }
         ]
       },
       {
         "description": "person",
+        "confidence": 0.87767076,
         "frames": [
           {
             "timestamp": 5.630625,
@@ -20235,6 +20260,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.85077906,
         "frames": [
           {
             "timestamp": 5.630625,
@@ -20402,6 +20428,7 @@
       },
       {
         "description": "person",
+        "confidence": 0.8521966,
         "frames": [
           {
             "timestamp": 6.006,
@@ -20461,6 +20488,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.97209644,
         "frames": [
           {
             "timestamp": 6.381375,
@@ -20628,6 +20656,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.9451358,
         "frames": [
           {
             "timestamp": 6.381375,
@@ -21029,49 +21058,50 @@
       },
       {
         "description": "toy vehicle",
+        "confidence": 0.6087637,
         "frames": [
           {
             "timestamp": 6.881875,
             "bounding_box": {
-              "top": 0.6131046,
+              "top": 0.6131045,
               "left": 0.40595526,
-              "height": 0.7773061,
+              "height": 0.77730614,
               "width": 0.5023569
             }
           },
           {
             "timestamp": 7.007,
             "bounding_box": {
-              "top": 0.6131046,
+              "top": 0.6131045,
               "left": 0.40595526,
-              "height": 0.7773061,
+              "height": 0.77730614,
               "width": 0.5023569
             }
           },
           {
             "timestamp": 7.132125,
             "bounding_box": {
-              "top": 0.6131046,
+              "top": 0.6131045,
               "left": 0.40595526,
-              "height": 0.7773061,
+              "height": 0.77730614,
               "width": 0.5023569
             }
           },
           {
             "timestamp": 7.25725,
             "bounding_box": {
-              "top": 0.6131046,
+              "top": 0.6131045,
               "left": 0.40595526,
-              "height": 0.7773061,
+              "height": 0.77730614,
               "width": 0.5023569
             }
           },
           {
             "timestamp": 7.382375,
             "bounding_box": {
-              "top": 0.6407313,
+              "top": 0.6407312,
               "left": 0.4116791,
-              "height": 0.8218438,
+              "height": 0.82184374,
               "width": 0.51417524
             }
           },
@@ -21087,17 +21117,17 @@
           {
             "timestamp": 7.632625,
             "bounding_box": {
-              "top": 0.6583846,
-              "left": 0.41544285,
-              "height": 0.84325516,
+              "top": 0.65838456,
+              "left": 0.41544282,
+              "height": 0.8432552,
               "width": 0.51965034
             }
           },
           {
             "timestamp": 7.75775,
             "bounding_box": {
-              "top": 0.6676837,
-              "left": 0.41762984,
+              "top": 0.6676836,
+              "left": 0.4176298,
               "height": 0.85255426,
               "width": 0.52183735
             }
@@ -21105,8 +21135,8 @@
           {
             "timestamp": 7.882875,
             "bounding_box": {
-              "top": 0.6769828,
-              "left": 0.4198168,
+              "top": 0.6769827,
+              "left": 0.41981676,
               "height": 0.86185336,
               "width": 0.5240243
             }
@@ -21114,8 +21144,8 @@
           {
             "timestamp": 8.008,
             "bounding_box": {
-              "top": 0.68628186,
-              "left": 0.42200378,
+              "top": 0.68628174,
+              "left": 0.42200375,
               "height": 0.8711524,
               "width": 0.52621126
             }
@@ -21123,10 +21153,10 @@
           {
             "timestamp": 8.133125,
             "bounding_box": {
-              "top": 0.69558096,
-              "left": 0.42419076,
+              "top": 0.69558084,
+              "left": 0.4241907,
               "height": 0.8804515,
-              "width": 0.5283983
+              "width": 0.5283982
             }
           },
           {
@@ -21150,9 +21180,9 @@
           {
             "timestamp": 8.5085,
             "bounding_box": {
-              "top": 0.7362305,
+              "top": 0.73623055,
               "left": 0.42160764,
-              "height": 0.9409473,
+              "height": 0.9409474,
               "width": 0.54083705
             }
           },
@@ -21195,19 +21225,19 @@
           {
             "timestamp": 9.134125,
             "bounding_box": {
-              "top": 0.6377727,
+              "top": 0.63777274,
               "left": 0.2683735,
-              "height": 0.7720968,
+              "height": 0.77209675,
               "width": 0.35564232
             }
           },
           {
             "timestamp": 9.25925,
             "bounding_box": {
-              "top": 0.62289834,
-              "left": 0.24689914,
-              "height": 0.76040393,
-              "width": 0.33241147
+              "top": 0.6228984,
+              "left": 0.24689919,
+              "height": 0.760404,
+              "width": 0.33241144
             }
           },
           {
@@ -21216,13 +21246,14 @@
               "top": 0.62160623,
               "left": 0.23444858,
               "height": 0.7577917,
-              "width": 0.32288522
+              "width": 0.3228852
             }
           }
         ]
       },
       {
         "description": "person",
+        "confidence": 0.88042605,
         "frames": [
           {
             "timestamp": 7.132125,
@@ -21336,6 +21367,7 @@
       },
       {
         "description": "person",
+        "confidence": 0.8125025,
         "frames": [
           {
             "timestamp": 7.132125,
@@ -21395,6 +21427,7 @@
       },
       {
         "description": "toy vehicle",
+        "confidence": 0.55514413,
         "frames": [
           {
             "timestamp": 7.5075,
@@ -21408,27 +21441,27 @@
           {
             "timestamp": 7.632625,
             "bounding_box": {
-              "top": 0.7681819,
+              "top": 0.76818186,
               "left": 0.2227216,
-              "height": 0.9576537,
+              "height": 0.9576538,
               "width": 0.3395981
             }
           },
           {
             "timestamp": 7.75775,
             "bounding_box": {
-              "top": 0.76933676,
+              "top": 0.7693367,
               "left": 0.22261652,
-              "height": 0.95880854,
+              "height": 0.95880866,
               "width": 0.339493
             }
           },
           {
             "timestamp": 7.882875,
             "bounding_box": {
-              "top": 0.7704916,
+              "top": 0.77049154,
               "left": 0.22251143,
-              "height": 0.9599634,
+              "height": 0.9599635,
               "width": 0.3393879
             }
           },
@@ -21437,7 +21470,7 @@
             "bounding_box": {
               "top": 0.77164644,
               "left": 0.22240634,
-              "height": 0.9611182,
+              "height": 0.9611184,
               "width": 0.3392828
             }
           },
@@ -21499,7 +21532,7 @@
             "timestamp": 8.883875,
             "bounding_box": {
               "top": 0.5710858,
-              "left": 0.41210383,
+              "left": 0.4121038,
               "height": 0.72849303,
               "width": 0.5058537
             }
@@ -21517,17 +21550,17 @@
             "timestamp": 9.134125,
             "bounding_box": {
               "top": 0.5782548,
-              "left": 0.414568,
+              "left": 0.41456804,
               "height": 0.73566204,
-              "width": 0.5083179
+              "width": 0.50831795
             }
           },
           {
             "timestamp": 9.25925,
             "bounding_box": {
-              "top": 0.608723,
+              "top": 0.6087229,
               "left": 0.39516744,
-              "height": 0.77548283,
+              "height": 0.7754829,
               "width": 0.4929196
             }
           }
@@ -21535,6 +21568,7 @@
       },
       {
         "description": "person",
+        "confidence": 0.79414177,
         "frames": [
           {
             "timestamp": 9.009,
@@ -21729,6 +21763,7 @@
       },
       {
         "description": "person",
+        "confidence": 0.8483048,
         "frames": [
           {
             "timestamp": 9.009,
@@ -21941,6 +21976,7 @@
       },
       {
         "description": "toy vehicle",
+        "confidence": 0.6210176,
         "frames": [
           {
             "timestamp": 9.25925,
@@ -21964,6 +22000,7 @@
       },
       {
         "description": "car",
+        "confidence": 0.9271101,
         "frames": [
           {
             "timestamp": 10.135125,
@@ -22095,6 +22132,7 @@
       },
       {
         "description": "toy vehicle",
+        "confidence": 0.54612505,
         "frames": [
           {
             "timestamp": 10.5105,
@@ -22110,7 +22148,7 @@
             "bounding_box": {
               "top": 0.6934728,
               "left": 0.3830217,
-              "height": 0.8995849,
+              "height": 0.8995848,
               "width": 0.49843484
             }
           },
@@ -22118,27 +22156,27 @@
             "timestamp": 10.76075,
             "bounding_box": {
               "top": 0.70250523,
-              "left": 0.38320968,
+              "left": 0.3832097,
               "height": 0.91239786,
-              "width": 0.49830014
+              "width": 0.4983001
             }
           },
           {
             "timestamp": 10.885875,
             "bounding_box": {
-              "top": 0.7143714,
-              "left": 0.3803474,
-              "height": 0.922956,
-              "width": 0.5016805
+              "top": 0.7143713,
+              "left": 0.38034737,
+              "height": 0.92295593,
+              "width": 0.50168055
             }
           },
           {
             "timestamp": 11.011,
             "bounding_box": {
-              "top": 0.72536343,
-              "left": 0.38051596,
-              "height": 0.93394804,
-              "width": 0.50184906
+              "top": 0.7253634,
+              "left": 0.38051593,
+              "height": 0.933948,
+              "width": 0.5018491
             }
           },
           {
@@ -22147,7 +22185,7 @@
               "top": 0.7363555,
               "left": 0.3806845,
               "height": 0.9449401,
-              "width": 0.5020176
+              "width": 0.5020177
             }
           },
           {
@@ -22163,6 +22201,7 @@
       },
       {
         "description": "toy vehicle",
+        "confidence": 0.5447423,
         "frames": [
           {
             "timestamp": 10.635625,
@@ -22177,7 +22216,7 @@
             "timestamp": 10.76075,
             "bounding_box": {
               "top": 0.74091536,
-              "left": 0.19416386,
+              "left": 0.19416384,
               "height": 0.90437746,
               "width": 0.30453312
             }
@@ -22195,16 +22234,16 @@
             "timestamp": 11.011,
             "bounding_box": {
               "top": 0.7601778,
-              "left": 0.18073967,
+              "left": 0.18073966,
               "height": 0.9384844,
-              "width": 0.29494557
+              "width": 0.29494554
             }
           },
           {
             "timestamp": 11.136125,
             "bounding_box": {
               "top": 0.77461433,
-              "left": 0.17316632,
+              "left": 0.17316633,
               "height": 0.95660377,
               "width": 0.29007044
             }
@@ -22213,6 +22252,7 @@
       },
       {
         "description": "person",
+        "confidence": 0.8477148,
         "frames": [
           {
             "timestamp": 10.885875,
@@ -22290,6 +22330,7 @@
       },
       {
         "description": "person",
+        "confidence": 0.7729533,
         "frames": [
           {
             "timestamp": 11.26125,
@@ -22340,6 +22381,7 @@
       },
       {
         "description": "person",
+        "confidence": 0.8666364,
         "frames": [
           {
             "timestamp": 11.636625,
