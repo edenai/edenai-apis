@@ -29,6 +29,15 @@
             "mouth_left": [],
             "mouth_right": []
           },
+          "poses": {
+            "pitch": null,
+            "roll": null,
+            "yaw": null
+          },
+          "quality": {
+            "brightness": null,
+            "sharpness": null
+          },
           "bounding_box": {
             "top": 0.13055555522441864,
             "left": 0.23593750596046448,
@@ -63,6 +72,15 @@
             "mouth_left": [],
             "mouth_right": []
           },
+          "poses": {
+            "pitch": null,
+            "roll": null,
+            "yaw": null
+          },
+          "quality": {
+            "brightness": null,
+            "sharpness": null
+          },
           "bounding_box": {
             "top": 0.13333334028720856,
             "left": 0.23593750596046448,
@@ -77,9 +95,18 @@
             "lower_cloths": []
           },
           "landmarks": {
-            "eye_left": [],
-            "eye_right": [],
-            "nose": [],
+            "eye_left": [
+              0.3542875647544861,
+              0.29746705293655396
+            ],
+            "eye_right": [
+              0.38256198167800903,
+              0.3172021806240082
+            ],
+            "nose": [
+              0.3610745370388031,
+              0.34712809324264526
+            ],
             "ear_left": [],
             "ear_right": [],
             "shoulder_left": [],
@@ -94,8 +121,23 @@
             "knee_right": [],
             "ankle_left": [],
             "ankle_right": [],
-            "mouth_left": [],
-            "mouth_right": []
+            "mouth_left": [
+              0.341906875371933,
+              0.3374536633491516
+            ],
+            "mouth_right": [
+              0.3658532202243805,
+              0.3539603054523468
+            ]
+          },
+          "poses": {
+            "pitch": -40.336692810058594,
+            "roll": 21.50367546081543,
+            "yaw": 13.420023918151855
+          },
+          "quality": {
+            "brightness": 73.04838562011719,
+            "sharpness": 4.3748369216918945
           },
           "bounding_box": {
             "top": 0.13333334028720856,
@@ -131,6 +173,15 @@
             "mouth_left": [],
             "mouth_right": []
           },
+          "poses": {
+            "pitch": null,
+            "roll": null,
+            "yaw": null
+          },
+          "quality": {
+            "brightness": null,
+            "sharpness": null
+          },
           "bounding_box": {
             "top": 0.13333334028720856,
             "left": 0.23749999701976776,
@@ -149,9 +200,18 @@
             "lower_cloths": []
           },
           "landmarks": {
-            "eye_left": [],
-            "eye_right": [],
-            "nose": [],
+            "eye_left": [
+              0.5389173626899719,
+              0.21560685336589813
+            ],
+            "eye_right": [
+              0.5350323915481567,
+              0.2204989492893219
+            ],
+            "nose": [
+              0.520147442817688,
+              0.20304256677627563
+            ],
             "ear_left": [],
             "ear_right": [],
             "shoulder_left": [],
@@ -166,8 +226,23 @@
             "knee_right": [],
             "ankle_left": [],
             "ankle_right": [],
-            "mouth_left": [],
-            "mouth_right": []
+            "mouth_left": [
+              0.5291590690612793,
+              0.1716761738061905
+            ],
+            "mouth_right": [
+              0.5261327028274536,
+              0.17624658346176147
+            ]
+          },
+          "poses": {
+            "pitch": -4.906827449798584,
+            "roll": -9.759303092956543,
+            "yaw": -76.09953308105469
+          },
+          "quality": {
+            "brightness": 76.12115478515625,
+            "sharpness": 4.3748369216918945
           },
           "bounding_box": {
             "top": 0.13333334028720856,
@@ -203,6 +278,15 @@
             "mouth_left": [],
             "mouth_right": []
           },
+          "poses": {
+            "pitch": null,
+            "roll": null,
+            "yaw": null
+          },
+          "quality": {
+            "brightness": null,
+            "sharpness": null
+          },
           "bounding_box": {
             "top": 0.13055555522441864,
             "left": 0.3343749940395355,
@@ -237,6 +321,15 @@
             "mouth_left": [],
             "mouth_right": []
           },
+          "poses": {
+            "pitch": null,
+            "roll": null,
+            "yaw": null
+          },
+          "quality": {
+            "brightness": null,
+            "sharpness": null
+          },
           "bounding_box": {
             "top": 0.12777778506278992,
             "left": 0.33281248807907104,
@@ -251,9 +344,18 @@
             "lower_cloths": []
           },
           "landmarks": {
-            "eye_left": [],
-            "eye_right": [],
-            "nose": [],
+            "eye_left": [
+              0.5541722774505615,
+              0.19489319622516632
+            ],
+            "eye_right": [
+              0.5501971244812012,
+              0.20100639760494232
+            ],
+            "nose": [
+              0.5349479913711548,
+              0.18725374341011047
+            ],
             "ear_left": [],
             "ear_right": [],
             "shoulder_left": [],
@@ -268,8 +370,23 @@
             "knee_right": [],
             "ankle_left": [],
             "ankle_right": [],
-            "mouth_left": [],
-            "mouth_right": []
+            "mouth_left": [
+              0.543124794960022,
+              0.15499256551265717
+            ],
+            "mouth_right": [
+              0.5400335788726807,
+              0.1605936586856842
+            ]
+          },
+          "poses": {
+            "pitch": -7.253818988800049,
+            "roll": -8.009773254394531,
+            "yaw": -75.75617218017578
+          },
+          "quality": {
+            "brightness": 76.94717407226562,
+            "sharpness": 4.3748369216918945
           },
           "bounding_box": {
             "top": 0.12222222238779068,
@@ -305,6 +422,15 @@
             "mouth_left": [],
             "mouth_right": []
           },
+          "poses": {
+            "pitch": null,
+            "roll": null,
+            "yaw": null
+          },
+          "quality": {
+            "brightness": null,
+            "sharpness": null
+          },
           "bounding_box": {
             "top": 0.11944444477558136,
             "left": 0.328125,
@@ -338,6 +464,15 @@
             "ankle_right": [],
             "mouth_left": [],
             "mouth_right": []
+          },
+          "poses": {
+            "pitch": null,
+            "roll": null,
+            "yaw": null
+          },
+          "quality": {
+            "brightness": null,
+            "sharpness": null
           },
           "bounding_box": {
             "top": 0.13055555522441864,

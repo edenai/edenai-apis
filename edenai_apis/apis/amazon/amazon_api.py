@@ -84,6 +84,9 @@ from edenai_apis.features.video import (
     PersonTrackingAsyncDataClass,
     VideoTrackingBoundingBox,
     VideoTrackingPerson,
+    PersonLandmarks,
+    VideoPersonQuality,
+    VideoPersonPoses,
 )
 from edenai_apis.utils.audio import wav_converter
 from edenai_apis.utils.exception import (
@@ -1154,10 +1157,39 @@ class AmazonApi(
                             height=bounding_box["Height"],
                             width=bounding_box["Width"],
                         )
+                        face = detected_person["Person"].get("Face")
+                        # Get landmarks
+                        poses = VideoPersonPoses()
+                        landmarks = PersonLandmarks()
+                        quality = VideoPersonQuality()
+                        if face:
+                            landmarks_dict = {}
+                            for land in face.get("Landmarks",[]):
+                                landmarks_dict[land["Type"]] = [land["X"], land["Y"]]
+                            landmarks = PersonLandmarks(
+                                eye_left = landmarks_dict.get("eyeLeft",[]),
+                                eye_right = landmarks_dict.get("eyeRight",[]),
+                                nose = landmarks_dict.get("nose",[]),
+                                mouth_left = landmarks_dict.get("mouthLeft",[]),
+                                mouth_right = landmarks_dict.get("mouthRight",[]),
+                            )
+                            poses = VideoPersonPoses(
+                                roll= face.get("Pose").get("Roll"), 
+                                yaw = face.get("Pose").get("Yaw"),
+                                pitch = face.get("Pose").get("Pitch")
+                            )
+                            quality = VideoPersonQuality(
+                                brightness = face.get("Quality").get("Brightness"),
+                                sharpness = face.get("Quality").get("Sharpness"),
+                            )
+                            
                         tracked_person.append(
                             PersonTracking(
                                 offset=offset,
                                 bounding_box=bounding_box,
+                                landmarks = landmarks,
+                                poses = poses,
+                                quality = quality
                             )
                         )
                 tracked_persons.append(VideoTrackingPerson(tracked=tracked_person))

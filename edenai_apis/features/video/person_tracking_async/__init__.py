@@ -7,4 +7,6 @@ from .person_tracking_async_dataclass import (
     VideoTrackingPerson,
     VideoTrackingBoundingBox,
     UpperCloth,
+    VideoPersonPoses,
+    VideoPersonQuality
 )
