@@ -1018,7 +1018,7 @@ class AmazonApi(
                 frames = []
                 for annotation in annotations:
                     timestamp = float(annotation["Timestamp"]) / 1000.0
-                    confidence = annotation["TextDetection"]["Confidence"]
+                    confidence = round(annotation["TextDetection"]["Confidence"] / 100, 2)
                     geometry = annotation["TextDetection"]["Geometry"]["BoundingBox"]
                     bounding_box = VideoTextBoundingBox(
                         top=geometry["Top"],
@@ -1097,10 +1097,10 @@ class AmazonApi(
                         landmarks_output[land["Type"]] = [land["X"], land["Y"]]
 
                 landmarks_video = LandmarksVideo(
-                    eye_left=landmarks_output.get("eye_left", []),
-                    eye_right=landmarks_output.get("eye_right", []),
-                    mouth_left=landmarks_output.get("mouth_left", []),
-                    mouth_right=landmarks_output.get("mouth_right", []),
+                    eye_left=landmarks_output.get("eyeLeft", []),
+                    eye_right=landmarks_output.get("eyeRight", []),
+                    mouth_left=landmarks_output.get("mouthLeft", []),
+                    mouth_right=landmarks_output.get("mouthRight", []),
                     nose=landmarks_output.get("nose", []),
                 )
                 faces.append(

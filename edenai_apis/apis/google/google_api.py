@@ -1162,7 +1162,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 frames = []
                 description = annotation["text"]
                 for segment in annotation["segments"]:
-                    confidence = segment["confidence"]
+                    confidence = round(segment["confidence"], 2)
                     for frame in segment["frames"]:
                         offset = frame["timeOffset"]
                         timestamp = float(offset[:-1])
@@ -1407,6 +1407,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             object_tracking = []
             for detected_object in objects:
                 frames = []
+                confidence = detected_object['confidence']
                 description = detected_object["entity"]["description"]
                 for frame in detected_object["frames"]:
                     timestamp = float(frame["timeOffset"][:-1])
@@ -1420,7 +1421,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         ObjectFrame(timestamp=timestamp, bounding_box=bounding_box)
                     )
                 object_tracking.append(
-                    ObjectTrack(description=description, frames=frames)
+                    ObjectTrack(description=description, confidence=confidence, frames=frames)
                 )
             standarized_response = ObjectTrackingAsyncDataClass(objects=object_tracking)
             return AsyncResponseType[ObjectTrackingAsyncDataClass](

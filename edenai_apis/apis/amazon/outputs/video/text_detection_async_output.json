@@ -1,6 +1,6 @@
 {
   "status": "succeeded",
-  "provider_job_id": "33a919a65b1434afaa946529ba24d849de0da54b96225a1517c50b017078f5cb",
+  "provider_job_id": "00779e7d7722fcb32b2afe73d25a0a0c04df28b24b0720a4af88e2a558f24dda",
   "original_response": {
     "JobStatus": "SUCCEEDED",
     "VideoMetadata": {
@@ -52,13 +52,13 @@
     ],
     "TextModelVersion": "3.1",
     "ResponseMetadata": {
-      "RequestId": "0489dca7-6882-4c1f-94f7-0b931a7c756b",
+      "RequestId": "cc4ddab6-a81d-40cb-a37b-e3ce00b4150a",
       "HTTPStatusCode": 200,
       "HTTPHeaders": {
-        "x-amzn-requestid": "0489dca7-6882-4c1f-94f7-0b931a7c756b",
+        "x-amzn-requestid": "cc4ddab6-a81d-40cb-a37b-e3ce00b4150a",
         "content-type": "application/x-amz-json-1.1",
         "content-length": "709",
-        "date": "Wed, 12 Oct 2022 10:45:05 GMT"
+        "date": "Wed, 07 Dec 2022 13:17:46 GMT"
       },
       "RetryAttempts": 0
     }
@@ -69,7 +69,7 @@
         "text": "Images\u2122",
         "frames": [
           {
-            "confidence": 95.85286712646484,
+            "confidence": 0.96,
             "timestamp": 11.044,
             "bounding_box": {
               "top": 0.5749520659446716,
