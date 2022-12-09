@@ -1060,16 +1060,6 @@ class MicrosoftApi(
         vocabulary: list, sample_rate: int
     ) -> AsyncLaunchJobResponseType:
 
-        export_format = "wav"
-        file_config = {
-            "audio_file": file,
-            "export_format" : export_format,
-            "channels" : 1
-        }
-        if sample_rate:
-            file_config.update({
-                "frame_rate" : sample_rate
-            })
         #check language
         if not language:
             raise LanguageException("Language not provided")
