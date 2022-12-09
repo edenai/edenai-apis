@@ -85,7 +85,7 @@ from edenai_apis.features.video import (
     VideoTrackingBoundingBox,
     VideoTrackingPerson,
 )
-from edenai_apis.utils.audio import wav_converter
+from edenai_apis.utils.audio import wav_converter, file_with_good_extension
 from edenai_apis.utils.exception import (
     ProviderException,
     LanguageException
@@ -717,7 +717,8 @@ class AmazonApi(
         :return:            String that contains the filename on the server
         """
         # Store file in an Amazon server
-        filename = str(int(time())) + "_" + str(file_name)
+        # filename = str(int(time())) + "_" + str(file_name)
+        filename = str(uuid.uuid4())
         self.storage_clients["speech"].meta.client.upload_fileobj(file, self.api_settings['bucket'], filename)
 
         return filename
@@ -739,11 +740,11 @@ class AmazonApi(
     def _launch_transcribe(
         self, filename:str, frame_rate, 
         language:str, speakers: int, vocab_name:str=None,
-        initiate_vocab:bool= False):
+        initiate_vocab:bool= False, format:str = "wav"):
         params = {
             "TranscriptionJobName" : filename,
             "Media" : {"MediaFileUri": self.api_settings["storage_url"] + filename},
-            "MediaFormat" : "wav",
+            "MediaFormat" : format,
             "LanguageCode" : language,
             "MediaSampleRateHertz" : frame_rate,
             "Settings" : {
@@ -779,21 +780,24 @@ class AmazonApi(
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers : int,
-        profanity_filter: bool, vocabulary: list
+        profanity_filter: bool, vocabulary: list, sample_rate: int,
     ) -> AsyncLaunchJobResponseType:
-        # Convert audio file in wav
-        wav_file, frame_rate = wav_converter(file)[0:2]
+
+        # check if audio file needs convertion
+        accepted_extensions = ["wav", "mp3", "flac"]
+        file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
+
         filename = self._upload_audio_file_to_amazon_server(
-            wav_file, Path(file.name).stem + ".wav"
+            file, Path(file.name).stem + "." + export_format
         )
         if vocabulary:
             vocab_name = self._create_vocabulary(language, vocabulary)
-            self._launch_transcribe(filename, frame_rate, language, speakers, vocab_name, True)
+            self._launch_transcribe(filename, frame_rate, language, speakers, vocab_name, True, format=export_format)
             return AsyncLaunchJobResponseType(
                 provider_job_id=f"{filename}EdenAI{vocab_name}"
             )
 
-        self._launch_transcribe(filename, frame_rate, language, speakers)
+        self._launch_transcribe(filename, frame_rate, language, speakers, format=export_format)
         return AsyncLaunchJobResponseType(
             provider_job_id=filename
         )

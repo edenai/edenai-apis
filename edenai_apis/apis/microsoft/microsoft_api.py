@@ -63,7 +63,7 @@ from edenai_apis.features.translation.translation_class import Translation
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 
-from edenai_apis.utils.audio import wav_converter
+from edenai_apis.utils.audio import file_with_good_extension
 from edenai_apis.utils.conversion import format_string_url_language
 from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.types import (
@@ -1057,14 +1057,28 @@ class MicrosoftApi(
         self,
         file: BufferedReader,
         language: str, speakers : int, profanity_filter: bool,
-        vocabulary: list
+        vocabulary: list, sample_rate: int
     ) -> AsyncLaunchJobResponseType:
 
+        export_format = "wav"
+        file_config = {
+            "audio_file": file,
+            "export_format" : export_format,
+            "channels" : 1
+        }
+        if sample_rate:
+            file_config.update({
+                "frame_rate" : sample_rate
+            })
         #check language
         if not language:
             raise LanguageException("Language not provided")
-        wav_file, *_options = wav_converter(file, channels=1)
-        content_url = upload_file_to_s3(wav_file, Path(file.name).stem + ".wav")
+
+        # check if audio file needs convertion
+        accepted_extensions = ["wav", "mp3", "flac"]
+        new_file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions, 1)
+
+        content_url = upload_file_to_s3(new_file, Path(file.name).stem + "." + export_format)
 
         headers = self.headers["speech"]
         headers["Content-Type"] = "application/json"

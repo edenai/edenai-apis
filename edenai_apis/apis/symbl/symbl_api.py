@@ -18,6 +18,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 
+from edenai_apis.utils.audio import file_with_good_extension
 
 class SymblApi(ProviderApi, Audio):
     provider_name = "symbl"
@@ -55,9 +56,14 @@ class SymblApi(ProviderApi, Audio):
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
         speakers : int, profanity_filter: bool,
-        vocabulary: list
+        vocabulary: list, sample_rate: int
     ) -> AsyncLaunchJobResponseType:
-        file.seek(0, 2)
+        # file.seek(0, 2)
+
+        # check if audio file needs convertion
+        accepted_extensions = ["wav", "mp3", "flac"]
+        file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
+
         number_of_bytes = file.tell()
         file.seek(0)
 
@@ -121,6 +127,7 @@ class SymblApi(ProviderApi, Audio):
                 raise ProviderException(response_status.text)
 
             original_response = response.json()
+            print(json.dumps(original_response, indent=2))
             diarization_entries = []
             speakers = set()
 
@@ -131,14 +138,14 @@ class SymblApi(ProviderApi, Audio):
             for text_info in original_response["messages"]:
                 words_info = text_info["words"]
                 for word_info in words_info:
-                    speakers.add(word_info["speakerTag"])
+                    speakers.add(word_info.get("speakerTag",1))
                     diarization_entries.append(
                         SpeechDiarizationEntry(
                             segment= word_info["word"],
-                            speaker= word_info["speakerTag"],
+                            speaker= word_info.get("speakerTag", 1),
                             start_time= str(word_info["timeOffset"]),
                             end_time= str(word_info["timeOffset"] + word_info["duration"]),
-                            confidence= word_info["score"]
+                            confidence= word_info.get("score")
                         )
                     )
 

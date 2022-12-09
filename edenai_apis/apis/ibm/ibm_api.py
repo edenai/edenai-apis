@@ -39,7 +39,7 @@ from edenai_apis.features.translation import (
     LanguageDetectionDataClass
 )
 
-from edenai_apis.utils.audio import wav_converter
+from edenai_apis.utils.audio import file_with_good_extension
 from edenai_apis.utils.exception import ProviderException, LanguageException
 
 from edenai_apis.utils.types import (
@@ -345,22 +345,29 @@ class IbmApi(
         self,
         file: BufferedReader,
         language: str, speakers : int, profanity_filter: bool,
-        vocabulary: list
+        vocabulary: list, sample_rate: int
     ) -> AsyncLaunchJobResponseType:
-        wav_file, *_options = wav_converter(file)
+
+        # check if audio file needs convertion
+        accepted_extensions = ["flac"]
+        new_file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
+
         language_audio = language
         audio_config = {
-            "audio" : wav_file,
-            "content_type" : "audio/wav",
+            "audio" : new_file,
+            "content_type" : "audio/"+export_format,
             "speaker_labels" : True,
-            "profanity_filter" : profanity_filter
+            "profanity_filter" : profanity_filter,
         }
+        if sample_rate:
+            audio_config.update({
+                "rate": sample_rate
+            })
         if language_audio:
             audio_config.update({
                 "model" : f"{language_audio}_NarrowbandModel"
             })
         response = self.clients["speech"].create_job(**audio_config)
-        print(response)
         if response.status_code == 201:
             return AsyncLaunchJobResponseType(
                 provider_job_id=response.result["id"]

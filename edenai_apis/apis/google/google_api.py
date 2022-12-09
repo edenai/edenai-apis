@@ -3,6 +3,7 @@ import base64
 import json
 import mimetypes
 import os
+import aifc
 from io import BufferedReader
 from pathlib import Path
 from time import time
@@ -141,7 +142,12 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import wav_converter
+from edenai_apis.utils.audio import (
+    wav_converter, 
+    supported_extension, 
+    get_audio_attributes,
+    file_with_good_extension
+)
 from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -755,21 +761,30 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers: int,
-        profanity_filter: bool, vocabulary: list
+        profanity_filter: bool, vocabulary: list, sample_rate: int
     ) -> AsyncLaunchJobResponseType:
+
+        min_rate, max_rate = 8000, 48000
+        #check sample rate
+        if sample_rate and (sample_rate < 8000 or sample_rate > 48000):
+            raise ProviderException(f"Sample rate value must be within the range of {min_rate}Hz and {max_rate}Hz")
 
         #check language
         if not language:
             raise LanguageException("Language not provided")
-        export_format = "flac"
-        wav_file, _, _, channels = wav_converter(file, export_format)
+
+        #check file extension, and convert if not supported
+        accepted_extensions = ["flac", "mp3", "wav"]
+        file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
+
         audio_name = str(int(time())) + Path(file.name).stem + "." + export_format
+        print(audio_name)
         # Upload file to google cloud
         storage_client: storage.Client = self.clients["storage"]
         bucket_name = "audios-speech2text"
         bucket = storage_client.get_bucket(bucket_name)
         blob = bucket.blob(audio_name)
-        blob.upload_from_file(wav_file)
+        blob.upload_from_file(file)
 
         gcs_uri = f"gs://{bucket_name}/{audio_name}"
         # Launch file transcription
@@ -784,12 +799,17 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         params = {
             "language_code" : language,
             "audio_channel_count" : channels,
+            "enable_separate_recognition_per_channel": True,
             "diarization_config" : diarization,
             "profanity_filter" : profanity_filter,
             "enable_word_confidence": True,
             "enable_automatic_punctuation": True,
             "enable_spoken_punctuation" : True
         }
+        if sample_rate and export_format == "mp3":
+            params.update({
+                "sample_rate_hertz" : sample_rate
+            })
 
         # create custum vocabulary phrase_set
         if vocabulary:
@@ -817,7 +837,6 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         text = ""
         diarization = SpeechDiarization(total_speakers=0, entries= [])
         if original_response.get("done"):
-            print(json.dumps(original_response, indent=2))
             if original_response["response"].get("results"):
                 text = ", ".join(
                     [

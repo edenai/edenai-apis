@@ -8,7 +8,7 @@ from edenai_apis.features.audio.speech_to_text_async import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features.base_provider.provider_api import ProviderApi
-from edenai_apis.utils.audio import wav_converter
+from edenai_apis.utils.audio import file_with_good_extension
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.features import Audio
 from edenai_apis.utils.types import (
@@ -30,14 +30,17 @@ class VociApi(ProviderApi, Audio):
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
         speakers : int, profanity_filter: bool,
-        vocabulary: list
+        vocabulary: list, sample_rate: int,
     ) -> AsyncLaunchJobResponseType:
-        wav_file = wav_converter(file, channels=1)[0]
+
+        # check if audio file needs convertion
+        accepted_extensions = ["wav", "mp3", "flac"]
+        file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions, 1)
 
         data_config = {
                 "output": "json",
                 "token": self.key,
-                "filetype": "audio/x-wav",
+                "filetype": f"audio/{export_format}",
                 "emotion": "true",
                 "gender": "true",
                 "diarize": "true"
@@ -60,7 +63,7 @@ class VociApi(ProviderApi, Audio):
         response = requests.post(
             url="https://vcloud.vocitec.com/transcribe",
             data= data_config,
-            files=[("file", wav_file)],
+            files=[("file", file)],
         )
         if response.status_code != 200:
             raise ProviderException(

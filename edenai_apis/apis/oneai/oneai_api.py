@@ -27,7 +27,7 @@ from edenai_apis.features.translation import (
 from edenai_apis.features.translation.language_detection.language_detection_dataclass import InfosLanguageDetectionDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import wav_converter
+from edenai_apis.utils.audio import file_with_good_extension
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -233,13 +233,17 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
         )
 
     def audio__speech_to_text_async__launch_job(self, file: BufferedReader, 
-        language: str, speakers: int, profanity_filter: bool, vocabulary: list
+        language: str, speakers: int, profanity_filter: bool, vocabulary: list,
+        sample_rate: int
         ) -> AsyncLaunchJobResponseType:
-        wav_file = wav_converter(file, frame_rate=16000, channels=1)[0]
 
-        data = json.dumps({
+        # check if audio file needs convertion
+        accepted_extensions = ["wav", "mp3"]
+        new_file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions, 1)
+
+        data = {
             "input_type": 'conversation',
-            "content_type": "audio/wav",
+            "content_type": "audio/"+export_format,
             "steps": [
                 {
                     "skill": "transcribe",
@@ -251,16 +255,14 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
                     }
                 }  
             ]
-        })
-
-        response = requests.post(url=f"{self.url}/async/file?pipeline={data}", headers=self.header, data=wav_file.read())
+        }
         
-        print(response)
-        
+        response = requests.post(url=f"{self.url}/async/file?pipeline={json.dumps(data)}", headers=self.header, data=new_file.read())
+                
         original_response = response.json()
-        print(original_response)
-
+        
         if response.status_code != 200:
+            print(response.json())
             raise ProviderException(message=original_response['message'], code=response.status_code)
 
         return AsyncLaunchJobResponseType(
