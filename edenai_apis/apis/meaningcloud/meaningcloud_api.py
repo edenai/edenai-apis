@@ -28,10 +28,10 @@ class MeaningcloudApi(ProviderApi, Text):
 
         original_response = response.json()
 
-        standarized_response = SummarizeDataClass(result=original_response["summary"])
+        standardized_response = SummarizeDataClass(result=original_response["summary"])
 
         result = ResponseType[SummarizeDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
         return result

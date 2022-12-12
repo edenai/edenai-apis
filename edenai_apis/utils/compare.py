@@ -57,7 +57,7 @@ def compare(items_a: Any, items_b: Any) -> bool:
 
 def compare_responses(feature: str, subfeature: str, response, phase: str = ""):
     """
-    Compare standarized response of a subfeature with the generated output
+    Compare standardized response of a subfeature with the generated output
     Raise `AssertionError` if not equivalent
     Returns `True`
     """

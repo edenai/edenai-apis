@@ -68,7 +68,10 @@ class TabscannerApi(ProviderApi, Ocr):
         date = receipt.get("date")
 
         # Barcodes
-        barcodes = receipt.get("barcodes",[[]])[0]
+        barcodes = receipt.get("barcodes")
+        if barcodes:
+            barcodes = barcodes[0]
+            
         # Local
         locale = Locale(currecy = receipt.get("currency"))
         # Payment information
@@ -116,9 +119,9 @@ class TabscannerApi(ProviderApi, Ocr):
             item_lines=list_items,
         )
 
-        standarized_response = ReceiptParserDataClass(extracted_data=[ocr_receipt])
+        standardized_response = ReceiptParserDataClass(extracted_data=[ocr_receipt])
         result = ResponseType[ReceiptParserDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result

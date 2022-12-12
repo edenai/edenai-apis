@@ -44,7 +44,7 @@ class SmartClickApi(ProviderApi, Image):
             # ref: https://smartclick.ai/api/logo-detection/
             raise ProviderException(message=response.text)
 
-        # Standarized response : description/score/bounding_box
+        # standardized response : description/score/bounding_box
         items: Sequence[LogoItem] = []
         boxes = response.json()
         for box in boxes.get("bboxes"):
@@ -59,8 +59,8 @@ class SmartClickApi(ProviderApi, Image):
                     bounding_poly=LogoBoundingPoly(vertices=vertices),
                 )
             )
-        standarized = LogoDetectionDataClass(items=items)
+        standardized = LogoDetectionDataClass(items=items)
         return ResponseType[LogoDetectionDataClass](
             original_response=response.json(),
-            standarized_response=standarized
+            standardized_response=standardized
         )

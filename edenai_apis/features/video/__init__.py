@@ -28,6 +28,8 @@ from .person_tracking_async import (
     PersonTrackingAsyncDataClass,
     VideoTrackingPerson,
     VideoTrackingBoundingBox,
+    VideoPersonPoses,
+    VideoPersonQuality,
     person_tracking_arguments
 )
 from .logo_detection_async import (

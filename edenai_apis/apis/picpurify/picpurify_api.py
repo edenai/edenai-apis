@@ -66,10 +66,10 @@ class PicpurifyApi(ProviderApi, Image):
                     age=age, gender=gender, confidence=confidence, bounding_box=box
                 )
             )
-        standarized_response = FaceDetectionDataClass(items=faces)
+        standardized_response = FaceDetectionDataClass(items=faces)
         return ResponseType[FaceDetectionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
 
     def image__explicit_content(
@@ -105,9 +105,9 @@ class PicpurifyApi(ProviderApi, Image):
 
         nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
 
-        standarized_response = ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw)
+        standardized_response = ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw)
         res = ResponseType[ExplicitContentDataClass](
-            original_response=original_response, standarized_response=standarized_response
+            original_response=original_response, standardized_response=standardized_response
         )
         print(res.dict())
         return res

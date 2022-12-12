@@ -176,9 +176,9 @@ class Base64Api(ProviderApi, Ocr):
             item_lines=items,
         )
 
-        standarized_response = InvoiceParserDataClass(extracted_data=[invoice_parser])
+        standardized_response = InvoiceParserDataClass(extracted_data=[invoice_parser])
 
-        return standarized_response
+        return standardized_response
 
     def _format_receipt_document_data(self, data) -> ReceiptParserDataClass:
         fields = data[0].get("fields", [])
@@ -227,9 +227,9 @@ class Base64Api(ProviderApi, Ocr):
             taxes=taxes,
         )
 
-        standarized_response = ReceiptParserDataClass(extracted_data=[receipt_parser])
+        standardized_response = ReceiptParserDataClass(extracted_data=[receipt_parser])
 
-        return standarized_response
+        return standardized_response
 
     def _send_ocr_document(self, file: BufferedReader, model_type: str) -> Dict:
         image_as_base64 = (
@@ -255,13 +255,13 @@ class Base64Api(ProviderApi, Ocr):
             ocr_file, "finance/" + document_type.value
         )
         if document_type == SubfeatureParser.RECEIPT:
-            standarized_response = self._format_receipt_document_data(original_response)
+            standardized_response = self._format_receipt_document_data(original_response)
         elif document_type == SubfeatureParser.INVOICE:
-            standarized_response = self._format_invoice_document_data(original_response)
+            standardized_response = self._format_invoice_document_data(original_response)
 
         result = ResponseType[T](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -376,9 +376,9 @@ class Base64Api(ProviderApi, Ocr):
             ))
 
 
-        standarized_response = IdentityParserDataClass(extracted_data=items)
+        standardized_response = IdentityParserDataClass(extracted_data=items)
 
         return ResponseType[IdentityParserDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )

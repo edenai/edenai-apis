@@ -55,10 +55,10 @@ class ModernmtApi(
                     )
                 )
 
-        standarized_response = LanguageDetectionDataClass(items=items)
+        standardized_response = LanguageDetectionDataClass(items=items)
 
         return ResponseType[LanguageDetectionDataClass](
-            original_response=response, standarized_response=standarized_response
+            original_response=response, standardized_response=standardized_response
         )
         
     def translation__automatic_translation(self, source_language: str, target_language: str, text: str
@@ -79,10 +79,10 @@ class ModernmtApi(
             raise ProviderException(message=response['error']['message'], code=response['status'])
 
 
-        standarized_response = AutomaticTranslationDataClass(
+        standardized_response = AutomaticTranslationDataClass(
             text=response['data']['translation']
         )
 
         return ResponseType[AutomaticTranslationDataClass](
-            original_response=response, standarized_response=standarized_response
+            original_response=response, standardized_response=standardized_response
         )

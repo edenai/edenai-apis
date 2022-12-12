@@ -1,0 +1,57 @@
+{
+  "original_response": {
+    "id": "cmpl-6MfWmRjthIOY0zrgsmJPC3oxZlzJk",
+    "object": "text_completion",
+    "created": 1670860868,
+    "model": "text-davinci-003",
+    "choices": [
+      {
+        "text": " Obama, American, Politician, 44th President of the United States, Democratic Party, African-American, U.S. Senator from Illinois, Illinois State Senator",
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 97,
+      "completion_tokens": 33,
+      "total_tokens": 130
+    }
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "keyword": " Obama",
+        "importance": null
+      },
+      {
+        "keyword": " American",
+        "importance": null
+      },
+      {
+        "keyword": " Politician",
+        "importance": null
+      },
+      {
+        "keyword": " 44th President of the United States",
+        "importance": null
+      },
+      {
+        "keyword": " Democratic Party",
+        "importance": null
+      },
+      {
+        "keyword": " African-American",
+        "importance": null
+      },
+      {
+        "keyword": " U.S. Senator from Illinois",
+        "importance": null
+      },
+      {
+        "keyword": " Illinois State Senator",
+        "importance": null
+      }
+    ]
+  }
+}

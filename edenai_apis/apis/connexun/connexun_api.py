@@ -40,15 +40,15 @@ class ConnexunApi(ProviderApi, Text):
         if isinstance(original_response, dict) and original_response.get("message"):
             raise ProviderException(original_response["message"])
 
-        # Return standarized response
-        standarized_response = SentimentAnalysisDataClass(
+        # Return standardized response
+        standardized_response = SentimentAnalysisDataClass(
             general_sentiment=original_response.get("Sentiment"),
             general_sentiment_rate=original_response.get("Value"),
         )
 
         return ResponseType[SentimentAnalysisDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
 
     def text__summarize(
@@ -73,10 +73,10 @@ class ConnexunApi(ProviderApi, Text):
         if isinstance(original_response, dict) and original_response.get("message"):
             raise ProviderException(original_response["message"])
 
-        # Return standarized response
-        standarized_response = SummarizeDataClass(result=original_response["summary"])
+        # Return standardized response
+        standardized_response = SummarizeDataClass(result=original_response.get("summary", {}))
         result = ResponseType[SummarizeDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result

@@ -75,10 +75,10 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
                     )
                 )
 
-        standarized_response = NamedEntityRecognitionDataClass(items=items)
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[NamedEntityRecognitionDataClass](
-            original_response=data, standarized_response=standarized_response
+            original_response=data, standardized_response=standardized_response
         )
 
     def translation__automatic_translation(
@@ -100,12 +100,12 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
         if response["success"] == False:
             raise ProviderException(data["error"])
 
-        standarized_response = AutomaticTranslationDataClass(
+        standardized_response = AutomaticTranslationDataClass(
             text=data["translatedText"]
         )
 
         return ResponseType[AutomaticTranslationDataClass](
-            original_response=data, standarized_response=standarized_response
+            original_response=data, standardized_response=standardized_response
         )
 
     def translation__language_detection(
@@ -128,12 +128,12 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
                         )
                     )
 
-        standarized_response = LanguageDetectionDataClass(items=items)
+        standardized_response = LanguageDetectionDataClass(items=items)
 
         data = response["data"]
 
         return ResponseType[LanguageDetectionDataClass](
-            original_response=data, standarized_response=standarized_response
+            original_response=data, standardized_response=standardized_response
         )
 
     def audio__speech_to_text_async__launch_job(
@@ -215,7 +215,7 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
 
         return AsyncResponseType[SpeechToTextAsyncDataClass](
             original_response = original_response,
-            standarized_response = SpeechToTextAsyncDataClass(
+            standardized_response = SpeechToTextAsyncDataClass(
                 text = original_response.get('data').get('transcripts'),
                 diarization= diarization
             ),

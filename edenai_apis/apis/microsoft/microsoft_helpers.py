@@ -357,6 +357,6 @@ def normalize_invoice_result(response):
         item_lines=item_lines,
     )
 
-    standarized_response = InvoiceParserDataClass(extracted_data=[invoice_parser])
+    standardized_response = InvoiceParserDataClass(extracted_data=[invoice_parser])
 
-    return standarized_response
+    return standardized_response

@@ -747,7 +747,7 @@
     "completion_time": "2022-12-06T11:16:26.648000",
     "creation_time": "2022-12-06T11:16:17.824000"
   },
-  "standarized_response": {
+  "standardized_response": {
     "text": "Unit one, page 14. Real conversations. Hello. Hi. What's your name? Claudia. What's your name? Nice to meet you. Yeah, that's right. Where are you from?",
     "diarization": {
       "total_speakers": 4,

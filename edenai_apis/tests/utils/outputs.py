@@ -105,7 +105,7 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
         print(f"Write {json_output_path}.")
         with open(json_output_path, "w", encoding='utf-8') as f:
             f.write(json.dumps(api_output, indent=2, default=str))
-        if api_output.get("standarized_response"):
+        if api_output.get("standardized_response"):
             feature_sample_path = os.path.join(
                 features_path, feature, subfeature, subfeature + "_response.json"
             )
@@ -114,7 +114,7 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
                 with open(feature_sample_path, "w", encoding='utf-8') as f:
                     f.write(
                         json.dumps(
-                            api_output["standarized_response"], indent=2, default=str
+                            api_output["standardized_response"], indent=2, default=str
                         )
                     )
 

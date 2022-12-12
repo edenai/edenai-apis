@@ -84,12 +84,12 @@ class SentiSightApi(ProviderApi, Ocr, Image):
             )
 
 
-        standarized_response = OcrDataClass(
+        standardized_response = OcrDataClass(
             text=text.replace("\n", " ").strip(), bounding_boxes=bounding_boxes
         )
         result = ResponseType[OcrDataClass](
             original_response=response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -125,10 +125,10 @@ class SentiSightApi(ProviderApi, Ocr, Image):
                     y_max=float(obj["y1"] / height),
                 )
             )
-        standarized_response = ObjectDetectionDataClass(items=objects)
+        standardized_response = ObjectDetectionDataClass(items=objects)
         result = ResponseType[ObjectDetectionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -159,11 +159,11 @@ class SentiSightApi(ProviderApi, Ocr, Image):
             )
         )
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
-        standarized_response = ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw_likelihood)
+        standardized_response = ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw_likelihood)
 
         result = ResponseType[ExplicitContentDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -241,7 +241,7 @@ class SentiSightApi(ProviderApi, Ocr, Image):
         standardized_response = SearchGetImagesDataClass(list_images=images)
         return ResponseType[SearchGetImagesDataClass](
             original_response=original_response,
-            standarized_response=standardized_response,
+            standardized_response=standardized_response,
         )
 
     def image__search__get_image(
@@ -264,7 +264,7 @@ class SentiSightApi(ProviderApi, Ocr, Image):
         # Return the image as bytes
         return ResponseType[SearchGetImageDataClass](
             original_response=response.content,
-            standarized_response=image
+            standardized_response=image
         )
 
     def image__search__launch_similarity(
@@ -291,9 +291,9 @@ class SentiSightApi(ProviderApi, Ocr, Image):
         items = []
         for image in response.json():
             items.append(ImageItem(image_name=image["image"], score=image["score"]))
-        standarized_response = SearchDataClass(items=items)
+        standardized_response = SearchDataClass(items=items)
         result = ResponseType[SearchDataClass](
             original_response=response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result

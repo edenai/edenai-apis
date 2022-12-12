@@ -102,12 +102,12 @@ class ClarifaiApi(
                     )
                 )
 
-        standarized_response = OcrDataClass(
+        standardized_response = OcrDataClass(
             bounding_boxes=boxes, text=text.replace("\n", " ").strip()
         )
         result = ResponseType[OcrDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -159,7 +159,7 @@ class ClarifaiApi(
         nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
         return ResponseType[ExplicitContentDataClass](
             original_response=original_response,
-            standarized_response=ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw),
+            standardized_response=ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw),
         )
 
     def image__face_detection(
@@ -217,7 +217,7 @@ class ClarifaiApi(
 
             result = ResponseType[FaceDetectionDataClass](
                 original_response=original_reponse,
-                standarized_response=FaceDetectionDataClass(items=items),
+                standardized_response=FaceDetectionDataClass(items=items),
             )
             return result
 
@@ -275,5 +275,5 @@ class ClarifaiApi(
 
             return ResponseType[ObjectDetectionDataClass](
                 original_response=original_response,
-                standarized_response=ObjectDetectionDataClass(items=items),
+                standardized_response=ObjectDetectionDataClass(items=items),
             )

@@ -219,7 +219,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
 
         return ResponseType[ObjectDetectionDataClass](
             original_response=response,
-            standarized_response=ObjectDetectionDataClass(items=items),
+            standardized_response=ObjectDetectionDataClass(items=items),
         )
 
     def image__face_detection(
@@ -330,7 +330,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             )
         return ResponseType[FaceDetectionDataClass](
             original_response=original_result,
-            standarized_response=FaceDetectionDataClass(items=result),
+            standardized_response=FaceDetectionDataClass(items=result),
         )
 
     def image__landmark_detection(
@@ -374,7 +374,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
 
         return ResponseType[LandmarkDetectionDataClass](
             original_response=landmarks,
-            standarized_response=LandmarkDetectionDataClass(items=items),
+            standardized_response=LandmarkDetectionDataClass(items=items),
         )
 
     def image__logo_detection(
@@ -410,7 +410,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             )
         return ResponseType[LogoDetectionDataClass](
             original_response=response,
-            standarized_response=LogoDetectionDataClass(items=items),
+            standardized_response=LogoDetectionDataClass(items=items),
         )
 
     def audio__text_to_speech(
@@ -446,10 +446,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
 
         audio = base64.b64encode(response.audio_content).decode("utf-8")
 
-        standarized_response = TextToSpeechDataClass(audio=audio, voice_type=voice_type)
+        standardized_response = TextToSpeechDataClass(audio=audio, voice_type=voice_type)
         return ResponseType[TextToSpeechDataClass](
             original_response={},
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
 
     def ocr__ocr_tables_async__launch_job(
@@ -563,14 +563,14 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         tables.append(ocr_table)
                     ocr_page = Page(tables=tables)
                     pages.append(ocr_page)
-            standarized_response = OcrTablesAsyncDataClass(
+            standardized_response = OcrTablesAsyncDataClass(
                 pages=pages, num_pages=num_pages
             )
 
             return AsyncResponseType[OcrTablesAsyncDataClass](
                 status="succeeded",
                 original_response=original_result,
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=job_id,
             )
 
@@ -618,10 +618,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         )
                     )
 
-        standarized_response = NamedEntityRecognitionDataClass(items=items)
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[NamedEntityRecognitionDataClass](
-            original_response=response, standarized_response=standarized_response
+            original_response=response, standardized_response=standardized_response
         )
 
     def text__sentiment_analysis(
@@ -666,7 +666,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         )
 
         return ResponseType[SentimentAnalysisDataClass](
-            original_response=response, standarized_response=standarize
+            original_response=response, standardized_response=standarize
         )
 
     def text__syntax_analysis(
@@ -722,11 +722,11 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 )
             )
 
-        standarized_response = SyntaxAnalysisDataClass(items=items)
+        standardized_response = SyntaxAnalysisDataClass(items=items)
 
         result = ResponseType[SyntaxAnalysisDataClass](
             original_response=response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -846,10 +846,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 
                 diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
             
-            standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
+            standardized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
         return AsyncPendingResponseType(provider_job_id=provider_job_id)
@@ -886,7 +886,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
 
         res =  ResponseType(
             original_response=response,
-            standarized_response=ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw_likelihood),
+            standardized_response=ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw_likelihood),
         )
         print(res.dict())
         return res
@@ -916,7 +916,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         else:
             raise ProviderException("Empty Text was returned")
         return ResponseType[AutomaticTranslationDataClass](
-            original_response=MessageToDict(response._pb), standarized_response=std
+            original_response=MessageToDict(response._pb), standardized_response=std
         )
 
     def translation__language_detection(
@@ -938,11 +938,11 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 )
             )
 
-        standarized_response = LanguageDetectionDataClass(items=items)
+        standardized_response = LanguageDetectionDataClass(items=items)
 
         return ResponseType[LanguageDetectionDataClass](
             original_response=MessageToDict(response._pb),
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
 
     def ocr__ocr(
@@ -985,11 +985,11 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                     height=(ybottom - ytop) / height,
                 )
             )
-        standarized = OcrDataClass(
+        standardized = OcrDataClass(
             text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
         )
         return ResponseType[OcrDataClass](
-            original_response=messages_list, standarized_response=standarized
+            original_response=messages_list, standardized_response=standardized
         )
 
     def google_video_launch_job(
@@ -1137,12 +1137,12 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         timestamp=timestamps,
                     )
                 )
-            standarized_response = LabelDetectionAsyncDataClass(labels=label_list)
+            standardized_response = LabelDetectionAsyncDataClass(labels=label_list)
 
             return AsyncResponseType[LabelDetectionAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
@@ -1161,7 +1161,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 frames = []
                 description = annotation["text"]
                 for segment in annotation["segments"]:
-                    confidence = segment["confidence"]
+                    confidence = round(segment["confidence"], 2)
                     for frame in segment["frames"]:
                         offset = frame["timeOffset"]
                         timestamp = float(offset[:-1])
@@ -1183,11 +1183,11 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                             )
                         )
                 texts.append(VideoText(text=description, frames=frames))
-            standarized_response = TextDetectionAsyncDataClass(texts=texts)
+            standardized_response = TextDetectionAsyncDataClass(texts=texts)
             return AsyncResponseType[TextDetectionAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
@@ -1237,11 +1237,11 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                             attributes=attributs,
                         )
                         faces.append(face)
-            standarized_response = FaceDetectionAsyncDataClass(faces=faces)
+            standardized_response = FaceDetectionAsyncDataClass(faces=faces)
             return AsyncResponseType[FaceDetectionAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
@@ -1338,12 +1338,12 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                             )
                         )
                 tracked_persons.append(VideoTrackingPerson(tracked=tracked_person))
-            standarized_response = PersonTrackingAsyncDataClass(persons=tracked_persons)
+            standardized_response = PersonTrackingAsyncDataClass(persons=tracked_persons)
 
             return AsyncResponseType[PersonTrackingAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
@@ -1383,12 +1383,12 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                                 )
                             )
                     tracks.append(LogoTrack(description=description, tracking=objects))
-            standarized_response = LogoDetectionAsyncDataClass(logos=tracks)
+            standardized_response = LogoDetectionAsyncDataClass(logos=tracks)
 
             return AsyncResponseType[LogoDetectionAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
@@ -1422,11 +1422,11 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 object_tracking.append(
                     ObjectTrack(description=description, confidence=confidence, frames=frames)
                 )
-            standarized_response = ObjectTrackingAsyncDataClass(objects=object_tracking)
+            standardized_response = ObjectTrackingAsyncDataClass(objects=object_tracking)
             return AsyncResponseType[ObjectTrackingAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
@@ -1459,13 +1459,13 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         timestamp=timestamp, category=category, confidence=confidence
                     )
                 )
-            standarized_response = ExplicitContentDetectionAsyncDataClass(
+            standardized_response = ExplicitContentDetectionAsyncDataClass(
                 moderation=label_list
             )
             return AsyncResponseType[ExplicitContentDetectionAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
