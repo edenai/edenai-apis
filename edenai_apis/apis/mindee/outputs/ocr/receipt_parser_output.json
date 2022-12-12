@@ -194,7 +194,7 @@
       "name": "receipt.jpg"
     }
   },
-  "standarized_response": {
+  "standardized_response": {
     "extracted_data": [
       {
         "invoice_number": null,

@@ -36,7 +36,7 @@ class PhedoneApi(ProviderApi, Translation):
         Return:
           {
             original_response: {},
-            standarized_response: {},
+            standardized_response: {},
           }
         """
 
@@ -61,13 +61,13 @@ class PhedoneApi(ProviderApi, Translation):
         if response.status_code != 200:
             raise ProviderException(original_response.get("message"))
 
-        standarized_response = AutomaticTranslationDataClass(
+        standardized_response = AutomaticTranslationDataClass(
             text=original_response.get("translation")[0]
         )
 
         result = ResponseType[AutomaticTranslationDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
         return result

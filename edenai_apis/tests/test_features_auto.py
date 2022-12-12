@@ -78,7 +78,7 @@ class CommonProvidersSubfeaturesTests:
             ProviderDataEnum.OUTPUT, provider, feature, subfeature, phase
         )
         assert compare_responses(
-            feature, subfeature, saved_output["standarized_response"], phase=phase
+            feature, subfeature, saved_output["standardized_response"], phase=phase
         )
 
     def _test_real_output(self, provider, feature, subfeature, phase=""):
@@ -95,15 +95,15 @@ class CommonProvidersSubfeaturesTests:
             api_output = api_output.dict()
         assert isinstance(api_output, dict)
         original_response = api_output.get("original_response")
-        standarized_response = api_output.get("standarized_response")
+        standardized_response = api_output.get("standardized_response")
         assert original_response is not None
-        assert standarized_response is not None
+        assert standardized_response is not None
 
         # compare provider output with standard response to verify standarization
-        assert compare_responses(feature, subfeature, standarized_response, phase=phase)
+        assert compare_responses(feature, subfeature, standardized_response, phase=phase)
 
         print("compare standardized output")
-        assert compare(standarized_response, saved_output["standarized_response"])
+        assert compare(standardized_response, saved_output["standardized_response"])
 
         # test output is JSON serializable
         def default(output):
@@ -112,7 +112,7 @@ class CommonProvidersSubfeaturesTests:
             return None
 
         assert json.dumps(api_output["original_response"], default=default)
-        assert json.dumps(api_output["standarized_response"], default=default)
+        assert json.dumps(api_output["standardized_response"], default=default)
 
     def _test_compute_subfeature_output(self, provider, feature, subfeature, phase=""):
         """Test can call compute subfeature with fake = True"""

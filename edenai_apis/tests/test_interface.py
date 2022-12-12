@@ -28,7 +28,7 @@ class TestComputeOutput:
     def test_output(self, mocker: MockerFixture):
         def fake_load_provider(*args, **kwargs):
             def faker(**kwargs):
-                return ResponseType[Dict](original_response={}, standarized_response={})
+                return ResponseType[Dict](original_response={}, standardized_response={})
             return faker
         def fake_load_provider_info_file(*args, **kwargs):
             return {}

@@ -1,314 +1,39 @@
 {
   "original_response": {
-    "id": "cmpl-6MajmcXsYPAEbsXOyuNMEfOHRBdzb",
+    "id": "cmpl-6MfWmRjthIOY0zrgsmJPC3oxZlzJk",
     "object": "text_completion",
-    "created": 1670842454,
+    "created": 1670860868,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": " Barack Obama, American Politician, 44th President, Democratic Party, African-American, U.S. Senator, Illinois, 2005-2008, Illinois State Senator, 1997-2004",
+        "text": " Obama, American, Politician, 44th President of the United States, Democratic Party, African-American, U.S. Senator from Illinois, Illinois State Senator",
         "index": 0,
-        "logprobs": {
-          "tokens": [
-            " Barack",
-            " Obama",
-            ",",
-            " American",
-            " Polit",
-            "ician",
-            ",",
-            " 44",
-            "th",
-            " President",
-            ",",
-            " Democratic",
-            " Party",
-            ",",
-            " African",
-            "-",
-            "American",
-            ",",
-            " U",
-            ".",
-            "S",
-            ".",
-            " Senator",
-            ",",
-            " Illinois",
-            ",",
-            " 2005",
-            "-",
-            "2008",
-            ",",
-            " Illinois",
-            " State",
-            " Senator",
-            ",",
-            " 1997",
-            "-",
-            "2004",
-            "<|endoftext|>",
-            " \u00a7\u00a7",
-            " FILE",
-            " src",
-            "/",
-            "comp",
-            "onents",
-            "/"
-          ],
-          "token_logprobs": [
-            -0.012102254,
-            -1.7657222,
-            -4.5135734e-05,
-            -0.095730215,
-            -0.67067677,
-            -0.00074725604,
-            -0.00010188283,
-            -0.19521621,
-            -1.1278585e-05,
-            -0.06302729,
-            -0.13578318,
-            -0.86044216,
-            -0.00051351794,
-            -7.4104384e-05,
-            -0.057279,
-            -0.026841257,
-            -0.00040606305,
-            -0.8990037,
-            -0.37270766,
-            -2.5744682e-06,
-            -7.584048e-06,
-            -0.009343407,
-            -0.015703328,
-            -0.00881657,
-            -0.00069327606,
-            -0.31493515,
-            -0.02469234,
-            -0.062184792,
-            -0.0009505622,
-            -0.00056772784,
-            -1.200202,
-            -0.03499585,
-            -0.001283706,
-            -0.0015609657,
-            -0.00084407313,
-            -0.0008918571,
-            -0.00028854018,
-            -0.7634946,
-            -0.039165355,
-            -0.005576435,
-            -2.1616983,
-            -0.0028232432,
-            -2.177031,
-            -0.005340726,
-            -0.0010660725
-          ],
-          "top_logprobs": [
-            {
-              " Barack": -0.012102254
-            },
-            {
-              " Hussein": -0.18786228
-            },
-            {
-              ",": -4.5135734e-05
-            },
-            {
-              " American": -0.095730215
-            },
-            {
-              " Polit": -0.67067677
-            },
-            {
-              "ician": -0.00074725604
-            },
-            {
-              ",": -0.00010188283
-            },
-            {
-              " 44": -0.19521621
-            },
-            {
-              "th": -1.1278585e-05
-            },
-            {
-              " President": -0.06302729
-            },
-            {
-              ",": -0.13578318
-            },
-            {
-              " United": -0.60226905
-            },
-            {
-              " Party": -0.00051351794
-            },
-            {
-              ",": -7.4104384e-05
-            },
-            {
-              " African": -0.057279
-            },
-            {
-              "-": -0.026841257
-            },
-            {
-              "American": -0.00040606305
-            },
-            {
-              " President": -0.5281006
-            },
-            {
-              " U": -0.37270766
-            },
-            {
-              ".": -2.5744682e-06
-            },
-            {
-              "S": -7.584048e-06
-            },
-            {
-              ".": -0.009343407
-            },
-            {
-              " Senator": -0.015703328
-            },
-            {
-              ",": -0.00881657
-            },
-            {
-              " Illinois": -0.00069327606
-            },
-            {
-              ",": -0.31493515
-            },
-            {
-              " 2005": -0.02469234
-            },
-            {
-              "-": -0.062184792
-            },
-            {
-              "2008": -0.0009505622
-            },
-            {
-              ",": -0.00056772784
-            },
-            {
-              " 1997": -0.45386985
-            },
-            {
-              " State": -0.03499585
-            },
-            {
-              " Senator": -0.001283706
-            },
-            {
-              ",": -0.0015609657
-            },
-            {
-              " 1997": -0.00084407313
-            },
-            {
-              "-": -0.0008918571
-            },
-            {
-              "2004": -0.00028854018
-            },
-            {
-              ".": -0.6274853
-            },
-            {
-              " \u00a7\u00a7": -0.039165355
-            },
-            {
-              " FILE": -0.005576435
-            },
-            {
-              " READ": -1.132905
-            },
-            {
-              "/": -0.0028232432
-            },
-            {
-              "main": -1.5394405
-            },
-            {
-              "onents": -0.005340726
-            },
-            {
-              "/": -0.0010660725
-            }
-          ],
-          "text_offset": [
-            424,
-            431,
-            437,
-            438,
-            447,
-            453,
-            458,
-            459,
-            462,
-            464,
-            474,
-            475,
-            486,
-            492,
-            493,
-            501,
-            502,
-            510,
-            511,
-            513,
-            514,
-            515,
-            516,
-            524,
-            525,
-            534,
-            535,
-            540,
-            541,
-            545,
-            546,
-            555,
-            561,
-            569,
-            570,
-            575,
-            576,
-            580,
-            580,
-            580,
-            580,
-            580,
-            580,
-            580,
-            580
-          ]
-        },
+        "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
       "prompt_tokens": 97,
-      "completion_tokens": 37,
-      "total_tokens": 134
+      "completion_tokens": 33,
+      "total_tokens": 130
     }
   },
-  "standarized_response": {
+  "standardized_response": {
     "items": [
       {
-        "keyword": " Barack Obama",
+        "keyword": " Obama",
         "importance": null
       },
       {
-        "keyword": " American Politician",
+        "keyword": " American",
         "importance": null
       },
       {
-        "keyword": " 44th President",
+        "keyword": " Politician",
+        "importance": null
+      },
+      {
+        "keyword": " 44th President of the United States",
         "importance": null
       },
       {
@@ -320,23 +45,11 @@
         "importance": null
       },
       {
-        "keyword": " U.S. Senator",
-        "importance": null
-      },
-      {
-        "keyword": " Illinois",
-        "importance": null
-      },
-      {
-        "keyword": " 2005-2008",
+        "keyword": " U.S. Senator from Illinois",
         "importance": null
       },
       {
         "keyword": " Illinois State Senator",
-        "importance": null
-      },
-      {
-        "keyword": " 1997-2004",
         "importance": null
       }
     ]

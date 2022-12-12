@@ -58,18 +58,18 @@ class EmvistaApi(ProviderApi, Text):
         if response.status_code != 200:
             raise ProviderException(original_response["message"])
 
-        # Return standarized response
-        standarized_response_list = original_response["result"].get("sentences", [])
+        # Return standardized response
+        standardized_response_list = original_response["result"].get("sentences", [])
         level_items = [
-            element for element in standarized_response_list if element["level"] == 10
+            element for element in standardized_response_list if element["level"] == 10
         ]
         result = "".join([element["value"] for element in level_items])
 
-        standarized_response = SummarizeDataClass(result=result)
+        standardized_response = SummarizeDataClass(result=result)
 
         result = ResponseType[SummarizeDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -115,11 +115,11 @@ class EmvistaApi(ProviderApi, Text):
                         )
                     )
 
-        standarized_response = SyntaxAnalysisDataClass(items=items)
+        standardized_response = SyntaxAnalysisDataClass(items=items)
 
         result = ResponseType[SyntaxAnalysisDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -143,14 +143,14 @@ class EmvistaApi(ProviderApi, Text):
         if response.status_code != 200:
             raise ProviderException(original_response["message"])
 
-        # Return standarized response
-        standarized_response = AnonymizationDataClass(
+        # Return standardized response
+        standardized_response = AnonymizationDataClass(
             result=original_response["result"]["annotatedValue"]
         )
 
         result = ResponseType[AnonymizationDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -192,14 +192,14 @@ class EmvistaApi(ProviderApi, Text):
 
         print(original_response['result']['globalScore'])
 
-        standarized_response = SentimentAnalysisDataClass(
+        standardized_response = SentimentAnalysisDataClass(
             general_sentiment=self._normalize_sentiment(original_response['result']['globalScore']),
             general_sentiment_rate=abs(original_response['result']['globalScore']) if original_response['result']['globalScore'] != 'NaN' else 0
         )
         
         result = ResponseType[SentimentAnalysisDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
         return result
 
@@ -214,7 +214,7 @@ class EmvistaApi(ProviderApi, Text):
         return:
           ResponseType(
             original_response: {},
-            standarized_response: Keyword_extraction(text: str)
+            standardized_response: Keyword_extraction(text: str)
           )
         """
         #check language
@@ -245,12 +245,12 @@ class EmvistaApi(ProviderApi, Text):
                     keyword=keyword["value"], importance=float(keyword["score"]) * 0.25
                 )
             )
-        standarized_response = KeywordExtractionDataClass(items=items)
+        standardized_response = KeywordExtractionDataClass(items=items)
 
         # Return standardized response
         result = ResponseType[KeywordExtractionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
 
         return result

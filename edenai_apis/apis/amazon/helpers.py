@@ -111,8 +111,8 @@ def amazon_ocr_tables_parser(original_result) -> OcrTablesAsyncDataClass:
             tables.append(ocr_table)
         ocr_page = Page(tables=tables)
         pages.append(ocr_page)
-    standarized_response = OcrTablesAsyncDataClass(pages=pages, num_pages=num_pages)
-    return standarized_response
+    standardized_response = OcrTablesAsyncDataClass(pages=pages, num_pages=num_pages)
+    return standardized_response
 
 
 T = TypeVar("T")
@@ -185,12 +185,12 @@ def amazon_launch_video_job(file: BufferedReader, feature: str):
 
 
 def amazon_video_response_formatter(
-    response: Dict, standarized_response: T, provider_job_id: str
+    response: Dict, standardized_response: T, provider_job_id: str
 ) -> AsyncBaseResponseType[T]:
     if response["JobStatus"] == "SUCCEEDED":
         return AsyncResponseType[T](
             original_response=response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
             provider_job_id=provider_job_id,
         )
     elif response["JobStatus"] == "IN_PROGRESS":

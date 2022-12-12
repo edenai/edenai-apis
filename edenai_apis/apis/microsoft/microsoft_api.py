@@ -152,12 +152,12 @@ class MicrosoftApi(
                             height=float(word["boundingBox"].split(",")[3]) / height,
                         )
                     )
-        standarized = OcrDataClass(
+        standardized = OcrDataClass(
             text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
         )
 
         return ResponseType[OcrDataClass](
-            original_response=response, standarized_response=standarized
+            original_response=response, standardized_response=standardized
         )
 
 
@@ -201,11 +201,11 @@ class MicrosoftApi(
         audio = base64.b64encode(response.audio_data).decode("utf-8")
         voice_type = 1
 
-        standarized_response = TextToSpeechDataClass(audio=audio, voice_type=voice_type)
+        standardized_response = TextToSpeechDataClass(audio=audio, voice_type=voice_type)
 
         return ResponseType[TextToSpeechDataClass](
             original_response={},
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
 
@@ -231,7 +231,7 @@ class MicrosoftApi(
 
         return ResponseType[InvoiceParserDataClass](
             original_response=result,
-            standarized_response=normalize_invoice_result(result)
+            standardized_response=normalize_invoice_result(result)
         )
 
 
@@ -310,7 +310,7 @@ class MicrosoftApi(
         )
         return ResponseType[ReceiptParserDataClass](
             original_response=result,
-            standarized_response=ReceiptParserDataClass(extracted_data=[receipt])
+            standardized_response=ReceiptParserDataClass(extracted_data=[receipt])
         )
 
     def ocr__identity_parser(self, file: BufferedReader) -> ResponseType[IdentityParserDataClass]:
@@ -411,11 +411,11 @@ class MicrosoftApi(
                 )
             ))
 
-        standarized_response = IdentityParserDataClass(extracted_data=items)
+        standardized_response = IdentityParserDataClass(extracted_data=items)
 
         return ResponseType[IdentityParserDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
     def image__explicit_content(
@@ -462,7 +462,7 @@ class MicrosoftApi(
 
         res =  ResponseType[ExplicitContentDataClass](
             original_response=data,
-            standarized_response=ExplicitContentDataClass(
+            standardized_response=ExplicitContentDataClass(
                 items=items, nsfw_likelihood=nsfw
             ),
         )
@@ -508,7 +508,7 @@ class MicrosoftApi(
 
         return ResponseType[ObjectDetectionDataClass](
             original_response = response,
-            standarized_response= ObjectDetectionDataClass(items=items)
+            standardized_response= ObjectDetectionDataClass(items=items)
         )
 
 
@@ -553,7 +553,7 @@ class MicrosoftApi(
 
         return ResponseType[FaceDetectionDataClass](
             original_response= response,
-            standarized_response= FaceDetectionDataClass(items=faces_list)
+            standardized_response= FaceDetectionDataClass(items=faces_list)
         )
 
 
@@ -598,7 +598,7 @@ class MicrosoftApi(
             )
 
         return ResponseType[LogoDetectionDataClass](
-            original_response=data, standarized_response=LogoDetectionDataClass(items=items)
+            original_response=data, standardized_response=LogoDetectionDataClass(items=items)
         )
 
 
@@ -630,7 +630,7 @@ class MicrosoftApi(
 
         return ResponseType[LandmarkDetectionDataClass](
             original_response=response,
-            standarized_response= LandmarkDetectionDataClass(items=items)
+            standardized_response= LandmarkDetectionDataClass(items=items)
         )
 
 
@@ -706,7 +706,7 @@ class MicrosoftApi(
 
         return ResponseType[SentimentAnalysisDataClass](
             original_response= data,
-            standarized_response= standarize
+            standardized_response= standarize
         )
 
 
@@ -748,11 +748,11 @@ class MicrosoftApi(
                 InfosKeywordExtractionDataClass(keyword=key_phrase)
             )
 
-        standarized_response = KeywordExtractionDataClass(items=items)
+        standardized_response = KeywordExtractionDataClass(items=items)
 
         return ResponseType[KeywordExtractionDataClass](
             original_response=data,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
 
@@ -794,11 +794,11 @@ class MicrosoftApi(
                     )
                 )
 
-        standarized_response = LanguageDetectionDataClass(items=items)
+        standardized_response = LanguageDetectionDataClass(items=items)
 
         return ResponseType[LanguageDetectionDataClass] (
             original_response= data,
-            standarized_response= standarized_response
+            standardized_response= standardized_response
         )
 
 
@@ -833,13 +833,13 @@ class MicrosoftApi(
         data = response.json()
 
         # Create output TextAutomaticTranslation object
-        standarized_response = AutomaticTranslationDataClass(
+        standardized_response = AutomaticTranslationDataClass(
             text=data[0]["translations"][0]["text"]
         )
 
         return ResponseType[AutomaticTranslationDataClass](
             original_response= data,
-            standarized_response= standarized_response
+            standardized_response= standardized_response
         )
 
 
@@ -889,11 +889,11 @@ class MicrosoftApi(
                 )
             )
 
-        standarized_response = NamedEntityRecognitionDataClass(items=items)
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[NamedEntityRecognitionDataClass](
             original_response= data,
-            standarized_response= standarized_response
+            standardized_response= standardized_response
         )
 
 
@@ -945,11 +945,11 @@ class MicrosoftApi(
             resp = requests.get(url=get_url, headers=self.headers["text"])
             data = resp.json()
 
-        standarized_response = SummarizeDataClass(result=summary)
+        standardized_response = SummarizeDataClass(result=summary)
 
         return ResponseType[SummarizeDataClass](
             original_response= data,
-            standarized_response= standarized_response
+            standardized_response= standardized_response
         )
 
 
@@ -1041,15 +1041,15 @@ class MicrosoftApi(
                     tables.append(ocr_table)
                     ocr_page = Page(tables=tables)
                 pages.append(ocr_page)
-                standarized_response = OcrTablesAsyncDataClass(
+                standardized_response = OcrTablesAsyncDataClass(
                     pages=pages, num_pages=num_pages
                 )
-                return standarized_response.dict()
+                return standardized_response.dict()
 
-            standarized_response = microsoft_async(original_result)
+            standardized_response = microsoft_async(original_result)
             return AsyncResponseType[OcrTablesAsyncDataClass](
                 original_response= data,
-                standarized_response= standarized_response,
+                standardized_response= standardized_response,
                 provider_job_id= job_id
             )
 
@@ -1148,10 +1148,10 @@ class MicrosoftApi(
                                 )
                 diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
 
-                standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
+                standardized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
                 return AsyncResponseType[SpeechToTextAsyncDataClass](
                     original_response= original_response,
-                    standarized_response= standarized_response,
+                    standardized_response= standardized_response,
                     provider_job_id= provider_job_id
                 )
             else:

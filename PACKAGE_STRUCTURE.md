@@ -141,7 +141,7 @@ The package listing all the [features](#feature) available in the project, each 
 
 * `subfeature_`**args**`.py` : the subfeature input **args** or parameters used for testing.
 * `subfeature_`**dataclass**`.py` : the subfeature **dataclass** used for mapping the subfeature call result to a uniform dictionary (json).
-* `subfeature_`**response**`.json` : the subfeature [standarized response](#standarized-response) resulting from mapping the the call result to the appropriate *dataclass*.
+* `subfeature_`**response**`.json` : the subfeature [standardized response](#standardized-response) resulting from mapping the the call result to the appropriate *dataclass*.
 
 ### **loaders**
 

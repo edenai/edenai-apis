@@ -111,10 +111,10 @@ class VociApi(ProviderApi, Audio):
                         )
                     )
             diarization = SpeechDiarization(total_speakers=len(speakers), entries=diarization_entries)
-            standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
+            standardized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
         elif response.status_code == 202:

@@ -47,11 +47,11 @@ class LettriaApi(ProviderApi, Text):
                     )
                 )
 
-        standarized_response = NamedEntityRecognitionDataClass(items=items)
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
 
         result = ResponseType[NamedEntityRecognitionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -94,7 +94,7 @@ class LettriaApi(ProviderApi, Text):
 
         result = ResponseType[SentimentAnalysisDataClass](
             original_response=original_response,
-            standarized_response=standarize,
+            standardized_response=standarize,
         )
         return result
 
@@ -147,10 +147,10 @@ class LettriaApi(ProviderApi, Text):
                         )
                     )
 
-        standarized_response = SyntaxAnalysisDataClass(items=items)
+        standardized_response = SyntaxAnalysisDataClass(items=items)
 
         result = ResponseType[SyntaxAnalysisDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result

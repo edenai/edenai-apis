@@ -89,10 +89,10 @@ class Api4aiApi(
                     )
                 )
 
-        standarized_response = ObjectDetectionDataClass(items=items)
+        standardized_response = ObjectDetectionDataClass(items=items)
         result = ResponseType[ObjectDetectionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -138,10 +138,10 @@ class Api4aiApi(
                     confidence=confidence, bounding_box=bouding_box, landmarks=landmarks
                 )
             )
-        standarized_response = FaceDetectionDataClass(items=faces_list)
+        standardized_response = FaceDetectionDataClass(items=faces_list)
         result = ResponseType[FaceDetectionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -171,10 +171,10 @@ class Api4aiApi(
                 ))
             
 
-        standarized_response = AnonymizationDataClass(image=img_b64, items=items)
+        standardized_response = AnonymizationDataClass(image=img_b64, items=items)
         result = ResponseType[AnonymizationDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -212,9 +212,9 @@ class Api4aiApi(
                     bounding_poly=LogoBoundingPoly(vertices=vertices),
                 )
             )
-        standarized = LogoDetectionDataClass(items=items)
+        standardized = LogoDetectionDataClass(items=items)
         result = ResponseType[LogoDetectionDataClass](
-            original_response=original_response, standarized_response=standarized
+            original_response=original_response, standardized_response=standardized
         )
         return result
 
@@ -243,11 +243,11 @@ class Api4aiApi(
             )
 
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(nsfw_items)
-        standarized_response = ExplicitContentDataClass(items=nsfw_items, nsfw_likelihood=nsfw_likelihood)
+        standardized_response = ExplicitContentDataClass(items=nsfw_items, nsfw_likelihood=nsfw_likelihood)
 
         result = ResponseType[ExplicitContentDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
         return result
 
@@ -281,9 +281,9 @@ class Api4aiApi(
 
         final_text += " " + full_text
 
-        standarized_response = OcrDataClass(text=full_text, bounding_boxes=boxes).dict()
+        standardized_response = OcrDataClass(text=full_text, bounding_boxes=boxes).dict()
         result = ResponseType[OcrDataClass](
             original_response=response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result

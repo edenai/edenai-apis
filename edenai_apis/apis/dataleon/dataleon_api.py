@@ -119,7 +119,7 @@ class DataleonApi(ProviderApi, Ocr):
 
         result = ResponseType[InvoiceParserDataClass](
             original_response=original_response,
-            standarized_response=InvoiceParserDataClass(
+            standardized_response=InvoiceParserDataClass(
                 extracted_data=[invoice_parser]
             ),
         )
@@ -169,6 +169,6 @@ class DataleonApi(ProviderApi, Ocr):
 
         result = ResponseType[ReceiptParserDataClass](
             original_response=original_response,
-            standarized_response=ReceiptParserDataClass(extracted_data=[ocr_receipt]),
+            standardized_response=ReceiptParserDataClass(extracted_data=[ocr_receipt]),
         )
         return result

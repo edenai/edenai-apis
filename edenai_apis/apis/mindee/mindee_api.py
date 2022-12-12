@@ -105,11 +105,11 @@ class MindeeApi(ProviderApi, Ocr):
             taxes=taxes,
             receipt_infos=receipt_infos,
         )
-        standarized_response = ReceiptParserDataClass(extracted_data=[ocr_receipt])
+        standardized_response = ReceiptParserDataClass(extracted_data=[ocr_receipt])
 
         result = ResponseType[ReceiptParserDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -182,13 +182,13 @@ class MindeeApi(ProviderApi, Ocr):
             locale=LocaleInvoice(currency=currency, language=language),
         )
 
-        standarized_response = InvoiceParserDataClass(
+        standardized_response = InvoiceParserDataClass(
             extracted_data=[invoice_parser]
         ).dict()
 
         result = ResponseType[InvoiceParserDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -261,9 +261,9 @@ class MindeeApi(ProviderApi, Ocr):
             mrz=mrz,
         ))
 
-        standarized_response = IdentityParserDataClass(extracted_data=items)
+        standardized_response = IdentityParserDataClass(extracted_data=items)
 
         return ResponseType[IdentityParserDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )

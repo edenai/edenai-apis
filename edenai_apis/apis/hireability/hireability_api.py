@@ -150,6 +150,6 @@ class HireabilityApi(ProviderApi, Ocr):
         )
 
         result = ResponseType[ResumeParserDataClass](
-            original_response=original_response, standarized_response=std
+            original_response=original_response, standardized_response=std
         )
         return result

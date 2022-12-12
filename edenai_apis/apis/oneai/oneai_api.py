@@ -71,11 +71,11 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
         if response.status_code != 200:
             raise ProviderException(message=original_response['message'], code=response.status_code)
         
-        standarized_response = AnonymizationDataClass(result=original_response['output'][0]['text'])
+        standardized_response = AnonymizationDataClass(result=original_response['output'][0]['text'])
 
         return ResponseType[AnonymizationDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
 
@@ -99,11 +99,11 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
         for item in original_response['output'][0]['labels']:
             items.append(InfosKeywordExtractionDataClass(keyword=item['span_text'], importance=round(item['value'], 2)))
 
-        standarized_response = KeywordExtractionDataClass(items=items)
+        standardized_response = KeywordExtractionDataClass(items=items)
 
         return ResponseType[KeywordExtractionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
     def text__named_entity_recognition(self, language: str, text: str) -> ResponseType[NamedEntityRecognitionDataClass]:
@@ -130,11 +130,11 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
                 category = 'LOCATION'
             items.append(InfosNamedEntityRecognitionDataClass(entity=entity, category=category))
 
-        standarized_response = NamedEntityRecognitionDataClass(items=items)
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[NamedEntityRecognitionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
     def text__sentiment_analysis(self, language: str, text: str) -> ResponseType[SentimentAnalysisDataClass]:
@@ -170,14 +170,14 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
         elif general_sentiment > 0:
             general_sentiment = SentimentEnum.POSITIVE
 
-        standarized_response = SentimentAnalysisDataClass(
+        standardized_response = SentimentAnalysisDataClass(
             general_sentiment=general_sentiment_text,
             items=items
         )
 
         return ResponseType[SentimentAnalysisDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
     def text__summarize(self, text: str, output_sentences: int, language: str, model: Optional[str]) -> ResponseType[SummarizeDataClass]:
@@ -198,11 +198,11 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
 
         text = original_response['output'][0]['text']
 
-        standarized_response = SummarizeDataClass(result=text)
+        standardized_response = SummarizeDataClass(result=text)
 
         return ResponseType[SummarizeDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
     def translation__language_detection(self, text: str) -> ResponseType[LanguageDetectionDataClass]:
@@ -225,11 +225,11 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
         for item in original_response['output'][0]['labels']:
             items.append(InfosLanguageDetectionDataClass(language=item['value']))
 
-        standarized_response = LanguageDetectionDataClass(items=items)
+        standardized_response = LanguageDetectionDataClass(items=items)
 
         return ResponseType[LanguageDetectionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
     def audio__speech_to_text_async__launch_job(self, file: BufferedReader, 
@@ -298,11 +298,11 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
                         )
                     )
                 diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
-                standarized_response=SpeechToTextAsyncDataClass(text=final_text.strip(),
+                standardized_response=SpeechToTextAsyncDataClass(text=final_text.strip(),
                         diarization= diarization)
                 return AsyncResponseType[SpeechToTextAsyncDataClass](
                     original_response=original_response,
-                    standarized_response=standarized_response,
+                    standardized_response=standardized_response,
                     provider_job_id=provider_job_id
                 )
             elif original_response['status'] == StatusEnum.RUNNING:

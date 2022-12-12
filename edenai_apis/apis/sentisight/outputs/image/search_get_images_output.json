@@ -21,7 +21,7 @@
     "image_name.jpg",
     "image1.jpg"
   ],
-  "standarized_response": {
+  "standardized_response": {
     "list_images": [
       {
         "image_name": "test_18.jpg"

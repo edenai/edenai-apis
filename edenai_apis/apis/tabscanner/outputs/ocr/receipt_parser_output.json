@@ -699,7 +699,7 @@
     "success": true,
     "code": 202
   },
-  "standarized_response": {
+  "standardized_response": {
     "extracted_data": [
       {
         "invoice_number": null,

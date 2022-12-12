@@ -19,7 +19,7 @@
       "RetryAttempts": 0
     }
   },
-  "standarized_response": {
+  "standardized_response": {
     "general_sentiment": "Negative",
     "general_sentiment_rate": 0.4,
     "items": []

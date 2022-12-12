@@ -85,17 +85,17 @@ class IbmApi(
         )
 
         # Create output TextAutomaticTranslation object
-        standarized: AutomaticTranslationDataClass
+        standardized: AutomaticTranslationDataClass
 
         # Getting the translated text
         for translated_text in response["translations"]:
-            standarized = AutomaticTranslationDataClass(
+            standardized = AutomaticTranslationDataClass(
                 text=translated_text["translation"]
             )
 
         return ResponseType[AutomaticTranslationDataClass](
             original_response= response["translations"],
-            standarized_response = standarized
+            standardized_response = standardized
         )
 
 
@@ -121,11 +121,11 @@ class IbmApi(
                         )
                     )
 
-        standarized_response = LanguageDetectionDataClass(items=items)
+        standardized_response = LanguageDetectionDataClass(items=items)
 
         return ResponseType[LanguageDetectionDataClass] (
             original_response= response,
-            standarized_response = standarized_response
+            standardized_response = standardized_response
         )
 
 
@@ -158,7 +158,7 @@ class IbmApi(
 
         return ResponseType[SentimentAnalysisDataClass](
             original_response = response,
-            standarized_response = standarize
+            standardized_response = standarize
         )
 
 
@@ -186,11 +186,11 @@ class IbmApi(
         audio = base64.b64encode(response.content).decode("utf-8")
         voice_type = 1
 
-        standarized_response = TextToSpeechDataClass(audio=audio, voice_type=voice_type)
+        standardized_response = TextToSpeechDataClass(audio=audio, voice_type=voice_type)
 
         return ResponseType[TextToSpeechDataClass](
             original_response = {},
-            standarized_response = standarized_response
+            standardized_response = standardized_response
         )
 
 
@@ -228,11 +228,11 @@ class IbmApi(
                 )
             )
 
-        standarized_response = KeywordExtractionDataClass(items=items)
+        standardized_response = KeywordExtractionDataClass(items=items)
 
         return ResponseType[KeywordExtractionDataClass](
             original_response = response,
-            standarized_response = standarized_response
+            standardized_response = standardized_response
         )
 
 
@@ -274,11 +274,11 @@ class IbmApi(
                 )
             )
 
-        standarized_response = NamedEntityRecognitionDataClass(items=items)
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[NamedEntityRecognitionDataClass](
             original_response = response,
-            standarized_response = standarized_response
+            standardized_response = standardized_response
         )
 
 
@@ -333,11 +333,11 @@ class IbmApi(
                     )
                 )
 
-        standarized_response = SyntaxAnalysisDataClass(items=items)
+        standardized_response = SyntaxAnalysisDataClass(items=items)
 
         return ResponseType[SyntaxAnalysisDataClass](
             original_response = response,
-            standarized_response = standarized_response
+            standardized_response = standardized_response
         )
 
 
@@ -396,10 +396,10 @@ class IbmApi(
                     )
                 )
             diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
-            standarized_response = SpeechToTextAsyncDataClass(text=text, diarization= diarization)
+            standardized_response = SpeechToTextAsyncDataClass(text=text, diarization= diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response = original_response,
-                standarized_response = standarized_response,
+                standardized_response = standardized_response,
                 provider_job_id = provider_job_id
             )
 

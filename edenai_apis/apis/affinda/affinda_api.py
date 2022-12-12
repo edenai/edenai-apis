@@ -167,7 +167,7 @@ class AffindaApi(ProviderApi, Ocr):
         )
 
         result = ResponseType[ResumeParserDataClass](
-            original_response=original_response, standarized_response=std
+            original_response=original_response, standardized_response=std
         )
         return result
 
@@ -272,12 +272,12 @@ class AffindaApi(ProviderApi, Ocr):
             taxes=[TaxesInvoice(value=taxes)],
         )
 
-        standarized_response = InvoiceParserDataClass(
+        standardized_response = InvoiceParserDataClass(
             extracted_data=[invoice_parser]
         )
 
         result = ResponseType[InvoiceParserDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
         return result

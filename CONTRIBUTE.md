@@ -46,7 +46,7 @@ folder should contain:
     it will also inherit from other abstract classes representing each features
     You will define feature methods according to the features class abstractmethods.
     each feature method has to return a Dictionary:
-    containing the original response of the provider and your standarized response
+    containing the original response of the provider and your standardized response
     
     eg:
     
@@ -57,7 +57,7 @@ folder should contain:
         ):
             def image__object_detection(file_name: str, file_content: io.BytesIO) -> Dict:
                 """your code here"""
-                return {"original_response": response, "standarized_response": standarized}
+                return {"original_response": response, "standardized_response": standardized}
 
 -   An output directory containing one directory by feature, each feature directory will contain output json files representing original response returned by provider for a subfeature
 
@@ -77,7 +77,7 @@ folder should contain:
 -   \<feature>_class.py abstract class for method
 -   \<subfeature>_args.py to generate arguments for tests
 -   \<subfeature>_dataclass.py class for output
--   \<subfeature>_response.json: validated standarized response to compare with your own standarization
+-   \<subfeature>_response.json: validated standardized response to compare with your own standarization
 
 
 <a id="org3fd3a19"></a>

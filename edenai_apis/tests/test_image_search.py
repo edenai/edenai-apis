@@ -120,10 +120,10 @@ class CommonImageSearchTests:
 
         assert isinstance(result, dict)
         original_response = result.get("original_response")
-        standarized_response = result.get("standarized_response")
+        standardized_response = result.get("standardized_response")
         assert original_response is not None
-        assert standarized_response is not None
-        assert isinstance(standarized_response["list_images"], list)
+        assert standardized_response is not None
+        assert isinstance(standardized_response["list_images"], list)
 
     def _test_get_image_(self, provider):
         print("Getting image...")
@@ -143,10 +143,10 @@ class CommonImageSearchTests:
 
         assert isinstance(image, dict)
         original_response = image.get("original_response")
-        standarized_response = image.get("standarized_response")
+        standardized_response = image.get("standardized_response")
         assert original_response is not None
-        assert standarized_response is not None
-        assert isinstance(standarized_response["image"], bytes)
+        assert standardized_response is not None
+        assert isinstance(standardized_response["image"], bytes)
 
     def _test_real_output_search_(self, provider):
         """Test API Call for launch search similarity"""
@@ -168,13 +168,13 @@ class CommonImageSearchTests:
         assert isinstance(api_output_search, dict)
 
         original_response = api_output_search.get("original_response")
-        standarized_response = api_output_search.get("standarized_response")
+        standardized_response = api_output_search.get("standardized_response")
         assert original_response is not None
-        assert standarized_response is not None
+        assert standardized_response is not None
 
         # compare provider output with standard response to verify standarization
         assert compare_responses(
-            FEATURE, SUBFEATURE, standarized_response, phase="launch_similarity"
+            FEATURE, SUBFEATURE, standardized_response, phase="launch_similarity"
         )
 
         # test output is JSON serializable
@@ -184,7 +184,7 @@ class CommonImageSearchTests:
             return None
 
         assert json.dumps(api_output_search["original_response"], default=default)
-        assert json.dumps(api_output_search["standarized_response"], default=default)
+        assert json.dumps(api_output_search["standardized_response"], default=default)
 
     def _test_saved_output_search(self, provider):
         """Test API Call"""
@@ -196,7 +196,7 @@ class CommonImageSearchTests:
         assert compare_responses(
             FEATURE,
             SUBFEATURE,
-            saved_output["standarized_response"],
+            saved_output["standardized_response"],
             phase="launch_similarity",
         )
 

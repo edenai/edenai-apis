@@ -68,7 +68,7 @@ class InfosInvoiceParserDataClass(BaseModel):
     amount_due : Optional[float] # New
     previous_unpaid_balance : Optional[float] # New
     discount : Optional[float] # New
-    taxes: Sequence[TaxesInvoice] #TODO from list to item -> total_tax
+    taxes: Sequence[TaxesInvoice] = Field(default_factory=list) # Change from list to item -> total_tax
     #--------------------------------------------#
     payment_term : Optional[StrictStr] # New
     purchase_order : Optional[StrictStr] # New
@@ -80,7 +80,7 @@ class InfosInvoiceParserDataClass(BaseModel):
     locale: LocaleInvoice = LocaleInvoice()
     bank_informations : BankInvoice = BankInvoice() # New
     #--------------------------------------------#
-    item_lines: Sequence[ItemLinesInvoice]
+    item_lines: Sequence[ItemLinesInvoice] = Field(default_factory=list)
 
 class InvoiceParserDataClass(BaseModel):
     extracted_data: Sequence[InfosInvoiceParserDataClass] = Field(default_factory=list)

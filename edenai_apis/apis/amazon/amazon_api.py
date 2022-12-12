@@ -167,7 +167,7 @@ class AmazonApi(
 
         return ResponseType[ObjectDetectionDataClass](
             original_response=original_response,
-            standarized_response=ObjectDetectionDataClass(items=items),
+            standardized_response=ObjectDetectionDataClass(items=items),
         )
 
     def image__face_detection(
@@ -305,10 +305,10 @@ class AmazonApi(
                 )
             )
 
-        standarized_response = FaceDetectionDataClass(items=faces_list)
+        standardized_response = FaceDetectionDataClass(items=faces_list)
         return ResponseType[FaceDetectionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
 
     def image__explicit_content(
@@ -333,10 +333,10 @@ class AmazonApi(
             )
 
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
-        standarized_response = ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw_likelihood)
+        standardized_response = ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw_likelihood)
 
         return ResponseType[ExplicitContentDataClass](
-            original_response=response, standarized_response=standarized_response
+            original_response=response, standardized_response=standardized_response
         )
 
     def ocr__ocr(
@@ -381,7 +381,7 @@ class AmazonApi(
         )
 
         return ResponseType[OcrDataClass](
-            original_response=original_response, standarized_response=standardized
+            original_response=original_response, standardized_response=standardized
         )
 
     def ocr__identity_parser(self, file: BufferedReader) -> ResponseType[IdentityParserDataClass]:
@@ -451,11 +451,11 @@ class AmazonApi(
 
             pprint(items)
 
-        standarized_response = IdentityParserDataClass(extracted_data=items)
+        standardized_response = IdentityParserDataClass(extracted_data=items)
 
         return ResponseType[IdentityParserDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
 
@@ -494,7 +494,7 @@ class AmazonApi(
         )
 
         return ResponseType[SentimentAnalysisDataClass](
-            original_response=response, standarized_response=standarize
+            original_response=response, standardized_response=standarize
         )
 
     def text__keyword_extraction(
@@ -518,10 +518,10 @@ class AmazonApi(
                 )
             )
 
-        standarized_response = KeywordExtractionDataClass(items=items)
+        standardized_response = KeywordExtractionDataClass(items=items)
 
         return ResponseType[KeywordExtractionDataClass](
-            original_response=response, standarized_response=standarized_response
+            original_response=response, standardized_response=standardized_response
         )
 
     def text__named_entity_recognition(
@@ -548,7 +548,7 @@ class AmazonApi(
         standardized = NamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[NamedEntityRecognitionDataClass](
-            original_response=response, standarized_response=standardized
+            original_response=response, standardized_response=standardized
         )
 
     def text__syntax_analysis(
@@ -579,10 +579,10 @@ class AmazonApi(
                 )
             )
 
-        standarized_response = SyntaxAnalysisDataClass(items=items)
+        standardized_response = SyntaxAnalysisDataClass(items=items)
 
         return ResponseType[SyntaxAnalysisDataClass](
-            original_response=response, standarized_response=standarized_response
+            original_response=response, standardized_response=standardized_response
         )
 
     def translation__language_detection(
@@ -602,10 +602,10 @@ class AmazonApi(
                     )
                 )
 
-        standarized_response = LanguageDetectionDataClass(items=items)
+        standardized_response = LanguageDetectionDataClass(items=items)
 
         return ResponseType[LanguageDetectionDataClass](
-            original_response=response, standarized_response=standarized_response
+            original_response=response, standardized_response=standardized_response
         )
 
     def translation__automatic_translation(
@@ -626,7 +626,7 @@ class AmazonApi(
             standardized = AutomaticTranslationDataClass(text=response["TranslatedText"])
 
         return ResponseType[AutomaticTranslationDataClass](
-            original_response=response, standarized_response=standardized.dict()
+            original_response=response, standardized_response=standardized.dict()
         )
 
     def audio__text_to_speech(
@@ -644,11 +644,11 @@ class AmazonApi(
         audio_file = base64.b64encode(response["AudioStream"].read()).decode("utf-8")
         voice_type = 1
 
-        standarized_response = TextToSpeechDataClass(
+        standardized_response = TextToSpeechDataClass(
             audio=audio_file, voice_type=voice_type
         )
         return ResponseType[TextToSpeechDataClass](
-            original_response={}, standarized_response=standarized_response
+            original_response={}, standardized_response=standardized_response
         )
 
     def ocr__ocr_tables_async__launch_job(
@@ -695,10 +695,10 @@ class AmazonApi(
         if msg["Status"] == "SUCCEEDED":
             original_result = self.clients["textract"].get_document_analysis(JobId=job_id)
 
-            standarized_response = amazon_ocr_tables_parser(original_result)
+            standardized_response = amazon_ocr_tables_parser(original_result)
             return AsyncResponseType[OcrTablesAsyncDataClass](
                 original_response=original_result,
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=job_id,
             )
         elif msg["Status"] == "PROCESSING":
@@ -884,13 +884,13 @@ class AmazonApi(
                                 f"{word_info['alternatives'][0]['content']}"
                             )
 
-                standarized_response = SpeechToTextAsyncDataClass(
+                standardized_response = SpeechToTextAsyncDataClass(
                     text=original_response["results"]["transcripts"][0]["transcript"],
                     diarization= SpeechDiarization(total_speakers=speakers, entries=diarization_entries)
                 )
                 return AsyncResponseType[SpeechToTextAsyncDataClass](
                     original_response=original_response,
-                    standarized_response=standarized_response,
+                    standardized_response=standardized_response,
                     provider_job_id=provider_job_id,
                 )
         elif job_status == "FAILED":
@@ -976,14 +976,14 @@ class AmazonApi(
                 )
                 labels.append(videolabel)
 
-            standarized_response = LabelDetectionAsyncDataClass(labels=labels)
+            standardized_response = LabelDetectionAsyncDataClass(labels=labels)
             if "NextToken" in response:
                 pagination_token = response["NextToken"]
             else:
                 finished = True
 
         return amazon_video_response_formatter(
-            response, standarized_response, provider_job_id
+            response, standardized_response, provider_job_id
         )
 
     # Get job result for text detection
@@ -1039,7 +1039,7 @@ class AmazonApi(
                 )
                 text_video.append(video_text)
 
-            standarized_response = TextDetectionAsyncDataClass(texts=text_video)
+            standardized_response = TextDetectionAsyncDataClass(texts=text_video)
 
             if "NextToken" in response:
                 pagination_token = response["NextToken"]
@@ -1047,7 +1047,7 @@ class AmazonApi(
                 finished = True
 
         return amazon_video_response_formatter(
-            response, standarized_response, provider_job_id
+            response, standardized_response, provider_job_id
         )
 
     # Get job result for face detection
@@ -1111,7 +1111,7 @@ class AmazonApi(
                         bounding_box=bounding_box,
                     )
                 )
-            standarized_response = FaceDetectionAsyncDataClass(faces=faces)
+            standardized_response = FaceDetectionAsyncDataClass(faces=faces)
 
             if "NextToken" in response:
                 pagination_token = response["NextToken"]
@@ -1119,7 +1119,7 @@ class AmazonApi(
                 finished = True
 
         return amazon_video_response_formatter(
-            response, standarized_response, provider_job_id
+            response, standardized_response, provider_job_id
         )
 
     # Get job result for person tracking
@@ -1193,7 +1193,7 @@ class AmazonApi(
                             )
                         )
                 tracked_persons.append(VideoTrackingPerson(tracked=tracked_person))
-            standarized_response = PersonTrackingAsyncDataClass(persons=tracked_persons)
+            standardized_response = PersonTrackingAsyncDataClass(persons=tracked_persons)
 
             if "NextToken" in response:
                 pagination_token = response["NextToken"]
@@ -1201,7 +1201,7 @@ class AmazonApi(
                 finished = True
 
         return amazon_video_response_formatter(
-            response, standarized_response, provider_job_id
+            response, standardized_response, provider_job_id
         )
 
     # Get job result for explicit content detection
@@ -1233,7 +1233,7 @@ class AmazonApi(
                         timestamp=timestamp, confidence=confidence, category=category
                     )
                 )
-            standarized_response = ExplicitContentDetectionAsyncDataClass(
+            standardized_response = ExplicitContentDetectionAsyncDataClass(
                 moderation=moderated_content
             )
             if "NextToken" in response:
@@ -1242,5 +1242,5 @@ class AmazonApi(
                 finished = True
 
         return amazon_video_response_formatter(
-            response, standarized_response, provider_job_id
+            response, standardized_response, provider_job_id
         )

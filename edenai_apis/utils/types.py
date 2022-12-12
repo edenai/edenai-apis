@@ -10,7 +10,7 @@ class ResponseSuccess(BaseModel):
 
 class ResponseType(GenericModel, Generic[T]):
     original_response: Any
-    standarized_response: T
+    standardized_response: T
 
 class AsyncLaunchJobResponseType(BaseModel):
     provider_job_id: StrictStr

@@ -84,13 +84,13 @@ class OpenaiApi(ProviderApi, Text):
         if "error" in original_response:
             raise ProviderException(original_response["error"]["message"])
 
-        standarized_response = SummarizeDataClass(
+        standardized_response = SummarizeDataClass(
             result=original_response["choices"][0]["text"]
         )
 
         result = ResponseType[SummarizeDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -146,11 +146,11 @@ class OpenaiApi(ProviderApi, Text):
                     score=round(score, 3),
                 )
             )
-        standarized_response = SearchDataClass(items=data_info_list)
+        standardized_response = SearchDataClass(items=data_info_list)
 
         result = ResponseType[SearchDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
         return result
 
@@ -170,7 +170,7 @@ class OpenaiApi(ProviderApi, Text):
 
         # With search get the top document with the question & construct the context
         document = self.text__search(texts, question).dict()
-        context = document["standarized_response"]["items"][0]["document"]
+        context = document["standardized_response"]["items"][0]["document"]
         prompt_questions = [
             "\nQ:" + example[0] + "\nA:" + example[1] for example in examples
         ]
@@ -201,11 +201,11 @@ class OpenaiApi(ProviderApi, Text):
             raise ProviderException(original_response["error"]["message"])
         answer = original_response["choices"][0]["text"].split("\n")
         answer = answer[0]
-        standarized_response = QuestionAnswerDataClass(answers=[answer])
+        standardized_response = QuestionAnswerDataClass(answers=[answer])
 
         result = ResponseType[QuestionAnswerDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -223,11 +223,11 @@ class OpenaiApi(ProviderApi, Text):
         if "error" in original_response:
             raise ProviderException(original_response["error"]["message"])
         
-        standarized_response = AnonymizationDataClass(result=original_response["choices"][0]['text'])
+        standardized_response = AnonymizationDataClass(result=original_response["choices"][0]['text'])
 
         return ResponseType[AnonymizationDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
     def text__keyword_extraction(self, language: str, text: str) -> ResponseType[KeywordExtractionDataClass]:
@@ -249,11 +249,11 @@ class OpenaiApi(ProviderApi, Text):
             items.append(
                 InfosKeywordExtractionDataClass(keyword=keyword)
             )
-        standarized_response = KeywordExtractionDataClass(items = items)
+        standardized_response = KeywordExtractionDataClass(items = items)
 
         return ResponseType[KeywordExtractionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
     
     def translation__language_detection(
@@ -284,11 +284,11 @@ class OpenaiApi(ProviderApi, Text):
                )
             )
 
-        standarized_response = LanguageDetectionDataClass(items=items,)
+        standardized_response = LanguageDetectionDataClass(items=items,)
 
         return ResponseType[LanguageDetectionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         
     def translation__automatic_translation(
@@ -311,7 +311,7 @@ class OpenaiApi(ProviderApi, Text):
         standardized = AutomaticTranslationDataClass(text=original_response['choices'][0]['text'])
 
         return ResponseType[AutomaticTranslationDataClass](
-            original_response=original_response, standarized_response=standardized.dict()
+            original_response=original_response, standardized_response=standardized.dict()
         )
     
     def text__sentiment_analysis(
@@ -338,7 +338,7 @@ class OpenaiApi(ProviderApi, Text):
             )
 
         return ResponseType[SentimentAnalysisDataClass](
-            original_response=original_response, standarized_response=standarize
+            original_response=original_response, standardized_response=standarize
         )
         
     
