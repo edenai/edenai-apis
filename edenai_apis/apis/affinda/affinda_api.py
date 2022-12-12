@@ -234,18 +234,20 @@ class AffindaApi(ProviderApi, Ocr):
             iban=iban, swift = swift, bsb = bsb, sort_code = sort_code, account_number = account_number
         )
         #------------------------------------------------------------#
-        items = invoice_data.get("tables", [default_dict])[0].get("rows", [default_dict])
+        tables = invoice_data.get("tables", [])
         item_lines: Sequence[ItemLinesInvoice] = []
-        for line in items:
-            item_lines.append(ItemLinesInvoice(
-                unit_price = line.get("unit_price"),
-                quantity = line.get("quantity"),
-                tax_item = line.get("tax_total"),
-                amount = line.get("base_total"),
-                date_item = line.get("date"),
-                description = line.get("description"),
-                product_code = line.get("code")
-            ))
+        if tables:
+            items = tables[0].get("rows", [default_dict]) if tables[0] else [default_dict]
+            for line in items:
+                item_lines.append(ItemLinesInvoice(
+                    unit_price = line.get("unit_price"),
+                    quantity = line.get("quantity"),
+                    tax_item = line.get("tax_total"),
+                    amount = line.get("base_total"),
+                    date_item = line.get("date"),
+                    description = line.get("description"),
+                    product_code = line.get("code")
+                ))
         invoice_parser = InfosInvoiceParserDataClass(
             invoice_number=invoice_number,
             customer_information=CustomerInformationInvoice(
@@ -262,6 +264,7 @@ class AffindaApi(ProviderApi, Ocr):
             due_date=due_date,
             invoice_subtotal=invoice_subtotal,
             invoice_total=invoice_total,
+            item_lines=item_lines,
             payment_term = payment_term,
             amount_due =amount_due,
             purchase_order =purchase_order,
