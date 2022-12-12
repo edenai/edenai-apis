@@ -6,6 +6,8 @@ import json
 
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
+    AnonymizationItem,
+    AnonymizationBoundingBox
 )
 from edenai_apis.features.image.explicit_content import (
     ExplicitContentDataClass,
@@ -158,8 +160,18 @@ class Api4aiApi(
             )
 
         img_b64 = original_response["results"][0]["entities"][0]["image"]
+        entities = original_response["results"][0]["entities"][1].get("objects", [])
+        items = []
+        for entity in entities:
+            for key, value in entity["entities"][0]["classes"].items():
+                items.append(AnonymizationItem(
+                    kind=key,
+                    confidence=value,
+                    bounding_boxes=AnonymizationBoundingBox(x_min=entity["box"][0], x_max=entity["box"][1], y_min=entity["box"][2], y_max=entity["box"][3]),
+                ))
+            
 
-        standarized_response = AnonymizationDataClass(image=img_b64)
+        standarized_response = AnonymizationDataClass(image=img_b64, items=items)
         result = ResponseType[AnonymizationDataClass](
             original_response=original_response,
             standarized_response=standarized_response,
