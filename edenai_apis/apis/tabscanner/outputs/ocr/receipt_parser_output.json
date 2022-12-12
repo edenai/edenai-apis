@@ -710,9 +710,9 @@
           "EAN13"
         ],
         "category": null,
-        "date": "2022-04-02",
+        "date": "2022-04-02 12:29:23",
         "due_date": null,
-        "time": "12:29:23",
+        "time": null,
         "customer_information": {
           "customer_name": null
         },

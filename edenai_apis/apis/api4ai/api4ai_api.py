@@ -214,13 +214,13 @@ class Api4aiApi(
         }
         # Get response
         response = requests.post(self.urls["nsfw"], files=payload)
+        original_response = response.json()
 
         # Handle errors
-        if response.status_code != 200:
-            raise ProviderException(response.json()["result"][0]["status"]["message"])
-
+        if response.status_code != 200 or "failure" in original_response["results"][0]["status"]["code"]:
+            raise ProviderException(response.json()["results"][0]["status"]["message"])
+        
         # Get result
-        original_response = response.json()
         nsfw_items = []
         nsfw_response = original_response["results"][0]["entities"][0]["classes"]
         for classe in nsfw_response:
