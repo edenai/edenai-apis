@@ -668,23 +668,26 @@ class MicrosoftApi(
         items: Sequence[SegmentSentimentAnalysisDataClass] = []
 
         # Getting the explicit label and its score of image
-        for sentence in data['results']['documents'][0]['sentences']:
-            best_sentiment = {
-                'sentiment': None,
-                'rate': 0,
-            }
-            for sentiment, value in sentence['confidenceScores'].items():
-                if best_sentiment['rate'] < value:
-                    best_sentiment['sentiment'] = sentiment
-                    best_sentiment['rate'] = value
+        default_dict = defaultdict(lambda: None)
+        sentences = data.get('results',default_dict).get('documents',[default_dict])[0].get('sentences')
+        if sentences : 
+            for sentence in sentences:
+                best_sentiment = {
+                    'sentiment': None,
+                    'rate': 0,
+                }
+                for sentiment, value in sentence['confidenceScores'].items():
+                    if best_sentiment['rate'] < value:
+                        best_sentiment['sentiment'] = sentiment
+                        best_sentiment['rate'] = value
 
-            items.append(
-                SegmentSentimentAnalysisDataClass(
-                    segment=sentence['text'],
-                    sentiment=best_sentiment['sentiment'],
-                    sentiment_rate=best_sentiment['rate'],
+                items.append(
+                    SegmentSentimentAnalysisDataClass(
+                        segment=sentence['text'],
+                        sentiment=best_sentiment['sentiment'],
+                        sentiment_rate=best_sentiment['rate'],
+                    )
                 )
-            )
 
         best_general_sentiment = {
             'sentiment': None,

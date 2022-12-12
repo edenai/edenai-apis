@@ -136,7 +136,7 @@ class LettriaApi(ProviderApi, Text):
                         "gender": gender,
                         "plural": plural,
                         "mode": None,
-                        "infinitive": word.get("infinit", [None])[0],
+                        "infinitive": word.get("infinit"),
                     }
                     items.append(
                         InfosSyntaxAnalysisDataClass(

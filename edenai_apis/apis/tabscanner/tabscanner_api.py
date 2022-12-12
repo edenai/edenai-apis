@@ -68,7 +68,10 @@ class TabscannerApi(ProviderApi, Ocr):
         date = receipt.get("date")
 
         # Barcodes
-        barcodes = receipt.get("barcodes",[[]])[0]
+        barcodes = receipt.get("barcodes")
+        if barcodes:
+            barcodes = barcodes[0]
+            
         # Local
         locale = Locale(currecy = receipt.get("currency"))
         # Payment information
