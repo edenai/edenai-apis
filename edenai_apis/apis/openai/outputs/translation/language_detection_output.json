@@ -1,0 +1,92 @@
+{
+  "original_response": {
+    "id": "cmpl-6MalMQe9bzKfU8Sn0WPOFELaNzICq",
+    "object": "text_completion",
+    "created": 1670842552,
+    "model": "text-davinci-003",
+    "choices": [
+      {
+        "text": " it",
+        "index": 0,
+        "logprobs": {
+          "tokens": [
+            " it",
+            "<|endoftext|>",
+            " \u00a7\u00a7",
+            " FILE",
+            " READ",
+            "ME",
+            ".",
+            "md",
+            "\n"
+          ],
+          "token_logprobs": [
+            -0.031363424,
+            -0.00071832864,
+            -0.0042125713,
+            -0.0017597202,
+            -1.2024106,
+            -0.00014671094,
+            -0.00043020982,
+            -0.00032753454,
+            -0.0010402352
+          ],
+          "top_logprobs": [
+            {
+              " it": -0.031363424
+            },
+            {
+              "<|endoftext|>": -0.00071832864
+            },
+            {
+              " \u00a7\u00a7": -0.0042125713
+            },
+            {
+              " FILE": -0.0017597202
+            },
+            {
+              " READ": -1.2024106
+            },
+            {
+              "ME": -0.00014671094
+            },
+            {
+              ".": -0.00043020982
+            },
+            {
+              "md": -0.00032753454
+            },
+            {
+              "\n": -0.0010402352
+            }
+          ],
+          "text_offset": [
+            887,
+            890,
+            890,
+            890,
+            890,
+            890,
+            890,
+            890,
+            890
+          ]
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 322,
+      "completion_tokens": 1,
+      "total_tokens": 323
+    }
+  },
+  "standarized_response": {
+    "items": [
+      {
+        "language": " it",
+        "confidence": 0.9691233064003157
+      }
+    ]
+  }
+}
