@@ -74,7 +74,7 @@ class ConnexunApi(ProviderApi, Text):
             raise ProviderException(original_response["message"])
 
         # Return standarized response
-        standarized_response = SummarizeDataClass(result=original_response["summary"])
+        standarized_response = SummarizeDataClass(result=original_response.get("summary", {}))
         result = ResponseType[SummarizeDataClass](
             original_response=original_response,
             standarized_response=standarized_response,

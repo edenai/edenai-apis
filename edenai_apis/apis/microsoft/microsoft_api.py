@@ -619,7 +619,7 @@ class MicrosoftApi(
         ).json()
         items: Sequence[LandmarkItem] = []
         for key in response.get("categories"):
-            for landmark in key.get("detail").get("landmarks"):
+            for landmark in key.get("detail", {}).get("landmarks"):
                 if landmark.get("name") not in [item.description for item in items]:
                     items.append(
                         LandmarkItem(
