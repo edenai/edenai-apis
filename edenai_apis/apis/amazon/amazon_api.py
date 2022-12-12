@@ -1223,7 +1223,7 @@ class AmazonApi(
             for label in response["ModerationLabels"]:
                 confidence = label["ModerationLabel"]["Confidence"]
                 timestamp = float(label["Timestamp"]) / 1000.0  # convert to seconds
-                if label["ParentName"] != "":
+                if label.get("ParentName", "") != "":
                     category = label["ParentName"]
                 else:
                     category = label["Name"]

@@ -35,7 +35,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features import ProviderApi, Image, Ocr
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from .helpers import content_processing
+from .helpers import content_processing, get_errors_from_response
 
 
 class Api4aiApi(
@@ -255,18 +255,16 @@ class Api4aiApi(
 
         response = requests.post(self.urls["ocr"], files={"image": file})
 
-        if (
-            response.status_code != 200
-            or "failure" in response.json()["results"][0]["status"]["code"]
-        ):
-            raise ProviderException(response.json()["result"][0]["status"]["message"])
-        response = response.json()
+        error = get_errors_from_response(response)
+        if error is not None:
+            raise ProviderException(error)
+
+        data = response.json()
 
         final_text = ""
         boxes: Sequence[Bounding_box] = []
 
-        # original_response = response.json()
-        entities = response["results"][0]["entities"][0]["objects"]
+        entities = data["results"][0]["entities"][0]["objects"]
         full_text = ""
         for text in entities:
             box = Bounding_box(
@@ -283,7 +281,7 @@ class Api4aiApi(
 
         standardized_response = OcrDataClass(text=full_text, bounding_boxes=boxes).dict()
         result = ResponseType[OcrDataClass](
-            original_response=response,
+            original_response=data,
             standardized_response=standardized_response,
         )
         return result

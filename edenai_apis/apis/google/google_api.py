@@ -190,18 +190,18 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         response = self.clients["image"].object_localization(image=image)
         response = MessageToDict(response._pb)
         items = []
-        for object_annotation in response["localizedObjectAnnotations"]:
+        for object_annotation in response.get("localizedObjectAnnotations", []):
             x_min, x_max = np.infty, -np.infty
             y_min, y_max = np.infty, -np.infty
             # Getting borders
             for normalize_vertice in object_annotation["boundingPoly"][
                 "normalizedVertices"
             ]:
-                x_min, x_max = min(x_min, normalize_vertice["x"]), max(
-                    x_max, normalize_vertice["x"]
+                x_min, x_max = min(x_min, normalize_vertice.get("x", 0)), max(
+                    x_max, normalize_vertice.get("x", 0)
                 )
                 y_min, y_max = min(y_min, normalize_vertice["y"]), max(
-                    y_max, normalize_vertice["y"]
+                    y_max, normalize_vertice.get("y", 0)
                 )
                 items.append(
                     ObjectItem(
@@ -212,9 +212,6 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         y_min=y_min,
                         y_max=y_max,
                     )
-
-
-
                 )
 
         return ResponseType[ObjectDetectionDataClass](
@@ -857,7 +854,6 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
     def image__explicit_content(
         self, file: BufferedReader
     ) -> ResponseType[ExplicitContentDataClass]:
-
         image = vision.Image(content=file.read())
 
         try:
@@ -866,30 +862,27 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             raise ProviderException(str(provider_call_exception))
 
         # Convert response to dict
-        response = AnnotateImageResponse.to_dict(response)
+        data = AnnotateImageResponse.to_dict(response)
 
-        # check for error
-        if response.get("error") is not None:
-            raise ProviderException(response['error'])
+        if data.get("error") is not None:
+            raise ProviderException(data["error"])
 
-        # Analyse response
-        # Getting the explicit label and its score of image
-        response = response["safe_search_annotation"]
+        original_response = data.get("safe_search_annotation", {})
 
         items = []
-        for safe_search_annotation, likelihood in response.items():
+        for safe_search_annotation, likelihood in original_response.items():
             items.append(
                 ExplicitItem(label=safe_search_annotation.capitalize(), likelihood=likelihood)
             )
 
-        nsfw_likelihood = max(map(lambda item: item.likelihood, items))
+        nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
 
-        res =  ResponseType(
-            original_response=response,
-            standardized_response=ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw_likelihood),
+        return ResponseType(
+            original_response=original_response,
+            standardized_response=ExplicitContentDataClass(
+                items=items, nsfw_likelihood=nsfw_likelihood
+            ),
         )
-        print(res.dict())
-        return res
 
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str
@@ -970,7 +963,8 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         text_annotations: Sequence[
             EntityAnnotation
         ] = image_response.text_annotations
-        final_text += text_annotations[0].description.replace("\n", " ")
+        if text_annotations and isinstance(text_annotations[0], EntityAnnotation):
+            final_text += text_annotations[0].description.replace("\n", " ")
         for text in text_annotations[1:]:
             xleft = float(text.bounding_poly.vertices[0].x)
             xright = float(text.bounding_poly.vertices[1].x)
@@ -1108,8 +1102,8 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         if result.get("done"):
             annotations = result["response"]["annotationResults"][0]
             label = (
-                annotations["segmentLabelAnnotations"]
-                + annotations["shotLabelAnnotations"]
+                annotations.get("segmentLabelAnnotations", "")
+                + annotations.get("shotLabelAnnotations", "")
             )
             label_list = []
 
@@ -1207,25 +1201,25 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                     for track in annotation["tracks"]:
                         timestamp = float(track["timestampedObjects"][0]["timeOffset"][:-1])
                         bounding_box = VideoBoundingBox(
-                            top=track["timestampedObjects"][0]["normalizedBoundingBox"][
-                                "top"
-                            ],
-                            left=track["timestampedObjects"][0]["normalizedBoundingBox"][
-                                "left"
-                            ],
-                            height=track["timestampedObjects"][0]["normalizedBoundingBox"][
-                                "bottom"
-                            ],
-                            width=track["timestampedObjects"][0]["normalizedBoundingBox"][
-                                "right"
-                            ],
+                            top=track["timestampedObjects"][0]["normalizedBoundingBox"].get(
+                                "top", 0
+                            ),
+                            left=track["timestampedObjects"][0]["normalizedBoundingBox"].get(
+                                "left", 0
+                            ),
+                            height=track["timestampedObjects"][0]["normalizedBoundingBox"].get(
+                                "bottom", 0
+                            ),
+                            width=track["timestampedObjects"][0]["normalizedBoundingBox"].get(
+                                "right", 0
+                            ),
                         )
                         attribute_dict = {}
                         for attr in track["timestampedObjects"][0].get("attributes", []):
                             attribute_dict[attr["name"]] = attr["confidence"]
                         attributs = FaceAttributes(
-                            headwear=attribute_dict["headwear"],
-                            frontal_gaze=attribute_dict["headwear"],
+                            headwear=attribute_dict.get("headwear"),
+                            frontal_gaze=attribute_dict.get("looking_at_camera"),
                             eyes_visible=attribute_dict["eyes_visible"],
                             glasses=attribute_dict["glasses"],
                             mouth_open=attribute_dict["mouth_open"],
@@ -1411,10 +1405,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 for frame in detected_object["frames"]:
                     timestamp = float(frame["timeOffset"][:-1])
                     bounding_box = VideoObjectBoundingBox(
-                        top=float(frame["normalizedBoundingBox"]["top"]),
-                        left=float(frame["normalizedBoundingBox"]["left"]),
-                        width=float(frame["normalizedBoundingBox"]["right"]),
-                        height=float(frame["normalizedBoundingBox"]["bottom"]),
+                        top=float(frame["normalizedBoundingBox"].get("top", 0)),
+                        left=float(frame["normalizedBoundingBox"].get("left", 0)),
+                        width=float(frame["normalizedBoundingBox"].get("right", 0)),
+                        height=float(frame["normalizedBoundingBox"].get("bottom", 0)),
                     )
                     frames.append(
                         ObjectFrame(timestamp=timestamp, bounding_box=bounding_box)

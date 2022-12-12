@@ -7,7 +7,7 @@ import base64
 import json
 from pathlib import Path
 import time
-from typing import Dict, List, Sequence
+from typing import Dict, List, Optional, Sequence
 from io import BufferedReader, BytesIO
 import requests
 from PIL import Image as Img
@@ -470,7 +470,6 @@ class MicrosoftApi(
         return res
 
 
-
     def image__object_detection(self,
         file: BufferedReader
     ) -> ResponseType[ObjectDetectionDataClass]:
@@ -488,21 +487,25 @@ class MicrosoftApi(
 
         items = []
 
-        width, height = response["metadata"]["width"], response["metadata"]["height"]
+        metadata = response.get("metadata", {})
+        width, height = metadata.get("width"), metadata.get("height")
 
         for obj in response["objects"]:
+            if width is None or height is None:
+                x_min, x_max, y_min, y_max = 0, 0, 0, 0
+            else:
+                x_min = obj["rectangle"]["x"] / width
+                x_max = (obj["rectangle"]["x"] + obj["rectangle"]["w"]) / width
+                y_min = 1 - ((height - obj["rectangle"]["y"]) / height)
+                y_max = 1 - ((height - obj["rectangle"]["y"] - obj["rectangle"]["h"]) / height)
             items.append(
                 ObjectItem(
                     label=obj["object"],
                     confidence=obj["confidence"],
-                    x_min=obj["rectangle"]["x"] / width,
-                    x_max=(obj["rectangle"]["x"] + obj["rectangle"]["w"]) / width,
-                    y_min=1 - ((height - obj["rectangle"]["y"]) / height),
-                    y_max=1
-                    - (
-                        (height - obj["rectangle"]["y"] - obj["rectangle"]["h"])
-                        / height
-                    ),
+                    x_min=x_min,
+                    x_max=x_max,
+                    y_min=y_min,
+                    y_max=y_max,
                 )
             )
 
@@ -510,7 +513,6 @@ class MicrosoftApi(
             original_response = response,
             standardized_response= ObjectDetectionDataClass(items=items)
         )
-
 
 
     def image__face_detection(self,
@@ -903,7 +905,7 @@ class MicrosoftApi(
         text: str,
         output_sentences: int,
         language: str,
-        model: str = None
+        model: Optional[str] = None
     ) -> ResponseType[SummarizeDataClass]:
 
         """
@@ -929,10 +931,24 @@ class MicrosoftApi(
                 },
             },
         )
-        get_url = response.headers["operation-location"]
-        resp = requests.get(url=get_url, headers=self.headers["text"])
-        data = resp.json()
+        if response.status_code != 202:
+            err = response.json().get("error", {})
+            error_msg = err.get("message", "Microsoft Azure couldn't create job")
+            raise ProviderException(error_msg)
+
+        get_url = response.headers.get("operation-location")
+        if get_url is None:
+            raise ProviderException("Microsoft Azure couldn't create job")
+
+        get_response = requests.get(url=get_url, headers=self.headers["text"])
+        if response.status_code != 200:
+            err = get_response.json().get("error", {})
+            error_msg = err.get("message", "Microsoft Azure couldn't fetch job")
+            raise ProviderException(error_msg)
+
+        data = get_response.json()
         wait_time = 0
+        summary = ""
         while wait_time < 60:  # Wait for the answer from provider
             if data["status"] == "succeeded":
                 sentences = data["tasks"]["extractiveSummarizationTasks"][0]["results"][
@@ -942,8 +958,8 @@ class MicrosoftApi(
                 break
             time.sleep(6)
             wait_time += 6
-            resp = requests.get(url=get_url, headers=self.headers["text"])
-            data = resp.json()
+            get_response = requests.get(url=get_url, headers=self.headers["text"])
+            data = get_response.json()
 
         standardized_response = SummarizeDataClass(result=summary)
 

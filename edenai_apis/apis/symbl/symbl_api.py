@@ -124,34 +124,36 @@ class SymblApi(ProviderApi, Audio):
             diarization_entries = []
             speakers = set()
 
-            text = " ".join(
-                [message["text"] for message in original_response["messages"]]
-            )
+            text = " ".join([message["text"] for message in original_response["messages"]])
 
             for text_info in original_response["messages"]:
                 words_info = text_info["words"]
                 for word_info in words_info:
-                    speakers.add(word_info["speakerTag"])
+                    speaker_tag = word_info.get("speakerTag")
+                    if speaker_tag:
+                        speakers.add(speaker_tag)
                     diarization_entries.append(
                         SpeechDiarizationEntry(
-                            segment= word_info["word"],
-                            speaker= word_info["speakerTag"],
-                            start_time= str(word_info["timeOffset"]),
-                            end_time= str(word_info["timeOffset"] + word_info["duration"]),
-                            confidence= word_info["score"]
+                            segment=word_info["word"],
+                            speaker=speaker_tag,
+                            start_time=str(word_info["timeOffset"]),
+                            end_time=str(word_info["timeOffset"] + word_info["duration"]),
+                            confidence=word_info["score"],
                         )
                     )
 
-            diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
+            diarization = SpeechDiarization(
+                total_speakers=len(speakers), entries=diarization_entries
+            )
 
-            standardized_response = SpeechToTextAsyncDataClass(text=text, diarization = diarization)
+            standardized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,
                 standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
         elif original_response["status"] == "failed":
-                raise ProviderException(response_status.text)
+            raise ProviderException(response_status.text)
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
             provider_job_id=provider_job_id
         )
