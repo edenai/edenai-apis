@@ -26,7 +26,10 @@
   "standardized_response": {
     "items": [
       {
-        "language": "Italian",
+        "language": {
+          "code": "it",
+          "name": "Italian"
+        },
         "confidence": null
       }
     ]

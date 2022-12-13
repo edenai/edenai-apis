@@ -310,7 +310,10 @@
   "standardized_response": {
     "items": [
       {
-        "language": "it",
+        "language": {
+          "code": "it",
+          "name": "Italian"
+        },
         "confidence": 0.9999999998396725
       }
     ]

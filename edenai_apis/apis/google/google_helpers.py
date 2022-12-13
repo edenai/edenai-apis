@@ -44,12 +44,12 @@ def google_video_get_job(provider_job_id: str):
     return result
 
 
-def score_to_sentiment(score):
+def score_to_sentiment(score: float) -> str:
     if score > 0:
-        return SentimentEnum.POSITIVE
+        return SentimentEnum.POSITIVE.value
     elif score < 0:
-        return SentimentEnum.NEGATIVE
-    return SentimentEnum.NEUTRAL
+        return SentimentEnum.NEGATIVE.value
+    return SentimentEnum.NEUTRAL.value
 
 
 # _Transform score of confidence to level of confidence

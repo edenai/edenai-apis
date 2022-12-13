@@ -13,6 +13,7 @@ from pdf2image.pdf2image import convert_from_bytes
 from PIL import Image as Img
 
 from edenai_apis.features.base_provider.provider_api import ProviderApi
+from edenai_apis.features.translation.language_detection.language_detection_dataclass import LanguageKey, get_info_languages
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.apis.amazon.helpers import content_processing
@@ -585,27 +586,23 @@ class AmazonApi(
             original_response=response, standardized_response=standardized_response
         )
 
-    def translation__language_detection(
-        self, text: str
-    ) -> ResponseType[LanguageDetectionDataClass]:
+    def translation__language_detection(self, text) -> ResponseType[LanguageDetectionDataClass]:
         response = self.clients["text"].detect_dominant_language(Text=text)
-
-        # Create output TextDetectLanguage object
-        # Analyze response
-        # Getting the language's code detected and its score of confidence
         items: Sequence[InfosLanguageDetectionDataClass] = []
-        if len(response["Languages"]) > 0:
-            for lang in response["Languages"]:
-                items.append(
-                    InfosLanguageDetectionDataClass(
-                        language=lang["LanguageCode"], confidence=lang["Score"]
-                    )
+        for lang in response["Languages"]:
+            items.append(
+                InfosLanguageDetectionDataClass(
+                    language=get_info_languages(
+                        key=LanguageKey.CODE,
+                        value=lang["LanguageCode"]
+                    ),
+                    confidence=lang["Score"]
                 )
-
-        standardized_response = LanguageDetectionDataClass(items=items)
+            )
 
         return ResponseType[LanguageDetectionDataClass](
-            original_response=response, standardized_response=standardized_response
+            original_response=response,
+            standardized_response=LanguageDetectionDataClass(items=items)
         )
 
     def translation__automatic_translation(

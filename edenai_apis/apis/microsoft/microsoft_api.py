@@ -59,6 +59,7 @@ from edenai_apis.features.translation import (
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass
 )
+from edenai_apis.features.translation.language_detection.language_detection_dataclass import LanguageKey, get_info_languages
 from edenai_apis.features.translation.translation_class import Translation
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -759,48 +760,35 @@ class MicrosoftApi(
 
 
 
-    def translation__language_detection(self,
-        text
-    ) -> ResponseType[LanguageDetectionDataClass]:
-        """
-        :param text:        String that contains input text
-        :return:            String that contains output result
-        """
-
-        # Call api
-        try:
-            response = requests.post(
-                f"{self.url['text']}",
-                headers=self.headers["text"],
-                json={
-                    "kind": "LanguageDetection",
-                    "parameters": {"modelVersion": "latest"},
-                    "analysisInput": {"documents": [{"id": "1", "text": text}]},
-                },
-            )
-        except SyntaxError as exc:
-            raise ProviderException("Microsoft API raised an error") from exc
+    def translation__language_detection(self, text) -> ResponseType[LanguageDetectionDataClass]:
+        response = requests.post(
+            url=f"{self.url['text']}",
+            headers=self.headers["text"],
+            json={
+                "kind": "LanguageDetection",
+                "parameters": {"modelVersion": "latest"},
+                "analysisInput": {"documents": [{"id": "1", "text": text}]},
+            },
+        )
 
         data = response.json()
-        self._check_microsoft_error(data)
+        if response.status_code != 200:
+            raise ProviderException(message=data['error']['message'], code=response.status_code)
 
         items: Sequence[InfosLanguageDetectionDataClass] = []
-        # Analysing response
-        result = data["results"]["documents"]
-        if len(result) > 0:
-            for lang in result:
-                items.append(
-                    InfosLanguageDetectionDataClass(
-                        language=lang["detectedLanguage"]["iso6391Name"],
-                        confidence=lang["detectedLanguage"]["confidenceScore"],
-                    )
+        for lang in data["results"]["documents"]:
+            items.append(
+                InfosLanguageDetectionDataClass(
+                    language=get_info_languages(
+                        key=LanguageKey.CODE,
+                        value=lang["detectedLanguage"]["iso6391Name"],
+                    ),
+                    confidence=lang["detectedLanguage"]["confidenceScore"],
                 )
-
-        standardized_response = LanguageDetectionDataClass(items=items)
-
+            )
         return ResponseType[LanguageDetectionDataClass] (
             original_response= data,
-            standardized_response= standardized_response
+            standardized_response= LanguageDetectionDataClass(items=items)
         )
 
 

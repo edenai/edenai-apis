@@ -5,5 +5,8 @@ from .automatic_translation import (
 from .language_detection import (
     LanguageDetectionDataClass,
     InfosLanguageDetectionDataClass,
-    language_detection_arguments
+    language_detection_arguments,
+    get_info_languages,
+    Language,
+    LanguageKey
 )

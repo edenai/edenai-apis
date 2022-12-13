@@ -1,10 +1,6 @@
 from io import BufferedReader
-
 import base64
-
 from typing import Sequence
-
-import json
 
 from ibm_watson.natural_language_understanding_v1 import (
     SentimentOptions,
@@ -14,13 +10,13 @@ from ibm_watson.natural_language_understanding_v1 import (
     SyntaxOptions,
     SyntaxOptionsTokens,
 )
+from watson_developer_cloud.watson_service import WatsonApiException
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     TextToSpeechDataClass,
     SpeechDiarizationEntry,
     SpeechDiarization
 )
-
 from edenai_apis.features.text import(
     InfosKeywordExtractionDataClass,
     KeywordExtractionDataClass,
@@ -30,18 +26,15 @@ from edenai_apis.features.text import(
     InfosSyntaxAnalysisDataClass,
     SyntaxAnalysisDataClass,
     SegmentSentimentAnalysisDataClass,
-    SentimentEnum,
 )
-
 from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass
 )
-
+from edenai_apis.features.translation.language_detection.language_detection_dataclass import LanguageKey, get_info_languages
 from edenai_apis.utils.audio import wav_converter
 from edenai_apis.utils.exception import ProviderException, LanguageException
-
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -50,13 +43,10 @@ from edenai_apis.utils.types import (
     ResponseType
     )
 from edenai_apis.features import ProviderApi, Translation, Audio, Text
-
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-
 from .config import ibm_clients, audio_voices_ids, tags
 
-from watson_developer_cloud.watson_service import WatsonApiException
 
 class IbmApi(
     ProviderApi,
@@ -76,7 +66,6 @@ class IbmApi(
         target_language: str,
         text: str
     ) -> ResponseType[AutomaticTranslationDataClass]:
-        # Getting response of API
 
         response = (
             self.clients["translation"]
@@ -104,28 +93,26 @@ class IbmApi(
     ) -> ResponseType[LanguageDetectionDataClass]:
         """
         :param text:        String that contains input text
-        :return:            String that contains output result
+        :return:            ResponseType[LanguageDetectionDataClass] that contains output result
         """
-
         response = self.clients["translation"].identify(text).get_result()
-
-        # Getting the language's code detected and its score of confidence
         items: Sequence[InfosLanguageDetectionDataClass] = []
 
-        if len(response["languages"]) > 0:
-            for lang in response["languages"]:
-                if lang["confidence"] > 0.2:
-                    items.append(
-                        InfosLanguageDetectionDataClass(
-                            language=lang["language"], confidence=lang["confidence"]
-                        )
+        for lang in response["languages"]:
+            if lang["confidence"] > 0.2:
+                items.append(
+                    InfosLanguageDetectionDataClass(
+                        language=get_info_languages(
+                            key=LanguageKey.CODE,
+                            value=lang["language"]
+                        ),
+                        confidence=lang["confidence"]
                     )
-
-        standardized_response = LanguageDetectionDataClass(items=items)
+                )
 
         return ResponseType[LanguageDetectionDataClass] (
             original_response= response,
-            standardized_response = standardized_response
+            standardized_response = LanguageDetectionDataClass(items=items)
         )
 
 

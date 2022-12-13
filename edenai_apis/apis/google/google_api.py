@@ -8,8 +8,6 @@ from pathlib import Path
 from time import time
 from typing import Sequence
 import uuid
-
-import PyPDF2
 from edenai_apis.utils.pdfs import get_pdf_width_height
 import googleapiclient.discovery
 import numpy as np
@@ -94,6 +92,8 @@ from edenai_apis.features.translation.automatic_translation.automatic_translatio
 from edenai_apis.features.translation.language_detection.language_detection_dataclass import (
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass,
+    LanguageKey,
+    get_info_languages,
 )
 from edenai_apis.features.video import (
     ContentNSFW,
@@ -915,10 +915,8 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
     def translation__language_detection(
         self, text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
-        client = self.clients['translate']
-        parent = f"projects/{self.project_id}/locations/global"
-        response = client.detect_language(
-            parent=parent,
+        response = self.clients['translate'].detect_language(
+            parent=f"projects/{self.project_id}/locations/global",
             content=text,
             mime_type="text/plain",
         )
@@ -927,15 +925,16 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         for language in response.languages:
             items.append(
                 InfosLanguageDetectionDataClass(
-                    language=language.language_code, confidence=language.confidence
+                    language=get_info_languages(
+                        key=LanguageKey.CODE,
+                        value=language.language_code
+                    ),
+                    confidence=language.confidence
                 )
             )
-
-        standardized_response = LanguageDetectionDataClass(items=items)
-
         return ResponseType[LanguageDetectionDataClass](
             original_response=MessageToDict(response._pb),
-            standardized_response=standardized_response,
+            standardized_response=LanguageDetectionDataClass(items=items),
         )
 
     def ocr__ocr(

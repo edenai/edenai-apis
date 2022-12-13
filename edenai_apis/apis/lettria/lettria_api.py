@@ -81,10 +81,8 @@ class LettriaApi(ProviderApi, Text):
                 sentiment_rate=abs(sentence['sentiment']['subsentences'][0]['values']['total'])
             ))
 
-        sentiment: Literal["Neutral", "Positive", "Negative"] = self._normalize_sentiment(original_response['sentiment'])
-
-        sentiment=sentiment
-        sentiment_rate=abs(original_response["sentiment"])
+        sentiment: SentimentEnum = self._normalize_sentiment(original_response['sentiment']).value
+        sentiment_rate: float = abs(original_response["sentiment"])
 
         standarize = SentimentAnalysisDataClass(
             general_sentiment=sentiment,

@@ -13,6 +13,6 @@ setup(
     author_email='tech@edenai.co',
     license='Apache License 2',
     packages=find_packages(),
-    install_requires=install_requires,                     
+    install_requires=install_requires,
     include_package_data=True,
 )
