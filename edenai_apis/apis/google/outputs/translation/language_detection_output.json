@@ -10,10 +10,8 @@
   "standardized_response": {
     "items": [
       {
-        "language": {
-          "code": "it",
-          "name": "Italian"
-        },
+        "language": "it",
+        "display_name": "Italian",
         "confidence": 1.0
       }
     ]

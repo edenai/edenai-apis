@@ -7,13 +7,13 @@
       }
     ],
     "ResponseMetadata": {
-      "RequestId": "482f7240-b1f7-478a-ba1a-ba950a65d233",
+      "RequestId": "4f9ead22-1c46-4fa3-8162-1384c4860317",
       "HTTPStatusCode": 200,
       "HTTPHeaders": {
-        "x-amzn-requestid": "482f7240-b1f7-478a-ba1a-ba950a65d233",
+        "x-amzn-requestid": "4f9ead22-1c46-4fa3-8162-1384c4860317",
         "content-type": "application/x-amz-json-1.1",
         "content-length": "64",
-        "date": "Tue, 13 Dec 2022 16:11:02 GMT"
+        "date": "Wed, 14 Dec 2022 09:47:55 GMT"
       },
       "RetryAttempts": 0
     }
@@ -21,10 +21,8 @@
   "standardized_response": {
     "items": [
       {
-        "language": {
-          "code": "it",
-          "name": "Italian"
-        },
+        "language": "it",
+        "display_name": "Italian",
         "confidence": 0.9984241724014282
       }
     ]

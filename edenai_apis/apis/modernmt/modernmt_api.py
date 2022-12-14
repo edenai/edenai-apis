@@ -6,11 +6,11 @@ from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
     AutomaticTranslationDataClass,
 )
-from edenai_apis.features.translation.language_detection.language_detection_dataclass import LanguageKey, get_info_languages
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features import ProviderApi, Translation
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
 
 
@@ -32,20 +32,21 @@ class ModernmtApi(ProviderApi,Translation):
         )
 
         original_response=response.json()
-        if response['status'] != 200:
+        if response.status_code != 200:
             raise ProviderException(
                 message=original_response['error']['message'],
-                code=response['status']
+                code=response.status_code
             )
 
         items: Sequence[InfosLanguageDetectionDataClass] = []
         items.append(
-                    InfosLanguageDetectionDataClass(
-                        language=get_info_languages(
-                            key=LanguageKey.CODE,
-                            value=response['data']['detectedLanguage']
-                    ))
+            InfosLanguageDetectionDataClass(
+                language=original_response['data']['detectedLanguage'],
+                display_name=get_language_name_from_code(
+                    isocode=original_response['data']['detectedLanguage']
                 )
+            )
+        )
 
         return ResponseType[LanguageDetectionDataClass](
             original_response=original_response,

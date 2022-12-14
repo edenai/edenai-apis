@@ -24,7 +24,10 @@ from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass i
 from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
 )
-from edenai_apis.features.translation.language_detection.language_detection_dataclass import InfosLanguageDetectionDataClass, LanguageKey, get_info_languages
+from edenai_apis.features.translation.language_detection.language_detection_dataclass import (
+    InfosLanguageDetectionDataClass,
+    get_code_from_language_name
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import wav_converter
@@ -225,7 +228,8 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
         items = []
         for item in original_response['output'][0]['labels']:
             items.append(InfosLanguageDetectionDataClass(
-                language=get_info_languages(key=LanguageKey.NAME, value=item['value'])
+                language=get_code_from_language_name(name=item['value']),
+                display_name=item['value']
             ))
 
         return ResponseType[LanguageDetectionDataClass](

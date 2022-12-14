@@ -32,9 +32,9 @@ from edenai_apis.features.translation import (
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass
 )
-from edenai_apis.features.translation.language_detection.language_detection_dataclass import LanguageKey, get_info_languages
 from edenai_apis.utils.audio import wav_converter
 from edenai_apis.utils.exception import ProviderException, LanguageException
+from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -91,10 +91,6 @@ class IbmApi(
     def translation__language_detection(self,
             text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
-        """
-        :param text:        String that contains input text
-        :return:            ResponseType[LanguageDetectionDataClass] that contains output result
-        """
         response = self.clients["translation"].identify(text).get_result()
         items: Sequence[InfosLanguageDetectionDataClass] = []
 
@@ -102,10 +98,8 @@ class IbmApi(
             if lang["confidence"] > 0.2:
                 items.append(
                     InfosLanguageDetectionDataClass(
-                        language=get_info_languages(
-                            key=LanguageKey.CODE,
-                            value=lang["language"]
-                        ),
+                        language=lang["language"],
+                        display_name=get_language_name_from_code(isocode=lang['language']),
                         confidence=lang["confidence"]
                     )
                 )

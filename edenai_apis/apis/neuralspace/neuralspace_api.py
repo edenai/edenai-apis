@@ -16,9 +16,9 @@ from edenai_apis.features.audio.speech_to_text_async import (
     SpeechToTextAsyncDataClass,
     SpeechDiarization
 )
-from edenai_apis.features.translation.language_detection.language_detection_dataclass import LanguageKey, get_info_languages
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncPendingResponseType,
@@ -124,10 +124,8 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
             if confidence > 0.1:
                 items.append(
                     InfosLanguageDetectionDataClass(
-                        language=get_info_languages(
-                            key=LanguageKey.CODE,
-                            value=lang["language"]
-                        ),
+                        language=lang["language"],
+                        display_name=get_language_name_from_code(isocode=lang['language']),
                         confidence=confidence
                     )
                 )

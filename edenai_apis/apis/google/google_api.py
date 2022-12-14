@@ -8,6 +8,7 @@ from pathlib import Path
 from time import time
 from typing import Sequence
 import uuid
+from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.pdfs import get_pdf_width_height
 import googleapiclient.discovery
 import numpy as np
@@ -86,14 +87,13 @@ from edenai_apis.features.text.syntax_analysis.syntax_analysis_dataclass import 
     InfosSyntaxAnalysisDataClass,
     SyntaxAnalysisDataClass,
 )
-from edenai_apis.features.translation.automatic_translation.automatic_translation_dataclass import (
+from edenai_apis.features.translation.automatic_translation import (
     AutomaticTranslationDataClass,
 )
-from edenai_apis.features.translation.language_detection.language_detection_dataclass import (
+from edenai_apis.features.translation.language_detection import (
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass,
-    LanguageKey,
-    get_info_languages,
+    get_code_from_language_name
 )
 from edenai_apis.features.video import (
     ContentNSFW,
@@ -925,10 +925,8 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         for language in response.languages:
             items.append(
                 InfosLanguageDetectionDataClass(
-                    language=get_info_languages(
-                        key=LanguageKey.CODE,
-                        value=language.language_code
-                    ),
+                    language=language.language_code,
+                    display_name=get_language_name_from_code(isocode=language.language_code),
                     confidence=language.confidence
                 )
             )

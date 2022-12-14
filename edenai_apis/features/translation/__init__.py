@@ -6,7 +6,5 @@ from .language_detection import (
     LanguageDetectionDataClass,
     InfosLanguageDetectionDataClass,
     language_detection_arguments,
-    get_info_languages,
-    Language,
-    LanguageKey
+    get_code_from_language_name
 )
