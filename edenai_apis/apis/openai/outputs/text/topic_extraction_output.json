@@ -1,0 +1,128 @@
+{
+  "original_response": {
+    "id": "cmpl-6NLzKbGQiDwg748ty20hkSAoACJ43",
+    "object": "text_completion",
+    "created": 1671024086,
+    "model": "text-davinci-003",
+    "choices": [
+      {
+        "text": "Actor, Movies, Television Shows.",
+        "index": 0,
+        "logprobs": {
+          "tokens": [
+            "Actor",
+            ",",
+            " Movies",
+            ",",
+            " Television",
+            " Shows",
+            ".",
+            "<|endoftext|>",
+            "Today",
+            " I",
+            "'m",
+            " reminded",
+            " of",
+            " how",
+            " beautiful"
+          ],
+          "token_logprobs": [
+            -0.13740571,
+            -0.11168833,
+            -0.15818983,
+            -0.0005126834,
+            -2.2329895,
+            -0.5463624,
+            -1.7313943,
+            -1.402038e-05,
+            -7.8985295,
+            -1.7746494,
+            -3.2005613,
+            -7.1735525,
+            -0.46794018,
+            -1.8233801,
+            -4.854366
+          ],
+          "top_logprobs": [
+            {
+              "Actor": -0.13740571
+            },
+            {
+              ",": -0.11168833
+            },
+            {
+              " Movies": -0.15818983
+            },
+            {
+              ",": -0.0005126834
+            },
+            {
+              " Hollywood": -0.3189746
+            },
+            {
+              " Shows": -0.5463624
+            },
+            {
+              "<|endoftext|>": -0.19522159
+            },
+            {
+              "<|endoftext|>": -1.402038e-05
+            },
+            {
+              " \u00a7\u00a7": -0.43909475
+            },
+            {
+              ",": -1.5467174
+            },
+            {
+              " am": -2.0906742
+            },
+            {
+              " going": -1.814597
+            },
+            {
+              " of": -0.46794018
+            },
+            {
+              " the": -1.2986676
+            },
+            {
+              " much": -1.5646826
+            }
+          ],
+          "text_offset": [
+            170,
+            175,
+            176,
+            183,
+            184,
+            195,
+            201,
+            202,
+            202,
+            202,
+            202,
+            202,
+            202,
+            202,
+            202
+          ]
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 39,
+      "completion_tokens": 7,
+      "total_tokens": 46
+    }
+  },
+  "standardized_response": {
+    "categories": [
+      {
+        "category": "Actor, Movies, Television Shows.",
+        "confidence": 0.87
+      }
+    ]
+  }
+}

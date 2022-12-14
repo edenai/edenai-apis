@@ -331,6 +331,25 @@
                 "allow_null_language": true
             },
             "version": "v1"
+        },
+        "topic_extraction": {
+            "constraints": {
+                "languages": [
+                    "zh",
+                    "zh-Hant",
+                    "en",
+                    "fr",
+                    "de",
+                    "it",
+                    "ja",
+                    "ko",
+                    "pt",
+                    "ru",
+                    "es"
+                ],
+                "allow_null_language": true
+            },
+            "version": "v1"
         }
     },
     "translation": {

@@ -13,6 +13,7 @@ from ibm_watson.natural_language_understanding_v1 import (
     EntitiesOptions,
     SyntaxOptions,
     SyntaxOptionsTokens,
+    CategoriesOptions,
 )
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
@@ -31,6 +32,8 @@ from edenai_apis.features.text import(
     SyntaxAnalysisDataClass,
     SegmentSentimentAnalysisDataClass,
     SentimentEnum,
+    TopicExtractionDataClass,
+    ExtractedTopic,
 )
 
 from edenai_apis.features.translation import (
@@ -340,7 +343,42 @@ class IbmApi(
             standardized_response = standardized_response
         )
 
-
+  
+  
+    def text__topic_extraction(
+        self, language: str, text: str
+    ) -> ResponseType[TopicExtractionDataClass]:
+        try:
+            original_response = (
+                self.clients["text"]
+                .analyze(
+                    text=text,
+                    language=language,
+                    features=Features(categories=CategoriesOptions()),
+                )
+                .get_result()
+            )
+        except WatsonApiException as exc:
+            if "not enough text for language id" in exc.message:
+                raise LanguageException(exc.message)
+            
+        categories: Sequence[ExtractedTopic] = []
+        for category in original_response.get('categories'):
+            categories.append(
+                ExtractedTopic(
+                    category = category.get('label'),
+                    confidence = category.get('score')
+                )
+            )
+    
+        standardized_response = TopicExtractionDataClass(categories=categories)
+        result = ResponseType[TopicExtractionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+        
+        return result    
+    
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,

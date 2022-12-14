@@ -11,7 +11,9 @@ from edenai_apis.features.text import (
     AnonymizationDataClass,
     KeywordExtractionDataClass,
     SentimentAnalysisDataClass,
-    InfosKeywordExtractionDataClass,    
+    InfosKeywordExtractionDataClass,
+    TopicExtractionDataClass,
+    ExtractedTopic,
 )
 from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
@@ -325,7 +327,6 @@ class OpenaiApi(ProviderApi, Text):
         "model" : self.model,
         "temperature" : 0,
         "logprobs":1,
-        
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
 
@@ -341,4 +342,30 @@ class OpenaiApi(ProviderApi, Text):
             original_response=original_response, standardized_response=standarize
         )
         
-    
+    def text__topic_extraction(
+        self, language: str, text: str
+    ) -> ResponseType[TopicExtractionDataClass]:
+        url = f"{self.url}/completions"
+
+        prompt = f"What is the main taxonomy of the text:"+text+"please put the result in this line:\n\n"
+        payload = {
+        "prompt" : prompt,
+        "max_tokens" : self.max_tokens,
+        "model" : self.model,
+        "logprobs":1,
+        }
+        original_response = requests.post(url, json=payload, headers=self.headers).json()
+        # Create output response
+        # Get score 
+        score = np.exp(original_response['choices'][0]['logprobs']['token_logprobs'][0])
+        categories: Sequence[ExtractedTopic] = []
+        categories.append(ExtractedTopic(
+            category = original_response['choices'][0]['text'], confidence = float(score)
+        ))
+        standarized_response = TopicExtractionDataClass(
+            categories = categories
+            )
+
+        return ResponseType[TopicExtractionDataClass](
+            original_response=original_response, standardized_response=standarized_response
+        )
