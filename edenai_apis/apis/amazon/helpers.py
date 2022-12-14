@@ -2,7 +2,7 @@ import json
 import urllib
 from io import BufferedReader
 from time import time
-from typing import Dict, TypeVar, Sequence
+from typing import Dict, Tuple, TypeVar, Sequence
 from pathlib import Path
 import requests
 from trp import Document
@@ -71,47 +71,6 @@ def check_webhook_result(job_id: str) -> Dict:
         return None
 
 
-def amazon_ocr_tables_parser(original_result) -> OcrTablesAsyncDataClass:
-    document = Document(original_result)
-    pages: Sequence[Page] = []
-    num_pages = 0
-    for page in document.pages:
-        num_pages += 1
-        tables: Sequence[Table] = []
-        for table in page.tables:
-            ocr_num_rows = 0
-            rows: Sequence[Row] = []
-            ocr_num_cols = 0
-            for row in table.rows:
-                num_col = 0
-                ocr_num_rows += 1
-                is_header = False
-                cells: Sequence[Cell] = []
-                for cell in row.cells:
-                    num_col += 1
-                    ocr_cell = Cell(
-                        text=cell.text,
-                        row_span=cell.rowSpan,
-                        col_span=cell.columnSpan,
-                        bounding_box=BoundixBoxOCRTable(
-                            left=cell.geometry.boundingBox.left,
-                            top=cell.geometry.boundingBox.top,
-                            width=cell.geometry.boundingBox.width,
-                            height=cell.geometry.boundingBox.height,
-                        ),
-                    )
-                    if "COLUMN_HEADER" in cell.entityTypes:
-                        is_header = True
-                    cells.append(ocr_cell)
-                ocr_row = Row(cells=cells, is_header=is_header)
-                rows.append(ocr_row)
-                ocr_num_cols = max(num_col, ocr_num_cols)
-            ocr_table = Table(rows=rows, num_cols=ocr_num_cols, num_rows=ocr_num_rows)
-            tables.append(ocr_table)
-        ocr_page = Page(tables=tables)
-        pages.append(ocr_page)
-    standarized_response = OcrTablesAsyncDataClass(pages=pages, num_pages=num_pages)
-    return standarized_response
 
 
 T = TypeVar("T")
@@ -197,3 +156,55 @@ def amazon_video_response_formatter(
     elif response["JobStatus"] == "IN_PROGRESS":
         return AsyncPendingResponseType[T](provider_job_id=provider_job_id)
     return AsyncErrorResponseType[T](provider_job_id=provider_job_id)
+
+
+
+def amazon_ocr_tables_parser(original_result) -> OcrTablesAsyncDataClass:
+    document = Document(original_result)
+    std_pages = [_ocr_tables_standarize_page(page) for page in document.pages]
+    return OcrTablesAsyncDataClass(pages=std_pages, num_pages=len(std_pages))
+
+
+def _ocr_tables_standarize_page(page) -> Page:
+    std_tables = [_ocr_tables_standarize_table(table) for table in page.tables]
+    return Page(tables=std_tables)
+
+
+def _ocr_tables_standarize_table(table) -> Table:
+    rows: Sequence[Row] = []
+    num_cols = 0
+    row_cols = 0
+    for row in table.rows:
+        std_row, row_cols = _ocr_tables_standarize_row(row)
+        rows.append(std_row)
+    # Since some cells are merged some row have less cols than others.
+    # We chose to return the max number of cols
+    num_cols = max(num_cols, row_cols)
+    return Table(rows=rows, num_cols=num_cols, num_rows=len(rows))
+
+
+def _ocr_tables_standarize_row(row) -> Tuple[Row, int]:
+    is_header = False
+    cells: Sequence[Cell] = []
+    for cell in row.cells:
+        is_header = "COLUMN_HEADER" in cell.entityTypes
+        std_cell = _ocr_tables_standarize_cell(cell)
+        cells.append(std_cell)
+
+    num_col = len(cells)
+    return Row(cells=cells, is_header=is_header), num_col
+
+
+def _ocr_tables_standarize_cell(cell) -> Cell:
+    return Cell(
+        text=cell.mergedText,
+        row_span=cell.rowSpan,
+        col_span=cell.columnSpan,
+        confidence=cell.confidence,
+        bounding_box=BoundixBoxOCRTable(
+            left=cell.geometry.boundingBox.left,
+            top=cell.geometry.boundingBox.top,
+            width=cell.geometry.boundingBox.width,
+            height=cell.geometry.boundingBox.height,
+        ),
+    )

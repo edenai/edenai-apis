@@ -20,7 +20,7 @@ class Cell(BaseModel):
 
 class Row(BaseModel):
     cells: Sequence[Cell] = Field(default_factory=list)
-    is_header: bool = None
+    is_header: bool = False
 
 
 class Table(BaseModel):

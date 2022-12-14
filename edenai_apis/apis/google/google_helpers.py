@@ -9,7 +9,10 @@ import googleapiclient.discovery
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     BoundixBoxOCRTable,
     Cell,
+    OcrTablesAsyncDataClass,
+    Page,
     Row,
+    Table,
 )
 
 
@@ -126,3 +129,41 @@ def get_tag_name(tag):
         "VERB": "Verb",
         "X": "Other",
     }[tag]
+
+
+def ocr_tables_standardize_response(original_response) -> OcrTablesAsyncDataClass:
+    raw_text = original_response["text"]
+
+    pages: Sequence[Page] = []
+    for page in original_response.get("pages", []):
+        tables: Sequence[Table] = []
+        if "tables" in page.keys():
+            for table in page["tables"]:
+                ocr_num_rows = 0
+                ocr_num_cols = 0
+                rows: Sequence[Row] = []
+                if "headerRows" in table.keys():
+                    for row in table["headerRows"]:
+                        ocr_num_rows += 1
+                        row, num_row_cols = ocr_tables_async_response_add_rows(
+                            row, raw_text, is_header=True
+                        )
+                        ocr_num_cols = max(ocr_num_cols, num_row_cols)
+                        rows.append(row)
+                if "bodyRows" in table.keys():
+                    for row in table["bodyRows"]:
+                        ocr_num_rows += 1
+                        row, num_row_cols = ocr_tables_async_response_add_rows(
+                            row, raw_text
+                        )
+                        ocr_num_cols = max(ocr_num_cols, num_row_cols)
+                        rows.append(row)
+                ocr_table = Table(
+                    rows=rows, num_rows=ocr_num_rows, num_cols=ocr_num_cols
+                )
+                tables.append(ocr_table)
+            ocr_page = Page(tables=tables)
+            pages.append(ocr_page)
+    return OcrTablesAsyncDataClass(
+        pages=pages, num_pages=len(original_response["pages"])
+    )
