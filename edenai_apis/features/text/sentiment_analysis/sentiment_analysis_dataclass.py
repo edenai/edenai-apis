@@ -1,7 +1,8 @@
+from enum import Enum
 from typing import Optional, Sequence, Literal
 from pydantic import BaseModel, Field, validator
 
-class SentimentEnum(enumerate):
+class SentimentEnum(Enum):
     POSITIVE = 'Positive'
     NEGATIVE = 'Negative'
     NEUTRAL = 'Neutral'
@@ -18,12 +19,14 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
     sentiment: Literal["Positive", "Negative", "Neutral"]
     sentiment_rate: Optional[float]
 
+    @classmethod
     @validator('segment', pre=True)
     def valid_segment(cls, value):
         if not isinstance(value, str):
             raise TypeError(f"Segment must be a string, not {type(value)}")
         return value
 
+    @classmethod
     @validator('sentiment', pre=True)
     def valid_sentiment(cls, value):
         if not isinstance(value, str):
@@ -33,6 +36,7 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
             raise ValueError(f"{value} are not allowed. Sentiment must be 'Positive' or 'Negative' or 'Neutral'")
         return value
 
+    @classmethod
     @validator('sentiment_rate', pre=True)
     def valid_sentiment_rate(cls, value):
         if not isinstance(value, (float, int)):
@@ -44,7 +48,6 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
 
 class SentimentAnalysisDataClass(BaseModel):
     """This class is used to standardize responses from sentiment_analysis.
-    
     Args:
         - text (str): The text whose has been analyzed
         - general_sentiment (Literal['Positve', 'Negative', 'Neutral']) (Case is ignore): General sentiment of text
@@ -55,6 +58,7 @@ class SentimentAnalysisDataClass(BaseModel):
     general_sentiment_rate: Optional[float]
     items: Sequence[SegmentSentimentAnalysisDataClass] = Field(default_factory=list)
 
+    @classmethod
     @validator('general_sentiment', pre=True)
     def valid_general_sentiment(cls, value):
         if not isinstance(value, str):
@@ -64,6 +68,7 @@ class SentimentAnalysisDataClass(BaseModel):
             raise ValueError(f"{value} are not allowed. General sentiment must be 'Positive' or 'Negative' or 'Neutral'")
         return value
 
+    @classmethod
     @validator('general_sentiment_rate', pre=True)
     def valid_general_sentiment_rate(cls, value):
         if not isinstance(value, (float, int)):

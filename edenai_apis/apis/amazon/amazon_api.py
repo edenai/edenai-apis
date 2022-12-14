@@ -10,9 +10,9 @@ import uuid
 import urllib
 from pathlib import Path
 from pdf2image.pdf2image import convert_from_bytes
-from PIL import Image as Img
 
 from edenai_apis.features.base_provider.provider_api import ProviderApi
+from edenai_apis.features.translation.language_detection import get_code_from_language_name
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.apis.amazon.helpers import content_processing
@@ -27,7 +27,6 @@ from edenai_apis.features.ocr import (
     OcrTablesAsyncDataClass,
     Bounding_box,
     OcrDataClass,
-    InfosIdentityParserDataClass,
     InfoCountry,
     get_info_country,
 )
@@ -47,7 +46,11 @@ from edenai_apis.features.image import (
     ExplicitContentDataClass,
     ExplicitItem,
 )
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass, ItemIdentityParserDataClass, format_date
+from edenai_apis.features.ocr.identity_parser import (
+    IdentityParserDataClass,
+    ItemIdentityParserDataClass,
+    format_date
+)
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
     KeywordExtractionDataClass,
@@ -57,7 +60,6 @@ from edenai_apis.features.text import (
     InfosSyntaxAnalysisDataClass,
     SyntaxAnalysisDataClass,
 )
-from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SegmentSentimentAnalysisDataClass
 from edenai_apis.features.translation import (
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass,
@@ -93,6 +95,7 @@ from edenai_apis.utils.exception import (
     ProviderException,
     LanguageException
 )
+from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
@@ -585,27 +588,21 @@ class AmazonApi(
             original_response=response, standardized_response=standardized_response
         )
 
-    def translation__language_detection(
-        self, text: str
-    ) -> ResponseType[LanguageDetectionDataClass]:
+    def translation__language_detection(self, text) -> ResponseType[LanguageDetectionDataClass]:
         response = self.clients["text"].detect_dominant_language(Text=text)
-
-        # Create output TextDetectLanguage object
-        # Analyze response
-        # Getting the language's code detected and its score of confidence
         items: Sequence[InfosLanguageDetectionDataClass] = []
-        if len(response["Languages"]) > 0:
-            for lang in response["Languages"]:
-                items.append(
-                    InfosLanguageDetectionDataClass(
-                        language=lang["LanguageCode"], confidence=lang["Score"]
-                    )
+        for lang in response["Languages"]:
+            items.append(
+                InfosLanguageDetectionDataClass(
+                    language=lang["LanguageCode"],
+                    display_name=get_language_name_from_code(isocode=lang["LanguageCode"]),
+                    confidence=lang["Score"]
                 )
-
-        standardized_response = LanguageDetectionDataClass(items=items)
+            )
 
         return ResponseType[LanguageDetectionDataClass](
-            original_response=response, standardized_response=standardized_response
+            original_response=response,
+            standardized_response=LanguageDetectionDataClass(items=items)
         )
 
     def translation__automatic_translation(

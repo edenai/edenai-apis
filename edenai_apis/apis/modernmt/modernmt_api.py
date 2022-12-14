@@ -1,3 +1,6 @@
+from typing import Sequence
+import requests
+
 from edenai_apis.features.translation import (
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass,
@@ -7,58 +10,47 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features import ProviderApi, Translation
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
-from typing import Sequence
-import json
-import requests
 
 
-class ModernmtApi(
-    ProviderApi,
-    Translation,
-):
-
+class ModernmtApi(ProviderApi,Translation):
     provider_name = "modernmt"
-    
+
     def __init__(self):
-        super().__init__()
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
         self.header = {
             'MMT-ApiKey' : self.api_settings["api_key"]
         }
         self.url = self.api_settings["url"]
 
-        
-    def translation__language_detection(
-        self, text: str
-    ) -> ResponseType[LanguageDetectionDataClass]:
-        
-        data = {
-            "q" : text,
-        }
-        
-        # Api output
-        output = requests.get("https://api.modernmt.com/translate/detect", 
-                              headers=self.header, data= data)
-        response=output.json()
+    def translation__language_detection(self, text) -> ResponseType[LanguageDetectionDataClass]:
+        response = requests.get(
+            url="https://api.modernmt.com/translate/detect",
+            headers=self.header,
+            data={ "q" : text }
+        )
 
-        # Handle errors :
-        if response['status'] != 200:
-            raise ProviderException(message=response['error']['message'], code=response['status'])
+        original_response=response.json()
+        if response.status_code != 200:
+            raise ProviderException(
+                message=original_response['error']['message'],
+                code=response.status_code
+            )
 
-        # Create output TextDetectLanguage object
-        # Analyze response
         items: Sequence[InfosLanguageDetectionDataClass] = []
         items.append(
-                    InfosLanguageDetectionDataClass(
-                        language=response['data']['detectedLanguage'],
-                    )
+            InfosLanguageDetectionDataClass(
+                language=original_response['data']['detectedLanguage'],
+                display_name=get_language_name_from_code(
+                    isocode=original_response['data']['detectedLanguage']
                 )
-
-        standardized_response = LanguageDetectionDataClass(items=items)
+            )
+        )
 
         return ResponseType[LanguageDetectionDataClass](
-            original_response=response, standardized_response=standardized_response
+            original_response=original_response,
+            standardized_response=LanguageDetectionDataClass(items=items)
         )
         
     def translation__automatic_translation(self, source_language: str, target_language: str, text: str

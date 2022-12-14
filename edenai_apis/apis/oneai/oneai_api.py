@@ -1,4 +1,4 @@
-from pprint import pprint
+from enum import Enum
 from io import BufferedReader
 import json
 from typing import Optional
@@ -24,7 +24,10 @@ from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass i
 from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
 )
-from edenai_apis.features.translation.language_detection.language_detection_dataclass import InfosLanguageDetectionDataClass
+from edenai_apis.features.translation.language_detection.language_detection_dataclass import (
+    InfosLanguageDetectionDataClass,
+    get_code_from_language_name
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import wav_converter
@@ -37,10 +40,11 @@ from edenai_apis.utils.types import (
     ResponseType
 )
 
-class StatusEnum(enumerate):
+class StatusEnum(Enum):
     SUCCESS = 'COMPLETED'
     RUNNING = 'RUNNING'
     FAILED = 'FAILED'
+
 class OneaiApi(ProviderApi, Text, Translation, Audio):
     provider_name = 'oneai'
 
@@ -161,7 +165,7 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
             general_sentiment += 1 if sentiment == SentimentEnum.POSITIVE else -1
             items.append(SegmentSentimentAnalysisDataClass(
                 segment=segment,
-                sentiment=sentiment
+                sentiment=sentiment.value
             ))
 
         general_sentiment_text = SentimentEnum.NEUTRAL
@@ -171,7 +175,7 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
             general_sentiment = SentimentEnum.POSITIVE
 
         standardized_response = SentimentAnalysisDataClass(
-            general_sentiment=general_sentiment_text,
+            general_sentiment=general_sentiment_text.value,
             items=items
         )
 
@@ -205,7 +209,7 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
             standardized_response=standardized_response
         )
 
-    def translation__language_detection(self, text: str) -> ResponseType[LanguageDetectionDataClass]:
+    def translation__language_detection(self, text) -> ResponseType[LanguageDetectionDataClass]:
         data = json.dumps({
             "input": text,
             "steps": [
@@ -223,14 +227,16 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
 
         items = []
         for item in original_response['output'][0]['labels']:
-            items.append(InfosLanguageDetectionDataClass(language=item['value']))
-
-        standardized_response = LanguageDetectionDataClass(items=items)
+            items.append(InfosLanguageDetectionDataClass(
+                language=get_code_from_language_name(name=item['value']),
+                display_name=item['value']
+            ))
 
         return ResponseType[LanguageDetectionDataClass](
             original_response=original_response,
-            standardized_response=standardized_response
+            standardized_response=LanguageDetectionDataClass(items=items)
         )
+
 
     def audio__speech_to_text_async__launch_job(self, file: BufferedReader, 
         language: str, speakers: int, profanity_filter: bool, vocabulary: list

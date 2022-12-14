@@ -154,14 +154,14 @@ class EmvistaApi(ProviderApi, Text):
         )
         return result
 
-    def _normalize_sentiment(self, rate: float) -> SentimentEnum:
+    def _normalize_sentiment(self, rate: float) -> str:
         if rate == 'NaN':
-            return SentimentEnum.NEUTRAL
+            return SentimentEnum.NEUTRAL.value
         if rate > 0:
-            return SentimentEnum.POSITIVE
+            return SentimentEnum.POSITIVE.value
         if rate < 0:
-            return SentimentEnum.NEGATIVE
-        return SentimentEnum.NEUTRAL
+            return SentimentEnum.NEGATIVE.value
+        return SentimentEnum.NEUTRAL.value
 
     def text__sentiment_analysis(
         self,
