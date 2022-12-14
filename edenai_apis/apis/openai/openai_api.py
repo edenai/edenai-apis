@@ -276,22 +276,19 @@ class OpenaiApi(ProviderApi, Text):
         
         items: Sequence[InfosLanguageDetectionDataClass] = []
         score = np.exp(original_response['choices'][0]['logprobs']['token_logprobs'][0])
+        # replace are necessary to keep only language code
+        isocode = original_response['choices'][0]['text'].replace(' ', '')
         items.append(
                InfosLanguageDetectionDataClass(
-                    language=original_response['choices'][0]['text'],
-                    display_name=get_language_name_from_code(
-                        # replace are necessary to keep only language code
-                        isocode=original_response['choices'][0]['text'].replace(' ', '')
-                    ),
+                    language=isocode,
+                    display_name=get_language_name_from_code(isocode=isocode),
                    confidence = float(score)
                )
             )
 
-        standardized_response = LanguageDetectionDataClass(items=items,)
-
         return ResponseType[LanguageDetectionDataClass](
             original_response=original_response,
-            standardized_response=standardized_response,
+            standardized_response=LanguageDetectionDataClass(items=items),
         )
         
     def translation__automatic_translation(
