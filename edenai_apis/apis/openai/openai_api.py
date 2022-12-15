@@ -360,10 +360,10 @@ class OpenaiApi(ProviderApi, Text):
         score = np.exp(original_response['choices'][0]['logprobs']['token_logprobs'][0])
         categories: Sequence[ExtractedTopic] = []
         categories.append(ExtractedTopic(
-            category = original_response['choices'][0]['text'], confidence = float(score)
+            category = original_response['choices'][0]['text'], importance = float(score)
         ))
         standarized_response = TopicExtractionDataClass(
-            categories = categories
+            items = categories
             )
 
         return ResponseType[TopicExtractionDataClass](

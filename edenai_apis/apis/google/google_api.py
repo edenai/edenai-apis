@@ -1489,10 +1489,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         for category in original_response.get('categories',[]):
             categories.append(ExtractedTopic(
                 category = category.get('name'),
-                confidence = category.get('confidence')
+                importance = category.get('confidence')
                 )
             )
-        standardized_response = TopicExtractionDataClass(categories=categories)
+        standardized_response = TopicExtractionDataClass(items=categories)
                 
         result = ResponseType[TopicExtractionDataClass](
             original_response=original_response,

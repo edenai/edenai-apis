@@ -1,8 +1,8 @@
 {
-    "categories": [
+    "items": [
         {
           "category": "/Art And Entertainment/Movies And Tv",
-          "confidence": 1.0
+          "importance": 1.0
         }
       ]
 }

@@ -8,10 +8,10 @@
     ]
   },
   "standardized_response": {
-    "categories": [
+    "items": [
       {
         "category": "/Arts & Entertainment/Tv & Video/Tv Shows & Programs",
-        "confidence": 0.52
+        "importance": 0.52
       }
     ]
   }
