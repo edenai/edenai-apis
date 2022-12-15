@@ -2,4 +2,5 @@ include edenai_apis/apis/*/outputs/*/*.json
 include edenai_apis/apis/*/info.json
 include edenai_apis/features/*/data/*
 include edenai_apis/features/ocr/identity_parser/countries.json
+include edenai_apis/features/translation/language_detection/languages.json
 recursive-include edenai_apis/utils *
