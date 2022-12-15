@@ -138,6 +138,12 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
     VideoTextBoundingBox,
     VideoTextFrames,
 )
+from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass import (
+    TopicExtractionDataClass,
+    ExtractedTopic,
+    
+)
+
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import wav_converter
@@ -748,7 +754,6 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         except Exception as exc:
             raise ProviderException(str(exc)) from exc
         return phrase_set_response.name
-
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers: int,
@@ -1463,3 +1468,35 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         return AsyncPendingResponseType[ExplicitContentDetectionAsyncDataClass](
             status="pending", provider_job_id=provider_job_id
         )
+
+    def text__topic_extraction(
+        self, language: str, text: str
+    ) -> ResponseType[TopicExtractionDataClass]:
+        # Create configuration dictionnary
+        document = GoogleDocument(
+            content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
+        )
+        # Get Api response
+        response = self.clients["text"].classify_text(
+            document=document,
+        )
+        # Create output response
+        # Convert response to dict
+        original_response = MessageToDict(response._pb)
+        
+        # Standardize the response
+        categories: Sequence[ExtractedTopic] = []
+        for category in original_response.get('categories',[]):
+            categories.append(ExtractedTopic(
+                category = category.get('name'),
+                confidence = category.get('confidence')
+                )
+            )
+        standardized_response = TopicExtractionDataClass(categories=categories)
+                
+        result = ResponseType[TopicExtractionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+        
+        return result

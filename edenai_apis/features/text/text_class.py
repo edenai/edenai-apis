@@ -8,7 +8,8 @@ from edenai_apis.features.text import (
     SyntaxAnalysisDataClass,
     AnonymizationDataClass,
     SummarizeDataClass,
-    SearchDataClass
+    SearchDataClass,
+    TopicExtractionDataClass,
 )
 from edenai_apis.utils.types import ResponseType
 
@@ -135,6 +136,19 @@ class Text:
     ) -> ResponseType[SyntaxAnalysisDataClass]:
         """
         Syntax analysis consists principally in highlighting the structure of a text.
+
+        Args:
+            text (str): text to analyze
+            language (str): text's language code in ISO format
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def text__topic_extraction(
+        self, language: str, text: str
+    ) -> ResponseType[TopicExtractionDataClass]:
+        """
+        Extract Keywords from a given text
 
         Args:
             text (str): text to analyze
