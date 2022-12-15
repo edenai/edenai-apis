@@ -23,7 +23,6 @@ class ConnexunApi(ProviderApi, Text):
     def text__sentiment_analysis(
         self, language: str, text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
-        # Prepare request
         files = {"text": text}
         headers = {
             "x-api-key": self.api_key,
@@ -32,15 +31,12 @@ class ConnexunApi(ProviderApi, Text):
         }
         url = f"{self.base_url}text-analysis/sentiment"
 
-        # Send request to API
         response = requests.post(url, headers=headers, json=files)
         original_response = response.json()
 
-        # Check errors from API
         if isinstance(original_response, dict) and original_response.get("message"):
             raise ProviderException(original_response["message"])
 
-        # Return standardized response
         standardized_response = SentimentAnalysisDataClass(
             general_sentiment=original_response.get("Sentiment"),
             general_sentiment_rate=original_response.get("Value"),

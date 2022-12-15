@@ -21,8 +21,8 @@ class InfosLanguageDetectionDataClass(BaseModel):
     display_name: StrictStr
     confidence: Optional[float]
 
-    @classmethod
     @validator('confidence')
+    @classmethod
     def normalize_confidence(cls, value):
         return round(value, 2)
 

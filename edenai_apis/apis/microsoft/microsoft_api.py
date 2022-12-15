@@ -647,7 +647,6 @@ class MicrosoftApi(
         :param text:        String that contains the text to analyse
         :return:            TextSentimentAnalysis Object that contains sentiments and their rates
         """
-        # Call api
         try:
             response = requests.post(
                 f"{self.url['text']}",

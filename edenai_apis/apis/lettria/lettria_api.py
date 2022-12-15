@@ -74,14 +74,14 @@ class LettriaApi(ProviderApi, Text):
         items = []
         for sentence in original_response['sentences']:
             score = sentence['sentiment']['subsentences'][0]['values']['total']
-            sentiment = self._normalize_sentiment(score)
+            sentiment = self._normalize_sentiment(score).value
             items.append(SegmentSentimentAnalysisDataClass(
                 segment=sentence['sentiment']['subsentences'][0]['sentence'],
                 sentiment=sentiment,
                 sentiment_rate=abs(sentence['sentiment']['subsentences'][0]['values']['total'])
             ))
 
-        sentiment: SentimentEnum = self._normalize_sentiment(original_response['sentiment']).value
+        sentiment: str = self._normalize_sentiment(original_response['sentiment']).value
         sentiment_rate: float = abs(original_response["sentiment"])
 
         standarize = SentimentAnalysisDataClass(

@@ -19,15 +19,15 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
     sentiment: Literal["Positive", "Negative", "Neutral"]
     sentiment_rate: Optional[float]
 
-    @classmethod
     @validator('segment', pre=True)
+    @classmethod
     def valid_segment(cls, value):
         if not isinstance(value, str):
             raise TypeError(f"Segment must be a string, not {type(value)}")
         return value
 
-    @classmethod
     @validator('sentiment', pre=True)
+    @classmethod
     def valid_sentiment(cls, value):
         if not isinstance(value, str):
             raise TypeError(f"Sentiment must be a string, not {type(value)}")
@@ -36,8 +36,8 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
             raise ValueError(f"{value} are not allowed. Sentiment must be 'Positive' or 'Negative' or 'Neutral'")
         return value
 
-    @classmethod
     @validator('sentiment_rate', pre=True)
+    @classmethod
     def valid_sentiment_rate(cls, value):
         if not isinstance(value, (float, int)):
             raise TypeError(f"General sentiment rate must be a float, not {type(value)}")
@@ -58,8 +58,8 @@ class SentimentAnalysisDataClass(BaseModel):
     general_sentiment_rate: Optional[float]
     items: Sequence[SegmentSentimentAnalysisDataClass] = Field(default_factory=list)
 
-    @classmethod
     @validator('general_sentiment', pre=True)
+    @classmethod
     def valid_general_sentiment(cls, value):
         if not isinstance(value, str):
             raise TypeError(f"Text must be a string, not {type(value)}")
@@ -68,8 +68,8 @@ class SentimentAnalysisDataClass(BaseModel):
             raise ValueError(f"{value} are not allowed. General sentiment must be 'Positive' or 'Negative' or 'Neutral'")
         return value
 
-    @classmethod
     @validator('general_sentiment_rate', pre=True)
+    @classmethod
     def valid_general_sentiment_rate(cls, value):
         if not isinstance(value, (float, int)):
             raise TypeError(f"General sentiment rate must be a float, not {type(value)}")
