@@ -349,11 +349,11 @@ class IbmApi(
             categories.append(
                 ExtractedTopic(
                     category = category.get('label'),
-                    confidence = category.get('score')
+                    importance = category.get('score')
                 )
             )
     
-        standardized_response = TopicExtractionDataClass(categories=categories)
+        standardized_response = TopicExtractionDataClass(items=categories)
         result = ResponseType[TopicExtractionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
