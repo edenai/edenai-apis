@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, StrictStr
 
 class InfosNamedEntityRecognitionDataClass(BaseModel):
     entity: StrictStr
-    category: StrictStr
+    category: Optional[StrictStr]
     importance: Optional[float]
 
 

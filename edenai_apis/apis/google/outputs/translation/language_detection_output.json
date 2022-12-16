@@ -7,10 +7,11 @@
       }
     ]
   },
-  "standarized_response": {
+  "standardized_response": {
     "items": [
       {
         "language": "it",
+        "display_name": "Italian",
         "confidence": 1.0
       }
     ]

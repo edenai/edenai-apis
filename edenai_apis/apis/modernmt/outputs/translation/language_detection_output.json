@@ -6,10 +6,11 @@
       "billedCharacters": 0
     }
   },
-  "standarized_response": {
+  "standardized_response": {
     "items": [
       {
         "language": "it",
+        "display_name": "Italian",
         "confidence": null
       }
     ]

@@ -41,7 +41,7 @@ class ItemLinesInvoice(BaseModel):
     unit_price: Optional[float]
     discount : Optional[int] # New
     product_code : Optional[StrictStr] # New
-    date_item : Optional[StrictStr] # New
+    date_item : Optional[str] # New
     tax_item : Optional[float] # New
 
 

@@ -1,3 +1,4 @@
+from enum import Enum
 import json
 import os
 from datetime import datetime
@@ -17,7 +18,7 @@ class Country(BaseModel):
     alpha3: Optional[StrictStr]
     confidence: Optional[float]
 
-class InfoCountry(enumerate):
+class InfoCountry(Enum):
     NAME = 'name'
     ALPHA2 = 'alpha2'
     ALPHA3 = 'alpha3'
@@ -34,7 +35,7 @@ def get_info_country(
 
     with open(f'{feature_path}/identity_parser/countries.json', 'r', encoding='utf-8') as f:
         countries = json.load(f)
-        country_idx = next((index for (index, country) in enumerate(countries) if country[key].lower()== value.lower()), None)
+        country_idx = next((index for (index, country) in enumerate(countries) if country[key.value].lower()== value.lower()), None)
         if country_idx:
             return countries[country_idx]
         print(f"{key}: {value} not found")

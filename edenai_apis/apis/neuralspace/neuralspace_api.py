@@ -12,13 +12,13 @@ from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
     InfosLanguageDetectionDataClass,
 )
-from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
+from edenai_apis.features.audio.speech_to_text_async import (
     SpeechToTextAsyncDataClass,
-    SpeechDiarizationEntry,
     SpeechDiarization
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncPendingResponseType,
@@ -66,7 +66,7 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
                     category = 'DATE'
                 else:
                     category = entity["type"].upper()
-                
+
                 items.append(
                     InfosNamedEntityRecognitionDataClass(
                         entity=text,
@@ -75,10 +75,10 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
                     )
                 )
 
-        standarized_response = NamedEntityRecognitionDataClass(items=items)
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[NamedEntityRecognitionDataClass](
-            original_response=data, standarized_response=standarized_response
+            original_response=data, standardized_response=standardized_response
         )
 
     def translation__automatic_translation(
@@ -97,43 +97,41 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
 
         data = response["data"]
 
-        if response["success"] == False:
+        if response["success"] is False:
             raise ProviderException(data["error"])
 
-        standarized_response = AutomaticTranslationDataClass(
+        standardized_response = AutomaticTranslationDataClass(
             text=data["translatedText"]
         )
 
         return ResponseType[AutomaticTranslationDataClass](
-            original_response=data, standarized_response=standarized_response
+            original_response=data, standardized_response=standardized_response
         )
 
-    def translation__language_detection(
-        self, text: str
-    ) -> ResponseType[LanguageDetectionDataClass]:
+    def translation__language_detection(self, text) -> ResponseType[LanguageDetectionDataClass]:
         url = f"{self.url}language-detection/v1/detect"
         files = {"text": text}
 
         response = requests.request("POST", url, json=files, headers=self.header)
-        response = response.json()
+
+        original_response = response.json()
+        if response.status_code != 200:
+            raise ProviderException(message=original_response['error'], code=response.status_code)
 
         items: Sequence[InfosLanguageDetectionDataClass] = []
-        if len(response["data"]["detected_languages"]) > 0:
-            for lang in response["data"]["detected_languages"]:
-                confidence = float(lang["confidence"])
-                if confidence > 0.1:
-                    items.append(
-                        InfosLanguageDetectionDataClass(
-                            language=lang["language"], confidence=confidence
-                        )
+        for lang in original_response["data"]["detected_languages"]:
+            confidence = float(lang["confidence"])
+            if confidence > 0.1:
+                items.append(
+                    InfosLanguageDetectionDataClass(
+                        language=lang["language"],
+                        display_name=get_language_name_from_code(isocode=lang['language']),
+                        confidence=confidence
                     )
-
-        standarized_response = LanguageDetectionDataClass(items=items)
-
-        data = response["data"]
-
+                )
         return ResponseType[LanguageDetectionDataClass](
-            original_response=data, standarized_response=standarized_response
+            original_response=original_response,
+            standardized_response=LanguageDetectionDataClass(items=items)
         )
 
     def audio__speech_to_text_async__launch_job(
@@ -215,7 +213,7 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
 
         return AsyncResponseType[SpeechToTextAsyncDataClass](
             original_response = original_response,
-            standarized_response = SpeechToTextAsyncDataClass(
+            standardized_response = SpeechToTextAsyncDataClass(
                 text = original_response.get('data').get('transcripts'),
                 diarization= diarization
             ),

@@ -685,7 +685,7 @@
     },
     "status": "COMPLETED"
   },
-  "standarized_response": {
+  "standardized_response": {
     "text": "Unit one, page 14 Real Conversations. Hello, Hi, what's your name, Claudia. What's your name? I'm chihiro. Nice to meet you, see here. Oh, yeah, that's right. Where you from?",
     "diarization": {
       "total_speakers": 2,

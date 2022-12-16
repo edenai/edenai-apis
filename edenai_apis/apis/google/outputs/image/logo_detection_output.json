@@ -1,59 +1,6 @@
 {
-  "original_response": {
-    "logoAnnotations": [
-      {
-        "mid": "/m/0k8z",
-        "description": "Apple Inc.",
-        "score": 0.8422945,
-        "boundingPoly": {
-          "vertices": [
-            {
-              "x": 635,
-              "y": 562
-            },
-            {
-              "x": 719,
-              "y": 562
-            },
-            {
-              "x": 719,
-              "y": 695
-            },
-            {
-              "x": 635,
-              "y": 695
-            }
-          ]
-        }
-      }
-    ]
-  },
-  "standarized_response": {
-    "items": [
-      {
-        "bounding_poly": {
-          "vertices": [
-            {
-              "x": 635.0,
-              "y": 562.0
-            },
-            {
-              "x": 719.0,
-              "y": 562.0
-            },
-            {
-              "x": 719.0,
-              "y": 695.0
-            },
-            {
-              "x": 635.0,
-              "y": 695.0
-            }
-          ]
-        },
-        "description": "Apple Inc.",
-        "score": 0.8422945
-      }
-    ]
+  "original_response": {},
+  "standardized_response": {
+    "items": []
   }
 }

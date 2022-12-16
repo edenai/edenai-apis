@@ -1,0 +1,80 @@
+{
+  "original_response": {
+    "id": "cmpl-6Nj5fMkrBkumqftNX71Z1OnwAjtKd",
+    "object": "text_completion",
+    "created": 1671112891,
+    "model": "text-davinci-003",
+    "choices": [
+      {
+        "text": "Actor, Movies, TV Shows",
+        "index": 0,
+        "logprobs": {
+          "tokens": [
+            "Actor",
+            ",",
+            " Movies",
+            ",",
+            " TV",
+            " Shows",
+            "<|endoftext|>"
+          ],
+          "token_logprobs": [
+            -0.13814357,
+            -0.10750561,
+            -0.15830225,
+            -0.00054459006,
+            -1.8535601,
+            -0.061856408,
+            -0.14626029
+          ],
+          "top_logprobs": [
+            {
+              "Actor": -0.13814357
+            },
+            {
+              ",": -0.10750561
+            },
+            {
+              " Movies": -0.15830225
+            },
+            {
+              ",": -0.00054459006
+            },
+            {
+              " Hollywood": -0.30125856
+            },
+            {
+              " Shows": -0.061856408
+            },
+            {
+              "<|endoftext|>": -0.14626029
+            }
+          ],
+          "text_offset": [
+            170,
+            175,
+            176,
+            183,
+            184,
+            187,
+            193
+          ]
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 39,
+      "completion_tokens": 6,
+      "total_tokens": 45
+    }
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "category": "Actor, Movies, Tv Shows",
+        "importance": 0.87
+      }
+    ]
+  }
+}

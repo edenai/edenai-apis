@@ -225,7 +225,7 @@ def compute_output(
                 )
                 subfeature_result = {
                     "original_response": output["original_response"],
-                    "standarized_response": output["standarized_response"],
+                    "standardized_response": output["standardized_response"],
                 }
 
     else:
@@ -364,7 +364,7 @@ def get_async_job_result(
 def get_async_job_webhook_result(
     provider_name: str, feature: str, subfeature: str, data: Dict, phase: str = ""
 ) -> Optional[Dict]:
-    """Format result from webhook to standarized response
+    """Format result from webhook to standardized response
 
     Args:
         provider_name (str): EdenAI provider name

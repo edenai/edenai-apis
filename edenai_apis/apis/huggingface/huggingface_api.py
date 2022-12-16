@@ -76,16 +76,16 @@ class HuggingfaceApi(ProviderApi, Text, Translation):
             raise ProviderException(response["error"])
 
         # Create output TextAutomaticTranslation object
-        standarized: AutomaticTranslationDataClass
+        standardized: AutomaticTranslationDataClass
 
         # Getting translation
         result = response[0]
         if result["translation_text"] != "":
-            standarized = AutomaticTranslationDataClass(text=result["translation_text"])
+            standardized = AutomaticTranslationDataClass(text=result["translation_text"])
 
         return ResponseType[AutomaticTranslationDataClass](
             original_response=response,
-            standarized_response=standarized
+            standardized_response=standardized
         )
 
     def text__summarize(
@@ -101,13 +101,13 @@ class HuggingfaceApi(ProviderApi, Text, Translation):
 
         response = self._post(url, text)
 
-        standarized_response = SummarizeDataClass(
+        standardized_response = SummarizeDataClass(
             result=response[0].get("summary_text")
         )
 
         return ResponseType[SummarizeDataClass](
             original_response=response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
     def text__question_answer(
@@ -128,14 +128,14 @@ class HuggingfaceApi(ProviderApi, Text, Translation):
             model = "roberta-base-squad2"
 
         url = f"{self.base_url}/deepset/roberta-base-squad2"
-        # Create standarized response
+        # Create standardized response
         response = self._post(url, {"question": question, "context": texts[0]})
         if response.status_code != 200:
             raise ProviderException(response.json().get('error'))
 
-        standarized_response = QuestionAnswerDataClass(answers=[response.get("answer")])
+        standardized_response = QuestionAnswerDataClass(answers=[response.get("answer")])
 
         return ResponseType[QuestionAnswerDataClass](
             original_response=response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )

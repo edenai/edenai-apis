@@ -7,7 +7,7 @@ import base64
 import json
 from pathlib import Path
 import time
-from typing import Dict, List, Sequence
+from typing import Dict, List, Optional, Sequence
 from io import BufferedReader, BytesIO
 import requests
 from PIL import Image as Img
@@ -66,6 +66,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import file_with_good_extension
 from edenai_apis.utils.conversion import format_string_url_language
 from edenai_apis.utils.exception import ProviderException, LanguageException
+from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncErrorResponseType,
@@ -152,12 +153,12 @@ class MicrosoftApi(
                             height=float(word["boundingBox"].split(",")[3]) / height,
                         )
                     )
-        standarized = OcrDataClass(
+        standardized = OcrDataClass(
             text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
         )
 
         return ResponseType[OcrDataClass](
-            original_response=response, standarized_response=standarized
+            original_response=response, standardized_response=standardized
         )
 
 
@@ -201,11 +202,11 @@ class MicrosoftApi(
         audio = base64.b64encode(response.audio_data).decode("utf-8")
         voice_type = 1
 
-        standarized_response = TextToSpeechDataClass(audio=audio, voice_type=voice_type)
+        standardized_response = TextToSpeechDataClass(audio=audio, voice_type=voice_type)
 
         return ResponseType[TextToSpeechDataClass](
             original_response={},
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
 
@@ -231,7 +232,7 @@ class MicrosoftApi(
 
         return ResponseType[InvoiceParserDataClass](
             original_response=result,
-            standarized_response=normalize_invoice_result(result)
+            standardized_response=normalize_invoice_result(result)
         )
 
 
@@ -310,10 +311,10 @@ class MicrosoftApi(
         )
         return ResponseType[ReceiptParserDataClass](
             original_response=result,
-            standarized_response=ReceiptParserDataClass(extracted_data=[receipt])
+            standardized_response=ReceiptParserDataClass(extracted_data=[receipt])
         )
 
-    def ocr__identity_parser(self, file: BufferedReader, filename: str) -> ResponseType[IdentityParserDataClass]:
+    def ocr__identity_parser(self, file: BufferedReader) -> ResponseType[IdentityParserDataClass]:
         file_content = file.read()
 
         headers = {
@@ -411,11 +412,11 @@ class MicrosoftApi(
                 )
             ))
 
-        standarized_response = IdentityParserDataClass(extracted_data=items)
+        standardized_response = IdentityParserDataClass(extracted_data=items)
 
         return ResponseType[IdentityParserDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
     def image__explicit_content(
@@ -462,13 +463,12 @@ class MicrosoftApi(
 
         res =  ResponseType[ExplicitContentDataClass](
             original_response=data,
-            standarized_response=ExplicitContentDataClass(
+            standardized_response=ExplicitContentDataClass(
                 items=items, nsfw_likelihood=nsfw
             ),
         )
         print(res.dict())
         return res
-
 
 
     def image__object_detection(self,
@@ -488,29 +488,32 @@ class MicrosoftApi(
 
         items = []
 
-        width, height = response["metadata"]["width"], response["metadata"]["height"]
+        metadata = response.get("metadata", {})
+        width, height = metadata.get("width"), metadata.get("height")
 
         for obj in response["objects"]:
+            if width is None or height is None:
+                x_min, x_max, y_min, y_max = 0, 0, 0, 0
+            else:
+                x_min = obj["rectangle"]["x"] / width
+                x_max = (obj["rectangle"]["x"] + obj["rectangle"]["w"]) / width
+                y_min = 1 - ((height - obj["rectangle"]["y"]) / height)
+                y_max = 1 - ((height - obj["rectangle"]["y"] - obj["rectangle"]["h"]) / height)
             items.append(
                 ObjectItem(
                     label=obj["object"],
                     confidence=obj["confidence"],
-                    x_min=obj["rectangle"]["x"] / width,
-                    x_max=(obj["rectangle"]["x"] + obj["rectangle"]["w"]) / width,
-                    y_min=1 - ((height - obj["rectangle"]["y"]) / height),
-                    y_max=1
-                    - (
-                        (height - obj["rectangle"]["y"] - obj["rectangle"]["h"])
-                        / height
-                    ),
+                    x_min=x_min,
+                    x_max=x_max,
+                    y_min=y_min,
+                    y_max=y_max,
                 )
             )
 
         return ResponseType[ObjectDetectionDataClass](
             original_response = response,
-            standarized_response= ObjectDetectionDataClass(items=items)
+            standardized_response= ObjectDetectionDataClass(items=items)
         )
-
 
 
     def image__face_detection(self,
@@ -553,7 +556,7 @@ class MicrosoftApi(
 
         return ResponseType[FaceDetectionDataClass](
             original_response= response,
-            standarized_response= FaceDetectionDataClass(items=faces_list)
+            standardized_response= FaceDetectionDataClass(items=faces_list)
         )
 
 
@@ -564,17 +567,21 @@ class MicrosoftApi(
         """
         :param image_path:  String that contains the path to the image file
         """
-
-        # Getting response of API
         response = requests.post(
             f"{self.url['vision']}/analyze?visualFeatures=Brands",
             headers=self.headers["vision"],
             data=file,
-        ).json()
+        )
+        data = response.json()
+
+        if response.status_code != 200:
+            # sometimes no "error" key in repsonse
+            # ref: https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-2/operations/56f91f2e778daf14a499f21b
+            error_msg = data.get("message", data.get("error", "message"))
+            raise ProviderException(error_msg)
 
         items: Sequence[LogoItem] = []
-        for key in response.get("brands"):
-
+        for key in data.get("brands"):
             x_cordinate = float(key.get("rectangle").get("x"))
             y_cordinate = float(key.get("rectangle").get("y"))
             height = float(key.get("rectangle").get("h"))
@@ -594,10 +601,8 @@ class MicrosoftApi(
             )
 
         return ResponseType[LogoDetectionDataClass](
-            original_response= response,
-            standarized_response= LogoDetectionDataClass(items=items)
+            original_response=data, standardized_response=LogoDetectionDataClass(items=items)
         )
-
 
 
     def image__landmark_detection(self,
@@ -617,7 +622,7 @@ class MicrosoftApi(
         ).json()
         items: Sequence[LandmarkItem] = []
         for key in response.get("categories"):
-            for landmark in key.get("detail").get("landmarks"):
+            for landmark in key.get("detail", {}).get("landmarks"):
                 if landmark.get("name") not in [item.description for item in items]:
                     items.append(
                         LandmarkItem(
@@ -628,7 +633,7 @@ class MicrosoftApi(
 
         return ResponseType[LandmarkDetectionDataClass](
             original_response=response,
-            standarized_response= LandmarkDetectionDataClass(items=items)
+            standardized_response= LandmarkDetectionDataClass(items=items)
         )
 
 
@@ -642,7 +647,6 @@ class MicrosoftApi(
         :param text:        String that contains the text to analyse
         :return:            TextSentimentAnalysis Object that contains sentiments and their rates
         """
-        # Call api
         try:
             response = requests.post(
                 f"{self.url['text']}",
@@ -666,23 +670,26 @@ class MicrosoftApi(
         items: Sequence[SegmentSentimentAnalysisDataClass] = []
 
         # Getting the explicit label and its score of image
-        for sentence in data['results']['documents'][0]['sentences']:
-            best_sentiment = {
-                'sentiment': None,
-                'rate': 0,
-            }
-            for sentiment, value in sentence['confidenceScores'].items():
-                if best_sentiment['rate'] < value:
-                    best_sentiment['sentiment'] = sentiment
-                    best_sentiment['rate'] = value
+        default_dict = defaultdict(lambda: None)
+        sentences = data.get('results',default_dict).get('documents',[default_dict])[0].get('sentences')
+        if sentences : 
+            for sentence in sentences:
+                best_sentiment = {
+                    'sentiment': None,
+                    'rate': 0,
+                }
+                for sentiment, value in sentence['confidenceScores'].items():
+                    if best_sentiment['rate'] < value:
+                        best_sentiment['sentiment'] = sentiment
+                        best_sentiment['rate'] = value
 
-            items.append(
-                SegmentSentimentAnalysisDataClass(
-                    segment=sentence['text'],
-                    sentiment=best_sentiment['sentiment'],
-                    sentiment_rate=best_sentiment['rate'],
+                items.append(
+                    SegmentSentimentAnalysisDataClass(
+                        segment=sentence['text'],
+                        sentiment=best_sentiment['sentiment'],
+                        sentiment_rate=best_sentiment['rate'],
+                    )
                 )
-            )
 
         best_general_sentiment = {
             'sentiment': None,
@@ -701,7 +708,7 @@ class MicrosoftApi(
 
         return ResponseType[SentimentAnalysisDataClass](
             original_response= data,
-            standarized_response= standarize
+            standardized_response= standarize
         )
 
 
@@ -743,57 +750,44 @@ class MicrosoftApi(
                 InfosKeywordExtractionDataClass(keyword=key_phrase)
             )
 
-        standarized_response = KeywordExtractionDataClass(items=items)
+        standardized_response = KeywordExtractionDataClass(items=items)
 
         return ResponseType[KeywordExtractionDataClass](
             original_response=data,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
 
 
 
-    def translation__language_detection(self,
-        text
-    ) -> ResponseType[LanguageDetectionDataClass]:
-        """
-        :param text:        String that contains input text
-        :return:            String that contains output result
-        """
-
-        # Call api
-        try:
-            response = requests.post(
-                f"{self.url['text']}",
-                headers=self.headers["text"],
-                json={
-                    "kind": "LanguageDetection",
-                    "parameters": {"modelVersion": "latest"},
-                    "analysisInput": {"documents": [{"id": "1", "text": text}]},
-                },
-            )
-        except SyntaxError as exc:
-            raise ProviderException("Microsoft API raised an error") from exc
+    def translation__language_detection(self, text) -> ResponseType[LanguageDetectionDataClass]:
+        response = requests.post(
+            url=f"{self.url['text']}",
+            headers=self.headers["text"],
+            json={
+                "kind": "LanguageDetection",
+                "parameters": {"modelVersion": "latest"},
+                "analysisInput": {"documents": [{"id": "1", "text": text}]},
+            },
+        )
 
         data = response.json()
-        self._check_microsoft_error(data)
+        if response.status_code != 200:
+            raise ProviderException(message=data['error']['message'], code=response.status_code)
 
         items: Sequence[InfosLanguageDetectionDataClass] = []
-        # Analysing response
-        result = data["results"]["documents"]
-        if len(result) > 0:
-            for lang in result:
-                items.append(
-                    InfosLanguageDetectionDataClass(
-                        language=lang["detectedLanguage"]["iso6391Name"],
-                        confidence=lang["detectedLanguage"]["confidenceScore"],
-                    )
+        for lang in data["results"]["documents"]:
+            items.append(
+                InfosLanguageDetectionDataClass(
+                    language=lang["detectedLanguage"]["iso6391Name"],
+                    display_name=get_language_name_from_code(
+                        isocode=lang["detectedLanguage"]["iso6391Name"]
+                    ),
+                    confidence=lang["detectedLanguage"]["confidenceScore"],
                 )
-
-        standarized_response = LanguageDetectionDataClass(items=items)
-
+            )
         return ResponseType[LanguageDetectionDataClass] (
             original_response= data,
-            standarized_response= standarized_response
+            standardized_response= LanguageDetectionDataClass(items=items)
         )
 
 
@@ -828,13 +822,13 @@ class MicrosoftApi(
         data = response.json()
 
         # Create output TextAutomaticTranslation object
-        standarized_response = AutomaticTranslationDataClass(
+        standardized_response = AutomaticTranslationDataClass(
             text=data[0]["translations"][0]["text"]
         )
 
         return ResponseType[AutomaticTranslationDataClass](
             original_response= data,
-            standarized_response= standarized_response
+            standardized_response= standardized_response
         )
 
 
@@ -884,11 +878,11 @@ class MicrosoftApi(
                 )
             )
 
-        standarized_response = NamedEntityRecognitionDataClass(items=items)
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[NamedEntityRecognitionDataClass](
             original_response= data,
-            standarized_response= standarized_response
+            standardized_response= standardized_response
         )
 
 
@@ -898,7 +892,7 @@ class MicrosoftApi(
         text: str,
         output_sentences: int,
         language: str,
-        model: str = None
+        model: Optional[str] = None
     ) -> ResponseType[SummarizeDataClass]:
 
         """
@@ -924,10 +918,24 @@ class MicrosoftApi(
                 },
             },
         )
-        get_url = response.headers["operation-location"]
-        resp = requests.get(url=get_url, headers=self.headers["text"])
-        data = resp.json()
+        if response.status_code != 202:
+            err = response.json().get("error", {})
+            error_msg = err.get("message", "Microsoft Azure couldn't create job")
+            raise ProviderException(error_msg)
+
+        get_url = response.headers.get("operation-location")
+        if get_url is None:
+            raise ProviderException("Microsoft Azure couldn't create job")
+
+        get_response = requests.get(url=get_url, headers=self.headers["text"])
+        if response.status_code != 200:
+            err = get_response.json().get("error", {})
+            error_msg = err.get("message", "Microsoft Azure couldn't fetch job")
+            raise ProviderException(error_msg)
+
+        data = get_response.json()
         wait_time = 0
+        summary = ""
         while wait_time < 60:  # Wait for the answer from provider
             if data["status"] == "succeeded":
                 sentences = data["tasks"]["extractiveSummarizationTasks"][0]["results"][
@@ -937,14 +945,14 @@ class MicrosoftApi(
                 break
             time.sleep(6)
             wait_time += 6
-            resp = requests.get(url=get_url, headers=self.headers["text"])
-            data = resp.json()
+            get_response = requests.get(url=get_url, headers=self.headers["text"])
+            data = get_response.json()
 
-        standarized_response = SummarizeDataClass(result=summary)
+        standardized_response = SummarizeDataClass(result=summary)
 
         return ResponseType[SummarizeDataClass](
             original_response= data,
-            standarized_response= standarized_response
+            standardized_response= standardized_response
         )
 
 
@@ -1036,15 +1044,15 @@ class MicrosoftApi(
                     tables.append(ocr_table)
                     ocr_page = Page(tables=tables)
                 pages.append(ocr_page)
-                standarized_response = OcrTablesAsyncDataClass(
+                standardized_response = OcrTablesAsyncDataClass(
                     pages=pages, num_pages=num_pages
                 )
-                return standarized_response.dict()
+                return standardized_response.dict()
 
-            standarized_response = microsoft_async(original_result)
+            standardized_response = microsoft_async(original_result)
             return AsyncResponseType[OcrTablesAsyncDataClass](
                 original_response= data,
-                standarized_response= standarized_response,
+                standardized_response= standardized_response,
                 provider_job_id= job_id
             )
 
@@ -1154,10 +1162,10 @@ class MicrosoftApi(
                 if len(speakers) == 0:
                     diarization.error_message = "Use mono audio file for diarization"
 
-                standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
+                standardized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
                 return AsyncResponseType[SpeechToTextAsyncDataClass](
                     original_response= original_response,
-                    standarized_response= standarized_response,
+                    standardized_response= standardized_response,
                     provider_job_id= provider_job_id
                 )
             else:

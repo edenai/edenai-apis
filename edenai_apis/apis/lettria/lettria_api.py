@@ -47,11 +47,11 @@ class LettriaApi(ProviderApi, Text):
                     )
                 )
 
-        standarized_response = NamedEntityRecognitionDataClass(items=items)
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
 
         result = ResponseType[NamedEntityRecognitionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -74,17 +74,15 @@ class LettriaApi(ProviderApi, Text):
         items = []
         for sentence in original_response['sentences']:
             score = sentence['sentiment']['subsentences'][0]['values']['total']
-            sentiment = self._normalize_sentiment(score)
+            sentiment = self._normalize_sentiment(score).value
             items.append(SegmentSentimentAnalysisDataClass(
                 segment=sentence['sentiment']['subsentences'][0]['sentence'],
                 sentiment=sentiment,
                 sentiment_rate=abs(sentence['sentiment']['subsentences'][0]['values']['total'])
             ))
 
-        sentiment: Literal["Neutral", "Positive", "Negative"] = self._normalize_sentiment(original_response['sentiment'])
-
-        sentiment=sentiment
-        sentiment_rate=abs(original_response["sentiment"])
+        sentiment: str = self._normalize_sentiment(original_response['sentiment']).value
+        sentiment_rate: float = abs(original_response["sentiment"])
 
         standarize = SentimentAnalysisDataClass(
             general_sentiment=sentiment,
@@ -94,7 +92,7 @@ class LettriaApi(ProviderApi, Text):
 
         result = ResponseType[SentimentAnalysisDataClass](
             original_response=original_response,
-            standarized_response=standarize,
+            standardized_response=standarize,
         )
         return result
 
@@ -136,7 +134,7 @@ class LettriaApi(ProviderApi, Text):
                         "gender": gender,
                         "plural": plural,
                         "mode": None,
-                        "infinitive": word.get("infinit", [None])[0],
+                        "infinitive": word.get("infinit"),
                     }
                     items.append(
                         InfosSyntaxAnalysisDataClass(
@@ -147,10 +145,10 @@ class LettriaApi(ProviderApi, Text):
                         )
                     )
 
-        standarized_response = SyntaxAnalysisDataClass(items=items)
+        standardized_response = SyntaxAnalysisDataClass(items=items)
 
         result = ResponseType[SyntaxAnalysisDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result

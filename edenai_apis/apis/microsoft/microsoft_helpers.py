@@ -308,7 +308,7 @@ def normalize_invoice_result(response):
     previous_unpaid_balance= invoice_data.get("PreviousUnpaidBalance", default_dict).get("value")
     
     # Items line
-    items = invoice_data.get("Items", default_dict).get("value")
+    items = invoice_data.get("Items", default_dict).get("value", [])
     item_lines: Sequence[ItemLinesInvoice] = []
     for item in items:
         line = item.get("value", default_dict)
@@ -357,6 +357,6 @@ def normalize_invoice_result(response):
         item_lines=item_lines,
     )
 
-    standarized_response = InvoiceParserDataClass(extracted_data=[invoice_parser])
+    standardized_response = InvoiceParserDataClass(extracted_data=[invoice_parser])
 
-    return standarized_response
+    return standardized_response

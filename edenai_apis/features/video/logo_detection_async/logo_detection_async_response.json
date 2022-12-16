@@ -4,6 +4,7 @@
         "description": "Koh-i-Noor Hardtmuth",
         "tracking": [
           {
+            "confidence": 0.8,
             "timestamp": 5.5055,
             "bounding_box": {
               "top": 0.9172453,
@@ -13,6 +14,7 @@
             }
           },
           {
+            "confidence": 0.8,
             "timestamp": 5.630625,
             "bounding_box": {
               "top": 0.9357612,
@@ -27,6 +29,7 @@
         "description": "Wisconsin Badgers",
         "tracking": [
           {
+            "confidence": 0.8,
             "timestamp": 0.0,
             "bounding_box": {
               "top": 0.44206923,
@@ -36,6 +39,7 @@
             }
           },
           {
+            "confidence": 0.8,
             "timestamp": 0.125125,
             "bounding_box": {
               "top": 0.44307142,
@@ -45,6 +49,7 @@
             }
           },
           {
+            "confidence": 0.8,
             "timestamp": 0.25025,
             "bounding_box": {
               "top": 0.44512537,
@@ -54,6 +59,7 @@
             }
           },
           {
+            "confidence": null,
             "timestamp": 0.375375,
             "bounding_box": {
               "top": 0.44717023,

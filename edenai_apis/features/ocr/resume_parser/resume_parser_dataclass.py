@@ -56,9 +56,9 @@ class ResumeEducation(BaseModel):
     entries: Sequence[ResumeEducationEntry] = Field(default_factory=list)
     
 class ResumePersonalName(BaseModel):
-    raw_name : StrictStr # all
-    first_name : StrictStr # all
-    last_name : StrictStr # all
+    first_name : Optional[StrictStr] # all
+    last_name : Optional[StrictStr] # all
+    raw_name : Optional[StrictStr] # all
     middle : Optional[StrictStr] # all
     title : Optional[StrictStr] # Affinda
     prefix : Optional[StrictStr] # Affinda

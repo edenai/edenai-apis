@@ -9,13 +9,11 @@ from pathlib import Path
 from time import time
 from typing import Sequence
 import uuid
-
-import PyPDF2
+from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.pdfs import get_pdf_width_height
 import googleapiclient.discovery
 import numpy as np
 from edenai_apis.apis.google.google_helpers import (
-    GoogleExplicitContentLikelihood,
     GoogleVideoFeatures,
     get_tag_name,
     google_video_get_job,
@@ -90,10 +88,10 @@ from edenai_apis.features.text.syntax_analysis.syntax_analysis_dataclass import 
     InfosSyntaxAnalysisDataClass,
     SyntaxAnalysisDataClass,
 )
-from edenai_apis.features.translation.automatic_translation.automatic_translation_dataclass import (
+from edenai_apis.features.translation.automatic_translation import (
     AutomaticTranslationDataClass,
 )
-from edenai_apis.features.translation.language_detection.language_detection_dataclass import (
+from edenai_apis.features.translation.language_detection import (
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass,
 )
@@ -140,6 +138,12 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
     VideoTextBoundingBox,
     VideoTextFrames,
 )
+from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass import (
+    TopicExtractionDataClass,
+    ExtractedTopic,
+    
+)
+
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import (
@@ -197,18 +201,18 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         response = self.clients["image"].object_localization(image=image)
         response = MessageToDict(response._pb)
         items = []
-        for object_annotation in response["localizedObjectAnnotations"]:
+        for object_annotation in response.get("localizedObjectAnnotations", []):
             x_min, x_max = np.infty, -np.infty
             y_min, y_max = np.infty, -np.infty
             # Getting borders
             for normalize_vertice in object_annotation["boundingPoly"][
                 "normalizedVertices"
             ]:
-                x_min, x_max = min(x_min, normalize_vertice["x"]), max(
-                    x_max, normalize_vertice["x"]
+                x_min, x_max = min(x_min, normalize_vertice.get("x", 0)), max(
+                    x_max, normalize_vertice.get("x", 0)
                 )
                 y_min, y_max = min(y_min, normalize_vertice["y"]), max(
-                    y_max, normalize_vertice["y"]
+                    y_max, normalize_vertice.get("y", 0)
                 )
                 items.append(
                     ObjectItem(
@@ -219,14 +223,11 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         y_min=y_min,
                         y_max=y_max,
                     )
-
-
-
                 )
 
         return ResponseType[ObjectDetectionDataClass](
             original_response=response,
-            standarized_response=ObjectDetectionDataClass(items=items),
+            standardized_response=ObjectDetectionDataClass(items=items),
         )
 
     def image__face_detection(
@@ -337,7 +338,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             )
         return ResponseType[FaceDetectionDataClass](
             original_response=original_result,
-            standarized_response=FaceDetectionDataClass(items=result),
+            standardized_response=FaceDetectionDataClass(items=result),
         )
 
     def image__landmark_detection(
@@ -381,23 +382,24 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
 
         return ResponseType[LandmarkDetectionDataClass](
             original_response=landmarks,
-            standarized_response=LandmarkDetectionDataClass(items=items),
+            standardized_response=LandmarkDetectionDataClass(items=items),
         )
 
     def image__logo_detection(
         self, file: BufferedReader
     ) -> ResponseType[LogoDetectionDataClass]:
         image = vision.Image(content=file.read())
-        response = self.clients["image"].logo_detection(image=image)
+
+        try:
+            response = self.clients["image"].logo_detection(image=image)
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
         response = MessageToDict(response._pb)
 
         # Handle error
-        if response.get("error", {}).get("message"):
-            raise Exception(
-                f"{response.get('error', {}).get('message')}\n"
-                + "For more info on error messages, check: "
-                + "https://cloud.google.com/apis/design/errors"
-            )
+        if response.get("error", {}).get("message") is not None:
+            raise ProviderException(response['error']['message'])
 
         items: Sequence[LogoItem] = []
         for key in response.get("logoAnnotations", []):
@@ -416,7 +418,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             )
         return ResponseType[LogoDetectionDataClass](
             original_response=response,
-            standarized_response=LogoDetectionDataClass(items=items),
+            standardized_response=LogoDetectionDataClass(items=items),
         )
 
     def audio__text_to_speech(
@@ -452,10 +454,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
 
         audio = base64.b64encode(response.audio_content).decode("utf-8")
 
-        standarized_response = TextToSpeechDataClass(audio=audio, voice_type=voice_type)
+        standardized_response = TextToSpeechDataClass(audio=audio, voice_type=voice_type)
         return ResponseType[TextToSpeechDataClass](
             original_response={},
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
 
     def ocr__ocr_tables_async__launch_job(
@@ -569,14 +571,14 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         tables.append(ocr_table)
                     ocr_page = Page(tables=tables)
                     pages.append(ocr_page)
-            standarized_response = OcrTablesAsyncDataClass(
+            standardized_response = OcrTablesAsyncDataClass(
                 pages=pages, num_pages=num_pages
             )
 
             return AsyncResponseType[OcrTablesAsyncDataClass](
                 status="succeeded",
                 original_response=original_result,
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=job_id,
             )
 
@@ -624,10 +626,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         )
                     )
 
-        standarized_response = NamedEntityRecognitionDataClass(items=items)
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[NamedEntityRecognitionDataClass](
-            original_response=response, standarized_response=standarized_response
+            original_response=response, standardized_response=standardized_response
         )
 
     def text__sentiment_analysis(
@@ -672,7 +674,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         )
 
         return ResponseType[SentimentAnalysisDataClass](
-            original_response=response, standarized_response=standarize
+            original_response=response, standardized_response=standarize
         )
 
     def text__syntax_analysis(
@@ -728,11 +730,11 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 )
             )
 
-        standarized_response = SyntaxAnalysisDataClass(items=items)
+        standardized_response = SyntaxAnalysisDataClass(items=items)
 
         result = ResponseType[SyntaxAnalysisDataClass](
             original_response=response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -757,7 +759,6 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         except Exception as exc:
             raise ProviderException(str(exc)) from exc
         return phrase_set_response.name
-
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers: int,
@@ -856,10 +857,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 
                 diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
             
-            standarized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
+            standardized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
         return AsyncPendingResponseType(provider_job_id=provider_job_id)
@@ -867,7 +868,6 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
     def image__explicit_content(
         self, file: BufferedReader
     ) -> ResponseType[ExplicitContentDataClass]:
-
         image = vision.Image(content=file.read())
 
         try:
@@ -876,30 +876,27 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             raise ProviderException(str(provider_call_exception))
 
         # Convert response to dict
-        response = AnnotateImageResponse.to_dict(response)
+        data = AnnotateImageResponse.to_dict(response)
 
-        # check for error
-        if response.get("error") is not None:
-            raise ProviderException(response['error'])
+        if data.get("error") is not None:
+            raise ProviderException(data["error"])
 
-        # Analyse response
-        # Getting the explicit label and its score of image
-        response = response["safe_search_annotation"]
+        original_response = data.get("safe_search_annotation", {})
 
         items = []
-        for safe_search_annotation, likelihood in response.items():
+        for safe_search_annotation, likelihood in original_response.items():
             items.append(
                 ExplicitItem(label=safe_search_annotation.capitalize(), likelihood=likelihood)
             )
 
-        nsfw_likelihood = max(map(lambda item: item.likelihood, items))
+        nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
 
-        res =  ResponseType(
-            original_response=response,
-            standarized_response=ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw_likelihood),
+        return ResponseType(
+            original_response=original_response,
+            standardized_response=ExplicitContentDataClass(
+                items=items, nsfw_likelihood=nsfw_likelihood
+            ),
         )
-        print(res.dict())
-        return res
 
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str
@@ -926,16 +923,14 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         else:
             raise ProviderException("Empty Text was returned")
         return ResponseType[AutomaticTranslationDataClass](
-            original_response=MessageToDict(response._pb), standarized_response=std
+            original_response=MessageToDict(response._pb), standardized_response=std
         )
 
     def translation__language_detection(
         self, text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
-        client = self.clients['translate']
-        parent = f"projects/{self.project_id}/locations/global"
-        response = client.detect_language(
-            parent=parent,
+        response = self.clients['translate'].detect_language(
+            parent=f"projects/{self.project_id}/locations/global",
             content=text,
             mime_type="text/plain",
         )
@@ -944,15 +939,14 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         for language in response.languages:
             items.append(
                 InfosLanguageDetectionDataClass(
-                    language=language.language_code, confidence=language.confidence
+                    language=language.language_code,
+                    display_name=get_language_name_from_code(isocode=language.language_code),
+                    confidence=language.confidence
                 )
             )
-
-        standarized_response = LanguageDetectionDataClass(items=items)
-
         return ResponseType[LanguageDetectionDataClass](
             original_response=MessageToDict(response._pb),
-            standarized_response=standarized_response,
+            standardized_response=LanguageDetectionDataClass(items=items),
         )
 
     def ocr__ocr(
@@ -980,7 +974,8 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         text_annotations: Sequence[
             EntityAnnotation
         ] = image_response.text_annotations
-        final_text += text_annotations[0].description.replace("\n", " ")
+        if text_annotations and isinstance(text_annotations[0], EntityAnnotation):
+            final_text += text_annotations[0].description.replace("\n", " ")
         for text in text_annotations[1:]:
             xleft = float(text.bounding_poly.vertices[0].x)
             xright = float(text.bounding_poly.vertices[1].x)
@@ -995,11 +990,11 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                     height=(ybottom - ytop) / height,
                 )
             )
-        standarized = OcrDataClass(
+        standardized = OcrDataClass(
             text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
         )
         return ResponseType[OcrDataClass](
-            original_response=messages_list, standarized_response=standarized
+            original_response=messages_list, standardized_response=standardized
         )
 
     def google_video_launch_job(
@@ -1118,8 +1113,8 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
         if result.get("done"):
             annotations = result["response"]["annotationResults"][0]
             label = (
-                annotations["segmentLabelAnnotations"]
-                + annotations["shotLabelAnnotations"]
+                annotations.get("segmentLabelAnnotations", "")
+                + annotations.get("shotLabelAnnotations", "")
             )
             label_list = []
 
@@ -1147,12 +1142,12 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         timestamp=timestamps,
                     )
                 )
-            standarized_response = LabelDetectionAsyncDataClass(labels=label_list)
+            standardized_response = LabelDetectionAsyncDataClass(labels=label_list)
 
             return AsyncResponseType[LabelDetectionAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
@@ -1171,7 +1166,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 frames = []
                 description = annotation["text"]
                 for segment in annotation["segments"]:
-                    confidence = segment["confidence"]
+                    confidence = round(segment["confidence"], 2)
                     for frame in segment["frames"]:
                         offset = frame["timeOffset"]
                         timestamp = float(offset[:-1])
@@ -1193,11 +1188,11 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                             )
                         )
                 texts.append(VideoText(text=description, frames=frames))
-            standarized_response = TextDetectionAsyncDataClass(texts=texts)
+            standardized_response = TextDetectionAsyncDataClass(texts=texts)
             return AsyncResponseType[TextDetectionAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
@@ -1217,25 +1212,25 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                     for track in annotation["tracks"]:
                         timestamp = float(track["timestampedObjects"][0]["timeOffset"][:-1])
                         bounding_box = VideoBoundingBox(
-                            top=track["timestampedObjects"][0]["normalizedBoundingBox"][
-                                "top"
-                            ],
-                            left=track["timestampedObjects"][0]["normalizedBoundingBox"][
-                                "left"
-                            ],
-                            height=track["timestampedObjects"][0]["normalizedBoundingBox"][
-                                "bottom"
-                            ],
-                            width=track["timestampedObjects"][0]["normalizedBoundingBox"][
-                                "right"
-                            ],
+                            top=track["timestampedObjects"][0]["normalizedBoundingBox"].get(
+                                "top", 0
+                            ),
+                            left=track["timestampedObjects"][0]["normalizedBoundingBox"].get(
+                                "left", 0
+                            ),
+                            height=track["timestampedObjects"][0]["normalizedBoundingBox"].get(
+                                "bottom", 0
+                            ),
+                            width=track["timestampedObjects"][0]["normalizedBoundingBox"].get(
+                                "right", 0
+                            ),
                         )
                         attribute_dict = {}
                         for attr in track["timestampedObjects"][0].get("attributes", []):
                             attribute_dict[attr["name"]] = attr["confidence"]
                         attributs = FaceAttributes(
-                            headwear=attribute_dict["headwear"],
-                            frontal_gaze=attribute_dict["headwear"],
+                            headwear=attribute_dict.get("headwear"),
+                            frontal_gaze=attribute_dict.get("looking_at_camera"),
                             eyes_visible=attribute_dict["eyes_visible"],
                             glasses=attribute_dict["glasses"],
                             mouth_open=attribute_dict["mouth_open"],
@@ -1247,11 +1242,11 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                             attributes=attributs,
                         )
                         faces.append(face)
-            standarized_response = FaceDetectionAsyncDataClass(faces=faces)
+            standardized_response = FaceDetectionAsyncDataClass(faces=faces)
             return AsyncResponseType[FaceDetectionAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
@@ -1348,12 +1343,12 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                             )
                         )
                 tracked_persons.append(VideoTrackingPerson(tracked=tracked_person))
-            standarized_response = PersonTrackingAsyncDataClass(persons=tracked_persons)
+            standardized_response = PersonTrackingAsyncDataClass(persons=tracked_persons)
 
             return AsyncResponseType[PersonTrackingAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
@@ -1389,15 +1384,16 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                                 VideoLogo(
                                     timestamp=timestamp,
                                     bounding_box=bounding_box,
+                                    confidence=track['confidence']
                                 )
                             )
                     tracks.append(LogoTrack(description=description, tracking=objects))
-            standarized_response = LogoDetectionAsyncDataClass(logos=tracks)
+            standardized_response = LogoDetectionAsyncDataClass(logos=tracks)
 
             return AsyncResponseType[LogoDetectionAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
@@ -1415,26 +1411,27 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             object_tracking = []
             for detected_object in objects:
                 frames = []
+                confidence = detected_object['confidence']
                 description = detected_object["entity"]["description"]
                 for frame in detected_object["frames"]:
                     timestamp = float(frame["timeOffset"][:-1])
                     bounding_box = VideoObjectBoundingBox(
-                        top=float(frame["normalizedBoundingBox"]["top"]),
-                        left=float(frame["normalizedBoundingBox"]["left"]),
-                        width=float(frame["normalizedBoundingBox"]["right"]),
-                        height=float(frame["normalizedBoundingBox"]["bottom"]),
+                        top=float(frame["normalizedBoundingBox"].get("top", 0)),
+                        left=float(frame["normalizedBoundingBox"].get("left", 0)),
+                        width=float(frame["normalizedBoundingBox"].get("right", 0)),
+                        height=float(frame["normalizedBoundingBox"].get("bottom", 0)),
                     )
                     frames.append(
                         ObjectFrame(timestamp=timestamp, bounding_box=bounding_box)
                     )
                 object_tracking.append(
-                    ObjectTrack(description=description, frames=frames)
+                    ObjectTrack(description=description, confidence=confidence, frames=frames)
                 )
-            standarized_response = ObjectTrackingAsyncDataClass(objects=object_tracking)
+            standardized_response = ObjectTrackingAsyncDataClass(objects=object_tracking)
             return AsyncResponseType[ObjectTrackingAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
@@ -1445,7 +1442,15 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
     def video__explicit_content_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[ExplicitContentDetectionAsyncDataClass]:
-        result = google_video_get_job(provider_job_id)
+
+        try:
+            result = google_video_get_job(provider_job_id)
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
+        if result.get("error"):
+            raise ProviderException(result['error'].get("message"))
+
         if result.get("done"):
             response = result["response"]["annotationResults"][0]
             moderation = response["explicitAnnotation"]["frames"]
@@ -1459,16 +1464,48 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         timestamp=timestamp, category=category, confidence=confidence
                     )
                 )
-            standarized_response = ExplicitContentDetectionAsyncDataClass(
+            standardized_response = ExplicitContentDetectionAsyncDataClass(
                 moderation=label_list
             )
             return AsyncResponseType[ExplicitContentDetectionAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
 
         return AsyncPendingResponseType[ExplicitContentDetectionAsyncDataClass](
             status="pending", provider_job_id=provider_job_id
         )
+
+    def text__topic_extraction(
+        self, language: str, text: str
+    ) -> ResponseType[TopicExtractionDataClass]:
+        # Create configuration dictionnary
+        document = GoogleDocument(
+            content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
+        )
+        # Get Api response
+        response = self.clients["text"].classify_text(
+            document=document,
+        )
+        # Create output response
+        # Convert response to dict
+        original_response = MessageToDict(response._pb)
+        
+        # Standardize the response
+        categories: Sequence[ExtractedTopic] = []
+        for category in original_response.get('categories',[]):
+            categories.append(ExtractedTopic(
+                category = category.get('name'),
+                importance = category.get('confidence')
+                )
+            )
+        standardized_response = TopicExtractionDataClass(items=categories)
+                
+        result = ResponseType[TopicExtractionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+        
+        return result

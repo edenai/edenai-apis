@@ -17,6 +17,7 @@ class ObjectFrame(BaseModel):
 
 class ObjectTrack(BaseModel):
     description: StrictStr
+    confidence: float
     frames: Sequence[ObjectFrame] = Field(default_factory=list)
 
 

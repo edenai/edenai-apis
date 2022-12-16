@@ -1,11 +1,11 @@
 {
   "status": "succeeded",
-  "provider_job_id": "projects/148983085864/locations/europe-west1/operations/11708027209026481451",
+  "provider_job_id": "projects/148983085864/locations/europe-west1/operations/2809456873911236479",
   "original_response": {
     "@type": "type.googleapis.com/google.cloud.videointelligence.v1.AnnotateVideoResponse",
     "annotationResults": [
       {
-        "inputUri": "/audios-speech2text/1665584175labels_video_.mp4",
+        "inputUri": "/audios-speech2text/1670258679labels_video_.mp4",
         "segment": {
           "startTimeOffset": "0s",
           "endTimeOffset": "11.803458s"
@@ -78,18 +78,18 @@
                   {
                     "normalizedBoundingBox": {
                       "left": 0.5526141,
-                      "top": 0.44307142,
+                      "top": 0.4430714,
                       "right": 0.5700027,
-                      "bottom": 0.49524242
+                      "bottom": 0.4952424
                     },
                     "timeOffset": "0.125125s"
                   },
                   {
                     "normalizedBoundingBox": {
                       "left": 0.5515299,
-                      "top": 0.44512537,
+                      "top": 0.4451254,
                       "right": 0.56891847,
-                      "bottom": 0.49729636
+                      "bottom": 0.4972964
                     },
                     "timeOffset": "0.250250s"
                   },
@@ -116,7 +116,7 @@
       }
     ]
   },
-  "standarized_response": {
+  "standardized_response": {
     "logos": [
       {
         "description": "Koh-i-Noor Hardtmuth",
@@ -128,7 +128,8 @@
               "left": 0.43818593,
               "height": 0.9598406,
               "width": 0.45948356
-            }
+            },
+            "confidence": 0.8775759
           },
           {
             "timestamp": 5.630625,
@@ -137,7 +138,8 @@
               "left": 0.44380248,
               "height": 0.9783565,
               "width": 0.4651001
-            }
+            },
+            "confidence": 0.8775759
           }
         ]
       },
@@ -151,25 +153,28 @@
               "left": 0.5511915,
               "height": 0.49424022,
               "width": 0.5685801
-            }
+            },
+            "confidence": 0.8602308
           },
           {
             "timestamp": 0.125125,
             "bounding_box": {
-              "top": 0.44307142,
+              "top": 0.4430714,
               "left": 0.5526141,
-              "height": 0.49524242,
+              "height": 0.4952424,
               "width": 0.5700027
-            }
+            },
+            "confidence": 0.8602308
           },
           {
             "timestamp": 0.25025,
             "bounding_box": {
-              "top": 0.44512537,
+              "top": 0.4451254,
               "left": 0.5515299,
-              "height": 0.49729636,
+              "height": 0.4972964,
               "width": 0.56891847
-            }
+            },
+            "confidence": 0.8602308
           },
           {
             "timestamp": 0.375375,
@@ -178,7 +183,8 @@
               "left": 0.5519637,
               "height": 0.49934122,
               "width": 0.56935227
-            }
+            },
+            "confidence": 0.8602308
           }
         ]
       }

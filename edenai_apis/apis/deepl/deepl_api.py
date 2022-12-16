@@ -37,10 +37,10 @@ class DeeplApi(ProviderApi, Translation):
             raise ProviderException(message=original_response['message'], code=response.status_code)
 
 
-        standarized_response = AutomaticTranslationDataClass(
+        standardized_response = AutomaticTranslationDataClass(
             text=original_response['translations'][0]['text']
         )
 
         return ResponseType[AutomaticTranslationDataClass](
-            original_response=original_response, standarized_response=standarized_response
+            original_response=original_response, standardized_response=standardized_response
         )

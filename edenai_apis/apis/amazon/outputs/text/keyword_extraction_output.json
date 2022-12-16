@@ -93,78 +93,78 @@
       }
     ],
     "ResponseMetadata": {
-      "RequestId": "a0ef0ee6-b48d-445f-89e3-497fe0170e8c",
+      "RequestId": "32fddc67-4c36-449b-9a97-5d7a78298c32",
       "HTTPStatusCode": 200,
       "HTTPHeaders": {
-        "x-amzn-requestid": "a0ef0ee6-b48d-445f-89e3-497fe0170e8c",
+        "x-amzn-requestid": "32fddc67-4c36-449b-9a97-5d7a78298c32",
         "content-type": "application/x-amz-json-1.1",
         "content-length": "1348",
-        "date": "Wed, 12 Oct 2022 10:40:57 GMT"
+        "date": "Mon, 05 Dec 2022 15:21:44 GMT"
       },
       "RetryAttempts": 0
     }
   },
-  "standarized_response": {
+  "standardized_response": {
     "items": [
       {
         "keyword": "Barack Hussein Obama",
-        "importance": 0.9999486207962036
+        "importance": 1.0
       },
       {
         "keyword": "an American politician",
-        "importance": 0.9999716281890869
+        "importance": 1.0
       },
       {
         "keyword": "the 44th president",
-        "importance": 0.9999203085899353
+        "importance": 1.0
       },
       {
         "keyword": "the United States",
-        "importance": 0.9999923706054688
+        "importance": 1.0
       },
       {
         "keyword": "2009 to 2017",
-        "importance": 0.9978654384613037
+        "importance": 1.0
       },
       {
         "keyword": "A member",
-        "importance": 0.9999291896820068
+        "importance": 1.0
       },
       {
         "keyword": "the Democratic Party",
-        "importance": 0.9998463988304138
+        "importance": 1.0
       },
       {
         "keyword": "Obama",
-        "importance": 0.9717541933059692
+        "importance": 0.97
       },
       {
         "keyword": "the first African-American president",
-        "importance": 0.9999843239784241
+        "importance": 1.0
       },
       {
         "keyword": "the United States",
-        "importance": 0.9999887943267822
+        "importance": 1.0
       },
       {
         "keyword": "a U.S. senator",
-        "importance": 0.999945342540741
+        "importance": 1.0
       },
       {
         "keyword": "Illinois",
-        "importance": 0.9998075366020203
+        "importance": 1.0
       },
       {
         "keyword": "2005 to 2008",
-        "importance": 0.9952043890953064
+        "importance": 1.0
       },
       {
         "keyword": "an Illinois state senator",
-        "importance": 0.9995349645614624
+        "importance": 1.0
       },
       {
         "keyword": "1997 to 2004",
-        "importance": 0.9981316924095154
+        "importance": 1.0
       }
     ]
   }

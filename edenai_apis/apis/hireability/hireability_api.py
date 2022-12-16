@@ -59,8 +59,8 @@ class HireabilityApi(ProviderApi, Ocr):
         # 1. Personal informations
         # 1.1 Resume name
         personal_names = ResumePersonalName(
-            raw_name = infos.get('FormattedName'), first_name = infos.get('GivenName'), 
-            last_name = infos.get('FamilyName')
+            raw_name = infos.get('FormattedName'), first_name = infos.get('GivenName',''), 
+            last_name = infos.get('FamilyName','')
         )
         # 1.2 Address
         address = ResumeLocation(
@@ -150,6 +150,6 @@ class HireabilityApi(ProviderApi, Ocr):
         )
 
         result = ResponseType[ResumeParserDataClass](
-            original_response=original_response, standarized_response=std
+            original_response=original_response, standardized_response=std
         )
         return result

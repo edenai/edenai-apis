@@ -3,7 +3,7 @@
     "Sentiment": "negative",
     "Value": 0.382
   },
-  "standarized_response": {
+  "standardized_response": {
     "general_sentiment": "Negative",
     "general_sentiment_rate": 0.38,
     "items": []

@@ -36,3 +36,8 @@ from .anonymization import (
     AnonymizationDataClass,
     anonymization_arguments,
 )
+from .topic_extraction import (
+    TopicExtractionDataClass,
+    ExtractedTopic,
+    topic_extraction_arguments
+)

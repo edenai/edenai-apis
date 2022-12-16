@@ -6,6 +6,8 @@ import json
 
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
+    AnonymizationItem,
+    AnonymizationBoundingBox
 )
 from edenai_apis.features.image.explicit_content import (
     ExplicitContentDataClass,
@@ -33,7 +35,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features import ProviderApi, Image, Ocr
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from .helpers import content_processing
+from .helpers import content_processing, get_errors_from_response
 
 
 class Api4aiApi(
@@ -87,10 +89,10 @@ class Api4aiApi(
                     )
                 )
 
-        standarized_response = ObjectDetectionDataClass(items=items)
+        standardized_response = ObjectDetectionDataClass(items=items)
         result = ResponseType[ObjectDetectionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -136,10 +138,10 @@ class Api4aiApi(
                     confidence=confidence, bounding_box=bouding_box, landmarks=landmarks
                 )
             )
-        standarized_response = FaceDetectionDataClass(items=faces_list)
+        standardized_response = FaceDetectionDataClass(items=faces_list)
         result = ResponseType[FaceDetectionDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -158,11 +160,21 @@ class Api4aiApi(
             )
 
         img_b64 = original_response["results"][0]["entities"][0]["image"]
+        entities = original_response["results"][0]["entities"][1].get("objects", [])
+        items = []
+        for entity in entities:
+            for key, value in entity["entities"][0]["classes"].items():
+                items.append(AnonymizationItem(
+                    kind=key,
+                    confidence=value,
+                    bounding_boxes=AnonymizationBoundingBox(x_min=entity["box"][0], x_max=entity["box"][1], y_min=entity["box"][2], y_max=entity["box"][3]),
+                ))
+            
 
-        standarized_response = AnonymizationDataClass(image=img_b64)
+        standardized_response = AnonymizationDataClass(image=img_b64, items=items)
         result = ResponseType[AnonymizationDataClass](
             original_response=original_response,
-            standarized_response=standarized_response,
+            standardized_response=standardized_response,
         )
         return result
 
@@ -183,25 +195,26 @@ class Api4aiApi(
         logos = original_response["results"][0]["entities"][0]["objects"]
         items: Sequence[LogoItem] = []
         for logo in logos:
-            classes = logo.get("entities")[0].get("classes")
-            for name in object:
-                description = name
-                score = classes[name]
+            brand = logo.get("entities")[0].get("classes")
+            try:
+                brand_name, score = list(brand.items())[0]
+            except IndexError:
+                continue
             vertices = []
-            vertices.append(LogoVertice(logo["box"][0], logo["box"][1]))
-            vertices.append(LogoVertice(logo["box"][2], logo["box"][1]))
-            vertices.append(LogoVertice(logo["box"][2], logo["box"][3]))
-            vertices.append(LogoVertice(logo["box"][0], logo["box"][3]))
+            vertices.append(LogoVertice(x=logo["box"][0], y=logo["box"][1]))
+            vertices.append(LogoVertice(x=logo["box"][2], y=logo["box"][1]))
+            vertices.append(LogoVertice(x=logo["box"][2], y=logo["box"][3]))
+            vertices.append(LogoVertice(x=logo["box"][0], y=logo["box"][3]))
             items.append(
                 LogoItem(
-                    description=description,
+                    description=brand_name,
                     score=score,
                     bounding_poly=LogoBoundingPoly(vertices=vertices),
                 )
             )
-        standarized = LogoDetectionDataClass(items=items)
+        standardized = LogoDetectionDataClass(items=items)
         result = ResponseType[LogoDetectionDataClass](
-            original_response=original_response, standarized_response=standarized
+            original_response=original_response, standardized_response=standardized
         )
         return result
 
@@ -213,13 +226,13 @@ class Api4aiApi(
         }
         # Get response
         response = requests.post(self.urls["nsfw"], files=payload)
+        original_response = response.json()
 
         # Handle errors
-        if response.status_code != 200:
-            raise ProviderException(response.json()["result"][0]["status"]["message"])
-
+        if response.status_code != 200 or "failure" in original_response["results"][0]["status"]["code"]:
+            raise ProviderException(response.json()["results"][0]["status"]["message"])
+        
         # Get result
-        original_response = response.json()
         nsfw_items = []
         nsfw_response = original_response["results"][0]["entities"][0]["classes"]
         for classe in nsfw_response:
@@ -230,11 +243,11 @@ class Api4aiApi(
             )
 
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(nsfw_items)
-        standarized_response = ExplicitContentDataClass(items=nsfw_items, nsfw_likelihood=nsfw_likelihood)
+        standardized_response = ExplicitContentDataClass(items=nsfw_items, nsfw_likelihood=nsfw_likelihood)
 
         result = ResponseType[ExplicitContentDataClass](
             original_response=original_response,
-            standarized_response=standarized_response
+            standardized_response=standardized_response
         )
         return result
 
@@ -242,18 +255,16 @@ class Api4aiApi(
 
         response = requests.post(self.urls["ocr"], files={"image": file})
 
-        if (
-            response.status_code != 200
-            or "failure" in response.json()["results"][0]["status"]["code"]
-        ):
-            raise ProviderException(response.json()["result"][0]["status"]["message"])
-        response = response.json()
+        error = get_errors_from_response(response)
+        if error is not None:
+            raise ProviderException(error)
+
+        data = response.json()
 
         final_text = ""
         boxes: Sequence[Bounding_box] = []
 
-        # original_response = response.json()
-        entities = response["results"][0]["entities"][0]["objects"]
+        entities = data["results"][0]["entities"][0]["objects"]
         full_text = ""
         for text in entities:
             box = Bounding_box(
@@ -268,9 +279,9 @@ class Api4aiApi(
 
         final_text += " " + full_text
 
-        standarized_response = OcrDataClass(text=full_text, bounding_boxes=boxes).dict()
+        standardized_response = OcrDataClass(text=full_text, bounding_boxes=boxes).dict()
         result = ResponseType[OcrDataClass](
-            original_response=response,
-            standarized_response=standarized_response,
+            original_response=data,
+            standardized_response=standardized_response,
         )
         return result

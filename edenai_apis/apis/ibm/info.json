@@ -167,6 +167,26 @@
                 "allow_null_language" : true
             },
             "version": "v1 (2021-08-01)"
+        },
+        "topic_extraction": {
+            "constraints": {
+                "languages": [
+                    "ar",
+                    "zh",
+                    "nl",
+                    "en",
+                    "fr",
+                    "de",
+                    "it",
+                    "ja",
+                    "ko",
+                    "pt",
+                    "ru",
+                    "es"
+                ],
+                "allow_null_language" : true
+            },
+            "version": "v1 (2021-08-01)"
         }
     },
     "translation": {

@@ -116,7 +116,14 @@ def get_language_name_from_code(isocode):
         language = Language.get(isocode)
         output = language.display_name()
     return format_language_name(output, isocode)
-
+    
+def get_code_from_language_name(name: str) -> str:
+    """Returns the isocode from the language name"""
+    try:
+        output = Language.find(name=name)
+    except LookupError:
+        return 'Unknow'
+    return output.__str__()
 
 def provide_appropriate_language(iso_code, **kwds):
     if not check_language_format(iso_code):

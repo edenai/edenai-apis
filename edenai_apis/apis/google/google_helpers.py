@@ -44,25 +44,15 @@ def google_video_get_job(provider_job_id: str):
     return result
 
 
-def score_to_sentiment(score):
+def score_to_sentiment(score: float) -> str:
     if score > 0:
-        return SentimentEnum.POSITIVE
+        return SentimentEnum.POSITIVE.value
     elif score < 0:
-        return SentimentEnum.NEGATIVE
-    return SentimentEnum.NEUTRAL
+        return SentimentEnum.NEGATIVE.value
+    return SentimentEnum.NEUTRAL.value
 
 
 # _Transform score of confidence to level of confidence
-
-
-class GoogleExplicitContentLikelihood(enum.Enum):
-    UNKNOWN = 0
-    VERY_UNLIKELY = 1
-    UNLIKELY = 2
-    POSSIBLE = 3
-    LIKELY = 4
-    VERY_LIKELY = 5
-
 def score_to_content(score):
     if score == "UNKNOW":
         return 0

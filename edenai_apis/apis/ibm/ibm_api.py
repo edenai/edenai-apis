@@ -1,10 +1,6 @@
 from io import BufferedReader
-
 import base64
-
 from typing import Sequence
-
-import json
 
 from ibm_watson.natural_language_understanding_v1 import (
     SentimentOptions,
@@ -13,14 +9,15 @@ from ibm_watson.natural_language_understanding_v1 import (
     EntitiesOptions,
     SyntaxOptions,
     SyntaxOptionsTokens,
+    CategoriesOptions,
 )
+from watson_developer_cloud.watson_service import WatsonApiException
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     TextToSpeechDataClass,
     SpeechDiarizationEntry,
     SpeechDiarization
 )
-
 from edenai_apis.features.text import(
     InfosKeywordExtractionDataClass,
     KeywordExtractionDataClass,
@@ -31,8 +28,9 @@ from edenai_apis.features.text import(
     SyntaxAnalysisDataClass,
     SegmentSentimentAnalysisDataClass,
     SentimentEnum,
+    TopicExtractionDataClass,
+    ExtractedTopic,
 )
-
 from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
     InfosLanguageDetectionDataClass,
@@ -41,7 +39,7 @@ from edenai_apis.features.translation import (
 
 from edenai_apis.utils.audio import file_with_good_extension
 from edenai_apis.utils.exception import ProviderException, LanguageException
-
+from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -50,13 +48,10 @@ from edenai_apis.utils.types import (
     ResponseType
     )
 from edenai_apis.features import ProviderApi, Translation, Audio, Text
-
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-
 from .config import ibm_clients, audio_voices_ids, tags
 
-from watson_developer_cloud.watson_service import WatsonApiException
 
 class IbmApi(
     ProviderApi,
@@ -76,7 +71,6 @@ class IbmApi(
         target_language: str,
         text: str
     ) -> ResponseType[AutomaticTranslationDataClass]:
-        # Getting response of API
 
         response = (
             self.clients["translation"]
@@ -85,47 +79,39 @@ class IbmApi(
         )
 
         # Create output TextAutomaticTranslation object
-        standarized: AutomaticTranslationDataClass
+        standardized: AutomaticTranslationDataClass
 
         # Getting the translated text
         for translated_text in response["translations"]:
-            standarized = AutomaticTranslationDataClass(
+            standardized = AutomaticTranslationDataClass(
                 text=translated_text["translation"]
             )
 
         return ResponseType[AutomaticTranslationDataClass](
             original_response= response["translations"],
-            standarized_response = standarized
+            standardized_response = standardized
         )
 
 
     def translation__language_detection(self,
             text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
-        """
-        :param text:        String that contains input text
-        :return:            String that contains output result
-        """
-
         response = self.clients["translation"].identify(text).get_result()
-
-        # Getting the language's code detected and its score of confidence
         items: Sequence[InfosLanguageDetectionDataClass] = []
 
-        if len(response["languages"]) > 0:
-            for lang in response["languages"]:
-                if lang["confidence"] > 0.2:
-                    items.append(
-                        InfosLanguageDetectionDataClass(
-                            language=lang["language"], confidence=lang["confidence"]
-                        )
+        for lang in response["languages"]:
+            if lang["confidence"] > 0.2:
+                items.append(
+                    InfosLanguageDetectionDataClass(
+                        language=lang["language"],
+                        display_name=get_language_name_from_code(isocode=lang['language']),
+                        confidence=lang["confidence"]
                     )
-
-        standarized_response = LanguageDetectionDataClass(items=items)
+                )
 
         return ResponseType[LanguageDetectionDataClass] (
             original_response= response,
-            standarized_response = standarized_response
+            standardized_response = LanguageDetectionDataClass(items=items)
         )
 
 
@@ -158,7 +144,7 @@ class IbmApi(
 
         return ResponseType[SentimentAnalysisDataClass](
             original_response = response,
-            standarized_response = standarize
+            standardized_response = standarize
         )
 
 
@@ -186,11 +172,11 @@ class IbmApi(
         audio = base64.b64encode(response.content).decode("utf-8")
         voice_type = 1
 
-        standarized_response = TextToSpeechDataClass(audio=audio, voice_type=voice_type)
+        standardized_response = TextToSpeechDataClass(audio=audio, voice_type=voice_type)
 
         return ResponseType[TextToSpeechDataClass](
             original_response = {},
-            standarized_response = standarized_response
+            standardized_response = standardized_response
         )
 
 
@@ -228,11 +214,11 @@ class IbmApi(
                 )
             )
 
-        standarized_response = KeywordExtractionDataClass(items=items)
+        standardized_response = KeywordExtractionDataClass(items=items)
 
         return ResponseType[KeywordExtractionDataClass](
             original_response = response,
-            standarized_response = standarized_response
+            standardized_response = standardized_response
         )
 
 
@@ -274,11 +260,11 @@ class IbmApi(
                 )
             )
 
-        standarized_response = NamedEntityRecognitionDataClass(items=items)
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[NamedEntityRecognitionDataClass](
             original_response = response,
-            standarized_response = standarized_response
+            standardized_response = standardized_response
         )
 
 
@@ -333,14 +319,49 @@ class IbmApi(
                     )
                 )
 
-        standarized_response = SyntaxAnalysisDataClass(items=items)
+        standardized_response = SyntaxAnalysisDataClass(items=items)
 
         return ResponseType[SyntaxAnalysisDataClass](
             original_response = response,
-            standarized_response = standarized_response
+            standardized_response = standardized_response
         )
 
-
+  
+  
+    def text__topic_extraction(
+        self, language: str, text: str
+    ) -> ResponseType[TopicExtractionDataClass]:
+        try:
+            original_response = (
+                self.clients["text"]
+                .analyze(
+                    text=text,
+                    language=language,
+                    features=Features(categories=CategoriesOptions()),
+                )
+                .get_result()
+            )
+        except WatsonApiException as exc:
+            if "not enough text for language id" in exc.message:
+                raise LanguageException(exc.message)
+            
+        categories: Sequence[ExtractedTopic] = []
+        for category in original_response.get('categories'):
+            categories.append(
+                ExtractedTopic(
+                    category = category.get('label'),
+                    importance = category.get('score')
+                )
+            )
+    
+        standardized_response = TopicExtractionDataClass(items=categories)
+        result = ResponseType[TopicExtractionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+        
+        return result    
+    
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
@@ -403,10 +424,10 @@ class IbmApi(
                     )
                 )
             diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
-            standarized_response = SpeechToTextAsyncDataClass(text=text, diarization= diarization)
+            standardized_response = SpeechToTextAsyncDataClass(text=text, diarization= diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response = original_response,
-                standarized_response = standarized_response,
+                standardized_response = standardized_response,
                 provider_job_id = provider_job_id
             )
 

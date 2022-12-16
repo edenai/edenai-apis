@@ -1,0 +1,18 @@
+{
+  "original_response": {
+    "categories": [
+      {
+        "name": "/Arts & Entertainment/TV & Video/TV Shows & Programs",
+        "confidence": 0.52
+      }
+    ]
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "category": "/Arts & Entertainment/Tv & Video/Tv Shows & Programs",
+        "importance": 0.52
+      }
+    ]
+  }
+}

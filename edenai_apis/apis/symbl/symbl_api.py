@@ -131,9 +131,7 @@ class SymblApi(ProviderApi, Audio):
             diarization_entries = []
             speakers = set()
 
-            text = " ".join(
-                [message["text"] for message in original_response["messages"]]
-            )
+            text = " ".join([message["text"] for message in original_response["messages"]])
 
             for text_info in original_response["messages"]:
                 words_info = text_info["words"]
@@ -149,16 +147,18 @@ class SymblApi(ProviderApi, Audio):
                         )
                     )
 
-            diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
+            diarization = SpeechDiarization(
+                total_speakers=len(speakers), entries=diarization_entries
+            )
 
-            standarized_response = SpeechToTextAsyncDataClass(text=text, diarization = diarization)
+            standardized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,
-                standarized_response=standarized_response,
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
         elif original_response["status"] == "failed":
-                raise ProviderException(response_status.text)
+            raise ProviderException(response_status.text)
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
             provider_job_id=provider_job_id
         )

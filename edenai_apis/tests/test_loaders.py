@@ -18,7 +18,7 @@ def test_load_output():
     output = load_provider(
         ProviderDataEnum.OUTPUT, VALID_PROVIDER, VALID_FEATURE, VALID_SUBFEATURE
     )
-    assert "standarized_response" in output and "original_response" in output
+    assert "standardized_response" in output and "original_response" in output
 
 
 @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")

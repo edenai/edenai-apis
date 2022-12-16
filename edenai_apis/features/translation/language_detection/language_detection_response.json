@@ -1,7 +1,8 @@
 {
   "items": [
     {
-      "language": "Italian",
+      "language": "it",
+      "display_name": "Italian",
       "confidence": 1.0
     }
   ]
