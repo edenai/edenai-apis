@@ -1,14 +1,14 @@
 {
   "status": "succeeded",
-  "provider_job_id": "5887256986902064514",
+  "provider_job_id": "6901534202361427375",
   "original_response": {
-    "name": "5887256986902064514",
+    "name": "6901534202361427375",
     "metadata": {
       "@type": "type.googleapis.com/google.cloud.speech.v1.LongRunningRecognizeMetadata",
       "progressPercent": 100,
-      "startTime": "2022-11-25T09:19:37.095863Z",
-      "lastUpdateTime": "2022-11-25T09:19:42.056374Z",
-      "uri": "gs://audios-speech2text/1669367964conversation.flac"
+      "startTime": "2022-12-16T14:48:07.468053Z",
+      "lastUpdateTime": "2022-12-16T14:48:12.152022Z",
+      "uri": "gs://audios-speech2text/1671202083conversation.mp3"
     },
     "done": true,
     "response": {
@@ -17,63 +17,178 @@
         {
           "alternatives": [
             {
-              "transcript": "unit 1 page 14 real conversations nice to meet you.",
-              "confidence": 0.90078765,
+              "transcript": "Unit 1 page 14. Real conversations.",
+              "confidence": 0.9589741,
               "words": [
                 {
                   "startTime": "0s",
                   "endTime": "0.500s",
-                  "word": "unit"
+                  "word": "Unit",
+                  "confidence": 0.98762906
                 },
                 {
                   "startTime": "0.500s",
                   "endTime": "0.900s",
-                  "word": "1"
+                  "word": "1",
+                  "confidence": 0.9048932
                 },
                 {
                   "startTime": "0.900s",
                   "endTime": "1.800s",
-                  "word": "page"
+                  "word": "page",
+                  "confidence": 0.98762906
                 },
                 {
                   "startTime": "1.800s",
                   "endTime": "2.600s",
-                  "word": "14"
+                  "word": "14.",
+                  "confidence": 0.9275748
                 },
                 {
                   "startTime": "2.600s",
                   "endTime": "3.700s",
-                  "word": "real"
+                  "word": "Real",
+                  "confidence": 0.9584897
                 },
                 {
                   "startTime": "3.700s",
                   "endTime": "4.700s",
-                  "word": "conversations"
-                },
-                {
-                  "startTime": "4.700s",
-                  "endTime": "13s",
-                  "word": "nice"
-                },
-                {
-                  "startTime": "13s",
-                  "endTime": "13.100s",
-                  "word": "to"
-                },
-                {
-                  "startTime": "13.100s",
-                  "endTime": "13.300s",
-                  "word": "meet"
-                },
-                {
-                  "startTime": "13.300s",
-                  "endTime": "14s",
-                  "word": "you."
+                  "word": "conversations.",
+                  "confidence": 0.98762906
                 }
               ]
             }
           ],
+          "channelTag": 2,
+          "resultEndTime": "10.290s",
+          "languageCode": "en-us"
+        },
+        {
+          "alternatives": [
+            {
+              "transcript": "Unit 1 page 14 real conversations. Hello. Nice to meet you.",
+              "confidence": 0.8495462,
+              "words": [
+                {
+                  "startTime": "0s",
+                  "endTime": "0.500s",
+                  "word": "Unit",
+                  "confidence": 0.98762906
+                },
+                {
+                  "startTime": "0.500s",
+                  "endTime": "0.900s",
+                  "word": "1",
+                  "confidence": 0.96360403
+                },
+                {
+                  "startTime": "0.900s",
+                  "endTime": "1.800s",
+                  "word": "page",
+                  "confidence": 0.98762906
+                },
+                {
+                  "startTime": "1.800s",
+                  "endTime": "2.600s",
+                  "word": "14",
+                  "confidence": 0.9242467
+                },
+                {
+                  "startTime": "2.600s",
+                  "endTime": "3.700s",
+                  "word": "real",
+                  "confidence": 0.98762906
+                },
+                {
+                  "startTime": "3.700s",
+                  "endTime": "4.700s",
+                  "word": "conversations.",
+                  "confidence": 0.98762906
+                },
+                {
+                  "startTime": "4.700s",
+                  "endTime": "7.200s",
+                  "word": "Hello.",
+                  "confidence": 0.36441997
+                },
+                {
+                  "startTime": "7.200s",
+                  "endTime": "13s",
+                  "word": "Nice",
+                  "confidence": 0.67377067
+                },
+                {
+                  "startTime": "13s",
+                  "endTime": "13.100s",
+                  "word": "to",
+                  "confidence": 0.8489023
+                },
+                {
+                  "startTime": "13.100s",
+                  "endTime": "13.200s",
+                  "word": "meet",
+                  "confidence": 0.98762906
+                },
+                {
+                  "startTime": "13.200s",
+                  "endTime": "14.100s",
+                  "word": "you.",
+                  "confidence": 0.63191926
+                }
+              ]
+            }
+          ],
+          "channelTag": 1,
           "resultEndTime": "17.010s",
+          "languageCode": "en-us"
+        },
+        {
+          "alternatives": [
+            {
+              "transcript": " I'm Chihiro nice to meet you.",
+              "confidence": 0.92869925,
+              "words": [
+                {
+                  "startTime": "10.800s",
+                  "endTime": "11.600s",
+                  "word": "I'm",
+                  "confidence": 0.9385138
+                },
+                {
+                  "startTime": "11.600s",
+                  "endTime": "12.100s",
+                  "word": "Chihiro",
+                  "confidence": 0.8562739
+                },
+                {
+                  "startTime": "12.100s",
+                  "endTime": "13s",
+                  "word": "nice",
+                  "confidence": 0.9517031
+                },
+                {
+                  "startTime": "13s",
+                  "endTime": "13.100s",
+                  "word": "to",
+                  "confidence": 0.980908
+                },
+                {
+                  "startTime": "13.100s",
+                  "endTime": "13.400s",
+                  "word": "meet",
+                  "confidence": 0.98515576
+                },
+                {
+                  "startTime": "13.400s",
+                  "endTime": "16s",
+                  "word": "you.",
+                  "confidence": 0.8596411
+                }
+              ]
+            }
+          ],
+          "channelTag": 2,
+          "resultEndTime": "17.030s",
           "languageCode": "en-us"
         },
         {
@@ -83,148 +198,274 @@
                 {
                   "startTime": "0s",
                   "endTime": "0.500s",
-                  "word": "unit",
+                  "word": "Unit",
+                  "confidence": 0.98762906,
                   "speakerTag": 1
                 },
                 {
                   "startTime": "0.500s",
                   "endTime": "0.900s",
                   "word": "1",
+                  "confidence": 0.96360403,
                   "speakerTag": 1
                 },
                 {
                   "startTime": "0.900s",
                   "endTime": "1.800s",
                   "word": "page",
+                  "confidence": 0.98762906,
                   "speakerTag": 1
                 },
                 {
                   "startTime": "1.800s",
                   "endTime": "2.600s",
                   "word": "14",
+                  "confidence": 0.9242467,
                   "speakerTag": 1
                 },
                 {
                   "startTime": "2.600s",
                   "endTime": "3.700s",
                   "word": "real",
+                  "confidence": 0.98762906,
                   "speakerTag": 1
                 },
                 {
                   "startTime": "3.700s",
                   "endTime": "4.700s",
-                  "word": "conversations",
+                  "word": "conversations.",
+                  "confidence": 0.98762906,
                   "speakerTag": 1
                 },
                 {
                   "startTime": "4.700s",
+                  "endTime": "7.200s",
+                  "word": "Hello.",
+                  "confidence": 0.36441997,
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "7.200s",
                   "endTime": "13s",
-                  "word": "nice",
+                  "word": "Nice",
+                  "confidence": 0.67377067,
                   "speakerTag": 1
                 },
                 {
                   "startTime": "13s",
                   "endTime": "13.100s",
                   "word": "to",
+                  "confidence": 0.8489023,
                   "speakerTag": 1
                 },
                 {
                   "startTime": "13.100s",
-                  "endTime": "13.300s",
+                  "endTime": "13.200s",
                   "word": "meet",
+                  "confidence": 0.98762906,
                   "speakerTag": 1
                 },
                 {
-                  "startTime": "13.300s",
-                  "endTime": "14s",
+                  "startTime": "13.200s",
+                  "endTime": "14.100s",
                   "word": "you.",
+                  "confidence": 0.63191926,
                   "speakerTag": 1
                 }
               ]
             }
-          ]
+          ],
+          "channelTag": 1
+        },
+        {
+          "alternatives": [
+            {
+              "words": [
+                {
+                  "startTime": "0s",
+                  "endTime": "0.500s",
+                  "word": "Unit",
+                  "confidence": 0.98762906,
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "0.500s",
+                  "endTime": "0.900s",
+                  "word": "1",
+                  "confidence": 0.9048932,
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "0.900s",
+                  "endTime": "1.800s",
+                  "word": "page",
+                  "confidence": 0.98762906,
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "1.800s",
+                  "endTime": "2.600s",
+                  "word": "14.",
+                  "confidence": 0.9275748,
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "2.600s",
+                  "endTime": "3.700s",
+                  "word": "Real",
+                  "confidence": 0.9584897,
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "3.700s",
+                  "endTime": "4.700s",
+                  "word": "conversations.",
+                  "confidence": 0.98762906,
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "10.800s",
+                  "endTime": "11.600s",
+                  "word": "I'm",
+                  "confidence": 0.9385138,
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "11.600s",
+                  "endTime": "12.100s",
+                  "word": "Chihiro",
+                  "confidence": 0.8562739,
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "12.100s",
+                  "endTime": "13s",
+                  "word": "nice",
+                  "confidence": 0.9517031,
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "13s",
+                  "endTime": "13.100s",
+                  "word": "to",
+                  "confidence": 0.980908,
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "13.100s",
+                  "endTime": "13.400s",
+                  "word": "meet",
+                  "confidence": 0.98515576,
+                  "speakerTag": 1
+                },
+                {
+                  "startTime": "13.400s",
+                  "endTime": "16s",
+                  "word": "you.",
+                  "confidence": 0.8596411,
+                  "speakerTag": 1
+                }
+              ]
+            }
+          ],
+          "channelTag": 2
         }
       ],
-      "totalBilledTime": "18s",
-      "requestId": "5887256986902064514"
+      "totalBilledTime": "36s",
+      "requestId": "6901534202361427375"
     }
   },
   "standardized_response": {
-    "text": "unit 1 page 14 real conversations nice to meet you., ",
+    "text": "Unit 1 page 14. Real conversations., Unit 1 page 14 real conversations. Hello. Nice to meet you., I'm Chihiro nice to meet you., , ",
     "diarization": {
       "total_speakers": 1,
       "entries": [
         {
-          "segment": "unit",
+          "segment": "Unit",
           "start_time": "0",
           "end_time": "0.500",
           "speaker": 1,
-          "confidence": null
+          "confidence": 0.98762906
         },
         {
           "segment": "1",
           "start_time": "0.500",
           "end_time": "0.900",
           "speaker": 1,
-          "confidence": null
+          "confidence": 0.9048932
         },
         {
           "segment": "page",
           "start_time": "0.900",
           "end_time": "1.800",
           "speaker": 1,
-          "confidence": null
+          "confidence": 0.98762906
         },
         {
-          "segment": "14",
+          "segment": "14.",
           "start_time": "1.800",
           "end_time": "2.600",
           "speaker": 1,
-          "confidence": null
+          "confidence": 0.9275748
         },
         {
-          "segment": "real",
+          "segment": "Real",
           "start_time": "2.600",
           "end_time": "3.700",
           "speaker": 1,
-          "confidence": null
+          "confidence": 0.9584897
         },
         {
-          "segment": "conversations",
+          "segment": "conversations.",
           "start_time": "3.700",
           "end_time": "4.700",
           "speaker": 1,
-          "confidence": null
+          "confidence": 0.98762906
+        },
+        {
+          "segment": "I'm",
+          "start_time": "10.800",
+          "end_time": "11.600",
+          "speaker": 1,
+          "confidence": 0.9385138
+        },
+        {
+          "segment": "Chihiro",
+          "start_time": "11.600",
+          "end_time": "12.100",
+          "speaker": 1,
+          "confidence": 0.8562739
         },
         {
           "segment": "nice",
-          "start_time": "4.700",
+          "start_time": "12.100",
           "end_time": "13",
           "speaker": 1,
-          "confidence": null
+          "confidence": 0.9517031
         },
         {
           "segment": "to",
           "start_time": "13",
           "end_time": "13.100",
           "speaker": 1,
-          "confidence": null
+          "confidence": 0.980908
         },
         {
           "segment": "meet",
           "start_time": "13.100",
-          "end_time": "13.300",
+          "end_time": "13.400",
           "speaker": 1,
-          "confidence": null
+          "confidence": 0.98515576
         },
         {
           "segment": "you.",
-          "start_time": "13.300",
-          "end_time": "14",
+          "start_time": "13.400",
+          "end_time": "16",
           "speaker": 1,
-          "confidence": null
+          "confidence": 0.8596411
         }
-      ]
+      ],
+      "error_message": null
     }
   }
 }

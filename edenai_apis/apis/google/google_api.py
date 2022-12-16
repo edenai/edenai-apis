@@ -802,6 +802,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             "enable_automatic_punctuation": True,
             "enable_spoken_punctuation" : True
         }
+        if export_format == "mp3":
+            params.update({
+                "sample_rate_hertz": 16000
+            })
 
         # create custum vocabulary phrase_set
         if vocabulary:

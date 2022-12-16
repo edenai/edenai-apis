@@ -64,7 +64,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 
 from edenai_apis.utils.audio import file_with_good_extension
-from edenai_apis.utils.conversion import format_string_url_language
+from edenai_apis.utils.conversion import format_string_url_language, convert_pt_date_to_string
 from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import (
@@ -1139,7 +1139,6 @@ class MicrosoftApi(
                     if response.status_code != 200:
                         error = original_response.get("message")
                         raise ProviderException(error)
-
                     data = original_response["combinedRecognizedPhrases"][0]
                     text += data["display"]
                     for recognized_status in original_response["recognizedPhrases"]:
@@ -1148,19 +1147,21 @@ class MicrosoftApi(
                                 speaker = recognized_status["speaker"]
                                 for word_info in recognized_status["nBest"][0]["words"]:
                                     speakers.add(speaker)
+                                    start_time = convert_pt_date_to_string(word_info["offset"])
+                                    end_time = start_time+ convert_pt_date_to_string(word_info["duration"])
                                     diarization_entries.append(
                                         SpeechDiarizationEntry(
                                             segment= word_info["word"],
                                             speaker=speaker,
-                                            start_time= word_info["offset"].split('PT')[1][:-1],
-                                            end_time= str(float(word_info["offset"].split('PT')[1][:-1])+ float(word_info["duration"].split('PT')[1][:-1])),
+                                            start_time= str(start_time),
+                                            end_time= str(end_time),
                                             confidence= float(word_info["confidence"])
                                         )
                                     )
                 
                 diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
                 if len(speakers) == 0:
-                    diarization.error_message = "Use mono audio file for diarization"
+                    diarization.error_message = "Use mono audio files for diarization"
 
                 standardized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
                 return AsyncResponseType[SpeechToTextAsyncDataClass](

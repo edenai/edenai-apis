@@ -61,6 +61,18 @@ def combine_date_with_time(date: str, time: Union[str, None]) -> Union[str, None
     return None
 
 
+def convert_pt_date_to_string(pt_date: str):
+    # dates = re.findall('PT(\d*)H{0,1}(\d*)M{0,1}(\d*)S{0,1}', pt_date)[0]
+    date = pt_date.split("PT")[1]
+    hours, date = date.split("H") if "H" in date else (0, date)
+    minutes, date = date.split("M") if "M" in date else (0, date)
+    seconds = float(date.split("S")[0] or 0.0) if "S" in date else 0 
+    hours = int(hours or 0)
+    minutes = int(minutes or 0)
+    return 3600*hours + 60*minutes + seconds
+
+
+
 def format_string_url_language(
     url: str, language: str, prefix_lang: str, provider_name: str, is_url: bool = True
 ):
