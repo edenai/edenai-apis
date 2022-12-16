@@ -93,7 +93,6 @@ from edenai_apis.features.translation.automatic_translation import (
 from edenai_apis.features.translation.language_detection import (
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass,
-    get_code_from_language_name
 )
 from edenai_apis.features.video import (
     ContentNSFW,
