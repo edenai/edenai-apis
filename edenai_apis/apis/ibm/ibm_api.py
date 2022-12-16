@@ -345,11 +345,12 @@ class IbmApi(
         self,
         file: BufferedReader,
         language: str, speakers : int, profanity_filter: bool,
-        vocabulary: list, sample_rate: int
+        vocabulary: list
     ) -> AsyncLaunchJobResponseType:
 
         # check if audio file needs convertion
-        accepted_extensions = ["flac"]
+        accepted_extensions = ["flac", "mp3", "wav", "flac", "ogg", "webm", "alaw", "amr", 
+        "g729", "l16", "mpeg", "mulaw"]
         new_file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
 
         language_audio = language
@@ -359,10 +360,9 @@ class IbmApi(
             "speaker_labels" : True,
             "profanity_filter" : profanity_filter,
         }
-        if sample_rate:
-            audio_config.update({
-                "rate": sample_rate
-            })
+        audio_config.update({
+            "rate": frame_rate
+        })
         if language_audio:
             audio_config.update({
                 "model" : f"{language_audio}_NarrowbandModel"

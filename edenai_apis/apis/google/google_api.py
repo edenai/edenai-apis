@@ -761,20 +761,15 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers: int,
-        profanity_filter: bool, vocabulary: list, sample_rate: int
+        profanity_filter: bool, vocabulary: list
     ) -> AsyncLaunchJobResponseType:
-
-        min_rate, max_rate = 8000, 48000
-        #check sample rate
-        if sample_rate and (sample_rate < 8000 or sample_rate > 48000):
-            raise ProviderException(f"Sample rate value must be within the range of {min_rate}Hz and {max_rate}Hz")
 
         #check language
         if not language:
             raise LanguageException("Language not provided")
 
         #check file extension, and convert if not supported
-        accepted_extensions = ["flac", "mp3", "wav"]
+        accepted_extensions = ["flac", "mp3", "wav", "ulaw", "amr", "amr-wb", "opus", "webm", "spx"]
         file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
 
         audio_name = str(int(time())) + Path(file.name).stem + "." + export_format
@@ -806,10 +801,6 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             "enable_automatic_punctuation": True,
             "enable_spoken_punctuation" : True
         }
-        if sample_rate and export_format == "mp3":
-            params.update({
-                "sample_rate_hertz" : sample_rate
-            })
 
         # create custum vocabulary phrase_set
         if vocabulary:

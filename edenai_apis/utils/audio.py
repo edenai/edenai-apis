@@ -1,9 +1,18 @@
 from io import BufferedReader
-from typing import Union, List
+from typing import Union, List, Tuple
 import magic
 import mimetypes
+from enum import Enum
 
 from pydub import AudioSegment
+from edenai_apis.utils.exception import ProviderException
+
+
+
+def channel_number_to_str(channel_number):
+    if channel_number == 1:
+        return "Mono"
+    return "Stereo"
 
 
 def wav_converter(
@@ -81,25 +90,29 @@ def supported_extension(file, accepted_extensions: List):
         return False, "nop"  
 
 
-def file_with_good_extension(file: BufferedReader, accepted_extensions: List, channels: int= None):
+def file_with_good_extension(file: BufferedReader, accepted_extensions: List, 
+            channels: int= None) -> Tuple[BufferedReader, str, int, int]:
+    """ Checks whether or not the extension of the audio file is within the list of accepted extensions,
+    otherwise, it raise a Provider Exception for the format used
+
+    Args:
+        file (BufferedReader): the audio file
+        accepted_extensions (List): a list of the accepted extentions
+        channels (int, optional): To change the number of channels of the audio file(mono or stereo). Defaults to None.
+
+    Returns:
+        Tuple[BufferedReader, str, int, int]: returns the file, the export extention, the number of channels
+        and the frame rate
+    """
     accepte_format, export_format = supported_extension(file, accepted_extensions)
     file.seek(0)
-    file_config = {
-            "audio_file": file,
-            "export_format" : export_format,
-        }
     if not accepte_format:
-        export_format = accepted_extensions[0] #take first element as the one to choose if the extension is not accepted
-        file_config["export_format"] = export_format
-        file, frame_rate, _, channels = wav_converter(**file_config, channels=channels)
-    else:
-        if channels:
-            file_config.update({
-                "export_format": export_format,
-                "channels": channels
-            })
-            file, frame_rate, _, channels = wav_converter(**file_config)
-        else: 
-            channels, frame_rate = get_audio_attributes(file, export_format)
+        raise ProviderException(f"File extension not supported. Use one of the following extension: {accepted_extensions}")
+    if channels:
+        audio_channels, _ = get_audio_attributes(file, export_format) 
+        if channels != audio_channels:
+            raise ProviderException(f"File audio must be {channel_number_to_str(channels)}")
+ 
+    channels, frame_rate = get_audio_attributes(file, export_format)
     file.seek(0)
     return file, export_format, channels, frame_rate

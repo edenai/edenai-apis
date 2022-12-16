@@ -30,12 +30,12 @@ class VociApi(ProviderApi, Audio):
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
         speakers : int, profanity_filter: bool,
-        vocabulary: list, sample_rate: int,
+        vocabulary: list
     ) -> AsyncLaunchJobResponseType:
 
         # check if audio file needs convertion
         accepted_extensions = ["wav", "mp3", "flac"]
-        file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions, 1)
+        file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
 
         data_config = {
                 "output": "json",

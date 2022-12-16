@@ -128,12 +128,11 @@ class RevAIApi(ProviderApi, Audio):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
-        speakers : int, profanity_filter: bool, vocabulary: list,
-        sample_rate: int
+        speakers : int, profanity_filter: bool, vocabulary: list
     ) -> AsyncLaunchJobResponseType:
 
         # check if audio file needs convertion
-        accepted_extensions = ["flac"]
+        accepted_extensions = ["ogg", "flac", "mp4", "wav", "mp3"]
         new_file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
 
         # upload file to amazon S3

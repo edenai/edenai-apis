@@ -780,13 +780,13 @@ class AmazonApi(
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers : int,
-        profanity_filter: bool, vocabulary: list, sample_rate: int,
+        profanity_filter: bool, vocabulary: list
     ) -> AsyncLaunchJobResponseType:
 
         # check if audio file needs convertion
-        accepted_extensions = ["wav", "mp3", "flac"]
+        accepted_extensions = ["amr", "flac", "wav", "ogg", "mp3", "mp4", "webm"]
         file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
-
+      
         filename = self._upload_audio_file_to_amazon_server(
             file, Path(file.name).stem + "." + export_format
         )

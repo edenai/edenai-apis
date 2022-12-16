@@ -56,12 +56,12 @@ class SymblApi(ProviderApi, Audio):
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
         speakers : int, profanity_filter: bool,
-        vocabulary: list, sample_rate: int
+        vocabulary: list
     ) -> AsyncLaunchJobResponseType:
         # file.seek(0, 2)
 
         # check if audio file needs convertion
-        accepted_extensions = ["wav", "mp3", "flac"]
+        accepted_extensions = ["wav", "mp3", "flac", "mp4"]
         file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
 
         number_of_bytes = file.tell()

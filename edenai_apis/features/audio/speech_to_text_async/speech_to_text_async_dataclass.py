@@ -1,5 +1,5 @@
-from pydantic import BaseModel, StrictStr, Field
-from typing import Sequence, Optional
+from pydantic import BaseModel, StrictStr, Field, validator
+from typing import Sequence, Optional, Any
 
 
 
@@ -15,6 +15,8 @@ class SpeechDiarizationEntry(BaseModel):
 class SpeechDiarization(BaseModel):
     total_speakers : int
     entries: Sequence[SpeechDiarizationEntry] = Field(default_factory=list)
+    error_message : Optional[str]
+
 
 
 class SpeechToTextAsyncDataClass(BaseModel):
