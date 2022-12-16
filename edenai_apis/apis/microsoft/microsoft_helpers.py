@@ -1,4 +1,29 @@
-import functools
+from collections import defaultdict
+from copy import deepcopy
+from typing import Dict, List, Sequence
+
+from edenai_apis.features.image.face_detection.face_detection_dataclass import (
+    FaceAccessories,
+    FaceBoundingBox,
+    FaceEmotions,
+    FaceFacialHair,
+    FaceHair,
+    FaceHairColor,
+    FaceItem,
+    FaceLandmarks,
+    FaceMakeup,
+    FaceOcclusions,
+    FacePoses,
+    FaceQuality,
+)
+from edenai_apis.features.ocr import (
+    CustomerInformationInvoice,
+    InfosInvoiceParserDataClass,
+    InvoiceParserDataClass,
+    ItemLinesInvoice,
+    MerchantInformationInvoice,
+    TaxesInvoice,
+)
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     BoundixBoxOCRTable,
     Cell,
@@ -7,27 +32,8 @@ from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import
     Row,
     Table,
 )
-from collections import defaultdict
-from copy import deepcopy
-from typing import Dict, List, Sequence, Tuple
-from edenai_apis.features.image.face_detection.face_detection_dataclass import (
-    FaceAccessories, FaceBoundingBox,
-    FaceEmotions, FaceFacialHair,
-    FaceHair, FaceHairColor, FaceItem,
-    FaceLandmarks, FaceMakeup, FaceOcclusions,
-    FacePoses, FaceQuality
-)
-from edenai_apis.features.ocr import (
-    CustomerInformationInvoice,
-    InfosInvoiceParserDataClass,
-    InvoiceParserDataClass,
-    ItemLinesInvoice,
-    MerchantInformationInvoice,
-    TaxesInvoice
-)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-
 from edenai_apis.utils.conversion import combine_date_with_time
 
 
@@ -357,8 +363,8 @@ def microsoft_ocr_tables_standardize_response(original_response) -> OcrTablesAsy
 
     for table in original_response.get("tables", []):
         std_table = _ocr_tables_standardize_table(table, original_response)
-        page_num = table["boundingRegions"][0]["pageNumber"]
-        pages[page_num-1].tables.append(std_table, original_response)
+        page_index = table["boundingRegions"][0]["pageNumber"] -1
+        pages[page_index].tables.append(std_table)
 
     return OcrTablesAsyncDataClass(
         pages=pages, num_pages=num_pages
@@ -366,14 +372,13 @@ def microsoft_ocr_tables_standardize_response(original_response) -> OcrTablesAsy
 
 
 def _ocr_tables_standardize_table(table, original_response) -> Table:
-    num_rows = max([cell['rowIndex'] for cell in table['cells']]) + 1
+    num_rows = table.get("rowCount", 0)
     rows = [Row() for _ in range(num_rows)]
 
     for cell in table["cells"]:
         std_cell = _ocr_tables_standardize_cell(cell, original_response)
         row = rows[cell['rowIndex']]
         row.cells.append(std_cell)
-        row.is_header = False  # TODO set is_header
 
     std_table = Table(rows=rows, num_cols=table["columnCount"], num_rows=table["rowCount"])
     return std_table
@@ -383,12 +388,16 @@ def _ocr_tables_standardize_cell(cell, original_response) -> Cell:
     current_page_num = cell['boundingRegions'][0]['pageNumber']
     width = original_response["pages"][current_page_num - 1]["width"]
     height = original_response["pages"][current_page_num - 1]["height"]
+    is_header = cell.get("kind") in ["columnHeader", "rowHeader"]
     bounding_box = cell["boundingRegions"][0]["boundingBox"]
 
     return Cell(
         text=cell["content"],
+        col_index=cell["columnIndex"],
+        row_index=cell["rowIndex"],
         row_span=cell["rowSpan"],
         col_span=cell["columnSpan"],
+        is_header=is_header,
         bounding_box=BoundixBoxOCRTable(
             height=(bounding_box[7] - bounding_box[3]) / height,
             width=(bounding_box[2] - bounding_box[0]) / width,

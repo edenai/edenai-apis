@@ -68,6 +68,7 @@ from edenai_apis.apis.microsoft.microsoft_helpers import (
     content_processing,
     get_microsoft_headers,
     get_microsoft_urls,
+    microsoft_ocr_tables_standardize_response,
     miscrosoft_normalize_face_detection_response,
     normalize_invoice_result,
 )
@@ -857,65 +858,8 @@ class MicrosoftApi(
         if data["status"] == "succeeded":
             original_result = data["analyzeResult"]
 
-            def microsoft_async(original_result):
-                page_num = 1
-                pages: Sequence[Page] = []
-                num_pages = len(original_result["pages"])
-                tables: Sequence[Table] = []
-                for table in original_result["tables"]:
-                    rows: Sequence[Row] = []
-                    num_rows = table["rowCount"]
-                    num_cols = table["columnCount"]
-                    row_index = 0
-                    cells: Sequence[Cell] = []
-                    all_header = True  # all cells in a row are "header" kind
-                    is_header = False
-                    for cell in table["cells"]:
-                        bounding_box = cell["boundingRegions"][0]["boundingBox"]
-                        width = original_result["pages"][page_num - 1]["width"]
-                        height = original_result["pages"][page_num - 1]["height"]
 
-                        ocr_cell = Cell(
-                            text=cell["content"],
-                            row_span=cell["rowSpan"],
-                            col_span=cell["columnSpan"],
-                            bounding_box=BoundixBoxOCRTable(
-                                height=(bounding_box[7] - bounding_box[3]) / height,
-                                width=(bounding_box[2] - bounding_box[0]) / width,
-                                left=bounding_box[1] / width,
-                                top=bounding_box[0] / height,
-                            ),
-                        )
-                        if (
-                            "kind" not in cell.keys()
-                            or "kind" in cell.keys()
-                            and "Header" not in cell["kind"]
-                        ):
-                            all_header = False
-                        current_row_index = cell["rowIndex"]
-                        if current_row_index > row_index:
-                            row_index = current_row_index
-                            if all_header:
-                                is_header = True
-                            all_header = True
-                            rows.append(Row(is_header=is_header, cells=cells))
-                            cells = []
-                        cells.append(ocr_cell)
-                        current_page_num = cell["boundingRegions"][0]["pageNumber"]
-                        if current_page_num > page_num:
-                            page_num = current_page_num
-                            pages.append(Page())
-                            tables = []
-                    ocr_table = Table(rows=rows, num_cols=num_cols, num_rows=num_rows)
-                    tables.append(ocr_table)
-                    ocr_page = Page(tables=tables)
-                pages.append(ocr_page)
-                standarized_response = OcrTablesAsyncDataClass(
-                    pages=pages, num_pages=num_pages
-                )
-                return standarized_response.dict()
-
-            standarized_response = microsoft_async(original_result)
+            standarized_response = microsoft_ocr_tables_standardize_response(original_result)
             return AsyncResponseType[OcrTablesAsyncDataClass](
                 original_response= data,
                 standarized_response= standarized_response,

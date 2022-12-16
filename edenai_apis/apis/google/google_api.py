@@ -27,7 +27,7 @@ from google.protobuf.json_format import MessageToDict
 from edenai_apis.apis.google.google_helpers import (
     GoogleVideoFeatures,
     google_video_get_job,
-    ocr_tables_async_response_add_rows,
+    google_ocr_tables_standardize_response,
     score_to_content,
     score_to_sentiment,
     get_tag_name,
@@ -73,9 +73,6 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 from edenai_apis.features.ocr.ocr.ocr_dataclass import Bounding_box, OcrDataClass
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     OcrTablesAsyncDataClass,
-    Page,
-    Row,
-    Table,
 )
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
     InfosNamedEntityRecognitionDataClass,
@@ -516,46 +513,12 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             byte_res = list(blob_list)[0].download_as_string()
             original_result = json.loads(byte_res.decode("utf8"))
 
-            raw_text = original_result["text"]
-            pages: Sequence[Page] = []
-            num_pages = len(original_result["pages"])
-            for page in original_result["pages"]:
-                tables: Sequence[Table] = []
-                if "tables" in page.keys():
-                    for table in page["tables"]:
-                        ocr_num_rows = 0
-                        ocr_num_cols = 0
-                        rows: Sequence[Row] = []
-                        if "headerRows" in table.keys():
-                            for row in table["headerRows"]:
-                                ocr_num_rows += 1
-                                row, num_row_cols = ocr_tables_async_response_add_rows(
-                                    row, raw_text, is_header=True
-                                )
-                                ocr_num_cols = max(ocr_num_cols, num_row_cols)
-                                rows.append(row)
-                        if "bodyRows" in table.keys():
-                            for row in table["bodyRows"]:
-                                ocr_num_rows += 1
-                                row, num_row_cols = ocr_tables_async_response_add_rows(
-                                    row, raw_text
-                                )
-                                ocr_num_cols = max(ocr_num_cols, num_row_cols)
-                                rows.append(row)
-                        ocr_table = Table(
-                            rows=rows, num_rows=ocr_num_rows, num_cols=ocr_num_cols
-                        )
-                        tables.append(ocr_table)
-                    ocr_page = Page(tables=tables)
-                    pages.append(ocr_page)
-            standarized_response = OcrTablesAsyncDataClass(
-                pages=pages, num_pages=num_pages
-            )
+            std_response = google_ocr_tables_standardize_response(original_result)
 
             return AsyncResponseType[OcrTablesAsyncDataClass](
                 status="succeeded",
                 original_response=original_result,
-                standarized_response=standarized_response,
+                standarized_response=std_response,
                 provider_job_id=job_id,
             )
 

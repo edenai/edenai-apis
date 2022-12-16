@@ -1,3 +1,4 @@
+import copy
 from typing import Sequence
 from typing import Tuple
 
@@ -72,40 +73,6 @@ def score_to_content(score):
         return 0
 
 
-def ocr_tables_async_response_add_rows(
-    row, raw_text, is_header=False
-) -> Tuple[Row, int]:
-    num_cols = 0
-    ocr_row: Row = Row()
-    if "cells" in row.keys():
-        cells: Sequence[Cell] = []
-        for cell in row["cells"]:
-            num_cols += 1
-            vertices = cell["layout"]["boundingPoly"]["normalizedVertices"]
-            text = ""
-            if "textSegments" in cell["layout"]["textAnchor"].keys():
-                for segment in cell["layout"]["textAnchor"]["textSegments"]:
-                    text = "" + (
-                        raw_text[int(segment["startIndex"]) : int(segment["endIndex"])]
-                        if "startIndex" in segment.keys()
-                        else ""
-                    )
-            ocr_cell = Cell(
-                text=text,
-                row_span=cell["rowSpan"],
-                col_span=cell["colSpan"],
-                confidence=cell["layout"]["confidence"],
-                bounding_box=BoundixBoxOCRTable(
-                    left=float(vertices[0].get("x", 0)),
-                    top=float(vertices[0].get("y", 0)),
-                    width=float(vertices[2].get("x", 0) - vertices[0].get("x", 0)),
-                    height=float(vertices[2].get("y", 0) - vertices[0].get("y", 0)),
-                ),
-            )
-
-            cells.append(ocr_cell)
-        ocr_row = Row(cells=cells, is_header=is_header)
-    return ocr_row, num_cols
 
 def get_tag_name(tag):
     """
@@ -131,39 +98,72 @@ def get_tag_name(tag):
     }[tag]
 
 
-def ocr_tables_standardize_response(original_response) -> OcrTablesAsyncDataClass:
+def google_ocr_tables_standardize_response(original_response) -> OcrTablesAsyncDataClass:
     raw_text = original_response["text"]
+    pages = [
+        _ocr_tables_standardize_page(page, raw_text)
+        for page in original_response.get("pages", [])
+    ]
 
-    pages: Sequence[Page] = []
-    for page in original_response.get("pages", []):
-        tables: Sequence[Table] = []
-        if "tables" in page.keys():
-            for table in page["tables"]:
-                ocr_num_rows = 0
-                ocr_num_cols = 0
-                rows: Sequence[Row] = []
-                if "headerRows" in table.keys():
-                    for row in table["headerRows"]:
-                        ocr_num_rows += 1
-                        row, num_row_cols = ocr_tables_async_response_add_rows(
-                            row, raw_text, is_header=True
-                        )
-                        ocr_num_cols = max(ocr_num_cols, num_row_cols)
-                        rows.append(row)
-                if "bodyRows" in table.keys():
-                    for row in table["bodyRows"]:
-                        ocr_num_rows += 1
-                        row, num_row_cols = ocr_tables_async_response_add_rows(
-                            row, raw_text
-                        )
-                        ocr_num_cols = max(ocr_num_cols, num_row_cols)
-                        rows.append(row)
-                ocr_table = Table(
-                    rows=rows, num_rows=ocr_num_rows, num_cols=ocr_num_cols
-                )
-                tables.append(ocr_table)
-            ocr_page = Page(tables=tables)
-            pages.append(ocr_page)
     return OcrTablesAsyncDataClass(
         pages=pages, num_pages=len(original_response["pages"])
+    )
+
+
+def _ocr_tables_standardize_page(page, raw_text) -> Page:
+    tables = [
+        _ocr_tables_standardize_table(table, raw_text)
+        for table in page.get("tables", [])
+    ]
+    return Page(tables=tables)
+
+
+def _ocr_tables_standardize_table(table, raw_text) -> Table:
+    ocr_num_cols = 0
+    rows: Sequence[Row] = []
+    for row, row_index in table.get("headerRows", []):
+        row, num_row_cols = _ocr_tables_standardize_row(
+            row, raw_text, is_header=True
+        )
+        ocr_num_cols = max(ocr_num_cols, num_row_cols)
+        rows.append(row)
+    for row, row_index in table.get("bodyRows", []):
+        row, num_row_cols = _ocr_tables_standardize_row(row, raw_text, row_index)
+        ocr_num_cols = max(ocr_num_cols, num_row_cols)
+        rows.append(row)
+    return Table(rows=rows, num_rows=len(rows), num_cols=ocr_num_cols)
+
+
+def _ocr_tables_standardize_row(
+    row, raw_text, is_header=False
+) -> Tuple[Row, int]:
+    cells: Sequence[Cell] = []
+    for cell in row.get("cells", []):
+        std_cell = _ocr_tables_standardize_cell(cell, raw_text, is_header)
+    ocr_row = Row(cells=cells)
+    return ocr_row, len(cells)
+
+
+def _ocr_tables_standardize_cell(cell, raw_text, is_header) -> Cell:
+    vertices = cell["layout"]["boundingPoly"]["normalizedVertices"]
+    text = ""
+    for segment in cell["layout"]["textAnchor"].get("textSegments", []):
+        start_index = int(segment.get("startIndex", 0))
+        end_index = int(segment.get("endIndex", 0))
+        text += raw_text[start_index:end_index]
+
+    return Cell(
+        text=text,
+        col_index=0,
+        row_index=0,
+        row_span=cell["rowSpan"],
+        col_span=cell["colSpan"],
+        confidence=cell["layout"]["confidence"],
+        is_header=is_header,
+        bounding_box=BoundixBoxOCRTable(
+            left=float(vertices[0].get("x", 0)),
+            top=float(vertices[0].get("y", 0)),
+            width=float(vertices[2].get("x", 0) - vertices[0].get("x", 0)),
+            height=float(vertices[2].get("y", 0) - vertices[0].get("y", 0)),
+        ),
     )

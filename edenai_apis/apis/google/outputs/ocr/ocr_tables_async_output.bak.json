@@ -1,6 +1,6 @@
 {
   "status": "succeeded",
-  "provider_job_id": "1133278162953021522",
+  "provider_job_id": "12815082100358668185",
   "original_response": {
     "pages": [
       {
@@ -2430,11 +2430,11 @@
                     "y": 0.47028962
                   },
                   {
-                    "x": 0.14093722,
+                    "x": 0.14093724,
                     "y": 0.47028962
                   },
                   {
-                    "x": 0.14093722,
+                    "x": 0.14093724,
                     "y": 0.53287983
                   },
                   {
@@ -2443,7 +2443,7 @@
                   }
                 ]
               },
-              "confidence": 0.21739891,
+              "confidence": 0.21739876,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "content": "Tapukara\n",
@@ -2459,7 +2459,7 @@
               "boundingPoly": {
                 "normalizedVertices": [
                   {
-                    "x": 0.0076882485,
+                    "x": 0.0076882429,
                     "y": 0.47227335
                   },
                   {
@@ -2471,12 +2471,12 @@
                     "y": 0.51625252
                   },
                   {
-                    "x": 0.0076882485,
+                    "x": 0.0076882429,
                     "y": 0.51625252
                   }
                 ]
               },
-              "confidence": 0.21739891,
+              "confidence": 0.21739876,
               "orientation": "PAGE_UP"
             },
             "valueType": "filled_checkbox"
@@ -13944,7 +13944,7 @@
               {
                 "cells": [
                   {
-                    "text": "Station\n",
+                    "text": "",
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99963379,
