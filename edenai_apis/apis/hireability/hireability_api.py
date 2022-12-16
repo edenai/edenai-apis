@@ -2,6 +2,7 @@ from io import BufferedReader
 import requests
 import sys
 from pprint import pprint
+from collections import defaultdict
 from edenai_apis.features import Ocr
 from edenai_apis.features.ocr import (
     ResumeEducationEntry,
@@ -55,7 +56,7 @@ class HireabilityApi(ProviderApi, Ocr):
         infos = original_response['Results'][0]['HireAbilityJSONResults'][0]      
 
         # Resume parser std 
-        
+        default_dict = defaultdict(lambda: None) 
         # 1. Personal informations
         # 1.1 Resume name
         personal_names = ResumePersonalName(
@@ -72,8 +73,8 @@ class HireabilityApi(ProviderApi, Ocr):
         personal_infos = ResumePersonalInfo(
             name = personal_names,
             address=address,
-            phones=[phone['Number'] for phone in infos.get('Phone') if phone['Number']],
-            mails=[mail['Address'] for mail in infos.get('Email') if mail['Address']],
+            phones=[phone.get('Number') for phone in infos.get('Phone', default_dict) if phone.get('Number')],
+            mails=[mail.get('Address') for mail in infos.get('Email',default_dict) if mail.get('Address')],
             urls=[],
             gender = infos.get('Gender'),
             date_of_birth = infos.get('DateOfBirth'),
@@ -108,11 +109,11 @@ class HireabilityApi(ProviderApi, Ocr):
 
         # 3 Work experience
         work_entries = []
-        for i in infos.get("PositionHistory",{}):
+        for i in infos.get("PositionHistory",default_dict):
             work_location = ResumeLocation(
-                country_code = i.get('ReferenceLocation',{}).get('CountryCode'),
-                region = i.get('ReferenceLocation',{}).get('CountrySubDivisionCode'),
-                city = i.get('ReferenceLocation',{}).get('CityName','')
+                country_code = i.get('ReferenceLocation', default_dict).get('CountryCode'),
+                region = i.get('ReferenceLocation',default_dict).get('CountrySubDivisionCode'),
+                city = i.get('ReferenceLocation',default_dict).get('CityName','')
             )
             work_entries.append(
                 ResumeWorkExpEntry(
@@ -122,7 +123,7 @@ class HireabilityApi(ProviderApi, Ocr):
                     end_date=i.get("EndDate"),
                     description=i.get("Description"),
                     location=work_location,
-                    industry = i.get('Industry',{}).get('Name')
+                    industry = i.get('Industry', default_dict).get('Name')
                 )
             )
         duration = infos.get("TotalYearsOfExperience")

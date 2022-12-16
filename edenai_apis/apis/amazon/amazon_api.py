@@ -6,7 +6,7 @@ from time import time
 from typing import Sequence
 import base64
 import uuid
-
+from collections import defaultdict
 import urllib
 from pathlib import Path
 from pdf2image.pdf2image import convert_from_bytes
@@ -1208,7 +1208,6 @@ class AmazonApi(
     def video__explicit_content_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> ExplicitContentDetectionAsyncDataClass:
-
         max_results = 10
         pagination_token = ""
         finished = False
@@ -1220,13 +1219,12 @@ class AmazonApi(
                 NextToken=pagination_token,
             )
             moderated_content = []
-            for label in response["ModerationLabels"]:
-                confidence = label["ModerationLabel"]["Confidence"]
-                timestamp = float(label["Timestamp"]) / 1000.0  # convert to seconds
-                if label.get("ParentName", "") != "":
-                    category = label["ParentName"]
-                else:
-                    category = label["Name"]
+            for label in response.get("ModerationLabels",[]):
+                confidence = label.get("ModerationLabel", defaultdict).get("Confidence")
+                timestamp = float(label.get("Timestamp")) / 1000.0  # convert to seconds
+                if label.get("ParentName"):
+                    category = label.get("ParentName", label.get("Name"))
+
 
                 moderated_content.append(
                     ContentNSFW(
