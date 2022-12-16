@@ -12,7 +12,6 @@ from pathlib import Path
 from pdf2image.pdf2image import convert_from_bytes
 
 from edenai_apis.features.base_provider.provider_api import ProviderApi
-from edenai_apis.features.translation.language_detection import get_code_from_language_name
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.apis.amazon.helpers import content_processing

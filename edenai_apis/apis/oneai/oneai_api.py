@@ -24,9 +24,8 @@ from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass i
 from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
 )
-from edenai_apis.features.translation.language_detection.language_detection_dataclass import (
+from edenai_apis.features.translation.language_detection import (
     InfosLanguageDetectionDataClass,
-    get_code_from_language_name
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -39,6 +38,8 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType
 )
+
+from edenai_apis.utils.languages import get_code_from_language_name
 
 class StatusEnum(Enum):
     SUCCESS = 'COMPLETED'
