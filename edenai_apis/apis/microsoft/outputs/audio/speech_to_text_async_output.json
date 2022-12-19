@@ -1,17 +1,24 @@
 {
   "status": "succeeded",
-  "provider_job_id": "d4d66271-cc72-44c3-a6a9-6ec6156c44cd",
+  "provider_job_id": "767e55b6-791d-44d6-868b-79fc2b20c59b",
   "original_response": {
-    "source": "https://providers-upload.s3.amazonaws.com/64c143e0-bbf5-4c54-ba45-56cd1dd4faf3_conversation.wav?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIATHUBCW7GVRGGRDEW%2F20221125%2Feu-west-3%2Fs3%2Faws4_request&X-Amz-Date=20221125T104422Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=a4a961647bc209272f0b6da0a4c81782dc7b7d3ac9fbfddd5110445e3ce1c2fa",
-    "timestamp": "2022-11-25T10:44:33Z",
-    "durationInTicks": 170600000,
-    "duration": "PT17.06S",
+    "source": "https://providers-upload.s3.amazonaws.com/0fb3a129-5621-4062-820e-ca61d5ce6a26_conversation.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIATHUBCW7GVRGGRDEW%2F20221216%2Feu-west-3%2Fs3%2Faws4_request&X-Amz-Date=20221216T144857Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=0a9a17415d94d0dcab8fdb6263b74f32cf1db8f20cfdc884e72bfe5c1f810688",
+    "timestamp": "2022-12-16T14:49:11Z",
+    "durationInTicks": 171200000,
+    "duration": "PT17.12S",
     "combinedRecognizedPhrases": [
       {
         "channel": 0,
         "lexical": "unit one page fourteen real conversations hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
         "itn": "unit 1 page 14 real conversations hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
-        "maskedITN": "unit 1 page 14 real conversations hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+        "maskedITN": "",
+        "display": "Unit 1, page 14, real conversations. Hello. Hi. What's your name? Claudia. What's your name? I'm chihiro. Nice to meet you, Chihiro. Yeah, that's right. Where you from?"
+      },
+      {
+        "channel": 1,
+        "lexical": "unit one page fourteen real conversations hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+        "itn": "unit 1 page 14 real conversations hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+        "maskedITN": "",
         "display": "Unit 1, page 14, real conversations. Hello. Hi. What's your name? Claudia. What's your name? I'm chihiro. Nice to meet you, Chihiro. Yeah, that's right. Where you from?"
       }
     ],
@@ -19,66 +26,325 @@
       {
         "recognitionStatus": "Success",
         "channel": 0,
-        "speaker": 1,
-        "offset": "PT0.17S",
+        "offset": "PT0.22S",
         "duration": "PT4.69S",
-        "offsetInTicks": 1700000.0,
+        "offsetInTicks": 2200000.0,
         "durationInTicks": 46900000.0,
         "nBest": [
           {
-            "confidence": 0.9012127,
+            "confidence": 0.8963676,
             "lexical": "unit one page fourteen real conversations",
             "itn": "unit 1 page 14 real conversations",
-            "maskedITN": "unit 1 page 14 real conversations",
+            "maskedITN": "",
             "display": "Unit 1, page 14, real conversations.",
             "words": [
               {
                 "word": "unit",
-                "offset": "PT0.17S",
+                "offset": "PT0.22S",
                 "duration": "PT0.39S",
-                "offsetInTicks": 1700000.0,
+                "offsetInTicks": 2200000.0,
                 "durationInTicks": 3900000.0,
-                "confidence": 0.67008686
+                "confidence": 0.66792876
               },
               {
                 "word": "one",
-                "offset": "PT0.57S",
+                "offset": "PT0.62S",
                 "duration": "PT0.57S",
-                "offsetInTicks": 5700000.0,
+                "offsetInTicks": 6200000.0,
                 "durationInTicks": 5700000.0,
-                "confidence": 0.96784246
+                "confidence": 0.96721244
               },
               {
                 "word": "page",
-                "offset": "PT1.53S",
+                "offset": "PT1.58S",
                 "duration": "PT0.45S",
-                "offsetInTicks": 15300000.0,
+                "offsetInTicks": 15800000.0,
                 "durationInTicks": 4500000.0,
-                "confidence": 0.9794514
+                "confidence": 0.979156
               },
               {
                 "word": "fourteen",
-                "offset": "PT1.99S",
-                "duration": "PT0.85S",
-                "offsetInTicks": 19900000.0,
-                "durationInTicks": 8500000.0,
-                "confidence": 0.90195274
+                "offset": "PT2.04S",
+                "duration": "PT0.87S",
+                "offsetInTicks": 20400000.0,
+                "durationInTicks": 8700000.0,
+                "confidence": 0.88932586
               },
               {
                 "word": "real",
-                "offset": "PT3.39S",
-                "duration": "PT0.41S",
-                "offsetInTicks": 33900000.0,
-                "durationInTicks": 4100000.0,
-                "confidence": 0.7830527
+                "offset": "PT3.44S",
+                "duration": "PT0.43S",
+                "offsetInTicks": 34400000.0,
+                "durationInTicks": 4300000.0,
+                "confidence": 0.78202313
               },
               {
                 "word": "conversations",
-                "offset": "PT3.81S",
-                "duration": "PT1.05S",
-                "offsetInTicks": 38100000.0,
-                "durationInTicks": 10500000.0,
-                "confidence": 0.96423733
+                "offset": "PT3.88S",
+                "duration": "PT1.03S",
+                "offsetInTicks": 38800000.0,
+                "durationInTicks": 10300000.0,
+                "confidence": 0.96243614
+              }
+            ]
+          },
+          {
+            "confidence": 0.8001856,
+            "lexical": "unit one page fourteen 's real conversations",
+            "itn": "unit one page fourteen 's real conversations",
+            "maskedITN": "",
+            "display": "unit one page fourteen 's real conversations",
+            "words": [
+              {
+                "word": "unit",
+                "offset": "PT0.22S",
+                "duration": "PT0.39S",
+                "offsetInTicks": 2200000.0,
+                "durationInTicks": 3900000.0,
+                "confidence": 0.66792876
+              },
+              {
+                "word": "one",
+                "offset": "PT0.62S",
+                "duration": "PT0.57S",
+                "offsetInTicks": 6200000.0,
+                "durationInTicks": 5700000.0,
+                "confidence": 0.96721244
+              },
+              {
+                "word": "page",
+                "offset": "PT1.58S",
+                "duration": "PT0.45S",
+                "offsetInTicks": 15800000.0,
+                "durationInTicks": 4500000.0,
+                "confidence": 0.979156
+              },
+              {
+                "word": "fourteen",
+                "offset": "PT2.04S",
+                "duration": "PT0.87S",
+                "offsetInTicks": 20400000.0,
+                "durationInTicks": 8700000.0,
+                "confidence": 0.88932586
+              },
+              {
+                "word": "'s",
+                "offset": "PT2.92S",
+                "duration": "PT0.51S",
+                "offsetInTicks": 29200000.0,
+                "durationInTicks": 5100000.0,
+                "confidence": 0.004111409
+              },
+              {
+                "word": "real",
+                "offset": "PT3.44S",
+                "duration": "PT0.43S",
+                "offsetInTicks": 34400000.0,
+                "durationInTicks": 4300000.0,
+                "confidence": 0.90591663
+              },
+              {
+                "word": "conversations",
+                "offset": "PT3.88S",
+                "duration": "PT1.03S",
+                "offsetInTicks": 38800000.0,
+                "durationInTicks": 10300000.0,
+                "confidence": 0.9566224
+              }
+            ]
+          },
+          {
+            "confidence": 0.8755651,
+            "lexical": "unit one page fourteen in real conversations",
+            "itn": "unit one page fourteen in real conversations",
+            "maskedITN": "",
+            "display": "unit one page fourteen in real conversations",
+            "words": [
+              {
+                "word": "unit",
+                "offset": "PT0.22S",
+                "duration": "PT0.39S",
+                "offsetInTicks": 2200000.0,
+                "durationInTicks": 3900000.0,
+                "confidence": 0.66792876
+              },
+              {
+                "word": "one",
+                "offset": "PT0.62S",
+                "duration": "PT0.57S",
+                "offsetInTicks": 6200000.0,
+                "durationInTicks": 5700000.0,
+                "confidence": 0.96721244
+              },
+              {
+                "word": "page",
+                "offset": "PT1.58S",
+                "duration": "PT0.45S",
+                "offsetInTicks": 15800000.0,
+                "durationInTicks": 4500000.0,
+                "confidence": 0.979156
+              },
+              {
+                "word": "fourteen",
+                "offset": "PT2.04S",
+                "duration": "PT0.64S",
+                "offsetInTicks": 20400000.0,
+                "durationInTicks": 6400000.0,
+                "confidence": 0.70737296
+              },
+              {
+                "word": "in",
+                "offset": "PT2.69S",
+                "duration": "PT0.22S",
+                "offsetInTicks": 26900000.0,
+                "durationInTicks": 2200000.0,
+                "confidence": 0.7975671
+              },
+              {
+                "word": "real",
+                "offset": "PT3.44S",
+                "duration": "PT0.43S",
+                "offsetInTicks": 34400000.0,
+                "durationInTicks": 4300000.0,
+                "confidence": 0.9017728
+              },
+              {
+                "word": "conversations",
+                "offset": "PT3.88S",
+                "duration": "PT1.03S",
+                "offsetInTicks": 38800000.0,
+                "durationInTicks": 10300000.0,
+                "confidence": 0.969777
+              }
+            ]
+          },
+          {
+            "confidence": 0.7940564,
+            "lexical": "unit one 's page fourteen real conversations",
+            "itn": "unit one 's page fourteen real conversations",
+            "maskedITN": "",
+            "display": "unit one 's page fourteen real conversations",
+            "words": [
+              {
+                "word": "unit",
+                "offset": "PT0.22S",
+                "duration": "PT0.39S",
+                "offsetInTicks": 2200000.0,
+                "durationInTicks": 3900000.0,
+                "confidence": 0.66792876
+              },
+              {
+                "word": "one",
+                "offset": "PT0.62S",
+                "duration": "PT0.57S",
+                "offsetInTicks": 6200000.0,
+                "durationInTicks": 5700000.0,
+                "confidence": 0.96721244
+              },
+              {
+                "word": "'s",
+                "offset": "PT1.2S",
+                "duration": "PT0.37S",
+                "offsetInTicks": 12000000.0,
+                "durationInTicks": 3700000.0,
+                "confidence": 0.010031879
+              },
+              {
+                "word": "page",
+                "offset": "PT1.58S",
+                "duration": "PT0.45S",
+                "offsetInTicks": 15800000.0,
+                "durationInTicks": 4500000.0,
+                "confidence": 0.79634106
+              },
+              {
+                "word": "fourteen",
+                "offset": "PT2.04S",
+                "duration": "PT0.87S",
+                "offsetInTicks": 20400000.0,
+                "durationInTicks": 8700000.0,
+                "confidence": 0.8816458
+              },
+              {
+                "word": "real",
+                "offset": "PT3.44S",
+                "duration": "PT0.43S",
+                "offsetInTicks": 34400000.0,
+                "durationInTicks": 4300000.0,
+                "confidence": 0.78202313
+              },
+              {
+                "word": "conversations",
+                "offset": "PT3.88S",
+                "duration": "PT1.03S",
+                "offsetInTicks": 38800000.0,
+                "durationInTicks": 10300000.0,
+                "confidence": 0.96243614
+              }
+            ]
+          },
+          {
+            "confidence": 0.8620208,
+            "lexical": "unit one page fourteen on real conversations",
+            "itn": "unit one page fourteen on real conversations",
+            "maskedITN": "",
+            "display": "unit one page fourteen on real conversations",
+            "words": [
+              {
+                "word": "unit",
+                "offset": "PT0.22S",
+                "duration": "PT0.39S",
+                "offsetInTicks": 2200000.0,
+                "durationInTicks": 3900000.0,
+                "confidence": 0.66792876
+              },
+              {
+                "word": "one",
+                "offset": "PT0.62S",
+                "duration": "PT0.57S",
+                "offsetInTicks": 6200000.0,
+                "durationInTicks": 5700000.0,
+                "confidence": 0.96721244
+              },
+              {
+                "word": "page",
+                "offset": "PT1.58S",
+                "duration": "PT0.45S",
+                "offsetInTicks": 15800000.0,
+                "durationInTicks": 4500000.0,
+                "confidence": 0.979156
+              },
+              {
+                "word": "fourteen",
+                "offset": "PT2.04S",
+                "duration": "PT0.64S",
+                "offsetInTicks": 20400000.0,
+                "durationInTicks": 6400000.0,
+                "confidence": 0.73913544
+              },
+              {
+                "word": "on",
+                "offset": "PT2.69S",
+                "duration": "PT0.22S",
+                "offsetInTicks": 26900000.0,
+                "durationInTicks": 2200000.0,
+                "confidence": 0.6842544
+              },
+              {
+                "word": "real",
+                "offset": "PT3.47S",
+                "duration": "PT0.4S",
+                "offsetInTicks": 34700000.0,
+                "durationInTicks": 4000000.0,
+                "confidence": 0.82220256
+              },
+              {
+                "word": "conversations",
+                "offset": "PT3.88S",
+                "duration": "PT1.03S",
+                "offsetInTicks": 38800000.0,
+                "durationInTicks": 10300000.0,
+                "confidence": 0.9580116
               }
             ]
           }
@@ -87,194 +353,2259 @@
       {
         "recognitionStatus": "Success",
         "channel": 0,
-        "speaker": 1,
-        "offset": "PT6.85S",
-        "duration": "PT10.17S",
-        "offsetInTicks": 68500000.0,
-        "durationInTicks": 101700000.0,
+        "offset": "PT6.89S",
+        "duration": "PT10.19S",
+        "offsetInTicks": 68900000.0,
+        "durationInTicks": 101900000.0,
         "nBest": [
           {
-            "confidence": 0.6878293,
+            "confidence": 0.7009001,
             "lexical": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
             "itn": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
-            "maskedITN": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+            "maskedITN": "",
             "display": "Hello. Hi. What's your name? Claudia. What's your name? I'm chihiro. Nice to meet you, Chihiro. Yeah, that's right. Where you from?",
             "words": [
               {
                 "word": "hello",
-                "offset": "PT6.85S",
+                "offset": "PT6.89S",
                 "duration": "PT0.72S",
-                "offsetInTicks": 68500000.0,
+                "offsetInTicks": 68900000.0,
                 "durationInTicks": 7200000.0,
-                "confidence": 0.9506586
+                "confidence": 0.9596325
               },
               {
                 "word": "hi",
-                "offset": "PT7.63S",
-                "duration": "PT0.61S",
-                "offsetInTicks": 76300000.0,
-                "durationInTicks": 6100000.0,
-                "confidence": 0.7629032
+                "offset": "PT7.68S",
+                "duration": "PT0.58S",
+                "offsetInTicks": 76800000.0,
+                "durationInTicks": 5800000.0,
+                "confidence": 0.78857815
               },
               {
                 "word": "what's",
-                "offset": "PT8.28S",
-                "duration": "PT0.21S",
-                "offsetInTicks": 82800000.0,
-                "durationInTicks": 2100000.0,
-                "confidence": 0.7019136
+                "offset": "PT8.31S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 83100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.72342396
               },
               {
                 "word": "your",
-                "offset": "PT8.5S",
-                "duration": "PT0.16S",
-                "offsetInTicks": 85000000.0,
-                "durationInTicks": 1600000.0,
-                "confidence": 0.9794821
+                "offset": "PT8.55S",
+                "duration": "PT0.15S",
+                "offsetInTicks": 85500000.0,
+                "durationInTicks": 1500000.0,
+                "confidence": 0.975448
               },
               {
                 "word": "name",
-                "offset": "PT8.67S",
-                "duration": "PT0.63S",
-                "offsetInTicks": 86700000.0,
-                "durationInTicks": 6300000.0,
-                "confidence": 0.9812765
+                "offset": "PT8.71S",
+                "duration": "PT0.64S",
+                "offsetInTicks": 87100000.0,
+                "durationInTicks": 6400000.0,
+                "confidence": 0.9805261
               },
               {
                 "word": "claudia",
-                "offset": "PT9.35S",
+                "offset": "PT9.41S",
                 "duration": "PT0.97S",
-                "offsetInTicks": 93500000.0,
+                "offsetInTicks": 94100000.0,
                 "durationInTicks": 9700000.0,
-                "confidence": 0.5540923
+                "confidence": 0.5802283
               },
               {
                 "word": "what's",
-                "offset": "PT10.59S",
-                "duration": "PT0.32S",
-                "offsetInTicks": 105900000.0,
-                "durationInTicks": 3200000.0,
-                "confidence": 0.7124803
+                "offset": "PT10.65S",
+                "duration": "PT0.31S",
+                "offsetInTicks": 106500000.0,
+                "durationInTicks": 3100000.0,
+                "confidence": 0.7374798
               },
               {
                 "word": "your",
-                "offset": "PT10.92S",
+                "offset": "PT10.97S",
                 "duration": "PT0.16S",
-                "offsetInTicks": 109200000.0,
+                "offsetInTicks": 109700000.0,
                 "durationInTicks": 1600000.0,
-                "confidence": 0.96313727
+                "confidence": 0.96073383
               },
               {
                 "word": "name",
-                "offset": "PT11.09S",
+                "offset": "PT11.14S",
                 "duration": "PT0.41S",
-                "offsetInTicks": 110900000.0,
+                "offsetInTicks": 111400000.0,
                 "durationInTicks": 4100000.0,
-                "confidence": 0.9862133
+                "confidence": 0.98638874
               },
               {
                 "word": "i'm",
-                "offset": "PT11.57S",
-                "duration": "PT0.19S",
-                "offsetInTicks": 115700000.0,
-                "durationInTicks": 1900000.0,
-                "confidence": 0.9412626
+                "offset": "PT11.62S",
+                "duration": "PT0.18S",
+                "offsetInTicks": 116200000.0,
+                "durationInTicks": 1800000.0,
+                "confidence": 0.9389082
               },
               {
                 "word": "chihiro",
-                "offset": "PT11.77S",
-                "duration": "PT0.89S",
-                "offsetInTicks": 117700000.0,
-                "durationInTicks": 8900000.0,
-                "confidence": 0.31672636
+                "offset": "PT11.81S",
+                "duration": "PT0.91S",
+                "offsetInTicks": 118100000.0,
+                "durationInTicks": 9100000.0,
+                "confidence": 0.3279772
               },
               {
                 "word": "nice",
-                "offset": "PT12.71S",
-                "duration": "PT0.37S",
-                "offsetInTicks": 127100000.0,
-                "durationInTicks": 3700000.0,
-                "confidence": 0.73674166
+                "offset": "PT12.77S",
+                "duration": "PT0.35S",
+                "offsetInTicks": 127700000.0,
+                "durationInTicks": 3500000.0,
+                "confidence": 0.7700726
               },
               {
                 "word": "to",
-                "offset": "PT13.09S",
+                "offset": "PT13.13S",
                 "duration": "PT0.09S",
-                "offsetInTicks": 130900000.0,
+                "offsetInTicks": 131300000.0,
                 "durationInTicks": 900000.0,
-                "confidence": 0.9453697
+                "confidence": 0.9418125
               },
               {
                 "word": "meet",
-                "offset": "PT13.19S",
+                "offset": "PT13.23S",
                 "duration": "PT0.29S",
-                "offsetInTicks": 131900000.0,
+                "offsetInTicks": 132300000.0,
                 "durationInTicks": 2900000.0,
-                "confidence": 0.9923939
+                "confidence": 0.9930753
               },
               {
                 "word": "you",
-                "offset": "PT13.49S",
+                "offset": "PT13.53S",
                 "duration": "PT0.47S",
-                "offsetInTicks": 134900000.0,
+                "offsetInTicks": 135300000.0,
                 "durationInTicks": 4700000.0,
-                "confidence": 0.976344
+                "confidence": 0.9780249
               },
               {
                 "word": "chihiro",
-                "offset": "PT14.01S",
-                "duration": "PT1.33S",
-                "offsetInTicks": 140100000.0,
-                "durationInTicks": 13300000.0,
-                "confidence": 0.2352753
+                "offset": "PT14.07S",
+                "duration": "PT1.31S",
+                "offsetInTicks": 140700000.0,
+                "durationInTicks": 13100000.0,
+                "confidence": 0.23685676
               },
               {
                 "word": "yeah",
-                "offset": "PT15.39S",
-                "duration": "PT0.16S",
-                "offsetInTicks": 153900000.0,
-                "durationInTicks": 1600000.0,
-                "confidence": 0.64124495
+                "offset": "PT15.43S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 154300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.6833902
               },
               {
                 "word": "that's",
-                "offset": "PT15.56S",
-                "duration": "PT0.22S",
-                "offsetInTicks": 155600000.0,
-                "durationInTicks": 2200000.0,
-                "confidence": 0.7976506
+                "offset": "PT15.61S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 156100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.82775533
               },
               {
                 "word": "right",
-                "offset": "PT15.79S",
-                "duration": "PT0.45S",
-                "offsetInTicks": 157900000.0,
-                "durationInTicks": 4500000.0,
-                "confidence": 0.9513746
+                "offset": "PT15.85S",
+                "duration": "PT0.46S",
+                "offsetInTicks": 158500000.0,
+                "durationInTicks": 4600000.0,
+                "confidence": 0.9707937
               },
               {
                 "word": "where",
-                "offset": "PT16.41S",
-                "duration": "PT0.32S",
-                "offsetInTicks": 164100000.0,
-                "durationInTicks": 3200000.0,
-                "confidence": 0.32918867
+                "offset": "PT16.49S",
+                "duration": "PT0.27S",
+                "offsetInTicks": 164900000.0,
+                "durationInTicks": 2700000.0,
+                "confidence": 0.2870189
               },
               {
                 "word": "you",
-                "offset": "PT16.74S",
-                "duration": "PT0.13S",
-                "offsetInTicks": 167400000.0,
-                "durationInTicks": 1300000.0,
-                "confidence": 0.87535477
+                "offset": "PT16.77S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 167700000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.9163299
               },
               {
                 "word": "from",
-                "offset": "PT16.88S",
+                "offset": "PT16.95S",
+                "duration": "PT0.13S",
+                "offsetInTicks": 169500000.0,
+                "durationInTicks": 1300000.0,
+                "confidence": 0.9472313
+              }
+            ]
+          },
+          {
+            "confidence": 0.69977236,
+            "lexical": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right and where you from",
+            "itn": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right and where you from",
+            "maskedITN": "",
+            "display": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right and where you from",
+            "words": [
+              {
+                "word": "hello",
+                "offset": "PT6.89S",
+                "duration": "PT0.72S",
+                "offsetInTicks": 68900000.0,
+                "durationInTicks": 7200000.0,
+                "confidence": 0.9596325
+              },
+              {
+                "word": "hi",
+                "offset": "PT7.68S",
+                "duration": "PT0.58S",
+                "offsetInTicks": 76800000.0,
+                "durationInTicks": 5800000.0,
+                "confidence": 0.78857815
+              },
+              {
+                "word": "what's",
+                "offset": "PT8.31S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 83100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.72342396
+              },
+              {
+                "word": "your",
+                "offset": "PT8.55S",
+                "duration": "PT0.15S",
+                "offsetInTicks": 85500000.0,
+                "durationInTicks": 1500000.0,
+                "confidence": 0.975448
+              },
+              {
+                "word": "name",
+                "offset": "PT8.71S",
+                "duration": "PT0.64S",
+                "offsetInTicks": 87100000.0,
+                "durationInTicks": 6400000.0,
+                "confidence": 0.9805261
+              },
+              {
+                "word": "claudia",
+                "offset": "PT9.41S",
+                "duration": "PT0.97S",
+                "offsetInTicks": 94100000.0,
+                "durationInTicks": 9700000.0,
+                "confidence": 0.5802283
+              },
+              {
+                "word": "what's",
+                "offset": "PT10.65S",
+                "duration": "PT0.31S",
+                "offsetInTicks": 106500000.0,
+                "durationInTicks": 3100000.0,
+                "confidence": 0.7374798
+              },
+              {
+                "word": "your",
+                "offset": "PT10.97S",
+                "duration": "PT0.16S",
+                "offsetInTicks": 109700000.0,
+                "durationInTicks": 1600000.0,
+                "confidence": 0.96073383
+              },
+              {
+                "word": "name",
+                "offset": "PT11.14S",
+                "duration": "PT0.41S",
+                "offsetInTicks": 111400000.0,
+                "durationInTicks": 4100000.0,
+                "confidence": 0.98638874
+              },
+              {
+                "word": "i'm",
+                "offset": "PT11.62S",
+                "duration": "PT0.18S",
+                "offsetInTicks": 116200000.0,
+                "durationInTicks": 1800000.0,
+                "confidence": 0.9389082
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT11.81S",
+                "duration": "PT0.91S",
+                "offsetInTicks": 118100000.0,
+                "durationInTicks": 9100000.0,
+                "confidence": 0.3279772
+              },
+              {
+                "word": "nice",
+                "offset": "PT12.77S",
+                "duration": "PT0.35S",
+                "offsetInTicks": 127700000.0,
+                "durationInTicks": 3500000.0,
+                "confidence": 0.7700726
+              },
+              {
+                "word": "to",
+                "offset": "PT13.13S",
+                "duration": "PT0.09S",
+                "offsetInTicks": 131300000.0,
+                "durationInTicks": 900000.0,
+                "confidence": 0.9418125
+              },
+              {
+                "word": "meet",
+                "offset": "PT13.23S",
+                "duration": "PT0.29S",
+                "offsetInTicks": 132300000.0,
+                "durationInTicks": 2900000.0,
+                "confidence": 0.9930753
+              },
+              {
+                "word": "you",
+                "offset": "PT13.53S",
+                "duration": "PT0.47S",
+                "offsetInTicks": 135300000.0,
+                "durationInTicks": 4700000.0,
+                "confidence": 0.9780249
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT14.07S",
+                "duration": "PT1.31S",
+                "offsetInTicks": 140700000.0,
+                "durationInTicks": 13100000.0,
+                "confidence": 0.23685676
+              },
+              {
+                "word": "yeah",
+                "offset": "PT15.43S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 154300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.6833902
+              },
+              {
+                "word": "that's",
+                "offset": "PT15.61S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 156100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.82775533
+              },
+              {
+                "word": "right",
+                "offset": "PT15.85S",
+                "duration": "PT0.46S",
+                "offsetInTicks": 158500000.0,
+                "durationInTicks": 4600000.0,
+                "confidence": 0.9707937
+              },
+              {
+                "word": "and",
+                "offset": "PT16.37S",
+                "duration": "PT0.21S",
+                "offsetInTicks": 163700000.0,
+                "durationInTicks": 2100000.0,
+                "confidence": 0.3144364
+              },
+              {
+                "word": "where",
+                "offset": "PT16.59S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 165900000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.46363136
+              },
+              {
+                "word": "you",
+                "offset": "PT16.77S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 167700000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.9029944
+              },
+              {
+                "word": "from",
+                "offset": "PT16.95S",
+                "duration": "PT0.13S",
+                "offsetInTicks": 169500000.0,
+                "durationInTicks": 1300000.0,
+                "confidence": 0.97212744
+              }
+            ]
+          },
+          {
+            "confidence": 0.70155025,
+            "lexical": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where are you from",
+            "itn": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where are you from",
+            "maskedITN": "",
+            "display": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where are you from",
+            "words": [
+              {
+                "word": "hello",
+                "offset": "PT6.89S",
+                "duration": "PT0.72S",
+                "offsetInTicks": 68900000.0,
+                "durationInTicks": 7200000.0,
+                "confidence": 0.9596325
+              },
+              {
+                "word": "hi",
+                "offset": "PT7.68S",
+                "duration": "PT0.58S",
+                "offsetInTicks": 76800000.0,
+                "durationInTicks": 5800000.0,
+                "confidence": 0.78857815
+              },
+              {
+                "word": "what's",
+                "offset": "PT8.31S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 83100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.72342396
+              },
+              {
+                "word": "your",
+                "offset": "PT8.55S",
+                "duration": "PT0.15S",
+                "offsetInTicks": 85500000.0,
+                "durationInTicks": 1500000.0,
+                "confidence": 0.975448
+              },
+              {
+                "word": "name",
+                "offset": "PT8.71S",
+                "duration": "PT0.64S",
+                "offsetInTicks": 87100000.0,
+                "durationInTicks": 6400000.0,
+                "confidence": 0.9805261
+              },
+              {
+                "word": "claudia",
+                "offset": "PT9.41S",
+                "duration": "PT0.97S",
+                "offsetInTicks": 94100000.0,
+                "durationInTicks": 9700000.0,
+                "confidence": 0.5802283
+              },
+              {
+                "word": "what's",
+                "offset": "PT10.65S",
+                "duration": "PT0.31S",
+                "offsetInTicks": 106500000.0,
+                "durationInTicks": 3100000.0,
+                "confidence": 0.7374798
+              },
+              {
+                "word": "your",
+                "offset": "PT10.97S",
+                "duration": "PT0.16S",
+                "offsetInTicks": 109700000.0,
+                "durationInTicks": 1600000.0,
+                "confidence": 0.96073383
+              },
+              {
+                "word": "name",
+                "offset": "PT11.14S",
+                "duration": "PT0.41S",
+                "offsetInTicks": 111400000.0,
+                "durationInTicks": 4100000.0,
+                "confidence": 0.98638874
+              },
+              {
+                "word": "i'm",
+                "offset": "PT11.62S",
+                "duration": "PT0.18S",
+                "offsetInTicks": 116200000.0,
+                "durationInTicks": 1800000.0,
+                "confidence": 0.9389082
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT11.81S",
+                "duration": "PT0.91S",
+                "offsetInTicks": 118100000.0,
+                "durationInTicks": 9100000.0,
+                "confidence": 0.3279772
+              },
+              {
+                "word": "nice",
+                "offset": "PT12.77S",
+                "duration": "PT0.35S",
+                "offsetInTicks": 127700000.0,
+                "durationInTicks": 3500000.0,
+                "confidence": 0.7700726
+              },
+              {
+                "word": "to",
+                "offset": "PT13.13S",
+                "duration": "PT0.09S",
+                "offsetInTicks": 131300000.0,
+                "durationInTicks": 900000.0,
+                "confidence": 0.9418125
+              },
+              {
+                "word": "meet",
+                "offset": "PT13.23S",
+                "duration": "PT0.29S",
+                "offsetInTicks": 132300000.0,
+                "durationInTicks": 2900000.0,
+                "confidence": 0.9930753
+              },
+              {
+                "word": "you",
+                "offset": "PT13.53S",
+                "duration": "PT0.47S",
+                "offsetInTicks": 135300000.0,
+                "durationInTicks": 4700000.0,
+                "confidence": 0.9780249
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT14.07S",
+                "duration": "PT1.31S",
+                "offsetInTicks": 140700000.0,
+                "durationInTicks": 13100000.0,
+                "confidence": 0.23685676
+              },
+              {
+                "word": "yeah",
+                "offset": "PT15.43S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 154300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.6833902
+              },
+              {
+                "word": "that's",
+                "offset": "PT15.61S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 156100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.82775533
+              },
+              {
+                "word": "right",
+                "offset": "PT15.85S",
+                "duration": "PT0.46S",
+                "offsetInTicks": 158500000.0,
+                "durationInTicks": 4600000.0,
+                "confidence": 0.9707937
+              },
+              {
+                "word": "where",
+                "offset": "PT16.49S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 164900000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.22750944
+              },
+              {
+                "word": "are",
+                "offset": "PT16.73S",
+                "duration": "PT0.08S",
+                "offsetInTicks": 167300000.0,
+                "durationInTicks": 800000.0,
+                "confidence": 0.9074247
+              },
+              {
+                "word": "you",
+                "offset": "PT16.82S",
+                "duration": "PT0.12S",
+                "offsetInTicks": 168200000.0,
+                "durationInTicks": 1200000.0,
+                "confidence": 0.8870921
+              },
+              {
+                "word": "from",
+                "offset": "PT16.95S",
+                "duration": "PT0.13S",
+                "offsetInTicks": 169500000.0,
+                "durationInTicks": 1300000.0,
+                "confidence": 0.9460643
+              }
+            ]
+          },
+          {
+            "confidence": 0.6959061,
+            "lexical": "hello hi what's your name claudia what's your name i'm chihiro 's nice to meet you chihiro yeah that's right where you from",
+            "itn": "hello hi what's your name claudia what's your name i'm chihiro 's nice to meet you chihiro yeah that's right where you from",
+            "maskedITN": "",
+            "display": "hello hi what's your name claudia what's your name i'm chihiro 's nice to meet you chihiro yeah that's right where you from",
+            "words": [
+              {
+                "word": "hello",
+                "offset": "PT6.89S",
+                "duration": "PT0.72S",
+                "offsetInTicks": 68900000.0,
+                "durationInTicks": 7200000.0,
+                "confidence": 0.9596325
+              },
+              {
+                "word": "hi",
+                "offset": "PT7.68S",
+                "duration": "PT0.58S",
+                "offsetInTicks": 76800000.0,
+                "durationInTicks": 5800000.0,
+                "confidence": 0.78857815
+              },
+              {
+                "word": "what's",
+                "offset": "PT8.31S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 83100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.72342396
+              },
+              {
+                "word": "your",
+                "offset": "PT8.55S",
+                "duration": "PT0.15S",
+                "offsetInTicks": 85500000.0,
+                "durationInTicks": 1500000.0,
+                "confidence": 0.975448
+              },
+              {
+                "word": "name",
+                "offset": "PT8.71S",
+                "duration": "PT0.64S",
+                "offsetInTicks": 87100000.0,
+                "durationInTicks": 6400000.0,
+                "confidence": 0.9805261
+              },
+              {
+                "word": "claudia",
+                "offset": "PT9.41S",
+                "duration": "PT0.97S",
+                "offsetInTicks": 94100000.0,
+                "durationInTicks": 9700000.0,
+                "confidence": 0.5802283
+              },
+              {
+                "word": "what's",
+                "offset": "PT10.65S",
+                "duration": "PT0.31S",
+                "offsetInTicks": 106500000.0,
+                "durationInTicks": 3100000.0,
+                "confidence": 0.7374798
+              },
+              {
+                "word": "your",
+                "offset": "PT10.97S",
+                "duration": "PT0.16S",
+                "offsetInTicks": 109700000.0,
+                "durationInTicks": 1600000.0,
+                "confidence": 0.96073383
+              },
+              {
+                "word": "name",
+                "offset": "PT11.14S",
+                "duration": "PT0.41S",
+                "offsetInTicks": 111400000.0,
+                "durationInTicks": 4100000.0,
+                "confidence": 0.98638874
+              },
+              {
+                "word": "i'm",
+                "offset": "PT11.62S",
+                "duration": "PT0.18S",
+                "offsetInTicks": 116200000.0,
+                "durationInTicks": 1800000.0,
+                "confidence": 0.9389082
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT11.81S",
+                "duration": "PT0.91S",
+                "offsetInTicks": 118100000.0,
+                "durationInTicks": 9100000.0,
+                "confidence": 0.3279772
+              },
+              {
+                "word": "'s",
+                "offset": "PT12.73S",
+                "duration": "PT0.03S",
+                "offsetInTicks": 127300000.0,
+                "durationInTicks": 300000.0,
+                "confidence": 0.12247869
+              },
+              {
+                "word": "nice",
+                "offset": "PT12.77S",
+                "duration": "PT0.35S",
+                "offsetInTicks": 127700000.0,
+                "durationInTicks": 3500000.0,
+                "confidence": 0.6978044
+              },
+              {
+                "word": "to",
+                "offset": "PT13.13S",
+                "duration": "PT0.09S",
+                "offsetInTicks": 131300000.0,
+                "durationInTicks": 900000.0,
+                "confidence": 0.9577924
+              },
+              {
+                "word": "meet",
+                "offset": "PT13.23S",
+                "duration": "PT0.29S",
+                "offsetInTicks": 132300000.0,
+                "durationInTicks": 2900000.0,
+                "confidence": 0.9941153
+              },
+              {
+                "word": "you",
+                "offset": "PT13.53S",
+                "duration": "PT0.47S",
+                "offsetInTicks": 135300000.0,
+                "durationInTicks": 4700000.0,
+                "confidence": 0.9780249
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT14.07S",
+                "duration": "PT1.31S",
+                "offsetInTicks": 140700000.0,
+                "durationInTicks": 13100000.0,
+                "confidence": 0.23685676
+              },
+              {
+                "word": "yeah",
+                "offset": "PT15.43S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 154300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.6833902
+              },
+              {
+                "word": "that's",
+                "offset": "PT15.61S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 156100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.82775533
+              },
+              {
+                "word": "right",
+                "offset": "PT15.85S",
+                "duration": "PT0.46S",
+                "offsetInTicks": 158500000.0,
+                "durationInTicks": 4600000.0,
+                "confidence": 0.9707937
+              },
+              {
+                "word": "where",
+                "offset": "PT16.49S",
+                "duration": "PT0.27S",
+                "offsetInTicks": 164900000.0,
+                "durationInTicks": 2700000.0,
+                "confidence": 0.2870189
+              },
+              {
+                "word": "you",
+                "offset": "PT16.77S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 167700000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.9163299
+              },
+              {
+                "word": "from",
+                "offset": "PT16.95S",
+                "duration": "PT0.13S",
+                "offsetInTicks": 169500000.0,
+                "durationInTicks": 1300000.0,
+                "confidence": 0.9472313
+              }
+            ]
+          },
+          {
+            "confidence": 0.6780538,
+            "lexical": "hello hi what's your name claudia 's what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+            "itn": "hello hi what's your name claudia 's what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+            "maskedITN": "",
+            "display": "hello hi what's your name claudia 's what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+            "words": [
+              {
+                "word": "hello",
+                "offset": "PT6.89S",
+                "duration": "PT0.72S",
+                "offsetInTicks": 68900000.0,
+                "durationInTicks": 7200000.0,
+                "confidence": 0.9596325
+              },
+              {
+                "word": "hi",
+                "offset": "PT7.68S",
+                "duration": "PT0.58S",
+                "offsetInTicks": 76800000.0,
+                "durationInTicks": 5800000.0,
+                "confidence": 0.78857815
+              },
+              {
+                "word": "what's",
+                "offset": "PT8.31S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 83100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.72342396
+              },
+              {
+                "word": "your",
+                "offset": "PT8.55S",
+                "duration": "PT0.15S",
+                "offsetInTicks": 85500000.0,
+                "durationInTicks": 1500000.0,
+                "confidence": 0.975448
+              },
+              {
+                "word": "name",
+                "offset": "PT8.71S",
+                "duration": "PT0.64S",
+                "offsetInTicks": 87100000.0,
+                "durationInTicks": 6400000.0,
+                "confidence": 0.9805261
+              },
+              {
+                "word": "claudia",
+                "offset": "PT9.41S",
+                "duration": "PT0.97S",
+                "offsetInTicks": 94100000.0,
+                "durationInTicks": 9700000.0,
+                "confidence": 0.5802283
+              },
+              {
+                "word": "'s",
+                "offset": "PT10.39S",
+                "duration": "PT0.25S",
+                "offsetInTicks": 103900000.0,
+                "durationInTicks": 2500000.0,
+                "confidence": 0.025399446
+              },
+              {
+                "word": "what's",
+                "offset": "PT10.65S",
+                "duration": "PT0.31S",
+                "offsetInTicks": 106500000.0,
+                "durationInTicks": 3100000.0,
+                "confidence": 0.58550596
+              },
+              {
+                "word": "your",
+                "offset": "PT10.97S",
+                "duration": "PT0.16S",
+                "offsetInTicks": 109700000.0,
+                "durationInTicks": 1600000.0,
+                "confidence": 0.9738003
+              },
+              {
+                "word": "name",
+                "offset": "PT11.14S",
+                "duration": "PT0.41S",
+                "offsetInTicks": 111400000.0,
+                "durationInTicks": 4100000.0,
+                "confidence": 0.9885045
+              },
+              {
+                "word": "i'm",
+                "offset": "PT11.62S",
+                "duration": "PT0.18S",
+                "offsetInTicks": 116200000.0,
+                "durationInTicks": 1800000.0,
+                "confidence": 0.9389082
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT11.81S",
+                "duration": "PT0.91S",
+                "offsetInTicks": 118100000.0,
+                "durationInTicks": 9100000.0,
+                "confidence": 0.3279772
+              },
+              {
+                "word": "nice",
+                "offset": "PT12.77S",
+                "duration": "PT0.35S",
+                "offsetInTicks": 127700000.0,
+                "durationInTicks": 3500000.0,
+                "confidence": 0.7700726
+              },
+              {
+                "word": "to",
+                "offset": "PT13.13S",
+                "duration": "PT0.09S",
+                "offsetInTicks": 131300000.0,
+                "durationInTicks": 900000.0,
+                "confidence": 0.9418125
+              },
+              {
+                "word": "meet",
+                "offset": "PT13.23S",
+                "duration": "PT0.29S",
+                "offsetInTicks": 132300000.0,
+                "durationInTicks": 2900000.0,
+                "confidence": 0.9930753
+              },
+              {
+                "word": "you",
+                "offset": "PT13.53S",
+                "duration": "PT0.47S",
+                "offsetInTicks": 135300000.0,
+                "durationInTicks": 4700000.0,
+                "confidence": 0.9780249
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT14.07S",
+                "duration": "PT1.31S",
+                "offsetInTicks": 140700000.0,
+                "durationInTicks": 13100000.0,
+                "confidence": 0.23685676
+              },
+              {
+                "word": "yeah",
+                "offset": "PT15.43S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 154300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.6833902
+              },
+              {
+                "word": "that's",
+                "offset": "PT15.61S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 156100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.82775533
+              },
+              {
+                "word": "right",
+                "offset": "PT15.85S",
+                "duration": "PT0.46S",
+                "offsetInTicks": 158500000.0,
+                "durationInTicks": 4600000.0,
+                "confidence": 0.9707937
+              },
+              {
+                "word": "where",
+                "offset": "PT16.49S",
+                "duration": "PT0.27S",
+                "offsetInTicks": 164900000.0,
+                "durationInTicks": 2700000.0,
+                "confidence": 0.2870189
+              },
+              {
+                "word": "you",
+                "offset": "PT16.77S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 167700000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.9163299
+              },
+              {
+                "word": "from",
+                "offset": "PT16.95S",
+                "duration": "PT0.13S",
+                "offsetInTicks": 169500000.0,
+                "durationInTicks": 1300000.0,
+                "confidence": 0.9472313
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "recognitionStatus": "Success",
+        "channel": 1,
+        "offset": "PT0.21S",
+        "duration": "PT4.7S",
+        "offsetInTicks": 2100000.0,
+        "durationInTicks": 47000000.0,
+        "nBest": [
+          {
+            "confidence": 0.9014775,
+            "lexical": "unit one page fourteen real conversations",
+            "itn": "unit 1 page 14 real conversations",
+            "maskedITN": "",
+            "display": "Unit 1, page 14, real conversations.",
+            "words": [
+              {
+                "word": "unit",
+                "offset": "PT0.21S",
+                "duration": "PT0.39S",
+                "offsetInTicks": 2100000.0,
+                "durationInTicks": 3900000.0,
+                "confidence": 0.65881324
+              },
+              {
+                "word": "one",
+                "offset": "PT0.61S",
+                "duration": "PT0.57S",
+                "offsetInTicks": 6100000.0,
+                "durationInTicks": 5700000.0,
+                "confidence": 0.96764576
+              },
+              {
+                "word": "page",
+                "offset": "PT1.59S",
+                "duration": "PT0.43S",
+                "offsetInTicks": 15900000.0,
+                "durationInTicks": 4300000.0,
+                "confidence": 0.97931385
+              },
+              {
+                "word": "fourteen",
+                "offset": "PT2.03S",
+                "duration": "PT0.87S",
+                "offsetInTicks": 20300000.0,
+                "durationInTicks": 8700000.0,
+                "confidence": 0.90046096
+              },
+              {
+                "word": "real",
+                "offset": "PT3.45S",
+                "duration": "PT0.41S",
+                "offsetInTicks": 34500000.0,
+                "durationInTicks": 4100000.0,
+                "confidence": 0.8038441
+              },
+              {
+                "word": "conversations",
+                "offset": "PT3.87S",
+                "duration": "PT1.04S",
+                "offsetInTicks": 38700000.0,
+                "durationInTicks": 10400000.0,
+                "confidence": 0.96465945
+              }
+            ]
+          },
+          {
+            "confidence": 0.7987426,
+            "lexical": "unit one page fourteen 's real conversations",
+            "itn": "unit one page fourteen 's real conversations",
+            "maskedITN": "",
+            "display": "unit one page fourteen 's real conversations",
+            "words": [
+              {
+                "word": "unit",
+                "offset": "PT0.21S",
+                "duration": "PT0.39S",
+                "offsetInTicks": 2100000.0,
+                "durationInTicks": 3900000.0,
+                "confidence": 0.65881324
+              },
+              {
+                "word": "one",
+                "offset": "PT0.61S",
+                "duration": "PT0.57S",
+                "offsetInTicks": 6100000.0,
+                "durationInTicks": 5700000.0,
+                "confidence": 0.96764576
+              },
+              {
+                "word": "page",
+                "offset": "PT1.59S",
+                "duration": "PT0.43S",
+                "offsetInTicks": 15900000.0,
+                "durationInTicks": 4300000.0,
+                "confidence": 0.97931385
+              },
+              {
+                "word": "fourteen",
+                "offset": "PT2.03S",
+                "duration": "PT0.87S",
+                "offsetInTicks": 20300000.0,
+                "durationInTicks": 8700000.0,
+                "confidence": 0.90046096
+              },
+              {
+                "word": "'s",
+                "offset": "PT2.91S",
+                "duration": "PT0.53S",
+                "offsetInTicks": 29100000.0,
+                "durationInTicks": 5300000.0,
+                "confidence": 0.003799349
+              },
+              {
+                "word": "real",
+                "offset": "PT3.45S",
+                "duration": "PT0.41S",
+                "offsetInTicks": 34500000.0,
+                "durationInTicks": 4100000.0,
+                "confidence": 0.9174574
+              },
+              {
+                "word": "conversations",
+                "offset": "PT3.87S",
+                "duration": "PT1.04S",
+                "offsetInTicks": 38700000.0,
+                "durationInTicks": 10400000.0,
+                "confidence": 0.9591746
+              }
+            ]
+          },
+          {
+            "confidence": 0.7950714,
+            "lexical": "unit one 's page fourteen real conversations",
+            "itn": "unit one 's page fourteen real conversations",
+            "maskedITN": "",
+            "display": "unit one 's page fourteen real conversations",
+            "words": [
+              {
+                "word": "unit",
+                "offset": "PT0.21S",
+                "duration": "PT0.39S",
+                "offsetInTicks": 2100000.0,
+                "durationInTicks": 3900000.0,
+                "confidence": 0.65881324
+              },
+              {
+                "word": "one",
+                "offset": "PT0.61S",
+                "duration": "PT0.57S",
+                "offsetInTicks": 6100000.0,
+                "durationInTicks": 5700000.0,
+                "confidence": 0.96764576
+              },
+              {
+                "word": "'s",
+                "offset": "PT1.19S",
+                "duration": "PT0.39S",
+                "offsetInTicks": 11900000.0,
+                "durationInTicks": 3900000.0,
+                "confidence": 0.009029925
+              },
+              {
+                "word": "page",
+                "offset": "PT1.59S",
+                "duration": "PT0.43S",
+                "offsetInTicks": 15900000.0,
+                "durationInTicks": 4300000.0,
+                "confidence": 0.796557
+              },
+              {
+                "word": "fourteen",
+                "offset": "PT2.03S",
+                "duration": "PT0.87S",
+                "offsetInTicks": 20300000.0,
+                "durationInTicks": 8700000.0,
+                "confidence": 0.89327717
+              },
+              {
+                "word": "real",
+                "offset": "PT3.45S",
+                "duration": "PT0.41S",
+                "offsetInTicks": 34500000.0,
+                "durationInTicks": 4100000.0,
+                "confidence": 0.8038441
+              },
+              {
+                "word": "conversations",
+                "offset": "PT3.87S",
+                "duration": "PT1.04S",
+                "offsetInTicks": 38700000.0,
+                "durationInTicks": 10400000.0,
+                "confidence": 0.96465945
+              }
+            ]
+          },
+          {
+            "confidence": 0.8811268,
+            "lexical": "unit one one page fourteen real conversations",
+            "itn": "unit one one page fourteen real conversations",
+            "maskedITN": "",
+            "display": "unit one one page fourteen real conversations",
+            "words": [
+              {
+                "word": "unit",
+                "offset": "PT0.21S",
+                "duration": "PT0.39S",
+                "offsetInTicks": 2100000.0,
+                "durationInTicks": 3900000.0,
+                "confidence": 0.65881324
+              },
+              {
+                "word": "one",
+                "offset": "PT0.61S",
+                "duration": "PT0.37S",
+                "offsetInTicks": 6100000.0,
+                "durationInTicks": 3700000.0,
+                "confidence": 0.8970882
+              },
+              {
+                "word": "one",
+                "offset": "PT0.99S",
+                "duration": "PT0.19S",
+                "offsetInTicks": 9900000.0,
+                "durationInTicks": 1900000.0,
+                "confidence": 0.94730556
+              },
+              {
+                "word": "page",
+                "offset": "PT1.59S",
+                "duration": "PT0.43S",
+                "offsetInTicks": 15900000.0,
+                "durationInTicks": 4300000.0,
+                "confidence": 0.87512624
+              },
+              {
+                "word": "fourteen",
+                "offset": "PT2.03S",
+                "duration": "PT0.87S",
+                "offsetInTicks": 20300000.0,
+                "durationInTicks": 8700000.0,
+                "confidence": 0.90046096
+              },
+              {
+                "word": "real",
+                "offset": "PT3.45S",
+                "duration": "PT0.41S",
+                "offsetInTicks": 34500000.0,
+                "durationInTicks": 4100000.0,
+                "confidence": 0.8038441
+              },
+              {
+                "word": "conversations",
+                "offset": "PT3.87S",
+                "duration": "PT1.04S",
+                "offsetInTicks": 38700000.0,
+                "durationInTicks": 10400000.0,
+                "confidence": 0.96465945
+              }
+            ]
+          },
+          {
+            "confidence": 0.8440198,
+            "lexical": "unit one page fourteen reel conversations",
+            "itn": "unit one page fourteen reel conversations",
+            "maskedITN": "",
+            "display": "unit one page fourteen reel conversations",
+            "words": [
+              {
+                "word": "unit",
+                "offset": "PT0.21S",
+                "duration": "PT0.39S",
+                "offsetInTicks": 2100000.0,
+                "durationInTicks": 3900000.0,
+                "confidence": 0.65881324
+              },
+              {
+                "word": "one",
+                "offset": "PT0.61S",
+                "duration": "PT0.57S",
+                "offsetInTicks": 6100000.0,
+                "durationInTicks": 5700000.0,
+                "confidence": 0.96764576
+              },
+              {
+                "word": "page",
+                "offset": "PT1.59S",
+                "duration": "PT0.43S",
+                "offsetInTicks": 15900000.0,
+                "durationInTicks": 4300000.0,
+                "confidence": 0.97931385
+              },
+              {
+                "word": "fourteen",
+                "offset": "PT2.03S",
+                "duration": "PT0.87S",
+                "offsetInTicks": 20300000.0,
+                "durationInTicks": 8700000.0,
+                "confidence": 0.90046096
+              },
+              {
+                "word": "reel",
+                "offset": "PT3.45S",
+                "duration": "PT0.41S",
+                "offsetInTicks": 34500000.0,
+                "durationInTicks": 4100000.0,
+                "confidence": 0.30930337
+              },
+              {
+                "word": "conversations",
+                "offset": "PT3.87S",
+                "duration": "PT1.04S",
+                "offsetInTicks": 38700000.0,
+                "durationInTicks": 10400000.0,
+                "confidence": 0.95617497
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "recognitionStatus": "Success",
+        "channel": 1,
+        "offset": "PT6.9S",
+        "duration": "PT10.18S",
+        "offsetInTicks": 69000000.0,
+        "durationInTicks": 101800000.0,
+        "nBest": [
+          {
+            "confidence": 0.6888628,
+            "lexical": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+            "itn": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+            "maskedITN": "",
+            "display": "Hello. Hi. What's your name? Claudia. What's your name? I'm chihiro. Nice to meet you, Chihiro. Yeah, that's right. Where you from?",
+            "words": [
+              {
+                "word": "hello",
+                "offset": "PT6.9S",
+                "duration": "PT0.72S",
+                "offsetInTicks": 69000000.0,
+                "durationInTicks": 7200000.0,
+                "confidence": 0.9404651
+              },
+              {
+                "word": "hi",
+                "offset": "PT7.68S",
+                "duration": "PT0.61S",
+                "offsetInTicks": 76800000.0,
+                "durationInTicks": 6100000.0,
+                "confidence": 0.764767
+              },
+              {
+                "word": "what's",
+                "offset": "PT8.33S",
+                "duration": "PT0.21S",
+                "offsetInTicks": 83300000.0,
+                "durationInTicks": 2100000.0,
+                "confidence": 0.71091104
+              },
+              {
+                "word": "your",
+                "offset": "PT8.55S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 85500000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.98053265
+              },
+              {
+                "word": "name",
+                "offset": "PT8.73S",
+                "duration": "PT0.63S",
+                "offsetInTicks": 87300000.0,
+                "durationInTicks": 6300000.0,
+                "confidence": 0.9751359
+              },
+              {
+                "word": "claudia",
+                "offset": "PT9.41S",
+                "duration": "PT0.94S",
+                "offsetInTicks": 94100000.0,
+                "durationInTicks": 9400000.0,
+                "confidence": 0.55740595
+              },
+              {
+                "word": "what's",
+                "offset": "PT10.65S",
+                "duration": "PT0.31S",
+                "offsetInTicks": 106500000.0,
+                "durationInTicks": 3100000.0,
+                "confidence": 0.7345184
+              },
+              {
+                "word": "your",
+                "offset": "PT10.97S",
+                "duration": "PT0.16S",
+                "offsetInTicks": 109700000.0,
+                "durationInTicks": 1600000.0,
+                "confidence": 0.9614897
+              },
+              {
+                "word": "name",
+                "offset": "PT11.14S",
+                "duration": "PT0.42S",
+                "offsetInTicks": 111400000.0,
+                "durationInTicks": 4200000.0,
+                "confidence": 0.98385394
+              },
+              {
+                "word": "i'm",
+                "offset": "PT11.63S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 116300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.9382659
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT11.81S",
+                "duration": "PT0.89S",
+                "offsetInTicks": 118100000.0,
+                "durationInTicks": 8900000.0,
+                "confidence": 0.3219629
+              },
+              {
+                "word": "nice",
+                "offset": "PT12.77S",
+                "duration": "PT0.35S",
+                "offsetInTicks": 127700000.0,
+                "durationInTicks": 3500000.0,
+                "confidence": 0.7181903
+              },
+              {
+                "word": "to",
+                "offset": "PT13.13S",
+                "duration": "PT0.09S",
+                "offsetInTicks": 131300000.0,
+                "durationInTicks": 900000.0,
+                "confidence": 0.9399165
+              },
+              {
+                "word": "meet",
+                "offset": "PT13.23S",
+                "duration": "PT0.29S",
+                "offsetInTicks": 132300000.0,
+                "durationInTicks": 2900000.0,
+                "confidence": 0.9927058
+              },
+              {
+                "word": "you",
+                "offset": "PT13.53S",
+                "duration": "PT0.49S",
+                "offsetInTicks": 135300000.0,
+                "durationInTicks": 4900000.0,
+                "confidence": 0.97520745
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT14.07S",
+                "duration": "PT1.31S",
+                "offsetInTicks": 140700000.0,
+                "durationInTicks": 13100000.0,
+                "confidence": 0.22000316
+              },
+              {
+                "word": "yeah",
+                "offset": "PT15.43S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 154300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.64264894
+              },
+              {
+                "word": "that's",
+                "offset": "PT15.61S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 156100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.8144009
+              },
+              {
+                "word": "right",
+                "offset": "PT15.85S",
+                "duration": "PT0.45S",
+                "offsetInTicks": 158500000.0,
+                "durationInTicks": 4500000.0,
+                "confidence": 0.95483136
+              },
+              {
+                "word": "where",
+                "offset": "PT16.47S",
+                "duration": "PT0.3S",
+                "offsetInTicks": 164700000.0,
+                "durationInTicks": 3000000.0,
+                "confidence": 0.308034
+              },
+              {
+                "word": "you",
+                "offset": "PT16.78S",
+                "duration": "PT0.15S",
+                "offsetInTicks": 167800000.0,
+                "durationInTicks": 1500000.0,
+                "confidence": 0.89822936
+              },
+              {
+                "word": "from",
+                "offset": "PT16.94S",
                 "duration": "PT0.14S",
-                "offsetInTicks": 168800000.0,
+                "offsetInTicks": 169400000.0,
                 "durationInTicks": 1400000.0,
-                "confidence": 0.9609313
+                "confidence": 0.958267
+              }
+            ]
+          },
+          {
+            "confidence": 0.69395787,
+            "lexical": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where are you from",
+            "itn": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where are you from",
+            "maskedITN": "",
+            "display": "hello hi what's your name claudia what's your name i'm chihiro nice to meet you chihiro yeah that's right where are you from",
+            "words": [
+              {
+                "word": "hello",
+                "offset": "PT6.9S",
+                "duration": "PT0.72S",
+                "offsetInTicks": 69000000.0,
+                "durationInTicks": 7200000.0,
+                "confidence": 0.9404651
+              },
+              {
+                "word": "hi",
+                "offset": "PT7.68S",
+                "duration": "PT0.61S",
+                "offsetInTicks": 76800000.0,
+                "durationInTicks": 6100000.0,
+                "confidence": 0.764767
+              },
+              {
+                "word": "what's",
+                "offset": "PT8.33S",
+                "duration": "PT0.21S",
+                "offsetInTicks": 83300000.0,
+                "durationInTicks": 2100000.0,
+                "confidence": 0.71091104
+              },
+              {
+                "word": "your",
+                "offset": "PT8.55S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 85500000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.98053265
+              },
+              {
+                "word": "name",
+                "offset": "PT8.73S",
+                "duration": "PT0.63S",
+                "offsetInTicks": 87300000.0,
+                "durationInTicks": 6300000.0,
+                "confidence": 0.9751359
+              },
+              {
+                "word": "claudia",
+                "offset": "PT9.41S",
+                "duration": "PT0.94S",
+                "offsetInTicks": 94100000.0,
+                "durationInTicks": 9400000.0,
+                "confidence": 0.55740595
+              },
+              {
+                "word": "what's",
+                "offset": "PT10.65S",
+                "duration": "PT0.31S",
+                "offsetInTicks": 106500000.0,
+                "durationInTicks": 3100000.0,
+                "confidence": 0.7345184
+              },
+              {
+                "word": "your",
+                "offset": "PT10.97S",
+                "duration": "PT0.16S",
+                "offsetInTicks": 109700000.0,
+                "durationInTicks": 1600000.0,
+                "confidence": 0.9614897
+              },
+              {
+                "word": "name",
+                "offset": "PT11.14S",
+                "duration": "PT0.42S",
+                "offsetInTicks": 111400000.0,
+                "durationInTicks": 4200000.0,
+                "confidence": 0.98385394
+              },
+              {
+                "word": "i'm",
+                "offset": "PT11.63S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 116300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.9382659
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT11.81S",
+                "duration": "PT0.89S",
+                "offsetInTicks": 118100000.0,
+                "durationInTicks": 8900000.0,
+                "confidence": 0.3219629
+              },
+              {
+                "word": "nice",
+                "offset": "PT12.77S",
+                "duration": "PT0.35S",
+                "offsetInTicks": 127700000.0,
+                "durationInTicks": 3500000.0,
+                "confidence": 0.7181903
+              },
+              {
+                "word": "to",
+                "offset": "PT13.13S",
+                "duration": "PT0.09S",
+                "offsetInTicks": 131300000.0,
+                "durationInTicks": 900000.0,
+                "confidence": 0.9399165
+              },
+              {
+                "word": "meet",
+                "offset": "PT13.23S",
+                "duration": "PT0.29S",
+                "offsetInTicks": 132300000.0,
+                "durationInTicks": 2900000.0,
+                "confidence": 0.9927058
+              },
+              {
+                "word": "you",
+                "offset": "PT13.53S",
+                "duration": "PT0.49S",
+                "offsetInTicks": 135300000.0,
+                "durationInTicks": 4900000.0,
+                "confidence": 0.97520745
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT14.07S",
+                "duration": "PT1.31S",
+                "offsetInTicks": 140700000.0,
+                "durationInTicks": 13100000.0,
+                "confidence": 0.22000316
+              },
+              {
+                "word": "yeah",
+                "offset": "PT15.43S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 154300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.64264894
+              },
+              {
+                "word": "that's",
+                "offset": "PT15.61S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 156100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.8144009
+              },
+              {
+                "word": "right",
+                "offset": "PT15.85S",
+                "duration": "PT0.45S",
+                "offsetInTicks": 158500000.0,
+                "durationInTicks": 4500000.0,
+                "confidence": 0.95483136
+              },
+              {
+                "word": "where",
+                "offset": "PT16.47S",
+                "duration": "PT0.21S",
+                "offsetInTicks": 164700000.0,
+                "durationInTicks": 2100000.0,
+                "confidence": 0.24186414
+              },
+              {
+                "word": "are",
+                "offset": "PT16.69S",
+                "duration": "PT0.08S",
+                "offsetInTicks": 166900000.0,
+                "durationInTicks": 800000.0,
+                "confidence": 0.9511769
+              },
+              {
+                "word": "you",
+                "offset": "PT16.78S",
+                "duration": "PT0.15S",
+                "offsetInTicks": 167800000.0,
+                "durationInTicks": 1500000.0,
+                "confidence": 0.92687094
+              },
+              {
+                "word": "from",
+                "offset": "PT16.94S",
+                "duration": "PT0.14S",
+                "offsetInTicks": 169400000.0,
+                "durationInTicks": 1400000.0,
+                "confidence": 0.95885396
+              }
+            ]
+          },
+          {
+            "confidence": 0.6816393,
+            "lexical": "hello hi what's your name claudia what's your name i'm chihiro 's nice to meet you chihiro yeah that's right where you from",
+            "itn": "hello hi what's your name claudia what's your name i'm chihiro 's nice to meet you chihiro yeah that's right where you from",
+            "maskedITN": "",
+            "display": "hello hi what's your name claudia what's your name i'm chihiro 's nice to meet you chihiro yeah that's right where you from",
+            "words": [
+              {
+                "word": "hello",
+                "offset": "PT6.9S",
+                "duration": "PT0.72S",
+                "offsetInTicks": 69000000.0,
+                "durationInTicks": 7200000.0,
+                "confidence": 0.9404651
+              },
+              {
+                "word": "hi",
+                "offset": "PT7.68S",
+                "duration": "PT0.61S",
+                "offsetInTicks": 76800000.0,
+                "durationInTicks": 6100000.0,
+                "confidence": 0.764767
+              },
+              {
+                "word": "what's",
+                "offset": "PT8.33S",
+                "duration": "PT0.21S",
+                "offsetInTicks": 83300000.0,
+                "durationInTicks": 2100000.0,
+                "confidence": 0.71091104
+              },
+              {
+                "word": "your",
+                "offset": "PT8.55S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 85500000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.98053265
+              },
+              {
+                "word": "name",
+                "offset": "PT8.73S",
+                "duration": "PT0.63S",
+                "offsetInTicks": 87300000.0,
+                "durationInTicks": 6300000.0,
+                "confidence": 0.9751359
+              },
+              {
+                "word": "claudia",
+                "offset": "PT9.41S",
+                "duration": "PT0.94S",
+                "offsetInTicks": 94100000.0,
+                "durationInTicks": 9400000.0,
+                "confidence": 0.55740595
+              },
+              {
+                "word": "what's",
+                "offset": "PT10.65S",
+                "duration": "PT0.31S",
+                "offsetInTicks": 106500000.0,
+                "durationInTicks": 3100000.0,
+                "confidence": 0.7345184
+              },
+              {
+                "word": "your",
+                "offset": "PT10.97S",
+                "duration": "PT0.16S",
+                "offsetInTicks": 109700000.0,
+                "durationInTicks": 1600000.0,
+                "confidence": 0.9614897
+              },
+              {
+                "word": "name",
+                "offset": "PT11.14S",
+                "duration": "PT0.42S",
+                "offsetInTicks": 111400000.0,
+                "durationInTicks": 4200000.0,
+                "confidence": 0.98385394
+              },
+              {
+                "word": "i'm",
+                "offset": "PT11.63S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 116300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.9382659
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT11.81S",
+                "duration": "PT0.89S",
+                "offsetInTicks": 118100000.0,
+                "durationInTicks": 8900000.0,
+                "confidence": 0.3219629
+              },
+              {
+                "word": "'s",
+                "offset": "PT12.71S",
+                "duration": "PT0.05S",
+                "offsetInTicks": 127100000.0,
+                "durationInTicks": 500000.0,
+                "confidence": 0.11057153
+              },
+              {
+                "word": "nice",
+                "offset": "PT12.77S",
+                "duration": "PT0.35S",
+                "offsetInTicks": 127700000.0,
+                "durationInTicks": 3500000.0,
+                "confidence": 0.6187747
+              },
+              {
+                "word": "to",
+                "offset": "PT13.13S",
+                "duration": "PT0.09S",
+                "offsetInTicks": 131300000.0,
+                "durationInTicks": 900000.0,
+                "confidence": 0.9565423
+              },
+              {
+                "word": "meet",
+                "offset": "PT13.23S",
+                "duration": "PT0.29S",
+                "offsetInTicks": 132300000.0,
+                "durationInTicks": 2900000.0,
+                "confidence": 0.9938594
+              },
+              {
+                "word": "you",
+                "offset": "PT13.53S",
+                "duration": "PT0.49S",
+                "offsetInTicks": 135300000.0,
+                "durationInTicks": 4900000.0,
+                "confidence": 0.97520745
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT14.07S",
+                "duration": "PT1.31S",
+                "offsetInTicks": 140700000.0,
+                "durationInTicks": 13100000.0,
+                "confidence": 0.22000316
+              },
+              {
+                "word": "yeah",
+                "offset": "PT15.43S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 154300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.64264894
+              },
+              {
+                "word": "that's",
+                "offset": "PT15.61S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 156100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.8144009
+              },
+              {
+                "word": "right",
+                "offset": "PT15.85S",
+                "duration": "PT0.45S",
+                "offsetInTicks": 158500000.0,
+                "durationInTicks": 4500000.0,
+                "confidence": 0.95483136
+              },
+              {
+                "word": "where",
+                "offset": "PT16.47S",
+                "duration": "PT0.3S",
+                "offsetInTicks": 164700000.0,
+                "durationInTicks": 3000000.0,
+                "confidence": 0.308034
+              },
+              {
+                "word": "you",
+                "offset": "PT16.78S",
+                "duration": "PT0.15S",
+                "offsetInTicks": 167800000.0,
+                "durationInTicks": 1500000.0,
+                "confidence": 0.89822936
+              },
+              {
+                "word": "from",
+                "offset": "PT16.94S",
+                "duration": "PT0.14S",
+                "offsetInTicks": 169400000.0,
+                "durationInTicks": 1400000.0,
+                "confidence": 0.958267
+              }
+            ]
+          },
+          {
+            "confidence": 0.6641972,
+            "lexical": "hello hi what's your name claudia 's what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+            "itn": "hello hi what's your name claudia 's what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+            "maskedITN": "",
+            "display": "hello hi what's your name claudia 's what's your name i'm chihiro nice to meet you chihiro yeah that's right where you from",
+            "words": [
+              {
+                "word": "hello",
+                "offset": "PT6.9S",
+                "duration": "PT0.72S",
+                "offsetInTicks": 69000000.0,
+                "durationInTicks": 7200000.0,
+                "confidence": 0.9404651
+              },
+              {
+                "word": "hi",
+                "offset": "PT7.68S",
+                "duration": "PT0.61S",
+                "offsetInTicks": 76800000.0,
+                "durationInTicks": 6100000.0,
+                "confidence": 0.764767
+              },
+              {
+                "word": "what's",
+                "offset": "PT8.33S",
+                "duration": "PT0.21S",
+                "offsetInTicks": 83300000.0,
+                "durationInTicks": 2100000.0,
+                "confidence": 0.71091104
+              },
+              {
+                "word": "your",
+                "offset": "PT8.55S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 85500000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.98053265
+              },
+              {
+                "word": "name",
+                "offset": "PT8.73S",
+                "duration": "PT0.63S",
+                "offsetInTicks": 87300000.0,
+                "durationInTicks": 6300000.0,
+                "confidence": 0.9751359
+              },
+              {
+                "word": "claudia",
+                "offset": "PT9.41S",
+                "duration": "PT0.93S",
+                "offsetInTicks": 94100000.0,
+                "durationInTicks": 9300000.0,
+                "confidence": 0.56332505
+              },
+              {
+                "word": "'s",
+                "offset": "PT10.35S",
+                "duration": "PT0.29S",
+                "offsetInTicks": 103500000.0,
+                "durationInTicks": 2900000.0,
+                "confidence": 0.019046128
+              },
+              {
+                "word": "what's",
+                "offset": "PT10.65S",
+                "duration": "PT0.31S",
+                "offsetInTicks": 106500000.0,
+                "durationInTicks": 3100000.0,
+                "confidence": 0.5819235
+              },
+              {
+                "word": "your",
+                "offset": "PT10.97S",
+                "duration": "PT0.16S",
+                "offsetInTicks": 109700000.0,
+                "durationInTicks": 1600000.0,
+                "confidence": 0.974306
+              },
+              {
+                "word": "name",
+                "offset": "PT11.14S",
+                "duration": "PT0.42S",
+                "offsetInTicks": 111400000.0,
+                "durationInTicks": 4200000.0,
+                "confidence": 0.9866793
+              },
+              {
+                "word": "i'm",
+                "offset": "PT11.63S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 116300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.9382659
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT11.81S",
+                "duration": "PT0.89S",
+                "offsetInTicks": 118100000.0,
+                "durationInTicks": 8900000.0,
+                "confidence": 0.3219629
+              },
+              {
+                "word": "nice",
+                "offset": "PT12.77S",
+                "duration": "PT0.35S",
+                "offsetInTicks": 127700000.0,
+                "durationInTicks": 3500000.0,
+                "confidence": 0.7181903
+              },
+              {
+                "word": "to",
+                "offset": "PT13.13S",
+                "duration": "PT0.09S",
+                "offsetInTicks": 131300000.0,
+                "durationInTicks": 900000.0,
+                "confidence": 0.9399165
+              },
+              {
+                "word": "meet",
+                "offset": "PT13.23S",
+                "duration": "PT0.29S",
+                "offsetInTicks": 132300000.0,
+                "durationInTicks": 2900000.0,
+                "confidence": 0.9927058
+              },
+              {
+                "word": "you",
+                "offset": "PT13.53S",
+                "duration": "PT0.49S",
+                "offsetInTicks": 135300000.0,
+                "durationInTicks": 4900000.0,
+                "confidence": 0.97520745
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT14.07S",
+                "duration": "PT1.31S",
+                "offsetInTicks": 140700000.0,
+                "durationInTicks": 13100000.0,
+                "confidence": 0.22000316
+              },
+              {
+                "word": "yeah",
+                "offset": "PT15.43S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 154300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.64264894
+              },
+              {
+                "word": "that's",
+                "offset": "PT15.61S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 156100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.8144009
+              },
+              {
+                "word": "right",
+                "offset": "PT15.85S",
+                "duration": "PT0.45S",
+                "offsetInTicks": 158500000.0,
+                "durationInTicks": 4500000.0,
+                "confidence": 0.95483136
+              },
+              {
+                "word": "where",
+                "offset": "PT16.47S",
+                "duration": "PT0.3S",
+                "offsetInTicks": 164700000.0,
+                "durationInTicks": 3000000.0,
+                "confidence": 0.308034
+              },
+              {
+                "word": "you",
+                "offset": "PT16.78S",
+                "duration": "PT0.15S",
+                "offsetInTicks": 167800000.0,
+                "durationInTicks": 1500000.0,
+                "confidence": 0.89822936
+              },
+              {
+                "word": "from",
+                "offset": "PT16.94S",
+                "duration": "PT0.14S",
+                "offsetInTicks": 169400000.0,
+                "durationInTicks": 1400000.0,
+                "confidence": 0.958267
+              }
+            ]
+          },
+          {
+            "confidence": 0.6867022,
+            "lexical": "hello hi what's your name claudia what's your name i'm chihiro 's nice to meet you chihiro yeah that's right where are you from",
+            "itn": "hello hi what's your name claudia what's your name i'm chihiro 's nice to meet you chihiro yeah that's right where are you from",
+            "maskedITN": "",
+            "display": "hello hi what's your name claudia what's your name i'm chihiro 's nice to meet you chihiro yeah that's right where are you from",
+            "words": [
+              {
+                "word": "hello",
+                "offset": "PT6.9S",
+                "duration": "PT0.72S",
+                "offsetInTicks": 69000000.0,
+                "durationInTicks": 7200000.0,
+                "confidence": 0.9404651
+              },
+              {
+                "word": "hi",
+                "offset": "PT7.68S",
+                "duration": "PT0.61S",
+                "offsetInTicks": 76800000.0,
+                "durationInTicks": 6100000.0,
+                "confidence": 0.764767
+              },
+              {
+                "word": "what's",
+                "offset": "PT8.33S",
+                "duration": "PT0.21S",
+                "offsetInTicks": 83300000.0,
+                "durationInTicks": 2100000.0,
+                "confidence": 0.71091104
+              },
+              {
+                "word": "your",
+                "offset": "PT8.55S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 85500000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.98053265
+              },
+              {
+                "word": "name",
+                "offset": "PT8.73S",
+                "duration": "PT0.63S",
+                "offsetInTicks": 87300000.0,
+                "durationInTicks": 6300000.0,
+                "confidence": 0.9751359
+              },
+              {
+                "word": "claudia",
+                "offset": "PT9.41S",
+                "duration": "PT0.94S",
+                "offsetInTicks": 94100000.0,
+                "durationInTicks": 9400000.0,
+                "confidence": 0.55740595
+              },
+              {
+                "word": "what's",
+                "offset": "PT10.65S",
+                "duration": "PT0.31S",
+                "offsetInTicks": 106500000.0,
+                "durationInTicks": 3100000.0,
+                "confidence": 0.7345184
+              },
+              {
+                "word": "your",
+                "offset": "PT10.97S",
+                "duration": "PT0.16S",
+                "offsetInTicks": 109700000.0,
+                "durationInTicks": 1600000.0,
+                "confidence": 0.9614897
+              },
+              {
+                "word": "name",
+                "offset": "PT11.14S",
+                "duration": "PT0.42S",
+                "offsetInTicks": 111400000.0,
+                "durationInTicks": 4200000.0,
+                "confidence": 0.98385394
+              },
+              {
+                "word": "i'm",
+                "offset": "PT11.63S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 116300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.9382659
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT11.81S",
+                "duration": "PT0.89S",
+                "offsetInTicks": 118100000.0,
+                "durationInTicks": 8900000.0,
+                "confidence": 0.3219629
+              },
+              {
+                "word": "'s",
+                "offset": "PT12.71S",
+                "duration": "PT0.05S",
+                "offsetInTicks": 127100000.0,
+                "durationInTicks": 500000.0,
+                "confidence": 0.11057153
+              },
+              {
+                "word": "nice",
+                "offset": "PT12.77S",
+                "duration": "PT0.35S",
+                "offsetInTicks": 127700000.0,
+                "durationInTicks": 3500000.0,
+                "confidence": 0.6187747
+              },
+              {
+                "word": "to",
+                "offset": "PT13.13S",
+                "duration": "PT0.09S",
+                "offsetInTicks": 131300000.0,
+                "durationInTicks": 900000.0,
+                "confidence": 0.9565423
+              },
+              {
+                "word": "meet",
+                "offset": "PT13.23S",
+                "duration": "PT0.29S",
+                "offsetInTicks": 132300000.0,
+                "durationInTicks": 2900000.0,
+                "confidence": 0.9938594
+              },
+              {
+                "word": "you",
+                "offset": "PT13.53S",
+                "duration": "PT0.49S",
+                "offsetInTicks": 135300000.0,
+                "durationInTicks": 4900000.0,
+                "confidence": 0.97520745
+              },
+              {
+                "word": "chihiro",
+                "offset": "PT14.07S",
+                "duration": "PT1.31S",
+                "offsetInTicks": 140700000.0,
+                "durationInTicks": 13100000.0,
+                "confidence": 0.22000316
+              },
+              {
+                "word": "yeah",
+                "offset": "PT15.43S",
+                "duration": "PT0.17S",
+                "offsetInTicks": 154300000.0,
+                "durationInTicks": 1700000.0,
+                "confidence": 0.64264894
+              },
+              {
+                "word": "that's",
+                "offset": "PT15.61S",
+                "duration": "PT0.23S",
+                "offsetInTicks": 156100000.0,
+                "durationInTicks": 2300000.0,
+                "confidence": 0.8144009
+              },
+              {
+                "word": "right",
+                "offset": "PT15.85S",
+                "duration": "PT0.45S",
+                "offsetInTicks": 158500000.0,
+                "durationInTicks": 4500000.0,
+                "confidence": 0.95483136
+              },
+              {
+                "word": "where",
+                "offset": "PT16.47S",
+                "duration": "PT0.21S",
+                "offsetInTicks": 164700000.0,
+                "durationInTicks": 2100000.0,
+                "confidence": 0.24186414
+              },
+              {
+                "word": "are",
+                "offset": "PT16.69S",
+                "duration": "PT0.08S",
+                "offsetInTicks": 166900000.0,
+                "durationInTicks": 800000.0,
+                "confidence": 0.9511769
+              },
+              {
+                "word": "you",
+                "offset": "PT16.78S",
+                "duration": "PT0.15S",
+                "offsetInTicks": 167800000.0,
+                "durationInTicks": 1500000.0,
+                "confidence": 0.92687094
+              },
+              {
+                "word": "from",
+                "offset": "PT16.94S",
+                "duration": "PT0.14S",
+                "offsetInTicks": 169400000.0,
+                "durationInTicks": 1400000.0,
+                "confidence": 0.95885396
               }
             ]
           }
@@ -285,205 +2616,9 @@
   "standardized_response": {
     "text": "Unit 1, page 14, real conversations. Hello. Hi. What's your name? Claudia. What's your name? I'm chihiro. Nice to meet you, Chihiro. Yeah, that's right. Where you from?",
     "diarization": {
-      "total_speakers": 1,
-      "entries": [
-        {
-          "segment": "unit",
-          "start_time": "0.17",
-          "end_time": "0.56",
-          "speaker": 1,
-          "confidence": 0.67008686
-        },
-        {
-          "segment": "one",
-          "start_time": "0.57",
-          "end_time": "1.14",
-          "speaker": 1,
-          "confidence": 0.96784246
-        },
-        {
-          "segment": "page",
-          "start_time": "1.53",
-          "end_time": "1.98",
-          "speaker": 1,
-          "confidence": 0.9794514
-        },
-        {
-          "segment": "fourteen",
-          "start_time": "1.99",
-          "end_time": "2.84",
-          "speaker": 1,
-          "confidence": 0.90195274
-        },
-        {
-          "segment": "real",
-          "start_time": "3.39",
-          "end_time": "3.8000000000000003",
-          "speaker": 1,
-          "confidence": 0.7830527
-        },
-        {
-          "segment": "conversations",
-          "start_time": "3.81",
-          "end_time": "4.86",
-          "speaker": 1,
-          "confidence": 0.96423733
-        },
-        {
-          "segment": "hello",
-          "start_time": "6.85",
-          "end_time": "7.569999999999999",
-          "speaker": 1,
-          "confidence": 0.9506586
-        },
-        {
-          "segment": "hi",
-          "start_time": "7.63",
-          "end_time": "8.24",
-          "speaker": 1,
-          "confidence": 0.7629032
-        },
-        {
-          "segment": "what's",
-          "start_time": "8.28",
-          "end_time": "8.49",
-          "speaker": 1,
-          "confidence": 0.7019136
-        },
-        {
-          "segment": "your",
-          "start_time": "8.5",
-          "end_time": "8.66",
-          "speaker": 1,
-          "confidence": 0.9794821
-        },
-        {
-          "segment": "name",
-          "start_time": "8.67",
-          "end_time": "9.3",
-          "speaker": 1,
-          "confidence": 0.9812765
-        },
-        {
-          "segment": "claudia",
-          "start_time": "9.35",
-          "end_time": "10.32",
-          "speaker": 1,
-          "confidence": 0.5540923
-        },
-        {
-          "segment": "what's",
-          "start_time": "10.59",
-          "end_time": "10.91",
-          "speaker": 1,
-          "confidence": 0.7124803
-        },
-        {
-          "segment": "your",
-          "start_time": "10.92",
-          "end_time": "11.08",
-          "speaker": 1,
-          "confidence": 0.96313727
-        },
-        {
-          "segment": "name",
-          "start_time": "11.09",
-          "end_time": "11.5",
-          "speaker": 1,
-          "confidence": 0.9862133
-        },
-        {
-          "segment": "i'm",
-          "start_time": "11.57",
-          "end_time": "11.76",
-          "speaker": 1,
-          "confidence": 0.9412626
-        },
-        {
-          "segment": "chihiro",
-          "start_time": "11.77",
-          "end_time": "12.66",
-          "speaker": 1,
-          "confidence": 0.31672636
-        },
-        {
-          "segment": "nice",
-          "start_time": "12.71",
-          "end_time": "13.08",
-          "speaker": 1,
-          "confidence": 0.73674166
-        },
-        {
-          "segment": "to",
-          "start_time": "13.09",
-          "end_time": "13.18",
-          "speaker": 1,
-          "confidence": 0.9453697
-        },
-        {
-          "segment": "meet",
-          "start_time": "13.19",
-          "end_time": "13.479999999999999",
-          "speaker": 1,
-          "confidence": 0.9923939
-        },
-        {
-          "segment": "you",
-          "start_time": "13.49",
-          "end_time": "13.96",
-          "speaker": 1,
-          "confidence": 0.976344
-        },
-        {
-          "segment": "chihiro",
-          "start_time": "14.01",
-          "end_time": "15.34",
-          "speaker": 1,
-          "confidence": 0.2352753
-        },
-        {
-          "segment": "yeah",
-          "start_time": "15.39",
-          "end_time": "15.55",
-          "speaker": 1,
-          "confidence": 0.64124495
-        },
-        {
-          "segment": "that's",
-          "start_time": "15.56",
-          "end_time": "15.780000000000001",
-          "speaker": 1,
-          "confidence": 0.7976506
-        },
-        {
-          "segment": "right",
-          "start_time": "15.79",
-          "end_time": "16.24",
-          "speaker": 1,
-          "confidence": 0.9513746
-        },
-        {
-          "segment": "where",
-          "start_time": "16.41",
-          "end_time": "16.73",
-          "speaker": 1,
-          "confidence": 0.32918867
-        },
-        {
-          "segment": "you",
-          "start_time": "16.74",
-          "end_time": "16.869999999999997",
-          "speaker": 1,
-          "confidence": 0.87535477
-        },
-        {
-          "segment": "from",
-          "start_time": "16.88",
-          "end_time": "17.02",
-          "speaker": 1,
-          "confidence": 0.9609313
-        }
-      ]
+      "total_speakers": 0,
+      "entries": [],
+      "error_message": "Use mono audio files for diarization"
     }
   }
 }

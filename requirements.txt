@@ -456,5 +456,7 @@ zipp==3.10.0
 zope-interface==5.5.1
     # via twisted
 
+python-magic==0.4.27
+
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools

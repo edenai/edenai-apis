@@ -2,9 +2,9 @@
   "extracted_data": {
     "personal_infos": {
       "name": {
-        "raw_name": "Amanda Smith",
-        "first_name": "Amanda",
+        "first_name": "John",
         "last_name": "Smith",
+        "raw_name": "John W. Smith",
         "middle": null,
         "title": null,
         "prefix": null,
@@ -12,28 +12,26 @@
       },
       "address": {
         "formatted_location": null,
-        "postal_code": "",
-        "region": "California",
-        "country": "United States",
+        "postal_code": null,
+        "region": null,
+        "country": null,
         "country_code": null,
         "raw_input_location": null,
-        "street": "Wilshire Boulevard",
+        "street": null,
         "street_number": null,
         "appartment_number": null
       },
-      "self_summary": "",
-      "objective": "To build and maintain a successful role in the world of high fashion modeling.",
+      "self_summary": null,
+      "objective": null,
       "date_of_birth": null,
       "place_of_birth": null,
-      "phones": [
-        "594-348-2740 594-348-2741"
-      ],
+      "phones": [],
       "mails": [
-        "modelgal@aim.com"
+        "jwsmith@colostate.edu"
       ],
       "urls": [],
       "fax": [],
-      "current_profession": "Modelador 3D",
+      "current_profession": null,
       "dateOfBirth": null,
       "gender": null,
       "nationality": null,
@@ -45,75 +43,80 @@
       "entries": []
     },
     "work_experience": {
-      "total_years_experience": "0",
+      "total_years_experience": null,
       "entries": [
         {
-          "title": "Featured Model",
-          "start_date": null,
-          "end_date": "2007-12-01",
-          "company": null,
+          "title": "Counseling Supervisor",
+          "start_date": "1999-01-01",
+          "end_date": "2002-01-01",
+          "company": "The Wesley Center",
           "location": {
             "formatted_location": null,
-            "postal_code": "",
-            "region": "California",
-            "country": "United States",
-            "country_code": null,
+            "postal_code": null,
+            "region": "Arkansas",
+            "country": null,
+            "country_code": "US",
             "raw_input_location": null,
             "street": null,
             "street_number": null,
             "appartment_number": null
           },
-          "description": ". Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 . Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 . Fashion Show: Macy's NYC Fashion Show New York, December 2006 . Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006 ",
+          "description": null,
           "industry": null
+        },
+        {
+          "title": "Client Specialist",
+          "start_date": "1997-01-01",
+          "end_date": "1999-01-01",
+          "company": "Rainbow Special Care Center",
+          "location": {
+            "formatted_location": null,
+            "postal_code": null,
+            "region": "Arkansas",
+            "country": null,
+            "country_code": "US",
+            "raw_input_location": null,
+            "street": null,
+            "street_number": null,
+            "appartment_number": null
+          },
+          "description": null,
+          "industry": null
+        },
+        {
+          "title": "Teacher's Assistant",
+          "start_date": "1996-01-01",
+          "end_date": "1997-01-01",
+          "company": "Cowell Elementary",
+          "location": {
+            "formatted_location": null,
+            "postal_code": null,
+            "region": "Arkansas",
+            "country": null,
+            "country_code": "US",
+            "raw_input_location": null,
+            "street": null,
+            "street_number": null,
+            "appartment_number": null
+          },
+          "description": null,
+          "industry": "academia"
         }
       ]
     },
-    "languages": [
-      {
-        "name": "Spanish",
-        "code": null
-      },
-      {
-        "name": "Hawaiian",
-        "code": null
-      },
-      {
-        "name": "Italian",
-        "code": null
-      },
-      {
-        "name": "English",
-        "code": null
-      },
-      {
-        "name": "French",
-        "code": null
-      }
-    ],
+    "languages": [],
     "skills": [
       {
-        "name": "Microsoft Excel",
-        "type": "soft"
+        "name": "Financial",
+        "type": "unknown"
       },
       {
-        "name": "Opera (Web Browser)",
-        "type": "hard"
+        "name": "Health Care Industry",
+        "type": "unknown"
       },
       {
-        "name": "Agile Software Development",
-        "type": "hard"
-      },
-      {
-        "name": "Jazz",
-        "type": "hard"
-      },
-      {
-        "name": "Aerobics",
-        "type": "hard"
-      },
-      {
-        "name": "Ballet",
-        "type": "hard"
+        "name": "Planning",
+        "type": "unknown"
       }
     ],
     "certifications": [],
