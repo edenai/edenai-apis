@@ -32,10 +32,3 @@ jobs:
       - name: Run Test suite
         run: |
           pytest -vvv -s -n auto --maxprocesses=8
-
-      - name: generate doc
-        run: |
-          sphinx-apidoc -o .docsrc/_build/ edenai-apis/
-          cd .docsrc
-          make html
-          cp -r _build/html/* ../docs/
