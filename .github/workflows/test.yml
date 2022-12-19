@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - master
-      - staging
 
 jobs:
   test:
@@ -32,3 +31,27 @@ jobs:
       - name: Run Test suite
         run: |
           pytest -vvv -s -n auto --maxprocesses=8
+      - name: generate doc
+        run: |
+          cd .docsrc
+          sphinx-apidoc -o _build/ ../edenai_apis/
+          make html
+          cp -r _build/html/* ../docs/
+
+  generate_doc_and_deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'docs/'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
