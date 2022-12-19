@@ -15,7 +15,8 @@
                     "nl",
                     "hi",
                     "ja"
-                ]
+                ],
+                "allow_null_language": true
             },
             "version": "v9"
         }

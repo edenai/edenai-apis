@@ -1,0 +1,703 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "rld0irgiy7-4605-4c8e-b1ce-cd8393c14f70",
+  "original_response": {
+    "id": "rld0irgiy7-4605-4c8e-b1ce-cd8393c14f70",
+    "language_model": "assemblyai_default",
+    "acoustic_model": "assemblyai_default",
+    "language_code": "en_us",
+    "status": "completed",
+    "audio_url": "https://716b4c0d6f124c75be2049d329cd0783.s3.eu-west-1.amazonaws.com/1671464121_conversation.mp3",
+    "text": "Unit one, page 14. Real conversations. Hello. Hi. What's your name? Claudia. What's your name? I'm Chihiro. Nice to meet you, Chihiro. Yeah, that's right. Where are you from?",
+    "words": [
+      {
+        "text": "Unit",
+        "start": 250,
+        "end": 586,
+        "confidence": 1.0,
+        "speaker": "A"
+      },
+      {
+        "text": "one,",
+        "start": 618,
+        "end": 1246,
+        "confidence": 1.0,
+        "speaker": "A"
+      },
+      {
+        "text": "page",
+        "start": 1428,
+        "end": 1870,
+        "confidence": 0.99872,
+        "speaker": "A"
+      },
+      {
+        "text": "14.",
+        "start": 1940,
+        "end": 2750,
+        "confidence": 0.94,
+        "speaker": "A"
+      },
+      {
+        "text": "Real",
+        "start": 3250,
+        "end": 3710,
+        "confidence": 0.88,
+        "speaker": "A"
+      },
+      {
+        "text": "conversations.",
+        "start": 3780,
+        "end": 4750,
+        "confidence": 0.7266,
+        "speaker": "A"
+      },
+      {
+        "text": "Hello.",
+        "start": 6690,
+        "end": 7390,
+        "confidence": 0.93878,
+        "speaker": "B"
+      },
+      {
+        "text": "Hi.",
+        "start": 7540,
+        "end": 8046,
+        "confidence": 0.99357,
+        "speaker": "B"
+      },
+      {
+        "text": "What's",
+        "start": 8148,
+        "end": 8458,
+        "confidence": 0.68777,
+        "speaker": "B"
+      },
+      {
+        "text": "your",
+        "start": 8474,
+        "end": 8606,
+        "confidence": 0.98371,
+        "speaker": "B"
+      },
+      {
+        "text": "name?",
+        "start": 8628,
+        "end": 9150,
+        "confidence": 1.0,
+        "speaker": "B"
+      },
+      {
+        "text": "Claudia.",
+        "start": 9300,
+        "end": 10266,
+        "confidence": 0.99562,
+        "speaker": "B"
+      },
+      {
+        "text": "What's",
+        "start": 10458,
+        "end": 10858,
+        "confidence": 0.987,
+        "speaker": "B"
+      },
+      {
+        "text": "your",
+        "start": 10874,
+        "end": 11054,
+        "confidence": 0.67029,
+        "speaker": "B"
+      },
+      {
+        "text": "name?",
+        "start": 11092,
+        "end": 11390,
+        "confidence": 1.0,
+        "speaker": "B"
+      },
+      {
+        "text": "I'm",
+        "start": 11460,
+        "end": 11706,
+        "confidence": 0.91851,
+        "speaker": "B"
+      },
+      {
+        "text": "Chihiro.",
+        "start": 11738,
+        "end": 12554,
+        "confidence": 0.3871,
+        "speaker": "B"
+      },
+      {
+        "text": "Nice",
+        "start": 12682,
+        "end": 12974,
+        "confidence": 0.99995,
+        "speaker": "B"
+      },
+      {
+        "text": "to",
+        "start": 13012,
+        "end": 13166,
+        "confidence": 0.88,
+        "speaker": "B"
+      },
+      {
+        "text": "meet",
+        "start": 13188,
+        "end": 13374,
+        "confidence": 0.99855,
+        "speaker": "B"
+      },
+      {
+        "text": "you,",
+        "start": 13412,
+        "end": 13902,
+        "confidence": 0.99545,
+        "speaker": "B"
+      },
+      {
+        "text": "Chihiro.",
+        "start": 14036,
+        "end": 15242,
+        "confidence": 0.28991,
+        "speaker": "B"
+      },
+      {
+        "text": "Yeah,",
+        "start": 15306,
+        "end": 15534,
+        "confidence": 0.77969,
+        "speaker": "B"
+      },
+      {
+        "text": "that's",
+        "start": 15572,
+        "end": 15786,
+        "confidence": 0.97781,
+        "speaker": "B"
+      },
+      {
+        "text": "right.",
+        "start": 15818,
+        "end": 16254,
+        "confidence": 0.99923,
+        "speaker": "B"
+      },
+      {
+        "text": "Where",
+        "start": 16372,
+        "end": 16606,
+        "confidence": 0.50608,
+        "speaker": "B"
+      },
+      {
+        "text": "are",
+        "start": 16628,
+        "end": 16706,
+        "confidence": 0.51734,
+        "speaker": "B"
+      },
+      {
+        "text": "you",
+        "start": 16708,
+        "end": 16790,
+        "confidence": 0.56108,
+        "speaker": "B"
+      },
+      {
+        "text": "from?",
+        "start": 16800,
+        "end": 16860,
+        "confidence": 0.99711,
+        "speaker": "B"
+      }
+    ],
+    "utterances": [
+      {
+        "confidence": 0.92422,
+        "end": 4750,
+        "speaker": "A",
+        "start": 250,
+        "text": "Unit one, page 14. Real conversations.",
+        "words": [
+          {
+            "text": "Unit",
+            "start": 250,
+            "end": 586,
+            "confidence": 1.0,
+            "speaker": "A"
+          },
+          {
+            "text": "one,",
+            "start": 618,
+            "end": 1246,
+            "confidence": 1.0,
+            "speaker": "A"
+          },
+          {
+            "text": "page",
+            "start": 1428,
+            "end": 1870,
+            "confidence": 0.99872,
+            "speaker": "A"
+          },
+          {
+            "text": "14.",
+            "start": 1940,
+            "end": 2750,
+            "confidence": 0.94,
+            "speaker": "A"
+          },
+          {
+            "text": "Real",
+            "start": 3250,
+            "end": 3710,
+            "confidence": 0.88,
+            "speaker": "A"
+          },
+          {
+            "text": "conversations.",
+            "start": 3780,
+            "end": 4750,
+            "confidence": 0.7266,
+            "speaker": "A"
+          }
+        ]
+      },
+      {
+        "confidence": 0.8288934782608698,
+        "end": 16860,
+        "speaker": "B",
+        "start": 6690,
+        "text": "Hello. Hi. What's your name? Claudia. What's your name? I'm Chihiro. Nice to meet you, Chihiro. Yeah, that's right. Where are you from?",
+        "words": [
+          {
+            "text": "Hello.",
+            "start": 6690,
+            "end": 7390,
+            "confidence": 0.93878,
+            "speaker": "B"
+          },
+          {
+            "text": "Hi.",
+            "start": 7540,
+            "end": 8046,
+            "confidence": 0.99357,
+            "speaker": "B"
+          },
+          {
+            "text": "What's",
+            "start": 8148,
+            "end": 8458,
+            "confidence": 0.68777,
+            "speaker": "B"
+          },
+          {
+            "text": "your",
+            "start": 8474,
+            "end": 8606,
+            "confidence": 0.98371,
+            "speaker": "B"
+          },
+          {
+            "text": "name?",
+            "start": 8628,
+            "end": 9150,
+            "confidence": 1.0,
+            "speaker": "B"
+          },
+          {
+            "text": "Claudia.",
+            "start": 9300,
+            "end": 10266,
+            "confidence": 0.99562,
+            "speaker": "B"
+          },
+          {
+            "text": "What's",
+            "start": 10458,
+            "end": 10858,
+            "confidence": 0.987,
+            "speaker": "B"
+          },
+          {
+            "text": "your",
+            "start": 10874,
+            "end": 11054,
+            "confidence": 0.67029,
+            "speaker": "B"
+          },
+          {
+            "text": "name?",
+            "start": 11092,
+            "end": 11390,
+            "confidence": 1.0,
+            "speaker": "B"
+          },
+          {
+            "text": "I'm",
+            "start": 11460,
+            "end": 11706,
+            "confidence": 0.91851,
+            "speaker": "B"
+          },
+          {
+            "text": "Chihiro.",
+            "start": 11738,
+            "end": 12554,
+            "confidence": 0.3871,
+            "speaker": "B"
+          },
+          {
+            "text": "Nice",
+            "start": 12682,
+            "end": 12974,
+            "confidence": 0.99995,
+            "speaker": "B"
+          },
+          {
+            "text": "to",
+            "start": 13012,
+            "end": 13166,
+            "confidence": 0.88,
+            "speaker": "B"
+          },
+          {
+            "text": "meet",
+            "start": 13188,
+            "end": 13374,
+            "confidence": 0.99855,
+            "speaker": "B"
+          },
+          {
+            "text": "you,",
+            "start": 13412,
+            "end": 13902,
+            "confidence": 0.99545,
+            "speaker": "B"
+          },
+          {
+            "text": "Chihiro.",
+            "start": 14036,
+            "end": 15242,
+            "confidence": 0.28991,
+            "speaker": "B"
+          },
+          {
+            "text": "Yeah,",
+            "start": 15306,
+            "end": 15534,
+            "confidence": 0.77969,
+            "speaker": "B"
+          },
+          {
+            "text": "that's",
+            "start": 15572,
+            "end": 15786,
+            "confidence": 0.97781,
+            "speaker": "B"
+          },
+          {
+            "text": "right.",
+            "start": 15818,
+            "end": 16254,
+            "confidence": 0.99923,
+            "speaker": "B"
+          },
+          {
+            "text": "Where",
+            "start": 16372,
+            "end": 16606,
+            "confidence": 0.50608,
+            "speaker": "B"
+          },
+          {
+            "text": "are",
+            "start": 16628,
+            "end": 16706,
+            "confidence": 0.51734,
+            "speaker": "B"
+          },
+          {
+            "text": "you",
+            "start": 16708,
+            "end": 16790,
+            "confidence": 0.56108,
+            "speaker": "B"
+          },
+          {
+            "text": "from?",
+            "start": 16800,
+            "end": 16860,
+            "confidence": 0.99711,
+            "speaker": "B"
+          }
+        ]
+      }
+    ],
+    "confidence": 0.848616206896552,
+    "audio_duration": 17,
+    "punctuate": true,
+    "format_text": true,
+    "dual_channel": null,
+    "webhook_url": null,
+    "webhook_status_code": null,
+    "webhook_auth": false,
+    "webhook_auth_header_name": null,
+    "speed_boost": false,
+    "auto_highlights_result": null,
+    "auto_highlights": false,
+    "audio_start_from": null,
+    "audio_end_at": null,
+    "word_boost": [],
+    "boost_param": null,
+    "filter_profanity": false,
+    "redact_pii": false,
+    "redact_pii_audio": false,
+    "redact_pii_audio_quality": null,
+    "redact_pii_policies": null,
+    "redact_pii_sub": null,
+    "speaker_labels": true,
+    "content_safety": false,
+    "iab_categories": false,
+    "content_safety_labels": {
+      "status": "unavailable",
+      "results": [],
+      "summary": {}
+    },
+    "iab_categories_result": {
+      "status": "unavailable",
+      "results": [],
+      "summary": {}
+    },
+    "language_detection": false,
+    "custom_spelling": null,
+    "cluster_id": null,
+    "throttled": null,
+    "auto_chapters": false,
+    "summarization": false,
+    "summary_type": null,
+    "summary_model": null,
+    "disfluencies": false,
+    "sentiment_analysis": false,
+    "chapters": null,
+    "sentiment_analysis_results": null,
+    "entity_detection": false,
+    "entities": null,
+    "summary": null
+  },
+  "standardized_response": {
+    "text": "Unit one, page 14. Real conversations. Hello. Hi. What's your name? Claudia. What's your name? I'm Chihiro. Nice to meet you, Chihiro. Yeah, that's right. Where are you from?",
+    "diarization": {
+      "total_speakers": 2,
+      "entries": [
+        {
+          "segment": "Unit",
+          "start_time": "0.25",
+          "end_time": "0.586",
+          "speaker": 1,
+          "confidence": 1.0
+        },
+        {
+          "segment": "one,",
+          "start_time": "0.618",
+          "end_time": "1.246",
+          "speaker": 1,
+          "confidence": 1.0
+        },
+        {
+          "segment": "page",
+          "start_time": "1.428",
+          "end_time": "1.87",
+          "speaker": 1,
+          "confidence": 0.99872
+        },
+        {
+          "segment": "14.",
+          "start_time": "1.94",
+          "end_time": "2.75",
+          "speaker": 1,
+          "confidence": 0.94
+        },
+        {
+          "segment": "Real",
+          "start_time": "3.25",
+          "end_time": "3.71",
+          "speaker": 1,
+          "confidence": 0.88
+        },
+        {
+          "segment": "conversations.",
+          "start_time": "3.78",
+          "end_time": "4.75",
+          "speaker": 1,
+          "confidence": 0.7266
+        },
+        {
+          "segment": "Hello.",
+          "start_time": "6.69",
+          "end_time": "7.39",
+          "speaker": 2,
+          "confidence": 0.93878
+        },
+        {
+          "segment": "Hi.",
+          "start_time": "7.54",
+          "end_time": "8.046",
+          "speaker": 2,
+          "confidence": 0.99357
+        },
+        {
+          "segment": "What's",
+          "start_time": "8.148",
+          "end_time": "8.458",
+          "speaker": 2,
+          "confidence": 0.68777
+        },
+        {
+          "segment": "your",
+          "start_time": "8.474",
+          "end_time": "8.606",
+          "speaker": 2,
+          "confidence": 0.98371
+        },
+        {
+          "segment": "name?",
+          "start_time": "8.628",
+          "end_time": "9.15",
+          "speaker": 2,
+          "confidence": 1.0
+        },
+        {
+          "segment": "Claudia.",
+          "start_time": "9.3",
+          "end_time": "10.266",
+          "speaker": 2,
+          "confidence": 0.99562
+        },
+        {
+          "segment": "What's",
+          "start_time": "10.458",
+          "end_time": "10.858",
+          "speaker": 2,
+          "confidence": 0.987
+        },
+        {
+          "segment": "your",
+          "start_time": "10.874",
+          "end_time": "11.054",
+          "speaker": 2,
+          "confidence": 0.67029
+        },
+        {
+          "segment": "name?",
+          "start_time": "11.092",
+          "end_time": "11.39",
+          "speaker": 2,
+          "confidence": 1.0
+        },
+        {
+          "segment": "I'm",
+          "start_time": "11.46",
+          "end_time": "11.706",
+          "speaker": 2,
+          "confidence": 0.91851
+        },
+        {
+          "segment": "Chihiro.",
+          "start_time": "11.738",
+          "end_time": "12.554",
+          "speaker": 2,
+          "confidence": 0.3871
+        },
+        {
+          "segment": "Nice",
+          "start_time": "12.682",
+          "end_time": "12.974",
+          "speaker": 2,
+          "confidence": 0.99995
+        },
+        {
+          "segment": "to",
+          "start_time": "13.012",
+          "end_time": "13.166",
+          "speaker": 2,
+          "confidence": 0.88
+        },
+        {
+          "segment": "meet",
+          "start_time": "13.188",
+          "end_time": "13.374",
+          "speaker": 2,
+          "confidence": 0.99855
+        },
+        {
+          "segment": "you,",
+          "start_time": "13.412",
+          "end_time": "13.902",
+          "speaker": 2,
+          "confidence": 0.99545
+        },
+        {
+          "segment": "Chihiro.",
+          "start_time": "14.036",
+          "end_time": "15.242",
+          "speaker": 2,
+          "confidence": 0.28991
+        },
+        {
+          "segment": "Yeah,",
+          "start_time": "15.306",
+          "end_time": "15.534",
+          "speaker": 2,
+          "confidence": 0.77969
+        },
+        {
+          "segment": "that's",
+          "start_time": "15.572",
+          "end_time": "15.786",
+          "speaker": 2,
+          "confidence": 0.97781
+        },
+        {
+          "segment": "right.",
+          "start_time": "15.818",
+          "end_time": "16.254",
+          "speaker": 2,
+          "confidence": 0.99923
+        },
+        {
+          "segment": "Where",
+          "start_time": "16.372",
+          "end_time": "16.606",
+          "speaker": 2,
+          "confidence": 0.50608
+        },
+        {
+          "segment": "are",
+          "start_time": "16.628",
+          "end_time": "16.706",
+          "speaker": 2,
+          "confidence": 0.51734
+        },
+        {
+          "segment": "you",
+          "start_time": "16.708",
+          "end_time": "16.79",
+          "speaker": 2,
+          "confidence": 0.56108
+        },
+        {
+          "segment": "from?",
+          "start_time": "16.8",
+          "end_time": "16.86",
+          "speaker": 2,
+          "confidence": 0.99711
+        }
+      ],
+      "error_message": null
+    }
+  }
+}
