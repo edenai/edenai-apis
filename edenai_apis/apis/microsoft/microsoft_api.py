@@ -918,9 +918,6 @@ class MicrosoftApi(
                 },
             },
         )
-        get_url = response.headers["operation-location"]
-        resp = requests.get(url=get_url, headers=self.headers["text"])
-        data = resp.json()
         
         if response.status_code != 202:
             err = response.json().get("error", {})
