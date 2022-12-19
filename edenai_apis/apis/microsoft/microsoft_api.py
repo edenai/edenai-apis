@@ -1139,25 +1139,26 @@ class MicrosoftApi(
                     if response.status_code != 200:
                         error = original_response.get("message")
                         raise ProviderException(error)
-                    data = original_response["combinedRecognizedPhrases"][0]
-                    text += data["display"]
-                    for recognized_status in original_response["recognizedPhrases"]:
-                        if recognized_status["recognitionStatus"] == "Success":
-                            if "speaker" in recognized_status:
-                                speaker = recognized_status["speaker"]
-                                for word_info in recognized_status["nBest"][0]["words"]:
-                                    speakers.add(speaker)
-                                    start_time = convert_pt_date_to_string(word_info["offset"])
-                                    end_time = start_time+ convert_pt_date_to_string(word_info["duration"])
-                                    diarization_entries.append(
-                                        SpeechDiarizationEntry(
-                                            segment= word_info["word"],
-                                            speaker=speaker,
-                                            start_time= str(start_time),
-                                            end_time= str(end_time),
-                                            confidence= float(word_info["confidence"])
+                    if original_response["combinedRecognizedPhrases"] and len(original_response["combinedRecognizedPhrases"]) >0:
+                        data = original_response["combinedRecognizedPhrases"][0]
+                        text += data["display"]
+                        for recognized_status in original_response["recognizedPhrases"]:
+                            if recognized_status["recognitionStatus"] == "Success":
+                                if "speaker" in recognized_status:
+                                    speaker = recognized_status["speaker"]
+                                    for word_info in recognized_status["nBest"][0]["words"]:
+                                        speakers.add(speaker)
+                                        start_time = convert_pt_date_to_string(word_info["offset"])
+                                        end_time = start_time+ convert_pt_date_to_string(word_info["duration"])
+                                        diarization_entries.append(
+                                            SpeechDiarizationEntry(
+                                                segment= word_info["word"],
+                                                speaker=speaker,
+                                                start_time= str(start_time),
+                                                end_time= str(end_time),
+                                                confidence= float(word_info["confidence"])
+                                            )
                                         )
-                                    )
                 
                 diarization = SpeechDiarization(total_speakers=len(speakers), entries= diarization_entries)
                 if len(speakers) == 0:
