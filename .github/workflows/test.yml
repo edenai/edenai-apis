@@ -32,3 +32,9 @@ jobs:
       - name: Run Test suite
         run: |
           pytest -vvv -s -n auto --maxprocesses=8
+
+      - name: generate doc
+        run: |
+          cd .docsrc
+          make html
+          cp -r _build/html/* ../docs/
