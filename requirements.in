@@ -12,6 +12,10 @@ PyPDF2
 sagemaker
 setuptools
 
+#doc
+sphinx
+furo
+
 #postgres
 psycopg2
 
