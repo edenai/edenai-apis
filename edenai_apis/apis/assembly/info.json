@@ -1,0 +1,23 @@
+{
+    "audio" : {
+        "speech_to_text_async" : {
+            "constraints": {
+                "languages": [
+                    "en",
+                    "en-AU",
+                    "en-UK",
+                    "en-US",
+                    "en",
+                    "fr",
+                    "de",
+                    "it",
+                    "pt",
+                    "nl",
+                    "hi",
+                    "ja"
+                ]
+            },
+            "version": "v9"
+        }
+    }
+}
