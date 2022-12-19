@@ -36,5 +36,6 @@ jobs:
       - name: generate doc
         run: |
           cd .docsrc
+          sphinx-apidoc -o _build/ ../edenai-apis/
           make html
           cp -r _build/html/* ../docs/
