@@ -348,6 +348,8 @@ python-dateutil==2.8.2
     #   ibm-watson
     #   pandas
     #   watson-developer-cloud
+python-magic==0.4.27
+    # via -r requirements.in
 pytz==2022.6
     # via
     #   babel
@@ -455,8 +457,6 @@ zipp==3.10.0
     # via importlib-metadata
 zope-interface==5.5.1
     # via twisted
-
-python-magic==0.4.27
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
