@@ -211,7 +211,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 x_min, x_max = min(x_min, normalize_vertice.get("x", 0)), max(
                     x_max, normalize_vertice.get("x", 0)
                 )
-                y_min, y_max = min(y_min, normalize_vertice["y"]), max(
+                y_min, y_max = min(y_min, normalize_vertice.get("y",0)), max(
                     y_max, normalize_vertice.get("y", 0)
                 )
                 items.append(
