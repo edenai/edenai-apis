@@ -1,11 +1,17 @@
 # .github/workflows/app.yaml
-name: Tests
+name: Run tests then deploy documentation
 on:
   workflow_dispatch:
   pull_request:
   push:
     branches:
       - master
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   test:
@@ -39,6 +45,7 @@ jobs:
           cp -r _build/html/* ../docs/
 
   generate_doc_and_deploy:
+    needs: test
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
