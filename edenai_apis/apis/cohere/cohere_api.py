@@ -26,9 +26,9 @@ class CohereApi(ProviderApi, Text):
 
     def text__generation(
         self, text : str, 
+        max_tokens : int,
+        temperature :float,
         model : Optional[str]= 'xlarge',
-        max_tokens : Optional[int] = 250,
-        temperature : Optional[int] = 0,
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.base_url}generate"
         

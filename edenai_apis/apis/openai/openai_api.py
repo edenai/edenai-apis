@@ -373,12 +373,12 @@ class OpenaiApi(ProviderApi, Text):
         
     def text__generation(
         self, text : str, 
-        model : Optional[str]= 'text-davinci-003', 
-        temperature : Optional[int] = 0, 
-        max_tokens : Optional[int] = 250,
+        temperature : float, 
+        max_tokens : int,
+        model : Optional[str] = 'text-davinci-003',
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.url}/completions"
-        
+               
         payload = {
             "prompt": text,
             "model" : model,
