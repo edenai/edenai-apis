@@ -375,11 +375,13 @@ class OpenaiApi(ProviderApi, Text):
         self, text : str, 
         temperature : float, 
         max_tokens : int,
-        model : Optional[str]
+        model : Optional[str] = None,
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.url}/completions"
+        
         if not model :
             model = 'text-davinci-003'
+            
         payload = {
             "prompt": text,
             "model" : model,

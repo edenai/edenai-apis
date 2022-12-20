@@ -28,9 +28,10 @@ class CohereApi(ProviderApi, Text):
         self, text : str, 
         max_tokens : int,
         temperature :float,
-        model : Optional[str],
+        model : Optional[str] = None,
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.base_url}generate"
+        
         if not model:
             model = 'xlarge'
             
