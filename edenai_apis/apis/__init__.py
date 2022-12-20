@@ -28,5 +28,6 @@ from .phedone import PhedoneApi
 from .voxist import VoxistApi
 from .modernmt import ModernmtApi
 from .hireability import HireabilityApi
+from .cohere import CohereApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

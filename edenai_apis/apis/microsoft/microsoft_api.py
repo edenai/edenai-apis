@@ -918,6 +918,7 @@ class MicrosoftApi(
                 },
             },
         )
+        
         if response.status_code != 202:
             err = response.json().get("error", {})
             error_msg = err.get("message", "Microsoft Azure couldn't create job")
@@ -928,7 +929,7 @@ class MicrosoftApi(
             raise ProviderException("Microsoft Azure couldn't create job")
 
         get_response = requests.get(url=get_url, headers=self.headers["text"])
-        if response.status_code != 200:
+        if get_response.status_code != 200:
             err = get_response.json().get("error", {})
             error_msg = err.get("message", "Microsoft Azure couldn't fetch job")
             raise ProviderException(error_msg)

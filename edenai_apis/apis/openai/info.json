@@ -48,6 +48,9 @@
           "allow_null_language": true
       },
       "version": "v1"
+    },
+    "generation" : {
+      "version": "v1"
     }
   },
   "translation": {

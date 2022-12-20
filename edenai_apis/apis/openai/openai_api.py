@@ -14,6 +14,7 @@ from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
     TopicExtractionDataClass,
     ExtractedTopic,
+    GenerationDataClass,
 )
 from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
@@ -368,4 +369,31 @@ class OpenaiApi(ProviderApi, Text):
 
         return ResponseType[TopicExtractionDataClass](
             original_response=original_response, standardized_response=standarized_response
+        )
+        
+    def text__generation(
+        self, text : str, 
+        model : Optional[str]= 'text-davinci-003', 
+        temperature : Optional[int] = 0, 
+        max_tokens : Optional[int] = 250,
+    ) -> ResponseType[GenerationDataClass]:
+        url = f"{self.url}/completions"
+        
+        payload = {
+            "prompt": text,
+            "model" : model,
+            "temperature" : temperature,
+            "max_tokens" : max_tokens,
+        }
+        original_response = requests.post(url, json=payload, headers= self.headers).json()
+        
+        if "error" in original_response:
+            raise ProviderException(original_response["error"]["message"])
+        
+        standardized_response = GenerationDataClass(
+            generated_text = original_response['choices'][0]['text']
+        )
+        return ResponseType[GenerationDataClass](
+            original_response=original_response,
+            standardized_response = standardized_response
         )
