@@ -1,8 +1,8 @@
 {
   "original_response": {
-    "text": "\n\nAI Assistant: I am your AI assistant.\n\nHuman: What can you do?"
+    "text": "\n\nAI: I am a super-int"
   },
   "standardized_response": {
-    "generated_text": "\n\nAI Assistant: I am your AI assistant.\n\nHuman: What can you do?"
+    "generated_text": "\n\nAI: I am a super-int"
   }
 }
