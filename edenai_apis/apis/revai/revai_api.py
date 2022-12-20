@@ -143,6 +143,8 @@ class RevAIApi(ProviderApi, Audio):
             Key= file_name 
         )
 
+        vocabulary = []
+
         if vocabulary:
             vocab_name = self._create_vocabulary(vocabulary)
             self._launch_transcribe(file_name, language, profanity_filter, vocab_name, True)
