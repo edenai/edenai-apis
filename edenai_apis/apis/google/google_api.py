@@ -1235,10 +1235,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         attributs = FaceAttributes(
                             headwear=attribute_dict.get("headwear"),
                             frontal_gaze=attribute_dict.get("looking_at_camera"),
-                            eyes_visible=attribute_dict["eyes_visible"],
-                            glasses=attribute_dict["glasses"],
-                            mouth_open=attribute_dict["mouth_open"],
-                            smiling=attribute_dict["smiling"],
+                            eyes_visible=attribute_dict.get("eyes_visible"),
+                            glasses=attribute_dict.get("glasses"),
+                            mouth_open=attribute_dict.get("mouth_open"),
+                            smiling=attribute_dict.get("smiling"),
                         )
                         face = VideoFace(
                             offset=timestamp,

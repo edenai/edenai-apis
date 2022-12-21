@@ -1228,13 +1228,11 @@ class AmazonApi(
                 timestamp = float(label.get("Timestamp")) / 1000.0  # convert to seconds
                 if label.get("ParentName"):
                     category = label.get("ParentName", label.get("Name"))
-
-
-                moderated_content.append(
-                    ContentNSFW(
-                        timestamp=timestamp, confidence=confidence, category=category
+                    moderated_content.append(
+                        ContentNSFW(
+                            timestamp=timestamp, confidence=confidence, category=category
+                        )
                     )
-                )
             standardized_response = ExplicitContentDetectionAsyncDataClass(
                 moderation=moderated_content
             )
