@@ -11,6 +11,11 @@ pydub
 PyPDF2
 sagemaker
 setuptools
+python-magic
+
+#doc
+sphinx
+furo
 
 #postgres
 psycopg2

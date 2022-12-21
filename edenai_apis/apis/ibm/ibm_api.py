@@ -160,9 +160,16 @@ class IbmApi(
         :return:
         """
 
+        option = option.upper()
         # Formatting (option, language) to voice id supported by IBM API
         voiceid = audio_voices_ids[language][option]
-
+        # if one model is not supported for a language
+        if not voiceid:
+            option_supported = (
+                "MALE" if option == "FEMALE"
+                else "FEMALE"
+            )
+            raise ProviderException(f"Only {option_supported} voice is available for the {language} language code")
         response = (
             self.clients["texttospeech"]
             .synthesize(text=text, accept="audio/mp3", voice=voiceid)

@@ -1,15 +1,15 @@
 {
   "status": "succeeded",
-  "provider_job_id": "7de37da7-d44b-45d8-bd3b-36a458c0e1d9",
+  "provider_job_id": "8e2a034a-d87b-4bce-a8c4-9a3c8a467b51",
   "original_response": {
     "result": {
-      "input_text": "[00:00:00.290] speaker 1:\nUnit one, page 14.\n\n[00:00:03.530] speaker 1:\nReal conversations.\n\n[00:00:06.950] speaker 2:\nHello.\n\n[00:00:07.670] speaker 2:\nHi.\n\n[00:00:08.270] speaker 2:\nWhat's your name?\n\n[00:00:09.410] speaker 3:\nClaudia.\n\n[00:00:10.670] speaker 3:\nWhat's your name?\n\n[00:00:12.890] speaker 3:\nNice to meet you.\n\n[00:00:15.350] speaker 4:\nYeah, that's right.\n\n[00:00:16.490] speaker 4:\nWhere are you from?\n\n",
+      "input_text": "[00:00:00.290] speaker 1:\nUnit one, page 14.\n\n[00:00:03.530] speaker 1:\nReal conversations.\n\n[00:00:06.950] speaker 2:\nHello.\n\n[00:00:07.670] speaker 2:\nHi.\n\n[00:00:08.210] speaker 2:\nWhat's your name?\n\n[00:00:09.410] speaker 3:\nClaudia.\n\n[00:00:10.670] speaker 3:\nWhat's your name?\n\n[00:00:11.510] speaker 3:\nI'm chihiro.\n\n[00:00:12.830] speaker 3:\nNice to meet you.\n\n[00:00:15.290] speaker 3:\nYeah, that's right.\n\n[00:00:16.490] speaker 3:\nWhere are you from?\n\n",
       "status": "success",
       "output": [
         {
           "text_generated_by_step_name": "transcribe",
           "text_generated_by_step_id": 1,
-          "text": "[00:00:00.290] speaker 1:\nUnit one, page 14.\n\n[00:00:03.530] speaker 1:\nReal conversations.\n\n[00:00:06.950] speaker 2:\nHello.\n\n[00:00:07.670] speaker 2:\nHi.\n\n[00:00:08.270] speaker 2:\nWhat's your name?\n\n[00:00:09.410] speaker 3:\nClaudia.\n\n[00:00:10.670] speaker 3:\nWhat's your name?\n\n[00:00:12.890] speaker 3:\nNice to meet you.\n\n[00:00:15.350] speaker 4:\nYeah, that's right.\n\n[00:00:16.490] speaker 4:\nWhere are you from?\n\n",
+          "text": "[00:00:00.290] speaker 1:\nUnit one, page 14.\n\n[00:00:03.530] speaker 1:\nReal conversations.\n\n[00:00:06.950] speaker 2:\nHello.\n\n[00:00:07.670] speaker 2:\nHi.\n\n[00:00:08.210] speaker 2:\nWhat's your name?\n\n[00:00:09.410] speaker 3:\nClaudia.\n\n[00:00:10.670] speaker 3:\nWhat's your name?\n\n[00:00:11.510] speaker 3:\nI'm chihiro.\n\n[00:00:12.830] speaker 3:\nNice to meet you.\n\n[00:00:15.290] speaker 3:\nYeah, that's right.\n\n[00:00:16.490] speaker 3:\nWhere are you from?\n\n",
           "labels": [
             {
               "type": "word",
@@ -65,8 +65,8 @@
                   "end": 9
                 }
               ],
-              "timestamp": "00:00:01.190",
-              "timestamp_end": "00:00:01.250"
+              "timestamp": "00:00:01.490",
+              "timestamp_end": "00:00:01.550"
             },
             {
               "type": "word",
@@ -103,8 +103,8 @@
                   "end": 17
                 }
               ],
-              "timestamp": "00:00:02.030",
-              "timestamp_end": "00:00:02.090"
+              "timestamp": "00:00:02.090",
+              "timestamp_end": "00:00:02.150"
             },
             {
               "type": "word",
@@ -122,8 +122,8 @@
                   "end": 18
                 }
               ],
-              "timestamp": "00:00:02.750",
-              "timestamp_end": "00:00:02.810"
+              "timestamp": "00:00:02.810",
+              "timestamp_end": "00:00:02.870"
             },
             {
               "type": "word",
@@ -160,7 +160,7 @@
                   "end": 18
                 }
               ],
-              "timestamp": "00:00:04.130",
+              "timestamp": "00:00:04.010",
               "timestamp_end": "00:00:04.430"
             },
             {
@@ -217,8 +217,8 @@
                   "end": 6
                 }
               ],
-              "timestamp": "00:00:07.370",
-              "timestamp_end": "00:00:07.430"
+              "timestamp": "00:00:07.430",
+              "timestamp_end": "00:00:07.490"
             },
             {
               "type": "word",
@@ -255,8 +255,8 @@
                   "end": 3
                 }
               ],
-              "timestamp": "00:00:07.910",
-              "timestamp_end": "00:00:07.970"
+              "timestamp": "00:00:08.030",
+              "timestamp_end": "00:00:08.090"
             },
             {
               "type": "word",
@@ -274,8 +274,8 @@
                   "end": 6
                 }
               ],
-              "timestamp": "00:00:08.270",
-              "timestamp_end": "00:00:08.330"
+              "timestamp": "00:00:08.210",
+              "timestamp_end": "00:00:08.270"
             },
             {
               "type": "word",
@@ -312,8 +312,8 @@
                   "end": 16
                 }
               ],
-              "timestamp": "00:00:08.630",
-              "timestamp_end": "00:00:08.690"
+              "timestamp": "00:00:08.570",
+              "timestamp_end": "00:00:08.630"
             },
             {
               "type": "word",
@@ -331,8 +331,8 @@
                   "end": 17
                 }
               ],
-              "timestamp": "00:00:08.750",
-              "timestamp_end": "00:00:08.810"
+              "timestamp": "00:00:09.110",
+              "timestamp_end": "00:00:09.170"
             },
             {
               "type": "word",
@@ -369,8 +369,8 @@
                   "end": 8
                 }
               ],
-              "timestamp": "00:00:10.130",
-              "timestamp_end": "00:00:10.190"
+              "timestamp": "00:00:10.250",
+              "timestamp_end": "00:00:10.310"
             },
             {
               "type": "word",
@@ -407,8 +407,8 @@
                   "end": 11
                 }
               ],
-              "timestamp": "00:00:10.850",
-              "timestamp_end": "00:00:10.910"
+              "timestamp": "00:00:10.910",
+              "timestamp_end": "00:00:10.970"
             },
             {
               "type": "word",
@@ -445,8 +445,65 @@
                   "end": 17
                 }
               ],
-              "timestamp": "00:00:11.270",
-              "timestamp_end": "00:00:11.330"
+              "timestamp": "00:00:11.390",
+              "timestamp_end": "00:00:11.450"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": "I'm",
+              "span": [
+                310,
+                313
+              ],
+              "output_spans": [
+                {
+                  "section": 7,
+                  "start": 0,
+                  "end": 3
+                }
+              ],
+              "timestamp": "00:00:11.510",
+              "timestamp_end": "00:00:11.570"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": "chihiro",
+              "span": [
+                314,
+                321
+              ],
+              "output_spans": [
+                {
+                  "section": 7,
+                  "start": 4,
+                  "end": 11
+                }
+              ],
+              "timestamp": "00:00:11.690",
+              "timestamp_end": "00:00:11.990"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": ".",
+              "span": [
+                321,
+                322
+              ],
+              "output_spans": [
+                {
+                  "section": 7,
+                  "start": 11,
+                  "end": 12
+                }
+              ],
+              "timestamp": "00:00:12.530",
+              "timestamp_end": "00:00:12.590"
             },
             {
               "type": "word",
@@ -454,18 +511,18 @@
               "speaker": "speaker 3",
               "span_text": "Nice",
               "span": [
-                310,
-                314
+                350,
+                354
               ],
               "output_spans": [
                 {
-                  "section": 7,
+                  "section": 8,
                   "start": 0,
                   "end": 4
                 }
               ],
-              "timestamp": "00:00:12.890",
-              "timestamp_end": "00:00:12.950"
+              "timestamp": "00:00:12.830",
+              "timestamp_end": "00:00:12.890"
             },
             {
               "type": "word",
@@ -473,18 +530,18 @@
               "speaker": "speaker 3",
               "span_text": "to",
               "span": [
-                315,
-                317
+                355,
+                357
               ],
               "output_spans": [
                 {
-                  "section": 7,
+                  "section": 8,
                   "start": 5,
                   "end": 7
                 }
               ],
-              "timestamp": "00:00:13.010",
-              "timestamp_end": "00:00:13.070"
+              "timestamp": "00:00:13.070",
+              "timestamp_end": "00:00:13.130"
             },
             {
               "type": "word",
@@ -492,12 +549,12 @@
               "speaker": "speaker 3",
               "span_text": "meet",
               "span": [
-                318,
-                322
+                358,
+                362
               ],
               "output_spans": [
                 {
-                  "section": 7,
+                  "section": 8,
                   "start": 8,
                   "end": 12
                 }
@@ -511,12 +568,12 @@
               "speaker": "speaker 3",
               "span_text": "you",
               "span": [
-                323,
-                326
+                363,
+                366
               ],
               "output_spans": [
                 {
-                  "section": 7,
+                  "section": 8,
                   "start": 13,
                   "end": 16
                 }
@@ -530,50 +587,50 @@
               "speaker": "speaker 3",
               "span_text": ".",
               "span": [
-                326,
-                327
+                366,
+                367
               ],
               "output_spans": [
                 {
-                  "section": 7,
+                  "section": 8,
                   "start": 16,
                   "end": 17
                 }
               ],
-              "timestamp": "00:00:13.790",
-              "timestamp_end": "00:00:13.850"
+              "timestamp": "00:00:13.910",
+              "timestamp_end": "00:00:13.970"
             },
             {
               "type": "word",
               "skill": "transcribe",
-              "speaker": "speaker 4",
+              "speaker": "speaker 3",
               "span_text": "Yeah",
               "span": [
-                355,
-                359
+                395,
+                399
               ],
               "output_spans": [
                 {
-                  "section": 8,
+                  "section": 9,
                   "start": 0,
                   "end": 4
                 }
               ],
-              "timestamp": "00:00:15.350",
-              "timestamp_end": "00:00:15.410"
+              "timestamp": "00:00:15.290",
+              "timestamp_end": "00:00:15.350"
             },
             {
               "type": "word",
               "skill": "transcribe",
-              "speaker": "speaker 4",
+              "speaker": "speaker 3",
               "span_text": ",",
               "span": [
-                359,
-                360
+                399,
+                400
               ],
               "output_spans": [
                 {
-                  "section": 8,
+                  "section": 9,
                   "start": 4,
                   "end": 5
                 }
@@ -584,15 +641,15 @@
             {
               "type": "word",
               "skill": "transcribe",
-              "speaker": "speaker 4",
+              "speaker": "speaker 3",
               "span_text": "that's",
               "span": [
-                361,
-                367
+                401,
+                407
               ],
               "output_spans": [
                 {
-                  "section": 8,
+                  "section": 9,
                   "start": 6,
                   "end": 12
                 }
@@ -603,15 +660,15 @@
             {
               "type": "word",
               "skill": "transcribe",
-              "speaker": "speaker 4",
+              "speaker": "speaker 3",
               "span_text": "right",
               "span": [
-                368,
-                373
+                408,
+                413
               ],
               "output_spans": [
                 {
-                  "section": 8,
+                  "section": 9,
                   "start": 13,
                   "end": 18
                 }
@@ -622,34 +679,34 @@
             {
               "type": "word",
               "skill": "transcribe",
-              "speaker": "speaker 4",
+              "speaker": "speaker 3",
               "span_text": ".",
               "span": [
-                373,
-                374
-              ],
-              "output_spans": [
-                {
-                  "section": 8,
-                  "start": 18,
-                  "end": 19
-                }
-              ],
-              "timestamp": "00:00:16.130",
-              "timestamp_end": "00:00:16.190"
-            },
-            {
-              "type": "word",
-              "skill": "transcribe",
-              "speaker": "speaker 4",
-              "span_text": "Where",
-              "span": [
-                402,
-                407
+                413,
+                414
               ],
               "output_spans": [
                 {
                   "section": 9,
+                  "start": 18,
+                  "end": 19
+                }
+              ],
+              "timestamp": "00:00:16.190",
+              "timestamp_end": "00:00:16.250"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "speaker": "speaker 3",
+              "span_text": "Where",
+              "span": [
+                442,
+                447
+              ],
+              "output_spans": [
+                {
+                  "section": 10,
                   "start": 0,
                   "end": 5
                 }
@@ -660,15 +717,15 @@
             {
               "type": "word",
               "skill": "transcribe",
-              "speaker": "speaker 4",
+              "speaker": "speaker 3",
               "span_text": "are",
               "span": [
-                408,
-                411
+                448,
+                451
               ],
               "output_spans": [
                 {
-                  "section": 9,
+                  "section": 10,
                   "start": 6,
                   "end": 9
                 }
@@ -679,15 +736,15 @@
             {
               "type": "word",
               "skill": "transcribe",
-              "speaker": "speaker 4",
+              "speaker": "speaker 3",
               "span_text": "you",
               "span": [
-                412,
-                415
+                452,
+                455
               ],
               "output_spans": [
                 {
-                  "section": 9,
+                  "section": 10,
                   "start": 10,
                   "end": 13
                 }
@@ -698,15 +755,15 @@
             {
               "type": "word",
               "skill": "transcribe",
-              "speaker": "speaker 4",
+              "speaker": "speaker 3",
               "span_text": "from",
               "span": [
-                416,
-                420
+                456,
+                460
               ],
               "output_spans": [
                 {
-                  "section": 9,
+                  "section": 10,
                   "start": 14,
                   "end": 18
                 }
@@ -717,15 +774,15 @@
             {
               "type": "word",
               "skill": "transcribe",
-              "speaker": "speaker 4",
+              "speaker": "speaker 3",
               "span_text": "?",
               "span": [
-                420,
-                421
+                460,
+                461
               ],
               "output_spans": [
                 {
-                  "section": 9,
+                  "section": 10,
                   "start": 18,
                   "end": 19
                 }
@@ -742,15 +799,15 @@
         "total_waiting_jobs": 0
       }
     },
-    "task_id": "7de37da7-d44b-45d8-bd3b-36a458c0e1d9",
+    "task_id": "8e2a034a-d87b-4bce-a8c4-9a3c8a467b51",
     "status": "COMPLETED",
-    "completion_time": "2022-12-06T11:16:26.648000",
-    "creation_time": "2022-12-06T11:16:17.824000"
+    "completion_time": "2022-12-16T15:03:04.405000",
+    "creation_time": "2022-12-16T15:02:55.585000"
   },
   "standardized_response": {
-    "text": "Unit one, page 14. Real conversations. Hello. Hi. What's your name? Claudia. What's your name? Nice to meet you. Yeah, that's right. Where are you from?",
+    "text": "Unit one, page 14. Real conversations. Hello. Hi. What's your name? Claudia. What's your name? I'm chihiro. Nice to meet you. Yeah, that's right. Where are you from?",
     "diarization": {
-      "total_speakers": 4,
+      "total_speakers": 3,
       "entries": [
         {
           "segment": "Unit",
@@ -768,8 +825,8 @@
         },
         {
           "segment": ",",
-          "start_time": "00:00:01.190",
-          "end_time": "00:00:01.250",
+          "start_time": "00:00:01.490",
+          "end_time": "00:00:01.550",
           "speaker": 1,
           "confidence": null
         },
@@ -782,15 +839,15 @@
         },
         {
           "segment": "14",
-          "start_time": "00:00:02.030",
-          "end_time": "00:00:02.090",
+          "start_time": "00:00:02.090",
+          "end_time": "00:00:02.150",
           "speaker": 1,
           "confidence": null
         },
         {
           "segment": ".",
-          "start_time": "00:00:02.750",
-          "end_time": "00:00:02.810",
+          "start_time": "00:00:02.810",
+          "end_time": "00:00:02.870",
           "speaker": 1,
           "confidence": null
         },
@@ -803,7 +860,7 @@
         },
         {
           "segment": "conversations",
-          "start_time": "00:00:04.130",
+          "start_time": "00:00:04.010",
           "end_time": "00:00:04.430",
           "speaker": 1,
           "confidence": null
@@ -824,8 +881,8 @@
         },
         {
           "segment": ".",
-          "start_time": "00:00:07.370",
-          "end_time": "00:00:07.430",
+          "start_time": "00:00:07.430",
+          "end_time": "00:00:07.490",
           "speaker": 2,
           "confidence": null
         },
@@ -838,15 +895,15 @@
         },
         {
           "segment": ".",
-          "start_time": "00:00:07.910",
-          "end_time": "00:00:07.970",
+          "start_time": "00:00:08.030",
+          "end_time": "00:00:08.090",
           "speaker": 2,
           "confidence": null
         },
         {
           "segment": "What's",
-          "start_time": "00:00:08.270",
-          "end_time": "00:00:08.330",
+          "start_time": "00:00:08.210",
+          "end_time": "00:00:08.270",
           "speaker": 2,
           "confidence": null
         },
@@ -859,15 +916,15 @@
         },
         {
           "segment": "name",
-          "start_time": "00:00:08.630",
-          "end_time": "00:00:08.690",
+          "start_time": "00:00:08.570",
+          "end_time": "00:00:08.630",
           "speaker": 2,
           "confidence": null
         },
         {
           "segment": "?",
-          "start_time": "00:00:08.750",
-          "end_time": "00:00:08.810",
+          "start_time": "00:00:09.110",
+          "end_time": "00:00:09.170",
           "speaker": 2,
           "confidence": null
         },
@@ -880,8 +937,8 @@
         },
         {
           "segment": ".",
-          "start_time": "00:00:10.130",
-          "end_time": "00:00:10.190",
+          "start_time": "00:00:10.250",
+          "end_time": "00:00:10.310",
           "speaker": 3,
           "confidence": null
         },
@@ -894,8 +951,8 @@
         },
         {
           "segment": "your",
-          "start_time": "00:00:10.850",
-          "end_time": "00:00:10.910",
+          "start_time": "00:00:10.910",
+          "end_time": "00:00:10.970",
           "speaker": 3,
           "confidence": null
         },
@@ -908,22 +965,43 @@
         },
         {
           "segment": "?",
-          "start_time": "00:00:11.270",
-          "end_time": "00:00:11.330",
+          "start_time": "00:00:11.390",
+          "end_time": "00:00:11.450",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": "I'm",
+          "start_time": "00:00:11.510",
+          "end_time": "00:00:11.570",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": "chihiro",
+          "start_time": "00:00:11.690",
+          "end_time": "00:00:11.990",
+          "speaker": 3,
+          "confidence": null
+        },
+        {
+          "segment": ".",
+          "start_time": "00:00:12.530",
+          "end_time": "00:00:12.590",
           "speaker": 3,
           "confidence": null
         },
         {
           "segment": "Nice",
-          "start_time": "00:00:12.890",
-          "end_time": "00:00:12.950",
+          "start_time": "00:00:12.830",
+          "end_time": "00:00:12.890",
           "speaker": 3,
           "confidence": null
         },
         {
           "segment": "to",
-          "start_time": "00:00:13.010",
-          "end_time": "00:00:13.070",
+          "start_time": "00:00:13.070",
+          "end_time": "00:00:13.130",
           "speaker": 3,
           "confidence": null
         },
@@ -943,82 +1021,83 @@
         },
         {
           "segment": ".",
-          "start_time": "00:00:13.790",
-          "end_time": "00:00:13.850",
+          "start_time": "00:00:13.910",
+          "end_time": "00:00:13.970",
           "speaker": 3,
           "confidence": null
         },
         {
           "segment": "Yeah",
-          "start_time": "00:00:15.350",
-          "end_time": "00:00:15.410",
-          "speaker": 4,
+          "start_time": "00:00:15.290",
+          "end_time": "00:00:15.350",
+          "speaker": 3,
           "confidence": null
         },
         {
           "segment": ",",
           "start_time": "00:00:15.410",
           "end_time": "00:00:15.470",
-          "speaker": 4,
+          "speaker": 3,
           "confidence": null
         },
         {
           "segment": "that's",
           "start_time": "00:00:15.590",
           "end_time": "00:00:15.650",
-          "speaker": 4,
+          "speaker": 3,
           "confidence": null
         },
         {
           "segment": "right",
           "start_time": "00:00:15.710",
           "end_time": "00:00:15.770",
-          "speaker": 4,
+          "speaker": 3,
           "confidence": null
         },
         {
           "segment": ".",
-          "start_time": "00:00:16.130",
-          "end_time": "00:00:16.190",
-          "speaker": 4,
+          "start_time": "00:00:16.190",
+          "end_time": "00:00:16.250",
+          "speaker": 3,
           "confidence": null
         },
         {
           "segment": "Where",
           "start_time": "00:00:16.490",
           "end_time": "00:00:16.550",
-          "speaker": 4,
+          "speaker": 3,
           "confidence": null
         },
         {
           "segment": "are",
           "start_time": "00:00:16.610",
           "end_time": "00:00:16.670",
-          "speaker": 4,
+          "speaker": 3,
           "confidence": null
         },
         {
           "segment": "you",
           "start_time": "00:00:16.670",
           "end_time": "00:00:16.730",
-          "speaker": 4,
+          "speaker": 3,
           "confidence": null
         },
         {
           "segment": "from",
           "start_time": "00:00:16.850",
           "end_time": "00:00:16.910",
-          "speaker": 4,
+          "speaker": 3,
           "confidence": null
         },
         {
           "segment": "?",
           "start_time": "00:00:16.970",
           "end_time": "00:00:17.030",
-          "speaker": 4,
+          "speaker": 3,
           "confidence": null
         }
-      ]
+      ],
+      "error_message": null
     }
   }
 }

@@ -2,152 +2,178 @@
   "original_response": {
     "data": {
       "name": {
-        "raw": "Amanda Smith",
-        "first": "Amanda",
+        "raw": "John W. Smith",
+        "first": "John",
         "last": "Smith",
-        "middle": "",
+        "middle": "W.",
         "title": ""
       },
-      "phone_numbers": [
-        "594-348-2740 594-348-2741"
-      ],
+      "phone_numbers": [],
       "websites": [],
       "emails": [
-        "modelgal@aim.com"
+        "jwsmith@colostate.edu"
       ],
       "location": {
-        "formatted": "398 Wilshire Blvd, Santa Monica, CA 90401, USA",
-        "postal_code": "90401",
-        "state": "California",
+        "formatted": "2002 Caribou Dr Suite 101, Fort Collins, CO 80525, USA",
+        "postal_code": "80525",
+        "state": "Colorado",
         "country": "United States",
         "country_code": "US",
-        "raw_input": "398 Wilshire Blvd. Los Angeles, CA",
-        "street_number": "398",
-        "street": "Wilshire Boulevard",
-        "city": "Santa Monica"
+        "raw_input": "2002 Front Range Way Fort Collins, CO 80525",
+        "street_number": "2002",
+        "street": "Caribou Drive",
+        "apartment_number": "Suite 101",
+        "city": "Fort Collins"
       },
-      "objective": "To build and maintain a successful role in the world of high fashion modeling.",
+      "objective": "",
       "languages": [
-        "Italian",
-        "English",
-        "French",
-        "Hawaiian",
-        "Spanish"
+        "English"
       ],
-      "summary": "",
-      "total_years_experience": 0,
+      "summary": "Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.",
+      "total_years_experience": 6,
       "education": [
         {
-          "id": 7484819,
-          "organization": "New York University",
+          "id": 7908749,
+          "organization": "University of Arkansas at Little Rock",
           "accreditation": {
-            "education": "Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting)",
-            "input_str": "Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting)",
+            "education": "BS in Early Childhood Development",
+            "input_str": "BS in Early Childhood Development",
+            "match_str": ""
+          },
+          "location": {
+            "formatted": "Little Rock, AR, USA",
+            "state": "Arkansas",
+            "country": "United States",
+            "country_code": "US",
+            "raw_input": "Little Rock, AR",
+            "city": "Little Rock"
+          },
+          "dates": {
+            "completion_date": "1999-01-01",
+            "is_current": false
+          }
+        },
+        {
+          "id": 7908750,
+          "accreditation": {
+            "education": "Bachelor of Arts",
+            "input_str": "BA in Elementary Education",
             "match_str": "",
             "education_level": "bachelors"
           },
+          "grade": {
+            "raw": "3.8,",
+            "value": "3.8"
+          },
           "dates": {
-            "completion_date": "2003-01-01",
+            "completion_date": "1998-01-01",
             "is_current": false
           }
         }
       ],
-      "profession": "Modelador 3D",
+      "profession": "Specialist",
       "work_experience": [
         {
-          "id": 14064655,
-          "job_title": "Featured Model",
+          "id": 14859883,
+          "job_title": "Counseling Supervisor",
+          "organization": "The Wesley Center",
           "location": {
-            "formatted": "Los Angeles, CA, USA",
-            "state": "California",
+            "formatted": "Little Rock, AR, USA",
+            "state": "Arkansas",
             "country": "United States",
             "country_code": "US",
-            "raw_input": "Angeles,",
-            "city": "Los Angeles"
+            "raw_input": "Little Rock, Arkansas.",
+            "city": "Little Rock"
           },
-          "job_description": ". Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 . Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 . Fashion Show: Macy's NYC Fashion Show New York, December 2006 . Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006 ",
+          "job_description": "",
           "dates": {
-            "end_date": "2007-12-01",
+            "start_date": "1999-01-01",
+            "end_date": "2002-01-01",
+            "months_in_position": 36,
             "is_current": false
           },
           "occupation": {
-            "job_title": "Featured Model",
-            "job_title_normalized": "Featured Writer",
-            "management_level": "Low",
+            "job_title": "Counseling Supervisor",
+            "job_title_normalized": "Counseling Supervisor",
+            "management_level": "Low"
+          }
+        },
+        {
+          "id": 14859884,
+          "job_title": "Client Specialist",
+          "organization": "Rainbow Special Care Center",
+          "location": {
+            "formatted": "Little Rock, AR, USA",
+            "state": "Arkansas",
+            "country": "United States",
+            "country_code": "US",
+            "raw_input": "Little Rock, Arkansas",
+            "city": "Little Rock"
+          },
+          "job_description": "",
+          "dates": {
+            "start_date": "1997-01-01",
+            "end_date": "1999-01-01",
+            "months_in_position": 24,
+            "is_current": false
+          },
+          "occupation": {
+            "job_title": "Client Specialist",
+            "job_title_normalized": "Client Specialist",
             "classification": {
-              "title": "Authors, writers and translators",
-              "minor_group": "Artistic, Literary and Media Occupations",
-              "sub_major_group": "CULTURE, MEDIA AND SPORTS OCCUPATIONS",
-              "major_group": "ASSOCIATE PROFESSIONAL OCCUPATIONS",
-              "soc_code": 3412
+              "title": "Customer service occupations n.e.c.",
+              "minor_group": "Customer Service Occupations",
+              "sub_major_group": "CUSTOMER SERVICE OCCUPATIONS",
+              "major_group": "SALES AND CUSTOMER SERVICE OCCUPATIONS",
+              "soc_code": 7219
             }
+          }
+        },
+        {
+          "id": 14859885,
+          "job_title": "Teacher's Assistant",
+          "organization": "Cowell Elementary",
+          "location": {
+            "formatted": "Conway, AR, USA",
+            "state": "Arkansas",
+            "country": "United States",
+            "country_code": "US",
+            "raw_input": "Conway, Arkansas",
+            "city": "Conway"
+          },
+          "job_description": "",
+          "dates": {
+            "start_date": "1996-01-01",
+            "end_date": "1997-01-01",
+            "months_in_position": 12,
+            "is_current": false
+          },
+          "occupation": {
+            "job_title": "Teacher's Assistant",
+            "job_title_normalized": "Research Assistant/Teacher's Assistant"
           }
         }
       ],
       "skills": [
         {
-          "id": 74951034,
-          "emsi_id": "ES9C0ADA3C9397DD6AED",
-          "name": "Agile Software Development",
-          "type": "hard_skill",
-          "sources": [
-            {
-              "section": "Skills/Interests/Languages"
-            }
-          ]
-        },
-        {
-          "id": 74951036,
-          "emsi_id": "KS1209G6J8YRRLRDQ03Y",
-          "name": "Aerobics",
-          "type": "hard_skill",
-          "sources": [
-            {
-              "section": "Skills/Interests/Languages"
-            }
-          ]
-        },
-        {
-          "id": 74951037,
-          "emsi_id": "KS1200H6XYN1CR0G5NZ0",
-          "name": "Microsoft Excel",
+          "id": 79134597,
+          "emsi_id": "ESEB1D4619E6E83A061D",
+          "name": "Planning",
           "type": "soft_skill",
           "sources": [
             {
-              "section": "Skills/Interests/Languages"
+              "section": "WorkExperience"
             }
           ]
         },
         {
-          "id": 74951038,
-          "emsi_id": "KS127CD6TFVHL5L08RCS",
-          "name": "Opera (Web Browser)",
+          "id": 79134598,
+          "emsi_id": "KSAC5KBXJNGIKQFE4AQ7",
+          "name": "Supervisord",
           "type": "hard_skill",
           "sources": [
             {
-              "section": "Skills/Interests/Languages"
-            }
-          ]
-        },
-        {
-          "id": 74951042,
-          "emsi_id": "KS7G1PB6LNV1DF9GXHBG",
-          "name": "Jazz",
-          "type": "hard_skill",
-          "sources": [
-            {
-              "section": "Skills/Interests/Languages"
-            }
-          ]
-        },
-        {
-          "id": 74951043,
-          "emsi_id": "KS120WC5WQLKTJTG7TLX",
-          "name": "Ballet",
-          "type": "hard_skill",
-          "sources": [
-            {
-              "section": "Skills/Interests/Languages"
+              "section": "WorkExperience"
             }
           ]
         }
@@ -159,81 +185,70 @@
         {
           "section_type": "PersonalDetails",
           "bbox": [
-            54.0,
-            131.0,
-            272.0,
-            251.0
+            72.35244,
+            40.018433,
+            419.4492,
+            116.34003
           ],
           "page_index": 0,
-          "text": "Amanda Smith 398 Wilshire Blvd. Los Angeles, CA Home: 594-348-2740 Cell: 594-348-2741 E-mail: modelgal@aim.com"
+          "text": "Functional Resume Sample John W. Smith 2002 Front Range Way Fort Collins, CO 80525 jwsmith@colostate.edu"
         },
         {
           "section_type": "Summary",
           "bbox": [
-            53.0,
-            281.0,
-            235.0,
-            345.0
+            72.11184,
+            133.93555,
+            530.53204,
+            276.18
           ],
           "page_index": 0,
-          "text": "Objective To build and maintain a successful role in the world of high fashion modeling."
-        },
-        {
-          "section_type": "Skills/Interests/Languages",
-          "bbox": [
-            54.0,
-            373.0,
-            501.0,
-            476.0
-          ],
-          "page_index": 0,
-          "text": "Special Skills . Dancing: Experienced in Ballet, Tap, Jazz, and Modem Dance \u00b7 Sports: Extremely athletic and agile; avid swimmer and golfer. Also excel in ice skating, aerobics, baseball, basketball, volleyball and tennis. Music: Classically taught opera singer and pianist. . Languages: English is native language. Also fluent in Spanish, Italian, and French."
-        },
-        {
-          "section_type": "Education",
-          "bbox": [
-            55.0,
-            496.0,
-            491.0,
-            552.0
-          ],
-          "page_index": 0,
-          "text": "Education Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting) - New York University (2003)"
+          "text": "Career Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers."
         },
         {
           "section_type": "WorkExperience",
           "bbox": [
-            53.0,
-            575.0,
-            490.0,
-            749.0
+            72.2796,
+            293.70157,
+            514.05115,
+            487.43997
           ],
           "page_index": 0,
-          "text": "Work Experience . Fashion Show: Ed Hardy Fashion Show, Los Angeles, CA, March 2008 . Featured Model Los Angeles Fashion Week, Los Angeles, CA, March 2008 . Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 . Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 . Fashion Show: Macy's NYC Fashion Show New York, December 2006 . Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006"
+          "text": "Childcare Experience \u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \u2022 Oversaw daily activity and outing planning for 100 clients. \u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \u2022 Assisted teachers with managing daily classroom activities. \u2022 Oversaw daily and special student activities. Employment History 1999-2002 Counseling Supervisor, The Wesley Center, Little Rock, Arkansas. 1997-1999 Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas 1996-1997 Teacher's Assistant, Cowell Elementary, Conway, Arkansas"
+        },
+        {
+          "section_type": "Education",
+          "bbox": [
+            72.2796,
+            505.02145,
+            512.90643,
+            625.992
+          ],
+          "page_index": 0,
+          "text": "Education University of Arkansas at Little Rock, Little Rock, AR \u2022 BS in Early Childhood Development (1999) \u2022 BA in Elementary Education (1998) \u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \u2022 Dean's List, Chancellor's List"
         }
       ],
-      "is_resume_probability": 83,
-      "raw_text": "Amanda Smith 398 Wilshire Blvd. Los Angeles, CA Home: 594-348-2740 Cell: 594-348-2741 E-mail: modelgal@aim.com\nObjective To build and maintain a successful role in the world of high fashion modeling.\nSpecial Skills . Dancing: Experienced in Ballet, Tap, Jazz, and Modem Dance \u00b7 Sports: Extremely athletic and agile; avid swimmer and golfer. Also excel in ice skating, aerobics, baseball, basketball, volleyball and tennis. Music: Classically taught opera singer and pianist. . Languages: English is native language. Also fluent in Spanish, Italian, and French.\nEducation Bachelor of Arts in Journalism and Mass Communications, Minor in Performance Studies (film and acting) - New York University (2003)\nWork Experience . Fashion Show: Ed Hardy Fashion Show, Los Angeles, CA, March 2008 . Featured Model Los Angeles Fashion Week, Los Angeles, CA, March 2008 . Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 . Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 . Fashion Show: Macy's NYC Fashion Show New York, December 2006 . Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006"
+      "is_resume_probability": 85,
+      "raw_text": "Functional Resume Sample John W. Smith 2002 Front Range Way Fort Collins, CO 80525 jwsmith@colostate.edu\nCareer Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.\nChildcare Experience \u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \u2022 Oversaw daily activity and outing planning for 100 clients. \u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \u2022 Assisted teachers with managing daily classroom activities. \u2022 Oversaw daily and special student activities. Employment History 1999-2002 Counseling Supervisor, The Wesley Center, Little Rock, Arkansas. 1997-1999 Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas 1996-1997 Teacher's Assistant, Cowell Elementary, Conway, Arkansas\nEducation University of Arkansas at Little Rock, Little Rock, AR \u2022 BS in Early Childhood Development (1999) \u2022 BA in Elementary Education (1998) \u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \u2022 Dean's List, Chancellor's List"
     },
     "meta": {
-      "documentType": "resume",
-      "ocrConfidence": 0.9660961538461538,
       "isVerified": false,
-      "reviewUrl": "https://app.affinda.com/review/RIbrKMZW?signature=eyJ1c2VyX2lkIjoyNDIzLCJ1c2VybmFtZSI6ImNvbnRhY3QifQ:1p0fb0:whXAVgavhcp3tYMuMXre6P7yuisx2mdrWsmbm_-Bfds:1p0fb0:LybkrZwZ7APN8r9oTDbItSscfe6fujC0njwjGwtnFhc",
-      "identifier": "RIbrKMZW",
+      "documentType": "resume",
+      "ocrConfidence": null,
+      "reviewUrl": null,
+      "identifier": "huXjiKVD",
       "file_name": "resume.pdf",
       "ready": true,
-      "ready_dt": "2022-12-01T09:11:06.055559Z",
+      "ready_dt": "2022-12-16T14:48:55.458161Z",
       "failed": false,
       "language": "en",
-      "pdf": "https://affinda-api.s3.amazonaws.com/media/documents/resume_zIm73Rf.pdf?AWSAccessKeyId=ASIAU2V7FN3BUNLUMPH2&Signature=adnTaA2cew8wcXVN7Z1VA8YGmTQ%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEG8aDmFwLXNvdXRoZWFzdC0yIkgwRgIhAIukEuL35NJBypVXN%2B1pp7PCx%2Fkd3jH0Imugid8KMV0pAiEA2gKdhRR%2BkL%2BrRQJZx3Gchy1ScK%2Bezm8w9ERHWD5w0aMq6wMIiP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwzMzIxODcxMzU2ODMiDAhFzu%2F06NnJX%2B%2B8tyq%2FA%2F1r2WiY1uwjpSJhu%2BMTerJR%2FDM%2B4r6pFhXXMTyPsQFhWNFh46CBed%2F%2B5IGqAk00i3PmN%2BYsrMrGrvXc%2F%2BYh2f8SEcScEYBvzRsb6n%2B094AjC3cq3gO3d5EwORi05mU2w2fdRCmhgmMzPTWX48Y6Vsa72i7iqw1LuX1xD1h1OC1E%2B4pGPJXbuT3uFVddtztQ1oNOb123veg4zsmq4%2BtrtZdTPnsxWfG%2BvqqPwr0%2F9gEBmqkKSTxz1g5dhP8t6hLt0E4F8V8AVEilKf58jHNC9d46RekuEtewVzx8%2FmwfG6BVPkMbIks5avvY0O8caj3lw0G8M8G6MMhYaLOHc4MVg1adYgnaYME%2F5JaVFmLYlzMLO01trIP32v3kzslJ3zl9aiCDQqQS5X2STdI%2BIRqF%2FL2Fnrmfdy%2BzyHGCulsoSzsk5ntJM0SIlWHBAOcAvFAXLalCNVw1ZTwsp1LeKZC8vpP%2FVpYAAvNnAFfRlX%2Bl7RGsmP%2F61%2FawYFI1VC%2FP97jE22Jx47juJzN6kfXjEaDU6jsxRpkMK6otZzCuilqdgoBjF10r%2BbjAHrFXizOT5uIQdy8PIwO2K7XwokNuQPn3CTCPqqGcBjqkATYpFV8eugRA2ZLacOjmbC0T6Sa0mMNr%2FsvZG7YgkA7z9jYjnlre5nYrQG9CfYIoXA0juh1edOfKyspPgBVyZK0fKyMEOH8nOKwqHMhLGBQWjLy7T3jWrbQHovMabKxV3fRLFOofaR36PtZJTZj%2FTn9HXx7ZnmP3%2F8pIud6iaRnmnkr0XrbaqXgo6DdSLBr3mjzOg5Lf91SLqb8lTC0jpwdMg9WY&Expires=1669889466",
+      "pdf": "https://affinda-api.s3.amazonaws.com/media/documents/resume_3t4xRCd.pdf?AWSAccessKeyId=ASIAU2V7FN3B7QQJJPMK&Signature=BmEHRdONinLudSqqkUm3Ef82BtM%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEN3%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkcwRQIhAMPKcXbHhOMNJDZpEbq0%2FruGZBAFdijQlCYjI4zYjaBlAiB7Q8vE%2BFtJKDQ%2BE1n6%2ByA8eirxx42WMZIgxSdTCB7x4iriAwgWEAAaDDMzMjE4NzEzNTY4MyIMzOB6Z%2FA8%2BSXkrXy7Kr8Du3zf%2BBDwYrvDKyGWoGNOdk5SzUgF5YjaMG0hXSoCLZmEMRkwNk%2Bc%2FeegzM92uERyFvCRS69z5rC8ic%2FlExMpkJWXQsuJapJyJTcY4tB%2FK5VNcHqWtKabX75RLJ7wsDr1tTtHmpmD9aHnAUQxpCbQhiuzwsLTFf1Y%2Bb2pPjiH%2F9CvG8yvRHiXoyRbf%2FtaQ1xFn2ETdQvraEQtYGCaokDlexjtPnlRFaNosUg8xrsxdouve5E7JwSPQCEgq9fxlOiyNgRBogH%2FNOk%2FgjUo4gMCGPf7IWvYG0%2Bb4yVkVnoPQrULCjkx18whWEehFXgofIhMqoonUWeKP3OsKjZ%2BxwZMQXcFtQn3BzPZZxIeq7Tn0HkUJhTAhuMj1HPXoIAvC%2BZGMfurgk3NTX4BcWGtz62WnUbDn7Szz1R66n%2FhFIS31XuZt0pVaOsjwQAklWUgSXQC4bSU3VGM8RlW1xJUs2KkN83eIoxqGzH8uFVsXkSDGCy2AOSGhTT%2FfwVd06%2FV2ENyPDZexIFJ49%2BW0btx5DP%2FZIYxX%2FyYIAQgi6r7HIaNEYtJ9hHw5FvpekWFv7L0DLnfLpOvg05FETacZ96JSvj1MM3Q8ZwGOqUBCPsPPxy6wHU1ckq4lACwXBr4lQ7EnOoFgcecJuR6uHtwKOKopBj2chOTL%2FkWJSorEmBFgYRLpRFkgX98R0lSxKGWQrzs6Mn%2F8jGAVrQjoSe3oUZTbYoqiBoHSs3W81xuNs4Mb6jW17ZblHl90jihQ%2FtJmFdD9ws7pKop1kr%2Fq5Brm3%2FPr7mU74r7a0z0X2k%2FKKR2WBd9Dr4NNBRJnhNTh1oLlA4s&Expires=1671205736",
       "child_documents": [],
       "pages": [
         {
-          "id": 8563839,
+          "id": 9064434,
           "page_index": 0,
-          "height": 842.0,
-          "width": 595.0,
+          "height": 792.0,
+          "width": 612.0,
           "rotation": 0
         }
       ]
@@ -244,10 +259,10 @@
     "extracted_data": {
       "personal_infos": {
         "name": {
-          "raw_name": "Amanda Smith",
-          "first_name": "Amanda",
+          "first_name": "John",
           "last_name": "Smith",
-          "middle": "",
+          "raw_name": "John W. Smith",
+          "middle": "W.",
           "title": "",
           "prefix": null,
           "sufix": null
@@ -255,27 +270,25 @@
         "address": {
           "formatted_location": null,
           "postal_code": null,
-          "region": "California",
+          "region": "Colorado",
           "country": "United States",
           "country_code": null,
           "raw_input_location": null,
-          "street": "Wilshire Boulevard",
+          "street": "Caribou Drive",
           "street_number": null,
           "appartment_number": null
         },
-        "self_summary": "",
-        "objective": "To build and maintain a successful role in the world of high fashion modeling.",
+        "self_summary": "Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.",
+        "objective": "",
         "date_of_birth": null,
         "place_of_birth": null,
-        "phones": [
-          "594-348-2740 594-348-2741"
-        ],
+        "phones": [],
         "mails": [
-          "modelgal@aim.com"
+          "jwsmith@colostate.edu"
         ],
         "urls": [],
         "fax": [],
-        "current_profession": "Modelador 3D",
+        "current_profession": "Specialist",
         "dateOfBirth": null,
         "gender": null,
         "nationality": null,
@@ -287,17 +300,17 @@
         "entries": []
       },
       "work_experience": {
-        "total_years_experience": "0",
+        "total_years_experience": "6",
         "entries": [
           {
-            "title": "Featured Model",
-            "start_date": null,
-            "end_date": "2007-12-01",
-            "company": null,
+            "title": "Counseling Supervisor",
+            "start_date": "1999-01-01",
+            "end_date": "2002-01-01",
+            "company": "The Wesley Center",
             "location": {
               "formatted_location": null,
               "postal_code": null,
-              "region": "California",
+              "region": "Arkansas",
               "country": "United States",
               "country_code": null,
               "raw_input_location": null,
@@ -305,56 +318,62 @@
               "street_number": null,
               "appartment_number": null
             },
-            "description": ". Film: Happy Day Productions, Extra in three scenes of independent film,'Daylight' Las Vegas, NV, December 2007 . Modelling Competition: Hawaiian Tropic, Swimsuit Competition, Honolulu, Hawaii Second Runner-Up September 2007 . Print: Sunny Days Clothing Catalog, Featured Model, New York, March 2007 Print: Bright Lights Swimsuit Catalog, Featured Model, New York, January 2007 . Fashion Show: Macy's NYC Fashion Show New York, December 2006 . Film: Halo Productions Featured extra in independent film, 'The Student' New Jersey, September 2006 ",
+            "description": "",
+            "industry": null
+          },
+          {
+            "title": "Client Specialist",
+            "start_date": "1997-01-01",
+            "end_date": "1999-01-01",
+            "company": "Rainbow Special Care Center",
+            "location": {
+              "formatted_location": null,
+              "postal_code": null,
+              "region": "Arkansas",
+              "country": "United States",
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null
+            },
+            "description": "",
+            "industry": null
+          },
+          {
+            "title": "Teacher's Assistant",
+            "start_date": "1996-01-01",
+            "end_date": "1997-01-01",
+            "company": "Cowell Elementary",
+            "location": {
+              "formatted_location": null,
+              "postal_code": null,
+              "region": "Arkansas",
+              "country": "United States",
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null
+            },
+            "description": "",
             "industry": null
           }
         ]
       },
       "languages": [
         {
-          "name": "Italian",
-          "code": null
-        },
-        {
           "name": "English",
-          "code": null
-        },
-        {
-          "name": "French",
-          "code": null
-        },
-        {
-          "name": "Hawaiian",
-          "code": null
-        },
-        {
-          "name": "Spanish",
           "code": null
         }
       ],
       "skills": [
         {
-          "name": "Agile Software Development",
-          "type": "hard"
-        },
-        {
-          "name": "Aerobics",
-          "type": "hard"
-        },
-        {
-          "name": "Microsoft Excel",
+          "name": "Planning",
           "type": "soft"
         },
         {
-          "name": "Opera (Web Browser)",
-          "type": "hard"
-        },
-        {
-          "name": "Jazz",
-          "type": "hard"
-        },
-        {
-          "name": "Ballet",
+          "name": "Supervisord",
           "type": "hard"
         }
       ],

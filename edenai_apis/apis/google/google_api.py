@@ -211,7 +211,7 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                 x_min, x_max = min(x_min, normalize_vertice.get("x", 0)), max(
                     x_max, normalize_vertice.get("x", 0)
                 )
-                y_min, y_max = min(y_min, normalize_vertice["y"]), max(
+                y_min, y_max = min(y_min, normalize_vertice.get("y",0)), max(
                     y_max, normalize_vertice.get("y", 0)
                 )
                 items.append(
@@ -802,6 +802,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
             "enable_automatic_punctuation": True,
             "enable_spoken_punctuation" : True
         }
+        if export_format == "mp3":
+            params.update({
+                "sample_rate_hertz": 16000
+            })
 
         # create custum vocabulary phrase_set
         if vocabulary:
@@ -1231,10 +1235,10 @@ class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
                         attributs = FaceAttributes(
                             headwear=attribute_dict.get("headwear"),
                             frontal_gaze=attribute_dict.get("looking_at_camera"),
-                            eyes_visible=attribute_dict["eyes_visible"],
-                            glasses=attribute_dict["glasses"],
-                            mouth_open=attribute_dict["mouth_open"],
-                            smiling=attribute_dict["smiling"],
+                            eyes_visible=attribute_dict.get("eyes_visible"),
+                            glasses=attribute_dict.get("glasses"),
+                            mouth_open=attribute_dict.get("mouth_open"),
+                            smiling=attribute_dict.get("smiling"),
                         )
                         face = VideoFace(
                             offset=timestamp,

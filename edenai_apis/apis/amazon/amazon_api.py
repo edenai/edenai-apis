@@ -6,7 +6,7 @@ from time import time
 from typing import Sequence
 import base64
 import uuid
-
+from collections import defaultdict
 import urllib
 from pathlib import Path
 from pdf2image.pdf2image import convert_from_bytes
@@ -740,10 +740,12 @@ class AmazonApi(
         self, filename:str, frame_rate, 
         language:str, speakers: int, vocab_name:str=None,
         initiate_vocab:bool= False, format:str = "wav"):
+        if speakers < 2:
+            speakers = 2
         params = {
             "TranscriptionJobName" : filename,
             "Media" : {"MediaFileUri": self.api_settings["storage_url"] + filename},
-            "MediaFormat" : format,
+            # "MediaFormat" : format,
             "LanguageCode" : language,
             "MediaSampleRateHertz" : frame_rate,
             "Settings" : {
@@ -763,8 +765,8 @@ class AmazonApi(
             })
             if initiate_vocab:
                 params["checked"]= False
-                extention_index = filename.rfind(".")
-                filename = f"{filename[:-(len(filename) - extention_index)]}_settings.txt"
+                # extention_index = filename.rfind(".")
+                filename = f"{filename}_settings.txt"
                 self.storage_clients["speech"].meta.client.put_object(
                     Bucket=self.api_settings['bucket'], 
                     Body=json.dumps(params).encode(), 
@@ -807,10 +809,12 @@ class AmazonApi(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
 
+        if not provider_job_id:
+            raise ProviderException("Job id None or empty!")
         # check custom vocabilory job state
         job_id, *vocab = provider_job_id.split("EdenAI")
         if vocab: # if vocabilory is used and
-            setting_content = self.storage_clients["speech"].meta.client.get_object(Bucket= self.api_settings['bucket'], Key= f"{job_id[:-4]}_settings.txt")
+            setting_content = self.storage_clients["speech"].meta.client.get_object(Bucket= self.api_settings['bucket'], Key= f"{job_id}_settings.txt")
             settings = json.loads(setting_content['Body'].read().decode('utf-8'))
             if not settings["checked"]: # check if the vocabulary has been created or not
                 vocab_name = vocab[0]
@@ -835,7 +839,7 @@ class AmazonApi(
                 self.storage_clients["speech"].meta.client.put_object(
                     Bucket=self.api_settings['bucket'], 
                     Body=json.dumps(settings).encode(),
-                    Key = f"{job_id[:-index_last]}_settings.txt"
+                    Key = f"{job_id}_settings.txt"
                 )
                 return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                         provider_job_id=provider_job_id
@@ -1208,7 +1212,6 @@ class AmazonApi(
     def video__explicit_content_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> ExplicitContentDetectionAsyncDataClass:
-
         max_results = 10
         pagination_token = ""
         finished = False
@@ -1220,19 +1223,16 @@ class AmazonApi(
                 NextToken=pagination_token,
             )
             moderated_content = []
-            for label in response["ModerationLabels"]:
-                confidence = label["ModerationLabel"]["Confidence"]
-                timestamp = float(label["Timestamp"]) / 1000.0  # convert to seconds
-                if label.get("ParentName", "") != "":
-                    category = label["ParentName"]
-                else:
-                    category = label["Name"]
-
-                moderated_content.append(
-                    ContentNSFW(
-                        timestamp=timestamp, confidence=confidence, category=category
+            for label in response.get("ModerationLabels",[]):
+                confidence = label.get("ModerationLabel", defaultdict).get("Confidence")
+                timestamp = float(label.get("Timestamp")) / 1000.0  # convert to seconds
+                if label.get("ParentName"):
+                    category = label.get("ParentName", label.get("Name"))
+                    moderated_content.append(
+                        ContentNSFW(
+                            timestamp=timestamp, confidence=confidence, category=category
+                        )
                     )
-                )
             standardized_response = ExplicitContentDetectionAsyncDataClass(
                 moderation=moderated_content
             )

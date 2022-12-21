@@ -1,50 +1,42 @@
 {
-  "status": "succeed",
+  "status": "succeeded",
+  "provider_job_id": "fdac90be-7d53-11ed-8468-0242ac12000a",
   "original_response": [
     {
-      "Confidence": 0.98,
-      "Duration": 0.47,
-      "Lexical": "one.",
-      "Speaker": "SPEAKER_01",
+      "Confidence": 0.99,
+      "Duration": 4.32,
+      "Lexical": "one page fourteen real conversations",
+      "Speaker": "SPEAKER_00",
       "Start_time": 0.5,
       "Words": [
         {
-          "Confidence": 0.9786999123562455,
-          "Duration": 0.04,
+          "Confidence": 0.9666141295817207,
+          "Duration": 0.02,
           "Offset": 0.02,
           "Word": "one"
-        }
-      ]
-    },
-    {
-      "Confidence": 1.0,
-      "Duration": 3.36,
-      "Lexical": "page fourteen real conversations.",
-      "Speaker": "SPEAKER_01",
-      "Start_time": 1.44,
-      "Words": [
+        },
         {
-          "Confidence": 0.9998710270996795,
+          "Confidence": 0.9999454042130917,
           "Duration": 0.24,
-          "Offset": 0.04,
+          "Offset": 0.98,
           "Word": "page"
         },
         {
-          "Confidence": 0.9999239223712395,
-          "Duration": 0.54,
-          "Offset": 0.44,
+          "Confidence": 0.9997690170757613,
+          "Duration": 0.52,
+          "Offset": 1.4,
           "Word": "fourteen"
         },
         {
-          "Confidence": 0.9866524966891776,
+          "Confidence": 0.9796439341609532,
           "Duration": 0.22,
-          "Offset": 1.92,
+          "Offset": 2.86,
           "Word": "real"
         },
         {
-          "Confidence": 0.9979557846272065,
+          "Confidence": 0.9967006338103178,
           "Duration": 0.58,
-          "Offset": 2.3,
+          "Offset": 3.26,
           "Word": "conversations"
         }
       ]
@@ -52,30 +44,30 @@
     {
       "Confidence": 0.73,
       "Duration": 2.6,
-      "Lexical": "hillo, find your name.",
-      "Speaker": "SPEAKER_00",
+      "Lexical": "hillo find your name",
+      "Speaker": "SPEAKER_02",
       "Start_time": 6.83,
       "Words": [
         {
-          "Confidence": 0.5500302685860824,
+          "Confidence": 0.5496116136588673,
           "Duration": 0.16,
           "Offset": 0.04,
           "Word": "hillo"
         },
         {
-          "Confidence": 0.441741951744035,
+          "Confidence": 0.43802624512850724,
           "Duration": 0.7,
           "Offset": 0.72,
           "Word": "find"
         },
         {
-          "Confidence": 0.9176131741564563,
+          "Confidence": 0.9173618707031593,
           "Duration": 0.08,
           "Offset": 1.56,
           "Word": "your"
         },
         {
-          "Confidence": 0.9983673569294377,
+          "Confidence": 0.9983704463177782,
           "Duration": 0.02,
           "Offset": 1.7,
           "Word": "name"
@@ -83,110 +75,110 @@
       ]
     },
     {
-      "Confidence": 0.83,
+      "Confidence": 0.84,
       "Duration": 7.53,
-      "Lexical": "cudia. butt your name. i m ch hero. next meets you. chihiro gets right. are away from.",
-      "Speaker": "SPEAKER_02",
+      "Lexical": "cudia butt your name i m ch hero next meets you chihiro gets right are away from",
+      "Speaker": "SPEAKER_01",
       "Start_time": 9.42,
       "Words": [
         {
-          "Confidence": 0.10930545256018506,
+          "Confidence": 0.11074120631675531,
           "Duration": 0.28,
           "Offset": 0.0,
           "Word": "cudia"
         },
         {
-          "Confidence": 0.28419579964073405,
+          "Confidence": 0.2923772034018742,
           "Duration": 0.12,
           "Offset": 1.16,
           "Word": "butt"
         },
         {
-          "Confidence": 0.998984872060333,
+          "Confidence": 0.9989705887796423,
           "Duration": 0.1,
           "Offset": 1.4,
           "Word": "your"
         },
         {
-          "Confidence": 0.9987218049387528,
+          "Confidence": 0.9987170487192643,
           "Duration": 0.02,
           "Offset": 1.58,
           "Word": "name"
         },
         {
-          "Confidence": 0.9965386215669052,
+          "Confidence": 0.9964964779503881,
           "Duration": 0.02,
           "Offset": 2.04,
           "Word": "i"
         },
         {
-          "Confidence": 0.9839293686973369,
+          "Confidence": 0.9837040006383838,
           "Duration": 0.06,
           "Offset": 2.14,
           "Word": "m"
         },
         {
-          "Confidence": 0.4054438429435384,
+          "Confidence": 0.4044146987271039,
           "Duration": 0.02,
           "Offset": 2.28,
           "Word": "ch"
         },
         {
-          "Confidence": 0.877893490981722,
+          "Confidence": 0.8790091857603988,
           "Duration": 0.16,
           "Offset": 2.42,
           "Word": "hero"
         },
         {
-          "Confidence": 0.9993541837449561,
+          "Confidence": 0.9993776383085342,
           "Duration": 0.02,
           "Offset": 3.3,
           "Word": "next"
         },
         {
-          "Confidence": 0.738525704118993,
+          "Confidence": 0.8150047917013709,
           "Duration": 0.24,
           "Offset": 3.66,
           "Word": "meets"
         },
         {
-          "Confidence": 0.9818023900943496,
+          "Confidence": 0.9846210475596305,
           "Duration": 0.02,
           "Offset": 3.96,
           "Word": "you"
         },
         {
-          "Confidence": 0.854426724243704,
+          "Confidence": 0.8553516573582424,
           "Duration": 0.94,
           "Offset": 4.6,
           "Word": "chihiro"
         },
         {
-          "Confidence": 0.9835642638971239,
+          "Confidence": 0.9830699239175559,
           "Duration": 0.2,
           "Offset": 5.9,
           "Word": "gets"
         },
         {
-          "Confidence": 0.9911275232131209,
+          "Confidence": 0.9910762347425945,
           "Duration": 0.02,
           "Offset": 6.24,
           "Word": "right"
         },
         {
-          "Confidence": 0.9785852587017697,
+          "Confidence": 0.9786912085469299,
           "Duration": 0.02,
           "Offset": 6.78,
           "Word": "are"
         },
         {
-          "Confidence": 0.9973897892623693,
+          "Confidence": 0.9973910960976324,
           "Duration": 0.12,
           "Offset": 6.96,
           "Word": "away"
         },
         {
-          "Confidence": 0.9990753149200459,
+          "Confidence": 0.9990738870699025,
           "Duration": 0.02,
           "Offset": 7.34,
           "Word": "from"
@@ -195,11 +187,194 @@
     }
   ],
   "standardized_response": {
-    "text": "one. page fourteen real conversations. hillo, find your name. cudia. butt your name. i m ch hero. next meets you. chihiro gets right. are away from.",
+    "text": "one page fourteen real conversations hillo find your name cudia butt your name i m ch hero next meets you chihiro gets right are away from",
     "diarization": {
-      "total_speakers": 0,
-      "entries": []
+      "total_speakers": 3,
+      "entries": [
+        {
+          "segment": "one",
+          "start_time": "0.52",
+          "end_time": "0.54",
+          "speaker": 0,
+          "confidence": 0.9666141295817207
+        },
+        {
+          "segment": "page",
+          "start_time": "1.48",
+          "end_time": "1.72",
+          "speaker": 0,
+          "confidence": 0.9999454042130917
+        },
+        {
+          "segment": "fourteen",
+          "start_time": "1.9",
+          "end_time": "2.42",
+          "speaker": 0,
+          "confidence": 0.9997690170757613
+        },
+        {
+          "segment": "real",
+          "start_time": "3.36",
+          "end_time": "3.58",
+          "speaker": 0,
+          "confidence": 0.9796439341609532
+        },
+        {
+          "segment": "conversations",
+          "start_time": "3.76",
+          "end_time": "4.34",
+          "speaker": 0,
+          "confidence": 0.9967006338103178
+        },
+        {
+          "segment": "hillo",
+          "start_time": "6.87",
+          "end_time": "7.03",
+          "speaker": 2,
+          "confidence": 0.5496116136588673
+        },
+        {
+          "segment": "find",
+          "start_time": "7.55",
+          "end_time": "8.25",
+          "speaker": 2,
+          "confidence": 0.43802624512850724
+        },
+        {
+          "segment": "your",
+          "start_time": "8.39",
+          "end_time": "8.47",
+          "speaker": 2,
+          "confidence": 0.9173618707031593
+        },
+        {
+          "segment": "name",
+          "start_time": "8.53",
+          "end_time": "8.549999999999999",
+          "speaker": 2,
+          "confidence": 0.9983704463177782
+        },
+        {
+          "segment": "cudia",
+          "start_time": "9.42",
+          "end_time": "9.7",
+          "speaker": 1,
+          "confidence": 0.11074120631675531
+        },
+        {
+          "segment": "butt",
+          "start_time": "10.58",
+          "end_time": "10.7",
+          "speaker": 1,
+          "confidence": 0.2923772034018742
+        },
+        {
+          "segment": "your",
+          "start_time": "10.82",
+          "end_time": "10.92",
+          "speaker": 1,
+          "confidence": 0.9989705887796423
+        },
+        {
+          "segment": "name",
+          "start_time": "11.0",
+          "end_time": "11.02",
+          "speaker": 1,
+          "confidence": 0.9987170487192643
+        },
+        {
+          "segment": "i",
+          "start_time": "11.46",
+          "end_time": "11.48",
+          "speaker": 1,
+          "confidence": 0.9964964779503881
+        },
+        {
+          "segment": "m",
+          "start_time": "11.56",
+          "end_time": "11.620000000000001",
+          "speaker": 1,
+          "confidence": 0.9837040006383838
+        },
+        {
+          "segment": "ch",
+          "start_time": "11.7",
+          "end_time": "11.719999999999999",
+          "speaker": 1,
+          "confidence": 0.4044146987271039
+        },
+        {
+          "segment": "hero",
+          "start_time": "11.84",
+          "end_time": "12.0",
+          "speaker": 1,
+          "confidence": 0.8790091857603988
+        },
+        {
+          "segment": "next",
+          "start_time": "12.719999999999999",
+          "end_time": "12.739999999999998",
+          "speaker": 1,
+          "confidence": 0.9993776383085342
+        },
+        {
+          "segment": "meets",
+          "start_time": "13.08",
+          "end_time": "13.32",
+          "speaker": 1,
+          "confidence": 0.8150047917013709
+        },
+        {
+          "segment": "you",
+          "start_time": "13.379999999999999",
+          "end_time": "13.399999999999999",
+          "speaker": 1,
+          "confidence": 0.9846210475596305
+        },
+        {
+          "segment": "chihiro",
+          "start_time": "14.02",
+          "end_time": "14.959999999999999",
+          "speaker": 1,
+          "confidence": 0.8553516573582424
+        },
+        {
+          "segment": "gets",
+          "start_time": "15.32",
+          "end_time": "15.52",
+          "speaker": 1,
+          "confidence": 0.9830699239175559
+        },
+        {
+          "segment": "right",
+          "start_time": "15.66",
+          "end_time": "15.68",
+          "speaker": 1,
+          "confidence": 0.9910762347425945
+        },
+        {
+          "segment": "are",
+          "start_time": "16.2",
+          "end_time": "16.22",
+          "speaker": 1,
+          "confidence": 0.9786912085469299
+        },
+        {
+          "segment": "away",
+          "start_time": "16.38",
+          "end_time": "16.5",
+          "speaker": 1,
+          "confidence": 0.9973910960976324
+        },
+        {
+          "segment": "from",
+          "start_time": "16.759999999999998",
+          "end_time": "16.779999999999998",
+          "speaker": 1,
+          "confidence": 0.9990738870699025
+        }
+      ],
+      "error_message": null
     }
-  },
-  "provider_job_id": "111ee55c-432a-11ed-a89b-0242ac12000b"
+  }
 }
