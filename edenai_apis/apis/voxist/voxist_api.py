@@ -121,7 +121,7 @@ class VoxistApi(ProviderApi, Audio):
                 diarization_entries.append(
                     SpeechDiarizationEntry(
                         segment= word['Word'],
-                        speaker= int(phrase['Speaker'].split('_')[-1]),
+                        speaker= int(phrase['Speaker'].split('_')[-1]) + 1,
                         start_time= str(start_time),
                         end_time= str(start_time+ word['Duration']),
                         confidence= word['Confidence']

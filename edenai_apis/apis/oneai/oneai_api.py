@@ -283,7 +283,7 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
 
         if response.status_code == 200:
             # pprint(original_response)
-            if original_response['status'] == StatusEnum.SUCCESS:
+            if original_response['status'] == StatusEnum.SUCCESS.value:
                 final_text = ""
                 phrase = original_response['result']['input_text'].split('\n\n')
                 for item in phrase:
@@ -313,7 +313,7 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
                     standardized_response=standardized_response,
                     provider_job_id=provider_job_id
                 )
-            elif original_response['status'] == StatusEnum.RUNNING:
+            elif original_response['status'] == StatusEnum.RUNNING.value:
                 return AsyncPendingResponseType[SpeechToTextAsyncDataClass](provider_job_id=provider_job_id)
             else:
                 raise ProviderException(original_response)

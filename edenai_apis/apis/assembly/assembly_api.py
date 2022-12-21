@@ -1,6 +1,5 @@
 from io import BufferedReader
 import requests
-import datetime as dt
 from time import time
 import json
 from edenai_apis.features import ProviderApi, Audio
@@ -14,7 +13,6 @@ from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
-    ResponseType
 )
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.loaders.data_loader import ProviderDataEnum

@@ -678,7 +678,7 @@ class AmazonApi(
         self, job_id: str
     ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
         # Getting results from webhook.site
-        data = check_webhook_result(job_id, self.api_settings)
+        data, *_ = check_webhook_result(job_id, self.api_settings)
         if data is None :
             return AsyncPendingResponseType[OcrTablesAsyncDataClass](
                 provider_job_id=job_id

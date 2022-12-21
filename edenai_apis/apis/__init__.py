@@ -29,5 +29,6 @@ from .voxist import VoxistApi
 from .modernmt import ModernmtApi
 from .hireability import HireabilityApi
 from .assembly import AssemblyApi
+from .deepgram import DeepgramApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

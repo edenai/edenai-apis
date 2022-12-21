@@ -60,16 +60,17 @@ def check_webhook_result(job_id: str, api_settings: dict) -> Dict:
         + f"?sorting=newest&query={urllib.parse.quote_plus('content:'+str(job_id))}"
     )
     webhook_response = requests.get(url=webhook_get_url, headers={"Api-Key": api_key})
+    response_status = webhook_response.status_code
     try:
-        if webhook_response.status_code != 200 or len(
+        if response_status != 200 or len(
             webhook_response.json()["data"]
         ) == 0:
-            print("status", webhook_response.status_code)
+            print("status", response_status)
             print("webhook_response.text", webhook_response.text)
-            return None
-        return json.loads(webhook_response.json()["data"][0]["content"])
+            return None, response_status
+        return json.loads(webhook_response.json()["data"][0]["content"]), response_status
     except Exception:
-        return None
+        return None, response_status
 
 
 def amazon_ocr_tables_parser(original_result) -> OcrTablesAsyncDataClass:
