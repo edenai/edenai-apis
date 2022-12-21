@@ -133,7 +133,6 @@ class AssemblyApi(ProviderApi, Audio):
         index_speaker  = 0
 
         original_response = response.json()
-        print(json.dumps(original_response, indent=2))
         status = original_response["status"]
         if status == "error":
             storage_clients(self.api_settings_amazon)["speech"].meta.client.delete_object(
