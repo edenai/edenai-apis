@@ -1,13 +1,13 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Tests](https://github.com/edenai/edenai-apis/actions/workflows/test.yml/badge.svg)](https://github.com/edenai/edenai-apis/actions/workflows/test.yml)
 
-![Eden AI Logo](EdenAI-WrittenLogo(1).png)
+![Eden AI Logo](assets/EdenAI-Logo.png)
 
 # EdenAI APIs
 
 [Eden AI](https://www.edenai.co/?referral=github) aims to simplify the use and deployment of AI technologies by providing a unique API (application programming interface) that connects to the best possible AI engines. These engines are either proprietary or Open source AI engines, and can be used for different purposes, e.g, face
 detection, OCR (receipt, invoice, table...), keyword extraction, sentiment analysis, face detection, and much more. These technologies are provided by the best suppliers in the market. We can cite briefly some of them: Amazon, Google, Microsoft, Dataleon, and Mindee and many others. Eden AI take care of providing to it’s clients the best AI engine suited to their projects, and this, with the goal of keeping AI light and easy to any developer. 
 
-![EdenAI Gif](ezgif.com-gif-maker(1).gif)
+![EdenAI Gif](assets/gif-edenai-maker.gif)
 
 ## Package Installation
 
@@ -83,7 +83,7 @@ We use GitHub issues for tracking requests and bugs. For broader discussions you
 
 ## Don’t want to create accounts for all providers and host the project by yourself?
 You can create an account on [Eden AI](https://app.edenai.run/user/register?referral=github) and have access to all the AI technologies and providers directly through our API.
-[![Eden AI Logo](EdenAI-WrittenLogo(1).png)](https://app.edenai.run/user/register?referral=github)
+[![Eden AI Logo](assets/EdenAI-Logo.png)](https://app.edenai.run/user/register?referral=github)
 
 
 ## Join the community!
