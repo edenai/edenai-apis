@@ -10,6 +10,7 @@ from edenai_apis.features.text import (
     SummarizeDataClass,
     SearchDataClass,
     TopicExtractionDataClass,
+    GenerationDataClass,
 )
 from edenai_apis.utils.types import ResponseType
 
@@ -153,5 +154,20 @@ class Text:
         Args:
             text (str): text to analyze
             language (str): text's language code in ISO format
+        """
+        raise NotImplementedError
+    
+    @abstractmethod
+    def text__generation(
+        self, text : str, 
+        temperature : float, 
+        max_tokens : int,
+        model : Optional[str], 
+    ) -> ResponseType[GenerationDataClass]:
+        """
+        Text generation from a given prompt
+
+        Args:
+            text (str): your prompt
         """
         raise NotImplementedError

@@ -6,7 +6,7 @@ from time import time
 from typing import Sequence
 import base64
 import uuid
-
+from collections import defaultdict
 import urllib
 from pathlib import Path
 from pdf2image.pdf2image import convert_from_bytes
@@ -89,7 +89,7 @@ from edenai_apis.features.video import (
     VideoPersonQuality,
     VideoPersonPoses,
 )
-from edenai_apis.utils.audio import wav_converter
+from edenai_apis.utils.audio import wav_converter, file_with_good_extension
 from edenai_apis.utils.exception import (
     ProviderException,
     LanguageException
@@ -678,7 +678,7 @@ class AmazonApi(
         self, job_id: str
     ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
         # Getting results from webhook.site
-        data = check_webhook_result(job_id, self.api_settings)
+        data, *_ = check_webhook_result(job_id, self.api_settings)
         if data is None :
             return AsyncPendingResponseType[OcrTablesAsyncDataClass](
                 provider_job_id=job_id
@@ -716,7 +716,8 @@ class AmazonApi(
         :return:            String that contains the filename on the server
         """
         # Store file in an Amazon server
-        filename = str(int(time())) + "_" + str(file_name)
+        # filename = str(int(time())) + "_" + str(file_name)
+        filename = str(uuid.uuid4())
         self.storage_clients["speech"].meta.client.upload_fileobj(file, self.api_settings['bucket'], filename)
 
         return filename
@@ -738,11 +739,13 @@ class AmazonApi(
     def _launch_transcribe(
         self, filename:str, frame_rate, 
         language:str, speakers: int, vocab_name:str=None,
-        initiate_vocab:bool= False):
+        initiate_vocab:bool= False, format:str = "wav"):
+        if speakers < 2:
+            speakers = 2
         params = {
             "TranscriptionJobName" : filename,
             "Media" : {"MediaFileUri": self.api_settings["storage_url"] + filename},
-            "MediaFormat" : "wav",
+            # "MediaFormat" : format,
             "LanguageCode" : language,
             "MediaSampleRateHertz" : frame_rate,
             "Settings" : {
@@ -762,8 +765,8 @@ class AmazonApi(
             })
             if initiate_vocab:
                 params["checked"]= False
-                extention_index = filename.rfind(".")
-                filename = f"{filename[:-(len(filename) - extention_index)]}_settings.txt"
+                # extention_index = filename.rfind(".")
+                filename = f"{filename}_settings.txt"
                 self.storage_clients["speech"].meta.client.put_object(
                     Bucket=self.api_settings['bucket'], 
                     Body=json.dumps(params).encode(), 
@@ -780,19 +783,22 @@ class AmazonApi(
         self, file: BufferedReader, language: str, speakers : int,
         profanity_filter: bool, vocabulary: list
     ) -> AsyncLaunchJobResponseType:
-        # Convert audio file in wav
-        wav_file, frame_rate = wav_converter(file)[0:2]
+
+        # check if audio file needs convertion
+        accepted_extensions = ["amr", "flac", "wav", "ogg", "mp3", "mp4", "webm"]
+        file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
+      
         filename = self._upload_audio_file_to_amazon_server(
-            wav_file, Path(file.name).stem + ".wav"
+            file, Path(file.name).stem + "." + export_format
         )
         if vocabulary:
             vocab_name = self._create_vocabulary(language, vocabulary)
-            self._launch_transcribe(filename, frame_rate, language, speakers, vocab_name, True)
+            self._launch_transcribe(filename, frame_rate, language, speakers, vocab_name, True, format=export_format)
             return AsyncLaunchJobResponseType(
                 provider_job_id=f"{filename}EdenAI{vocab_name}"
             )
 
-        self._launch_transcribe(filename, frame_rate, language, speakers)
+        self._launch_transcribe(filename, frame_rate, language, speakers, format=export_format)
         return AsyncLaunchJobResponseType(
             provider_job_id=filename
         )
@@ -803,10 +809,12 @@ class AmazonApi(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
 
+        if not provider_job_id:
+            raise ProviderException("Job id None or empty!")
         # check custom vocabilory job state
         job_id, *vocab = provider_job_id.split("EdenAI")
         if vocab: # if vocabilory is used and
-            setting_content = self.storage_clients["speech"].meta.client.get_object(Bucket= self.api_settings['bucket'], Key= f"{job_id[:-4]}_settings.txt")
+            setting_content = self.storage_clients["speech"].meta.client.get_object(Bucket= self.api_settings['bucket'], Key= f"{job_id}_settings.txt")
             settings = json.loads(setting_content['Body'].read().decode('utf-8'))
             if not settings["checked"]: # check if the vocabulary has been created or not
                 vocab_name = vocab[0]
@@ -831,7 +839,7 @@ class AmazonApi(
                 self.storage_clients["speech"].meta.client.put_object(
                     Bucket=self.api_settings['bucket'], 
                     Body=json.dumps(settings).encode(),
-                    Key = f"{job_id[:-index_last]}_settings.txt"
+                    Key = f"{job_id}_settings.txt"
                 )
                 return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                         provider_job_id=provider_job_id
@@ -1204,7 +1212,6 @@ class AmazonApi(
     def video__explicit_content_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> ExplicitContentDetectionAsyncDataClass:
-
         max_results = 10
         pagination_token = ""
         finished = False
@@ -1216,19 +1223,16 @@ class AmazonApi(
                 NextToken=pagination_token,
             )
             moderated_content = []
-            for label in response["ModerationLabels"]:
-                confidence = label["ModerationLabel"]["Confidence"]
-                timestamp = float(label["Timestamp"]) / 1000.0  # convert to seconds
-                if label.get("ParentName", "") != "":
-                    category = label["ParentName"]
-                else:
-                    category = label["Name"]
-
-                moderated_content.append(
-                    ContentNSFW(
-                        timestamp=timestamp, confidence=confidence, category=category
+            for label in response.get("ModerationLabels",[]):
+                confidence = label.get("ModerationLabel", defaultdict).get("Confidence")
+                timestamp = float(label.get("Timestamp")) / 1000.0  # convert to seconds
+                if label.get("ParentName"):
+                    category = label.get("ParentName", label.get("Name"))
+                    moderated_content.append(
+                        ContentNSFW(
+                            timestamp=timestamp, confidence=confidence, category=category
+                        )
                     )
-                )
             standardized_response = ExplicitContentDetectionAsyncDataClass(
                 moderation=moderated_content
             )

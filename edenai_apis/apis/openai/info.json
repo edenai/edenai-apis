@@ -5,7 +5,10 @@
     },
     "summarize": {
       "constraints": {
-        "allow_null_language": true
+        "languages": [
+          "en"
+        ],
+        "allow_null_language":false
       },
       "version": "v3.0.0"
     },
@@ -14,39 +17,41 @@
     },
     "anonymization":{
       "constraints": {
-        "allow_null_language": true
+        "languages": [
+          "en"
+        ],
+        "allow_null_language":false
       },
       "version": "v3.0.0"
     },
     "keyword_extraction":{
       "constraints": {
-        "allow_null_language": true
+        "languages": [
+          "en"
+        ],
+        "allow_null_language":false
       },
       "version": "v3.0.0"
     },
     "sentiment_analysis":{
-      "constraints":{
-        "allow_null_language": true
+      "constraints": {
+        "languages": [
+          "en"
+        ],
+        "allow_null_language":false
       },
       "version" : "v3.0.0"
     },
     "topic_extraction": {
       "constraints": {
           "languages": [
-              "zh",
-              "zh-Hant",
-              "en",
-              "fr",
-              "de",
-              "it",
-              "ja",
-              "ko",
-              "pt",
-              "ru",
-              "es"
+              "en"
           ],
-          "allow_null_language": true
+          "allow_null_language": false
       },
+      "version": "v1"
+    },
+    "generation" : {
       "version": "v1"
     }
   },
@@ -174,3 +179,5 @@
    }
   }
 }
+
+

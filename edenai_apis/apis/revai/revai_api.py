@@ -4,6 +4,7 @@ import uuid
 from time import time
 import json
 import boto3
+import datetime as dt
 from botocore.errorfactory import ClientError
 
 from edenai_apis.features import ProviderApi, Audio
@@ -22,6 +23,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 from apis.amazon.config import clients, storage_clients
+from edenai_apis.utils.audio import file_with_good_extension
 
 
 class RevAIApi(ProviderApi, Audio):
@@ -71,15 +73,16 @@ class RevAIApi(ProviderApi, Audio):
             "filter_profanity": profanity_filter,
         }
 
+        source_config = {
+            "url" : file_url
+        }
+
         if language:
-            config.update({
-                "language": language,
-            })
+            config["language"] = language
 
         if vocab_name:
-            config.update({
-                "custom_vocabulary_id" : vocab_name
-            })
+            config["custom_vocabulary_id"] = vocab_name
+
             if initiate_vocab:
                 config["checked"]= False
                 filename = f"{vocab_name}_settings.txt"
@@ -91,10 +94,8 @@ class RevAIApi(ProviderApi, Audio):
                 return 
 
         data_config = {
-                "options": json.dumps(config),
-                "source_config" : {
-                    "url" : file_url
-                }
+                **config,
+                "source_config" : source_config
             }
         response = requests.post(
             url="https://ec1.api.rev.ai/speechtotext/v1/jobs",
@@ -102,12 +103,13 @@ class RevAIApi(ProviderApi, Audio):
                 "Authorization": f"Bearer {self.key}",
                 "Content-type": "application/json", 
                 },
-            data= json.dumps(data_config),
+            json= data_config,
             # files=[("media", ("audio_file", file))],
         )
         original_response = response.json()
     
         if response.status_code != 200:
+            print(json.dumps(response.json()))
             parameters = original_response.get('parameters')
             for key, value in parameters.items():
                 if "filter_profanity" in key:
@@ -129,14 +131,20 @@ class RevAIApi(ProviderApi, Audio):
         self, file: BufferedReader, language: str,
         speakers : int, profanity_filter: bool, vocabulary: list
     ) -> AsyncLaunchJobResponseType:
+        
+        # check if audio file needs convertion
+        accepted_extensions = ["ogg", "flac", "mp4", "wav", "mp3"]
+        new_file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
 
         # upload file to amazon S3
         file_name = str(int(time())) + "_" + str(file.name.split("/")[-1])
         storage_clients(self.api_settings_amazon)["speech"].meta.client.upload_fileobj(
-            Fileobj = file, 
+            Fileobj = new_file, 
             Bucket = self.bucket_name, 
             Key= file_name 
         )
+
+        vocabulary = []
 
         if vocabulary:
             vocab_name = self._create_vocabulary(vocabulary)
@@ -208,7 +216,6 @@ class RevAIApi(ProviderApi, Audio):
                 message=f"{original_response.get('title','')}: {original_response.get('details','')}",
                 code=response.status_code,
             )
-
         status = original_response["status"]
         if status == "transcribed":
             # delete audio file
@@ -257,6 +264,11 @@ class RevAIApi(ProviderApi, Audio):
                 provider_job_id=provider_job_id,
             )
         elif status == "failed":
+            # delete audio file
+            storage_clients(self.api_settings_amazon)["speech"].meta.client.delete_object(
+                Bucket= self.bucket_name, 
+                Key= file_name
+            )
             error = original_response.get("failure_detail")
             raise ProviderException(error)
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](

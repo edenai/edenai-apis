@@ -4,6 +4,7 @@ from google.protobuf.json_format import MessageToDict
 from clarifai_grpc.grpc.api import resources_pb2, service_pb2, service_pb2_grpc
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
 from clarifai_grpc.grpc.api.status import status_code_pb2
+from collections import defaultdict
 from edenai_apis.features.image.object_detection.object_detection_dataclass import (
     ObjectItem,
 )
@@ -258,20 +259,23 @@ class ClarifaiApi(
                 post_model_outputs_response, preserving_proto_field_name=True
             )
             original_response = response["outputs"][0]["data"]
-
+            default_dict = defaultdict(lambda: None)
             items = []
-            for region in original_response["regions"]:
-                rect = region["region_info"]["bounding_box"]
-                items.append(
-                    ObjectItem(
-                        label=region["data"]["concepts"][0]["name"],
-                        confidence=region.get("value"),
-                        x_min=rect.get("left_col"),
-                        x_max=rect.get("right_col"),
-                        y_min=rect.get("top_row"),
-                        y_max=rect.get("bottom_row"),
+            regions = original_response.get("regions")
+            if regions:
+                for region in regions:
+                    rect = region["region_info"]["bounding_box"]
+                    items.append(
+                        ObjectItem(
+                            label=region.get("data",default_dict).get(
+                                "concepts",[default_dict])[0].get("name"),
+                            confidence=region.get("value"),
+                            x_min=rect.get("left_col"),
+                            x_max=rect.get("right_col"),
+                            y_min=rect.get("top_row"),
+                            y_max=rect.get("bottom_row"),
+                        )
                     )
-                )
 
             return ResponseType[ObjectDetectionDataClass](
                 original_response=original_response,

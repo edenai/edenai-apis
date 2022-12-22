@@ -41,3 +41,7 @@ from .topic_extraction import (
     ExtractedTopic,
     topic_extraction_arguments
 )
+from .generation import(
+    GenerationDataClass,
+    generation_arguments,
+)
