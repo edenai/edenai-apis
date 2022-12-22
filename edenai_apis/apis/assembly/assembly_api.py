@@ -20,6 +20,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import file_with_good_extension
 
 from apis.amazon.config import storage_clients
+from .helper import language_matches
 
 class AssemblyApi(ProviderApi, Audio):
     provider_name = "assembly"
@@ -41,6 +42,8 @@ class AssemblyApi(ProviderApi, Audio):
         language: str, speakers: int, profanity_filter: bool, vocabulary: list
         ) -> AsyncLaunchJobResponseType:
 
+        if "-" in language:
+            language = language_matches[language]
         # check if audio file needs convertion
         accepted_extensions = ["wav", "mp3", "flac","3ga","8svx","aac","ac3","aif", "aiff", "alac", "amr",
             "ape", "au","dss", "flv", "m4a", "m4b","m4p","m4r","mpga","ogg","oga","mogg","opus","qcp","tta",
