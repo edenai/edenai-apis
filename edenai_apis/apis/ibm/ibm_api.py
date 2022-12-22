@@ -386,7 +386,7 @@ class IbmApi(
             "audio" : new_file,
             "content_type" : "audio/"+export_format,
             "speaker_labels" : True,
-            "profanity_filter" : profanity_filter,
+            "profanity_filter" : profanity_filter
         }
         audio_config.update({
             "rate": frame_rate

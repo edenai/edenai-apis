@@ -79,7 +79,7 @@ class DeepgramApi(ProviderApi, Audio):
         if not language:
             del data_config["language"]
             data_config.update({
-                "detect_language" : True
+                "detect_language" : "true"
             })
         for key,value in data_config.items():
             self.url = (
