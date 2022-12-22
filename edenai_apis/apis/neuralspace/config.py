@@ -1120,6 +1120,8 @@ supported_domains = [
 
 
 def get_domain_language_from_code(lang_code):
+    if not lang_code:
+        return None
     list_languages = load_language_constraints("neuralspace", "audio", "speech_to_text_async")
     list_languages_four_digits = [lang for lang in list_languages if len(lang) > 2]
     language = lang_code

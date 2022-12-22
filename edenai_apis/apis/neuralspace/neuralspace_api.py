@@ -159,12 +159,15 @@ class NeuralSpaceApi(ProviderApi, Text, Translation):
     
         # then, call spech to text api
         language_domain = get_domain_language_from_code(language)
-        print(language_domain)
         payload= {
-            "fileId": fileId,
-            "language": language_domain.get('language'),
-            "domain" : language_domain.get('domain')
+            "fileId": fileId
         }
+
+        if language_domain:
+            payload.update({
+                "language": language_domain.get('language'),
+                "domain" : language_domain.get('domain')
+            })
 
         response = requests.post(
             url = url_file_transcribe,
