@@ -1,6 +1,6 @@
-from typing import List, Optional, Sequence
+from typing import Optional
 import requests
-from edenai_apis.features import ProviderApi, Text
+from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import (
     GenerationDataClass,
 )
@@ -10,8 +10,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
 
-
-class CohereApi(ProviderApi, Text):
+class CohereApi(ProviderInterface, TextInterface):
     provider_name = "cohere"
 
     def __init__(self):

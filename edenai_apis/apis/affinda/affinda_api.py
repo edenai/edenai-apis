@@ -2,7 +2,7 @@ from io import BufferedReader
 from typing import Sequence
 from collections import defaultdict
 from affinda import AffindaAPI, TokenCredential
-from edenai_apis.features import Ocr
+from edenai_apis.features import OcrInterface
 from edenai_apis.features.ocr import (
     ResumeEducationEntry,
     ResumeExtractedData,
@@ -25,13 +25,13 @@ from edenai_apis.features.ocr import (
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features.base_provider.provider_api import ProviderApi
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.utils.conversion import combine_date_with_time, convert_string_to_number
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
 
-class AffindaApi(ProviderApi, Ocr):
+class AffindaApi(ProviderInterface, OcrInterface):
     provider_name = "affinda"
 
     def __init__(self):

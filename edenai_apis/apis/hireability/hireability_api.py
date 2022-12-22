@@ -1,9 +1,7 @@
 from io import BufferedReader
 import requests
-import sys
-from pprint import pprint
 from collections import defaultdict
-from edenai_apis.features import Ocr
+from edenai_apis.features import OcrInterface
 from edenai_apis.features.ocr import (
     ResumeEducationEntry,
     ResumeExtractedData,
@@ -19,12 +17,12 @@ from edenai_apis.features.ocr import (
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features.base_provider.provider_api import ProviderApi
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
 
-class HireabilityApi(ProviderApi, Ocr):
+class HireabilityApi(ProviderInterface, OcrInterface):
     provider_name = "hireability"
 
     def __init__(self):

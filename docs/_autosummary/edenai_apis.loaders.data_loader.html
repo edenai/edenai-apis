@@ -608,7 +608,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#edenai_apis.loaders.data_loader.load_class" title="edenai_apis.loaders.data_loader.load_class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_class</span></code></a>()</p></td>
-<td><p>Get all ProviderApi in providers package</p></td>
+<td><p>Get all ProviderInterface in providers package</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#edenai_apis.loaders.data_loader.load_dataclass" title="edenai_apis.loaders.data_loader.load_dataclass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_dataclass</span></code></a>(feature, subfeature[, phase])</p></td>
 <td><p>Get OutputDataClass for one feature and one subfeature</p></td>
@@ -665,10 +665,10 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="edenai_apis.loaders.data_loader.load_class">
-<span class="sig-prename descclassname"><span class="pre">edenai_apis.loaders.data_loader.</span></span><span class="sig-name descname"><span class="pre">load_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="edenai_apis.features.base_provider.provider_api.html#edenai_apis.features.base_provider.provider_api.ProviderApi" title="edenai_apis.features.base_provider.provider_api.ProviderApi"><span class="pre">ProviderApi</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#edenai_apis.loaders.data_loader.load_class" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">edenai_apis.loaders.data_loader.</span></span><span class="sig-name descname"><span class="pre">load_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="edenai_apis.features.base_provider.provider_api.html#edenai_apis.features.base_provider.provider_api.ProviderInterface" title="edenai_apis.features.base_provider.provider_api.ProviderInterface"><span class="pre">ProviderInterface</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#edenai_apis.loaders.data_loader.load_class" title="Permalink to this definition">#</a></dt>
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">edenai_apis.loaders.data_loader.</span></span><span class="sig-name descname"><span class="pre">load_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">provider_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="edenai_apis.features.base_provider.provider_api.html#edenai_apis.features.base_provider.provider_api.ProviderApi" title="edenai_apis.features.base_provider.provider_api.ProviderApi"><span class="pre">ProviderApi</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
-<dd><p>Get all ProviderApi in providers package</p>
+<span class="sig-prename descclassname"><span class="pre">edenai_apis.loaders.data_loader.</span></span><span class="sig-name descname"><span class="pre">load_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">provider_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="edenai_apis.features.base_provider.provider_api.html#edenai_apis.features.base_provider.provider_api.ProviderInterface" title="edenai_apis.features.base_provider.provider_api.ProviderInterface"><span class="pre">ProviderInterface</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
+<dd><p>Get all ProviderInterface in providers package</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -681,13 +681,13 @@
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><dl class="simple">
-<dt>returnd ProviderApi class(es)</dt><dd><p>single class if provider_name is provided, or a list if provider_name is None.</p>
+<dt>returnd ProviderInterface class(es)</dt><dd><p>single class if provider_name is provided, or a list if provider_name is None.</p>
 </dd>
 </dl>
 </p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Union[List[<a class="reference internal" href="edenai_apis.features.base_provider.provider_api.html#edenai_apis.features.base_provider.provider_api.ProviderApi" title="edenai_apis.features.base_provider.provider_api.ProviderApi">ProviderApi</a>], <a class="reference internal" href="edenai_apis.features.base_provider.provider_api.html#edenai_apis.features.base_provider.provider_api.ProviderApi" title="edenai_apis.features.base_provider.provider_api.ProviderApi">ProviderApi</a>]</p>
+<dd class="field-even"><p>Union[List[<a class="reference internal" href="edenai_apis.features.base_provider.provider_api.html#edenai_apis.features.base_provider.provider_api.ProviderInterface" title="edenai_apis.features.base_provider.provider_api.ProviderInterface">ProviderInterface</a>], <a class="reference internal" href="edenai_apis.features.base_provider.provider_api.html#edenai_apis.features.base_provider.provider_api.ProviderInterface" title="edenai_apis.features.base_provider.provider_api.ProviderInterface">ProviderInterface</a>]</p>
 </dd>
 </dl>
 </dd></dl>

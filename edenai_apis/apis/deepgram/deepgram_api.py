@@ -3,7 +3,7 @@ from io import BufferedReader
 import requests
 import json
 from time import time
-from edenai_apis.features import ProviderApi, Audio
+from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
@@ -24,7 +24,7 @@ from apis.amazon.helpers import check_webhook_result
 from apis.amazon.config import storage_clients
 
 
-class DeepgramApi(ProviderApi, Audio):
+class DeepgramApi(ProviderInterface, AudioInterface):
     provider_name = "deepgram"
 
     def __init__(self) -> None:

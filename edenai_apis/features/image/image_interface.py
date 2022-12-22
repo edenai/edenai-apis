@@ -35,7 +35,7 @@ from edenai_apis.features.image.search.upload_image.search_upload_image_dataclas
 from edenai_apis.utils.types import ResponseType
 
 
-class Image:
+class ImageInterface:
     @abstractmethod
     def image__anonymization(
         self, file: BufferedReader

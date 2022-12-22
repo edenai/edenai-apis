@@ -2,7 +2,7 @@ from io import BufferedReader
 from typing import Sequence
 import requests
 
-from edenai_apis.features import ProviderApi, Text, Translation
+from edenai_apis.features import ProviderInterface, TextInterface, TranslationInterface
 from edenai_apis.features.text import (
     InfosNamedEntityRecognitionDataClass,
     NamedEntityRecognitionDataClass,
@@ -29,7 +29,7 @@ from edenai_apis.utils.exception import ProviderException
 from .config import get_domain_language_from_code
 
 
-class NeuralSpaceApi(ProviderApi, Text, Translation):
+class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
     provider_name = "neuralspace"
 
     def __init__(self) -> None:

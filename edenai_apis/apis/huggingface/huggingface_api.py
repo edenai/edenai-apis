@@ -2,7 +2,7 @@ from asyncio import sleep
 from typing import List, Optional
 import requests
 
-from edenai_apis.features import ProviderApi, Text, Translation
+from edenai_apis.features import ProviderInterface, TextInterface, TranslationInterface
 from edenai_apis.features.text import SummarizeDataClass, QuestionAnswerDataClass
 from edenai_apis.features.translation import AutomaticTranslationDataClass
 from edenai_apis.loaders.loaders import load_provider
@@ -11,7 +11,7 @@ from edenai_apis.utils.conversion import format_string_url_language
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
-class HuggingfaceApi(ProviderApi, Text, Translation):
+class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
 
     provider_name = "huggingface"
     base_url = "https://api-inference.huggingface.co/models"

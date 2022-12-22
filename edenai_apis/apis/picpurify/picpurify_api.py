@@ -3,7 +3,7 @@ import json
 from PIL import Image as Img
 import requests
 
-from edenai_apis.features import ProviderApi, Image
+from edenai_apis.features import ProviderInterface, ImageInterface
 from edenai_apis.features.image import (
     ExplicitItem,
     ExplicitContentDataClass,
@@ -18,7 +18,7 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.apis.picpurify.helpers import content_processing
 
 
-class PicpurifyApi(ProviderApi, Image):
+class PicpurifyApi(ProviderInterface, ImageInterface):
 
     provider_name = "picpurify"
 

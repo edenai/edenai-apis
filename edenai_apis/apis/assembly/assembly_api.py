@@ -1,8 +1,7 @@
 from io import BufferedReader
 import requests
 from time import time
-import json
-from edenai_apis.features import ProviderApi, Audio
+from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
@@ -21,7 +20,7 @@ from edenai_apis.utils.audio import file_with_good_extension
 
 from apis.amazon.config import storage_clients
 
-class AssemblyApi(ProviderApi, Audio):
+class AssemblyApi(ProviderInterface, AudioInterface):
     provider_name = "assembly"
 
     def __init__(self) -> None:

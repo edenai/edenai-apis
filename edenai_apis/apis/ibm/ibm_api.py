@@ -47,17 +47,22 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType
     )
-from edenai_apis.features import ProviderApi, Translation, Audio, Text
+from edenai_apis.features import (
+    ProviderInterface,
+    TranslationInterface,
+    AudioInterface,
+    TextInterface
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from .config import ibm_clients, audio_voices_ids, tags
 
 
 class IbmApi(
-    ProviderApi,
-    Translation,
-    Audio,
-    Text,
+    ProviderInterface,
+    TranslationInterface,
+    AudioInterface,
+    TextInterface
 ):
 
     provider_name = "ibm"

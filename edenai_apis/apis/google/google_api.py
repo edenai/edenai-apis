@@ -22,13 +22,13 @@ from edenai_apis.apis.google.google_helpers import (
     score_to_sentiment,
 )
 from edenai_apis.features import (
-    Audio,
-    Image,
-    Ocr,
-    ProviderApi,
-    Text,
-    Translation,
-    Video,
+    AudioInterface,
+    ImageInterface,
+    OcrInterface,
+    ProviderInterface,
+    TextInterface,
+    TranslationInterface,
+    VideoInterface,
 )
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechDiarization,
@@ -176,7 +176,15 @@ from google.cloud.vision_v1.types.image_annotator import (
 from google.protobuf.json_format import MessageToDict
 
 
-class GoogleApi(ProviderApi, Video, Audio, Image, Ocr, Text, Translation):
+class GoogleApi(
+    ProviderInterface,
+    VideoInterface,
+    AudioInterface,
+    ImageInterface,
+    OcrInterface,
+    TextInterface,
+    TranslationInterface
+):
     provider_name = "google"
 
     def __init__(self):

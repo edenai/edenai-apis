@@ -2,8 +2,8 @@ from io import BufferedReader
 import json
 from typing import Dict
 import requests
-from edenai_apis.features.base_provider.provider_api import ProviderApi
-from edenai_apis.features import Audio
+from edenai_apis.features.provider.provider_interface import ProviderInterface
+from edenai_apis.features import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
@@ -21,7 +21,7 @@ from edenai_apis.utils.types import (
 )
 
 
-class VoxistApi(ProviderApi, Audio):
+class VoxistApi(ProviderInterface, AudioInterface):
     provider_name: str = "voxist"
 
     def __init__(self) -> None:

@@ -1,6 +1,6 @@
 from typing import Optional
 import requests
-from edenai_apis.features import ProviderApi, Text
+from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import SummarizeDataClass
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -8,7 +8,7 @@ from edenai_apis.utils.types import ResponseType
 
 
 
-class MeaningcloudApi(ProviderApi, Text):
+class MeaningcloudApi(ProviderInterface, TextInterface):
     provider_name = "meaningcloud"
 
     def __init__(self):

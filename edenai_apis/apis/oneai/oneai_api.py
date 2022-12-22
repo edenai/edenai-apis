@@ -4,7 +4,12 @@ import json
 from typing import Optional
 
 import requests
-from edenai_apis.features import ProviderApi, Text, Translation, Audio
+from edenai_apis.features import (
+    ProviderInterface,
+    TextInterface,
+    TranslationInterface,
+    AudioInterface
+)
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
@@ -46,7 +51,12 @@ class StatusEnum(Enum):
     RUNNING = 'RUNNING'
     FAILED = 'FAILED'
 
-class OneaiApi(ProviderApi, Text, Translation, Audio):
+class OneaiApi(
+    ProviderInterface,
+    TextInterface,
+    TranslationInterface,
+    AudioInterface
+):
     provider_name = 'oneai'
 
     def __init__(self) -> None:

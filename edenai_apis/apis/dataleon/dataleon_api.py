@@ -2,7 +2,7 @@ from io import BufferedReader
 from typing import Dict, Sequence
 import requests
 
-from edenai_apis.features import ProviderApi, Ocr
+from edenai_apis.features import ProviderInterface, OcrInterface
 from edenai_apis.features.ocr import (
     InvoiceParserDataClass,
     CustomerInformationInvoice,
@@ -23,7 +23,7 @@ from edenai_apis.utils.conversion import convert_string_to_number
 from edenai_apis.utils.types import ResponseType
 
 
-class DataleonApi(ProviderApi, Ocr):
+class DataleonApi(ProviderInterface, OcrInterface):
     provider_name = "dataleon"
 
     def __init__(self) -> None:

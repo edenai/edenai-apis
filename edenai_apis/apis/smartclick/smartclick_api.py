@@ -2,7 +2,7 @@ from io import BufferedReader
 from typing import Sequence
 import requests
 
-from edenai_apis.features import ProviderApi, Image
+from edenai_apis.features import ProviderInterface, ImageInterface
 from edenai_apis.features.image import (
     LogoDetectionDataClass,
     LogoBoundingPoly,
@@ -16,7 +16,7 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
 
 
-class SmartClickApi(ProviderApi, Image):
+class SmartClickApi(ProviderInterface, ImageInterface):
     provider_name = "smartclick"
 
     def __init__(self) -> None:

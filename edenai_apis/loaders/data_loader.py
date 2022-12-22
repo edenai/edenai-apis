@@ -4,7 +4,7 @@ import os
 from enum import Enum
 from typing import Callable, Dict, List, Optional, Union, overload, Type
 
-from edenai_apis.features.base_provider.provider_api import ProviderApi
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.settings import info_path, keys_path, outputs_path
 from edenai_apis.utils.compare import is_valid
 from pydantic import BaseModel
@@ -47,15 +47,15 @@ def load_key(provider_name, location=False):
 
 
 @overload
-def load_class() -> List[Type[ProviderApi]]:
+def load_class() -> List[Type[ProviderInterface]]:
     ...
 @overload
-def load_class(provider_name: str) -> Type[ProviderApi]:
+def load_class(provider_name: str) -> Type[ProviderInterface]:
     ...
 def load_class(
     provider_name: Optional[str] = None,
-) -> Union[List[Type[ProviderApi]], Type[ProviderApi]]:
-    """Get all ProviderApi in providers package
+) -> Union[List[Type[ProviderInterface]], Type[ProviderInterface]]:
+    """Get all ProviderInterface in providers package
 
     Args:
         provider_name (str, optional): get only Provider
@@ -65,24 +65,24 @@ def load_class(
         ValueError: if provider_name is wrong
 
     Returns:
-        Union[List[ProviderApi], ProviderApi]: returnd ProviderApi class(es)
+        Union[List[ProviderInterface], ProviderInterface]: returnd ProviderInterface class(es)
             single class if provider_name is provided, or a list if provider_name is None.
     """
     from edenai_apis import apis
 
-    api_class_list: List[Type[ProviderApi]] = [
+    api_class_list: List[Type[ProviderInterface]] = [
         getattr(apis, api) for api in dir(apis) if is_valid(".*Api", api)
     ]
     api_class_list.sort(key=lambda api: api.provider_name)
     if provider_name:
         # get first occurence of class with given provider_name, or None
-        api_class: Optional[Type[ProviderApi]] = next(
+        api_class: Optional[Type[ProviderInterface]] = next(
             filter(lambda cls: cls.provider_name == provider_name, api_class_list), None
         )
 
         if api_class is None:
             raise ValueError(
-                f"No ProviderApi class implemented for provider: {provider_name}."
+                f"No ProviderInterface class implemented for provider: {provider_name}."
             )
 
         return api_class

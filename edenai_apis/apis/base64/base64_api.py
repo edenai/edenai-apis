@@ -37,7 +37,7 @@ from edenai_apis.features.ocr.receipt_parser import (
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features import ProviderApi, Ocr
+from edenai_apis.features import ProviderInterface, OcrInterface
 from edenai_apis.utils.conversion import (
     combine_date_with_time,
     convert_string_to_number,
@@ -55,7 +55,7 @@ class SubfeatureParser(Enum):
 T = TypeVar("T")
 
 
-class Base64Api(ProviderApi, Ocr):
+class Base64Api(ProviderInterface, OcrInterface):
     provider_name = "base64"
 
     def __init__(self) -> None:

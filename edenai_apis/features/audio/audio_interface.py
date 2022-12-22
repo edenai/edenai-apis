@@ -11,7 +11,7 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
 from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType, ResponseType
 
 
-class Audio:
+class AudioInterface:
 
     ### Speech to Text methods
     @abstractmethod

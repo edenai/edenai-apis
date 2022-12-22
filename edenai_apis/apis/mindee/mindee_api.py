@@ -4,7 +4,7 @@ from typing import List, Optional, Sequence, TypeVar
 from pydantic import StrictStr
 import requests
 
-from edenai_apis.features import ProviderApi, Ocr
+from edenai_apis.features import ProviderInterface, OcrInterface
 from edenai_apis.features.ocr import (
     ReceiptParserDataClass,
     InfosInvoiceParserDataClass,
@@ -39,7 +39,7 @@ from edenai_apis.utils.types import ResponseType
 ParamsApi = TypeVar("ParamsApi")
 
 
-class MindeeApi(ProviderApi, Ocr):
+class MindeeApi(ProviderInterface, OcrInterface):
     provider_name = "mindee"
 
     def __init__(self) -> None:

@@ -11,11 +11,18 @@ import urllib
 from pathlib import Path
 from pdf2image.pdf2image import convert_from_bytes
 
-from edenai_apis.features.base_provider.provider_api import ProviderApi
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.apis.amazon.helpers import content_processing
-from edenai_apis.features import Audio, Video, Text, Image, Ocr, Translation
+from edenai_apis.features import (
+    AudioInterface,
+    VideoInterface,
+    TextInterface,
+    ImageInterface,
+    OcrInterface,
+    TranslationInterface
+)
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     TextToSpeechDataClass,
@@ -115,21 +122,21 @@ from .helpers import (
 from botocore.exceptions import ClientError, ParamValidationError
 
 class AmazonApi(
-    ProviderApi,
-    Image,
-    Ocr,
-    Text,
-    Translation,
-    Video,
-    Audio,
+    ProviderInterface,
+    AudioInterface,
+    VideoInterface,
+    TextInterface,
+    ImageInterface,
+    OcrInterface,
+    TranslationInterface
 ):
     provider_name = "amazon"
-    
+
     def __init__(self):
         self.api_settings = load_provider(ProviderDataEnum.KEY, "amazon")
         self.clients = clients(self.api_settings)
         self.storage_clients = storage_clients(self.api_settings)
-        
+
     def image__object_detection(
         self, file: BufferedReader
     ) -> ResponseType[ObjectDetectionDataClass]:
