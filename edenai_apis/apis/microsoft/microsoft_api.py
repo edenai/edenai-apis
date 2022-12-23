@@ -921,7 +921,8 @@ class MicrosoftApi(
         
         if response.status_code != 202:
             err = response.json().get("error", {})
-            error_msg = err.get("message", "Microsoft Azure couldn't create job")
+            details= err.get('details',[defaultdict])[0]
+            error_msg = details.get("message", f"Microsoft Azure couldn't create job")
             raise ProviderException(error_msg)
 
         get_url = response.headers.get("operation-location")
