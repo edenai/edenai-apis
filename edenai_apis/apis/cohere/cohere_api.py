@@ -34,13 +34,16 @@ class CohereApi(ProviderApi, Text):
         
         if not model:
             model = 'xlarge'
-            
+              
         payload = {
             "prompt": text,
             "model" : model,
             "temperature" : temperature,
-            "max_tokens" : max_tokens,
         }
+        
+        if max_tokens !=0:
+            payload['max_tokens'] = max_tokens
+            
         original_response = requests.post(url, json=payload, headers= self.headers).json()
         
         if "message" in original_response:

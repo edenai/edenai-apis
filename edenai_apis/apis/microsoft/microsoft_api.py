@@ -1,20 +1,18 @@
-from asyncio import sleep
 import datetime
-from pprint import pprint
+from time import sleep
 import sys
 from collections import defaultdict
 import base64
 import json
 from pathlib import Path
-import time
 from typing import Dict, List, Optional, Sequence
-from io import BufferedReader, BytesIO
+from io import BufferedReader
 import requests
 from PIL import Image as Img
-from pdf2image.pdf2image import convert_from_bytes
 import azure.cognitiveservices.speech as speechsdk
-from azure.ai.formrecognizer import FormRecognizerClient
+from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.core.credentials import AzureKeyCredential
+from azure.core.exceptions import AzureError
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     Audio,
@@ -214,25 +212,24 @@ class MicrosoftApi(
         file: BufferedReader,
         language: str
     ) -> ResponseType[InvoiceParserDataClass]:
-        invoice_file_content = file
 
-        # Get result
-        document_analysis_client = FormRecognizerClient(
-            endpoint=self.url["ocr_tables_async"],
-            credential=AzureKeyCredential(
-                self.api_settings["ocr_invoice"]["subscription_key"]
-            ),
-        )
-        poller = document_analysis_client.begin_recognize_invoices(
-            invoice=invoice_file_content
-        )
-        invoices = poller.result()
+        try:
+            document_analysis_client = DocumentAnalysisClient(
+                endpoint=self.api_settings['form_recognizer']['url'],
+                credential=AzureKeyCredential(
+                    self.api_settings["form_recognizer"]["subscription_key"]
+                ),
+            )
+            poller = document_analysis_client.begin_analyze_document("prebuilt-invoice", file)
+            invoices = poller.result()
+        except AzureError as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
 
-        result = [el.to_dict() for el in invoices]
+        original_response = invoices.to_dict()
 
         return ResponseType[InvoiceParserDataClass](
-            original_response=result,
-            standardized_response=normalize_invoice_result(result)
+            original_response=original_response,
+            standardized_response=normalize_invoice_result(original_response)
         )
 
 
@@ -242,114 +239,102 @@ class MicrosoftApi(
         language: str
     ) -> ResponseType[ReceiptParserDataClass]:
 
-        receipt_file_content = file
-        document_analysis_client = FormRecognizerClient(
-            endpoint=self.url["ocr_tables_async"],
-            credential=AzureKeyCredential(
-                self.api_settings["ocr_invoice"]["subscription_key"]
-            ),
-        )
-        poller = document_analysis_client.begin_recognize_receipts(receipt_file_content)
-        form_pages = poller.result()
-        result = [el.to_dict() for el in form_pages]
+        try:
+            document_analysis_client = DocumentAnalysisClient(
+                endpoint=self.api_settings['form_recognizer']['url'],
+                credential=AzureKeyCredential(
+                    self.api_settings["form_recognizer"]["subscription_key"]
+                ),
+            )
+            poller = document_analysis_client.begin_analyze_document("prebuilt-receipt", file)
+            form_pages = poller.result()
+        except AzureError as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
+        original_response = form_pages.to_dict()
     
         # Normalize the response
         default_dict = defaultdict(lambda: None)
-        fields = result[0].get("fields", default_dict)
-        # 1. Invoice number
-        invoice_total = fields.get("Total",default_dict).get("value")
+        receipts = []
+        for document in original_response.get("documents", []):
+            # 1. Receipt Total
+            receipt_total = document.get("Total", default_dict).get("value")
 
-        # 2. Date & time
-        date = fields.get("TransactionDate", default_dict).get("value")
-        time = fields.get("TransactionTime", default_dict).get("value")
+            # 2. Date & time
+            date = document.get("TransactionDate", default_dict).get("value")
+            time = document.get("TransactionTime", default_dict).get("value")
 
-        # 3. invoice_subtotal
-        sub_total = fields.get("Subtotal", default_dict).get("value")
+            # 3. receipt_subtotal
+            sub_total = document.get("Subtotal", default_dict).get("value")
 
-        # 4. merchant informations
-        merchant = MerchantInformation(
-            merchant_name=fields.get("MerchantName", default_dict).get("value"),
-            merchant_address = fields.get("MerchantAddress", default_dict).get("value"),
-            merchant_phone = fields.get("MerchantPhoneNumber", default_dict).get("vale")
-        )
-
-        # 5. Taxes
-        taxes = [Taxes(taxes=fields.get("Tax", default_dict).get("value"))]
-
-        # 6. Receipt infos / payment informations
-        receipt_infos = fields.get("ReceiptType")
-        payment_infos = PaymentInformation(
-            tip = fields.get("Tip", default_dict).get("value")
-        )
-
-        # 7. Items
-        items = []
-        for item in fields.get("Items", default_dict).get("value", []):
-            description = item["value"].get("Name", default_dict).get("value")
-            price = item["value"].get("Price", default_dict).get("value")
-            quantity = int(item["value"].get("Quantity", default_dict).get("value"))
-            total = item["value"].get("TotalPrice", default_dict).get("value")
-            items.append(
-                ItemLines(
-                    amount=total,
-                    description=description,
-                    unit_price=price,
-                    quantity=quantity,
-                )
+            # 4. merchant informations
+            merchant = MerchantInformation(
+                merchant_name=document.get("MerchantName", default_dict).get("value"),
+                merchant_address = document.get("MerchantAddress", default_dict).get("value"),
+                merchant_phone = document.get("MerchantPhoneNumber", default_dict).get("vale")
             )
 
-        receipt = InfosReceiptParserDataClass(
-            item_lines=items,
-            taxes=taxes,
-            merchant_information=merchant,
-            invoice_subtotal=sub_total,
-            invoice_total=invoice_total,
-            date=str(date),
-            time = str(time),
-            payment_information = payment_infos,
-            receipt_infos=receipt_infos,
-        )
+            # 5. Taxes
+            taxes = [Taxes(taxes=document.get("Tax", default_dict).get("value"))]
+
+            # 6. Receipt infos / payment informations
+            receipt_infos = {"doc_type": document.get("doc_type")}
+            payment_infos = PaymentInformation(
+                tip = document.get("Tip", default_dict).get("value")
+            )
+
+            # 7. Items
+            items = []
+            for item in document.get("Items", default_dict).get("value", []):
+                description = item["value"].get("Name", default_dict).get("value")
+                price = item["value"].get("Price", default_dict).get("value")
+                quantity = int(item["value"].get("Quantity", default_dict).get("value"))
+                total = item["value"].get("TotalPrice", default_dict).get("value")
+                items.append(
+                    ItemLines(
+                        amount=total,
+                        description=description,
+                        unit_price=price,
+                        quantity=quantity,
+                    )
+                )
+
+            receipts.append(
+                InfosReceiptParserDataClass(
+                    item_lines=items,
+                    taxes=taxes,
+                    merchant_information=merchant,
+                    invoice_subtotal=sub_total,
+                    receipt_total=receipt_total,
+                    date=str(date),
+                    time=str(time),
+                    payment_information=payment_infos,
+                    receipt_infos=receipt_infos,
+                )
+            )
         return ResponseType[ReceiptParserDataClass](
-            original_response=result,
-            standardized_response=ReceiptParserDataClass(extracted_data=[receipt])
+            original_response=original_response,
+            standardized_response=ReceiptParserDataClass(extracted_data=receipts)
         )
 
     def ocr__identity_parser(self, file: BufferedReader) -> ResponseType[IdentityParserDataClass]:
-        file_content = file.read()
-
-        headers = {
-            "Ocp-Apim-Subscription-Key": self.api_settings["ocr_id"]["subscription_key"],
-            "Content-Type": "application/octet-stream",
-        }
-
-        response = requests.post(
-            url=f"{self.api_settings['ocr_id']['url']}:analyze?{self.api_settings['ocr_id']['api_version']}",
-            headers=headers,
-            data=file_content
-        )
-
-        request_id = response.headers['apim-request-id']
-
-        sleep(2000)
-
-        response = requests.get(
-            url=f"{self.api_settings['ocr_id']['url']}/analyzeResults/{request_id}?{self.api_settings['ocr_id']['api_version']}",
-            headers=headers,
-        )
-
-        while response.json()['status'] == 'running':
-            response = requests.get(
-            url=f"{self.api_settings['ocr_id']['url']}/analyzeResults/{request_id}?{self.api_settings['ocr_id']['api_version']}",
-            headers=headers,
+        try:
+            document_analysis_client = DocumentAnalysisClient(
+                endpoint=self.api_settings['form_recognizer']['url'],
+                credential=AzureKeyCredential(
+                    self.api_settings["form_recognizer"]["subscription_key"]
+                ),
             )
-            sleep(500)
+            poller = document_analysis_client.begin_analyze_document("prebuilt-idDocument", file)
+            response = poller.result()
+        except AzureError as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
 
-        original_response = response.json()
-        microsoft_data = original_response['analyzeResult']
+        original_response = response.to_dict()
 
         items = []
 
-        for document in microsoft_data['documents']:
+        for document in original_response.get('documents', []):
             fields = document['fields']
             country = get_info_country(key=InfoCountry.ALPHA3, value=fields.get('CountryRegion', {}).get('content'))
             if country:
@@ -370,15 +355,15 @@ class MicrosoftApi(
                 ),
                 country=country,
                 birth_date=ItemIdentityParserDataClass(
-                    value=fields.get('DateOfBirth', {}).get('valueDate'),
+                    value=format_date(fields.get('DateOfBirth', {}).get('value')),
                     confidence=fields.get('DateOfBirth', {}).get('confidence')
                 ),
                 expire_date=ItemIdentityParserDataClass(
-                    value=fields.get('DateOfExpiration', {}).get('valueDate'),
+                    value=format_date(fields.get('DateOfExpiration', {}).get('value')),
                     confidence=fields.get('DateOfExpiration', {}).get('confidence')
                 ),
                 issuance_date=ItemIdentityParserDataClass(
-                    value=fields.get('DateOfIssue', {}).get('valueDate'),
+                    value=format_date(fields.get('DateOfIssue', {}).get('value')),
                     confidence=fields.get('DateOfIssue', {}).get('confidence')
                 ),
                 issuing_state=ItemIdentityParserDataClass(
@@ -921,7 +906,8 @@ class MicrosoftApi(
         
         if response.status_code != 202:
             err = response.json().get("error", {})
-            error_msg = err.get("message", "Microsoft Azure couldn't create job")
+            details= err.get('details',[defaultdict])[0]
+            error_msg = details.get("message", f"Microsoft Azure couldn't create job")
             raise ProviderException(error_msg)
 
         get_url = response.headers.get("operation-location")
@@ -966,12 +952,16 @@ class MicrosoftApi(
 
         file_content = file.read()
         url = (f"{self.url['ocr_tables_async']}formrecognizer/documentModels/"
-                f"prebuilt-layout:analyze?api-version=2022-01-30-preview")
+                f"prebuilt-layout:analyze?api-version=2022-08-31")
         url = format_string_url_language(url, language, "locale", self.provider_name)
 
         response = requests.post(
             url, headers=self.headers["ocr_tables_async"], data=file_content
         )
+
+        if response.status_code != 202:
+            error = response.json()['error']['innerror']['message']
+            raise ProviderException(error)
 
         return AsyncLaunchJobResponseType(provider_job_id=response.headers.get("apim-request-id"))
 
@@ -983,9 +973,14 @@ class MicrosoftApi(
         url = (
             self.url["ocr_tables_async"]
             + f"formrecognizer/documentModels/prebuilt-layout/"
-            f"analyzeResults/{job_id}?api-version=2022-01-30-preview"
+            f"analyzeResults/{job_id}?api-version=2022-08-31"
         )
         response = requests.get(url, headers=headers)
+
+        if response.status_code >= 400:
+            error = response.json()["error"]["message"]
+            raise ProviderException(error)
+
         data = response.json()
         if data.get("error"):
             raise ProviderException(data.get("error"))
@@ -1006,14 +1001,14 @@ class MicrosoftApi(
                     all_header = True  # all cells in a row are "header" kind
                     is_header = False
                     for cell in table["cells"]:
-                        bounding_box = cell["boundingRegions"][0]["boundingBox"]
+                        bounding_box = cell["boundingRegions"][0]["polygon"]
                         width = original_result["pages"][page_num - 1]["width"]
                         height = original_result["pages"][page_num - 1]["height"]
 
                         ocr_cell = Cell(
                             text=cell["content"],
-                            row_span=cell["rowSpan"],
-                            col_span=cell["columnSpan"],
+                            row_span=cell.get("rowSpan", 1),
+                            col_span=cell.get("columnSpan", 1),
                             bounding_box=BoundixBoxOCRTable(
                                 height=(bounding_box[7] - bounding_box[3]) / height,
                                 width=(bounding_box[2] - bounding_box[0]) / width,

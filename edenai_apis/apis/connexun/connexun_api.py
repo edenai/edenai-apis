@@ -61,9 +61,11 @@ class ConnexunApi(ProviderApi, Text):
 
         # Send request to API
         response = requests.post(url, headers=headers, json=files)
+        original_response = response.json()
         if response.status_code != 200:
             raise ProviderException(response.json()['detail'])
-        original_response = response.json()
+        if original_response.get('Error'):
+            raise ProviderException(original_response['Error'])
 
         # Check errors from API
         if isinstance(original_response, dict) and original_response.get("message"):

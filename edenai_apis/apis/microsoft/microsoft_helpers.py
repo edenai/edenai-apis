@@ -16,6 +16,7 @@ from edenai_apis.features.ocr import (
     MerchantInformationInvoice,
     TaxesInvoice
 )
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import format_date
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 
@@ -246,117 +247,106 @@ def content_processing(confidence: Optional[int]):
 
 def normalize_invoice_result(response):
     """normalize the original response of the provider api"""
-    invoice_data = response[0]["fields"]
+    invoices = []
     default_dict = defaultdict(lambda: None)
-    customer_name = invoice_data.get("CustomerName", default_dict).get(
-        "text", None
-    )
-    # Customer information
-    
-    customer_id = invoice_data.get("CustomerId", default_dict).get("value")
-    customer_tax_id = invoice_data.get("CustomerTaxId", default_dict).get("value")
-    customer_address = invoice_data.get("CustomerAddress", default_dict).get("value")
-    customer_mailing_address = invoice_data.get("CustomerAddress", default_dict).get("value")
-    customer_billing_address = invoice_data.get("BillingAddress", default_dict).get("value")
-    customer_shipping_address = invoice_data.get("ShippingAddress", default_dict).get("value")
-    customer_service_address= invoice_data.get("ServiceAddress", default_dict).get("value")
-    customer_remittance_address=invoice_data.get("RemittanceAddress", default_dict).get("value")
-    
-    # Merchant information
-    merchant_address = invoice_data.get("VendorAddress", default_dict).get("value", None)
-    merchant_name = invoice_data.get("VendorName", default_dict).get("value", None)
-    merchant_tax_id = invoice_data.get("VendorTaxId", default_dict).get("value")
-    
-    # Others
-    purchase_order = invoice_data.get("PurchaseOrder",  default_dict).get("value")
-    payment_term = invoice_data.get("PaymentTerm", default_dict).get("value")
-    invoice_total = invoice_data.get("InvoiceTotal", default_dict).get(
-        "value", None
-    )
-    invoice_subtotal = invoice_data.get("SubTotal", default_dict).get(
-        "value", None
-    )
-    invoice_number = (
-        invoice_data.get("InvoiceId", default_dict)
-        .get("value_data", default_dict)
-        .get("text", None)
-    )
-    date = (
-        invoice_data.get("InvoiceDate", default_dict)
-        .get("value_data", default_dict)
-        .get("text", None)
-    )
-    invoice_time = (
-        invoice_data.get("InvoiceTime", default_dict)
-        .get("value_data", default_dict)
-        .get("text", None)
-    )
-    date = combine_date_with_time(date, invoice_time)
-    due_date = (
-        invoice_data.get("DueDate", default_dict)
-        .get("value_data", default_dict)
-        .get("text", None)
-    )
-    taxes = [
-        TaxesInvoice(
-            value=invoice_data.get("TotalTax", default_dict).get("value", None)
+    for document in response.get("documents", []):
+        customer_name = document.get("CustomerName", default_dict).get("text", None)
+        # Customer information
+
+        customer_id = document.get("CustomerId", default_dict).get("value")
+        customer_tax_id = document.get("CustomerTaxId", default_dict).get("value")
+        customer_address = document.get("CustomerAddress", default_dict).get("value")
+        customer_mailing_address = document.get("CustomerAddress", default_dict).get(
+            "value"
         )
-    ]
-    amount_due = invoice_data.get("AmountDue",default_dict).get("value")
-    service_start_date = invoice_data.get("ServiceStartDate", default_dict).get("value")
-    service_end_date = invoice_data.get("ServiceEndDate", default_dict).get("value")
-    previous_unpaid_balance= invoice_data.get("PreviousUnpaidBalance", default_dict).get("value")
-    
-    # Items line
-    items = invoice_data.get("Items", default_dict).get("value", [])
-    item_lines: Sequence[ItemLinesInvoice] = []
-    for item in items:
-        line = item.get("value", default_dict)
-        if line:
-            item_lines.append(
-                ItemLinesInvoice(
-                    amount = line.get("Amount", default_dict).get("value"),
-                    description = line.get("Description", default_dict).get("value"),
-                    quantity = line.get("Quantity", default_dict).get("value"),
-                    unit_price = line.get("UnitPrice", default_dict).get("value"),
-                    product_code = line.get("ProductCode", default_dict).get("value"),
-                    date_item= line.get("Date", default_dict).get("value"),
-                    tax_item = line.get("Tax", default_dict).get("value"),
+        customer_billing_address = document.get("BillingAddress", default_dict).get("value")
+        customer_shipping_address = document.get("ShippingAddress", default_dict).get(
+            "value"
+        )
+        customer_service_address = document.get("ServiceAddress", default_dict).get("value")
+        customer_remittance_address = document.get("RemittanceAddress", default_dict).get(
+            "value"
+        )
+
+        # Merchant information
+        merchant_address = document.get("VendorAddress", default_dict).get("value", None)
+        merchant_name = document.get("VendorName", default_dict).get("value", None)
+        merchant_tax_id = document.get("VendorTaxId", default_dict).get("value")
+
+        # Others
+        purchase_order = document.get("PurchaseOrder", default_dict).get("value")
+        payment_term = document.get("PaymentTerm", default_dict).get("value")
+        invoice_total = document.get("InvoiceTotal", default_dict).get("value", None)
+        invoice_subtotal = document.get("SubTotal", default_dict).get("value", None)
+        invoice_number = (
+            document.get("InvoiceId", default_dict)
+            .get("value")
+        )
+        date = format_date(document.get("InvoiceDate", default_dict).get("value"))
+        invoice_time = document.get("InvoiceTime", default_dict).get("value")
+        date = combine_date_with_time(date, invoice_time)
+        due_date = format_date(document.get("DueDate", default_dict).get("value"))
+        taxes = [
+            TaxesInvoice(value=document.get("TotalTax", default_dict).get("value", None))
+        ]
+        amount_due = document.get("AmountDue", default_dict).get("value")
+        service_start_date = document.get("ServiceStartDate", default_dict).get("value")
+        service_end_date = document.get("ServiceEndDate", default_dict).get("value")
+        previous_unpaid_balance = document.get("PreviousUnpaidBalance", default_dict).get(
+            "value"
+        )
+
+        # Items line
+        items = document.get("Items", default_dict).get("value", [])
+        item_lines: Sequence[ItemLinesInvoice] = []
+        for item in items:
+            line = item.get("value", default_dict)
+            if line:
+                item_lines.append(
+                    ItemLinesInvoice(
+                        amount=line.get("Amount", default_dict).get("value"),
+                        description=line.get("Description", default_dict).get("value"),
+                        quantity=line.get("Quantity", default_dict).get("value"),
+                        unit_price=line.get("UnitPrice", default_dict).get("value"),
+                        product_code=line.get("ProductCode", default_dict).get("value"),
+                        date_item=line.get("Date", default_dict).get("value"),
+                        tax_item=line.get("Tax", default_dict).get("value"),
+                    )
                 )
+
+        invoices.append(
+            InfosInvoiceParserDataClass(
+                customer_information=CustomerInformationInvoice(
+                    customer_id=customer_id,
+                    customer_name=customer_name,
+                    customer_address=customer_address,
+                    customer_tax_id=customer_tax_id,
+                    customer_mailing_address=customer_mailing_address,
+                    customer_billing_address=customer_billing_address,
+                    customer_shipping_address=customer_shipping_address,
+                    customer_service_address=customer_service_address,
+                    customer_remittance_address=customer_remittance_address,
+                ),
+                merchant_information=MerchantInformationInvoice(
+                    merchant_name=merchant_name,
+                    merchant_address=merchant_address,
+                    merchant_tax_id=merchant_tax_id,
+                ),
+                invoice_number=invoice_number,
+                invoice_total=invoice_total,
+                invoice_subtotal=invoice_subtotal,
+                payment_term=payment_term,
+                amount_due=amount_due,
+                service_start_date=service_start_date,
+                service_end_date=service_end_date,
+                previous_unpaid_balance=previous_unpaid_balance,
+                date=date,
+                due_date=due_date,
+                purchase_order=purchase_order,
+                taxes=taxes,
+                item_lines=item_lines,
             )
+        )
 
-    invoice_parser = InfosInvoiceParserDataClass(
-        customer_information=CustomerInformationInvoice(
-           customer_id=customer_id,
-           customer_name=customer_name,
-           customer_address=customer_address,
-           customer_tax_id=customer_tax_id,
-           customer_mailing_address=customer_mailing_address,
-           customer_billing_address=customer_billing_address,
-           customer_shipping_address=customer_shipping_address,
-           customer_service_address=customer_service_address,
-           customer_remittance_address=customer_remittance_address
-        ),
-        merchant_information=MerchantInformationInvoice(
-            merchant_name=merchant_name,
-            merchant_address=merchant_address,
-            merchant_tax_id=merchant_tax_id
-        ),
-        invoice_number=invoice_number,
-        invoice_total=invoice_total,
-        invoice_subtotal=invoice_subtotal,
-        payment_term = payment_term,
-        amount_due=amount_due,
-        service_start_date=service_start_date,
-        service_end_date=service_end_date,
-        previous_unpaid_balance=previous_unpaid_balance,
-        date=date,
-        due_date=due_date,
-        purchase_order=purchase_order,
-        taxes=taxes,
-        item_lines=item_lines,
-    )
-
-    standardized_response = InvoiceParserDataClass(extracted_data=[invoice_parser])
-
+    standardized_response = InvoiceParserDataClass(extracted_data=invoices)
     return standardized_response

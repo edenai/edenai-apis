@@ -24,7 +24,7 @@ autobahn==22.7.1
     # via watson-developer-cloud
 automat==22.10.0
     # via twisted
-azure-ai-formrecognizer==3.1.2
+azure-ai-formrecognizer==3.2.0
     # via -r requirements.in
 azure-cognitiveservices-speech==1.24.1
     # via -r requirements.in
@@ -385,7 +385,6 @@ service-identity==21.1.0
 six==1.16.0
     # via
     #   automat
-    #   azure-ai-formrecognizer
     #   azure-core
     #   azure-identity
     #   google-auth
@@ -435,6 +434,7 @@ txaio==22.2.1
 typing-extensions==4.4.0
     # via
     #   astroid
+    #   azure-ai-formrecognizer
     #   azure-core
     #   pydantic
     #   pylint
