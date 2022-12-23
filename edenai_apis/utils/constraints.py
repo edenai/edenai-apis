@@ -128,8 +128,12 @@ def validate_single_language(
     Raises:
         - `ProviderException`: if language is not supported or cannot be None
     """
-    if null_language_accepted is True and language is None:
-        return language
+
+    if language is None:
+        if null_language_accepted is True:
+            return language
+        else:
+            raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED)
 
     try:
         formated_language = provide_appropriate_language(
@@ -145,6 +149,11 @@ def validate_single_language(
         if not language:
             raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED)
         if formated_language is None:
+            if "-" in language:
+                suggested_language = language.split("-")[0]
+                raise ProviderException(
+                    LanguageErrorMessage.LANGUAGE_GENERIQUE_REQUESTED(language, suggested_language)
+                )
             raise ProviderException(
                 LanguageErrorMessage.LANGUAGE_NOT_SUPPORTED(language)
             )

@@ -18,9 +18,16 @@ class LanguageErrorMessage:
         f"Provider does not support selected language: `{lang}`"
     )
 
+    LANGUAGE_GENERIQUE_REQUESTED = lambda lang, suggested_lang: (
+        f"Provider does not support selected language:'{lang}'. Please try"
+        f" a more general language: '{suggested_lang}'"
+    )
+
 
 def check_language_format(iso_code):
     """Checks if language code name is formatted correctly (lang-extlang-Script-Reg)"""
+    if iso_code is None:
+        return None
     return bool(
         re.fullmatch(
             r"^[a-z]{2,3}(-[a-z]{2,3})?(-[A-Z][a-z]{3})?(-([A-Z]{2,3}|\d{3}))?",
@@ -111,6 +118,8 @@ def get_language_name_from_code(isocode):
             if len(isocode) == 2
             else pycountry.languages.get(alpha_3=isocode)
         )
+        if not language and not isocode:
+            return ""
         output = Language.get(isocode).display_name() if not language else language.name
     else:
         language = Language.get(isocode)
@@ -127,7 +136,7 @@ def get_code_from_language_name(name: str) -> str:
 
 def provide_appropriate_language(iso_code, **kwds):
     if not check_language_format(iso_code):
-        raise SyntaxError("Wrong format for language code name!!")
+        raise SyntaxError(f"Language code '{iso_code}' badly formatted")
     if "provider_name" in kwds:
         list_languages: Sequence[str] = load_language_constraints(
             kwds.get("provider_name"), kwds.get("feature"), kwds.get("subfeature")

@@ -42,7 +42,7 @@ class AssemblyApi(ProviderApi, Audio):
         language: str, speakers: int, profanity_filter: bool, vocabulary: list
         ) -> AsyncLaunchJobResponseType:
 
-        if "-" in language:
+        if language and "-" in language:
             language = language_matches[language]
         # check if audio file needs convertion
         accepted_extensions = ["wav", "mp3", "flac","3ga","8svx","aac","ac3","aif", "aiff", "alac", "amr",
