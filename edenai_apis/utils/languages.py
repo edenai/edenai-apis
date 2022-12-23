@@ -11,6 +11,7 @@ from langcodes import Language, closest_supported_match
 
 
 AUTO_DETECT = "auto-detect"
+AUTO_DETECT_NAME = "Auto detection"
 
 class LanguageErrorMessage:
     LANGUAGE_REQUIRED = lambda input_lang: (
@@ -123,7 +124,7 @@ def get_language_name_from_code(isocode):
     if isocode is None:
         return ""
     if isocode == AUTO_DETECT:
-        return AUTO_DETECT
+        return AUTO_DETECT_NAME
     if "-" not in isocode:
         language = (
             pycountry.languages.get(alpha_2=isocode)
