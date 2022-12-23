@@ -45,7 +45,7 @@ class OpenaiApi(ProviderApi, Text):
             "OpenAI-Organization": self.org_key,
             "Content-Type": "application/json",
         }
-        self.max_tokens = 250
+        self.max_tokens = 4000
 
     @staticmethod
     def _construct_context(query, document) -> str:
