@@ -78,11 +78,13 @@ class TestLanguageHandling:
         return the correct list of languages constraints"""
         default = defaultdict(lambda: None)
         list_languages = load_language_constraints(provider, feature, subfeature)
+        infos = load_provider(ProviderDataEnum.PROVIDER_INFO, provider, feature, subfeature)
+        languages = infos.get("constraints", default).get("languages", [])
+        if infos.get("constraints", default).get("allow_null_language"):
+            languages.append("auto-detect")
         assert compare(
             list_languages,
-            load_provider(ProviderDataEnum.PROVIDER_INFO, provider, feature, subfeature)
-            .get("constraints", default)
-            .get("languages", []),
+            languages,
         )
 
     @pytest.mark.parametrize(
@@ -101,7 +103,7 @@ class TestLanguageHandling:
                 feature=pytest.FEATURE,
                 subfeature=pytest.SUBFEATURE,
             )
-        assert "Wrong format for language code name!!" in str(exception.value)
+        assert "badly formatted" in str(exception.value)
 
     @pytest.mark.parametrize(
         ("provider", "feature", "subfeature"),

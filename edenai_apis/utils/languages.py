@@ -9,6 +9,9 @@ from edenai_apis.loaders.loaders import load_provider
 from langcodes import Language, closest_supported_match
 
 
+
+AUTO_DETECT = "auto-detect"
+
 class LanguageErrorMessage:
     LANGUAGE_REQUIRED = lambda input_lang: (
         f"This provider doesn't auto-detect languages, "
@@ -59,6 +62,8 @@ def load_language_constraints(provider_name, feature=None, subfeature=None):
     )
     default = defaultdict(lambda: None)
     languages = info.get("constraints", default).get("languages", [])
+    if info.get("constraints", default).get("allow_null_language"):
+        languages.append(AUTO_DETECT)
     return languages
 
 
@@ -67,6 +72,8 @@ def expand_languages_for_user(list_languages):
     with formatted language tags and iso639-3 language codes"""
     appended_list = []
     for language in list_languages:
+        if language == AUTO_DETECT:
+            continue
         if "-" in language:
             if (
                 "Unknown language"
@@ -112,6 +119,10 @@ def format_language_name(language_name: str, isocode: str):
 
 def get_language_name_from_code(isocode):
     """Returns the language name from the isocode"""
+    if isocode is None:
+        return ""
+    if isocode == AUTO_DETECT:
+        return AUTO_DETECT
     if "-" not in isocode:
         language = (
             pycountry.languages.get(alpha_2=isocode)
