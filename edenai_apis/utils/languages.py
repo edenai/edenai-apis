@@ -10,16 +10,16 @@ from langcodes import Language, closest_supported_match
 
 
 class LanguageErrorMessage:
-    LANGUAGE_REQUIRED = (
-        "This provider doesn't auto-detect languages, "
-        "please provide a valid language"
+    LANGUAGE_REQUIRED = lambda input_lang: (
+        f"This provider doesn't auto-detect languages, "
+        f"please provide a valid {input_lang}"
     )
-    LANGUAGE_NOT_SUPPORTED = lambda lang: (
-        f"Provider does not support selected language: `{lang}`"
+    LANGUAGE_NOT_SUPPORTED = lambda lang, input_lang: (
+        f"Provider does not support selected {input_lang}: `{lang}`"
     )
 
-    LANGUAGE_GENERIQUE_REQUESTED = lambda lang, suggested_lang: (
-        f"Provider does not support selected language:'{lang}'. Please try"
+    LANGUAGE_GENERIQUE_REQUESTED = lambda lang, suggested_lang, input_lang: (
+        f"Provider does not support selected {input_lang}:'{lang}'. Please try"
         f" a more general language: '{suggested_lang}'"
     )
 

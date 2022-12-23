@@ -111,6 +111,7 @@ def validate_single_language(
     subfeature,
     language: Optional[str],
     null_language_accepted: bool,
+    input_language: str
 ) -> Optional[str]:
     """
     Validate and format given language
@@ -129,11 +130,15 @@ def validate_single_language(
         - `ProviderException`: if language is not supported or cannot be None
     """
 
-    if language is None:
+    # if user specifies the auto-detect language
+    if language and language.lower() == "auto-detect":
+        language = None
+
+    if not language:
         if null_language_accepted is True:
             return language
         else:
-            raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED)
+            raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED(input_language))
 
     try:
         formated_language = provide_appropriate_language(
@@ -147,15 +152,15 @@ def validate_single_language(
 
     if null_language_accepted is False:
         if not language:
-            raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED)
+            raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED(input_language))
         if formated_language is None:
             if "-" in language:
                 suggested_language = language.split("-")[0]
                 raise ProviderException(
-                    LanguageErrorMessage.LANGUAGE_GENERIQUE_REQUESTED(language, suggested_language)
+                    LanguageErrorMessage.LANGUAGE_GENERIQUE_REQUESTED(language, suggested_language, input_language)
                 )
             raise ProviderException(
-                LanguageErrorMessage.LANGUAGE_NOT_SUPPORTED(language)
+                LanguageErrorMessage.LANGUAGE_NOT_SUPPORTED(language, input_language)
             )
 
     return formated_language
@@ -184,17 +189,17 @@ def validate_all_input_languages(
 
     if "language" in args:
         language = validate_single_language(
-            provider_name, feature, subfeature, args["language"], accepts_null_language
+            provider_name, feature, subfeature, args["language"], accepts_null_language, "language"
         )
         args["language"] = language
 
     # translation feature have an input and output language
     if "target_language" in args and "source_language" in args:
         source_language = validate_single_language(
-            provider_name, feature, subfeature, args["source_language"], accepts_null_language
+            provider_name, feature, subfeature, args["source_language"], accepts_null_language, "source_language"
         )
         target_language = validate_single_language(
-            provider_name, feature, subfeature, args["target_language"], False
+            provider_name, feature, subfeature, args["target_language"], False, "target_language"
         )
         args["target_language"] = target_language
         args["source_language"] = source_language
