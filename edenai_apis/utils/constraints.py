@@ -8,6 +8,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import (
     LanguageErrorMessage,
     provide_appropriate_language,
+    load_standardized_language
 )
 
 
@@ -155,10 +156,12 @@ def validate_single_language(
             raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED(input_language))
         if formated_language is None:
             if "-" in language:
+                supported_languages = load_standardized_language(feature, subfeature, [provider_name])
                 suggested_language = language.split("-")[0]
-                raise ProviderException(
-                    LanguageErrorMessage.LANGUAGE_GENERIQUE_REQUESTED(language, suggested_language, input_language)
-                )
+                if suggested_language in supported_languages:
+                    raise ProviderException(
+                        LanguageErrorMessage.LANGUAGE_GENERIQUE_REQUESTED(language, suggested_language, input_language)
+                    )
             raise ProviderException(
                 LanguageErrorMessage.LANGUAGE_NOT_SUPPORTED(language, input_language)
             )
