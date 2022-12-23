@@ -90,7 +90,7 @@ class InfosIdentityParserDataClass(BaseModel):
         if not value.value:
             return None
         try:
-            datetime.strptime(value.value, '%Y-%m-%d')
+            datetime.datetime.strptime(value.value, '%Y-%m-%d')
         except ValueError:
             raise ValueError("Incorrect data format, should be YYYY-MM-DD")
         return value
