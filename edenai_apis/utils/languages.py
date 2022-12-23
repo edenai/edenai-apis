@@ -73,6 +73,7 @@ def expand_languages_for_user(list_languages):
     appended_list = []
     for language in list_languages:
         if language == AUTO_DETECT:
+            appended_list.append(language)
             continue
         if "-" in language:
             if (
