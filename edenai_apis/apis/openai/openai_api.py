@@ -373,18 +373,23 @@ class OpenaiApi(ProviderApi, Text):
         
     def text__generation(
         self, text : str, 
-        model : Optional[str]= 'text-davinci-003', 
-        temperature : Optional[int] = 0, 
-        max_tokens : Optional[int] = 250,
+        temperature : float, 
+        max_tokens : int,
+        model : Optional[str] = None,
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.url}/completions"
         
+        if not model :
+            model = 'text-davinci-003'
+            
         payload = {
             "prompt": text,
             "model" : model,
             "temperature" : temperature,
-            "max_tokens" : max_tokens,
         }
+        if max_tokens !=0:
+            payload['max_tokens'] = max_tokens
+            
         original_response = requests.post(url, json=payload, headers= self.headers).json()
         
         if "error" in original_response:

@@ -79,6 +79,8 @@ class SymblApi(ProviderApi, Audio):
         if language:
             params.update({"languageCode": language})
         if vocabulary:
+            if len(vocabulary) == 1:
+                vocabulary.append(vocabulary[0])
             params.update({
                 "customVocabulary": vocabulary
             })

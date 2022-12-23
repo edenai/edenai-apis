@@ -1,0 +1,463 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "1bfb3f7d-544b-4234-8034-4824f2d1d464",
+  "original_response": {
+    "metadata": {
+      "transaction_key": "deprecated",
+      "request_id": "1bfb3f7d-544b-4234-8034-4824f2d1d464",
+      "sha256": "0c7734671ec8772765263373389fa027ae9d3e72f0d2cf2cdafb82346fce0a50",
+      "created": "2022-12-21T15:50:55.616Z",
+      "duration": 17.110188,
+      "channels": 1,
+      "models": [
+        "c12089d0-0766-4ca0-9511-98fd2e443ebd"
+      ],
+      "model_info": {
+        "c12089d0-0766-4ca0-9511-98fd2e443ebd": {
+          "name": "general",
+          "version": "2022-01-18.1",
+          "tier": "base"
+        }
+      }
+    },
+    "results": {
+      "channels": [
+        {
+          "alternatives": [
+            {
+              "transcript": "Unit one, page fourteen, real conversations. Hello. Hi. Name. Claudia. What's your name. I'm Ji hero. Nice to meet you. Chi. Yeah. This right. Where from",
+              "confidence": 0.87353516,
+              "words": [
+                {
+                  "word": "unit",
+                  "start": 0.29967391,
+                  "end": 0.73919564,
+                  "confidence": 0.953125,
+                  "speaker": 0,
+                  "speaker_confidence": 0.17857432,
+                  "punctuated_word": "Unit"
+                },
+                {
+                  "word": "one",
+                  "start": 0.73919564,
+                  "end": 1.2391956,
+                  "confidence": 0.98535156,
+                  "speaker": 0,
+                  "speaker_confidence": 0.17857432,
+                  "punctuated_word": "one,"
+                },
+                {
+                  "word": "page",
+                  "start": 1.6581956,
+                  "end": 2.057761,
+                  "confidence": 0.99365234,
+                  "speaker": 0,
+                  "speaker_confidence": 0.17857432,
+                  "punctuated_word": "page"
+                },
+                {
+                  "word": "fourteen",
+                  "start": 2.057761,
+                  "end": 2.557761,
+                  "confidence": 0.99853516,
+                  "speaker": 0,
+                  "speaker_confidence": 0.17857432,
+                  "punctuated_word": "fourteen,"
+                },
+                {
+                  "word": "real",
+                  "start": 3.5361521,
+                  "end": 4.036152,
+                  "confidence": 0.97509766,
+                  "speaker": 0,
+                  "speaker_confidence": 0.17857432,
+                  "punctuated_word": "real"
+                },
+                {
+                  "word": "conversations",
+                  "start": 4.2553697,
+                  "end": 4.7348475,
+                  "confidence": 0.9946289,
+                  "speaker": 0,
+                  "speaker_confidence": 0.17857432,
+                  "punctuated_word": "conversations."
+                },
+                {
+                  "word": "hello",
+                  "start": 7.1721954,
+                  "end": 7.4518914,
+                  "confidence": 0.99365234,
+                  "speaker": 0,
+                  "speaker_confidence": 0.41609472,
+                  "punctuated_word": "Hello."
+                },
+                {
+                  "word": "hi",
+                  "start": 7.7715435,
+                  "end": 8.211065,
+                  "confidence": 0.9375,
+                  "speaker": 0,
+                  "speaker_confidence": 0.41609472,
+                  "punctuated_word": "Hi."
+                },
+                {
+                  "word": "name",
+                  "start": 8.690543,
+                  "end": 8.850369,
+                  "confidence": 0.7324219,
+                  "speaker": 0,
+                  "speaker_confidence": 0.41609472,
+                  "punctuated_word": "Name."
+                },
+                {
+                  "word": "claudia",
+                  "start": 9.544142,
+                  "end": 10.044142,
+                  "confidence": 0.82666016,
+                  "speaker": 0,
+                  "speaker_confidence": 0.40491503,
+                  "punctuated_word": "Claudia."
+                },
+                {
+                  "word": "what's",
+                  "start": 10.701212,
+                  "end": 10.940606,
+                  "confidence": 0.96533203,
+                  "speaker": 0,
+                  "speaker_confidence": 0.40491503,
+                  "punctuated_word": "What's"
+                },
+                {
+                  "word": "your",
+                  "start": 10.940606,
+                  "end": 11.18,
+                  "confidence": 0.9892578,
+                  "speaker": 0,
+                  "speaker_confidence": 0.40491503,
+                  "punctuated_word": "your"
+                },
+                {
+                  "word": "name",
+                  "start": 11.18,
+                  "end": 11.419394,
+                  "confidence": 0.9995117,
+                  "speaker": 0,
+                  "speaker_confidence": 0.40491503,
+                  "punctuated_word": "name."
+                },
+                {
+                  "word": "i'm",
+                  "start": 11.57899,
+                  "end": 11.738585,
+                  "confidence": 0.9638672,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5256849,
+                  "punctuated_word": "I'm"
+                },
+                {
+                  "word": "ji",
+                  "start": 11.818384,
+                  "end": 11.97798,
+                  "confidence": 0.44848633,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5256849,
+                  "punctuated_word": "Ji"
+                },
+                {
+                  "word": "hero",
+                  "start": 11.97798,
+                  "end": 12.47798,
+                  "confidence": 0.3022461,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5256849,
+                  "punctuated_word": "hero."
+                },
+                {
+                  "word": "nice",
+                  "start": 12.855757,
+                  "end": 13.055252,
+                  "confidence": 0.9946289,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5256849,
+                  "punctuated_word": "Nice"
+                },
+                {
+                  "word": "to",
+                  "start": 13.055252,
+                  "end": 13.214848,
+                  "confidence": 0.6879883,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5256849,
+                  "punctuated_word": "to"
+                },
+                {
+                  "word": "meet",
+                  "start": 13.214848,
+                  "end": 13.53404,
+                  "confidence": 0.99853516,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5256849,
+                  "punctuated_word": "meet"
+                },
+                {
+                  "word": "you",
+                  "start": 13.53404,
+                  "end": 13.853231,
+                  "confidence": 0.97265625,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5256849,
+                  "punctuated_word": "you."
+                },
+                {
+                  "word": "chi",
+                  "start": 14.212322,
+                  "end": 14.712322,
+                  "confidence": 0.50439453,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5256849,
+                  "punctuated_word": "Chi."
+                },
+                {
+                  "word": "yeah",
+                  "start": 15.409292,
+                  "end": 15.449192,
+                  "confidence": 0.84716797,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5256849,
+                  "punctuated_word": "Yeah."
+                },
+                {
+                  "word": "this",
+                  "start": 15.568889,
+                  "end": 15.848181,
+                  "confidence": 0.7675781,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5256849,
+                  "punctuated_word": "This"
+                },
+                {
+                  "word": "right",
+                  "start": 15.848181,
+                  "end": 15.927979,
+                  "confidence": 0.5366211,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5256849,
+                  "punctuated_word": "right."
+                },
+                {
+                  "word": "where",
+                  "start": 16.606262,
+                  "end": 16.965353,
+                  "confidence": 0.43139648,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5256849,
+                  "punctuated_word": "Where"
+                },
+                {
+                  "word": "from",
+                  "start": 16.965353,
+                  "end": 17.110188,
+                  "confidence": 0.98828125,
+                  "speaker": 0,
+                  "speaker_confidence": 0.5256849,
+                  "punctuated_word": "from"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "standardized_response": {
+    "text": "Unit one, page fourteen, real conversations. Hello. Hi. Name. Claudia. What's your name. I'm Ji hero. Nice to meet you. Chi. Yeah. This right. Where from",
+    "diarization": {
+      "total_speakers": 1,
+      "entries": [
+        {
+          "segment": "unit",
+          "start_time": "0.29967391",
+          "end_time": "0.73919564",
+          "speaker": 1,
+          "confidence": 0.953125
+        },
+        {
+          "segment": "one",
+          "start_time": "0.73919564",
+          "end_time": "1.2391956",
+          "speaker": 1,
+          "confidence": 0.98535156
+        },
+        {
+          "segment": "page",
+          "start_time": "1.6581956",
+          "end_time": "2.057761",
+          "speaker": 1,
+          "confidence": 0.99365234
+        },
+        {
+          "segment": "fourteen",
+          "start_time": "2.057761",
+          "end_time": "2.557761",
+          "speaker": 1,
+          "confidence": 0.99853516
+        },
+        {
+          "segment": "real",
+          "start_time": "3.5361521",
+          "end_time": "4.036152",
+          "speaker": 1,
+          "confidence": 0.97509766
+        },
+        {
+          "segment": "conversations",
+          "start_time": "4.2553697",
+          "end_time": "4.7348475",
+          "speaker": 1,
+          "confidence": 0.9946289
+        },
+        {
+          "segment": "hello",
+          "start_time": "7.1721954",
+          "end_time": "7.4518914",
+          "speaker": 1,
+          "confidence": 0.99365234
+        },
+        {
+          "segment": "hi",
+          "start_time": "7.7715435",
+          "end_time": "8.211065",
+          "speaker": 1,
+          "confidence": 0.9375
+        },
+        {
+          "segment": "name",
+          "start_time": "8.690543",
+          "end_time": "8.850369",
+          "speaker": 1,
+          "confidence": 0.7324219
+        },
+        {
+          "segment": "claudia",
+          "start_time": "9.544142",
+          "end_time": "10.044142",
+          "speaker": 1,
+          "confidence": 0.82666016
+        },
+        {
+          "segment": "what's",
+          "start_time": "10.701212",
+          "end_time": "10.940606",
+          "speaker": 1,
+          "confidence": 0.96533203
+        },
+        {
+          "segment": "your",
+          "start_time": "10.940606",
+          "end_time": "11.18",
+          "speaker": 1,
+          "confidence": 0.9892578
+        },
+        {
+          "segment": "name",
+          "start_time": "11.18",
+          "end_time": "11.419394",
+          "speaker": 1,
+          "confidence": 0.9995117
+        },
+        {
+          "segment": "i'm",
+          "start_time": "11.57899",
+          "end_time": "11.738585",
+          "speaker": 1,
+          "confidence": 0.9638672
+        },
+        {
+          "segment": "ji",
+          "start_time": "11.818384",
+          "end_time": "11.97798",
+          "speaker": 1,
+          "confidence": 0.44848633
+        },
+        {
+          "segment": "hero",
+          "start_time": "11.97798",
+          "end_time": "12.47798",
+          "speaker": 1,
+          "confidence": 0.3022461
+        },
+        {
+          "segment": "nice",
+          "start_time": "12.855757",
+          "end_time": "13.055252",
+          "speaker": 1,
+          "confidence": 0.9946289
+        },
+        {
+          "segment": "to",
+          "start_time": "13.055252",
+          "end_time": "13.214848",
+          "speaker": 1,
+          "confidence": 0.6879883
+        },
+        {
+          "segment": "meet",
+          "start_time": "13.214848",
+          "end_time": "13.53404",
+          "speaker": 1,
+          "confidence": 0.99853516
+        },
+        {
+          "segment": "you",
+          "start_time": "13.53404",
+          "end_time": "13.853231",
+          "speaker": 1,
+          "confidence": 0.97265625
+        },
+        {
+          "segment": "chi",
+          "start_time": "14.212322",
+          "end_time": "14.712322",
+          "speaker": 1,
+          "confidence": 0.50439453
+        },
+        {
+          "segment": "yeah",
+          "start_time": "15.409292",
+          "end_time": "15.449192",
+          "speaker": 1,
+          "confidence": 0.84716797
+        },
+        {
+          "segment": "this",
+          "start_time": "15.568889",
+          "end_time": "15.848181",
+          "speaker": 1,
+          "confidence": 0.7675781
+        },
+        {
+          "segment": "right",
+          "start_time": "15.848181",
+          "end_time": "15.927979",
+          "speaker": 1,
+          "confidence": 0.5366211
+        },
+        {
+          "segment": "where",
+          "start_time": "16.606262",
+          "end_time": "16.965353",
+          "speaker": 1,
+          "confidence": 0.43139648
+        },
+        {
+          "segment": "from",
+          "start_time": "16.965353",
+          "end_time": "17.110188",
+          "speaker": 1,
+          "confidence": 0.98828125
+        }
+      ],
+      "error_message": null
+    }
+  }
+}

@@ -73,6 +73,10 @@ def audio_format(audio_file: BufferedReader):
     mgi = magic.Magic(mime=True)
     mtpe = mgi.from_buffer(audio_file.read())
     extensions = [extension[1:] for extension in mimetypes.guess_all_extensions(mtpe)]
+    if not extensions:
+        file_name = str(audio_file.name.split("/")[-1])
+        index_extension = str(file_name.split(".")[-1])
+        return [index_extension]
     return extensions
 
 
@@ -88,6 +92,7 @@ def supported_extension(file, accepted_extensions: List):
             if file_name.endswith(extension):
                 return True, extension
         return False, "nop"  
+    return False, "nop"
 
 
 def file_with_good_extension(file: BufferedReader, accepted_extensions: List, 

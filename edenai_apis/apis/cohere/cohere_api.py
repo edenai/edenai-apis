@@ -26,18 +26,24 @@ class CohereApi(ProviderApi, Text):
 
     def text__generation(
         self, text : str, 
-        model : Optional[str]= 'xlarge',
-        max_tokens : Optional[int] = 250,
-        temperature : Optional[int] = 0,
+        max_tokens : int,
+        temperature :float,
+        model : Optional[str] = None,
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.base_url}generate"
         
+        if not model:
+            model = 'xlarge'
+              
         payload = {
             "prompt": text,
             "model" : model,
             "temperature" : temperature,
-            "max_tokens" : max_tokens,
         }
+        
+        if max_tokens !=0:
+            payload['max_tokens'] = max_tokens
+            
         original_response = requests.post(url, json=payload, headers= self.headers).json()
         
         if "message" in original_response:

@@ -15,13 +15,15 @@ def convert_string_to_number(
     """convert a `string` to either `int` or `float`"""
     if isinstance(string_number, (int, float)):
         return string_number
+    if isinstance(string_number, str):
+        string_number = string_number.strip()
     if not string_number:
         return None
-    return (
-        val_type(re.sub(r"[^\d\.]", "", string_number))
-        if string_number is not None
-        else None
-    )
+    try:
+        number = val_type(re.sub(r"[^\d\.]", "", string_number))
+        return number
+    except Exception as exc:
+        return None
 
 
 def retreive_first_number_from_string(string_number: str) -> Union[str, None]:

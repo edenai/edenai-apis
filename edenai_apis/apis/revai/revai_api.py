@@ -4,6 +4,7 @@ import uuid
 from time import time
 import json
 import boto3
+import datetime as dt
 from botocore.errorfactory import ClientError
 
 from edenai_apis.features import ProviderApi, Audio
@@ -130,7 +131,7 @@ class RevAIApi(ProviderApi, Audio):
         self, file: BufferedReader, language: str,
         speakers : int, profanity_filter: bool, vocabulary: list
     ) -> AsyncLaunchJobResponseType:
-
+        
         # check if audio file needs convertion
         accepted_extensions = ["ogg", "flac", "mp4", "wav", "mp3"]
         new_file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
@@ -142,6 +143,8 @@ class RevAIApi(ProviderApi, Audio):
             Bucket = self.bucket_name, 
             Key= file_name 
         )
+
+        vocabulary = []
 
         if vocabulary:
             vocab_name = self._create_vocabulary(vocabulary)
@@ -213,7 +216,6 @@ class RevAIApi(ProviderApi, Audio):
                 message=f"{original_response.get('title','')}: {original_response.get('details','')}",
                 code=response.status_code,
             )
-        print(json.dumps(original_response, indent=2))
         status = original_response["status"]
         if status == "transcribed":
             # delete audio file
@@ -262,6 +264,11 @@ class RevAIApi(ProviderApi, Audio):
                 provider_job_id=provider_job_id,
             )
         elif status == "failed":
+            # delete audio file
+            storage_clients(self.api_settings_amazon)["speech"].meta.client.delete_object(
+                Bucket= self.bucket_name, 
+                Key= file_name
+            )
             error = original_response.get("failure_detail")
             raise ProviderException(error)
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](

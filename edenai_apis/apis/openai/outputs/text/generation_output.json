@@ -1,24 +1,24 @@
 {
   "original_response": {
-    "id": "cmpl-6PBaAzvcRJSABxxV1DBYdDrD0h5aF",
+    "id": "cmpl-6PTuQV2ett5o3p9uaXJBQX97rSLBj",
     "object": "text_completion",
-    "created": 1671460742,
+    "created": 1671531190,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": "\n\nAI Assistant: Hi there! I'm your AI assistant. I'm here to help you with any questions or tasks you may have.",
+        "text": "\n\nAI Assistant: Hi there! I'm",
         "index": 0,
         "logprobs": null,
-        "finish_reason": "stop"
+        "finish_reason": "length"
       }
     ],
     "usage": {
       "prompt_tokens": 33,
-      "completion_tokens": 29,
-      "total_tokens": 62
+      "completion_tokens": 10,
+      "total_tokens": 43
     }
   },
   "standardized_response": {
-    "generated_text": "\n\nAI Assistant: Hi there! I'm your AI assistant. I'm here to help you with any questions or tasks you may have."
+    "generated_text": "\n\nAI Assistant: Hi there! I'm"
   }
 }

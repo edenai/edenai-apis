@@ -1,0 +1,45 @@
+{
+    "audio": {
+        "speech_to_text_async": {
+            "constraints" : {
+                "languages" : [
+                    "zh",
+                    "zh-CN",
+                    "zh-TW",
+                    "da",
+                    "nl",
+                    "en",
+                    "en-AU",
+                    "en-GB",
+                    "en-IN",
+                    "en-NZ",
+                    "en-US",
+                    "nl",
+                    "fr",
+                    "fr-CA",
+                    "de",
+                    "hi",
+                    "hi-Latn",
+                    "id",
+                    "it",
+                    "ja",
+                    "ko",
+                    "no",
+                    "pl",
+                    "pt",
+                    "pt-BR",
+                    "pt-PT",
+                    "ru",
+                    "es",
+                    "es-419",
+                    "sv",
+                    "ta",
+                    "tr",
+                    "uk"
+                ],
+                "allow_null_language": true
+            },
+            "version" : "v1"
+        }
+    }
+}

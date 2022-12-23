@@ -160,9 +160,9 @@ class Text:
     @abstractmethod
     def text__generation(
         self, text : str, 
+        temperature : float, 
+        max_tokens : int,
         model : Optional[str], 
-        temperature : Optional[int], 
-        max_tokens : Optional[int]
     ) -> ResponseType[GenerationDataClass]:
         """
         Text generation from a given prompt
