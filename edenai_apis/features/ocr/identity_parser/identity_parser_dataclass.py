@@ -1,16 +1,20 @@
+import datetime
 from enum import Enum
 import json
 import os
-from datetime import datetime
 from typing import Optional, Sequence, Any
 
 from pydantic import BaseModel, Field, StrictStr, validator
 
 
-def format_date(value, fmt):
-    if not value or not fmt:
+def format_date(value, fmt=None):
+    if not value:
         return None
-    return datetime.strptime(value, fmt).strftime('%Y-%m-%d')
+    if isinstance(value, datetime.date):
+        return value.strftime("%Y-%m-%d")
+    if not fmt:
+        return None
+    return datetime.datetime.strptime(value, fmt).strftime('%Y-%m-%d')
 
 class Country(BaseModel):
     name: Optional[StrictStr]

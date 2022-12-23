@@ -2,7 +2,7 @@ from builtins import bool
 import os
 import re
 import datetime as dt
-from typing import Union
+from typing import Optional, Union
 import pandas as pd
 
 from edenai_apis.utils.exception import ProviderException
@@ -34,7 +34,7 @@ def retreive_first_number_from_string(string_number: str) -> Union[str, None]:
     return re.findall(r"\d+", string_number)[0] if string_number is not None else None
 
 
-def combine_date_with_time(date: str, time: Union[str, None]) -> Union[str, None]:
+def combine_date_with_time(date: Optional[str], time: Union[str, None]) -> Union[str, None]:
     """
     Concatenate date string and time string
     Returns:
