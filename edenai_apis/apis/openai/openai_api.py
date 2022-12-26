@@ -45,7 +45,7 @@ class OpenaiApi(ProviderApi, Text):
             "OpenAI-Organization": self.org_key,
             "Content-Type": "application/json",
         }
-        # self.max_tokens = 4000
+        self.max_tokens = 270
 
     @staticmethod
     def _construct_context(query, document) -> str:
@@ -76,7 +76,7 @@ class OpenaiApi(ProviderApi, Text):
         url = f"{self.url}/engines/{model}/completions"
         payload = {
             "prompt": text + "\n\nTl;dr",
-            # "max_tokens": self.max_tokens,
+            "max_tokens": self.max_tokens,
             "temperature": 0.7,
             "frequency_penalty": 0.0,
             "presence_penalty": 0.0,
@@ -239,7 +239,7 @@ class OpenaiApi(ProviderApi, Text):
         prompt = f"Extract all keywords (keyword1,keyword2,keyword3) from this text: \n\n "+text+"\nkeywords:"
         payload = {
         "prompt" : prompt,
-        # "max_tokens" : self.max_tokens,
+        "max_tokens" : self.max_tokens,
         "model" : self.model,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
@@ -267,7 +267,7 @@ class OpenaiApi(ProviderApi, Text):
         prompt = f"Detect the ISO 639-1 language (only the code) of this text: \n\n " + text + "\nISO 639-1:"
         payload = {
             "prompt" : prompt,
-            # "max_tokens" : self.max_tokens,
+            "max_tokens" : self.max_tokens,
             "model" : self.model,
             "temperature" : 0,
             "logprobs":1,
@@ -351,7 +351,7 @@ class OpenaiApi(ProviderApi, Text):
         prompt = f"What is the main taxonomy of the text:"+text+"please put the result in this line:\n\n"
         payload = {
         "prompt" : prompt,
-        # "max_tokens" : self.max_tokens,
+        "max_tokens" : self.max_tokens,
         "model" : self.model,
         "logprobs":1,
         }
