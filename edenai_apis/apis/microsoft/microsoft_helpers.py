@@ -26,18 +26,6 @@ from edenai_apis.utils.conversion import combine_date_with_time
 def get_microsoft_headers() -> Dict:
     api_settings = load_provider(ProviderDataEnum.KEY, "microsoft")
     return {
-            "ocr_invoice": {
-                "Content-Type": "application/octet-stream",
-                "Ocp-Apim-Subscription-Key": api_settings["ocr_invoice"][
-                    "subscription_key"
-                ],
-            },
-            "ocr_tables_async": {
-                "Content-Type": "application/octet-stream",
-                "Ocp-Apim-Subscription-Key": api_settings["ocr_tables_async"][
-                    "subscription_key"
-                ],
-            },
             "vision": {
                 "Ocp-Apim-Subscription-Key": api_settings["vision"][
                     "subscription_key"
@@ -75,8 +63,6 @@ def get_microsoft_urls() -> Dict:
     api_settings = load_provider(ProviderDataEnum.KEY, "microsoft")
     return {
             "summarization": api_settings["summarization"]["url"],
-            "ocr_invoice": api_settings["ocr_invoice"]["url"],
-            "ocr_tables_async": api_settings["ocr_tables_async"]["url"],
             "vision": api_settings["vision"]["url"],
             "face": api_settings["face"]["url"],
             "text": api_settings["text"]["url"],
