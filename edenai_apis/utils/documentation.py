@@ -57,7 +57,7 @@ def main():
     """write outputs to a markdown file"""
     MARKDOWN_FILE_NAME = "AVAILABLES_FEATURES_AND_PROVIDERS.md"
     path = os.path.join(base_path, '..', MARKDOWN_FILE_NAME)
-
+    print(f"=== Generating {MARKDOWN_FILE_NAME} ===")
     with open(path, "w") as doc:
         doc.write("")  # emtpy file
 
