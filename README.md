@@ -36,29 +36,36 @@ Eden AI APIs is the open source package including necessary methods for using AI
 First add the api-keys/secrets for the provider you will use in `edenai_apis.api_keys.<provider_name>_settings_templates.json`, then rename the file to `<provider_name>_settings.json`
   
 When it's done you can directly start using edenai_apis.
-Here is a quick example using Google and IBM Named Entity Recognition apis:
-``` python
+Here is a quick example using Google and IBM Keyword Extraction apis:
+```python
 from edenai_apis import Text
 
-google_ner = Text.named_entity_recognition("google")
-google_res = google_ner(language="en", text="as simple as that")
+keyword_extraction = Text.keyword_extraction("microsoft")
+microsoft_res = keyword_extraction(language="en", text="as simple as that")
 
 # Provider's response
-print(google_res.original_response)
+print(microsoft_res.original_response)
 
 # Standardized version of Provider's response
-print(google_res.standardized_response)
-print(google_res.standardized_response.items)
+print(microsoft_res.standardized_response)
 
-# what if we want to try with an other provider:
-ibm_ner = Text.named_entity_recognition("ibm")
+for item in microsoft_res.standardized_response.items:
+    print(f"keyword: {item.keyword}, importance: {item.importance}")
+
+
+# What if we want to try an other provider?
+ibm_kw = Text.keyword_extraction("ibm")
 ibm_res = ibm(language="en", text="same api & unified inputs for all providers")
 
-# we can then parse `standardized_response` the same way as we did for google
-print(ibm_res.standardized_response.items)
 
-# `original_response` will obviously be different and you will have to check 
+# `original_response` will obviously be different and you will have to check
 # the doc of each individual providers to know how to parse them
+print(ibm_res.original_response)
+
+# We can however easily parse `standardized_response`
+# the same way as we did for microsoft:
+for item in ibm_res.standardized_response.items:
+    print(f"keyword: {item.keyword}, importance: {item.importance}")
 ```
 
 ### Asynchronous features
