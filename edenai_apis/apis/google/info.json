@@ -361,17 +361,7 @@
         "topic_extraction": {
             "constraints": {
                 "languages": [
-                    "zh",
-                    "zh-Hant",
-                    "en",
-                    "fr",
-                    "de",
-                    "it",
-                    "ja",
-                    "ko",
-                    "pt",
-                    "ru",
-                    "es"
+                    "en"
                 ],
                 "allow_null_language": true
             },
