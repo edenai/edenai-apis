@@ -110,8 +110,8 @@
         "name": "African-American",
         "type": "PERSON",
         "metadata": {
-          "mid": "/m/0x67",
-          "wikipedia_url": "https://en.wikipedia.org/wiki/African_Americans"
+          "wikipedia_url": "https://en.wikipedia.org/wiki/African_Americans",
+          "mid": "/m/0x67"
         },
         "salience": 0.007983226,
         "mentions": [
@@ -160,8 +160,8 @@
         "name": "Illinois",
         "type": "LOCATION",
         "metadata": {
-          "wikipedia_url": "https://en.wikipedia.org/wiki/Illinois",
-          "mid": "/m/03v0t"
+          "mid": "/m/03v0t",
+          "wikipedia_url": "https://en.wikipedia.org/wiki/Illinois"
         },
         "salience": 0.005297011,
         "mentions": [
@@ -286,46 +286,16 @@
         ]
       },
       {
-        "name": "44",
+        "name": "1997",
         "type": "NUMBER",
         "metadata": {
-          "value": "44"
+          "value": "1997"
         },
         "mentions": [
           {
             "text": {
-              "content": "44",
-              "beginOffset": 65
-            }
-          }
-        ]
-      },
-      {
-        "name": "2005",
-        "type": "NUMBER",
-        "metadata": {
-          "value": "2005"
-        },
-        "mentions": [
-          {
-            "text": {
-              "content": "2005",
-              "beginOffset": 281
-            }
-          }
-        ]
-      },
-      {
-        "name": "2009",
-        "type": "NUMBER",
-        "metadata": {
-          "value": "2009"
-        },
-        "mentions": [
-          {
-            "text": {
-              "content": "2009",
-              "beginOffset": 106
+              "content": "1997",
+              "beginOffset": 332
             }
           }
         ]
@@ -346,16 +316,16 @@
         ]
       },
       {
-        "name": "1997",
+        "name": "2004",
         "type": "NUMBER",
         "metadata": {
-          "value": "1997"
+          "value": "2004"
         },
         "mentions": [
           {
             "text": {
-              "content": "1997",
-              "beginOffset": 332
+              "content": "2004",
+              "beginOffset": 340
             }
           }
         ]
@@ -376,16 +346,46 @@
         ]
       },
       {
-        "name": "2004",
+        "name": "44",
         "type": "NUMBER",
         "metadata": {
-          "value": "2004"
+          "value": "44"
         },
         "mentions": [
           {
             "text": {
-              "content": "2004",
-              "beginOffset": 340
+              "content": "44",
+              "beginOffset": 65
+            }
+          }
+        ]
+      },
+      {
+        "name": "2009",
+        "type": "NUMBER",
+        "metadata": {
+          "value": "2009"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2009",
+              "beginOffset": 106
+            }
+          }
+        ]
+      },
+      {
+        "name": "2005",
+        "type": "NUMBER",
+        "metadata": {
+          "value": "2005"
+        },
+        "mentions": [
+          {
+            "text": {
+              "content": "2005",
+              "beginOffset": 281
             }
           }
         ]

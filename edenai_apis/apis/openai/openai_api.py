@@ -15,6 +15,7 @@ from edenai_apis.features.text import (
     TopicExtractionDataClass,
     ExtractedTopic,
     GenerationDataClass,
+    CustomNamedEntityRecognitionDataClass,
 )
 from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
@@ -401,4 +402,29 @@ class OpenaiApi(ProviderApi, Text):
         return ResponseType[GenerationDataClass](
             original_response=original_response,
             standardized_response = standardized_response
+        )
+        
+    def text__custom_named_entity_recognition(self, text: str, entities: List[str]
+                                              ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
+        url = f"{self.url}/completions"
+        built_entities = ','.join(entities)
+        prompt = f"Extract all the entities in this list ({built_entities}) from this text:"+text
+        payload = {
+        "prompt" : prompt,
+        "max_tokens" : self.max_tokens,
+        "model" : self.model,
+        }
+        original_response = requests.post(url, json=payload, headers=self.headers).json()
+        # Handle povider error
+        if "error" in original_response:
+            raise ProviderException(original_response["error"]["message"])
+        
+        entities = original_response['choices'][0]['text'].split('\n')
+        items: Sequence[InfosKeywordExtractionDataClass] = []
+
+        standardized_response = CustomNamedEntityRecognitionDataClass()
+
+        return ResponseType[CustomNamedEntityRecognitionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response
         )

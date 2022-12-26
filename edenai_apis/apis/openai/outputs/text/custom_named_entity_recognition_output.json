@@ -1,0 +1,24 @@
+{
+  "original_response": {
+    "id": "cmpl-6QegQNF7koDnYnFiseTbD6827vJDY",
+    "object": "text_completion",
+    "created": 1671810934,
+    "model": "text-davinci-003",
+    "choices": [
+      {
+        "text": "\n\nPolitician: Barack Hussein Obama \nState: Illinois",
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 89,
+      "completion_tokens": 13,
+      "total_tokens": 102
+    }
+  },
+  "standardized_response": {
+    "items": []
+  }
+}
