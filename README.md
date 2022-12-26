@@ -2,6 +2,19 @@
 
 ![Eden AI Logo](assets/EdenAI-Logo.png)
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [EdenAI APIs](#edenai-apis)
+    - [Package Installation](#package-installation)
+    - [Quick Start](#quick-start)
+        - [Asynchronous features](#asynchronous-features)
+    - [Contribute](#contribute)
+    - [Don’t want to create accounts for all providers and host the project by yourself?](#dont-want-to-create-accounts-for-all-providers-and-host-the-project-by-yourself)
+    - [Join the community!](#join-the-community)
+    - [License](#license)
+
+<!-- markdown-toc end -->
 # EdenAI APIs
 
 [Eden AI](https://www.edenai.co/?referral=github) aims to simplify the use and deployment of AI technologies by providing a unique API (application programming interface) that connects to the best possible AI engines. These engines are either proprietary or Open source AI engines, and can be used for different purposes, e.g, face
@@ -12,69 +25,63 @@ detection, OCR (receipt, invoice, table...), keyword extraction, sentiment analy
 ## Package Installation
 
 You can install the package with pip :
-
 ``` bash
-
-    pip install https://github.com/edenai/edenai-apis 
-
+pip install https://github.com/edenai/edenai-apis 
 ```
 
 ## Quick Start
 
-  Eden AI APIs is the open source package including necessary methods for using AI technologies from different AI providers (ex: google, amazon, clarifai .etc).
+Eden AI APIs is the open source package including necessary methods for using AI technologies from different AI providers (ex: google, amazon, clarifai .etc).
 
-  You can list all availalbe (`provider`, `feature`, `subfeature`) using **list_features** method. The function will return a list of tuples. For example :
+First add the api-keys/secrets for the provider you will use in `edenai_apis.api_keys.<provider_name>_settings_templates.json`, then rename the file to `<provider_name>_settings.json`
+  
+When it's done you can directly start using edenai_apis.
+Here is a quick example using Google and IBM Named Entity Recognition apis:
+``` python
+from edenai_apis import Text
 
-  ```python
-    [
-        ("google", "image", "object_detection"), 
-        ("api4ai", "image", "anonymization"), 
-        ("microsoft", "text", "keyword_extraction"), 
-        ...
-    ]
+google_ner = Text.named_entity_recognition("google")
+google_res = google_ner(language="en", text="as simple as that")
 
-  ```
+# Provider's response
+print(google_res.original_response)
 
-  You can use arguments to filter your request.
+# Standardized version of Provider's response
+print(google_res.standardized_response)
+print(google_res.standardized_response.items)
 
-  ```python
-    def list_features( provider_name: str = None, feature: str = None, subfeature: str = None, as_dict: bool = False) -> Union[List, Dict]:
-  ```
+# what if we want to try with an other provider:
+ibm_ner = Text.named_entity_recognition("ibm")
+ibm_res = ibm(language="en", text="same api & unified inputs for all providers")
 
-  If you set as_dict to true you get a different formatting :
+# we can then parse `standardized_response` the same way as we did for google
+print(ibm_res.standardized_response.items)
 
-  ```python
-      {
-        [provider]:{
-            [feature]: {
-                [subfeature]: True
-            }
-        }
-      }
-  ```
+# `original_response` will obviously be different and you will have to check 
+# the doc of each individual providers to know how to parse them
+```
 
+### Asynchronous features
 
-  You can get a list of all providers given a feature and a subfeature using `list_providers`. If neither the feature or subfeature are passed within the function arguments, the function returns the list of all available providers.
+If you're need to use features like _speech to text_, _object extraction_ from videos, etc. Then you will need to use asynchrounous operations. This means that will first make a call to launch an asynchrounous job, it will return a job ID allowing you to make other calls to get the job status or response if the job is finished
 
-  ```python
-    def list_providers(feature: str = None, subfeature: str = None) -> List[str]
-  ```
+```python
+from edenai_apis import Audio
 
+stt_launch = Audio.speech_to_text_async__launch_job("google")
+res = stt_launch(
+    file=your_file.wav,
+    language="en",
+    speakers=2,
+    profanity_filter=False,
+)
 
-  Once you know what provider you want to run for what feature/subfeature you can execute the `compute_output` function
+job_id = stt_launch.provider_job_id
 
-  ```python
-    def compute_output(provider_name: str, feature: str, subfeature: str, args: Dict, phase: str = "", fake: bool = False) -> Dict
-  ```
-
-  You get either the result back or a `job_id` if the subfeature is asyncronous (ex: speech_to_text_asynx).
-
-  If you're running an asyncronous feature (ex: speech to text, object extraction from videos ...etc ) then, when the computed subfeature using `compute_output` returns a `job_id`. Passing this `job_id` along a given provider, feature, subfeature and phase as arguments to `get_async_job_result` function returns the result of the asyncronous call.
-
-  ```python
-    def get_async_job_result(provider_name: str, feature: str, subfeature: str, async_job_id: str,
-                                            phase: str = "", fake: bool = False, project_name: str = None) -> Dict:
-  ```
+stt_get_result = Audio.speech_to_text_async__get_job_result("google")
+res = stt_get_result(provider_job_id=job_id)
+print(res.status)  # "pending" | "succeeded" | "failed"
+```
 
 ## Contribute
 
@@ -92,5 +99,5 @@ Join our friendly community to improve your skills, focus on the integration of 
 [![](https://dcbadge.vercel.app/api/server/VYwTbMQc8u)](https://discord.com/invite/VYwTbMQc8u)
 [![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/edenai/) [![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://edenai.medium.com/)
 
-## License :
+## License
 [Apache License 2.0](LICENSE)
