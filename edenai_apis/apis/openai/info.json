@@ -8,7 +8,7 @@
         "languages": [
           "en"
         ],
-        "allow_null_language":false
+        "allow_null_language":true
       },
       "version": "v3.0.0"
     },
@@ -20,7 +20,7 @@
         "languages": [
           "en"
         ],
-        "allow_null_language":false
+        "allow_null_language":true
       },
       "version": "v3.0.0"
     },
@@ -29,7 +29,7 @@
         "languages": [
           "en"
         ],
-        "allow_null_language":false
+        "allow_null_language":true
       },
       "version": "v3.0.0"
     },
@@ -38,7 +38,7 @@
         "languages": [
           "en"
         ],
-        "allow_null_language":false
+        "allow_null_language":true
       },
       "version" : "v3.0.0"
     },
@@ -47,7 +47,7 @@
           "languages": [
               "en"
           ],
-          "allow_null_language": false
+          "allow_null_language": true
       },
       "version": "v1"
     },
