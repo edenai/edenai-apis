@@ -1,7 +1,7 @@
 from enum import Enum
 from io import BufferedReader
 import json
-from typing import Optional
+from typing import List, Optional
 
 import requests
 from edenai_apis.features import (
@@ -250,7 +250,7 @@ class OneaiApi(
 
 
     def audio__speech_to_text_async__launch_job(self, file: BufferedReader, 
-        language: str, speakers: int, profanity_filter: bool, vocabulary: list
+        language: str, speakers: int, profanity_filter: bool, vocabulary: Optional[List[str]]
         ) -> AsyncLaunchJobResponseType:
 
         # check if audio file needs convertion

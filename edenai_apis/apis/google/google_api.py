@@ -7,7 +7,7 @@ import aifc
 from io import BufferedReader
 from pathlib import Path
 from time import time
-from typing import Sequence
+from typing import List, Optional, Sequence
 import uuid
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.pdfs import get_pdf_width_height
@@ -770,7 +770,7 @@ class GoogleApi(
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers: int,
-        profanity_filter: bool, vocabulary: list
+        profanity_filter: bool, vocabulary: Optional[List[str]]
     ) -> AsyncLaunchJobResponseType:
 
         #check language

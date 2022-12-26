@@ -1,6 +1,6 @@
 from io import BufferedReader
 import base64
-from typing import Sequence
+from typing import List, Optional, Sequence
 
 from ibm_watson.natural_language_understanding_v1 import (
     SentimentOptions,
@@ -373,14 +373,15 @@ class IbmApi(
         )
         
         return result    
-    
+
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
-        language: str, speakers : int, profanity_filter: bool,
-        vocabulary: list
+        language: str,
+        speakers: int,
+        profanity_filter: bool,
+        vocabulary: Optional[List[str]],
     ) -> AsyncLaunchJobResponseType:
-
         # check if audio file needs convertion
         accepted_extensions = ["flac", "mp3", "wav", "flac", "ogg", "webm", "alaw", "amr", 
         "g729", "l16", "mpeg", "mulaw"]

@@ -1,6 +1,6 @@
 from io import BufferedReader
 import json
-from typing import Dict
+from typing import Dict, List, Optional
 import requests
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features import AudioInterface
@@ -46,7 +46,7 @@ class VoxistApi(ProviderInterface, AudioInterface):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers: int,
-        profanity_filter: bool, vocabulary: list
+        profanity_filter: bool, vocabulary: Optional[List[str]]
     ) -> AsyncLaunchJobResponseType:
         # Convert audio file to Mono 16kHz wav
         wav_file = wav_converter(file, frame_rate=16000, channels=1)[0]

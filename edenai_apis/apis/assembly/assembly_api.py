@@ -1,4 +1,5 @@
 from io import BufferedReader
+from typing import List, Optional
 import requests
 from time import time
 from edenai_apis.features import ProviderInterface, AudioInterface
@@ -37,7 +38,7 @@ class AssemblyApi(ProviderInterface, AudioInterface):
 
     
     def audio__speech_to_text_async__launch_job(self, file: BufferedReader, 
-        language: str, speakers: int, profanity_filter: bool, vocabulary: list
+        language: str, speakers: int, profanity_filter: bool, vocabulary: Optional[List[str]]
         ) -> AsyncLaunchJobResponseType:
 
         # check if audio file needs convertion

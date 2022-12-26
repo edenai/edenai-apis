@@ -1061,10 +1061,11 @@ class MicrosoftApi(
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
-        language: str, speakers : int, profanity_filter: bool,
-        vocabulary: list
+        language: str,
+        speakers: int,
+        profanity_filter: bool,
+        vocabulary: Optional[List[str]],
     ) -> AsyncLaunchJobResponseType:
-
         #check language
         if not language:
             raise LanguageException("Language not provided")

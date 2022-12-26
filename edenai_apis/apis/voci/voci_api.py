@@ -1,4 +1,5 @@
 from io import BufferedReader
+from typing import List, Optional
 import requests
 from edenai_apis.features.audio.speech_to_text_async import (
     SpeechToTextAsyncDataClass,
@@ -30,7 +31,7 @@ class VociApi(ProviderInterface, AudioInterface):
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
         speakers : int, profanity_filter: bool,
-        vocabulary: list
+        vocabulary: Optional[List[str]]
     ) -> AsyncLaunchJobResponseType:
 
         # check if audio file needs convertion

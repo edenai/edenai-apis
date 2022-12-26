@@ -1,5 +1,5 @@
 from io import BufferedReader
-from typing import Sequence
+from typing import List, Optional, Sequence
 import requests
 
 from edenai_apis.features import ProviderInterface, TextInterface, TranslationInterface
@@ -136,7 +136,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers: int,
-        profanity_filter: bool, vocabulary: list
+        profanity_filter: bool, vocabulary: Optional[List[str]]
     ) -> AsyncLaunchJobResponseType:
 
         url_file_upload = f"{self.url}file/upload"

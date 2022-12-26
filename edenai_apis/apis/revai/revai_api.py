@@ -1,4 +1,5 @@
 from io import BufferedReader
+from typing import List, Optional
 import requests
 import uuid
 from time import time
@@ -126,7 +127,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
-        speakers : int, profanity_filter: bool, vocabulary: list
+        speakers : int, profanity_filter: bool, vocabulary: Optional[List[str]]
     ) -> AsyncLaunchJobResponseType:
         
         # check if audio file needs convertion
