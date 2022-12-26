@@ -90,6 +90,9 @@ res = stt_get_result(provider_job_id=job_id)
 print(res.status)  # "pending" | "succeeded" | "failed"
 ```
 
+## Available Features & Providers
+You can find a list of all available features and providers [here](AVAILABLES_FEATURES_AND_PROVIDERS.md)
+
 ## Contribute
 
 We would love to have your contribution. Please follow our [gidelines for adding a new AI provider's API or a new AI feature](CONTRIBUTE.md). You can check [the package structure](PACKAGE_STRUCTURE.md) for more details on how it is organized.
@@ -108,3 +111,4 @@ Join our friendly community to improve your skills, focus on the integration of 
 
 ## License
 [Apache License 2.0](LICENSE)
+<details><summary>affinda</summary>
