@@ -1,41 +1,48 @@
-import inspect
-from typing import Dict, List, Literal, Optional, Set, Tuple, Type, Union, overload
-from edenai_apis.features import (
-    ImageInterface,
-    TextInterface,
-    OcrInterface,
-    VideoInterface,
-    TranslationInterface,
-    AudioInterface,
-    ProviderInterface as ProviderInterface,
-)
-from edenai_apis.loaders.loaders import load_provider
+"""
+This module serve as an interface to easily make calls to Provider's apis
+
+Example:
+    Let's say that we implemented a new Feature Category (3d Models for example)
+    and that a few providers already supports it, now we to create an interface for this feature:
+    >>> 3DModels = abstract(3dModelsInterface, method_prefix="3dmodeling__")
+    this should return a class that can be used as interface and
+    we can now use `3DModels` to make call to supported providers
+    >>> 3d_from_img = 3DModels.create_3d_model_from_image('<provider_here>')
+    >>> response = 3d_from_img(image=...)
+"""
+from typing import Callable
+
+from edenai_apis.features import AudioInterface, ImageInterface, OcrInterface
+from edenai_apis.features import ProviderInterface as ProviderInterface
+from edenai_apis.features import TextInterface, TranslationInterface, VideoInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
 
 
-def return_provider_method(func: callable) -> callable:
-    """TODO Complete this docstring
+def return_provider_method(func: Callable) -> Callable:
+    """
 
     Args:
-        func (callable): _description_
+        func (Callable): a ProviderApi method
 
     Returns:
-        callable: _description_
+        Callable: function take a provider_name and return its class's methods
     """
-    def wrapped(provider: str)-> callable:
-        """TODO Complete this docstring
+
+    def wrapped(provider: str) -> Callable:
+        """find given func in given provider's class, and returns it
 
         Args:
-            provider (str): _description_
+            provider (str): provider name
 
         Returns:
-            callable: _description_
+            Callable: provider's function
         """
-        # Get the provider's function. 
+        # Get the provider's class.
         # Example : GoogleAPI
         ProviderClass = load_provider(ProviderDataEnum.CLASS, provider_name=provider)
 
-        # Instantiate the provider's class. 
+        # Instantiate the provider's class.
         # Example : google_api = GoogleAPI()
         provider_instance = ProviderClass()
 
@@ -43,20 +50,24 @@ def return_provider_method(func: callable) -> callable:
         # Example : google_api.image__object_detection
         provider_subfeature_function = getattr(provider_instance, func.__name__)
 
-        return provider_subfeature_function 
+        return provider_subfeature_function
+
     return wrapped
 
+
 def abstract(InterfaceClass: ProviderInterface, method_prefix: str):
-    """TODO Complete this docstring
+    """create an Abstracted Class and set all the methods of given InterfaceClass
+    to it with modified names, methods have the same names as the subfeature
 
     Args:
-        InterfaceClass (ProviderInterface): _description_
-        method_prefix (str): _description_
+        InterfaceClass (ProviderInterface): Provider interface class (that includes abstract methods for each subfeatures)
+        method_prefix (str): bit of string to remove from ProvierInterface methods
 
     Returns:
-        _type_: _description_
+        NewAbstractedClass: new class with all the renamed methods, that returns `return_provider_method`
     """
-    class NewAbstractedClass():
+
+    class NewAbstractedClass:
         pass
 
     for method_name in dir(InterfaceClass):
@@ -69,6 +80,7 @@ def abstract(InterfaceClass: ProviderInterface, method_prefix: str):
             setattr(NewAbstractedClass, method_name.replace(method_prefix, ""), wrapped)
 
     return NewAbstractedClass
+
 
 Image = abstract(ImageInterface, method_prefix="image__")
 Text = abstract(TextInterface, method_prefix="text__")
