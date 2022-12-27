@@ -16,6 +16,7 @@ from edenai_apis.features.text import (
     ExtractedTopic,
     GenerationDataClass,
     CustomNamedEntityRecognitionDataClass,
+    InfosCustomNamedEntityRecognitionDataClass,
 )
 from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
@@ -407,11 +408,10 @@ class OpenaiApi(ProviderApi, Text):
     def text__custom_named_entity_recognition(self, text: str, entities: List[str]
                                               ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         url = f"{self.url}/completions"
-        built_entities = ','.join(entities)
-        prompt = f"Extract all the entities in this list ({built_entities}) from this text:"+text
+        built_entities = ','.join(entities) + '<|endoftext|>'
+        prompt = f"Extract entities in this list ({built_entities}) from the text below and separate the result with line break.\n"+text+'<|endoftext|>result:'
         payload = {
         "prompt" : prompt,
-        "max_tokens" : self.max_tokens,
         "model" : self.model,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
@@ -419,10 +419,17 @@ class OpenaiApi(ProviderApi, Text):
         if "error" in original_response:
             raise ProviderException(original_response["error"]["message"])
         
-        entities = original_response['choices'][0]['text'].split('\n')
-        items: Sequence[InfosKeywordExtractionDataClass] = []
+        items: Sequence[InfosCustomNamedEntityRecognitionDataClass] = []
+        entities = original_response['choices'][0]['text'][1:].split('\n')
+        for entity in entities:
+            item = entity.split(':')
+            items.append(InfosCustomNamedEntityRecognitionDataClass(
+                entity = item[1],
+                category = item[0]
+            ))
+            
 
-        standardized_response = CustomNamedEntityRecognitionDataClass()
+        standardized_response = CustomNamedEntityRecognitionDataClass(items = items)
 
         return ResponseType[CustomNamedEntityRecognitionDataClass](
             original_response=original_response,

@@ -47,5 +47,6 @@ from .generation import(
 )
 from .custom_named_entity_recognition import(
     CustomNamedEntityRecognitionDataClass,
+    InfosCustomNamedEntityRecognitionDataClass,
     custom_named_entity_recognition_arguments
 )
