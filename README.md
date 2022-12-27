@@ -5,7 +5,7 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
-- [EdenAI APIs](#edenai-apis)
+- [Eden AI APIs](#edenai-apis)
     - [Package Installation](#package-installation)
     - [Quick Start](#quick-start)
         - [Asynchronous features](#asynchronous-features)
@@ -16,7 +16,7 @@
     - [License](#license)
 
 <!-- markdown-toc end -->
-# EdenAI APIs
+# Eden AI APIs
 
 [Eden AI](https://www.edenai.co/?referral=github) aims to simplify the use and deployment of AI technologies by providing a unique API (application programming interface) that connects to the best possible AI engines. These engines are either proprietary or Open source AI engines, and can be used for different purposes, e.g, face
 detection, OCR (receipt, invoice, table...), keyword extraction, sentiment analysis, face detection, and much more. These technologies are provided by the best suppliers in the market. We can cite briefly some of them: Amazon, Google, Microsoft, Dataleon, and Mindee and many others. Eden AI take care of providing to it’s clients the best AI engine suited to their projects, and this, with the goal of keeping AI light and easy to any developer. 
