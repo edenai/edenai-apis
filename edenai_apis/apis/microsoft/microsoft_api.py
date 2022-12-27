@@ -951,12 +951,19 @@ class MicrosoftApi(
     ) -> AsyncLaunchJobResponseType:
 
         file_content = file.read()
-        url = (f"{self.url['ocr_tables_async']}formrecognizer/documentModels/"
+        url = (f"{self.api_settings['form_recognizer']['url']}formrecognizer/documentModels/"
                 f"prebuilt-layout:analyze?api-version=2022-08-31")
         url = format_string_url_language(url, language, "locale", self.provider_name)
 
         response = requests.post(
-            url, headers=self.headers["ocr_tables_async"], data=file_content
+            url,
+            headers={
+                "Content-Type": "application/octet-stream",
+                "Ocp-Apim-Subscription-Key": self.api_settings["form_recognizer"][
+                    "subscription_key"
+                ],
+            },
+            data=file_content,
         )
 
         if response.status_code != 202:
@@ -969,9 +976,15 @@ class MicrosoftApi(
         job_id: str
     ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
 
-        headers = self.headers["ocr_tables_async"]
+        headers = {
+            "Content-Type": "application/octet-stream",
+            "Ocp-Apim-Subscription-Key": self.api_settings["form_recognizer"][
+                "subscription_key"
+            ],
+        }
+
         url = (
-            self.url["ocr_tables_async"]
+            self.api_settings['form_recognizer']['url']
             + f"formrecognizer/documentModels/prebuilt-layout/"
             f"analyzeResults/{job_id}?api-version=2022-08-31"
         )
