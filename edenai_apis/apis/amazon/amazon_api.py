@@ -3,12 +3,13 @@ import json
 from io import BufferedReader, BytesIO
 from pprint import pprint
 from time import time
-from typing import Sequence
+from typing import List, Optional, Sequence
 import base64
 import uuid
 from collections import defaultdict
 import urllib
 from pathlib import Path
+from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import CustomDocumentParsingAsyncDataclass
 from pdf2image.pdf2image import convert_from_bytes
 
 from edenai_apis.features.provider.provider_interface import ProviderInterface
@@ -113,6 +114,7 @@ from edenai_apis.utils.types import (
 from .config import clients, audio_voices_ids, tags, storage_clients
 
 from .helpers import (
+    amazon_custom_document_parsing_formatter,
     check_webhook_result,
     amazon_launch_video_job,
     amazon_video_response_formatter,
@@ -1250,4 +1252,71 @@ class AmazonApi(
 
         return amazon_video_response_formatter(
             response, standardized_response, provider_job_id
+        )
+
+    def ocr__custom_document_parsing_async__launch_job(
+        self, file: BufferedReader, queries: List[str]
+    ) -> AsyncLaunchJobResponseType:
+
+        file_content = file.read()
+
+        self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
+            Key=file.name, Body=file_content
+        )
+
+        formatted_queries = [{"Text": query, "Pages": ["1-*"]} for query in queries]
+
+        try:
+            response = self.clients["textract"].start_document_analysis(
+                DocumentLocation={
+                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file.name},
+                },
+                FeatureTypes=["QUERIES"],
+                QueriesConfig={"Queries": formatted_queries},
+            )
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
+        return AsyncLaunchJobResponseType(provider_job_id=response["JobId"])
+
+    def ocr__custom_document_parsing_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[CustomDocumentParsingAsyncDataclass]:
+        response = self.clients["textract"].get_document_analysis(JobId=provider_job_id)
+
+        if response.get("JobStatus") == "IN_PROGRESS":
+            return AsyncPendingResponseType[CustomDocumentParsingAsyncDataclass](
+                provider_job_id=provider_job_id
+            )
+        elif response["JobStatus"] == "FAILED":
+            error: str = response.get(
+                "StatusMessage", "Amazon returned a job status: FAILED"
+            )
+            raise ProviderException(error)
+
+        pagination_token = response.get("NextToken")
+        pages = [response]
+        if not pagination_token:
+            return AsyncResponseType[CustomDocumentParsingAsyncDataclass](
+                original_response=pages,
+                standardized_response=amazon_custom_document_parsing_formatter(pages),
+                provider_job_id=provider_job_id,
+            )
+
+        finished = False
+        while not finished:
+            response = self.clients["textract"].get_document_analysis(
+                JobId=provider_job_id,
+                NextToken=pagination_token,
+            )
+            pages.append(response)
+            if "NextToken" in response:
+                pagination_token = response["NextToken"]
+            else:
+                finished = True
+
+        return AsyncResponseType[CustomDocumentParsingAsyncDataclass](
+            original_response=pages,
+            standardized_response=amazon_custom_document_parsing_formatter(pages),
+            provider_job_id=provider_job_id,
         )

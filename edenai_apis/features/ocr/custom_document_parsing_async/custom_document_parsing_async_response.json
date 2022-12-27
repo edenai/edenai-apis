@@ -1,0 +1,26 @@
+{
+  "items": [
+    {
+      "confidence": 98.0,
+      "value": "jwsmith@colostate.edu",
+      "bounding_box": {
+        "left": 0.40480345487594604,
+        "top": 0.13232094049453735,
+        "width": 0.18646040558815002,
+        "height": 0.014690706506371498
+      },
+      "page": 1
+    },
+    {
+      "confidence": 89.0,
+      "value": "Determined work placement for 150 special needs adult clients.",
+      "bounding_box": {
+        "left": 0.17563527822494507,
+        "top": 0.278344988822937,
+        "width": 0.49852532148361206,
+        "height": 0.014731679111719131
+      },
+      "page": 1
+    }
+  ]
+}
