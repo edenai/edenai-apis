@@ -50,8 +50,6 @@ def test_return_provider_method_returns_right_method(
 
         test_method = wrapped(provider)
         assert callable(test_method)
-        # FIXME change this shitty assert
-        print(test_method.im_self, right_method.im_self)
         assert test_method.__name__ == right_method.__name__
 
         # assert test_method has same class as right_method
