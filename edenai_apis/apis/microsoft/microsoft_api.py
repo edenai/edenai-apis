@@ -930,7 +930,7 @@ class MicrosoftApi(
                 ][0]["sentences"]
                 summary = " ".join([sentence["text"] for sentence in sentences])
                 break
-            time.sleep(6)
+            sleep(6)
             wait_time += 6
             get_response = requests.get(url=get_url, headers=self.headers["text"])
             data = get_response.json()
