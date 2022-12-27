@@ -9,6 +9,7 @@
     - [Package Installation](#package-installation)
     - [Quick Start](#quick-start)
         - [Asynchronous features](#asynchronous-features)
+    - [All available features and providers ⚠️](https://github.com/edenai/edenai-apis/blob/new_interface/AVAILABLES_FEATURES_AND_PROVIDERS.md)
     - [Contribute](#contribute)
     - [Don’t want to create accounts for all providers and host the project by yourself?](#dont-want-to-create-accounts-for-all-providers-and-host-the-project-by-yourself)
     - [Join the community!](#join-the-community)
@@ -26,7 +27,7 @@ detection, OCR (receipt, invoice, table...), keyword extraction, sentiment analy
 
 You can install the package with pip :
 ``` bash
-pip install https://github.com/edenai/edenai-apis 
+pip install git+https://github.com/edenai/edenai-apis 
 ```
 
 ## Quick Start
@@ -74,7 +75,11 @@ If you need to use features like _speech to text_, _object extraction_ from vide
 ```python
 from edenai_apis import Audio
 
-stt_launch = Audio.speech_to_text_async__launch_job("google")
+provider = "google" # it could also be assamblyai, deepgram, microsoft ...etc
+stt_launch = Audio.speech_to_text_async__launch_job(provider)
+stt_get_result = Audio.speech_to_text_async__get_job_result(provider)
+
+
 res = stt_launch(
     file=your_file.wav,
     language="en",
@@ -84,13 +89,12 @@ res = stt_launch(
 
 job_id = stt_launch.provider_job_id
 
-stt_get_result = Audio.speech_to_text_async__get_job_result("google")
 res = stt_get_result(provider_job_id=job_id)
 print(res.status)  # "pending" | "succeeded" | "failed"
 ```
 
 ## Available Features & Providers
-You can find a list of all available features and providers [here](AVAILABLES_FEATURES_AND_PROVIDERS.md)
+⚠️ You can find a list of all available features and providers [here](AVAILABLES_FEATURES_AND_PROVIDERS.md) ⚠️
 
 ## Contribute
 
