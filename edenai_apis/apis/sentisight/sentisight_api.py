@@ -6,7 +6,7 @@ import requests
 from pdf2image.pdf2image import convert_from_bytes
 import json
 
-from edenai_apis.features import ProviderApi, Ocr, Image
+from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
 from edenai_apis.features.image import (
     SearchDataClass,
     ImageItem,
@@ -31,7 +31,7 @@ from edenai_apis.utils.types import ResponseType, ResponseSuccess
 from .sentisight_helpers import calculate_bounding_box, get_formatted_language
 
 
-class SentiSightApi(ProviderApi, Ocr, Image):
+class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
     provider_name: str = "sentisight"
 
     def __init__(self) -> None:

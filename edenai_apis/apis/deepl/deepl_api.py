@@ -1,14 +1,14 @@
 import requests
-from edenai_apis.features.base_provider.provider_api import ProviderApi
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.translation.automatic_translation import AutomaticTranslationDataClass
-from edenai_apis.features.translation.translation_class import Translation
+from edenai_apis.features.translation.translation_interface import TranslationInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
 
 
-class DeeplApi(ProviderApi, Translation):
+class DeeplApi(ProviderInterface, TranslationInterface):
     provider_name = "deepl"
 
     def __init__(self) -> None:

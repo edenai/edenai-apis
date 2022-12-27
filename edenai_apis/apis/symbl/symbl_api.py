@@ -2,7 +2,7 @@ from io import BufferedReader
 import json
 import requests
 
-from edenai_apis.features import ProviderApi, Audio
+from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
@@ -20,7 +20,7 @@ from edenai_apis.utils.types import (
 
 from edenai_apis.utils.audio import file_with_good_extension
 
-class SymblApi(ProviderApi, Audio):
+class SymblApi(ProviderInterface, AudioInterface):
     provider_name = "symbl"
 
     def __init__(self) -> None:

@@ -1,8 +1,8 @@
 from io import BufferedReader
+from typing import List, Optional
 import requests
 from time import time
-import json
-from edenai_apis.features import ProviderApi, Audio
+from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
@@ -22,7 +22,7 @@ from edenai_apis.utils.audio import file_with_good_extension
 from apis.amazon.config import storage_clients
 from .helper import language_matches
 
-class AssemblyApi(ProviderApi, Audio):
+class AssemblyApi(ProviderInterface, AudioInterface):
     provider_name = "assembly"
 
     def __init__(self) -> None:
@@ -39,7 +39,7 @@ class AssemblyApi(ProviderApi, Audio):
 
     
     def audio__speech_to_text_async__launch_job(self, file: BufferedReader, 
-        language: str, speakers: int, profanity_filter: bool, vocabulary: list
+        language: str, speakers: int, profanity_filter: bool, vocabulary: Optional[List[str]]
         ) -> AsyncLaunchJobResponseType:
 
         if language and "-" in language:

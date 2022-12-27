@@ -16,7 +16,7 @@ from edenai_apis.features.text import (
 from edenai_apis.utils.types import ResponseType
 
 
-class Text:
+class TextInterface:
     @abstractmethod
     def text__anonymization(
         self, text: str, language: str

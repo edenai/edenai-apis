@@ -18,7 +18,7 @@ from edenai_apis.features.ocr.resume_parser.resume_parser_dataclass import (
 from edenai_apis.utils.types import AsyncLaunchJobResponseType, ResponseType
 
 
-class Ocr:
+class OcrInterface:
     @abstractmethod
     def ocr__ocr(
         self, file: BufferedReader, language: str

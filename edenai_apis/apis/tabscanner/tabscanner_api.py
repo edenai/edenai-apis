@@ -3,7 +3,7 @@ from typing import Any, Sequence
 from time import sleep
 import requests
 
-from edenai_apis.features import ProviderApi, Ocr
+from edenai_apis.features import ProviderInterface, OcrInterface
 from edenai_apis.features.ocr import (
     ReceiptParserDataClass,
     InfosReceiptParserDataClass,
@@ -18,7 +18,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
 
-class TabscannerApi(ProviderApi, Ocr):
+class TabscannerApi(ProviderInterface, OcrInterface):
     provider_name = "tabscanner"
 
     def __init__(self) -> None:

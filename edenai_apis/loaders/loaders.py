@@ -73,7 +73,7 @@ def load_provider(
     Call data_loader functions and returns data related to providers
     availables functions (found in data_loaders.py) are:
         `load_info_file(provider_name: str = "") -> Dict`
-        `load_class(provider_name: Optional[str] = None) -> Tuple[List[ProviderApi], ProviderApi]`
+        `load_class(provider_name: Optional[str] = None) -> Tuple[List[ProviderInterface], ProviderInterface]`
         `load_output(provider_name: str, feature: str, subfeature: str, phase: str = "") -> Dict`
         `load_subfeature(provider_name: str, feature: str, subfeature: str, phase: str = "", suffix="") -> Callable`
         `load_provider_subfeature_info(provider_name: str, feature: str, subfeature: str, phase: str = "")`

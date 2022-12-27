@@ -1,13 +1,12 @@
 from io import BufferedReader
+from typing import List, Optional
 import requests
 import uuid
 from time import time
 import json
-import boto3
-import datetime as dt
 from botocore.errorfactory import ClientError
 
-from edenai_apis.features import ProviderApi, Audio
+from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
@@ -22,11 +21,11 @@ from edenai_apis.utils.types import (
     AsyncPendingResponseType,
     AsyncResponseType,
 )
-from apis.amazon.config import clients, storage_clients
+from apis.amazon.config import storage_clients
 from edenai_apis.utils.audio import file_with_good_extension
 
 
-class RevAIApi(ProviderApi, Audio):
+class RevAIApi(ProviderInterface, AudioInterface):
     provider_name = "revai"
 
     def __init__(self) -> None:
@@ -60,7 +59,6 @@ class RevAIApi(ProviderApi, Audio):
         vocab_name = original_response["id"]
 
         return vocab_name
-    
 
     def _launch_transcribe(
         self, filename:str, language:str,
@@ -129,7 +127,7 @@ class RevAIApi(ProviderApi, Audio):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
-        speakers : int, profanity_filter: bool, vocabulary: list
+        speakers : int, profanity_filter: bool, vocabulary: Optional[List[str]]
     ) -> AsyncLaunchJobResponseType:
         
         # check if audio file needs convertion

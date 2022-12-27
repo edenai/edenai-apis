@@ -1,4 +1,5 @@
 from io import BufferedReader
+from typing import List, Optional
 import requests
 from edenai_apis.features.audio.speech_to_text_async import (
     SpeechToTextAsyncDataClass,
@@ -7,10 +8,10 @@ from edenai_apis.features.audio.speech_to_text_async import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features.base_provider.provider_api import ProviderApi
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.utils.audio import file_with_good_extension
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.features import Audio
+from edenai_apis.features import AudioInterface
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -20,7 +21,7 @@ from edenai_apis.utils.types import (
 import json
 
 
-class VociApi(ProviderApi, Audio):
+class VociApi(ProviderInterface, AudioInterface):
     provider_name = "voci"
 
     def __init__(self) -> None:
@@ -30,7 +31,7 @@ class VociApi(ProviderApi, Audio):
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
         speakers : int, profanity_filter: bool,
-        vocabulary: list
+        vocabulary: Optional[List[str]]
     ) -> AsyncLaunchJobResponseType:
 
         # check if audio file needs convertion

@@ -1,9 +1,9 @@
 from io import BufferedReader
 import json
-from typing import Dict
+from typing import Dict, List, Optional
 import requests
-from edenai_apis.features.base_provider.provider_api import ProviderApi
-from edenai_apis.features import Audio
+from edenai_apis.features.provider.provider_interface import ProviderInterface
+from edenai_apis.features import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
@@ -21,7 +21,7 @@ from edenai_apis.utils.types import (
 )
 
 
-class VoxistApi(ProviderApi, Audio):
+class VoxistApi(ProviderInterface, AudioInterface):
     provider_name: str = "voxist"
 
     def __init__(self) -> None:
@@ -46,7 +46,7 @@ class VoxistApi(ProviderApi, Audio):
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str, speakers: int,
-        profanity_filter: bool, vocabulary: list
+        profanity_filter: bool, vocabulary: Optional[List[str]]
     ) -> AsyncLaunchJobResponseType:
         # Convert audio file to Mono 16kHz wav
         wav_file = wav_converter(file, frame_rate=16000, channels=1)[0]

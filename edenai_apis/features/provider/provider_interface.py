@@ -1,6 +1,6 @@
 from abc import ABC
 
-class ProviderApi(ABC):
+class ProviderInterface(ABC):
     provider_name: str
 
     @classmethod
