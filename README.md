@@ -31,12 +31,11 @@ pip install https://github.com/edenai/edenai-apis
 
 ## Quick Start
 
-Eden AI APIs is the open source package including necessary methods for using AI technologies from different AI providers (ex: google, amazon, clarifai .etc).
 
-First add the api-keys/secrets for the provider you will use in `edenai_apis.api_keys.<provider_name>_settings_templates.json`, then rename the file to `<provider_name>_settings.json`
+To make call to different AI providers, first add the api-keys/secrets for the provider you will use in `edenai_apis.api_keys.<provider_name>_settings_templates.json`, then rename the file to `<provider_name>_settings.json`
   
 When it's done you can directly start using edenai_apis.
-Here is a quick example using Google and IBM Keyword Extraction apis:
+Here is a quick example using Microsoft and IBM Keyword Extraction apis:
 ```python
 from edenai_apis import Text
 
@@ -55,7 +54,7 @@ for item in microsoft_res.standardized_response.items:
 
 # What if we want to try an other provider?
 ibm_kw = Text.keyword_extraction("ibm")
-ibm_res = ibm(language="en", text="same api & unified inputs for all providers")
+ibm_res = ibm_kw(language="en", text="same api & unified inputs for all providers")
 
 
 # `original_response` will obviously be different and you will have to check
@@ -70,7 +69,7 @@ for item in ibm_res.standardized_response.items:
 
 ### Asynchronous features
 
-If you're need to use features like _speech to text_, _object extraction_ from videos, etc. Then you will need to use asynchrounous operations. This means that will first make a call to launch an asynchrounous job, it will return a job ID allowing you to make other calls to get the job status or response if the job is finished
+If you need to use features like _speech to text_, _object extraction_ from videos, etc. Then you will have to use asynchrounous operations. This means that you will first make a call to launch an asynchrounous job, it will then return a job ID allowing you to make other calls to get the job status or response if the job is finished
 
 ```python
 from edenai_apis import Audio
@@ -111,4 +110,3 @@ Join our friendly community to improve your skills, focus on the integration of 
 
 ## License
 [Apache License 2.0](LICENSE)
-<details><summary>affinda</summary>
