@@ -11,6 +11,7 @@ from edenai_apis.features.text import (
     SearchDataClass,
     TopicExtractionDataClass,
     GenerationDataClass,
+    CustomNamedEntityRecognitionDataClass
 )
 from edenai_apis.utils.types import ResponseType
 
@@ -169,5 +170,22 @@ class Text:
 
         Args:
             text (str): your prompt
+        """
+        raise NotImplementedError
+    
+    @abstractmethod
+    def text__custom_named_entity_recognition(
+        self, 
+        text : str, 
+        entities: List[str]
+    ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
+        """Custom named entity recognition
+
+        Args:
+            text (str): text input
+            entities (List[str]): list of entites to detect in the text
+
+        Returns:
+            ResponseType[CustomNamedEntityRecognitionDataClass]
         """
         raise NotImplementedError

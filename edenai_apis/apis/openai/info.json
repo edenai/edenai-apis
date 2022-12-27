@@ -53,6 +53,9 @@
     },
     "generation" : {
       "version": "v1"
+    },
+    "custom_named_entity_recognition": {
+      "version": "v3.0.0"
     }
   },
   "translation": {
