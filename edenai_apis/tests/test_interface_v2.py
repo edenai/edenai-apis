@@ -85,13 +85,13 @@ def test_random_interface_call():
     """
 
     provider, feature, subfeature, *phase = random.choice(list_features())
-    if "async" in subfeature:
-        subfeature += "__launch_job"
-    phase_suffix = f"__{phase}" if phase else ""
+
+    subfeature_suffix = "__launch_job" if "async" in subfeature else ""
+    phase_suffix = f"__{phase[0]}" if phase else ""
 
     interface_module = importlib.import_module("edenai_apis.interface_v2")
     klass = getattr(interface_module, feature.capitalize())
-    feature_method = getattr(klass, f"{subfeature}{phase_suffix}")(provider)
+    feature_method = getattr(klass, f"{subfeature}{subfeature_suffix}{phase_suffix}")(provider)
     feature_args = load_feature(
         FeatureDataEnum.SAMPLES_ARGS,
         feature=feature,
