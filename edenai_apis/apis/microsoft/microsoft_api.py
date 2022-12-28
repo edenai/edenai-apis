@@ -49,6 +49,7 @@ from edenai_apis.features.text import (
     InfosNamedEntityRecognitionDataClass, NamedEntityRecognitionDataClass,
     SentimentAnalysisDataClass, SummarizeDataClass
 )
+from edenai_apis.features.text.anonymization.anonymization_dataclass import AnonymizationDataClass
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SegmentSentimentAnalysisDataClass
 from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.features.translation import (
@@ -852,7 +853,7 @@ class MicrosoftApi(
             entity_type = ent["category"].upper()
             if entity_type == 'DATETIME':
                 entity_type = 'DATE'
-            
+
             items.append(
                 InfosNamedEntityRecognitionDataClass(
                     entity=entity,
@@ -901,11 +902,11 @@ class MicrosoftApi(
                 },
             },
         )
-        
+
         if response.status_code != 202:
             err = response.json().get("error", {})
             details= err.get('details',[defaultdict])[0]
-            error_msg = details.get("message", f"Microsoft Azure couldn't create job")
+            error_msg = details.get("message", "Microsoft Azure couldn't create job")
             raise ProviderException(error_msg)
 
         get_url = response.headers.get("operation-location")
@@ -941,6 +942,33 @@ class MicrosoftApi(
         )
 
 
+    def text__anonymization(self, text: str, language: str) -> ResponseType[AnonymizationDataClass]:
+        try:
+            response = requests.post(
+                f"{self.url['text']}",
+                headers=self.headers["text"],
+                json={
+                    "kind": "PiiEntityRecognition",
+                    "parameters": {
+                        "modelVersion": "latest",
+                    },
+                    "analysisInput": {
+                        "documents": [{"id": "1", "language": language, "text": text}]
+                    },
+                },
+            )
+        except Exception as exc:
+            raise ProviderException(f"Unexpected error! {sys.exc_info()[0]}") from exc
+
+        original_response = response.json()
+        if response.status_code != 200:
+            raise ProviderException(original_response, response.status_code)
+
+        standardized_response = AnonymizationDataClass(result=original_response['results']['documents'][0]['redactedText'])
+        return ResponseType[AnonymizationDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response
+        )
 
     def ocr__ocr_tables_async__launch_job(self,
         file: BufferedReader,

@@ -716,6 +716,37 @@
       },
       "version": "v3.1"
     },
+    "anonymization": {
+      "constraints": {
+        "languages": [
+          "zh-Hans",
+          "zh",
+          "zh-Hant",
+          "nl",
+          "en",
+          "fr",
+          "de",
+          "hi",
+          "it",
+          "ja",
+          "ko",
+          "no",
+          "pt-BR",
+          "pt-PT",
+          "pt",
+          "es",
+          "ar",
+          "da",
+          "el",
+          "fi",
+          "pl",
+          "ru",
+          "sv"
+        ],
+        "allow_null_language": true
+      },
+      "version": "v3.1"
+    },
     "summarize": {
       "constraints": {
         "languages": [
