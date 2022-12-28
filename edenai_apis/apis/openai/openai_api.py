@@ -408,11 +408,12 @@ class OpenaiApi(ProviderInterface, TextInterface):
     def text__custom_named_entity_recognition(self, text: str, entities: List[str]
                                               ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         url = f"{self.url}/completions"
-        built_entities = ','.join(entities) + '<|endoftext|>'
-        prompt = f"Extract entities in this list ({built_entities}) from the text below and separate the result with line break.\n"+text+'<|endoftext|>result:'
+        built_entities = ','.join(entities)
+        prompt = f"Extract these entities ({built_entities}) from this text and format the result as entity:result separated by ;\ntext:"+text
         payload = {
         "prompt" : prompt,
         "model" : self.model,
+        "temperature" : 0.0,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
         # Handle povider error
@@ -420,7 +421,7 @@ class OpenaiApi(ProviderInterface, TextInterface):
             raise ProviderException(original_response["error"]["message"])
         
         items: Sequence[InfosCustomNamedEntityRecognitionDataClass] = []
-        entities = original_response['choices'][0]['text'][1:].split('\n')
+        entities = original_response['choices'][0]['text'].replace("\n", "").split(';')
         for entity in entities:
             item = entity.split(':')
             items.append(InfosCustomNamedEntityRecognitionDataClass(
@@ -429,7 +430,7 @@ class OpenaiApi(ProviderInterface, TextInterface):
             ))
             
 
-        standardized_response = CustomNamedEntityRecognitionDataClass(items = items)
+        standardized_response = CustomNamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[CustomNamedEntityRecognitionDataClass](
             original_response=original_response,
