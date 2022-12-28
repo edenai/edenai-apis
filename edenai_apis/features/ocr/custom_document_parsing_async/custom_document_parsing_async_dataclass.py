@@ -14,5 +14,5 @@ class CustomDocumentParsingAsyncItem(BaseModel):
     bounding_box: CustomDocumentParsingAsyncBoundingBox
     page: int
 
-class CustomDocumentParsingAsyncDataclass(BaseModel):
+class CustomDocumentParsingAsyncDataClass(BaseModel):
     items: List[CustomDocumentParsingAsyncItem] = Field(default_factory=list)

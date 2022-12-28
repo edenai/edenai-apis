@@ -2,7 +2,7 @@ from abc import abstractmethod
 from io import BufferedReader
 from typing import List
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
-    CustomDocumentParsingAsyncDataclass,
+    CustomDocumentParsingAsyncDataClass,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     IdentityParserDataClass,
@@ -136,7 +136,7 @@ class OcrInterface:
     @abstractmethod
     def ocr__custom_document_parsing_async__get_job_result(
         self, provider_job_id: str
-    ) -> AsyncBaseResponseType[CustomDocumentParsingAsyncDataclass]:
+    ) -> AsyncBaseResponseType[CustomDocumentParsingAsyncDataClass]:
         """
         Get the result of an asynchronous job by its ID
 

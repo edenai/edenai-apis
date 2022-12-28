@@ -9,7 +9,7 @@ import uuid
 from collections import defaultdict
 import urllib
 from pathlib import Path
-from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import CustomDocumentParsingAsyncDataclass
+from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import CustomDocumentParsingAsyncDataClass
 from pdf2image.pdf2image import convert_from_bytes
 
 from edenai_apis.features.provider.provider_interface import ProviderInterface
@@ -1281,11 +1281,11 @@ class AmazonApi(
 
     def ocr__custom_document_parsing_async__get_job_result(
         self, provider_job_id: str
-    ) -> AsyncBaseResponseType[CustomDocumentParsingAsyncDataclass]:
+    ) -> AsyncBaseResponseType[CustomDocumentParsingAsyncDataClass]:
         response = self.clients["textract"].get_document_analysis(JobId=provider_job_id)
 
         if response.get("JobStatus") == "IN_PROGRESS":
-            return AsyncPendingResponseType[CustomDocumentParsingAsyncDataclass](
+            return AsyncPendingResponseType[CustomDocumentParsingAsyncDataClass](
                 provider_job_id=provider_job_id
             )
         elif response["JobStatus"] == "FAILED":
@@ -1297,7 +1297,7 @@ class AmazonApi(
         pagination_token = response.get("NextToken")
         pages = [response]
         if not pagination_token:
-            return AsyncResponseType[CustomDocumentParsingAsyncDataclass](
+            return AsyncResponseType[CustomDocumentParsingAsyncDataClass](
                 original_response=pages,
                 standardized_response=amazon_custom_document_parsing_formatter(pages),
                 provider_job_id=provider_job_id,
@@ -1315,7 +1315,7 @@ class AmazonApi(
             else:
                 finished = True
 
-        return AsyncResponseType[CustomDocumentParsingAsyncDataclass](
+        return AsyncResponseType[CustomDocumentParsingAsyncDataClass](
             original_response=pages,
             standardized_response=amazon_custom_document_parsing_formatter(pages),
             provider_job_id=provider_job_id,

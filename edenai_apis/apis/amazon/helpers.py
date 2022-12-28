@@ -5,7 +5,7 @@ from time import time
 from typing import Dict, List, Optional, TypeVar, Sequence, Union
 from pathlib import Path
 import requests
-from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import CustomDocumentParsingAsyncBoundingBox, CustomDocumentParsingAsyncDataclass, CustomDocumentParsingAsyncItem
+from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import CustomDocumentParsingAsyncBoundingBox, CustomDocumentParsingAsyncDataClass, CustomDocumentParsingAsyncItem
 from edenai_apis.features.text.custom_named_entity_recognition.custom_named_entity_recognition_dataclass import CustomNamedEntityRecognitionDataClass
 from trp import Document
 
@@ -207,7 +207,7 @@ def amazon_video_response_formatter(
 
 def amazon_custom_document_parsing_formatter(
     pages: List[dict],
-) -> ResponseType[CustomDocumentParsingAsyncDataclass]:
+) -> ResponseType[CustomDocumentParsingAsyncDataClass]:
     """
     Take response form amazon by pages
     Return custom document parser dataclass
@@ -230,4 +230,4 @@ def amazon_custom_document_parsing_formatter(
                     bounding_box=bounding_box,
                 )
                 items.append(item)
-    return CustomDocumentParsingAsyncDataclass(items=items)
+    return CustomDocumentParsingAsyncDataClass(items=items)
