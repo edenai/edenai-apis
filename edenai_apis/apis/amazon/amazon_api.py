@@ -599,7 +599,11 @@ class AmazonApi(
         )
 
     def text__anonymization(self, text: str, language: str) -> ResponseType[PIIDataClass]:
-        res = self.clients["text"].detect_pii_entities(Text=text, LanguageCode=language)
+        try:
+            res = self.clients["text"].detect_pii_entities(Text=text, LanguageCode=language)
+        except Exception as exc:
+            raise ProviderException(exc) from exc
+
         last_end = 0
         new_text = ""
         for entity in res['Entities']:
