@@ -10,6 +10,7 @@ from collections import defaultdict
 import urllib
 from pathlib import Path
 from pdf2image.pdf2image import convert_from_bytes
+from edenai_apis.features.image.anonymization.anonymization_dataclass import AnonymizationDataClass
 
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -65,6 +66,7 @@ from edenai_apis.features.text import (
     NamedEntityRecognitionDataClass,
     InfosSyntaxAnalysisDataClass,
     SyntaxAnalysisDataClass,
+    AnonymizationDataClass as PIIDataClass
 )
 from edenai_apis.features.translation import (
     InfosLanguageDetectionDataClass,
@@ -592,6 +594,19 @@ class AmazonApi(
 
         return ResponseType[SyntaxAnalysisDataClass](
             original_response=response, standardized_response=standardized_response
+        )
+
+    def text__anonymization(self, text: str, language: str) -> ResponseType[PIIDataClass]:
+        res = self.clients["text"].detect_pii_entities(Text=text, LanguageCode=language)
+        last_end = 0
+        new_text = ""
+        for entity in res['Entities']:
+            new_text += text[last_end:entity['BeginOffset']] + f"<{entity['Type']}>"
+            last_end = entity['EndOffset']
+        standardized_response = PIIDataClass(result=new_text)
+        return ResponseType(
+            original_response=res,
+            standardized_response=standardized_response
         )
 
     def translation__language_detection(self, text) -> ResponseType[LanguageDetectionDataClass]:

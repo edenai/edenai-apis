@@ -204,6 +204,14 @@
                 ]
             },
             "version": "boto3 (v1.15.18)"
+        },
+        "anonymization": {
+            "constraints": {
+                "languages": [
+                    "en"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
         }
     },
     "translation": {
