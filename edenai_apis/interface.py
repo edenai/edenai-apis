@@ -3,7 +3,7 @@ import inspect
 from typing import Any, Dict, List, Literal, Optional, Set, Tuple, Type, Union, overload
 from uuid import uuid4
 
-from edenai_apis.features.base_provider.provider_api import ProviderApi
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.utils.constraints import validate_all_provider_constraints
@@ -93,7 +93,7 @@ def list_features(
     """
 
     method_set: Set[FeatureSubfeatureProviderTuple] = set()
-    ApiClasses: List[Type[ProviderApi]] = load_provider(ProviderDataEnum.CLASS)
+    ApiClasses: List[Type[ProviderInterface]] = load_provider(ProviderDataEnum.CLASS)
     for cls in ApiClasses:
         if (
             not provider_name or cls.provider_name == provider_name

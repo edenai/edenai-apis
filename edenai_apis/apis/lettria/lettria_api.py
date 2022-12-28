@@ -1,7 +1,6 @@
 from typing import Sequence
-from typing_extensions import Literal
 import requests
-from edenai_apis.features import ProviderApi, Text
+from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import (
     InfosNamedEntityRecognitionDataClass,
     NamedEntityRecognitionDataClass,
@@ -9,7 +8,10 @@ from edenai_apis.features.text import (
     SyntaxAnalysisDataClass,
     SentimentAnalysisDataClass,
 )
-from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SegmentSentimentAnalysisDataClass, SentimentEnum
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
+    SegmentSentimentAnalysisDataClass,
+    SentimentEnum
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
@@ -17,7 +19,7 @@ from edenai_apis.utils.types import ResponseType
 from .lettria_tags import tags
 
 
-class LettriaApi(ProviderApi, Text):
+class LettriaApi(ProviderInterface, TextInterface):
     provider_name = "lettria"
 
     def __init__(self) -> None:

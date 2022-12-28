@@ -42,7 +42,7 @@ folder should contain:
             }
         }
 -   the main file `<provider-name>_api.py`
-    should contain a class with your provider name that will inherit from `ProviderApi` class.
+    should contain a class with your provider name that will inherit from `ProviderInterface` class.
     it will also inherit from other abstract classes representing each features
     You will define feature methods according to the features class abstractmethods.
     each feature method has to return a Dictionary:
@@ -51,7 +51,7 @@ folder should contain:
     eg:
     
         class AmazonApi(
-            ProviderApi,
+            ProviderInterface,
             Image
             Ocr,
         ):

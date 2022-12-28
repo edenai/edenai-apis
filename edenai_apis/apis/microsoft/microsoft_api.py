@@ -1,4 +1,3 @@
-import datetime
 from time import sleep
 import sys
 from collections import defaultdict
@@ -15,13 +14,13 @@ from azure.core.credentials import AzureKeyCredential
 from azure.core.exceptions import AzureError
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
-    Audio,
+    AudioInterface,
     TextToSpeechDataClass,
     SpeechDiarization,
     SpeechDiarizationEntry
 )
 
-from edenai_apis.features.base_provider.provider_api import ProviderApi
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.image import (
     ExplicitContentDataClass,
     ExplicitItem, LogoBoundingPoly,
@@ -32,7 +31,7 @@ from edenai_apis.features.image import (
     LandmarkDetectionDataClass, LandmarkItem,
     ObjectDetectionDataClass, ObjectItem
 )
-from edenai_apis.features.image.image_class import Image
+from edenai_apis.features.image.image_interface import ImageInterface
 
 from edenai_apis.features.ocr import (
     Bounding_box, OcrDataClass, Taxes,
@@ -44,20 +43,20 @@ from edenai_apis.features.ocr import (
     get_info_country,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import InfoCountry, ItemIdentityParserDataClass, format_date
-from edenai_apis.features.ocr.ocr_class import Ocr
+from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass, KeywordExtractionDataClass,
     InfosNamedEntityRecognitionDataClass, NamedEntityRecognitionDataClass,
     SentimentAnalysisDataClass, SummarizeDataClass
 )
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SegmentSentimentAnalysisDataClass
-from edenai_apis.features.text.text_class import Text
+from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass
 )
-from edenai_apis.features.translation.translation_class import Translation
+from edenai_apis.features.translation.translation_interface import TranslationInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 
@@ -67,7 +66,6 @@ from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
-    AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
@@ -93,12 +91,12 @@ from .config import audio_voice_ids
 from edenai_apis.utils.audio import wav_converter
 
 class MicrosoftApi(
-    ProviderApi,
-    Image,
-    Text,
-    Translation,
-    Ocr,
-    Audio
+    ProviderInterface,
+    ImageInterface,
+    TextInterface,
+    TranslationInterface,
+    OcrInterface,
+    AudioInterface
 ):
     provider_name = "microsoft"
 
@@ -1073,10 +1071,11 @@ class MicrosoftApi(
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
-        language: str, speakers : int, profanity_filter: bool,
-        vocabulary: list
+        language: str,
+        speakers: int,
+        profanity_filter: bool,
+        vocabulary: Optional[List[str]],
     ) -> AsyncLaunchJobResponseType:
-
         #check language
         if not language:
             raise LanguageException("Language not provided")

@@ -2,7 +2,21 @@
 
 ![Eden AI Logo](assets/EdenAI-Logo.png)
 
-# EdenAI APIs
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Eden AI APIs](#edenai-apis)
+    - [Package Installation](#package-installation)
+    - [Quick Start](#quick-start)
+        - [Asynchronous features](#asynchronous-features)
+    - [All available features and providers ⚠️](https://github.com/edenai/edenai-apis/blob/new_interface/AVAILABLES_FEATURES_AND_PROVIDERS.md)
+    - [Contribute](#contribute)
+    - [Don’t want to create accounts for all providers and host the project by yourself?](#dont-want-to-create-accounts-for-all-providers-and-host-the-project-by-yourself)
+    - [Join the community!](#join-the-community)
+    - [License](#license)
+
+<!-- markdown-toc end -->
+# Eden AI APIs
 
 [Eden AI](https://www.edenai.co/?referral=github) aims to simplify the use and deployment of AI technologies by providing a unique API (application programming interface) that connects to the best possible AI engines. These engines are either proprietary or Open source AI engines, and can be used for different purposes, e.g, face
 detection, OCR (receipt, invoice, table...), keyword extraction, sentiment analysis, face detection, and much more. These technologies are provided by the best suppliers in the market. We can cite briefly some of them: Amazon, Google, Microsoft, Dataleon, and Mindee and many others. Eden AI take care of providing to it’s clients the best AI engine suited to their projects, and this, with the goal of keeping AI light and easy to any developer. 
@@ -12,69 +26,75 @@ detection, OCR (receipt, invoice, table...), keyword extraction, sentiment analy
 ## Package Installation
 
 You can install the package with pip :
-
 ``` bash
-
-    pip install https://github.com/edenai/edenai-apis 
-
+pip install git+https://github.com/edenai/edenai-apis 
 ```
 
 ## Quick Start
 
-  Eden AI APIs is the open source package including necessary methods for using AI technologies from different AI providers (ex: google, amazon, clarifai .etc).
 
-  You can list all availalbe (`provider`, `feature`, `subfeature`) using **list_features** method. The function will return a list of tuples. For example :
+To make call to different AI providers, first add the api-keys/secrets for the provider you will use in `edenai_apis.api_keys.<provider_name>_settings_templates.json`, then rename the file to `<provider_name>_settings.json`
+  
+When it's done you can directly start using edenai_apis.
+Here is a quick example using Microsoft and IBM Keyword Extraction apis:
+```python
+from edenai_apis import Text
 
-  ```python
-    [
-        ("google", "image", "object_detection"), 
-        ("api4ai", "image", "anonymization"), 
-        ("microsoft", "text", "keyword_extraction"), 
-        ...
-    ]
+keyword_extraction = Text.keyword_extraction("microsoft")
+microsoft_res = keyword_extraction(language="en", text="as simple as that")
 
-  ```
+# Provider's response
+print(microsoft_res.original_response)
 
-  You can use arguments to filter your request.
+# Standardized version of Provider's response
+print(microsoft_res.standardized_response)
 
-  ```python
-    def list_features( provider_name: str = None, feature: str = None, subfeature: str = None, as_dict: bool = False) -> Union[List, Dict]:
-  ```
-
-  If you set as_dict to true you get a different formatting :
-
-  ```python
-      {
-        [provider]:{
-            [feature]: {
-                [subfeature]: True
-            }
-        }
-      }
-  ```
+for item in microsoft_res.standardized_response.items:
+    print(f"keyword: {item.keyword}, importance: {item.importance}")
 
 
-  You can get a list of all providers given a feature and a subfeature using `list_providers`. If neither the feature or subfeature are passed within the function arguments, the function returns the list of all available providers.
-
-  ```python
-    def list_providers(feature: str = None, subfeature: str = None) -> List[str]
-  ```
+# What if we want to try an other provider?
+ibm_kw = Text.keyword_extraction("ibm")
+ibm_res = ibm_kw(language="en", text="same api & unified inputs for all providers")
 
 
-  Once you know what provider you want to run for what feature/subfeature you can execute the `compute_output` function
+# `original_response` will obviously be different and you will have to check
+# the doc of each individual providers to know how to parse them
+print(ibm_res.original_response)
 
-  ```python
-    def compute_output(provider_name: str, feature: str, subfeature: str, args: Dict, phase: str = "", fake: bool = False) -> Dict
-  ```
+# We can however easily parse `standardized_response`
+# the same way as we did for microsoft:
+for item in ibm_res.standardized_response.items:
+    print(f"keyword: {item.keyword}, importance: {item.importance}")
+```
 
-  You get either the result back or a `job_id` if the subfeature is asyncronous (ex: speech_to_text_asynx).
+### Asynchronous features
 
-  If you're running an asyncronous feature (ex: speech to text, object extraction from videos ...etc ) then, when the computed subfeature using `compute_output` returns a `job_id`. Passing this `job_id` along a given provider, feature, subfeature and phase as arguments to `get_async_job_result` function returns the result of the asyncronous call.
+If you need to use features like _speech to text_, _object extraction_ from videos, etc. Then you will have to use asynchrounous operations. This means that you will first make a call to launch an asynchrounous job, it will then return a job ID allowing you to make other calls to get the job status or response if the job is finished
 
-  ```python
-    def get_async_job_result(provider_name: str, feature: str, subfeature: str, async_job_id: str,
-                                            phase: str = "", fake: bool = False, project_name: str = None) -> Dict:
-  ```
+```python
+from edenai_apis import Audio
+
+provider = "google" # it could also be assamblyai, deepgram, microsoft ...etc
+stt_launch = Audio.speech_to_text_async__launch_job(provider)
+stt_get_result = Audio.speech_to_text_async__get_job_result(provider)
+
+
+res = stt_launch(
+    file=your_file.wav,
+    language="en",
+    speakers=2,
+    profanity_filter=False,
+)
+
+job_id = stt_launch.provider_job_id
+
+res = stt_get_result(provider_job_id=job_id)
+print(res.status)  # "pending" | "succeeded" | "failed"
+```
+
+## Available Features & Providers
+⚠️ You can find a list of all available features and providers [here](AVAILABLES_FEATURES_AND_PROVIDERS.md) ⚠️
 
 ## Contribute
 
@@ -92,5 +112,5 @@ Join our friendly community to improve your skills, focus on the integration of 
 [![](https://dcbadge.vercel.app/api/server/VYwTbMQc8u)](https://discord.com/invite/VYwTbMQc8u)
 [![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/edenai/) [![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://edenai.medium.com/)
 
-## License :
+## License
 [Apache License 2.0](LICENSE)

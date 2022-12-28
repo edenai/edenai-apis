@@ -614,7 +614,7 @@ data function are defined in <cite>edenai_apis.loaders.data_loaders</cite></p>
 <td><p>Call data_loader functions and returns data related to features availables functions (found in data_loaders.py) are:     <cite>load_dataclass(feature: str, subfeature: str, phase: str = None) -&gt; BaseModel</cite>     <cite>load_samples(         feature: str,         subfeature: str,         phase: str = &quot;&quot;,         provider_name: str = &quot;&quot;,         suffix: str = &quot;&quot;         ) -&gt; Dict:</cite></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#edenai_apis.loaders.loaders.load_provider" title="edenai_apis.loaders.loaders.load_provider"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_provider</span></code></a>(data_provider[, ...])</p></td>
-<td><p>Call data_loader functions and returns data related to providers availables functions (found in data_loaders.py) are:     <cite>load_info_file(provider_name: str = &quot;&quot;) -&gt; Dict</cite>     <cite>load_class(provider_name: Optional[str] = None) -&gt; Tuple[List[ProviderApi], ProviderApi]</cite>     <cite>load_output(provider_name: str, feature: str, subfeature: str, phase: str = &quot;&quot;) -&gt; Dict</cite>     <cite>load_subfeature(provider_name: str, feature: str, subfeature: str, phase: str = &quot;&quot;, suffix=&quot;&quot;) -&gt; Callable</cite>     <cite>load_provider_subfeature_info(provider_name: str, feature: str, subfeature: str, phase: str = &quot;&quot;)</cite>     <cite>load_key(provider_name, location=False)</cite></p></td>
+<td><p>Call data_loader functions and returns data related to providers availables functions (found in data_loaders.py) are:     <cite>load_info_file(provider_name: str = &quot;&quot;) -&gt; Dict</cite>     <cite>load_class(provider_name: Optional[str] = None) -&gt; Tuple[List[ProviderInterface], ProviderInterface]</cite>     <cite>load_output(provider_name: str, feature: str, subfeature: str, phase: str = &quot;&quot;) -&gt; Dict</cite>     <cite>load_subfeature(provider_name: str, feature: str, subfeature: str, phase: str = &quot;&quot;, suffix=&quot;&quot;) -&gt; Callable</cite>     <cite>load_provider_subfeature_info(provider_name: str, feature: str, subfeature: str, phase: str = &quot;&quot;)</cite>     <cite>load_key(provider_name, location=False)</cite></p></td>
 </tr>
 </tbody>
 </table>
@@ -667,7 +667,7 @@ data_loader function. Any useless kwargs will be ignored</p></li>
 availables functions (found in data_loaders.py) are:</p>
 <blockquote>
 <div><p><cite>load_info_file(provider_name: str = “”) -&gt; Dict</cite>
-<cite>load_class(provider_name: Optional[str] = None) -&gt; Tuple[List[ProviderApi], ProviderApi]</cite>
+<cite>load_class(provider_name: Optional[str] = None) -&gt; Tuple[List[ProviderInterface], ProviderInterface]</cite>
 <cite>load_output(provider_name: str, feature: str, subfeature: str, phase: str = “”) -&gt; Dict</cite>
 <cite>load_subfeature(provider_name: str, feature: str, subfeature: str, phase: str = “”, suffix=””) -&gt; Callable</cite>
 <cite>load_provider_subfeature_info(provider_name: str, feature: str, subfeature: str, phase: str = “”)</cite>

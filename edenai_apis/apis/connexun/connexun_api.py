@@ -1,7 +1,7 @@
-from typing import Optional, Sequence
+from typing import Optional
 import requests
 
-from edenai_apis.features import ProviderApi, Text
+from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import (
     SentimentAnalysisDataClass,
     SummarizeDataClass,
@@ -12,7 +12,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
 
-class ConnexunApi(ProviderApi, Text):
+class ConnexunApi(ProviderInterface, TextInterface):
     provider_name = "connexun"
 
     def __init__(self) -> None:

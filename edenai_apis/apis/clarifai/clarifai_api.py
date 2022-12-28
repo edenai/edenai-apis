@@ -17,7 +17,7 @@ from edenai_apis.features.image import (
     FaceItem,
     ObjectDetectionDataClass,
 )
-from edenai_apis.features import ProviderApi, Ocr, Image
+from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import (
@@ -30,9 +30,9 @@ from .clarifai_helpers import explicit_content_likelihood, get_formatted_languag
 
 
 class ClarifaiApi(
-    ProviderApi,
-    Ocr,
-    Image,
+    ProviderInterface,
+    OcrInterface,
+    ImageInterface,
 ):
     provider_name = "clarifai"
 

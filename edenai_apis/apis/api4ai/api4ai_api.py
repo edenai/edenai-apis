@@ -1,8 +1,7 @@
-from io import BufferedReader, BytesIO
+from io import BufferedReader
 from typing import Sequence
 import requests
 from pdf2image.pdf2image import convert_from_bytes
-import json
 
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
@@ -32,16 +31,16 @@ from edenai_apis.features.image.object_detection import (
 from edenai_apis.features.ocr.ocr.ocr_dataclass import Bounding_box, OcrDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features import ProviderApi, Image, Ocr
+from edenai_apis.features import ProviderInterface, ImageInterface, OcrInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from .helpers import content_processing, get_errors_from_response
 
 
 class Api4aiApi(
-    ProviderApi,
-    Image,
-    Ocr,
+    ProviderInterface,
+    ImageInterface,
+    OcrInterface,
 ):
 
     provider_name = "api4ai"

@@ -1,6 +1,6 @@
 """
     Test if providers classes are well formed :
-    - Inherit from ProviderApi
+    - Inherit from ProviderInterface
     - implement a well formatted info.json containing subfeatures versions
     - implement all features defined in info.json
 """
@@ -8,7 +8,7 @@ from typing import List
 import pytest
 from _pytest.mark.structures import ParameterSet
 
-from edenai_apis.features.base_provider.provider_api import ProviderApi
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.interface import list_features
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -51,12 +51,12 @@ def load_class_with_subfeature() -> List[ParameterSet]:
 
 @pytest.mark.parametrize("cls", load_class_with_subfeature())
 class TestApiClass:
-    def test_info_provider_api(self, cls: ProviderApi):
-        """Test if ProviderApi has basic infos like version for all feature implemented"""
+    def test_info_provider_api(self, cls: ProviderInterface):
+        """Test if ProviderInterface has basic infos like version for all feature implemented"""
 
         assert issubclass(
-            cls, ProviderApi
-        ), f"Please inherit {cls} from ProviderApi"
+            cls, ProviderInterface
+        ), f"Please inherit {cls} from ProviderInterface"
 
         provider = cls.provider_name
 

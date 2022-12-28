@@ -1,6 +1,6 @@
 from io import BufferedReader
 import base64
-from typing import Sequence
+from typing import List, Optional, Sequence
 
 from ibm_watson.natural_language_understanding_v1 import (
     SentimentOptions,
@@ -47,17 +47,22 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType
     )
-from edenai_apis.features import ProviderApi, Translation, Audio, Text
+from edenai_apis.features import (
+    ProviderInterface,
+    TranslationInterface,
+    AudioInterface,
+    TextInterface
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from .config import ibm_clients, audio_voices_ids, tags
 
 
 class IbmApi(
-    ProviderApi,
-    Translation,
-    Audio,
-    Text,
+    ProviderInterface,
+    TranslationInterface,
+    AudioInterface,
+    TextInterface
 ):
 
     provider_name = "ibm"
@@ -368,14 +373,15 @@ class IbmApi(
         )
         
         return result    
-    
+
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
-        language: str, speakers : int, profanity_filter: bool,
-        vocabulary: list
+        language: str,
+        speakers: int,
+        profanity_filter: bool,
+        vocabulary: Optional[List[str]],
     ) -> AsyncLaunchJobResponseType:
-
         # check if audio file needs convertion
         accepted_extensions = ["flac", "mp3", "wav", "flac", "ogg", "webm", "alaw", "amr", 
         "g729", "l16", "mpeg", "mulaw"]

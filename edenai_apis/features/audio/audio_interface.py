@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from io import BufferedReader
-from typing import Literal
+from typing import List, Literal, Optional
 
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechToTextAsyncDataClass,
@@ -11,17 +11,25 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
 from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType, ResponseType
 
 
-class Audio:
+class AudioInterface:
 
     ### Speech to Text methods
     @abstractmethod
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str
+        self,
+        file: BufferedReader,
+        language: str,
+        speakers: int,
+        profanity_filter: bool,
+        vocabulary: Optional[List[str]],
     ) -> AsyncLaunchJobResponseType:
         """Launch an asynchronous job to convert an audio file to text
         Args:
             file (BufferedReader): audio file to analyze
             language (str): language code in ISO format
+            speakers (int): number of speakers present in the audio
+            profanity_filter (bool): whether or not to filter profanity and replace inappropriate words.
+            vocabulary (list[str]): List of words or composed words to be detected by the speech to text engine
         """
         raise NotImplementedError
 

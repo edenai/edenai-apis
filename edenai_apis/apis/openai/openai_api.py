@@ -2,7 +2,7 @@ from typing import List, Optional, Sequence
 import requests
 import numpy as np
 
-from edenai_apis.features import ProviderApi, Text
+from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import (
     SearchDataClass,
     InfosSearchDataClass,
@@ -33,7 +33,7 @@ from edenai_apis.utils.types import ResponseType
 SCORE_MULTIPLIER = 100.0
 
 
-class OpenaiApi(ProviderApi, Text):
+class OpenaiApi(ProviderInterface, TextInterface):
     provider_name = "openai"
 
     def __init__(self):

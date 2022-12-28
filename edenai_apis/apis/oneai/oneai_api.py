@@ -1,10 +1,15 @@
 from enum import Enum
 from io import BufferedReader
 import json
-from typing import Optional
+from typing import List, Optional
 
 import requests
-from edenai_apis.features import ProviderApi, Text, Translation, Audio
+from edenai_apis.features import (
+    ProviderInterface,
+    TextInterface,
+    TranslationInterface,
+    AudioInterface
+)
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
@@ -46,7 +51,12 @@ class StatusEnum(Enum):
     RUNNING = 'RUNNING'
     FAILED = 'FAILED'
 
-class OneaiApi(ProviderApi, Text, Translation, Audio):
+class OneaiApi(
+    ProviderInterface,
+    TextInterface,
+    TranslationInterface,
+    AudioInterface
+):
     provider_name = 'oneai'
 
     def __init__(self) -> None:
@@ -240,7 +250,7 @@ class OneaiApi(ProviderApi, Text, Translation, Audio):
 
 
     def audio__speech_to_text_async__launch_job(self, file: BufferedReader, 
-        language: str, speakers: int, profanity_filter: bool, vocabulary: list
+        language: str, speakers: int, profanity_filter: bool, vocabulary: Optional[List[str]]
         ) -> AsyncLaunchJobResponseType:
 
         # check if audio file needs convertion
