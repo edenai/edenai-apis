@@ -133,7 +133,9 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
         if response.status_code != 200:
             raise ProviderException(response.json().get('error'))
 
-        standardized_response = QuestionAnswerDataClass(answers=[response.get("answer")])
+        data = response.json()
+
+        standardized_response = QuestionAnswerDataClass(answers=[data.get("answer")])
 
         return ResponseType[QuestionAnswerDataClass](
             original_response=response,

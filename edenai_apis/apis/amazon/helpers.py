@@ -2,9 +2,11 @@ import json
 import urllib
 from io import BufferedReader
 from time import time
-from typing import Dict, Optional, TypeVar, Sequence, Union
+from typing import Dict, List, Optional, TypeVar, Sequence, Union
 from pathlib import Path
 import requests
+from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import CustomDocumentParsingAsyncBoundingBox, CustomDocumentParsingAsyncDataClass, CustomDocumentParsingAsyncItem
+from edenai_apis.features.text.custom_named_entity_recognition.custom_named_entity_recognition_dataclass import CustomNamedEntityRecognitionDataClass
 from trp import Document
 
 from edenai_apis.features.ocr import (
@@ -23,6 +25,7 @@ from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
+    ResponseType,
 )
 
 from .config import clients, storage_clients
@@ -200,3 +203,31 @@ def amazon_video_response_formatter(
         error: Optional[str] = response.get("StatusMessage")
         raise ProviderException(error)
     raise ProviderException("Amazon did not return a JobStatus")
+
+
+def amazon_custom_document_parsing_formatter(
+    pages: List[dict],
+) -> ResponseType[CustomDocumentParsingAsyncDataClass]:
+    """
+    Take response form amazon by pages
+    Return custom document parser dataclass
+    """
+    items = []
+    for index, page in enumerate(pages):
+        print(page)
+        for block in page["Blocks"]:
+            if block["BlockType"] == "QUERY_RESULT":
+                bounding_box = CustomDocumentParsingAsyncBoundingBox(
+                    left=block["Geometry"]["BoundingBox"]["Left"],
+                    top=block["Geometry"]["BoundingBox"]["Top"],
+                    width=block["Geometry"]["BoundingBox"]["Width"],
+                    height=block["Geometry"]["BoundingBox"]["Height"],
+                )
+                item = CustomDocumentParsingAsyncItem(
+                    confidence=block["Confidence"],
+                    value=block["Text"],
+                    page=index + 1,
+                    bounding_box=bounding_box,
+                )
+                items.append(item)
+    return CustomDocumentParsingAsyncDataClass(items=items)

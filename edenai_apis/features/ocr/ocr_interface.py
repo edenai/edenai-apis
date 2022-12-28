@@ -1,6 +1,12 @@
 from abc import abstractmethod
 from io import BufferedReader
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass
+from typing import List
+from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
+    CustomDocumentParsingAsyncDataClass,
+)
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    IdentityParserDataClass,
+)
 
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     InvoiceParserDataClass,
@@ -15,7 +21,7 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 from edenai_apis.features.ocr.resume_parser.resume_parser_dataclass import (
     ResumeParserDataClass,
 )
-from edenai_apis.utils.types import AsyncLaunchJobResponseType, ResponseType
+from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType, ResponseType
 
 
 class OcrInterface:
@@ -111,5 +117,30 @@ class OcrInterface:
 
         Args:
             file (BufferedReader): resume to analyze
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def ocr__custom_document_parsing_async__launch_job(
+        self, file: BufferedReader, queries: List[str]
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Parse a document and extract data according to queries
+
+        Args:
+            file (BufferedReader): document to analyze
+            queries (list[str]): list of queries describing what to extract from the document.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def ocr__custom_document_parsing_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[CustomDocumentParsingAsyncDataClass]:
+        """
+        Get the result of an asynchronous job by its ID
+
+        Args:
+            - provider_job_id (str): id of async job
         """
         raise NotImplementedError
