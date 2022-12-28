@@ -1,4 +1,5 @@
 import importlib
+import os
 import random
 
 import pytest
@@ -13,6 +14,7 @@ _correct_list_feature = lambda: map(
 )
 
 
+@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
 @pytest.mark.parametrize(
     ("provider", "feature", "subfeature", "phase"), _correct_list_feature()
 )
@@ -56,6 +58,7 @@ def test_return_provider_method_returns_right_method(
         assert isinstance(test_method.__self__, type(right_method.__self__))
 
 
+@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
 @pytest.mark.parametrize(
     ("provider", "feature", "subfeature", "phase"), _correct_list_feature()
 )
@@ -79,6 +82,7 @@ def test_abstract_returns_right_method(provider, feature, subfeature, phase):
         assert f"{method_name}{phase_suffix}" in dir(Interface)
 
 
+@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
 def test_random_interface_call():
     """
     take a random provider/feature/subfeature and use InterfaceV2 to make a call
