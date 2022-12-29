@@ -146,6 +146,25 @@
                 ]
             },
             "version": "boto3 1.26.8"
+        },
+        "invoice_parser": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "application/pdf",
+                    "image/tiff"
+                ],
+                "languages": [
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "de"
+                ]
+            },
+            "version": "boto3 1.26.8"
         }
     },
     "text": {
