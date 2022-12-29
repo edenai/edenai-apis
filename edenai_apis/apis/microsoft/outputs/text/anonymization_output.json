@@ -1,0 +1,35 @@
+{
+  "original_response": {
+    "kind": "PiiEntityRecognitionResults",
+    "results": {
+      "documents": [
+        {
+          "redactedText": "The phone number of *** is the **************.",
+          "id": "1",
+          "entities": [
+            {
+              "text": "Luc",
+              "category": "Person",
+              "offset": 20,
+              "length": 3,
+              "confidenceScore": 0.99
+            },
+            {
+              "text": "06 21 32 43 54",
+              "category": "PhoneNumber",
+              "offset": 31,
+              "length": 14,
+              "confidenceScore": 0.8
+            }
+          ],
+          "warnings": []
+        }
+      ],
+      "errors": [],
+      "modelVersion": "2021-01-15"
+    }
+  },
+  "standardized_response": {
+    "result": "The phone number of *** is the **************."
+  }
+}
