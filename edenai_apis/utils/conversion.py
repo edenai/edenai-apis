@@ -2,7 +2,7 @@ from builtins import bool
 import os
 import re
 import datetime as dt
-from typing import Optional, Union
+from typing import Optional, Type, Union
 import pandas as pd
 
 from edenai_apis.utils.exception import ProviderException
@@ -10,7 +10,7 @@ from edenai_apis.utils.public_enum import AutomlClassificationProviderName
 
 
 def convert_string_to_number(
-    string_number: str, val_type: Union[int, float]
+    string_number: Optional[str], val_type: Union[Type[int], Type[float]]
 ) -> Union[int, float, None]:
     """convert a `string` to either `int` or `float`"""
     if isinstance(string_number, (int, float)):
