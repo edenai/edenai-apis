@@ -1,5 +1,5 @@
 from typing import Sequence
-from edenai_apis.features.image.anonymization.anonymization_dataclass import (
+from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
 )
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
