@@ -1,5 +1,4 @@
 # pylint: disable=locally-disabled, too-many-branches
-import inspect
 from typing import Any, Dict, List, Literal, Optional, Set, Tuple, Type, Union, overload
 from uuid import uuid4
 
@@ -98,28 +97,23 @@ def list_features(
         if (
             not provider_name or cls.provider_name == provider_name
         ):  # filter for provider_name if provided
-
             # detect feature,subfeature,phase by looking at methods names
-            for method_name in [
-                fct
-                for fct in cls.__dict__.keys()
-                if inspect.isfunction(getattr(cls, fct))
-            ]:
-                if not method_name.startswith("_") and "__" in method_name:
-                    feature_i, subfeature_i, *others = method_name.split("__")
-                    if (
-                        not (feature or feature == feature_i)
-                        and not (subfeature or subfeature == subfeature_i)
-                        ):  # filter by subfeature if provided
-                            if len(others) > 0 and "async" not in subfeature_i:
-                                phase = others[0]
-                                method_set.add(
-                                    (cls.provider_name, feature_i, subfeature_i, phase)
-                                )
-                            else:
-                                method_set.add(
-                                    (cls.provider_name, feature_i, subfeature_i)
-                                )
+            for method_name in filter(
+                lambda method_name: not method_name.startswith("_")
+                and "__" in method_name
+                and getattr(getattr(cls, method_name), "__isabstractmethod__", False)
+                is False,  # do not include method that are not implemented yet (interfaces abstract methods)
+                dir(cls),
+            ):
+                feature_i, subfeature_i, *others = method_name.split("__")
+                if not (feature or feature == feature_i) and not (
+                    subfeature or subfeature == subfeature_i
+                ):  # filter by subfeature if provided
+                    if len(others) > 0 and "async" not in subfeature_i:
+                        phase = others[0]
+                        method_set.add((cls.provider_name, feature_i, subfeature_i, phase))
+                    else:
+                        method_set.add((cls.provider_name, feature_i, subfeature_i))
     method_list: ProviderList = list(method_set)
     method_list.sort()
     if not as_dict:
