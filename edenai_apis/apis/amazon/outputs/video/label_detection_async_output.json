@@ -1,11 +1,11 @@
 {
   "status": "succeeded",
-  "provider_job_id": "62553196525c7f547d488d2666e0fd8b4c994038f9df50f210b3c641daf07973",
+  "provider_job_id": "0f243c20af7ecdc09c644b2ae36eb7e1659257be67bc7543786dbfefc331120c",
   "original_response": {
     "JobStatus": "SUCCEEDED",
     "VideoMetadata": {
       "Codec": "h264",
-      "DurationMillis": 11846,
+      "DurationMillis": 11845,
       "Format": "QuickTime / MOV",
       "FrameRate": 23.976024627685547,
       "FrameHeight": 2160,
@@ -14,419 +14,462 @@
     },
     "Labels": [
       {
-        "Timestamp": 11469,
+        "Timestamp": 11511,
         "Label": {
-          "Name": "Bus",
-          "Confidence": 93.5854263305664,
+          "Name": "Moving Van",
+          "Confidence": 86.86212921142578,
           "Instances": [
             {
               "BoundingBox": {
-                "Width": 0.1084110289812088,
-                "Height": 0.2439318299293518,
-                "Left": 0.11595950275659561,
-                "Top": 0.38097864389419556
+                "Width": 0.12063217163085938,
+                "Height": 0.28857484459877014,
+                "Left": 0.5910865664482117,
+                "Top": 0.5300995111465454
               },
-              "Confidence": 94.11419677734375
+              "Confidence": 87.51069641113281
             }
           ],
           "Parents": [
             {
-              "Name": "Vehicle"
+              "Name": "Transportation"
             },
             {
-              "Name": "Transportation"
+              "Name": "Van"
+            },
+            {
+              "Name": "Vehicle"
+            }
+          ],
+          "Aliases": [],
+          "Categories": [
+            {
+              "Name": "Vehicles and Automotive"
             }
           ]
         }
       },
       {
-        "Timestamp": 11469,
+        "Timestamp": 11511,
         "Label": {
-          "Name": "Car",
-          "Confidence": 99.48211669921875,
+          "Name": "Nature",
+          "Confidence": 56.34934616088867,
+          "Instances": [],
+          "Parents": [
+            {
+              "Name": "Outdoors"
+            }
+          ],
+          "Aliases": [],
+          "Categories": [
+            {
+              "Name": "Nature and Outdoors"
+            }
+          ]
+        }
+      },
+      {
+        "Timestamp": 11511,
+        "Label": {
+          "Name": "Outdoors",
+          "Confidence": 97.64216613769531,
+          "Instances": [],
+          "Parents": [],
+          "Aliases": [],
+          "Categories": [
+            {
+              "Name": "Nature and Outdoors"
+            }
+          ]
+        }
+      },
+      {
+        "Timestamp": 11511,
+        "Label": {
+          "Name": "Path",
+          "Confidence": 51.03617477416992,
+          "Instances": [],
+          "Parents": [],
+          "Aliases": [],
+          "Categories": [
+            {
+              "Name": "Nature and Outdoors"
+            }
+          ]
+        }
+      },
+      {
+        "Timestamp": 11511,
+        "Label": {
+          "Name": "Pedestrian",
+          "Confidence": 50.855857849121094,
+          "Instances": [],
+          "Parents": [
+            {
+              "Name": "Person"
+            }
+          ],
+          "Aliases": [],
+          "Categories": [
+            {
+              "Name": "Person Description"
+            }
+          ]
+        }
+      },
+      {
+        "Timestamp": 11511,
+        "Label": {
+          "Name": "Person",
+          "Confidence": 88.75883483886719,
           "Instances": [
             {
               "BoundingBox": {
-                "Width": 0.11854832619428635,
-                "Height": 0.1913135051727295,
-                "Left": 0.15662387013435364,
-                "Top": 0.8077605366706848
+                "Width": 0.05326684191823006,
+                "Height": 0.15250204503536224,
+                "Left": 0.7927559018135071,
+                "Top": 0.846203088760376
               },
-              "Confidence": 99.51190948486328
+              "Confidence": 88.77181243896484
             },
             {
               "BoundingBox": {
-                "Width": 0.1275819092988968,
-                "Height": 0.23506085574626923,
-                "Left": 0.3811882734298706,
-                "Top": 0.7571101188659668
+                "Width": 0.019457943737506866,
+                "Height": 0.023443207144737244,
+                "Left": 0.13315118849277496,
+                "Top": 0.5011419057846069
               },
-              "Confidence": 98.66082000732422
+              "Confidence": 82.40728759765625
             },
             {
               "BoundingBox": {
-                "Width": 0.08884575963020325,
-                "Height": 0.14615026116371155,
-                "Left": 0.3809424340724945,
-                "Top": 0.5697036385536194
+                "Width": 0.013146654702723026,
+                "Height": 0.040740739554166794,
+                "Left": 0.6331389546394348,
+                "Top": 0.35034501552581787
               },
-              "Confidence": 97.39832305908203
+              "Confidence": 70.41250610351562
             },
             {
               "BoundingBox": {
-                "Width": 0.06332670897245407,
-                "Height": 0.11170744895935059,
-                "Left": 0.2983601689338684,
-                "Top": 0.5070582032203674
+                "Width": 0.009645652957260609,
+                "Height": 0.02327052876353264,
+                "Left": 0.46764764189720154,
+                "Top": 0.2717643976211548
               },
-              "Confidence": 82.43504333496094
+              "Confidence": 66.33251953125
+            },
+            {
+              "BoundingBox": {
+                "Width": 0.040973152965307236,
+                "Height": 0.13327297568321228,
+                "Left": 0.5224102139472961,
+                "Top": 0.6882688403129578
+              },
+              "Confidence": 62.79233169555664
+            },
+            {
+              "BoundingBox": {
+                "Width": 0.009576892480254173,
+                "Height": 0.02364061214029789,
+                "Left": 0.48111018538475037,
+                "Top": 0.2989507019519806
+              },
+              "Confidence": 53.72584533691406
             }
           ],
-          "Parents": [
+          "Parents": [],
+          "Aliases": [
             {
-              "Name": "Vehicle"
-            },
+              "Name": "Human"
+            }
+          ],
+          "Categories": [
+            {
+              "Name": "Person Description"
+            }
+          ]
+        }
+      },
+      {
+        "Timestamp": 11511,
+        "Label": {
+          "Name": "Pickup Truck",
+          "Confidence": 51.15070724487305,
+          "Instances": [],
+          "Parents": [
             {
               "Name": "Transportation"
-            }
-          ]
-        }
-      },
-      {
-        "Timestamp": 11469,
-        "Label": {
-          "Name": "City",
-          "Confidence": 72.1400146484375,
-          "Instances": [],
-          "Parents": [
-            {
-              "Name": "Urban"
             },
             {
-              "Name": "Building"
-            }
-          ]
-        }
-      },
-      {
-        "Timestamp": 11469,
-        "Label": {
-          "Name": "Freeway",
-          "Confidence": 97.24412536621094,
-          "Instances": [],
-          "Parents": [
-            {
-              "Name": "Road"
-            }
-          ]
-        }
-      },
-      {
-        "Timestamp": 11469,
-        "Label": {
-          "Name": "Highway",
-          "Confidence": 94.98853302001953,
-          "Instances": [],
-          "Parents": [
-            {
-              "Name": "Freeway"
+              "Name": "Truck"
             },
             {
-              "Name": "Road"
+              "Name": "Vehicle"
+            }
+          ],
+          "Aliases": [],
+          "Categories": [
+            {
+              "Name": "Vehicles and Automotive"
             }
           ]
         }
       },
       {
-        "Timestamp": 11469,
+        "Timestamp": 11511,
         "Label": {
-          "Name": "Human",
-          "Confidence": 94.02862548828125,
+          "Name": "Road",
+          "Confidence": 99.99982452392578,
           "Instances": [],
-          "Parents": []
+          "Parents": [],
+          "Aliases": [],
+          "Categories": [
+            {
+              "Name": "Transport and Logistics"
+            }
+          ]
         }
       },
       {
-        "Timestamp": 11469,
+        "Timestamp": 11511,
         "Label": {
-          "Name": "Metropolis",
-          "Confidence": 72.1400146484375,
+          "Name": "Sidewalk",
+          "Confidence": 51.03617477416992,
+          "Instances": [],
+          "Parents": [
+            {
+              "Name": "Path"
+            }
+          ],
+          "Aliases": [
+            {
+              "Name": "Pavement"
+            }
+          ],
+          "Categories": [
+            {
+              "Name": "Buildings and Architecture"
+            }
+          ]
+        }
+      },
+      {
+        "Timestamp": 11511,
+        "Label": {
+          "Name": "Sport",
+          "Confidence": 50.5726203918457,
+          "Instances": [],
+          "Parents": [],
+          "Aliases": [
+            {
+              "Name": "Sports"
+            }
+          ],
+          "Categories": [
+            {
+              "Name": "Sports"
+            }
+          ]
+        }
+      },
+      {
+        "Timestamp": 11511,
+        "Label": {
+          "Name": "Street",
+          "Confidence": 53.69088363647461,
           "Instances": [],
           "Parents": [
             {
               "Name": "City"
             },
             {
+              "Name": "Road"
+            },
+            {
               "Name": "Urban"
-            },
+            }
+          ],
+          "Aliases": [],
+          "Categories": [
             {
-              "Name": "Building"
+              "Name": "Buildings and Architecture"
             }
           ]
         }
       },
       {
-        "Timestamp": 11469,
-        "Label": {
-          "Name": "Motorcycle",
-          "Confidence": 97.03277587890625,
-          "Instances": [
-            {
-              "BoundingBox": {
-                "Width": 0.0429636649787426,
-                "Height": 0.12279493361711502,
-                "Left": 0.2751070559024811,
-                "Top": 0.6732259392738342
-              },
-              "Confidence": 96.58877563476562
-            },
-            {
-              "BoundingBox": {
-                "Width": 0.034339871257543564,
-                "Height": 0.10443329811096191,
-                "Left": 0.5233517289161682,
-                "Top": 0.7281577587127686
-              },
-              "Confidence": 91.18400573730469
-            }
-          ],
-          "Parents": [
-            {
-              "Name": "Vehicle"
-            },
-            {
-              "Name": "Transportation"
-            }
-          ]
-        }
-      },
-      {
-        "Timestamp": 11469,
-        "Label": {
-          "Name": "Nature",
-          "Confidence": 53.59606170654297,
-          "Instances": [],
-          "Parents": []
-        }
-      },
-      {
-        "Timestamp": 11469,
-        "Label": {
-          "Name": "Person",
-          "Confidence": 94.02862548828125,
-          "Instances": [
-            {
-              "BoundingBox": {
-                "Width": 0.047916922718286514,
-                "Height": 0.1530156433582306,
-                "Left": 0.792700469493866,
-                "Top": 0.8421751260757446
-              },
-              "Confidence": 93.03208923339844
-            },
-            {
-              "BoundingBox": {
-                "Width": 0.03921877592802048,
-                "Height": 0.09393660724163055,
-                "Left": 0.44026419520378113,
-                "Top": 0.6676427721977234
-              },
-              "Confidence": 87.5230941772461
-            },
-            {
-              "BoundingBox": {
-                "Width": 0.03855196759104729,
-                "Height": 0.11809070408344269,
-                "Left": 0.2765587270259857,
-                "Top": 0.6495623588562012
-              },
-              "Confidence": 85.61703491210938
-            },
-            {
-              "BoundingBox": {
-                "Width": 0.0557125099003315,
-                "Height": 0.11999522894620895,
-                "Left": 0.5685786008834839,
-                "Top": 0.8361175656318665
-              },
-              "Confidence": 84.39530944824219
-            },
-            {
-              "BoundingBox": {
-                "Width": 0.04961585998535156,
-                "Height": 0.08387541770935059,
-                "Left": 0.5650652050971985,
-                "Top": 0.9075257182121277
-              },
-              "Confidence": 83.35533142089844
-            },
-            {
-              "BoundingBox": {
-                "Width": 0.03840649873018265,
-                "Height": 0.1215902790427208,
-                "Left": 0.5230814814567566,
-                "Top": 0.6864919662475586
-              },
-              "Confidence": 80.44879913330078
-            },
-            {
-              "BoundingBox": {
-                "Width": 0.0100860595703125,
-                "Height": 0.03982866182923317,
-                "Left": 0.47469717264175415,
-                "Top": 0.428669273853302
-              },
-              "Confidence": 62.2115364074707
-            },
-            {
-              "BoundingBox": {
-                "Width": 0.017536798492074013,
-                "Height": 0.05694105476140976,
-                "Left": 0.5448569059371948,
-                "Top": 0.5800594091415405
-              },
-              "Confidence": 54.44947814941406
-            }
-          ],
-          "Parents": []
-        }
-      },
-      {
-        "Timestamp": 11469,
-        "Label": {
-          "Name": "Road",
-          "Confidence": 99.90176391601562,
-          "Instances": [],
-          "Parents": []
-        }
-      },
-      {
-        "Timestamp": 11469,
+        "Timestamp": 11511,
         "Label": {
           "Name": "Tarmac",
-          "Confidence": 84.8703384399414,
-          "Instances": [],
-          "Parents": []
-        }
-      },
-      {
-        "Timestamp": 11469,
-        "Label": {
-          "Name": "Town",
-          "Confidence": 72.1400146484375,
+          "Confidence": 57.46134567260742,
           "Instances": [],
           "Parents": [
             {
-              "Name": "Urban"
-            },
+              "Name": "Road"
+            }
+          ],
+          "Aliases": [
             {
-              "Name": "Building"
+              "Name": "Asphalt"
+            }
+          ],
+          "Categories": [
+            {
+              "Name": "Transport and Logistics"
             }
           ]
         }
       },
       {
-        "Timestamp": 11469,
+        "Timestamp": 11511,
         "Label": {
-          "Name": "Train",
-          "Confidence": 92.16606140136719,
-          "Instances": [
-            {
-              "BoundingBox": {
-                "Width": 0.0655759796500206,
-                "Height": 0.13369734585285187,
-                "Left": 0.27168959379196167,
-                "Top": 0.26112478971481323
-              },
-              "Confidence": 91.25415802001953
-            },
-            {
-              "BoundingBox": {
-                "Width": 0.11016381531953812,
-                "Height": 0.2691535949707031,
-                "Left": 0.11529099196195602,
-                "Top": 0.3639422655105591
-              },
-              "Confidence": 72.02519226074219
-            }
-          ],
+          "Name": "Traffic Jam",
+          "Confidence": 53.70698165893555,
+          "Instances": [],
           "Parents": [
             {
-              "Name": "Vehicle"
+              "Name": "Road"
             },
             {
               "Name": "Transportation"
+            },
+            {
+              "Name": "Vehicle"
+            }
+          ],
+          "Aliases": [],
+          "Categories": [
+            {
+              "Name": "Vehicles and Automotive"
             }
           ]
         }
       },
       {
-        "Timestamp": 11469,
+        "Timestamp": 11511,
         "Label": {
           "Name": "Transportation",
-          "Confidence": 99.48211669921875,
+          "Confidence": 97.43236541748047,
           "Instances": [],
-          "Parents": []
-        }
-      },
-      {
-        "Timestamp": 11469,
-        "Label": {
-          "Name": "Truck",
-          "Confidence": 93.1154556274414,
-          "Instances": [
+          "Parents": [],
+          "Aliases": [],
+          "Categories": [
             {
-              "BoundingBox": {
-                "Width": 0.11773338168859482,
-                "Height": 0.23587431013584137,
-                "Left": 0.587946891784668,
-                "Top": 0.5801995992660522
-              },
-              "Confidence": 92.52853393554688
-            }
-          ],
-          "Parents": [
-            {
-              "Name": "Vehicle"
-            },
-            {
-              "Name": "Transportation"
+              "Name": "Vehicles and Automotive"
             }
           ]
         }
       },
       {
-        "Timestamp": 11469,
+        "Timestamp": 11511,
         "Label": {
-          "Name": "Urban",
-          "Confidence": 72.1400146484375,
-          "Instances": [],
-          "Parents": []
-        }
-      },
-      {
-        "Timestamp": 11469,
-        "Label": {
-          "Name": "Vehicle",
-          "Confidence": 99.48211669921875,
+          "Name": "Truck",
+          "Confidence": 51.15070724487305,
           "Instances": [],
           "Parents": [
             {
               "Name": "Transportation"
+            },
+            {
+              "Name": "Vehicle"
+            }
+          ],
+          "Aliases": [],
+          "Categories": [
+            {
+              "Name": "Vehicles and Automotive"
+            }
+          ]
+        }
+      },
+      {
+        "Timestamp": 11511,
+        "Label": {
+          "Name": "Urban",
+          "Confidence": 76.33888244628906,
+          "Instances": [],
+          "Parents": [],
+          "Aliases": [],
+          "Categories": [
+            {
+              "Name": "Colors and Visual Composition"
+            }
+          ]
+        }
+      },
+      {
+        "Timestamp": 11511,
+        "Label": {
+          "Name": "Van",
+          "Confidence": 86.86212921142578,
+          "Instances": [],
+          "Parents": [
+            {
+              "Name": "Transportation"
+            },
+            {
+              "Name": "Vehicle"
+            }
+          ],
+          "Aliases": [],
+          "Categories": [
+            {
+              "Name": "Vehicles and Automotive"
+            }
+          ]
+        }
+      },
+      {
+        "Timestamp": 11511,
+        "Label": {
+          "Name": "Vehicle",
+          "Confidence": 97.43236541748047,
+          "Instances": [],
+          "Parents": [
+            {
+              "Name": "Transportation"
+            }
+          ],
+          "Aliases": [],
+          "Categories": [
+            {
+              "Name": "Vehicles and Automotive"
+            }
+          ]
+        }
+      },
+      {
+        "Timestamp": 11511,
+        "Label": {
+          "Name": "Weather",
+          "Confidence": 50.325496673583984,
+          "Instances": [],
+          "Parents": [
+            {
+              "Name": "Nature"
+            },
+            {
+              "Name": "Outdoors"
+            }
+          ],
+          "Aliases": [],
+          "Categories": [
+            {
+              "Name": "Nature and Outdoors"
             }
           ]
         }
       }
     ],
-    "LabelModelVersion": "2.0",
+    "LabelModelVersion": "3.0",
     "ResponseMetadata": {
-      "RequestId": "27c7297f-4895-42f4-9521-29d5f5f7075e",
+      "RequestId": "7624653a-0234-4d95-9385-099f1390fed2",
       "HTTPStatusCode": 200,
       "HTTPHeaders": {
-        "x-amzn-requestid": "27c7297f-4895-42f4-9521-29d5f5f7075e",
+        "x-amzn-requestid": "7624653a-0234-4d95-9385-099f1390fed2",
         "content-type": "application/x-amz-json-1.1",
-        "content-length": "5355",
-        "date": "Wed, 12 Oct 2022 10:43:11 GMT"
+        "content-length": "5039",
+        "date": "Fri, 30 Dec 2022 14:16:29 GMT"
       },
       "RetryAttempts": 0
     }
@@ -434,313 +477,235 @@
   "standardized_response": {
     "labels": [
       {
-        "name": "Bus",
-        "confidence": 93.5854263305664,
+        "name": "Moving Van",
+        "confidence": 86.86212921142578,
         "timestamp": [
           {
-            "start": 11.469,
+            "start": 11.511,
             "end": null
           }
         ],
         "category": [
-          "Vehicle",
-          "Transportation"
+          "Transportation",
+          "Van",
+          "Vehicle"
         ],
         "bounding_box": [
           {
-            "top": 0.38097864389419556,
-            "left": 0.11595950275659561,
-            "height": 0.2439318299293518,
-            "width": 0.1084110289812088
-          }
-        ]
-      },
-      {
-        "name": "Car",
-        "confidence": 99.48211669921875,
-        "timestamp": [
-          {
-            "start": 11.469,
-            "end": null
-          }
-        ],
-        "category": [
-          "Vehicle",
-          "Transportation"
-        ],
-        "bounding_box": [
-          {
-            "top": 0.8077605366706848,
-            "left": 0.15662387013435364,
-            "height": 0.1913135051727295,
-            "width": 0.11854832619428635
-          },
-          {
-            "top": 0.7571101188659668,
-            "left": 0.3811882734298706,
-            "height": 0.23506085574626923,
-            "width": 0.1275819092988968
-          },
-          {
-            "top": 0.5697036385536194,
-            "left": 0.3809424340724945,
-            "height": 0.14615026116371155,
-            "width": 0.08884575963020325
-          },
-          {
-            "top": 0.5070582032203674,
-            "left": 0.2983601689338684,
-            "height": 0.11170744895935059,
-            "width": 0.06332670897245407
-          }
-        ]
-      },
-      {
-        "name": "City",
-        "confidence": 72.1400146484375,
-        "timestamp": [
-          {
-            "start": 11.469,
-            "end": null
-          }
-        ],
-        "category": [
-          "Urban",
-          "Building"
-        ],
-        "bounding_box": []
-      },
-      {
-        "name": "Freeway",
-        "confidence": 97.24412536621094,
-        "timestamp": [
-          {
-            "start": 11.469,
-            "end": null
-          }
-        ],
-        "category": [
-          "Road"
-        ],
-        "bounding_box": []
-      },
-      {
-        "name": "Highway",
-        "confidence": 94.98853302001953,
-        "timestamp": [
-          {
-            "start": 11.469,
-            "end": null
-          }
-        ],
-        "category": [
-          "Freeway",
-          "Road"
-        ],
-        "bounding_box": []
-      },
-      {
-        "name": "Human",
-        "confidence": 94.02862548828125,
-        "timestamp": [
-          {
-            "start": 11.469,
-            "end": null
-          }
-        ],
-        "category": [],
-        "bounding_box": []
-      },
-      {
-        "name": "Metropolis",
-        "confidence": 72.1400146484375,
-        "timestamp": [
-          {
-            "start": 11.469,
-            "end": null
-          }
-        ],
-        "category": [
-          "City",
-          "Urban",
-          "Building"
-        ],
-        "bounding_box": []
-      },
-      {
-        "name": "Motorcycle",
-        "confidence": 97.03277587890625,
-        "timestamp": [
-          {
-            "start": 11.469,
-            "end": null
-          }
-        ],
-        "category": [
-          "Vehicle",
-          "Transportation"
-        ],
-        "bounding_box": [
-          {
-            "top": 0.6732259392738342,
-            "left": 0.2751070559024811,
-            "height": 0.12279493361711502,
-            "width": 0.0429636649787426
-          },
-          {
-            "top": 0.7281577587127686,
-            "left": 0.5233517289161682,
-            "height": 0.10443329811096191,
-            "width": 0.034339871257543564
+            "top": 0.5300995111465454,
+            "left": 0.5910865664482117,
+            "height": 0.28857484459877014,
+            "width": 0.12063217163085938
           }
         ]
       },
       {
         "name": "Nature",
-        "confidence": 53.59606170654297,
+        "confidence": 56.34934616088867,
         "timestamp": [
           {
-            "start": 11.469,
+            "start": 11.511,
+            "end": null
+          }
+        ],
+        "category": [
+          "Outdoors"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "Outdoors",
+        "confidence": 97.64216613769531,
+        "timestamp": [
+          {
+            "start": 11.511,
             "end": null
           }
         ],
         "category": [],
+        "bounding_box": []
+      },
+      {
+        "name": "Path",
+        "confidence": 51.03617477416992,
+        "timestamp": [
+          {
+            "start": 11.511,
+            "end": null
+          }
+        ],
+        "category": [],
+        "bounding_box": []
+      },
+      {
+        "name": "Pedestrian",
+        "confidence": 50.855857849121094,
+        "timestamp": [
+          {
+            "start": 11.511,
+            "end": null
+          }
+        ],
+        "category": [
+          "Person"
+        ],
         "bounding_box": []
       },
       {
         "name": "Person",
-        "confidence": 94.02862548828125,
+        "confidence": 88.75883483886719,
         "timestamp": [
           {
-            "start": 11.469,
+            "start": 11.511,
             "end": null
           }
         ],
         "category": [],
         "bounding_box": [
           {
-            "top": 0.8421751260757446,
-            "left": 0.792700469493866,
-            "height": 0.1530156433582306,
-            "width": 0.047916922718286514
+            "top": 0.846203088760376,
+            "left": 0.7927559018135071,
+            "height": 0.15250204503536224,
+            "width": 0.05326684191823006
           },
           {
-            "top": 0.6676427721977234,
-            "left": 0.44026419520378113,
-            "height": 0.09393660724163055,
-            "width": 0.03921877592802048
+            "top": 0.5011419057846069,
+            "left": 0.13315118849277496,
+            "height": 0.023443207144737244,
+            "width": 0.019457943737506866
           },
           {
-            "top": 0.6495623588562012,
-            "left": 0.2765587270259857,
-            "height": 0.11809070408344269,
-            "width": 0.03855196759104729
+            "top": 0.35034501552581787,
+            "left": 0.6331389546394348,
+            "height": 0.040740739554166794,
+            "width": 0.013146654702723026
           },
           {
-            "top": 0.8361175656318665,
-            "left": 0.5685786008834839,
-            "height": 0.11999522894620895,
-            "width": 0.0557125099003315
+            "top": 0.2717643976211548,
+            "left": 0.46764764189720154,
+            "height": 0.02327052876353264,
+            "width": 0.009645652957260609
           },
           {
-            "top": 0.9075257182121277,
-            "left": 0.5650652050971985,
-            "height": 0.08387541770935059,
-            "width": 0.04961585998535156
+            "top": 0.6882688403129578,
+            "left": 0.5224102139472961,
+            "height": 0.13327297568321228,
+            "width": 0.040973152965307236
           },
           {
-            "top": 0.6864919662475586,
-            "left": 0.5230814814567566,
-            "height": 0.1215902790427208,
-            "width": 0.03840649873018265
-          },
-          {
-            "top": 0.428669273853302,
-            "left": 0.47469717264175415,
-            "height": 0.03982866182923317,
-            "width": 0.0100860595703125
-          },
-          {
-            "top": 0.5800594091415405,
-            "left": 0.5448569059371948,
-            "height": 0.05694105476140976,
-            "width": 0.017536798492074013
+            "top": 0.2989507019519806,
+            "left": 0.48111018538475037,
+            "height": 0.02364061214029789,
+            "width": 0.009576892480254173
           }
         ]
       },
       {
-        "name": "Road",
-        "confidence": 99.90176391601562,
+        "name": "Pickup Truck",
+        "confidence": 51.15070724487305,
         "timestamp": [
           {
-            "start": 11.469,
+            "start": 11.511,
+            "end": null
+          }
+        ],
+        "category": [
+          "Transportation",
+          "Truck",
+          "Vehicle"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "Road",
+        "confidence": 99.99982452392578,
+        "timestamp": [
+          {
+            "start": 11.511,
             "end": null
           }
         ],
         "category": [],
+        "bounding_box": []
+      },
+      {
+        "name": "Sidewalk",
+        "confidence": 51.03617477416992,
+        "timestamp": [
+          {
+            "start": 11.511,
+            "end": null
+          }
+        ],
+        "category": [
+          "Path"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "Sport",
+        "confidence": 50.5726203918457,
+        "timestamp": [
+          {
+            "start": 11.511,
+            "end": null
+          }
+        ],
+        "category": [],
+        "bounding_box": []
+      },
+      {
+        "name": "Street",
+        "confidence": 53.69088363647461,
+        "timestamp": [
+          {
+            "start": 11.511,
+            "end": null
+          }
+        ],
+        "category": [
+          "City",
+          "Road",
+          "Urban"
+        ],
         "bounding_box": []
       },
       {
         "name": "Tarmac",
-        "confidence": 84.8703384399414,
+        "confidence": 57.46134567260742,
         "timestamp": [
           {
-            "start": 11.469,
-            "end": null
-          }
-        ],
-        "category": [],
-        "bounding_box": []
-      },
-      {
-        "name": "Town",
-        "confidence": 72.1400146484375,
-        "timestamp": [
-          {
-            "start": 11.469,
+            "start": 11.511,
             "end": null
           }
         ],
         "category": [
-          "Urban",
-          "Building"
+          "Road"
         ],
         "bounding_box": []
       },
       {
-        "name": "Train",
-        "confidence": 92.16606140136719,
+        "name": "Traffic Jam",
+        "confidence": 53.70698165893555,
         "timestamp": [
           {
-            "start": 11.469,
+            "start": 11.511,
             "end": null
           }
         ],
         "category": [
-          "Vehicle",
-          "Transportation"
+          "Road",
+          "Transportation",
+          "Vehicle"
         ],
-        "bounding_box": [
-          {
-            "top": 0.26112478971481323,
-            "left": 0.27168959379196167,
-            "height": 0.13369734585285187,
-            "width": 0.0655759796500206
-          },
-          {
-            "top": 0.3639422655105591,
-            "left": 0.11529099196195602,
-            "height": 0.2691535949707031,
-            "width": 0.11016381531953812
-          }
-        ]
+        "bounding_box": []
       },
       {
         "name": "Transportation",
-        "confidence": 99.48211669921875,
+        "confidence": 97.43236541748047,
         "timestamp": [
           {
-            "start": 11.469,
+            "start": 11.511,
             "end": null
           }
         ],
@@ -749,32 +714,25 @@
       },
       {
         "name": "Truck",
-        "confidence": 93.1154556274414,
+        "confidence": 51.15070724487305,
         "timestamp": [
           {
-            "start": 11.469,
+            "start": 11.511,
             "end": null
           }
         ],
         "category": [
-          "Vehicle",
-          "Transportation"
+          "Transportation",
+          "Vehicle"
         ],
-        "bounding_box": [
-          {
-            "top": 0.5801995992660522,
-            "left": 0.587946891784668,
-            "height": 0.23587431013584137,
-            "width": 0.11773338168859482
-          }
-        ]
+        "bounding_box": []
       },
       {
         "name": "Urban",
-        "confidence": 72.1400146484375,
+        "confidence": 76.33888244628906,
         "timestamp": [
           {
-            "start": 11.469,
+            "start": 11.511,
             "end": null
           }
         ],
@@ -782,16 +740,46 @@
         "bounding_box": []
       },
       {
-        "name": "Vehicle",
-        "confidence": 99.48211669921875,
+        "name": "Van",
+        "confidence": 86.86212921142578,
         "timestamp": [
           {
-            "start": 11.469,
+            "start": 11.511,
+            "end": null
+          }
+        ],
+        "category": [
+          "Transportation",
+          "Vehicle"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "Vehicle",
+        "confidence": 97.43236541748047,
+        "timestamp": [
+          {
+            "start": 11.511,
             "end": null
           }
         ],
         "category": [
           "Transportation"
+        ],
+        "bounding_box": []
+      },
+      {
+        "name": "Weather",
+        "confidence": 50.325496673583984,
+        "timestamp": [
+          {
+            "start": 11.511,
+            "end": null
+          }
+        ],
+        "category": [
+          "Nature",
+          "Outdoors"
         ],
         "bounding_box": []
       }
