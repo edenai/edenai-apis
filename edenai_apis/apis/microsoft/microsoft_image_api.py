@@ -89,10 +89,11 @@ class MicrosoftImageApi(ImageInterface):
             f"{self.url['vision']}/detect",
             headers=self.headers["vision"],
             data=file,
-        ).json()
+        )
+        data = response.json()
 
         if response.status_code != 200:
-            error = response["error"]
+            error = data["error"]
             err_msg = (
                 error["innererror"]["message"] if "innererror" in error else error["message"]
             )
@@ -100,10 +101,10 @@ class MicrosoftImageApi(ImageInterface):
 
         items = []
 
-        metadata = response.get("metadata", {})
+        metadata = data.get("metadata", {})
         width, height = metadata.get("width"), metadata.get("height")
 
-        for obj in response.get("objects", []):
+        for obj in data.get("objects", []):
             if width is None or height is None:
                 x_min, x_max, y_min, y_max = 0, 0, 0, 0
             else:
@@ -125,7 +126,7 @@ class MicrosoftImageApi(ImageInterface):
             )
 
         return ResponseType[ObjectDetectionDataClass](
-            original_response=response,
+            original_response=data,
             standardized_response=ObjectDetectionDataClass(items=items),
         )
 
