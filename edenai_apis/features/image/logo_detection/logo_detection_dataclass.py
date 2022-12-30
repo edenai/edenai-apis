@@ -4,8 +4,8 @@ from pydantic import BaseModel, Field, StrictStr
 
 
 class LogoVertice(BaseModel):
-    x: float
-    y: float
+    x: Optional[float]
+    y: Optional[float]
 
 
 class LogoBoundingPoly(BaseModel):
