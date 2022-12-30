@@ -91,12 +91,19 @@ class MicrosoftImageApi(ImageInterface):
             data=file,
         ).json()
 
+        if response.status_code != 200:
+            error = response["error"]
+            err_msg = (
+                error["innererror"]["message"] if "innererror" in error else error["message"]
+            )
+            raise ProviderException(err_msg)
+
         items = []
 
         metadata = response.get("metadata", {})
         width, height = metadata.get("width"), metadata.get("height")
 
-        for obj in response["objects"]:
+        for obj in response.get("objects", []):
             if width is None or height is None:
                 x_min, x_max, y_min, y_max = 0, 0, 0, 0
             else:

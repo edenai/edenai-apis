@@ -32,9 +32,13 @@ class AmazonImageApi(ImageInterface):
 
         file_content = file.read()
         # Getting API response
-        original_response = self.clients["image"].detect_labels(
-            Image={"Bytes": file_content}, MinConfidence=70
-        )
+        try:
+            original_response = self.clients["image"].detect_labels(
+                Image={"Bytes": file_content}, MinConfidence=70
+            )
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
         # Standarization
         items = []
         for object_label in original_response.get("Labels"):
