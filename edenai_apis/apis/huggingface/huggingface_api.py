@@ -27,7 +27,10 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
         }
 
     def _post(self, url: str, inputs: dict):
-        return requests.post(url, headers=self.headers, json={"inputs": inputs})
+        res = requests.post(url, headers=self.headers, json={"inputs": inputs})
+        if res.status_code >= 500:
+            raise ProviderException(message='Internal Server Error', code=res.status_code)
+        return (res.status_code, res.json())
 
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str
@@ -56,7 +59,7 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
                 url, target_language, "-", self.provider_name, False
             )
 
-            response = self._post(url, text)
+            status_code, response = self._post(url, text)
 
             # If the model does not handle the languages, check another type of models
             if "error" in response:
@@ -67,7 +70,7 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
             if "estimated_time" in response:
                 print('sleeping for {response["estimated_time"]}')
                 sleep(int(response["estimated_time"]) + 1)
-                response = self._post(url, text)
+                status_code, response = self._post(url, text)
 
             break
 
@@ -99,7 +102,7 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
 
         url = f"{self.base_url}/facebook/bart-large-cnn"
 
-        response = self._post(url, text)
+        status_code, response = self._post(url, text)
 
         standardized_response = SummarizeDataClass(
             result=response[0].get("summary_text")
@@ -129,11 +132,11 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
 
         url = f"{self.base_url}/deepset/roberta-base-squad2"
         # Create standardized response
-        response = self._post(url, {"question": question, "context": texts[0]})
-        if response.status_code != 200:
-            raise ProviderException(response.json().get('error'))
+        status_code, response = self._post(url, {"question": question, "context": texts[0]})
+        if status_code != 200:
+            raise ProviderException(response.get('error'))
 
-        data = response.json()
+        data = response
 
         standardized_response = QuestionAnswerDataClass(answers=[data.get("answer")])
 
