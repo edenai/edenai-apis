@@ -46,12 +46,15 @@ class MicrosoftTextApi(TextInterface):
                     },
                 },
             )
+            
         except Exception as exc:
             raise ProviderException(f"Unexpected error! {sys.exc_info()[0]}") from exc
 
         data = response.json()
         self._check_microsoft_error(data)
 
+        print("The data is ",data)
+        
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
         for ent in data["results"]["documents"][0]["entities"]:
             entity = ent["text"]
@@ -250,8 +253,12 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def _check_microsoft_error(self, data: Dict):
+        data = data.get('results')
         if data.get("error", {}).get("message"):
-            raise Exception(data["error"]["message"])
+            raise ProviderException(data["error"]["message"])
+        if data.get("errors",[]):
+            errors = data.get("errors")[0]
+            raise ProviderException(errors.get("error").get("message"))
 
     def text__keyword_extraction(
         self, language: str, text: str

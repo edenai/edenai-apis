@@ -67,7 +67,7 @@ class MicrosoftOcrApi(OcrInterface):
         final_text = ""
 
         if "error" in response:
-            raise Exception(response["error"]["message"])
+            raise ProviderException(response["error"]["message"])
 
         # Get width and hight
         width, height = Img.open(file).size
