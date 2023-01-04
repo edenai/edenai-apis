@@ -1,0 +1,32 @@
+{
+  "form_recognizer": {
+    "subscription_key": "",
+    "url": ""
+  },
+  "vision": {
+    "subscription_key": "",
+    "url": ""
+  },
+  "face": {
+    "subscription_key": "",
+    "url": ""
+  },
+  "text": {
+    "subscription_key": "",
+    "url": ""
+  },
+  "speech": {
+    "subscription_key": "",
+    "service_region": "",
+    "url": ""
+  },
+  "summarization": {
+    "subscription_key": "",
+    "url": ""
+  },
+  "translator": {
+    "subscription_key": "",
+    "service_region": "",
+    "url": ""
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "api_key": "",
+  "async": {
+    "aws_bucket_name": "",
+    "aws_storage_url": "",
+    "webhook_url": "",
+    "webhook.site_api_key": ""
+  }
+}

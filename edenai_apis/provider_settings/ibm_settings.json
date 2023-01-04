@@ -1,0 +1,34 @@
+{
+  "speech_to_text": {
+    "apikey": "",
+    "iam_apikey_description": "",
+    "iam_apikey_name": "",
+    "iam_role_crn": "",
+    "iam_serviceid_crn": "",
+    "url": ""
+  },
+  "text_to_speech": {
+    "apikey": "",
+    "iam_apikey_description": "",
+    "iam_apikey_name": "",
+    "iam_role_crn": "",
+    "iam_serviceid_crn": "",
+    "url": ""
+  },
+  "natural_language_understanding": {
+    "apikey": "",
+    "iam_apikey_description": "",
+    "iam_apikey_name": "",
+    "iam_role_crn": "",
+    "iam_serviceid_crn": "",
+    "url": ""
+  },
+  "translator": {
+    "apikey": "",
+    "iam_apikey_description": "",
+    "iam_apikey_name": "",
+    "iam_role_crn": "",
+    "iam_serviceid_crn": "",
+    "url": ""
+  }
+}

@@ -22,3 +22,5 @@ media
 
 .vscode
 .idea
+/edenai_apis/private_keys/
+/.env

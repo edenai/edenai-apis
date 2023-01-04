@@ -1,0 +1,16 @@
+{
+  "aws_access_key_id": "",
+  "aws_secret_access_key": "",
+  "region_name": "",
+  "async": {
+    "bucket_name": "",
+    "storage_url": "",
+    "role_arn": "",
+    "sns_topic": "",
+    "sns_topic_video": "",
+    "bucket_name_video": "",
+    "region_name_video": "",
+    "webhook_url": "",
+    "webhook.site_api_key": ""
+  }
+}

@@ -12,6 +12,7 @@ PyPDF2
 sagemaker
 setuptools
 python-magic
+python-dotenv
 
 #doc
 sphinx
