@@ -42,12 +42,14 @@ class IbmAudioApi(AudioInterface):
             raise ProviderException(
                 f"Only {option_supported} voice is available for the {language} language code"
             )
-        response = (
-            self.clients["texttospeech"]
-            .synthesize(text=text, accept="audio/mp3", voice=voiceid)
-            .get_result()
-        )
-
+        try:
+            response = (
+                self.clients["texttospeech"]
+                .synthesize(text=text, accept="audio/mp3", voice=voiceid)
+                .get_result()
+            )
+        except Exception as excp:
+            raise ProviderException(excp)
         audio = base64.b64encode(response.content).decode("utf-8")
         voice_type = 1
 
