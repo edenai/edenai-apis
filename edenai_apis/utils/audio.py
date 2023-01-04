@@ -70,9 +70,11 @@ def get_audio_attributes(audio_file: BufferedReader, export_format:str):
 
 
 def audio_format(audio_file: BufferedReader):
-    mgi = magic.Magic(mime=True)
-    mtpe = mgi.from_buffer(audio_file.read())
-    extensions = [extension[1:] for extension in mimetypes.guess_all_extensions(mtpe)]
+    mime_type, _ = mimetypes.guess_type(audio_file.name)
+    extensions = [extension[1:] for extension in mimetypes.guess_all_extensions(mime_type)]
+    # mgi = magic.Magic(mime=True)
+    # mtpe = mgi.from_buffer(audio_file.read())
+    # extensions = [extension[1:] for extension in mimetypes.guess_all_extensions(mtpe)]
     if not extensions:
         file_name = str(audio_file.name.split("/")[-1])
         index_extension = str(file_name.split(".")[-1])
@@ -112,7 +114,7 @@ def file_with_good_extension(file: BufferedReader, accepted_extensions: List,
     accepte_format, export_format = supported_extension(file, accepted_extensions)
     file.seek(0)
     if not accepte_format:
-        raise ProviderException(f"File extension not supported. Use one of the following extension: {accepted_extensions}")
+        raise ProviderException(f"File extension not supported. Use one of the following extensions: {accepted_extensions}")
     if channels:
         audio_channels, _ = get_audio_attributes(file, export_format) 
         if channels != audio_channels:
