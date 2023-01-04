@@ -5,6 +5,7 @@ import mimetypes
 from enum import Enum
 
 from pydub import AudioSegment
+from pydub.utils import mediainfo
 from edenai_apis.utils.exception import ProviderException
 
 
@@ -64,9 +65,8 @@ def wav_converter(
         return None
 
 def get_audio_attributes(audio_file: BufferedReader, export_format:str):
-    audio_file.seek(0)
-    audio_out: AudioSegment = AudioSegment.from_file(audio_file)
-    return audio_out.channels, audio_out.frame_rate
+    file_features = mediainfo(audio_file.name)
+    return int(file_features.get("channels", "1")), int(file_features.get("sample_rate", "44100"))
 
 
 def audio_format(audio_file: BufferedReader):
