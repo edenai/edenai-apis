@@ -217,7 +217,7 @@ class AmazonAudioApi(AudioInterface):
             # delete vocabulary
             try:
                 self.clients["speech"].delete_vocabulary(VocabularyName=vocab[0])
-            except IndexError as ir:  # if not vocabulary was created
+            except IndexError as ir:  # if no vocabulary was created
                 pass
             except Exception as exc:
                 raise ProviderException(str(exc)) from exc
@@ -229,7 +229,7 @@ class AmazonAudioApi(AudioInterface):
                 # diarization
                 diarization_entries = []
                 words_info = original_response["results"]["items"]
-                speakers = original_response["results"]["speaker_labels"]["speakers"]
+                speakers = original_response["results"].get("speaker_labels", {}).get("speakers", 0)
 
                 for word_info in words_info:
                     if word_info.get("speaker_label"):
