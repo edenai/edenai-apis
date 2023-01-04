@@ -122,7 +122,7 @@ class IbmAudioApi(AudioInterface):
                 for time_stamp in entry["alternatives"][0]["timestamps"]
             ]
             for idx_word, word_info in enumerate(
-                original_response[0]["speaker_labels"]
+                original_response[0].get("speaker_labels", [])
             ):
                 speakers.add(word_info["speaker"])
                 diarization_entries.append(
