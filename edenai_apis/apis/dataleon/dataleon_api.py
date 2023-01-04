@@ -28,9 +28,7 @@ class DataleonApi(ProviderInterface, OcrInterface):
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
-        self.api_key = self.api_settings["key"]
-        self.url_invoice = self.api_settings["invoice_parser"]["url"]
-        self.url_receipt = self.api_settings["receipt_parser"]["url"]
+        self.api_key = self.api_settings["api_key"]
         self.headers = {
             "Api-Key": self.api_key,
         }
@@ -81,7 +79,7 @@ class DataleonApi(ProviderInterface, OcrInterface):
     ) -> ResponseType[InvoiceParserDataClass]:
 
         original_response = requests.post(
-            url=self.url_invoice, headers=self.headers, files={"file": file}
+            url="https://inference.eu-west-1.dataleon.ai/invoice", headers=self.headers, files={"file": file}
         ).json()
 
         normalized_response = self._normalize_invoice_result(original_response)
@@ -130,7 +128,7 @@ class DataleonApi(ProviderInterface, OcrInterface):
     ) -> ResponseType[ReceiptParserDataClass]:
 
         original_response = requests.post(
-            url=self.url_receipt, headers=self.headers, files={"file": file}
+            url="https://inference.eu-west-1.dataleon.ai/receipt", headers=self.headers, files={"file": file}
         ).json()
 
         normalized_response = self._normalize_invoice_result(original_response)

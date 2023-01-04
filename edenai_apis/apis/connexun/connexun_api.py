@@ -1,11 +1,8 @@
 from typing import Optional
-import requests
 
+import requests
 from edenai_apis.features import ProviderInterface, TextInterface
-from edenai_apis.features.text import (
-    SentimentAnalysisDataClass,
-    SummarizeDataClass,
-)
+from edenai_apis.features.text import SentimentAnalysisDataClass, SummarizeDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
@@ -14,11 +11,11 @@ from edenai_apis.utils.types import ResponseType
 
 class ConnexunApi(ProviderInterface, TextInterface):
     provider_name = "connexun"
+    base_url = "https://api.connexun.com/"
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
         self.api_key = self.api_settings["api"]
-        self.base_url = self.api_settings["url"]
 
     def text__sentiment_analysis(
         self, language: str, text: str

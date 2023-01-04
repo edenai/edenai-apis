@@ -1,40 +1,38 @@
-from typing import Sequence
+from typing import Optional, Sequence
+
 import requests
-
 from edenai_apis.features import TextInterface
-
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.text import (
+    AnonymizationDataClass,
+    InfosKeywordExtractionDataClass,
+    InfosSyntaxAnalysisDataClass,
+    KeywordExtractionDataClass,
+    SentimentAnalysisDataClass,
     SummarizeDataClass,
     SyntaxAnalysisDataClass,
-    AnonymizationDataClass,
-    KeywordExtractionDataClass,
-    InfosSyntaxAnalysisDataClass,
-    InfosKeywordExtractionDataClass,
-    SentimentAnalysisDataClass
 )
-from edenai_apis.features.provider.provider_interface import ProviderInterface
-from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SentimentEnum
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
+    SentimentEnum,
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.exception import (
-    ProviderException,
-    LanguageException
-)
+from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import ResponseType
+
 from .emvista_tags import tags
 
 
 class EmvistaApi(ProviderInterface, TextInterface):
-
     provider_name = "emvista"
+    base_url = "https://pss-api.prevyo.com/pss/api/v1/"
 
     def __init__(self):
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
         self.api_key = self.api_settings["api_key"]
-        self.base_url = self.api_settings["base_url"]
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str = None
+        self, text: str, output_sentences: int, language: str, model: Optional[str] = None
     ) -> ResponseType[SummarizeDataClass]:
 
         #check language

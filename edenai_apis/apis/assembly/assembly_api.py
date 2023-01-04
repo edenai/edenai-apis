@@ -1,40 +1,41 @@
 from io import BufferedReader
-from typing import List, Optional
-import requests
 from time import time
-from edenai_apis.features import ProviderInterface, AudioInterface
+from typing import List, Optional
+
+import requests
+from apis.amazon.config import storage_clients
+from edenai_apis.features import AudioInterface, ProviderInterface
 from edenai_apis.features.audio import (
-    SpeechToTextAsyncDataClass,
+    SpeechDiarization,
     SpeechDiarizationEntry,
-    SpeechDiarization
+    SpeechToTextAsyncDataClass,
 )
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.audio import file_with_good_extension
+from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
 )
-from edenai_apis.utils.exception import ProviderException
-from edenai_apis.loaders.data_loader import ProviderDataEnum
-from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import file_with_good_extension
 
-from apis.amazon.config import storage_clients
 from .helper import language_matches
+
 
 class AssemblyApi(ProviderInterface, AudioInterface):
     provider_name = "assembly"
+    base_url = "https://api.assemblyai.com/v2"
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
-        self.api_key = self.api_settings["assembly_key"]
-        self.url = self.api_settings["url"]
-        self.url_upload_file = f"{self.url}/upload"
-        self.url_transcription = f"{self.url}/transcript"
+        self.api_key = self.api_settings["api_key"]
+        self.url_upload_file = f"{self.base_url}/upload"
+        self.url_transcription = f"{self.base_url}/transcript"
 
-        self.bucket_name = self.api_settings["bucket"]
-        self.bucket_region = self.api_settings["region_name"]
-        self.storage_url = self.api_settings["storage_url"]
+        self.bucket_name = self.api_settings["async"]["aws_bucket_name"]
+        self.storage_url = self.api_settings["async"]["aws_storage_url"]
         self.api_settings_amazon = load_provider(ProviderDataEnum.KEY, "amazon")
 
     

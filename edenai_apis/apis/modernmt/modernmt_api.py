@@ -22,7 +22,6 @@ class ModernmtApi(ProviderInterface, TranslationInterface):
         self.header = {
             'MMT-ApiKey' : self.api_settings["api_key"]
         }
-        self.url = self.api_settings["url"]
 
     def translation__language_detection(self, text) -> ResponseType[LanguageDetectionDataClass]:
         response = requests.get(

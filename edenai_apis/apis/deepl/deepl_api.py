@@ -10,11 +10,11 @@ from edenai_apis.utils.types import ResponseType
 
 class DeeplApi(ProviderInterface, TranslationInterface):
     provider_name = "deepl"
+    base_url = "https://api.deepl.com/v2/"
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
         self.api_key = self.api_settings["api_key"]
-        self.url = self.api_settings["url"]
         self.header = {
             "authorization": f"DeepL-Auth-Key {self.api_key}",
         }
@@ -22,7 +22,7 @@ class DeeplApi(ProviderInterface, TranslationInterface):
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str
     ) -> ResponseType[AutomaticTranslationDataClass]:
-        url = f"{self.url}translate"
+        url = f"{self.base_url}translate"
 
         data = {
             "text": text,

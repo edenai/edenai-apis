@@ -1,27 +1,24 @@
-from io import BufferedReader
 from collections import defaultdict
+from io import BufferedReader
 from typing import List, Optional, Sequence, TypeVar
-from pydantic import StrictStr
-import requests
 
-from edenai_apis.features import ProviderInterface, OcrInterface
+import requests
+from edenai_apis.features import OcrInterface, ProviderInterface
 from edenai_apis.features.ocr import (
-    ReceiptParserDataClass,
+    IdentityParserDataClass,
+    InfoCountry,
+    InfosIdentityParserDataClass,
     InfosInvoiceParserDataClass,
     InfosReceiptParserDataClass,
     InvoiceParserDataClass,
-    IdentityParserDataClass,
-    InfosIdentityParserDataClass,
-    InfoCountry,
-    format_date,
-    get_info_country,
     ItemIdentityParserDataClass,
+    ReceiptParserDataClass,
+    get_info_country,
 )
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     CustomerInformationInvoice,
     LocaleInvoice,
     MerchantInformationInvoice,
-    BankInvoice,
     TaxesInvoice,
 )
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
@@ -31,10 +28,14 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.conversion import combine_date_with_time, convert_string_to_number
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.conversion import (
+    combine_date_with_time,
+    convert_string_to_number,
+)
 from edenai_apis.utils.data_class_manager import DataClassManager
+from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+from pydantic import StrictStr
 
 ParamsApi = TypeVar("ParamsApi")
 
@@ -44,15 +45,12 @@ class MindeeApi(ProviderInterface, OcrInterface):
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
-        self.api_key = self.api_settings["ocr_invoice"]["subscription_key"]
-        self.url = self.api_settings["ocr_invoice"]["url"]
-        self.url_receipt = self.api_settings["ocr_receipt"]["url"]
-        self.api_key_receipt = self.api_settings["ocr_receipt"]["subscription_key"]
+        self.api_key = self.api_settings["api_key"]
         self.url_identity = self.api_settings['ocr_id']['url']
 
     def _get_api_attributes(self, file: BufferedReader, language: Optional[str] = None) -> ParamsApi:
         params: ParamsApi = {
-            "headers": {"Authorization": self.api_key_receipt},
+            "headers": {"Authorization": self.api_key},
             "files": {"document": file},
             "params": {
                 "local": {
@@ -68,7 +66,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
     ) -> ResponseType[ReceiptParserDataClass]:
         args = self._get_api_attributes(file, language)
         original_response = requests.post(
-            self.url_receipt,
+            "https://api.mindee.net/v1/products/mindee/expense_receipts/v3/predict",
             headers=args["headers"],
             files=args["files"],
             params=args["params"],
@@ -122,8 +120,12 @@ class MindeeApi(ProviderInterface, OcrInterface):
         }
         files = {"document": file}
         params = {"locale": {"language": language}}
+
         original_response = requests.post(
-            self.url, headers=headers, files=files, params=params
+            "https://api.mindee.net/v1/products/mindee/invoices/v3/predict",
+            headers=headers,
+            files=files,
+            params=params,
         ).json()
 
         if "document" not in original_response:
@@ -195,7 +197,11 @@ class MindeeApi(ProviderInterface, OcrInterface):
     def ocr__identity_parser(self, file: BufferedReader) -> ResponseType[IdentityParserDataClass]:
         args = self._get_api_attributes(file)
 
-        response = requests.post(url=self.url_identity, files=args['files'], headers=args['headers'])
+        response = requests.post(
+            url="https://api.mindee.net/v1/products/mindee/passport/v1/predict",
+            files=args["files"],
+            headers=args["headers"],
+        )
 
         original_response = response.json()
 

@@ -1,31 +1,29 @@
 from io import BufferedReader
-import json
-from PIL import Image as Img
-import requests
 
-from edenai_apis.features import ProviderInterface, ImageInterface
+import requests
+from edenai_apis.apis.picpurify.helpers import content_processing
+from edenai_apis.features import ImageInterface, ProviderInterface
 from edenai_apis.features.image import (
-    ExplicitItem,
     ExplicitContentDataClass,
+    ExplicitItem,
     FaceBoundingBox,
-    FaceItem,
     FaceDetectionDataClass,
+    FaceItem,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.apis.picpurify.helpers import content_processing
+from PIL import Image as Img
 
 
 class PicpurifyApi(ProviderInterface, ImageInterface):
-
     provider_name = "picpurify"
+    base_url = "https://www.picpurify.com/analyse/1.1"
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
-        self.key = self.api_settings["API_KEY"]
-        self.url = self.api_settings["URL"]
+        self.key = self.api_settings["api_key"]
 
     def image__face_detection(
         self, file: BufferedReader
@@ -35,7 +33,7 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
             "task": "face_gender_age_detection",
         }
         files = {"image": file}
-        response = requests.post(self.url, files=files, data=payload)
+        response = requests.post(self.base_url, files=files, data=payload)
         original_response = response.json()
 
         # Handle error
@@ -81,7 +79,7 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
             + "weapon_moderation,drug_moderation,hate_sign_moderation",
         }
         files = {"image": file}
-        response = requests.post(self.url, files=files, data=payload)
+        response = requests.post(self.base_url, files=files, data=payload)
         original_response = response.json()
 
         # Handle error

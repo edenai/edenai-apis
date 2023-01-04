@@ -1,24 +1,24 @@
 from io import BufferedReader
 from typing import List, Optional
+
 import requests
+from edenai_apis.features import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async import (
-    SpeechToTextAsyncDataClass,
+    SpeechDiarization,
     SpeechDiarizationEntry,
-    SpeechDiarization
+    SpeechToTextAsyncDataClass,
 )
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.utils.audio import file_with_good_extension
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.features import AudioInterface
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
 )
-import json
 
 
 class VociApi(ProviderInterface, AudioInterface):
@@ -26,7 +26,7 @@ class VociApi(ProviderInterface, AudioInterface):
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
-        self.key = self.api_settings["voci_key"]
+        self.key = self.api_settings["api_key"]
 
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
@@ -36,7 +36,7 @@ class VociApi(ProviderInterface, AudioInterface):
 
         # check if audio file needs convertion
         accepted_extensions = ["wav", "mp3", "flac"]
-        file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
+        file, export_format, _channels, _frame_rate = file_with_good_extension(file, accepted_extensions)
 
         data_config = {
                 "output": "json",

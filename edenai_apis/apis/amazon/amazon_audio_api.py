@@ -63,7 +63,7 @@ class AmazonAudioApi(AudioInterface):
         # filename = str(int(time())) + "_" + str(file_name)
         filename = str(uuid.uuid4())
         self.storage_clients["speech"].meta.client.upload_fileobj(
-            file, self.api_settings["bucket"], filename
+            file, self.api_settings["async"]["bucket_name"], filename
         )
 
         return filename
@@ -94,7 +94,7 @@ class AmazonAudioApi(AudioInterface):
             speakers = 2
         params = {
             "TranscriptionJobName": filename,
-            "Media": {"MediaFileUri": self.api_settings["storage_url"] + filename},
+            "Media": {"MediaFileUri": self.api_settings["async"]["storage_url"] + filename},
             # "MediaFormat" : format,
             "LanguageCode": language,
             "MediaSampleRateHertz": frame_rate,
@@ -114,7 +114,7 @@ class AmazonAudioApi(AudioInterface):
                 # extention_index = filename.rfind(".")
                 filename = f"{filename}_settings.txt"
                 self.storage_clients["speech"].meta.client.put_object(
-                    Bucket=self.api_settings["bucket"],
+                    Bucket=self.api_settings["async"]["bucket_name"],
                     Body=json.dumps(params).encode(),
                     Key=filename,
                 )
@@ -172,7 +172,7 @@ class AmazonAudioApi(AudioInterface):
         job_id, *vocab = provider_job_id.split("EdenAI")
         if vocab:  # if vocabilory is used and
             setting_content = self.storage_clients["speech"].meta.client.get_object(
-                Bucket=self.api_settings["bucket"], Key=f"{job_id}_settings.txt"
+                Bucket=self.api_settings["async"]["bucket_name"], Key=f"{job_id}_settings.txt"
             )
             settings = json.loads(setting_content["Body"].read().decode("utf-8"))
             if not settings[
@@ -200,7 +200,7 @@ class AmazonAudioApi(AudioInterface):
                 extention_index = job_id.rfind(".")
                 index_last = len(job_id) - extention_index
                 self.storage_clients["speech"].meta.client.put_object(
-                    Bucket=self.api_settings["bucket"],
+                    Bucket=self.api_settings["async"]["bucket_name"],
                     Body=json.dumps(settings).encode(),
                     Key=f"{job_id}_settings.txt",
                 )

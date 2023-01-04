@@ -26,18 +26,17 @@ from apis.amazon.config import storage_clients
 
 class DeepgramApi(ProviderInterface, AudioInterface):
     provider_name = "deepgram"
+    base_url = "https://api.deepgram.com/v1/listen"
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
         self.api_settings_amazon = load_provider(ProviderDataEnum.KEY, "amazon")
-        self.api_key = self.api_settings["deepgram_key"]
-        self.url = self.api_settings["url"]
-        self.webhook_token = self.api_settings["webhook_token"]
-        self.webhook_url = f"https://webhook.site/{self.webhook_token}"
+        self.api_key = self.api_settings["api_key"]
 
-        self.bucket_name = self.api_settings["bucket"]
-        self.storage_url = self.api_settings["storage_url"]
-
+        self.webhook_url = self.api_settings["async"]["webhook_url"]
+        self.webhook_api_key = self.api_settings["async"]["webhook.site_api_key"]
+        self.bucket_name = self.api_settings["async"]["aws_bucket_name"]
+        self.storage_url = self.api_settings["async"]["aws_storage_url"]
 
 
     def audio__speech_to_text_async__launch_job(self, file: BufferedReader, 
@@ -46,7 +45,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
 
         # check if audio file needs convertion
         accepted_extensions = ["wav", "mp2", "mp3", "mp4", "flac","aac","pcm","m4m", "ogg", "opus", "webm"]
-        new_file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
+        new_file, _export_format, _channels, _frame_rate = file_with_good_extension(file, accepted_extensions)
 
         file_name = str(int(time())) + "_" + str(file.name.split("/")[-1])
         storage_clients(self.api_settings_amazon)["speech"].meta.client.upload_fileobj(
@@ -82,13 +81,13 @@ class DeepgramApi(ProviderInterface, AudioInterface):
                 "detect_language" : "true"
             })
         for key,value in data_config.items():
-            self.url = (
-                f"{self.url}&{key}={value}"
-                if "?" in self.url
-                else f"{self.url}?{key}={value}"
+            self.base_url = (
+                f"{self.base_url}&{key}={value}"
+                if "?" in self.base_url
+                else f"{self.base_url}?{key}={value}"
             )
 
-        response = requests.post(self.url, headers=headers, json=data)
+        response = requests.post(self.base_url, headers=headers, json=data)
         result = response.json()
         if response.status_code != 200:
             # delete audio file
@@ -115,7 +114,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         profanity = provider_job_id[-1]
         provider_job_id = provider_job_id[:-1]
         # Getting results from webhook.site
-        original_response, response_status = check_webhook_result(provider_job_id, self.api_settings)
+        original_response, response_status = check_webhook_result(provider_job_id, self.webhook_url, self.webhook_api_key)
         if original_response is None :
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id

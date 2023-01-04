@@ -41,13 +41,7 @@ def clients(api_settings : Dict) -> Dict:
         ),
         "video": boto3.client(
             "rekognition",
-            region_name=api_settings["video-region"],
-            aws_access_key_id=api_settings["aws_access_key_id"],
-            aws_secret_access_key=api_settings["aws_secret_access_key"],
-        ),
-        "text_classification": boto3.client(
-            "sts",
-            region_name=api_settings["region_name"],
+            region_name=api_settings["async"]["region_name_video"],
             aws_access_key_id=api_settings["aws_access_key_id"],
             aws_secret_access_key=api_settings["aws_secret_access_key"],
         ),
@@ -58,6 +52,7 @@ def clients(api_settings : Dict) -> Dict:
             aws_secret_access_key=api_settings["aws_secret_access_key"],
         ),
     }
+
 def storage_clients(api_settings: Dict) -> Dict:
     return {
     "speech": boto3.resource(
@@ -72,17 +67,11 @@ def storage_clients(api_settings: Dict) -> Dict:
         aws_access_key_id=api_settings["aws_access_key_id"],
         aws_secret_access_key=api_settings["aws_secret_access_key"],
     ),
-    "text_classification": boto3.resource(
-        "s3",
-        region_name=api_settings["region_name"],
-        aws_access_key_id=api_settings["aws_access_key_id"],
-        aws_secret_access_key=api_settings["aws_secret_access_key"],
-    ),
     "image": None,
     "text": None,
     "video": boto3.resource(
         "s3",
-        region_name=api_settings["video-region"],
+        region_name=api_settings["async"]["region_name_video"],
         aws_access_key_id=api_settings["aws_access_key_id"],
         aws_secret_access_key=api_settings["aws_secret_access_key"],
     ),

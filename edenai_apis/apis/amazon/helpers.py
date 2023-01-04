@@ -2,7 +2,7 @@ import json
 import urllib
 from io import BufferedReader
 from time import time
-from typing import Dict, List, Optional, TypeVar, Sequence, Union
+from typing import Dict, List, Optional, Tuple, TypeVar, Sequence, Union
 from pathlib import Path
 import requests
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import CustomDocumentParsingAsyncBoundingBox, CustomDocumentParsingAsyncDataClass, CustomDocumentParsingAsyncItem
@@ -47,23 +47,24 @@ def content_processing(confidence: Union[int, None]):
         return 0
 
 
-def check_webhook_result(job_id: str, api_settings: dict) -> Dict:
+def check_webhook_result(job_id: str, webhook_url: str, webhook_api_key: str) -> Tuple[Optional[dict], int]:
     """Try get result on webhook.site with job id
 
     Args:
-        job_id (str): async job id to get result to
+        job_id (str): async job id to get result from
+        webhook_url (str): webhook.site url containing job results
+        webhook_api_key (str): api_key for webhook.site
 
     Returns:
         Dict: Result dict
     """
-    webhook_token = api_settings["webhook_token"]
-    api_key = api_settings["webhook_api_key"]
     webhook_get_url = (
-        f"https://webhook.site/token/{webhook_token}/requests"
+        f"{webhook_url}/requests"
         + f"?sorting=newest&query={urllib.parse.quote_plus('content:'+str(job_id))}"
     )
-    webhook_response = requests.get(url=webhook_get_url, headers={"Api-Key": api_key})
+    webhook_response = requests.get(url=webhook_get_url, headers={"Api-Key": webhook_api_key})
     response_status = webhook_response.status_code
+
     try:
         if response_status != 200 or len(
             webhook_response.json()["data"]
@@ -127,10 +128,13 @@ def _upload_video_file_to_amazon_server(file: BufferedReader, file_name: str, ap
     :param video:       String that contains the video file path
     :return:            String that contains the filename on the server
     """
+
     # Store file in an Amazon server
     file_extension = file.name.split(".")[-1]
     filename = str(int(time())) + file_name.stem + "_video_." + file_extension
-    storage_clients(api_settings)["video"].meta.client.upload_fileobj(file, api_settings['bucket_video'], filename)
+    storage_clients(api_settings)["video"].meta.client.upload_fileobj(
+        file, api_settings["async"]["bucket_name_video"], filename
+    )
 
     return filename
 
@@ -141,9 +145,9 @@ def amazon_launch_video_job(file: BufferedReader, feature: str):
     filename = _upload_video_file_to_amazon_server(file, Path(file.name), api_settings)
 
     # Get response
-    role = api_settings['role']
-    topic = api_settings['topic_video']
-    bucket = api_settings['bucket_video']
+    role = api_settings["async"]['role_arn']
+    topic = api_settings["async"]['sns_topic_video']
+    bucket = api_settings["async"]['bucket_name_video']
 
     features = {
         "LABEL": clients(api_settings)["video"].start_label_detection(

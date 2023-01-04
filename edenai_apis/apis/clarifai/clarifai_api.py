@@ -41,9 +41,6 @@ class ClarifaiApi(
         self.user_id = self.api_settings["user_id"]
         self.app_id = self.api_settings["app_id"]
         self.key = self.api_settings["key"]
-        self.explicit_content_code = self.api_settings["explicit_content_code"]
-        self.face_detection_code = self.api_settings["face_detection_code"]
-        self.object_detection_code = self.api_settings["object_detection_code"]
 
     def ocr__ocr(
         self, file: BufferedReader, language: str
@@ -129,7 +126,7 @@ class ClarifaiApi(
             service_pb2.PostModelOutputsRequest(
                 # The user_data_object is created in the overview and is required when using a PAT
                 user_app_id=user_data_object,
-                model_id=self.explicit_content_code,
+                model_id="moderation-recognition",
                 inputs=[
                     resources_pb2.Input(
                         data=resources_pb2.Data(
@@ -179,7 +176,7 @@ class ClarifaiApi(
             service_pb2.PostModelOutputsRequest(
                 # The user_data_object is created in the overview and is required when using a PAT
                 user_app_id=user_data_object,
-                model_id=self.face_detection_code,
+                model_id="face-detection",
                 inputs=[
                     resources_pb2.Input(
                         data=resources_pb2.Data(
@@ -239,7 +236,7 @@ class ClarifaiApi(
             service_pb2.PostModelOutputsRequest(
                 # The user_data_object is created in the overview and is required when using a PAT
                 user_app_id=user_data_object,
-                model_id=self.object_detection_code,
+                model_id="general-image-detection",
                 inputs=[
                     resources_pb2.Input(
                         data=resources_pb2.Data(

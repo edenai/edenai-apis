@@ -1,34 +1,34 @@
+import json
 from enum import Enum
 from io import BufferedReader
-import json
 from typing import List, Optional
 
 import requests
 from edenai_apis.features import (
+    AudioInterface,
     ProviderInterface,
     TextInterface,
     TranslationInterface,
-    AudioInterface
 )
 from edenai_apis.features.audio import (
-    SpeechToTextAsyncDataClass,
+    SpeechDiarization,
     SpeechDiarizationEntry,
-    SpeechDiarization
+    SpeechToTextAsyncDataClass,
 )
 from edenai_apis.features.text import (
     AnonymizationDataClass,
+    InfosKeywordExtractionDataClass,
+    InfosNamedEntityRecognitionDataClass,
     KeywordExtractionDataClass,
     NamedEntityRecognitionDataClass,
-    InfosNamedEntityRecognitionDataClass,
-    InfosKeywordExtractionDataClass,
     SentimentAnalysisDataClass,
-    SummarizeDataClass,
     SentimentEnum,
+    SummarizeDataClass,
 )
-from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SegmentSentimentAnalysisDataClass
-from edenai_apis.features.translation import (
-    LanguageDetectionDataClass,
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
+    SegmentSentimentAnalysisDataClass,
 )
+from edenai_apis.features.translation import LanguageDetectionDataClass
 from edenai_apis.features.translation.language_detection import (
     InfosLanguageDetectionDataClass,
 )
@@ -36,15 +36,15 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import file_with_good_extension
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.languages import get_code_from_language_name
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
-    ResponseType
+    ResponseType,
 )
 
-from edenai_apis.utils.languages import get_code_from_language_name
 
 class StatusEnum(Enum):
     SUCCESS = 'COMPLETED'
@@ -58,11 +58,11 @@ class OneaiApi(
     AudioInterface
 ):
     provider_name = 'oneai'
+    base_url = "https://api.oneai.com/api/v0/pipeline"
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
         self.api_key = self.api_settings['api_key']
-        self.url = self.api_settings['url']
         self.header = {
             "api-key": self.api_key,
             "accept": "application/json",
@@ -80,7 +80,7 @@ class OneaiApi(
             ]
         })
 
-        response = requests.post(url=self.url, headers=self.header, data=data)
+        response = requests.post(url=self.base_url, headers=self.header, data=data)
         original_response = response.json()
 
         if response.status_code != 200:
@@ -104,7 +104,7 @@ class OneaiApi(
             ]
         })
 
-        response = requests.post(url=self.url, headers=self.header, data=data)
+        response = requests.post(url=self.base_url, headers=self.header, data=data)
         original_response = response.json()
 
         if response.status_code != 200:
@@ -131,7 +131,7 @@ class OneaiApi(
             ]
         })
 
-        response = requests.post(url=self.url, headers=self.header, data=data)
+        response = requests.post(url=self.base_url, headers=self.header, data=data)
         original_response = response.json()
 
         if response.status_code != 200:
@@ -162,7 +162,7 @@ class OneaiApi(
             ]
         })
 
-        response = requests.post(url=self.url, headers=self.header, data=data)
+        response = requests.post(url=self.base_url, headers=self.header, data=data)
         original_response = response.json()
 
         if response.status_code != 200:
@@ -205,7 +205,7 @@ class OneaiApi(
             ]
         })
 
-        response = requests.post(url=self.url, headers=self.header, data=data)
+        response = requests.post(url=self.base_url, headers=self.header, data=data)
         original_response = response.json()
 
         if response.status_code != 200:
@@ -230,7 +230,7 @@ class OneaiApi(
             ]
         })
 
-        response = requests.post(url=self.url, headers=self.header, data=data)
+        response = requests.post(url=self.base_url, headers=self.header, data=data)
         original_response = response.json()
 
         if response.status_code != 200:
@@ -273,7 +273,7 @@ class OneaiApi(
             ]
         }
         
-        response = requests.post(url=f"{self.url}/async/file?pipeline={json.dumps(data)}", headers=self.header, data=new_file.read())
+        response = requests.post(url=f"{self.base_url}/async/file?pipeline={json.dumps(data)}", headers=self.header, data=new_file.read())
                 
         original_response = response.json()
         
@@ -287,7 +287,7 @@ class OneaiApi(
 
 
     def audio__speech_to_text_async__get_job_result(self, provider_job_id: str) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-        response = requests.get(url=f"{self.url}/async/tasks/{provider_job_id}", headers=self.header)
+        response = requests.get(url=f"{self.base_url}/async/tasks/{provider_job_id}", headers=self.header)
 
         original_response = response.json()
 

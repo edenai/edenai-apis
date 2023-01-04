@@ -31,11 +31,11 @@ from .config import get_domain_language_from_code
 
 class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
     provider_name = "neuralspace"
+    base_url = "https://platform.neuralspace.ai/api/"
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
-        self.api_key = self.api_settings["api"]
-        self.url = self.api_settings["url"]
+        self.api_key = self.api_settings["api_key"]
         self.header = {
             "authorization": f"{self.api_key}",
             "Content-Type": "application/json",
@@ -45,7 +45,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
     def text__named_entity_recognition(
         self, language: str, text: str
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
-        url = f"{self.url}ner/v1/entity"
+        url = f"{self.base_url}ner/v1/entity"
 
         files = {"text": text, "language": language}
 
@@ -84,7 +84,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str
     ) -> ResponseType[AutomaticTranslationDataClass]:
-        url = f"{self.url}translation/v1/translate"
+        url = f"{self.base_url}translation/v1/translate"
 
         files = {
             "text": text,
@@ -109,7 +109,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         )
 
     def translation__language_detection(self, text) -> ResponseType[LanguageDetectionDataClass]:
-        url = f"{self.url}language-detection/v1/detect"
+        url = f"{self.base_url}language-detection/v1/detect"
         files = {"text": text}
 
         response = requests.request("POST", url, json=files, headers=self.header)
@@ -139,8 +139,8 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         profanity_filter: bool, vocabulary: Optional[List[str]]
     ) -> AsyncLaunchJobResponseType:
 
-        url_file_upload = f"{self.url}file/upload"
-        url_file_transcribe = f"{self.url}transcription/v1/file/transcribe"
+        url_file_upload = f"{self.base_url}file/upload"
+        url_file_transcribe = f"{self.base_url}transcription/v1/file/transcribe"
         # first, upload file
         headers = {
             "Authorization" : f"{self.api_key}"
@@ -189,7 +189,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
 
-        url_transcribe = f"{self.url}transcription/v1/single/transcription?transcribeId={provider_job_id}"
+        url_transcribe = f"{self.base_url}transcription/v1/single/transcription?transcribeId={provider_job_id}"
         headers = {
             "Authorization" : f"{self.api_key}"
         }

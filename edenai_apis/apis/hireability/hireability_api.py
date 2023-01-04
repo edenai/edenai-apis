@@ -1,23 +1,23 @@
-from io import BufferedReader
-import requests
 from collections import defaultdict
+from io import BufferedReader
+
+import requests
 from edenai_apis.features import OcrInterface
 from edenai_apis.features.ocr import (
     ResumeEducationEntry,
     ResumeExtractedData,
     ResumeLang,
+    ResumeLocation,
     ResumeParserDataClass,
     ResumePersonalInfo,
     ResumePersonalName,
     ResumeSkill,
-    ResumeLocation,
     ResumeWorkExp,
     ResumeWorkExpEntry,
 )
-
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
@@ -29,7 +29,6 @@ class HireabilityApi(ProviderInterface, OcrInterface):
         super().__init__()
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
         self.product_code = self.api_settings["product_code"]
-        self.url = self.api_settings["endpoint"]
 
     def ocr__resume_parser(
         self, file: BufferedReader
@@ -38,10 +37,14 @@ class HireabilityApi(ProviderInterface, OcrInterface):
         files = {'document': file}
 
         # Generate Api output
-        response = requests.post(self.url, data={
-        'product_code' : self.product_code,
-        'document_title' : file.name,
-        }, files=files)
+        response = requests.post(
+            "http://processing.resumeparser.com/requestprocessing.html",
+            data={
+                "product_code": self.product_code,
+                "document_title": file.name,
+            },
+            files=files,
+        )
         original_response = response.json()
         print("The response is ",original_response)
         

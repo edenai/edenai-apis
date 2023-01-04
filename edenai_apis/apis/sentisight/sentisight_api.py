@@ -1,10 +1,8 @@
-from io import BufferedReader, BytesIO
+from io import BufferedReader
 from typing import Sequence
 from PIL import Image as Img
 import base64
 import requests
-from pdf2image.pdf2image import convert_from_bytes
-import json
 
 from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
 from edenai_apis.features.image import (
@@ -33,11 +31,11 @@ from .sentisight_helpers import calculate_bounding_box, get_formatted_language
 
 class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
     provider_name: str = "sentisight"
+    base_url = "https://platform.sentisight.ai/api/pm-predict/"
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
-        self.key = self.api_settings["auth-token"]
-        self.base_url = self.api_settings["baseUrl"]
+        self.key = self.api_settings["api_key"]
         self.headers = {"X-Auth-token": self.key, "Content-Type": "application/json"}
 
     def ocr__ocr(

@@ -52,10 +52,6 @@ class AmazonOcrApi(OcrInterface):
             response = self.clients["textract"].detect_document_text(
                 Document={
                     "Bytes": file_content,
-                    "S3Object": {
-                        "Bucket": self.api_settings["bucket"],
-                        "Name": file.name,
-                    },
                 }
             )
         except Exception as amazon_call_exception:
@@ -94,14 +90,13 @@ class AmazonOcrApi(OcrInterface):
     def ocr__identity_parser(
         self, file: BufferedReader
     ) -> ResponseType[IdentityParserDataClass]:
-        original_response = self.clients["textract"].analyze_id(
-            DocumentPages=[
-                {
-                    "Bytes": file.read(),
-                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": "test"},
-                }
-            ]
-        )
+        file_content = file.read()
+        try:
+            original_response = self.clients["textract"].analyze_id(
+                DocumentPages=[{"Bytes": file_content}]
+            )
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
 
         items = []
         for document in original_response["IdentityDocuments"]:
@@ -182,20 +177,20 @@ class AmazonOcrApi(OcrInterface):
         file_content = file.read()
 
         # upload file first
-        self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
+        self.storage_clients["textract"].Bucket(self.api_settings["async"]["bucket_name"]).put_object(
             Key=file.name, Body=file_content
         )
 
         response = self.clients["textract"].start_document_analysis(
             DocumentLocation={
-                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file.name},
+                "S3Object": {"Bucket": self.api_settings["async"]["bucket_name"], "Name": file.name},
             },
             FeatureTypes=[
                 "TABLES",
             ],
             NotificationChannel={
-                "SNSTopicArn": self.api_settings["topic"],
-                "RoleArn": self.api_settings["role"],
+                "SNSTopicArn": self.api_settings["async"]["sns_topic"],
+                "RoleArn": self.api_settings["async"]["role_arn"],
             },
         )
 
@@ -205,7 +200,11 @@ class AmazonOcrApi(OcrInterface):
         self, job_id: str
     ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
         # Getting results from webhook.site
-        data, *_ = check_webhook_result(job_id, self.api_settings)
+        data, _ = check_webhook_result(
+            job_id,
+            self.api_settings["async"]["webhook_url"],
+            self.api_settings["async"]["webhook.site_api_key"],
+        )
         if data is None:
             return AsyncPendingResponseType[OcrTablesAsyncDataClass](
                 provider_job_id=job_id
@@ -245,7 +244,7 @@ class AmazonOcrApi(OcrInterface):
 
         file_content = file.read()
 
-        self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
+        self.storage_clients["textract"].Bucket(self.api_settings["async"]["bucket_name"]).put_object(
             Key=file.name, Body=file_content
         )
 
@@ -255,7 +254,7 @@ class AmazonOcrApi(OcrInterface):
             response = self.clients["textract"].start_document_analysis(
                 DocumentLocation={
                     "S3Object": {
-                        "Bucket": self.api_settings["bucket"],
+                        "Bucket": self.api_settings["async"]["bucket_name"],
                         "Name": file.name,
                     },
                 },
@@ -314,15 +313,14 @@ class AmazonOcrApi(OcrInterface):
     ) -> ResponseType[InvoiceParserDataClass]:
         file_content = file.read()
 
-        self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
-            Key=file.name, Body=file_content
-        )
-
-        response = self.clients["textract"].analyze_expense(
-            Document={
-                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file.name},
-            }
-        )
+        try:
+            response = self.clients["textract"].analyze_expense(
+                Document={
+                    'Bytes': file_content
+                }
+            )
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
 
         extracted_data = []
         for invoice in response["ExpenseDocuments"]:

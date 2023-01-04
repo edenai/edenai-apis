@@ -18,11 +18,11 @@ from edenai_apis.utils.exception import ProviderException
 
 class SmartClickApi(ProviderInterface, ImageInterface):
     provider_name = "smartclick"
+    base_url = "https://r-api.starla.ai/"
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
-        self.key = self.api_settings["key"]
-        self.base_url = self.api_settings['base_url']
+        self.key = self.api_settings["api_key"]
         self.headers = {
             "content-type": "application/json",
             "api-token": self.key,

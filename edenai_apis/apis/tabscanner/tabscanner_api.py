@@ -20,18 +20,18 @@ from edenai_apis.utils.types import ResponseType
 
 class TabscannerApi(ProviderInterface, OcrInterface):
     provider_name = "tabscanner"
+    base_url = "https://api.tabscanner.com/api/"
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
         self.api_key = self.api_settings["api_key"]
-        self.url = self.api_settings["url"]
 
     def _process(self, file: BufferedReader, document_type: str) -> str:
         payload = {"documentType": document_type}
         files = {"file": file}
         headers = {"apikey": self.api_key}
         response = requests.post(
-            self.url + "2/process", files=files, data=payload, headers=headers
+            self.base_url + "2/process", files=files, data=payload, headers=headers
         ).json()
         if response.get("success") == False:
             raise ProviderException(response.get("message"))
@@ -39,7 +39,7 @@ class TabscannerApi(ProviderInterface, OcrInterface):
 
     def _get_response(self, token: str, retry=0) -> Any:
         headers = {"apikey": self.api_key}
-        response = requests.get(self.url + "result/" + token, headers=headers).json()
+        response = requests.get(self.base_url + "result/" + token, headers=headers).json()
         if response["status"] == "pending" and retry <= 5:
             sleep(1)
             return self._get_response(token, retry + 1)

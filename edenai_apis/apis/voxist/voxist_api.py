@@ -23,6 +23,7 @@ from edenai_apis.utils.types import (
 
 class VoxistApi(ProviderInterface, AudioInterface):
     provider_name: str = "voxist"
+    base_url = "https://asr-lvl.voxist.com/"
 
     def __init__(self) -> None:
         self.api_settings: Dict = load_provider(
@@ -30,7 +31,6 @@ class VoxistApi(ProviderInterface, AudioInterface):
         )
         self.username: str = self.api_settings["username"]
         self.password: str = self.api_settings["password"]
-        self.base_url: str = self.api_settings["base_url"]
         self._connection()
 
     def _connection(self) -> None:

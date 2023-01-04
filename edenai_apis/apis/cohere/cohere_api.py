@@ -12,11 +12,11 @@ from edenai_apis.utils.types import ResponseType
 
 class CohereApi(ProviderInterface, TextInterface):
     provider_name = "cohere"
+    base_url = "https://api.cohere.ai/"
 
     def __init__(self):
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
         self.api_key = self.api_settings["api_key"]
-        self.base_url = self.api_settings["url"]
         self.headers = {
             'accept': 'application/json',
             'authorization': f'Bearer {self.api_key}',

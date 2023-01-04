@@ -1,20 +1,23 @@
+import base64
+import json
+import mimetypes
+from collections import defaultdict
+from enum import Enum
 from io import BufferedReader
 from itertools import zip_longest
-import json
 from typing import Dict, Sequence, TypeVar, Union
-from collections import defaultdict
-import mimetypes
-import base64
-from enum import Enum
+
 import requests
+from edenai_apis.features import OcrInterface, ProviderInterface
 from edenai_apis.features.ocr.identity_parser import (
     IdentityParserDataClass,
     InfoCountry,
+    InfosIdentityParserDataClass,
     ItemIdentityParserDataClass,
     get_info_country,
-    InfosIdentityParserDataClass
 )
 from edenai_apis.features.ocr.invoice_parser import (
+    BankInvoice,
     CustomerInformationInvoice,
     InfosInvoiceParserDataClass,
     InvoiceParserDataClass,
@@ -22,7 +25,6 @@ from edenai_apis.features.ocr.invoice_parser import (
     LocaleInvoice,
     MerchantInformationInvoice,
     TaxesInvoice,
-    BankInvoice,
 )
 from edenai_apis.features.ocr.receipt_parser import (
     CustomerInformation,
@@ -30,14 +32,12 @@ from edenai_apis.features.ocr.receipt_parser import (
     ItemLines,
     Locale,
     MerchantInformation,
+    PaymentInformation,
     ReceiptParserDataClass,
     Taxes,
-    PaymentInformation,
 )
-
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features import ProviderInterface, OcrInterface
 from edenai_apis.utils.conversion import (
     combine_date_with_time,
     convert_string_to_number,
@@ -57,11 +57,11 @@ T = TypeVar("T")
 
 class Base64Api(ProviderInterface, OcrInterface):
     provider_name = "base64"
+    base_url = "https://base64.ai/api/scan"
 
     def __init__(self) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
         self.api_key = self.api_settings["secret"]
-        self.url = self.api_settings["endpoint"]
 
     def _extract_item_lignes(
         self, data, item_lines_type: Union[ItemLines, ItemLinesInvoice]
@@ -241,7 +241,7 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         headers = {"Content-type": "application/json", "Authorization": self.api_key}
 
-        response = requests.post(url=self.url, headers=headers, json=data)
+        response = requests.post(url=self.base_url, headers=headers, json=data)
 
         if response.status_code != 200:
             raise ProviderException(response.text)
@@ -298,7 +298,7 @@ class Base64Api(ProviderInterface, OcrInterface):
             'Authorization': self.api_key
         }
         
-        response = requests.post(url=self.url, headers=headers, data=payload)
+        response = requests.post(url=self.base_url, headers=headers, data=payload)
         
         original_response = response.json()
         if response.status_code != 200:
