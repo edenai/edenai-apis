@@ -31,5 +31,6 @@ from .hireability import HireabilityApi
 from .assembly import AssemblyApi
 from .deepgram import DeepgramApi
 from .cohere import CohereApi
+from .skybiometry import SkybiometryApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
