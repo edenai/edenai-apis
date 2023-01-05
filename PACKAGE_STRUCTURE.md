@@ -80,7 +80,7 @@ In the EdenAI organization, we follow a naming patterns based on `four` principl
 
 ### **Subfeature**
 
-`Subfeauture` represents the naming schema for the integrated `AI Technologies`. *E.g,: automatic_translation, text_to_speech, face_detection, invoice_parser or keyword_extraction*.
+`Subfeature` represents the naming schema for the integrated `AI Technologies`. *E.g,: automatic_translation, text_to_speech, face_detection, invoice_parser or keyword_extraction*.
 
 ### **Feature**
 
