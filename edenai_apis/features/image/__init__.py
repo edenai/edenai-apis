@@ -53,3 +53,5 @@ from .search import (
     search_launch_similarity_arguments,
     search_upload_image_arguments
 )
+
+from .image_interface import ImageInterface

@@ -1,8 +1,10 @@
+from io import BufferedReader
 from typing import Sequence
 
 from edenai_apis.features.translation.automatic_translation import (
     AutomaticTranslationDataClass,
 )
+from edenai_apis.features.translation.document_translation import DocumentTranslationDataClass
 from edenai_apis.features.translation.language_detection import (
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass,
@@ -67,4 +69,32 @@ class GoogleTranslationApi(TranslationInterface):
         return ResponseType[LanguageDetectionDataClass](
             original_response=MessageToDict(response._pb),
             standardized_response=LanguageDetectionDataClass(items=items),
+        )
+
+    def translation__document_translation(
+        self,
+        file: BufferedReader,
+        source_language: str,
+        target_language: str,
+    ) -> ResponseType[DocumentTranslationDataClass]:
+        client = self.clients["translate"]
+        parent = f"projects/{self.project_id}/locations/global"
+
+        document_input_config = {
+        "content": file.read(),
+        "mime_type": "application/pdf",
+        }
+
+        original_response = client.translate_document(
+            request={
+                "parent": parent,
+                "target_language_code": target_language,
+                "source_language_code": source_language,
+                "document_input_config": document_input_config,
+            }
+        )
+
+        return ResponseType[DocumentTranslationDataClass](
+            original_response=original_response,
+            standardized_response=DocumentTranslationDataClass(file=original_response.document_translation.byte_stream_outputs[0])
         )

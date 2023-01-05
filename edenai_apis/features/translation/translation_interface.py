@@ -3,6 +3,7 @@ from abc import abstractmethod
 from edenai_apis.features.translation.automatic_translation.automatic_translation_dataclass import (
     AutomaticTranslationDataClass,
 )
+from edenai_apis.features.translation.document_translation import DocumentTranslationDataClass
 from edenai_apis.features.translation.language_detection.language_detection_dataclass import (
     LanguageDetectionDataClass,
 )
@@ -36,5 +37,22 @@ class TranslationInterface:
 
         Args:
             text (str): text to analyze
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def translation__document_translation(
+        self, source_language: str, target_language: str, text: str
+    ) -> ResponseType[DocumentTranslationDataClass]:
+        """
+        Translate a document
+
+        Args:
+            file (str): text to translate
+            source_language (str): text's language code in ISO format
+            target_language (str): to which language to translate text
+
+        Note:
+            for some providers, `source_language` can automatically detected
         """
         raise NotImplementedError
