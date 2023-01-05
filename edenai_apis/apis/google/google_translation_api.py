@@ -1,3 +1,5 @@
+import base64
+
 from io import BufferedReader
 from typing import Sequence
 
@@ -94,7 +96,11 @@ class GoogleTranslationApi(TranslationInterface):
             }
         )
 
+        file_bytes = original_response.document_translation.byte_stream_outputs[0]
+
+        b64_file = base64.b64encode(file_bytes)
+
         return ResponseType[DocumentTranslationDataClass](
             original_response=original_response,
-            standardized_response=DocumentTranslationDataClass(file=original_response.document_translation.byte_stream_outputs[0])
+            standardized_response=DocumentTranslationDataClass(file=b64_file)
         )
