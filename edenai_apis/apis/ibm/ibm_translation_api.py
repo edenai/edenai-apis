@@ -1,4 +1,5 @@
 from typing import Sequence
+import re
 
 from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
@@ -8,6 +9,7 @@ from edenai_apis.features.translation import (
 from edenai_apis.features.translation.translation_interface import TranslationInterface
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.exception import ProviderException
 
 
 class IbmTranslationApi(TranslationInterface):
@@ -15,11 +17,19 @@ class IbmTranslationApi(TranslationInterface):
         self, source_language: str, target_language: str, text: str
     ) -> ResponseType[AutomaticTranslationDataClass]:
 
-        response = (
-            self.clients["translation"]
-            .translate(text=text, source=source_language, target=target_language)
-            .get_result()
-        )
+        try:
+            response = (
+                self.clients["translation"]
+                .translate(text=text, source=source_language, target=target_language)
+                .get_result()
+            )
+        except Exception as excp:
+            error_message = str(excp)
+            try:
+                language_detection_error = re.search("Error:(.)*language,", error_message).group()[:-1]
+                raise ProviderException(language_detection_error)
+            except AttributeError:
+                raise ProviderException(error_message)
 
         # Create output TextAutomaticTranslation object
         standardized: AutomaticTranslationDataClass

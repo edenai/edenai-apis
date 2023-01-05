@@ -1,6 +1,7 @@
 from io import BufferedReader
 import json
 import requests
+import re
 
 from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import (
@@ -121,6 +122,15 @@ class SymblApi(ProviderInterface, AudioInterface):
 
         response_status = requests.get(url=url_status, headers=headers)
         original_response = response_status.json()
+
+        if not original_response.get("status"):
+            if isinstance(original_response.get("message"), str):
+                error_message = original_response.get("message")
+                if "Job with" in error_message:
+                    if "not found" in error_message:
+                        error_message= re.sub("Job with (.)* not found", f"Job with {provider_job_id} not found", error_message )
+                        raise ProviderException(error_message)
+            raise ProviderException(original_response.get("message"))
 
         if original_response["status"] == "completed":
             url = f"https://api.symbl.ai/v1/conversations/{conversation_id}/messages?sentiment=true&verbose=true"
