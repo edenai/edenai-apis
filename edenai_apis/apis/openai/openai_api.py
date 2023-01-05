@@ -409,11 +409,16 @@ class OpenaiApi(ProviderInterface, TextInterface):
                                               ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         url = f"{self.url}/completions"
         built_entities = ','.join(entities)
-        prompt = f"Extract these entities ({built_entities}) from this text and format the result as entity:result separated by ;\ntext:"+text
+        Examples = f"Text : Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia.\n\nEntities : person, state, drink, date.\n\nExtracted_Entities : person : John Stith Pemberton; state : Georgia; drink : Coca-Cola; drink : coke; date : 19th century."
+        prompt = f"{Examples}\n\nText : "+text+" \n\nEntities :"+built_entities+"\n\nExtracted_Entities :"
         payload = {
         "prompt" : prompt,
         "model" : self.model,
         "temperature" : 0.0,
+        "top_p": 1,
+        "max_tokens":250,
+        "frequency_penalty": 0,
+        "presence_penalty": 0,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
         # Handle povider error
@@ -424,11 +429,17 @@ class OpenaiApi(ProviderInterface, TextInterface):
         entities = original_response['choices'][0]['text'].replace("\n", "").split(';')
         for entity in entities:
             item = entity.split(':')
-            items.append(InfosCustomNamedEntityRecognitionDataClass(
-                entity = item[1],
-                category = item[0]
-            ))
-            
+            detected_entities = item[1].split(',')
+            if len(detected_entities)>1:
+                for ent in detected_entities:
+                    items.append(InfosCustomNamedEntityRecognitionDataClass(
+                    entity = item[0],
+                    category = ent
+                ))
+            else:
+                items.append(InfosCustomNamedEntityRecognitionDataClass(
+                entity = item[0],
+                category = item[1]))
 
         standardized_response = CustomNamedEntityRecognitionDataClass(items=items)
 
