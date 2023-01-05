@@ -11,7 +11,8 @@ from edenai_apis.features.text import (
     SearchDataClass,
     TopicExtractionDataClass,
     GenerationDataClass,
-    CustomNamedEntityRecognitionDataClass
+    CustomNamedEntityRecognitionDataClass,
+    CustomClassificationDataClass
 )
 from edenai_apis.utils.types import ResponseType
 
@@ -188,4 +189,25 @@ class TextInterface:
         Returns:
             ResponseType[CustomNamedEntityRecognitionDataClass]
         """
+        raise NotImplementedError
+    
+    @abstractmethod
+    def text__custom_classification(
+        self,
+        inputs: List[str],
+        examples: List[List[str]]
+    ) -> ResponseType[CustomClassificationDataClass]:
+        """custom text classification
+
+        Args:
+            inputs (List[str]): Represents a list of queries to be classified, 
+                    each entry must not be empty. The maximum is 32 inputs.
+            examples (List[List[str]]): An array of examples to provide context to the model.
+                    each example is a text string and its associated label/class.
+                    each unique label requires at least 2 examples associated with it
+
+        Returns:
+            ResponseType[CustomClassificationDataClass]:
+        """
+
         raise NotImplementedError

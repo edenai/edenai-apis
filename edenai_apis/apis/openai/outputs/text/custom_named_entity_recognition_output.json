@@ -1,32 +1,48 @@
 {
   "original_response": {
-    "id": "cmpl-6S0LQfY9QAKzQNdrPa7qPzIwbEOnb",
+    "id": "cmpl-6VN5rU2GlU9Q9OKEsE7ikpdusbjVJ",
     "object": "text_completion",
-    "created": 1672132528,
+    "created": 1672934959,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": "\nPolitician: Barack Hussein Obama \nState: Illinois",
+        "text": " person : Barack Hussein Obama; date : 2009 to 2017; region : Illinois; job : U.S. senator; job : Illinois state senator; nationality : American.",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 110,
-      "completion_tokens": 12,
-      "total_tokens": 122
+      "prompt_tokens": 207,
+      "completion_tokens": 34,
+      "total_tokens": 241
     }
   },
   "standardized_response": {
     "items": [
       {
-        "entity": " Barack Hussein Obama ",
-        "category": "Politician"
+        "entity": " person ",
+        "category": " Barack Hussein Obama"
       },
       {
-        "entity": " Illinois",
-        "category": "State"
+        "entity": " date ",
+        "category": " 2009 to 2017"
+      },
+      {
+        "entity": " region ",
+        "category": " Illinois"
+      },
+      {
+        "entity": " job ",
+        "category": " U.S. senator"
+      },
+      {
+        "entity": " job ",
+        "category": " Illinois state senator"
+      },
+      {
+        "entity": " nationality ",
+        "category": " American."
       }
     ]
   }
