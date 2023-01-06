@@ -1,8 +1,10 @@
-from typing import Optional
+from typing import Optional, List
 import requests
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import (
     GenerationDataClass,
+    ItemCustomClassificationDataClass,
+    CustomClassificationDataClass,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -22,7 +24,6 @@ class CohereApi(ProviderInterface, TextInterface):
             'authorization': f'Bearer {self.api_key}',
             'content-type': 'application/json',
             'Cohere-Version': '2022-12-06',
-            
         }
 
     def text__generation(
@@ -57,4 +58,48 @@ class CohereApi(ProviderInterface, TextInterface):
         return ResponseType[GenerationDataClass](
             original_response=original_response,
             standardized_response = standardized_response
+        )
+        
+    def text__custom_classification(
+        self,
+        inputs: List[str],
+        labels: List[str],
+        examples: List[List[str]]
+    ) -> ResponseType[CustomClassificationDataClass]:
+        
+        # Build the request
+        url = f"{self.base_url}classify"
+        example_dict = []
+        for example in examples:
+            example_dict.append(
+                {
+                    'text' : example[0],
+                    'label' : example[1]
+                }
+            )
+        payload = {
+            "inputs": inputs,
+            "examples" : example_dict,
+            "model" : 'large',
+        }
+        original_response = requests.post(url, json=payload, headers= self.headers).json()
+        
+        # Handle provider errors
+        if "message" in original_response:
+            raise ProviderException(original_response["message"])
+        
+        # Standardization 
+        classifications = []
+        for classification in original_response.get('classifications'):
+            classifications.append(
+                ItemCustomClassificationDataClass(
+                    input = classification['input'],
+                    label = classification['prediction'],
+                    confidence = classification['confidence'],
+                )
+            )
+
+        return ResponseType[CustomClassificationDataClass](
+            original_response=original_response,
+            standardized_response = CustomClassificationDataClass(classifications = classifications)
         )

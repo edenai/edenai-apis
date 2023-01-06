@@ -50,3 +50,8 @@ from .custom_named_entity_recognition import(
     InfosCustomNamedEntityRecognitionDataClass,
     custom_named_entity_recognition_arguments
 )
+from .custom_classification import(
+    CustomClassificationDataClass,
+    ItemCustomClassificationDataClass,
+    custom_classification_arguments
+)

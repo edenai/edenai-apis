@@ -1,0 +1,47 @@
+{
+  "original_response": {
+    "id": "acaa6696-89c6-43f4-9c7f-5cefb149de96",
+    "classifications": [
+      {
+        "input": "Confirm your email address",
+        "prediction": "not spam",
+        "confidence": 0.91731167,
+        "labels": {
+          "not spam": {
+            "confidence": 0.91731167
+          },
+          "spam": {
+            "confidence": 0.082688354
+          }
+        }
+      },
+      {
+        "input": "hey i need u to send some $",
+        "prediction": "spam",
+        "confidence": 0.97913855,
+        "labels": {
+          "not spam": {
+            "confidence": 0.020861426
+          },
+          "spam": {
+            "confidence": 0.97913855
+          }
+        }
+      }
+    ]
+  },
+  "standardized_response": {
+    "classifications": [
+      {
+        "input": "Confirm your email address",
+        "label": "not spam",
+        "confidence": 0.91731167
+      },
+      {
+        "input": "hey i need u to send some $",
+        "label": "spam",
+        "confidence": 0.97913855
+      }
+    ]
+  }
+}

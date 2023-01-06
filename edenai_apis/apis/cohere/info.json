@@ -2,6 +2,9 @@
     "text": {
       "generation" : {
         "version": "2022-12-06"
+      },
+      "custom_classification":{
+        "version" : "2022-12-06"
       }
     }
 }

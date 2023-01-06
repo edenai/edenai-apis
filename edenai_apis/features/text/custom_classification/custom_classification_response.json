@@ -1,0 +1,14 @@
+{
+  "classifications": [
+    {
+      "input": "Confirm your email address",
+      "label": "not spam",
+      "confidence": 0.91731167
+    },
+    {
+      "input": "hey i need u to send some $",
+      "label": "spam",
+      "confidence": 0.97913855
+    }
+  ]
+}
