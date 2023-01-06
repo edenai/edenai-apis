@@ -2,6 +2,9 @@
     "text": {
       "generation" : {
         "version": "v1"
+      },
+      "custom_classification":{
+        "version" : "v1"
       }
     }
 }
