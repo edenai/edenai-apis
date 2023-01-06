@@ -1,213 +1,214 @@
 {
   "original_response": {
+    "message": null,
+    "code": 0,
+    "language": "en",
+    "startTime": 1672998329541,
+    "endTime": 1672998329546,
     "result": {
       "sentences": [
         {
-          "level": 1,
           "id": 0,
-          "value": "Barack Hussein "
+          "value": "Barack Hussein ",
+          "level": 1
         },
         {
-          "level": 2,
           "id": 0,
-          "value": "Barack Hussein "
+          "value": "Barack Hussein ",
+          "level": 2
         },
         {
-          "level": 3,
           "id": 0,
-          "value": "Barack Hussein "
+          "value": "Barack Hussein ",
+          "level": 3
         },
         {
-          "level": 4,
           "id": 0,
-          "value": "Barack Hussein "
+          "value": "Barack Hussein ",
+          "level": 4
         },
         {
-          "level": 5,
           "id": 0,
-          "value": "Barack Hussein "
+          "value": "Barack Hussein ",
+          "level": 5
         },
         {
-          "level": 6,
           "id": 0,
-          "value": "Barack Hussein "
+          "value": "Barack Hussein ",
+          "level": 6
         },
         {
-          "level": 7,
           "id": 0,
-          "value": "Barack Hussein "
+          "value": "Barack Hussein ",
+          "level": 7
         },
         {
-          "level": 8,
           "id": 0,
-          "value": "Barack Hussein "
+          "value": "Barack Hussein ",
+          "level": 8
         },
         {
-          "level": 9,
           "id": 0,
-          "value": "Barack Hussein "
+          "value": "Barack Hussein ",
+          "level": 9
         },
         {
-          "level": 10,
           "id": 0,
-          "value": "Barack Hussein "
+          "value": "Barack Hussein ",
+          "level": 10
         },
         {
-          "level": 1,
           "id": 1,
-          "value": "Obama is an American politician who served as the 44th president of the United States from 2009 to 2017 . "
+          "value": "Obama is an American politician who served as the 44th president of the United States from 2009 to 2017 . ",
+          "level": 1
         },
         {
-          "level": 2,
           "id": 1,
-          "value": "Obama is an American politician who served as the 44th president of the United States from 2009 to 2017 . "
+          "value": "Obama is an American politician who served as the 44th president of the United States from 2009 to 2017 . ",
+          "level": 2
         },
         {
-          "level": 3,
           "id": 1,
-          "value": "Obama is an American politician who served as the 44th president of the United States from 2009 to 2017 . "
+          "value": "Obama is an American politician who served as the 44th president of the United States from 2009 to 2017 . ",
+          "level": 3
         },
         {
-          "level": 4,
           "id": 1,
-          "value": "Obama is an American politician who served as the 44th president of the United States from 2009 to 2017 . "
+          "value": "Obama is an American politician who served as the 44th president of the United States from 2009 to 2017 . ",
+          "level": 4
         },
         {
-          "level": 5,
           "id": 1,
-          "value": "Obama is an American politician who served as the 44th president of the United States from 2009 to 2017 . "
+          "value": "Obama is an American politician who served as the 44th president of the United States from 2009 to 2017 . ",
+          "level": 5
         },
         {
-          "level": 6,
           "id": 1,
-          "value": "Obama is an American politician who served as the 44th president of the United States from 2009 to 2017 . "
+          "value": "Obama is an American politician who served as the 44th president of the United States from 2009 to 2017 . ",
+          "level": 6
         },
         {
-          "level": 7,
           "id": 1,
-          "value": "Obama is an politician who served as the president of the United States from 2009 to 2017 . "
+          "value": "Obama is an politician who served as the president of the United States from 2009 to 2017 . ",
+          "level": 7
         },
         {
-          "level": 8,
           "id": 1,
-          "value": "Obama is an politician who . "
+          "value": "Obama is an politician who . ",
+          "level": 8
         },
         {
-          "level": 9,
           "id": 1,
-          "value": "Obama is an politician who . "
+          "value": "Obama is an politician who . ",
+          "level": 9
         },
         {
-          "level": 10,
           "id": 1,
-          "value": "Obama is an politician who . "
+          "value": "Obama is an politician who . ",
+          "level": 10
         },
         {
-          "level": 1,
           "id": 2,
-          "value": "A member of the Democratic Party , Obama was the first African - American president of the United States . "
+          "value": "A member of the Democratic Party , Obama was the first African - American president of the United States . ",
+          "level": 1
         },
         {
-          "level": 2,
           "id": 2,
-          "value": "A member of the Democratic Party , Obama was the first African - American president of the United States . "
+          "value": "A member of the Democratic Party , Obama was the first African - American president of the United States . ",
+          "level": 2
         },
         {
-          "level": 3,
           "id": 2,
-          "value": "A member of the Democratic Party , Obama was the first African - American president of the United States . "
+          "value": "A member of the Democratic Party , Obama was the first African - American president of the United States . ",
+          "level": 3
         },
         {
-          "level": 4,
           "id": 2,
-          "value": "A member of the Democratic Party , Obama was the first African - American president of the United States . "
+          "value": "A member of the Democratic Party , Obama was the first African - American president of the United States . ",
+          "level": 4
         },
         {
-          "level": 5,
           "id": 2,
-          "value": "A member of the Democratic Party , Obama was the first African - American president of the United States . "
+          "value": "A member of the Democratic Party , Obama was the first African - American president of the United States . ",
+          "level": 5
         },
         {
-          "level": 6,
           "id": 2,
-          "value": "A member of the Democratic Party . "
+          "value": "A member of the Democratic Party . ",
+          "level": 6
         },
         {
-          "level": 7,
           "id": 2,
-          "value": "A member of the Democratic Party . "
+          "value": "A member of the Democratic Party . ",
+          "level": 7
         },
         {
-          "level": 8,
           "id": 2,
-          "value": "A member of the Democratic Party . "
+          "value": "A member of the Democratic Party . ",
+          "level": 8
         },
         {
-          "level": 9,
           "id": 2,
-          "value": "A member of the Democratic Party . "
+          "value": "A member of the Democratic Party . ",
+          "level": 9
         },
         {
-          "level": 10,
           "id": 2,
-          "value": "A member of the Democratic Party . "
+          "value": "A member of the Democratic Party . ",
+          "level": 10
         },
         {
-          "level": 1,
           "id": 3,
-          "value": "He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . "
+          "value": "He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . ",
+          "level": 1
         },
         {
-          "level": 2,
           "id": 3,
-          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . "
+          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . ",
+          "level": 2
         },
         {
-          "level": 3,
           "id": 3,
-          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . "
+          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . ",
+          "level": 3
         },
         {
-          "level": 4,
           "id": 3,
-          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . "
+          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . ",
+          "level": 4
         },
         {
-          "level": 5,
           "id": 3,
-          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . "
+          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . ",
+          "level": 5
         },
         {
-          "level": 6,
           "id": 3,
-          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . "
+          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . ",
+          "level": 6
         },
         {
-          "level": 7,
           "id": 3,
-          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . "
+          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . ",
+          "level": 7
         },
         {
-          "level": 8,
           "id": 3,
-          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . "
+          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . ",
+          "level": 8
         },
         {
-          "level": 9,
           "id": 3,
-          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . "
+          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . ",
+          "level": 9
         },
         {
-          "level": 10,
           "id": 3,
-          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . "
+          "value": "He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . ",
+          "level": 10
         }
       ]
-    },
-    "code": 0,
-    "startTime": 1665571754118,
-    "endTime": 1665571754122,
-    "message": "OK"
+    }
   },
   "standardized_response": {
     "result": "Barack Hussein Obama is an politician who . A member of the Democratic Party . He served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004 . "
