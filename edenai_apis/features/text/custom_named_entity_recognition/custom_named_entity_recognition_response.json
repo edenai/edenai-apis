@@ -1,16 +1,28 @@
 {
   "items": [
     {
-      "entity": " Politician ",
+      "entity": " person ",
       "category": " Barack Hussein Obama"
     },
     {
-      "entity": " State ",
-      "category": " United States"
+      "entity": " date ",
+      "category": " 2009 to 2017"
     },
     {
-      "entity": " State ",
-      "category": " Illinois."
+      "entity": " region ",
+      "category": " Illinois"
+    },
+    {
+      "entity": " job ",
+      "category": " U.S. senator"
+    },
+    {
+      "entity": " job ",
+      "category": " Illinois state senator"
+    },
+    {
+      "entity": " nationality ",
+      "category": " American."
     }
   ]
 }
