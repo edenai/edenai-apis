@@ -28,7 +28,6 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
-from .openai_helpers import _construct_context_search, _get_score, _construct_context_classification
 
 
 SCORE_MULTIPLIER = 100.0
@@ -50,7 +49,24 @@ class OpenaiApi(ProviderInterface, TextInterface):
         }
         self.max_tokens = 270
 
+    @staticmethod
+    def _construct_context(query, document) -> str:
+        return f"<|endoftext|>{document}\n\n---\n\nThe above passage is related to: {query}"
 
+    @staticmethod
+    def _get_score(context, query, log_probs, text_offsets) -> float:
+        log_prob = 0
+        count = 0
+        cutoff = len(context) - len(query)
+
+        for i in range(len(text_offsets) - 1, 0, -1):
+            log_prob += log_probs[i]
+            count += 1
+
+            if text_offsets[i] <= cutoff and text_offsets[i] != text_offsets[i - 1]:
+                break
+
+        return log_prob / float(count) * SCORE_MULTIPLIER
 
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: Optional[str]
@@ -90,7 +106,7 @@ class OpenaiApi(ProviderInterface, TextInterface):
         if model is None:
             model = "text-davinci-003"
 
-        prompts = [_construct_context_search(query, doc) for doc in [""] + texts]
+        prompts = [OpenaiApi._construct_context(query, doc) for doc in [""] + texts]
 
         url = f"{self.url}/completions"
         payload = {
@@ -116,7 +132,7 @@ class OpenaiApi(ProviderInterface, TextInterface):
             choice["index"]: choice for choice in original_response["choices"]
         }
         scores = [
-            _get_score(
+            OpenaiApi._get_score(
                 prompts[i],
                 query,
                 resps_by_index[i]["logprobs"]["token_logprobs"],
@@ -388,8 +404,7 @@ class OpenaiApi(ProviderInterface, TextInterface):
             original_response=original_response,
             standardized_response = standardized_response
         )
-
-
+        
     def text__custom_named_entity_recognition(self, text: str, entities: List[str]
                                               ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         url = f"{self.url}/completions"
