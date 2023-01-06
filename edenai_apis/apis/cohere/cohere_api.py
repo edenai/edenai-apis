@@ -1,8 +1,9 @@
-from typing import Optional
+from typing import Optional, List
 import requests
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import (
     GenerationDataClass,
+    CustomClassificationDataClass,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -54,4 +55,37 @@ class CohereApi(ProviderInterface, TextInterface):
         return ResponseType[GenerationDataClass](
             original_response=original_response,
             standardized_response = standardized_response
+        )
+        
+    def text__custom_classification(
+        self,
+        inputs: List[str],
+        labels: List[str],
+        examples: List[List[str]]
+    ) -> ResponseType[CustomClassificationDataClass]:
+        
+        url = f"{self.base_url}classify"
+        
+        if not model:
+            model = 'xlarge'
+        
+        example_dict = []
+        for example in examples:
+            example_dict.append(
+                {
+                    'text' : example[0],
+                    'label' : example[1]
+                }
+            )
+        payload = {
+            "inputs": inputs,
+            "examples" : example_dict,
+            "model" : model,
+        }
+        
+        original_response = requests.post(url, json=payload, headers= self.headers).json()
+
+        return ResponseType[CustomClassificationDataClass](
+            original_response=original_response,
+            standardized_response = CustomClassificationDataClass()
         )

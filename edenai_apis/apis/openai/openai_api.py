@@ -28,7 +28,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
-from .openai_helpers import _construct_context_qa, _get_score, _construct_context_classification
+from .openai_helpers import _construct_context_search, _get_score, _construct_context_classification
 
 
 SCORE_MULTIPLIER = 100.0
@@ -90,7 +90,7 @@ class OpenaiApi(ProviderInterface, TextInterface):
         if model is None:
             model = "text-davinci-003"
 
-        prompts = [_construct_context_qa(query, doc) for doc in [""] + texts]
+        prompts = [_construct_context_search(query, doc) for doc in [""] + texts]
 
         url = f"{self.url}/completions"
         payload = {

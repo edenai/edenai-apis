@@ -195,6 +195,7 @@ class TextInterface:
     def text__custom_classification(
         self,
         inputs: List[str],
+        labels: List[str],
         examples: List[List[str]]
     ) -> ResponseType[CustomClassificationDataClass]:
         """custom text classification

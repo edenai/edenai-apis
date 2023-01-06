@@ -1,7 +1,7 @@
 
 SCORE_MULTIPLIER = 100
 
-def _construct_context_qa(query: str, document: str) -> str:
+def _construct_context_search(query: str, document: str) -> str:
     return f"<|endoftext|>{document}\n\n---\n\nThe above passage is related to: {query}"
     
 
