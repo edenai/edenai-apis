@@ -19,6 +19,22 @@ from edenai_apis.features.image import (
     ObjectDetectionDataClass,
     ObjectItem,
 )
+from edenai_apis.features.image.face_recognition.add_face.face_recognition_add_face_dataclass import (
+    FaceRecognitionAddFaceDataClass,
+)
+from edenai_apis.features.image.face_recognition.create_collection.face_recognition_create_collection_dataclass import (
+    FaceRecognitionCreateCollectionDataClass,
+)
+from edenai_apis.features.image.face_recognition.face_recognition_dataclass import (
+    FaceRecognitionDataclass,
+    FaceRecognitionRecognizedFaceDataClass,
+)
+from edenai_apis.features.image.face_recognition.list_collections.face_recognition_list_collections_dataclass import (
+    FaceRecognitionListCollectionsDataClass,
+)
+from edenai_apis.features.image.face_recognition.list_faces.face_recognition_list_faces_dataclass import (
+    FaceRecognitionListFacesDataClass,
+)
 from edenai_apis.features.image.image_interface import ImageInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
@@ -29,11 +45,6 @@ class MicrosoftImageApi(ImageInterface):
     def image__explicit_content(
         self, file: BufferedReader
     ) -> ResponseType[ExplicitContentDataClass]:
-        """
-        :param image_path:  String that contains the path to the image file
-        :return:            VisionExplicitDetection Object that contains the
-        the objects and their location
-        """
 
         # Getting response of API
         response = requests.post(
@@ -79,12 +90,6 @@ class MicrosoftImageApi(ImageInterface):
     def image__object_detection(
         self, file: BufferedReader
     ) -> ResponseType[ObjectDetectionDataClass]:
-        """
-        :param image_path:  String that contains the path to the image file
-        :return:            VisionObjectDetection Object that contains the
-        the objects and their location
-        """
-        # Call api
         response = requests.post(
             f"{self.url['vision']}/detect",
             headers=self.headers["vision"],
@@ -95,7 +100,9 @@ class MicrosoftImageApi(ImageInterface):
         if response.status_code != 200:
             error = data["error"]
             err_msg = (
-                error["innererror"]["message"] if "innererror" in error else error["message"]
+                error["innererror"]["message"]
+                if "innererror" in error
+                else error["message"]
             )
             raise ProviderException(err_msg)
 
@@ -133,11 +140,6 @@ class MicrosoftImageApi(ImageInterface):
     def image__face_detection(
         self, file: BufferedReader
     ) -> ResponseType[FaceDetectionDataClass]:
-        """
-        :param image_path:  String that contains the path to the image file
-        :return:            VisionFaceDetection Object that contains the
-        the objects and their location
-        """
 
         file_content = file.read()
         # Getting size of image
@@ -145,6 +147,7 @@ class MicrosoftImageApi(ImageInterface):
 
         # Create params for returning face attribute
         params = {
+            "recognitionModel": "recognition_04",
             "returnFaceId": "true",
             "returnFaceLandmarks": "true",
             "returnFaceAttributes": (
@@ -180,9 +183,6 @@ class MicrosoftImageApi(ImageInterface):
     def image__logo_detection(
         self, file: BufferedReader
     ) -> ResponseType[LogoDetectionDataClass]:
-        """
-        :param image_path:  String that contains the path to the image file
-        """
         response = requests.post(
             f"{self.url['vision']}/analyze?visualFeatures=Brands",
             headers=self.headers["vision"],
@@ -224,9 +224,6 @@ class MicrosoftImageApi(ImageInterface):
     def image__landmark_detection(
         self, file: BufferedReader
     ) -> ResponseType[LandmarkDetectionDataClass]:
-        """
-        :param image_path:  String that contains the path to the image file
-        """
 
         file_content = file.read()
 
@@ -250,4 +247,138 @@ class MicrosoftImageApi(ImageInterface):
         return ResponseType[LandmarkDetectionDataClass](
             original_response=response,
             standardized_response=LandmarkDetectionDataClass(items=items),
+        )
+
+    def image__face_recognition__create_collection(
+        self, collection_id: str
+    ) -> FaceRecognitionCreateCollectionDataClass:
+        url = f"{self.url['face']}facelists/{collection_id}"
+        headers = {
+            "Ocp-Apim-Subscription-Key": self.headers["face"][
+                "Ocp-Apim-Subscription-Key"
+            ],
+            "Content-Type": "application/json",
+        }
+        payload = {"name": collection_id, "recognitionModel": "recognition_04"}
+        response = requests.put(url=url, headers=headers, json=payload)
+        if response.status_code != 200:
+            raise ProviderException(response.json()["error"]["message"])
+        return FaceRecognitionCreateCollectionDataClass(collection_id=collection_id)
+
+    def image__face_recognition__list_collections(
+        self,
+    ) -> ResponseType[FaceRecognitionListCollectionsDataClass]:
+        url = f"{self.url['face']}facelists"
+        headers = {
+            "Ocp-Apim-Subscription-Key": self.headers["face"][
+                "Ocp-Apim-Subscription-Key"
+            ],
+        }
+        response = requests.get(url=url, headers=headers)
+        if response.status_code != 200:
+            raise ProviderException(response.json()["error"]["message"])
+
+        original_response = response.json()
+        collections = FaceRecognitionListCollectionsDataClass(
+            collections=[face["faceListId"] for face in original_response]
+        )
+        return ResponseType(
+            original_response=original_response, standardized_response=collections
+        )
+
+    def image__face_recognition__list_faces(
+        self, collection_id: str
+    ) -> ResponseType[FaceRecognitionListFacesDataClass]:
+        url = f"{self.url['face']}facelists/{collection_id}"
+        headers = {
+            "Ocp-Apim-Subscription-Key": self.headers["face"][
+                "Ocp-Apim-Subscription-Key"
+            ]
+        }
+        response = requests.get(url=url, headers=headers)
+        if response.status_code != 200:
+            raise ProviderException(response.json()["error"]["message"])
+        original_response = response.json()
+        face_ids = [
+            face["persistedFaceId"] for face in original_response["persistedFaces"]
+        ]
+        return ResponseType(
+            original_response=response,
+            standardized_response=FaceRecognitionListFacesDataClass(
+                collection_id=collection_id, face_ids=face_ids
+            ),
+        )
+
+    def image__face_recognition__delete_collection(self, collection_id: str) -> None:
+        url = f"{self.url['face']}facelists/{collection_id}"
+        headers = {
+            "Ocp-Apim-Subscription-Key": self.headers["face"][
+                "Ocp-Apim-Subscription-Key"
+            ]
+        }
+        response = requests.delete(url=url, headers=headers)
+        if response.status_code != 200:
+            raise ProviderException(response.json()["error"]["message"])
+
+    def image__face_recognition__add_face(
+        self, collection_id: str, file: BufferedReader
+    ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
+        url = f"{self.url['face']}facelists/{collection_id}/persistedFaces?detectionModel=detection_03"
+        headers = self.headers["face"]
+        response = requests.post(url=url, headers=headers, data=file)
+        if response.status_code != 200:
+            raise ProviderException(response.json()["error"]["message"])
+        original_response = response.json()
+        return ResponseType(
+            original_response=original_response,
+            standardized_response=FaceRecognitionAddFaceDataClass(
+                face_ids=[original_response["persistedFaceId"]]
+            ),
+        )
+
+    def image__face_recognition__delete_face(self, collection_id, face_id) -> None:
+        url = f"{self.url['face']}facelists/{collection_id}/persistedFaces/{face_id}"
+        headers = {
+            "Ocp-Apim-Subscription-Key": self.headers["face"][
+                "Ocp-Apim-Subscription-Key"
+            ]
+        }
+        response = requests.delete(url=url, headers=headers)
+        if response.status_code != 200:
+            raise ProviderException(response.json()["error"]["message"])
+
+    def image__face_recognition__recognize(
+        self, collection_id: str, file: BufferedReader
+    ) -> ResponseType[FaceRecognitionDataclass]:
+        # we first need to detect the face, extract the faceId
+        # and then make the call for face similarities using this id
+        face_detection = self.image__face_detection(file)
+        # we get id of the biggest face in the image
+        if len(face_detection.standardized_response.items) == 0:
+            raise ProviderException("No face detected in the image")
+        face_id = face_detection.original_response[0]["faceId"]
+
+        url = f"{self.url['face']}findsimilars"
+        headers = {
+            "Ocp-Apim-Subscription-Key": self.headers["face"][
+                "Ocp-Apim-Subscription-Key"
+            ]
+        }
+        payload = {
+            "faceId": face_id,
+            "faceListId": collection_id,
+        }
+        response = requests.post(url=url, headers=headers, json=payload)
+        if response.status_code != 200:
+            raise ProviderException(response.json()["error"]["message"])
+        original_response = response.json()
+        recognized_faces = [
+            FaceRecognitionRecognizedFaceDataClass(
+                confidence=face["confidence"], face_id=face["persistedFaceId"]
+            )
+            for face in original_response
+        ]
+        return ResponseType(
+            original_response=original_response,
+            standardized_response=FaceRecognitionDataclass(items=recognized_faces),
         )
