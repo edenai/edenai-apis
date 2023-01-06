@@ -1,8 +1,14 @@
 {
   "original_response": {
-    "text": "\n\nAI: I am a super-int"
+    "id": "61f8c742-4c30-4b1a-9090-fe68e5f05d54",
+    "generations": [
+      {
+        "text": "\n\nAssistant: I am AI Assistant."
+      }
+    ],
+    "prompt": "The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: Hello, who are you?"
   },
   "standardized_response": {
-    "generated_text": "\n\nAI: I am a super-int"
+    "generated_text": "\n\nAssistant: I am AI Assistant."
   }
 }

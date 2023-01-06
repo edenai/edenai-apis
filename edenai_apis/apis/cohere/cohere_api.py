@@ -21,6 +21,8 @@ class CohereApi(ProviderInterface, TextInterface):
             'accept': 'application/json',
             'authorization': f'Bearer {self.api_key}',
             'content-type': 'application/json',
+            'Cohere-Version': '2022-12-06',
+            
         }
 
     def text__generation(
@@ -48,8 +50,9 @@ class CohereApi(ProviderInterface, TextInterface):
         if "message" in original_response:
             raise ProviderException(original_response["message"])
         
+        generated_texts = original_response.get('generations')
         standardized_response = GenerationDataClass(
-            generated_text = original_response["text"]
+            generated_text = generated_texts[0]['text']
         )
         return ResponseType[GenerationDataClass](
             original_response=original_response,
