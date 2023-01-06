@@ -1,12 +1,16 @@
 {
-    "items": [
-      {
-        "entity": " Barack Hussein Obama ",
-        "category": "Politician"
-      },
-      {
-        "entity": " Illinois",
-        "category": "State"
-      }
-    ]
-  }
+  "items": [
+    {
+      "entity": " Politician ",
+      "category": " Barack Hussein Obama"
+    },
+    {
+      "entity": " State ",
+      "category": " United States"
+    },
+    {
+      "entity": " State ",
+      "category": " Illinois."
+    }
+  ]
+}

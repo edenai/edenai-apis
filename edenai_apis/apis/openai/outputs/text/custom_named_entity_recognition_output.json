@@ -1,32 +1,36 @@
 {
   "original_response": {
-    "id": "cmpl-6S0LQfY9QAKzQNdrPa7qPzIwbEOnb",
+    "id": "cmpl-6VdVsB8h3LG1nAyi5Mkr2pUHCzf0v",
     "object": "text_completion",
-    "created": 1672132528,
+    "created": 1672998076,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": "\nPolitician: Barack Hussein Obama \nState: Illinois",
+        "text": " Politician : Barack Hussein Obama; State : United States; State : Illinois.",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 110,
-      "completion_tokens": 12,
-      "total_tokens": 122
+      "prompt_tokens": 201,
+      "completion_tokens": 16,
+      "total_tokens": 217
     }
   },
   "standardized_response": {
     "items": [
       {
-        "entity": " Barack Hussein Obama ",
-        "category": "Politician"
+        "entity": " Politician ",
+        "category": " Barack Hussein Obama"
       },
       {
-        "entity": " Illinois",
-        "category": "State"
+        "entity": " State ",
+        "category": " United States"
+      },
+      {
+        "entity": " State ",
+        "category": " Illinois."
       }
     ]
   }
