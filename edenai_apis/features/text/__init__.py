@@ -55,3 +55,17 @@ from .custom_classification import(
     ItemCustomClassificationDataClass,
     custom_classification_arguments
 )
+
+from .moderation import (
+    TextModerationDataClass,
+    ClassificationTextModeration,
+    PersonalDataTextModeration,
+    ProfanityTextModeration,
+    ItemProfanityTextModeration,
+    AdresseInfoTextModeration,
+    PhoneInfoTextModeration,
+    IpaInfoTextModeration,
+    EmailInfoTextModeration,
+    TextModerationCategoriesEnum,
+    moderation_arguments
+)

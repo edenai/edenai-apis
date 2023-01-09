@@ -16,6 +16,18 @@ from edenai_apis.features.ocr import (
     MerchantInformationInvoice,
     TaxesInvoice
 )
+from edenai_apis.features.text import (
+    EmailInfoTextModeration,
+    AdresseInfoTextModeration,
+    IpaInfoTextModeration,
+    PhoneInfoTextModeration,
+    PersonalDataTextModeration,
+    TextModerationDataClass,
+    ItemProfanityTextModeration,
+    ProfanityTextModeration,
+    ClassificationTextModeration,
+    TextModerationCategoriesEnum
+)
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import format_date
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -43,6 +55,12 @@ def get_microsoft_headers() -> Dict:
                     "subscription_key"
                 ],
             },
+            "text_moderation": {
+                "Ocp-Apim-Subscription-Key": api_settings["text_moderation"][
+                    "subscription_key"
+                ],
+                "Content-Type": "text/plain"
+            },
             "translator": {
                 "Ocp-Apim-Subscription-Key": api_settings["translator"][
                     "subscription_key"
@@ -66,9 +84,91 @@ def get_microsoft_urls() -> Dict:
             "vision": api_settings["vision"]["url"],
             "face": api_settings["face"]["url"],
             "text": api_settings["text"]["url"],
+            "text_moderation" : api_settings["text_moderation"]["url"],
             "translator": api_settings["translator"]["url"],
             "speech": api_settings["speech"]["url"],
         }
+
+def microsoft_text_moderation_personal_infos(data):
+    personal_infos: PersonalDataTextModeration = None
+    profan : ProfanityTextModeration = None
+    profanities : Sequence[ItemProfanityTextModeration] = []
+    classification : Sequence[ClassificationTextModeration] = []
+    text_moderation : TextModerationDataClass
+    email_infos : Sequence[EmailInfoTextModeration] = []
+    phone_infos : Sequence[PhoneInfoTextModeration] = []
+    ipa_infos : Sequence[IpaInfoTextModeration] = []
+    adress_infos : Sequence[AdresseInfoTextModeration] = []
+    if personal_info:= data.get("PII"):
+        for email in personal_info.get("Email", []) or []:
+            email_infos.append(
+                EmailInfoTextModeration(
+                    detected= email.get("Detected"),
+                    sub_type= email.get("SubType"),
+                    text= email.get("Text"),
+                    index= email.get("Index")
+                )
+            )
+        for ipa in personal_info.get("IPA", []) or []:
+            ipa_infos.append(
+                IpaInfoTextModeration(
+                    sub_type= ipa.get("SubType"),
+                    text= ipa.get("Text"),
+                    index= ipa.get("Index")
+                )
+            )
+        for phone in personal_info.get("Phone", []) or []:
+            phone_infos.append(
+                PhoneInfoTextModeration(
+                    country_code= phone.get("CountryCode"),
+                    text= phone.get("Text"),
+                    index= phone.get("Index")
+                )
+            )
+        for adress in personal_info.get("Address", []) or []:
+            adress_infos.append(
+                AdresseInfoTextModeration(
+                    text= adress.get("Text"),
+                    index= adress.get("Index")
+                )
+            )
+    if any(list([len(email_infos), len(ipa_infos), len(phone_infos), len(adress_infos)])):
+        personal_infos = PersonalDataTextModeration(
+            emails= email_infos, ipas= ipa_infos, 
+            phones= phone_infos, addresses= adress_infos
+        )
+
+    for profanity in data.get("Terms", []) or []:
+        profanities.append(
+            ItemProfanityTextModeration(
+                index_term= profanity.get("Index"),
+                term= profanity.get("Term")
+            )
+        )
+    if profanities:
+        profan = ProfanityTextModeration(items= profanities)
+
+    if classif := data.get("Classification"):
+        for key, value in classif.items():
+            try:
+                classification.append(
+                    ClassificationTextModeration(
+                        categorie= TextModerationCategoriesEnum[key].value,
+                        score= value["Score"]
+                    )
+                )
+            except Exception as exc:
+                continue
+
+    text_moderation = TextModerationDataClass(
+        personal_data= personal_infos,
+        profanity_terms= profan,
+        classification= classification
+    )
+
+    return text_moderation
+        
+
 
 
 def miscrosoft_normalize_face_detection_response(response, img_size):
