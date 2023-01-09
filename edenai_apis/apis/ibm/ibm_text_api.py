@@ -13,7 +13,7 @@ from edenai_apis.features.text import (
     TopicExtractionDataClass,
 )
 from edenai_apis.features.text.text_interface import TextInterface
-from edenai_apis.utils.exception import LanguageException
+from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import ResponseType
 from ibm_watson.natural_language_understanding_v1 import (
     CategoriesOptions,
@@ -46,6 +46,9 @@ class IbmTextApi(TextInterface):
         except WatsonApiException as exc:
             if "not enough text for language id" in exc.message:
                 raise LanguageException(exc.message)
+            else:
+                raise ProviderException(exc.message)
+
         # Create output object
         items: Sequence[SegmentSentimentAnalysisDataClass] = []
         standarize = SentimentAnalysisDataClass(
@@ -78,6 +81,8 @@ class IbmTextApi(TextInterface):
         except WatsonApiException as exc:
             if "not enough text for language id" in exc.message:
                 raise LanguageException(exc.message)
+            else:
+                raise ProviderException(exc.message)
 
         # Analysing response
         items: Sequence[InfosKeywordExtractionDataClass] = []
@@ -115,6 +120,8 @@ class IbmTextApi(TextInterface):
         except WatsonApiException as exc:
             if "not enough text for language id" in exc.message:
                 raise LanguageException(exc.message)
+            else:
+                raise ProviderException(exc.message)
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
 
@@ -158,6 +165,8 @@ class IbmTextApi(TextInterface):
         except WatsonApiException as exc:
             if "not enough text for language id" in exc.message:
                 raise LanguageException(exc.message)
+            else:
+                raise ProviderException(exc.message)
 
         items: Sequence[InfosSyntaxAnalysisDataClass] = []
 
@@ -202,6 +211,8 @@ class IbmTextApi(TextInterface):
         except WatsonApiException as exc:
             if "not enough text for language id" in exc.message:
                 raise LanguageException(exc.message)
+            else:
+                raise ProviderException(exc.message)
 
         categories: Sequence[ExtractedTopic] = []
         for category in original_response.get("categories"):
