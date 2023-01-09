@@ -18,7 +18,9 @@ from edenai_apis.features.text import (
     CustomNamedEntityRecognitionDataClass,
     InfosCustomNamedEntityRecognitionDataClass,
     TextModerationDataClass,
-    ClassificationTextModeration
+    ClassificationTextModeration,
+    CustomClassificationDataClass,
+    ItemCustomClassificationDataClass
 )
 from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
@@ -70,6 +72,23 @@ class OpenaiApi(ProviderInterface, TextInterface):
 
         return log_prob / float(count) * SCORE_MULTIPLIER
 
+    @staticmethod
+    def _create_classification_instruction(labels) -> str:
+        """
+        Construct an instruction for a classification task.
+        """
+        instruction = f"Please classify these texts into the following categories: {', '.join(labels)}."
+        return f"{instruction.strip()}\n\n"
+    
+    @staticmethod
+    def format_example_fn(x: List[List[str]]) -> str:
+        texts = ''
+        labels = ''
+        for example in x:
+            texts += "{text}\n".format(text=example[0].replace("\n", " ").strip())
+            labels += "{label}\n".format(label=example[1].replace("\n"," ").strip())
+        return texts +"\n\n Text categories:\n\n"+ labels
+    
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: Optional[str]
     ) -> ResponseType[SummarizeDataClass]:
@@ -483,3 +502,61 @@ class OpenaiApi(ProviderInterface, TextInterface):
             original_response=original_response,
             standardized_response=standardized_response
         )
+
+    def text__custom_classification(
+        self,
+        inputs: List[str],
+        labels: List[str],
+        examples: List[List[str]]
+    ) -> ResponseType[CustomClassificationDataClass]:
+        url = f"{self.url}/completions"
+    
+        # Construct prompt 
+        instruction = OpenaiApi._create_classification_instruction(labels)
+        example_prompts = OpenaiApi.format_example_fn(examples) 
+        inputs_prompts = [
+            f"{input}\n" for input in inputs
+        ]
+        prompt = example_prompts + instruction + "".join(inputs_prompts)+ "\n\nText categories:\n\n"
+        
+        # Build the request
+        payload = {
+        "prompt" : prompt,
+        "model" : self.model,
+        "top_p": 1,
+        "max_tokens":250,
+        "logprobs": 1,
+        "frequency_penalty": 0,
+        "presence_penalty": 0,
+        }
+        original_response = requests.post(url, json=payload, headers=self.headers).json()
+        
+        # Handle povider error
+        if "error" in original_response:
+            raise ProviderException(original_response["error"]["message"])
+
+        # Getting labels 
+        detected_labels = original_response['choices'][0]['text'].split('\n')
+        # Calculate scores
+        scores = []
+        score = 0
+        logprobs = original_response['choices'][0]['logprobs']['top_logprobs']
+        for prob in logprobs:
+            score = score + list(prob.values())[0]
+            if prob.get("\n") or prob.get("<|endoftext|>"):
+                scores.append(np.exp(score))
+                score = 0
+
+        classifications = []
+        for (input, label, score) in zip(inputs, detected_labels, scores):
+            classifications.append(
+                ItemCustomClassificationDataClass(
+                    input = input,
+                    label = label,
+                    confidence = float(score),
+                )
+            )
+
+        return ResponseType[CustomClassificationDataClass](
+            original_response=original_response,
+            standardized_response=CustomClassificationDataClass(classifications=classifications))
