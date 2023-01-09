@@ -18,7 +18,8 @@ from edenai_apis.utils.types import ResponseType
 
 # So that we don't have duplicate collections if test fails
 # don't use uuid as it will fail pytest multiprocess tests
-collection_id = f"test_{datetime.now().replace(second=0, microsecond=0).time()}"
+# 
+collection_id = f"test_{datetime.now().strftime('%y%m%d%H%M')}"
 test_params = sorted(list(
     map(
         lambda provider: (provider, collection_id),
@@ -26,8 +27,8 @@ test_params = sorted(list(
     )
 ))
 
-
 @pytest.mark.integration
+@pytest.mark.xdist_group(name="face_recognition")
 @pytest.mark.parametrize(("provider", "collection_id"), test_params)
 class TestFaceRecognition:
     def test_create_collection(self, provider, collection_id):
