@@ -11,5 +11,5 @@ class ClassificationTextModeration(BaseModel):
     categorie: StrictStr
     score : float
 
-class TextModerationDataClass(BaseModel):
+class ModerationDataClass(BaseModel):
     classification : Sequence[ClassificationTextModeration] = Field(default_factory=list)

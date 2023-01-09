@@ -57,7 +57,7 @@ from .custom_classification import(
 )
 
 from .moderation import (
-    TextModerationDataClass,
+    ModerationDataClass,
     ClassificationTextModeration,
     TextModerationCategoriesMicrosoftEnum,
     moderation_arguments

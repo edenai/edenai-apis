@@ -17,7 +17,7 @@ from edenai_apis.features.ocr import (
     TaxesInvoice
 )
 from edenai_apis.features.text import (
-    TextModerationDataClass,
+    ModerationDataClass,
     ClassificationTextModeration,
     TextModerationCategoriesMicrosoftEnum
 )
@@ -84,7 +84,7 @@ def get_microsoft_urls() -> Dict:
 
 def microsoft_text_moderation_personal_infos(data):
     classification : Sequence[ClassificationTextModeration] = []
-    text_moderation : TextModerationDataClass
+    text_moderation : ModerationDataClass
 
     if classif := data.get("Classification"):
         for key, value in classif.items():
@@ -98,7 +98,7 @@ def microsoft_text_moderation_personal_infos(data):
             except Exception as exc:
                 continue
 
-    text_moderation = TextModerationDataClass(
+    text_moderation = ModerationDataClass(
         classification= classification
     )
 

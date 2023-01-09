@@ -1,5 +1,5 @@
 from .moderation_dataclass import(
-    TextModerationDataClass,
+    ModerationDataClass,
     ClassificationTextModeration,
     TextModerationCategoriesMicrosoftEnum
 )

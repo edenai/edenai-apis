@@ -17,7 +17,7 @@ from edenai_apis.features.text import (
     GenerationDataClass,
     CustomNamedEntityRecognitionDataClass,
     InfosCustomNamedEntityRecognitionDataClass,
-    TextModerationDataClass,
+    ModerationDataClass,
     ClassificationTextModeration,
     CustomClassificationDataClass,
     ItemCustomClassificationDataClass
@@ -122,7 +122,7 @@ class OpenaiApi(ProviderInterface, TextInterface):
         return result
 
     def text__moderation(self, text: str, language: str
-    ) -> ResponseType[TextModerationDataClass]:
+    ) -> ResponseType[ModerationDataClass]:
         try:
             response = requests.post(
                 f"{self.url}/moderations",
@@ -145,11 +145,11 @@ class OpenaiApi(ProviderInterface, TextInterface):
                         score=value
                     )
                 )
-        standardized_response : TextModerationDataClass = TextModerationDataClass(
+        standardized_response : ModerationDataClass = ModerationDataClass(
             classification= classification
         )
 
-        return ResponseType[TextModerationDataClass](
+        return ResponseType[ModerationDataClass](
             original_response= original_response,
             standardized_response= standardized_response
         )
