@@ -1,4 +1,5 @@
 import sys
+import json
 from collections import defaultdict
 from time import sleep
 from typing import Dict, Optional, Sequence
@@ -12,8 +13,9 @@ from edenai_apis.features.text import (
     SentimentAnalysisDataClass,
     SummarizeDataClass,
 )
-from edenai_apis.features.text.anonymization.anonymization_dataclass import (
+from edenai_apis.features.text import (
     AnonymizationDataClass,
+    TextModerationDataClass
 )
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SegmentSentimentAnalysisDataClass,
@@ -22,8 +24,42 @@ from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
+from .microsoft_helpers import microsoft_text_moderation_personal_infos
+
 
 class MicrosoftTextApi(TextInterface):
+
+    def text__moderation(
+        self, text: str, language: str
+    ) -> ResponseType[TextModerationDataClass]:
+
+        if not language:
+            language=""
+        try:
+            response = requests.post(
+                f"{self.url['text_moderation']}&language={language}",
+                headers= self.headers['text_moderation'],
+                json={
+                    "text" : text
+                }
+            )
+        except Exception as exc:
+            raise ProviderException(str(exc))
+
+        data = response.json()
+        if response.status_code != 200:
+            if "Errors" in data:
+                error = data.get("Errors", []) or []
+                if error:
+                    raise ProviderException(error[0].get("Message", "Provider could not process request"))
+            else :
+                raise ProviderException(data)
+        standardized_response = microsoft_text_moderation_personal_infos(data)
+        
+        return ResponseType[TextModerationDataClass](
+            original_response= data, standardized_response= standardized_response
+        )
+
     def text__named_entity_recognition(
         self, language: str, text: str
     ) -> ResponseType[NamedEntityRecognitionDataClass]:

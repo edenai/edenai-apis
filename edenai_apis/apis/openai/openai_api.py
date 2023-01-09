@@ -17,6 +17,8 @@ from edenai_apis.features.text import (
     GenerationDataClass,
     CustomNamedEntityRecognitionDataClass,
     InfosCustomNamedEntityRecognitionDataClass,
+    TextModerationDataClass,
+    ClassificationTextModeration
 )
 from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
@@ -99,6 +101,40 @@ class OpenaiApi(ProviderInterface, TextInterface):
             standardized_response=standardized_response,
         )
         return result
+
+    def text__moderation(self, text: str, language: str
+    ) -> ResponseType[TextModerationDataClass]:
+        try:
+            response = requests.post(
+                f"{self.url}/moderations",
+                headers= self.headers,
+                json={
+                    "input" : text
+                }
+            )
+        except Exception as exc:
+            raise ProviderException(str(exc))
+        original_response = response.json()
+        if "error" in original_response:
+            raise ProviderException(original_response.get("error", {}).get("message"))
+        classification : Sequence[ClassificationTextModeration] = []
+        if result := original_response.get("results", None):
+            for key, value in result[0].get("category_scores", {}).items():
+                classification.append(
+                    ClassificationTextModeration(
+                        categorie= key,
+                        score=value
+                    )
+                )
+        standardized_response : TextModerationDataClass = TextModerationDataClass(
+            classification= classification
+        )
+
+        return ResponseType[TextModerationDataClass](
+            original_response= original_response,
+            standardized_response= standardized_response
+        )
+        
 
     def text__search(
         self, texts: List[str], query: str, model: str = None

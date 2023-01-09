@@ -56,6 +56,16 @@
     },
     "custom_named_entity_recognition": {
       "version": "v3.0.0"
+    },
+    "moderation" : {
+      "constraints": {
+        "languages": [
+          "en",
+          "fr"
+        ],
+        "allow_null_language": true
+      },
+      "version": "v3.0.0"
     }
   },
   "translation": {

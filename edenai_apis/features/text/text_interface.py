@@ -12,7 +12,8 @@ from edenai_apis.features.text import (
     TopicExtractionDataClass,
     GenerationDataClass,
     CustomNamedEntityRecognitionDataClass,
-    CustomClassificationDataClass
+    CustomClassificationDataClass,
+    TextModerationDataClass
 )
 from edenai_apis.utils.types import ResponseType
 
@@ -30,6 +31,21 @@ class TextInterface:
             text (str): text to anonymize
             language (str): text's language code in ISO format
         """
+        raise NotImplementedError
+
+    @abstractmethod
+    def text__moderation(
+        self, text: str, language: str
+    ) -> ResponseType[TextModerationDataClass]:
+        """
+        Detects explecit content, profanity, and personal information
+        in a given text
+
+        Args:
+            text (str): text to analyse
+            language (str): text's language code in ISO format
+        """
+
         raise NotImplementedError
 
     @abstractmethod
