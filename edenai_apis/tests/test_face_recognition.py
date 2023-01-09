@@ -1,33 +1,30 @@
-import uuid
+from datetime import datetime
 
 import pytest
 from edenai_apis import Image
-from edenai_apis.features.image.face_detection.face_detection_args import (
-    face_detection_arguments,
-)
-from edenai_apis.features.image.face_recognition.create_collection.face_recognition_create_collection_dataclass import (
-    FaceRecognitionCreateCollectionDataClass,
-)
+from edenai_apis.features.image.face_detection.face_detection_args import \
+    face_detection_arguments
+from edenai_apis.features.image.face_recognition.create_collection.face_recognition_create_collection_dataclass import \
+    FaceRecognitionCreateCollectionDataClass
 from edenai_apis.features.image.face_recognition.face_recognition_args import (
-    face_recognition_arguments,
-    get_data_files,
-)
-from edenai_apis.features.image.face_recognition.list_faces.face_recognition_list_faces_dataclass import (
-    FaceRecognitionListFacesDataClass,
-)
-from edenai_apis.features.image.landmark_detection.landmark_detection_args import (
-    landmark_detection_arguments,
-)
+    face_recognition_arguments, get_data_files)
+from edenai_apis.features.image.face_recognition.list_faces.face_recognition_list_faces_dataclass import \
+    FaceRecognitionListFacesDataClass
+from edenai_apis.features.image.landmark_detection.landmark_detection_args import \
+    landmark_detection_arguments
 from edenai_apis.interface import list_providers
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
-test_params = list(
+# So that we don't have duplicate collections if test fails
+# don't use uuid as it will fail pytest multiprocess tests
+collection_id = f"test_{datetime.now().replace(second=0, microsecond=0).time()}"
+test_params = sorted(list(
     map(
-        lambda provider: (provider, f"test_{uuid.uuid4()}"),
+        lambda provider: (provider, collection_id),
         list_providers(feature="image", subfeature="face_recognition"),
     )
-)
+))
 
 
 @pytest.mark.integration
