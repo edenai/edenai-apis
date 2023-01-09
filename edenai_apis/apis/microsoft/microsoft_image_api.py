@@ -25,8 +25,10 @@ from edenai_apis.features.image.face_recognition.add_face.face_recognition_add_f
 from edenai_apis.features.image.face_recognition.create_collection.face_recognition_create_collection_dataclass import (
     FaceRecognitionCreateCollectionDataClass,
 )
-from edenai_apis.features.image.face_recognition.face_recognition_dataclass import (
-    FaceRecognitionDataclass,
+from edenai_apis.features.image.face_recognition.delete_collection.face_recognition_delete_collection_dataclass import FaceRecognitionDeleteCollectionDataClass
+from edenai_apis.features.image.face_recognition.delete_face.face_recognition_delete_face_dataclass import FaceRecognitionDeleteFaceDataClass
+from edenai_apis.features.image.face_recognition.recognize.face_recognition_recognize_dataclass import (
+    FaceRecognitionRecognizeDataClass,
     FaceRecognitionRecognizedFaceDataClass,
 )
 from edenai_apis.features.image.face_recognition.list_collections.face_recognition_list_collections_dataclass import (
@@ -309,7 +311,9 @@ class MicrosoftImageApi(ImageInterface):
             ),
         )
 
-    def image__face_recognition__delete_collection(self, collection_id: str) -> None:
+    def image__face_recognition__delete_collection(
+            self, collection_id: str
+    ) -> ResponseType[FaceRecognitionDeleteCollectionDataClass]:
         url = f"{self.url['face']}facelists/{collection_id}"
         headers = {
             "Ocp-Apim-Subscription-Key": self.headers["face"][
@@ -319,6 +323,12 @@ class MicrosoftImageApi(ImageInterface):
         response = requests.delete(url=url, headers=headers)
         if response.status_code != 200:
             raise ProviderException(response.json()["error"]["message"])
+        return ResponseType(
+            original_response=response.text,
+            standardized_response=FaceRecognitionDeleteCollectionDataClass(
+                deleted=True
+            )
+        )
 
     def image__face_recognition__add_face(
         self, collection_id: str, file: BufferedReader
@@ -336,7 +346,9 @@ class MicrosoftImageApi(ImageInterface):
             ),
         )
 
-    def image__face_recognition__delete_face(self, collection_id, face_id) -> None:
+    def image__face_recognition__delete_face(
+            self, collection_id, face_id
+    ) -> ResponseType[FaceRecognitionDeleteFaceDataClass]:
         url = f"{self.url['face']}facelists/{collection_id}/persistedFaces/{face_id}"
         headers = {
             "Ocp-Apim-Subscription-Key": self.headers["face"][
@@ -346,10 +358,16 @@ class MicrosoftImageApi(ImageInterface):
         response = requests.delete(url=url, headers=headers)
         if response.status_code != 200:
             raise ProviderException(response.json()["error"]["message"])
+        return ResponseType(
+            original_response=response.text,
+            standardized_response=FaceRecognitionDeleteFaceDataClass(
+                deleted=True
+            )
+        )
 
     def image__face_recognition__recognize(
         self, collection_id: str, file: BufferedReader
-    ) -> ResponseType[FaceRecognitionDataclass]:
+    ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         # we first need to detect the face, extract the faceId
         # and then make the call for face similarities using this id
         face_detection = self.image__face_detection(file)
@@ -380,5 +398,5 @@ class MicrosoftImageApi(ImageInterface):
         ]
         return ResponseType(
             original_response=original_response,
-            standardized_response=FaceRecognitionDataclass(items=recognized_faces),
+            standardized_response=FaceRecognitionRecognizeDataClass(items=recognized_faces),
         )

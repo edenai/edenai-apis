@@ -1,0 +1,9 @@
+{
+  "original_response": "<Response [200]>",
+  "standardized_response": {
+    "collection_id": "test_f28ca5a9-48f4-4267-a8a8-1007c0f41f6f",
+    "face_ids": [
+      "f2d8e3d4-3a58-488d-8216-3e028a09bc5b"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "original_response": [
+    {
+      "persistedFaceId": "2ec43ff4-56ca-4c9b-8eee-72ec5f0a3dcd",
+      "confidence": 0.99545
+    }
+  ],
+  "standardized_response": {
+    "items": [
+      {
+        "confidence": 0.99545,
+        "face_id": "2ec43ff4-56ca-4c9b-8eee-72ec5f0a3dcd"
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "original_response": {
+    "Faces": [
+      {
+        "FaceId": "211dbf3e-c258-4e58-8a97-0a886a22900d",
+        "BoundingBox": {
+          "Width": 0.2919819951057434,
+          "Height": 0.620182991027832,
+          "Left": 0.31594499945640564,
+          "Top": 0.19342799484729767
+        },
+        "ImageId": "0b943592-6e65-3054-8d81-b143018d0f75",
+        "Confidence": 99.99960327148438,
+        "IndexFacesModelVersion": "6.0"
+      }
+    ],
+    "FaceModelVersion": "6.0",
+    "ResponseMetadata": {
+      "RequestId": "31d10714-22f1-4ec2-947d-90d84862cdc9",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "31d10714-22f1-4ec2-947d-90d84862cdc9",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "320",
+        "date": "Mon, 09 Jan 2023 16:55:13 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standardized_response": {
+    "collection_id": "test_f28ca5a9-48f4-4267-a8a8-1007c0f41f6f",
+    "face_ids": [
+      "211dbf3e-c258-4e58-8a97-0a886a22900d"
+    ]
+  }
+}
