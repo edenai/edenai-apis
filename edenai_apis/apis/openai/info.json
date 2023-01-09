@@ -66,6 +66,9 @@
         "allow_null_language": true
       },
       "version": "v3.0.0"
+    },
+    "custom_classification":{
+      "version": "v3.0.0"
     }
   },
   "translation": {
