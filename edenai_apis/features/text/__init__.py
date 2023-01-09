@@ -59,13 +59,6 @@ from .custom_classification import(
 from .moderation import (
     TextModerationDataClass,
     ClassificationTextModeration,
-    PersonalDataTextModeration,
-    ProfanityTextModeration,
-    ItemProfanityTextModeration,
-    AdresseInfoTextModeration,
-    PhoneInfoTextModeration,
-    IpaInfoTextModeration,
-    EmailInfoTextModeration,
-    TextModerationCategoriesEnum,
+    TextModerationCategoriesMicrosoftEnum,
     moderation_arguments
 )
