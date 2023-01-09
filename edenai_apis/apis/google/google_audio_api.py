@@ -155,7 +155,13 @@ class GoogleAudioApi(AudioInterface):
             params.update({"adaptation": speech_adaptation})
 
         config = speech.RecognitionConfig(**params)
-        operation = client.long_running_recognize(config=config, audio=audio)
+        try:
+            operation = client.long_running_recognize(config=config, audio=audio)
+        except Exception as exc:
+            error = str(exc)
+            if "bad encoding" in error:
+                raise ProviderException("Could not decode audio file, bad file encoding")
+            raise ProviderException(error)
         operation_name = operation.operation.name
         return AsyncLaunchJobResponseType(provider_job_id=operation_name)
 

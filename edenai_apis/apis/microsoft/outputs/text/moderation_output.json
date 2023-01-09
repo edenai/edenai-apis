@@ -65,52 +65,9 @@
       "Description": "OK",
       "Exception": null
     },
-    "TrackingId": "b56669a8-6d74-41af-85a4-cde99dcdfc1e"
+    "TrackingId": "e6f5436c-10f4-4dae-9554-4ed836142d01"
   },
   "standardized_response": {
-    "personal_data": {
-      "emails": [
-        {
-          "detected": "abcdef@abcd.com",
-          "sub_type": "Regular",
-          "text": "abcdef@abcd.com",
-          "index": 31
-        }
-      ],
-      "ipas": [
-        {
-          "sub_type": "IPV4",
-          "text": "255.255.255.255",
-          "index": 71
-        }
-      ],
-      "phones": [
-        {
-          "country_code": "US",
-          "text": "0617730730",
-          "index": 55
-        },
-        {
-          "country_code": "UK",
-          "text": "0617730730",
-          "index": 55
-        }
-      ],
-      "addresses": [
-        {
-          "text": "1 Microsoft Way, Redmond, WA 98052",
-          "index": 88
-        }
-      ]
-    },
-    "profanity_terms": {
-      "items": [
-        {
-          "index_term": 13,
-          "term": "crap"
-        }
-      ]
-    },
     "classification": [
       {
         "categorie": "sexually explicit",

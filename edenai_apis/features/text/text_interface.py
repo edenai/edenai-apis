@@ -13,7 +13,7 @@ from edenai_apis.features.text import (
     GenerationDataClass,
     CustomNamedEntityRecognitionDataClass,
     CustomClassificationDataClass,
-    TextModerationDataClass
+    ModerationDataClass
 )
 from edenai_apis.utils.types import ResponseType
 
@@ -36,7 +36,7 @@ class TextInterface:
     @abstractmethod
     def text__moderation(
         self, text: str, language: str
-    ) -> ResponseType[TextModerationDataClass]:
+    ) -> ResponseType[ModerationDataClass]:
         """
         Detects explecit content, profanity, and personal information
         in a given text

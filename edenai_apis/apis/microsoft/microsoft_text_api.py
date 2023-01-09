@@ -15,7 +15,7 @@ from edenai_apis.features.text import (
 )
 from edenai_apis.features.text import (
     AnonymizationDataClass,
-    TextModerationDataClass
+    ModerationDataClass
 )
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SegmentSentimentAnalysisDataClass,
@@ -31,7 +31,7 @@ class MicrosoftTextApi(TextInterface):
 
     def text__moderation(
         self, text: str, language: str
-    ) -> ResponseType[TextModerationDataClass]:
+    ) -> ResponseType[ModerationDataClass]:
 
         if not language:
             language=""
@@ -56,7 +56,7 @@ class MicrosoftTextApi(TextInterface):
                 raise ProviderException(data)
         standardized_response = microsoft_text_moderation_personal_infos(data)
         
-        return ResponseType[TextModerationDataClass](
+        return ResponseType[ModerationDataClass](
             original_response= data, standardized_response= standardized_response
         )
 
