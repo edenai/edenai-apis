@@ -1,5 +1,6 @@
 from abc import abstractmethod
 from io import BufferedReader
+from typing import List
 
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
@@ -9,6 +10,21 @@ from edenai_apis.features.image.explicit_content.explicit_content_dataclass impo
 )
 from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FaceDetectionDataClass,
+)
+from edenai_apis.features.image.face_recognition.add_face.face_recognition_add_face_dataclass import (
+    FaceRecognitionAddFaceDataClass,
+)
+from edenai_apis.features.image.face_recognition.create_collection.face_recognition_create_collection_dataclass import (
+    FaceRecognitionCreateCollectionDataClass,
+)
+from edenai_apis.features.image.face_recognition.face_recognition_dataclass import (
+    FaceRecognitionDataclass,
+)
+from edenai_apis.features.image.face_recognition.list_collections.face_recognition_list_collections_dataclass import (
+    FaceRecognitionListCollectionsDataClass,
+)
+from edenai_apis.features.image.face_recognition.list_faces.face_recognition_list_faces_dataclass import (
+    FaceRecognitionListFacesDataClass,
 )
 from edenai_apis.features.image.landmark_detection.landmark_detection_dataclass import (
     LandmarkDetectionDataClass,
@@ -182,5 +198,86 @@ class ImageInterface:
         Args:
             file (BufferedReader): image to analyze
             project_id (str): image search project id
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__face_recognition__create_collection(
+        self, collection_id: str
+    ) -> FaceRecognitionCreateCollectionDataClass:
+        """
+        Create a Face Collection to analyze for face recognition
+
+        Args:
+            collection_id (str): ID given to created collection
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__face_recognition__list_collections(
+        self,
+    ) -> ResponseType[FaceRecognitionListCollectionsDataClass]:
+        """
+        List all Face Collections
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__face_recognition__list_faces(
+        self, collection_id: str
+    ) -> ResponseType[FaceRecognitionListFacesDataClass]:
+        """
+        List a Faces of a Collection
+
+        Args:
+            collection_id (str): ID of collection
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__face_recognition__delete_collection(self, collection_id: str) -> None:
+        """
+        Delete a Face Collection
+
+        Args:
+            collection_id (str): ID of collection
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__face_recognition__add_face(
+        self, collection_id: str, file: BufferedReader
+    ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
+        """
+        Detect and add a face to a collection from an image
+
+        Args:
+            collection_id (str): ID of collection
+            file (BufferedReader): image to analyze
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__face_recognition__delete_face(self, collection_id, face_id) -> None:
+        """
+        Delete a face from collection
+
+        Args:
+            collection_id (str): ID of collection
+            face_id (str): ID of face to delete
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__face_recognition__recognize(
+        self, collection_id: str, file: BufferedReader
+    ) -> ResponseType[FaceRecognitionDataclass]:
+        """
+        Detect the biggers face from image and try
+        to find faces from the same person in the face collection
+
+        Args:
+            collection_id (str): ID of collection
+            file (BufferedReader): image to analyze
         """
         raise NotImplementedError

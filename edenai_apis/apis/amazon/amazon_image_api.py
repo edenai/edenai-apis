@@ -1,4 +1,6 @@
 from io import BufferedReader
+from typing import List
+
 from edenai_apis.apis.microsoft.microsoft_helpers import content_processing
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
@@ -15,6 +17,22 @@ from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FaceLandmarks,
     FacePoses,
     FaceQuality,
+)
+from edenai_apis.features.image.face_recognition.add_face.face_recognition_add_face_dataclass import (
+    FaceRecognitionAddFaceDataClass,
+)
+from edenai_apis.features.image.face_recognition.create_collection.face_recognition_create_collection_dataclass import (
+    FaceRecognitionCreateCollectionDataClass,
+)
+from edenai_apis.features.image.face_recognition.face_recognition_dataclass import (
+    FaceRecognitionDataclass,
+    FaceRecognitionRecognizedFaceDataClass,
+)
+from edenai_apis.features.image.face_recognition.list_collections.face_recognition_list_collections_dataclass import (
+    FaceRecognitionListCollectionsDataClass,
+)
+from edenai_apis.features.image.face_recognition.list_faces.face_recognition_list_faces_dataclass import (
+    FaceRecognitionListFacesDataClass,
 )
 from edenai_apis.features.image.image_interface import ImageInterface
 from edenai_apis.features.image.object_detection.object_detection_dataclass import (
@@ -241,4 +259,117 @@ class AmazonImageApi(ImageInterface):
 
         return ResponseType[ExplicitContentDataClass](
             original_response=response, standardized_response=standardized_response
+        )
+
+    def image__face_recognition__create_collection(
+        self, collection_id: str
+    ) -> FaceRecognitionCreateCollectionDataClass:
+        client = self.clients["image"]
+        try:
+            client.create_collection(CollectionId=collection_id)
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+        return FaceRecognitionCreateCollectionDataClass(collection_id=collection_id)
+
+    def image__face_recognition__list_collections(
+        self,
+    ) -> ResponseType[FaceRecognitionListCollectionsDataClass]:
+        client = self.clients["image"]
+        try:
+            response = client.list_collections()
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+        return ResponseType(
+            original_responer=response,
+            standardized_response=FaceRecognitionListCollectionsDataClass(
+                collections=response["CollectionIds"]
+            ),
+        )
+
+    def image__face_recognition__list_faces(
+        self, collection_id: str
+    ) -> ResponseType[FaceRecognitionListFacesDataClass]:
+        client = self.clients["image"]
+        try:
+            response = client.list_faces(CollectionId=collection_id)
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+        face_ids = [face["FaceId"] for face in response["Faces"]]
+        # TODO handle NextToken if response is paginated
+        return ResponseType(
+            original_response=response,
+            standardized_response=FaceRecognitionListFacesDataClass(
+                collection_id=collection_id, face_ids=face_ids
+            ),
+        )
+
+    def image__face_recognition__delete_collection(self, collection_id: str) -> None:
+        client = self.clients["image"]
+        try:
+            client.delete_collection(CollectionId=collection_id)
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
+    def image__face_recognition__add_face(
+        self, collection_id: str, file: BufferedReader
+    ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
+        client = self.clients["image"]
+        file_content = file.read()
+        try:
+            response = client.index_faces(
+                CollectionId=collection_id, Image={"Bytes": file_content}
+            )
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+        face_ids = [face["Face"]["FaceId"] for face in response["FaceRecords"]]
+        if len(face_ids) == 0:
+            raise ProviderException("No face detected in the image")
+
+        return ResponseType(
+            original_response=response,
+            standardized_response=FaceRecognitionAddFaceDataClass(face_ids=face_ids),
+        )
+
+    def image__face_recognition__delete_face(
+        self, collection_id: str, face_id: str
+    ) -> None:
+        client = self.clients["image"]
+        try:
+            client.delete_faces(
+                CollectionId=collection_id,
+                FaceIds=[
+                    face_id,
+                ],
+            )
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
+    def image__face_recognition__recognize(
+        self, collection_id: str, file: BufferedReader
+    ) -> ResponseType[FaceRecognitionDataclass]:
+        client = self.clients["image"]
+        file_content = file.read()
+
+        # First check that collection is not empty
+        list_faces = self.image__face_recognition__list_faces(collection_id)
+        if len(list_faces.standardized_response.face_ids) == 0:
+            raise ProviderException("Face Collection is empty.")
+
+        try:
+            response = client.search_faces_by_image(
+                CollectionId=collection_id, Image={"Bytes": file_content}
+            )
+        except Exception as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
+        faces = [
+            FaceRecognitionRecognizedFaceDataClass(
+                confidence=face["Similarity"] / 100, face_id=face["Face"]["FaceId"]
+            )
+            for face in response["FaceMatches"]
+        ]
+
+        return ResponseType(
+            original_response=response,
+            standardized_response=FaceRecognitionDataclass(items=faces),
         )

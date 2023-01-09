@@ -55,6 +55,8 @@ class EmvistaApi(ProviderInterface, TextInterface):
         original_response = response.json()
 
         # Check errors from API
+        if response.status_code == 201:
+            raise ProviderException('Input text is too long')
         if response.status_code != 200:
             raise ProviderException(original_response["message"])
 
@@ -91,6 +93,10 @@ class EmvistaApi(ProviderInterface, TextInterface):
 
         # Send request to API
         response = requests.post(url, headers=headers, json=files)
+
+        if response.status_code == 201:
+            raise ProviderException('Input text is too long')
+
         original_response = response.json()
 
         items: Sequence[InfosSyntaxAnalysisDataClass] = []
@@ -140,6 +146,8 @@ class EmvistaApi(ProviderInterface, TextInterface):
         original_response = response.json()
 
         # Check errors from API
+        if response.status_code == 201:
+            raise ProviderException('Input text is too long')
         if response.status_code != 200:
             raise ProviderException(original_response["message"])
 
@@ -188,6 +196,10 @@ class EmvistaApi(ProviderInterface, TextInterface):
 
         # Send request to API
         response = requests.post(url, headers=headers, json=files)
+
+        if response.status_code == 201:
+            raise ProviderException('Input text is too long')
+
         original_response = response.json()
 
         print(original_response['result']['globalScore'])
@@ -196,7 +208,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
             general_sentiment=self._normalize_sentiment(original_response['result']['globalScore']),
             general_sentiment_rate=abs(original_response['result']['globalScore']) if original_response['result']['globalScore'] != 'NaN' else 0
         )
-        
+
         result = ResponseType[SentimentAnalysisDataClass](
             original_response=original_response,
             standardized_response=standardized_response
@@ -234,6 +246,8 @@ class EmvistaApi(ProviderInterface, TextInterface):
         original_response = response.json()
 
         # Check error from API
+        if response.status_code == 201:
+            raise ProviderException('Input text is too long')
         if response.status_code != 200:
             raise ProviderException(original_response["message"])
 

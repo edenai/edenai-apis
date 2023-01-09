@@ -349,6 +349,29 @@
         },
         "object_detection": {
             "version": "boto3 (v1.15.18)"
+        },
+        "face_recognition": {
+            "create_collection": {
+                "version": "boto3 1.26.8"
+            },
+            "list_collections": {
+                "version": "boto3 1.26.8"
+            },
+            "delete_collection": {
+                "version": "boto3 1.26.8"
+            },
+            "list_faces": {
+                "version": "boto3 1.26.8"
+            },
+            "add_face": {
+                "version": "boto3 1.26.8"
+            },
+            "delete_face": {
+                "version": "boto3 1.26.8"
+            },
+            "recognize": {
+                "version": "boto3 1.26.8"
+            }
         }
     },
     "video": {

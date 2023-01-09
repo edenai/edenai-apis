@@ -1028,6 +1028,30 @@
     },
     "landmark_detection": {
       "version": "v3.2"
+    },
+    "face_recognition": {
+      "create_collection": {
+        "version": "Face API - v1.0"
+      },
+      "list_collections": {
+        "version": "Face API - v1.0"
+      },
+      "delete_collection": {
+        "version": "Face API - v1.0"
+      },
+      "list_faces": {
+        "version": "Face API - v1.0"
+      },
+      "add_face": {
+        "version": "Face API - v1.0"
+      },
+      "delete_face": {
+        "version": "Face API - v1.0"
+      },
+      "recognize": {
+        "version": "Face API - v1.0"
+      }
     }
+
   }
 }
