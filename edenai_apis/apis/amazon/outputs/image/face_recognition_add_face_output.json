@@ -1,0 +1,82 @@
+{
+  "original_response": {
+    "FaceRecords": [
+      {
+        "Face": {
+          "FaceId": "77aefffe-b35b-4379-912c-2a509d8340f5",
+          "BoundingBox": {
+            "Width": 0.291981965303421,
+            "Height": 0.6201834082603455,
+            "Left": 0.31594496965408325,
+            "Top": 0.19342847168445587
+          },
+          "ImageId": "0b943592-6e65-3054-8d81-b143018d0f75",
+          "Confidence": 99.99961853027344
+        },
+        "FaceDetail": {
+          "BoundingBox": {
+            "Width": 0.291981965303421,
+            "Height": 0.6201834082603455,
+            "Left": 0.31594496965408325,
+            "Top": 0.19342847168445587
+          },
+          "Landmarks": [
+            {
+              "Type": "eyeLeft",
+              "X": 0.3552703559398651,
+              "Y": 0.4217078685760498
+            },
+            {
+              "Type": "eyeRight",
+              "X": 0.46738916635513306,
+              "Y": 0.4219686686992645
+            },
+            {
+              "Type": "mouthLeft",
+              "X": 0.3594403862953186,
+              "Y": 0.6365174651145935
+            },
+            {
+              "Type": "mouthRight",
+              "X": 0.4524805545806885,
+              "Y": 0.6375746130943298
+            },
+            {
+              "Type": "nose",
+              "X": 0.36787378787994385,
+              "Y": 0.525931715965271
+            }
+          ],
+          "Pose": {
+            "Roll": -0.6732970476150513,
+            "Yaw": -24.356441497802734,
+            "Pitch": 5.273322582244873
+          },
+          "Quality": {
+            "Brightness": 92.52069854736328,
+            "Sharpness": 99.74881744384766
+          },
+          "Confidence": 99.99961853027344
+        }
+      }
+    ],
+    "FaceModelVersion": "6.0",
+    "UnindexedFaces": [],
+    "ResponseMetadata": {
+      "RequestId": "9e09b32f-e4e3-4b05-8e29-0555d01535e3",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "9e09b32f-e4e3-4b05-8e29-0555d01535e3",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "997",
+        "date": "Mon, 09 Jan 2023 16:55:35 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standardized_response": {
+    "face_ids": [
+      "77aefffe-b35b-4379-912c-2a509d8340f5"
+    ]
+  }
+}

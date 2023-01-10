@@ -1,0 +1,10 @@
+{
+  "original_response": {
+    "persistedFaceId": "2ec43ff4-56ca-4c9b-8eee-72ec5f0a3dcd"
+  },
+  "standardized_response": {
+    "face_ids": [
+      "2ec43ff4-56ca-4c9b-8eee-72ec5f0a3dcd"
+    ]
+  }
+}

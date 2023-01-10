@@ -34,6 +34,41 @@
                 "allow_null_language": true
             },
             "version": "v2"
+        },
+        "document_translation": {
+            "constraints": {
+                "languages": [
+                    "bg",
+                    "cs",
+                    "da",
+                    "de",
+                    "el",
+                    "en",
+                    "es",
+                    "et",
+                    "fi",
+                    "fr",
+                    "hu",
+                    "id",
+                    "it",
+                    "ja",
+                    "lt",
+                    "lv",
+                    "nl",
+                    "pl",
+                    "pt",
+                    "ro",
+                    "ru",
+                    "sk",
+                    "sl",
+                    "sv",
+                    "tr",
+                    "uk",
+                    "zh"
+                ],
+                "allow_null_language": true
+            },
+            "version": "v2"
         }
-    }   
+    }
 }
