@@ -210,7 +210,7 @@ class TextInterface:
     @abstractmethod
     def text__custom_classification(
         self,
-        inputs: List[str],
+        texts: List[str],
         labels: List[str],
         examples: List[List[str]]
     ) -> ResponseType[CustomClassificationDataClass]:
