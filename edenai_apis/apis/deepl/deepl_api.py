@@ -81,5 +81,10 @@ class DeeplApi(ProviderInterface, TranslationInterface):
 
         print(document_id)
         print(document_key)
-        # response = requests.post(f'{self.
-        return (document_id, document_key)
+        response = requests.post(f'{self.url}document/{document_id}/result', headers=self.header, data=doc_key)
+
+        b64_file = base64.b64encode(response.content)
+        std_resp = DocumentTranslationDataClass(file=b64_file)
+        return ResponseType[DocumentTranslationDataClass](
+            original_response=response.content, standardized_response=std_resp
+        )
