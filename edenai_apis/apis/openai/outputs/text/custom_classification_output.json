@@ -1,0 +1,104 @@
+{
+  "original_response": {
+    "id": "cmpl-6Wo9Vgt2cwoM6uKJ9uOxYpVi9MDAd",
+    "object": "text_completion",
+    "created": 1673277301,
+    "model": "text-davinci-003",
+    "choices": [
+      {
+        "text": "Spam\nSpam",
+        "index": 0,
+        "logprobs": {
+          "tokens": [
+            "Sp",
+            "am",
+            "\n",
+            "Sp",
+            "am",
+            "<|endoftext|>",
+            " \u00a7\u00a7",
+            " FILE",
+            " remove",
+            "_"
+          ],
+          "token_logprobs": [
+            -0.41646636,
+            0,
+            -0.016121088,
+            -0.00024144053,
+            0,
+            -4.656436e-05,
+            -0.012093988,
+            -0.0005157848,
+            -9.948003,
+            -0.7134276
+          ],
+          "top_logprobs": [
+            {
+              "Sp": -0.41646636
+            },
+            {
+              "am": 0
+            },
+            {
+              "\n": -0.016121088
+            },
+            {
+              "Sp": -0.00024144053
+            },
+            {
+              "am": 0
+            },
+            {
+              "<|endoftext|>": -4.656436e-05
+            },
+            {
+              " \u00a7\u00a7": -0.012093988
+            },
+            {
+              " FILE": -0.0005157848
+            },
+            {
+              " READ": -1.3742796
+            },
+            {
+              "_": -0.7134276
+            }
+          ],
+          "text_offset": [
+            404,
+            406,
+            408,
+            409,
+            411,
+            413,
+            413,
+            413,
+            413,
+            413
+          ]
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 105,
+      "completion_tokens": 5,
+      "total_tokens": 110
+    }
+  },
+  "standardized_response": {
+    "classifications": [
+      {
+        "input": "Confirm your email address",
+        "label": "Spam",
+        "confidence": 0.648828111932805
+      },
+      {
+        "input": "hey i need u to send some $",
+        "label": "Spam",
+        "confidence": 0.9997120365794272
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "original_response": {
+    "StatusCode": 200,
+    "ResponseMetadata": {
+      "RequestId": "f5068a4a-263a-4d42-a534-9bcb93b9637b",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "f5068a4a-263a-4d42-a534-9bcb93b9637b",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "18",
+        "date": "Mon, 09 Jan 2023 16:48:47 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standardized_response": {
+    "deleted": true
+  }
+}

@@ -6,8 +6,8 @@ from edenai_apis.features.image.face_detection.face_detection_args import \
     face_detection_arguments
 from edenai_apis.features.image.face_recognition.create_collection.face_recognition_create_collection_dataclass import \
     FaceRecognitionCreateCollectionDataClass
-from edenai_apis.features.image.face_recognition.face_recognition_args import (
-    face_recognition_arguments, get_data_files)
+from edenai_apis.features.image.face_recognition.recognize.face_recognition_recognize_args import (
+    face_recognition_recognize_arguments, get_data_files)
 from edenai_apis.features.image.face_recognition.list_faces.face_recognition_list_faces_dataclass import \
     FaceRecognitionListFacesDataClass
 from edenai_apis.features.image.landmark_detection.landmark_detection_args import \
@@ -18,7 +18,8 @@ from edenai_apis.utils.types import ResponseType
 
 # So that we don't have duplicate collections if test fails
 # don't use uuid as it will fail pytest multiprocess tests
-collection_id = f"test_{datetime.now().replace(second=0, microsecond=0).time()}"
+# 
+collection_id = f"test_{datetime.now().strftime('%y%m%d%H%M')}"
 test_params = sorted(list(
     map(
         lambda provider: (provider, collection_id),
@@ -26,8 +27,8 @@ test_params = sorted(list(
     )
 ))
 
-
 @pytest.mark.integration
+@pytest.mark.xdist_group(name="face_recognition")
 @pytest.mark.parametrize(("provider", "collection_id"), test_params)
 class TestFaceRecognition:
     def test_create_collection(self, provider, collection_id):
@@ -70,7 +71,7 @@ class TestFaceRecognition:
         collection = list_faces(collection_id=collection_id)
         assert len(collection.standardized_response.face_ids) == 0
 
-        img = face_recognition_arguments()["file"]
+        img = face_recognition_recognize_arguments()["file"]
         add_face = Image.face_recognition__add_face(provider)
         response = add_face(collection_id=collection_id, file=img)
         face_ids = response.standardized_response.face_ids
@@ -95,7 +96,7 @@ class TestFaceRecognition:
         face_to_delete = face_ids[0]
         delete_face = Image.face_recognition__delete_face(provider)
         response = delete_face(collection_id=collection_id, face_id=face_to_delete)
-        assert response is None
+        assert response.standardized_response.deleted is True
 
         list_faces = Image.face_recognition__list_faces(provider)
         collection = list_faces(collection_id=collection_id)
@@ -138,7 +139,7 @@ class TestFaceRecognition:
         response = list_faces(collection_id=collection_id)
         face_ids = response.standardized_response.face_ids
 
-        image = face_recognition_arguments()["file"]
+        image = face_recognition_recognize_arguments()["file"]
         delete_face = Image.face_recognition__delete_face(provider)
         for face_id in face_ids:
             delete_face(collection_id, face_id)
@@ -151,10 +152,14 @@ class TestFaceRecognition:
     def test_delete_collection(self, provider, collection_id):
         delete_collection = Image.face_recognition__delete_collection(provider)
         response = delete_collection(collection_id=collection_id)
-        assert response is None
+        assert response.standardized_response.deleted is True
 
     def test_delete_collection_does_not_exists(self, provider, collection_id):
         with pytest.raises(ProviderException) as exc:
             delete_collection = Image.face_recognition__delete_collection(provider)
             delete_collection(collection_id="test_does_not_exists")
             assert exc is not None
+
+
+
+            

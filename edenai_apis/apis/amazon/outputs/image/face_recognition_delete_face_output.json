@@ -1,0 +1,21 @@
+{
+  "original_response": {
+    "DeletedFaces": [
+      "211dbf3e-c258-4e58-8a97-0a886a22900d"
+    ],
+    "ResponseMetadata": {
+      "RequestId": "382d818f-2b4a-4a9d-9025-082f2804f9ea",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "382d818f-2b4a-4a9d-9025-082f2804f9ea",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "57",
+        "date": "Mon, 09 Jan 2023 16:55:29 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standardized_response": {
+    "deleted": true
+  }
+}

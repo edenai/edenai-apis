@@ -16,6 +16,11 @@ from edenai_apis.features.ocr import (
     MerchantInformationInvoice,
     TaxesInvoice
 )
+from edenai_apis.features.text import (
+    ModerationDataClass,
+    ClassificationTextModeration,
+    TextModerationCategoriesMicrosoftEnum
+)
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import format_date
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -43,6 +48,12 @@ def get_microsoft_headers() -> Dict:
                     "subscription_key"
                 ],
             },
+            "text_moderation": {
+                "Ocp-Apim-Subscription-Key": api_settings["text_moderation"][
+                    "subscription_key"
+                ],
+                "Content-Type": "text/plain"
+            },
             "translator": {
                 "Ocp-Apim-Subscription-Key": api_settings["translator"][
                     "subscription_key"
@@ -66,9 +77,34 @@ def get_microsoft_urls() -> Dict:
             "vision": api_settings["vision"]["url"],
             "face": api_settings["face"]["url"],
             "text": api_settings["text"]["url"],
+            "text_moderation" : api_settings["text_moderation"]["url"],
             "translator": api_settings["translator"]["url"],
             "speech": api_settings["speech"]["url"],
         }
+
+def microsoft_text_moderation_personal_infos(data):
+    classification : Sequence[ClassificationTextModeration] = []
+    text_moderation : ModerationDataClass
+
+    if classif := data.get("Classification"):
+        for key, value in classif.items():
+            try:
+                classification.append(
+                    ClassificationTextModeration(
+                        categorie= TextModerationCategoriesMicrosoftEnum[key].value,
+                        score= value["Score"]
+                    )
+                )
+            except Exception as exc:
+                continue
+
+    text_moderation = ModerationDataClass(
+        classification= classification
+    )
+
+    return text_moderation
+        
+
 
 
 def miscrosoft_normalize_face_detection_response(response, img_size):

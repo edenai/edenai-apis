@@ -17,8 +17,10 @@ from edenai_apis.features.image.face_recognition.add_face.face_recognition_add_f
 from edenai_apis.features.image.face_recognition.create_collection.face_recognition_create_collection_dataclass import (
     FaceRecognitionCreateCollectionDataClass,
 )
-from edenai_apis.features.image.face_recognition.face_recognition_dataclass import (
-    FaceRecognitionDataclass,
+from edenai_apis.features.image.face_recognition.delete_collection.face_recognition_delete_collection_dataclass import FaceRecognitionDeleteCollectionDataClass
+from edenai_apis.features.image.face_recognition.delete_face.face_recognition_delete_face_dataclass import FaceRecognitionDeleteFaceDataClass
+from edenai_apis.features.image.face_recognition.recognize.face_recognition_recognize_dataclass import (
+    FaceRecognitionRecognizeDataClass,
 )
 from edenai_apis.features.image.face_recognition.list_collections.face_recognition_list_collections_dataclass import (
     FaceRecognitionListCollectionsDataClass,
@@ -235,7 +237,7 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
-    def image__face_recognition__delete_collection(self, collection_id: str) -> None:
+    def image__face_recognition__delete_collection(self, collection_id: str) -> ResponseType[FaceRecognitionDeleteCollectionDataClass]:
         """
         Delete a Face Collection
 
@@ -258,7 +260,7 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
-    def image__face_recognition__delete_face(self, collection_id, face_id) -> None:
+    def image__face_recognition__delete_face(self, collection_id, face_id) -> ResponseType[FaceRecognitionDeleteFaceDataClass]:
         """
         Delete a face from collection
 
@@ -271,7 +273,7 @@ class ImageInterface:
     @abstractmethod
     def image__face_recognition__recognize(
         self, collection_id: str, file: BufferedReader
-    ) -> ResponseType[FaceRecognitionDataclass]:
+    ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         """
         Detect the biggers face from image and try
         to find faces from the same person in the face collection

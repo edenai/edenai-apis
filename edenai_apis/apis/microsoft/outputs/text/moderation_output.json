@@ -1,0 +1,86 @@
+{
+  "original_response": {
+    "OriginalText": "{\"text\": \"Is this a crap email abcdef@abcd.com, phone: 0617730730, IP: 255.255.255.255, 1 Microsoft Way, Redmond, WA 98052\"}",
+    "NormalizedText": "{\"text\": \"   crap email abcdef@abcd.com, phone: 0617730730, IP: 255.255.255.255, 1 Microsoft Way, Redmond, WA 98052\"}",
+    "Misrepresentation": null,
+    "PII": {
+      "Email": [
+        {
+          "Detected": "abcdef@abcd.com",
+          "SubType": "Regular",
+          "Text": "abcdef@abcd.com",
+          "Index": 31
+        }
+      ],
+      "IPA": [
+        {
+          "SubType": "IPV4",
+          "Text": "255.255.255.255",
+          "Index": 71
+        }
+      ],
+      "Phone": [
+        {
+          "CountryCode": "US",
+          "Text": "0617730730",
+          "Index": 55
+        },
+        {
+          "CountryCode": "UK",
+          "Text": "0617730730",
+          "Index": 55
+        }
+      ],
+      "Address": [
+        {
+          "Text": "1 Microsoft Way, Redmond, WA 98052",
+          "Index": 88
+        }
+      ],
+      "SSN": []
+    },
+    "Classification": {
+      "ReviewRecommended": true,
+      "Category1": {
+        "Score": 0.00020882912212982774
+      },
+      "Category2": {
+        "Score": 0.2234508991241455
+      },
+      "Category3": {
+        "Score": 0.9879999756813049
+      }
+    },
+    "Language": "eng",
+    "Terms": [
+      {
+        "Index": 13,
+        "OriginalIndex": 20,
+        "ListId": 0,
+        "Term": "crap"
+      }
+    ],
+    "Status": {
+      "Code": 3000,
+      "Description": "OK",
+      "Exception": null
+    },
+    "TrackingId": "e6f5436c-10f4-4dae-9554-4ed836142d01"
+  },
+  "standardized_response": {
+    "classification": [
+      {
+        "categorie": "sexually explicit",
+        "score": 0.00020882912212982774
+      },
+      {
+        "categorie": "sexually suggestive",
+        "score": 0.2234508991241455
+      },
+      {
+        "categorie": "offensive",
+        "score": 0.9879999756813049
+      }
+    ]
+  }
+}

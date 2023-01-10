@@ -24,8 +24,10 @@ from edenai_apis.features.image.face_recognition.add_face.face_recognition_add_f
 from edenai_apis.features.image.face_recognition.create_collection.face_recognition_create_collection_dataclass import (
     FaceRecognitionCreateCollectionDataClass,
 )
-from edenai_apis.features.image.face_recognition.face_recognition_dataclass import (
-    FaceRecognitionDataclass,
+from edenai_apis.features.image.face_recognition.delete_collection.face_recognition_delete_collection_dataclass import FaceRecognitionDeleteCollectionDataClass
+from edenai_apis.features.image.face_recognition.delete_face.face_recognition_delete_face_dataclass import FaceRecognitionDeleteFaceDataClass
+from edenai_apis.features.image.face_recognition.recognize.face_recognition_recognize_dataclass import (
+    FaceRecognitionRecognizeDataClass,
     FaceRecognitionRecognizedFaceDataClass,
 )
 from edenai_apis.features.image.face_recognition.list_collections.face_recognition_list_collections_dataclass import (
@@ -303,12 +305,20 @@ class AmazonImageApi(ImageInterface):
             ),
         )
 
-    def image__face_recognition__delete_collection(self, collection_id: str) -> None:
+    def image__face_recognition__delete_collection(
+            self, collection_id: str
+    ) -> ResponseType[FaceRecognitionDeleteCollectionDataClass]:
         client = self.clients["image"]
         try:
-            client.delete_collection(CollectionId=collection_id)
+            response = client.delete_collection(CollectionId=collection_id)
         except Exception as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
+        return ResponseType(
+            original_response=response,
+            standardized_response=FaceRecognitionDeleteCollectionDataClass(
+                deleted=True
+            )
+        )
 
     def image__face_recognition__add_face(
         self, collection_id: str, file: BufferedReader
@@ -331,11 +341,11 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_recognition__delete_face(
-        self, collection_id: str, face_id: str
-    ) -> None:
+            self, collection_id, face_id
+    ) -> ResponseType[FaceRecognitionDeleteFaceDataClass]:
         client = self.clients["image"]
         try:
-            client.delete_faces(
+            response = client.delete_faces(
                 CollectionId=collection_id,
                 FaceIds=[
                     face_id,
@@ -343,10 +353,16 @@ class AmazonImageApi(ImageInterface):
             )
         except Exception as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
+        return ResponseType(
+            original_response=response,
+            standardized_response=FaceRecognitionDeleteFaceDataClass(
+                deleted=True
+            )
+        )
 
     def image__face_recognition__recognize(
         self, collection_id: str, file: BufferedReader
-    ) -> ResponseType[FaceRecognitionDataclass]:
+    ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         client = self.clients["image"]
         file_content = file.read()
 
@@ -371,5 +387,5 @@ class AmazonImageApi(ImageInterface):
 
         return ResponseType(
             original_response=response,
-            standardized_response=FaceRecognitionDataclass(items=faces),
+            standardized_response=FaceRecognitionRecognizeDataClass(items=faces),
         )

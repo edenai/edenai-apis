@@ -55,3 +55,10 @@ from .custom_classification import(
     ItemCustomClassificationDataClass,
     custom_classification_arguments
 )
+
+from .moderation import (
+    ModerationDataClass,
+    ClassificationTextModeration,
+    TextModerationCategoriesMicrosoftEnum,
+    moderation_arguments
+)

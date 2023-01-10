@@ -5,5 +5,5 @@ class FaceRecognitionRecognizedFaceDataClass(BaseModel):
     confidence: float
     face_id: str
 
-class FaceRecognitionDataclass(BaseModel):
+class FaceRecognitionRecognizeDataClass(BaseModel):
    items: List[FaceRecognitionRecognizedFaceDataClass] = Field(default_factory=list)
