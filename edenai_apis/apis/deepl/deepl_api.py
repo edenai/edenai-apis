@@ -73,14 +73,11 @@ class DeeplApi(ProviderInterface, TranslationInterface):
 
         response = requests.post(f'{self.url}document/{document_id}', headers=self.header, data=doc_key).json()
         while response['status'] != 'done':
-            print(response['status'])
             response = requests.post(f'{self.url}document/{document_id}', headers=self.header, data=doc_key).json()
             if response['status'] == 'error':
                 raise ProviderException(response['error_message'])
             sleep(.5)
 
-        print(document_id)
-        print(document_key)
         response = requests.post(f'{self.url}document/{document_id}/result', headers=self.header, data=doc_key)
 
         b64_file = base64.b64encode(response.content)
