@@ -1,32 +1,17 @@
 {
-  "classification": [
+  "nsfw_likelihood": 5,
+  "items": [
     {
-      "categorie": "hate",
-      "score": 5.9920374042121693e-05
+      "label": "sexually explicit",
+      "likelihood": 1
     },
     {
-      "categorie": "hate/threatening",
-      "score": 1.3415264277227834e-07
+      "label": "sexually suggestive",
+      "likelihood": 2
     },
     {
-      "categorie": "self-harm",
-      "score": 1.0320383125872468e-06
-    },
-    {
-      "categorie": "sexual",
-      "score": 5.030224929214455e-05
-    },
-    {
-      "categorie": "sexual/minors",
-      "score": 1.498468282079557e-05
-    },
-    {
-      "categorie": "violence",
-      "score": 1.2038671229674947e-05
-    },
-    {
-      "categorie": "violence/graphic",
-      "score": 2.4731252779019997e-05
+      "label": "offensive",
+      "likelihood": 5
     }
   ]
 }

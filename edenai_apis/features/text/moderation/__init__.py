@@ -1,6 +1,6 @@
 from .moderation_dataclass import(
     ModerationDataClass,
-    ClassificationTextModeration,
+    TextModerationItem,
     TextModerationCategoriesMicrosoftEnum
 )
 from .moderation_args import moderation_arguments
