@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from io import BufferedReader
-from typing import List
+from typing import List, Dict
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
     CustomDocumentParsingAsyncDataClass,
 )
@@ -122,7 +122,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__custom_document_parsing_async__launch_job(
-        self, file: BufferedReader, queries: List[str]
+        self, file: BufferedReader, queries: List[List[str]]
     ) -> AsyncLaunchJobResponseType:
         """
         Parse a document and extract data according to queries
