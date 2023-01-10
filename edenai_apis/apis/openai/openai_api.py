@@ -18,7 +18,7 @@ from edenai_apis.features.text import (
     CustomNamedEntityRecognitionDataClass,
     InfosCustomNamedEntityRecognitionDataClass,
     ModerationDataClass,
-    ClassificationTextModeration,
+    TextModerationItem,
     CustomClassificationDataClass,
     ItemCustomClassificationDataClass
 )
@@ -136,17 +136,18 @@ class OpenaiApi(ProviderInterface, TextInterface):
         original_response = response.json()
         if "error" in original_response:
             raise ProviderException(original_response.get("error", {}).get("message"))
-        classification : Sequence[ClassificationTextModeration] = []
+        classification : Sequence[TextModerationItem] = []
         if result := original_response.get("results", None):
             for key, value in result[0].get("category_scores", {}).items():
                 classification.append(
-                    ClassificationTextModeration(
-                        categorie= key,
-                        score=value
+                    TextModerationItem(
+                        label= key,
+                        likelihood= TextModerationItem.moderation_processing(value)
                     )
                 )
         standardized_response : ModerationDataClass = ModerationDataClass(
-            classification= classification
+            nsfw_likelihood= ModerationDataClass.calculate_nsfw_likelihood(classification),
+            items= classification
         )
 
         return ResponseType[ModerationDataClass](
