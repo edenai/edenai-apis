@@ -107,9 +107,9 @@ class AmazonTextApi(TextInterface):
             )
         except ClientError as exc:
             if "languageCode" in str(exc):
-                raise LanguageException(str(exc))
+                raise LanguageException(str(exc)) from exc
             else:
-                raise ProviderException(str(exc))
+                raise ProviderException(str(exc)) from exc
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
         for ent in response["Entities"]:
