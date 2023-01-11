@@ -1,5 +1,6 @@
 from collections import defaultdict
 from copy import deepcopy
+import json
 from typing import Dict, Optional, Sequence
 from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FaceAccessories, FaceBoundingBox,
@@ -273,67 +274,70 @@ def normalize_invoice_result(response):
     invoices = []
     default_dict = defaultdict(lambda: None)
     for document in response.get("documents", []):
-        customer_name = document.get("CustomerName", default_dict).get("text", None)
+        fields = document.get("fields")
+        if not fields:
+            continue
+        customer_name = fields.get("CustomerName", default_dict).get("value")
         # Customer information
 
-        customer_id = document.get("CustomerId", default_dict).get("value")
-        customer_tax_id = document.get("CustomerTaxId", default_dict).get("value")
-        customer_address = document.get("CustomerAddress", default_dict).get("value")
-        customer_mailing_address = document.get("CustomerAddress", default_dict).get(
-            "value"
+        customer_id = fields.get("CustomerId", default_dict).get("value")
+        customer_tax_id = fields.get("CustomerTaxId", default_dict).get("value")
+        customer_address = fields.get("CustomerAddress", default_dict).get("content")
+        customer_mailing_address = fields.get("CustomerAddress", default_dict).get(
+            "content"
         )
-        customer_billing_address = document.get("BillingAddress", default_dict).get("value")
-        customer_shipping_address = document.get("ShippingAddress", default_dict).get(
-            "value"
+        customer_billing_address = fields.get("BillingAddress", default_dict).get("content")
+        customer_shipping_address = fields.get("ShippingAddress", default_dict).get(
+            "content"
         )
-        customer_service_address = document.get("ServiceAddress", default_dict).get("value")
-        customer_remittance_address = document.get("RemittanceAddress", default_dict).get(
-            "value"
+        customer_service_address = fields.get("ServiceAddress", default_dict).get("content")
+        customer_remittance_address = fields.get("RemittanceAddress", default_dict).get(
+            "content"
         )
 
         # Merchant information
-        merchant_address = document.get("VendorAddress", default_dict).get("value", None)
-        merchant_name = document.get("VendorName", default_dict).get("value", None)
-        merchant_tax_id = document.get("VendorTaxId", default_dict).get("value")
+        merchant_address = fields.get("VendorAddress", default_dict).get("content")
+        merchant_name = fields.get("VendorName", default_dict).get("value", None)
+        merchant_tax_id = fields.get("VendorTaxId", default_dict).get("value")
 
         # Others
-        purchase_order = document.get("PurchaseOrder", default_dict).get("value")
-        payment_term = document.get("PaymentTerm", default_dict).get("value")
-        invoice_total = document.get("InvoiceTotal", default_dict).get("value", None)
-        invoice_subtotal = document.get("SubTotal", default_dict).get("value", None)
+        purchase_order = fields.get("PurchaseOrder", default_dict).get("value")
+        payment_term = fields.get("PaymentTerm", default_dict).get("value")
+        invoice_total = fields.get("InvoiceTotal", default_dict).get("value", default_dict).get("amount")
+        invoice_subtotal = fields.get("SubTotal", default_dict).get("value", default_dict).get("amount")
         invoice_number = (
-            document.get("InvoiceId", default_dict)
+            fields.get("InvoiceId", default_dict)
             .get("value")
         )
-        date = format_date(document.get("InvoiceDate", default_dict).get("value"))
-        invoice_time = document.get("InvoiceTime", default_dict).get("value")
+        date = format_date(fields.get("InvoiceDate", default_dict).get("value"))
+        invoice_time = fields.get("InvoiceTime", default_dict).get("value")
         date = combine_date_with_time(date, invoice_time)
-        due_date = format_date(document.get("DueDate", default_dict).get("value"))
+        due_date = format_date(fields.get("DueDate", default_dict).get("value"))
         taxes = [
-            TaxesInvoice(value=document.get("TotalTax", default_dict).get("value", None))
+            TaxesInvoice(value=fields.get("TotalTax", default_dict).get("value", {}).get("amount"))
         ]
-        amount_due = document.get("AmountDue", default_dict).get("value")
-        service_start_date = document.get("ServiceStartDate", default_dict).get("value")
-        service_end_date = document.get("ServiceEndDate", default_dict).get("value")
-        previous_unpaid_balance = document.get("PreviousUnpaidBalance", default_dict).get(
-            "value"
+        amount_due = fields.get("AmountDue", default_dict).get("value", {}).get("amount")
+        service_start_date = fields.get("ServiceStartDate", default_dict).get("value")
+        service_end_date = fields.get("ServiceEndDate", default_dict).get("value")
+        previous_unpaid_balance = fields.get("PreviousUnpaidBalance", default_dict).get(
+            "amount"
         )
 
         # Items line
-        items = document.get("Items", default_dict).get("value", [])
+        items = fields.get("Items", default_dict).get("value", [])
         item_lines: Sequence[ItemLinesInvoice] = []
         for item in items:
             line = item.get("value", default_dict)
             if line:
                 item_lines.append(
                     ItemLinesInvoice(
-                        amount=line.get("Amount", default_dict).get("value"),
+                        amount=line.get("Amount", default_dict).get("value", default_dict).get("amount"),
                         description=line.get("Description", default_dict).get("value"),
                         quantity=line.get("Quantity", default_dict).get("value"),
-                        unit_price=line.get("UnitPrice", default_dict).get("value"),
+                        unit_price=line.get("UnitPrice", default_dict).get("value", default_dict).get("amount"),
                         product_code=line.get("ProductCode", default_dict).get("value"),
                         date_item=line.get("Date", default_dict).get("value"),
-                        tax_item=line.get("Tax", default_dict).get("value"),
+                        tax_item=line.get("Tax", default_dict).get("value", default_dict).get("amount"),
                     )
                 )
 
