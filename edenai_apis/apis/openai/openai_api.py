@@ -1,37 +1,25 @@
 from typing import List, Optional, Sequence
 import requests
 import numpy as np
-
-from edenai_apis.features import ProviderInterface, TextInterface
-from edenai_apis.features.text import (
-    SearchDataClass,
-    InfosSearchDataClass,
-    QuestionAnswerDataClass,
-    SummarizeDataClass,
-    AnonymizationDataClass,
-    KeywordExtractionDataClass,
-    SentimentAnalysisDataClass,
-    InfosKeywordExtractionDataClass,
-    TopicExtractionDataClass,
-    ExtractedTopic,
-    GenerationDataClass,
-    CustomNamedEntityRecognitionDataClass,
-    InfosCustomNamedEntityRecognitionDataClass,
-    ModerationDataClass,
-    TextModerationItem,
-    CustomClassificationDataClass,
-    ItemCustomClassificationDataClass
-)
-from edenai_apis.features.translation import (
-    LanguageDetectionDataClass,
-    InfosLanguageDetectionDataClass,
-    AutomaticTranslationDataClass,
-)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.features import ProviderInterface, TextInterface
+from edenai_apis.features.text.question_answer import QuestionAnswerDataClass
+from edenai_apis.features.text.summarize import SummarizeDataClass
+from edenai_apis.features.text.anonymization import AnonymizationDataClass
+from edenai_apis.features.text.sentiment_analysis import SentimentAnalysisDataClass
+from edenai_apis.features.text.generation import GenerationDataClass
+from edenai_apis.features.text.search import SearchDataClass, InfosSearchDataClass
+from edenai_apis.features.text.keyword_extraction import KeywordExtractionDataClass,InfosKeywordExtractionDataClass
+from edenai_apis.features.text.topic_extraction import TopicExtractionDataClass, ExtractedTopic
+from edenai_apis.features.text.custom_named_entity_recognition import  CustomNamedEntityRecognitionDataClass, InfosCustomNamedEntityRecognitionDataClass
+from edenai_apis.features.text.custom_classification import CustomClassificationDataClass, ItemCustomClassificationDataClass
+from edenai_apis.features.text.moderation import   ModerationDataClass, TextModerationItem
+from edenai_apis.features.translation.automatic_translation import AutomaticTranslationDataClass
+from edenai_apis.features.translation.language_detection import LanguageDetectionDataClass, InfosLanguageDetectionDataClass
 
 
 SCORE_MULTIPLIER = 100.0
@@ -55,6 +43,9 @@ class OpenaiApi(ProviderInterface, TextInterface):
 
     @staticmethod
     def _construct_context(query, document) -> str:
+        """
+        Construct context for search task prompt
+        """
         return f"<|endoftext|>{document}\n\n---\n\nThe above passage is related to: {query}"
 
     @staticmethod
