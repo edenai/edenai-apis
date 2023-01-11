@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 
 import pytest
 from edenai_apis import Image
@@ -27,7 +28,7 @@ test_params = sorted(list(
     )
 ))
 
-@pytest.mark.integration
+@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
 @pytest.mark.xdist_group(name="face_recognition")
 @pytest.mark.parametrize(("provider", "collection_id"), test_params)
 class TestFaceRecognition:
