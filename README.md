@@ -24,6 +24,8 @@ With the rise of **AI as a Service** , a lot of companies provide off-the-shelf 
 
 There are **hundreds of companies** doing that. We're regrouping the best ones **in one place** !
 
+[Read more about it ...](https://dev.to/samyme/all-ai-trough-a-single-api-open-sourced-2an8)
+
 ![EdenAI Gif](assets/gif-edenai-maker.gif)
 
 ## Package Installation
