@@ -62,7 +62,7 @@ class CohereApi(ProviderInterface, TextInterface):
         
     def text__custom_classification(
         self,
-        inputs: List[str],
+        texts: List[str],
         labels: List[str],
         examples: List[List[str]]
     ) -> ResponseType[CustomClassificationDataClass]:
@@ -78,7 +78,7 @@ class CohereApi(ProviderInterface, TextInterface):
                 }
             )
         payload = {
-            "inputs": inputs,
+            "inputs": texts,
             "examples" : example_dict,
             "model" : 'large',
         }

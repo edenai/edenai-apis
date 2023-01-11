@@ -1,7 +1,7 @@
 # pylint: disable=locally-disabled, line-too-long
 def custom_classification_arguments():
     return {
-        'inputs' : [
+        'texts' : [
             "Confirm your email address",
             "hey i need u to send some $"
             ],

@@ -18,7 +18,7 @@ from edenai_apis.features.ocr import (
 )
 from edenai_apis.features.text import (
     ModerationDataClass,
-    ClassificationTextModeration,
+    TextModerationItem,
     TextModerationCategoriesMicrosoftEnum
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import format_date
@@ -83,23 +83,24 @@ def get_microsoft_urls() -> Dict:
         }
 
 def microsoft_text_moderation_personal_infos(data):
-    classification : Sequence[ClassificationTextModeration] = []
+    classification : Sequence[TextModerationItem] = []
     text_moderation : ModerationDataClass
 
     if classif := data.get("Classification"):
         for key, value in classif.items():
             try:
                 classification.append(
-                    ClassificationTextModeration(
-                        categorie= TextModerationCategoriesMicrosoftEnum[key].value,
-                        score= value["Score"]
+                    TextModerationItem(
+                        label= TextModerationCategoriesMicrosoftEnum[key].value,
+                        likelihood= TextModerationItem.moderation_processing(value["Score"])
                     )
                 )
             except Exception as exc:
                 continue
 
     text_moderation = ModerationDataClass(
-        classification= classification
+        nsfw_likelihood= ModerationDataClass.calculate_nsfw_likelihood(classification),
+        items= classification
     )
 
     return text_moderation

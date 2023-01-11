@@ -65,21 +65,22 @@
       "Description": "OK",
       "Exception": null
     },
-    "TrackingId": "e6f5436c-10f4-4dae-9554-4ed836142d01"
+    "TrackingId": "8fda5a9b-afe9-4aa9-97d9-e1418e7b2066"
   },
   "standardized_response": {
-    "classification": [
+    "nsfw_likelihood": 5,
+    "items": [
       {
-        "categorie": "sexually explicit",
-        "score": 0.00020882912212982774
+        "label": "sexually explicit",
+        "likelihood": 1
       },
       {
-        "categorie": "sexually suggestive",
-        "score": 0.2234508991241455
+        "label": "sexually suggestive",
+        "likelihood": 2
       },
       {
-        "categorie": "offensive",
-        "score": 0.9879999756813049
+        "label": "offensive",
+        "likelihood": 5
       }
     ]
   }
