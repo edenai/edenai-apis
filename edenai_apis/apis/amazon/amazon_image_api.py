@@ -301,7 +301,7 @@ class AmazonImageApi(ImageInterface):
         return ResponseType(
             original_response=response,
             standardized_response=FaceRecognitionListFacesDataClass(
-                collection_id=collection_id, face_ids=face_ids
+                face_ids=face_ids
             ),
         )
 
