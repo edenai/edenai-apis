@@ -50,12 +50,19 @@ audio_voices_ids = {
     "nl-NL": {"FEMALE": "nl-NL_EmmaVoice", "MALE": "nl-NL_LiamVoice"},
     "it-IT": {"FEMALE": "it-IT_FrancescaVoice", "MALE": ""},
     "ja-JP": {"FEMALE": "ja-JP_EmiVoice", "MALE": ""},
-    "cmn-CN": {"FEMALE": "zh-CN_LiNaVoice", "MALE": "zh-CN_WangWeiVoice"},
+    "zh-CN": {"FEMALE": "zh-CN_LiNaVoice", "MALE": "zh-CN_WangWeiVoice"},
     "ru-RU": {"FEMALE": "", "MALE": ""},
     "pt-BR": {"FEMALE": "pt-BR_IsabelaVoice", "MALE": ""},
     "da-DK": {"FEMALE": "", "MALE": ""},
     "ko-KR": {"FEMALE": "ko-KR_YoungmiVoice", "MALE": ""},
     "pt-PT": {"FEMALE": "", "MALE": ""},
+    "fr-CA": {"FEMALE": "fr-CA_LouiseV3Voice", "MALE": ""},
+    "es-LA": {"FEMALE": "es-LA_SofiaV3Voice", "MALE": ""},
+    "en-AU": {"FEMALE": "en-AU_MadisonVoice", "MALE": "en-AU_CraigVoice"},
+    "ar-MS": {"FEMALE": "", "MALE": "ar-MS_OmarVoice"},
+    "es-US": {"FEMALE": "es-US_SofiaV3Voice", "MALE": ""},
+    "nl-BE": {"FEMALE": "nl-BE_AdeleVoice", "MALE": "nl-BE_BramVoice"},
+    "sv-SE": {"FEMALE": "sv-SE_IngridVoice", "MALE": ""}
 }
 
 language_iso = {
