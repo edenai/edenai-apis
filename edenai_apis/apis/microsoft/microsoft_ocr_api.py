@@ -144,40 +144,44 @@ class MicrosoftOcrApi(OcrInterface):
         # Normalize the response
         default_dict = defaultdict(lambda: None)
         receipts = []
-        for document in original_response.get("documents", []):
+        for fields in original_response.get("documents", []):
+            fields = fields.get("fields")
+            if not fields:
+                continue
+
             # 1. Receipt Total
-            receipt_total = document.get("Total", default_dict).get("value")
+            receipt_total = fields.get("Total", default_dict).get("value")
 
             # 2. Date & time
-            date = document.get("TransactionDate", default_dict).get("value")
-            time = document.get("TransactionTime", default_dict).get("value")
+            date = fields.get("TransactionDate", default_dict).get("value")
+            time = fields.get("TransactionTime", default_dict).get("value")
 
             # 3. receipt_subtotal
-            sub_total = document.get("Subtotal", default_dict).get("value")
+            sub_total = fields.get("Subtotal", default_dict).get("value")
 
             # 4. merchant informations
             merchant = MerchantInformation(
-                merchant_name=document.get("MerchantName", default_dict).get("value"),
-                merchant_address=document.get("MerchantAddress", default_dict).get(
-                    "value"
+                merchant_name=fields.get("MerchantName", default_dict).get("value"),
+                merchant_address=fields.get("MerchantAddress", default_dict).get(
+                    "content"
                 ),
-                merchant_phone=document.get("MerchantPhoneNumber", default_dict).get(
-                    "vale"
+                merchant_phone=fields.get("MerchantPhoneNumber", default_dict).get(
+                    "value"
                 ),
             )
 
             # 5. Taxes
-            taxes = [Taxes(taxes=document.get("Tax", default_dict).get("value"))]
+            taxes = [Taxes(taxes=fields.get("Tax", default_dict).get("value"))]
 
             # 6. Receipt infos / payment informations
-            receipt_infos = {"doc_type": document.get("doc_type")}
+            receipt_infos = {"doc_type": fields.get("doc_type")}
             payment_infos = PaymentInformation(
-                tip=document.get("Tip", default_dict).get("value")
+                tip=fields.get("Tip", default_dict).get("value")
             )
 
             # 7. Items
             items = []
-            for item in document.get("Items", default_dict).get("value", []):
+            for item in fields.get("Items", default_dict).get("value", []):
                 description = item["value"].get("Name", default_dict).get("value")
                 price = item["value"].get("Price", default_dict).get("value")
                 quantity = int(item["value"].get("Quantity", default_dict).get("value"))

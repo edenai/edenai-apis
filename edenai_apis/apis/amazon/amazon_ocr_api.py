@@ -1,6 +1,6 @@
 import json
 from io import BufferedReader
-from typing import List, Sequence
+from typing import List, Sequence, Dict, Union
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
     CustomDocumentParsingAsyncDataClass,
 )
@@ -240,7 +240,7 @@ class AmazonOcrApi(OcrInterface):
                 raise ProviderException(error)
 
     def ocr__custom_document_parsing_async__launch_job(
-        self, file: BufferedReader, queries: List[List[str]],
+        self, file: BufferedReader, queries: List[Dict[str, Union[str, str]]],
     ) -> AsyncLaunchJobResponseType:
 
         file_content = file.read()
@@ -248,7 +248,8 @@ class AmazonOcrApi(OcrInterface):
         self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
             Key=file.name, Body=file_content
         )
-        formatted_queries = [{"Text": query[0], "Pages": [query[1]]} for query in queries]
+        #formatted_queries = [{"Text": query[0], "Pages": [query[1]]} for query in queries]
+        formatted_queries = [{"Text": query.get("query"), "Pages" : query.get("pages").split(',')} for query in queries]
 
         try:
             response = self.clients["textract"].start_document_analysis(
