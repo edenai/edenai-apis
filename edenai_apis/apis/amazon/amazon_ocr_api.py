@@ -413,7 +413,7 @@ class AmazonOcrApi(OcrInterface):
                 ),
                 amount_due=convert_string_to_number(summary.get("AMOUNT_DUE"), float),
                 previous_unpaid_balance=summary.get("PRIOR_BALANCE"),
-                discount=summary.get("DISCOUNT"),
+                discount=convert_string_to_number(summary.get("DISCOUNT"), float),
                 taxes=taxes,
                 payment_term=summary.get("PAYMENT_TERMS"),
                 purchase_order=None,
