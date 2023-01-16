@@ -33,7 +33,6 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import combine_date_with_time, convert_string_to_number
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.data_class_manager import DataClassManager
 from edenai_apis.utils.types import ResponseType
 
 ParamsApi = TypeVar("ParamsApi")
