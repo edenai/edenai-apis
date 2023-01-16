@@ -52,7 +52,7 @@ def convert_three_two_letters(iso_code):
     return language.alpha_2 if hasattr(language, "alpha_2") else language.alpha_3
 
 
-def load_language_constraints(provider_name, feature=None, subfeature=None):
+def load_language_constraints(provider_name, feature, subfeature):
     """Loads the list of languages supported by
     the provider for a couple of (feature, subfeature)"""
     info = load_provider(

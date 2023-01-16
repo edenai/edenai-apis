@@ -6,50 +6,96 @@
 import pytest
 from edenai_apis.utils.languages import (
     check_language_format,
-    convert_three_two_letters
+    convert_three_two_letters,
+    load_language_constraints
 )
 
 class TestCheckLanguageFormat:
     def test_valid_language_code(self):
         assert check_language_format("en") == True, \
-            'check_language_format("en") must be True'
+            '"en" should be a valid language'
 
     def test_valid_language_code_with_region(self):
         assert check_language_format("en-US") == True, \
-            'check_language_format("en-US") must be True'
+            '"en-US" should be a valid language'
 
     def test__valid_language_code_with_script_and_region(self):
         assert check_language_format("en-Latn-US") == True, \
-            'check_language_format("en-Latn-US") must be True'
+            '"en-Latn-US" should be a valid language'
 
     def test_invalid_language_code(self):
         assert check_language_format("abcd") == False, \
-            'check_language_format("abcd") must be False'
+            '"abcd" should be an invalid language'
 
     def test__invalid_language_code_with_region(self):
         assert check_language_format("en-") == False, \
-            'check_language_format("en-") must be False'
+            '"en-" should be an invalid language'
 
     def test_invalid_language_code_with_script_and_region(self):
         assert check_language_format("en-Latn-") == False, \
-            'check_language_format("en-Latn-") must be False'
+            '"en-Latn-" should be an invalid language'
         assert check_language_format("en-Latn-US-") == False, \
-            'check_language_format("en-Latn-US-") must be False'
+            '"en-Latn-US-" should be an invalid language'
         assert check_language_format("en-Latn-US-123") == False, \
-            'check_language_format("en-Latn-US-123") must be False'
+            '"en-Latn-US-123" should be an invalid language'
 
     def test_none_input(self):
         assert check_language_format(None) == None,  \
-            'check_language_format(None) must be None'
+            'None should not be a language format'
 
 class TestConvertThreeTwoLetters:
     def test_valid_iso639_3_code(self):
-        assert convert_three_two_letters("fra") == "fr", "valid iso639-3 to iso639-2 conversion test failed"
+        assert convert_three_two_letters("fra") == "fr", \
+            "The iso639_2 for fra must be fr"
+
     def test_valid_iso639_3_code_with_region(self):
-        assert convert_three_two_letters("fra-FR") == "fr-FR", "valid iso639-3 with region to iso639-2 conversion test failed"
+        assert convert_three_two_letters("fra-FR") == "fr-FR", \
+           "The iso639_2 for fra-FR must be fr-FR"
+
     def test_valid_iso639_2_code(self):
-        assert convert_three_two_letters("fr") == "fr", "valid iso639-2 code test failed"
+        assert convert_three_two_letters("fr") == "fr", \
+            "The iso639_2 for fr must be fr"
+
     def test_invalid_code(self):
-        assert convert_three_two_letters("abc") == "abc", "invalid code test failed"
+        assert convert_three_two_letters("abcd") == "abcd", \
+            "The iso639_2 for abcd must be abcd"
+
     def test_none_input(self):
-        assert convert_three_two_letters(None) == None, "test none input failed"
+        assert convert_three_two_letters(None) == None, \
+            "The iso639_2 for None must be None"
+
+class TestLoadLanguageConstraints:
+    def test_valid_provider_feature_and_subfeature(self):
+        result = load_language_constraints('emvista', 'text', 'summarize')
+        assert result == ['en', 'fr'], \
+            f"emvista-text-summarize must handle 'en' and 'fr' not {result}"
+
+    def test_valid_provider_allow_null_language(self):
+        result = load_language_constraints('google', 'ocr', 'ocr')
+        assert 'auto-detect' in result, \
+            f"google-ocr-ocr must handle the auto detect language"
+
+    def test_invalid_provider_allow_null_language(self):
+        result = load_language_constraints('amazon', 'ocr', 'invoice_parser')
+        assert 'auto-detect' not in result, \
+            f"amazon-ocr-invoice_parser doesn't handle the auto detect language"
+
+    def test_invalid_provider_name(self):
+        with pytest.raises(KeyError):
+            load_language_constraints('emvistas', 'text', 'summarize')
+
+    def test_invalid_feature(self):
+        with pytest.raises(KeyError):
+            load_language_constraints('emvista', 'texts', 'summarize')
+
+    def test_invalid_subfeature(self):
+        with pytest.raises(KeyError):
+            load_language_constraints('emvista', 'text', 'summarizes')
+
+    def test_feature_without_languages_in_constraints(self):
+        assert load_language_constraints('mindee', 'ocr', 'identity_parser') == [], \
+            "mindee-ocr-identity_parser have no language constraints"
+
+    def test_feature_without_constraints(self):
+        assert load_language_constraints('google', 'image', 'face_detection') == [], \
+            "google-image-face_detection have no constraints"
