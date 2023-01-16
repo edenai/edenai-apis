@@ -227,7 +227,8 @@ class OneaiApi(
                 {
                     "skill": "detect-language"
                 }
-            ]
+            ],
+            "multilingual": True
         })
 
         response = requests.post(url=self.url, headers=self.header, data=data)
@@ -265,25 +266,22 @@ class OneaiApi(
                     "skill": "transcribe",
                     "params": {
                         "speaker_detection": True,
-                        "timestamp_per_label": True,
-                        "timestamp_per_word": True,
                         "engine": "whisper"
                     }
-                }  
-            ]
+                }
+            ],
+            "multilingual": True
         }
-        
+
         response = requests.post(url=f"{self.url}/async/file?pipeline={json.dumps(data)}", headers=self.header, data=new_file.read())
-                
         original_response = response.json()
-        
+
         if response.status_code != 200:
-            print(response.json())
             raise ProviderException(message=original_response['message'], code=response.status_code)
 
         return AsyncLaunchJobResponseType(
             provider_job_id=original_response['task_id']
-        )        
+        )
 
 
     def audio__speech_to_text_async__get_job_result(self, provider_job_id: str) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
@@ -292,7 +290,6 @@ class OneaiApi(
         original_response = response.json()
 
         if response.status_code == 200:
-            # pprint(original_response)
             if original_response['status'] == StatusEnum.SUCCESS.value:
                 final_text = ""
                 phrase = original_response['result']['input_text'].split('\n\n')
