@@ -1,5 +1,5 @@
 from io import BufferedReader
-from typing import Sequence
+from typing import Optional, Sequence
 
 import numpy as np
 from edenai_apis.apis.google.google_helpers import score_to_content
@@ -283,6 +283,7 @@ class GoogleImageApi(ImageInterface):
 
         response = MessageToDict(response._pb)
 
+        float_or_none = lambda val: float(val) if val else None
         # Handle error
         if response.get("error", {}).get("message") is not None:
             raise ProviderException(response["error"]["message"])
@@ -292,7 +293,8 @@ class GoogleImageApi(ImageInterface):
             vertices = []
             for vertice in key.get("boundingPoly").get("vertices"):
                 vertices.append(
-                    LogoVertice(x=float(vertice.get("x")), y=float(vertice.get("y")))
+                    LogoVertice(x=float_or_none(vertice.get("x")),
+                                y=float_or_none(vertice.get("y")))
                 )
 
             items.append(
