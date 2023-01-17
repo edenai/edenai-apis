@@ -28,7 +28,7 @@ class LanguageErrorMessage:
     )
 
 
-def check_language_format(iso_code):
+def check_language_format(iso_code: str) -> bool:
     """Checks if language code name is formatted correctly (lang-extlang-Script-Reg)"""
     if iso_code is None:
         return None
@@ -40,8 +40,10 @@ def check_language_format(iso_code):
     )
 
 
-def convert_three_two_letters(iso_code):
+def convert_three_two_letters(iso_code: str) -> Optional[str]:
     """Converts an iso639-3 language code to an iso639-2 language code if possible"""
+    if iso_code is None:
+        return None
     if "-" in iso_code and len(iso_code.split("-")[0]) == 3:
         return str(Language.get(iso_code))
     if len(iso_code) != 3:
@@ -52,7 +54,7 @@ def convert_three_two_letters(iso_code):
     return language.alpha_2 if hasattr(language, "alpha_2") else language.alpha_3
 
 
-def load_language_constraints(provider_name, feature, subfeature):
+def load_language_constraints(provider_name: str, feature: str, subfeature: str) -> list:
     """Loads the list of languages supported by
     the provider for a couple of (feature, subfeature)"""
     info = load_provider(
@@ -68,7 +70,7 @@ def load_language_constraints(provider_name, feature, subfeature):
     return languages
 
 
-def expand_languages_for_user(list_languages):
+def expand_languages_for_user(list_languages: list) -> list:
     """Returns a list that extends the input list of languages (list_language)
     with formatted language tags and iso639-3 language codes"""
     appended_list = []
@@ -86,7 +88,7 @@ def expand_languages_for_user(list_languages):
     return appended_list
 
 
-def load_standardized_language(feature, subfeature, providers: Optional[List[str]] = None):
+def load_standardized_language(feature: str, subfeature: str, providers: Optional[List[str]]):
     """Displays a standardized list of languages for a list of providers
     for the pair (feature, subfeature)"""
 
@@ -103,7 +105,7 @@ def load_standardized_language(feature, subfeature, providers: Optional[List[str
     return result
 
 
-def format_language_name(language_name: str, isocode: str):
+def format_language_name(language_name: str, isocode: str) -> str:
     """Formats language name by removing 'language'
     if this latter in Unknown or also removing 'region' if it's Unknown"""
     if "Unknown language" in language_name:
@@ -119,7 +121,7 @@ def format_language_name(language_name: str, isocode: str):
     return language_name
 
 
-def get_language_name_from_code(isocode):
+def get_language_name_from_code(isocode: str) -> str:
     """Returns the language name from the isocode"""
     if isocode is None:
         return ""
@@ -138,24 +140,31 @@ def get_language_name_from_code(isocode):
         language = Language.get(isocode)
         output = language.display_name()
     return format_language_name(output, isocode)
-    
+
 def get_code_from_language_name(name: str) -> str:
-    """Returns the isocode from the language name"""
+    """Returns the iso639-2 from the language name"""
     try:
+        if not name:
+            return 'Unknow'
         output = Language.find(name=name)
     except LookupError:
         return 'Unknow'
     return output.__str__()
 
-def provide_appropriate_language(iso_code, **kwds):
+
+def compare_language_and_region_code(iso_code: str, selected_code_language: str) -> bool:
+    return Language.get(iso_code).language == Language.get(selected_code_language).language and \
+                Language.get(iso_code).territory == Language.get(selected_code_language).territory 
+
+
+def provide_appropriate_language(iso_code: str, provider_name: str, feature: str, subfeature: str):
     if not check_language_format(iso_code):
         raise SyntaxError(f"Language code '{iso_code}' badly formatted")
-    if "provider_name" in kwds:
-        list_languages: Sequence[str] = load_language_constraints(
-            kwds.get("provider_name"), kwds.get("feature"), kwds.get("subfeature")
-        )
-    else:
-        list_languages: Sequence[str] = kwds.get("list_languages").copy()
+
+    list_languages: Sequence[str] = load_language_constraints(provider_name, feature, subfeature)
+
+    # Sometimes closest_supported_match raise a RuntimeError,
+    # so we need a while True for catch this error and retry until function works
     while True:
         try:
             selected_code_language = closest_supported_match(iso_code, list_languages)
@@ -163,20 +172,9 @@ def provide_appropriate_language(iso_code, **kwds):
         except RuntimeError:
             pass
 
-    if "-" not in iso_code:
-        return selected_code_language
-    else:
-        if selected_code_language is None:
-            return None
-        if (
-            Language.get(iso_code).language
-            == Language.get(selected_code_language).language
-        ):
-            if (
-                Language.get(iso_code).region
-                == Language.get(selected_code_language).region
-            ):
-                return selected_code_language
+    if '-' in iso_code and selected_code_language:
+        if (compare_language_and_region_code(iso_code, selected_code_language)):
+            return selected_code_language
         return None
 
-
+    return selected_code_language
