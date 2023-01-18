@@ -11,7 +11,7 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import wav_converter
+from edenai_apis.utils.audio import audio_converter
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -49,7 +49,7 @@ class VoxistApi(ProviderInterface, AudioInterface):
         profanity_filter: bool, vocabulary: Optional[List[str]]
     ) -> AsyncLaunchJobResponseType:
         # Convert audio file to Mono 16kHz wav
-        wav_file = wav_converter(file, frame_rate=16000, channels=1)[0]
+        wav_file = audio_converter(file, frame_rate=16000, channels=1)[0]
 
         # Prepare data
         headers = {"Authorization": f"Bearer {self.api_key}"}

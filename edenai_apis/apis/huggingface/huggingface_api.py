@@ -7,7 +7,7 @@ from edenai_apis.features.text import SummarizeDataClass, QuestionAnswerDataClas
 from edenai_apis.features.translation import AutomaticTranslationDataClass
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.loaders.data_loader import ProviderDataEnum
-from edenai_apis.utils.conversion import format_string_url_language
+from edenai_apis.utils.conversion import concatenate_params_in_url
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
@@ -48,16 +48,21 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
             "Helsinki-NLP/opus-tatoeba",
         ]
         for model_type in model_types:
-            url = format_string_url_language(
-                f"{self.base_url}/{model_type}",
-                source_language,
-                "-",
-                self.provider_name,
-                False,
+            url = concatenate_params_in_url(
+                url=f"{self.base_url}/{model_type}",
+                params=[source_language, target_language],
+                sep='-'
             )
-            url = format_string_url_language(
-                url, target_language, "-", self.provider_name, False
-            )
+            # url = format_string_url_language(
+            #     f"{self.base_url}/{model_type}",
+            #     source_language,
+            #     "-",
+            #     self.provider_name,
+            #     False,
+            # )
+            # url = format_string_url_language(
+            #     url, target_language, "-", self.provider_name, False
+            # )
 
             status_code, response = self._post(url, text)
 

@@ -8,61 +8,55 @@ from pydub import AudioSegment
 from pydub.utils import mediainfo
 from edenai_apis.utils.exception import ProviderException
 
+AUDIO_FILE_FORMAT = [
+    "wav",
+    "flac",
+    "mp3",
+    "flv",
+    "ogg",
+    "wma",
+    "mp4",
+    "aac",
+    "m4a",
+]
 
-
-def channel_number_to_str(channel_number):
-    if channel_number == 1:
-        return "Mono"
-    return "Stereo"
-
-
-def wav_converter(
+def audio_converter(
     audio_file: BufferedReader,
     export_format: str = "wav",
     frame_rate: Union[int, None] = None,
     channels: Union[int, None] = None,
 ):
-    """
-    :param audio_path:      Path of the file that need to be converted
-    :return:                New path
+    """Convert an audio file in a given format.
+    Format for destination audio file. ('mp3', 'wav', 'raw', 'ogg' or other ffmpeg/avconv supported files)
+
+    Args:
+        audio_file (BufferedReader): The audio file to be converted, in the form of a BufferedReader object.
+        export_format (str, optional): The format of the exported audio file. Defaults to "wav".
+        frame_rate (Union[int, None], optional): The frame rate of the output audio file. Defaults to None.
+        channels (Union[int, None], optional): Number of channels of the output audio file. Defaults to None.
+
+    Returns:
+        Tuple with new audio format, frame_rate, frame_width and the number of channels in audio
     """
     file_extension = audio_file.name.split(".")[-1]
 
-    if file_extension in [
-        "wav",
-        "flac",
-        "mp3",
-        "flv",
-        "ogg",
-        "wma",
-        "mp4",
-        "aac",
-        "m4a",
-    ]:
-        # output_path = '.'.join(audio_path.split('.')[:-1]) + '.wav'
-        audio_out: AudioSegment = AudioSegment.from_file(
-            audio_file, format=file_extension
-        )
-        # file.export(output_path, format='wav')
-        if frame_rate:
-            # print(audio_out.frame_rate)
-            audio_out = audio_out.set_frame_rate(frame_rate)
-            # print(audio_out.frame_rate)
-        if channels:
-            print(channels)
-            # print(audio_out.frame_rate)
-            if audio_out.channels != channels:
-                audio_out = audio_out.set_channels(channels)
-        # audio_out = audio_out.set_channels(1)
-        return (
-            audio_out.export(format=export_format),
-            audio_out.frame_rate,
-            audio_out.frame_width,
-            audio_out.channels,
-        )
-
-    else:
+    if file_extension not in AUDIO_FILE_FORMAT:
         return None
+
+    audio_out: AudioSegment = AudioSegment.from_file(audio_file, format=file_extension)
+
+    if frame_rate:
+        audio_out = audio_out.set_frame_rate(frame_rate)
+
+    if channels and audio_out.channels != channels:
+        audio_out = audio_out.set_channels(channels)
+
+    return (
+        audio_out.export(format=export_format),
+        audio_out.frame_rate,
+        audio_out.frame_width,
+        audio_out.channels,
+    )
 
 def get_audio_attributes(audio_file: BufferedReader, export_format:str):
     file_features = mediainfo(audio_file.name)
@@ -96,6 +90,10 @@ def supported_extension(file, accepted_extensions: List):
         return False, "nop"  
     return False, "nop"
 
+def __channel_number_to_str(channel_number):
+    if channel_number == 1:
+        return "Mono"
+    return "Stereo"
 
 def file_with_good_extension(file: BufferedReader, accepted_extensions: List, 
             channels: int= None) -> Tuple[BufferedReader, str, int, int]:
@@ -118,7 +116,7 @@ def file_with_good_extension(file: BufferedReader, accepted_extensions: List,
     if channels:
         audio_channels, _ = get_audio_attributes(file, export_format) 
         if channels != audio_channels:
-            raise ProviderException(f"File audio must be {channel_number_to_str(channels)}")
+            raise ProviderException(f"File audio must be {__channel_number_to_str(channels)}")
  
     channels, frame_rate = get_audio_attributes(file, export_format)
     file.seek(0)
