@@ -11,55 +11,7 @@ from edenai_apis.utils.languages import (
     load_standardized_language
 )
 
-
-def validate_all_provider_constraints(
-    provider: str, feature: str, subfeature: str, args: dict
-) -> dict:
-    """
-    Validate inputs arguments against provider constraints
-
-    Args:
-        - provider (str): provider name
-        - feature (str): feature name
-        - subfeature (str): subfeature name
-        - args (dict): dictionnary of input arguments
-
-    Returns:
-        - args: updated/validated args
-    """
-
-    # load provider constraints
-    provider_info = load_provider(
-        ProviderDataEnum.PROVIDER_INFO,
-        provider_name=provider,
-        feature=feature,
-        subfeature=subfeature,
-    )
-    provider_constraints = provider_info.get("constraints")
-
-
-    if provider_constraints is not None:
-        validated_args = args.copy()
-        ## Validate here
-
-        # file types
-        validated_args = validate_input_file_type(
-            provider_constraints, validated_args, provider
-        )
-
-        # languages
-        validated_args = validate_all_input_languages(
-            provider_constraints, validated_args, provider, feature, subfeature
-        )
-
-        # ...
-
-        return validated_args
-
-    return args
-
-
-def validate_input_file_type(constraints: dict, args: dict, provider: str) -> dict:
+def validate_input_file_type(constraints: dict, provider: str, args: dict) -> dict:
     """Check that a provider offers support for the input file type
 
     Args:
@@ -102,7 +54,6 @@ def validate_input_file_type(constraints: dict, args: dict, provider: str) -> di
                 f"for this feature. "
                 f"Supported mimetypes are {supported_types}"
             )
-
     return args
 
 
@@ -149,11 +100,9 @@ def validate_single_language(
             subfeature=subfeature,
         )
     except SyntaxError as exc:
-        raise ProviderException(str(exc))
+        raise ProviderException(str(exc)) from exc
 
     if null_language_accepted is False:
-        if not language:
-            raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED(input_language))
         if formated_language is None:
             if "-" in language:
                 supported_languages = load_standardized_language(feature, subfeature, [provider_name])
@@ -179,10 +128,10 @@ def validate_all_input_languages(
 
     Args:
         - constraints: provider constraints for this subfeature
-        - args (dict): feature arguments, exp: {text: 'alleluia', language='en'} \n
-        - provider_name (str): the provider name, exp: Google\n
-        - feature (str): the feature name, exp: text\n
-        - subfeature (str): the subfeature name, exp: sentiment_analysis\n
+        - args (dict): feature arguments, exp: {text: 'alleluia', language='en'}
+        - provider_name (str): the provider name, exp: Google
+        - feature (str): the feature name, exp: text
+        - subfeature (str): the subfeature name, exp: sentiment_analysis
 
     Returns:
         - dict: updated args
@@ -206,5 +155,52 @@ def validate_all_input_languages(
         )
         args["target_language"] = target_language
         args["source_language"] = source_language
+
+    return args
+
+
+def validate_all_provider_constraints(
+    provider: str, feature: str, subfeature: str, args: dict
+) -> dict:
+    """
+    Validate inputs arguments against provider constraints
+
+    Args:
+        - provider (str): provider name
+        - feature (str): feature name
+        - subfeature (str): subfeature name
+        - args (dict): dictionnary of input arguments
+
+    Returns:
+        - args: updated/validated args
+    """
+
+    # load provider constraints
+    provider_info = load_provider(
+        ProviderDataEnum.PROVIDER_INFO,
+        provider_name=provider,
+        feature=feature,
+        subfeature=subfeature,
+    )
+    provider_constraints = provider_info.get("constraints")
+
+
+    if provider_constraints is not None:
+        validated_args = args.copy()
+        ## Validate here
+
+        # file types
+        validated_args = validate_input_file_type(
+            provider_constraints, provider, validated_args
+        )
+
+        # languages
+        validated_args = validate_all_input_languages(
+            provider_constraints, validated_args, provider, feature, subfeature
+        )
+
+        # ...
+
+        return validated_args
 
     return args
