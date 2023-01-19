@@ -58,7 +58,7 @@ def audio_converter(
         audio_out.channels,
     )
 
-def get_audio_attributes(audio_file: BufferedReader, export_format:str):
+def get_audio_attributes(audio_file: BufferedReader):
     file_features = mediainfo(audio_file.name)
     return int(file_features.get("channels", "1")), int(file_features.get("sample_rate", "44100"))
 
@@ -87,7 +87,7 @@ def supported_extension(file, accepted_extensions: List):
         for extension in accepted_extensions:
             if file_name.endswith(extension):
                 return True, extension
-        return False, "nop"  
+        return False, "nop"
     return False, "nop"
 
 def __channel_number_to_str(channel_number):
@@ -111,13 +111,14 @@ def file_with_good_extension(file: BufferedReader, accepted_extensions: List,
     """
     accepte_format, export_format = supported_extension(file, accepted_extensions)
     file.seek(0)
+
     if not accepte_format:
         raise ProviderException(f"File extension not supported. Use one of the following extensions: {accepted_extensions}")
-    if channels:
-        audio_channels, _ = get_audio_attributes(file, export_format) 
-        if channels != audio_channels:
-            raise ProviderException(f"File audio must be {__channel_number_to_str(channels)}")
+
+    audio_channels, frame_rate = get_audio_attributes(file)
+
+    if channels and channels != audio_channels:
+        raise ProviderException(f"File audio must be {__channel_number_to_str(channels)}")
  
-    channels, frame_rate = get_audio_attributes(file, export_format)
     file.seek(0)
-    return file, export_format, channels, frame_rate
+    return (file, export_format, channels, frame_rate)
