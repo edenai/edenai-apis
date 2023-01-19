@@ -1,9 +1,6 @@
+import mimetypes
 from io import BufferedReader
 from typing import Union, List, Tuple
-import magic
-import mimetypes
-from enum import Enum
-
 from pydub import AudioSegment
 from pydub.utils import mediainfo
 from edenai_apis.utils.exception import ProviderException
@@ -66,9 +63,6 @@ def get_audio_attributes(audio_file: BufferedReader):
 def audio_format(audio_file: BufferedReader):
     mime_type, _ = mimetypes.guess_type(audio_file.name)
     extensions = [extension[1:] for extension in mimetypes.guess_all_extensions(mime_type)]
-    # mgi = magic.Magic(mime=True)
-    # mtpe = mgi.from_buffer(audio_file.read())
-    # extensions = [extension[1:] for extension in mimetypes.guess_all_extensions(mtpe)]
     if not extensions:
         file_name = str(audio_file.name.split("/")[-1])
         index_extension = str(file_name.split(".")[-1])
@@ -79,7 +73,7 @@ def audio_format(audio_file: BufferedReader):
 def supported_extension(file, accepted_extensions: List):
     extensions = audio_format(file)
     if len(extensions) == 1:
-        if extensions[0] in accepted_extensions: 
+        if extensions[0] in accepted_extensions:
             return True, *extensions
         return False, "nop"
     if len(extensions) > 1:
@@ -95,8 +89,10 @@ def __channel_number_to_str(channel_number):
         return "Mono"
     return "Stereo"
 
-def file_with_good_extension(file: BufferedReader, accepted_extensions: List, 
-            channels: int= None) -> Tuple[BufferedReader, str, int, int]:
+def file_with_good_extension(
+    file: BufferedReader,
+    accepted_extensions: List,
+    channels: int= None) -> Tuple[BufferedReader, str, int, int]:
     """ Checks whether or not the extension of the audio file is within the list of accepted extensions,
     otherwise, it raise a Provider Exception for the format used
 
@@ -109,16 +105,16 @@ def file_with_good_extension(file: BufferedReader, accepted_extensions: List,
         Tuple[BufferedReader, str, int, int]: returns the file, the export extention, the number of channels
         and the frame rate
     """
-    accepte_format, export_format = supported_extension(file, accepted_extensions)
+    accepted_format, export_format = supported_extension(file, accepted_extensions)
     file.seek(0)
 
-    if not accepte_format:
+    if not accepted_format:
         raise ProviderException(f"File extension not supported. Use one of the following extensions: {accepted_extensions}")
 
     audio_channels, frame_rate = get_audio_attributes(file)
 
     if channels and channels != audio_channels:
         raise ProviderException(f"File audio must be {__channel_number_to_str(channels)}")
- 
+
     file.seek(0)
-    return (file, export_format, channels, frame_rate)
+    return (file, export_format, audio_channels, frame_rate)
