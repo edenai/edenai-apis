@@ -27,6 +27,10 @@ class LanguageErrorMessage:
         f" a more general language: '{suggested_lang}'"
     )
 
+    LANGUAGE_SYNTAX_ERROR = lambda lang: (
+        f"Invalid language format for: '{lang}'."
+    )
+
 
 def check_language_format(iso_code: str) -> bool:
     """Checks if language code name is formatted correctly (lang-extlang-Script-Reg)"""
