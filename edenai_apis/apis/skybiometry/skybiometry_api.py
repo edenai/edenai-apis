@@ -41,37 +41,37 @@ class SkybiometryApi(ProviderInterface, ImageInterface):
         pprint(original_response)
         items: List[FaceItem] = []
         items.append(FaceItem(
-            confidence=original_response['attributes']['face']['confidence'],
+            confidence=original_response['attributes'].get('face', {}).get('confidence'),
             landmarks=FaceLandmarks(
-                left_eye=[original_response['eye_left']['x'], original_response['eye_left']['y']],
-                right_eye=[original_response['eye_right']['x'], original_response['eye_right']['y']],
-                mouth_center=[original_response['mouth_center']['x'], original_response['mouth_center']['y']],
-                nose_tip=[original_response['nose']['x'], original_response['nose']['y']],
+                left_eye=[original_response.get('eye_left', {}).get('x'), original_response.get('eye_left', {}).get('y')],
+                right_eye=[original_response.get('eye_right', {}).get('x'), original_response.get('eye_right', {}).get('y')],
+                mouth_center=[original_response.get('mouse_center', {}).get('x'), original_response.get('mouse_center', {}).get('y')],
+                nose_tip=[original_response.get('eye_left', {}).get('x'), original_response.get('eye_left', {}).get('y')],
             ),
             emotions=FaceEmotions(
-                joy=original_response['attributes']['happiness']['confidence'],
-                sorrow=original_response['attributes']['sadness']['confidence'],
-                anger=original_response['attributes']['anger']['confidence'],
-                surprise=original_response['attributes']['surprise']['confidence'],
-                fear=original_response['attributes']['fear']['confidence'],
-                disgust=original_response['attributes']['disgust']['confidence'],
-                neutral=original_response['attributes']['neutral_mood']['confidence'],
+                joy=original_response['attributes'].get('happiness', {}).get('confidence'),
+                sorrow=original_response['attributes'].get('sadness', {}).get('confidence'),
+                anger=original_response['attributes'].get('anger', {}).get('confidence'),
+                surprise=original_response['attributes'].get('surprise', {}).get('confidence'),
+                fear=original_response['attributes'].get('fear', {}).get('confidence'),
+                disgust=original_response['attributes'].get('disgust', {}).get('confidence'),
+                neutral=original_response['attributes'].get('neutral_mood', {}).get('confidence'),
             ),
-            age=original_response['attributes']['age_est']['value'],
-            gender=original_response['attributes']['gender']['value'],
+            age=original_response['attributes'].get('age_est', {}).get('value'),
+            gender=original_response['attributes'].get('gender', {}).get('value'),
             facial_hair=FaceFacialHair(
-                moustache=1.0 if original_response['attributes']['mustache']['value'] == 'true' else 0.0,
-                beard=1.0 if original_response['attributes']['beard']['value'] == 'true' else 0.0
+                moustache=1.0 if original_response['attributes'].get('mustache', {}).get('value') == 'true' else 0.0,
+                beard=1.0 if original_response['attributes'].get('beard', {}).get('value') == 'true' else 0.0
             ),
             accessories=FaceAccessories(
-                sunglasses=1.0 if original_response['attributes']['dark_glasses']['value'] == 'true' else 0.0,
-                eyeglasses=1.0 if original_response['attributes']['glasses']['value'] == 'true' else 0.0,
-                headwear=1.0 if original_response['attributes']['hat']['value'] == 'true' else 0.0
+                sunglasses=1.0 if original_response['attributes'].get('dark_glasses', {}).get('value') == 'true' else 0.0,
+                eyeglasses=1.0 if original_response['attributes'].get('glasses', {}).get('value') == 'true' else 0.0,
+                headwear=1.0 if original_response['attributes'].get('hat', {}).get('value') == 'true' else 0.0
             ),
             features=FaceFeatures(
-                eyes_open=1.0 if original_response['attributes']['eyes']['value'] == 'open' else 0.0,
-                smile=1.0 if original_response['attributes']['smiling']['value'] == 'true' else 0.0,
-                mouth_open=1.0 if original_response['attributes']['lips']['value'] != 'sealed' else 0.0,
+                eyes_open=1.0 if original_response['attributes'].get('eyes', {}).get('value') == 'open' else 0.0,
+                smile=1.0 if original_response['attributes'].get('smiling', {}).get('value') == 'true' else 0.0,
+                mouth_open=1.0 if original_response['attributes'].get('lips', {}).get('value', 'sealed') != 'sealed' else 0.0,
             ),
         ))
 
