@@ -12,7 +12,6 @@ from edenai_apis.interface import compute_output, list_providers
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.utils.compare import compare_responses
-from edenai_apis.utils.subfeature_handler import call_subfeature
 
 FEATURE = "image"
 SUBFEATURE = "search"
@@ -71,7 +70,8 @@ class CommonImageSearchTests:
             subfeature=SUBFEATURE,
             phase="upload_image",
         )
-        status = call_subfeature(
+        status = load_provider(
+            ProviderDataEnum.SUBFEATURE,
             provider_name=provider,
             subfeature=SUBFEATURE,
             feature=FEATURE,
@@ -90,7 +90,8 @@ class CommonImageSearchTests:
             subfeature=SUBFEATURE,
             phase="delete_image",
         )
-        status = call_subfeature(
+        status =  load_provider(
+            ProviderDataEnum.SUBFEATURE,
             provider_name=provider,
             subfeature=SUBFEATURE,
             feature=FEATURE,
@@ -110,7 +111,8 @@ class CommonImageSearchTests:
             phase="get_images",
         )
 
-        result = call_subfeature(
+        result =  load_provider(
+            ProviderDataEnum.SUBFEATURE,
             provider_name=provider,
             subfeature=SUBFEATURE,
             feature=FEATURE,
@@ -133,7 +135,8 @@ class CommonImageSearchTests:
             subfeature=SUBFEATURE,
             phase="get_image",
         )
-        image = call_subfeature(
+        image =  load_provider(
+            ProviderDataEnum.SUBFEATURE,
             provider_name=provider,
             subfeature=SUBFEATURE,
             feature=FEATURE,
@@ -158,7 +161,8 @@ class CommonImageSearchTests:
             phase="launch_similarity",
         )
         # saved_output = load_output(provider, FEATURE, SUBFEATURE)
-        api_output_search = call_subfeature(
+        api_output_search =  load_provider(
+            ProviderDataEnum.SUBFEATURE,
             provider_name=provider,
             subfeature=SUBFEATURE,
             feature=FEATURE,
