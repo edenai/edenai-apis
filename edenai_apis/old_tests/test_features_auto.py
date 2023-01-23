@@ -12,7 +12,7 @@ from edenai_apis.interface import compute_output, list_features
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 
-from edenai_apis.tests.utils.outputs import test_outputs
+from edenai_apis.old_tests.utils.outputs import test_outputs
 from edenai_apis.utils.compare import compare, compare_responses
 
 
