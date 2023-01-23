@@ -105,13 +105,13 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             },
             data=file,
         )
+        if response.status_code != 200:
+            raise ProviderException(response.text)
+        
         img = Img.open(file)
         width = img.width
         height = img.height
-
-        if response.status_code != 200:
-            raise ProviderException(response.text)
-
+        
         original_response = response.json()
         objects: Sequence[ObjectItem] = []
         for obj in original_response:

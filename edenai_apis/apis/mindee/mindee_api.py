@@ -197,9 +197,8 @@ class MindeeApi(ProviderInterface, OcrInterface):
         response = requests.post(url=self.url_identity, files=args['files'], headers=args['headers'])
 
         original_response = response.json()
-
         if response.status_code != 201:
-            raise ProviderException(message=original_response['error']['message'], code=response.status_code)
+            raise ProviderException(message=original_response['api_request']['error']['message'], code=response.status_code)
 
         identity_data = original_response["document"]["inference"]["prediction"]
 
