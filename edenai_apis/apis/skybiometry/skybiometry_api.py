@@ -43,10 +43,10 @@ class SkybiometryApi(ProviderInterface, ImageInterface):
         items.append(FaceItem(
             confidence=original_response['attributes'].get('face', {}).get('confidence'),
             landmarks=FaceLandmarks(
-                left_eye=[original_response.get('eye_left', {}).get('x'), original_response.get('eye_left', {}).get('y')],
-                right_eye=[original_response.get('eye_right', {}).get('x'), original_response.get('eye_right', {}).get('y')],
-                mouth_center=[original_response.get('mouse_center', {}).get('x'), original_response.get('mouse_center', {}).get('y')],
-                nose_tip=[original_response.get('eye_left', {}).get('x'), original_response.get('eye_left', {}).get('y')],
+                left_eye=[original_response.get('eye_left', {}).get('x', 0), original_response.get('eye_left', {}).get('y', 0)],
+                right_eye=[original_response.get('eye_right', {}).get('x', 0), original_response.get('eye_right', {}).get('y', 0)],
+                mouth_center=[original_response.get('mouse_center', {}).get('x', 0), original_response.get('mouse_center', {}).get('y', 0)],
+                nose_tip=[original_response.get('eye_left', {}).get('x', 0), original_response.get('eye_left', {}).get('y', 0)],
             ),
             emotions=FaceEmotions(
                 joy=original_response['attributes'].get('happiness', {}).get('confidence'),

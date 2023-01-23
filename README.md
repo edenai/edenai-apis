@@ -24,7 +24,10 @@ With the rise of **AI as a Service** , a lot of companies provide off-the-shelf 
 
 There are **hundreds of companies** doing that. We're regrouping the best ones **in one place** !
 
-[Read more about it ...](https://dev.to/samyme/all-ai-trough-a-single-api-open-sourced-2an8)
+➡️ [Read more about it ...](https://medium.com/@samy_89073/a-i-trough-an-api-its-time-to-start-building-with-ai-instead-of-worrying-about-it-e915c9869228)
+
+**why aren't you regrouping Open Source models (instead of proprietary APIs) into one repo?** : Because it doesn't make sens to deploy and maintain large pytorch (or other framework) AI models in every solution that wants AI capabilities (especially for document parsing, image and video moderation or speech recognition) . So using APIs makes way more sens. Deployed OpenSource models are being included using different APIs like HuggingFace and other equivalents.
+
 
 ![EdenAI Gif](assets/gif-edenai-maker.gif)
 

@@ -214,7 +214,6 @@ def amazon_custom_document_parsing_formatter(
     """
     items = []
     for index, page in enumerate(pages):
-        print(page)
         for block in page["Blocks"]:
             if block["BlockType"] == "QUERY_RESULT":
                 bounding_box = CustomDocumentParsingAsyncBoundingBox(
@@ -226,7 +225,7 @@ def amazon_custom_document_parsing_formatter(
                 item = CustomDocumentParsingAsyncItem(
                     confidence=block["Confidence"],
                     value=block["Text"],
-                    page=index + 1,
+                    page=block.get("Page", index+1),
                     bounding_box=bounding_box,
                 )
                 items.append(item)
