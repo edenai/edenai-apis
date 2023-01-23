@@ -31,9 +31,12 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.conversion import combine_date_with_time, convert_string_to_number
+from edenai_apis.utils.conversion import (
+    combine_date_with_time,
+    convert_string_to_number,
+    from_jsonarray_to_list
+)
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.data_class_manager import DataClassManager
 from edenai_apis.utils.types import ResponseType
 
 ParamsApi = TypeVar("ParamsApi")
@@ -89,7 +92,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         total_value = receipt_data["total_incl"]["value"]
         total = total_value and float(total_value)
         map_keyword_json_to_class = [("value", "taxes"), ("rate", "rate")]
-        taxes: List[Taxes] = DataClassManager.from_jsonarray_to_list(
+        taxes: List[Taxes] = from_jsonarray_to_list(
             Taxes, receipt_data["taxes"], map_keyword_json_to_class
         )
         receipt_infos = {
