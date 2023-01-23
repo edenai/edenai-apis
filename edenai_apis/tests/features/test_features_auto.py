@@ -11,7 +11,7 @@ import json
 from edenai_apis.interface import list_features
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
-from edenai_apis.utils.compare import compare, compare_responses
+from edenai_apis.utils.compare import compare_responses
 from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import ResponseType
 
