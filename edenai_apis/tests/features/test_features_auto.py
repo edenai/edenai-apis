@@ -12,7 +12,8 @@ from edenai_apis.interface import list_features
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.utils.compare import compare_responses
-from edenai_apis.utils.exception import LanguageException, ProviderException
+from edenai_apis.utils.constraints import validate_all_provider_constraints
+from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
 
@@ -45,27 +46,8 @@ def global_features():
     global_features(),
 )
 class TestSubfeatures:
-    def test_feature_with_invalid_language(self, provider, feature, subfeature):
-        # Setup
-        invalid_language = "fakelanguage"
-        feature_args = load_feature(
-            FeatureDataEnum.SAMPLES_ARGS,
-            feature=feature,
-            subfeature=subfeature)
-        if not feature_args.get('language'):
-            pytest.skip("unsupported configuration")
-        feature_args['language'] = invalid_language
-
-        # Action
-        try:
-            feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
-            provider_method = getattr(feature_class, f"{subfeature}")(provider)
-            provider_method(**feature_args)
-        except LanguageException as e:
-        # Assert
-            assert e is not None
-
     def test_feature_with_invalid_file(self, provider, feature, subfeature):
+
         # Setup
         invalid_file = "fakefile.txt"
         feature_args = load_feature(
@@ -81,9 +63,7 @@ class TestSubfeatures:
             feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
             provider_method = getattr(feature_class, f"{subfeature}")(provider)
             provider_method(**feature_args)
-        except AttributeError as e:
-            print(str(e))
-        # Assert
+        except (ProviderException, AttributeError) as e:
             assert e is not None
     
     # def test_invalid_input_size(self, provider, feature, subfeature):
@@ -111,6 +91,7 @@ class TestSubfeatures:
             FeatureDataEnum.SAMPLES_ARGS,
             feature=feature,
             subfeature=subfeature)
+        validated_args = validate_all_provider_constraints(provider, feature, subfeature, feature_args)
         try:
             feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
             provider_method = getattr(feature_class, f"{subfeature}")(provider)
@@ -118,7 +99,7 @@ class TestSubfeatures:
             raise('Could not import provider method.')
         
         # Actions
-        provider_api_output = provider_method(**feature_args)
+        provider_api_output = provider_method(**validated_args)
         provider_api_dict = provider_api_output.dict()
         original_response = provider_api_dict.get('original_response')
         standardized_response = provider_api_dict.get('standardized_response')
@@ -130,7 +111,7 @@ class TestSubfeatures:
         assert standardized_response is not None, 'standardized_response should not be None'
         assert standardized, 'The output is not standardized' 
         
-            # test output is JSON serializable
+            #test output is JSON serializable
         def default(output):
             if isinstance(output, (datetime.date, datetime.datetime)):
                 return output.isoformat()

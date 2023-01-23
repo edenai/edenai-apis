@@ -48,6 +48,9 @@ class AffindaApi(ProviderInterface, OcrInterface):
         if "detail" in original_response:
             raise ProviderException(original_response["detail"])
 
+        if "errors" in original_response:
+            raise ProviderException(original_response['errors'][0]['detail'])
+        
         resume = original_response["data"]
         # 1. Personal informations
         # 1.1 Name 
@@ -179,6 +182,9 @@ class AffindaApi(ProviderInterface, OcrInterface):
 
         if "detail" in original_response:
             raise ProviderException(original_response["detail"])
+
+        if "errors" in original_response:
+            raise ProviderException(original_response['errors'][0]['detail'])
 
         invoice_data = original_response["data"]
         if invoice_data.get("tables"):

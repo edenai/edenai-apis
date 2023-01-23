@@ -7,7 +7,9 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.compare import compare_responses
 from edenai_apis.features.image.search.get_images import SearchGetImagesDataClass
 from edenai_apis.features.image.search.get_image import SearchGetImageDataClass
-from edenai_apis.features.image.search import SearchDataClass 
+from edenai_apis.features.image.search import SearchDataClass
+from edenai_apis.utils.exception import ProviderException
+ 
 
 
 image_search_providers = list_providers(feature='image', subfeature='search')
@@ -75,6 +77,22 @@ class TestImageSearch:
         assert isinstance(get_image_output, ResponseType), f"Expected ResponseType but got {type(get_image_output)}"
         assert isinstance(standardized_response, SearchGetImageDataClass), f"Expected SearchGetImageDataClass but got {type(standardized_response)}"
         assert original_response is not None   
+    
+    def test_get_image_does_not_exist(self, provider):
+        # Setup : prepare a non-existent image 
+        invalid_image = 'image-not-exist.jpg'
+        feature_args = load_feature(
+            FeatureDataEnum.SAMPLES_ARGS,
+            feature='image',
+            subfeature='search',
+            phase='get_image')
+        feature_args['image_name'] = invalid_image
+        get_image_method = Image.search__get_image(provider)
+        
+        # Action and Assert
+        with pytest.raises(ProviderException) as exc:
+            api_output = get_image_method(**feature_args)
+            assert exc is not None
     
     def test_launch_similarity_api_call(self, provider):
         # Setup
