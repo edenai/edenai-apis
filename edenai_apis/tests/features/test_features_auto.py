@@ -85,49 +85,49 @@ class TestSubfeatures:
     #     except ProviderException as e:
     #         print(str(e))
 
-    # def test_feature_api_call(self, provider, feature, subfeature):
-    #     # Setup
-    #     feature_args = load_feature(
-    #         FeatureDataEnum.SAMPLES_ARGS,
-    #         feature=feature,
-    #         subfeature=subfeature)
-    #     validated_args = validate_all_provider_constraints(provider, feature, subfeature, feature_args)
-    #     try:
-    #         feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
-    #         provider_method = getattr(feature_class, f"{subfeature}")(provider)
-    #     except AttributeError:
-    #         raise('Could not import provider method.')
+    def test_feature_api_call(self, provider, feature, subfeature):
+        # Setup
+        feature_args = load_feature(
+            FeatureDataEnum.SAMPLES_ARGS,
+            feature=feature,
+            subfeature=subfeature)
+        validated_args = validate_all_provider_constraints(provider, feature, subfeature, feature_args)
+        try:
+            feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
+            provider_method = getattr(feature_class, f"{subfeature}")(provider)
+        except AttributeError:
+            raise('Could not import provider method.')
         
-    #     # Actions
-    #     provider_api_output = provider_method(**validated_args)
-    #     provider_api_dict = provider_api_output.dict()
-    #     original_response = provider_api_dict.get('original_response')
-    #     standardized_response = provider_api_dict.get('standardized_response')
-    #     standardized = compare_responses(feature, subfeature, standardized_response)
+        # Actions
+        provider_api_output = provider_method(**validated_args)
+        provider_api_dict = provider_api_output.dict()
+        original_response = provider_api_dict.get('original_response')
+        standardized_response = provider_api_dict.get('standardized_response')
+        standardized = compare_responses(feature, subfeature, standardized_response)
         
-    #     # Step 3 (asserts) : check dataclass standardization
-    #     assert isinstance(provider_api_output, ResponseType), f"Expected ResponseType but got {type(provider_api_output)}"
-    #     assert original_response is not None, 'original_response should not be None'
-    #     assert standardized_response is not None, 'standardized_response should not be None'
-    #     assert standardized, 'The output is not standardized' 
+        # Step 3 (asserts) : check dataclass standardization
+        assert isinstance(provider_api_output, ResponseType), f"Expected ResponseType but got {type(provider_api_output)}"
+        assert original_response is not None, 'original_response should not be None'
+        assert standardized_response is not None, 'standardized_response should not be None'
+        assert standardized, 'The output is not standardized' 
         
-    #         #test output is JSON serializable
-    #     def default(output):
-    #         if isinstance(output, (datetime.date, datetime.datetime)):
-    #             return output.isoformat()
-    #         return None
+            #test output is JSON serializable
+        def default(output):
+            if isinstance(output, (datetime.date, datetime.datetime)):
+                return output.isoformat()
+            return None
 
-    #     assert json.dumps(provider_api_dict["original_response"], default=default)
-    #     assert json.dumps(provider_api_dict["standardized_response"], default=default)
+        assert json.dumps(provider_api_dict["original_response"], default=default)
+        assert json.dumps(provider_api_dict["standardized_response"], default=default)
 
-    # def test_feature_saved_output(self, provider, feature, subfeature):
-    #     # Step 1 (Setup) : 
-    #     saved_output = load_provider(
-    #         ProviderDataEnum.OUTPUT, provider, feature, subfeature
-    #     )
+    def test_feature_saved_output(self, provider, feature, subfeature):
+        # Step 1 (Setup) : 
+        saved_output = load_provider(
+            ProviderDataEnum.OUTPUT, provider, feature, subfeature
+        )
     
-    #     # Step 2 (Action) :
-    #     standardized = compare_responses(feature, subfeature, saved_output["standardized_response"])
+        # Step 2 (Action) :
+        standardized = compare_responses(feature, subfeature, saved_output["standardized_response"])
         
-    #     # Step 3 (Assert) : 
-    #     assert standardized, 'The output is not standardized'
+        # Step 3 (Assert) : 
+        assert standardized, 'The output is not standardized'
