@@ -35,7 +35,7 @@ from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import
     Row,
     Table,
 )
-from edenai_apis.utils.conversion import format_string_url_language
+from edenai_apis.utils.conversion import add_query_param_in_url
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -57,9 +57,7 @@ class MicrosoftOcrApi(OcrInterface):
         url = f"{self.api_settings['vision']['url']}/ocr?detectOrientation=true"
 
         response = requests.post(
-            format_string_url_language(url, language, "language", self.provider_name)
-            if language
-            else url,
+            url=add_query_param_in_url(url, {"language": language}),
             headers=self.headers["vision"],
             data=file_content,
         ).json()
@@ -326,7 +324,7 @@ class MicrosoftOcrApi(OcrInterface):
             f"{self.api_settings['form_recognizer']['url']}formrecognizer/documentModels/"
             f"prebuilt-layout:analyze?api-version=2022-08-31"
         )
-        url = format_string_url_language(url, language, "locale", self.provider_name)
+        url = add_query_param_in_url(url, {"locale": language})
 
         response = requests.post(
             url,

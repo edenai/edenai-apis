@@ -7,7 +7,7 @@ from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
 )
 from edenai_apis.features.translation.translation_interface import TranslationInterface
-from edenai_apis.utils.conversion import format_string_url_language
+from edenai_apis.utils.conversion import add_query_param_in_url
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
@@ -61,10 +61,13 @@ class MicrosoftTranslationApi(TranslationInterface):
 
         # Create configuration dictionnary
 
-        url = format_string_url_language(
-            self.url["translator"], source_language, "from", self.provider_name
+        url = add_query_param_in_url(
+            url=self.url["translator"],
+            query_params={
+                "from": source_language,
+                "to": target_language
+            }
         )
-        url = format_string_url_language(url, target_language, "to", self.provider_name)
 
         body = [
             {

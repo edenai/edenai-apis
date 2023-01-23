@@ -9,10 +9,8 @@ class ProviderException(Exception):
             self.code = code
 
 
-class LanguageException(Exception):
+class LanguageException(ProviderException):
     """Handle language errors"""
 
     def __init__(self, message: str, code=None):
-        super().__init__(message)
-        if code:
-            self.code = code
+        super().__init__(message, code)

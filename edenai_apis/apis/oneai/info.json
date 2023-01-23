@@ -48,9 +48,6 @@
   },
   "translation": {
     "language_detection": {
-      "languages": [
-        "en"
-      ],
       "version": "v0"
     }
   },

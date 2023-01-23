@@ -19,7 +19,8 @@ def compare_dicts(dict_a: Dict, dict_b: Dict) -> bool:
         return False
     # Compare the content of each field
     for key in dict_a.keys():
-        return compare(dict_a[key], dict_b[key])
+        if not compare(dict_a[key], dict_b[key]):
+            return False
     # If all OK return True
     return True
 
@@ -31,7 +32,8 @@ def compare_lists(list_a: List[Any], list_b: List[Any]) -> bool:
         return False
     # Compare their different elements
     for i, item_a in enumerate(list_a):
-        return compare(item_a, list_b[i])
+        if not compare(item_a, list_b[i]):
+            return False
     # If all OK return True
     return True
 
