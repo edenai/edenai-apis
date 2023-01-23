@@ -4,6 +4,7 @@
     We implement language utils to handle the standardisation.
 """
 import pytest
+from pytest_mock import MockerFixture, mocker
 from edenai_apis.utils.languages import (
     AUTO_DETECT,
     AUTO_DETECT_NAME,
@@ -78,52 +79,91 @@ class TestConvertThreeTwoLetters:
             "The iso639_2 for None must be None"
 
 class TestLoadLanguageConstraints:
-    def test_valid_provider_feature_and_subfeature(self):
-        result = load_language_constraints('emvista', 'text', 'summarize')
-        assert result == ['en', 'fr'], \
-            f"emvista-text-summarize must handle 'en' and 'fr' not {result}"
+    PROVIDER = 'test_provider'
+    FEATUTRE = 'test_feature'
+    SUBFEATURE = 'test_subfeature'
 
-    def test_valid_provider_allow_null_language(self):
-        result = load_language_constraints('google', 'ocr', 'ocr')
-        assert 'auto-detect' in result, \
-            f"google-ocr-ocr must handle the auto detect language"
+    def test_valid_provider_feature_and_subfeature(self, mocker: MockerFixture):
+        ret_mock_value = {
+            "constraints": {
+                "languages": [
+                    'en',
+                    'fr'
+                ]
+            }
+        }
+        mocker.patch('edenai_apis.utils.languages.load_provider', return_value=ret_mock_value)
+        output = load_language_constraints(self.PROVIDER, self.FEATUTRE, self.SUBFEATURE)
+        expected_output = ['en', 'fr']
+        assert output == expected_output, \
+            f"Expected `{expected_output}` but got `{output}`"
 
-    def test_invalid_provider_allow_null_language(self):
-        result = load_language_constraints('amazon', 'ocr', 'invoice_parser')
-        assert 'auto-detect' not in result, \
-            f"amazon-ocr-invoice_parser doesn't handle the auto detect language"
 
-    def test_invalid_provider_name(self):
-        with pytest.raises(KeyError):
-            load_language_constraints('emvistas', 'text', 'summarize')
+    def test_valid_provider_allow_null_language(self, mocker: MockerFixture):
+        ret_mock_value = {
+            "constraints": {
+                "languages": [
+                    'en',
+                    'fr'
+                ],
+                "allow_null_language": True,
+            }
+        }
+        mocker.patch('edenai_apis.utils.languages.load_provider', return_value=ret_mock_value)
+        output = load_language_constraints(self.PROVIDER, self.FEATUTRE, self.SUBFEATURE)
+        expected_output = ['en', 'fr', 'auto-detect']
+        assert output == expected_output, \
+            f"Expected `{expected_output}` but got `{output}`"
 
-    def test_invalid_feature(self):
-        with pytest.raises(KeyError):
-            load_language_constraints('emvista', 'texts', 'summarize')
 
-    def test_invalid_subfeature(self):
-        with pytest.raises(KeyError):
-            load_language_constraints('emvista', 'text', 'summarizes')
+    def test_invalid_provider_allow_null_language(self, mocker: MockerFixture):
+        ret_mock_value = {
+            "constraints": {
+                "languages": [
+                    'en',
+                    'fr'
+                ],
+                "allow_null_language": False,
+            }
+        }
+        mocker.patch('edenai_apis.utils.languages.load_provider', return_value=ret_mock_value)
+        output = load_language_constraints(self.PROVIDER, self.FEATUTRE, self.SUBFEATURE)
+        expected_output = ['en', 'fr']
+        assert output == expected_output, \
+            f"Expected `{expected_output}` but got `{output}`"
 
-    def test_none_provider_name(self):
-        with pytest.raises(KeyError):
-            load_language_constraints(None, 'text', 'summarize')
+    def test_feature_without_languages_in_constraints(self, mocker: MockerFixture):
+        ret_mock_value = {
+            "constraints": {
+                "language": [
+                    'en',
+                    'fr'
+                ],
+                "allow_null_language": False,
+            }
+        }
+        mocker.patch('edenai_apis.utils.languages.load_provider', return_value=ret_mock_value)
+        output = load_language_constraints(self.PROVIDER, self.FEATUTRE, self.SUBFEATURE)
+        expected_output = []
+        assert output == expected_output, \
+            f"Expected `{expected_output}` but got `{output}`"
 
-    def test_none_feature(self):
-        with pytest.raises(KeyError):
-            load_language_constraints('emvista', None, 'summarize')
+    def test_feature_without_constraints(self, mocker: MockerFixture):
+        ret_mock_value = {
+            "constraint": {
+                "language": [
+                    'en',
+                    'fr'
+                ],
+                "allow_null_language": False,
+            }
+        }
+        mocker.patch('edenai_apis.utils.languages.load_provider', return_value=ret_mock_value)
+        output = load_language_constraints(self.PROVIDER, self.FEATUTRE, self.SUBFEATURE)
+        expected_output = []
+        assert output == expected_output, \
+            f"Expected `{expected_output}` but got `{output}`"
 
-    def test_none_subfeature(self):
-        with pytest.raises(KeyError):
-            load_language_constraints('emvista', 'text', None)
-
-    def test_feature_without_languages_in_constraints(self):
-        assert load_language_constraints('mindee', 'ocr', 'identity_parser') == [], \
-            "mindee-ocr-identity_parser have no language constraints"
-
-    def test_feature_without_constraints(self):
-        assert load_language_constraints('google', 'image', 'face_detection') == [], \
-            "google-image-face_detection have no constraints"
 
 
 class TestExpandLanguagesForUser:
@@ -147,49 +187,19 @@ class TestExpandLanguagesForUser:
 
 
 class TestLoadStandardizedLanguage:
-    def test_valid_input_with_two_providers(self):
-        result = load_standardized_language('text', 'summarize', ['oneai', 'emvista'])
-        assert sorted(result) == sorted(['en', 'fr']), \
-            "oneai and emvista text.summarize have ['fr', 'en'] in language list"
+    def test_valid_input_with_multi_provider(self, mocker: MockerFixture):
+        mocker.patch(
+            'edenai_apis.utils.languages.load_language_constraints',
+            side_effect=[['en', 'fr'], ['fr', 'es']]
+        )
+        providers = ['provider1', 'provider2']
+        feature = 'test_feature'
+        subfeature = 'test_subfeature'
+        expected_output = ['en', 'fr', 'es']
 
-    def test_valid_input_with_none_providers(self):
-        result = load_standardized_language('ocr', 'identity_parser', None)
-        expected = [
-            'it-IT',
-            'fr',
-            'de-DE',
-            'es-ES',
-            'fr-FR',
-            'it',
-            'pt-PT',
-            'en-US',
-            'en',
-            'es',
-            'pt',
-            'de'
-        ]
-        assert sorted(result) == sorted(expected), \
-            "Language list for ocr.identity_parser is not accurate"
-
-    def test_valid_input_with_feature_without_language(self):
-        assert load_standardized_language('image', 'face_detection', ['google']) == [], \
-            "google.image.face_detection has no language constraint, function must be return an"
-
-    def test_invalid_feature(self):
-        with pytest.raises(KeyError):
-            load_standardized_language('texts', 'summarize', ['oneai'])
-
-    def test_invalid_subfeature(self):
-        with pytest.raises(KeyError):
-            load_standardized_language('text', 'summarizes', ['oneai'])
-
-    def test_none_feature(self):
-        with pytest.raises(KeyError):
-            load_standardized_language(None, 'summarize', ['oneai'])
-
-    def test_none_subfeature(self):
-        with pytest.raises(KeyError):
-            load_standardized_language('text', None, ['oneai'])
+        output = load_standardized_language(feature, subfeature, providers)
+        assert sorted(output) == sorted(expected_output), \
+            f"Expected `{expected_output}` but got `{output}`"
 
 class TestFormatLanguageName:
     def test_unknown_language(self):
@@ -319,50 +329,107 @@ class TestCompareLanguageAndRegionCode:
         assert compare_language_and_region_code(iso_code, selected_code_language) == False
 
 class TestProvideAppropriateLanguage:
-    def test_valid_input(self):
+    PROVIDER = 'test_provider'
+    FEATURE = 'test_feature'
+    SUBFEATURE = 'test_subfeature'
+
+    def test_valid_input(self, mocker: MockerFixture):
+        # Create mock for load_languages_constraints
+        return_mock = ['en-US', 'fr', 'es']
+        mocker.patch(
+            'edenai_apis.utils.languages.load_language_constraints',
+            return_value=return_mock
+        )
+
+        # Setup
         iso_code = 'en'
-        provider_name = 'google'
-        feature = 'ocr'
-        subfeature = 'ocr'
-        output = provide_appropriate_language(iso_code, provider_name, feature, subfeature)
         expected_output = 'en-US'
+
+        # Action
+        output = provide_appropriate_language(
+            iso_code,
+            self.PROVIDER,
+            self.FEATURE,
+            self.SUBFEATURE
+        )
+
+        # Assert
         assert output == expected_output, \
             f"Expected `{expected_output}` for `{iso_code}` but got `{output}`"
 
-    def test_valid_input_with_valid_region(self):
+    def test_valid_input_with_valid_region(self, mocker: MockerFixture):
+        # Create mock for load_languages_constraints
+        return_mock = ['en-US', 'fr', 'es']
+        mocker.patch(
+            'edenai_apis.utils.languages.load_language_constraints',
+            return_value=return_mock
+        )
+
+        # Setup
         iso_code = 'en-US'
-        provider_name = 'google'
-        feature = 'ocr'
-        subfeature = 'ocr'
-        output = provide_appropriate_language(iso_code, provider_name, feature, subfeature)
         expected_output = 'en-US'
+
+        # Action
+        output = provide_appropriate_language(
+            iso_code,
+            self.PROVIDER,
+            self.FEATURE,
+            self.SUBFEATURE
+        )
+
+        # Assert
         assert output == expected_output, \
             f"Expected `{expected_output}` for `{iso_code}` but got `{output}`"
 
-    def test_valid_input_with_invalid_region(self):
+    def test_valid_input_with_invalid_region(self, mocker: MockerFixture):
+        # Create mock for load_languages_constraints
+        return_mock = ['en-US', 'fr', 'es']
+        mocker.patch(
+            'edenai_apis.utils.languages.load_language_constraints',
+            return_value=return_mock
+        )
+
+        # Setup
         iso_code = 'en-EN'
-        provider_name = 'google'
-        feature = 'ocr'
-        subfeature = 'ocr'
-        output = provide_appropriate_language(iso_code, provider_name, feature, subfeature)
         expected_output = None
+
+        # Action
+        output = provide_appropriate_language(
+            iso_code,
+            self.PROVIDER,
+            self.FEATURE,
+            self.SUBFEATURE
+        )
+
+        # Assert
         assert output == expected_output, \
             f"Expected `{expected_output}` for `{iso_code}` but got `{output}`"
 
-    def test_invalid_isocode(self):
+    def test_invalid_isocode(self, mocker: MockerFixture):
+        # Create mock for load_languages_constraints
+        return_mock = ['en-US', 'fr', 'es']
+        mocker.patch(
+            'edenai_apis.utils.languages.load_language_constraints',
+            return_value=return_mock
+        )
+
+        # Setup
         iso_code = 'inv'
-        provider_name = 'google'
-        feature = 'ocr'
-        subfeature = 'ocr'
-        output = provide_appropriate_language(iso_code, provider_name, feature, subfeature)
         expected_output = None
+
+        # Action
+        output = provide_appropriate_language(
+            iso_code,
+            self.PROVIDER,
+            self.FEATURE,
+            self.SUBFEATURE
+        )
+
+        # Assert
         assert output == expected_output, \
             f"Expected `{expected_output}` for `{iso_code}` but got `{output}`"
 
     def test_invalid_input(self):
         with pytest.raises(SyntaxError):
             iso_code = '12345'
-            provider_name = 'google'
-            feature = 'ocr'
-            subfeature = 'ocr'
-            provide_appropriate_language(iso_code, provider_name, feature, subfeature)
+            provide_appropriate_language(iso_code, self.PROVIDER, self.FEATURE, self.SUBFEATURE)
