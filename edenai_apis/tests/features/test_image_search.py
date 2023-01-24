@@ -76,7 +76,7 @@ class TestImageSearch:
         # Assert
         assert isinstance(get_image_output, ResponseType), f"Expected ResponseType but got {type(get_image_output)}"
         assert isinstance(standardized_response, SearchGetImageDataClass), f"Expected SearchGetImageDataClass but got {type(standardized_response)}"
-        assert original_response is not None   
+        assert original_response is not None, 'Original response should not be empty.'
     
     def test_get_image_does_not_exist(self, provider):
         # Setup : prepare a non-existent image 
@@ -92,7 +92,7 @@ class TestImageSearch:
         # Action and Assert
         with pytest.raises(ProviderException) as exc:
             api_output = get_image_method(**feature_args)
-            assert exc is not None
+            assert exc is not None, 'ProviderException expected but got an empty Exception.'
     
     def test_launch_similarity_api_call(self, provider):
         # Setup

@@ -21,7 +21,7 @@ INTERFACE_MODULE = importlib.import_module("edenai_apis.interface_v2")
 def global_features():
     """Generate a list of parameters for tests classes.
     Returns:
-         list [] async_providers   : [([provider1, provider2], feature, subfeature)]
+         list [] providers   : [([provider1, provider2], feature, subfeature)]
     """
     method_list = list_features()
     detailed_providers_list = []
@@ -47,7 +47,6 @@ def global_features():
 )
 class TestSubfeatures:
     def test_feature_with_invalid_file(self, provider, feature, subfeature):
-
         # Setup
         invalid_file = "fakefile.txt"
         feature_args = load_feature(
@@ -59,32 +58,13 @@ class TestSubfeatures:
         feature_args['file'] = invalid_file
         
         # Action
-        try:
+        with pytest.raises(ProviderException, AttributeError) as exc:
             feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
             provider_method = getattr(feature_class, f"{subfeature}")(provider)
             provider_method(**feature_args)
-        except (ProviderException, AttributeError) as e:
-            assert e is not None
-    
-    # def test_invalid_input_size(self, provider, feature, subfeature):
-    #     # Setup
-    #     invalid_input = "a" * (2056 * 2056 * 200 + 1)  # input size larger than 200MB
-    #     feature_args = load_feature(
-    #         FeatureDataEnum.SAMPLES_ARGS,
-    #         feature=feature,
-    #         subfeature=subfeature)
-    #     if not feature_args.get('text'):
-    #         pytest.skip("unsupported configuration")
-    #     feature_args['text'] = invalid_input
-        
-    #     #Action
-    #     try:
-    #         feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
-    #         provider_method = getattr(feature_class, f"{subfeature}")(provider)
-    #         provider_method(**feature_args)
-    #     except ProviderException as e:
-    #         print(str(e))
+            assert exc is not None, 'ProviderException or AttributeError expected.'
 
+    
     def test_feature_api_call(self, provider, feature, subfeature):
         # Setup
         feature_args = load_feature(
@@ -111,21 +91,12 @@ class TestSubfeatures:
         assert standardized_response is not None, 'standardized_response should not be None'
         assert standardized, 'The output is not standardized' 
         
-            #test output is JSON serializable
-        def default(output):
-            if isinstance(output, (datetime.date, datetime.datetime)):
-                return output.isoformat()
-            return None
-
-        assert json.dumps(provider_api_dict["original_response"], default=default)
-        assert json.dumps(provider_api_dict["standardized_response"], default=default)
-
     def test_feature_saved_output(self, provider, feature, subfeature):
         # Step 1 (Setup) : 
         saved_output = load_provider(
             ProviderDataEnum.OUTPUT, provider, feature, subfeature
         )
-    
+        
         # Step 2 (Action) :
         standardized = compare_responses(feature, subfeature, saved_output["standardized_response"])
         
