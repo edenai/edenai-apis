@@ -11,6 +11,7 @@ import json
 from edenai_apis.interface import list_features
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
+from edenai_apis.tests.conftest import global_features, without_async_and_phase
 from edenai_apis.utils.compare import compare_responses
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException
@@ -18,32 +19,10 @@ from edenai_apis.utils.types import ResponseType
 
 
 INTERFACE_MODULE = importlib.import_module("edenai_apis.interface_v2")
-def global_features():
-    """Generate a list of parameters for tests classes.
-    Returns:
-         list [] providers   : [([provider1, provider2], feature, subfeature)]
-    """
-    method_list = list_features()
-    detailed_providers_list = []
-
-    for provider, feature, subfeature, *phase in method_list:
-        if '_async' in subfeature or phase:
-            continue
-        detailed_params = pytest.param(
-            provider,
-            feature,
-            subfeature,
-            marks=[
-                getattr(pytest.mark, provider),
-                getattr(pytest.mark, feature),
-                getattr(pytest.mark, subfeature)],
-        )
-        detailed_providers_list.append(detailed_params)
-    return detailed_providers_list
 
 @pytest.mark.parametrize(
     ("provider", "feature", "subfeature"),
-    global_features(),
+    global_features(filter=without_async_and_phase),
 )
 class TestSubfeatures:
     def test_feature_with_invalid_file(self, provider, feature, subfeature):
