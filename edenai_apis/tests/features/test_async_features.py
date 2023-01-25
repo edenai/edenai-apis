@@ -12,6 +12,7 @@ import logging
 from edenai_apis.interface import list_features
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
+from edenai_apis.tests.conftest import global_features, only_async
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
 from edenai_apis.utils.compare import compare_responses
@@ -20,31 +21,9 @@ MAX_TIME = 180
 TIME_BETWEEN_CHECK = 10
 INTERFACE_MODULE = importlib.import_module("edenai_apis.interface_v2")
 
-
-def global_method_list_async():
-    """Generate a list of parameters for tests classes.
-    Returns:
-         list [] async_providers   : [([provider1, provider2], feature, subfeature)]
-    """
-    method_list = list_features()
-    detailed_providers_list = []
-
-    for provider, feature, subfeature, *phase in method_list:
-        if '_async' in subfeature:
-            detailed_params = pytest.param(
-                provider,
-                feature,
-                subfeature,
-                marks=[
-                    getattr(pytest.mark, provider),
-                    getattr(pytest.mark, feature),
-                    getattr(pytest.mark, subfeature)],
-            )
-            detailed_providers_list.append(detailed_params)
-    return detailed_providers_list
 @pytest.mark.parametrize(
     ("provider", "feature", "subfeature"),
-    global_method_list_async(),
+    global_features(only_async),
 )
 class TestAsyncSubFeatures:
     def _test_launch_job_id(self, provider, feature, subfeature):
