@@ -9,7 +9,6 @@ import os
 from time import sleep
 import importlib
 import logging
-from edenai_apis.interface import list_features
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.tests.conftest import global_features, only_async

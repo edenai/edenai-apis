@@ -6,9 +6,6 @@
 """
 import pytest
 import importlib
-import datetime
-import json
-from edenai_apis.interface import list_features
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.tests.conftest import global_features, without_async_and_phase
