@@ -143,9 +143,7 @@ def load_info_file(provider_name: str = "") -> Dict:
         provider_info = load_info_file(provider_name_i)
         for feature in provider_info:
             for subfeature in provider_info[feature]:
-                if len(subfeature) == 1 and next(iter(subfeature)).get(
-                    "description_title"
-                ):
+                if not provider_info.get(feature, {}).get(subfeature, {}).get('version'):
                     for phase in provider_info.get(feature, {}).get(subfeature, []):
                         all_infos[
                             (provider_name_i, feature, subfeature, phase)
