@@ -223,8 +223,6 @@ def load_samples(
     feature: str,
     subfeature: str,
     phase: str = "",
-    provider_name: str = "",
-    suffix: str = "",
 ) -> Dict:
     """Get arguments for the pair (feature, subfeature)
     or for the triple (feature, subfeature, phase)
@@ -238,22 +236,13 @@ def load_samples(
         Dict: arguments related to a subfeautre or phase
     """
     if phase:
-        phase_normalized = f"{subfeature}_{phase.replace('_async', '')}"
+        subfeature_normalized = f"{subfeature}_{phase.replace('_async', '')}"
         imp = import_module(
             f"edenai_apis.features.{feature}.{subfeature}.{phase}.{subfeature}_{phase}_args"
-        )
-        return (
-            getattr(imp, f"{phase_normalized}_arguments{suffix}")()
-            if not provider_name
-            else getattr(imp, f"{phase_normalized}_arguments{suffix}")(provider_name)
         )
     else:
         subfeature_normalized = subfeature.replace("_async", "")
         imp = import_module(
             f"edenai_apis.features.{feature}.{subfeature}.{subfeature}_args"
         )
-        return (
-            getattr(imp, f"{subfeature_normalized}_arguments")()
-            if not provider_name
-            else getattr(imp, f"{subfeature_normalized}_arguments")(provider_name)
-        )
+    return getattr(imp, f"{subfeature_normalized}_arguments")()
