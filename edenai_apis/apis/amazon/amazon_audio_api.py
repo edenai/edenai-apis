@@ -97,7 +97,7 @@ class AmazonAudioApi(AudioInterface):
             "Media": {"MediaFileUri": self.api_settings["storage_url"] + filename},
             # "MediaFormat" : format,
             "LanguageCode": language,
-            "MediaSampleRateHertz": frame_rate,
+            # "MediaSampleRateHertz": frame_rate,
             "Settings": {
                 "ShowSpeakerLabels": True,
                 "ChannelIdentification": False,
