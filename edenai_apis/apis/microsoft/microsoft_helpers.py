@@ -26,7 +26,7 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import f
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 
-from edenai_apis.utils.conversion import combine_date_with_time
+from edenai_apis.utils.conversion import combine_date_with_time, standardized_confidence_score
 
 
 def get_microsoft_headers() -> Dict:
@@ -93,7 +93,7 @@ def microsoft_text_moderation_personal_infos(data):
                 classification.append(
                     TextModerationItem(
                         label= TextModerationCategoriesMicrosoftEnum[key].value,
-                        likelihood= TextModerationItem.moderation_processing(value["Score"])
+                        likelihood= standardized_confidence_score(value["Score"])
                     )
                 )
             except Exception as exc:
@@ -248,26 +248,6 @@ def miscrosoft_normalize_face_detection_response(response, img_size):
             )
         )
     return deepcopy(faces_list)
-
-
-def content_processing(confidence: Optional[int]):
-    """
-    Transform score of confidence to level of confidence between 0 and 5
-    """
-    processing = 0
-    confidence = confidence * 100 if confidence else 0
-    if confidence < 10:
-        processing = 1
-    elif confidence < 30:
-        processing = 2
-    elif confidence < 60:
-        processing = 3
-    elif confidence < 80:
-        processing = 4
-    elif confidence > 80:
-        processing = 5
-    return processing
-
 
 def normalize_invoice_result(response):
     """normalize the original response of the provider api"""

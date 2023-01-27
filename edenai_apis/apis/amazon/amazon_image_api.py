@@ -1,7 +1,6 @@
 from io import BufferedReader
 from typing import List
 
-from edenai_apis.apis.microsoft.microsoft_helpers import content_processing
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
     ExplicitItem,
@@ -41,6 +40,7 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
     ObjectDetectionDataClass,
     ObjectItem,
 )
+from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
@@ -146,8 +146,8 @@ class AmazonImageApi(ImageInterface):
                 if emo.get("Type"):
                     if emo.get("Type").lower() == "happy":  # normalise keywords
                         emo["Type"] = "happiness"
-                    emotion_output[emo.get("Type").lower()] = content_processing(
-                        normalized_emo
+                    emotion_output[emo.get("Type").lower()] = standardized_confidence_score(
+                        normalized_emo / 100
                     )
             emotions = FaceEmotions(
                 anger=emotion_output.get("angry"),
@@ -250,7 +250,7 @@ class AmazonImageApi(ImageInterface):
             items.append(
                 ExplicitItem(
                     label=label.get("Name"),
-                    likelihood=content_processing(label.get("Confidence")),
+                    likelihood=standardized_confidence_score(label.get("Confidence") / 100),
                 )
             )
 

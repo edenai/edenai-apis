@@ -3,7 +3,6 @@ from typing import List, Sequence
 
 import requests
 from edenai_apis.apis.microsoft.microsoft_helpers import (
-    content_processing,
     miscrosoft_normalize_face_detection_response,
 )
 from edenai_apis.features.image import (
@@ -38,6 +37,7 @@ from edenai_apis.features.image.face_recognition.list_faces.face_recognition_lis
     FaceRecognitionListFacesDataClass,
 )
 from edenai_apis.features.image.image_interface import ImageInterface
+from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from PIL import Image as Img
@@ -74,7 +74,7 @@ class MicrosoftImageApi(ImageInterface):
                 items.append(
                     ExplicitItem(
                         label=explicit_type.capitalize(),
-                        likelihood=content_processing(
+                        likelihood=standardized_confidence_score(
                             moderation_content[f"{explicit_type}Score"]
                         ),
                     )

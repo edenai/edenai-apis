@@ -1,21 +1,6 @@
 from typing import Optional
 from requests import Response
 
-
-def content_processing(confidence):
-    if confidence < 0.1:
-        return 1
-    elif confidence < 0.3:
-        return 2
-    elif confidence < 0.6:
-        return 3
-    elif confidence < 0.8:
-        return 4
-    elif confidence > 0.8:
-        return 5
-    else:
-        return 0
-
 def get_errors_from_response(response: Response) -> Optional[str]:
     """
     Return formated error from a requests.Response object if it exists,
