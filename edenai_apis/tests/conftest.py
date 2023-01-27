@@ -8,12 +8,12 @@ without_phase = lambda p, f, s, ph: ph
 without_async = lambda p, f, s, ph: '_async' in s
 without_async_and_phase = lambda p, f, s, ph: '_async' in s or ph
 
-def global_features(filter: Callable[[Any], bool] = None):
+def global_features(filter: Callable[[Any], bool] = None, return_phase: bool = False):
     """Generate a list of parameters for tests classes.
     Args:
         filter(lambda): filter object
     Returns:
-         list [] async_providers   : [([provider1, provider2], feature, subfeature)]
+         list [] providers   : [([provider1, provider2], feature, subfeature)]
     """
     method_list = list_features()
     detailed_providers_list = []
@@ -21,15 +21,18 @@ def global_features(filter: Callable[[Any], bool] = None):
     for provider, feature, subfeature, *phase in method_list:
         if filter and filter(provider, feature, subfeature, phase):
             continue
+        params_list = [provider, feature, subfeature]
+
+        if return_phase:
+            params_list.append(phase[0] if phase else "")
+
         detailed_params = pytest.param(
-            provider,
-            feature,
-            subfeature,
-            phase[0] if phase else "",
+            *params_list,
             marks=[
                 getattr(pytest.mark, provider),
                 getattr(pytest.mark, feature),
-                getattr(pytest.mark, subfeature)],
+                getattr(pytest.mark, subfeature),
+            ],
         )
         detailed_providers_list.append(detailed_params)
     return detailed_providers_list
@@ -39,7 +42,7 @@ def global_providers(filter: Callable[[str], bool] = None):
     Args:
         filter(lambda): filter object
     Returns:
-         list [] async_providers   : [([provider1, provider2], feature, subfeature)]
+         list [] providers   : [provider1, provider2]
     """
     method_list = list_providers()
     detailed_providers_list = []

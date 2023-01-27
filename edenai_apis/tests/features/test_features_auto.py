@@ -6,9 +6,6 @@
 """
 import pytest
 import importlib
-import datetime
-import json
-from edenai_apis.interface import list_features
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.tests.conftest import global_features, without_async_and_phase
@@ -35,15 +32,15 @@ class TestSubfeatures:
         if not feature_args.get('file'):
             pytest.skip("unsupported configuration")
         feature_args['file'] = invalid_file
-        
+
         # Action
-        with pytest.raises(ProviderException, AttributeError) as exc:
+        with pytest.raises((ProviderException, AttributeError)) as exc:
             feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
             provider_method = getattr(feature_class, f"{subfeature}")(provider)
             provider_method(**feature_args)
             assert exc is not None, 'ProviderException or AttributeError expected.'
 
-    
+
     def test_feature_api_call(self, provider, feature, subfeature):
         # Setup
         feature_args = load_feature(
