@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field, StrictStr, validator
 
 
 class InfosKeywordExtractionDataClass(BaseModel):
-    keyword: StrictStr
+    keyword: str
     importance: Optional[float]
 
     @validator('importance')
