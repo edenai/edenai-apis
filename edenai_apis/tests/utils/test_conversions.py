@@ -2,6 +2,8 @@ import pytest
 
 from edenai_apis.utils.conversion import (
     add_query_param_in_url,
+    closest_above_value,
+    closest_below_value,
     combine_date_with_time,
     concatenate_params_in_url,
     convert_pt_date_from_string,
@@ -441,3 +443,35 @@ class TestReplaceSep:
 
         assert output == expected_output, \
             f"Expected `{expected_output}` for ({x}, {current_sep}, {new_sep}) but got `{output}"
+
+
+class TestClosestValue:
+    @pytest.mark.parametrize(
+        ('input_value', 'expected_value'),
+        [
+            [0.5, 0.6],
+            [0, 0.2],
+            [0.522, 0.6],
+            [1.15, 1],
+            [0.8, 0.8]
+        ]
+    )
+    def test_above_value(self, input_value, expected_value):
+        v = closest_above_value([0.2, 0.4, 0.6, 0.8, 1], input_value)
+
+        assert v == expected_value
+
+    @pytest.mark.parametrize(
+        ('input_value', 'expected_value'),
+        [
+            [0.5, 0.4],
+            [0, 0.2],
+            [0.522, 0.4],
+            [1.15, 1],
+            [0.8, 0.8]
+        ]
+    )
+    def test_below_value(self, input_value, expected_value):
+        v = closest_below_value([0.2, 0.4, 0.6, 0.8, 1], input_value)
+
+        assert v == expected_value

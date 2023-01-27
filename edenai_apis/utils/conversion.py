@@ -22,6 +22,21 @@ def convert_string_to_number(
     except Exception as exc:
         return None
 
+def closest_above_value(input_list, input_value):
+  above = min([ i for i in input_list if i >= input_value] or input_list, key=lambda x: abs(x - input_value))
+  return above
+
+def closest_below_value(input_list, input_value):
+  below = min([ i for i in input_list if i <= input_value] or input_list, key=lambda x: abs(x - input_value))
+  return below
+
+def standardized_confidence_score(
+    confidence_score: float,
+    limit_values: list = [0.2, 0.4, 0.6, 0.8, 1.0],
+    ratio: float = 5
+):
+    return closest_above_value(limit_values, confidence_score) * ratio
+
 
 def retreive_first_number_from_string(string_number: str) -> Union[str, None]:
     """

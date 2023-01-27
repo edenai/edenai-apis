@@ -3,6 +3,7 @@ import requests
 import numpy as np
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
@@ -133,7 +134,7 @@ class OpenaiApi(ProviderInterface, TextInterface):
                 classification.append(
                     TextModerationItem(
                         label= key,
-                        likelihood= TextModerationItem.moderation_processing(value)
+                        likelihood= standardized_confidence_score(value)
                     )
                 )
         standardized_response : ModerationDataClass = ModerationDataClass(

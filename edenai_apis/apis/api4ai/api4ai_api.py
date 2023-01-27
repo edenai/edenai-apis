@@ -32,9 +32,10 @@ from edenai_apis.features.ocr.ocr.ocr_dataclass import Bounding_box, OcrDataClas
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features import ProviderInterface, ImageInterface, OcrInterface
+from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from .helpers import content_processing, get_errors_from_response
+from .helpers import get_errors_from_response
 
 
 class Api4aiApi(
@@ -236,7 +237,7 @@ class Api4aiApi(
         for classe in nsfw_response:
             nsfw_items.append(
                 ExplicitItem(
-                    label=classe, likelihood=content_processing(nsfw_response[classe])
+                    label=classe, likelihood=standardized_confidence_score(nsfw_response[classe])
                 )
             )
 

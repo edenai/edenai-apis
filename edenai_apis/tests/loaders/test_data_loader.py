@@ -93,7 +93,7 @@ class TestLoadInfoFile:
 class TestLoadProviderSubfeatureInfo:
     @pytest.mark.parametrize(
         ('provider', 'feature', 'subfeature', 'phase'),
-        global_features()
+        global_features(return_phase=True)
     )
     def test_load_info_subfeature_provider(self, provider, feature, subfeature, phase):
         info = load_provider_subfeature_info(provider, feature, subfeature, phase)
@@ -105,7 +105,7 @@ class TestLoadProviderSubfeatureInfo:
 class TestLoadOutput:
     @pytest.mark.parametrize(
         ('provider', 'feature', 'subfeature', 'phase'),
-        global_features()
+        global_features(return_phase=True)
     )
     def test_load_output_valid_paramters(self, provider, feature, subfeature, phase):
         #skip create and delete method
@@ -125,7 +125,7 @@ class TestLoadOutput:
 class TestLoadSubfeature:
     @pytest.mark.parametrize(
         ('provider', 'feature', 'subfeature', 'phase'),
-        global_features(without_async)
+        global_features(without_async, return_phase=True)
     )
     def test_load_subfeature_sync_subfeature(self, provider, feature, subfeature, phase):
         method_subfeature = load_subfeature(provider, feature, subfeature, phase)
@@ -139,11 +139,11 @@ class TestLoadSubfeature:
 
 
     @pytest.mark.parametrize(
-        ('provider', 'feature', 'subfeature', 'phase'),
+        ('provider', 'feature', 'subfeature'), 
         global_features(only_async)
     )
-    def test_load_subfeature_sync_subfeature_get_job_result(self, provider, feature, subfeature, phase):
-        method_subfeature = load_subfeature(provider, feature, subfeature, 'get_job_result', phase)
+    def test_load_subfeature_sync_subfeature_get_job_result(self, provider, feature, subfeature):
+        method_subfeature = load_subfeature(provider, feature, subfeature, 'get_job_result')
 
         expected_name = f'{feature}__{subfeature}__get_job_result'
 
@@ -152,11 +152,11 @@ class TestLoadSubfeature:
 
 
     @pytest.mark.parametrize(
-        ('provider', 'feature', 'subfeature', 'phase'),
+        ('provider', 'feature', 'subfeature'),
         global_features(only_async)
     )
-    def test_load_subfeature_sync_subfeature_launch_job(self, provider, feature, subfeature, phase):
-        method_subfeature = load_subfeature(provider, feature, subfeature, 'launch_job', phase)
+    def test_load_subfeature_sync_subfeature_launch_job(self, provider, feature, subfeature):
+        method_subfeature = load_subfeature(provider, feature, subfeature, 'launch_job')
 
         expected_name = f'{feature}__{subfeature}__launch_job'
 

@@ -27,7 +27,7 @@ INTERFACE_MODULE = importlib.import_module("edenai_apis.interface_v2")
 class TestAsyncSubFeatures:
     def _test_launch_job_id(self, provider, feature, subfeature):
         logging.info(f"Testing launch job id for {provider}, {subfeature}..\n")
-        
+
         # Step 1 (setup) : prepare parameters 
         feature_args = load_feature(
             FeatureDataEnum.SAMPLES_ARGS,
