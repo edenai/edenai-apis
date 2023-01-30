@@ -19,7 +19,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 
-from edenai_apis.utils.audio import file_with_good_extension
+from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 
 class SymblApi(ProviderInterface, AudioInterface):
     provider_name = "symbl"
@@ -54,16 +54,15 @@ class SymblApi(ProviderInterface, AudioInterface):
         self.access_token = response.json()["accessToken"]
 
 
+    @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
         speakers : int, profanity_filter: bool,
-        vocabulary: list
+        vocabulary: list, audio_attributes: tuple
     ) -> AsyncLaunchJobResponseType:
         # file.seek(0, 2)
 
-        # check if audio file needs convertion
-        accepted_extensions = ["wav", "mp3", "flac", "mp4"]
-        file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
+        export_format, channels, frame_rate = audio_attributes
 
         number_of_bytes = file.tell()
         file.seek(0)

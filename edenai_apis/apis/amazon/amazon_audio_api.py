@@ -15,7 +15,7 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
-from edenai_apis.utils.audio import file_with_good_extension
+from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -124,6 +124,7 @@ class AmazonAudioApi(AudioInterface):
         except KeyError as exc:
             raise ProviderException(str(exc)) from exc
 
+    @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
@@ -131,13 +132,10 @@ class AmazonAudioApi(AudioInterface):
         speakers: int,
         profanity_filter: bool,
         vocabulary: list,
+        audio_attributes: tuple
     ) -> AsyncLaunchJobResponseType:
 
-        # check if audio file needs convertion
-        accepted_extensions = ["amr", "flac", "wav", "ogg", "mp3", "mp4", "webm"]
-        file, export_format, channels, frame_rate = file_with_good_extension(
-            file, accepted_extensions
-        )
+        export_format, channels, frame_rate = audio_attributes
 
         filename = self._upload_audio_file_to_amazon_server(
             file, Path(file.name).stem + "." + export_format

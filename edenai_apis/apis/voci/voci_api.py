@@ -9,7 +9,7 @@ from edenai_apis.features.audio.speech_to_text_async import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features.provider.provider_interface import ProviderInterface
-from edenai_apis.utils.audio import file_with_good_extension
+from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.features import AudioInterface
 from edenai_apis.utils.types import (
@@ -28,15 +28,16 @@ class VociApi(ProviderInterface, AudioInterface):
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
         self.key = self.api_settings["voci_key"]
 
+
+    @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
         speakers : int, profanity_filter: bool,
-        vocabulary: Optional[List[str]]
+        vocabulary: Optional[List[str]],
+        audio_attributes: tuple
     ) -> AsyncLaunchJobResponseType:
 
-        # check if audio file needs convertion
-        accepted_extensions = ["wav", "mp3", "flac"]
-        file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
+        export_format, channels, frame_rate = audio_attributes
 
         data_config = {
                 "output": "json",

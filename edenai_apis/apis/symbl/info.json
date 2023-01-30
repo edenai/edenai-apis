@@ -24,6 +24,12 @@
                     "pt-PT",
                     "fa-IR"
                 ],
+                "file_extensions": [
+                    "wav",
+                    "mp3",
+                    "flac",
+                    "mp4"
+                ],
                 "allow_null_language": true
             },
             "version": "v1"

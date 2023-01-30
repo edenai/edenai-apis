@@ -22,7 +22,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 from apis.amazon.config import storage_clients
-from edenai_apis.utils.audio import file_with_good_extension
+from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 
 
 class RevAIApi(ProviderInterface, AudioInterface):
@@ -125,19 +125,19 @@ class RevAIApi(ProviderInterface, AudioInterface):
         return original_response["id"]
 
 
+    @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(
         self, file: BufferedReader, language: str,
-        speakers : int, profanity_filter: bool, vocabulary: Optional[List[str]]
+        speakers : int, profanity_filter: bool, vocabulary: Optional[List[str]],
+        audio_attributes: tuple
     ) -> AsyncLaunchJobResponseType:
         
-        # check if audio file needs convertion
-        accepted_extensions = ["ogg", "flac", "mp4", "wav", "mp3"]
-        new_file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
+        export_format, channels, frame_rate = audio_attributes
 
         # upload file to amazon S3
         file_name = str(int(time())) + "_" + str(file.name.split("/")[-1])
         storage_clients(self.api_settings_amazon)["speech"].meta.client.upload_fileobj(
-            Fileobj = new_file, 
+            Fileobj = file, 
             Bucket = self.bucket_name, 
             Key= file_name 
         )

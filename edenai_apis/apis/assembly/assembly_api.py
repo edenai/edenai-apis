@@ -17,7 +17,7 @@ from edenai_apis.utils.types import (
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import file_with_good_extension
+from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 
 from apis.amazon.config import storage_clients
 from .helper import language_matches
@@ -37,24 +37,23 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         self.storage_url = self.api_settings["storage_url"]
         self.api_settings_amazon = load_provider(ProviderDataEnum.KEY, "amazon")
 
-    
+
+    @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(self, file: BufferedReader, 
-        language: str, speakers: int, profanity_filter: bool, vocabulary: Optional[List[str]]
+        language: str, speakers: int, profanity_filter: bool, vocabulary: Optional[List[str]],
+        audio_attributes: tuple
         ) -> AsyncLaunchJobResponseType:
 
         if language and "-" in language:
             language = language_matches[language]
-        # check if audio file needs convertion
-        accepted_extensions = ["wav", "mp3", "flac","3ga","8svx","aac","ac3","aif", "aiff", "alac", "amr",
-            "ape", "au","dss", "flv", "m4a", "m4b","m4p","m4r","mpga","ogg","oga","mogg","opus","qcp","tta",
-            "voc","wma","wv","webm","mts","m2ts","ts","mov","mp2","mp4","m4p","m4v","mxf"]
-        new_file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
+        
+        export_format, channels, frame_rate = audio_attributes
     
         #upload file to server
         header = {"authorization": self.api_key}
         file_name = str(int(time())) + "_" + str(file.name.split("/")[-1])
         storage_clients(self.api_settings_amazon)["speech"].meta.client.upload_fileobj(
-            Fileobj = new_file, 
+            Fileobj = file, 
             Bucket = self.bucket_name, 
             Key= file_name 
         )

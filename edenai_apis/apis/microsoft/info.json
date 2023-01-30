@@ -141,6 +141,14 @@
           "vi-VN",
           "cy-GB",
           "zu-ZA"
+        ],
+        "file_extensions": [
+          "wav",
+          "mp3",
+          "flac",
+          "mp4",
+          "ogg",
+          "opus"
         ]
       },
       "version": "v1.0"

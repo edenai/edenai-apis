@@ -141,6 +141,17 @@
                     "bn-BD",
                     "gl-ES",
                     "ar-DZ"
+                ],
+                "file_extensions": [
+                    "flac",
+                    "mp3",
+                    "wav",
+                    "ulaw",
+                    "amr",
+                    "amr-wb",
+                    "opus",
+                    "webm",
+                    "spx"
                 ]
             },
             "version": "v1p1beta1"

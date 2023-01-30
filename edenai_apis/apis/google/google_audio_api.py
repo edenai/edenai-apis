@@ -15,7 +15,7 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
-from edenai_apis.utils.audio import file_with_good_extension
+from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -87,6 +87,8 @@ class GoogleAudioApi(AudioInterface):
             raise ProviderException(str(exc)) from exc
         return phrase_set_response.name
 
+
+    @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
@@ -94,27 +96,14 @@ class GoogleAudioApi(AudioInterface):
         speakers: int,
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
+        audio_attributes: tuple
     ) -> AsyncLaunchJobResponseType:
 
         # check language
         if not language:
             raise LanguageException("Language not provided")
 
-        # check file extension, and convert if not supported
-        accepted_extensions = [
-            "flac",
-            "mp3",
-            "wav",
-            "ulaw",
-            "amr",
-            "amr-wb",
-            "opus",
-            "webm",
-            "spx",
-        ]
-        file, export_format, channels, frame_rate = file_with_good_extension(
-            file, accepted_extensions
-        )
+        export_format, channels, frame_rate = audio_attributes
 
         audio_name = str(int(time())) + Path(file.name).stem + "." + export_format
         print(audio_name)

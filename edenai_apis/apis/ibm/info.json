@@ -29,6 +29,20 @@
                     "fr-FR",
                     "en-IN"
                 ],
+                "file_extensions" : [
+                    "flac",
+                    "mp3",
+                    "wav",
+                    "flac",
+                    "ogg",
+                    "webm",
+                    "alaw",
+                    "amr",
+                    "g729",
+                    "l16",
+                    "mpeg",
+                    "mulaw"
+                ],
                 "allow_null_language": true
             },
             "version": "v1"

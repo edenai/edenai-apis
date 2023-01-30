@@ -60,6 +60,11 @@
         "languages": [
           "en"
         ],
+        "file_extensions": [
+          "wav",
+          "mp3",
+          "mpeg"
+        ],
         "allow_null_language": false
       },
       "version": "v0"

@@ -1,6 +1,6 @@
 {
-    "audio" : {
-        "speech_to_text_async" : {
+    "audio": {
+        "speech_to_text_async": {
             "constraints": {
                 "languages": [
                     "en",
@@ -15,6 +15,47 @@
                     "nl",
                     "hi",
                     "ja"
+                ],
+                "file_extensions": [
+                    "wav",
+                    "mp3",
+                    "flac",
+                    "3ga",
+                    "8svx",
+                    "aac",
+                    "ac3",
+                    "aif",
+                    "aiff",
+                    "alac",
+                    "amr",
+                    "ape",
+                    "au",
+                    "dss",
+                    "flv",
+                    "m4a",
+                    "m4b",
+                    "m4p",
+                    "m4r",
+                    "mpga",
+                    "ogg",
+                    "oga",
+                    "mogg",
+                    "opus",
+                    "qcp",
+                    "tta",
+                    "voc",
+                    "wma",
+                    "wv",
+                    "webm",
+                    "mts",
+                    "m2ts",
+                    "ts",
+                    "mov",
+                    "mp2",
+                    "mp4",
+                    "m4p",
+                    "m4v",
+                    "mxf"
                 ],
                 "allow_null_language": true
             },

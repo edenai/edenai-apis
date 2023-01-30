@@ -14,7 +14,7 @@ from edenai_apis.features.audio import (
     TextToSpeechDataClass,
 )
 from edenai_apis.features.audio.audio_interface import AudioInterface
-from edenai_apis.utils.audio import file_with_good_extension
+from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 from edenai_apis.utils.conversion import convert_pt_date_to_string
 from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import (
@@ -75,6 +75,7 @@ class MicrosoftAudioApi(AudioInterface):
             original_response={}, standardized_response=standardized_response
         )
 
+    @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
@@ -82,20 +83,16 @@ class MicrosoftAudioApi(AudioInterface):
         speakers: int,
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
+        audio_attributes: tuple
     ) -> AsyncLaunchJobResponseType:
         # check language
         if not language:
             raise LanguageException("Language not provided")
 
-        # check if audio file needs convertion
-        accepted_extensions = ["wav", "mp3", "flac", "mp4", "ogg", "opus"]
-        new_file, export_format, channels, frame_rate = file_with_good_extension(
-            file, accepted_extensions
-        )
-        print(channels)
+        export_format, channels, frame_rate = audio_attributes
 
         content_url = upload_file_to_s3(
-            new_file, Path(file.name).stem + "." + export_format
+            file, Path(file.name).stem + "." + export_format
         )
 
         headers = self.headers["speech"]

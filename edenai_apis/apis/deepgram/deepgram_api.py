@@ -18,7 +18,7 @@ from edenai_apis.utils.types import (
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import file_with_good_extension
+from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 from apis.amazon.helpers import check_webhook_result
 
 from apis.amazon.config import storage_clients
@@ -39,18 +39,17 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         self.storage_url = self.api_settings["storage_url"]
 
 
-
+    @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(self, file: BufferedReader, 
-        language: str, speakers: int, profanity_filter: bool, vocabulary: list
+        language: str, speakers: int, profanity_filter: bool, vocabulary: list,
+        audio_attributes: tuple
         ) -> AsyncLaunchJobResponseType:
 
-        # check if audio file needs convertion
-        accepted_extensions = ["wav", "mp2", "mp3", "mp4", "flac","aac","pcm","m4m", "ogg", "opus", "webm"]
-        new_file, export_format, channels, frame_rate = file_with_good_extension(file, accepted_extensions)
+        export_format, channels, frame_rate = audio_attributes
 
         file_name = str(int(time())) + "_" + str(file.name.split("/")[-1])
         storage_clients(self.api_settings_amazon)["speech"].meta.client.upload_fileobj(
-            Fileobj = new_file, 
+            Fileobj = file, 
             Bucket = self.bucket_name, 
             Key= file_name 
         )

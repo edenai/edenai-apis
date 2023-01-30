@@ -15,8 +15,10 @@
                     "por-BR",
                     "spa-CO"
                 ],
-                "file_type": [
-                    "wav"
+                "file_extensions": [
+                    "wav",
+                    "mp3",
+                    "flac"
                 ],
                 "allow_null_language": true
             },

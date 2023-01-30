@@ -6,6 +6,8 @@ from enum import Enum
 
 from pydub import AudioSegment
 from pydub.utils import mediainfo
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 
 
@@ -122,4 +124,22 @@ def file_with_good_extension(file: BufferedReader, accepted_extensions: List,
  
     channels, frame_rate = get_audio_attributes(file, export_format)
     file.seek(0)
-    return file, export_format, channels, frame_rate
+    return export_format, channels, frame_rate
+
+
+#decorator
+def audio_features_and_support(func):
+    """decorator to pass audio features or attributes to audio__speech_to_text_async__launch_job"""
+    def func_wrapper(self, file: BufferedReader, language: str,
+        speakers: int, profanity_filter: bool, vocabulary: list):
+
+        provider_name = getattr(self, "provider_name")
+        info_file = load_provider(ProviderDataEnum.INFO_FILE, provider_name)
+        audio_feature = info_file.get("audio") or {}
+        speech_to_text_subfeature = audio_feature.get("speech_to_text_async") or {}
+        constraints = speech_to_text_subfeature.get("constraints")
+        accepted_extensions : list = constraints.get("file_extensions")
+        audio_attributes = file_with_good_extension(file, accepted_extensions)
+        return func(self, file, language, speakers, profanity_filter, vocabulary, audio_attributes)
+     
+    return func_wrapper

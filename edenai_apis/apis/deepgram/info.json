@@ -1,8 +1,8 @@
 {
     "audio": {
         "speech_to_text_async": {
-            "constraints" : {
-                "languages" : [
+            "constraints": {
+                "languages": [
                     "zh",
                     "zh-CN",
                     "zh-TW",
@@ -37,9 +37,22 @@
                     "tr",
                     "uk"
                 ],
+                "file_extensions": [
+                    "wav",
+                    "mp2",
+                    "mp3",
+                    "mp4",
+                    "flac",
+                    "aac",
+                    "pcm",
+                    "m4m",
+                    "ogg",
+                    "opus",
+                    "webm"
+                ],
                 "allow_null_language": true
             },
-            "version" : "v1"
+            "version": "v1"
         }
     }
 }

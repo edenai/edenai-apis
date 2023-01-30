@@ -9,7 +9,7 @@ from edenai_apis.features.audio import (
     TextToSpeechDataClass,
 )
 from edenai_apis.features.audio.audio_interface import AudioInterface
-from edenai_apis.utils.audio import file_with_good_extension
+from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -61,6 +61,8 @@ class IbmAudioApi(AudioInterface):
             original_response={}, standardized_response=standardized_response
         )
 
+
+    @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
@@ -68,25 +70,10 @@ class IbmAudioApi(AudioInterface):
         speakers: int,
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
+        audio_attributes: tuple
     ) -> AsyncLaunchJobResponseType:
-        # check if audio file needs convertion
-        accepted_extensions = [
-            "flac",
-            "mp3",
-            "wav",
-            "flac",
-            "ogg",
-            "webm",
-            "alaw",
-            "amr",
-            "g729",
-            "l16",
-            "mpeg",
-            "mulaw",
-        ]
-        new_file, export_format, channels, frame_rate = file_with_good_extension(
-            file, accepted_extensions
-        )
+       
+        export_format, channels, frame_rate = audio_attributes
 
         language_audio = language
         audio_config = {

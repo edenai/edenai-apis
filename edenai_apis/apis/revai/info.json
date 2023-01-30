@@ -40,6 +40,13 @@
                     "te",
                     "tr"
                 ],
+                "file_extensions": [
+                    "ogg",
+                    "flac",
+                    "mp4",
+                    "wav",
+                    "mp3"
+                ],
                 "allow_null_language": true
             },
             "version": "v1"

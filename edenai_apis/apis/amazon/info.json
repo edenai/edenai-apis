@@ -39,7 +39,16 @@
                     "th-TH",
                     "tr-TR"
                 ],
-                "allow_null_language":true
+                "file_extensions": [
+                    "amr",
+                    "flac",
+                    "wav",
+                    "ogg",
+                    "mp3",
+                    "mp4",
+                    "webm"
+                ],
+                "allow_null_language": true
             },
             "version": "boto3 (v1.15.18)"
         },
@@ -103,7 +112,7 @@
                     "fr",
                     "de"
                 ],
-                "allow_null_language":true
+                "allow_null_language": true
             },
             "version": "boto3 (v1.15.18)"
         },
@@ -134,7 +143,6 @@
                     "image/png",
                     "application/pdf",
                     "image/tiff"
-
                 ],
                 "languages": [
                     "en",
@@ -375,8 +383,8 @@
         }
     },
     "video": {
-        "label_detection_async" : {
-            "version":"boto3",
+        "label_detection_async": {
+            "version": "boto3",
             "constraints": {
                 "file_types": [
                     "video/mp4",
@@ -384,8 +392,8 @@
                 ]
             }
         },
-        "text_detection_async" : {
-            "version":"boto3",
+        "text_detection_async": {
+            "version": "boto3",
             "constraints": {
                 "file_types": [
                     "video/mp4",
@@ -393,8 +401,8 @@
                 ]
             }
         },
-        "face_detection_async" : {
-            "version":"boto3",
+        "face_detection_async": {
+            "version": "boto3",
             "constraints": {
                 "file_types": [
                     "video/mp4",
@@ -402,8 +410,8 @@
                 ]
             }
         },
-        "person_tracking_async" : {
-            "version":"boto3",
+        "person_tracking_async": {
+            "version": "boto3",
             "constraints": {
                 "file_types": [
                     "video/mp4",
@@ -411,8 +419,8 @@
                 ]
             }
         },
-        "explicit_content_detection_async" : {
-            "version":"boto3",
+        "explicit_content_detection_async": {
+            "version": "boto3",
             "constraints": {
                 "file_types": [
                     "video/mp4",
