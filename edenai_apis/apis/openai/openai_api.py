@@ -379,7 +379,10 @@ class OpenaiApi(ProviderInterface, TextInterface):
         "logprobs":1,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
-
+        
+        if "error" in original_response:
+            raise ProviderException(original_response["error"]["message"])
+        
         # Create output response
         # Get score 
         score = np.exp(original_response['choices'][0]['logprobs']['token_logprobs'][0])
@@ -405,6 +408,10 @@ class OpenaiApi(ProviderInterface, TextInterface):
         "logprobs":1,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
+
+        if "error" in original_response:
+            raise ProviderException(original_response["error"]["message"])
+        
         # Create output response
         # Get score 
         score = np.exp(original_response['choices'][0]['logprobs']['token_logprobs'][0])
