@@ -236,7 +236,7 @@ class MicrosoftImageApi(ImageInterface):
             data=file_content,
         ).json()
         items: Sequence[LandmarkItem] = []
-        for key in response.get("categories"):
+        for key in response.get("categories", []):
             for landmark in key.get("detail", {}).get("landmarks", []):
                 if landmark.get("name") not in [item.description for item in items]:
                     items.append(
