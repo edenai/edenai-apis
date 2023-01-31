@@ -37,6 +37,12 @@ class ConnexunApi(ProviderInterface, TextInterface):
         if isinstance(original_response, dict) and original_response.get("message"):
             raise ProviderException(original_response["message"])
 
+        general_sentiment = original_response.get("Sentiment")
+        general_sentiment_rate = original_response.get("Value")
+
+        if not general_sentiment and not general_sentiment_rate:
+            raise ProviderException("Provider has not found a sentiment of the text.")
+
         standardized_response = SentimentAnalysisDataClass(
             general_sentiment=original_response.get("Sentiment"),
             general_sentiment_rate=original_response.get("Value"),
