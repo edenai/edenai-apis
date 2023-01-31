@@ -36,7 +36,8 @@ class SkybiometryApi(ProviderInterface, ImageInterface):
                 code=response.status_code
             )
 
-        if original_response['photos'][0]:
+        pprint(original_response)
+        if len(original_response['photos'][0]['tags']) > 0:
             original_response = original_response['photos'][0]['tags'][0]
         else:
             raise ProviderException(message='Provider did not return any face', code=404)
