@@ -350,7 +350,7 @@ class AmazonOcrApi(OcrInterface):
                     item_lines.append(
                         ItemLinesInvoice(
                             description=parsed_items.get("ITEM"),
-                            quantity=convert_string_to_number(parsed_items.get("QUANTITY")),
+                            quantity=convert_string_to_number(parsed_items.get("QUANTITY"), int),
                             amount=convert_string_to_number(
                                 parsed_items.get("PRICE"), float
                             ),
