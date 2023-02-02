@@ -129,7 +129,7 @@ class HireabilityApi(ProviderInterface, OcrInterface):
 
         # 4 Others
         skills = []
-        for i in infos.get("PersonCompetency"):
+        for i in (infos.get("PersonCompetency") or []):
             skill = i.get("CompetencyName")
             skill_type = i.get("CompetencyLevel")
             skills.append(ResumeSkill(name=skill, type=skill_type))
