@@ -33,6 +33,8 @@ def retreive_first_number_from_string(string_number: str) -> Union[str, None]:
         str:    if found the number is returned as a string
         None:   if nothing is found
     """
+    if not string_number:
+        return None
     return re.findall(r"\d+", string_number)[0] if string_number is not None else None
 
 
