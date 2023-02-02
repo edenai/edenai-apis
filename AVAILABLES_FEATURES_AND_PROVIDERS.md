@@ -4,12 +4,14 @@
 | Subfeatures | Providers |
 |----------|-------------|
 | **invoice_parser** | affinda |
+| | amazon |
 | | base64 |
 | | dataleon |
 | | microsoft |
 | | mindee |
 | **resume_parser** | affinda |
 | | hireability |
+| **custom_document_parsing_async** | amazon |
 | **identity_parser** | amazon |
 | | base64 |
 | | microsoft |
@@ -70,6 +72,9 @@
 | | google |
 | | microsoft |
 | | picpurify |
+| | skybiometry |
+| **face_recognition** | amazon |
+| | microsoft |
 | **object_detection** | amazon |
 | | api4ai |
 | | clarifai |
@@ -90,6 +95,11 @@
 
 | Subfeatures | Providers |
 |----------|-------------|
+| **anonymization** | amazon |
+| | emvista |
+| | microsoft |
+| | oneai |
+| | openai |
 | **keyword_extraction** | amazon |
 | | emvista |
 | | ibm |
@@ -117,6 +127,8 @@
 | | google |
 | | ibm |
 | | lettria |
+| **custom_classification** | cohere |
+| | openai |
 | **generation** | cohere |
 | | openai |
 | **summarize** | connexun |
@@ -126,14 +138,14 @@
 | | microsoft |
 | | oneai |
 | | openai |
-| **anonymization** | emvista |
-| | oneai |
-| | openai |
 | **topic_extraction** | google |
 | | ibm |
 | | openai |
 | **question_answer** | huggingface |
 | | openai |
+| **moderation** | microsoft |
+| | openai |
+| **custom_named_entity_recognition** | openai |
 | **search** | openai |
 
 </details>
@@ -159,6 +171,8 @@
 | | neuralspace |
 | | oneai |
 | | openai |
+| **document_translation** | deepl |
+| | google |
 
 </details>
 <details><summary>video</summary>
@@ -198,11 +212,15 @@
 | | text_to_speech |
 | **image** | explicit_content |
 | | face_detection |
+| | face_recognition |
 | | object_detection |
-| **ocr** | identity_parser |
+| **ocr** | custom_document_parsing_async |
+| | identity_parser |
+| | invoice_parser |
 | | ocr |
 | | ocr_tables_async |
-| **text** | keyword_extraction |
+| **text** | anonymization |
+| | keyword_extraction |
 | | named_entity_recognition |
 | | sentiment_analysis |
 | | syntax_analysis |
@@ -258,7 +276,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | generation |
+| **text** | custom_classification |
+| | generation |
 
 </details>
 <details><summary>connexun</summary>
@@ -289,6 +308,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **translation** | automatic_translation |
+| | document_translation |
 
 </details>
 <details><summary>emvista</summary>
@@ -320,6 +340,7 @@
 | | syntax_analysis |
 | | topic_extraction |
 | **translation** | automatic_translation |
+| | document_translation |
 | | language_detection |
 | **video** | explicit_content_detection_async |
 | | face_detection_async |
@@ -385,6 +406,7 @@
 | | text_to_speech |
 | **image** | explicit_content |
 | | face_detection |
+| | face_recognition |
 | | landmark_detection |
 | | logo_detection |
 | | object_detection |
@@ -393,7 +415,9 @@
 | | ocr |
 | | ocr_tables_async |
 | | receipt_parser |
-| **text** | keyword_extraction |
+| **text** | anonymization |
+| | keyword_extraction |
+| | moderation |
 | | named_entity_recognition |
 | | sentiment_analysis |
 | | summarize |
@@ -446,8 +470,11 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | anonymization |
+| | custom_classification |
+| | custom_named_entity_recognition |
 | | generation |
 | | keyword_extraction |
+| | moderation |
 | | question_answer |
 | | search |
 | | sentiment_analysis |
@@ -487,6 +514,13 @@
 | | object_detection |
 | | search |
 | **ocr** | ocr |
+
+</details>
+<details><summary>skybiometry</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | face_detection |
 
 </details>
 <details><summary>smartclick</summary>
