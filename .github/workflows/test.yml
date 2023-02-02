@@ -9,7 +9,7 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -47,6 +47,14 @@ jobs:
           sphinx-apidoc -o _build/ ../edenai_apis/
           make html
           cp -r _build/html/* ../docs/
+      - name: commit documentation changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: AVAILABLES_FEATURES_AND_PROVIDERS.md
+          committer_name: Github Action
+          committer_email: mail@example.com
+          message: '[doc] update available features & providers'
+
 
   generate_doc_and_deploy:
     needs: test

@@ -77,7 +77,7 @@ class IbmAudioApi(AudioInterface):
 
         language_audio = language
         audio_config = {
-            "audio": new_file,
+            "audio": file,
             "content_type": "audio/" + export_format,
             "speaker_labels": True,
             "profanity_filter": profanity_filter,

@@ -6,6 +6,7 @@ from edenai_apis import Image
 from edenai_apis.features.image.face_detection.face_detection_args import (
     face_detection_arguments,
 )
+from edenai_apis.features.image.face_recognition.common_args import COLLECTION_ID
 from edenai_apis.features.image.face_recognition.create_collection.face_recognition_create_collection_dataclass import (
     FaceRecognitionCreateCollectionDataClass,
 )
@@ -23,11 +24,8 @@ from edenai_apis.interface import list_providers
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
-# collection  with this id is already created, used for all tests except create/delete collection
-# NOTE do not delete this collection from providers, if it doesn't exists add it otherwise tests will fail
-COLLECTION_ID = "test_collection_id"
-
-# this one only used for create/delete collection tests so if they fail, it doesn't impact next tests
+# this key is only used for create/delete collection tests so if they fail, it doesn't impact next tests
+# all other tests use constant COLLECTION_ID
 _collection_id = f"test_{datetime.now().strftime('%y%m%d%H%M')}"
 
 test_params = sorted(
