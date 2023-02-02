@@ -3,6 +3,7 @@
     {
       "confidence": 98.0,
       "value": "jwsmith@colostate.edu",
+      "query": "What is the resume's email address?",
       "bounding_box": {
         "left": 0.40480345487594604,
         "top": 0.13232094049453735,
@@ -14,6 +15,7 @@
     {
       "confidence": 89.0,
       "value": "Determined work placement for 150 special needs adult clients.",
+      "query": "What is the first Adult Care experience?",
       "bounding_box": {
         "left": 0.17563527822494507,
         "top": 0.278344988822937,

@@ -222,11 +222,34 @@ def amazon_custom_document_parsing_formatter(
                     width=block["Geometry"]["BoundingBox"]["Width"],
                     height=block["Geometry"]["BoundingBox"]["Height"],
                 )
+                query = query_answer_result(page["Blocks"], block["Id"])
                 item = CustomDocumentParsingAsyncItem(
                     confidence=block["Confidence"],
                     value=block["Text"],
+                    query = query,
                     page=block.get("Page", index+1),
                     bounding_box=bounding_box,
                 )
                 items.append(item)
     return CustomDocumentParsingAsyncDataClass(items=items)
+
+
+def query_answer_result(page :List[dict], identifier: str):
+    """
+    Retrieve the text of a query based on its relationship ID.
+    
+    Parameters:
+        page (List[dict]): List of blocks, each representing a query or answer.
+        identifier (str): The relationship ID to match against.
+        
+    Returns:
+        str: The text of the query with a matching relationship ID. If no match is found, returns None.
+    """
+    queries = [q for q in page if q["BlockType"] == "QUERY"]
+    for query in queries:
+        relationships = query.get("Relationships")
+        if relationships:
+            first_relation_id = relationships[0]['Ids'][0]
+            if first_relation_id == identifier:
+                return query["Query"]["Text"]
+    return None

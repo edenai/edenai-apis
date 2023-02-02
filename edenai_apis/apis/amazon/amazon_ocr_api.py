@@ -248,7 +248,6 @@ class AmazonOcrApi(OcrInterface):
         self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
             Key=file.name, Body=file_content
         )
-        #formatted_queries = [{"Text": query[0], "Pages": [query[1]]} for query in queries]
         formatted_queries = [{"Text": query.get("query"), "Pages" : query.get("pages").split(',')} for query in queries]
 
         try:

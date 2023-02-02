@@ -11,6 +11,7 @@ class CustomDocumentParsingAsyncBoundingBox(BaseModel):
 class CustomDocumentParsingAsyncItem(BaseModel):
     confidence: float
     value: StrictStr
+    query : StrictStr
     bounding_box: CustomDocumentParsingAsyncBoundingBox
     page: int
 
