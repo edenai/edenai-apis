@@ -84,7 +84,9 @@ class IbmAudioApi(AudioInterface):
         }
         audio_config.update({"rate": frame_rate})
         if language_audio:
-            audio_config.update({"model": f"{language_audio}_NarrowbandModel"})
+            audio_config.update({"model": f"{language_audio}_Telephony"})
+            if language_audio == "ja-JP":
+                audio_config["model"] = f"{language_audio}_Multimedia"
         response = self.clients["speech"].create_job(**audio_config)
         if response.status_code == 201:
             return AsyncLaunchJobResponseType(provider_job_id=response.result["id"])
