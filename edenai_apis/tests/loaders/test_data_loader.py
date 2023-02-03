@@ -14,6 +14,7 @@ from edenai_apis.loaders.data_loader import (
     load_subfeature
 )
 from edenai_apis.tests.conftest import global_features, global_providers, without_async, only_async
+from edenai_apis.utils.audio import audio_features_and_support
 
 
 def _get_feature_subfeature_phase():
@@ -36,7 +37,7 @@ def _get_feature_subfeature_phase():
 class TestLoadKey:
     @pytest.mark.parametrize(
         ('provider'),
-        global_providers()
+        sorted(global_providers())
     )
     def test_load_key_of_valid_provider(self, provider: str):
         data = load_key(provider, False)
@@ -46,7 +47,7 @@ class TestLoadKey:
 class TestLoadClass:
     @pytest.mark.parametrize(
         ('provider'),
-        global_providers()
+        sorted(global_providers())
     )
     def test_load_class_with_all_provider(self, provider: Optional[str]):
         klass = load_class(provider)
@@ -82,7 +83,7 @@ class TestLoadDataclass:
 class TestLoadInfoFile:
     @pytest.mark.parametrize(
         ('provider'),
-        global_providers()
+        sorted(global_providers())
     )
     def test_load_info_file_with_one_provider(self, provider):
         info = load_info_file(provider)
@@ -142,7 +143,7 @@ class TestLoadSubfeature:
         ('provider', 'feature', 'subfeature'), 
         global_features(only_async)
     )
-    def test_load_subfeature_sync_subfeature_get_job_result(self, provider, feature, subfeature):
+    def test_load_subfeature_async_subfeature_get_job_result(self, provider, feature, subfeature):
         method_subfeature = load_subfeature(provider, feature, subfeature, 'get_job_result')
 
         expected_name = f'{feature}__{subfeature}__get_job_result'
@@ -155,13 +156,20 @@ class TestLoadSubfeature:
         ('provider', 'feature', 'subfeature'),
         global_features(only_async)
     )
-    def test_load_subfeature_sync_subfeature_launch_job(self, provider, feature, subfeature):
+    def test_load_subfeature_async_subfeature_launch_job(self, provider, feature, subfeature):
         method_subfeature = load_subfeature(provider, feature, subfeature, 'launch_job')
 
         expected_name = f'{feature}__{subfeature}__launch_job'
 
-        assert callable(method_subfeature)
-        assert method_subfeature.__name__ == expected_name
+        if method_subfeature.__name__ == 'func_wrapper':
+            assert method_subfeature.__closure__ is not None
+            assert len(method_subfeature.__closure__) == 1
+            closure = method_subfeature.__closure__[0]
+            wrapped_func = closure.cell_contents
+            assert wrapped_func.__name__ == expected_name
+        else:
+            assert callable(method_subfeature)
+            assert method_subfeature.__name__ == expected_name
 
 class TestLoadSamples:
     @pytest.mark.parametrize(
