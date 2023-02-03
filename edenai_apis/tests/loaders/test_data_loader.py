@@ -96,7 +96,7 @@ class TestLoadInfoFile:
 class TestLoadProviderSubfeatureInfo:
     @pytest.mark.parametrize(
         ('provider', 'feature', 'subfeature', 'phase'),
-        global_features(return_phase=True)
+        global_features(return_phase=True)['ungrouped_providers']
     )
     def test_load_info_subfeature_provider(self, provider, feature, subfeature, phase):
         info = load_provider_subfeature_info(provider, feature, subfeature, phase)
@@ -108,7 +108,7 @@ class TestLoadProviderSubfeatureInfo:
 class TestLoadOutput:
     @pytest.mark.parametrize(
         ('provider', 'feature', 'subfeature', 'phase'),
-        global_features(return_phase=True)
+        global_features(return_phase=True)['ungrouped_providers']
     )
     def test_load_output_valid_paramters(self, provider, feature, subfeature, phase):
         #skip create and delete method
@@ -129,7 +129,7 @@ class TestLoadOutput:
 class TestLoadSubfeature:
     @pytest.mark.parametrize(
         ('provider', 'feature', 'subfeature', 'phase'),
-        global_features(without_async, return_phase=True)
+        global_features(without_async, return_phase=True)['ungrouped_providers']
     )
     def test_load_subfeature_sync_subfeature(self, provider, feature, subfeature, phase):
         method_subfeature = load_subfeature(provider, feature, subfeature, phase)
@@ -144,7 +144,7 @@ class TestLoadSubfeature:
 
     @pytest.mark.parametrize(
         ('provider', 'feature', 'subfeature'), 
-        global_features(only_async)
+        global_features(only_async)['ungrouped_providers']
     )
     def test_load_subfeature_async_subfeature_get_job_result(self, provider, feature, subfeature):
         method_subfeature = load_subfeature(provider, feature, subfeature, 'get_job_result')
@@ -157,7 +157,7 @@ class TestLoadSubfeature:
 
     @pytest.mark.parametrize(
         ('provider', 'feature', 'subfeature'),
-        global_features(only_async)
+        global_features(only_async)['ungrouped_providers']
     )
     def test_load_subfeature_async_subfeature_launch_job(self, provider, feature, subfeature):
         method_subfeature = load_subfeature(provider, feature, subfeature, 'launch_job')

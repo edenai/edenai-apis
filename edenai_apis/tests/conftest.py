@@ -17,6 +17,7 @@ def global_features(filter: Callable[[Any], bool] = None, return_phase: bool = F
     """
     method_list = list_features()
     detailed_providers_list = []
+    params_dict = {}
 
     for provider, feature, subfeature, *phase in method_list:
         if filter and filter(provider, feature, subfeature, phase):
@@ -35,7 +36,20 @@ def global_features(filter: Callable[[Any], bool] = None, return_phase: bool = F
             ],
         )
         detailed_providers_list.append(detailed_params)
-    return detailed_providers_list
+    
+    grouped_providers_list = [
+        pytest.param(
+            providers,
+            feature,
+            subfeature,
+            marks=[getattr(pytest.mark, feature), getattr(pytest.mark, subfeature)],
+        )
+        for ((feature, subfeature), providers) in params_dict.items()
+    ]
+    return {
+        "grouped_providers": grouped_providers_list,
+        "ungrouped_providers": detailed_providers_list,
+    }
 
 def global_providers(filter: Callable[[str], bool] = None):
     """Generate a list of parameters for tests classes.
