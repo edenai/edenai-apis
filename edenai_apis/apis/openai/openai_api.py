@@ -20,7 +20,12 @@ from edenai_apis.features.text.custom_classification import CustomClassification
 from edenai_apis.features.text.moderation import   ModerationDataClass, TextModerationItem
 from edenai_apis.features.translation.automatic_translation import AutomaticTranslationDataClass
 from edenai_apis.features.translation.language_detection import LanguageDetectionDataClass, InfosLanguageDetectionDataClass
-
+from .helpers import (
+    construct_search_context,
+    get_score,
+    construct_classification_instruction,
+    format_example_fn
+)
 
 SCORE_MULTIPLIER = 100.0
 
@@ -41,53 +46,15 @@ class OpenaiApi(ProviderInterface, TextInterface):
         }
         self.max_tokens = 270
 
-    @staticmethod
-    def _construct_context(query, document) -> str:
-        """
-        Construct context for search task prompt
-        """
-        return f"<|endoftext|>{document}\n\n---\n\nThe above passage is related to: {query}"
-
-    @staticmethod
-    def _get_score(context, query, log_probs, text_offsets) -> float:
-        log_prob = 0
-        count = 0
-        cutoff = len(context) - len(query)
-
-        for i in range(len(text_offsets) - 1, 0, -1):
-            log_prob += log_probs[i]
-            count += 1
-
-            if text_offsets[i] <= cutoff and text_offsets[i] != text_offsets[i - 1]:
-                break
-
-        return log_prob / float(count) * SCORE_MULTIPLIER
-
-    @staticmethod
-    def _create_classification_instruction(labels) -> str:
-        """
-        Construct an instruction for a classification task.
-        """
-        instruction = f"Please classify these texts into the following categories: {', '.join(labels)}."
-        return f"{instruction.strip()}\n\n"
-    
-    @staticmethod
-    def format_example_fn(x: List[List[str]]) -> str:
-        texts = ''
-        labels = ''
-        for example in x:
-            texts += "{text}\n".format(text=example[0].replace("\n", " ").strip())
-            labels += "{label}\n".format(label=example[1].replace("\n"," ").strip())
-        return texts +"\n\n Text categories:\n\n"+ labels
     
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: Optional[str]
     ) -> ResponseType[SummarizeDataClass]:
 
         if not model:
-            model = "text-davinci-003"
+            model = self.model
 
-        url = f"{self.url}/engines/{model}/completions"
+        url = f"{self.url}/completions"
         payload = {
             "prompt": text + "\n\nTl;dr",
             "max_tokens": self.max_tokens,
@@ -146,14 +113,13 @@ class OpenaiApi(ProviderInterface, TextInterface):
             standardized_response= standardized_response
         )
         
-
     def text__search(
         self, texts: List[str], query: str, model: str = None
     ) -> ResponseType[SearchDataClass]:
         if model is None:
             model = "text-davinci-003"
 
-        prompts = [OpenaiApi._construct_context(query, doc) for doc in [""] + texts]
+        prompts = [construct_search_context(query, doc) for doc in [""] + texts]
 
         url = f"{self.url}/completions"
         payload = {
@@ -179,7 +145,7 @@ class OpenaiApi(ProviderInterface, TextInterface):
             choice["index"]: choice for choice in original_response["choices"]
         }
         scores = [
-            OpenaiApi._get_score(
+            get_score(
                 prompts[i],
                 query,
                 resps_by_index[i]["logprobs"]["token_logprobs"],
@@ -511,8 +477,8 @@ class OpenaiApi(ProviderInterface, TextInterface):
         url = f"{self.url}/completions"
 
         # Construct prompt 
-        instruction = OpenaiApi._create_classification_instruction(labels)
-        example_prompts = OpenaiApi.format_example_fn(examples) 
+        instruction = construct_classification_instruction(labels)
+        example_prompts = format_example_fn(examples) 
         inputs_prompts = [
             f"{input}\n" for input in texts
         ]
