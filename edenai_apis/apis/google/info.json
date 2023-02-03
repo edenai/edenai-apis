@@ -256,6 +256,34 @@
             },
             "version": "v1"
         },
+        "invoice_parser": {
+            "constraints": {
+                "file_types": [
+                    "application/pdf",
+                    "image/gif",
+                    "image/tiff",
+                    "image/jpeg",
+                    "image/png",
+                    "image/bmp",
+                    "image/webp"
+                ],
+                "languages": [
+                    "de",
+                    "en",
+                    "es",
+                    "et",
+                    "fr",
+                    "it",
+                    "lv",
+                    "lt",
+                    "nl",
+                    "pt",
+                    "ro",
+                    "sv"
+                ],
+                "allow_null_language": true
+            }
+        },
         "ocr_tables_async": {
             "constraints": {
                 "file_types": [
