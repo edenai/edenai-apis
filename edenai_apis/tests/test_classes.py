@@ -36,7 +36,6 @@ def load_class_with_subfeature() -> List[ParameterSet]:
             # Define marker
             marks = [
                 getattr(pytest.mark, cls.provider_name),
-                pytest.mark.cls,
             ]
             # List all features for the given provider
             feature_dict = method_dict[cls.provider_name]

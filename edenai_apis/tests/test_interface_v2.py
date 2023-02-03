@@ -13,8 +13,6 @@ _correct_list_feature = lambda: map(
     lambda flist: [*flist, ""] if len(flist) == 3 else flist, list_features()
 )
 
-
-@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
 @pytest.mark.parametrize(
     ("provider", "feature", "subfeature", "phase"), _correct_list_feature()
 )

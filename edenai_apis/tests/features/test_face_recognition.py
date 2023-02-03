@@ -35,10 +35,10 @@ class TestFaceRecognition:
         """Successfully create a collection"""
         # Setup
         create_collection = Image.face_recognition__create_collection(provider)
-        
+
         # Action
         response = create_collection(collection_id=collection_id)
-        
+
         # Assert
         assert isinstance(response, FaceRecognitionCreateCollectionDataClass)
         assert isinstance(response.collection_id, str)
@@ -46,11 +46,11 @@ class TestFaceRecognition:
     def test_list_collections(self, provider, collection_id):
         # Setup
         lsit_collections = Image.face_recognition__list_collections(provider)
-        
+
         # Action
         response = lsit_collections()
         collections = response.standardized_response.collections
-        
+
         # Assert
         assert len(collections) > 0
         assert collection_id in collections

@@ -30,7 +30,7 @@ def _get_feature_subfeature_phase():
                 getattr(pytest.mark, subfeature)],
         )
         detailed_providers_list.append(detailed_params)
-    return detailed_providers_list
+    return sorted(detailed_providers_list)
 
 
 class TestLoadKey:

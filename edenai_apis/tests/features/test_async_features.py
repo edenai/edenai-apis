@@ -4,6 +4,7 @@
     - Saved output for each provider exists and is well standardized
     - providers APIs work and their outputs are well standardized
 """
+from pprint import pprint
 import pytest
 import os
 from time import sleep
@@ -40,21 +41,20 @@ class TestAsyncSubFeatures:
             provider_launch_job_function = getattr(feature_class, f"{subfeature}{subfeature_suffix}")(provider)
         except AttributeError:
             raise('Could not import provider launch job method.')
-        
+
         # Step 2 (action) : Launch the job (action)
         launch_job_response : AsyncLaunchJobResponseType = provider_launch_job_function(**validated_args)
-        
+
         # Step 3 (assert) : Assert job_id
         assert launch_job_response.provider_job_id is not None, "provider job id should not be null."
-        
+
         pytest.job_id = launch_job_response.provider_job_id
-    
     def _test_api_get_job_result_real_output(self, provider, feature, subfeature):
         logging.info(f"Testing get job result with real output for {provider}, {subfeature}..\n")
         # skip in opensource package cicd workflow
         if os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE':
             return
-        
+
         # Step 1 (setup) : prepare parameters
         provider_job_id = pytest.job_id
         try:
@@ -63,7 +63,7 @@ class TestAsyncSubFeatures:
             provider_get_job_result_method = getattr(feature_class, f"{subfeature}{subfeature_suffix}")(provider)
         except AttributeError:
             raise('Could not import provider get job method.')
-        
+
         # Step 2 (actions) : call get job result with a valid job id        
         sleep(5)
         current_time = MAX_TIME
@@ -73,27 +73,30 @@ class TestAsyncSubFeatures:
             provider_api_output_dict = provider_api_output.dict()
             if provider_api_output_dict["status"] != "pending":
                 provider_api_output = provider_api_output
-                break       
+                break
             current_time = current_time - TIME_BETWEEN_CHECK
             sleep(TIME_BETWEEN_CHECK)
-            
+
+        pprint(provider_api_output_dict)
         original_response = provider_api_output_dict.get('original_response')
         standardized_response = provider_api_output_dict.get('standardized_response')
         standardized = compare_responses(feature, subfeature, standardized_response)
-        
+
         # Step 3 (asserts) : check dataclass standardization
         assert isinstance(provider_api_output, AsyncBaseResponseType), f"Expected AsyncBaseResponseType but got {type(provider_api_output)}"
         assert original_response is not None, 'original_response should not be None'
         assert standardized_response is not None, 'standardized_response should not be None'
         assert standardized, 'The output is not standardized' 
-    
+
+    @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Skip in opensource package cicd workflow")
     def test_async_job(self, provider, feature, subfeature):
         self._test_launch_job_id(provider, feature, subfeature)
         self._test_api_get_job_result_real_output(provider, feature, subfeature)
-        
+
+    @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Skip in opensource package cicd workflow")
     def test_launch_job_invalid_parameters(self, provider, feature, subfeature):
         logging.info(f"Testing launch job with invalid parameters for {provider}, {subfeature}..\n")
-        
+
         # Step 1 (setup) : prepare invalid parameters
         invalid_feature_args = {'invalid_key': 'invalid_value'}
         try:
@@ -106,7 +109,7 @@ class TestAsyncSubFeatures:
         # Step 2 & 3 (action & assert ) : Call the feature with invalid parameters
         with pytest.raises(TypeError):
             provider_launch_job_function(**invalid_feature_args)
-    
+
     def test_api_get_job_result_saved_output(self, provider, feature, subfeature):
         logging.info(f"Testing get job result with saved output for {provider}, {subfeature}..\n")
 
@@ -114,10 +117,10 @@ class TestAsyncSubFeatures:
         saved_output = load_provider(
             ProviderDataEnum.OUTPUT, provider, feature, subfeature
         )
-    
+
         # Step 2 (Action) :
         standardized = compare_responses(feature, subfeature, saved_output["standardized_response"])
-        
+
         # Step 3 (Assert) : 
         assert standardized, 'The output is not standardized'
 
@@ -131,7 +134,7 @@ class TestAsyncSubFeatures:
             provider_get_job_result_method = getattr(feature_class, f"{subfeature}{subfeature_suffix}")(provider)
         except AttributeError:
             raise('Could not import provider get job method.')
-        
+
         # Step 2 & 3 (action & assert) : Call the feature with the non-existent job ID
         with pytest.raises(Exception):
             provider_get_job_result_method(provider, feature, subfeature, job_id)

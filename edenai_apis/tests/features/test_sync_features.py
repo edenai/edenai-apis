@@ -4,6 +4,7 @@
     - Saved output for each provider exists and is well standardized
     - providers APIs work and their outputs are well standardized
 """
+import os
 import pytest
 import importlib
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
@@ -22,6 +23,7 @@ INTERFACE_MODULE = importlib.import_module("edenai_apis.interface_v2")
     global_features(filter=without_async_and_phase),
 )
 class TestSubfeatures:
+    @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Skip in opensource package cicd workflow")
     def test_feature_with_invalid_file(self, provider, feature, subfeature):
         # Setup
         invalid_file = "fakefile.txt"
@@ -41,6 +43,7 @@ class TestSubfeatures:
             assert exc is not None, 'ProviderException or AttributeError expected.'
 
 
+    @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Skip in opensource package cicd workflow")
     def test_feature_api_call(self, provider, feature, subfeature):
         # Setup
         feature_args = load_feature(
@@ -53,28 +56,28 @@ class TestSubfeatures:
             provider_method = getattr(feature_class, f"{subfeature}")(provider)
         except AttributeError:
             raise('Could not import provider method.')
-        
+
         # Actions
         provider_api_output = provider_method(**validated_args)
         provider_api_dict = provider_api_output.dict()
         original_response = provider_api_dict.get('original_response')
         standardized_response = provider_api_dict.get('standardized_response')
         standardized = compare_responses(feature, subfeature, standardized_response)
-        
+
         # Step 3 (asserts) : check dataclass standardization
         assert isinstance(provider_api_output, ResponseType), f"Expected ResponseType but got {type(provider_api_output)}"
         assert original_response is not None, 'original_response should not be None'
         assert standardized_response is not None, 'standardized_response should not be None'
         assert standardized, 'The output is not standardized' 
-        
+
     def test_feature_saved_output(self, provider, feature, subfeature):
         # Step 1 (Setup) : 
         saved_output = load_provider(
             ProviderDataEnum.OUTPUT, provider, feature, subfeature
         )
-        
+
         # Step 2 (Action) :
         standardized = compare_responses(feature, subfeature, saved_output["standardized_response"])
-        
+
         # Step 3 (Assert) : 
         assert standardized, 'The output is not standardized'
