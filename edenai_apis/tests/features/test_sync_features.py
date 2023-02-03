@@ -146,3 +146,8 @@ class TestFeatureSubfeature:
         # Only fail if all providers failes in a certain feature/subfeature
         print(failures)
         assert len(providers) != len(failures)
+        
+    def test_sync_subfeature_output(self, providers, feature, subfeature):
+        """Fake call"""
+        for provider in providers:
+            self._test_feature_saved_output(provider, feature, subfeature)

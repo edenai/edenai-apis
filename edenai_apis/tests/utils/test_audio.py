@@ -99,7 +99,8 @@ class TestGetAudioAttributes:
         mocker.patch("edenai_apis.utils.audio.mediainfo", \
             side_effect=fake_mediainfo)
 
-        with open('edenai_apis/features/audio/data/out.wav', 'rb') as audio_file:
+        path_file = os.path.join(base_path,'features/audio/data/out.wav')
+        with open(path_file, 'rb') as audio_file:
             # Action
             channels, sample_rate = get_audio_attributes(audio_file)
 
@@ -113,8 +114,9 @@ class TestGetAudioAttributes:
         # Create mock
         mocker.patch("edenai_apis.utils.audio.mediainfo", \
             side_effect=fake_mediainfo)
-
-        with open('edenai_apis/features/audio/data/out.wav', 'rb') as audio_file:
+        
+        path_file = os.path.join(base_path,'features/audio/data/out.wav')
+        with open(path_file, 'rb') as audio_file:
             # Action
             channels, sample_rate = get_audio_attributes(audio_file)
 
@@ -129,7 +131,9 @@ class TestGetAudioAttributes:
         mocker.patch("edenai_apis.utils.audio.mediainfo", \
             side_effect=fake_mediainfo)
 
-        with open('edenai_apis/features/audio/data/out.wav', 'rb') as audio_file:
+        path_file = os.path.join(base_path,'features/audio/data/out.wav')
+        
+        with open(path_file, 'rb') as audio_file:
             # Action
             channels, sample_rate = get_audio_attributes(audio_file)
 
