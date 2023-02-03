@@ -38,7 +38,7 @@ jobs:
         run: |
           pytest -vvv -s -n auto --maxprocesses=8 --dist loadgroup
       - name: generate list of providers and features markdown
-        run: "python -m edenai_apis.utils.documentation"
+        run: "python -m edenai_apis.scripts.documentation"
       - name: generate doc
         run: |
           cd .docsrc
