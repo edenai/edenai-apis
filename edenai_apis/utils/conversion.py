@@ -1,29 +1,41 @@
-from builtins import bool
-import os
 import re
 import datetime as dt
-from typing import Optional, Type, Union
-import pandas as pd
+from typing import Any, Dict, List, Optional, Tuple, Union
 
-from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.public_enum import AutomlClassificationProviderName
 
 
 def convert_string_to_number(
-    string_number: Optional[str], val_type: Union[Type[int], Type[float]]
+    string_number: Optional[str],
+    val_type: Union[int, float]
 ) -> Union[int, float, None]:
     """convert a `string` to either `int` or `float`"""
+    if not string_number:
+        return None
     if isinstance(string_number, (int, float)):
         return string_number
     if isinstance(string_number, str):
         string_number = string_number.strip()
-    if not string_number:
-        return None
     try:
         number = val_type(re.sub(r"[^\d\.]", "", string_number))
         return number
     except Exception as exc:
         return None
+
+def closest_above_value(input_list, input_value):
+  above = min([ i for i in input_list if i >= input_value] or input_list, key=lambda x: abs(x - input_value))
+  return above
+
+def closest_below_value(input_list, input_value):
+  below = min([ i for i in input_list if i <= input_value] or input_list, key=lambda x: abs(x - input_value))
+  return below
+
+def standardized_confidence_score(
+    confidence_score: float,
+    limit_values: list = [0.2, 0.4, 0.6, 0.8, 1.0],
+    ratio: float = 5
+):
+    return closest_above_value(limit_values, confidence_score) * ratio
 
 
 def retreive_first_number_from_string(string_number: str) -> Union[str, None]:
@@ -33,105 +45,97 @@ def retreive_first_number_from_string(string_number: str) -> Union[str, None]:
         str:    if found the number is returned as a string
         None:   if nothing is found
     """
-    if not string_number:
-        return None
-    return re.findall(r"\d+", string_number)[0] if string_number is not None else None
+    if isinstance(string_number, str) and string_number:
+        numbers = re.findall(r"\d+", string_number)
+        return numbers[0] if numbers else None
+    return None
 
 
 def combine_date_with_time(date: Optional[str], time: Union[str, None]) -> Union[str, None]:
     """
     Concatenate date string and time string
     Returns:
-        - `None`: if `date` or `time` is `None`
-        - `str`: if concatenation is successful
+        - `None`: if `date` is None
+        - `str`: if concatenation is successful or if `date` exist
     """
-    if time is not None:
-        for fmt in ["%H:%M", "%H:%M:%:%S"]:
+    if time and date:
+        for fmt in ["%H:%M", "%H:%M:%S"]:
             try:
                 time = dt.datetime.strptime(time, fmt).time()
-                date = (
-                    str(
-                        dt.datetime.combine(
-                            dt.datetime.strptime(date, "%Y-%m-%d"), time
-                        )
-                    )
-                    if date is not None
-                    else None
-                )
-                return date
-            except ValueError:
-                pass
-        return date
+                date = str(dt.datetime.combine(dt.datetime.strptime(date, "%Y-%m-%d"), time))
+                break
+            except ValueError as exc:
+                continue
+    return date
+
+# TODO test it
+def from_jsonarray_to_list(
+        class_ref, json_list: List[Dict], list_tuples_json_class: List[Tuple[Any, Any]]
+    ) -> List:
+        """
+        Transforme un json_list (
+            [
+                {k1 : V1, K2 : V2},
+                {k3 : V3, K4 : V4}
+            ]) en une list[ClassName] python
+        Args:
+            - `json_list`: List of Json à transformer
+            - `ClassName`: qui est le nom de la class dont sera fait la list
+            - `list_tuples_json_class`: une list de tuples pour matcher chaque key du json object
+        avec l'attribue qui lui correspond dans la class ClassName : [(k1, attr1), (k2, attr2)]
+        """
+        list_instances: List[class_ref] = []
+        attrs = [
+            attr
+            for attr in dir(class_ref)
+            if not callable(getattr(class_ref, attr)) and not attr.startswith("__")
+        ]
+        tmp = {}
+        for json_obj in json_list:
+            for item in list_tuples_json_class:
+                if item[1] not in attrs:
+                    pass
+                tmp[item[1]] = json_obj[item[0]]
+            instance = class_ref(**tmp)
+            list_instances.append(instance)
+
+        return list_instances
+
+
+def convert_pt_date_from_string(pt_date: str) -> int:
+    if not isinstance(pt_date, str):
+        return None
+    ptdate_regex = re.compile(r"PT(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)?")
+    match = ptdate_regex.match(pt_date)
+    if match:
+        hours = int(match.group("hours") or 0)
+        minutes = int(match.group("minutes") or 0)
+        seconds = int(match.group("seconds") or 0)
+        return 3600 * hours + 60 * minutes + seconds
     return None
 
+# Lambda define for more accurate in add_query_param_in_url function
+is_first_param_in_url = lambda url: '?' not in url
 
-def convert_pt_date_to_string(pt_date: str):
-    # dates = re.findall('PT(\d*)H{0,1}(\d*)M{0,1}(\d*)S{0,1}', pt_date)[0]
-    date = pt_date.split("PT")[1]
-    hours, date = date.split("H") if "H" in date else (0, date)
-    minutes, date = date.split("M") if "M" in date else (0, date)
-    seconds = float(date.split("S")[0] or 0.0) if "S" in date else 0 
-    hours = int(hours or 0)
-    minutes = int(minutes or 0)
-    return 3600*hours + 60*minutes + seconds
+def add_query_param_in_url(url: str, query_params: dict):
+    if query_params and url:
+        for key, value in query_params.items():
+            if not key or not value:
+                continue
+            url = f'{url}?{key}={value}' if is_first_param_in_url(url) else f'{url}&{key}={value}'
+    return url
 
-
-
-def format_string_url_language(
-    url: str, language: str, prefix_lang: str, provider_name: str, is_url: bool = True
-):
-    """
-    Concatenates an url with a language code
-
-    Args:
-        url (str): the url string to be concatinated with the language code
-        language (str): the language code value to concatenate with the url
-        prefix_lang (str): the language code name prefix for the url
-        provider_name (str): the provider name
-        is_url (bool, optional): specifies if the url used is for a GET request. Defaults to True.
-
-    Raises:
-        ProviderException: throws a provider exception if the language in None
-
-    Returns:
-        str: the url formatted with the language code
-    """
-    if not language:
-        return url
-    if is_url:
-        return (
-            f"{url}&{prefix_lang}={language}"
-            if "?" in url
-            else f"{url}?{prefix_lang}={language}"
-        )
-    return f"{url}{prefix_lang}{language}"
+def concatenate_params_in_url(url: str, params: list, sep: str):
+    if params and url:
+        for param in params:
+            if not param:
+                continue
+            url += sep + param
+    return url
 
 
-def replace_sep(x):
+def replace_sep(x: str, current_sep: str, new_sep: str):
     if isinstance(x, str):
-        x = x.replace("|", ",")
-        x = re.sub(r",$", "", x)
+        x = x.replace(current_sep, new_sep)
+        x = re.sub(r"{}$".format(re.escape(new_sep)), "", x)
     return x
-
-
-def format_csv_file_for_training(provider_name, file_path, exit_path):
-    file_dict = pd.read_csv(file_path)
-    file_dict["labels"] = file_dict["labels"].apply(replace_sep)
-    if provider_name == AutomlClassificationProviderName.GOOGLE.value:
-        file_dict.assign(empty="")
-        columns_title = ["empty", "docs", "labels"]
-        file_dict = file_dict.reindex(columns=columns_title)
-        file_dict.to_csv(exit_path, index=False, header=None)
-    else:
-        file_dict.to_csv(exit_path, index=False, header=None)
-
-
-def format_xml_automl_entry_file(provider_name, file_path, project_name):
-    csv_output_dire = (
-        f"{os.getcwd()}/media/data/automl-text/google/import/{provider_name}"
-    )
-    if not os.path.exists(csv_output_dire):
-        os.makedirs(csv_output_dire)
-    csv_output = f"{csv_output_dire}/{project_name}"
-    format_csv_file_for_training(provider_name, file_path, csv_output)
-    return csv_output

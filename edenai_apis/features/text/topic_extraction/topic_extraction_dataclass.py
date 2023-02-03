@@ -1,13 +1,14 @@
 from typing import Sequence
 
-from pydantic import BaseModel, Field, StrictStr, validator
+from pydantic import BaseModel, Field, validator
 
 
 class ExtractedTopic(BaseModel):
-    category: StrictStr
+    category: str
     importance: float
-    
+
     @validator('category', pre=True)
+    @classmethod
     def valid_category(cls, value):
         if not isinstance(value, str):
             raise TypeError(f"Category must be a string, not {type(value)}")
@@ -15,6 +16,7 @@ class ExtractedTopic(BaseModel):
         return value
 
     @validator('importance', pre=True)
+    @classmethod
     def valid_confidence(cls, value):
         if not isinstance(value, (float, int)):
             raise TypeError(f"Importance must be a float, not {type(value)}")

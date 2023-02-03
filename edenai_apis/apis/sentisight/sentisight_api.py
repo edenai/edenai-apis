@@ -25,7 +25,7 @@ from edenai_apis.features.image.search.get_image import (
 from edenai_apis.features.ocr import OcrDataClass, Bounding_box
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.conversion import format_string_url_language
+from edenai_apis.utils.conversion import add_query_param_in_url
 from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.types import ResponseType, ResponseSuccess
 from .sentisight_helpers import calculate_bounding_box, get_formatted_language
@@ -48,9 +48,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         if not language:
             raise LanguageException("Language not provided")
         response = requests.post(
-            format_string_url_language(
-                url, get_formatted_language(language), "lang", self.provider_name
-            ),
+            url=add_query_param_in_url(url, {"lang": get_formatted_language(language)}),
             headers={
                 "accept": "*/*",
                 "X-Auth-token": self.key,
@@ -105,13 +103,13 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             },
             data=file,
         )
+        if response.status_code != 200:
+            raise ProviderException(response.text)
+        
         img = Img.open(file)
         width = img.width
         height = img.height
-
-        if response.status_code != 200:
-            raise ProviderException(response.text)
-
+        
         original_response = response.json()
         objects: Sequence[ObjectItem] = []
         for obj in original_response:

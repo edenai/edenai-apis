@@ -11,55 +11,7 @@ from edenai_apis.utils.languages import (
     load_standardized_language
 )
 
-
-def validate_all_provider_constraints(
-    provider: str, feature: str, subfeature: str, args: dict
-) -> dict:
-    """
-    Validate inputs arguments against provider constraints
-
-    Args:
-        - provider (str): provider name
-        - feature (str): feature name
-        - subfeature (str): subfeature name
-        - args (dict): dictionnary of input arguments
-
-    Returns:
-        - args: updated/validated args
-    """
-
-    # load provider constraints
-    provider_info = load_provider(
-        ProviderDataEnum.PROVIDER_INFO,
-        provider_name=provider,
-        feature=feature,
-        subfeature=subfeature,
-    )
-    provider_constraints = provider_info.get("constraints")
-
-
-    if provider_constraints is not None:
-        validated_args = args.copy()
-        ## Validate here
-
-        # file types
-        validated_args = validate_input_file_type(
-            provider_constraints, validated_args, provider
-        )
-
-        # languages
-        validated_args = validate_all_input_languages(
-            provider_constraints, validated_args, provider, feature, subfeature
-        )
-
-        # ...
-
-        return validated_args
-
-    return args
-
-
-def validate_input_file_type(constraints: dict, args: dict, provider: str) -> dict:
+def validate_input_file_type(constraints: dict, provider: str, args: dict) -> dict:
     """Check that a provider offers support for the input file type
 
     Args:
@@ -102,7 +54,6 @@ def validate_input_file_type(constraints: dict, args: dict, provider: str) -> di
                 f"for this feature. "
                 f"Supported mimetypes are {supported_types}"
             )
-
     return args
 
 
@@ -110,9 +61,8 @@ def validate_single_language(
     provider_name: str,
     feature,
     subfeature,
-    language: Optional[str],
+    language: dict,
     null_language_accepted: bool,
-    input_language: str
 ) -> Optional[str]:
     """
     Validate and format given language
@@ -121,7 +71,7 @@ def validate_single_language(
         - provider_name (str)
         - feature (str): feature name
         - subfeature (str): subfeature name
-        - language (str | None): language to validate, can be None
+        - language (dict): Dictionnary with `key` and `value` of input language. `value` canbe None. (ex: { 'key': 'source_langue', 'value': 'en'})
         - null_language_accepted (bool): if Provider can auto-detect langauages (accepts providing None as language)
 
     Returns:
@@ -132,38 +82,36 @@ def validate_single_language(
     """
 
     # if user specifies the auto-detect language
-    if language and language.lower() == "auto-detect":
-        language = None
+    if language['value'] and language['value'].lower() == "auto-detect":
+        language['value'] = None
 
-    if not language:
+    if not language['value']:
         if null_language_accepted is True:
-            return language
+            return language['value']
         else:
-            raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED(input_language))
+            raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED(language['key']))
 
     try:
         formated_language = provide_appropriate_language(
-            language,
+            language['value'],
             provider_name=provider_name,
             feature=feature,
             subfeature=subfeature,
         )
     except SyntaxError as exc:
-        raise ProviderException(str(exc))
+        raise ProviderException(LanguageErrorMessage.LANGUAGE_SYNTAX_ERROR(language['value']))
 
     if null_language_accepted is False:
-        if not language:
-            raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED(input_language))
         if formated_language is None:
-            if "-" in language:
+            if "-" in language['value']:
                 supported_languages = load_standardized_language(feature, subfeature, [provider_name])
-                suggested_language = language.split("-")[0]
+                suggested_language = language['value'].split("-")[0]
                 if suggested_language in supported_languages:
                     raise ProviderException(
-                        LanguageErrorMessage.LANGUAGE_GENERIQUE_REQUESTED(language, suggested_language, input_language)
+                        LanguageErrorMessage.LANGUAGE_GENERIQUE_REQUESTED(language['value'], suggested_language, language['key'])
                     )
             raise ProviderException(
-                LanguageErrorMessage.LANGUAGE_NOT_SUPPORTED(language, input_language)
+                LanguageErrorMessage.LANGUAGE_NOT_SUPPORTED(language['value'], language['key'])
             )
 
     return formated_language
@@ -179,10 +127,10 @@ def validate_all_input_languages(
 
     Args:
         - constraints: provider constraints for this subfeature
-        - args (dict): feature arguments, exp: {text: 'alleluia', language='en'} \n
-        - provider_name (str): the provider name, exp: Google\n
-        - feature (str): the feature name, exp: text\n
-        - subfeature (str): the subfeature name, exp: sentiment_analysis\n
+        - args (dict): feature arguments, exp: {text: 'alleluia', language='en'}
+        - provider_name (str): the provider name, exp: Google
+        - feature (str): the feature name, exp: text
+        - subfeature (str): the subfeature name, exp: sentiment_analysis
 
     Returns:
         - dict: updated args
@@ -190,21 +138,62 @@ def validate_all_input_languages(
 
     accepts_null_language = constraints.get("allow_null_language", False)
 
-    if "language" in args:
-        language = validate_single_language(
-            provider_name, feature, subfeature, args["language"], accepts_null_language, "language"
-        )
-        args["language"] = language
+    for argument_name, argument_value in args.items():
+        if 'language' not in argument_name:
+            continue
 
-    # translation feature have an input and output language
-    if "target_language" in args and "source_language" in args:
-        source_language = validate_single_language(
-            provider_name, feature, subfeature, args["source_language"], accepts_null_language, "source_language"
+        args[argument_name] = validate_single_language(
+            provider_name=provider_name,
+            feature=feature,
+            subfeature=subfeature,
+            language={ 'key': argument_name, 'value': argument_value },
+            null_language_accepted=accepts_null_language,
         )
-        target_language = validate_single_language(
-            provider_name, feature, subfeature, args["target_language"], False, "target_language"
+    return args
+
+
+def validate_all_provider_constraints(
+    provider: str, feature: str, subfeature: str, args: dict
+) -> dict:
+    """
+    Validate inputs arguments against provider constraints
+
+    Args:
+        - provider (str): provider name
+        - feature (str): feature name
+        - subfeature (str): subfeature name
+        - args (dict): dictionnary of input arguments
+
+    Returns:
+        - args: updated/validated args
+    """
+
+    # load provider constraints
+    provider_info = load_provider(
+        ProviderDataEnum.PROVIDER_INFO,
+        provider_name=provider,
+        feature=feature,
+        subfeature=subfeature,
+    )
+    provider_constraints = provider_info.get("constraints")
+
+
+    if provider_constraints is not None:
+        validated_args = args.copy()
+        ## Validate here
+
+        # file types
+        validated_args = validate_input_file_type(
+            provider_constraints, provider, validated_args
         )
-        args["target_language"] = target_language
-        args["source_language"] = source_language
+
+        # languages
+        validated_args = validate_all_input_languages(
+            provider_constraints, validated_args, provider, feature, subfeature
+        )
+
+        # ...
+
+        return validated_args
 
     return args

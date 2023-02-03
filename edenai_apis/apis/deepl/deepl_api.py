@@ -65,6 +65,11 @@ class DeeplApi(ProviderInterface, TranslationInterface):
         }
 
         response = requests.post(f'{self.url}document', headers=self.header, data=data, files=files)
+        original_response = response.json()
+        
+        if response.status_code != 200:
+            raise ProviderException(message=original_response['message'], code=response.status_code)
+        
         document_id, document_key = response.json().values()
 
         doc_key = {
