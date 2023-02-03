@@ -21,6 +21,7 @@ MAX_TIME = 180
 TIME_BETWEEN_CHECK = 10
 INTERFACE_MODULE = importlib.import_module("edenai_apis.interface_v2")
 
+@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
 @pytest.mark.parametrize(
     ("provider", "feature", "subfeature"),
     global_features(only_async),
@@ -88,12 +89,10 @@ class TestAsyncSubFeatures:
         assert standardized_response is not None, 'standardized_response should not be None'
         assert standardized, 'The output is not standardized' 
 
-    @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Skip in opensource package cicd workflow")
     def test_async_job(self, provider, feature, subfeature):
         self._test_launch_job_id(provider, feature, subfeature)
         self._test_api_get_job_result_real_output(provider, feature, subfeature)
 
-    @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Skip in opensource package cicd workflow")
     def test_launch_job_invalid_parameters(self, provider, feature, subfeature):
         logging.info(f"Testing launch job with invalid parameters for {provider}, {subfeature}..\n")
 

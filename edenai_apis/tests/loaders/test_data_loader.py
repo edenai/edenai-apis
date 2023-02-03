@@ -1,3 +1,4 @@
+import os
 from typing import Optional
 from pydantic import BaseModel
 import pytest
@@ -34,6 +35,7 @@ def _get_feature_subfeature_phase():
     return sorted(detailed_providers_list)
 
 
+@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
 class TestLoadKey:
     @pytest.mark.parametrize(
         ('provider'),
@@ -123,6 +125,7 @@ class TestLoadOutput:
             pytest.fail("Original_response and standradized_response not found")
 
 
+@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
 class TestLoadSubfeature:
     @pytest.mark.parametrize(
         ('provider', 'feature', 'subfeature', 'phase'),
