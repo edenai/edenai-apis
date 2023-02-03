@@ -17,14 +17,13 @@ from edenai_apis.tests.conftest import global_features, only_async
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
 from edenai_apis.utils.compare import compare_responses
-from edenai_apis.interface import list_providers
 
 
 MAX_TIME = 180
 TIME_BETWEEN_CHECK = 10
 INTERFACE_MODULE = importlib.import_module("edenai_apis.interface_v2")
 
-class TestAsyncCommon:
+class CommonAsyncTests:
     def _test_launch_job_id(self, provider, feature, subfeature):
         logging.info(f"Testing launch job id for {provider}, {subfeature}..\n")
 
@@ -111,7 +110,7 @@ class TestAsyncCommon:
     ("provider", "feature", "subfeature"),
     global_features(only_async)['ungrouped_providers'],
 )
-class TestAsyncSubFeatures(TestAsyncCommon):
+class TestAsyncSubFeatures(CommonAsyncTests):
 
     def test_async_job(self, provider, feature, subfeature):
         self._test_async_job(provider, feature, subfeature)
@@ -133,7 +132,7 @@ class TestAsyncSubFeatures(TestAsyncCommon):
             provider_launch_job_function(**invalid_feature_args)
 
     def test_api_get_job_result_saved_output(self, provider, feature, subfeature):
-        self._test_api_get_job_result_saved_output(provider, subfeature, feature)
+        self._test_api_get_job_result_saved_output(provider, feature, subfeature)
     
     def test_get_job_result_does_not_exist(self, provider, feature, subfeature):
         logging.info(f"Testing get job result with invalid id for {provider}, {subfeature}..\n")
@@ -155,7 +154,7 @@ class TestAsyncSubFeatures(TestAsyncCommon):
     ("providers", "feature", "subfeature"),
     global_features(filter=only_async)['grouped_providers'],
 )
-class TestFeatureAsyncSubfeatures(TestAsyncCommon):
+class TestFeatureAsyncSubfeatures(CommonAsyncTests):
 
     def test_async_subfeature_output(self, providers, feature, subfeature):
         """Test API Call"""
