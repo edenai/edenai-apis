@@ -1,5 +1,6 @@
 import os
 import pytest
+from settings import base_path
 
 from edenai_apis.utils.upload_s3 import (
     get_providers_json_from_s3,
@@ -14,7 +15,8 @@ def test_s3_client_load():
 
 @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Skip in opensource package cicd workflow")
 def test_upload_to_s3():
-    with open('edenai_apis/features/ocr/data/resume.pdf', 'rb') as f:
+    file_path = os.path.join(base_path,'features/ocr/data/resume.pdf')
+    with open(file_path, 'rb') as f:
         response = upload_file_to_s3(f, 'test.pdf')
         assert response != None
 

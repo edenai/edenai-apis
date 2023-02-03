@@ -10,6 +10,8 @@ from edenai_apis.utils.constraints import (
 )
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import LanguageErrorMessage
+from settings import base_path
+import os
 
 PROVIDER = 'test_provider'
 FEATURE = "test_feature"
@@ -42,7 +44,8 @@ class TestValidateInputFileType:
     )
     def test_valid_constraints_and_file(self, constraints):
         provider = 'faker'
-        with open('edenai_apis/features/image/data/objects.png', 'rb') as file:
+        file_path = os.path.join(base_path, "features/image/data/objects.png")
+        with open(file_path, 'rb') as file:
             args = { 'file': file }
 
             output = validate_input_file_type(
@@ -60,9 +63,9 @@ class TestValidateInputFileType:
     @pytest.mark.parametrize(
         'file',
         [
-            open('edenai_apis/features/image/data/explicit_content.jpeg', 'rb'),
-            open('edenai_apis/features/image/data/face_recognition_1.jpg', 'rb'),
-            open('edenai_apis/features/audio/data/out.wav', 'rb')
+            open(os.path.join(base_path,'features/image/data/explicit_content.jpeg'), 'rb'),
+            open(os.path.join(base_path,'features/image/data/face_recognition_1.jpg'), 'rb'),
+            open(os.path.join(base_path,'features/audio/data/out.wav'),'rb')
         ],
         ids=['test_with_jpeg', 'test_with_jpg', 'test_with_wav']
     )

@@ -12,7 +12,8 @@ from edenai_apis.utils.audio import (
     file_with_good_extension
 )
 from edenai_apis.utils.exception import ProviderException
-
+from settings import base_path
+import os
 class TestAudioConverter:
     #TODO Need to add more test, like test with other file format (m4a, flac, ogg, etc ..)
     wav_file_input = None
@@ -20,9 +21,9 @@ class TestAudioConverter:
     txt_file = None
 
     def setup_method(self):
-        self.wav_file_input = open('edenai_apis/features/audio/data/out.wav', 'rb')
-        self.mp3_file_input = open('edenai_apis/features/audio/data/conversation.mp3', 'rb')
-        self.txt_file = open('edenai_apis/features/audio/data/test.txt', 'rb')
+        self.wav_file_input =  open(os.path.join(base_path, "features/audio/data/out.wav"), 'rb')
+        self.mp3_file_input = open(os.path.join(base_path, "features/audio/data/conversation.mp3"), 'rb')
+        self.txt_file = open(os.path.join(base_path, "features/audio/data/test.txt"), 'rb')
 
     def teardown_method(self):
         self.wav_file_input.close()
@@ -178,7 +179,8 @@ class TestFileWithGoodExtension:
             f"File extension not supported. Use one of the following extensions: {accepted_extensions}"
 
     def test_raises_exception_on_mismatch_channels(self):
-        with open('edenai_apis/features/audio/data/out.wav', 'rb') as file:
+        data_path = os.path.join(base_path, "features/audio/data/out.wav")
+        with open(data_path, 'rb') as file:
             accepted_extensions = ["wav", "mp3"]
             channels = 2
             with pytest.raises(ProviderException) as exc:
@@ -186,7 +188,8 @@ class TestFileWithGoodExtension:
             assert str(exc.value) == "File audio must be Stereo"
 
     def test_raises_exception_on_mismatch_channels_mp3(self):
-        with open('edenai_apis/features/audio/data/conversation.mp3', 'rb') as file:
+        data_path = os.path.join(base_path, "features/audio/data/conversation.mp3")
+        with open(data_path, 'rb') as file:
             accepted_extensions = ["wav", "mp3"]
             channels = 1
             with pytest.raises(ProviderException) as exc:

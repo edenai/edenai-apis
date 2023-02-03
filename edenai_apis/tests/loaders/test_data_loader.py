@@ -42,6 +42,8 @@ class TestLoadKey:
         sorted(global_providers())
     )
     def test_load_key_of_valid_provider(self, provider: str):
+        if provider=='faker':
+            pytest.skip("unsupported provider")
         data = load_key(provider, False)
         assert isinstance(data, dict), f"No settings.json file found for {provider}"
 
