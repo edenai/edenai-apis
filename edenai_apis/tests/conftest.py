@@ -19,7 +19,7 @@ def global_features(filter: Callable[[Any], bool] = None, return_phase: bool = F
     detailed_providers_list = []
     params_dict = {}
 
-    for provider, feature, subfeature, *phase in method_list:
+    for provider, feature, subfeature, *phase in method_list:        
         if filter and filter(provider, feature, subfeature, phase):
             continue
         params_list = [provider, feature, subfeature]
@@ -36,6 +36,23 @@ def global_features(filter: Callable[[Any], bool] = None, return_phase: bool = F
             ],
         )
         detailed_providers_list.append(detailed_params)
+    
+        detailed_params = pytest.param(
+            provider,
+            feature,
+            subfeature,
+            marks=[
+                getattr(pytest.mark, provider),
+                getattr(pytest.mark, feature),
+                getattr(pytest.mark, subfeature),
+            ],
+        )
+        detailed_providers_list.append(detailed_params)
+
+        if (feature, subfeature) in params_dict.keys():
+            params_dict[(feature, subfeature)].append(provider)
+        else:
+            params_dict[(feature, subfeature)] = [provider]
     
     grouped_providers_list = [
         pytest.param(

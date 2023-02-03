@@ -150,7 +150,8 @@ class TestAsyncSubFeatures(CommonAsyncTests):
 
     def test_api_get_job_result_saved_output(self, provider, feature, subfeature):
         self._test_api_get_job_result_saved_output(provider, feature, subfeature)
-    
+        
+    @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Skip in opensource package cicd workflow")
     def test_launch_job_invalid_parameters(self, provider, feature, subfeature):
         self._test_launch_job_invalid_parameters(provider, feature, subfeature)
         
