@@ -1,79 +1,67 @@
 {
   "original_response": {
-    "id": "cmpl-6Nj5fMkrBkumqftNX71Z1OnwAjtKd",
+    "id": "cmpl-6gxkaG86y8XvjK1yt5mfFwnj3xoBZ",
     "object": "text_completion",
-    "created": 1671112891,
+    "created": 1675697476,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": "Actor, Movies, TV Shows",
+        "text": "Entertainment",
         "index": 0,
         "logprobs": {
           "tokens": [
-            "Actor",
-            ",",
-            " Movies",
-            ",",
-            " TV",
-            " Shows",
-            "<|endoftext|>"
+            "Enter",
+            "tainment",
+            "<|endoftext|>",
+            "PR",
+            "ODUCT"
           ],
           "token_logprobs": [
-            -0.13814357,
-            -0.10750561,
-            -0.15830225,
-            -0.00054459006,
-            -1.8535601,
-            -0.061856408,
-            -0.14626029
+            -0.19650418,
+            -0.00012143587,
+            -0.0875351,
+            -9.552297,
+            -0.9571661
           ],
           "top_logprobs": [
             {
-              "Actor": -0.13814357
+              "Enter": -0.19650418
             },
             {
-              ",": -0.10750561
+              "tainment": -0.00012143587
             },
             {
-              " Movies": -0.15830225
+              "<|endoftext|>": -0.0875351
             },
             {
-              ",": -0.00054459006
+              " \u00a7\u00a7": -0.34399268
             },
             {
-              " Hollywood": -0.30125856
-            },
-            {
-              " Shows": -0.061856408
-            },
-            {
-              "<|endoftext|>": -0.14626029
+              "ODUCT": -0.9571661
             }
           ],
           "text_offset": [
-            170,
-            175,
-            176,
-            183,
-            184,
-            187,
-            193
+            181,
+            186,
+            194,
+            194,
+            194
           ]
         },
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 39,
-      "completion_tokens": 6,
+      "prompt_tokens": 43,
+      "completion_tokens": 2,
       "total_tokens": 45
     }
   },
   "standardized_response": {
     "items": [
       {
-        "category": "Actor, Movies, Tv Shows",
-        "importance": 0.87
+        "category": "Entertainment",
+        "importance": 0.82
       }
     ]
   }

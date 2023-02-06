@@ -1,8 +1,8 @@
 {
   "original_response": {
-    "id": "cmpl-6Mal4XMXM8RyNE3LyIXnGPgbZFECX",
+    "id": "cmpl-6gxZYNBxcodhbnirO0aNqgImAYhCn",
     "object": "text_completion",
-    "created": 1670842534,
+    "created": 1675696792,
     "model": "text-davinci-003",
     "choices": [
       {
@@ -14,65 +14,47 @@
             "<|endoftext|>",
             " \u00a7\u00a7",
             " FILE",
-            " READ",
-            "ME",
-            ".",
-            "md"
+            " READ"
           ],
           "token_logprobs": [
-            -0.0026260114,
-            -9.866513e-05,
-            -0.21111406,
-            -0.0010255584,
-            -1.2440865,
-            -0.00014063035,
-            -0.0004976547,
-            -6.468596e-05
+            -0.00073687645,
+            -1.6282536e-05,
+            -0.06840639,
+            -0.0008294575,
+            -1.2257966
           ],
           "top_logprobs": [
             {
-              " Neutral": -0.0026260114
+              " Neutral": -0.00073687645
             },
             {
-              "<|endoftext|>": -9.866513e-05
+              "<|endoftext|>": -1.6282536e-05
             },
             {
-              " \u00a7\u00a7": -0.21111406
+              " \u00a7\u00a7": -0.06840639
             },
             {
-              " FILE": -0.0010255584
+              " FILE": -0.0008294575
             },
             {
-              " READ": -1.2440865
-            },
-            {
-              "ME": -0.00014063035
-            },
-            {
-              ".": -0.0004976547
-            },
-            {
-              "md": -6.468596e-05
+              " READ": -1.2257966
             }
           ],
           "text_offset": [
-            657,
-            665,
-            665,
-            665,
-            665,
-            665,
-            665,
-            665
+            669,
+            677,
+            677,
+            677,
+            677
           ]
         },
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 136,
+      "prompt_tokens": 139,
       "completion_tokens": 1,
-      "total_tokens": 137
+      "total_tokens": 140
     }
   },
   "standardized_response": {
