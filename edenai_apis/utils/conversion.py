@@ -7,9 +7,9 @@ from edenai_apis.utils.public_enum import AutomlClassificationProviderName
 
 
 
-def convert_formatted_string_to_number(
+def _format_string_for_conversion(
     string_number: str
-) -> Union[int, float, None]:
+) -> str:
     commas_occurences = [match.start() for match in re.finditer("\,", string_number)]
     dot_occurences = [match.start() for match in re.finditer("\.", string_number)]
 
@@ -40,8 +40,12 @@ def convert_string_to_number(
     if isinstance(string_number, str):
         string_number = string_number.strip()
     try:
-        string_formatted  = convert_formatted_string_to_number(re.sub(r"[^\d\.\,]", "", string_number))
-        return val_type(string_formatted)
+        number_nature = 1
+        # test if negatif element
+        if string_number[0] == "-":
+            number_nature = -1
+        string_formatted  = _format_string_for_conversion(re.sub(r"[^\d\.\,]", "", string_number))
+        return val_type(float(string_formatted)) * number_nature
     except Exception as exc:
         print(exc)
         return None

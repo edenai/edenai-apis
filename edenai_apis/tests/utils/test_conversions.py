@@ -37,8 +37,75 @@ class TestConvertStringToNumber:
         assert output == expected_output, \
             f"Expected `{expected_output}` for ({string_number}, {val_type}) but got `{output}`"
 
+    def test_string_with_one_comma(self):
+        string_number = "12,34"
+        val_type = float
+        output = convert_string_to_number(string_number, val_type)
+        expected_output = 12.34
+        assert output == expected_output, \
+            f"Expected `{expected_output}` for ({string_number}, {val_type}) but got `{output}`"
+
+    def test_string_with_multiple_commas(self):
+        string_number = "12,345,123"
+        val_type = float
+        output = convert_string_to_number(string_number, val_type)
+        expected_output = 12345123
+        assert output == expected_output, \
+            f"Expected `{expected_output}` for ({string_number}, {val_type}) but got `{output}`"
+
+    def test_string_with_multiple_dots(self):
+        string_number = "12.345.123"
+        val_type = float
+        output = convert_string_to_number(string_number, val_type)
+        expected_output = 12345123
+        assert output == expected_output, \
+            f"Expected `{expected_output}` for ({string_number}, {val_type}) but got `{output}`"
+
+    def test_string_with_commas_and_dots_finished_with_comma(self):
+        string_number= "12.345,123"
+        val_type = float
+        output = convert_string_to_number(string_number, val_type)
+        expected_output = 12345.123
+        assert output == expected_output, \
+            f"Expected `{expected_output}` for ({string_number}, {val_type}) but got `{output}`"
+
+
+    def test_string_with_commas_and_dots_finished_with_dot(self):
+        string_number= "12,345.123"
+        val_type = float
+        output = convert_string_to_number(string_number, val_type)
+        expected_output = 12345.123
+        assert output == expected_output, \
+            f"Expected `{expected_output}` for ({string_number}, {val_type}) but got `{output}`"
+
+    def test_string_with_negatif_number_to_float(self):
+        string_number = "-12,345.123"
+        val_type = float
+        output = convert_string_to_number(string_number, val_type)
+        expected_output = -12345.123
+        assert output == expected_output, \
+            f"Expected `{expected_output}` for ({string_number}, {val_type}) but got `{output}`"
+            
+
+    def test_string_with_negatif_number_to_int(self):
+        string_number = "-1234"
+        val_type = int
+        output = convert_string_to_number(string_number, val_type)
+        expected_output = -1234
+        assert output == expected_output, \
+            f"Expected `{expected_output}` for ({string_number}, {val_type}) but got `{output}`"
+                    
+
     def test_empty_string(self):
         string_number = ''
+        val_type = int
+        output =  convert_string_to_number(string_number, val_type)
+        expected_output = None
+        assert output == expected_output, \
+            f"Expected `{expected_output}` for ({string_number}, {val_type}) but got `{output}`"
+
+    def test_string_with_sign(self):
+        string_number = '-'
         val_type = int
         output =  convert_string_to_number(string_number, val_type)
         expected_output = None
@@ -66,6 +133,22 @@ class TestConvertStringToNumber:
         val_type = float
         output = convert_string_to_number(string_number, val_type)
         expected_output = 123.45
+        assert output == expected_output, \
+            f"Expected `{expected_output}` for ({string_number}, {val_type}) but got `{output}`"
+
+    def test_float_string_to_int(self):
+        string_number = "123.45"
+        val_type = int
+        output = convert_string_to_number(string_number, val_type)
+        expected_output = 123
+        assert output == expected_output, \
+            f"Expected `{expected_output}` for ({string_number}, {val_type}) but got `{output}`"
+
+    def test_int_string_to_float(self):
+        string_number = "123"
+        val_type = float
+        output = convert_string_to_number(string_number, val_type)
+        expected_output = 123
         assert output == expected_output, \
             f"Expected `{expected_output}` for ({string_number}, {val_type}) but got `{output}`"
 
