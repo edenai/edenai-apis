@@ -168,7 +168,7 @@ def load_provider_subfeature_info(
         ALL_PROVIDERS_INFOS = load_info_file()
     if phase:
         return ALL_PROVIDERS_INFOS[(provider_name, feature, subfeature, phase)].copy()
-    return ALL_PROVIDERS_INFOS[(provider_name, feature, subfeature)].copy()
+    return ALL_PROVIDERS_INFOS.get((provider_name, feature, subfeature), {}).copy()
 
 
 def load_output(
