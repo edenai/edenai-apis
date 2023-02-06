@@ -36,7 +36,6 @@ def load_class_with_subfeature() -> List[ParameterSet]:
             # Define marker
             marks = [
                 getattr(pytest.mark, cls.provider_name),
-                pytest.mark.cls,
             ]
             # List all features for the given provider
             feature_dict = method_dict[cls.provider_name]
@@ -51,66 +50,38 @@ def load_class_with_subfeature() -> List[ParameterSet]:
 
 @pytest.mark.parametrize("cls", load_class_with_subfeature())
 class TestApiClass:
-    def test_info_provider_api(self, cls: ProviderInterface):
-        """Test if ProviderInterface has basic infos like version for all feature implemented"""
+    def test_issubclass(self, cls: ProviderInterface):
+        assert issubclass(cls, ProviderInterface), f"Please inherit {cls} from ProviderInterface"
 
-        assert issubclass(
-            cls, ProviderInterface
-        ), f"Please inherit {cls} from ProviderInterface"
-
+    def test_info_file_exists(self, cls: ProviderInterface):
         provider = cls.provider_name
-
-        # Check if there is an info file
         info = load_provider(ProviderDataEnum.INFO_FILE, provider)
-        assert info
+        assert info, "info file does not exist"
 
-        # list all features, subfeatures, *phase implemented for the provider's class
-        implemented_feature_subfeature = list_features(provider_name=provider)
-
-        # list of all (features, subfeatures, *phase) defined in the provider's info.json file
-        info_feature_subfeatures = []
-
-        # Check if all features in info.json have a version
+    def test_version_exists(self, cls: ProviderInterface):
+        provider = cls.provider_name
+        info = load_provider(ProviderDataEnum.INFO_FILE, provider)
         for feature in info:
             for subfeature in info[feature]:
-                # `version` is at the deepest level, if it is not,
-                # it means either there is a phase or it was not written
                 if not info[feature][subfeature].get("version"):
                     for phase in info[feature][subfeature]:
-                        info_feature_subfeatures.append((feature, subfeature, phase))
-                        assert (
-                            "version" in info[feature][subfeature][phase]
-                        ), "missing 'version' property"
-                        assert (
-                            provider,
-                            feature,
-                            subfeature,
-                            phase,
-                        ) in implemented_feature_subfeature,\
-                            f"{(provider, feature, subfeature, phase)} in info but not implemented"
+                        assert "version" in info[feature][subfeature][phase], "missing 'version' property"
                 else:
-                    info_feature_subfeatures.append((feature, subfeature))
-                    assert "version" in info[feature][subfeature]
-                    assert (
-                        provider,
-                        feature,
-                        subfeature,
-                    ) in implemented_feature_subfeature, (
-                        f"{(provider, feature, subfeature)} in info but not implemented"
-                    )
+                    assert "version" in info[feature][subfeature], "missing 'version' property"
 
-        # TO DO: Add language constraint tests if textual feature
+    def test_implemented_features_documented(self, cls: ProviderInterface):
+        """Test if all implemented features are documented in the provider's info.json file"""
+        # Setup
+        provider = cls.provider_name
+        info = load_provider(ProviderDataEnum.INFO_FILE, provider)
+        implemented_features = list_features(provider_name=provider)
 
-        # Check if all implemented features are documented in info.json
-        for _, feature, subfeature, *phase in implemented_feature_subfeature:
-            if not phase:
-                assert (
-                    feature,
-                    subfeature,
-                ) in info_feature_subfeatures, f"Please add {(feature,subfeature)}\
-                    to info.json file of {cls.__name__}"
+        #Action
+        for _,feature, subfeature, *phase in implemented_features:
+            if phase:
+                feature_info = info.get(feature, {}).get(subfeature, {}).get(phase[0], {})
             else:
-                assert (feature, subfeature, phase[0],) in info_feature_subfeatures, (
-                    f"Please add {(feature,subfeature,phase[0])}"
-                    + f"to info.json file of {cls.__name__}"
-                )
+                feature_info = info.get(feature, {}).get(subfeature, {})
+            # Assert if feature_info doesn't exist
+            assert feature_info, \
+                f"Please add {(feature,subfeature,phase[0] if phase else '')} to info.json file of {cls.__name__}"

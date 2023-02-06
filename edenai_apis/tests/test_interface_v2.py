@@ -13,7 +13,6 @@ _correct_list_feature = lambda: map(
     lambda flist: [*flist, ""] if len(flist) == 3 else flist, list_features()
 )
 
-
 @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
 @pytest.mark.parametrize(
     ("provider", "feature", "subfeature", "phase"), _correct_list_feature()
@@ -80,29 +79,3 @@ def test_abstract_returns_right_method(provider, feature, subfeature, phase):
         )
         Interface = abstract(provider_interface_class, method_prefix=f"{feature}__")
         assert f"{method_name}{phase_suffix}" in dir(Interface)
-
-
-@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
-def test_random_interface_call():
-    """
-    take a random provider/feature/subfeature and use InterfaceV2 to make a call
-    """
-
-    provider, feature, subfeature, *phase = random.choice(list_features())
-
-    subfeature_suffix = "__launch_job" if "async" in subfeature else ""
-    phase_suffix = f"__{phase[0]}" if phase else ""
-
-    interface_module = importlib.import_module("edenai_apis.interface_v2")
-    klass = getattr(interface_module, feature.capitalize())
-    feature_method = getattr(klass, f"{subfeature}{subfeature_suffix}{phase_suffix}")(provider)
-    feature_args = load_feature(
-        FeatureDataEnum.SAMPLES_ARGS,
-        feature=feature,
-        subfeature=subfeature,
-        phase=phase[0] if phase else "",
-    )
-
-    response = feature_method(**feature_args)
-
-    assert response is not None

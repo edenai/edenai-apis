@@ -21,6 +21,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import convert_string_to_number
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.exception import ProviderException
 
 
 class DataleonApi(ProviderInterface, OcrInterface):
@@ -80,10 +81,14 @@ class DataleonApi(ProviderInterface, OcrInterface):
         self, file: BufferedReader, language: str
     ) -> ResponseType[InvoiceParserDataClass]:
 
-        original_response = requests.post(
+        response = requests.post(
             url=self.url_invoice, headers=self.headers, files={"file": file}
-        ).json()
-
+        )
+        
+        if response.status_code !=200:
+            raise ProviderException(response.content)
+        
+        original_response = response.json()
         normalized_response = self._normalize_invoice_result(original_response)
 
         taxes: Sequence[TaxesInvoice] = [
@@ -129,10 +134,14 @@ class DataleonApi(ProviderInterface, OcrInterface):
         self, file: BufferedReader, language: str
     ) -> ResponseType[ReceiptParserDataClass]:
 
-        original_response = requests.post(
+        response = requests.post(
             url=self.url_receipt, headers=self.headers, files={"file": file}
-        ).json()
-
+        )
+        
+        if response.status_code !=200:
+            raise ProviderException(response.content)
+        
+        original_response = response.json()
         normalized_response = self._normalize_invoice_result(original_response)
 
         taxes: Sequence[Taxes] = [

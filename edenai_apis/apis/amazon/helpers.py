@@ -31,22 +31,6 @@ from edenai_apis.utils.types import (
 from .config import clients, storage_clients
 
 
-def content_processing(confidence: Union[int, None]):
-    confidence = confidence or 0 # if None is passed
-    if confidence < 10:
-        return 1
-    elif confidence < 30:
-        return 2
-    elif confidence < 60:
-        return 3
-    elif confidence < 80:
-        return 4
-    elif 80 < confidence:
-        return 5
-    else:
-        return 0
-
-
 def check_webhook_result(job_id: str, api_settings: dict) -> Dict:
     """Try get result on webhook.site with job id
 

@@ -14,8 +14,8 @@ from edenai_apis.features.audio import (
     TextToSpeechDataClass,
 )
 from edenai_apis.features.audio.audio_interface import AudioInterface
-from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
-from edenai_apis.utils.conversion import convert_pt_date_to_string
+from edenai_apis.utils.audio import audio_features_and_support
+from edenai_apis.utils.conversion import convert_pt_date_from_string
 from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -169,12 +169,12 @@ class MicrosoftAudioApi(AudioInterface):
                                         "words"
                                     ]:
                                         speakers.add(speaker)
-                                        start_time = convert_pt_date_to_string(
+                                        start_time = convert_pt_date_from_string(
                                             word_info["offset"]
                                         )
                                         end_time = (
                                             start_time
-                                            + convert_pt_date_to_string(
+                                            + convert_pt_date_from_string(
                                                 word_info["duration"]
                                             )
                                         )

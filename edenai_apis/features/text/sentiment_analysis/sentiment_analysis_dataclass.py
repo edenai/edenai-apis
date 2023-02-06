@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import Optional, Sequence, Literal
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, validator, ValidationError
 
 class SentimentEnum(Enum):
     POSITIVE = 'Positive'
@@ -40,7 +40,7 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
     @classmethod
     def valid_sentiment_rate(cls, value):
         if not isinstance(value, (float, int)):
-            raise TypeError(f"General sentiment rate must be a float, not {type(value)}")
+            raise TypeError(f"Sentiment rate must be a float, not {type(value)}")
         if value < 0 or value > 1:
             raise ValueError(f"{value} are not allowed. Sentiment rate me be contains between 0 and 1")
         return round(value, 2)
@@ -62,7 +62,7 @@ class SentimentAnalysisDataClass(BaseModel):
     @classmethod
     def valid_general_sentiment(cls, value):
         if not isinstance(value, str):
-            raise TypeError(f"Text must be a string, not {type(value)}")
+            raise TypeError(f"General sentiment must be a string, not {type(value)}")
         value = value.title()
         if not value in ["Positive", "Negative", "Neutral"]:
             raise ValueError(f"{value} are not allowed. General sentiment must be 'Positive' or 'Negative' or 'Neutral'")

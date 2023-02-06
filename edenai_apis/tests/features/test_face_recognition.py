@@ -53,6 +53,7 @@ class TestFaceRecognition:
         assert COLLECTION_ID in collections
 
     def test_list_faces(self, provider, collection_id):
+        # Setup
         list_faces = Image.face_recognition__list_faces(provider)
         response = list_faces(collection_id=COLLECTION_ID)
         assert isinstance(response, ResponseType)
@@ -61,8 +62,11 @@ class TestFaceRecognition:
         assert isinstance(std_response.face_ids, list)
 
     def test_list_faces_does_not_exists(self, provider, collection_id):
+        # Setup
+        list_faces = Image.face_recognition__list_faces(provider)
+
+        # Action & assert
         with pytest.raises(ProviderException) as exc:
-            list_faces = Image.face_recognition__list_faces(provider)
             list_faces(collection_id="test_does_not_exists")
             assert exc is not None
 
