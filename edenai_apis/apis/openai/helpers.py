@@ -1,10 +1,10 @@
 from typing import List, Optional
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.languages import get_language_name_from_code
 
 SCORE_MULTIPLIER = 100.0
 
 def get_score(context, query, log_probs, text_offsets) -> float:
-    
     log_prob = 0
     count = 0
     cutoff = len(context) - len(query)
@@ -28,30 +28,44 @@ def format_example_fn(x: List[List[str]]) -> str:
 
 def construct_search_context(query, document) -> str:
     """
-    Construct context for search task prompt
+        Given a query and a document, construct a string that serves as a search context.
+        The returned string will contain the document followed by a separator line and a statement 
+        indicating the relevance of the document to the query.
+        
     """
     return f"<|endoftext|>{document}\n\n---\n\nThe above passage is related to: {query}"
 
 def construct_classification_instruction(labels) -> str:
-    """
-    Construct an instruction for a classification task.
-    """
     instruction = f"Please classify these texts into the following categories: {', '.join(labels)}."
-    log_probs = labels._get_score
     return f"{instruction.strip()}\n\n"
 
-def construct_summarize_context(text) -> str:
-    pass
+def construct_anonymization_context(text: str) -> str:
+    prompt = "identify, categorize, and redact sensitive information in the text below. First write the redacted Text by replacing the entity with [REDACTED], then extract the entity, it's category, offset and length, finally extract the confidence Score between 0.0-1.0.\n\nDesired format:\n'redactedText' : 'redactedText','entities': [[entity, category, length, offset, confidence score]]\n\n Text:###{data}###\nOutput:".format(data=text)
+    return prompt
 
-def construct_anonymization_context(text: str, examples : Optional[List[List[str]]] ) -> str:
-    pass
+def construct_keyword_extraction_context(text: str) -> str:
+    prompt = "You are a highly intelligent and accurate Keyphrase Extraction system. You take text as input and your task is to returns the key phrases or talking points and a confidence score between 0.0-1.0 to support that this is a key phrase.\n\nDesired format:[{{'keyword':'text','score':'value'}}].\n\n Text: ###{data}###\nOutput:".format(data=text)
+    return prompt
 
-def construct_keyword_extraction_context(text: str, examples : Optional[List[List[str]]]) -> str:
-    pass
+def construct_translation_context(text: str, source_language : str, target_language: str) -> str:
+    prompt = f"Translate the following text from {get_language_name_from_code(source_language)} to {get_language_name_from_code(target_language)}:. text:\n###{text}###\ntranslation:"
+    return prompt
 
-def construct_translation_context(text: str, language_output : str, language_input: str) -> str:
-    pass
+def construct_language_detection_context(text: str) -> str:
+    prompt = "Detect the ISO 639-1 language (only the code) of this text.\n\n Text: ###{data}###\ISO 639-1:".format(data=text)
+    return prompt
+
+def construct_sentiment_analysis_context(text: str) -> str:
+    prompt = f"Label the text below with one of these sentiments 'Positive','Negative','Neutral':\n\n text:###"+text+"###\nlabel:"
+    return prompt
+
+def construct_topic_extraction_context(text: str)-> str:
+    prompt = "What is the main taxonomy of the text below. text:###{data}###put the result in this line:\n\n".format(data=text)
+    return prompt
 
 def check_openai_errors(response : dict):
+    """
+        This function takes a response from OpenAI API as input and raises a ProviderException if the response contains an error.
+    """
     if "error" in response:
         raise ProviderException(response["error"]["message"])

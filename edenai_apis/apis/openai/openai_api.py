@@ -1,4 +1,5 @@
 from typing import List, Optional, Sequence
+import ast
 import requests
 import numpy as np
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -23,8 +24,15 @@ from edenai_apis.features.translation.language_detection import LanguageDetectio
 from .helpers import (
     construct_search_context,
     get_score,
+    construct_anonymization_context,
     construct_classification_instruction,
-    format_example_fn
+    format_example_fn,
+    check_openai_errors,
+    construct_keyword_extraction_context,
+    construct_language_detection_context,
+    construct_translation_context,
+    construct_sentiment_analysis_context,
+    construct_topic_extraction_context,
 )
 
 SCORE_MULTIPLIER = 100.0
@@ -54,7 +62,7 @@ class OpenaiApi(ProviderInterface, TextInterface):
         if not model:
             model = self.model
 
-        url = f"{self.url}/completions"
+        url = f"{self.url}/engines/{model}/completions"
         payload = {
             "prompt": text + "\n\nTl;dr",
             "max_tokens": self.max_tokens,
@@ -62,12 +70,13 @@ class OpenaiApi(ProviderInterface, TextInterface):
             "frequency_penalty": 0.0,
             "presence_penalty": 0.0,
         }
+        
         original_response = requests.post(
             url, json=payload, headers=self.headers
         ).json()
 
-        if "error" in original_response:
-            raise ProviderException(original_response["error"]["message"])
+        # Handle errors
+        check_openai_errors(original_response)
 
         standardized_response = SummarizeDataClass(
             result=original_response["choices"][0]["text"]
@@ -92,8 +101,10 @@ class OpenaiApi(ProviderInterface, TextInterface):
         except Exception as exc:
             raise ProviderException(str(exc))
         original_response = response.json()
-        if "error" in original_response:
-            raise ProviderException(original_response.get("error", {}).get("message"))
+        
+        # Handle errors
+        check_openai_errors(original_response)
+        
         classification : Sequence[TextModerationItem] = []
         if result := original_response.get("results", None):
             for key, value in result[0].get("category_scores", {}).items():
@@ -138,8 +149,8 @@ class OpenaiApi(ProviderInterface, TextInterface):
             url, json=payload, headers=self.headers
         ).json()
 
-        if "error" in original_response:
-            raise ProviderException(original_response["error"]["message"])
+        # Handle errors
+        check_openai_errors(original_response)
 
         resps_by_index = {
             choice["index"]: choice for choice in original_response["choices"]
@@ -216,8 +227,9 @@ class OpenaiApi(ProviderInterface, TextInterface):
             url, json=payload, headers=self.headers
         ).json()
 
-        if "error" in original_response:
-            raise ProviderException(original_response["error"]["message"])
+        # Handle errors
+        check_openai_errors(original_response)
+        
         answer = original_response["choices"][0]["text"].split("\n")
         answer = answer[0]
         standardized_response = QuestionAnswerDataClass(answers=[answer])
@@ -230,19 +242,23 @@ class OpenaiApi(ProviderInterface, TextInterface):
 
     def text__anonymization(self, text: str, language: str) -> ResponseType[AnonymizationDataClass]:
         url = f"{self.url}/completions"
-        prompt = f"Anoymize this text:\n\n"+text
+        prompt = construct_anonymization_context(text)
         payload = {
-        "prompt" : prompt,
-        # "max_tokens" : self.max_tokens,
-        "model" : self.model
+            "prompt": prompt,
+            "model" : self.model,
+            "max_tokens": self.max_tokens,
+            "temperature": 0.7,
+            "frequency_penalty": 0.0,
+            "presence_penalty": 0.0,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
         
-        # Handle povider error
-        if "error" in original_response:
-            raise ProviderException(original_response["error"]["message"])
+        # Handle errors
+        check_openai_errors(original_response)
         
-        standardized_response = AnonymizationDataClass(result=original_response["choices"][0]['text'])
+        data = original_response['choices'][0]['text'].replace("\n\n", " ").strip()
+        data_dict = ast.literal_eval(f"{{{data}}}")
+        standardized_response = AnonymizationDataClass(result=data_dict.get('redactedText'))
 
         return ResponseType[AnonymizationDataClass](
             original_response=original_response,
@@ -251,23 +267,26 @@ class OpenaiApi(ProviderInterface, TextInterface):
 
     def text__keyword_extraction(self, language: str, text: str) -> ResponseType[KeywordExtractionDataClass]:
         url = f"{self.url}/completions"
-        prompt = f"Extract all keywords (keyword1,keyword2,keyword3) from this text: \n\n "+text+"\nkeywords:"
+        prompt = construct_keyword_extraction_context(text)
         payload = {
         "prompt" : prompt,
         "max_tokens" : self.max_tokens,
         "model" : self.model,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
-        # Handle povider error
-        if "error" in original_response:
-            raise ProviderException(original_response["error"]["message"])
         
-        keywords = original_response['choices'][0]['text'].split(',')
+        # Handle errors
+        check_openai_errors(original_response)
+        
+        data = original_response['choices'][0]['text'].replace("\n", " ").strip()
+        data_list = ast.literal_eval(f"{data}")
         items: Sequence[InfosKeywordExtractionDataClass] = []
-        for keyword in keywords:
-            items.append(
-                InfosKeywordExtractionDataClass(keyword=keyword)
-            )
+        for keyword in data_list:
+           items.append(
+               InfosKeywordExtractionDataClass(
+                   keyword=keyword.get('keyword'),
+                   importance=keyword.get('score')),
+           )
         standardized_response = KeywordExtractionDataClass(items = items)
 
         return ResponseType[KeywordExtractionDataClass](
@@ -279,7 +298,7 @@ class OpenaiApi(ProviderInterface, TextInterface):
         self, text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
         url = f"{self.url}/completions"
-        prompt = f"Detect the ISO 639-1 language (only the code) of this text: \n\n " + text + "\nISO 639-1:"
+        prompt = construct_language_detection_context(text)
         payload = {
             "prompt" : prompt,
             "max_tokens" : self.max_tokens,
@@ -287,13 +306,14 @@ class OpenaiApi(ProviderInterface, TextInterface):
             "temperature" : 0,
             "logprobs":1,
         }
-
         original_response = requests.post(url, json=payload, headers=self.headers).json()
-        if "error" in original_response:
-            raise ProviderException(original_response["error"]["message"])
+        
+        # Handle errors
+        check_openai_errors(original_response)
         
         items: Sequence[InfosLanguageDetectionDataClass] = []
         score = np.exp(original_response['choices'][0]['logprobs']['token_logprobs'][0])
+        
         # replace are necessary to keep only language code
         isocode = original_response['choices'][0]['text'].replace(' ', '')
         items.append(
@@ -314,17 +334,16 @@ class OpenaiApi(ProviderInterface, TextInterface):
     ) -> ResponseType[AutomaticTranslationDataClass]:
         
         url = f"{self.url}/completions"
-        prompt = f"Translate from {source_language} to {target_language} this text:\n\n{text}\n\ntranslation:"
+        prompt=construct_translation_context(text, source_language, target_language)
         payload = {
         "prompt" : prompt,
         "max_tokens" : self.max_tokens,
         "model" : self.model,
-        "temperature" : 0,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
         
-        if "error" in original_response:
-            raise ProviderException(original_response["error"]["message"])
+        # Handle errors
+        check_openai_errors(original_response)
 
         standardized = AutomaticTranslationDataClass(text=original_response['choices'][0]['text'])
 
@@ -336,18 +355,17 @@ class OpenaiApi(ProviderInterface, TextInterface):
         self, language: str, text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
         url = f"{self.url}/completions"
-        prompt = f"Label the text with one of these sentiments 'Positive','Negative','Neutral':\n\n text:"+text+"\nlabel:"
+        prompt = construct_sentiment_analysis_context(text)
         payload = {
         "prompt" : prompt,
-        # "max_tokens" : self.max_tokens,
         "model" : self.model,
         "temperature" : 0,
         "logprobs":1,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
         
-        if "error" in original_response:
-            raise ProviderException(original_response["error"]["message"])
+        # Handle errors
+        check_openai_errors(original_response)
         
         # Create output response
         # Get score 
@@ -366,7 +384,7 @@ class OpenaiApi(ProviderInterface, TextInterface):
     ) -> ResponseType[TopicExtractionDataClass]:
         url = f"{self.url}/completions"
 
-        prompt = f"What is the main taxonomy of the text:"+text+"please put the result in this line:\n\n"
+        prompt = construct_topic_extraction_context(text)
         payload = {
         "prompt" : prompt,
         "max_tokens" : self.max_tokens,
@@ -375,8 +393,8 @@ class OpenaiApi(ProviderInterface, TextInterface):
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
 
-        if "error" in original_response:
-            raise ProviderException(original_response["error"]["message"])
+        # Handle errors
+        check_openai_errors(original_response)
         
         # Create output response
         # Get score 
@@ -414,8 +432,8 @@ class OpenaiApi(ProviderInterface, TextInterface):
             
         original_response = requests.post(url, json=payload, headers= self.headers).json()
         
-        if "error" in original_response:
-            raise ProviderException(original_response["error"]["message"])
+        # Handle errors
+        check_openai_errors(original_response)
         
         standardized_response = GenerationDataClass(
             generated_text = original_response['choices'][0]['text']
@@ -441,9 +459,9 @@ class OpenaiApi(ProviderInterface, TextInterface):
         "presence_penalty": 0,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
-        # Handle povider error
-        if "error" in original_response:
-            raise ProviderException(original_response["error"]["message"])
+        
+        # Handle errors
+        check_openai_errors(original_response)
         
         items: Sequence[InfosCustomNamedEntityRecognitionDataClass] = []
         entities = original_response['choices'][0]['text'].replace("\n", "").split(';')
@@ -496,9 +514,8 @@ class OpenaiApi(ProviderInterface, TextInterface):
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
 
-        # Handle povider error
-        if "error" in original_response:
-            raise ProviderException(original_response["error"]["message"])
+        # Handle errors
+        check_openai_errors(original_response)
 
         # Getting labels 
         detected_labels = original_response['choices'][0]['text'].split('\n')

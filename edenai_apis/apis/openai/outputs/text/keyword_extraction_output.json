@@ -1,56 +1,48 @@
 {
   "original_response": {
-    "id": "cmpl-6MfWmRjthIOY0zrgsmJPC3oxZlzJk",
+    "id": "cmpl-6gwjYZt9pMqaaBZ5seVPHo0JkxiHD",
     "object": "text_completion",
-    "created": 1670860868,
+    "created": 1675693568,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": " Obama, American, Politician, 44th President of the United States, Democratic Party, African-American, U.S. Senator from Illinois, Illinois State Senator",
+        "text": " [{'keyword':'Barack Hussein Obama','score':'1.0'},{'keyword':'44th President of the United States','score':'1.0'},{'keyword':'Democratic Party','score':'0.8'},{'keyword':'first African-American President','score':'1.0'},{'keyword':'U.S. Senator from Illinois','score':'0.7'},{'keyword':'Illinois State Senator','score':'0.7'}]",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 97,
-      "completion_tokens": 33,
-      "total_tokens": 130
+      "prompt_tokens": 151,
+      "completion_tokens": 121,
+      "total_tokens": 272
     }
   },
   "standardized_response": {
     "items": [
       {
-        "keyword": " Obama",
-        "importance": null
+        "keyword": "Barack Hussein Obama",
+        "importance": 1.0
       },
       {
-        "keyword": " American",
-        "importance": null
+        "keyword": "44th President of the United States",
+        "importance": 1.0
       },
       {
-        "keyword": " Politician",
-        "importance": null
+        "keyword": "Democratic Party",
+        "importance": 0.8
       },
       {
-        "keyword": " 44th President of the United States",
-        "importance": null
+        "keyword": "first African-American President",
+        "importance": 1.0
       },
       {
-        "keyword": " Democratic Party",
-        "importance": null
+        "keyword": "U.S. Senator from Illinois",
+        "importance": 0.7
       },
       {
-        "keyword": " African-American",
-        "importance": null
-      },
-      {
-        "keyword": " U.S. Senator from Illinois",
-        "importance": null
-      },
-      {
-        "keyword": " Illinois State Senator",
-        "importance": null
+        "keyword": "Illinois State Senator",
+        "importance": 0.7
       }
     ]
   }

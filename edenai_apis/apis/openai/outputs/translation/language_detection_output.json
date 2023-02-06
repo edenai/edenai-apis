@@ -1,8 +1,8 @@
 {
   "original_response": {
-    "id": "cmpl-6NIm5L1GEAA2UZy89SwGO2q0XvkmC",
+    "id": "cmpl-6gx87aQ4tfJs2lIbKcyVJCJifees5",
     "object": "text_completion",
-    "created": 1671011733,
+    "created": 1675695091,
     "model": "text-davinci-003",
     "choices": [
       {
@@ -11,82 +11,40 @@
         "logprobs": {
           "tokens": [
             " it",
-            "<|endoftext|>",
-            " \u00a7\u00a7",
-            " FILE",
-            " READ",
-            "ME",
-            ".",
-            "md",
-            "\n"
+            "<|endoftext|>"
           ],
           "token_logprobs": [
-            -0.024598012,
-            -0.0007722504,
-            -0.0039686826,
-            -0.0017248502,
-            -1.2132334,
-            -0.00014980942,
-            -0.00043700845,
-            -0.0003527561,
-            -0.0010178615
+            -0.07574644,
+            -0.00047410018
           ],
           "top_logprobs": [
             {
-              " it": -0.024598012
+              " it": -0.07574644
             },
             {
-              "<|endoftext|>": -0.0007722504
-            },
-            {
-              " \u00a7\u00a7": -0.0039686826
-            },
-            {
-              " FILE": -0.0017248502
-            },
-            {
-              " READ": -1.2132334
-            },
-            {
-              "ME": -0.00014980942
-            },
-            {
-              ".": -0.00043700845
-            },
-            {
-              "md": -0.0003527561
-            },
-            {
-              "\n": -0.0010178615
+              "<|endoftext|>": -0.00047410018
             }
           ],
           "text_offset": [
-            887,
-            890,
-            890,
-            890,
-            890,
-            890,
-            890,
-            890,
-            890
+            898,
+            901
           ]
         },
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 322,
+      "prompt_tokens": 325,
       "completion_tokens": 1,
-      "total_tokens": 323
+      "total_tokens": 326
     }
   },
   "standardized_response": {
     "items": [
       {
-        "language": " it",
+        "language": "it",
         "display_name": "Italian",
-        "confidence": 0.9757020537220961
+        "confidence": 0.93
       }
     ]
   }

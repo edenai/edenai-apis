@@ -1,24 +1,24 @@
 {
   "original_response": {
-    "id": "cmpl-6LC6uzITcR9J2E4Bn3SeEYqJs1gyH",
+    "id": "cmpl-6gwloHYDDd2twYHqMGzktGFEfmTLq",
     "object": "text_completion",
-    "created": 1670509460,
+    "created": 1675693708,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": "\n\nThe phone number of Luc is the xx xx xx xx xx.",
+        "text": " \n'redactedText' : 'The phone number of Luc is the [REDACTED].','entities': [['06 21 32 43 54', 'PHONE_NUMBER', 13, 19, 1.0]]",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 22,
-      "completion_tokens": 15,
-      "total_tokens": 37
+      "prompt_tokens": 110,
+      "completion_tokens": 47,
+      "total_tokens": 157
     }
   },
   "standardized_response": {
-    "result": "\n\nThe phone number of Luc is the xx xx xx xx xx."
+    "result": "The phone number of Luc is the [REDACTED]."
   }
 }
