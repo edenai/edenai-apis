@@ -5,14 +5,25 @@ from typing import Sequence
 
 import googleapiclient.discovery
 from edenai_apis.apis.google.google_helpers import ocr_tables_async_response_add_rows
-from edenai_apis.features.ocr.ocr.ocr_dataclass import Bounding_box, OcrDataClass
-from edenai_apis.features.ocr.ocr_interface import OcrInterface
-from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
+from edenai_apis.features.ocr import (
+    BankInvoice,
+    CustomerInformationInvoice,
+    InfosInvoiceParserDataClass, 
+    InvoiceParserDataClass, 
+    ItemLinesInvoice, 
+    LocaleInvoice, 
+    MerchantInformationInvoice, 
+    TaxesInvoice,
+    Bounding_box,
+    OcrDataClass,
     OcrTablesAsyncDataClass,
     Page,
     Row,
     Table,
 )
+from edenai_apis.features.ocr.ocr_interface import OcrInterface
+from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import CustomerInformation, InfosReceiptParserDataClass, ItemLines, Locale, MerchantInformation, PaymentInformation, ReceiptParserDataClass, Taxes
+from edenai_apis.utils.conversion import convert_string_to_number
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.pdfs import get_pdf_width_height
 from edenai_apis.utils.types import (
@@ -24,8 +35,11 @@ from edenai_apis.utils.types import (
 from PIL import Image as Img
 
 import google.auth
+
+from google.api_core.client_options import ClientOptions
 from google.cloud import documentai_v1beta3 as documentai
 from google.cloud import vision
+from google.cloud.documentai_v1beta3 import Document
 from google.cloud.vision_v1.types.image_annotator import (
     AnnotateImageResponse,
     EntityAnnotation,
@@ -77,6 +91,248 @@ class GoogleOcrApi(OcrInterface):
         return ResponseType[OcrDataClass](
             original_response=messages_list, standardized_response=standardized
         )
+
+
+    def ocr__receipt_parser(
+        self, file: BufferedReader, language: str
+    ) -> ResponseType[ReceiptParserDataClass]:
+        mimetype = mimetypes.guess_type(file.name)[0] or "unrecognized"
+
+        receipt_parser_project_id = self.api_settings["documentai"]["project_id"]
+        receipt_parser_process_id = self.api_settings["documentai"]["process_receipt_id"]
+
+        opts = ClientOptions(api_endpoint=f"eu-documentai.googleapis.com")
+        receipt_client = documentai.DocumentProcessorServiceClient(
+            client_options=opts
+        )
+        name = receipt_client.processor_path(
+            receipt_parser_project_id,
+            "eu",
+            receipt_parser_process_id
+        )
+
+        raw_document = documentai.RawDocument(content= file.read(), mime_type=mimetype)
+
+        try:
+            request = documentai.ProcessRequest(name=name, raw_document= raw_document)
+            result = receipt_client.process_document(request=request)
+        except Exception as excp:
+            raise ProviderException(str(excp))
+        document = result.document
+
+        receipt_infos: InfosReceiptParserDataClass = InfosReceiptParserDataClass()
+        receipt_taxe: Taxes = Taxes()
+        item_lines: Sequence[ItemLines]= []
+        local_receipt: Locale = Locale()
+        payement_information: PaymentInformation = PaymentInformation()
+        merchant_infos : MerchantInformation = MerchantInformation()
+
+        entites : Sequence[Document.Entity] = document.entities
+
+        item_lines_index = 0
+        for entity in entites:
+            entity_dict = Document.Entity.to_dict(entity)
+            entity_type = entity_dict.get("type_", "")
+            entity_value = entity_dict.get("normalized_value", {}).get("text") or entity_dict.get("mention_text")
+            if entity_type == "credit_card_last_four_digits":
+                payement_information.card_number = entity_value
+            if entity_type == "currency":
+                local_receipt.currency = entity_value
+            if entity_type == "start_date":
+                receipt_infos.date = entity_value
+            if entity_type == "end_date":
+                receipt_infos.due_date = entity_value
+            if entity_type == "net_amount":
+                string_amount = entity_value
+                amount = convert_string_to_number(string_amount, float)
+                receipt_infos.invoice_subtotal = amount
+            if entity_type == "purchase_time":
+                receipt_infos.time = entity_value
+            if entity_type == "receipt_date":
+                receipt_infos.date = entity_value
+            if entity_type == "supplier_address":
+                merchant_infos.merchant_address = entity_value
+            if entity_type == "supplier_name":
+                merchant_infos.merchant_name = entity_value
+            if entity_type == "supplier_phone":
+                merchant_infos.merchant_phone = entity_value
+            if entity_type == "tip_amount":
+                payement_information.tip = entity_value
+            if entity_type == "total_amount":
+                string_amount = entity_value
+                amount = convert_string_to_number(string_amount, float)
+                receipt_infos.invoice_total = amount
+            if entity_type == "total_tax_amount":
+                string_amount = entity_value
+                amount = convert_string_to_number(string_amount, float)
+                receipt_taxe.taxes = amount
+            if entity_type == "line_item":
+                item = ItemLines()
+                for property in (entity_dict.get("properties", []) or []):
+                    property_type = property.get("type_", "")
+                    property_value = property.get("normalized_value", {}).get("text") or property.get("mention_text")
+                    if property_type == "line_item/amount":
+                        string_amount = property_value
+                        amount = convert_string_to_number(string_amount, float)
+                        item.amount = amount
+                    if property_type == "line_item/description":
+                        item.description = property_value
+                    if property_type == "line_item/quantity":
+                        string_quantity = property_value
+                        quantity = convert_string_to_number(string_quantity, int)
+                        item.quantity = quantity
+                item_lines.append(item)
+
+            item_lines_index+=1
+        
+        receipt_infos.merchant_information = merchant_infos
+        receipt_infos.taxes = [receipt_taxe]
+        receipt_infos.item_lines = item_lines
+        receipt_infos.locale = local_receipt
+        receipt_infos.payment_information = payement_information
+
+        return ResponseType[ReceiptParserDataClass](
+            original_response= Document.to_dict(document),
+            standardized_response= ReceiptParserDataClass(extracted_data=[receipt_infos])
+        )
+
+
+    def ocr__invoice_parser(
+        self, file: BufferedReader, language: str
+    ) -> ResponseType[InvoiceParserDataClass]:
+        mimetype = mimetypes.guess_type(file.name)[0] or "unrecognized"
+
+        invoice_parser_project_id = self.api_settings["documentai"]["project_id"]
+        invoice_parser_process_id = self.api_settings["documentai"]["process_invoice_id"]
+
+        opts = ClientOptions(api_endpoint=f"eu-documentai.googleapis.com")
+        invoice_client = documentai.DocumentProcessorServiceClient(
+            client_options=opts
+        )
+        name = invoice_client.processor_path(
+            invoice_parser_project_id,
+            "eu",
+            invoice_parser_process_id
+        )
+
+        raw_document = documentai.RawDocument(content= file.read(), mime_type=mimetype)
+
+        try:
+            request = documentai.ProcessRequest(name=name, raw_document= raw_document)
+            result = invoice_client.process_document(request=request)
+        except Exception as excp:
+            raise ProviderException(str(excp))
+        document = result.document
+
+        invoice_infos :InfosInvoiceParserDataClass = InfosInvoiceParserDataClass()
+        merchant_infos : MerchantInformationInvoice = MerchantInformationInvoice()
+        customer_infos : CustomerInformationInvoice = CustomerInformationInvoice()
+        local_invoice : LocaleInvoice = LocaleInvoice()
+        item_lines : Sequence[ItemLinesInvoice] = []
+        bank_invoice : BankInvoice = BankInvoice()
+        invoice_taxe: TaxesInvoice = TaxesInvoice()
+
+        entites : Sequence[Document.Entity] = document.entities
+
+        item_lines_index = 0
+        for entity in entites:
+            entity_dict = Document.Entity.to_dict(entity)
+            entity_type = entity_dict.get("type_", "")
+            entity_value = entity_dict.get("normalized_value", {}).get("text") or entity_dict.get("mention_text")
+            if entity_type == "total_amount":
+                string_amount = entity_value
+                amount = convert_string_to_number(string_amount, float)
+                invoice_infos.invoice_total = amount
+            if entity_type == "net_amount":
+                string_amount = entity_value
+                amount = convert_string_to_number(string_amount, float)
+                invoice_infos.invoice_subtotal = amount
+            if entity_type == "total_tax_amount":
+                string_amount = entity_value
+                amount = convert_string_to_number(string_amount, float)
+                invoice_taxe.value = amount
+            if entity_type == "currency_exchange_rate":
+                string_amount = entity_value
+                amount = convert_string_to_number(string_amount, float)
+                invoice_taxe.rate = amount
+            if entity_type == "payment_terms":
+                invoice_infos.payment_term = entity_value
+            if entity_type == "supplier_iban":
+                bank_invoice.iban = entity_value
+            if entity_type == "currency":
+                local_invoice.currency = entity_value
+            if entity_type == "invoice_id":
+                invoice_infos.invoice_number = entity_value
+            if entity_type == "purchase_order":
+                invoice_infos.purchase_order = entity_value
+            if entity_type == "invoice_date":
+                invoice_infos.date = entity_value
+            if entity_type == "due_date":
+                invoice_infos.due_date = entity_value
+            if entity_type == "delivery_date":
+                invoice_infos.service_date = entity_value
+            if entity_type == "supplier_name":
+                merchant_infos.merchant_name = entity_value
+            if entity_type == "supplier_email":
+                merchant_infos.merchant_address = entity_value
+            if entity_type == "supplier_phone":
+                merchant_infos.merchant_phone = entity_value
+            if entity_type == "supplier_address":
+                merchant_infos.merchant_address = entity_value
+            if entity_type == "supplier_tax_id":
+                merchant_infos.merchant_tax_id = entity_value
+            if entity_type == "supplier_website":
+                merchant_infos.merchant_website = entity_value
+            if entity_type == "receiver_name":
+                customer_infos.customer_name = entity_value
+            if entity_type == "receiver_address":
+                customer_infos.customer_address = entity_value
+            if entity_type == "receiver_tax_id":
+                customer_infos.customer_tax_id = entity_value
+            if entity_type == "receiver_email":
+                customer_infos.customer_email = entity_value
+            if entity_type == "remit_to_address":
+                customer_infos.customer_remittance_address = entity_value
+            if entity_type == "ship_to_address":
+                customer_infos.customer_shipping_address = entity_value
+            
+            if entity_type == "line_item":
+                item = ItemLinesInvoice()
+                for property in (entity_dict.get("properties", []) or []):
+                    property_type = property.get("type_", "")
+                    property_value = property.get("normalized_value", {}).get("text") or property.get("mention_text")
+                    if property_type == "line_item/amount":
+                        string_amount = property_value
+                        amount = convert_string_to_number(string_amount, float)
+                        item.amount = amount
+                    if property_type == "line_item/quantity":
+                        string_quantity = property_value
+                        quantity = convert_string_to_number(string_quantity, int)
+                        item.quantity = quantity
+                    if property_type == "line_item/unit_price":
+                        string_unit_price = property_value
+                        unit_price = convert_string_to_number(string_unit_price, float)
+                        item.unit_price = unit_price
+                    if property_type == "line_item/description":
+                        item.description = property_value
+                    if property_type == "line_item/product_code":
+                        item.product_code = property_value
+                item_lines.append(item)
+
+            item_lines_index+=1
+        invoice_infos.merchant_information = merchant_infos
+        invoice_infos.customer_information = customer_infos
+        invoice_infos.locale = local_invoice
+        invoice_infos.bank_informations = bank_invoice
+        invoice_infos.item_lines = item_lines
+        invoice_infos.taxes = [invoice_taxe]
+
+
+        return ResponseType[InvoiceParserDataClass](
+            original_response= Document.to_dict(document),
+            standardized_response= InvoiceParserDataClass(extracted_data=[invoice_infos])
+        )
+
 
     def ocr__ocr_tables_async__launch_job(
         self, file: BufferedReader, file_type: str, language: str

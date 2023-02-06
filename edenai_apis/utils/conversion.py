@@ -1,8 +1,31 @@
 import re
+import locale
 import datetime as dt
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from edenai_apis.utils.public_enum import AutomlClassificationProviderName
+
+
+
+def _format_string_for_conversion(
+    string_number: str
+) -> str:
+    commas_occurences = [match.start() for match in re.finditer("\,", string_number)]
+    dot_occurences = [match.start() for match in re.finditer("\.", string_number)]
+
+    if len(commas_occurences) > 0 and len(dot_occurences) > 0:
+        index_remove_partt = max(commas_occurences[len(commas_occurences)-1], dot_occurences[len(dot_occurences)-1])
+        number_part = string_number[:index_remove_partt]
+        degit_part = string_number[index_remove_partt+1:]
+        number_part =  re.sub(r"[^\d]", "", number_part)
+        return f"{number_part}.{degit_part}"
+    if len(commas_occurences) > 0:
+        if len(commas_occurences) == 1:
+            return string_number.replace(",", ".")
+    if len(dot_occurences) > 0:
+        if len(dot_occurences) == 1:
+            return string_number
+    return re.sub(r"[^\d]", "", string_number)
 
 
 def convert_string_to_number(
@@ -17,9 +40,14 @@ def convert_string_to_number(
     if isinstance(string_number, str):
         string_number = string_number.strip()
     try:
-        number = val_type(re.sub(r"[^\d\.]", "", string_number))
-        return number
+        number_nature = 1
+        # test if negatif element
+        if string_number[0] == "-":
+            number_nature = -1
+        string_formatted  = _format_string_for_conversion(re.sub(r"[^\d\.\,]", "", string_number))
+        return val_type(float(string_formatted)) * number_nature
     except Exception as exc:
+        print(exc)
         return None
 
 def closest_above_value(input_list, input_value):
