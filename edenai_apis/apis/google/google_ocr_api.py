@@ -191,9 +191,9 @@ class GoogleOcrApi(OcrInterface):
         receipt_infos.locale = local_receipt
         receipt_infos.payment_information = payement_information
 
-        return ResponseType[InvoiceParserDataClass](
+        return ResponseType[ReceiptParserDataClass](
             original_response= Document.to_dict(document),
-            standardized_response= InvoiceParserDataClass(extracted_data=[receipt_infos])
+            standardized_response= ReceiptParserDataClass(extracted_data=[receipt_infos])
         )
 
 
