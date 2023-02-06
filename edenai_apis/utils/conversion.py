@@ -1,12 +1,35 @@
 from builtins import bool
 import os
 import re
+import locale
 import datetime as dt
 from typing import Optional, Type, Union
 import pandas as pd
 
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.public_enum import AutomlClassificationProviderName
+
+
+
+def convert_formatted_string_to_number(
+    string_number: str
+) -> Union[int, float, None]:
+    commas_occurences = [match.start() for match in re.finditer("\,", string_number)]
+    dot_occurences = [match.start() for match in re.finditer("\.", string_number)]
+
+    if len(commas_occurences) > 0 and len(dot_occurences) > 0:
+        index_remove_partt = max(commas_occurences[len(commas_occurences)-1], dot_occurences[len(dot_occurences)-1])
+        number_part = string_number[:index_remove_partt]
+        degit_part = string_number[index_remove_partt+1:]
+        number_part =  re.sub(r"[^\d]", "", number_part)
+        return f"{number_part}.{degit_part}"
+    if len(commas_occurences) > 0:
+        if len(commas_occurences) == 1:
+            return string_number.replace(",", ".")
+    if len(dot_occurences) > 0:
+        if len(dot_occurences) == 1:
+            return string_number
+    return re.sub(r"[^\d]", "", string_number)
 
 
 def convert_string_to_number(
@@ -20,9 +43,10 @@ def convert_string_to_number(
     if not string_number:
         return None
     try:
-        number = val_type(re.sub(r"[^\d\.]", "", string_number))
-        return number
+        string_formatted  = convert_formatted_string_to_number(re.sub(r"[^\d\.\,]", "", string_number))
+        return val_type(string_formatted)
     except Exception as exc:
+        print(exc)
         return None
 
 
