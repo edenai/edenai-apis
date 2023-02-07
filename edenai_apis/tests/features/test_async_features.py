@@ -32,7 +32,7 @@ class CommonAsyncTests:
             FeatureDataEnum.SAMPLES_ARGS,
             feature=feature,
             subfeature=subfeature)
-        validated_args = validate_all_provider_constraints(provider, feature, subfeature, feature_args)
+        validated_args = validate_all_provider_constraints(provider, feature, subfeature, "", feature_args)
         try:
             subfeature_suffix = "__launch_job"
             feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
