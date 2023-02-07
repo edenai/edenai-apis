@@ -7,6 +7,7 @@
 | | amazon |
 | | base64 |
 | | dataleon |
+| | google |
 | | microsoft |
 | | mindee |
 | **resume_parser** | affinda |
@@ -28,6 +29,7 @@
 | | microsoft |
 | **receipt_parser** | base64 |
 | | dataleon |
+| | google |
 | | microsoft |
 | | mindee |
 | | tabscanner |
@@ -333,8 +335,10 @@
 | | landmark_detection |
 | | logo_detection |
 | | object_detection |
-| **ocr** | ocr |
+| **ocr** | invoice_parser |
+| | ocr |
 | | ocr_tables_async |
+| | receipt_parser |
 | **text** | named_entity_recognition |
 | | sentiment_analysis |
 | | syntax_analysis |
