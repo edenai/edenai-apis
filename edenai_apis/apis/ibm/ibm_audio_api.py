@@ -66,6 +66,7 @@ class IbmAudioApi(AudioInterface):
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
+        file_name: str,
         language: str,
         speakers: int,
         profanity_filter: bool,

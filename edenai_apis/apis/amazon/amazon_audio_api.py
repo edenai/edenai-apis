@@ -128,6 +128,7 @@ class AmazonAudioApi(AudioInterface):
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
+        file_name: str,
         language: str,
         speakers: int,
         profanity_filter: bool,
@@ -137,8 +138,9 @@ class AmazonAudioApi(AudioInterface):
 
         export_format, channels, frame_rate = audio_attributes
 
+
         filename = self._upload_audio_file_to_amazon_server(
-            file, Path(file.name).stem + "." + export_format
+            file, Path(file_name).stem + "." + export_format
         )
         if vocabulary:
             vocab_name = self._create_vocabulary(language, vocabulary)

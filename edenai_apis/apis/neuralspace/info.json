@@ -299,8 +299,12 @@
                 "vi",
                 "vi-VN",
                 "zu",
-                "zu-ZA"]
-               
+                "zu-ZA"
+            ],
+            "file_extensions": [
+                "mp3",
+                "wav"
+            ]  
             },
                 "version": "v1"
         }

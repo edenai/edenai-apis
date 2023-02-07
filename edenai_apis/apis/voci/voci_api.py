@@ -31,7 +31,7 @@ class VociApi(ProviderInterface, AudioInterface):
 
     @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str,
+        self, file: BufferedReader, file_name:str, language: str,
         speakers : int, profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple

@@ -79,6 +79,7 @@ class MicrosoftAudioApi(AudioInterface):
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
+        file_name: str,
         language: str,
         speakers: int,
         profanity_filter: bool,
@@ -92,7 +93,7 @@ class MicrosoftAudioApi(AudioInterface):
         export_format, channels, frame_rate = audio_attributes
 
         content_url = upload_file_to_s3(
-            file, Path(file.name).stem + "." + export_format
+            file, Path(file_name).stem + "." + export_format
         )
 
         headers = self.headers["speech"]

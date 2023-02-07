@@ -11,7 +11,7 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import audio_converter
+from edenai_apis.utils.audio import audio_converter, audio_features_and_support
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -44,12 +44,14 @@ class VoxistApi(ProviderInterface, AudioInterface):
         response = requests.post(f"{self.base_url}oauth/token", json=data)
         self.api_key = response.json().get("access_token")
 
+    @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str, speakers: int,
-        profanity_filter: bool, vocabulary: Optional[List[str]]
+        self, file: BufferedReader, file_name:str, language: str, speakers: int,
+        profanity_filter: bool, vocabulary: Optional[List[str]],
+        audio_attributes: tuple
     ) -> AsyncLaunchJobResponseType:
-        # Convert audio file to Mono 16kHz wav
-        wav_file = audio_converter(file, frame_rate=16000, channels=1)[0]
+
+        export_format, channels, frame_rate = audio_attributes
 
         # Prepare data
         headers = {"Authorization": f"Bearer {self.api_key}"}
@@ -62,7 +64,7 @@ class VoxistApi(ProviderInterface, AudioInterface):
 
         data = {"config": json.dumps(config)}
 
-        files = [("file_channel1", wav_file)]
+        files = [("file_channel1", file)]
 
         # Call Api
         response = requests.post(

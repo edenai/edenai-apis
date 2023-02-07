@@ -127,7 +127,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
 
     @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, language: str,
+        self, file: BufferedReader, file_name:str, language: str,
         speakers : int, profanity_filter: bool, vocabulary: Optional[List[str]],
         audio_attributes: tuple
     ) -> AsyncLaunchJobResponseType:
@@ -135,7 +135,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
         export_format, channels, frame_rate = audio_attributes
 
         # upload file to amazon S3
-        file_name = str(int(time())) + "_" + str(file.name.split("/")[-1])
+        file_name = str(int(time())) + "_" + str(file_name.split("/")[-1])
         storage_clients(self.api_settings_amazon)["speech"].meta.client.upload_fileobj(
             Fileobj = file, 
             Bucket = self.bucket_name, 

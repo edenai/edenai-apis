@@ -52,10 +52,9 @@ class TestAudioConverter:
             pytest.fail('The conversion from `wav` to `wav` doesn\'t works')
 
     def test_invalid_file_format(self):
-        output = audio_converter(self.txt_file)
-        expected_output = None
-        assert output == expected_output, \
-            'Expected `None` for convertion of invalid file format, but got a `BufferReader`'
+        with pytest.raises(CouldntDecodeError) as exc:
+            AudioSegment.from_file(self.txt_file)
+        assert "Decoding failed. ffmpeg returned error code: 1" in str(exc.value)
 
     def test_set_frame_rate_mp3_format(self):
         expected_framerate = 16000

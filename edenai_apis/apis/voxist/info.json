@@ -5,6 +5,11 @@
                 "languages": [
                     "fr",
                     "en"
+                ],
+                "file_extensions": [
+                    "mp3",
+                    "wav",
+                    "flac"
                 ]
             },
             "version": "v1"

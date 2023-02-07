@@ -92,6 +92,7 @@ class GoogleAudioApi(AudioInterface):
     def audio__speech_to_text_async__launch_job(
         self,
         file: BufferedReader,
+        file_name: str,
         language: str,
         speakers: int,
         profanity_filter: bool,
@@ -105,7 +106,7 @@ class GoogleAudioApi(AudioInterface):
 
         export_format, channels, frame_rate = audio_attributes
 
-        audio_name = str(int(time())) + Path(file.name).stem + "." + export_format
+        audio_name = str(int(time())) + Path(file_name).stem + "." + export_format
         print(audio_name)
         # Upload file to google cloud
         storage_client: storage.Client = self.clients["storage"]

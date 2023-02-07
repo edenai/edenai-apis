@@ -39,8 +39,8 @@ def audio_converter(
     """
     file_extension = audio_file.name.split(".")[-1]
 
-    if file_extension not in AUDIO_FILE_FORMAT:
-        return None
+    # if file_extension not in AUDIO_FILE_FORMAT:
+    #     return None
 
     audio_out: AudioSegment = AudioSegment.from_file(audio_file, format=file_extension)
 
@@ -126,14 +126,25 @@ def file_with_good_extension(
 def audio_features_and_support(func):
     """decorator to pass audio features or attributes to audio__speech_to_text_async__launch_job"""
     def func_wrapper(self, file: BufferedReader, language: str,
-        speakers: int, profanity_filter: bool, vocabulary: list):
+        speakers: int, profanity_filter: bool, vocabulary: list,
+        convert_wav: bool = False):
+        file_name = file.name
+
+        if convert_wav:
+            try:
+                wav_file, frame_rate, _, channels = audio_converter(file)
+                audio_attributes = ("wav", channels, frame_rate)
+                file_name = f"{'.'.join(file_name.split('.')[:-1])}.wav"
+                return func(self, wav_file, file_name, language, speakers, profanity_filter, vocabulary, audio_attributes)
+            except Exception as excp:
+                raise ProviderException("Couldn't convert audio file to wav..")
 
         provider_name = getattr(self, "provider_name")
         info_file = load_provider(ProviderDataEnum.INFO_FILE, provider_name)
         audio_feature = info_file.get("audio") or {}
         speech_to_text_subfeature = audio_feature.get("speech_to_text_async") or {}
-        constraints = speech_to_text_subfeature.get("constraints")
-        accepted_extensions : list = constraints.get("file_extensions")
+        constraints = speech_to_text_subfeature.get("constraints", {})
+        accepted_extensions : list = constraints.get("file_extensions", []) or []
         audio_attributes = file_with_good_extension(file, accepted_extensions)
-        return func(self, file, language, speakers, profanity_filter, vocabulary, audio_attributes)
+        return func(self, file, file_name, language, speakers, profanity_filter, vocabulary, audio_attributes)
     return func_wrapper
