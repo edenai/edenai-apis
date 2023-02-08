@@ -191,7 +191,7 @@ class AmazonAudioApi(AudioInterface):
                     )
                 self._launch_transcribe(
                     settings["TranscriptionJobName"],
-                    settings["MediaSampleRateHertz"],
+                    "",
                     settings["LanguageCode"],
                     settings["Settings"]["MaxSpeakerLabels"],
                     settings["Settings"]["VocabularyName"],
