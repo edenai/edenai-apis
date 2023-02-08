@@ -1,12 +1,18 @@
 from io import BufferedReader
-from pprint import pprint
 from typing import List
 
 import requests
 from edenai_apis.features import ProviderInterface
 from edenai_apis.features.image import ImageInterface
 from edenai_apis.features.image import FaceItem, FaceDetectionDataClass
-from edenai_apis.features.image.face_detection.face_detection_dataclass import FaceAccessories, FaceEmotions, FaceFacialHair, FaceFeatures, FaceLandmarks
+from edenai_apis.features.image.face_detection.face_detection_dataclass import (
+    FaceAccessories,
+    FaceEmotions,
+    FaceFacialHair,
+    FaceFeatures,
+    FaceLandmarks,
+    FaceBoundingBox,
+)
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
@@ -36,47 +42,53 @@ class SkybiometryApi(ProviderInterface, ImageInterface):
                 code=response.status_code
             )
 
-        pprint(original_response)
         if len(original_response['photos'][0]['tags']) > 0:
-            original_response = original_response['photos'][0]['tags'][0]
+            original_response = original_response['photos'][0]['tags']
         else:
             raise ProviderException(message='Provider did not return any face', code=404)
 
         items: List[FaceItem] = []
-        items.append(FaceItem(
-            confidence=original_response['attributes'].get('face', {}).get('confidence'),
-            landmarks=FaceLandmarks(
-                left_eye=[original_response.get('eye_left', {}).get('x', 0), original_response.get('eye_left', {}).get('y', 0)],
-                right_eye=[original_response.get('eye_right', {}).get('x', 0), original_response.get('eye_right', {}).get('y', 0)],
-                mouth_center=[original_response.get('mouse_center', {}).get('x', 0), original_response.get('mouse_center', {}).get('y', 0)],
-                nose_tip=[original_response.get('eye_left', {}).get('x', 0), original_response.get('eye_left', {}).get('y', 0)],
-            ),
-            emotions=FaceEmotions(
-                joy=original_response['attributes'].get('happiness', {}).get('confidence'),
-                sorrow=original_response['attributes'].get('sadness', {}).get('confidence'),
-                anger=original_response['attributes'].get('anger', {}).get('confidence'),
-                surprise=original_response['attributes'].get('surprise', {}).get('confidence'),
-                fear=original_response['attributes'].get('fear', {}).get('confidence'),
-                disgust=original_response['attributes'].get('disgust', {}).get('confidence'),
-                neutral=original_response['attributes'].get('neutral_mood', {}).get('confidence'),
-            ),
-            age=original_response['attributes'].get('age_est', {}).get('value'),
-            gender=original_response['attributes'].get('gender', {}).get('value'),
-            facial_hair=FaceFacialHair(
-                moustache=1.0 if original_response['attributes'].get('mustache', {}).get('value') == 'true' else 0.0,
-                beard=1.0 if original_response['attributes'].get('beard', {}).get('value') == 'true' else 0.0
-            ),
-            accessories=FaceAccessories(
-                sunglasses=1.0 if original_response['attributes'].get('dark_glasses', {}).get('value') == 'true' else 0.0,
-                eyeglasses=1.0 if original_response['attributes'].get('glasses', {}).get('value') == 'true' else 0.0,
-                headwear=1.0 if original_response['attributes'].get('hat', {}).get('value') == 'true' else 0.0
-            ),
-            features=FaceFeatures(
-                eyes_open=1.0 if original_response['attributes'].get('eyes', {}).get('value') == 'open' else 0.0,
-                smile=1.0 if original_response['attributes'].get('smiling', {}).get('value') == 'true' else 0.0,
-                mouth_open=1.0 if original_response['attributes'].get('lips', {}).get('value', 'sealed') != 'sealed' else 0.0,
-            ),
-        ))
+        for face in original_response:
+            items.append(FaceItem(
+                confidence=face['attributes'].get('face', {}).get('confidence'),
+                landmarks=FaceLandmarks(
+                    left_eye=[face.get('eye_left', {}).get('x', 0), face.get('eye_left', {}).get('y', 0)],
+                    right_eye=[face.get('eye_right', {}).get('x', 0), face.get('eye_right', {}).get('y', 0)],
+                    mouth_center=[face.get('mouse_center', {}).get('x', 0), face.get('mouse_center', {}).get('y', 0)],
+                    nose_tip=[face.get('eye_left', {}).get('x', 0), face.get('eye_left', {}).get('y', 0)],
+                ),
+                bounding_box=FaceBoundingBox(
+                    x_min=face['center']['x'] - face['width'] / 2,
+                    x_max=face['center']['x'] + face['width'] / 2,
+                    y_min=face['center']['y'] - face['height'] / 2,
+                    y_max=face['center']['y'] + face['height'] / 2,
+                ),
+                emotions=FaceEmotions(
+                    joy=face['attributes'].get('happiness', {}).get('confidence'),
+                    sorrow=face['attributes'].get('sadness', {}).get('confidence'),
+                    anger=face['attributes'].get('anger', {}).get('confidence'),
+                    surprise=face['attributes'].get('surprise', {}).get('confidence'),
+                    fear=face['attributes'].get('fear', {}).get('confidence'),
+                    disgust=face['attributes'].get('disgust', {}).get('confidence'),
+                    neutral=face['attributes'].get('neutral_mood', {}).get('confidence'),
+                ),
+                age=face['attributes'].get('age_est', {}).get('value'),
+                gender=face['attributes'].get('gender', {}).get('value'),
+                facial_hair=FaceFacialHair(
+                    moustache=1.0 if face['attributes'].get('mustache', {}).get('value') == 'true' else 0.0,
+                    beard=1.0 if face['attributes'].get('beard', {}).get('value') == 'true' else 0.0
+                ),
+                accessories=FaceAccessories(
+                    sunglasses=1.0 if face['attributes'].get('dark_glasses', {}).get('value') == 'true' else 0.0,
+                    eyeglasses=1.0 if face['attributes'].get('glasses', {}).get('value') == 'true' else 0.0,
+                    headwear=1.0 if face['attributes'].get('hat', {}).get('value') == 'true' else 0.0
+                ),
+                features=FaceFeatures(
+                    eyes_open=1.0 if face['attributes'].get('eyes', {}).get('value') == 'open' else 0.0,
+                    smile=1.0 if face['attributes'].get('smiling', {}).get('value') == 'true' else 0.0,
+                    mouth_open=1.0 if face['attributes'].get('lips', {}).get('value', 'sealed') != 'sealed' else 0.0,
+                ),
+            ))
 
         standardized_response = FaceDetectionDataClass(items=items)
         return ResponseType[FaceDetectionDataClass](
