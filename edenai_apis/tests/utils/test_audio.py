@@ -1,4 +1,4 @@
-from io import BytesIO
+from io import BufferedReader, BytesIO
 from pytest_mock import MockerFixture
 import pytest
 from pydub import AudioSegment
@@ -6,6 +6,7 @@ from pydub.exceptions import CouldntDecodeError
 
 from edenai_apis.utils.audio import (
     audio_converter,
+    audio_features_and_support,
     get_audio_attributes,
     audio_format,
     supported_extension,
@@ -198,3 +199,74 @@ class TestFileWithGoodExtension:
             with pytest.raises(ProviderException) as exc:
                 file_with_good_extension(file, accepted_extensions, channels)
             assert str(exc.value) == "File audio must be Mono"
+
+
+class TestAudioFeaturesAndSupport:
+
+    provider_name = "amazon"
+
+    @audio_features_and_support
+    def decorated_function(self, file: BufferedReader, file_name:str, language: str,
+        speakers: int, profanity_filter: bool, vocabulary: list,
+        audio_attributes: tuple):
+
+        return audio_attributes
+
+
+    def test_with_good_extention(self, mocker: MockerFixture):
+        def fake_file_with_good_extension(*args, **kwargs):
+            return "wav", "2", "44100"
+        mocker.patch("edenai_apis.utils.audio.file_with_good_extension", \
+            side_effect=fake_file_with_good_extension)
+        #Setup
+        audio_file = BytesIO(b"test file")
+        audio_file.name = "audio.mp3"
+        expected_output = ("wav", "2", "44100")
+        #Action
+        output = self.decorated_function(audio_file, "en", 2, False, [])
+        #Assert
+        assert output == expected_output
+
+    def test_raise_exception_extensions(self, mocker: MockerFixture):
+        def fake_file_with_good_extension(*args, **kwargs):
+            raise ProviderException("File extension not supported. Use one of the following extensions: []")
+        mocker.patch("edenai_apis.utils.audio.file_with_good_extension", \
+            side_effect=fake_file_with_good_extension)
+        #Setup
+        audio_file = BytesIO(b"test file")
+        audio_file.name = "audio.mp3"
+        #Action
+        with pytest.raises(ProviderException) as excp:
+            output = self.decorated_function(audio_file, "en", 2, False, [])
+        #Assert
+        assert "File extension not supported" in str(excp.value)
+
+    def test_raise_exception_channels(self, mocker: MockerFixture):
+        def fake_file_with_good_extension(*args, **kwargs):
+            raise ProviderException("File audio must be Stereo")
+        mocker.patch("edenai_apis.utils.audio.file_with_good_extension", \
+            side_effect=fake_file_with_good_extension)
+        #Setup
+        audio_file = BytesIO(b"test file")
+        audio_file.name = "audio.mp3"
+        #Action
+        with pytest.raises(ProviderException) as excp:
+            output = self.decorated_function(audio_file, "en", 2, False, [])
+        #Assert
+        assert "File audio must be Stereo" in str(excp.value)
+
+    def test_convert_to_wav(self, mocker: MockerFixture):
+        #Setup
+        audio_file = BytesIO(b"test file")
+        audio_file.name = "audio.mp3"
+        expected_output = ("wav", "2", "44100")
+        def fake_mediainfo(*args, **kwargs):
+            return audio_file, "44100", "2", "2"
+        mocker.patch("edenai_apis.utils.audio.audio_converter", \
+            side_effect=fake_mediainfo)
+        #Action
+        output = self.decorated_function(audio_file, "en", 2, False, [], True)
+        #Assert
+        assert output == expected_output
+
+        
