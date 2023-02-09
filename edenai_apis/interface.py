@@ -9,6 +9,13 @@ from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.compare import assert_equivalent_dict
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
+from edenai_apis.interface_v2 import (
+    Audio,
+    Ocr,
+    Audio,
+    Video,
+    Translation,
+)
 
 ProviderDict = Dict[
     str, Dict[
