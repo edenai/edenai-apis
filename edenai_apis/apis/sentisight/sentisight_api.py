@@ -105,11 +105,11 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
         if response.status_code != 200:
             raise ProviderException(response.text)
-        
+
         img = Img.open(file)
         width = img.width
         height = img.height
-        
+
         original_response = response.json()
         objects: Sequence[ObjectItem] = []
         for obj in original_response:
@@ -291,7 +291,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             items.append(ImageItem(image_name=image["image"], score=image["score"]))
         standardized_response = SearchDataClass(items=items)
         result = ResponseType[SearchDataClass](
-            original_response=response,
+            original_response=response.json(),
             standardized_response=standardized_response,
         )
         return result
