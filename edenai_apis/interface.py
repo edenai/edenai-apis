@@ -2,6 +2,7 @@
 from typing import Any, Dict, List, Literal, Optional, Set, Tuple, Type, Union, overload
 from uuid import uuid4
 
+from edenai_apis import interface_v2
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
@@ -159,6 +160,7 @@ def list_providers(
                 providers_set.add(provider)
     return list(providers_set)
 
+STATUS_SUCCESS = "success"
 
 def compute_output(
     provider_name: str,
@@ -187,61 +189,55 @@ def compute_output(
     # suffix is used for async
     suffix = "__launch_job" if is_async else ""
 
-    status = "success"
-
     # if language input, update args with a standardized language
     args = validate_all_provider_constraints(provider_name, feature, subfeature, phase, args)
 
     if fake:
+        sample_args = load_feature(
+            FeatureDataEnum.SAMPLES_ARGS,
+            feature=feature,
+            subfeature=subfeature,
+            phase=phase,
+        )
+
+        # Check if the right arguments were sent by checking
+        # if they are equivalent to samples arguments
+        assert_equivalent_dict(sample_args, args)
+
         # Return mocked results
         if is_async:
             subfeature_result: Any = AsyncLaunchJobResponseType(provider_job_id=str(uuid4())).dict()
+        # TODO: refacto image search to save output with this phase
+        elif phase in ["upload_image", "delete_image"]:
+            subfeature_result = {"status": STATUS_SUCCESS}
         else:
-            if phase in ["upload_image", "delete_image"]:
-                subfeature_result = {"status": "success"}
-            else:
-                sample_args = load_feature(
-                    FeatureDataEnum.SAMPLES_ARGS,
-                    feature=feature,
-                    subfeature=subfeature,
-                    phase=phase,
-                )
-
-                # Check if the right arguments were sent by checking
-                # if they are equivalent to samples arguments
-                assert_equivalent_dict(sample_args, args)
-                output = load_provider(
-                    ProviderDataEnum.OUTPUT,
-                    provider_name=provider_name,
-                    feature=feature,
-                    subfeature=subfeature,
-                    phase=phase,
-                )
-                subfeature_result = {
-                    "original_response": output["original_response"],
-                    "standardized_response": output["standardized_response"],
-                }
+            subfeature_result = load_provider(
+                ProviderDataEnum.OUTPUT,
+                provider_name=provider_name,
+                feature=feature,
+                subfeature=subfeature,
+                phase=phase,
+            )
 
     else:
         # Fake == False : Compute real output
 
-        subfeature_result = load_provider(
-            ProviderDataEnum.SUBFEATURE,
-            provider_name=provider_name,
-            feature=feature,
-            subfeature=subfeature,
-            phase=phase,
-            suffix=suffix,
-        )(**args).dict()
+        feature_class = getattr(interface_v2, feature.title())
+        subfeature_method_name = f'{subfeature}{"__" if phase else ""}{phase}{suffix}'
+        subfeature_class = getattr(feature_class, subfeature_method_name)
+
+        subfeature_result = subfeature_class(provider_name)(**args).dict()
 
     final_result: Dict[str, Any] = {
-        "status": status,
+        "status": STATUS_SUCCESS,
         "provider": provider_name,
         **subfeature_result
     }
 
     return final_result
 
+# HACK: Why this function is the package provider instead of the backend ?
+# It only use in the backend, never in the package provider
 def check_provider_constraints(
     provider_name: str,
     feature: str,
@@ -344,14 +340,11 @@ def get_async_job_result(
 
         return fake_result
 
-    subfeature_result = load_provider(
-        ProviderDataEnum.SUBFEATURE,
-        provider_name=provider_name,
-        subfeature=subfeature,
-        feature=feature,
-        phase=phase,
-        suffix="__get_job_result",
-    )(async_job_id).dict()
+    feature_class = getattr(interface_v2, feature.title())
+    subfeature_method_name = f'{subfeature}{"__" if phase else ""}{phase}__get_job_result'
+    subfeature_class = getattr(feature_class, subfeature_method_name)
+
+    subfeature_result = subfeature_class(provider_name)(async_job_id).dict()
 
     return subfeature_result
 
@@ -369,15 +362,13 @@ def get_async_job_webhook_result(
     Returns:
         Dict: Result dict
     """
+    # HACK: Why AttributeError ?
     try:
-        subfeature_result = load_provider(
-            ProviderDataEnum.SUBFEATURE,
-            provider_name=provider_name,
-            subfeature=subfeature,
-            feature=feature,
-            phase=phase,
-            suffix="__get_results_from_webhook",
-        )(data).dict()
+        feature_class = getattr(interface_v2, feature.title())
+        subfeature_method_name = f'{subfeature}{"__" if phase else ""}{phase}__get_job_result'
+        subfeature_class = getattr(feature_class, subfeature_method_name)
+
+        subfeature_result = subfeature_class(provider_name)(data).dict()
         return subfeature_result
     except AttributeError:
         pass
