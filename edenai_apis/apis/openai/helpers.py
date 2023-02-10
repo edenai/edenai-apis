@@ -40,11 +40,11 @@ def construct_classification_instruction(labels) -> str:
     return f"{instruction.strip()}\n\n"
 
 def construct_anonymization_context(text: str) -> str:
-    prompt = "identify, categorize, and redact sensitive information in the text below. First write the redacted Text by replacing the entity with [REDACTED], then extract the entity, it's category, offset and length, finally extract the confidence Score between 0.0-1.0.\n\nDesired format:\n'redactedText' : 'redactedText','entities': [[entity, category, length, offset, confidence score]]\n\n Text:###{data}###\nOutput:".format(data=text)
+    prompt = 'identify, categorize, and redact sensitive information in the text below. First write the redacted Text by replacing the entity with [REDACTED], then extract the entity, finally extract the confidence Score between 0.0-1.0.\n\nDesired format:\n{{"redactedText" : "redactedText","entities": [[entity, category, confidence score]]}}\n\n Text:###{data}###\nOutput:'.format(data=text)
     return prompt
 
 def construct_keyword_extraction_context(text: str) -> str:
-    prompt = "You are a highly intelligent and accurate Keyphrase Extraction system. You take text as input and your task is to returns the key phrases or talking points and a confidence score between 0.0-1.0 to support that this is a key phrase.\n\nDesired format:[{{'keyword':'text','score':'value'}}].\n\n Text: ###{data}###\nOutput:".format(data=text)
+    prompt = 'You are a highly intelligent and accurate Keyphrase Extraction system. You take text as input and your task is to returns the key phrases or talking points and a confidence score between 0.0-1.0 to support that this is a key phrase.\n\nDesired format:[{{"keyword":text,"score":value}}].\n\n Text: ###{data}###\nOutput:'.format(data=text)
     return prompt
 
 def construct_translation_context(text: str, source_language : str, target_language: str) -> str:

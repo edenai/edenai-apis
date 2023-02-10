@@ -1,7 +1,7 @@
 from typing import List, Optional, Sequence
-import ast
 import requests
 import numpy as np
+import json
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import standardized_confidence_score
@@ -258,9 +258,8 @@ class OpenaiApi(ProviderInterface, TextInterface):
         check_openai_errors(original_response)
         
         data = original_response['choices'][0]['text'].replace("\n\n", " ").strip()
-        data_dict = ast.literal_eval(f"{{{data}}}")
+        data_dict = json.loads(fr"{data}")
         standardized_response = AnonymizationDataClass(result=data_dict.get('redactedText'))
-
         return ResponseType[AnonymizationDataClass](
             original_response=original_response,
             standardized_response=standardized_response
@@ -280,7 +279,7 @@ class OpenaiApi(ProviderInterface, TextInterface):
         check_openai_errors(original_response)
         
         data = original_response['choices'][0]['text'].replace("\n", " ").strip()
-        data_list = ast.literal_eval(f"{data}")
+        data_list = json.loads(fr"{data}")
         items: Sequence[InfosKeywordExtractionDataClass] = []
         for keyword in data_list:
            items.append(

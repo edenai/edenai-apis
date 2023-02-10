@@ -1,21 +1,21 @@
 {
   "original_response": {
-    "id": "cmpl-6gwjYZt9pMqaaBZ5seVPHo0JkxiHD",
+    "id": "cmpl-6iJrbAiI3cxmMR9GiatVM5FmKp4jK",
     "object": "text_completion",
-    "created": 1675693568,
+    "created": 1676020807,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": " [{'keyword':'Barack Hussein Obama','score':'1.0'},{'keyword':'44th President of the United States','score':'1.0'},{'keyword':'Democratic Party','score':'0.8'},{'keyword':'first African-American President','score':'1.0'},{'keyword':'U.S. Senator from Illinois','score':'0.7'},{'keyword':'Illinois State Senator','score':'0.7'}]",
+        "text": "\n[{\"keyword\": \"Barack Hussein Obama\", \"score\": 1.0},{\"keyword\":\"44th president of the United States\",\"score\":1.0},{\"keyword\": \"Democratic Party\", \"score\": 1.0},{\"keyword\": \"first African-American president of the United States\",\"score\":1.0},{\"keyword\":\"U.S. senator from Illinois\", \"score\": 1.0},{\"keyword\": \"Illinois state senator\", \"score\": 1.0}]",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 151,
-      "completion_tokens": 121,
-      "total_tokens": 272
+      "prompt_tokens": 147,
+      "completion_tokens": 105,
+      "total_tokens": 252
     }
   },
   "standardized_response": {
@@ -25,24 +25,24 @@
         "importance": 1.0
       },
       {
-        "keyword": "44th President of the United States",
+        "keyword": "44th president of the United States",
         "importance": 1.0
       },
       {
         "keyword": "Democratic Party",
-        "importance": 0.8
-      },
-      {
-        "keyword": "first African-American President",
         "importance": 1.0
       },
       {
-        "keyword": "U.S. Senator from Illinois",
-        "importance": 0.7
+        "keyword": "first African-American president of the United States",
+        "importance": 1.0
       },
       {
-        "keyword": "Illinois State Senator",
-        "importance": 0.7
+        "keyword": "U.S. senator from Illinois",
+        "importance": 1.0
+      },
+      {
+        "keyword": "Illinois state senator",
+        "importance": 1.0
       }
     ]
   }

@@ -1,21 +1,21 @@
 {
   "original_response": {
-    "id": "cmpl-6gwloHYDDd2twYHqMGzktGFEfmTLq",
+    "id": "cmpl-6iJnpKhX7GOfcLJcUjQdwovehqyCM",
     "object": "text_completion",
-    "created": 1675693708,
+    "created": 1676020573,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": " \n'redactedText' : 'The phone number of Luc is the [REDACTED].','entities': [['06 21 32 43 54', 'PHONE_NUMBER', 13, 19, 1.0]]",
+        "text": " {\"redactedText\": \"The phone number of Luc is the [REDACTED].\", \"entities\": [[\"06 21 32 43 54\",\"phone_number\",1.0]]}",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 110,
-      "completion_tokens": 47,
-      "total_tokens": 157
+      "prompt_tokens": 99,
+      "completion_tokens": 38,
+      "total_tokens": 137
     }
   },
   "standardized_response": {
