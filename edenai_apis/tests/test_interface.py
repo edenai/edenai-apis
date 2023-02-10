@@ -6,7 +6,9 @@
     - check_provider_constraints
 """
 from typing import Dict
+import pytest
 from pytest_mock import MockerFixture
+from edenai_apis.tests.conftest import global_features, only_async
 from edenai_apis.interface import (
     check_provider_constraints,
     compute_output,
@@ -22,38 +24,30 @@ VALID_FEATURE = "audio"
 VALID_SUBFEATURE = "text_to_speech"
 
 
+@pytest.mark.parametrize(
+    ('provider', 'feature', 'subfeature', 'phase'),
+    global_features(return_phase=True)["ungrouped_providers"],
+)
 class TestComputeOutput:
-    exception_name = "EXCEPTION"
-
-    def test_output(self, mocker: MockerFixture):
-        def fake_load_provider(*args, **kwargs):
-            def faker(**kwargs):
-                return ResponseType[Dict](original_response={}, standardized_response={})
-            return faker
-        def fake_load_provider_info_file(*args, **kwargs):
-            return {}
-
-        mocker.patch(
-            "edenai_apis.interface.load_provider", side_effect=fake_load_provider
-        )
-        mocker.patch(
-            "edenai_apis.utils.constraints.load_provider", side_effect=fake_load_provider_info_file
-        )
-
-        final_result = compute_output("p", "f", "s", {})
-        assert final_result
+    def test_output_fake(self, mocker: MockerFixture, provider, feature, subfeature, phase):
+        if phase == 'create_project':
+            pytest.skip("create_project is not supported in fake mode")
+        mocker.patch('edenai_apis.interface.validate_all_provider_constraints', return_value={})
+        mocker.patch('edenai_apis.interface.assert_equivalent_dict', return_value=True)
+        final_result = compute_output(provider, feature, subfeature, {}, fake=True, phase=phase)
+        assert final_result['provider'] == provider
         assert final_result["status"] == "success"
 
-        final_result_async = compute_output("p", "f", "s_async", {})
-        assert final_result_async
-        assert final_result["status"] == "success"
-
-        final_result = compute_output("p", "f", "s", {})
-        assert final_result
-        assert final_result["status"] == "success"
-
-        final_result_async = compute_output("p", "f", "s_async", {})
-        assert final_result_async
+@pytest.mark.parametrize(
+    ('provider', 'feature', 'subfeature', 'phase'),
+    global_features(filter=only_async, return_phase=True)["ungrouped_providers"],
+)
+class TestGetAsyncJobResult:
+    def test_output_fake(self, mocker: MockerFixture, provider, feature, subfeature, phase):
+        mocker.patch('edenai_apis.interface.validate_all_provider_constraints', return_value={})
+        mocker.patch('edenai_apis.interface.assert_equivalent_dict', return_value=True)
+        final_result = compute_output(provider, feature, subfeature, {}, fake=True, phase=phase)
+        assert final_result['provider'] == provider
         assert final_result["status"] == "success"
 
 
