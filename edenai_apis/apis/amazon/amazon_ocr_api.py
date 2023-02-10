@@ -1,5 +1,6 @@
 import json
 from io import BufferedReader
+from pprint import pprint
 from typing import List, Sequence, Dict, Union
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
     CustomDocumentParsingAsyncDataClass,
@@ -204,40 +205,44 @@ class AmazonOcrApi(OcrInterface):
     def ocr__ocr_tables_async__get_job_result(
         self, job_id: str
     ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
-        # Getting results from webhook.site
-        data, *_ = check_webhook_result(job_id, self.api_settings)
-        if data is None:
+        response = self.clients["textract"].get_document_analysis(JobId=job_id)
+
+        if response.get("JobStatus") == "IN_PROGRESS":
             return AsyncPendingResponseType[OcrTablesAsyncDataClass](
                 provider_job_id=job_id
             )
-
-        msg = json.loads(data.get("Message"))
-        # ref: https://docs.aws.amazon.com/textract/latest/dg/async-notification-payload.html
-        job_id = msg["JobId"]
-
-        if msg["Status"] == "SUCCEEDED":
-            original_result = self.clients["textract"].get_document_analysis(
-                JobId=job_id
+        elif response["JobStatus"] == "FAILED":
+            error: str = response.get(
+                "StatusMessage", "Amazon returned a job status: FAILED"
             )
+            raise ProviderException(error)
 
-            standardized_response = amazon_ocr_tables_parser(original_result)
+        pagination_token = response.get("NextToken")
+        pages = [response]
+        if not pagination_token:
             return AsyncResponseType[OcrTablesAsyncDataClass](
-                original_response=original_result,
-                standardized_response=standardized_response,
+                original_response=pages,
+                standardized_response=amazon_ocr_tables_parser(pages),
                 provider_job_id=job_id,
             )
-        elif msg["Status"] == "PROCESSING":
-            return AsyncPendingResponseType[OcrTablesAsyncDataClass](
-                provider_job_id=job_id
-            )
 
-        else:
-            original_result = self.clients["textract"].get_document_analysis(
-                JobId=job_id
+        finished = False
+        while not finished:
+            response = self.clients["textract"].get_document_analysis(
+                JobId=job_id,
+                NextToken=pagination_token,
             )
-            if original_result.get("JobStatus") == "FAILED":
-                error = original_result.get("StatusMessage")
-                raise ProviderException(error)
+            pages.append(response)
+            if "NextToken" in response:
+                pagination_token = response["NextToken"]
+            else:
+                finished = True
+
+        return AsyncResponseType[OcrTablesAsyncDataClass](
+            original_response=pages,
+            standardized_response=amazon_ocr_tables_parser(pages),
+            provider_job_id=job_id,
+        )
 
     def ocr__custom_document_parsing_async__launch_job(
         self, file: BufferedReader, queries: List[Dict[str, Union[str, str]]],
