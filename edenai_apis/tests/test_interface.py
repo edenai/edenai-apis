@@ -8,7 +8,7 @@
 from typing import Dict
 import pytest
 from pytest_mock import MockerFixture
-from edenai_apis.tests.conftest import global_features
+from edenai_apis.tests.conftest import global_features, only_async
 from edenai_apis.interface import (
     check_provider_constraints,
     compute_output,
@@ -38,17 +38,17 @@ class TestComputeOutput:
         assert final_result['provider'] == provider
         assert final_result["status"] == "success"
 
-    # NOT WORKING ATM
-    # def test_output_real(self, mocker: MockerFixture, provider, feature, subfeature, phase):
-    #     if phase == 'create_project':
-    #         pytest.skip("create_project is not supported in fake mode")
-    #     mocker.patch('edenai_apis.interface.validate_all_provider_constraints', return_value={})
-    #     mocker.patch('edenai_apis.interface.assert_equivalent_dict', return_value=True)
-    #     mocker.patch(f'edenai_apis.interface.{feature.title()}.{subfeature}{"__" if phase else ""}{phase}', return_value={'data': 'data'})
-    #     final_result = compute_output(provider, feature, subfeature, {}, fake=False, phase=phase)
-    #     assert final_result['provider'] == provider
-    #     assert final_result["status"] == "success"
-    #     assert final_result['data'] == 'data'
+@pytest.mark.parametrize(
+    ('provider', 'feature', 'subfeature', 'phase'),
+    global_features(filter=only_async, return_phase=True)["ungrouped_providers"],
+)
+class TestGetAsyncJobResult:
+    def test_output_fake(self, mocker: MockerFixture, provider, feature, subfeature, phase):
+        mocker.patch('edenai_apis.interface.validate_all_provider_constraints', return_value={})
+        mocker.patch('edenai_apis.interface.assert_equivalent_dict', return_value=True)
+        final_result = compute_output(provider, feature, subfeature, {}, fake=True, phase=phase)
+        assert final_result['provider'] == provider
+        assert final_result["status"] == "success"
 
 
 def test_list_features():

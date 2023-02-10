@@ -354,28 +354,3 @@ def get_async_job_result(
     subfeature_result = subfeature_class(provider_name)(async_job_id).dict()
 
     return subfeature_result
-
-def get_async_job_webhook_result(
-    provider_name: str, feature: str, subfeature: str, data: Dict, phase: str = ""
-) -> Optional[Dict]:
-    """Format result from webhook to standardized response
-
-    Args:
-        provider_name (str): EdenAI provider name
-        feature (str): EdenAI feature
-        subfeature (str): EdenAI subfeature
-        data (Dict): body from webhook
-
-    Returns:
-        Dict: Result dict
-    """
-    # HACK: Why AttributeError ?
-    try:
-        feature_class = getattr(interface_v2, feature.title())
-        subfeature_method_name = f'{subfeature}{"__" if phase else ""}{phase}__get_job_result'
-        subfeature_class = getattr(feature_class, subfeature_method_name)
-
-        subfeature_result = subfeature_class(provider_name)(data).dict()
-        return subfeature_result
-    except AttributeError:
-        pass
