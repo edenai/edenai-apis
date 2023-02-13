@@ -32,5 +32,7 @@ from .assembly import AssemblyApi
 from .deepgram import DeepgramApi
 from .cohere import CohereApi
 from .skybiometry import SkybiometryApi
+from .deepai import DeepAIApi
+from .stabilityai import StabilityAIApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

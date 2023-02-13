@@ -50,6 +50,9 @@ from edenai_apis.features.image.search.search_dataclass import SearchDataClass
 from edenai_apis.features.image.search.upload_image.search_upload_image_dataclass import (
     SearchUploadImageDataClass,
 )
+from edenai_apis.features.image.generation.generation_dataclass import (
+    GenerationDataClass
+)
 from edenai_apis.utils.types import ResponseType
 
 
@@ -281,5 +284,17 @@ class ImageInterface:
         Args:
             collection_id (str): ID of collection
             file (BufferedReader): image to analyze
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__generation(
+        self, text: str, num_images : int = 1, width : int = 512, height : int = 512
+    ) -> ResponseType[GenerationDataClass]:
+        """
+        Generate an image based on a text prompt.
+
+        Args:
+            text(str): prompt of the image to generate
         """
         raise NotImplementedError
