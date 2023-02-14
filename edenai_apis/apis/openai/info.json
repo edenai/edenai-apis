@@ -193,6 +193,11 @@
     },
       "version": "v1"
    }
+  },
+  "image":{
+    "generation":{
+      "version": "v1Beta"
+   }
   }
 }
 

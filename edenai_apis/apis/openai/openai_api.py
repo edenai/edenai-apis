@@ -8,7 +8,7 @@ from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.features import ProviderInterface, TextInterface
+from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
 from edenai_apis.features.text.question_answer import QuestionAnswerDataClass
 from edenai_apis.features.text.summarize import SummarizeDataClass
 from edenai_apis.features.text.anonymization import AnonymizationDataClass
@@ -22,6 +22,10 @@ from edenai_apis.features.text.custom_classification import CustomClassification
 from edenai_apis.features.text.moderation import   ModerationDataClass, TextModerationItem
 from edenai_apis.features.translation.automatic_translation import AutomaticTranslationDataClass
 from edenai_apis.features.translation.language_detection import LanguageDetectionDataClass, InfosLanguageDetectionDataClass
+from edenai_apis.features.image.generation import (
+    GenerationDataClass as ImageGenerationDataClass,
+    GeneratedImageDataClass
+)
 from .helpers import (
     construct_search_context,
     get_score,
@@ -39,7 +43,7 @@ from .helpers import (
 SCORE_MULTIPLIER = 100.0
 
 
-class OpenaiApi(ProviderInterface, TextInterface):
+class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
     provider_name = "openai"
 
     def __init__(self):
@@ -542,3 +546,28 @@ class OpenaiApi(ProviderInterface, TextInterface):
         return ResponseType[CustomClassificationDataClass](
             original_response=original_response,
             standardized_response=CustomClassificationDataClass(classifications=classifications))
+        
+    def image__generation(
+        self, text: str, num_images : int = 1, width : int = 512, height : int = 512
+    ) -> ResponseType[ImageGenerationDataClass]:
+        url = f"{self.url}/images/generations"
+        size = f"{width}x{height}"
+        payload = {
+            "prompt" : text,
+            "n" : num_images,
+            "size" : size,
+            "response_format" : "b64_json"
+        }
+        original_response = requests.post(url, json=payload, headers=self.headers).json()
+        
+        # Handle errors
+        check_openai_errors(original_response)
+        
+        generations: Sequence[GeneratedImageDataClass] = []
+        for generated_image in original_response.get('data'):
+            generations.append(GeneratedImageDataClass(
+                image=generated_image.get('b64_json')))
+            
+        return ResponseType[ImageGenerationDataClass](
+            original_response=original_response,
+            standardized_response=ImageGenerationDataClass(items=generations))

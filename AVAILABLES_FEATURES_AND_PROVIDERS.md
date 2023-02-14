@@ -88,6 +88,9 @@
 | | google |
 | | microsoft |
 | | smartclick |
+| **generation** | deepai |
+| | openai |
+| | stabilityai |
 | **landmark_detection** | google |
 | | microsoft |
 | **search** | sentisight |
@@ -298,6 +301,13 @@
 | | receipt_parser |
 
 </details>
+<details><summary>deepai</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | generation |
+
+</details>
 <details><summary>deepgram</summary>
 
 | Features | Subfeatures |
@@ -473,6 +483,7 @@
 
 | Features | Subfeatures |
 |----------|-------------|
+| **image** | generation |
 | **text** | anonymization |
 | | custom_classification |
 | | custom_named_entity_recognition |
@@ -532,6 +543,13 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **image** | logo_detection |
+
+</details>
+<details><summary>stabilityai</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | generation |
 
 </details>
 <details><summary>symbl</summary>
