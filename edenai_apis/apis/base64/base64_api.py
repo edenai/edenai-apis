@@ -292,14 +292,14 @@ class Base64Api(ProviderInterface, OcrInterface):
         payload = json.dumps({
             "image": image_as_base64
         })
-        
+
         headers = {
             'Content-Type': 'application/json',
             'Authorization': self.api_key
         }
-        
+
         response = requests.post(url=self.url, headers=headers, data=payload)
-        
+
         original_response = response.json()
         if response.status_code != 200:
             raise ProviderException(message=original_response['message'])
