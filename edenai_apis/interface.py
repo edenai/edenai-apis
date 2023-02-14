@@ -230,7 +230,7 @@ def compute_output(
         # Fake == False : Compute real output
 
         feature_class = getattr(interface_v2, feature.title())
-        subfeature_method_name = f'{subfeature}{"__" if phase else ""}{phase}{suffix}'
+        subfeature_method_name = f'{subfeature}{f"__{phase}" if phase else ""}{suffix}'
         subfeature_class = getattr(feature_class, subfeature_method_name)
 
         subfeature_result = subfeature_class(provider_name)(**args).dict()
@@ -348,7 +348,7 @@ def get_async_job_result(
         return fake_result
 
     feature_class = getattr(interface_v2, feature.title())
-    subfeature_method_name = f'{subfeature}{"__" if phase else ""}{phase}__get_job_result'
+    subfeature_method_name = f'{subfeature}{f"__{phase}" if phase else ""}__get_job_result'
     subfeature_class = getattr(feature_class, subfeature_method_name)
 
     subfeature_result = subfeature_class(provider_name)(async_job_id).dict()
