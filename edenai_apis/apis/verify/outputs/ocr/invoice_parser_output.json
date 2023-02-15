@@ -1,0 +1,273 @@
+{
+  "original_response": {
+    "account_number": null,
+    "bill_to": {
+      "address": "City, State, Country",
+      "name": null,
+      "parsed_address": null,
+      "vat_number": null
+    },
+    "cashback": null,
+    "category": "Advertising & Marketing",
+    "created_date": "2023-02-15 13:32:50",
+    "currency_code": "USD",
+    "date": "2014-10-07 00:00:00",
+    "delivery_date": null,
+    "discount": null,
+    "document_reference_number": null,
+    "document_title": "INVOICE",
+    "document_type": "invoice",
+    "due_date": null,
+    "duplicate_of": 120366912,
+    "external_id": null,
+    "id": 120367228,
+    "img_file_name": "120367228.png",
+    "img_thumbnail_url": "https://scdn.veryfi.com/receipts/f87fc88812a7e493/d7749be0-5011-4b8d-91c1-c7ca75cca172/thumbnail.png?Expires=1676468871&Signature=fVomJ5K5oXhbQCqOpsj4RM2GAMA9h~xmFvZwZlDlKTM~CI3bap4~epT7MhvdhsNPk6444VNYrV3pbylz4wbrQnCcYN3oL4~2CIE5Ae1-ZsuyOn-fTNvZbMnAfSIhgizpKwXWdXhGvgvrbU-Y~XOpN6vWeS1UJnkCRqW4elyuRXqNRJiQ~zymmMutgZq8tt8cudoOCHdcU-Mndqx1bANi955~sRNiyDSCZRsdpYWjVCP6FVQkKNofmcRyKto-5C7jM1MDMWAKmB~HbYoFTjQRg~6ZuG2oZI7MKviZJKbVWLEa2JdPAAszEAySv6Yw4glFe7awHCPXELqQTkwJMNB3jg__&Key-Pair-Id=APKAJCILBXEJFZF4DCHQ",
+    "img_url": "https://scdn.veryfi.com/receipts/f87fc88812a7e493/d7749be0-5011-4b8d-91c1-c7ca75cca172/13164d76-6832-4121-9e6c-496998f7c0d0.png?Expires=1676468871&Signature=CS8nIL5fWtBNYopt8GF9-RAfR8b6H5MvFFnPZntiR2LEzHX9nFl0TmN0SD5RO9ASqkNZbWzSigamDKE3JfgowMGzQtGmsMMTEmaaUVgQ-kO4zjtIsFiK-PAUchQ-S4AIBBbRqBf9ON8S5Rjn~1a0S~bTYCVU~12GoHjdyGbT1Y7kx-qP16cA82ZJDTJxrhMiCN49GoqMUZrdgZ~GfvwwL-BmUv-m9HGJbrMrYlMhe2r64SVUxM-GCrU0g-i0tg-pBR~a~ocFQRvOtfgkoJ~L~GcLCe5FZSpuBaEqE4305~ZuWsRdJt9mmhKafHdxoQ8J4263HGqwODQ-T3Rm9qGQyA__&Key-Pair-Id=APKAJCILBXEJFZF4DCHQ",
+    "insurance": null,
+    "invoice_number": "000000",
+    "is_duplicate": true,
+    "is_money_in": false,
+    "line_items": [
+      {
+        "date": null,
+        "description": "Your item Name\nItem description goes here",
+        "discount": null,
+        "discount_rate": null,
+        "id": 485559321,
+        "order": 0,
+        "price": 1000.0,
+        "quantity": 1.0,
+        "reference": null,
+        "section": null,
+        "sku": null,
+        "tax": null,
+        "tax_rate": null,
+        "text": "Your item Name\t\t\t\t$1000\t\t1\t1000\nItem description goes here",
+        "total": 1000.0,
+        "type": "service",
+        "unit_of_measure": null
+      },
+      {
+        "date": null,
+        "description": "Your item Name\nItem description goes here",
+        "discount": null,
+        "discount_rate": null,
+        "id": 485559322,
+        "order": 1,
+        "price": 1000.0,
+        "quantity": 1.0,
+        "reference": null,
+        "section": null,
+        "sku": null,
+        "tax": null,
+        "tax_rate": null,
+        "text": "Your item Name\t\t\t\t$1000\t\t1\t1000\nItem description goes here",
+        "total": 1000.0,
+        "type": "service",
+        "unit_of_measure": null
+      },
+      {
+        "date": null,
+        "description": "Your item Name\nItem description goes here",
+        "discount": null,
+        "discount_rate": null,
+        "id": 485559323,
+        "order": 2,
+        "price": 1000.0,
+        "quantity": 1.0,
+        "reference": null,
+        "section": null,
+        "sku": null,
+        "tax": null,
+        "tax_rate": null,
+        "text": "Your item Name\t\t\t\t$1000\t\t1\t1000\nItem description goes here",
+        "total": 1000.0,
+        "type": "service",
+        "unit_of_measure": null
+      },
+      {
+        "date": null,
+        "description": "Your item Name\nItem description goes here",
+        "discount": null,
+        "discount_rate": null,
+        "id": 485559324,
+        "order": 3,
+        "price": 1000.0,
+        "quantity": 1.0,
+        "reference": null,
+        "section": null,
+        "sku": null,
+        "tax": null,
+        "tax_rate": null,
+        "text": "Your item Name\t\t\t\t$1000\t\t1\t1000\nItem description goes here",
+        "total": 1000.0,
+        "type": "service",
+        "unit_of_measure": null
+      }
+    ],
+    "meta": {
+      "owner": "tech6"
+    },
+    "notes": null,
+    "ocr_text": "INVOICE\t\t\tyour@email.com\tCity, State, Country\n\t647-444-1234\t1 Your Address\n\tyourwebsite.com\t\tZIP CODE\n\nBilled To\t\tInvoice Number\t\t\t\t\tInvoice Total\nClient Name\t\t000000\t\t\t\t$4520.00\n1 Client Address\nCity, State, Country\tDate Of Issue\nZIP CODE\t\t10/07/14\n\nDescription\t\t\t\tUnit Cost\tQty / Hr Rate\tAmount\n\nYour item Name\t\t\t\t$1000\t\t1\t1000\nItem description goes here\n\nYour item Name\t\t\t\t$1000\t\t1\t1000\nItem description goes here\n\nYour item Name\t\t\t\t$1000\t\t1\t1000\nItem description goes here\n\nYour item Name\t\t\t\t$1000\t\t1\t1000\nItem description goes here\n\n\tSubtotal\t$4000.00\n\tTax\t$520.00\n\tTotal\t$4520.00\n\nInvoice Terms\nEx. Please pay your invoice by....\t\t\tAmount Due (USD)\t$4520.00",
+    "order_date": null,
+    "payment": {
+      "card_number": null,
+      "display_name": null,
+      "terms": null,
+      "type": null
+    },
+    "pdf_url": "https://scdn.veryfi.com/receipts/f87fc88812a7e493/d7749be0-5011-4b8d-91c1-c7ca75cca172/79e6e973-367f-468c-80f2-42af279799af.pdf?Expires=1676468871&Signature=aj3YPTJpWztqicODePBXaUoGPrbeaJgSqSLVbBNY6Cs8pFQ6oejXRBIuIN93cokenhB6vprSKJHJwpYq39MaLXJnzJSJFcwQCzNc5trnJaJFmW3z7G3eSky4N~vwvjRFxy4PjlT~vN5C1xFuhIF25vgIM3uOc~d9WpKvUvPS9aEDjugEbuU42LlE7QPsEBZgTIHh0wopWqxbzzEUnPGmvF5po3X9LXZBOFrtzLJZdNK0OLQY8vyb4G2bTph3KvEePcS7d5txbgEWM6cWXHH~EQNcknQXlRq4Im5P53lBlwHVluBXPYcNvr-K-Hi-Z0HGO5nwGN5VntY095c71Htx2w__&Key-Pair-Id=APKAJCILBXEJFZF4DCHQ",
+    "purchase_order_number": null,
+    "reference_number": "VBACD-67228",
+    "rounding": null,
+    "service_end_date": null,
+    "service_start_date": null,
+    "ship_date": null,
+    "ship_to": {
+      "address": null,
+      "name": null,
+      "parsed_address": null
+    },
+    "shipping": null,
+    "store_number": null,
+    "subtotal": 4000.0,
+    "tax": 520.0,
+    "tax_lines": [],
+    "tip": null,
+    "total": 4520.0,
+    "total_weight": null,
+    "tracking_number": null,
+    "updated_date": "2023-02-15 13:32:51",
+    "vendor": {
+      "abn_number": null,
+      "account_number": null,
+      "address": null,
+      "bank_name": null,
+      "bank_number": null,
+      "bank_swift": null,
+      "category": null,
+      "email": null,
+      "fax_number": null,
+      "iban": null,
+      "lat": null,
+      "lng": null,
+      "logo": "https://cdn.veryfi.com/logos/tmp/7ee240ed-ad3e-43fd-b763-930b494a89f4.png",
+      "name": "City, State, Country",
+      "phone_number": "647-444-1234",
+      "raw_address": null,
+      "raw_name": null,
+      "reg_number": null,
+      "type": null,
+      "vat_number": null,
+      "web": null
+    }
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "customer_information": {
+          "customer_name": null,
+          "customer_address": "City, State, Country",
+          "customer_email": null,
+          "customer_id": null,
+          "customer_tax_id": null,
+          "customer_mailing_address": null,
+          "customer_billing_address": "City, State, Country",
+          "customer_shipping_address": null,
+          "customer_service_address": null,
+          "customer_remittance_address": null
+        },
+        "merchant_information": {
+          "merchant_name": "City, State, Country",
+          "merchant_address": null,
+          "merchant_phone": "647-444-1234",
+          "merchant_email": null,
+          "merchant_fax": null,
+          "merchant_website": null,
+          "merchant_tax_id": null,
+          "merchant_siret": null,
+          "merchant_siren": null
+        },
+        "invoice_number": "000000",
+        "invoice_total": 4520.0,
+        "invoice_subtotal": 4000.0,
+        "amount_due": null,
+        "previous_unpaid_balance": null,
+        "discount": null,
+        "taxes": [
+          {
+            "value": 520.0,
+            "rate": null
+          }
+        ],
+        "payment_term": null,
+        "purchase_order": null,
+        "date": "2023-02-15 13:32:51",
+        "due_date": null,
+        "service_date": null,
+        "service_due_date": null,
+        "locale": {
+          "currency": "USD",
+          "language": null
+        },
+        "bank_informations": {
+          "account_number": null,
+          "iban": null,
+          "bsb": null,
+          "sort_code": null,
+          "vat_number": null,
+          "rooting_number": null,
+          "swift": null
+        },
+        "item_lines": [
+          {
+            "description": "Your item Name\nItem description goes here",
+            "quantity": 1,
+            "amount": 1000.0,
+            "unit_price": 1000.0,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Your item Name\nItem description goes here",
+            "quantity": 1,
+            "amount": 1000.0,
+            "unit_price": 1000.0,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Your item Name\nItem description goes here",
+            "quantity": 1,
+            "amount": 1000.0,
+            "unit_price": 1000.0,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null,
+            "tax_rate": null
+          },
+          {
+            "description": "Your item Name\nItem description goes here",
+            "quantity": 1,
+            "amount": 1000.0,
+            "unit_price": 1000.0,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null,
+            "tax_rate": null
+          }
+        ]
+      }
+    ]
+  }
+}

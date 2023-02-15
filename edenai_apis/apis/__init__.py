@@ -34,5 +34,6 @@ from .cohere import CohereApi
 from .skybiometry import SkybiometryApi
 from .deepai import DeepAIApi
 from .stabilityai import StabilityAIApi
+from .verify import VerifyApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

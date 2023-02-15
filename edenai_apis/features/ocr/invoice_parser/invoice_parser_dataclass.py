@@ -43,6 +43,7 @@ class ItemLinesInvoice(BaseModel):
     product_code : Optional[StrictStr] # New
     date_item : Optional[str] # New
     tax_item : Optional[float] # New
+    tax_rate: Optional[float] # New
 
 
 class TaxesInvoice(BaseModel):
@@ -57,7 +58,7 @@ class BankInvoice(BaseModel): # New obj
     vat_number : Optional[StrictStr] # New
     rooting_number : Optional[StrictStr] # New
     swift: Optional[StrictStr]
-    
+
 class InfosInvoiceParserDataClass(BaseModel):
     customer_information: CustomerInformationInvoice = CustomerInformationInvoice()
     merchant_information: MerchantInformationInvoice = MerchantInformationInvoice()
