@@ -63,12 +63,16 @@ class Api4aiApi(
         }
 
     def image__object_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
         """
         This function is used to detect objects in an image.
         """
-        files = {"image": file}
+
+        file_ = open(file, "rb")
+        files = {"image": file_}
         original_response = requests.post(
             self.urls["object_detection"], files=files
         ).json()

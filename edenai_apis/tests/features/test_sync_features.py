@@ -14,6 +14,7 @@ from edenai_apis.tests.conftest import global_features, without_async_and_phase
 from edenai_apis.utils.compare import compare_responses
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import ResponseType
 
 
@@ -33,11 +34,11 @@ class CommonTestsSubfeatures:
         feature_args['file'] = invalid_file
 
         # Action
-        with pytest.raises((ProviderException, AttributeError)) as exc:
+        with pytest.raises((ProviderException, AttributeError, FileNotFoundError)) as exc:
             feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
             provider_method = getattr(feature_class, f"{subfeature}")(provider)
             provider_method(**feature_args)
-            assert exc is not None, 'ProviderException or AttributeError expected.'
+            assert exc is not None, 'ProviderException, AttributeError or FileNotFoundError expected.'
 
     def _test_feature_api_call(self, provider, feature, subfeature):
         # Setup

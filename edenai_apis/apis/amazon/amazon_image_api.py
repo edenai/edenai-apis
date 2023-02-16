@@ -47,10 +47,13 @@ from edenai_apis.utils.types import ResponseType
 
 class AmazonImageApi(ImageInterface):
     def image__object_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
 
-        file_content = file.read()
+        file_ = open(file, "rb")
+        file_content = file_.read()
         # Getting API response
         try:
             original_response = self.clients["image"].detect_labels(

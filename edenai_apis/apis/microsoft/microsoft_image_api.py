@@ -90,12 +90,16 @@ class MicrosoftImageApi(ImageInterface):
         return res
 
     def image__object_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
+
+        file_ = open(file, "rb")
         response = requests.post(
             f"{self.url['vision']}/detect",
             headers=self.headers["vision"],
-            data=file,
+            data=file_,
         )
         data = response.json()
 

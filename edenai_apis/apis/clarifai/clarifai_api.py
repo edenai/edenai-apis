@@ -223,12 +223,16 @@ class ClarifaiApi(
             return result
 
     def image__object_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
+
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
 
-        file_content = file.read()
+        file_ = open(file, "rb")
+        file_content = file_.read()
 
         metadata = (("authorization", self.key),)
         user_data_object = resources_pb2.UserAppIDSet(

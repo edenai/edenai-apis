@@ -92,8 +92,12 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         return result
 
     def image__object_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
+
+        file_ = open(file, "rb")
         response = requests.post(
             self.base_url + "Object-detection",
             headers={
@@ -101,7 +105,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
                 "X-Auth-token": self.key,
                 "Content-Type": "application/octet-stream",
             },
-            data=file,
+            data=file_,
         )
         if response.status_code != 200:
             raise ProviderException(response.text)

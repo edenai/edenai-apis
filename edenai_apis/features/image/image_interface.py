@@ -120,7 +120,9 @@ class ImageInterface:
 
     @abstractmethod
     def image__object_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
         """
         Detect objects in an image

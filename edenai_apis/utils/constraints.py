@@ -255,6 +255,6 @@ def validate_all_provider_constraints(
         return validated_args
 
 
-    args = transform_file_args(validated_args)
+    args = transform_file_args(args)
 
     return args

@@ -81,9 +81,13 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__object_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
-        image = vision.Image(content=file.read())
+
+        file_ = open(file, "rb")
+        image = vision.Image(content=file_.read())
         response = self.clients["image"].object_localization(image=image)
         response = MessageToDict(response._pb)
         items = []
