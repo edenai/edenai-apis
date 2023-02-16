@@ -76,6 +76,8 @@ class Api4aiApi(
         original_response = requests.post(
             self.urls["object_detection"], files=files
         ).json()
+
+        file_.close()
         
         if 'failure' in original_response['results'][0]['status']['code']:
             raise ProviderException(original_response['results'][0]['status']['message'])
@@ -105,14 +107,19 @@ class Api4aiApi(
         return result
 
     def image__face_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceDetectionDataClass]:
+
+        file_ = open(file, "rb")
         payload = {
-            "image": file,
+            "image": file_,
         }
         # Get response
         response = requests.post(self.urls["face_detection"], files=payload)
         original_response = response.json()
+        file_.close()
         
         # Handle errors
         if 'failure' in original_response['results'][0]['status']['code']:

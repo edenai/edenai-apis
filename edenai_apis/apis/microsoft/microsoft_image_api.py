@@ -102,6 +102,7 @@ class MicrosoftImageApi(ImageInterface):
             data=file_,
         )
         data = response.json()
+        file_.close()
 
         if response.status_code != 200:
             error = data["error"]
@@ -144,10 +145,13 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceDetectionDataClass]:
 
-        file_content = file.read()
+        file_ = open(file, "rb")
+        file_content = file_.read()
         # Getting size of image
         img_size = Img.open(file).size
 

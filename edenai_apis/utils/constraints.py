@@ -30,7 +30,7 @@ def validate_input_file_extension(constraints: dict, args: dict) -> dict:
 
     provider_file_extensions_constraints: List[str] = constraints.get("file_extensions", [])
 
-    input_file: FileWrapper = args.get("file")
+    input_file: Optional[FileWrapper] = args.get("file")
 
     if not input_file or not provider_file_extensions_constraints:
         return args
@@ -57,10 +57,10 @@ def validate_input_file_type(constraints: dict, provider: str, args: dict) -> di
     """
     provider_file_type_constraints: List[str] = constraints.get("file_types", [])
 
-    input_file: Optional[FileWrapper] = args.get("file")
+    input_file: FileWrapper = args.get("file")
 
     if input_file and len(provider_file_type_constraints) > 0:
-        input_file_type, _ = mimetypes.guess_type(input_file.file_path)
+        input_file_type = input_file.file_info.file_media_type
 
         if input_file_type is None:
             # if mimetype is not recognized we don't validate it

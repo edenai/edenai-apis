@@ -26,9 +26,14 @@ class SkybiometryApi(ProviderInterface, ImageInterface):
         self.api_key = self.settings['api_key']
         self.api_secret = self.settings['api_secret']
 
-    def image__face_detection(self, file: BufferedReader) -> ResponseType[FaceDetectionDataClass]:
+    def image__face_detection(
+        self, 
+        file: str,
+        file_url: str= ""
+        ) -> ResponseType[FaceDetectionDataClass]:
+        file_ = open(file, "rb")
         files = {
-            'file': file
+            'file': file_
         }
 
         endpoint = f'{self.base_url}faces/detect.json'
@@ -36,6 +41,7 @@ class SkybiometryApi(ProviderInterface, ImageInterface):
         response = requests.post(f'{endpoint}?{query_params}', files=files)
 
         original_response = response.json()
+        file_.close()
         if response.status_code != 200:
             raise ProviderException(
                 message=original_response['error_message'],

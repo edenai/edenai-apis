@@ -52,8 +52,8 @@ class AmazonImageApi(ImageInterface):
         file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
 
-        file_ = open(file, "rb")
-        file_content = file_.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
         # Getting API response
         try:
             original_response = self.clients["image"].detect_labels(
@@ -96,9 +96,13 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceDetectionDataClass]:
-        file_content = file.read()
+        
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         # Getting Response
         original_response = self.clients["image"].detect_faces(

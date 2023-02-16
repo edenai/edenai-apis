@@ -90,6 +90,7 @@ class GoogleImageApi(ImageInterface):
         image = vision.Image(content=file_.read())
         response = self.clients["image"].object_localization(image=image)
         response = MessageToDict(response._pb)
+        file_.close()
         items = []
         for object_annotation in response.get("localizedObjectAnnotations", []):
             x_min, x_max = np.infty, -np.infty
@@ -121,9 +122,12 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__face_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceDetectionDataClass]:
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
         img_size = Img.open(file).size
         image = vision.Image(content=file_content)
         response = self.clients["image"].face_detection(image=image, max_results=100)

@@ -107,6 +107,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             },
             data=file_,
         )
+        file_.close()
         if response.status_code != 200:
             raise ProviderException(response.text)
 

@@ -95,7 +95,9 @@ class ImageInterface:
 
     @abstractmethod
     def image__landmark_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LandmarkDetectionDataClass]:
         """
         Detect popular landmark in an image
