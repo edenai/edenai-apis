@@ -5,10 +5,10 @@ from typing import Optional, List
 
 class FileInfo:
 
-    def __init__(self, file_size, file_extension, file_mimetype, *args, **kwargs) -> None:
+    def __init__(self, file_size, file_mimetype, file_extension, *args, **kwargs) -> None:
         self.file_size = file_size
-        self.file_extension = file_extension
         self.file_media_type = file_mimetype
+        self.file_extension = file_extension
         if args:
             self.file_frame_rate, self.file_channels = args
 

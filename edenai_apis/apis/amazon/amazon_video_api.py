@@ -43,7 +43,7 @@ from .helpers import amazon_launch_video_job, amazon_video_response_formatter
 class AmazonVideoApi(VideoInterface):
     # Launch job label detection
     def video__label_detection_async__launch_job(
-        self, file: BufferedReader
+        self, file: str, file_url: str= ""
     ) -> AsyncLaunchJobResponseType:
         return AsyncLaunchJobResponseType(
             provider_job_id=amazon_launch_video_job(file, "LABEL")
@@ -51,7 +51,7 @@ class AmazonVideoApi(VideoInterface):
 
     # Launch job text detection
     def video__text_detection_async__launch_job(
-        self, file: BufferedReader
+        self, file: str, file_url: str= ""
     ) -> AsyncLaunchJobResponseType:
         return AsyncLaunchJobResponseType(
             provider_job_id=amazon_launch_video_job(file, "TEXT")
@@ -59,7 +59,7 @@ class AmazonVideoApi(VideoInterface):
 
     # Launch job face detection
     def video__face_detection_async__launch_job(
-        self, file: BufferedReader
+        self, file: str, file_url: str= ""
     ) -> AsyncLaunchJobResponseType:
         return AsyncLaunchJobResponseType(
             provider_job_id=amazon_launch_video_job(file, "FACE")
@@ -67,7 +67,7 @@ class AmazonVideoApi(VideoInterface):
 
     # Launch job person tracking
     def video__person_tracking_async__launch_job(
-        self, file: BufferedReader
+        self, file: str, file_url: str= ""
     ) -> AsyncLaunchJobResponseType:
         return AsyncLaunchJobResponseType(
             provider_job_id=amazon_launch_video_job(file, "PERSON")
@@ -75,7 +75,7 @@ class AmazonVideoApi(VideoInterface):
 
     # Launch job explicit content detection
     def video__explicit_content_detection_async__launch_job(
-        self, file: BufferedReader
+        self, file: str, file_url: str= ""
     ) -> AsyncLaunchJobResponseType:
         return AsyncLaunchJobResponseType(
             provider_job_id=amazon_launch_video_job(file, "EXPLICIT")

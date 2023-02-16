@@ -106,23 +106,23 @@ def amazon_ocr_tables_parser(original_result) -> OcrTablesAsyncDataClass:
 T = TypeVar("T")
 
 # Video analysis async
-def _upload_video_file_to_amazon_server(file: BufferedReader, file_name: str, api_settings : Dict):
+def _upload_video_file_to_amazon_server(file: str, file_name: str, api_settings : Dict):
     """
     :param video:       String that contains the video file path
     :return:            String that contains the filename on the server
     """
     # Store file in an Amazon server
-    file_extension = file.name.split(".")[-1]
+    file_extension = file.split(".")[-1]
     filename = str(int(time())) + file_name.stem + "_video_." + file_extension
-    storage_clients(api_settings)["video"].meta.client.upload_fileobj(file, api_settings['bucket_video'], filename)
+    storage_clients(api_settings)["video"].meta.client.upload_file(file, api_settings['bucket_video'], filename)
 
     return filename
 
 
-def amazon_launch_video_job(file: BufferedReader, feature: str):
+def amazon_launch_video_job(file: str, feature: str):
     api_settings = load_provider(ProviderDataEnum.KEY, "amazon")
     # Upload video to amazon server
-    filename = _upload_video_file_to_amazon_server(file, Path(file.name), api_settings)
+    filename = _upload_video_file_to_amazon_server(file, Path(file), api_settings)
 
     # Get response
     role = api_settings['role']
