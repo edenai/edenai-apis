@@ -240,9 +240,13 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__landmark_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LandmarkDetectionDataClass]:
-        image = vision.Image(content=file.read())
+        with open(file, "rb") as file_:
+            content = file_.read()
+        image = vision.Image(content=content)
         response = self.clients["image"].landmark_detection(image=image)
         dict_response = vision.AnnotateImageResponse.to_dict(response)
         landmarks = dict_response.get("landmark_annotations", [])

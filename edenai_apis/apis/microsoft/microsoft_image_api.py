@@ -236,10 +236,13 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__landmark_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LandmarkDetectionDataClass]:
 
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         # Getting response of API
         response = requests.post(

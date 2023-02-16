@@ -85,7 +85,9 @@ class ImageInterface:
 
     @abstractmethod
     def image__face_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceDetectionDataClass]:
         """
         Detect faces in an image
