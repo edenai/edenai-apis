@@ -6,6 +6,7 @@ from edenai_apis.features import ProviderInterface, OcrInterface
 from edenai_apis.features.ocr.invoice_parser import InvoiceParserDataClass
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import BankInvoice, CustomerInformationInvoice, InfosInvoiceParserDataClass, ItemLinesInvoice, LocaleInvoice, MerchantInformationInvoice, TaxesInvoice
 from edenai_apis.features.ocr.receipt_parser import ReceiptParserDataClass
+from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import CustomerInformation, InfosReceiptParserDataClass, ItemLines, Locale, MerchantInformation, PaymentInformation, Taxes
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
@@ -125,4 +126,62 @@ class KlippaApi(ProviderInterface, OcrInterface):
         file: BufferedReader,
         language: str
     ) -> ResponseType[ReceiptParserDataClass]:
-        return self._make_post_request(file)
+        original_response = self._make_post_request(file)
+
+        data_response = original_response["data"]
+        customer_information = CustomerInformation(
+            customer_name=data_response["customer_name"],
+        )
+
+        merchant_information = MerchantInformation(
+            merchant_name=data_response["merchant_name"],
+            merchant_address=data_response["merchant_address"],
+            merchant_phone=data_response["merchant_phone"],
+            merchant_tax_id=data_response["merchant_vat_number"],
+            merchant_siret=data_response["merchant_coc_number"],
+            merchant_url=data_response["merchant_website"],
+        )
+
+        locale_information = Locale(
+            currency=data_response["currency"],
+            language=data_response["document_language"],
+            country=data_response["merchant_country_code"],
+        )
+
+        taxes_information = Taxes(
+            rate=data_response["personal_income_tax_rate"],
+            taxes=data_response["personal_income_tax_amount"],
+        )
+
+        payment_information = PaymentInformation(
+            card_type=data_response["paymentmethod"],
+            card_number=data_response["payment_card_number"],
+        )
+
+        item_lines = []
+        for item in data_response["lines"][0]['lineitems']:
+            item_lines.append(ItemLines(
+                    description=item["description"],
+                    quantity=item["quantity"],
+                    unit_price=item["amount_each"],
+                    amount=item["amount"],
+                )
+            )
+
+        info_receipt = [InfosReceiptParserDataClass(
+            customer_information=customer_information,
+            merchant_information=merchant_information,
+            locale=locale_information,
+            taxes=[taxes_information],
+            payment_information=payment_information,
+            invoice_number=data_response["invoice_number"],
+            date=data_response["date"],
+            invoice_total=data_response["amount"],
+        )]
+
+        standardize_response = ReceiptParserDataClass(extracted_data=info_receipt)
+
+        return ResponseType[ReceiptParserDataClass](
+            original_response=original_response,
+            standardized_response=standardize_response
+        )

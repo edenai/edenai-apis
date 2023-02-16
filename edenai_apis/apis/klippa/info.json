@@ -1,0 +1,16 @@
+{
+    "ocr": {
+        "invoice_parser": {
+            "constraints": {
+                "allow_null_language": true
+            },
+            "version": "v1"
+        },
+        "receipt_parser": {
+            "constraints": {
+                "allow_null_language": true
+            },
+            "version": "v1"
+        }
+    }
+}
