@@ -350,11 +350,16 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_recognition__add_face(
-        self, collection_id: str, file: BufferedReader
+        self, 
+        collection_id: str, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
         url = f"{self.url['face']}facelists/{collection_id}/persistedFaces?detectionModel=detection_03"
         headers = self.headers["face"]
-        response = requests.post(url=url, headers=headers, data=file)
+        file_ = open(file, "rb")
+        response = requests.post(url=url, headers=headers, data=file_)
+        file_.close()
         if response.status_code != 200:
             raise ProviderException(response.json()["error"]["message"])
         original_response = response.json()
@@ -385,7 +390,10 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_recognition__recognize(
-        self, collection_id: str, file: BufferedReader
+        self, 
+        collection_id: str, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         # we first need to detect the face, extract the faceId
         # and then make the call for face similarities using this id

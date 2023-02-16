@@ -268,7 +268,10 @@ class ImageInterface:
 
     @abstractmethod
     def image__face_recognition__add_face(
-        self, collection_id: str, file: BufferedReader
+        self, 
+        collection_id: str, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
         """
         Detect and add a face to a collection from an image
@@ -292,7 +295,10 @@ class ImageInterface:
 
     @abstractmethod
     def image__face_recognition__recognize(
-        self, collection_id: str, file: BufferedReader
+        self, 
+        collection_id: str, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         """
         Detect the biggers face from image and try
