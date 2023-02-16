@@ -26,7 +26,6 @@ class MerchantInformationInvoice(BaseModel):
     merchant_tax_id : Optional[StrictStr] # New
     merchant_siret : Optional[StrictStr] # New
     merchant_siren : Optional[StrictStr] # New
-    
 
 
 class LocaleInvoice(BaseModel):
@@ -48,7 +47,7 @@ class ItemLinesInvoice(BaseModel):
 
 class TaxesInvoice(BaseModel):
     value: Optional[float]
-    rate: Optional[float] 
+    rate: Optional[float]
 
 class BankInvoice(BaseModel): # New obj
     account_number : Optional[StrictStr] # New
