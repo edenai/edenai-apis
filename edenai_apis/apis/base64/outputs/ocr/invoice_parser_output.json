@@ -5,7 +5,8 @@
         "name": "Invoice",
         "confidence": 1,
         "type": "finance/invoice",
-        "isValid": true
+        "isValid": true,
+        "shape": "letter"
       },
       "fields": {
         "companyName": {
@@ -14,20 +15,68 @@
           "confidence": 0.99,
           "location": {
             "topLeft": {
-              "x": 678,
+              "x": 677,
               "y": 76
             },
             "topRight": {
-              "x": 806,
+              "x": 805,
               "y": 76
             },
             "bottomLeft": {
-              "x": 678,
+              "x": 677,
               "y": 101
             },
             "bottomRight": {
-              "x": 806,
+              "x": 805,
               "y": 101
+            },
+            "pageNumber": 0
+          }
+        },
+        "website": {
+          "key": "Website",
+          "value": "https://yourwebsite.com",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 650,
+              "y": 145
+            },
+            "topRight": {
+              "x": 807,
+              "y": 145
+            },
+            "bottomLeft": {
+              "x": 650,
+              "y": 169
+            },
+            "bottomRight": {
+              "x": 807,
+              "y": 169
+            },
+            "pageNumber": 0
+          }
+        },
+        "phoneNumber": {
+          "key": "Phone number",
+          "value": "(647) 444-1234",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 677,
+              "y": 78
+            },
+            "topRight": {
+              "x": 807,
+              "y": 78
+            },
+            "bottomLeft": {
+              "x": 677,
+              "y": 97
+            },
+            "bottomRight": {
+              "x": 807,
+              "y": 97
             },
             "pageNumber": 0
           }
@@ -38,20 +87,20 @@
           "confidence": 0.99,
           "location": {
             "topLeft": {
-              "x": 69,
-              "y": 325
+              "x": 68,
+              "y": 326
             },
             "topRight": {
-              "x": 250,
-              "y": 325
+              "x": 249,
+              "y": 326
             },
             "bottomLeft": {
-              "x": 69,
-              "y": 487
+              "x": 68,
+              "y": 488
             },
             "bottomRight": {
-              "x": 250,
-              "y": 487
+              "x": 249,
+              "y": 488
             },
             "pageNumber": 0
           }
@@ -62,19 +111,19 @@
           "confidence": 0.99,
           "location": {
             "topLeft": {
-              "x": 380,
+              "x": 379,
               "y": 326
             },
             "topRight": {
-              "x": 511,
+              "x": 509,
               "y": 326
             },
             "bottomLeft": {
-              "x": 380,
+              "x": 379,
               "y": 383
             },
             "bottomRight": {
-              "x": 511,
+              "x": 509,
               "y": 383
             },
             "pageNumber": 0
@@ -88,20 +137,20 @@
           "type": "date",
           "location": {
             "topLeft": {
-              "x": 381,
+              "x": 379,
               "y": 430
             },
             "topRight": {
-              "x": 493,
+              "x": 492,
               "y": 430
             },
             "bottomLeft": {
-              "x": 381,
-              "y": 486
+              "x": 379,
+              "y": 485
             },
             "bottomRight": {
-              "x": 493,
-              "y": 486
+              "x": 492,
+              "y": 485
             },
             "pageNumber": 0
           }
@@ -112,20 +161,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 799,
+              "x": 800,
               "y": 1319
             },
             "topRight": {
-              "x": 860,
-              "y": 1320
+              "x": 861,
+              "y": 1319
             },
             "bottomLeft": {
-              "x": 799,
+              "x": 800,
               "y": 1345
             },
             "bottomRight": {
-              "x": 860,
-              "y": 1346
+              "x": 861,
+              "y": 1345
             },
             "pageNumber": 0
           }
@@ -137,20 +186,20 @@
           "isValid": true,
           "location": {
             "topLeft": {
-              "x": 783,
-              "y": 1137
+              "x": 784,
+              "y": 1136
             },
             "topRight": {
               "x": 1076,
-              "y": 1138
+              "y": 1136
             },
             "bottomLeft": {
-              "x": 783,
-              "y": 1159
+              "x": 784,
+              "y": 1158
             },
             "bottomRight": {
               "x": 1076,
-              "y": 1160
+              "y": 1158
             },
             "pageNumber": 0
           }
@@ -162,19 +211,19 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 378,
+              "x": 377,
               "y": 364
             },
             "topRight": {
-              "x": 449,
+              "x": 448,
               "y": 364
             },
             "bottomLeft": {
-              "x": 378,
+              "x": 377,
               "y": 386
             },
             "bottomRight": {
-              "x": 449,
+              "x": 448,
               "y": 386
             },
             "pageNumber": 0
@@ -187,19 +236,19 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 378,
+              "x": 377,
               "y": 364
             },
             "topRight": {
-              "x": 449,
+              "x": 448,
               "y": 364
             },
             "bottomLeft": {
-              "x": 378,
+              "x": 377,
               "y": 386
             },
             "bottomRight": {
-              "x": 449,
+              "x": 448,
               "y": 386
             },
             "pageNumber": 0
@@ -213,19 +262,19 @@
           "location": {
             "topLeft": {
               "x": 827,
-              "y": 1184
+              "y": 1182
             },
             "topRight": {
               "x": 1076,
-              "y": 1184
+              "y": 1182
             },
             "bottomLeft": {
               "x": 827,
-              "y": 1206
+              "y": 1204
             },
             "bottomRight": {
               "x": 1076,
-              "y": 1206
+              "y": 1204
             },
             "pageNumber": 0
           }
@@ -237,52 +286,47 @@
           "isValid": true,
           "location": {
             "topLeft": {
-              "x": 858,
-              "y": 327
+              "x": 856,
+              "y": 326
             },
             "topRight": {
-              "x": 1096,
-              "y": 327
+              "x": 1094,
+              "y": 326
             },
             "bottomLeft": {
-              "x": 858,
-              "y": 418
+              "x": 856,
+              "y": 416
             },
             "bottomRight": {
-              "x": 1096,
-              "y": 418
-            },
-            "pageNumber": 0
-          }
-        },
-        "amountDue": {
-          "key": "Amount due",
-          "value": "4520.00",
-          "confidence": 0.99,
-          "location": {
-            "topLeft": {
-              "x": 680,
-              "y": 1320
-            },
-            "topRight": {
-              "x": 1076,
-              "y": 1321
-            },
-            "bottomLeft": {
-              "x": 680,
-              "y": 1344
-            },
-            "bottomRight": {
-              "x": 1076,
-              "y": 1345
+              "x": 1094,
+              "y": 416
             },
             "pageNumber": 0
           }
         },
         "balanceDue": {
           "key": "Balance due",
-          "value": "4,520.00",
-          "confidence": 1
+          "value": "4520.00",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 681,
+              "y": 1319
+            },
+            "topRight": {
+              "x": 1076,
+              "y": 1319
+            },
+            "bottomLeft": {
+              "x": 681,
+              "y": 1343
+            },
+            "bottomRight": {
+              "x": 1076,
+              "y": 1343
+            },
+            "pageNumber": 0
+          }
         },
         "iban": {
           "key": "IBAN",
@@ -295,7 +339,7 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 73,
+              "x": 72,
               "y": 684
             },
             "topRight": {
@@ -303,12 +347,12 @@
               "y": 684
             },
             "bottomLeft": {
-              "x": 73,
-              "y": 733
+              "x": 72,
+              "y": 734
             },
             "bottomRight": {
               "x": 289,
-              "y": 733
+              "y": 734
             },
             "pageNumber": 0
           }
@@ -321,19 +365,19 @@
           "location": {
             "topLeft": {
               "x": 1029,
-              "y": 686
+              "y": 685
             },
             "topRight": {
-              "x": 1076,
-              "y": 686
+              "x": 1075,
+              "y": 685
             },
             "bottomLeft": {
               "x": 1029,
-              "y": 705
+              "y": 703
             },
             "bottomRight": {
-              "x": 1076,
-              "y": 705
+              "x": 1075,
+              "y": 703
             },
             "pageNumber": 0
           }
@@ -346,19 +390,19 @@
           "location": {
             "topLeft": {
               "x": 895,
-              "y": 686
+              "y": 684
             },
             "topRight": {
-              "x": 913,
-              "y": 686
+              "x": 912,
+              "y": 684
             },
             "bottomLeft": {
               "x": 895,
-              "y": 705
+              "y": 703
             },
             "bottomRight": {
-              "x": 913,
-              "y": 705
+              "x": 912,
+              "y": 703
             },
             "pageNumber": 0
           }
@@ -375,20 +419,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 73,
+              "x": 72,
               "y": 778
             },
             "topRight": {
-              "x": 290,
+              "x": 289,
               "y": 778
             },
             "bottomLeft": {
-              "x": 73,
-              "y": 827
+              "x": 72,
+              "y": 828
             },
             "bottomRight": {
-              "x": 290,
-              "y": 827
+              "x": 289,
+              "y": 828
             },
             "pageNumber": 0
           }
@@ -401,19 +445,19 @@
           "location": {
             "topLeft": {
               "x": 1029,
-              "y": 780
+              "y": 778
             },
             "topRight": {
-              "x": 1076,
-              "y": 780
+              "x": 1075,
+              "y": 778
             },
             "bottomLeft": {
               "x": 1029,
-              "y": 799
+              "y": 797
             },
             "bottomRight": {
-              "x": 1076,
-              "y": 799
+              "x": 1075,
+              "y": 797
             },
             "pageNumber": 0
           }
@@ -426,19 +470,19 @@
           "location": {
             "topLeft": {
               "x": 895,
-              "y": 780
+              "y": 778
             },
             "topRight": {
-              "x": 913,
-              "y": 780
+              "x": 912,
+              "y": 778
             },
             "bottomLeft": {
               "x": 895,
-              "y": 799
+              "y": 797
             },
             "bottomRight": {
-              "x": 913,
-              "y": 799
+              "x": 912,
+              "y": 797
             },
             "pageNumber": 0
           }
@@ -455,20 +499,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 73,
+              "x": 72,
               "y": 873
             },
             "topRight": {
-              "x": 291,
+              "x": 289,
               "y": 873
             },
             "bottomLeft": {
-              "x": 73,
-              "y": 921
+              "x": 72,
+              "y": 922
             },
             "bottomRight": {
-              "x": 291,
-              "y": 921
+              "x": 289,
+              "y": 922
             },
             "pageNumber": 0
           }
@@ -481,19 +525,19 @@
           "location": {
             "topLeft": {
               "x": 1029,
-              "y": 875
+              "y": 874
             },
             "topRight": {
-              "x": 1076,
-              "y": 875
+              "x": 1075,
+              "y": 874
             },
             "bottomLeft": {
               "x": 1029,
-              "y": 894
+              "y": 892
             },
             "bottomRight": {
-              "x": 1076,
-              "y": 894
+              "x": 1075,
+              "y": 892
             },
             "pageNumber": 0
           }
@@ -506,19 +550,19 @@
           "location": {
             "topLeft": {
               "x": 896,
-              "y": 875
+              "y": 874
             },
             "topRight": {
-              "x": 913,
-              "y": 875
+              "x": 912,
+              "y": 874
             },
             "bottomLeft": {
               "x": 896,
-              "y": 894
+              "y": 892
             },
             "bottomRight": {
-              "x": 913,
-              "y": 894
+              "x": 912,
+              "y": 892
             },
             "pageNumber": 0
           }
@@ -535,11 +579,11 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 73,
+              "x": 72,
               "y": 967
             },
             "topRight": {
-              "x": 290,
+              "x": 289,
               "y": 967
             },
             "bottomLeft": {
@@ -561,19 +605,19 @@
           "location": {
             "topLeft": {
               "x": 1029,
-              "y": 969
+              "y": 968
             },
             "topRight": {
-              "x": 1076,
-              "y": 969
+              "x": 1075,
+              "y": 968
             },
             "bottomLeft": {
               "x": 1029,
-              "y": 989
+              "y": 987
             },
             "bottomRight": {
-              "x": 1076,
-              "y": 989
+              "x": 1075,
+              "y": 987
             },
             "pageNumber": 0
           }
@@ -585,20 +629,20 @@
           "confidence": 1,
           "location": {
             "topLeft": {
-              "x": 895,
-              "y": 969
+              "x": 896,
+              "y": 968
             },
             "topRight": {
-              "x": 913,
-              "y": 969
+              "x": 912,
+              "y": 968
             },
             "bottomLeft": {
-              "x": 895,
-              "y": 989
+              "x": 896,
+              "y": 986
             },
             "bottomRight": {
-              "x": 913,
-              "y": 989
+              "x": 912,
+              "y": 986
             },
             "pageNumber": 0
           }
@@ -612,22 +656,22 @@
         "name": {
           "key": "Name",
           "value": "Client Name",
-          "confidence": 0.93,
+          "confidence": 0.94,
           "location": {
             "topLeft": {
-              "x": 70,
-              "y": 366
+              "x": 69,
+              "y": 367
             },
             "topRight": {
-              "x": 186,
-              "y": 366
+              "x": 184,
+              "y": 367
             },
             "bottomLeft": {
-              "x": 70,
+              "x": 69,
               "y": 386
             },
             "bottomRight": {
-              "x": 186,
+              "x": 184,
               "y": 386
             },
             "pageNumber": 0
@@ -636,71 +680,23 @@
         "receiverName": {
           "key": "Receiver name",
           "value": "Client Name",
-          "confidence": 0.93,
+          "confidence": 0.94,
           "location": {
             "topLeft": {
-              "x": 70,
-              "y": 366
+              "x": 69,
+              "y": 367
             },
             "topRight": {
-              "x": 186,
-              "y": 366
+              "x": 184,
+              "y": 367
             },
             "bottomLeft": {
-              "x": 70,
+              "x": 69,
               "y": 386
             },
             "bottomRight": {
-              "x": 186,
+              "x": 184,
               "y": 386
-            },
-            "pageNumber": 0
-          }
-        },
-        "vendorPhone": {
-          "key": "Vendor phone",
-          "value": "647-444-1234",
-          "confidence": 0.99,
-          "location": {
-            "topLeft": {
-              "x": 677,
-              "y": 77
-            },
-            "topRight": {
-              "x": 809,
-              "y": 77
-            },
-            "bottomLeft": {
-              "x": 677,
-              "y": 98
-            },
-            "bottomRight": {
-              "x": 809,
-              "y": 98
-            },
-            "pageNumber": 0
-          }
-        },
-        "vendorUrl": {
-          "key": "Vendor url",
-          "value": "yourwebsite.com",
-          "confidence": 0.99,
-          "location": {
-            "topLeft": {
-              "x": 650,
-              "y": 145
-            },
-            "topRight": {
-              "x": 809,
-              "y": 145
-            },
-            "bottomLeft": {
-              "x": 650,
-              "y": 168
-            },
-            "bottomRight": {
-              "x": 809,
-              "y": 168
             },
             "pageNumber": 0
           }
@@ -708,6 +704,17 @@
       },
       "features": {
         "creditsSpent": 2,
+        "properties": {
+          "mimeType": "image/png",
+          "rotationAngle": 0,
+          "width": 1176,
+          "height": 1528,
+          "pageCount": 1,
+          "startPage": 0,
+          "isInFocus": true,
+          "isGlareFree": true,
+          "originalFileName": "136a955c-de3c-4097-acc7-0bcd7c2b1182.png"
+        },
         "tables": [
           [
             [
@@ -742,18 +749,39 @@
             ]
           ]
         ],
-        "properties": {
-          "mimeType": "image/png",
-          "rotationAngle": 0.12,
-          "width": 1176,
-          "height": 1528,
-          "pageCount": 1,
-          "isInFocus": true,
-          "isGlareFree": true
-        }
+        "signatures": [
+          {
+            "left": 67,
+            "top": 431,
+            "width": 182,
+            "height": 30,
+            "confidence": 0.52,
+            "pageNumber": 0,
+            "image": "data:image/png;base64,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",
+            "bottom": 461,
+            "right": 249,
+            "topLeft": {
+              "x": 67,
+              "y": 431
+            },
+            "topRight": {
+              "x": 249,
+              "y": 431
+            },
+            "bottomLeft": {
+              "x": 67,
+              "y": 461
+            },
+            "bottomRight": {
+              "x": 249,
+              "y": 461
+            }
+          }
+        ]
       },
       "ocr": "647-444-1234\nINVOICE\nZIP CODE\n1 Your Address\nyour@email.com\nCity, State, Country\nyourwebsite.com\nBilled To\nInvoice Number\nInvoice Total\nClient Name\n000000\n$4520.00\n1 Client Address\nDate Of Issue\nCity, State, Country\nZIP CODE\n10/07/14\nDescription\nUnit Cost\nQty / Hr Rate\nAmount\nYour item Name\nItem description goes here\n$1000\n1 1000\nYour item Name\n$1000\n1\n1000\nItem description goes here\nYour item Name\n$1000\n1 1000\nItem description goes here\nYour item Name\nItem description goes here\n$1000\n1 1000\nSubtotal\n$4000.00\nTax\n$520.00\nTotal\n$4520.00\nInvoice Terms\nEx. Please pay your invoice by ....\nAmount Due (USD)\n$4520.00",
-      "uuid": "ba1b9bb9-d967-4770-89bb-b8405dda34eb"
+      "uuid": "8dc4c861-c10d-461d-aecb-fc8904dc4ef6",
+      "status": "needsReview"
     }
   ],
   "standardized_response": {
@@ -796,7 +824,7 @@
         ],
         "payment_term": null,
         "purchase_order": null,
-        "date": null,
+        "date": "2014-10-07",
         "due_date": null,
         "service_date": null,
         "service_due_date": null,
@@ -822,7 +850,8 @@
             "discount": null,
             "product_code": null,
             "date_item": null,
-            "tax_item": null
+            "tax_item": null,
+            "tax_rate": null
           },
           {
             "description": "Your item Name\nItem description goes here",
@@ -832,7 +861,8 @@
             "discount": null,
             "product_code": null,
             "date_item": null,
-            "tax_item": null
+            "tax_item": null,
+            "tax_rate": null
           },
           {
             "description": "Your item Name\nItem description goes here",
@@ -842,7 +872,8 @@
             "discount": null,
             "product_code": null,
             "date_item": null,
-            "tax_item": null
+            "tax_item": null,
+            "tax_rate": null
           },
           {
             "description": "Your item Name\nItem description goes here",
@@ -852,7 +883,8 @@
             "discount": null,
             "product_code": null,
             "date_item": null,
-            "tax_item": null
+            "tax_item": null,
+            "tax_rate": null
           }
         ]
       }
