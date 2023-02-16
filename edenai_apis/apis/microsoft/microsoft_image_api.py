@@ -45,16 +45,20 @@ from PIL import Image as Img
 
 class MicrosoftImageApi(ImageInterface):
     def image__explicit_content(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ExplicitContentDataClass]:
 
+        file_ = open(file, "rb")
         # Getting response of API
         response = requests.post(
             f"{self.url['vision']}/analyze?visualFeatures=Adult",
             headers=self.headers["vision"],
-            data=file,
+            data=file_,
         )
         data = response.json()
+        file_.close()
 
         # error handling
         if response.status_code != 200:

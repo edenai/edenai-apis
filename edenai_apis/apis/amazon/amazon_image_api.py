@@ -241,9 +241,12 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__explicit_content(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ExplicitContentDataClass]:
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         try:
             response = self.clients["image"].detect_moderation_labels(

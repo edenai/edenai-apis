@@ -229,14 +229,20 @@ class Api4aiApi(
         return result
 
     def image__explicit_content(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ExplicitContentDataClass]:
+
+        file_= open(file, "rb")
         payload = {
-            "image": file,
+            "image": file_,
         }
         # Get response
         response = requests.post(self.urls["nsfw"], files=payload)
         original_response = response.json()
+        
+        file_.close()
 
         # Handle errors
         if response.status_code != 200 or "failure" in original_response["results"][0]["status"]["code"]:

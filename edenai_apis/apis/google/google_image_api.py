@@ -46,9 +46,13 @@ from google.protobuf.json_format import MessageToDict
 
 class GoogleImageApi(ImageInterface):
     def image__explicit_content(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ExplicitContentDataClass]:
-        image = vision.Image(content=file.read())
+        with open(file, "rb") as file_:
+            content = file_.read()
+        image = vision.Image(content=content)
 
         try:
             response = self.clients["image"].safe_search_detection(image=image)

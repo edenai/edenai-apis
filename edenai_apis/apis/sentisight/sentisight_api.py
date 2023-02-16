@@ -136,8 +136,11 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         return result
 
     def image__explicit_content(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ExplicitContentDataClass]:
+        file_ = open(file, "rb")
         response = requests.post(
             self.base_url + "NSFW-classification",
             headers={
@@ -145,8 +148,9 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
                 "X-Auth-token": self.key,
                 "Content-Type": "application/octet-stream",
             },
-            data=file,
+            data=file_,
         )
+        file_.close()
         if response.status_code != 200:
             raise ProviderException(response.text)
 

@@ -71,7 +71,9 @@ class ImageInterface:
 
     @abstractmethod
     def image__explicit_content(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ExplicitContentDataClass]:
         """
         Detect explicit content in an image
