@@ -29,12 +29,16 @@ class SmartClickApi(ProviderInterface, ImageInterface):
         }
 
     def image__logo_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LogoDetectionDataClass]:
         url = f"{self.base_url}logo-detection"
 
         # Get URL for the image
-        content_url = upload_file_to_s3(file, file.name)
+        content_url = file_url
+        if not content_url:
+            content_url = upload_file_to_s3(file, file)
 
         payload = {"url": content_url}
         response = requests.request("POST", url, json=payload, headers=self.headers)

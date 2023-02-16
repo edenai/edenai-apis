@@ -195,14 +195,18 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__logo_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LogoDetectionDataClass]:
+        file_ = open(file, "rb")
         response = requests.post(
             f"{self.url['vision']}/analyze?visualFeatures=Brands",
             headers=self.headers["vision"],
-            data=file,
+            data=file_,
         )
         data = response.json()
+        file_.close()
 
         if response.status_code != 200:
             # sometimes no "error" key in repsonse

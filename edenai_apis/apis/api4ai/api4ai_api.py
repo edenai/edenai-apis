@@ -189,14 +189,18 @@ class Api4aiApi(
         return result
 
     def image__logo_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LogoDetectionDataClass]:
+        file_ = open(file, "rb")
         payload = {
-            "image": file,
+            "image": file_,
         }
         # Get response
         response = requests.post(self.urls["logo_detection"], files=payload)
         original_response = response.json()
+        file_.close()
         # Handle errors
         if 'failure' in original_response['results'][0]['status']['code']:
             raise ProviderException(original_response['results'][0]['status']['message'])

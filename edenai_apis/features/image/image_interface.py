@@ -114,7 +114,9 @@ class ImageInterface:
 
     @abstractmethod
     def image__logo_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LogoDetectionDataClass]:
         """
         Detect Logo in an image
