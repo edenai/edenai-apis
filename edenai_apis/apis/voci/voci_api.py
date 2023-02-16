@@ -9,9 +9,9 @@ from edenai_apis.features.audio.speech_to_text_async import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features.provider.provider_interface import ProviderInterface
-from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.features import AudioInterface
+from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -29,12 +29,16 @@ class VociApi(ProviderInterface, AudioInterface):
         self.key = self.api_settings["voci_key"]
 
 
-    @audio_features_and_support #add audio_attributes to file
+
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, file_name:str, language: str,
-        speakers : int, profanity_filter: bool,
+        self, 
+        file: str, 
+        language: str,
+        speakers : int, 
+        profanity_filter: bool,
         vocabulary: Optional[List[str]],
-        audio_attributes: tuple
+        audio_attributes: tuple,
+        file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
 
         export_format, channels, frame_rate = audio_attributes
@@ -62,10 +66,11 @@ class VociApi(ProviderInterface, AudioInterface):
         #         })
         #     })
 
+        file_ = open(file, "rb")
         response = requests.post(
             url="https://vcloud.vocitec.com/transcribe",
             data= data_config,
-            files=[("file", file)],
+            files=[("file", file_)],
         )
         if response.status_code != 200:
             raise ProviderException(

@@ -21,11 +21,11 @@ def s3_client_load():
     )
 
 
-def upload_file_to_s3(file: BufferedReader, file_name: str):
+def upload_file_to_s3(file_path: str, file_name: str):
     """Upload file to s3"""
     filename = str(uuid4()) + "_" + str(file_name)
     s3_client = s3_client_load()
-    s3_client.upload_fileobj(file, BUCKET, filename)
+    s3_client.upload_file(file_path, BUCKET, filename)
     return get_s3_file_url(filename)
 
 

@@ -15,7 +15,6 @@ from edenai_apis.loaders.data_loader import (
     load_subfeature
 )
 from edenai_apis.tests.conftest import global_features, global_providers, without_async, only_async
-from edenai_apis.utils.audio import audio_features_and_support
 
 
 def _get_feature_subfeature_phase():
