@@ -35,5 +35,6 @@ from .skybiometry import SkybiometryApi
 from .deepai import DeepAIApi
 from .stabilityai import StabilityAIApi
 from .verify import VerifyApi
+from .klippa import KlippaApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
