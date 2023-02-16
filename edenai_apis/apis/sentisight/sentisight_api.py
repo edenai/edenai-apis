@@ -196,13 +196,18 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         return project_id
 
     def image__search__upload_image(
-        self, file: BufferedReader, image_name: str, project_id: str
+        self, 
+        file: str, 
+        image_name: str, 
+        project_id: str,
+        file_url: str= ""
     ) -> ResponseSuccess:
         upload_project_url = (
             "https://platform.sentisight.ai/api/image/"
             + f"{project_id}/{image_name}?preprocess=true"
         )
         # Build the request
+        file_ = open(file, "rb")
         response = requests.post(
             upload_project_url,
             headers={
@@ -210,8 +215,10 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
                 "X-Auth-token": self.key,
                 "Content-Type": "application/octet-stream",
             },
-            data=file,
+            data=file_,
         )
+
+        file_.close()
 
         # Handle response error
         if response.status_code != 200:
@@ -275,12 +282,16 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
 
     def image__search__launch_similarity(
-        self, file: BufferedReader, project_id: str
+        self, 
+        file: str,
+        project_id: str,
+        file_url: str= ""
     ) -> ResponseType[SearchDataClass]:
         search_project_url = (
             "https://platform.sentisight.ai/api/similarity"
             + f"?project={project_id}&limit=10&threshold=0&and=false"
         )
+        file_ = open(file, "rb")
         response = requests.post(
             search_project_url,
             headers={
@@ -288,9 +299,10 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
                 "X-Auth-token": self.key,
                 "Content-Type": "application/octet-stream",
             },
-            data=file,
+            data=file_,
         )
 
+        file_.close()
         # Handle the error
         if response.status_code != 200:
             raise ProviderException(response.text)

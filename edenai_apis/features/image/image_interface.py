@@ -153,7 +153,11 @@ class ImageInterface:
     ## TO DO better response types for image search
     @abstractmethod
     def image__search__upload_image(
-        self, file: BufferedReader, image_name: str, project_id: str
+        self, 
+        file: str, 
+        image_name: str, 
+        project_id: str,
+        file_url: str= ""
     ) -> SearchUploadImageDataClass:
         """
         Upload image for an image search project
@@ -205,7 +209,10 @@ class ImageInterface:
 
     @abstractmethod
     def image__search__launch_similarity(
-        self, file: BufferedReader, project_id: str
+        self, 
+        file: str,
+        project_id: str,
+        file_url: str= ""
     ) -> ResponseType[SearchDataClass]:
         """
         Launch similarity analysis of a search image project
