@@ -6,7 +6,7 @@ from edenai_apis import interface_v2
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
-from edenai_apis.utils.constraints import validate_all_provider_constraints
+from edenai_apis.utils.constraints import transform_file_args, validate_all_provider_constraints
 from edenai_apis.utils.compare import assert_equivalent_dict
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
 from edenai_apis.interface_v2 import (
@@ -207,6 +207,8 @@ def compute_output(
             phase=phase,
         )
 
+        # replace File Wrapper by file and file_url inputs
+        sample_args = transform_file_args(sample_args)
         # Check if the right arguments were sent by checking
         # if they are equivalent to samples arguments
         assert_equivalent_dict(sample_args, args)
