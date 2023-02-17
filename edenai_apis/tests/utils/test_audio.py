@@ -231,7 +231,7 @@ class TestFileWithGoodExtension:
             file_info= FileInfo(
                 123456,
                 "machintruc/txt",
-                ["txt"],
+                [],
                 mediainfo(data_path).get("sample_rate", "44100"),
                 mediainfo(data_path).get("channels", "1")
             )
@@ -247,7 +247,7 @@ class TestFileWithGoodExtension:
             file_info= FileInfo(
                 123456,
                 "machintruc/txt",
-                ["txt"],
+                [],
                 mediainfo(data_path).get("sample_rate", "44100"),
                 mediainfo(data_path).get("channels", "2")
             )
