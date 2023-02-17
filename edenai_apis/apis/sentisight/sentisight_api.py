@@ -41,12 +41,17 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         self.headers = {"X-Auth-token": self.key, "Content-Type": "application/json"}
 
     def ocr__ocr(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= "",
     ) -> ResponseType[OcrDataClass]:
         url = f"{self.base_url}Text-recognition"
 
         if not language:
             raise LanguageException("Language not provided")
+        
+        file_ = open(file, "rb")
         response = requests.post(
             url=add_query_param_in_url(url, {"lang": get_formatted_language(language)}),
             headers={
@@ -54,8 +59,9 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
                 "X-Auth-token": self.key,
                 "Content-Type": "application/octet-stream",
             },
-            data=file,
+            data=file_,
         )
+        file_.close()
         if response.status_code != 200:
             raise ProviderException(response.text)
         response = response.json()

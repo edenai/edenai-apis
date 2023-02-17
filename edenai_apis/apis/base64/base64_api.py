@@ -231,11 +231,13 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         return standardized_response
 
-    def _send_ocr_document(self, file: BufferedReader, model_type: str) -> Dict:
+    def _send_ocr_document(self, file: str, model_type: str) -> Dict:
+        file_ = open(file, "rb")
         image_as_base64 = (
-            f"data:{mimetypes.guess_type(file.name)[0]};base64,"
-            + base64.b64encode(file.read()).decode()
+            f"data:{mimetypes.guess_type(file)[0]};base64,"
+            + base64.b64encode(file_.read()).decode()
         )
+        file_.close()
 
         data = {"modelTypes": [model_type], "image": image_as_base64}
 
@@ -265,28 +267,43 @@ class Base64Api(ProviderInterface, OcrInterface):
         )
         return result
 
-    def ocr__ocr(self, file: BufferedReader, language: str):
+    def ocr__ocr(
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= "",
+    ):
         raise ProviderException(
             message="This provider is deprecated. You won't be charged for your call."
         )
 
     def ocr__invoice_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[InvoiceParserDataClass]:
         return self._ocr_finance_document(file, SubfeatureParser.INVOICE)
 
     def ocr__receipt_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[ReceiptParserDataClass]:
         return self._ocr_finance_document(file, SubfeatureParser.RECEIPT)
 
     def ocr__identity_parser(
-        self,
-        file: BufferedReader,
+        self, 
+        file: str, 
+        file_url: str= ""
     ) -> ResponseType[IdentityParserDataClass]:
+
+        file_ = open(file, "rb")
+        
         image_as_base64 = (
-            f"data:{mimetypes.guess_type(file.name)[0]};base64,"
-            + base64.b64encode(file.read()).decode()
+            f"data:{mimetypes.guess_type(file)[0]};base64,"
+            + base64.b64encode(file_.read()).decode()
         )
 
         payload = json.dumps({
@@ -299,6 +316,8 @@ class Base64Api(ProviderInterface, OcrInterface):
         }
 
         response = requests.post(url=self.url, headers=headers, data=payload)
+
+        file_.close()
 
         original_response = response.json()
         if response.status_code != 200:

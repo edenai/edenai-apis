@@ -27,7 +27,10 @@ from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobRespons
 class OcrInterface:
     @abstractmethod
     def ocr__ocr(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[OcrDataClass]:
         """Optical Character Recognition on a file
 
@@ -39,7 +42,10 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__invoice_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[InvoiceParserDataClass]:
         """Parse an invoice and returned structured data
 
@@ -51,7 +57,11 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__ocr_tables_async__launch_job(
-        self, file: BufferedReader, file_type: str, language: str
+        self, 
+        file: str, 
+        file_type: str, 
+        language: str,
+        file_url: str= ""
     ) -> AsyncLaunchJobResponseType:
         """Launch an asynchronous job to analyze tables in document
         Args:
@@ -86,7 +96,10 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__receipt_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[ReceiptParserDataClass]:
         """Parse a receipt and returned structured data
 
@@ -98,7 +111,9 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__resume_parser(
-        self, file: BufferedReader
+        self, 
+        file: str, 
+        file_url: str= ""
     ) -> ResponseType[ResumeParserDataClass]:
         """Parse a resume and returned structured data
 
@@ -110,8 +125,9 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__identity_parser(
-        self,
-        file: BufferedReader,
+        self, 
+        file: str, 
+        file_url: str= ""
     ) -> ResponseType[IdentityParserDataClass]:
         """Parse a identity document and returned structured data
 
@@ -122,7 +138,10 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__custom_document_parsing_async__launch_job(
-        self, file: BufferedReader, queries: List[Dict[str, Union[str, str]]]
+        self, 
+        file: str, 
+        queries: List[Dict[str, Union[str, str]]],
+        file_url: str= "" 
     ) -> AsyncLaunchJobResponseType:
         """
         Parse a document and extract data according to queries

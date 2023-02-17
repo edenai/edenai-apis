@@ -271,9 +271,16 @@ class Api4aiApi(
         )
         return result
 
-    def ocr__ocr(self, file: BufferedReader, language: str) -> ResponseType[OcrDataClass]:
+    def ocr__ocr(
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= "",
+    ) -> ResponseType[OcrDataClass]:
 
-        response = requests.post(self.urls["ocr"], files={"image": file})
+        file_ = open(file, "rb")
+        response = requests.post(self.urls["ocr"], files={"image": file_})
+        file_.close()
 
         error = get_errors_from_response(response)
         if error is not None:

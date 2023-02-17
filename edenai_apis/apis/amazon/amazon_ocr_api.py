@@ -45,9 +45,13 @@ from .helpers import (
 
 class AmazonOcrApi(OcrInterface):
     def ocr__ocr(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= "",
     ) -> ResponseType[OcrDataClass]:
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         try:
             response = self.clients["textract"].detect_document_text(
@@ -55,7 +59,7 @@ class AmazonOcrApi(OcrInterface):
                     "Bytes": file_content,
                     "S3Object": {
                         "Bucket": self.api_settings["bucket"],
-                        "Name": file.name,
+                        "Name": file,
                     },
                 }
             )
@@ -93,16 +97,22 @@ class AmazonOcrApi(OcrInterface):
         )
 
     def ocr__identity_parser(
-        self, file: BufferedReader
+        self, 
+        file: str, 
+        file_url: str= ""
     ) -> ResponseType[IdentityParserDataClass]:
+
+        file_ = open(file, "rb")
         original_response = self.clients["textract"].analyze_id(
             DocumentPages=[
                 {
-                    "Bytes": file.read(),
+                    "Bytes": file_.read(),
                     "S3Object": {"Bucket": self.api_settings["bucket"], "Name": "test"},
                 }
             ]
         )
+
+        file_.close()
 
         items = []
         for document in original_response["IdentityDocuments"]:
@@ -178,18 +188,24 @@ class AmazonOcrApi(OcrInterface):
         )
 
     def ocr__ocr_tables_async__launch_job(
-        self, file: BufferedReader, file_type: str, language: str
+        self, 
+        file: str, 
+        file_type: str, 
+        language: str,
+        file_url: str= ""
     ) -> AsyncLaunchJobResponseType:
-        file_content = file.read()
+
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         # upload file first
         self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
-            Key=file.name, Body=file_content
+            Key=file, Body=file_content
         )
 
         response = self.clients["textract"].start_document_analysis(
             DocumentLocation={
-                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file.name},
+                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
             },
             FeatureTypes=[
                 "TABLES",
@@ -245,13 +261,17 @@ class AmazonOcrApi(OcrInterface):
         )
 
     def ocr__custom_document_parsing_async__launch_job(
-        self, file: BufferedReader, queries: List[Dict[str, Union[str, str]]],
+        self, 
+        file: str, 
+        queries: List[Dict[str, Union[str, str]]],
+        file_url: str= "" 
     ) -> AsyncLaunchJobResponseType:
 
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
-            Key=file.name, Body=file_content
+            Key=file, Body=file_content
         )
         formatted_queries = [{"Text": query.get("query"), "Pages" : query.get("pages").split(',')} for query in queries]
 
@@ -260,7 +280,7 @@ class AmazonOcrApi(OcrInterface):
                 DocumentLocation={
                     "S3Object": {
                         "Bucket": self.api_settings["bucket"],
-                        "Name": file.name,
+                        "Name": file,
                     },
                 },
                 FeatureTypes=["QUERIES"],
@@ -314,17 +334,22 @@ class AmazonOcrApi(OcrInterface):
         )
 
     def ocr__invoice_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[InvoiceParserDataClass]:
-        file_content = file.read()
+
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
-            Key=file.name, Body=file_content
+            Key=file, Body=file_content
         )
 
         response = self.clients["textract"].analyze_expense(
             Document={
-                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file.name},
+                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
             }
         )
 

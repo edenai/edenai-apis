@@ -46,14 +46,18 @@ class ClarifaiApi(
         self.object_detection_code = self.api_settings["object_detection_code"]
 
     def ocr__ocr(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= "",
     ) -> ResponseType[OcrDataClass]:
 
         if not language:
             raise LanguageException("Language not provided")
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         metadata = (("authorization", self.key),)
         user_data_object = resources_pb2.UserAppIDSet(

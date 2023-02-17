@@ -41,9 +41,16 @@ class AffindaApi(ProviderInterface, OcrInterface):
         self.client = AffindaAPI(credential=credentials)
 
     def ocr__resume_parser(
-        self, file: BufferedReader
+        self, 
+        file: str, 
+        file_url: str= ""
     ) -> ResponseType[ResumeParserDataClass]:
-        original_response = self.client.create_resume(file=file).as_dict()
+        if file_url:
+            original_response = self.client.create_resume(url=file_url).as_dict()
+        else:
+            file_ = open(file, "rb")
+            original_response = self.client.create_resume(file=file_).as_dict()
+            file_.close()
 
         if "detail" in original_response:
             raise ProviderException(original_response["detail"])
@@ -175,10 +182,18 @@ class AffindaApi(ProviderInterface, OcrInterface):
         return result
 
     def ocr__invoice_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[InvoiceParserDataClass]:
 
-        original_response = self.client.create_invoice(file=file).as_dict()
+        if file_url:
+            original_response = self.client.create_resume(url=file_url).as_dict()
+        else:
+            file_ = open(file, "rb")
+            original_response = self.client.create_resume(file=file_).as_dict()
+            file_.close()
 
         if "detail" in original_response:
             raise ProviderException(original_response["detail"])
