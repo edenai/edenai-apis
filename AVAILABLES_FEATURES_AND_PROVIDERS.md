@@ -89,6 +89,7 @@
 | | sentisight |
 | **anonymization** | api4ai |
 | **logo_detection** | api4ai |
+| | clarifai |
 | | google |
 | | microsoft |
 | | smartclick |
@@ -277,6 +278,7 @@
 |----------|-------------|
 | **image** | explicit_content |
 | | face_detection |
+| | logo_detection |
 | | object_detection |
 | **ocr** | ocr |
 
