@@ -5,6 +5,7 @@ from clarifai_grpc.grpc.api import resources_pb2, service_pb2, service_pb2_grpc
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
 from clarifai_grpc.grpc.api.status import status_code_pb2
 from collections import defaultdict
+from PIL import Image as Img
 from edenai_apis.features.image.object_detection.object_detection_dataclass import (
     ObjectItem,
 )
@@ -16,6 +17,10 @@ from edenai_apis.features.image import (
     FaceBoundingBox,
     FaceItem,
     ObjectDetectionDataClass,
+    LogoDetectionDataClass,
+    LogoItem,
+    LogoBoundingPoly,
+    LogoVertice
 )
 from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -280,4 +285,66 @@ class ClarifaiApi(
             return ResponseType[ObjectDetectionDataClass](
                 original_response=original_response,
                 standardized_response=ObjectDetectionDataClass(items=items),
+            )
+
+    def image__logo_detection(
+        self, file: BufferedReader
+    ) -> ResponseType[LogoDetectionDataClass]:
+        channel = ClarifaiChannel.get_grpc_channel()
+        stub = service_pb2_grpc.V2Stub(channel)
+
+        file_content = file.read()
+        width, height = Img.open(file).size
+
+        metadata = (("authorization", self.key),)
+        user_data_object = resources_pb2.UserAppIDSet(
+            user_id=self.user_id, app_id=self.app_id
+        )
+        model_id = "logos-yolov5"
+        post_model_outputs_response = stub.PostModelOutputs(
+            service_pb2.PostModelOutputsRequest(
+                # The user_data_object is created in the overview and is required when using a PAT
+                user_app_id=user_data_object,
+                model_id=model_id,
+                inputs=[
+                    resources_pb2.Input(
+                        data=resources_pb2.Data(
+                            image=resources_pb2.Image(base64=file_content)
+                        )
+                    )
+                ],
+            ),
+            metadata=metadata,
+        )
+    
+
+        if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
+            raise ProviderException("Error calling Clarifai API")
+
+        else:
+            response = MessageToDict(
+                post_model_outputs_response, preserving_proto_field_name=True
+            )
+            original_response = response["outputs"][0]["data"]
+            items: Sequence[LogoItem] = []
+            regions = original_response.get("regions")
+            if regions:
+                for region in regions:
+                    rect = region["region_info"]["bounding_box"]
+                    vertices = []
+                    vertices.append(LogoVertice(x=rect.get("left_col") * width, y=rect.get("top_row") * height))
+                    vertices.append(LogoVertice(x=rect.get("right_col") * width , y=rect.get("top_row") * height))
+                    vertices.append(LogoVertice(x=rect.get("right_col") * width , y=rect.get("bottom_row") * height ))
+                    vertices.append(LogoVertice(x=rect.get("left_col") * width, y=rect.get("bottom_row") * height))
+                    items.append(
+                        LogoItem(
+                            description = region['data']['concepts'][0]['name'],
+                            score = region['data']['concepts'][0]['value'],
+                            bounding_poly=LogoBoundingPoly(vertices=vertices)
+                        )
+                    )
+            
+            return ResponseType[LogoDetectionDataClass](
+                original_response=original_response,
+                standardized_response=LogoDetectionDataClass(items=items),
             )

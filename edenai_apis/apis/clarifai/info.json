@@ -32,6 +32,9 @@
         },
         "object_detection": {
             "version": "8.0.0"
+        },
+        "logo_detection":{
+            "version" : "8.0.0"
         }
     }
 }

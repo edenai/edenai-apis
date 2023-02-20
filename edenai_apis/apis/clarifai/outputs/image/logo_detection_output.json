@@ -1,0 +1,102 @@
+{
+  "original_response": {
+    "regions": [
+      {
+        "id": "f81abd8a3af0a262b727c8e43c17acfa",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.16638272,
+            "left_col": 0.23543556,
+            "bottom_row": 0.55358154,
+            "right_col": 0.42150378
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_kQnRp8zK",
+              "name": "Apple",
+              "value": 0.86659974,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.86659974
+      },
+      {
+        "id": "97dd2568a3107684dab14ed508ab9dcf",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.22703096,
+            "left_col": 0.08523726,
+            "bottom_row": 0.5559068,
+            "right_col": 0.2356551
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_C3QX91q4",
+              "name": "facebook",
+              "value": 0.5745686,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.5745686
+      }
+    ]
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "bounding_poly": {
+          "vertices": [
+            {
+              "x": 301.3575168,
+              "y": 119.7955584
+            },
+            {
+              "x": 539.5248384,
+              "y": 119.7955584
+            },
+            {
+              "x": 539.5248384,
+              "y": 398.5787088
+            },
+            {
+              "x": 301.3575168,
+              "y": 398.5787088
+            }
+          ]
+        },
+        "description": "Apple",
+        "score": 0.86659974
+      },
+      {
+        "bounding_poly": {
+          "vertices": [
+            {
+              "x": 109.10369279999999,
+              "y": 163.4622912
+            },
+            {
+              "x": 301.638528,
+              "y": 163.4622912
+            },
+            {
+              "x": 301.638528,
+              "y": 400.252896
+            },
+            {
+              "x": 109.10369279999999,
+              "y": 400.252896
+            }
+          ]
+        },
+        "description": "facebook",
+        "score": 0.5745686
+      }
+    ]
+  }
+}
