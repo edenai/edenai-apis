@@ -159,12 +159,17 @@ class Api4aiApi(
         return result
 
     def image__anonymization(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str=""
     ) -> ResponseType[AnonymizationDataClass]:
-        files = {"image": file}
+        file_ = open(file, "rb")
+        files = {"image": file_}
         response = requests.post(self.urls["anonymization"], files=files)
 
         original_response = response.json()
+
+        file_.close()
 
         if 'failure' in original_response['results'][0]['status']['code']:
             raise ProviderException(original_response['results'][0]['status']['message'])

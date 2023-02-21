@@ -47,10 +47,15 @@ class KlippaApi(ProviderInterface, OcrInterface):
 
     def ocr__invoice_parser(
         self,
-        file: BufferedReader,
-        language: str
+        file: str,
+        language: str,
+        file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
-        original_response = self._make_post_request(file)
+
+        file_ = open(file, "rb")
+        original_response = self._make_post_request(file_)
+
+        file_.close()
 
         data_response = original_response["data"]
         customer_information = CustomerInformationInvoice(
@@ -123,10 +128,15 @@ class KlippaApi(ProviderInterface, OcrInterface):
 
     def ocr__receipt_parser(
         self,
-        file: BufferedReader,
-        language: str
+        file: str,
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[ReceiptParserDataClass]:
-        original_response = self._make_post_request(file)
+
+        file_ = open(file, "rb")
+        original_response = self._make_post_request(file_)
+
+        file_.close()
 
         data_response = original_response["data"]
         customer_information = CustomerInformation(

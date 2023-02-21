@@ -352,7 +352,7 @@ class AmazonOcrApi(OcrInterface):
         try:
             launch_job_response = self.clients["textract"].start_expense_analysis(
                 DocumentLocation={
-                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file.name},
+                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
                 }
             )
         except Exception as amazon_call_exception:

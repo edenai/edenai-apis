@@ -309,8 +309,15 @@ class RossumApi(ProviderInterface, OcrInterface):
         return InvoiceParserDataClass(extracted_data=extracted_data)
 
 
-    def ocr__invoice_parser(self, file: BufferedReader, language: str) -> ResponseType[InvoiceParserDataClass]:
-        _, annotation_endpoint = self._upload(file)
+    def ocr__invoice_parser(
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
+    ) -> ResponseType[InvoiceParserDataClass]:
+
+        file_ = open(file, "rb")
+        _, annotation_endpoint = self._upload(file_)
         id, status = self._get_status_and_id(annotation_endpoint)
         while status != 'to_review':
             sleep(1)
@@ -318,6 +325,7 @@ class RossumApi(ProviderInterface, OcrInterface):
             if status == 'failed_import':
                 raise ProviderException("Invalid file, please check the file format.")
 
+        file_.close()
         original_response = self._download_reviewing_data(id)
         standardized_response = self._invoice_standardization(original_response)
 

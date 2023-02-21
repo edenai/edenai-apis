@@ -302,12 +302,15 @@ class ClarifaiApi(
             )
 
     def image__logo_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url :str = ""
     ) -> ResponseType[LogoDetectionDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
 
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
         width, height = Img.open(file).size
 
         metadata = (("authorization", self.key),)
