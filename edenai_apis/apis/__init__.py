@@ -36,5 +36,6 @@ from .deepai import DeepAIApi
 from .stabilityai import StabilityAIApi
 from .verify import VerifyApi
 from .klippa import KlippaApi
+from .rossum import RossumApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
