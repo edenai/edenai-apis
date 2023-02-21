@@ -6,7 +6,15 @@ from typing import Dict, List, Optional, TypeVar, Sequence, Union
 from pathlib import Path
 import requests
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import CustomDocumentParsingAsyncBoundingBox, CustomDocumentParsingAsyncDataClass, CustomDocumentParsingAsyncItem
-from edenai_apis.features.text.custom_named_entity_recognition.custom_named_entity_recognition_dataclass import CustomNamedEntityRecognitionDataClass
+from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
+    InvoiceParserDataClass,
+    InfosInvoiceParserDataClass,
+    TaxesInvoice,
+    LocaleInvoice,
+    ItemLinesInvoice,
+    MerchantInformationInvoice,
+    CustomerInformationInvoice,
+    )
 from trp import Document
 
 from edenai_apis.features.ocr import (
@@ -29,6 +37,7 @@ from edenai_apis.utils.types import (
 )
 
 from .config import clients, storage_clients
+from edenai_apis.utils.conversion import convert_string_to_number
 
 
 def check_webhook_result(job_id: str, api_settings: dict) -> Dict:
@@ -237,3 +246,110 @@ def query_answer_result(page :List[dict], identifier: str):
             if first_relation_id == identifier:
                 return query["Query"]["Text"]
     return None
+
+def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass:
+    extracted_data = []
+    for page in pages:
+        for invoice in page["ExpenseDocuments"]:
+        
+            # format response to be more easily parsable
+            summary = {}
+            currencies = {}
+            for field in invoice["SummaryFields"]:
+                field_type = field["Type"]["Text"]
+                summary[field_type] = field["ValueDetection"]["Text"]
+                field_currency = field.get("Currency", {}).get("Code")
+                if field_currency is not None:
+                    if field_currency not in currencies:
+                        currencies[field_currency] = 1
+                    else:
+                        currencies[field_currency] += 1
+
+            item_lines = []
+            for line_item_group in invoice["LineItemGroups"]:
+                for fields in line_item_group["LineItems"]:
+                    parsed_items = {
+                        item["Type"]["Text"]: item["ValueDetection"]["Text"]
+                        for item in fields["LineItemExpenseFields"]
+                    }
+                    item_lines.append(
+                        ItemLinesInvoice(
+                            description=parsed_items.get("ITEM"),
+                            quantity=convert_string_to_number(parsed_items.get("QUANTITY"), int),
+                            amount=convert_string_to_number(
+                                parsed_items.get("PRICE"), float
+                            ),
+                            unit_price=convert_string_to_number(
+                                parsed_items.get("UNIT_PRICE"), float
+                            ),
+                            discount=None,
+                            product_code=parsed_items.get("PRODUCT_CODE"),
+                            date_item=None,
+                            tax_item=None,
+                        )
+                    )
+
+            customer = CustomerInformationInvoice(
+                customer_name=summary.get("RECEIVER_NAME", summary.get("NAME")),
+                customer_address=summary.get(
+                    "RECEIVER_ADDRESS", summary.get("ADDRESS")
+                ),
+                customer_email=None,
+                customer_number=summary.get("CUSTOMER_NUMBER"),
+                customer_tax_id=None,
+                customer_mailing_address=None,
+                customer_billing_address=None,
+                customer_shipping_address=None,
+                customer_service_address=None,
+                customer_remittance_address=None,
+            )
+
+            merchant = MerchantInformationInvoice(
+                merchant_name=summary.get("VENDOR_NAME"),
+                merchant_address=summary.get("VENDOR_ADDRESS"),
+                merchant_phone=summary.get("VENDOR_PHONE"),
+                merchant_email=None,
+                merchant_fax=None,
+                merchant_website=summary.get("VENDOR_URL"),
+                merchant_tax_id=summary.get("TAX_PAYER_ID"),
+                merchant_siret=None,
+                merchant_siren=None,
+            )
+
+            invoice_currency = None
+            if len(currencies) == 1:
+                invoice_currency = list(currencies.keys())[0]
+            # HACK in case multiple currencies are returned,
+            # we get the one who appeared the most
+            elif len(currencies) > 1:
+                invoice_currency = max(currencies, key=currencies.get)
+            locale = LocaleInvoice(currency=invoice_currency, invoice_language=None)
+
+            taxes = [
+                TaxesInvoice(value=convert_string_to_number(summary.get("TAX"), float))
+            ]
+
+            invoice_infos = InfosInvoiceParserDataClass(
+                customer_information=customer,
+                merchant_information=merchant,
+                invoice_number=summary.get("INVOICE_RECEIPT_ID"),
+                invoice_total=convert_string_to_number(summary.get("TOTAL"), float),
+                invoice_subtotal=convert_string_to_number(
+                    summary.get("SUBTOTAL"), float
+                ),
+                amount_due=convert_string_to_number(summary.get("AMOUNT_DUE"), float),
+                previous_unpaid_balance=summary.get("PRIOR_BALANCE"),
+                discount=convert_string_to_number(summary.get("DISCOUNT"), float),
+                taxes=taxes,
+                payment_term=summary.get("PAYMENT_TERMS"),
+                purchase_order=None,
+                date=summary.get("ORDER_DATE", summary.get("INVOICE_RECEIPT_DATE")),
+                due_date=summary.get("DUE_DATE"),
+                service_date=None,
+                service_due_date=None,
+                locale=locale,
+                bank_information=None,
+                item_lines=item_lines,
+            )
+            extracted_data.append(invoice_infos)
+    return InvoiceParserDataClass(extracted_data=extracted_data)

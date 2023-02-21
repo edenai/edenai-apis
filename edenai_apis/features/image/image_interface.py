@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from io import BufferedReader
-from typing import List
+from typing import List, Literal
 
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
@@ -312,7 +312,10 @@ class ImageInterface:
 
     @abstractmethod
     def image__generation(
-        self, text: str, num_images : int = 1, width : int = 512, height : int = 512
+        self,
+        text: str,
+        size: Literal["256x256", "512x512","1024x1024"], 
+        num_images : int = 1
     ) -> ResponseType[GenerationDataClass]:
         """
         Generate an image based on a text prompt.

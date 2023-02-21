@@ -64,7 +64,8 @@
           "discount": null,
           "product_code": null,
           "date_item": null,
-          "tax_item": null
+          "tax_item": null,
+          "tax_rate": null
         },
         {
           "description": "Your item Name Item description goes here",
@@ -74,7 +75,8 @@
           "discount": null,
           "product_code": null,
           "date_item": null,
-          "tax_item": null
+          "tax_item": null,
+          "tax_rate": null
         },
         {
           "description": "Your item Name Item description goes here",
@@ -84,7 +86,8 @@
           "discount": null,
           "product_code": null,
           "date_item": null,
-          "tax_item": null
+          "tax_item": null,
+          "tax_rate": null
         },
         {
           "description": "Your item Name Item description goes here",
@@ -94,7 +97,8 @@
           "discount": null,
           "product_code": null,
           "date_item": null,
-          "tax_item": null
+          "tax_item": null,
+          "tax_rate": null
         }
       ]
     }

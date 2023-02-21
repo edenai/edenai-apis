@@ -8,8 +8,11 @@
 | | base64 |
 | | dataleon |
 | | google |
+| | klippa |
 | | microsoft |
 | | mindee |
+| | rossum |
+| | verify |
 | **resume_parser** | affinda |
 | | hireability |
 | **custom_document_parsing_async** | amazon |
@@ -30,9 +33,11 @@
 | **receipt_parser** | base64 |
 | | dataleon |
 | | google |
+| | klippa |
 | | microsoft |
 | | mindee |
 | | tabscanner |
+| | verify |
 
 </details>
 <details><summary>audio</summary>
@@ -85,6 +90,7 @@
 | | sentisight |
 | **anonymization** | api4ai |
 | **logo_detection** | api4ai |
+| | clarifai |
 | | google |
 | | microsoft |
 | | smartclick |
@@ -273,6 +279,7 @@
 |----------|-------------|
 | **image** | explicit_content |
 | | face_detection |
+| | logo_detection |
 | | object_detection |
 | **ocr** | ocr |
 
@@ -394,6 +401,14 @@
 | | topic_extraction |
 | **translation** | automatic_translation |
 | | language_detection |
+
+</details>
+<details><summary>klippa</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **ocr** | invoice_parser |
+| | receipt_parser |
 
 </details>
 <details><summary>lettria</summary>
@@ -521,6 +536,13 @@
 | **audio** | speech_to_text_async |
 
 </details>
+<details><summary>rossum</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **ocr** | invoice_parser |
+
+</details>
 <details><summary>sentisight</summary>
 
 | Features | Subfeatures |
@@ -564,6 +586,14 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **ocr** | receipt_parser |
+
+</details>
+<details><summary>verify</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **ocr** | invoice_parser |
+| | receipt_parser |
 
 </details>
 <details><summary>voci</summary>

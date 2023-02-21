@@ -1,4 +1,4 @@
-from typing import List, Optional, Sequence
+from typing import List, Optional, Sequence, Literal
 import requests
 import numpy as np
 import json
@@ -548,10 +548,11 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
             standardized_response=CustomClassificationDataClass(classifications=classifications))
         
     def image__generation(
-        self, text: str, num_images : int = 1, width : int = 512, height : int = 512
+        self, text: str,
+        size: Literal["256x256", "512x512","1024x1024"],
+        num_images : int = 1,
     ) -> ResponseType[ImageGenerationDataClass]:
         url = f"{self.url}/images/generations"
-        size = f"{width}x{height}"
         payload = {
             "prompt" : text,
             "n" : num_images,
