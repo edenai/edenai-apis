@@ -182,7 +182,8 @@ class MicrosoftOcrApi(OcrInterface):
             for item in fields.get("Items", default_dict).get("value", []):
                 description = item["value"].get("Name", default_dict).get("value")
                 price = item["value"].get("Price", default_dict).get("value")
-                quantity = int(item["value"].get("Quantity", default_dict).get("value"))
+                quantity_str = item["value"].get("Quantity", default_dict).get("value")
+                quantity = int(quantity_str) if quantity_str else None
                 total = item["value"].get("TotalPrice", default_dict).get("value")
                 items.append(
                     ItemLines(
