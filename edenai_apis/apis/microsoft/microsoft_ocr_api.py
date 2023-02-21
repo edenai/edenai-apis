@@ -426,7 +426,10 @@ class MicrosoftOcrApi(OcrInterface):
                     ocr_table = Table(rows=rows, num_cols=num_cols, num_rows=num_rows)
                     tables.append(ocr_table)
                     ocr_page = Page(tables=tables)
-                pages.append(ocr_page)
+                try:
+                    pages.append(ocr_page)
+                except UnboundLocalError:
+                    raise ProviderException("No table found in the document.")
                 standardized_response = OcrTablesAsyncDataClass(
                     pages=pages, num_pages=num_pages
                 )

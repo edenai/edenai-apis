@@ -60,6 +60,10 @@ class GoogleOcrApi(OcrInterface):
             width, height = Img.open(file).size
         elif mimetype == "application/pdf":
             width, height = get_pdf_width_height(file)
+        else:
+            raise ProviderException(
+                "File type not supported by Google OCR API. Supported types are: image/* and application/pdf"
+            )
 
         messages_list = []
         boxes: Sequence[Bounding_box] = []
