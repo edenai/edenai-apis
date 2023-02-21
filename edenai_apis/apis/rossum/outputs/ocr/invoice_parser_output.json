@@ -1,0 +1,679 @@
+{
+  "original_response": {
+    "pagination": {
+      "total": 1,
+      "total_pages": 1,
+      "next": null,
+      "previous": null
+    },
+    "results": [
+      {
+        "url": "https://elis.rossum.ai/api/v1/annotations/27556599",
+        "status": "to_review",
+        "arrived_at": "2023-02-21T14:36:53.046608Z",
+        "exported_at": null,
+        "document": {
+          "url": "https://elis.rossum.ai/api/v1/documents/29269443",
+          "file_name": "invoice.png",
+          "file": "https://elis.rossum.ai/api/v1/documents/29269443/content"
+        },
+        "modifier": null,
+        "schema": {
+          "url": "https://elis.rossum.ai/api/v1/schemas/3419642"
+        },
+        "metadata": {},
+        "content": [
+          {
+            "category": "section",
+            "schema_id": "invoice_info_section",
+            "children": [
+              {
+                "category": "datapoint",
+                "schema_id": "document_type",
+                "rir_confidence": 0.9606021483535508,
+                "value": "tax_invoice",
+                "type": "enum"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "language",
+                "rir_confidence": 0.9686048975116014,
+                "value": "eng",
+                "type": "enum"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "document_id",
+                "rir_confidence": 0.9195488069523884,
+                "value": "000000",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "order_id",
+                "rir_confidence": 0.9663755939343275,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "customer_id",
+                "rir_confidence": 0.9366328197898091,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "date_issue",
+                "rir_confidence": 0.959228879219581,
+                "value": "2014-07-10",
+                "type": "date"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "date_due",
+                "rir_confidence": 0.9769079547007522,
+                "value": "",
+                "type": "date"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "date_uzp",
+                "rir_confidence": 0.9848033705999009,
+                "value": "",
+                "type": "date"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "sender_order_id",
+                "rir_confidence": 0.9911924297907186,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "delivery_note_id",
+                "rir_confidence": 0.97595440359283,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "supply_place",
+                "rir_confidence": 0.9980457090403682,
+                "value": "",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "category": "section",
+            "schema_id": "payment_info_section",
+            "children": [
+              {
+                "category": "datapoint",
+                "schema_id": "account_num",
+                "rir_confidence": 0.9560898185474547,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "bank_num",
+                "rir_confidence": 0.9772295194892414,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "iban",
+                "rir_confidence": 0.9828859075316536,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "bic",
+                "rir_confidence": 0.9777346387438125,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "terms",
+                "rir_confidence": 0.9629066710126312,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "const_sym",
+                "rir_confidence": 0.9966272079516728,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "var_sym",
+                "rir_confidence": 0.9891846150342352,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "spec_sym",
+                "rir_confidence": 0.9989065471440312,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "payment_method",
+                "rir_confidence": 0.977920629031086,
+                "value": "",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "category": "section",
+            "schema_id": "amounts_section",
+            "children": [
+              {
+                "category": "datapoint",
+                "schema_id": "amount_total",
+                "rir_confidence": 0.9663768559313637,
+                "value": "4520.00",
+                "type": "number"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "amount_due",
+                "rir_confidence": 0.9626340719853146,
+                "value": "4520.00",
+                "type": "number"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "amount_total_base",
+                "rir_confidence": 0.9487458827472726,
+                "value": "4000.00",
+                "type": "number"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "amount_total_tax",
+                "rir_confidence": 0.970477293057346,
+                "value": "520.00",
+                "type": "number"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "amount_rounding",
+                "rir_confidence": 0.991754010584832,
+                "value": "",
+                "type": "number"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "amount_paid",
+                "rir_confidence": 0.9863196889691246,
+                "value": "",
+                "type": "number"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "currency",
+                "rir_confidence": 0.9417849772078292,
+                "value": "usd",
+                "type": "enum"
+              },
+              {
+                "category": "multivalue",
+                "schema_id": "tax_details",
+                "children": [
+                  {
+                    "category": "tuple",
+                    "schema_id": "tax_detail",
+                    "children": [
+                      {
+                        "category": "datapoint",
+                        "schema_id": "tax_detail_rate",
+                        "rir_confidence": null,
+                        "value": "",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "tax_detail_base",
+                        "rir_confidence": 0.8919372489533708,
+                        "value": "4000.00",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "tax_detail_tax",
+                        "rir_confidence": 0.8866409463575907,
+                        "value": "520.00",
+                        "type": "number"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "section",
+            "schema_id": "vendor_section",
+            "children": [
+              {
+                "category": "datapoint",
+                "schema_id": "sender_name",
+                "rir_confidence": 0.49070655992987006,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "sender_address",
+                "rir_confidence": 0.22993251116768068,
+                "value": "City, State, Country\nZIP CODE",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "sender_ic",
+                "rir_confidence": 0.9722425602439781,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "sender_vat_id",
+                "rir_confidence": 0.9743729186142447,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "sender_email",
+                "rir_confidence": 0.9583596442951109,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "recipient_name",
+                "rir_confidence": 0.8261278699901875,
+                "value": "Client Name",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "recipient_address",
+                "rir_confidence": 0.5058584134063109,
+                "value": "1 Client Address\nCity, State, Country\nZIP CODE",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "recipient_ic",
+                "rir_confidence": 0.9902948072002337,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "recipient_vat_id",
+                "rir_confidence": 0.9770480247512243,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "recipient_delivery_name",
+                "rir_confidence": 0.9455003656807337,
+                "value": "",
+                "type": "string"
+              },
+              {
+                "category": "datapoint",
+                "schema_id": "recipient_delivery_address",
+                "rir_confidence": 0.9270084829974929,
+                "value": "",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "category": "section",
+            "schema_id": "other_section",
+            "children": [
+              {
+                "category": "datapoint",
+                "schema_id": "notes",
+                "rir_confidence": null,
+                "value": "",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "category": "section",
+            "schema_id": "line_items_section",
+            "children": [
+              {
+                "category": "multivalue",
+                "schema_id": "line_items",
+                "children": [
+                  {
+                    "category": "tuple",
+                    "schema_id": "line_item",
+                    "children": [
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_description",
+                        "rir_confidence": 0.7938488077428459,
+                        "value": "Your item Name\nitem descnption goes here",
+                        "type": "string"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_quantity",
+                        "rir_confidence": 0.8757271091635541,
+                        "value": "1",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_amount_base",
+                        "rir_confidence": null,
+                        "value": "",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_amount",
+                        "rir_confidence": 0.8173972973045088,
+                        "value": "1000",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_total_base",
+                        "rir_confidence": null,
+                        "value": "",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_amount_total",
+                        "rir_confidence": 0.9425891112904163,
+                        "value": "1000",
+                        "type": "number"
+                      }
+                    ]
+                  },
+                  {
+                    "category": "tuple",
+                    "schema_id": "line_item",
+                    "children": [
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_description",
+                        "rir_confidence": 0.8140170239384583,
+                        "value": "Your item Name\nItem description goes here",
+                        "type": "string"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_quantity",
+                        "rir_confidence": 0.8728136972025878,
+                        "value": "1",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_amount_base",
+                        "rir_confidence": null,
+                        "value": "",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_amount",
+                        "rir_confidence": 0.9595457638906782,
+                        "value": "1000",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_total_base",
+                        "rir_confidence": null,
+                        "value": "",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_amount_total",
+                        "rir_confidence": 0.9287418964194565,
+                        "value": "1000",
+                        "type": "number"
+                      }
+                    ]
+                  },
+                  {
+                    "category": "tuple",
+                    "schema_id": "line_item",
+                    "children": [
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_description",
+                        "rir_confidence": 0.7995313865899436,
+                        "value": "Your item Name\nItem description goes here",
+                        "type": "string"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_quantity",
+                        "rir_confidence": 0.8704975421022243,
+                        "value": "1",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_amount_base",
+                        "rir_confidence": null,
+                        "value": "",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_amount",
+                        "rir_confidence": 0.9590328946886691,
+                        "value": "1000",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_total_base",
+                        "rir_confidence": null,
+                        "value": "",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_amount_total",
+                        "rir_confidence": 0.9202178732634855,
+                        "value": "1000",
+                        "type": "number"
+                      }
+                    ]
+                  },
+                  {
+                    "category": "tuple",
+                    "schema_id": "line_item",
+                    "children": [
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_description",
+                        "rir_confidence": 0.8446536591064333,
+                        "value": "Your item Name\nItem description goes here",
+                        "type": "string"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_quantity",
+                        "rir_confidence": 0.8728136989153245,
+                        "value": "1",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_amount_base",
+                        "rir_confidence": null,
+                        "value": "",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_amount",
+                        "rir_confidence": 0.9255384504833227,
+                        "value": "1000",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_total_base",
+                        "rir_confidence": null,
+                        "value": "",
+                        "type": "number"
+                      },
+                      {
+                        "category": "datapoint",
+                        "schema_id": "item_amount_total",
+                        "rir_confidence": 0.9166917236872514,
+                        "value": "1000",
+                        "type": "number"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "automated": false,
+        "modified_at": null,
+        "assigned_at": null
+      }
+    ]
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "customer_information": {
+          "customer_name": "Client Name",
+          "customer_address": "1 Client Address\nCity, State, Country\nZIP CODE",
+          "customer_email": null,
+          "customer_id": "",
+          "customer_tax_id": null,
+          "customer_mailing_address": null,
+          "customer_billing_address": null,
+          "customer_shipping_address": "",
+          "customer_service_address": null,
+          "customer_remittance_address": null
+        },
+        "merchant_information": {
+          "merchant_name": "",
+          "merchant_address": "City, State, Country\nZIP CODE",
+          "merchant_phone": null,
+          "merchant_email": "",
+          "merchant_fax": null,
+          "merchant_website": null,
+          "merchant_tax_id": "",
+          "merchant_siret": null,
+          "merchant_siren": null
+        },
+        "invoice_number": "",
+        "invoice_total": 4520.0,
+        "invoice_subtotal": null,
+        "amount_due": 4520.0,
+        "previous_unpaid_balance": null,
+        "discount": null,
+        "taxes": [
+          {
+            "value": null,
+            "rate": null
+          }
+        ],
+        "payment_term": null,
+        "purchase_order": null,
+        "date": null,
+        "due_date": null,
+        "service_date": null,
+        "service_due_date": null,
+        "locale": {
+          "currency": "usd",
+          "language": "eng"
+        },
+        "bank_informations": {
+          "account_number": "",
+          "iban": "",
+          "bsb": null,
+          "sort_code": null,
+          "vat_number": null,
+          "rooting_number": null,
+          "swift": null
+        },
+        "item_lines": [
+          {
+            "description": null,
+            "quantity": null,
+            "amount": null,
+            "unit_price": null,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null,
+            "tax_rate": null
+          },
+          {
+            "description": null,
+            "quantity": null,
+            "amount": null,
+            "unit_price": null,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null,
+            "tax_rate": null
+          },
+          {
+            "description": null,
+            "quantity": null,
+            "amount": null,
+            "unit_price": null,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null,
+            "tax_rate": null
+          },
+          {
+            "description": null,
+            "quantity": null,
+            "amount": null,
+            "unit_price": null,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null,
+            "tax_rate": null
+          }
+        ]
+      }
+    ]
+  }
+}
