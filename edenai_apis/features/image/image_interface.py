@@ -291,7 +291,7 @@ class ImageInterface:
     def image__generation(
         self,
         text: str,
-        size: Literal["256x256", "512x512","1024x1024"], 
+        resolution: Literal["256x256", "512x512","1024x1024"], 
         num_images : int = 1
     ) -> ResponseType[GenerationDataClass]:
         """

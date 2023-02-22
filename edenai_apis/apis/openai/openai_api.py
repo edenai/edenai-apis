@@ -549,14 +549,14 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
         
     def image__generation(
         self, text: str,
-        size: Literal["256x256", "512x512","1024x1024"],
+        resolution: Literal["256x256", "512x512","1024x1024"],
         num_images : int = 1,
     ) -> ResponseType[ImageGenerationDataClass]:
         url = f"{self.url}/images/generations"
         payload = {
             "prompt" : text,
             "n" : num_images,
-            "size" : size,
+            "size" : resolution,
             "response_format" : "b64_json"
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()

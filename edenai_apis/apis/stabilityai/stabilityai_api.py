@@ -25,11 +25,11 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
     def image__generation(
         self,
         text: str,
-        size: Literal["256x256", "512x512","1024x1024"],
+        resolution: Literal["256x256", "512x512","1024x1024"],
         num_images: int = 1
         ) -> ResponseType[GenerationDataClass]:
         url = "https://api.stability.ai/v1beta/generation/stable-diffusion-512-v2-0/text-to-image"
-        size = size.split("x")
+        size = resolution.split("x")
         payload = {
         "text_prompts": [
             {

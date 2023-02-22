@@ -24,11 +24,11 @@ class DeepAIApi(ProviderInterface, ImageInterface):
     def image__generation(
         self,
         text: str,
-        size : Literal["256x256", "512x512","1024x1024"],
+        resolution : Literal["256x256", "512x512","1024x1024"],
         num_images: int = 1) -> ResponseType[GenerationDataClass]:
         url = 'https://api.deepai.org/api/text2img'
         try:
-            size = size.split("x")
+            size = resolution.split("x")
             payload = {
                 'text' : text,
                 'grid_size': '1',
