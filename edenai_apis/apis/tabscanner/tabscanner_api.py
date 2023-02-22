@@ -46,11 +46,17 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         return response
 
     def ocr__receipt_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[ReceiptParserDataClass]:
-        token = self._process(file, "receipt")
+
+        file_ = open(file, "rb")
+        token = self._process(file_, "receipt")
         sleep(1)
         original_response = self._get_response(token)
+        file_.close()
 
         if "result" not in original_response:
             raise ProviderException(original_response["message"])

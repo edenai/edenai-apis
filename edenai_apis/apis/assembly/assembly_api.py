@@ -1,4 +1,5 @@
 from io import BufferedReader
+from pathlib import Path
 from typing import List, Optional
 import requests
 from time import time
@@ -17,9 +18,9 @@ from edenai_apis.utils.types import (
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 
 from apis.amazon.config import storage_clients
+from edenai_apis.utils.upload_s3 import upload_file_to_s3
 from .helper import language_matches
 
 class AssemblyApi(ProviderInterface, AudioInterface):
@@ -38,28 +39,33 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         self.api_settings_amazon = load_provider(ProviderDataEnum.KEY, "amazon")
 
 
-    @audio_features_and_support #add audio_attributes to file
-    def audio__speech_to_text_async__launch_job(self, file: BufferedReader, file_name:str,
-        language: str, speakers: int, profanity_filter: bool, vocabulary: Optional[List[str]],
-        audio_attributes: tuple
+    def audio__speech_to_text_async__launch_job(
+        self, 
+        file: str,
+        language: str, 
+        speakers: int, 
+        profanity_filter: bool, 
+        vocabulary: Optional[List[str]],
+        audio_attributes: tuple,
+        file_url: str = "",
         ) -> AsyncLaunchJobResponseType:
+
+        export_format, channels, frame_rate = audio_attributes
 
         if language and "-" in language:
             language = language_matches[language]
-        
-        export_format, channels, frame_rate = audio_attributes
-    
+            
         #upload file to server
         header = {"authorization": self.api_key}
-        file_name = str(int(time())) + "_" + str(file_name.split("/")[-1])
-        storage_clients(self.api_settings_amazon)["speech"].meta.client.upload_fileobj(
-            Fileobj = file, 
-            Bucket = self.bucket_name, 
-            Key= file_name 
-        )
+        file_name = str(int(time())) + "_" + str(file.split("/")[-1])
 
+        content_url = file_url
+        if not content_url:
+            content_url = upload_file_to_s3(
+                file, Path(file_name).stem + "." + export_format
+            )
         data = {
-            "audio_url" : f"{self.storage_url}{file_name}",
+            "audio_url" : f"{content_url}",
             "language_code" : language,
             "speaker_labels" : True,
             "filter_profanity" : profanity_filter
@@ -77,13 +83,6 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         trials = 10
         while not launch_transcription:
             trials -=1
-            if trials == 0:
-                # delete audio file
-                storage_clients(self.api_settings_amazon)["speech"].meta.client.delete_object(
-                        Bucket= self.bucket_name, 
-                        Key= file_name
-                    )
-                break
             # launch transcription
             response = requests.post(self.url_transcription, json=data, headers=header)
             if response.status_code != 200:
@@ -92,11 +91,6 @@ class AssemblyApi(ProviderInterface, AudioInterface):
                     parameter = error.split(":")[1].strip()
                     del data[parameter]
                 else:
-                    # delete audio file
-                    storage_clients(self.api_settings_amazon)["speech"].meta.client.delete_object(
-                            Bucket= self.bucket_name, 
-                            Key= file_name
-                        )
                     raise ProviderException(response.json().get("error"))
             else:
                 launch_transcription = True
@@ -120,14 +114,6 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         )
 
         if response.status_code != 200:
-            # delete audio file
-            try:
-                storage_clients(self.api_settings_amazon)["speech"].meta.client.delete_object(
-                    Bucket= self.bucket_name, 
-                    Key= file_name
-                )
-            except Exception:
-                pass
             raise ProviderException(response.json().get("error"))
 
         diarization_entries = []
@@ -137,19 +123,10 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         original_response = response.json()
         status = original_response["status"]
         if status == "error":
-            storage_clients(self.api_settings_amazon)["speech"].meta.client.delete_object(
-                    Bucket= self.bucket_name, 
-                    Key= file_name
-                )
             raise ProviderException(original_response)
         if status != "completed":
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](provider_job_id=provider_job_id)
 
-        # delete audio file
-        storage_clients(self.api_settings_amazon)["speech"].meta.client.delete_object(
-                    Bucket= self.bucket_name, 
-                    Key= file_name
-                )
         #diarization
         if original_response.get("utterances") and len(original_response["utterances"]) > 0:
             for line in original_response["utterances"]:

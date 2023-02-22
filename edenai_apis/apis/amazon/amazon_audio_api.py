@@ -15,7 +15,6 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
-from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -53,7 +52,7 @@ class AmazonAudioApi(AudioInterface):
 
     # Speech to text async
     def _upload_audio_file_to_amazon_server(
-        self, file: BufferedReader, file_name: str
+        self, file_path: str, file_name: str
     ) -> str:
         """
         :param audio_path:  String that contains the audio file path
@@ -62,8 +61,8 @@ class AmazonAudioApi(AudioInterface):
         # Store file in an Amazon server
         # filename = str(int(time())) + "_" + str(file_name)
         filename = str(uuid.uuid4())
-        self.storage_clients["speech"].meta.client.upload_fileobj(
-            file, self.api_settings["bucket"], filename
+        self.storage_clients["speech"].meta.client.upload_file(
+            file_path, self.api_settings["bucket"], filename
         )
 
         return filename
@@ -95,9 +94,7 @@ class AmazonAudioApi(AudioInterface):
         params = {
             "TranscriptionJobName": filename,
             "Media": {"MediaFileUri": self.api_settings["storage_url"] + filename},
-            # "MediaFormat" : format,
             "LanguageCode": language,
-            # "MediaSampleRateHertz": frame_rate,
             "Settings": {
                 "ShowSpeakerLabels": True,
                 "ChannelIdentification": False,
@@ -124,23 +121,23 @@ class AmazonAudioApi(AudioInterface):
         except KeyError as exc:
             raise ProviderException(str(exc)) from exc
 
-    @audio_features_and_support #add audio_attributes to file
+
     def audio__speech_to_text_async__launch_job(
         self,
-        file: BufferedReader,
-        file_name: str,
+        file: str,
         language: str,
         speakers: int,
         profanity_filter: bool,
         vocabulary: list,
-        audio_attributes: tuple
+        audio_attributes: tuple,
+        file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
 
         export_format, channels, frame_rate = audio_attributes
 
 
         filename = self._upload_audio_file_to_amazon_server(
-            file, Path(file_name).stem + "." + export_format
+            file, Path(file).stem + "." + export_format
         )
         if vocabulary:
             vocab_name = self._create_vocabulary(language, vocabulary)

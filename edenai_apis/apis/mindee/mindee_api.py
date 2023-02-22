@@ -67,15 +67,22 @@ class MindeeApi(ProviderInterface, OcrInterface):
         return params
 
     def ocr__receipt_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[ReceiptParserDataClass]:
-        args = self._get_api_attributes(file, language)
+
+        file_ = open(file, "rb")
+        args = self._get_api_attributes(file_, language)
         original_response = requests.post(
             self.url_receipt,
             headers=args["headers"],
             files=args["files"],
             params=args["params"],
         ).json()
+
+        file_.close()
 
         if "document" not in original_response:
             raise ProviderException(
@@ -117,17 +124,23 @@ class MindeeApi(ProviderInterface, OcrInterface):
         return result
 
     def ocr__invoice_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[InvoiceParserDataClass]:
 
         headers = {
             "Authorization": self.api_key,
         }
-        files = {"document": file}
+        file_ = open(file, "rb")
+        files = {"document": file_}
         params = {"locale": {"language": language}}
         original_response = requests.post(
             self.url, headers=headers, files=files, params=params
         ).json()
+
+        file_.close()
 
         if "document" not in original_response:
             raise ProviderException(
@@ -195,10 +208,17 @@ class MindeeApi(ProviderInterface, OcrInterface):
         )
         return result
 
-    def ocr__identity_parser(self, file: BufferedReader) -> ResponseType[IdentityParserDataClass]:
-        args = self._get_api_attributes(file)
+    def ocr__identity_parser(
+        self, 
+        file: str, 
+        file_url: str= ""
+    ) -> ResponseType[IdentityParserDataClass]:
+        file_ = open(file, "rb")
+        args = self._get_api_attributes(file_)
 
         response = requests.post(url=self.url_identity, files=args['files'], headers=args['headers'])
+
+        file_.close()
 
         original_response = response.json()
         if response.status_code != 201:

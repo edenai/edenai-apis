@@ -15,7 +15,6 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
-from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -88,32 +87,30 @@ class GoogleAudioApi(AudioInterface):
         return phrase_set_response.name
 
 
-    @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(
         self,
-        file: BufferedReader,
-        file_name: str,
+        file: str,
         language: str,
         speakers: int,
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
-        audio_attributes: tuple
+        audio_attributes: tuple,
+        file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
+
+        export_format, channels, frame_rate = audio_attributes
 
         # check language
         if not language:
             raise LanguageException("Language not provided")
 
-        export_format, channels, frame_rate = audio_attributes
-
-        audio_name = str(int(time())) + Path(file_name).stem + "." + export_format
-        print(audio_name)
+        audio_name = str(int(time())) + Path(file).stem + "." + export_format
         # Upload file to google cloud
         storage_client: storage.Client = self.clients["storage"]
         bucket_name = "audios-speech2text"
         bucket = storage_client.get_bucket(bucket_name)
         blob = bucket.blob(audio_name)
-        blob.upload_from_file(file)
+        blob.upload_from_filename(file)
 
         gcs_uri = f"gs://{bucket_name}/{audio_name}"
         # Launch file transcription
@@ -127,7 +124,7 @@ class GoogleAudioApi(AudioInterface):
 
         params = {
             "language_code": language,
-            "audio_channel_count": channels,
+            "audio_channel_count": int(channels),
             "enable_separate_recognition_per_channel": True,
             "diarization_config": diarization,
             "profanity_filter": profanity_filter,

@@ -1,4 +1,5 @@
 from io import BufferedReader
+from pathlib import Path
 from typing import List, Optional
 import requests
 import uuid
@@ -15,6 +16,7 @@ from edenai_apis.features.audio import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -22,7 +24,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 from apis.amazon.config import storage_clients
-from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
+from edenai_apis.utils.upload_s3 import upload_file_to_s3
 
 
 class RevAIApi(ProviderInterface, AudioInterface):
@@ -61,11 +63,12 @@ class RevAIApi(ProviderInterface, AudioInterface):
         return vocab_name
 
     def _launch_transcribe(
-        self, filename:str, language:str,
-        profanity_filter: bool, vocab_name:str=None, 
+        self, filename:str, file_url:str,
+        language:str, profanity_filter: bool, vocab_name:str=None, 
         initiate_vocab:bool= False):
 
-        file_url = f"{self.storage_url}{filename}"
+        print(filename)
+        print(file_url)
 
         config = {
             "filter_profanity": profanity_filter,
@@ -107,7 +110,6 @@ class RevAIApi(ProviderInterface, AudioInterface):
         original_response = response.json()
     
         if response.status_code != 200:
-            print(json.dumps(response.json()))
             parameters = original_response.get('parameters')
             for key, value in parameters.items():
                 if "filter_profanity" in key:
@@ -125,32 +127,38 @@ class RevAIApi(ProviderInterface, AudioInterface):
         return original_response["id"]
 
 
-    @audio_features_and_support #add audio_attributes to file
-    def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, file_name:str, language: str,
-        speakers : int, profanity_filter: bool, vocabulary: Optional[List[str]],
-        audio_attributes: tuple
-    ) -> AsyncLaunchJobResponseType:
-        
-        export_format, channels, frame_rate = audio_attributes
 
+    def audio__speech_to_text_async__launch_job(
+        self, 
+        file: str, 
+        language: str,
+        speakers : int, 
+        profanity_filter: bool, 
+        vocabulary: Optional[List[str]],
+        audio_attributes: tuple,
+        file_url: str = "",
+    ) -> AsyncLaunchJobResponseType:
+
+        export_format, channels, frame_rate = audio_attributes
+        
         # upload file to amazon S3
-        file_name = str(int(time())) + "_" + str(file_name.split("/")[-1])
-        storage_clients(self.api_settings_amazon)["speech"].meta.client.upload_fileobj(
-            Fileobj = file, 
-            Bucket = self.bucket_name, 
-            Key= file_name 
-        )
+        file_name = str(int(time())) + "_" + str(file.split("/")[-1])
+
+        content_url = file_url
+        if not content_url:
+            content_url = upload_file_to_s3(
+                file, Path(file_name).stem + "." + export_format
+            )
 
         vocabulary = []
 
         if vocabulary:
             vocab_name = self._create_vocabulary(vocabulary)
-            self._launch_transcribe(file_name, language, profanity_filter, vocab_name, True)
+            self._launch_transcribe(file_name, content_url, language, profanity_filter, vocab_name, True)
             return AsyncLaunchJobResponseType(provider_job_id=f"{vocab_name}EdenAI{file_name}")
 
 
-        provider_job_id = self._launch_transcribe(file_name, 
+        provider_job_id = self._launch_transcribe(file_name, content_url,
             language, profanity_filter)
         provider_job_id = f"{provider_job_id}EdenAI{file_name}" # file_name to delete file
 
@@ -190,7 +198,8 @@ class RevAIApi(ProviderInterface, AudioInterface):
                     error = original_response.get("failure_detail")
                     raise ProviderException(error)
                 provider_job = self._launch_transcribe(
-                    config["source_config"]["url"].split("/")[-1],
+                    file_name,
+                    config["source_config"]["url"],
                     config.get("language"),
                     config["filter_profanity"],
                     provider_job_id
@@ -216,11 +225,6 @@ class RevAIApi(ProviderInterface, AudioInterface):
             )
         status = original_response["status"]
         if status == "transcribed":
-            # delete audio file
-            storage_clients(self.api_settings_amazon)["speech"].meta.client.delete_object(
-                Bucket= self.bucket_name, 
-                Key= file_name
-            )
             response = requests.get(
                 url=f"https://ec1.api.rev.ai/speechtotext/v1/jobs/{provider_job_id}/transcript",
                 headers=headers,
@@ -262,11 +266,6 @@ class RevAIApi(ProviderInterface, AudioInterface):
                 provider_job_id=provider_job_id,
             )
         elif status == "failed":
-            # delete audio file
-            storage_clients(self.api_settings_amazon)["speech"].meta.client.delete_object(
-                Bucket= self.bucket_name, 
-                Key= file_name
-            )
             error = original_response.get("failure_detail")
             raise ProviderException(error)
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](

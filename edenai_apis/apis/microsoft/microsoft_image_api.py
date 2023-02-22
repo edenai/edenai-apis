@@ -45,16 +45,20 @@ from PIL import Image as Img
 
 class MicrosoftImageApi(ImageInterface):
     def image__explicit_content(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ExplicitContentDataClass]:
 
+        file_ = open(file, "rb")
         # Getting response of API
         response = requests.post(
             f"{self.url['vision']}/analyze?visualFeatures=Adult",
             headers=self.headers["vision"],
-            data=file,
+            data=file_,
         )
         data = response.json()
+        file_.close()
 
         # error handling
         if response.status_code != 200:
@@ -90,14 +94,19 @@ class MicrosoftImageApi(ImageInterface):
         return res
 
     def image__object_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
+
+        file_ = open(file, "rb")
         response = requests.post(
             f"{self.url['vision']}/detect",
             headers=self.headers["vision"],
-            data=file,
+            data=file_,
         )
         data = response.json()
+        file_.close()
 
         if response.status_code != 200:
             error = data["error"]
@@ -140,10 +149,13 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceDetectionDataClass]:
 
-        file_content = file.read()
+        file_ = open(file, "rb")
+        file_content = file_.read()
         # Getting size of image
         img_size = Img.open(file).size
 
@@ -183,14 +195,18 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__logo_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LogoDetectionDataClass]:
+        file_ = open(file, "rb")
         response = requests.post(
             f"{self.url['vision']}/analyze?visualFeatures=Brands",
             headers=self.headers["vision"],
-            data=file,
+            data=file_,
         )
         data = response.json()
+        file_.close()
 
         if response.status_code != 200:
             # sometimes no "error" key in repsonse
@@ -224,10 +240,13 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__landmark_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LandmarkDetectionDataClass]:
 
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         # Getting response of API
         response = requests.post(
@@ -331,11 +350,16 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_recognition__add_face(
-        self, collection_id: str, file: BufferedReader
+        self, 
+        collection_id: str, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
         url = f"{self.url['face']}facelists/{collection_id}/persistedFaces?detectionModel=detection_03"
         headers = self.headers["face"]
-        response = requests.post(url=url, headers=headers, data=file)
+        file_ = open(file, "rb")
+        response = requests.post(url=url, headers=headers, data=file_)
+        file_.close()
         if response.status_code != 200:
             raise ProviderException(response.json()["error"]["message"])
         original_response = response.json()
@@ -366,7 +390,10 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_recognition__recognize(
-        self, collection_id: str, file: BufferedReader
+        self, 
+        collection_id: str, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         # we first need to detect the face, extract the faceId
         # and then make the call for face similarities using this id

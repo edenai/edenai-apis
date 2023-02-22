@@ -2,6 +2,7 @@ from io import BufferedReader
 import json
 import requests
 import re
+import os
 
 from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import (
@@ -12,6 +13,7 @@ from edenai_apis.features.audio import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -19,7 +21,6 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 
-from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 
 class SymblApi(ProviderInterface, AudioInterface):
     provider_name = "symbl"
@@ -54,18 +55,21 @@ class SymblApi(ProviderInterface, AudioInterface):
         self.access_token = response.json()["accessToken"]
 
 
-    @audio_features_and_support #add audio_attributes to file
+
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, file_name:str, language: str,
-        speakers : int, profanity_filter: bool,
-        vocabulary: list, audio_attributes: tuple
+        self, 
+        file: str, 
+        language: str,
+        speakers : int, 
+        profanity_filter: bool,
+        vocabulary: list, 
+        audio_attributes: tuple,
+        file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
-        # file.seek(0, 2)
 
         export_format, channels, frame_rate = audio_attributes
 
-        number_of_bytes = file.tell()
-        file.seek(0)
+        number_of_bytes = os.stat(file).st_size
 
         headers = {
             "Authorization": "Bearer " + self.access_token,
@@ -85,10 +89,11 @@ class SymblApi(ProviderInterface, AudioInterface):
                 "customVocabulary": vocabulary
             })
 
+        file_ = open(file, "rb")
         response = requests.post(
             url="https://api.symbl.ai/v1/process/audio",
             headers=headers,
-            data=file,
+            data=file_,
             params=params,
         )
 

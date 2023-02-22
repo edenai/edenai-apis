@@ -11,8 +11,8 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import audio_converter, audio_features_and_support
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncPendingResponseType,
@@ -44,11 +44,17 @@ class VoxistApi(ProviderInterface, AudioInterface):
         response = requests.post(f"{self.base_url}oauth/token", json=data)
         self.api_key = response.json().get("access_token")
 
-    @audio_features_and_support #add audio_attributes to file
+
+
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, file_name:str, language: str, speakers: int,
-        profanity_filter: bool, vocabulary: Optional[List[str]],
-        audio_attributes: tuple
+        self, 
+        file: str, 
+        language: str, 
+        speakers: int,
+        profanity_filter: bool, 
+        vocabulary: Optional[List[str]],
+        audio_attributes: tuple,
+        file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
 
         export_format, channels, frame_rate = audio_attributes
@@ -64,14 +70,13 @@ class VoxistApi(ProviderInterface, AudioInterface):
 
         data = {"config": json.dumps(config)}
 
-        files = [("file_channel1", file)]
+        file_ = open(file, "rb")
+        files = [("file_channel1", file_)]
 
         # Call Api
         response = requests.post(
             url=f"{self.base_url}transcription", headers=headers, files=files, data=data
         )
-
-        print(response.text)
 
         if response.status_code == 504:
             raise ProviderException(message="Gateway Timeout")

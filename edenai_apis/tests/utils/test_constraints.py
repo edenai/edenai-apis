@@ -1,3 +1,4 @@
+import mimetypes
 from typing import Optional
 import pytest
 from pytest_mock import MockerFixture
@@ -9,6 +10,7 @@ from edenai_apis.utils.constraints import (
     validate_single_language
 )
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.files import FileInfo, FileWrapper
 from edenai_apis.utils.languages import LanguageErrorMessage
 from settings import base_path
 import os
@@ -45,27 +47,35 @@ class TestValidateInputFileType:
     def test_valid_constraints_and_file(self, constraints):
         provider = 'faker'
         file_path = os.path.join(base_path, "features/image/data/objects.png")
-        with open(file_path, 'rb') as file:
-            args = { 'file': file }
+        mime_type = mimetypes.guess_type(file_path)[0]
+        file_info= FileInfo(
+            os.stat(file_path).st_size,
+            mime_type,
+            [extension[1:] for extension in mimetypes.guess_all_extensions(mime_type)],
+            "",
+            ""
+        )
+        file_wrapper = FileWrapper(file_path, "", file_info)
+        args = { 'file': file_wrapper }
 
-            output = validate_input_file_type(
-                constraints=constraints,
-                provider=provider,
-                args=args
-            )
+        output = validate_input_file_type(
+            constraints=constraints,
+            provider=provider,
+            args=args
+        )
 
-            assert output == args, TestValidateInputFileType.failure_message(
-                expected_output=args,
-                output=output,
-                constraints=constraints,
-            )
+        assert output == args, TestValidateInputFileType.failure_message(
+            expected_output=args,
+            output=output,
+            constraints=constraints,
+        )
 
     @pytest.mark.parametrize(
         'file',
         [
-            open(os.path.join(base_path,'features/image/data/explicit_content.jpeg'), 'rb'),
-            open(os.path.join(base_path,'features/image/data/face_recognition_1.jpg'), 'rb'),
-            open(os.path.join(base_path,'features/audio/data/out.wav'),'rb')
+            os.path.join(base_path,'features/image/data/explicit_content.jpeg'),
+            os.path.join(base_path,'features/image/data/face_recognition_1.jpg'),
+            os.path.join(base_path,'features/audio/data/out.wav')
         ],
         ids=['test_with_jpeg', 'test_with_jpg', 'test_with_wav']
     )
@@ -73,7 +83,16 @@ class TestValidateInputFileType:
         #Setup
         provider = 'faker'
         constraints = { 'file_types': ['image/png']}
-        args = { 'file': file }
+        mime_type = mimetypes.guess_type(file)[0]
+        file_info= FileInfo(
+            os.stat(file).st_size,
+            mime_type,
+            [extension[1:] for extension in mimetypes.guess_all_extensions(mime_type)],
+            "",
+            ""
+        )
+        file_wrapper = FileWrapper(file, "", file_info)
+        args = { 'file': file_wrapper }
 
         # Action
         with pytest.raises(

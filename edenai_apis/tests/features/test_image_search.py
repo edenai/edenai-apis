@@ -4,6 +4,7 @@ from edenai_apis.interface import list_providers
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis import Image
+from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.compare import compare_responses
 from edenai_apis.features.image.search.get_images import SearchGetImagesDataClass
@@ -25,6 +26,7 @@ class TestImageSearch:
             feature='image',
             subfeature='search',
             phase='upload_image')
+        feature_args = validate_all_provider_constraints(provider, 'image', 'search', 'upload_image', feature_args)
         try:
             upload_image_method = Image.search__upload_image(provider)
         except AttributeError:
@@ -103,6 +105,7 @@ class TestImageSearch:
             feature='image',
             subfeature='search',
             phase='launch_similarity')
+        feature_args = validate_all_provider_constraints(provider, 'image', 'search', 'upload_image', feature_args)
         try:
             launch_similarity_method = Image.search__launch_similarity(provider)
         except AttributeError:

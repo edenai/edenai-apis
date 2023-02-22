@@ -48,14 +48,19 @@ from google.cloud.vision_v1.types.image_annotator import (
 
 class GoogleOcrApi(OcrInterface):
     def ocr__ocr(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= "",
     ) -> ResponseType[OcrDataClass]:
-        file_content = file.read()
+
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         image = vision.Image(content=file_content)
         response = self.clients["image"].text_detection(image=image)
 
-        mimetype = mimetypes.guess_type(file.name)[0] or "unrecognized"
+        mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
         if mimetype.startswith("image"):
             width, height = Img.open(file).size
         elif mimetype == "application/pdf":
@@ -98,9 +103,12 @@ class GoogleOcrApi(OcrInterface):
 
 
     def ocr__receipt_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[ReceiptParserDataClass]:
-        mimetype = mimetypes.guess_type(file.name)[0] or "unrecognized"
+        mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
 
         receipt_parser_project_id = self.api_settings["documentai"]["project_id"]
         receipt_parser_process_id = self.api_settings["documentai"]["process_receipt_id"]
@@ -115,7 +123,8 @@ class GoogleOcrApi(OcrInterface):
             receipt_parser_process_id
         )
 
-        raw_document = documentai.RawDocument(content= file.read(), mime_type=mimetype)
+        file_ = open(file, "rb")
+        raw_document = documentai.RawDocument(content= file_.read(), mime_type=mimetype)
 
         try:
             request = documentai.ProcessRequest(name=name, raw_document= raw_document)
@@ -123,6 +132,8 @@ class GoogleOcrApi(OcrInterface):
         except Exception as excp:
             raise ProviderException(str(excp))
         document = result.document
+
+        file_.close()
 
         receipt_infos: InfosReceiptParserDataClass = InfosReceiptParserDataClass()
         receipt_taxe: Taxes = Taxes()
@@ -202,9 +213,12 @@ class GoogleOcrApi(OcrInterface):
 
 
     def ocr__invoice_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[InvoiceParserDataClass]:
-        mimetype = mimetypes.guess_type(file.name)[0] or "unrecognized"
+        mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
 
         invoice_parser_project_id = self.api_settings["documentai"]["project_id"]
         invoice_parser_process_id = self.api_settings["documentai"]["process_invoice_id"]
@@ -219,8 +233,11 @@ class GoogleOcrApi(OcrInterface):
             invoice_parser_process_id
         )
 
-        raw_document = documentai.RawDocument(content= file.read(), mime_type=mimetype)
+        file_ = open(file, "rb")
 
+        raw_document = documentai.RawDocument(content= file_.read(), mime_type=mimetype)
+
+        file_.close()
         try:
             request = documentai.ProcessRequest(name=name, raw_document= raw_document)
             result = invoice_client.process_document(request=request)
@@ -339,9 +356,13 @@ class GoogleOcrApi(OcrInterface):
 
 
     def ocr__ocr_tables_async__launch_job(
-        self, file: BufferedReader, file_type: str, language: str
+        self, 
+        file: str, 
+        file_type: str, 
+        language: str,
+        file_url: str= ""
     ) -> AsyncLaunchJobResponseType:
-        file_name: str = file.name.split("/")[-1]  # file.name give its whole path
+        file_name: str = file.split("/")[-1]  # file.name give its whole path
 
         documentai_projectid = self.api_settings["documentai"]["project_id"]
         documentai_processid = self.api_settings["documentai"]["process_id"]
@@ -354,7 +375,7 @@ class GoogleOcrApi(OcrInterface):
         bucket_client = self.clients["storage"]
         ocr_tables_bucket = bucket_client.get_bucket("async-ocr-tables")
         new_blob = ocr_tables_bucket.blob(file_name)
-        new_blob.upload_from_string(file.read())
+        new_blob.upload_from_filename(file)
 
         doc_ai = documentai.DocumentProcessorServiceClient(
             client_options={"api_endpoint": "eu-documentai.googleapis.com"}

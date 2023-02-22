@@ -78,12 +78,17 @@ class DataleonApi(ProviderInterface, OcrInterface):
         return normalized_response
 
     def ocr__invoice_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[InvoiceParserDataClass]:
 
+        file_= open(file, "rb")
         response = requests.post(
-            url=self.url_invoice, headers=self.headers, files={"file": file}
+            url=self.url_invoice, headers=self.headers, files={"file": file_}
         )
+        file_.close()
         
         if response.status_code !=200:
             raise ProviderException(response.content)
@@ -131,12 +136,19 @@ class DataleonApi(ProviderInterface, OcrInterface):
         return result
 
     def ocr__receipt_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[ReceiptParserDataClass]:
 
+        file_ = open(file, "rb")
+
         response = requests.post(
-            url=self.url_receipt, headers=self.headers, files={"file": file}
+            url=self.url_receipt, headers=self.headers, files={"file": file_}
         )
+
+        file_.close()
         
         if response.status_code !=200:
             raise ProviderException(response.content)

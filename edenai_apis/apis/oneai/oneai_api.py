@@ -34,7 +34,6 @@ from edenai_apis.features.translation.language_detection import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -250,10 +249,16 @@ class OneaiApi(
         )
 
 
-    @audio_features_and_support #add audio_attributes to file
-    def audio__speech_to_text_async__launch_job(self, file: BufferedReader, file_name: str,
-        language: str, speakers: int, profanity_filter: bool, vocabulary: Optional[List[str]],
-        audio_attributes: tuple
+
+    def audio__speech_to_text_async__launch_job(
+        self, 
+        file: str,
+        language: str, 
+        speakers: int, 
+        profanity_filter: bool, 
+        vocabulary: Optional[List[str]],
+        audio_attributes: tuple,
+        file_url: str = "",
         ) -> AsyncLaunchJobResponseType:
 
         export_format, channels, frame_rate = audio_attributes
@@ -273,7 +278,8 @@ class OneaiApi(
             "multilingual": True
         }
 
-        response = requests.post(url=f"{self.url}/async/file?pipeline={json.dumps(data)}", headers=self.header, data=file.read())
+        file_ = open(file, "rb")
+        response = requests.post(url=f"{self.url}/async/file?pipeline={json.dumps(data)}", headers=self.header, data=file_.read())
         original_response = response.json()
 
         if response.status_code != 200:

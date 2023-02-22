@@ -47,10 +47,13 @@ from edenai_apis.utils.types import ResponseType
 
 class AmazonImageApi(ImageInterface):
     def image__object_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
 
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
         # Getting API response
         try:
             original_response = self.clients["image"].detect_labels(
@@ -93,9 +96,13 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceDetectionDataClass]:
-        file_content = file.read()
+        
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         # Getting Response
         original_response = self.clients["image"].detect_faces(
@@ -234,9 +241,12 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__explicit_content(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ExplicitContentDataClass]:
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         try:
             response = self.clients["image"].detect_moderation_labels(
@@ -321,10 +331,14 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_recognition__add_face(
-        self, collection_id: str, file: BufferedReader
+        self, 
+        collection_id: str, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
         client = self.clients["image"]
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
         try:
             response = client.index_faces(
                 CollectionId=collection_id, Image={"Bytes": file_content}
@@ -361,10 +375,14 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_recognition__recognize(
-        self, collection_id: str, file: BufferedReader
+        self, 
+        collection_id: str, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         client = self.clients["image"]
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         # First check that collection is not empty
         list_faces = self.image__face_recognition__list_faces(collection_id)

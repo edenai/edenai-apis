@@ -51,10 +51,14 @@ class DeeplApi(ProviderInterface, TranslationInterface):
 
     def translation__document_translation(
         self,
-        file: BufferedReader,
+        file: str,
         source_language: str,
-        target_language: str
+        target_language: str,
+        file_url: str=""
     ) -> ResponseType[DocumentTranslationDataClass]:
+
+        file_ = open(file, "rb")
+
         files = {
             'file': file,
         }
@@ -66,6 +70,8 @@ class DeeplApi(ProviderInterface, TranslationInterface):
 
         response = requests.post(f'{self.url}document', headers=self.header, data=data, files=files)
         original_response = response.json()
+
+        file_.close()
         
         if response.status_code != 200:
             raise ProviderException(message=original_response['message'], code=response.status_code)

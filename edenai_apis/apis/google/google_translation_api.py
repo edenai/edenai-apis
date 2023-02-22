@@ -75,15 +75,18 @@ class GoogleTranslationApi(TranslationInterface):
 
     def translation__document_translation(
         self,
-        file: BufferedReader,
+        file: str,
         source_language: str,
         target_language: str,
+        file_url: str=""
     ) -> ResponseType[DocumentTranslationDataClass]:
         client = self.clients["translate"]
         parent = f"projects/{self.project_id}/locations/global"
 
+        file_ = open(file, "rb")
+
         document_input_config = {
-        "content": file.read(),
+        "content": file_.read(),
         "mime_type": "application/pdf",
         }
 
@@ -97,6 +100,8 @@ class GoogleTranslationApi(TranslationInterface):
         )
 
         file_bytes = original_response.document_translation.byte_stream_outputs[0]
+
+        file_.close()
 
         b64_file = base64.b64encode(file_bytes)
 

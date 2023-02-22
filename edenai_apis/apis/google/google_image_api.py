@@ -46,9 +46,13 @@ from google.protobuf.json_format import MessageToDict
 
 class GoogleImageApi(ImageInterface):
     def image__explicit_content(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ExplicitContentDataClass]:
-        image = vision.Image(content=file.read())
+        with open(file, "rb") as file_:
+            content = file_.read()
+        image = vision.Image(content=content)
 
         try:
             response = self.clients["image"].safe_search_detection(image=image)
@@ -81,11 +85,16 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__object_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
-        image = vision.Image(content=file.read())
+
+        file_ = open(file, "rb")
+        image = vision.Image(content=file_.read())
         response = self.clients["image"].object_localization(image=image)
         response = MessageToDict(response._pb)
+        file_.close()
         items = []
         for object_annotation in response.get("localizedObjectAnnotations", []):
             x_min, x_max = np.infty, -np.infty
@@ -117,9 +126,12 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__face_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceDetectionDataClass]:
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
         img_size = Img.open(file).size
         image = vision.Image(content=file_content)
         response = self.clients["image"].face_detection(image=image, max_results=100)
@@ -228,9 +240,13 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__landmark_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LandmarkDetectionDataClass]:
-        image = vision.Image(content=file.read())
+        with open(file, "rb") as file_:
+            content = file_.read()
+        image = vision.Image(content=content)
         response = self.clients["image"].landmark_detection(image=image)
         dict_response = vision.AnnotateImageResponse.to_dict(response)
         landmarks = dict_response.get("landmark_annotations", [])
@@ -272,9 +288,13 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__logo_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LogoDetectionDataClass]:
-        image = vision.Image(content=file.read())
+        with open(file, "rb") as file_:
+            content = file_.read()
+        image = vision.Image(content=content)
 
         try:
             response = self.clients["image"].logo_detection(image=image)
