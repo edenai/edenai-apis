@@ -18,7 +18,6 @@ from edenai_apis.features.audio.speech_to_text_async import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import audio_features_and_support
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -135,12 +134,19 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
             standardized_response=LanguageDetectionDataClass(items=items)
         )
 
-    @audio_features_and_support #add audio_attributes to file
+
     def audio__speech_to_text_async__launch_job(
-        self, file: BufferedReader, file_name:str, language: str, speakers: int,
-        profanity_filter: bool, vocabulary: Optional[List[str]],
-        audio_attributes: tuple
+        self, 
+        file: str, 
+        language: str, 
+        speakers: int,
+        profanity_filter: bool, 
+        vocabulary: Optional[List[str]],
+        audio_attributes: tuple,
+        file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
+
+        export_format, channels, frame_rate = audio_attributes
 
         url_file_upload = f"{self.url}file/upload"
         url_file_transcribe = f"{self.url}transcription/v1/file/transcribe"
@@ -148,12 +154,15 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         headers = {
             "Authorization" : f"{self.api_key}"
         }
-        files = {"files" : file}
+        file_ = open(file, "rb")
+        files = {"files" : file_}
         response = requests.post(
             url= url_file_upload,
             headers=headers,
             files= files
         )
+
+        file_.close()
         if response.status_code != 200:
             raise ProviderException("Failed to upload file for transcription", response.status_code)
 

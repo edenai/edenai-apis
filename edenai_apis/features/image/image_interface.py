@@ -71,7 +71,9 @@ class ImageInterface:
 
     @abstractmethod
     def image__explicit_content(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ExplicitContentDataClass]:
         """
         Detect explicit content in an image
@@ -83,7 +85,9 @@ class ImageInterface:
 
     @abstractmethod
     def image__face_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceDetectionDataClass]:
         """
         Detect faces in an image
@@ -95,7 +99,9 @@ class ImageInterface:
 
     @abstractmethod
     def image__landmark_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LandmarkDetectionDataClass]:
         """
         Detect popular landmark in an image
@@ -108,7 +114,9 @@ class ImageInterface:
 
     @abstractmethod
     def image__logo_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LogoDetectionDataClass]:
         """
         Detect Logo in an image
@@ -120,7 +128,9 @@ class ImageInterface:
 
     @abstractmethod
     def image__object_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
         """
         Detect objects in an image
@@ -143,7 +153,11 @@ class ImageInterface:
     ## TO DO better response types for image search
     @abstractmethod
     def image__search__upload_image(
-        self, file: BufferedReader, image_name: str, project_id: str
+        self, 
+        file: str, 
+        image_name: str, 
+        project_id: str,
+        file_url: str= ""
     ) -> SearchUploadImageDataClass:
         """
         Upload image for an image search project
@@ -195,7 +209,10 @@ class ImageInterface:
 
     @abstractmethod
     def image__search__launch_similarity(
-        self, file: BufferedReader, project_id: str
+        self, 
+        file: str,
+        project_id: str,
+        file_url: str= ""
     ) -> ResponseType[SearchDataClass]:
         """
         Launch similarity analysis of a search image project
@@ -251,7 +268,10 @@ class ImageInterface:
 
     @abstractmethod
     def image__face_recognition__add_face(
-        self, collection_id: str, file: BufferedReader
+        self, 
+        collection_id: str, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
         """
         Detect and add a face to a collection from an image
@@ -275,7 +295,10 @@ class ImageInterface:
 
     @abstractmethod
     def image__face_recognition__recognize(
-        self, collection_id: str, file: BufferedReader
+        self, 
+        collection_id: str, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         """
         Detect the biggers face from image and try

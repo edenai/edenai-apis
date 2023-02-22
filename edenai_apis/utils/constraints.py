@@ -4,12 +4,42 @@ from typing import Dict, List, Optional
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.audio import get_file_extension
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.languages import (
     LanguageErrorMessage,
     provide_appropriate_language,
     load_standardized_language
 )
+
+
+def validate_input_file_extension(constraints: dict, args: dict) -> dict:
+    """Check that a provider offers support for the input file extension for speech to text
+
+    Args:
+        - constraints (dict): all constraints (on inputs) of the provider
+        - args (dict): inputs passed to the provider call
+        - provider (str): provider name
+
+    Returns:
+        - `args` (dict): same or updated args
+    Raises:
+        - `ProviderException`: if file extension is not supported or in the provider requires a certain number of audio channels
+    """
+
+    provider_file_extensions_constraints: List[str] = constraints.get("file_extensions", [])
+
+    input_file: Optional[FileWrapper] = args.get("file")
+
+    if not input_file or not provider_file_extensions_constraints:
+        return args
+    export_format = get_file_extension(input_file, provider_file_extensions_constraints)
+    frame_rate = input_file.file_info.file_frame_rate
+    channels = input_file.file_info.file_channels
+    args["audio_attributes"] = (export_format, channels, frame_rate)
+    return args
+
 
 def validate_input_file_type(constraints: dict, provider: str, args: dict) -> dict:
     """Check that a provider offers support for the input file type
@@ -27,10 +57,10 @@ def validate_input_file_type(constraints: dict, provider: str, args: dict) -> di
     """
     provider_file_type_constraints: List[str] = constraints.get("file_types", [])
 
-    input_file: Optional[io.BufferedReader] = args.get("file")
+    input_file: FileWrapper = args.get("file")
 
     if input_file and len(provider_file_type_constraints) > 0:
-        input_file_type, _ = mimetypes.guess_type(input_file.name)
+        input_file_type = input_file.file_info.file_media_type
 
         if input_file_type is None:
             # if mimetype is not recognized we don't validate it
@@ -152,6 +182,27 @@ def validate_all_input_languages(
     return args
 
 
+def transform_file_args(args: dict) -> dict:
+    """transform the file wrapper to file path and file url for subfeature functions
+
+    Args:
+        args (dict): feature arguments, exp: {text: 'alleluia', language='en'}
+
+    Returns:
+        dict: updated args
+    """
+    if args.get("file") and isinstance(args.get("file"), FileWrapper):
+        file_wrapper: FileWrapper = args["file"]
+        file_path = file_wrapper.file_path
+        file_url = file_wrapper.file_url
+        args.update({
+            "file": file_path,
+            "file_url": file_url
+        })
+        return args
+    return args
+
+
 def validate_all_provider_constraints(
     provider: str, feature: str, subfeature: str, phase: str, args: dict
 ) -> dict:
@@ -193,8 +244,17 @@ def validate_all_provider_constraints(
             provider_constraints, validated_args, provider, feature, subfeature
         )
 
+        # file extensions for audio files
+        validated_args = validate_input_file_extension(
+            provider_constraints, validated_args
+        )
         # ...
 
+        validated_args = transform_file_args(validated_args)
+
         return validated_args
+
+
+    args = transform_file_args(args)
 
     return args

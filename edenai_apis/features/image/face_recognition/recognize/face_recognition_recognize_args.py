@@ -9,7 +9,7 @@ feature_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(feature_path, "data")
 
 def get_data_files() -> List[BufferedReader]:
-    return [open(os.path.join(data_path, f"face_recognition_{num+1}.jpg"), "rb") for num in range(3)]
+    return [os.path.join(data_path, f"face_recognition_{num+1}.jpg") for num in range(3)]
 
 def face_recognition_recognize_arguments() -> Dict:
-    return {"file": open(f"{data_path}/face_recognition_1.jpg", "rb"), "collection_id": COLLECTION_ID}
+    return {"file": f"{data_path}/face_recognition_1.jpg", "collection_id": COLLECTION_ID}

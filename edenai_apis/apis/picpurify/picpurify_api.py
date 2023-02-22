@@ -28,15 +28,19 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
         self.url = self.api_settings["URL"]
 
     def image__face_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceDetectionDataClass]:
         payload = {
             "API_KEY": self.key,
             "task": "face_gender_age_detection",
         }
-        files = {"image": file}
+        file_ = open(file, "rb")
+        files = {"image": file_}
         response = requests.post(self.url, files=files, data=payload)
         original_response = response.json()
+        file_.close()
 
         # Handle error
         if "error" in original_response:
@@ -73,16 +77,20 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
         )
 
     def image__explicit_content(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ExplicitContentDataClass]:
         payload = {
             "API_KEY": self.key,
             "task": "suggestive_nudity_moderation,gore_moderation,"
             + "weapon_moderation,drug_moderation,hate_sign_moderation",
         }
-        files = {"image": file}
+        file_= open(file, "rb")
+        files = {"image": file_}
         response = requests.post(self.url, files=files, data=payload)
         original_response = response.json()
+        file_.close()
 
         # Handle error
         if "error" in original_response:

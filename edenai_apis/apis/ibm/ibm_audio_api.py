@@ -9,7 +9,6 @@ from edenai_apis.features.audio import (
     TextToSpeechDataClass,
 )
 from edenai_apis.features.audio.audio_interface import AudioInterface
-from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -62,28 +61,29 @@ class IbmAudioApi(AudioInterface):
         )
 
 
-    @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(
         self,
-        file: BufferedReader,
-        file_name: str,
+        file: str,
         language: str,
         speakers: int,
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
-        audio_attributes: tuple
+        audio_attributes: tuple,
+        file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
-       
-        export_format, channels, frame_rate = audio_attributes
 
+        export_format, channels, frame_rate = audio_attributes
+       
         language_audio = language
+        
+        file_ = open(file, "rb")
         audio_config = {
-            "audio": file,
+            "audio": file_,
             "content_type": "audio/" + export_format,
             "speaker_labels": True,
             "profanity_filter": profanity_filter,
         }
-        audio_config.update({"rate": frame_rate})
+        audio_config.update({"rate": int(frame_rate)})
         if language_audio:
             audio_config.update({"model": f"{language_audio}_Telephony"})
             if language_audio == "ja-JP":

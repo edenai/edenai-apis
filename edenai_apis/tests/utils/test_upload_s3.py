@@ -16,9 +16,8 @@ def test_s3_client_load():
 @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Skip in opensource package cicd workflow")
 def test_upload_to_s3():
     file_path = os.path.join(base_path,'features/ocr/data/resume.pdf')
-    with open(file_path, 'rb') as f:
-        response = upload_file_to_s3(f, 'test.pdf')
-        assert response != None
+    response = upload_file_to_s3(file_path, 'test.pdf')
+    assert response != None
 
 @pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Skip in opensource package cicd workflow")
 def test_get_providers_json_from_s3():

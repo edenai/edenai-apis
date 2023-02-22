@@ -3,7 +3,7 @@ import os
 import pathlib
 import time
 from typing import Callable
-from edenai_apis.utils.constraints import validate_all_input_languages
+from edenai_apis.utils.constraints import validate_all_input_languages, validate_all_provider_constraints
 import pytest
 
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
@@ -48,14 +48,9 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
         subfeature=subfeature,
         phase=phase,
     )
-    constraints = load_provider(ProviderDataEnum.INFO_FILE, provider_name=provider)[
-        feature
-    ][subfeature].get("constraints", {})
-
     print("------------------------------------------------------------")
-    validate_all_input_languages(
-        constraints, args, provider, feature, subfeature
-    )  # update language value to appropriate language
+    args = validate_all_provider_constraints(provider, feature, subfeature, phase, args)
+    
     print(args)
 
     if "async" in subfeature:

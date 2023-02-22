@@ -63,15 +63,21 @@ class Api4aiApi(
         }
 
     def image__object_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
         """
         This function is used to detect objects in an image.
         """
-        files = {"image": file}
+
+        file_ = open(file, "rb")
+        files = {"image": file_}
         original_response = requests.post(
             self.urls["object_detection"], files=files
         ).json()
+
+        file_.close()
         
         if 'failure' in original_response['results'][0]['status']['code']:
             raise ProviderException(original_response['results'][0]['status']['message'])
@@ -101,14 +107,19 @@ class Api4aiApi(
         return result
 
     def image__face_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceDetectionDataClass]:
+
+        file_ = open(file, "rb")
         payload = {
-            "image": file,
+            "image": file_,
         }
         # Get response
         response = requests.post(self.urls["face_detection"], files=payload)
         original_response = response.json()
+        file_.close()
         
         # Handle errors
         if 'failure' in original_response['results'][0]['status']['code']:
@@ -148,12 +159,17 @@ class Api4aiApi(
         return result
 
     def image__anonymization(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str=""
     ) -> ResponseType[AnonymizationDataClass]:
-        files = {"image": file}
+        file_ = open(file, "rb")
+        files = {"image": file_}
         response = requests.post(self.urls["anonymization"], files=files)
 
         original_response = response.json()
+
+        file_.close()
 
         if 'failure' in original_response['results'][0]['status']['code']:
             raise ProviderException(original_response['results'][0]['status']['message'])
@@ -178,14 +194,18 @@ class Api4aiApi(
         return result
 
     def image__logo_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[LogoDetectionDataClass]:
+        file_ = open(file, "rb")
         payload = {
-            "image": file,
+            "image": file_,
         }
         # Get response
         response = requests.post(self.urls["logo_detection"], files=payload)
         original_response = response.json()
+        file_.close()
         # Handle errors
         if 'failure' in original_response['results'][0]['status']['code']:
             raise ProviderException(original_response['results'][0]['status']['message'])
@@ -218,14 +238,20 @@ class Api4aiApi(
         return result
 
     def image__explicit_content(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ExplicitContentDataClass]:
+
+        file_= open(file, "rb")
         payload = {
-            "image": file,
+            "image": file_,
         }
         # Get response
         response = requests.post(self.urls["nsfw"], files=payload)
         original_response = response.json()
+        
+        file_.close()
 
         # Handle errors
         if response.status_code != 200 or "failure" in original_response["results"][0]["status"]["code"]:
@@ -250,9 +276,16 @@ class Api4aiApi(
         )
         return result
 
-    def ocr__ocr(self, file: BufferedReader, language: str) -> ResponseType[OcrDataClass]:
+    def ocr__ocr(
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= "",
+    ) -> ResponseType[OcrDataClass]:
 
-        response = requests.post(self.urls["ocr"], files={"image": file})
+        file_ = open(file, "rb")
+        response = requests.post(self.urls["ocr"], files={"image": file_})
+        file_.close()
 
         error = get_errors_from_response(response)
         if error is not None:

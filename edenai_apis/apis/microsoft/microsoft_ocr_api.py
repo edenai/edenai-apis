@@ -49,10 +49,14 @@ from PIL import Image as Img
 
 class MicrosoftOcrApi(OcrInterface):
     def ocr__ocr(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= "",
     ) -> ResponseType[OcrDataClass]:
 
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         url = f"{self.api_settings['vision']['url']}/ocr?detectOrientation=true"
 
@@ -95,9 +99,13 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__invoice_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[InvoiceParserDataClass]:
 
+        file_ = open(file, "rb")
         try:
             document_analysis_client = DocumentAnalysisClient(
                 endpoint=self.api_settings["form_recognizer"]["url"],
@@ -106,13 +114,14 @@ class MicrosoftOcrApi(OcrInterface):
                 ),
             )
             poller = document_analysis_client.begin_analyze_document(
-                "prebuilt-invoice", file
+                "prebuilt-invoice", file_
             )
             invoices = poller.result()
         except AzureError as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
 
         original_response = invoices.to_dict()
+        file_.close()
 
         return ResponseType[InvoiceParserDataClass](
             original_response=original_response,
@@ -120,9 +129,13 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__receipt_parser(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
     ) -> ResponseType[ReceiptParserDataClass]:
 
+        file_ = open(file, "rb")
         try:
             document_analysis_client = DocumentAnalysisClient(
                 endpoint=self.api_settings["form_recognizer"]["url"],
@@ -131,13 +144,14 @@ class MicrosoftOcrApi(OcrInterface):
                 ),
             )
             poller = document_analysis_client.begin_analyze_document(
-                "prebuilt-receipt", file
+                "prebuilt-receipt", file_
             )
             form_pages = poller.result()
         except AzureError as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
 
         original_response = form_pages.to_dict()
+        file_.close()
 
         # Normalize the response
         default_dict = defaultdict(lambda: None)
@@ -182,7 +196,8 @@ class MicrosoftOcrApi(OcrInterface):
             for item in fields.get("Items", default_dict).get("value", []):
                 description = item["value"].get("Name", default_dict).get("value")
                 price = item["value"].get("Price", default_dict).get("value")
-                quantity = int(item["value"].get("Quantity", default_dict).get("value"))
+                quantity_str = item["value"].get("Quantity", default_dict).get("value")
+                quantity = int(quantity_str) if quantity_str else None
                 total = item["value"].get("TotalPrice", default_dict).get("value")
                 items.append(
                     ItemLines(
@@ -212,8 +227,12 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__identity_parser(
-        self, file: BufferedReader
+        self, 
+        file: str, 
+        file_url: str= ""
     ) -> ResponseType[IdentityParserDataClass]:
+
+        file_ = open(file, "rb")
         try:
             document_analysis_client = DocumentAnalysisClient(
                 endpoint=self.api_settings["form_recognizer"]["url"],
@@ -222,13 +241,15 @@ class MicrosoftOcrApi(OcrInterface):
                 ),
             )
             poller = document_analysis_client.begin_analyze_document(
-                "prebuilt-idDocument", file
+                "prebuilt-idDocument", file_
             )
             response = poller.result()
         except AzureError as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
 
         original_response = response.to_dict()
+
+        file_.close()
 
         items = []
 
@@ -316,10 +337,15 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__ocr_tables_async__launch_job(
-        self, file: BufferedReader, file_type: str, language: str
+        self, 
+        file: str, 
+        file_type: str, 
+        language: str,
+        file_url: str= ""
     ) -> AsyncLaunchJobResponseType:
 
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
         url = (
             f"{self.api_settings['form_recognizer']['url']}formrecognizer/documentModels/"
             f"prebuilt-layout:analyze?api-version=2022-08-31"
@@ -425,7 +451,10 @@ class MicrosoftOcrApi(OcrInterface):
                     ocr_table = Table(rows=rows, num_cols=num_cols, num_rows=num_rows)
                     tables.append(ocr_table)
                     ocr_page = Page(tables=tables)
-                pages.append(ocr_page)
+                try:
+                    pages.append(ocr_page)
+                except UnboundLocalError:
+                    raise ProviderException("No table found in the document.")
                 standardized_response = OcrTablesAsyncDataClass(
                     pages=pages, num_pages=num_pages
                 )

@@ -11,6 +11,7 @@
 | | klippa |
 | | microsoft |
 | | mindee |
+| | rossum |
 | | verify |
 | **resume_parser** | affinda |
 | | hireability |
@@ -533,6 +534,13 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | speech_to_text_async |
+
+</details>
+<details><summary>rossum</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **ocr** | invoice_parser |
 
 </details>
 <details><summary>sentisight</summary>

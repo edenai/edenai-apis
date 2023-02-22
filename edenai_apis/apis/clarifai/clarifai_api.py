@@ -51,14 +51,18 @@ class ClarifaiApi(
         self.object_detection_code = self.api_settings["object_detection_code"]
 
     def ocr__ocr(
-        self, file: BufferedReader, language: str
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= "",
     ) -> ResponseType[OcrDataClass]:
 
         if not language:
             raise LanguageException("Language not provided")
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         metadata = (("authorization", self.key),)
         user_data_object = resources_pb2.UserAppIDSet(
@@ -118,12 +122,15 @@ class ClarifaiApi(
         return result
 
     def image__explicit_content(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ExplicitContentDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
 
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         metadata = (("authorization", self.key),)
         user_data_object = resources_pb2.UserAppIDSet(
@@ -169,11 +176,14 @@ class ClarifaiApi(
         )
 
     def image__face_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[FaceDetectionDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         metadata = (("authorization", self.key),)
         user_data_object = resources_pb2.UserAppIDSet(
@@ -228,12 +238,16 @@ class ClarifaiApi(
             return result
 
     def image__object_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
+
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
 
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
 
         metadata = (("authorization", self.key),)
         user_data_object = resources_pb2.UserAppIDSet(
@@ -288,12 +302,15 @@ class ClarifaiApi(
             )
 
     def image__logo_detection(
-        self, file: BufferedReader
+        self, 
+        file: str,
+        file_url :str = ""
     ) -> ResponseType[LogoDetectionDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
 
-        file_content = file.read()
+        with open(file, "rb") as file_:
+            file_content = file_.read()
         width, height = Img.open(file).size
 
         metadata = (("authorization", self.key),)

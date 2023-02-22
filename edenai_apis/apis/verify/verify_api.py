@@ -73,8 +73,17 @@ class VerifyApi(ProviderInterface, OcrInterface):
         return response.json()
 
 
-    def ocr__invoice_parser(self, file: BufferedReader, language: str) -> ResponseType[InvoiceParserDataClass]:
-        original_response = self._make_post_request(file)
+    def ocr__invoice_parser(
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
+    ) -> ResponseType[InvoiceParserDataClass]:
+
+        file_ = open(file, "rb")
+        original_response = self._make_post_request(file_)
+
+        file_.close()
 
         ship_name = original_response['ship_to']['name']
         ship_address = original_response['ship_to']['address']
@@ -143,8 +152,15 @@ class VerifyApi(ProviderInterface, OcrInterface):
             standardized_response=standardized_response
         )
 
-    def ocr__receipt_parser(self, file: BufferedReader, language: str) -> ResponseType[ReceiptParserDataClass]:
-        original_response = self._make_post_request(file)
+    def ocr__receipt_parser(
+        self, 
+        file: str, 
+        language: str,
+        file_url: str= ""
+    ) -> ResponseType[ReceiptParserDataClass]:
+        file_ = open(file, "rb")
+        original_response = self._make_post_request(file_)
+        file_.close()
 
         customer_information = CustomerInformation(
             customer_name=original_response['bill_to']['name'],

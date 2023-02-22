@@ -16,7 +16,7 @@ class VideoInterface:
     ### Explicit content detection methods
     @abstractmethod
     def video__explicit_content_detection_async__launch_job(
-        self, file: BufferedReader
+        self, file: str, file_url: str= ""
     ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect explicit content in a video
@@ -38,7 +38,9 @@ class VideoInterface:
 
     ### Face detection methods
     @abstractmethod
-    def video__face_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
+    def video__face_detection_async__launch_job(
+        self, file: str, file_url: str= ""
+    ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect faces in a video
 
@@ -59,7 +61,9 @@ class VideoInterface:
 
     ### Label detection methods
     @abstractmethod
-    def video__label_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
+    def video__label_detection_async__launch_job(
+        self, file: str, file_url: str= ""
+    ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect objects in a video
 
@@ -80,7 +84,9 @@ class VideoInterface:
 
     ### Logo detection methods
     @abstractmethod
-    def video__logo_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
+    def video__logo_detection_async__launch_job(
+        self, file: str, file_url: str= ""
+    ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect logos in a video
 
@@ -101,7 +107,9 @@ class VideoInterface:
 
     ### Object tracking methods
     @abstractmethod
-    def video__object_tracking_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
+    def video__object_tracking_async__launch_job(
+        self, file: str, file_url: str= ""
+    ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to track objects in a video
 
@@ -122,7 +130,9 @@ class VideoInterface:
 
     ### Person tracking methods
     @abstractmethod
-    def video__person_tracking_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
+    def video__person_tracking_async__launch_job(
+        self, file: str, file_url: str= ""
+    ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to track persons in a video
 
@@ -139,7 +149,9 @@ class VideoInterface:
 
     ### Text detection methods
     @abstractmethod
-    def video__text_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
+    def video__text_detection_async__launch_job(
+        self, file: str, file_url: str= ""
+    ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect text in a video
 

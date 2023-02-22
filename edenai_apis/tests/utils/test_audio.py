@@ -1,4 +1,5 @@
 from io import BufferedReader, BytesIO
+import mimetypes
 from pytest_mock import MockerFixture
 import pytest
 from pydub import AudioSegment
@@ -6,15 +7,17 @@ from pydub.exceptions import CouldntDecodeError
 
 from edenai_apis.utils.audio import (
     audio_converter,
-    audio_features_and_support,
     get_audio_attributes,
     audio_format,
     supported_extension,
-    file_with_good_extension
+    get_file_extension
 )
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.files import FileInfo, FileWrapper
 from settings import base_path
 import os
+from pydub.utils import mediainfo
+
 class TestAudioConverter:
     #TODO Need to add more test, like test with other file format (m4a, flac, ogg, etc ..)
     wav_file_input = None
@@ -142,131 +145,115 @@ class TestGetAudioAttributes:
             assert sample_rate == 44100
 
 class TestAudioFormat:
+
+    def test_with_array_extensions(self):
+        audio_file = BytesIO(b"test file")
+        audio_file.name = "audio.mp3"
+        extensions = ["wav", "flac"]
+        assert audio_format(audio_file.name, extensions) == extensions
+
     def test_valid_file_type(self):
         audio_file = BytesIO(b"test file")
         audio_file.name = "audio.mp3"
-        assert audio_format(audio_file)[0] == "mp3"
+        assert audio_format(audio_file.name, [])[0] == "mp3"
 
     def test_unknown_file_type(self):
         audio_file = BytesIO(b"test file")
         audio_file.name = "audio.xyz"
-        assert audio_format(audio_file) == ["xyz"]
+        assert audio_format(audio_file.name, []) == ["xyz"]
 
 class TestSupportedExtension:
     def test_valid_extension(self):
-        file = BytesIO(b"test file")
-        file.name = "audio.mp3"
+        file = os.path.join(base_path, "features/audio/data/conversation.mp3")
+        file_info= FileInfo(
+            os.stat(file).st_size,
+            mimetypes.guess_type(file)[0],
+            ["mp3", "mp2", "m4a"],
+            mediainfo(file).get("sample_rate", "44100"),
+            mediainfo(file).get("channels", "1")
+        )
+        file_wrapper = FileWrapper(file,"",file_info)
         accepted_extensions = ["mp3", "wav", "m4a"]
-        assert supported_extension(file, accepted_extensions) == (True, "mp3")
+        assert supported_extension(file_wrapper, accepted_extensions) == (True, "mp3")
 
     def test_valid_extension_multiple(self):
-        file = BytesIO(b"test file")
-        file.name = "audio.mp3"
+        file = os.path.join(base_path, "features/audio/data/conversation.mp3")
+        file_info= FileInfo(
+            os.stat(file).st_size,
+            mimetypes.guess_type(file)[0],
+            ["mp3", "mp2", "m4a"],
+            mediainfo(file).get("sample_rate", "44100"),
+            mediainfo(file).get("channels", "1")
+        )
+        file_wrapper = FileWrapper(file,"",file_info)
         accepted_extensions = ["mp3", "mp4", "m4a"]
-        assert supported_extension(file, accepted_extensions) == (True, "mp3")
+        assert supported_extension(file_wrapper, accepted_extensions) == (True, "mp3")
 
     def test_invalid_extension(self):
         file = BytesIO(b"test file")
         file.name = "audio.xyz"
+        file_info= FileInfo(
+            12345,
+            "machintruc/txt",
+            ["flac"],
+            mediainfo(file.name).get("sample_rate", "44100"),
+            mediainfo(file.name).get("channels", "1")
+        )
+        file_wrapper = FileWrapper(file.name,"",file_info)
         accepted_extensions = ["mp3", "wav", "m4a"]
-        assert supported_extension(file, accepted_extensions) == (False, "nop")
+        assert supported_extension(file_wrapper, accepted_extensions) == (False, "nop")
 
 
 class TestFileWithGoodExtension:
+    
     def test_raises_exception_on_unsupported_extension(self):
         file = BytesIO(b"fake audio file")
         file.name = 'fake.txt'
+        file_info= FileInfo(
+            123456,
+            "machintruc/txt",
+            ["txt"],
+            mediainfo(file.name).get("sample_rate", "44100"),
+            mediainfo(file.name).get("channels", "1")
+        )
+        file_wrapper = FileWrapper(file.name,"",file_info)
         accepted_extensions = ["wav", "mp3"]
         with pytest.raises(ProviderException) as exc:
-            file_with_good_extension(file, accepted_extensions)
+            get_file_extension(file_wrapper, accepted_extensions)
         assert str(exc.value) == \
-            f"File extension not supported. Use one of the following extensions: {accepted_extensions}"
+            f"File extension not supported. Use one of the following extensions: {','.join(accepted_extensions)}"
 
     def test_raises_exception_on_mismatch_channels(self):
         data_path = os.path.join(base_path, "features/audio/data/out.wav")
-        with open(data_path, 'rb') as file:
-            accepted_extensions = ["wav", "mp3"]
-            channels = 2
-            with pytest.raises(ProviderException) as exc:
-                file_with_good_extension(file, accepted_extensions, channels)
-            assert str(exc.value) == "File audio must be Stereo"
+        accepted_extensions = ["wav", "mp3"]
+        channels = 2
+        with pytest.raises(ProviderException) as exc:
+            file_info= FileInfo(
+                123456,
+                "machintruc/txt",
+                [],
+                mediainfo(data_path).get("sample_rate", "44100"),
+                mediainfo(data_path).get("channels", "1")
+            )
+            file_wrapper = FileWrapper(data_path,"",file_info)
+            get_file_extension(file_wrapper, accepted_extensions, channels)
+        assert str(exc.value) == "File audio must be Stereo"
 
     def test_raises_exception_on_mismatch_channels_mp3(self):
         data_path = os.path.join(base_path, "features/audio/data/conversation.mp3")
-        with open(data_path, 'rb') as file:
-            accepted_extensions = ["wav", "mp3"]
-            channels = 1
-            with pytest.raises(ProviderException) as exc:
-                file_with_good_extension(file, accepted_extensions, channels)
-            assert str(exc.value) == "File audio must be Mono"
+        accepted_extensions = ["wav", "mp3"]
+        channels = 1
+        with pytest.raises(ProviderException) as exc:
+            file_info= FileInfo(
+                123456,
+                "machintruc/txt",
+                [],
+                mediainfo(data_path).get("sample_rate", "44100"),
+                mediainfo(data_path).get("channels", "2")
+            )
+            file_wrapper = FileWrapper(data_path,"",file_info)
+            get_file_extension(file_wrapper, accepted_extensions, channels)
+        assert str(exc.value) == "File audio must be Mono"
 
-
-class TestAudioFeaturesAndSupport:
-
-    provider_name = "amazon"
-
-    @audio_features_and_support
-    def decorated_function(self, file: BufferedReader, file_name:str, language: str,
-        speakers: int, profanity_filter: bool, vocabulary: list,
-        audio_attributes: tuple):
-
-        return audio_attributes
-
-
-    def test_with_good_extention(self, mocker: MockerFixture):
-        def fake_file_with_good_extension(*args, **kwargs):
-            return "wav", "2", "44100"
-        mocker.patch("edenai_apis.utils.audio.file_with_good_extension", \
-            side_effect=fake_file_with_good_extension)
-        #Setup
-        audio_file = BytesIO(b"test file")
-        audio_file.name = "audio.mp3"
-        expected_output = ("wav", "2", "44100")
-        #Action
-        output = self.decorated_function(audio_file, "en", 2, False, [])
-        #Assert
-        assert output == expected_output
-
-    def test_raise_exception_extensions(self, mocker: MockerFixture):
-        def fake_file_with_good_extension(*args, **kwargs):
-            raise ProviderException("File extension not supported. Use one of the following extensions: []")
-        mocker.patch("edenai_apis.utils.audio.file_with_good_extension", \
-            side_effect=fake_file_with_good_extension)
-        #Setup
-        audio_file = BytesIO(b"test file")
-        audio_file.name = "audio.mp3"
-        #Action
-        with pytest.raises(ProviderException) as excp:
-            output = self.decorated_function(audio_file, "en", 2, False, [])
-        #Assert
-        assert "File extension not supported" in str(excp.value)
-
-    def test_raise_exception_channels(self, mocker: MockerFixture):
-        def fake_file_with_good_extension(*args, **kwargs):
-            raise ProviderException("File audio must be Stereo")
-        mocker.patch("edenai_apis.utils.audio.file_with_good_extension", \
-            side_effect=fake_file_with_good_extension)
-        #Setup
-        audio_file = BytesIO(b"test file")
-        audio_file.name = "audio.mp3"
-        #Action
-        with pytest.raises(ProviderException) as excp:
-            output = self.decorated_function(audio_file, "en", 2, False, [])
-        #Assert
-        assert "File audio must be Stereo" in str(excp.value)
-
-    def test_convert_to_wav(self, mocker: MockerFixture):
-        #Setup
-        audio_file = BytesIO(b"test file")
-        audio_file.name = "audio.mp3"
-        expected_output = ("wav", "2", "44100")
-        def fake_mediainfo(*args, **kwargs):
-            return audio_file, "44100", "2", "2"
-        mocker.patch("edenai_apis.utils.audio.audio_converter", \
-            side_effect=fake_mediainfo)
-        #Action
-        output = self.decorated_function(audio_file, "en", 2, False, [], True)
-        #Assert
-        assert output == expected_output
 
         

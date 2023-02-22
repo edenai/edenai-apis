@@ -14,7 +14,6 @@ from edenai_apis.features.audio import (
     TextToSpeechDataClass,
 )
 from edenai_apis.features.audio.audio_interface import AudioInterface
-from edenai_apis.utils.audio import audio_features_and_support
 from edenai_apis.utils.conversion import convert_pt_date_from_string
 from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import (
@@ -75,26 +74,28 @@ class MicrosoftAudioApi(AudioInterface):
             original_response={}, standardized_response=standardized_response
         )
 
-    @audio_features_and_support #add audio_attributes to file
     def audio__speech_to_text_async__launch_job(
         self,
-        file: BufferedReader,
-        file_name: str,
+        file: str,
         language: str,
         speakers: int,
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
-        audio_attributes: tuple
+        audio_attributes: tuple,
+        file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
+
+        export_format, channels, frame_rate = audio_attributes
+
         # check language
         if not language:
             raise LanguageException("Language not provided")
 
-        export_format, channels, frame_rate = audio_attributes
-
-        content_url = upload_file_to_s3(
-            file, Path(file_name).stem + "." + export_format
-        )
+        content_url = file_url
+        if not content_url:
+            content_url = upload_file_to_s3(
+                file, Path(file).stem + "." + export_format
+            )
 
         headers = self.headers["speech"]
         headers["Content-Type"] = "application/json"
@@ -108,7 +109,7 @@ class MicrosoftAudioApi(AudioInterface):
             "locale": language,
             "displayName": "test batch transcription",
         }
-        if channels == 1:
+        if int(channels) == 1:
             config["properties"].update(
                 {
                     "diarizationEnabled": True,

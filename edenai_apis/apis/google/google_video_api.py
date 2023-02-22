@@ -64,21 +64,23 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
 from google.cloud import videointelligence
 class GoogleVideoApi(VideoInterface):
     def google_video_launch_job(
-        self, file: BufferedReader, feature: GoogleVideoFeatures
+        self, 
+        file: str,
+        feature: GoogleVideoFeatures,
     ) -> AsyncLaunchJobResponseType:
         # Launch async job for label detection
         storage_client = self.clients["storage"]
         bucket_name = "audios-speech2text"
-        file_extension = file.name.split(".")[-1]
+        file_extension = file.split(".")[-1]
         file_name = (
-            str(int(time())) + Path(file.name).stem + "_video_." + file_extension
+            str(int(time())) + Path(file).stem + "_video_." + file_extension
         )
 
         # Upload video to GCS
         bucket = storage_client.get_bucket(bucket_name)
         blob = bucket.blob(file_name)
 
-        blob.upload_from_string(file.read())
+        blob.upload_from_filename(file)
         gcs_uri = f"gs://{bucket_name}/{file_name}"
 
         # Configure the request for each feature
@@ -143,32 +145,32 @@ class GoogleVideoApi(VideoInterface):
         return AsyncLaunchJobResponseType(provider_job_id=features[feature].operation.name)
 
     # Launch label detection job
-    def video__label_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
+    def video__label_detection_async__launch_job(self, file: str, file_url: str= "") -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.LABEL)
 
     # Launch text detection job
-    def video__text_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
+    def video__text_detection_async__launch_job(self, file: str, file_url: str= "") -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.TEXT)
 
     # Launch face detection job
-    def video__face_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
+    def video__face_detection_async__launch_job(self, file: str, file_url: str= "") -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.FACE)
 
     # Launch person tracking job
-    def video__person_tracking_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
+    def video__person_tracking_async__launch_job(self, file: str, file_url: str= "") -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.PERSON)
 
     # Launch logo detection job
-    def video__logo_detection_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
+    def video__logo_detection_async__launch_job(self, file: str, file_url: str= "") -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.LOGO)
 
     # Launch object tracking job
-    def video__object_tracking_async__launch_job(self, file: BufferedReader) -> AsyncLaunchJobResponseType:
+    def video__object_tracking_async__launch_job(self, file: str, file_url: str= "") -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.OBJECT)
 
     # Launch explicit content detection job
     def video__explicit_content_detection_async__launch_job(
-        self, file: BufferedReader
+        self, file: str, file_url: str= ""
     ) -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.EXPLICIT)
 

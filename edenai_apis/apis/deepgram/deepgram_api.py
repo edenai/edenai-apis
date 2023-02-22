@@ -1,5 +1,6 @@
 
 from io import BufferedReader
+from pathlib import Path
 import requests
 import json
 from time import time
@@ -18,10 +19,10 @@ from edenai_apis.utils.types import (
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import audio_features_and_support, file_with_good_extension
 from apis.amazon.helpers import check_webhook_result
 
 from apis.amazon.config import storage_clients
+from edenai_apis.utils.upload_s3 import upload_file_to_s3
 
 
 class DeepgramApi(ProviderInterface, AudioInterface):
@@ -39,20 +40,26 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         self.storage_url = self.api_settings["storage_url"]
 
 
-    @audio_features_and_support #add audio_attributes to file
-    def audio__speech_to_text_async__launch_job(self, file: BufferedReader, file_name:str,
-        language: str, speakers: int, profanity_filter: bool, vocabulary: list,
-        audio_attributes: tuple
+    def audio__speech_to_text_async__launch_job(
+        self, 
+        file: str,
+        language: str, 
+        speakers: int, 
+        profanity_filter: bool, 
+        vocabulary: list,
+        audio_attributes: tuple,
+        file_url: str = "",
         ) -> AsyncLaunchJobResponseType:
 
         export_format, channels, frame_rate = audio_attributes
 
-        file_name = str(int(time())) + "_" + str(file_name.split("/")[-1])
-        storage_clients(self.api_settings_amazon)["speech"].meta.client.upload_fileobj(
-            Fileobj = file, 
-            Bucket = self.bucket_name, 
-            Key= file_name 
-        )
+        file_name = str(int(time())) + "_" + str(file.split("/")[-1])
+
+        content_url = file_url
+        if not content_url:
+            content_url = upload_file_to_s3(
+                file, Path(file_name).stem + "." + export_format
+            )
 
         headers = {
             "authorization" : f"Token {self.api_key}",
@@ -60,7 +67,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         }
 
         data = {
-            "url": f"{self.storage_url}{file_name}"
+            "url": content_url
         }
 
         data_config = {
@@ -90,11 +97,6 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         response = requests.post(self.url, headers=headers, json=data)
         result = response.json()
         if response.status_code != 200:
-            # delete audio file
-            storage_clients(self.api_settings_amazon)["speech"].meta.client.delete_object(
-                    Bucket= self.bucket_name, 
-                    Key= file_name
-                )
             raise ProviderException(f"{result.get('err_code')}: {result.get('err_msg')}")
 
         transcribe_id = response.json()["request_id"]
@@ -119,11 +121,6 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id
             )
-        # delete audio file
-        storage_clients(self.api_settings_amazon)["speech"].meta.client.delete_object(
-                Bucket= self.bucket_name, 
-                Key= file_name
-            )
         if response_status != 200:
             raise ProviderException(original_response)
         
@@ -132,10 +129,8 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         speakers = set()
         
         if original_response.get("err_code"):
-            print(original_response)
             raise ProviderException(f"{original_response.get('err_code')}: {original_response.get('err_msg')}")
 
-        print(json.dumps(original_response, indent=2))
         channels = original_response["results"].get("channels", [])
         for channel in channels:
             text_response = channel["alternatives"][0]
