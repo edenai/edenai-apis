@@ -1,0 +1,7 @@
+{
+  "original_response": "<Response [400]>",
+  "standardized_response": {
+    "audio": "eyJzdGF0dXNDb2RlIjo0MDAsInN1Y2Nlc3MiOmZhbHNlLCJ0eXBlIjoiVk9JQ0VTS0lOX0VSUk9SIiwidGltZXN0YW1wIjoiMjAyMy0wMi0yM1QxMTowMzowMy4xMzJaIiwiZXJyb3IiOiJVbmF2YWlsYWJsZSB2b2ljZSBza2luLiJ9",
+    "voice_type": 0
+  }
+}
