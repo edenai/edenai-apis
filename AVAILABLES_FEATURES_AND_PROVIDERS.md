@@ -59,6 +59,7 @@
 | **text_to_speech** | amazon |
 | | google |
 | | ibm |
+| | lovoai |
 | | microsoft |
 
 </details>
@@ -418,6 +419,13 @@
 | **text** | named_entity_recognition |
 | | sentiment_analysis |
 | | syntax_analysis |
+
+</details>
+<details><summary>lovoai</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **audio** | text_to_speech |
 
 </details>
 <details><summary>meaningcloud</summary>
