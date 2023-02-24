@@ -14,6 +14,7 @@ from edenai_apis.features.ocr import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.conversion import convert_string_to_number
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
@@ -98,7 +99,7 @@ class TabscannerApi(ProviderInterface, OcrInterface):
                 amount=float(json_element["lineTotal"])
                 if json_element["lineTotal"] and json_element["lineTotal"] != ""
                 else None,
-                unit_price=float(json_element["unit"])
+                unit_price=convert_string_to_number(json_element["unit"], float)
                 if json_element["unit"] and json_element["unit"] != ""
                 else None,
                 quantity=json_element["qty"],

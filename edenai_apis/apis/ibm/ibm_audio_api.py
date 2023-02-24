@@ -122,7 +122,7 @@ class IbmAudioApi(AudioInterface):
                         segment=time_stamps[idx_word][0],
                         start_time=str(time_stamps[idx_word][1]),
                         end_time=str(time_stamps[idx_word][2]),
-                        speaker=word_info["speaker"] + 1,
+                        speaker= int(word_info["speaker"]) + 1,
                         confidence=word_info["confidence"],
                     )
                 )

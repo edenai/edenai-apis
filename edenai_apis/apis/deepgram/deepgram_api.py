@@ -130,6 +130,9 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         
         if original_response.get("err_code"):
             raise ProviderException(f"{original_response.get('err_code')}: {original_response.get('err_msg')}")
+        
+        if not "results" in original_response:
+            raise ProviderException(f"Provider returned an empty response")
 
         channels = original_response["results"].get("channels", [])
         for channel in channels:

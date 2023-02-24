@@ -289,13 +289,19 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def _check_microsoft_error(self, data: Dict):
-        data = data.get('results')
-        if data.get("error", {}).get("message"):
+        if not data:
+            raise ProviderException("Provider returned an empty response")
+        data = data.get('results') or {}
+        error = data.get("error", {}) or data.get("errors",[]) or {}
+        if not error:
+            return
+        if isinstance(error, dict) and error.get("message"):
             raise ProviderException(data["error"]["message"])
-        if data.get("errors",[]):
-            errors = data.get("errors")[0]
+        if isinstance(error, list):
+            errors = error[0]
             raise ProviderException(errors.get("error").get("message"))
 
+        
     def text__keyword_extraction(
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
