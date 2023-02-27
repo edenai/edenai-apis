@@ -1,0 +1,62 @@
+{
+  "original_response": {
+    "id": "cmpl-6oZvd4qGA5T8DqHn258pRCXDiDj0Y",
+    "object": "text_completion",
+    "created": 1677512529,
+    "model": "text-davinci-003",
+    "choices": [
+      {
+        "text": " {\"items\":[{\"text\":\"Hollo\",\"offset\":0,\"type\":\"Spelling\",\"suggestions\":[{\"suggestion\":\"Hello\",\"score\":1.0}]},{\"text\":\"wrld\",\"offset\":6,\"type\":\"Spelling\",\"suggestions\":[{\"suggestion\":\"world\",\"score\":1.0}]},{\"text\":\"yu\",\"offset\":13,\"type\":\"Spelling\",\"suggestions\":[{\"suggestion\":\"you\",\"score\":1.0}]}]}",
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 109,
+      "completion_tokens": 92,
+      "total_tokens": 201
+    }
+  },
+  "standardized_response": {
+    "text": "Hollo, wrld! How r yu?",
+    "items": [
+      {
+        "text": "Hollo",
+        "type": "Spelling",
+        "offset": 0,
+        "length": 5,
+        "suggestions": [
+          {
+            "suggestion": "Hello",
+            "score": 1.0
+          }
+        ]
+      },
+      {
+        "text": "wrld",
+        "type": "Spelling",
+        "offset": 6,
+        "length": 4,
+        "suggestions": [
+          {
+            "suggestion": "world",
+            "score": 1.0
+          }
+        ]
+      },
+      {
+        "text": "yu",
+        "type": "Spelling",
+        "offset": 13,
+        "length": 2,
+        "suggestions": [
+          {
+            "suggestion": "you",
+            "score": 1.0
+          }
+        ]
+      }
+    ]
+  }
+}

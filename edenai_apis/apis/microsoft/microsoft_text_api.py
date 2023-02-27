@@ -1,3 +1,4 @@
+from http import HTTPStatus
 import sys
 import json
 from collections import defaultdict
@@ -20,6 +21,7 @@ from edenai_apis.features.text import (
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SegmentSentimentAnalysisDataClass,
 )
+from edenai_apis.features.text.spell_check import SpellCheckItem, SpellCheckDataClass
 from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
@@ -336,4 +338,45 @@ class MicrosoftTextApi(TextInterface):
 
         return ResponseType[KeywordExtractionDataClass](
             original_response=data, standardized_response=standardized_response
+        )
+
+    def text__spell_check(self, text: str, language: str) -> ResponseType[SpellCheckDataClass]:
+        data = {
+            "text": text,
+        }
+
+        params = {
+            "mkt": language,
+            "mode": "spell",
+        }
+
+        response = requests.post(
+            self.url["spell_check"],
+            headers=self.headers['spell_check'],
+            data=data,
+            params=params
+        )
+
+        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
+            raise ProviderException("Internal Server Error", response.status_code)
+
+        orginal_response = response.json()
+        if response.status_code != HTTPStatus.OK:
+            raise ProviderException(orginal_response['errors']['message'], response.status_code)
+
+        items: Sequence[SpellCheckItem] = []
+        for flag_token in orginal_response['flaggedTokens']:
+            items.append(SpellCheckItem(
+                offset=flag_token['offset'],
+                length=len(flag_token['token']),
+                type=flag_token['type'],
+                text=flag_token['token'],
+                suggestions=flag_token['suggestions']
+            ))
+
+        standardized_response = SpellCheckDataClass(text=text, items=items)
+
+        return ResponseType[SpellCheckDataClass](
+            original_response=orginal_response,
+            standardized_response=standardized_response
         )

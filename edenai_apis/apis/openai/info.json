@@ -3,6 +3,13 @@
     "question_answer": {
       "version": "v3.0.0"
     },
+    "spell_check": {
+      "constraints": {
+  
+        "allow_null_language": true
+      },
+      "version": "v3.0.0"
+    },
     "summarize": {
       "constraints": {
         "languages": [

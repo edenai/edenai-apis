@@ -1,7 +1,9 @@
+from pprint import pprint
 from typing import List, Optional, Sequence, Literal
 import requests
 import numpy as np
 import json
+from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass, SpellCheckItem
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import standardized_confidence_score
@@ -28,6 +30,7 @@ from edenai_apis.features.image.generation import (
 )
 from .helpers import (
     construct_search_context,
+    construct_spell_check_instruction,
     get_score,
     construct_anonymization_context,
     construct_classification_instruction,
@@ -572,3 +575,43 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
         return ResponseType[ImageGenerationDataClass](
             original_response=original_response,
             standardized_response=ImageGenerationDataClass(items=generations))
+
+    def text__spell_check(self, text: str, language: str) -> ResponseType[SpellCheckDataClass]:
+        url = f"{self.url}/completions"
+
+        prompt = construct_spell_check_instruction(text)
+
+        payload = {
+            "n": 1,
+            "model": "text-davinci-003",
+            "max_tokens": 500,
+            "temperature": 0.7,
+            "prompt": prompt
+        }
+
+        try:
+            original_response = requests.post(url, json=payload, headers=self.headers).json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal Server Error") from exc
+
+        check_openai_errors(original_response)
+
+        try:
+            original_items = json.loads(original_response['choices'][0]['text'])
+        except (KeyError, json.JSONDecodeError) as exc:
+            raise ProviderException("An error occurred while parsing the response.") from exc
+
+        items: Sequence[SpellCheckItem] = []
+        for item in original_items['items']:
+            items.append(SpellCheckItem(
+                text=item['text'],
+                offset=item['offset'],
+                length=len(item['text']),
+                type=item['type'],
+                suggestions=item['suggestions'],
+            ))
+
+        return ResponseType[SpellCheckDataClass](
+            original_response=original_response,
+            standardized_response=SpellCheckDataClass(text=text, items=items)
+        )

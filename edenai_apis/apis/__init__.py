@@ -38,5 +38,6 @@ from .verify import VerifyApi
 from .klippa import KlippaApi
 from .rossum import RossumApi
 from .lovoai import LovoaiApi
+from .prowritingaid import ProWritingAidApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

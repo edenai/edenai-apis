@@ -69,6 +69,10 @@ def get_microsoft_headers() -> Dict:
                     "subscription_key"
                 ]
             },
+            "spell_check": {
+                "Ocp-Apim-Subscription-Key": api_settings["spell_check"]["subscription_key"],
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
         }
 
 def get_microsoft_urls() -> Dict:
@@ -81,6 +85,7 @@ def get_microsoft_urls() -> Dict:
             "text_moderation" : api_settings["text_moderation"]["url"],
             "translator": api_settings["translator"]["url"],
             "speech": api_settings["speech"]["url"],
+            "spell_check": api_settings["spell_check"]["url"],
         }
 
 def microsoft_text_moderation_personal_infos(data):

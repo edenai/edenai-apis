@@ -1,0 +1,423 @@
+{
+  "original_response": {
+    "TaskId": "",
+    "Result": {
+      "Tags": [
+        {
+          "category": "grammarspelling",
+          "categoryDisplayName": "Grammar (spelling)",
+          "color": 1,
+          "endPos": 10,
+          "helpArticleId": 1000042,
+          "helpId": "SIMPLE_SPELLING",
+          "hint": "Unknown word: wrld",
+          "id": "63323bd2-9afd-425e-803d-fbc897a0b931",
+          "invisible": false,
+          "isSubTag": false,
+          "realtimeCategory": "Spelling",
+          "realtimeColor": "#E73030",
+          "rephraseContext": "",
+          "rephraseModel": "",
+          "report": "grammar",
+          "startPos": 7,
+          "subcategory": "wrld",
+          "suggestions": [
+            "world",
+            "wild",
+            "WRLD"
+          ],
+          "suggestionsDiffs": null,
+          "urls": null,
+          "hashId": "3644128978907544576"
+        },
+        {
+          "category": "grammarspelling",
+          "categoryDisplayName": "Grammar (spelling)",
+          "color": 1,
+          "endPos": 20,
+          "helpArticleId": 1000042,
+          "helpId": "SIMPLE_SPELLING",
+          "hint": "Unknown word: yu",
+          "id": "312f6a58-fce9-40ae-a418-f619753d54d7",
+          "invisible": false,
+          "isSubTag": false,
+          "realtimeCategory": "Spelling",
+          "realtimeColor": "#E73030",
+          "rephraseContext": "",
+          "rephraseModel": "",
+          "report": "grammar",
+          "startPos": 19,
+          "subcategory": "yu",
+          "suggestions": [
+            "you",
+            "YU"
+          ],
+          "suggestionsDiffs": null,
+          "urls": null,
+          "hashId": "2733048643129150032"
+        }
+      ],
+      "WordCount": 5,
+      "Stats": {
+        "ForDocument": [
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "CompanyName",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              0.0
+            ],
+            "Value": 0.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "PremiumUser",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              1.0
+            ],
+            "Value": 1.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "WordCount",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              5.0
+            ],
+            "Value": 5.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "WordCountNonDialog",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              5.0
+            ],
+            "Value": 5.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "WordCountDialog",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              0.0
+            ],
+            "Value": 0.0
+          },
+          {
+            "StatType": "SentenceCount",
+            "StatTypeValue": 4,
+            "StatTypeString": "SentenceCount",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              2.0
+            ],
+            "Value": 2.0
+          },
+          {
+            "StatType": "SyllableCount",
+            "StatTypeValue": 2,
+            "StatTypeString": "SyllableCount",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              5.0
+            ],
+            "Value": 5.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 17,
+            "StatTypeString": "SentenceLength",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              2.0,
+              3.0
+            ],
+            "Value": 0.0
+          },
+          {
+            "StatType": "ParagraphCount",
+            "StatTypeValue": 3,
+            "StatTypeString": "ParagraphCount",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              1.0
+            ],
+            "Value": 1.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "SemiColonCount",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              0.0
+            ],
+            "Value": 0.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "ExclamationMarkCount",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              1.0
+            ],
+            "Value": 1.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "LongParagraphs",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              0.0
+            ],
+            "Value": 0.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "BulletPoints",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              0.0
+            ],
+            "Value": 0.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "DialogParagraphs",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              0.0
+            ],
+            "Value": 0.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "TermbaseIssues",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              0.0
+            ],
+            "Value": 0.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "LongSentences",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              0.0
+            ],
+            "Value": 0.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "Grammar",
+            "RealtimeTagsCategories": [
+              "grammargrammar"
+            ],
+            "Values": [
+              0.0
+            ],
+            "Value": 0.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "Spelling",
+            "RealtimeTagsCategories": [
+              "grammarspelling"
+            ],
+            "Values": [
+              2.0
+            ],
+            "Value": 2.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "QuestionCount",
+            "RealtimeTagsCategories": [],
+            "Values": [],
+            "Value": 0.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "TransitionSentences",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              0.0
+            ],
+            "Value": 0.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "StyleGuideIssue",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              0.0
+            ],
+            "Value": 0.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "StyleGuideSet",
+            "RealtimeTagsCategories": [],
+            "Values": [
+              0.0
+            ],
+            "Value": 0.0
+          },
+          {
+            "StatType": "WordCount",
+            "StatTypeValue": 1,
+            "StatTypeString": "GrammarSpelling",
+            "RealtimeTagsCategories": [
+              "grammargrammar",
+              "grammarspelling"
+            ],
+            "Values": [
+              1.0
+            ],
+            "Value": 1.0
+          }
+        ],
+        "ByParagraph": null
+      },
+      "Summaries": [
+        {
+          "ReportDisplayName": "Grammar Check",
+          "ReportName": "grammar",
+          "SummaryItems": [
+            {
+              "Text": "Spelling Score 3%: Aim for zero spelling mistakes in your work.",
+              "Graph": null,
+              "Url": null,
+              "UrlText": null,
+              "SubItems": [
+                {
+                  "TagIds": [
+                    "63323bd2-9afd-425e-803d-fbc897a0b931"
+                  ],
+                  "Text": "wrld (1)",
+                  "SuggestionCategory": "grammarspelling",
+                  "SubCategory": "wrld",
+                  "SearchTerm": "wrld"
+                },
+                {
+                  "TagIds": [
+                    "312f6a58-fce9-40ae-a418-f619753d54d7"
+                  ],
+                  "Text": "yu (1)",
+                  "SuggestionCategory": "grammarspelling",
+                  "SubCategory": "yu",
+                  "SearchTerm": "yu"
+                }
+              ],
+              "IsPositive": "Negative",
+              "Category": {
+                "Category": "spelling",
+                "DisplayName": "Grammar (spelling)",
+                "Name": "grammarspelling"
+              },
+              "CategoryName": "grammarspelling",
+              "NumIssues": 1
+            },
+            {
+              "Text": "spelling 2 issues found",
+              "Graph": null,
+              "Url": null,
+              "UrlText": null,
+              "SubItems": [
+                {
+                  "TagIds": [
+                    "63323bd2-9afd-425e-803d-fbc897a0b931"
+                  ],
+                  "Text": "wrld (1)",
+                  "SuggestionCategory": null,
+                  "SubCategory": "wrld",
+                  "SearchTerm": "wrld"
+                },
+                {
+                  "TagIds": [
+                    "312f6a58-fce9-40ae-a418-f619753d54d7"
+                  ],
+                  "Text": "yu (1)",
+                  "SuggestionCategory": null,
+                  "SubCategory": "yu",
+                  "SearchTerm": "yu"
+                }
+              ],
+              "IsPositive": "Negative",
+              "Category": {
+                "Category": "spelling",
+                "DisplayName": "Grammar (spelling)",
+                "Name": "grammarspelling"
+              },
+              "CategoryName": "grammarspelling",
+              "NumIssues": 2
+            }
+          ],
+          "NumberOfIssues": 3,
+          "ReportDescription": "Checks your text for grammar errors and potential word mis-use."
+        }
+      ]
+    }
+  },
+  "standardized_response": {
+    "text": "Hollo, wrld! How r yu?",
+    "items": [
+      {
+        "text": "wrld",
+        "type": "Unknown word: wrld",
+        "offset": 7,
+        "length": 3,
+        "suggestions": [
+          {
+            "suggestion": "world",
+            "score": null
+          },
+          {
+            "suggestion": "wild",
+            "score": null
+          },
+          {
+            "suggestion": "WRLD",
+            "score": null
+          }
+        ]
+      },
+      {
+        "text": "yu",
+        "type": "Unknown word: yu",
+        "offset": 19,
+        "length": 1,
+        "suggestions": [
+          {
+            "suggestion": "you",
+            "score": null
+          },
+          {
+            "suggestion": "YU",
+            "score": null
+          }
+        ]
+      }
+    ]
+  }
+}

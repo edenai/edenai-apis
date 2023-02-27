@@ -1,0 +1,52 @@
+{
+    "text": "Thiis is a sample test.",
+    "items": [
+        {
+            "text": "Thiis",
+            "type": "misspelled",
+            "offset": 0,
+            "length": 5,
+            "suggestions": [
+                {
+                    "suggestion": "This",
+                    "score": 0.89
+                },
+                {
+                    "suggestion": "These",
+                    "score": 0.64
+                },
+                {
+                    "suggestion": "Thus",
+                    "score": 0.53
+                }
+            ]
+        },
+        {
+            "text": "sample",
+            "type": "correct",
+            "offset": 10,
+            "length": 6,
+            "suggestions": []
+        },
+        {
+            "text": "test",
+            "type": "misspelled",
+            "offset": 17,
+            "length": 4,
+            "suggestions": [
+                {
+                    "suggestion": "text",
+                    "score": 0.91
+                },
+                {
+                    "suggestion": "rest",
+                    "score": 0.62
+                },
+                {
+                    "suggestion": "testy",
+                    "score": 0.43
+                }
+            ]
+        }
+    ]
+}

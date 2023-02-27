@@ -1,0 +1,82 @@
+{
+  "original_response": {
+    "_type": "SpellCheck",
+    "flaggedTokens": [
+      {
+        "offset": 0,
+        "token": "Aufwiedesehn",
+        "type": "UnknownToken",
+        "suggestions": [
+          {
+            "suggestion": "auf wiedersehen",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "offset": 14,
+        "token": "ish",
+        "type": "UnknownToken",
+        "suggestions": [
+          {
+            "suggestion": "ich",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "offset": 25,
+        "token": "carteful",
+        "type": "UnknownToken",
+        "suggestions": [
+          {
+            "suggestion": "carte full",
+            "score": 1
+          }
+        ]
+      }
+    ],
+    "correctionType": "Low"
+  },
+  "standardized_response": {
+    "text": "Aufwiedesehn, ish bin en carteful salt",
+    "items": [
+      {
+        "text": "Aufwiedesehn",
+        "type": "UnknownToken",
+        "offset": 0,
+        "length": 12,
+        "suggestions": [
+          {
+            "suggestion": "auf wiedersehen",
+            "score": 1.0
+          }
+        ]
+      },
+      {
+        "text": "ish",
+        "type": "UnknownToken",
+        "offset": 14,
+        "length": 3,
+        "suggestions": [
+          {
+            "suggestion": "ich",
+            "score": 1.0
+          }
+        ]
+      },
+      {
+        "text": "carteful",
+        "type": "UnknownToken",
+        "offset": 25,
+        "length": 8,
+        "suggestions": [
+          {
+            "suggestion": "carte full",
+            "score": 1.0
+          }
+        ]
+      }
+    ]
+  }
+}

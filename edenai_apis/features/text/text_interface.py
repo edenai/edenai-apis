@@ -15,6 +15,7 @@ from edenai_apis.features.text import (
     CustomClassificationDataClass,
     ModerationDataClass
 )
+from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass
 from edenai_apis.utils.types import ResponseType
 
 
@@ -227,4 +228,17 @@ class TextInterface:
             ResponseType[CustomClassificationDataClass]:
         """
 
+        raise NotImplementedError
+    
+    @abstractmethod
+    def text__spell_check(self, text: str, language: str) -> ResponseType[SpellCheckDataClass]:
+        """Spell check
+
+        Args:
+            text (str): text input
+            language (str): language code in ISO format
+
+        Returns:
+            ResponseType[SpellCheckDataClass]
+        """
         raise NotImplementedError
