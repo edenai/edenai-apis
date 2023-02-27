@@ -60,7 +60,7 @@ class DeeplApi(ProviderInterface, TranslationInterface):
         file_ = open(file, "rb")
 
         files = {
-            'file': file,
+            'file': file_,
         }
 
         data = {
