@@ -28,5 +28,6 @@ def speech_to_text_arguments() -> Dict:
         "language": "en", 
         "speakers" : 2, 
         "profanity_filter": False,
-        "vocabulary" : []
+        "vocabulary" : [],
+        "audio_attributes" : ("audio/mp3", "1", "44100")
         }

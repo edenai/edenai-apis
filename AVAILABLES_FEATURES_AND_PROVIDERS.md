@@ -157,6 +157,9 @@
 | | openai |
 | **moderation** | microsoft |
 | | openai |
+| **spell_check** | microsoft |
+| | openai |
+| | prowritingaid |
 | **custom_named_entity_recognition** | openai |
 | **search** | openai |
 
@@ -457,6 +460,7 @@
 | | moderation |
 | | named_entity_recognition |
 | | sentiment_analysis |
+| | spell_check |
 | | summarize |
 | **translation** | automatic_translation |
 | | language_detection |
@@ -516,6 +520,7 @@
 | | question_answer |
 | | search |
 | | sentiment_analysis |
+| | spell_check |
 | | summarize |
 | | topic_extraction |
 | **translation** | automatic_translation |
@@ -535,6 +540,13 @@
 |----------|-------------|
 | **image** | explicit_content |
 | | face_detection |
+
+</details>
+<details><summary>prowritingaid</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | spell_check |
 
 </details>
 <details><summary>revai</summary>
