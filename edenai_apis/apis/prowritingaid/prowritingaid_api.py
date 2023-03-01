@@ -54,7 +54,7 @@ class ProWritingAidApi(ProviderInterface, TextInterface):
             items.append(SpellCheckItem(
                 text=tag['subcategory'],
                 offset=tag['startPos'],
-                length=tag['endPos'] - tag['startPos'],
+                length=tag['endPos'] - tag['startPos'] + 1,
                 type=tag['hint'],
                 suggestions=suggestions,
             ))

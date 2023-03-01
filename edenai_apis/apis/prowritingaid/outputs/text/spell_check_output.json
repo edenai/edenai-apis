@@ -11,7 +11,7 @@
           "helpArticleId": 1000042,
           "helpId": "SIMPLE_SPELLING",
           "hint": "Unknown word: wrld",
-          "id": "63323bd2-9afd-425e-803d-fbc897a0b931",
+          "id": "c228bf39-6495-437a-b83e-e6f7e0ea0b3c",
           "invisible": false,
           "isSubTag": false,
           "realtimeCategory": "Spelling",
@@ -38,7 +38,7 @@
           "helpArticleId": 1000042,
           "helpId": "SIMPLE_SPELLING",
           "hint": "Unknown word: yu",
-          "id": "312f6a58-fce9-40ae-a418-f619753d54d7",
+          "id": "b7c5c8b5-f31e-4eb2-b49e-d6b1229c477c",
           "invisible": false,
           "isSubTag": false,
           "realtimeCategory": "Spelling",
@@ -312,7 +312,7 @@
               "SubItems": [
                 {
                   "TagIds": [
-                    "63323bd2-9afd-425e-803d-fbc897a0b931"
+                    "c228bf39-6495-437a-b83e-e6f7e0ea0b3c"
                   ],
                   "Text": "wrld (1)",
                   "SuggestionCategory": "grammarspelling",
@@ -321,7 +321,7 @@
                 },
                 {
                   "TagIds": [
-                    "312f6a58-fce9-40ae-a418-f619753d54d7"
+                    "b7c5c8b5-f31e-4eb2-b49e-d6b1229c477c"
                   ],
                   "Text": "yu (1)",
                   "SuggestionCategory": "grammarspelling",
@@ -346,7 +346,7 @@
               "SubItems": [
                 {
                   "TagIds": [
-                    "63323bd2-9afd-425e-803d-fbc897a0b931"
+                    "c228bf39-6495-437a-b83e-e6f7e0ea0b3c"
                   ],
                   "Text": "wrld (1)",
                   "SuggestionCategory": null,
@@ -355,7 +355,7 @@
                 },
                 {
                   "TagIds": [
-                    "312f6a58-fce9-40ae-a418-f619753d54d7"
+                    "b7c5c8b5-f31e-4eb2-b49e-d6b1229c477c"
                   ],
                   "Text": "yu (1)",
                   "SuggestionCategory": null,
@@ -386,7 +386,7 @@
         "text": "wrld",
         "type": "Unknown word: wrld",
         "offset": 7,
-        "length": 3,
+        "length": 4,
         "suggestions": [
           {
             "suggestion": "world",
@@ -406,7 +406,7 @@
         "text": "yu",
         "type": "Unknown word: yu",
         "offset": 19,
-        "length": 1,
+        "length": 2,
         "suggestions": [
           {
             "suggestion": "you",

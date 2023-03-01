@@ -78,9 +78,11 @@ def construct_spell_check_instruction(text: str) -> str:
         Found the spelling mistakes in the text below.
         Please create a list of suggests words to replace him and the confidence score between 0.0-1.0.
         We need also a type of misspelling error
+        To calculate the start offset of the word you must count all off characters before the word including spaces and punctuation.
+        For example: "Hello, world!" the start offset of "world" is 7.
 
         Desired format:
-            {{"items":[{{"text":"word","offset":start_index,type:type,"suggestions":[{{"suggestion":"new word","score":value}}]}}]}}
+            {{"items":[{{"text":"word","offset":start_offset,type:type,"suggestions":[{{"suggestion":"new word","score":value}}]}}]}}
 
         Text:###{text}###\nOutput:
     """
