@@ -82,7 +82,7 @@ def construct_spell_check_instruction(text: str, language: str) -> str:
         For example: "Hello, world!" the start offset of "world" is 7.
 
         Desired format:
-            {{"items":[{{"text":"word","offset":start_offset,type:type,"suggestions":[{{"suggestion":"new word","score":value}}]}}]}}
+            {{"items":[{{"text":"word","offset":start_offset,"type":type,"suggestions":[{{"suggestion":"new word","score":value}}]}}]}}
 
         Text:###{text}###\nOutput:
     """
