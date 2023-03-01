@@ -579,7 +579,7 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
     def text__spell_check(self, text: str, language: str) -> ResponseType[SpellCheckDataClass]:
         url = f"{self.url}/completions"
 
-        prompt = construct_spell_check_instruction(text)
+        prompt = construct_spell_check_instruction(text, language)
 
         payload = {
             "n": 1,

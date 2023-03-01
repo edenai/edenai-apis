@@ -69,13 +69,13 @@ def check_openai_errors(response : dict):
     """
     if "error" in response:
         raise ProviderException(response["error"]["message"])
-    
-def construct_spell_check_instruction(text: str) -> str:
+
+def construct_spell_check_instruction(text: str, language: str) -> str:
     """
         This function takes a text as input and returns a string that contains the instruction.
     """
     return f"""
-        Found the spelling mistakes in the text below.
+        Found the spelling mistakes in the text below in {language}.
         Please create a list of suggests words to replace him and the confidence score between 0.0-1.0.
         We need also a type of misspelling error
         To calculate the start offset of the word you must count all off characters before the word including spaces and punctuation.
