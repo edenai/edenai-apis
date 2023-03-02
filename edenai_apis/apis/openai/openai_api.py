@@ -28,6 +28,7 @@ from edenai_apis.features.image.generation import (
     GenerationDataClass as ImageGenerationDataClass,
     GeneratedImageDataClass
 )
+from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
 from .helpers import (
     construct_search_context,
     construct_spell_check_instruction,
@@ -615,3 +616,30 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
             original_response=original_response,
             standardized_response=SpellCheckDataClass(text=text, items=items)
         )
+        
+    def text__embeddings(self, texts: List[str]) -> ResponseType[EmbeddingsDataClass]:
+        url = 'https://api.openai.com/v1/embeddings'
+        if len(texts) == 1:
+            texts = texts[0]
+        payload = {
+            'input':texts,
+            'model':'text-embedding-ada-002',
+        }
+        try:
+            original_response = requests.post(url, json=payload, headers=self.headers).json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal Server Error") from exc
+        
+        items : Sequence[EmbeddingsDataClass] = []
+        embeddings = original_response['data']
+        
+        for embedding in embeddings:
+            items.append(EmbeddingDataClass(embedding=embedding['embedding']))
+            
+        standardized_response = EmbeddingsDataClass(items=items)
+        
+        return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response
+        )
+        

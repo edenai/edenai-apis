@@ -16,6 +16,7 @@ from edenai_apis.features.text import (
     ModerationDataClass
 )
 from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass
+from edenai_apis.features.text.embeddings.embeddings_dataclass import EmbeddingsDataClass
 from edenai_apis.utils.types import ResponseType
 
 
@@ -240,5 +241,17 @@ class TextInterface:
 
         Returns:
             ResponseType[SpellCheckDataClass]
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def text__embeddings(self, texts: List[str]) -> ResponseType[EmbeddingsDataClass]:
+        """Spell check
+
+        Args:
+            texts (list): texts input
+
+        Returns:
+            ResponseType[EmbeddingsDataClass]
         """
         raise NotImplementedError

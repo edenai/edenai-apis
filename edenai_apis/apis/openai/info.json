@@ -76,6 +76,9 @@
     },
     "custom_classification":{
       "version": "v3.0.0"
+    },
+    "embeddings":{
+      "version": "v3.0.0"
     }
   },
   "translation": {
