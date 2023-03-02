@@ -1,6 +1,13 @@
 {
     "text": {
         "spell_check": {
+            "constraints": {
+                "language": [
+                    "en",
+                    "fr"
+                ],
+                "allow_null_language": "true"
+            },
             "version": "v1.0"
         }
     }

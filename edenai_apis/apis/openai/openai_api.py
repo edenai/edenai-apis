@@ -580,7 +580,7 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
     def text__spell_check(self, text: str, language: str) -> ResponseType[SpellCheckDataClass]:
         url = f"{self.url}/completions"
 
-        prompt = construct_spell_check_instruction(text)
+        prompt = construct_spell_check_instruction(text, language)
 
         payload = {
             "n": 1,
@@ -598,15 +598,22 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
         check_openai_errors(original_response)
 
         try:
+            print(original_response['choices'][0]['text'])
             original_items = json.loads(original_response['choices'][0]['text'])
         except (KeyError, json.JSONDecodeError) as exc:
+            print(exc)
             raise ProviderException("An error occurred while parsing the response.") from exc
 
         items: Sequence[SpellCheckItem] = []
         for item in original_items['items']:
+            # The offset return by OpenAI aren't real offsets, so we need to found the real offset with the word and the approximate offset
+            real_offset = text.find(item['text'], item['offset'])
+            print(item['text'])
+            print(item['offset'])
+            print(real_offset)
             items.append(SpellCheckItem(
                 text=item['text'],
-                offset=item['offset'],
+                offset=real_offset,
                 length=len(item['text']),
                 type=item['type'],
                 suggestions=item['suggestions'],
