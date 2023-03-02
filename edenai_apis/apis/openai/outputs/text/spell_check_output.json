@@ -1,21 +1,21 @@
 {
   "original_response": {
-    "id": "cmpl-6pDlZ2gAHQsNbJA4CdR3nHS3vcK8i",
+    "id": "cmpl-6pKWEjV26KFFokPPGTwCYMizwHgQT",
     "object": "text_completion",
-    "created": 1677665665,
+    "created": 1677691622,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": " {\"items\":[{\"text\":\"Hollo\",\"offset\":0,\"type\":\"Spelling\",\"suggestions\":[{\"suggestion\":\"Hello\",\"score\":1.0}]},{\"text\":\"wrld\",\"offset\":7,\"type\":\"Spelling\",\"suggestions\":[{\"suggestion\":\"world\",\"score\":1.0}]},{\"text\":\"yu\",\"offset\":16,\"type\":\"Spelling\",\"suggestions\":[{\"suggestion\":\"you\",\"score\":1.0}]}]}",
+        "text": " {\"items\":[{\"text\":\"Hollo\",\"offset\":0,\"type\":\"Typo\",\"suggestions\":[{\"suggestion\":\"Hello\",\"score\":1.0}]},{\"text\":\"wrld\",\"offset\":7,\"type\":\"Typo\",\"suggestions\":[{\"suggestion\":\"world\",\"score\":1.0}]},{\"text\":\"yu\",\"offset\":15,\"type\":\"Typo\",\"suggestions\":[{\"suggestion\":\"you\",\"score\":1.0}]}]}",
         "index": 0,
         "logprobs": null,
-        "finish_reason": null
+        "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 154,
+      "prompt_tokens": 156,
       "completion_tokens": 92,
-      "total_tokens": 246
+      "total_tokens": 248
     }
   },
   "standardized_response": {
@@ -23,7 +23,7 @@
     "items": [
       {
         "text": "Hollo",
-        "type": "Spelling",
+        "type": "Typo",
         "offset": 0,
         "length": 5,
         "suggestions": [
@@ -35,7 +35,7 @@
       },
       {
         "text": "wrld",
-        "type": "Spelling",
+        "type": "Typo",
         "offset": 7,
         "length": 4,
         "suggestions": [
@@ -47,8 +47,8 @@
       },
       {
         "text": "yu",
-        "type": "Spelling",
-        "offset": 16,
+        "type": "Typo",
+        "offset": 19,
         "length": 2,
         "suggestions": [
           {

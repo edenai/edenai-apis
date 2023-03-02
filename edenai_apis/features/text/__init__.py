@@ -62,3 +62,8 @@ from .moderation import (
     TextModerationCategoriesMicrosoftEnum,
     moderation_arguments
 )
+from .embeddings import (
+    EmbeddingsDataClass,
+    EmbeddingDataClass,
+    embeddings_arguments
+)

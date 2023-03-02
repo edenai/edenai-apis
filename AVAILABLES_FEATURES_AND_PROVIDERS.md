@@ -161,6 +161,7 @@
 | | openai |
 | | prowritingaid |
 | **custom_named_entity_recognition** | openai |
+| **embeddings** | openai |
 | **search** | openai |
 
 </details>
@@ -514,6 +515,7 @@
 | **text** | anonymization |
 | | custom_classification |
 | | custom_named_entity_recognition |
+| | embeddings |
 | | generation |
 | | keyword_extraction |
 | | moderation |

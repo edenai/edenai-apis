@@ -29,6 +29,7 @@ from edenai_apis.features.image.generation import (
     GenerationDataClass as ImageGenerationDataClass,
     GeneratedImageDataClass
 )
+from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
 from .helpers import (
     construct_ner_instruction,
     construct_search_context,
@@ -581,7 +582,7 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
     def text__spell_check(self, text: str, language: str) -> ResponseType[SpellCheckDataClass]:
         url = f"{self.url}/completions"
 
-        prompt = construct_spell_check_instruction(text)
+        prompt = construct_spell_check_instruction(text, language)
 
         payload = {
             "n": 1,
@@ -599,15 +600,22 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
         check_openai_errors(original_response)
 
         try:
+            print(original_response['choices'][0]['text'])
             original_items = json.loads(original_response['choices'][0]['text'])
         except (KeyError, json.JSONDecodeError) as exc:
+            print(exc)
             raise ProviderException("An error occurred while parsing the response.") from exc
 
         items: Sequence[SpellCheckItem] = []
         for item in original_items['items']:
+            # The offset return by OpenAI aren't real offsets, so we need to found the real offset with the word and the approximate offset
+            real_offset = text.find(item['text'], item['offset'])
+            print(item['text'])
+            print(item['offset'])
+            print(real_offset)
             items.append(SpellCheckItem(
                 text=item['text'],
-                offset=item['offset'],
+                offset=real_offset,
                 length=len(item['text']),
                 type=item['type'],
                 suggestions=item['suggestions'],
@@ -630,7 +638,6 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
             "temperature": 0.7,
             "prompt": prompt
         }
-
         try:
             original_response = requests.post(url, json=payload, headers=self.headers).json()
         except json.JSONDecodeError as exc:
@@ -646,4 +653,34 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
         return ResponseType[NamedEntityRecognitionDataClass](
             original_response=original_response,
             standardized_response=NamedEntityRecognitionDataClass(items=original_items['items'])
+        )
+
+        
+    def text__embeddings(self, texts: List[str]) -> ResponseType[EmbeddingsDataClass]:
+        url = 'https://api.openai.com/v1/embeddings'
+        if len(texts) == 1:
+            texts = texts[0]
+        payload = {
+            'input':texts,
+            'model':'text-embedding-ada-002',
+        }
+
+        try:
+            original_response = requests.post(url, json=payload, headers=self.headers).json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal Server Error") from exc
+
+        check_openai_errors(original_response)
+
+        items : Sequence[EmbeddingsDataClass] = []
+        embeddings = original_response['data']
+
+        for embedding in embeddings:
+            items.append(EmbeddingDataClass(embedding=embedding['embedding']))
+
+        standardized_response = EmbeddingsDataClass(items=items)
+
+        return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response
         )
