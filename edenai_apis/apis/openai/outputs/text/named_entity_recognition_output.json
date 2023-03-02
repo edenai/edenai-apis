@@ -1,0 +1,55 @@
+{
+  "original_response": {
+    "id": "cmpl-6pei56xCs6qnlti8fDcKcPeMRkO0S",
+    "object": "text_completion",
+    "created": 1677769237,
+    "model": "text-davinci-003",
+    "choices": [
+      {
+        "text": " {\"items\": [{\"entity\": \"Barack Hussein Obama\",\"category\": \"Person\",\"importance\": 1.0},\n                {\"entity\": \"Democratic Party\",\"category\": \"Organisation\",\"importance\": 0.9},\n                {\"entity\": \"United States\",\"category\": \"Location\",\"importance\": 0.9},\n                {\"entity\": \"U.S. senator\",\"category\": \"Job title\",\"importance\": 0.8},\n                {\"entity\": \"Illinois\",\"category\": \"Location\",\"importance\": 0.8},\n                {\"entity\": \"state senator\",\"category\": \"Job title\",\"importance\": 0.7}]}",
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 144,
+      "completion_tokens": 137,
+      "total_tokens": 281
+    }
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "entity": "Barack Hussein Obama",
+        "category": "Person",
+        "importance": 1.0
+      },
+      {
+        "entity": "Democratic Party",
+        "category": "Organisation",
+        "importance": 0.9
+      },
+      {
+        "entity": "United States",
+        "category": "Location",
+        "importance": 0.9
+      },
+      {
+        "entity": "U.S. senator",
+        "category": "Job title",
+        "importance": 0.8
+      },
+      {
+        "entity": "Illinois",
+        "category": "Location",
+        "importance": 0.8
+      },
+      {
+        "entity": "state senator",
+        "category": "Job title",
+        "importance": 0.7
+      }
+    ]
+  }
+}

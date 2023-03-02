@@ -86,3 +86,17 @@ def construct_spell_check_instruction(text: str) -> str:
 
         Text:###{text}###\nOutput:
     """
+
+def construct_ner_instruction(text: str) -> str:
+    """
+        This function takes a text as input and returns a string that contains the instruction.
+    """
+    return f"""
+        Please extract the entities from the text below and the confidence score between 0.0-1.0.
+        We need also the type of the entity.
+
+        Desired format:
+            {{"items":[{{"entity":"entity","category":"categrory","importance":score}}]}}
+
+        Text:###{text}###\nOutput:
+    """

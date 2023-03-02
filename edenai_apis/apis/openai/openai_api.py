@@ -3,6 +3,7 @@ from typing import List, Optional, Sequence, Literal
 import requests
 import numpy as np
 import json
+from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import NamedEntityRecognitionDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass, SpellCheckItem
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -29,6 +30,7 @@ from edenai_apis.features.image.generation import (
     GeneratedImageDataClass
 )
 from .helpers import (
+    construct_ner_instruction,
     construct_search_context,
     construct_spell_check_instruction,
     get_score,
@@ -131,7 +133,7 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
             original_response= original_response,
             standardized_response= standardized_response
         )
-        
+
     def text__search(
         self, texts: List[str], query: str, model: str = None
     ) -> ResponseType[SearchDataClass]:
@@ -614,4 +616,34 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
         return ResponseType[SpellCheckDataClass](
             original_response=original_response,
             standardized_response=SpellCheckDataClass(text=text, items=items)
+        )
+
+    def text__named_entity_recognition(self, language: str, text: str) -> ResponseType[NamedEntityRecognitionDataClass]:
+        url = f"{self.url}/completions"
+
+        prompt = construct_ner_instruction(text)
+
+        payload = {
+            "n": 1,
+            "model": "text-davinci-003",
+            "max_tokens": 500,
+            "temperature": 0.7,
+            "prompt": prompt
+        }
+
+        try:
+            original_response = requests.post(url, json=payload, headers=self.headers).json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal Server Error") from exc
+
+        check_openai_errors(original_response)
+
+        try:
+            original_items = json.loads(original_response['choices'][0]['text'])
+        except (KeyError, json.JSONDecodeError) as exc:
+            raise ProviderException("An error occurred while parsing the response.") from exc
+
+        return ResponseType[NamedEntityRecognitionDataClass](
+            original_response=original_response,
+            standardized_response=NamedEntityRecognitionDataClass(items=original_items['items'])
         )
