@@ -133,12 +133,12 @@ def from_jsonarray_to_list(
 def convert_pt_date_from_string(pt_date: str) -> int:
     if not isinstance(pt_date, str):
         return None
-    ptdate_regex = re.compile(r"PT(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)?")
+    ptdate_regex = re.compile(r"PT(?:(?P<hours>([0-9]*[.])?[0-9]+)H)?(?:(?P<minutes>([0-9]*[.])?[0-9]+)M)?(?:(?P<seconds>([0-9]*[.])?[0-9]+)S)?")
     match = ptdate_regex.match(pt_date)
     if match:
-        hours = int(match.group("hours") or 0)
-        minutes = int(match.group("minutes") or 0)
-        seconds = int(match.group("seconds") or 0)
+        hours = float(match.group("hours") or 0)
+        minutes = float(match.group("minutes") or 0)
+        seconds = float(match.group("seconds") or 0)
         return 3600 * hours + 60 * minutes + seconds
     return None
 
