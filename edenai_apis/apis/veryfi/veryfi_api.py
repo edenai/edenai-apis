@@ -31,8 +31,8 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
 
 
-class VerifyApi(ProviderInterface, OcrInterface):
-    provider_name = "verify"
+class VeryfiApi(ProviderInterface, OcrInterface):
+    provider_name = "veryfi"
 
     def __init__(self):
         self.api_settings = load_key(provider_name=self.provider_name)

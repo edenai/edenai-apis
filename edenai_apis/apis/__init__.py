@@ -34,7 +34,7 @@ from .cohere import CohereApi
 from .skybiometry import SkybiometryApi
 from .deepai import DeepAIApi
 from .stabilityai import StabilityAIApi
-from .verify import VerifyApi
+from .veryfi import VeryfiApi
 from .klippa import KlippaApi
 from .rossum import RossumApi
 from .lovoai import LovoaiApi
