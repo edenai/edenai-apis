@@ -125,6 +125,7 @@
 | | microsoft |
 | | neuralspace |
 | | oneai |
+| | openai |
 | **sentiment_analysis** | amazon |
 | | connexun |
 | | emvista |
@@ -519,6 +520,7 @@
 | | generation |
 | | keyword_extraction |
 | | moderation |
+| | named_entity_recognition |
 | | question_answer |
 | | search |
 | | sentiment_analysis |
