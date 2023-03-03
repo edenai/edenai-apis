@@ -170,7 +170,6 @@ class RossumApi(ProviderInterface, OcrInterface):
             raise ProviderException('Internal Server Error', code=500) from exc
 
         if response.status_code != 200:
-            print(response.json)
             raise ProviderException(
                 message=response_json.get('detail', 'Error while downloading reviewing data'),
                 code=response.status_code
@@ -273,8 +272,8 @@ class RossumApi(ProviderInterface, OcrInterface):
             taxes = []
             for tax in response_parsed['vat_and_amount']['tax_details']:
                 taxes.append(TaxesInvoice(
-                    tax_amount=tax['tax_detail_tax'],
-                    tax_rate=tax['tax_detail_rate'],
+                    value=float(tax['tax_detail_tax']) if tax['tax_detail_tax'] else None,
+                    rate=float(tax['tax_detail_rate']) if tax['tax_detail_rate'] else None,
                 ))
 
             bank_information = BankInvoice(
@@ -284,11 +283,12 @@ class RossumApi(ProviderInterface, OcrInterface):
 
             item_lines = []
             for item in response_parsed['line_items']:
+                print(item['item_description'])
                 item_lines.append(ItemLinesInvoice(
-                    item_unit_price=item['item_amount_base'],
-                    item_total_price=item['item_amount_base'],
-                    item_description=item['item_description'],
-                    item_quantity=item['item_quantity'],
+                    unit_price=float(item['item_amount_base']) if item['item_amount_base'] else None,
+                    amount=float(item['item_amount']) if item['item_amount'] else None,
+                    description=item['item_description'],
+                    quantity=float(item['item_quantity']) if item['item_quantity'] else None,
                 ))
 
             extracted_data.append(InfosInvoiceParserDataClass(

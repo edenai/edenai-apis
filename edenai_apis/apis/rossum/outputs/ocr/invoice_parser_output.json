@@ -8,14 +8,14 @@
     },
     "results": [
       {
-        "url": "https://elis.rossum.ai/api/v1/annotations/27556599",
+        "url": "https://elis.rossum.ai/api/v1/annotations/28263491",
         "status": "to_review",
-        "arrived_at": "2023-02-21T14:36:53.046608Z",
+        "arrived_at": "2023-03-03T15:53:36.835620Z",
         "exported_at": null,
         "document": {
-          "url": "https://elis.rossum.ai/api/v1/documents/29269443",
+          "url": "https://elis.rossum.ai/api/v1/documents/30042006",
           "file_name": "invoice.png",
-          "file": "https://elis.rossum.ai/api/v1/documents/29269443/content"
+          "file": "https://elis.rossum.ai/api/v1/documents/30042006/content"
         },
         "modifier": null,
         "schema": {
@@ -277,7 +277,7 @@
               {
                 "category": "datapoint",
                 "schema_id": "sender_address",
-                "rir_confidence": 0.22993251116768068,
+                "rir_confidence": 0.22993252436000244,
                 "value": "City, State, Country\nZIP CODE",
                 "type": "string"
               },
@@ -305,14 +305,14 @@
               {
                 "category": "datapoint",
                 "schema_id": "recipient_name",
-                "rir_confidence": 0.8261278699901875,
+                "rir_confidence": 0.8261277989376803,
                 "value": "Client Name",
                 "type": "string"
               },
               {
                 "category": "datapoint",
                 "schema_id": "recipient_address",
-                "rir_confidence": 0.5058584134063109,
+                "rir_confidence": 0.5058587961908663,
                 "value": "1 Client Address\nCity, State, Country\nZIP CODE",
                 "type": "string"
               },
@@ -374,14 +374,14 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_description",
-                        "rir_confidence": 0.7938488077428459,
+                        "rir_confidence": 0.7938488077428888,
                         "value": "Your item Name\nitem descnption goes here",
                         "type": "string"
                       },
                       {
                         "category": "datapoint",
                         "schema_id": "item_quantity",
-                        "rir_confidence": 0.8757271091635541,
+                        "rir_confidence": 0.8757271091635748,
                         "value": "1",
                         "type": "number"
                       },
@@ -395,7 +395,7 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_amount",
-                        "rir_confidence": 0.8173972973045088,
+                        "rir_confidence": 0.8173972973045032,
                         "value": "1000",
                         "type": "number"
                       },
@@ -409,7 +409,7 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_amount_total",
-                        "rir_confidence": 0.9425891112904163,
+                        "rir_confidence": 0.942589111290418,
                         "value": "1000",
                         "type": "number"
                       }
@@ -422,14 +422,14 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_description",
-                        "rir_confidence": 0.8140170239384583,
+                        "rir_confidence": 0.8140170239383924,
                         "value": "Your item Name\nItem description goes here",
                         "type": "string"
                       },
                       {
                         "category": "datapoint",
                         "schema_id": "item_quantity",
-                        "rir_confidence": 0.8728136972025878,
+                        "rir_confidence": 0.8728136972025617,
                         "value": "1",
                         "type": "number"
                       },
@@ -443,7 +443,7 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_amount",
-                        "rir_confidence": 0.9595457638906782,
+                        "rir_confidence": 0.9595457638906766,
                         "value": "1000",
                         "type": "number"
                       },
@@ -457,7 +457,7 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_amount_total",
-                        "rir_confidence": 0.9287418964194565,
+                        "rir_confidence": 0.9287418964194601,
                         "value": "1000",
                         "type": "number"
                       }
@@ -470,14 +470,14 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_description",
-                        "rir_confidence": 0.7995313865899436,
+                        "rir_confidence": 0.7995313865899153,
                         "value": "Your item Name\nItem description goes here",
                         "type": "string"
                       },
                       {
                         "category": "datapoint",
                         "schema_id": "item_quantity",
-                        "rir_confidence": 0.8704975421022243,
+                        "rir_confidence": 0.8704975421022635,
                         "value": "1",
                         "type": "number"
                       },
@@ -491,7 +491,7 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_amount",
-                        "rir_confidence": 0.9590328946886691,
+                        "rir_confidence": 0.9590328946886754,
                         "value": "1000",
                         "type": "number"
                       },
@@ -505,7 +505,7 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_amount_total",
-                        "rir_confidence": 0.9202178732634855,
+                        "rir_confidence": 0.9202178732634786,
                         "value": "1000",
                         "type": "number"
                       }
@@ -518,14 +518,14 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_description",
-                        "rir_confidence": 0.8446536591064333,
+                        "rir_confidence": 0.8446536591064635,
                         "value": "Your item Name\nItem description goes here",
                         "type": "string"
                       },
                       {
                         "category": "datapoint",
                         "schema_id": "item_quantity",
-                        "rir_confidence": 0.8728136989153245,
+                        "rir_confidence": 0.8728136989153803,
                         "value": "1",
                         "type": "number"
                       },
@@ -539,7 +539,7 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_amount",
-                        "rir_confidence": 0.9255384504833227,
+                        "rir_confidence": 0.9255384504833265,
                         "value": "1000",
                         "type": "number"
                       },
@@ -553,7 +553,7 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_amount_total",
-                        "rir_confidence": 0.9166917236872514,
+                        "rir_confidence": 0.9166917236872631,
                         "value": "1000",
                         "type": "number"
                       }
@@ -604,7 +604,7 @@
         "discount": null,
         "taxes": [
           {
-            "value": null,
+            "value": 520.0,
             "rate": null
           }
         ],
@@ -629,9 +629,9 @@
         },
         "item_lines": [
           {
-            "description": null,
-            "quantity": null,
-            "amount": null,
+            "description": "Your item Name\nitem descnption goes here",
+            "quantity": 1,
+            "amount": 1000.0,
             "unit_price": null,
             "discount": null,
             "product_code": null,
@@ -640,9 +640,9 @@
             "tax_rate": null
           },
           {
-            "description": null,
-            "quantity": null,
-            "amount": null,
+            "description": "Your item Name\nItem description goes here",
+            "quantity": 1,
+            "amount": 1000.0,
             "unit_price": null,
             "discount": null,
             "product_code": null,
@@ -651,9 +651,9 @@
             "tax_rate": null
           },
           {
-            "description": null,
-            "quantity": null,
-            "amount": null,
+            "description": "Your item Name\nItem description goes here",
+            "quantity": 1,
+            "amount": 1000.0,
             "unit_price": null,
             "discount": null,
             "product_code": null,
@@ -662,9 +662,9 @@
             "tax_rate": null
           },
           {
-            "description": null,
-            "quantity": null,
-            "amount": null,
+            "description": "Your item Name\nItem description goes here",
+            "quantity": 1,
+            "amount": 1000.0,
             "unit_price": null,
             "discount": null,
             "product_code": null,
