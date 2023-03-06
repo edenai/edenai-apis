@@ -1,8 +1,10 @@
+from io import BytesIO
 from pprint import pprint
 from typing import List, Optional, Sequence, Literal
 import requests
 import numpy as np
 import json
+import base64
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import NamedEntityRecognitionDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass, SpellCheckItem
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -30,6 +32,7 @@ from edenai_apis.features.image.generation import (
     GeneratedImageDataClass
 )
 from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
+from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 from .helpers import (
     construct_ner_instruction,
     construct_search_context,
@@ -572,8 +575,16 @@ class OpenaiApi(ProviderInterface, TextInterface, ImageInterface):
         
         generations: Sequence[GeneratedImageDataClass] = []
         for generated_image in original_response.get('data'):
+            image_b64 = generated_image.get('b64_json')
+
+            image_data = image_b64.encode()
+            image_content = BytesIO(base64.b64decode(image_data))
+            resource_url = upload_file_bytes_to_s3(image_content, ".png", USER_PROCESS)
             generations.append(GeneratedImageDataClass(
-                image=generated_image.get('b64_json')))
+                image= image_b64,
+                image_resource_url= resource_url
+                )
+            )
             
         return ResponseType[ImageGenerationDataClass](
             original_response=original_response,

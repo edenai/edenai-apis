@@ -49,4 +49,11 @@ class DeepAIApi(ProviderInterface, ImageInterface):
         
         return ResponseType[GenerationDataClass](
             original_response=original_response,
-            standardized_response=GenerationDataClass(items = [GeneratedImageDataClass(image = image_bytes)]))
+            standardized_response=GenerationDataClass(items = [
+                GeneratedImageDataClass(
+                    image = image_bytes,
+                    image_resource_url = image_url
+                    )
+                    ]
+                )
+            )

@@ -5,6 +5,7 @@ from pydantic import BaseModel, StrictStr
 class TextToSpeechDataClass(BaseModel):
     audio: StrictStr
     voice_type: int
+    audio_resource_url: StrictStr
 
     @staticmethod
     def direct_response(api_response: Dict):
