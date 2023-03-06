@@ -61,8 +61,10 @@ class LovoaiApi(ProviderInterface, AudioInterface):
     @classmethod
     def get_speaker_id(cls, language: str, option: Literal["MALE", "FEMALE"]) -> str:
         speaker_id = cls.availables_speakers[language][option]
+        print(speaker_id)
         if speaker_id == "":
             raise ProviderException(f"Speaker {option} for language {language} is not available")
+        return speaker_id
 
     def audio__text_to_speech(
         self,
@@ -70,12 +72,16 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         text: str,
         option: Literal["MALE", "FEMALE"]
     ) -> ResponseType[TextToSpeechDataClass]:
-        payload = json.dumps({
+        data = json.dumps({
             "text": text,
             "speaker_id": LovoaiApi.get_speaker_id(language, option),
         })
+        print(data)
 
-        response = requests.post(f'{self.url}v1/conversion', headers=self.headers, data=payload)
+        response = requests.post(f'{self.url}v1/conversion', headers=self.headers, data=data)
+
+        if response.status_code != 200:
+            raise ProviderException(response.json().get('error', "Something went wrong"))
 
         audio = base64.b64encode(response.content).decode("utf-8")
 
