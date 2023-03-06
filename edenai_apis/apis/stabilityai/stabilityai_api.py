@@ -1,3 +1,5 @@
+import base64
+from io import BytesIO
 import requests
 from typing import Sequence, Literal
 from edenai_apis.utils.types import ResponseType
@@ -9,6 +11,7 @@ from edenai_apis.features.image.generation import (
     GenerationDataClass,
     GeneratedImageDataClass
 )
+from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 class StabilityAIApi(ProviderInterface, ImageInterface):
     provider_name = "stabilityai"
@@ -49,8 +52,16 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         
         generations: Sequence[GeneratedImageDataClass] = []
         for generated_image in original_response.get('artifacts'):
+            image_b64 = generated_image.get('base64')
+
+            image_data = image_b64.encode()
+            image_content = BytesIO(base64.b64decode(image_data))
+            resource_url = upload_file_bytes_to_s3(image_content, ".png", USER_PROCESS)
             generations.append(GeneratedImageDataClass(
-                image=generated_image.get('base64')))
+                image=image_b64,
+                image_resource_url= resource_url
+                )
+            )
             
         return ResponseType[GenerationDataClass](
             original_response=original_response,
