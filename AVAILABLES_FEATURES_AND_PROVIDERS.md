@@ -12,7 +12,7 @@
 | | microsoft |
 | | mindee |
 | | rossum |
-| | verify |
+| | veryfi |
 | **resume_parser** | affinda |
 | | hireability |
 | **custom_document_parsing_async** | amazon |
@@ -37,7 +37,7 @@
 | | microsoft |
 | | mindee |
 | | tabscanner |
-| | verify |
+| | veryfi |
 
 </details>
 <details><summary>audio</summary>
@@ -612,7 +612,7 @@
 | **ocr** | receipt_parser |
 
 </details>
-<details><summary>verify</summary>
+<details><summary>veryfi</summary>
 
 | Features | Subfeatures |
 |----------|-------------|
