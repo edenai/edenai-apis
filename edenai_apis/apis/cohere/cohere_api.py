@@ -5,6 +5,7 @@ from edenai_apis.features.text import (
     GenerationDataClass,
     ItemCustomClassificationDataClass,
     CustomClassificationDataClass,
+    SummarizeDataClass,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -26,6 +27,14 @@ class CohereApi(ProviderInterface, TextInterface):
             'Cohere-Version': '2022-12-06',
         }
 
+    def _calculate_summarize_length(output_sentences : int):
+        if output_sentences < 3:
+            return 'short'
+        elif output_sentences < 6:
+            return 'medium'
+        elif output_sentences > 6:
+            return 'long'
+        
     def text__generation(
         self, text : str, 
         max_tokens : int,
@@ -103,3 +112,33 @@ class CohereApi(ProviderInterface, TextInterface):
             original_response=original_response,
             standardized_response = CustomClassificationDataClass(classifications = classifications)
         )
+    
+    def text__summarize(self, text: str, output_sentences: int, language: str, model: Optional[str]) -> ResponseType[SummarizeDataClass]:
+        url = f"{self.base_url}summarize"
+        length = 'long'
+        if not model:
+            model = 'summarize-xlarge'
+        if output_sentences:
+            length = CohereApi._calculate_summarize_length(output_sentences)
+            
+        payload = {
+                "length": length,
+                "format": "paragraph",
+                "model": model,
+                "extractiveness": "low",
+                "temperature": 0.3,
+                "text": text,
+            }
+
+        original_response = requests.post(url, json=payload, headers= self.headers).json()
+        
+        if "message" in original_response:
+            raise ProviderException(original_response["message"])
+        
+        standardized_response = SummarizeDataClass(result=original_response.get("summary", {}))
+        
+        return ResponseType[SummarizeDataClass](
+            original_response=original_response,
+            standardized_response = standardized_response
+        )
+        

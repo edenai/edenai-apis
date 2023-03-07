@@ -5,6 +5,14 @@
       },
       "custom_classification":{
         "version" : "2022-12-06"
+      },
+      "summarize":{
+        "version" : "2022-12-06",
+        "constraints": {
+          "languages": [
+              "en"
+          ]
       }
     }
+  }
 }
