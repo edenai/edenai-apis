@@ -14,8 +14,9 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from settings import base_path, keys_path
 
-BUCKET = "providers-upload"
-BUCKET_RESSOURCE = "served-file-resources"
+BUCKET = ""
+BUCKET_RESSOURCE = ""
+CLOUDFRONT_KEY_ID = ""
 REGION = "eu-west-3"
 CLOUDFRONT_URL = "https://d14uq1pz7dzsdq.cloudfront.net/"
 
@@ -24,10 +25,7 @@ USER_PROCESS = "users_process"
 
 URL_SHORT_PERIOD = 3600
 URL_LONG_PERIOD  = 3600 * 24 * 7
-# URL_LONG_PERIOD  = 20
 
-
-api_settings = load_provider(ProviderDataEnum.KEY, "amazon")
 
 def set_time_and_presigned_url_process(process_type: str) -> Tuple[Callable, int, str]:
     """ Returns A tuple with the adequat function to call, the url expiration time and the bucket to which
@@ -56,8 +54,14 @@ def rsa_signer(message):
     return private_key.sign(message, padding.PKCS1v15(), hashes.SHA1())
 
 def s3_client_load():
+    api_settings = load_provider(ProviderDataEnum.KEY, "amazon")
     aws_access_key_id = api_settings["aws_access_key_id"]
     aws_secret_access_key = api_settings["aws_secret_access_key"]
+
+    global BUCKET, BUCKET_RESSOURCE, CLOUDFRONT_KEY_ID
+    BUCKET = api_settings["providers_resource_bucket"]
+    BUCKET_RESSOURCE = api_settings["users_resource_bucket"]
+    CLOUDFRONT_KEY_ID = api_settings["cloudfront_key_id"]
     return boto3.client(
         "s3",
         region_name=REGION,
@@ -84,7 +88,6 @@ def upload_file_bytes_to_s3(file : bytes, file_name: str, process_type = PROVIDE
 
 
 def get_cloud_front_file_url(filename: str, process_time: int):
-    CLOUDFRONT_KEY_ID = api_settings["cloudfront_key_id"]
     cloudfront_signer = CloudFrontSigner(CLOUDFRONT_KEY_ID, rsa_signer)
 
     signed_url = cloudfront_signer.generate_presigned_url(
