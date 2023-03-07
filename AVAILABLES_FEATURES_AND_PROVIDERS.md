@@ -144,13 +144,15 @@
 | | openai |
 | **generation** | cohere |
 | | openai |
-| **summarize** | connexun |
+| **summarize** | cohere |
+| | connexun |
 | | emvista |
 | | huggingface |
 | | meaningcloud |
 | | microsoft |
 | | oneai |
 | | openai |
+| | writesonic |
 | **topic_extraction** | google |
 | | ibm |
 | | openai |
@@ -296,6 +298,7 @@
 |----------|-------------|
 | **text** | custom_classification |
 | | generation |
+| | summarize |
 
 </details>
 <details><summary>connexun</summary>
@@ -632,5 +635,12 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | speech_to_text_async |
+
+</details>
+<details><summary>writesonic</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | summarize |
 
 </details>
