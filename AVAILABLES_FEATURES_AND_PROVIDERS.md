@@ -52,6 +52,7 @@
 | | microsoft |
 | | neuralspace |
 | | oneai |
+| | openai |
 | | revai |
 | | symbl |
 | | voci |
@@ -515,6 +516,7 @@
 
 | Features | Subfeatures |
 |----------|-------------|
+| **audio** | speech_to_text_async |
 | **image** | generation |
 | **text** | anonymization |
 | | custom_classification |
