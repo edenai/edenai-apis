@@ -1,21 +1,21 @@
 {
   "original_response": {
-    "id": "cmpl-6iJrbAiI3cxmMR9GiatVM5FmKp4jK",
+    "id": "cmpl-6ro1OaqX71f53s6ol9S66HIfIuX8C",
     "object": "text_completion",
-    "created": 1676020807,
+    "created": 1678281686,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": "\n[{\"keyword\": \"Barack Hussein Obama\", \"score\": 1.0},{\"keyword\":\"44th president of the United States\",\"score\":1.0},{\"keyword\": \"Democratic Party\", \"score\": 1.0},{\"keyword\": \"first African-American president of the United States\",\"score\":1.0},{\"keyword\":\"U.S. senator from Illinois\", \"score\": 1.0},{\"keyword\": \"Illinois state senator\", \"score\": 1.0}]",
+        "text": "\n    {\"items\":[{\"keyword\":\"Barack Hussein Obama\",\"importance\":1.0},{\"keyword\":\"44th president of the United States\",\"importance\":1.0},{\"keyword\":\"Democratic Party\",\"importance\":1.0},{\"keyword\":\"first African-American president\",\"importance\":1.0},{\"keyword\":\"U.S. senator from Illinois\",\"importance\":1.0},{\"keyword\":\"Illinois state senator\",\"importance\":1.0}]}",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 147,
-      "completion_tokens": 105,
-      "total_tokens": 252
+      "prompt_tokens": 165,
+      "completion_tokens": 101,
+      "total_tokens": 266
     }
   },
   "standardized_response": {
@@ -33,7 +33,7 @@
         "importance": 1.0
       },
       {
-        "keyword": "first African-American president of the United States",
+        "keyword": "first African-American president",
         "importance": 1.0
       },
       {

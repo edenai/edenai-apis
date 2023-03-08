@@ -30,8 +30,6 @@ from .helpers import (
     format_example_fn,
     check_openai_errors,
     construct_keyword_extraction_context,
-    construct_language_detection_context,
-    construct_translation_context,
     construct_sentiment_analysis_context,
     construct_topic_extraction_context,
 )
@@ -253,22 +251,20 @@ class OpenaiTextApi(TextInterface):
         "max_tokens" : self.max_tokens,
         "model" : self.model,
         }
-        original_response = requests.post(url, json=payload, headers=self.headers).json()
+        try:
+            original_response = requests.post(url, json=payload, headers=self.headers).json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal Server Error") from exc
         
         # Handle errors
         check_openai_errors(original_response)
         
-        data = original_response['choices'][0]['text'].replace("\n", " ").strip()
-        data_list = json.loads(fr"{data}")
-        items: Sequence[InfosKeywordExtractionDataClass] = []
-        for keyword in data_list:
-           items.append(
-               InfosKeywordExtractionDataClass(
-                   keyword=keyword.get('keyword'),
-                   importance=keyword.get('score')),
-           )
-        standardized_response = KeywordExtractionDataClass(items = items)
-
+        try:
+            keywords = json.loads(original_response['choices'][0]['text'])
+        except (KeyError, json.JSONDecodeError) as exc:
+            raise ProviderException("An error occurred while parsing the response.") from exc
+        
+        standardized_response = KeywordExtractionDataClass(items = keywords['items'])
         return ResponseType[KeywordExtractionDataClass](
             original_response=original_response,
             standardized_response=standardized_response

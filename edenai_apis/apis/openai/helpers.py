@@ -44,7 +44,15 @@ def construct_anonymization_context(text: str) -> str:
     return prompt
 
 def construct_keyword_extraction_context(text: str) -> str:
-    prompt = 'You are a highly intelligent and accurate Keyphrase Extraction system. You take text as input and your task is to returns the key phrases or talking points and a confidence score between 0.0-1.0 to support that this is a key phrase.\n\nDesired format:[{{"keyword":text,"score":value}}].\n\n Text: ###{data}###\nOutput:'.format(data=text)
+    prompt = f"""
+    You are a highly intelligent and accurate Keyword Extraction system. 
+    You take text as input and your task is to returns the key phrases or talking points and a confidence score between 0.0-1.0 to support that this is a key phrase.
+    
+    Desired format:
+            {{"items":[{{"keyword":"keyword","importance":"score"}}]}}
+    
+    Text: ###{text}###\nOutput:
+    """
     return prompt
 
 def construct_translation_context(text: str, source_language : str, target_language: str) -> str:
