@@ -347,3 +347,9 @@ class TestValidateAllInputLanguages:
             subfeature=SUBFEATURE
         )
         assert output == expected_output
+        
+class TestValidateResolution:
+    def test_valid_resolution():
+        pass
+    def test_invalid_resolution():
+        pass

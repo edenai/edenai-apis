@@ -12,7 +12,10 @@ from edenai_apis.utils.languages import (
     provide_appropriate_language,
     load_standardized_language
 )
+from edenai_apis.utils.resolutions import (
+    provider_appropriate_resolution
 
+)
 
 def validate_input_file_extension(constraints: dict, args: dict) -> dict:
     """Check that a provider offers support for the input file extension for speech to text
@@ -40,6 +43,27 @@ def validate_input_file_extension(constraints: dict, args: dict) -> dict:
     args["audio_attributes"] = (export_format, channels, frame_rate)
     return args
 
+def validate_resolution(constraints : dict, args: dict) -> dict: 
+    supported_resolutions: List[str] = constraints.get("resolutions", [])
+
+    if not args.get('resolution') or not supported_resolutions:
+        return args
+    try:
+        resolution = provider_appropriate_resolution(args['resolution'])
+    except SyntaxError as exc:
+        raise ProviderException(exc)
+    
+    data = resolution.split('x')
+    if len(data) != 2 :
+        raise ProviderException(
+             f"Invalid resolution format :`{args['resolution']}`."
+        )
+        
+    if resolution not in supported_resolutions:
+        raise ProviderException(f"Resolution not supported by the provider. Use one of the following resolutions: {','.join(supported_resolutions)}")
+    
+    args['resolution'] = resolution
+    return args
 
 def validate_input_file_type(constraints: dict, provider: str, args: dict) -> dict:
     """Check that a provider offers support for the input file type
@@ -248,6 +272,11 @@ def validate_all_provider_constraints(
         validated_args = validate_input_file_extension(
             provider_constraints, validated_args
         )
+        # resolution for image generation
+        validated_args = validate_resolution(
+            provider_constraints, validated_args
+        )
+        
         # ...
 
         validated_args = transform_file_args(validated_args)
