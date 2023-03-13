@@ -16,7 +16,7 @@
     - [License](#license)
 
 <!-- markdown-toc end -->
-# Eden AI APIs
+# Eden AI
 
 [Eden AI](https://www.edenai.co/?referral=github) aims to simplify the use and deployment of AI technologies by providing a unique API that connects to all the best AI engines. 
 
