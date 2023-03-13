@@ -189,10 +189,10 @@ class AffindaApi(ProviderInterface, OcrInterface):
     ) -> ResponseType[InvoiceParserDataClass]:
 
         if file_url:
-            original_response = self.client.create_resume(url=file_url).as_dict()
+            original_response = self.client.create_invoice(url=file_url).as_dict()
         else:
             file_ = open(file, "rb")
-            original_response = self.client.create_resume(file=file_).as_dict()
+            original_response = self.client.create_invoice(file=file_).as_dict()
             file_.close()
 
         if "detail" in original_response:
