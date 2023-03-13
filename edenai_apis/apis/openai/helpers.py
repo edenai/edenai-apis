@@ -108,3 +108,21 @@ def construct_ner_instruction(text: str) -> str:
 
         Text:###{text}###\nOutput:
     """
+
+def construct_custom_ner_instruction(text: str, built_entities) -> str:
+    return f"""
+    Text : Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia.
+    Entities : person, state, drink, date.
+    Extracted_Entities: {{
+        "items":[
+            {{"entity":"John Stith Pemberton", "category":"person"}},
+            {{"entity":"Georgia", "category":"state"}},
+            {{"entity":"Coca-Cola", "category":"drink"}},
+            {{"entity":"coke", "category":"drink"}},
+            {{"entity":"19th century", "category":"date"}}
+            ]
+        }}
+    Text : {text}
+    Entities :{built_entities}
+    Output:
+    """

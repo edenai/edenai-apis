@@ -1,48 +1,44 @@
 {
   "original_response": {
-    "id": "cmpl-6VgdOHvhcEWBH50WT8UNo3C2Aa73d",
+    "id": "cmpl-6tdUELp2zVwPbBDChuaBINfLPKEwo",
     "object": "text_completion",
-    "created": 1673010074,
+    "created": 1678717846,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": " person : Barack Hussein Obama; date : 2009 to 2017; region : Illinois; job : U.S. senator; job : Illinois state senator; nationality : American.",
+        "text": " {\n        \"items\":[\n            {\"entity\":\"Barack Hussein Obama\", \"category\":\"person\"},\n            {\"entity\":\"2009 to 2017\", \"category\":\"date\"},\n            {\"entity\":\"Illinois\", \"category\":\"region\"},\n            {\"entity\":\"U.S. senator\", \"category\":\"job\"},\n            {\"entity\":\"American\", \"category\":\"nationality\"}\n            ]\n        }",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 207,
-      "completion_tokens": 34,
-      "total_tokens": 241
+      "prompt_tokens": 261,
+      "completion_tokens": 83,
+      "total_tokens": 344
     }
   },
   "standardized_response": {
     "items": [
       {
-        "entity": " person ",
-        "category": " Barack Hussein Obama"
+        "entity": "Barack Hussein Obama",
+        "category": "person"
       },
       {
-        "entity": " date ",
-        "category": " 2009 to 2017"
+        "entity": "2009 to 2017",
+        "category": "date"
       },
       {
-        "entity": " region ",
-        "category": " Illinois"
+        "entity": "Illinois",
+        "category": "region"
       },
       {
-        "entity": " job ",
-        "category": " U.S. senator"
+        "entity": "U.S. senator",
+        "category": "job"
       },
       {
-        "entity": " job ",
-        "category": " Illinois state senator"
-      },
-      {
-        "entity": " nationality ",
-        "category": " American."
+        "entity": "American",
+        "category": "nationality"
       }
     ]
   }

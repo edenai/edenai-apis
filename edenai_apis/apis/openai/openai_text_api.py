@@ -32,6 +32,7 @@ from .helpers import (
     construct_keyword_extraction_context,
     construct_sentiment_analysis_context,
     construct_topic_extraction_context,
+    construct_custom_ner_instruction
 )
 class OpenaiTextApi(TextInterface):
     def text__summarize(
@@ -366,8 +367,7 @@ class OpenaiTextApi(TextInterface):
                                               ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         url = f"{self.url}/completions"
         built_entities = ','.join(entities)
-        Examples = f"Text : Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia.\n\nEntities : person, state, drink, date.\n\nExtracted_Entities : person : John Stith Pemberton; state : Georgia; drink : Coca-Cola; drink : coke; date : 19th century."
-        prompt = f"{Examples}\n\nText : "+text+" \n\nEntities :"+built_entities+"\n\nExtracted_Entities :"
+        prompt = construct_custom_ner_instruction(text, built_entities)
         payload = {
         "prompt" : prompt,
         "model" : self.model,
@@ -377,28 +377,19 @@ class OpenaiTextApi(TextInterface):
         "frequency_penalty": 0,
         "presence_penalty": 0,
         }
-        original_response = requests.post(url, json=payload, headers=self.headers).json()
+        response = requests.post(url, json=payload, headers=self.headers)
         
         # Handle errors
-        check_openai_errors(original_response)
+        if response.status_code != 200:
+            raise ProviderException(response.text, response.status_code)
         
-        items: Sequence[InfosCustomNamedEntityRecognitionDataClass] = []
-        entities = original_response['choices'][0]['text'].replace("\n", "").split(';')
-        for entity in entities:
-            item = entity.split(':')
-            detected_entities = item[1].split(',')
-            if len(detected_entities)>1:
-                for ent in detected_entities:
-                    items.append(InfosCustomNamedEntityRecognitionDataClass(
-                    entity = item[0],
-                    category = ent
-                ))
-            else:
-                items.append(InfosCustomNamedEntityRecognitionDataClass(
-                entity = item[0],
-                category = item[1]))
-
-        standardized_response = CustomNamedEntityRecognitionDataClass(items=items)
+        try:
+            original_response = response.json()
+            items = json.loads(original_response['choices'][0]['text']) 
+        except (KeyError, json.JSONDecodeError) as exc:
+            raise ProviderException("An error occurred while parsing the response.") from exc
+        
+        standardized_response = CustomNamedEntityRecognitionDataClass(items=items.get('items'))
 
         return ResponseType[CustomNamedEntityRecognitionDataClass](
             original_response=original_response,
