@@ -364,7 +364,8 @@ class OpenaiTextApi(TextInterface):
         )
         
     def text__custom_named_entity_recognition(
-        self, text: str,
+        self, 
+        text: str,
         entities: List[str],
         examples: Optional[List[Dict]]= None) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         url = f"{self.url}/completions"

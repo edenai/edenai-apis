@@ -153,12 +153,9 @@ def construct_custom_ner_instruction(
     else:
         prompt_examples = f"""
         Text : Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia.
-        Entities : person, state, drink, date.
-        Extracted entities: 
+        Extracted these entities from the Text if they exist: drink, date 
         {{
             "items":[
-                {{"entity":"John Stith Pemberton", "category":"person"}},
-                {{"entity":"Georgia", "category":"state"}},
                 {{"entity":"Coca-Cola", "category":"drink"}},
                 {{"entity":"coke", "category":"drink"}},
                 {{"entity":"19th century", "category":"date"}}

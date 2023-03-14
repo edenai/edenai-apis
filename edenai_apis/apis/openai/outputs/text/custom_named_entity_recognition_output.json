@@ -1,68 +1,40 @@
 {
   "original_response": {
-    "id": "cmpl-6tessbbUyWSDNGnSuPIQ67u55b9j0",
+    "id": "cmpl-6u0SN6qhdRPHKoKRGcbIotPaPZTJP",
     "object": "text_completion",
-    "created": 1678723218,
+    "created": 1678806143,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": "\n    {\n        \"items\":[\n            {\"entity\":\"Barack Hussein Obama\", \"category\":\"Person\"}, {\"entity\":\"United States\", \"category\":\"Region\"}, {\"entity\":\"2009\", \"category\":\"Date\"}, {\"entity\":\"2017\", \"category\":\"Date\"}, {\"entity\":\"Democratic Party\", \"category\":\"Job\"}, {\"entity\":\"American\", \"category\":\"Nationality\"}, {\"entity\":\"2005\", \"category\":\"Date\"}, {\"entity\":\"2008\", \"category\":\"Date\"}, {\"entity\":\"Illinois\", \"category\":\"Region\"}, {\"entity\":\"1997\", \"category\":\"Date\"}, {\"entity\":\"2004\", \"category\":\"Date\"}\n            ]\n    }",
+        "text": " {\n            \"items\":[\n                {\"entity\":\"John Smith\", \"category\":\"person\"},\n                {\"entity\":\"Starbucks\", \"category\":\"location\"},\n                {\"entity\":\"New York City\", \"category\":\"location\"},\n                {\"entity\":\"IBM\", \"category\":\"organization\"}\n                ]\n        }",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 232,
-      "completion_tokens": 133,
-      "total_tokens": 365
+      "prompt_tokens": 176,
+      "completion_tokens": 66,
+      "total_tokens": 242
     }
   },
   "standardized_response": {
     "items": [
       {
-        "entity": "Barack Hussein Obama",
-        "category": "Person"
+        "entity": "John Smith",
+        "category": "person"
       },
       {
-        "entity": "United States",
-        "category": "Region"
+        "entity": "Starbucks",
+        "category": "location"
       },
       {
-        "entity": "2009",
-        "category": "Date"
+        "entity": "New York City",
+        "category": "location"
       },
       {
-        "entity": "2017",
-        "category": "Date"
-      },
-      {
-        "entity": "Democratic Party",
-        "category": "Job"
-      },
-      {
-        "entity": "American",
-        "category": "Nationality"
-      },
-      {
-        "entity": "2005",
-        "category": "Date"
-      },
-      {
-        "entity": "2008",
-        "category": "Date"
-      },
-      {
-        "entity": "Illinois",
-        "category": "Region"
-      },
-      {
-        "entity": "1997",
-        "category": "Date"
-      },
-      {
-        "entity": "2004",
-        "category": "Date"
+        "entity": "IBM",
+        "category": "organization"
       }
     ]
   }
