@@ -37,7 +37,6 @@ class CohereApi(ProviderInterface, TextInterface):
         elif output_sentences > 6:
             return 'long'
         
-        
     def _format_custom_ner_examples(
         example : Dict
         ):
@@ -176,13 +175,17 @@ class CohereApi(ProviderInterface, TextInterface):
         self, 
         text: str, 
         entities: List[str],
-        examples: Optional[List[Dict]]) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
+        examples: Optional[List[Dict]] = None) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         url = f"{self.base_url}generate"
 
         # Generate prompt
         prompt_examples = ''
+        if examples == None: 
+            examples = [{"text" : "Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia.","entities" : [{"entity": "John Stith Pemberton", "category": "Person"},{"entity": "Georgia", "category": "State"},{"entity": "Coca-Cola", "category": "Drink"},{"entity": "Coke", "category": "Drink"},{"entity": "19th century", "category": "Date"}]}]
+        
         for example in examples :       
             prompt_examples = prompt_examples + CohereApi._format_custom_ner_examples(example) 
+            
         built_entities = ','.join(entities)
         prompt = prompt_examples + f"""
         {text}
