@@ -143,6 +143,8 @@
 | | lettria |
 | **custom_classification** | cohere |
 | | openai |
+| **custom_named_entity_recognition** | cohere |
+| | openai |
 | **generation** | cohere |
 | | openai |
 | **summarize** | cohere |
@@ -164,7 +166,6 @@
 | **spell_check** | microsoft |
 | | openai |
 | | prowritingaid |
-| **custom_named_entity_recognition** | openai |
 | **embeddings** | openai |
 | **search** | openai |
 
@@ -298,6 +299,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | custom_classification |
+| | custom_named_entity_recognition |
 | | generation |
 | | summarize |
 
