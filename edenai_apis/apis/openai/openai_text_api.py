@@ -1,4 +1,4 @@
-from typing import List, Optional, Sequence
+from typing import List, Optional, Sequence, Dict
 import requests
 import numpy as np
 import json
@@ -363,11 +363,13 @@ class OpenaiTextApi(TextInterface):
             standardized_response = standardized_response
         )
         
-    def text__custom_named_entity_recognition(self, text: str, entities: List[str]
-                                              ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
+    def text__custom_named_entity_recognition(
+        self, text: str,
+        entities: List[str],
+        examples: Optional[List[Dict]]= None) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         url = f"{self.url}/completions"
         built_entities = ','.join(entities)
-        prompt = construct_custom_ner_instruction(text, built_entities)
+        prompt = construct_custom_ner_instruction(text, built_entities, examples)
         payload = {
         "prompt" : prompt,
         "model" : self.model,

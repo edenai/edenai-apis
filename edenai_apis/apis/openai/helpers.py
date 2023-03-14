@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 
@@ -109,19 +109,63 @@ def construct_ner_instruction(text: str) -> str:
         Text:###{text}###\nOutput:
     """
 
-def construct_custom_ner_instruction(text: str, built_entities) -> str:
-    return f"""
-    Text : Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia.
-    Entities : person, state, drink, date.
-    Extracted_Entities: {{
+def format_custom_ner_examples(
+    example : Dict
+    ):
+    # Get the text 
+    text = example['text']
+    
+    # Get the entities 
+    entities = example['entities']
+    
+    # Create an empty list to store the extracted entities
+    extracted_entities = []
+    
+    # Loop through the entities and extract the relevant information
+    for entity in entities:
+        category = entity['category']
+        entity_name = entity['entity']
+        
+        # Append the extracted entity to the list
+        extracted_entities.append({'entity': entity_name, 'category': category})
+        
+    # Create the string with the extracted entities
+    result = f"""Text : {text}
+    Entities : {', '.join(set([entity['category'] for entity in extracted_entities]))}
+    Extracted Entities: 
+    {{
         "items":[
-            {{"entity":"John Stith Pemberton", "category":"person"}},
-            {{"entity":"Georgia", "category":"state"}},
-            {{"entity":"Coca-Cola", "category":"drink"}},
-            {{"entity":"coke", "category":"drink"}},
-            {{"entity":"19th century", "category":"date"}}
+            {', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}
             ]
+    }}
+    """
+    
+    return result
+
+def construct_custom_ner_instruction(
+    text: str, 
+    built_entities : str, 
+    examples : Optional[List[Dict]]) -> str:
+    if examples : 
+        prompt_examples = ""
+        for example in examples:
+            prompt_examples = prompt_examples + format_custom_ner_examples(example)
+    else:
+        prompt_examples = f"""
+        Text : Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia.
+        Entities : person, state, drink, date.
+        Extracted entities: 
+        {{
+            "items":[
+                {{"entity":"John Stith Pemberton", "category":"person"}},
+                {{"entity":"Georgia", "category":"state"}},
+                {{"entity":"Coca-Cola", "category":"drink"}},
+                {{"entity":"coke", "category":"drink"}},
+                {{"entity":"19th century", "category":"date"}}
+                ]
         }}
+    """
+    return prompt_examples + f"""
     Text : {text}
     Entities :{built_entities}
     Output:

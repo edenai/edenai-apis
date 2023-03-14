@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Dict
 import requests
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import (
@@ -6,11 +6,13 @@ from edenai_apis.features.text import (
     ItemCustomClassificationDataClass,
     CustomClassificationDataClass,
     SummarizeDataClass,
+    CustomNamedEntityRecognitionDataClass
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+import json
 
 
 class CohereApi(ProviderInterface, TextInterface):
@@ -35,6 +37,34 @@ class CohereApi(ProviderInterface, TextInterface):
         elif output_sentences > 6:
             return 'long'
         
+        
+    def _format_custom_ner_examples(
+        example : Dict
+        ):
+        # Get the text 
+        text = example['text']
+        
+        # Get the entities 
+        entities = example['entities']
+        
+        # Create an empty list to store the extracted entities
+        extracted_entities = []
+        
+        # Loop through the entities and extract the relevant information
+        for entity in entities:
+            category = entity['category']
+            entity_name = entity['entity']
+            
+            # Append the extracted entity to the list
+            extracted_entities.append({'entity': entity_name, 'category': category})
+            
+        # Create the string with the extracted entities
+        return f"""
+            {text}
+            Extract {', '.join(set([entity['category'] for entity in extracted_entities]))} from this text: {{"items":[ {', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]}}
+            ---
+            """
+
     def text__generation(
         self, text : str, 
         max_tokens : int,
@@ -142,3 +172,43 @@ class CohereApi(ProviderInterface, TextInterface):
             standardized_response = standardized_response
         )
         
+    def text__custom_named_entity_recognition(
+        self, 
+        text: str, 
+        entities: List[str],
+        examples: Optional[List[Dict]]) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
+        url = f"{self.base_url}generate"
+
+        # Generate prompt
+        prompt_examples = ''
+        for example in examples :       
+            prompt_examples = prompt_examples + CohereApi._format_custom_ner_examples(example) 
+        built_entities = ','.join(entities)
+        prompt = prompt_examples + f"""
+        {text}
+        Extract {built_entities} from this text: """
+        
+        # Construct request
+        payload = {
+            "prompt": prompt,
+            "model" : 'xlarge',
+            "temperature" : 0,
+            "max_tokens" : 200
+        }     
+        response = requests.post(url, json=payload, headers= self.headers)
+        if response.status_code != 200:
+            raise ProviderException(response.text, response.status_code)
+        
+        original_response = response.json()
+        try:
+            data = original_response.get('generations')[0]['text'].split("---")
+            items = json.loads(data[0])
+        except (IndexError, KeyError, json.JSONDecodeError) as exc:
+            raise ProviderException("An error occurred while parsing the response.") from exc
+        
+        standardized_response = CustomNamedEntityRecognitionDataClass(items=items['items'])
+
+        return ResponseType[CustomNamedEntityRecognitionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response
+        )

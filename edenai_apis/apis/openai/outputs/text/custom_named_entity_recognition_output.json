@@ -1,44 +1,68 @@
 {
   "original_response": {
-    "id": "cmpl-6tdUELp2zVwPbBDChuaBINfLPKEwo",
+    "id": "cmpl-6tessbbUyWSDNGnSuPIQ67u55b9j0",
     "object": "text_completion",
-    "created": 1678717846,
+    "created": 1678723218,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": " {\n        \"items\":[\n            {\"entity\":\"Barack Hussein Obama\", \"category\":\"person\"},\n            {\"entity\":\"2009 to 2017\", \"category\":\"date\"},\n            {\"entity\":\"Illinois\", \"category\":\"region\"},\n            {\"entity\":\"U.S. senator\", \"category\":\"job\"},\n            {\"entity\":\"American\", \"category\":\"nationality\"}\n            ]\n        }",
+        "text": "\n    {\n        \"items\":[\n            {\"entity\":\"Barack Hussein Obama\", \"category\":\"Person\"}, {\"entity\":\"United States\", \"category\":\"Region\"}, {\"entity\":\"2009\", \"category\":\"Date\"}, {\"entity\":\"2017\", \"category\":\"Date\"}, {\"entity\":\"Democratic Party\", \"category\":\"Job\"}, {\"entity\":\"American\", \"category\":\"Nationality\"}, {\"entity\":\"2005\", \"category\":\"Date\"}, {\"entity\":\"2008\", \"category\":\"Date\"}, {\"entity\":\"Illinois\", \"category\":\"Region\"}, {\"entity\":\"1997\", \"category\":\"Date\"}, {\"entity\":\"2004\", \"category\":\"Date\"}\n            ]\n    }",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 261,
-      "completion_tokens": 83,
-      "total_tokens": 344
+      "prompt_tokens": 232,
+      "completion_tokens": 133,
+      "total_tokens": 365
     }
   },
   "standardized_response": {
     "items": [
       {
         "entity": "Barack Hussein Obama",
-        "category": "person"
+        "category": "Person"
       },
       {
-        "entity": "2009 to 2017",
-        "category": "date"
+        "entity": "United States",
+        "category": "Region"
       },
       {
-        "entity": "Illinois",
-        "category": "region"
+        "entity": "2009",
+        "category": "Date"
       },
       {
-        "entity": "U.S. senator",
-        "category": "job"
+        "entity": "2017",
+        "category": "Date"
+      },
+      {
+        "entity": "Democratic Party",
+        "category": "Job"
       },
       {
         "entity": "American",
-        "category": "nationality"
+        "category": "Nationality"
+      },
+      {
+        "entity": "2005",
+        "category": "Date"
+      },
+      {
+        "entity": "2008",
+        "category": "Date"
+      },
+      {
+        "entity": "Illinois",
+        "category": "Region"
+      },
+      {
+        "entity": "1997",
+        "category": "Date"
+      },
+      {
+        "entity": "2004",
+        "category": "Date"
       }
     ]
   }
