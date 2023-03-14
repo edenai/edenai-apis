@@ -72,7 +72,7 @@ class TestFaceRecognition:
 
     def test_add_face_to_collection(self, provider, collection_id):
 
-        img = face_recognition_recognize_arguments()["file"]
+        img = face_recognition_recognize_arguments()["file"].file_path
         add_face = Image.face_recognition__add_face(provider)
         response = add_face(collection_id=COLLECTION_ID, file=img)
         face_ids = response.standardized_response.face_ids
@@ -144,7 +144,7 @@ class TestFaceRecognition:
         response = list_faces(collection_id=COLLECTION_ID)
         face_ids = response.standardized_response.face_ids
 
-        image = face_recognition_recognize_arguments()["file"]
+        image = face_recognition_recognize_arguments()["file"].file_path
         delete_face = Image.face_recognition__delete_face(provider)
         for face_id in face_ids:
             delete_face(COLLECTION_ID, face_id)
