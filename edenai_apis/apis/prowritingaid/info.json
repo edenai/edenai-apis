@@ -2,11 +2,10 @@
     "text": {
         "spell_check": {
             "constraints": {
-                "language": [
+                "languages": [
                     "en",
                     "fr"
-                ],
-                "allow_null_language": "true"
+                ]
             },
             "version": "v1.0"
         }
