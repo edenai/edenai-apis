@@ -39,5 +39,6 @@ from .klippa import KlippaApi
 from .rossum import RossumApi
 from .lovoai import LovoaiApi
 from .prowritingaid import ProWritingAidApi
+from .writesonic import WritesonicApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

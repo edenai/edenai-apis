@@ -52,6 +52,7 @@
 | | microsoft |
 | | neuralspace |
 | | oneai |
+| | openai |
 | | revai |
 | | symbl |
 | | voci |
@@ -142,15 +143,19 @@
 | | lettria |
 | **custom_classification** | cohere |
 | | openai |
+| **custom_named_entity_recognition** | cohere |
+| | openai |
 | **generation** | cohere |
 | | openai |
-| **summarize** | connexun |
+| **summarize** | cohere |
+| | connexun |
 | | emvista |
 | | huggingface |
 | | meaningcloud |
 | | microsoft |
 | | oneai |
 | | openai |
+| | writesonic |
 | **topic_extraction** | google |
 | | ibm |
 | | openai |
@@ -161,7 +166,6 @@
 | **spell_check** | microsoft |
 | | openai |
 | | prowritingaid |
-| **custom_named_entity_recognition** | openai |
 | **embeddings** | openai |
 | **search** | openai |
 
@@ -295,7 +299,9 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | custom_classification |
+| | custom_named_entity_recognition |
 | | generation |
+| | summarize |
 
 </details>
 <details><summary>connexun</summary>
@@ -512,6 +518,7 @@
 
 | Features | Subfeatures |
 |----------|-------------|
+| **audio** | speech_to_text_async |
 | **image** | generation |
 | **text** | anonymization |
 | | custom_classification |
@@ -632,5 +639,12 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | speech_to_text_async |
+
+</details>
+<details><summary>writesonic</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | summarize |
 
 </details>

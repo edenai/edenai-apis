@@ -1,0 +1,15 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "e4845d81-4a91-48ee-8a6c-3b6819ba8697",
+  "original_response": {
+    "text": "Unit 1, page 14, Real Conversations."
+  },
+  "standardized_response": {
+    "text": "Unit 1, page 14, Real Conversations.",
+    "diarization": {
+      "total_speakers": 0,
+      "entries": [],
+      "error_message": null
+    }
+  }
+}

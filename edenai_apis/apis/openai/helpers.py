@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 
@@ -44,7 +44,15 @@ def construct_anonymization_context(text: str) -> str:
     return prompt
 
 def construct_keyword_extraction_context(text: str) -> str:
-    prompt = 'You are a highly intelligent and accurate Keyphrase Extraction system. You take text as input and your task is to returns the key phrases or talking points and a confidence score between 0.0-1.0 to support that this is a key phrase.\n\nDesired format:[{{"keyword":text,"score":value}}].\n\n Text: ###{data}###\nOutput:'.format(data=text)
+    prompt = f"""
+    You are a highly intelligent and accurate Keyword Extraction system. 
+    You take text as input and your task is to returns the key phrases or talking points and a confidence score between 0.0-1.0 to support that this is a key phrase.
+    
+    Desired format:
+            {{"items":[{{"keyword":"keyword","importance":"score"}}]}}
+    
+    Text: ###{text}###\nOutput:
+    """
     return prompt
 
 def construct_translation_context(text: str, source_language : str, target_language: str) -> str:
@@ -99,4 +107,63 @@ def construct_ner_instruction(text: str) -> str:
             {{"items":[{{"entity":"entity","category":"categrory","importance":score}}]}}
 
         Text:###{text}###\nOutput:
+    """
+
+def format_custom_ner_examples(
+    example : Dict
+    ):
+    # Get the text 
+    text = example['text']
+    
+    # Get the entities 
+    entities = example['entities']
+    
+    # Create an empty list to store the extracted entities
+    extracted_entities = []
+    
+    # Loop through the entities and extract the relevant information
+    for entity in entities:
+        category = entity['category']
+        entity_name = entity['entity']
+        
+        # Append the extracted entity to the list
+        extracted_entities.append({'entity': entity_name, 'category': category})
+        
+    # Create the string with the extracted entities
+    result = f"""Text : {text}
+    Entities : {', '.join(set([entity['category'] for entity in extracted_entities]))}
+    Extracted Entities: 
+    {{
+        "items":[
+            {', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}
+            ]
+    }}
+    """
+    
+    return result
+
+def construct_custom_ner_instruction(
+    text: str, 
+    built_entities : str, 
+    examples : Optional[List[Dict]]) -> str:
+    if examples : 
+        prompt_examples = ""
+        for example in examples:
+            prompt_examples = prompt_examples + format_custom_ner_examples(example)
+    else:
+        prompt_examples = f"""
+        Text : Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia.
+        Extracted these entities from the Text if they exist: drink, date 
+        {{
+            "items":[
+                {{"entity":"Coca-Cola", "category":"drink"}},
+                {{"entity":"coke", "category":"drink"}},
+                {{"entity":"19th century", "category":"date"}}
+                ]
+        }}
+    """
+    return prompt_examples + f"""
+    Text : {text}
+    Entities :{built_entities}
+    Output:
     """

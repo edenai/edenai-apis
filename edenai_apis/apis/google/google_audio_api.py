@@ -1,6 +1,6 @@
 import base64
 import uuid
-from io import BufferedReader
+from io import BufferedReader, BytesIO
 from pathlib import Path
 from time import time
 from typing import List, Optional
@@ -25,6 +25,8 @@ from edenai_apis.utils.types import (
 )
 
 from google.cloud import speech, storage, texttospeech
+
+from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 
 class GoogleAudioApi(AudioInterface):
@@ -59,10 +61,15 @@ class GoogleAudioApi(AudioInterface):
             request={"input": input_text, "voice": voice, "audio_config": audio_config}
         )
 
-        audio = base64.b64encode(response.audio_content).decode("utf-8")
+        audio_content = BytesIO(response.audio_content)
+
+        audio = base64.b64encode(audio_content.read()).decode("utf-8")
+
+        audio_content.seek(0)
+        resource_url = upload_file_bytes_to_s3(audio_content, ".mp3", USER_PROCESS)
 
         standardized_response = TextToSpeechDataClass(
-            audio=audio, voice_type=voice_type
+            audio=audio, voice_type=voice_type, audio_resource_url = resource_url
         )
         return ResponseType[TextToSpeechDataClass](
             original_response={},

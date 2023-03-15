@@ -1,0 +1,14 @@
+{
+  "original_response": {
+    "id": "24d8e4d4-f4b1-4af5-b2fe-7d41f56ef1f0",
+    "summary": "\"You have to have a big-picture vision for where you want to go.",
+    "meta": {
+      "api_version": {
+        "version": "2022-12-06"
+      }
+    }
+  },
+  "standardized_response": {
+    "result": "\"You have to have a big-picture vision for where you want to go."
+  }
+}

@@ -155,6 +155,13 @@ def get_code_from_language_name(name: str) -> str:
         return 'Unknow'
     return output.__str__()
 
+def has_language_contrains_script(iso_code: str, selected_code_language: str) -> bool:
+    ## To be able to handle zh (chinese) constraints
+    if Language.get(iso_code).script:
+        if Language.get(iso_code).language == Language.get(selected_code_language).language:
+            return True
+    return False
+
 
 def compare_language_and_region_code(iso_code: str, selected_code_language: str) -> bool:
     return Language.get(iso_code).language == Language.get(selected_code_language).language and \
@@ -177,6 +184,8 @@ def provide_appropriate_language(iso_code: str, provider_name: str, feature: str
             pass
 
     if '-' in iso_code and selected_code_language:
+        if has_language_contrains_script(iso_code, selected_code_language):
+            return selected_code_language
         if (compare_language_and_region_code(iso_code, selected_code_language)):
             return selected_code_language
         return None

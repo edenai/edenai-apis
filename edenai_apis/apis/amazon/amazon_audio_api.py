@@ -4,7 +4,7 @@ from typing import Optional
 import urllib
 import uuid
 import base64
-from io import BufferedReader
+from io import BufferedReader, BytesIO
 
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
@@ -23,6 +23,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
+from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
 
 from .config import audio_voices_ids
 
@@ -39,12 +40,18 @@ class AmazonAudioApi(AudioInterface):
             VoiceId=voiceid, OutputFormat="mp3", Text=text
         )
 
+
+        audio_content = BytesIO(response["AudioStream"].read())
+
         # convert 'StreamBody' to b64
-        audio_file = base64.b64encode(response["AudioStream"].read()).decode("utf-8")
+        audio_file = base64.b64encode(audio_content.read()).decode("utf-8")
         voice_type = 1
 
+        audio_content.seek(0)
+        resource_url = upload_file_bytes_to_s3(audio_content, ".mp3", USER_PROCESS)
+
         standardized_response = TextToSpeechDataClass(
-            audio=audio_file, voice_type=voice_type
+            audio=audio_file, voice_type=voice_type, audio_resource_url = resource_url
         )
         return ResponseType[TextToSpeechDataClass](
             original_response={}, standardized_response=standardized_response

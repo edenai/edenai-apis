@@ -1,48 +1,40 @@
 {
   "original_response": {
-    "id": "cmpl-6VgdOHvhcEWBH50WT8UNo3C2Aa73d",
+    "id": "cmpl-6u0SN6qhdRPHKoKRGcbIotPaPZTJP",
     "object": "text_completion",
-    "created": 1673010074,
+    "created": 1678806143,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": " person : Barack Hussein Obama; date : 2009 to 2017; region : Illinois; job : U.S. senator; job : Illinois state senator; nationality : American.",
+        "text": " {\n            \"items\":[\n                {\"entity\":\"John Smith\", \"category\":\"person\"},\n                {\"entity\":\"Starbucks\", \"category\":\"location\"},\n                {\"entity\":\"New York City\", \"category\":\"location\"},\n                {\"entity\":\"IBM\", \"category\":\"organization\"}\n                ]\n        }",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 207,
-      "completion_tokens": 34,
-      "total_tokens": 241
+      "prompt_tokens": 176,
+      "completion_tokens": 66,
+      "total_tokens": 242
     }
   },
   "standardized_response": {
     "items": [
       {
-        "entity": " person ",
-        "category": " Barack Hussein Obama"
+        "entity": "John Smith",
+        "category": "person"
       },
       {
-        "entity": " date ",
-        "category": " 2009 to 2017"
+        "entity": "Starbucks",
+        "category": "location"
       },
       {
-        "entity": " region ",
-        "category": " Illinois"
+        "entity": "New York City",
+        "category": "location"
       },
       {
-        "entity": " job ",
-        "category": " U.S. senator"
-      },
-      {
-        "entity": " job ",
-        "category": " Illinois state senator"
-      },
-      {
-        "entity": " nationality ",
-        "category": " American."
+        "entity": "IBM",
+        "category": "organization"
       }
     ]
   }

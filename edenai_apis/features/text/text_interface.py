@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Dict
 from edenai_apis.features.text import (
     KeywordExtractionDataClass,
     NamedEntityRecognitionDataClass,
@@ -196,7 +196,8 @@ class TextInterface:
     def text__custom_named_entity_recognition(
         self, 
         text : str, 
-        entities: List[str]
+        entities: List[str],
+        examples: Optional[List[Dict]],
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         """Custom named entity recognition
 
@@ -214,7 +215,7 @@ class TextInterface:
         self,
         texts: List[str],
         labels: List[str],
-        examples: List[List[str]]
+        examples: List[dict]
     ) -> ResponseType[CustomClassificationDataClass]:
         """custom text classification
 

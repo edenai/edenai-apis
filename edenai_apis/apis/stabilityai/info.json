@@ -1,6 +1,12 @@
 {
     "image":{
          "generation":{
+          "constraints": {
+            "resolutions":[
+              "512x512",
+              "1024x1024"
+            ]
+        },
            "version": "v1Beta"
         }
        }

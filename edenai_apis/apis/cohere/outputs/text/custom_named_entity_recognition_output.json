@@ -1,0 +1,33 @@
+{
+  "original_response": {
+    "id": "1f19dffe-18d6-42e8-8d95-6c87b4ea3a46",
+    "generations": [
+      {
+        "id": "79b004af-4ffe-43d5-a642-9763247fd238",
+        "text": "{\"items\":[{\"entity\":\"John Smith\", \"category\":\"Person\"}, {\"entity\":\"New York\", \"category\":\"Location\"}, {\"entity\":\"IBM\", \"category\":\"Organization\"}]}\n            ---\n            \n            Yesterday, I met John Smith at Starbucks in New York City. He works for IBM.\n        Extract person,location,organization from this text: {\"items\":[{\"entity\":\"John Smith\", \"category\":\"Person\"}, {\"entity\":\"New York\", \"category\":\"Location\"}, {\"entity\":\"IBM\", \"category\":\"Organization\"}]}\n            ---\n            Yesterday, I met John Smith at Starbucks in New York City. He works for IBM."
+      }
+    ],
+    "prompt": "\n            Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia.\n            Extract Date, State, Person, Drink from this text: {\"items\":[ {\"entity\":\"John Stith Pemberton\", \"category\":\"Person\"}, {\"entity\":\"Georgia\", \"category\":\"State\"}, {\"entity\":\"Coca-Cola\", \"category\":\"Drink\"}, {\"entity\":\"Coke\", \"category\":\"Drink\"}, {\"entity\":\"19th century\", \"category\":\"Date\"}]}\n            ---\n            \n        Yesterday, I met John Smith at Starbucks in New York City. He works for IBM.\n        Extract person,location,organization from this text:",
+    "meta": {
+      "api_version": {
+        "version": "2022-12-06"
+      }
+    }
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "entity": "John Smith",
+        "category": "Person"
+      },
+      {
+        "entity": "New York",
+        "category": "Location"
+      },
+      {
+        "entity": "IBM",
+        "category": "Organization"
+      }
+    ]
+  }
+}

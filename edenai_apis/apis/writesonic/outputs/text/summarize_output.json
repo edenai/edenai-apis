@@ -1,0 +1,18 @@
+{
+  "original_response": [
+    {
+      "summary": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004. A member of the Democratic Party, Obama was the first African-American president.",
+      "article_text": null,
+      "article_title": "Summary",
+      "article_authors": null,
+      "article_image": null,
+      "article_pub_date": null,
+      "article_url": null,
+      "article_html": null,
+      "article_abstract": null
+    }
+  ],
+  "standardized_response": {
+    "result": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004. A member of the Democratic Party, Obama was the first African-American president."
+  }
+}

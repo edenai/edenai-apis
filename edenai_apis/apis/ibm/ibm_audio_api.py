@@ -1,5 +1,5 @@
 import base64
-from io import BufferedReader
+from io import BufferedReader, BytesIO
 from typing import List, Optional
 
 from edenai_apis.features.audio import (
@@ -17,6 +17,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
+from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 from .config import audio_voices_ids
 
@@ -49,11 +50,16 @@ class IbmAudioApi(AudioInterface):
             )
         except Exception as excp:
             raise ProviderException(excp)
-        audio = base64.b64encode(response.content).decode("utf-8")
+        
+        audio_content = BytesIO(response.content)
+        audio = base64.b64encode(audio_content.read()).decode("utf-8")
         voice_type = 1
 
+        audio_content.seek(0)
+        resource_url = upload_file_bytes_to_s3(audio_content, ".mp3", USER_PROCESS)
+        
         standardized_response = TextToSpeechDataClass(
-            audio=audio, voice_type=voice_type
+            audio=audio, voice_type=voice_type, audio_resource_url = resource_url
         )
 
         return ResponseType[TextToSpeechDataClass](
