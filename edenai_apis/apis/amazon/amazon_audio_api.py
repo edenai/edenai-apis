@@ -127,6 +127,13 @@ class AmazonAudioApi(AudioInterface):
             self.clients["speech"].start_transcription_job(**params)
         except KeyError as exc:
             raise ProviderException(str(exc)) from exc
+        
+
+    def _delete_vocabularies(self, vocab_name):
+        try:
+            self.clients["speech"].delete_vocabulary(VocabularyName=vocab_name)
+        except Exception as exc:
+            raise ProviderException(str(exc)) from exc
 
 
     def audio__speech_to_text_async__launch_job(
@@ -175,6 +182,7 @@ class AmazonAudioApi(AudioInterface):
         # check custom vocabilory job state
         job_id, *vocab = provider_job_id.split("EdenAI")
         if vocab:  # if vocabilory is used and
+            can_use_vocab = True # if failed, we don't use the vocabulary
             setting_content = self.storage_clients["speech"].meta.client.get_object(
                 Bucket=self.api_settings["bucket"], Key=f"{job_id}_settings.txt"
             )
@@ -187,20 +195,21 @@ class AmazonAudioApi(AudioInterface):
                     VocabularyName=vocab_name
                 )
                 if job_vocab_details["VocabularyState"] == "FAILED":
-                    error = job_vocab_details.get("FailureReason")
-                    raise ProviderException(error)
-                if job_vocab_details["VocabularyState"] != "READY":
+                    self._delete_vocabularies(vocab_name)
+                    can_use_vocab = False
+                if job_vocab_details["VocabularyState"] not in ["READY", "FAILED"]:
                     return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                         provider_job_id=provider_job_id
                     )
+                
                 self._launch_transcribe(
                     settings["TranscriptionJobName"],
                     "",
                     settings["LanguageCode"],
                     settings["Settings"]["MaxSpeakerLabels"],
-                    settings["Settings"]["VocabularyName"],
+                    settings["Settings"]["VocabularyName"] if can_use_vocab else None,
                 )
-                settings["checked"] = True  # conform vocabulary creation
+                settings["checked"] = True  # confirm vocabulary creation
                 extention_index = job_id.rfind(".")
                 index_last = len(job_id) - extention_index
                 self.storage_clients["speech"].meta.client.put_object(
@@ -220,11 +229,10 @@ class AmazonAudioApi(AudioInterface):
         if job_status == "COMPLETED":
             # delete vocabulary
             try:
-                self.clients["speech"].delete_vocabulary(VocabularyName=vocab[0])
+                self._delete_vocabularies(vocab[0])
             except IndexError as ir:  # if no vocabulary was created
-                pass
-            except Exception as exc:
-                raise ProviderException(str(exc)) from exc
+                pass                
+
             json_res = job_details["TranscriptionJob"]["Transcript"][
                 "TranscriptFileUri"
             ]
@@ -274,11 +282,10 @@ class AmazonAudioApi(AudioInterface):
         elif job_status == "FAILED":
             # delete vocabulary
             try:
-                self.clients["speech"].delete_vocabulary(VocabularyName=vocab[0])
-            except IndexError as ir:  # if not vocabulary was created
+                self._delete_vocabularies(vocab[0])
+            except IndexError as ir:  # if no vocabulary was created
                 pass
-            except Exception as exc:
-                raise ProviderException(str(exc)) from exc
+            
             error = job_details["TranscriptionJob"].get("FailureReason")
             raise ProviderException(error)
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
