@@ -172,6 +172,9 @@
     "generation" : {
       "version": "v1"
     },
+    "code_generation": {
+      "version": "v1"
+    },
     "named_entity_recognition" : {
       "version": "v3.0.0"
     },

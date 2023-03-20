@@ -13,7 +13,8 @@ from edenai_apis.features.text import (
     GenerationDataClass,
     CustomNamedEntityRecognitionDataClass,
     CustomClassificationDataClass,
-    ModerationDataClass
+    ModerationDataClass,
+    CodeGenerationDataClass
 )
 from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass
 from edenai_apis.features.text.embeddings.embeddings_dataclass import EmbeddingsDataClass
@@ -189,6 +190,29 @@ class TextInterface:
 
         Args:
             text (str): your prompt
+        """
+        raise NotImplementedError
+    
+    def text__code_generation(
+        self,
+        instruction: str,
+        temperature: float,
+        max_tokens: int,
+        prompt: str = ""
+    ) -> ResponseType[CodeGenerationDataClass]:
+        """Code generation
+
+        Args:
+            instruction (str): The instruction that tells the model how to edit the prompt.
+            temperature (float): What sampling temperature to use, between 0 and 2
+            max_tokens (int): The maximum number of tokens to generate in the completion
+            prompt (str, Optional): code to make instruction on. "".
+
+        Raises:
+            NotImplementedError: _description_
+
+        Returns:
+            ResponseType[CodeGenerationDataClass]:
         """
         raise NotImplementedError
     

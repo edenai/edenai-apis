@@ -2,6 +2,7 @@ from typing import List, Optional, Sequence, Dict
 import requests
 import numpy as np
 import json
+from edenai_apis.features.text.code_generation.code_generation_dataclass import CodeGenerationDataClass
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import NamedEntityRecognitionDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass, SpellCheckItem
 from edenai_apis.utils.conversion import standardized_confidence_score
@@ -330,6 +331,42 @@ class OpenaiTextApi(TextInterface):
         return ResponseType[TopicExtractionDataClass](
             original_response=original_response, standardized_response=standarized_response
         )
+    
+
+    def text__code_generation(
+        self,
+        instruction: str,
+        temperature: float,
+        max_tokens: int,
+        prompt: str = ""
+    ) -> ResponseType[CodeGenerationDataClass]:
+        
+        if not prompt: # if user did not insert code, use text generation
+            return self.text__generation(instruction, temperature, max_tokens, "code-davinci-002")
+        
+        url = f"{self.url}/edits"
+        model = "code-davinci-edit-001"
+
+        payload = {
+            "model" : model,
+            "input" : prompt,
+            "instruction": instruction,
+            "temperature": temperature
+        }
+        
+        original_response = requests.post(url, json=payload, headers= self.headers).json()
+
+        # Handle errors
+        check_openai_errors(original_response)
+
+        standardized_response = CodeGenerationDataClass(
+            generated_text = original_response['choices'][0]['text']
+        )
+        return ResponseType[CodeGenerationDataClass](
+            original_response=original_response,
+            standardized_response = standardized_response
+        )
+
         
     def text__generation(
         self, text : str, 

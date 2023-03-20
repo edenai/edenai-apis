@@ -1,0 +1,24 @@
+{
+  "original_response": {
+    "id": "cmpl-6wAEpNCEbHjJYXIpgFjpvI6rcxgUz",
+    "object": "text_completion",
+    "created": 1679320399,
+    "model": "code-davinci-002",
+    "choices": [
+      {
+        "text": " numbers.\n\nThe function should take one argument, n, and return the nth fibonacci number.\n\nThe fibonacci sequence is defined as follows:\n\nf(0) = 0\nf(1) = 1\nf(n) = f(n-1) + f(n-2)\n\nFor example, f(3) = f(2) + f(1) = 1 + 0 = 1\n\nThe function should return",
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "length"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 10,
+      "completion_tokens": 100,
+      "total_tokens": 110
+    }
+  },
+  "standardized_response": {
+    "generated_text": " numbers.\n\nThe function should take one argument, n, and return the nth fibonacci number.\n\nThe fibonacci sequence is defined as follows:\n\nf(0) = 0\nf(1) = 1\nf(n) = f(n-1) + f(n-2)\n\nFor example, f(3) = f(2) + f(1) = 1 + 0 = 1\n\nThe function should return"
+  }
+}

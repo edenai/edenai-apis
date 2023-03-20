@@ -67,3 +67,8 @@ from .embeddings import (
     EmbeddingDataClass,
     embeddings_arguments
 )
+
+from .code_generation import (
+    CodeGenerationDataClass,
+    code_generation_arguments
+)
