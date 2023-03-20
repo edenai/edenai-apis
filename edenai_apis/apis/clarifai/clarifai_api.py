@@ -63,10 +63,10 @@ class ClarifaiApi(
         stub = service_pb2_grpc.V2Stub(channel)
         with open(file, "rb") as file_:
             file_content = file_.read()
-
+            
         metadata = (("authorization", self.key),)
         user_data_object = resources_pb2.UserAppIDSet(
-            user_id=self.user_id, app_id=self.app_id
+            user_id='clarifai', app_id='main'
         )
 
         post_model_outputs_response = stub.PostModelOutputs(
@@ -131,10 +131,12 @@ class ClarifaiApi(
 
         with open(file, "rb") as file_:
             file_content = file_.read()
-
+        user_id = 'clarifai'
+        app_id = 'main'
+                
         metadata = (("authorization", self.key),)
         user_data_object = resources_pb2.UserAppIDSet(
-            user_id=self.user_id, app_id=self.app_id
+            user_id=user_id, app_id=app_id
         )
 
         post_model_outputs_response = stub.PostModelOutputs(
@@ -184,10 +186,12 @@ class ClarifaiApi(
         stub = service_pb2_grpc.V2Stub(channel)
         with open(file, "rb") as file_:
             file_content = file_.read()
-
+            
+        user_id = 'clarifai'
+        app_id = 'main'
         metadata = (("authorization", self.key),)
         user_data_object = resources_pb2.UserAppIDSet(
-            user_id=self.user_id, app_id=self.app_id
+            user_id=user_id, app_id=app_id
         )
 
         post_model_outputs_response = stub.PostModelOutputs(
@@ -248,10 +252,12 @@ class ClarifaiApi(
 
         with open(file, "rb") as file_:
             file_content = file_.read()
-
+            
+        user_id = 'clarifai'
+        app_id = 'main'
         metadata = (("authorization", self.key),)
         user_data_object = resources_pb2.UserAppIDSet(
-            user_id=self.user_id, app_id=self.app_id
+            user_id=user_id, app_id=app_id
         )
 
         post_model_outputs_response = stub.PostModelOutputs(
@@ -312,10 +318,11 @@ class ClarifaiApi(
         with open(file, "rb") as file_:
             file_content = file_.read()
         width, height = Img.open(file).size
-
+        user_id = 'clarifai'
+        app_id = 'main'
         metadata = (("authorization", self.key),)
         user_data_object = resources_pb2.UserAppIDSet(
-            user_id=self.user_id, app_id=self.app_id
+            user_id=user_id, app_id=app_id
         )
         model_id = "logos-yolov5"
         post_model_outputs_response = stub.PostModelOutputs(
