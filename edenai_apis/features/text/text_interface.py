@@ -193,6 +193,7 @@ class TextInterface:
         """
         raise NotImplementedError
     
+    @abstractmethod
     def text__code_generation(
         self,
         instruction: str,
