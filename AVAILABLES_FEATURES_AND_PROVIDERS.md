@@ -166,6 +166,7 @@
 | **spell_check** | microsoft |
 | | openai |
 | | prowritingaid |
+| **code_generation** | openai |
 | **embeddings** | openai |
 | **search** | openai |
 
@@ -521,6 +522,7 @@
 | **audio** | speech_to_text_async |
 | **image** | generation |
 | **text** | anonymization |
+| | code_generation |
 | | custom_classification |
 | | custom_named_entity_recognition |
 | | embeddings |
