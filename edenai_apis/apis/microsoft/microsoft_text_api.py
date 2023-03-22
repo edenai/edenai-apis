@@ -341,14 +341,11 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__spell_check(self, text: str, language: str) -> ResponseType[SpellCheckDataClass]:
-        data = {
-            "text": text,
-        }
+        if len(text) >= 130:
+            raise ProviderException(message="Text is too long for spell check. Max length is 130 characters", code=400)
 
-        params = {
-            "mkt": language,
-            "mode": "spell",
-        }
+        data = { "text": text }
+        params = { "mkt": language, "mode": "spell" }
 
         response = requests.post(
             self.url["spell_check"],
