@@ -100,7 +100,7 @@ audio_voices_ids = {
     "fi-FI": {"FEMALE": "Suvi", "MALE": ""},
     "de-AT": {"FEMALE": "Hannah", "MALE": ""},
     "hi-IN": {"FEMALE": "Aditi", "MALE": ""},
-    "is-IS": {"FEMALE": "Dora", "MALE"; "Karl"},
+    "is-IS": {"FEMALE": "Dora", "MALE": "Karl"},
     "en-US": {"FEMALE": "Kendra", "MALE": "Joey"},
     "fr-FR": {"FEMALE": "Celine", "MALE": "Mathieu"},
     "es-ES": {"FEMALE": "Lucia", "MALE": "Enrique"},
