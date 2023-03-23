@@ -41,28 +41,20 @@ models = {
 }
 
 audio_voices_ids = {
-    "en-US": {"FEMALE": "en-US_AllisonVoice", "MALE": "en-US_MichaelVoice"},
-    "fr-FR": {"FEMALE": "fr-FR_ReneeVoice", "MALE": "fr-FR_NicolasV3Voice"},
-    "es-ES": {"FEMALE": "es-ES_LauraVoice", "MALE": "es-ES_EnriqueVoice"},
-    "ar-XA": {"FEMALE": "", "MALE": "ar-AR_OmarVoice"},
-    "de-DE": {"FEMALE": "de-DE_BirgitVoice", "MALE": "de-DE_DieterVoice"},
-    "en-GB": {"FEMALE": "en-GB_KateVoice", "MALE": "en-GB_JamesV3Voice"},
-    "nl-NL": {"FEMALE": "nl-NL_EmmaVoice", "MALE": "nl-NL_LiamVoice"},
-    "it-IT": {"FEMALE": "it-IT_FrancescaVoice", "MALE": ""},
-    "ja-JP": {"FEMALE": "ja-JP_EmiVoice", "MALE": ""},
-    "zh-CN": {"FEMALE": "zh-CN_LiNaVoice", "MALE": "zh-CN_WangWeiVoice"},
-    "ru-RU": {"FEMALE": "", "MALE": ""},
-    "pt-BR": {"FEMALE": "pt-BR_IsabelaVoice", "MALE": ""},
-    "da-DK": {"FEMALE": "", "MALE": ""},
-    "ko-KR": {"FEMALE": "ko-KR_YoungmiVoice", "MALE": ""},
-    "pt-PT": {"FEMALE": "", "MALE": ""},
+    "en-US": {"FEMALE": "en-US_AllisonExpressive", "MALE": "en-US_MichaelExpressive"},
+    "fr-FR": {"FEMALE": "fr-FR_ReneeV3Voice", "MALE": "fr-FR_NicolasV3Voice"},
+    "es-ES": {"FEMALE": "es-ES_LauraV3Voice", "MALE": "es-ES_EnriqueV3Voice"},
+    "de-DE": {"FEMALE": "de-DE_BirgitV3Voice", "MALE": "de-DE_DieterV3Voice"},
+    "en-GB": {"FEMALE": "en-GB_KateV3Voice", "MALE": "en-GB_JamesV3Voice"},
+    "it-IT": {"FEMALE": "it-IT_FrancescaV3Voice", "MALE": ""},
+    "ja-JP": {"FEMALE": "ja-JP_EmiV3Voice", "MALE": ""},
+    "pt-BR": {"FEMALE": "pt-BR_IsabelaV3Voice", "MALE": ""},
     "fr-CA": {"FEMALE": "fr-CA_LouiseV3Voice", "MALE": ""},
     "es-LA": {"FEMALE": "es-LA_SofiaV3Voice", "MALE": ""},
-    "en-AU": {"FEMALE": "en-AU_MadisonVoice", "MALE": "en-AU_CraigVoice"},
-    "ar-MS": {"FEMALE": "", "MALE": "ar-MS_OmarVoice"},
     "es-US": {"FEMALE": "es-US_SofiaV3Voice", "MALE": ""},
-    "nl-BE": {"FEMALE": "nl-BE_AdeleVoice", "MALE": "nl-BE_BramVoice"},
-    "sv-SE": {"FEMALE": "sv-SE_IngridVoice", "MALE": ""}
+    "en-AU": {"FEMALE": "en-AU_HeidiExpressive", "MALE": "en-AU_JackExpressive"},
+    "nl-NL": {"FEMALE": "nl-NL_MerelV3Voice"},
+    "ko-KR": {"FEMALE": "ko-KR_JinV3Voice"}
 }
 
 language_iso = {

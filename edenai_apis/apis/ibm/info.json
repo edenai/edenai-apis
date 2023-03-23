@@ -48,22 +48,17 @@
                     "fr-CA",
                     "es-LA",
                     "en-AU",
-                    "nl-NL",
-                    "ar-MS",
                     "en-US",
-                    "zh-CN",
-                    "cs-CZ",
                     "es-US",
                     "de-DE",
                     "it-IT",
-                    "nl-BE",
                     "es-ES",
-                    "ko-KR",
                     "ja-JP",
                     "pt-BR",
                     "fr-FR",
                     "en-GB",
-                    "sv-SE"
+                    "nl-NL",
+                    "ko-KR"
                 ]
             },
             "version": "v1"
