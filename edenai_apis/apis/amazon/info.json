@@ -55,10 +55,13 @@
         "text_to_speech": {
             "constraints": {
                 "languages": [
+                    "arb",
+                    "ar-AE",
+                    "ca-ES",
+                    "yue-CN",
                     "en-US",
                     "fr-FR",
                     "es-ES",
-                    "ar-XA",
                     "de-DE",
                     "en-GB",
                     "nl-NL",
@@ -69,7 +72,15 @@
                     "pt-BR",
                     "da-DK",
                     "ko-KR",
-                    "pt-PT"
+                    "pt-PT",
+                    "en-AU",
+                    "en-IN",
+                    "en-NZ",
+                    "en-ZA",
+                    "fi-FI",
+                    "de-AT",
+                    "hi-IN",
+                    "is-IS"
                 ]
             },
             "version": "boto3 (v1.15.18)"

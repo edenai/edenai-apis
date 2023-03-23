@@ -36,6 +36,12 @@ class AmazonAudioApi(AudioInterface):
         formated_language = language
         voiceid = audio_voices_ids[formated_language][option]
 
+        if not voiceid:
+            option_supported = "MALE" if option == "FEMALE" else "FEMALE"
+            raise ProviderException(
+                f"Only {option_supported} voice is available for the {language} language code"
+            )
+
         response = self.clients["texttospeech"].synthesize_speech(
             VoiceId=voiceid, OutputFormat="mp3", Text=text
         )

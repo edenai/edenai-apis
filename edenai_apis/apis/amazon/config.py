@@ -89,10 +89,21 @@ def storage_clients(api_settings: Dict) -> Dict:
     }
 
 audio_voices_ids = {
+    "arb": {"FEMALE": "Zeina", "MALE": ""},
+    "ar-AE": {"FEMALE": "Hala", "MALE": ""},
+    "ca-ES": {"FEMALE": "Arlet"},
+    "yue-CN": {"FEMALE": "Hiujin", "MALE": ""},
+    "en-AU": {"FEMALE": "Nicole", "MALE": "Russell"},
+    "en-IN": {"FEMALE": "Raveena", "MALE": ""},
+    "en-NZ": {"FEMALE": "Aria", "MALE": ""},
+    "en-ZA": {"FEMALE": "Ayanda", "MALE": ""},
+    "fi-FI": {"FEMALE": "Suvi", "MALE": ""},
+    "de-AT": {"FEMALE": "Hannah", "MALE": ""},
+    "hi-IN": {"FEMALE": "Aditi", "MALE": ""},
+    "is-IS": {"FEMALE": "Dora", "MALE"; "Karl"},
     "en-US": {"FEMALE": "Kendra", "MALE": "Joey"},
     "fr-FR": {"FEMALE": "Celine", "MALE": "Mathieu"},
     "es-ES": {"FEMALE": "Lucia", "MALE": "Enrique"},
-    "ar-XA": {"FEMALE": "Zeina", "MALE": ""},
     "de-DE": {"FEMALE": "Marlene", "MALE": "Hans"},
     "en-GB": {"FEMALE": "Amy", "MALE": "Brian"},
     "nl-NL": {"FEMALE": "Lotte", "MALE": "Ruben"},
