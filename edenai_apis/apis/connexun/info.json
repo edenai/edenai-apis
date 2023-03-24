@@ -35,6 +35,33 @@
         },
         "summarize": {
             "constraints": {
+                "languages": [
+                    "en",
+                    "ar",
+                    "bn",
+                    "da",
+                    "de",
+                    "es",
+                    "fi",
+                    "fr",
+                    "hi",
+                    "id",
+                    "it",
+                    "ja",
+                    "ko",
+                    "nl",
+                    "no",
+                    "pa",
+                    "pl",
+                    "pt",
+                    "ro",
+                    "ru",
+                    "sv",
+                    "ta",
+                    "tr",
+                    "uk",
+                    "zh"
+                ],
                 "allow_null_language": true
             },
             "version": "v1.0"
