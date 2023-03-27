@@ -59,7 +59,44 @@
                     "en-GB",
                     "nl-NL",
                     "ko-KR"
-                ]
+                ],
+                "voice_ids" : {
+                    "MALE": [
+                        "en-US_MichaelExpressive",
+                        "en-US_HenryV3Voice",
+                        "en-US_KevinV3Voice",
+                        "en-US_MichaelV3Voice",
+                        "fr-FR_NicolasV3Voice",
+                        "es-ES_EnriqueV3Voice",
+                        "de-DE_DieterV3Voice",
+                        "en-GB_JamesV3Voice",
+                        "en-AU_JackExpressive"
+                    ],
+                    "FEMALE": [
+                        "en-US_AllisonExpressive",
+                        "en-US_AllisonV3Voice",
+                        "en-US_EmmaExpressive",
+                        "en-US_EmilyV3Voice",
+                        "en-US_LisaExpressive",
+                        "en-US_LisaV3Voice",
+                        "en-US_OliviaV3Voice",
+                        "fr-FR_ReneeV3Voice",
+                        "es-ES_LauraV3Voice",
+                        "de-DE_BirgitV3Voice",
+                        "de-DE_ErikaV3Voice",
+                        "en-GB_KateV3Voice",
+                        "en-GB_CharlotteV3Voice",
+                        "it-IT_FrancescaV3Voice",
+                        "ja-JP_EmiV3Voice",
+                        "pt-BR_IsabelaV3Voice",
+                        "fr-CA_LouiseV3Voice",
+                        "es-LA_SofiaV3Voice",
+                        "es-US_SofiaV3Voice",
+                        "en-AU_HeidiExpressive",
+                        "nl-NL_MerelV3Voice",
+                        "ko-KR_JinV3Voice"
+                    ]
+                }
             },
             "version": "v1"
         }

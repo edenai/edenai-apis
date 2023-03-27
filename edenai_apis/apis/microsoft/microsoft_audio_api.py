@@ -14,6 +14,7 @@ from edenai_apis.features.audio import (
     TextToSpeechDataClass,
 )
 from edenai_apis.features.audio.audio_interface import AudioInterface
+from edenai_apis.utils.audio import retreive_voice_id
 from edenai_apis.utils.conversion import convert_pt_date_from_string
 from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import (
@@ -30,21 +31,17 @@ from .config import audio_voice_ids
 
 class MicrosoftAudioApi(AudioInterface):
     def audio__text_to_speech(
-        self, language: str, text: str, option: str
+        self, language: str, text: str, option: str, settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
+        
+        voice_id = retreive_voice_id(self, language, option, settings)
+
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
             region=self.api_settings["speech"]["service_region"],
         )
 
-        if not language:
-            raise ProviderException(
-                f"language code: {language} badly formatted or "
-                f"not supported by {self.provider_name}"
-            )
-        voiceid = audio_voice_ids[language][option]
-
-        speech_config.speech_synthesis_voice_name = voiceid
+        speech_config.speech_synthesis_voice_name = voice_id
         speech_config.set_speech_synthesis_output_format(
             speechsdk.SpeechSynthesisOutputFormat.Audio16Khz32KBitRateMonoMp3
         )

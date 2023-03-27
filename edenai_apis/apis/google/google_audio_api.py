@@ -15,6 +15,7 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
+from edenai_apis.utils.audio import retreive_voice_id
 from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -31,27 +32,19 @@ from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 class GoogleAudioApi(AudioInterface):
     def audio__text_to_speech(
-        self, language: str, text: str, option: str
+        self, language: str, text: str, option: str, settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
         voice_type = 1
-        ssml_gender = None
-
-        if language in ["da-DK", "pt-BR", "es-ES"] and option == "MALE":
-            option = "FEMALE"
-            voice_type = 0
+        voice_id = retreive_voice_id(self, language, option, settings)
 
         client = texttospeech.TextToSpeechClient()
         input_text = texttospeech.SynthesisInput(text=text)
 
-        if option == "FEMALE":
-            ssml_gender = texttospeech.SsmlVoiceGender.FEMALE
-        else:
-            ssml_gender = texttospeech.SsmlVoiceGender.MALE
-
         voice = texttospeech.VoiceSelectionParams(
             language_code=language,
-            ssml_gender=ssml_gender,
+            name = voice_id
         )
+
         audio_config = texttospeech.AudioConfig(
             audio_encoding=texttospeech.AudioEncoding.MP3
         )

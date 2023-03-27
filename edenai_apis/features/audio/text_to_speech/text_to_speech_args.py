@@ -11,4 +11,5 @@ def text_to_speech_arguments() -> Dict:
         "language": "fr-FR",
         "text": "Bonjour Je m'appelle Jane",
         "option": "FEMALE",
+        "settings": {}
     }

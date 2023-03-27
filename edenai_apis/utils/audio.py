@@ -1,12 +1,16 @@
 import mimetypes
+import random
 from io import BufferedReader
-from typing import Union, List, Tuple
+from typing import Union, List, Tuple, Dict
 from pydub import AudioSegment
 from pydub.utils import mediainfo
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.files import FileWrapper
+from edenai_apis.utils.languages import provide_appropriate_language
+
+VOICE_EXCEPTION_MESSAGE = "Wrong voice id"
 
 AUDIO_FILE_FORMAT = [
     "wav",
@@ -114,4 +118,125 @@ def get_file_extension(
         raise ProviderException(f"File audio must be {__channel_number_to_str(channels)}")
 
     return export_format
+
+
+#******Text_to_Speech******#
+
+def __confirm_appropriate_language(language: str, provider: str):
+    try:
+        formated_language = provide_appropriate_language(
+            language,
+            provider_name=provider,
+            feature="audio",
+            subfeature="text_to_speech",
+        )
+    except SyntaxError as exc:
+        formated_language = None
+    return formated_language
+
+def __get_voices_from_constrains(constraints: Dict, language: str, gender: str):
+    voices = constraints["voice_ids"]["MALE"] if gender.upper() == "MALE" else \
+                            constraints["voice_ids"]["FEMALE"]
+    # voices_language = [voice_lang[len(language)+1:] for voice_lang in \
+    #                    list(filter(lambda voice: voice.startswith(language), voices))]
+    voices_language = list(filter(lambda voice: voice.startswith(language), voices))
+    return voices_language
+
+def __get_provider_tts_constraints(provider):
+    try:
+        provider_info = load_provider(ProviderDataEnum.PROVIDER_INFO, provider, "audio", "text_to_speech")
+        if constrains := provider_info.get("constraints"):
+            return constrains
+    except:
+        pass
+    return {}
+
+
+def __has_voice_in_contrains(contraints: Dict, voice: str):
+    all_voices = contraints["voice_ids"]["MALE"] + contraints["voice_ids"]["FEMALE"]
+    return (voice in all_voices)
+
+
+def get_voices(language: str, gender: str, providers: List[str]) -> Dict[str, List]:
+    """Returns the list of voices for each provider withing the providers parameter according the the language and gender
+
+    Args:
+        language (str): The input language
+        gender (str): Either MALE or FEMALE
+        providers (List[str]): List of the providers
+
+    Returns:
+        Dict[str, List]: List pf voices for each provider
+    """
+    voices = {}
+    for provider in providers:
+        constrains = __get_provider_tts_constraints(provider)
+        if constrains:
+            formtatted_language = __confirm_appropriate_language(language, provider)
+            if not formtatted_language:
+                voices.update({
+                    provider: []
+                })
+            else:
+                voices.update({
+                    provider: __get_voices_from_constrains(constrains, formtatted_language, gender)
+                })
+    return voices
+
+
+def retreive_voice_id(object_instance, language: str, option: str, settings: Dict = {}) -> str:
+    """Retreives a voice id for text_to_speech methods depending on the settings parameters if a voice_id is \
+        specified, otherwise depening on the language and the gender
+
+    Args:
+        language (str): The input language
+        gender (str): Either MALE or FEMALE
+        settings (Dict, optional): Dictionnary contraining the selected voice id for each provider. Defaults to {}.
+
+    Raises:
+        ProviderException: if wrong voice id provided in the settings dictionnary
+        ProviderException: if a voice is only available in the opposite gender than specified by the user
+
+    Returns:
+        str: the voice id selected
+    """
+    provider_name = getattr(object_instance, "provider_name")
+    constrains = __get_provider_tts_constraints(provider_name)
+    if settings and provider_name in settings:
+        selected_voice = settings[provider_name]
+        if constrains and __has_voice_in_contrains(constrains, selected_voice):
+            return selected_voice
+        raise ProviderException(VOICE_EXCEPTION_MESSAGE)
+    suited_voices = __get_voices_from_constrains(constrains, language, option)
+    if not suited_voices:
+        option_supported = "MALE" if option.upper() == "FEMALE" else "FEMALE"
+        raise ProviderException(
+            f"Only {option_supported} voice is available for the {language} language code"
+        )
+    return random.choice(suited_voices)
+
+def voice_setup_stt(func):
+    def func_wrapper(self, language: str, text: str, option: str, settings: Dict = {}):
+        provider_name = getattr(self, "provider_name")
+        constrains = __get_provider_tts_constraints(provider_name)
+        voice_id = ""
+        if settings and provider_name in settings:
+            selected_voice = settings[provider_name]
+            if constrains and __has_voice_in_contrains(constrains, selected_voice):
+                voice_id = selected_voice
+            else:
+                raise ProviderException(VOICE_EXCEPTION_MESSAGE)
+        else:
+            suited_voices = __get_voices_from_constrains(constrains, language, option)
+            if not suited_voices:
+                option_supported = "MALE" if option.upper() == "FEMALE" else "FEMALE"
+                raise ProviderException(
+                    f"Only {option_supported} voice is available for the {language} language code"
+                )
+            voice_id = random.choice(suited_voices)
+        return func(self, language, text, option, voice_id)
+    return func_wrapper
+
+
+
 

@@ -9,6 +9,7 @@ from edenai_apis.features.audio import (
     TextToSpeechDataClass,
 )
 from edenai_apis.features.audio.audio_interface import AudioInterface
+from edenai_apis.utils.audio import retreive_voice_id
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -24,7 +25,7 @@ from .config import audio_voices_ids
 
 class IbmAudioApi(AudioInterface):
     def audio__text_to_speech(
-        self, language: str, text: str, option: str
+        self, language: str, text: str, option: str, settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
         """
         :param language:    String that contains language name 'fr-FR', 'en-US', 'es-EN'
@@ -32,20 +33,12 @@ class IbmAudioApi(AudioInterface):
         :param option:      String that contains option of voice(MALE, FEMALE)
         :return:
         """
-
-        option = option.upper()
-        # Formatting (option, language) to voice id supported by IBM API
-        voiceid = audio_voices_ids[language][option]
-        # if one model is not supported for a language
-        if not voiceid:
-            option_supported = "MALE" if option == "FEMALE" else "FEMALE"
-            raise ProviderException(
-                f"Only {option_supported} voice is available for the {language} language code"
-            )
+        voice_id = retreive_voice_id(self, language, option, settings)
+        
         try:
             response = (
                 self.clients["texttospeech"]
-                .synthesize(text=text, accept="audio/mp3", voice=voiceid)
+                .synthesize(text=text, accept="audio/mp3", voice=voice_id)
                 .get_result()
             )
         except Exception as excp:

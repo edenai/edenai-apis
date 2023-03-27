@@ -15,6 +15,7 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
+from edenai_apis.utils.audio import retreive_voice_id
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -30,20 +31,13 @@ from .config import audio_voices_ids
 
 class AmazonAudioApi(AudioInterface):
     def audio__text_to_speech(
-        self, language: str, text: str, option: str
+        self, language: str, text: str, option: str, settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
-
-        formated_language = language
-        voiceid = audio_voices_ids[formated_language][option]
-
-        if not voiceid:
-            option_supported = "MALE" if option == "FEMALE" else "FEMALE"
-            raise ProviderException(
-                f"Only {option_supported} voice is available for the {language} language code"
-            )
+        
+        voice_id = retreive_voice_id(self, language, option, settings)
 
         response = self.clients["texttospeech"].synthesize_speech(
-            VoiceId=voiceid, OutputFormat="mp3", Text=text
+            VoiceId=voice_id.split("_")[-1], OutputFormat="mp3", Text=text
         )
 
 
