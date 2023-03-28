@@ -134,17 +134,25 @@ def __confirm_appropriate_language(language: str, provider: str):
         )
     except SyntaxError as exc:
         formated_language = None
+    if not formated_language:
+        return []
     return formated_language
 
 def __get_voices_from_constrains(constraints: Dict, language: str, gender: str):
-    voices = constraints["voice_ids"]["MALE"] + constraints["voice_ids"]["FEMALE"]
-    if gender:
-        voices = constraints["voice_ids"]["MALE"] if gender.upper() == "MALE" else \
-                                constraints["voice_ids"]["FEMALE"]
-    # voices_language = [voice_lang[len(language)+1:] for voice_lang in \
-    #                    list(filter(lambda voice: voice.startswith(language), voices))]
+    if isinstance(language, list):
+        return []
+    voices = {
+        "MALE": constraints["voice_ids"]["MALE"],
+        "FEMALE": constraints["voice_ids"]["FEMALE"]
+    }
     if language:
-        return list(filter(lambda voice: voice.startswith(language), voices))
+        voices = {
+            "MALE": list(filter(lambda voice: voice.startswith(language), voices["MALE"])),
+            "FEMALE": list(filter(lambda voice: voice.startswith(language), voices["FEMALE"]))
+        }
+    if gender:
+        voices = voices["MALE"] if gender.upper() == "MALE" else \
+                                voices["FEMALE"]
     return voices
 
 def __get_provider_tts_constraints(provider):
