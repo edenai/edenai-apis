@@ -7,4 +7,4 @@ class CodeGenerationDataClass(BaseModel):
 
     @staticmethod
     def direct_response(api_response: Dict):
-        return api_response["result"]
+        return api_response["generated_text"]
