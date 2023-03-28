@@ -340,18 +340,24 @@ class OpenaiTextApi(TextInterface):
         max_tokens: int,
         prompt: str = ""
     ) -> ResponseType[CodeGenerationDataClass]:
-        
-        if not prompt: # if user did not insert code, use text generation
-            return self.text__generation(instruction, temperature, max_tokens, "code-davinci-002")
-        
-        url = f"{self.url}/edits"
-        model = "code-davinci-edit-001"
+         
+        url = f"{self.url}/chat/completions"
+        model = "gpt-3.5-turbo"
+
+        messages = [
+                {"role": "system", "content": "You are a helpful assistant. Be helpful for code generation"},
+                {"role": "user", "content" : instruction}
+            ]
+        if prompt:
+            messages.insert(1, {
+                "role": "user", "content" : prompt
+            })
 
         payload = {
             "model" : model,
-            "input" : prompt,
-            "instruction": instruction,
-            "temperature": temperature
+            "temperature": temperature,
+            "messages": messages,
+            "max_tokens": max_tokens
         }
         
         original_response = requests.post(url, json=payload, headers= self.headers).json()
@@ -360,7 +366,7 @@ class OpenaiTextApi(TextInterface):
         check_openai_errors(original_response)
 
         standardized_response = CodeGenerationDataClass(
-            generated_text = original_response['choices'][0]['text']
+            generated_text = original_response['choices'][0]['message']['content']
         )
         return ResponseType[CodeGenerationDataClass](
             original_response=original_response,

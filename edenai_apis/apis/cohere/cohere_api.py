@@ -73,12 +73,15 @@ class CohereApi(ProviderInterface, TextInterface):
         url = f"{self.base_url}generate"
         
         if not model:
-            model = 'xlarge'
+            model = 'command-xlarge-nightly'
               
         payload = {
             "prompt": text,
             "model" : model,
             "temperature" : temperature,
+            "stop_sequences": ["--"],
+            "frequency_penalty" : 0.3,
+            "truncate": "END",
         }
         
         if max_tokens !=0:

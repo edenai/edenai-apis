@@ -9,7 +9,7 @@
     - [Package Installation](#package-installation)
     - [Quick Start](#quick-start)
         - [Asynchronous features](#asynchronous-features)
-    - [All available features and providers ⚠️](https://github.com/edenai/edenai-apis/blob/new_interface/AVAILABLES_FEATURES_AND_PROVIDERS.md)
+    - [All available features and providers ⚠️](https://github.com/edenai/edenai-apis/blob/master/AVAILABLES_FEATURES_AND_PROVIDERS.md)
     - [Contribute](#contribute)
     - [Don’t want to create accounts for all providers and host the project by yourself?](#dont-want-to-create-accounts-for-all-providers-and-host-the-project-by-yourself)
     - [Join the community!](#join-the-community)
