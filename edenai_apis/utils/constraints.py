@@ -190,6 +190,9 @@ def validate_all_input_languages(
         - dict: updated args
     """
 
+    if subfeature == "text_to_speech" and provider_name in (args.get("settings", {}) or {}):
+        return args
+
     accepts_null_language = constraints.get("allow_null_language", False)
 
     for argument_name, argument_value in args.items():
