@@ -89,7 +89,7 @@ def combine_date_with_time(date: Optional[str], time: Union[str, None]) -> Union
     if time and date:
         for fmt in ["%H:%M", "%H:%M:%S"]:
             try:
-                time = dt.datetime.strptime(time, fmt).time()
+                time = dt.datetime.strptime(str(time), fmt).time()
                 date = str(dt.datetime.combine(dt.datetime.strptime(date, "%Y-%m-%d"), time))
                 break
             except ValueError as exc:
