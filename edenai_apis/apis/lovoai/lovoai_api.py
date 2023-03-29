@@ -33,7 +33,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
         
-        voice_id = retreive_voice_id(self, language, option, settings)
+        voice_id = retreive_voice_id(self.provider_name, language, option, settings)
         
         data = json.dumps({
             "text": text,

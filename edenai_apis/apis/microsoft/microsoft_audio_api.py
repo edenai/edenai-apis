@@ -34,7 +34,7 @@ class MicrosoftAudioApi(AudioInterface):
         self, language: str, text: str, option: str, settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
         
-        voice_id = retreive_voice_id(self, language, option, settings)
+        voice_id = retreive_voice_id(self.provider_name, language, option, settings)
 
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],

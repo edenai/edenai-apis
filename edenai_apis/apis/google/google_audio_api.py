@@ -35,7 +35,7 @@ class GoogleAudioApi(AudioInterface):
         self, language: str, text: str, option: str, settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
         voice_type = 1
-        voice_id = retreive_voice_id(self, language, option, settings)
+        voice_id = retreive_voice_id(self.provider_name, language, option, settings)
 
         client = texttospeech.TextToSpeechClient()
         input_text = texttospeech.SynthesisInput(text=text)

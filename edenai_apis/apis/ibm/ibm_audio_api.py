@@ -33,7 +33,7 @@ class IbmAudioApi(AudioInterface):
         :param option:      String that contains option of voice(MALE, FEMALE)
         :return:
         """
-        voice_id = retreive_voice_id(self, language, option, settings)
+        voice_id = retreive_voice_id(self.provider_name, language, option, settings)
         
         try:
             response = (

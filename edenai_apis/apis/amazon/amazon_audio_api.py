@@ -34,10 +34,10 @@ class AmazonAudioApi(AudioInterface):
         self, language: str, text: str, option: str, settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
         
-        voice_id = retreive_voice_id(self, language, option, settings)
+        voice_id = retreive_voice_id(self.provider_name, language, option, settings)
 
         response = self.clients["texttospeech"].synthesize_speech(
-            VoiceId=voice_id.split("_")[-1], OutputFormat="mp3", Text=text
+            VoiceId=voice_id.split("_")[1], OutputFormat="mp3", Text=text
         )
 
 

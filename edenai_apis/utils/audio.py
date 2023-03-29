@@ -192,7 +192,7 @@ def get_voices(language: str, gender: str, providers: List[str]) -> Dict[str, Li
     return voices
 
 
-def retreive_voice_id(object_instance, language: str, option: str, settings: Dict = {}) -> str:
+def retreive_voice_id(provider_name, language: str, option: str, settings: Dict = {}) -> str:
     """Retreives a voice id for text_to_speech methods depending on the settings parameters if a voice_id is \
         specified, otherwise depening on the language and the gender
 
@@ -208,8 +208,11 @@ def retreive_voice_id(object_instance, language: str, option: str, settings: Dic
     Returns:
         str: the voice id selected
     """
-    provider_name = getattr(object_instance, "provider_name")
+    # provider_name = getattr(object_instance, "provider_name")
     constrains = __get_provider_tts_constraints(provider_name)
+    language = __confirm_appropriate_language(language, provider_name)
+    if isinstance(language, list):
+        language = None
     if settings and provider_name in settings:
         selected_voice = settings[provider_name]
         if constrains and __has_voice_in_contrains(constrains, selected_voice):
@@ -222,6 +225,7 @@ def retreive_voice_id(object_instance, language: str, option: str, settings: Dic
             f"Only {option_supported} voice is available for the {language} language code"
         )
     return random.choice(suited_voices)
+
 
 
 
