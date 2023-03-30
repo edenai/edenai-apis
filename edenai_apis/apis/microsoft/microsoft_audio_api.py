@@ -6,6 +6,7 @@ from typing import List, Optional
 
 import azure.cognitiveservices.speech as speechsdk
 import requests
+from edenai_apis.apis.microsoft.microsoft_helpers import format_text_for_ssml_tags
 from edenai_apis.features.audio import (
     AudioInterface,
     SpeechDiarization,
@@ -31,27 +32,41 @@ from .config import audio_voice_ids
 
 class MicrosoftAudioApi(AudioInterface):
     def audio__text_to_speech(
-        self, language: str, text: str, option: str, settings: dict = {}
+        self, 
+        language: str, 
+        text: str, 
+        option: str, 
+        speaking_rate: int, 
+        settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
+        
+        use_ssml = False
         
         voice_id = retreive_voice_id(self.provider_name, language, option, settings)
 
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
             region=self.api_settings["speech"]["service_region"],
+            
         )
-
         speech_config.speech_synthesis_voice_name = voice_id
         speech_config.set_speech_synthesis_output_format(
             speechsdk.SpeechSynthesisOutputFormat.Audio16Khz32KBitRateMonoMp3
         )
+
+        if speaking_rate:
+            use_ssml = True
+            text = format_text_for_ssml_tags(text)
+            text = f"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'> \
+                <voice name='{voice_id}'><prosody rate='{speaking_rate}%'>{text}</prosody></voice></speak>"
 
         # Getting response of API
         # output_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=False)
         speech_synthesizer = speechsdk.SpeechSynthesizer(
             speech_config=speech_config, audio_config=None
         )
-        response = speech_synthesizer.speak_text_async(text).get()
+        response = speech_synthesizer.speak_text_async(text).get() if not use_ssml \
+            else speech_synthesizer.speak_ssml_async(text).get()
 
         if response.reason == speechsdk.ResultReason.Canceled:
             cancellation_details = response.cancellation_details

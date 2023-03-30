@@ -25,7 +25,12 @@ from .config import audio_voices_ids
 
 class IbmAudioApi(AudioInterface):
     def audio__text_to_speech(
-        self, language: str, text: str, option: str, settings: dict = {}
+        self, 
+        language: str, 
+        text: str, 
+        option: str,
+        speaking_rate: int, 
+        settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
         """
         :param language:    String that contains language name 'fr-FR', 'en-US', 'es-EN'
@@ -35,10 +40,17 @@ class IbmAudioApi(AudioInterface):
         """
         voice_id = retreive_voice_id(self.provider_name, language, option, settings)
         
+        params = {
+            "text": text,
+            "accept": "audio/mp3",
+            "voice": voice_id,
+            "rate_percentage": speaking_rate
+        }
+
         try:
             response = (
                 self.clients["texttospeech"]
-                .synthesize(text=text, accept="audio/mp3", voice=voice_id)
+                .synthesize(**params)
                 .get_result()
             )
         except Exception as excp:

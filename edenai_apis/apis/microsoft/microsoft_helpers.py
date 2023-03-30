@@ -362,3 +362,10 @@ def normalize_invoice_result(response):
 
     standardized_response = InvoiceParserDataClass(extracted_data=invoices)
     return standardized_response
+
+
+def format_text_for_ssml_tags(text: str):
+    tobe_replaced = [("&", "&amp"), ("<", "&lt"), (">", "&gt")]
+    for element in tobe_replaced:
+        text.replace(element[0], element[1])
+    return text

@@ -353,3 +353,11 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
             )
             extracted_data.append(invoice_infos)
     return InvoiceParserDataClass(extracted_data=extracted_data)
+
+
+def amazon_speaking_rate_converter(speaking_rate: int):
+    if speaking_rate < -80:
+        speaking_rate = -80
+    if speaking_rate > 100:
+        speaking_rate = 100
+    return speaking_rate + 100
