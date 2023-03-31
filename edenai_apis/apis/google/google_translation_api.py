@@ -90,14 +90,17 @@ class GoogleTranslationApi(TranslationInterface):
         "mime_type": "application/pdf",
         }
 
-        original_response = client.translate_document(
-            request={
-                "parent": parent,
-                "target_language_code": target_language,
-                "source_language_code": source_language,
-                "document_input_config": document_input_config,
-            }
-        )
+        try:
+            original_response = client.translate_document(
+                request={
+                    "parent": parent,
+                    "target_language_code": target_language,
+                    "source_language_code": source_language,
+                    "document_input_config": document_input_config,
+                }
+            )
+        except Exception as exc:
+            raise ProviderException(str(exc))
 
         file_bytes = original_response.document_translation.byte_stream_outputs[0]
 
