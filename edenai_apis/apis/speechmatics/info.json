@@ -1,0 +1,70 @@
+{
+    "audio": {
+        "speech_to_text_async": {
+            "constraints": {
+                "languages": [
+                    "ar",
+                    "ba",
+                    "eu",
+                    "be",
+                    "bg",
+                    "yue",
+                    "ca",
+                    "hr",
+                    "cs",
+                    "da",
+                    "nl",
+                    "en",
+                    "eo",
+                    "et",
+                    "fi",
+                    "fr",
+                    "gl",
+                    "de",
+                    "el",
+                    "hi",
+                    "hu",
+                    "ia",
+                    "it",
+                    "id",
+                    "ja",
+                    "ko",
+                    "lv",
+                    "lt",
+                    "ms",
+                    "cmn",
+                    "mr",
+                    "mn",
+                    "no",
+                    "pl",
+                    "pt",
+                    "ro",
+                    "ru",
+                    "sk",
+                    "sl",
+                    "es",
+                    "sv",
+                    "ta",
+                    "th",
+                    "tr",
+                    "ug",
+                    "uk",
+                    "vi",
+                    "cy"
+                ],
+                "file_extensions": [
+                    "wav",
+                    "mp3",
+                    "aac",
+                    "ogg",
+                    "mpeg",
+                    "amr",
+                    "m4a",
+                    "mp4",
+                    "flac"
+                ]
+            },
+            "version": "v2"
+        }
+    }
+}
