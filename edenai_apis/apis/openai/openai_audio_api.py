@@ -1,6 +1,7 @@
 import requests
 import uuid
 from typing import Optional, List
+from edenai_apis.apis.amazon.helpers import check_webhook_result
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -63,25 +64,21 @@ class OpenaiAudioApi(AudioInterface):
         
         # Get results from webhooks : 
         # List all webhook results
-        token_id = self.api_settings['webhook_token']
-        webhook_get_url = (
-            f"https://webhook.site/token/{token_id}/requests"
-            + f"?sorting=newest&query={urllib.parse.quote_plus('content:'+str(provider_job_id))}"
-        )
-        webhook_response = requests.get(webhook_get_url, headers={
-            "api-key": self.api_settings['webhook_api_key']
-        })
+        # Getting results from webhook.site
 
-        response_status = webhook_response.status_code
-        if response_status != 200 or len(
-            webhook_response.json()["data"]
-        ) == 0:
-            original_response = None
-        else:
-            original_response= json.loads(webhook_response.json()["data"][0]["content"])
-            original_response= original_response[provider_job_id]
-            
-        if original_response is None :
+        wehbook_result, response_status = check_webhook_result(provider_job_id, self.api_settings)
+
+        if response_status != 200:
+            raise ProviderException(wehbook_result)
+        
+        result_object = next(filter(lambda response: provider_job_id in response["content"], wehbook_result), None) \
+            if wehbook_result else None
+
+        if not result_object or not result_object.get("content"):
+            raise ProviderException("Provider returned an empty response")
+                
+        original_response = json.loads(result_object["content"]).get(provider_job_id, None)
+        if original_response is None:
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id
             )

@@ -58,13 +58,7 @@ def check_webhook_result(job_id: str, api_settings: dict) -> Dict:
     webhook_response = requests.get(url=webhook_get_url, headers={"Api-Key": api_key})
     response_status = webhook_response.status_code
     try:
-        if response_status != 200 or len(
-            webhook_response.json()["data"]
-        ) == 0:
-            print("status", response_status)
-            print("webhook_response.text", webhook_response.text)
-            return None, response_status
-        return json.loads(webhook_response.json()["data"][0]["content"]), response_status
+        return webhook_response.json().get("data"), response_status
     except Exception:
         return None, response_status
 
