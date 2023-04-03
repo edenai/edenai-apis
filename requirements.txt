@@ -85,8 +85,6 @@ dill==0.3.6
     #   pylint
 docutils==0.19
     # via sphinx
-exceptiongroup==1.0.2
-    # via pytest
 execnet==1.9.0
     # via pytest-xdist
 ffmpeg-python==0.2.0
@@ -178,9 +176,7 @@ idna==3.4
 imagesize==1.4.1
     # via sphinx
 importlib-metadata==4.13.0
-    # via
-    #   sagemaker
-    #   sphinx
+    # via sagemaker
 incremental==22.10.0
     # via twisted
 iniconfig==1.1.1
@@ -238,7 +234,7 @@ packaging==21.3
     #   pytest
     #   sagemaker
     #   sphinx
-pandas==1.5.1
+pandas==2.0.0
     # via
     #   -r requirements.in
     #   sagemaker
@@ -420,11 +416,6 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
-tomli==2.0.1
-    # via
-    #   coverage
-    #   pylint
-    #   pytest
 tomlkit==0.11.6
     # via pylint
 twisted==22.10.0
@@ -433,13 +424,12 @@ txaio==22.2.1
     # via autobahn
 typing-extensions==4.4.0
     # via
-    #   astroid
     #   azure-ai-formrecognizer
     #   azure-core
     #   pydantic
-    #   pylint
-    #   pypdf2
     #   twisted
+tzdata==2023.3
+    # via pandas
 uritemplate==4.1.1
     # via google-api-python-client
 urllib3==1.26.12
