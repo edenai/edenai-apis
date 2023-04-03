@@ -167,3 +167,16 @@ def replace_sep(x: str, current_sep: str, new_sep: str):
         x = x.replace(current_sep, new_sep)
         x = re.sub(r"{}$".format(re.escape(new_sep)), "", x)
     return x
+
+def standardized_confidence_score_picpurify(confidence_score: float, nsfw : bool):
+    if nsfw:
+        if confidence_score >= 0.8:
+            return 5
+        elif confidence_score >= 0.6:
+            return 4
+        elif confidence_score >=0.4:
+            return 3 
+        elif confidence_score >=0.2:
+            return 2
+    else:
+        return 1

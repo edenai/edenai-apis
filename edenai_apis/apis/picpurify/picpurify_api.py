@@ -13,7 +13,7 @@ from edenai_apis.features.image import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.conversion import standardized_confidence_score
+from edenai_apis.utils.conversion import standardized_confidence_score_picpurify
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
@@ -99,14 +99,13 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
         # get moderation label keys from categegories found in image
         # (eg: 'drug_moderation', 'gore_moderation' etc.)
         moderation_labels = original_response.get("performed", [])
-
         items = []
         for label in moderation_labels:
             items.append(
                 ExplicitItem(
                     label=label.replace("moderation", "content"),
-                    likelihood=standardized_confidence_score(
-                        original_response[label]["confidence_score"]
+                    likelihood=standardized_confidence_score_picpurify(
+                        original_response[label]["confidence_score"], original_response[label][label.replace("moderation","content")]
                     ),
                 )
             )
@@ -119,3 +118,4 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
         )
         print(res.dict())
         return res
+    

@@ -1,28 +1,28 @@
 {
   "original_response": {
     "suggestive_nudity_moderation": {
-      "compute_time": 0.1996,
-      "confidence_score": 0.99999964237213,
+      "compute_time": 0.2071,
+      "confidence_score": 0.9999997615814209,
       "suggestive_nudity_content": false
     },
     "gore_moderation": {
-      "compute_time": 0.2007,
-      "confidence_score": 0.98961967229843,
+      "compute_time": 0.1961,
+      "confidence_score": 0.990346372127533,
       "gore_content": true
     },
     "weapon_moderation": {
-      "compute_time": 0.201,
-      "confidence_score": 0.99999988079071,
+      "compute_time": 0.2036,
+      "confidence_score": 0.9999998807907104,
       "weapon_content": false
     },
     "drug_moderation": {
-      "compute_time": 0.1844,
-      "confidence_score": 0.98628717660904,
+      "compute_time": 0.2051,
+      "confidence_score": 0.9862111806869507,
       "drug_content": false
     },
     "hate_sign_moderation": {
-      "compute_time": 0.1966,
-      "confidence_score": 0.99998784065247,
+      "compute_time": 0.187,
+      "confidence_score": 0.9999889135360718,
       "hate_sign_content": false
     },
     "task_call": "suggestive_nudity_moderation,gore_moderation,weapon_moderation,drug_moderation,hate_sign_moderation",
@@ -45,21 +45,21 @@
     "reject_criteria": [
       "gore_moderation"
     ],
-    "confidence_score_decision": 0.98961967229843,
+    "confidence_score_decision": 0.990346372127533,
     "media": {
       "url_image": "",
       "file_image": "explicit_content.jpeg",
-      "media_id": "4d98027f2f1dd038f0da474aac68953e"
+      "media_id": "4e128104e416d85dfcbf9e4f53ca1239"
     },
     "units_consumed": 5,
-    "total_compute_time": 0.35856509208679
+    "total_compute_time": 0.5062961578369141
   },
   "standardized_response": {
     "nsfw_likelihood": 5,
     "items": [
       {
         "label": "suggestive_nudity_content",
-        "likelihood": 5
+        "likelihood": 1
       },
       {
         "label": "gore_content",
@@ -67,15 +67,15 @@
       },
       {
         "label": "weapon_content",
-        "likelihood": 5
+        "likelihood": 1
       },
       {
         "label": "drug_content",
-        "likelihood": 5
+        "likelihood": 1
       },
       {
         "label": "hate_sign_content",
-        "likelihood": 5
+        "likelihood": 1
       }
     ]
   }
