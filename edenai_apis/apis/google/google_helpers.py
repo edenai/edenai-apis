@@ -12,6 +12,7 @@ from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import
     Row,
 )
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SentimentEnum
+from edenai_apis.utils.conversion import convert_pitch_from_percentage_to_semitones
 
 
 class GoogleVideoFeatures(enum.Enum):
@@ -127,3 +128,30 @@ def get_tag_name(tag):
         "VERB": "Verb",
         "X": "Other",
     }[tag]
+
+
+
+def get_formated_speaking_rate(speaking_rate: float):
+    if speaking_rate > 100:
+        speaking_rate = 100
+    if speaking_rate < -100:
+        speaking_rate = -100
+    if speaking_rate >= 0:
+        diff = speaking_rate / 100
+        return 1+diff
+    diff = -1/2 * speaking_rate / 100
+    return 1-diff
+
+
+def generate_tts_params(speaking_rate, speaking_pitch):
+    attribs = {
+        "speaking_rate": (speaking_rate, get_formated_speaking_rate(speaking_rate)),
+        "pitch": (speaking_pitch, convert_pitch_from_percentage_to_semitones(speaking_pitch))
+    }
+    params = {}
+
+    for k,v in attribs.items():
+        if not v[0]:
+            continue
+        params[k] = v[1]
+    return params

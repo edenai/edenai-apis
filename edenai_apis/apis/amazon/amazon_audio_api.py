@@ -5,7 +5,7 @@ import urllib
 import uuid
 import base64
 from io import BufferedReader, BytesIO
-from edenai_apis.apis.amazon.helpers import amazon_speaking_rate_converter
+from edenai_apis.apis.amazon.helpers import amazon_speaking_rate_converter, generate_right_ssml_text
 
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
@@ -37,6 +37,7 @@ class AmazonAudioApi(AudioInterface):
         text: str, 
         option: str,
         speaking_rate: int, 
+        speaking_pitch: int,
         settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
         
@@ -47,16 +48,10 @@ class AmazonAudioApi(AudioInterface):
             "OutputFormat": "mp3"
         }
 
-        if speaking_rate:
-            amazon_speaking_rate = amazon_speaking_rate_converter(speaking_rate)
-            text = f"<speak><prosody rate='{amazon_speaking_rate}%'>{text}</prosody></speak>"
-            params.update({
-                "TextType": "ssml"
-            })
-
-        params.update({
-            "Text": text
-        })
+        text, text_type = generate_right_ssml_text(text, speaking_rate, speaking_pitch)
+        params["Text"] = text
+        if text_type:
+            params["TextType"] = "ssml"
 
         response = self.clients["texttospeech"].synthesize_speech(**params)
 

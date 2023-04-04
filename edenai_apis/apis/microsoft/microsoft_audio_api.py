@@ -6,7 +6,7 @@ from typing import List, Optional
 
 import azure.cognitiveservices.speech as speechsdk
 import requests
-from edenai_apis.apis.microsoft.microsoft_helpers import format_text_for_ssml_tags
+from edenai_apis.apis.microsoft.microsoft_helpers import format_text_for_ssml_tags, generate_right_ssml_text
 from edenai_apis.features.audio import (
     AudioInterface,
     SpeechDiarization,
@@ -36,7 +36,8 @@ class MicrosoftAudioApi(AudioInterface):
         language: str, 
         text: str, 
         option: str, 
-        speaking_rate: int, 
+        speaking_rate: int,
+        speaking_pitch: int,
         settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
         
@@ -54,11 +55,7 @@ class MicrosoftAudioApi(AudioInterface):
             speechsdk.SpeechSynthesisOutputFormat.Audio16Khz32KBitRateMonoMp3
         )
 
-        if speaking_rate:
-            use_ssml = True
-            text = format_text_for_ssml_tags(text)
-            text = f"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'> \
-                <voice name='{voice_id}'><prosody rate='{speaking_rate}%'>{text}</prosody></voice></speak>"
+        text, use_ssml = generate_right_ssml_text(text, voice_id, speaking_rate, speaking_pitch)
 
         # Getting response of API
         # output_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=False)

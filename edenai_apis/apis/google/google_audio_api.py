@@ -6,6 +6,7 @@ from time import time
 from typing import List, Optional
 
 import googleapiclient.discovery
+from edenai_apis.apis.google.google_helpers import generate_tts_params
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechDiarization,
@@ -32,7 +33,13 @@ from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 class GoogleAudioApi(AudioInterface):
     def audio__text_to_speech(
-        self, language: str, text: str, option: str, settings: dict = {}
+        self, 
+        language: str, 
+        text: str, 
+        option: str,
+        speaking_rate: int, 
+        speaking_pitch: int,
+        settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
         voice_type = 1
         voice_id = retreive_voice_id(self.provider_name, language, option, settings)
@@ -45,8 +52,14 @@ class GoogleAudioApi(AudioInterface):
             name = voice_id
         )
 
+        audio_config_params = generate_tts_params(speaking_rate, speaking_pitch)
+
+        audio_config_params.update({
+            "audio_encoding" : texttospeech.AudioEncoding.MP3
+        })
+
         audio_config = texttospeech.AudioConfig(
-            audio_encoding=texttospeech.AudioEncoding.MP3
+            **audio_config_params
         )
 
         # Getting response of API

@@ -167,3 +167,31 @@ def replace_sep(x: str, current_sep: str, new_sep: str):
         x = x.replace(current_sep, new_sep)
         x = re.sub(r"{}$".format(re.escape(new_sep)), "", x)
     return x
+
+
+def convert_pitch_from_percentage_to_semitones(speaking_pitch: float):
+    # we assume that the biggest shift is 12 (-/+) semitones
+    #1 demi-ton/seconde mineure : 1,059463   (pow(2, n/12))
+    #2 demi-tons/seconde majeure : 1,122462
+    # 3 demi-tons/tierce mineure : 1.189207
+    # 4 demi-tons/tierce majeure : 1.259921
+    # 5 demi-tons/quarte parfaite : 1,334840
+    # 6 demi-tons/triton : 1.414214
+    # 7 demi-tons/quinte juste : 1,498307
+    # 8 demi-tons/sixte mineure : 1,587401
+    # 9 demi-tons/sixte majeure : 1,681793
+    # 10 demi-tons/septième mineure : 1,781797
+    # 11 demi-tons/septième majeure : 1,887749
+    # 12 demi-tons/octave : 2,0
+
+    semitones = [1.059463, 1.122462, 1.189207, 1.259921, 1.334840, 1.414214, 1,587401, 1.681793, 1,781797, 1.887749, 2.0]
+
+    if speaking_pitch > 100:
+        speaking_pitch = 100
+    if speaking_pitch < - 100:
+        speaking_pitch = -100
+    sign = 1 if speaking_pitch > 0 else -1
+    diff = abs(speaking_pitch) / 100
+    shifting = 1 + diff
+    semitone = min(semitones, key=lambda x: abs(x-shifting))
+    return sign*semitones.index(semitone)

@@ -1,6 +1,7 @@
 import base64
 from io import BufferedReader, BytesIO
 from typing import List, Optional
+from edenai_apis.apis.ibm.ibm_helpers import generate_right_ssml_text
 
 from edenai_apis.features.audio import (
     SpeechDiarization,
@@ -30,6 +31,7 @@ class IbmAudioApi(AudioInterface):
         text: str, 
         option: str,
         speaking_rate: int, 
+        speaking_pitch: int,
         settings: dict = {}
     ) -> ResponseType[TextToSpeechDataClass]:
         """
@@ -39,12 +41,13 @@ class IbmAudioApi(AudioInterface):
         :return:
         """
         voice_id = retreive_voice_id(self.provider_name, language, option, settings)
+
+        text = generate_right_ssml_text(text, speaking_rate, speaking_pitch)
         
         params = {
             "text": text,
             "accept": "audio/mp3",
-            "voice": voice_id,
-            "rate_percentage": speaking_rate
+            "voice": voice_id
         }
 
         try:

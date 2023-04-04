@@ -361,3 +361,18 @@ def amazon_speaking_rate_converter(speaking_rate: int):
     if speaking_rate > 100:
         speaking_rate = 100
     return speaking_rate + 100
+
+def generate_right_ssml_text(text, speaking_rate, speaking_pitch):
+    attribs = {
+        "rate": amazon_speaking_rate_converter(speaking_rate),
+        "pitch": speaking_pitch
+    }
+    cleaned_attribs_string = ""
+    for k,v in attribs.items():
+        if not v or (k=="rate" and v==100):
+            continue
+        cleaned_attribs_string = f"{cleaned_attribs_string} {k}='{v}%'"
+    if not cleaned_attribs_string.strip():
+        return text, None
+    smll_text = f"<speak><prosody {cleaned_attribs_string}>{text}</prosody></speak>"
+    return smll_text, "ssml"
