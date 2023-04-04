@@ -190,7 +190,8 @@ def validate_all_input_languages(
         - dict: updated args
     """
 
-    if subfeature == "text_to_speech" and provider_name in (args.get("settings", {}) or {}):
+    # Skip language checking for text_to_speech if settings are passed, execpt for google
+    if subfeature == "text_to_speech" and provider_name in (args.get("settings", {}) or {}) and provider_name != "google":
         return args
 
     accepts_null_language = constraints.get("allow_null_language", False)
