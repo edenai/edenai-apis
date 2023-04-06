@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import List, Sequence
 from typing import Tuple
 
 import enum
@@ -131,7 +131,7 @@ def get_tag_name(tag):
 
 
 
-def get_formated_speaking_rate(speaking_rate: float):
+def get_formated_speaking_rate(speaking_rate: int):
     if speaking_rate > 100:
         speaking_rate = 100
     if speaking_rate < -100:
@@ -142,11 +142,19 @@ def get_formated_speaking_rate(speaking_rate: float):
     diff = -1/2 * speaking_rate / 100
     return 1-diff
 
+def get_formated_speaking_volume(speaking_volume: int):
+    if speaking_volume > 100:
+        speaking_volume = 100
+    if speaking_volume < -100:
+        speaking_volume = -100
+    return (speaking_volume * 6 / 100)
 
-def generate_tts_params(speaking_rate, speaking_pitch):
+
+def generate_tts_params(speaking_rate, speaking_pitch, speaking_volume):
     attribs = {
         "speaking_rate": (speaking_rate, get_formated_speaking_rate(speaking_rate)),
-        "pitch": (speaking_pitch, convert_pitch_from_percentage_to_semitones(speaking_pitch))
+        "pitch": (speaking_pitch, convert_pitch_from_percentage_to_semitones(speaking_pitch)),
+        "volume_gain_db": (speaking_volume, get_formated_speaking_volume(speaking_volume))
     }
     params = {}
 
@@ -155,3 +163,16 @@ def generate_tts_params(speaking_rate, speaking_pitch):
             continue
         params[k] = v[1]
     return params
+
+
+def get_right_audio_support_and_sampling_rate(audio_format: str, list_audio_formats: List):
+    extension = audio_format
+    if not audio_format:
+        audio_format = "mp3"
+    if audio_format == "wav":
+        audio_format = "wav-linear16"
+    if "-" in audio_format:
+        extension, audio_format = audio_format.split("-")
+    right_audio_format = next(filter(lambda x: audio_format in x.lower(), list_audio_formats), None)
+    return extension, right_audio_format
+    

@@ -6,7 +6,7 @@ from time import time
 from typing import List, Optional
 
 import googleapiclient.discovery
-from edenai_apis.apis.google.google_helpers import generate_tts_params
+from edenai_apis.apis.google.google_helpers import generate_tts_params, get_right_audio_support_and_sampling_rate
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechDiarization,
@@ -37,12 +37,14 @@ class GoogleAudioApi(AudioInterface):
         language: str, 
         text: str, 
         option: str,
+        voice_id: str,
+        audio_format: str,
         speaking_rate: int, 
         speaking_pitch: int,
-        settings: dict = {}
+        speaking_volume: int,
+        sampling_rate: int
     ) -> ResponseType[TextToSpeechDataClass]:
         voice_type = 1
-        voice_id = retreive_voice_id(self.provider_name, language, option, settings)
 
         client = texttospeech.TextToSpeechClient()
         input_text = texttospeech.SynthesisInput(text=text)
@@ -52,27 +54,39 @@ class GoogleAudioApi(AudioInterface):
             name = voice_id
         )
 
-        audio_config_params = generate_tts_params(speaking_rate, speaking_pitch)
+        ext, audio_format = get_right_audio_support_and_sampling_rate(
+            audio_format, 
+            texttospeech.AudioEncoding._member_names_)
+
+        audio_config_params = generate_tts_params(speaking_rate, speaking_pitch, speaking_volume)
 
         audio_config_params.update({
-            "audio_encoding" : texttospeech.AudioEncoding.MP3
+            "audio_encoding" : getattr(texttospeech.AudioEncoding, audio_format)
         })
+
+        if sampling_rate:
+            audio_config_params.update({
+                "sample_rate_hertz" : sampling_rate
+            })
 
         audio_config = texttospeech.AudioConfig(
             **audio_config_params
         )
 
         # Getting response of API
-        response = client.synthesize_speech(
-            request={"input": input_text, "voice": voice, "audio_config": audio_config}
-        )
+        try:
+            response = client.synthesize_speech(
+                request={"input": input_text, "voice": voice, "audio_config": audio_config}
+            )
+        except Exception as excp:
+            raise ProviderException(str(excp))
 
         audio_content = BytesIO(response.audio_content)
 
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
 
         audio_content.seek(0)
-        resource_url = upload_file_bytes_to_s3(audio_content, ".mp3", USER_PROCESS)
+        resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
 
         standardized_response = TextToSpeechDataClass(
             audio=audio, voice_type=voice_type, audio_resource_url = resource_url

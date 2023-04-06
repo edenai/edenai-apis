@@ -39,6 +39,11 @@
                     "th-TH",
                     "tr-TR"
                 ],
+                "audio_format": [
+                    "mp3",
+                    "ogg",
+                    "pcm"
+                ],
                 "file_extensions": [
                     "amr",
                     "flac",

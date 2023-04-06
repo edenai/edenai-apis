@@ -26,15 +26,18 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         
 
     def audio__text_to_speech(
-        self,
-        language: str,
-        text: str,
-        option: Literal["MALE", "FEMALE"],
-        settings: dict = {}
+        self, 
+        language: str, 
+        text: str, 
+        option: str,
+        voice_id: str,
+        audio_format: str,
+        speaking_rate: int, 
+        speaking_pitch: int,
+        speaking_volume: int,
+        sampling_rate: int
     ) -> ResponseType[TextToSpeechDataClass]:
-        
-        voice_id = retreive_voice_id(self.provider_name, language, option, settings)
-        
+                
         data = json.dumps({
             "text": text,
             "speaker_id": voice_id.split("_")[-1],

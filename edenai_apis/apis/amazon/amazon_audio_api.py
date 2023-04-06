@@ -5,7 +5,7 @@ import urllib
 import uuid
 import base64
 from io import BufferedReader, BytesIO
-from edenai_apis.apis.amazon.helpers import amazon_speaking_rate_converter, generate_right_ssml_text
+from edenai_apis.apis.amazon.helpers import amazon_speaking_rate_converter, generate_right_ssml_text, get_right_audio_support_and_sampling_rate
 
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
@@ -36,20 +36,34 @@ class AmazonAudioApi(AudioInterface):
         language: str, 
         text: str, 
         option: str,
+        voice_id: str,
+        audio_format: str,
         speaking_rate: int, 
         speaking_pitch: int,
-        settings: dict = {}
+        speaking_volume: int,
+        sampling_rate: int
     ) -> ResponseType[TextToSpeechDataClass]:
         
-        voice_id = retreive_voice_id(self.provider_name, language, option, settings)
-
         params = {
             "VoiceId" : voice_id.split("_")[1],
             "OutputFormat": "mp3"
         }
 
-        text, text_type = generate_right_ssml_text(text, speaking_rate, speaking_pitch)
-        params["Text"] = text
+        text, text_type = generate_right_ssml_text(text, speaking_rate, speaking_pitch, speaking_volume)
+
+        ext, audio_format, sampling = get_right_audio_support_and_sampling_rate(audio_format, sampling_rate)
+
+        params_update = {
+            "OutputFormat": audio_format,
+            "Text": text
+        }
+        if sampling:
+            params_update["SampleRate"] = str(sampling)
+        
+        params.update({
+            **params_update
+        })
+
         if text_type:
             params["TextType"] = "ssml"
 
@@ -63,7 +77,7 @@ class AmazonAudioApi(AudioInterface):
         voice_type = 1
 
         audio_content.seek(0)
-        resource_url = upload_file_bytes_to_s3(audio_content, ".mp3", USER_PROCESS)
+        resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
 
         standardized_response = TextToSpeechDataClass(
             audio=audio_file, voice_type=voice_type, audio_resource_url = resource_url

@@ -1,7 +1,7 @@
 import base64
 from io import BufferedReader, BytesIO
 from typing import List, Optional
-from edenai_apis.apis.ibm.ibm_helpers import generate_right_ssml_text
+from edenai_apis.apis.ibm.ibm_helpers import generate_right_ssml_text, get_right_audio_support_and_sampling_rate
 
 from edenai_apis.features.audio import (
     SpeechDiarization,
@@ -21,8 +21,7 @@ from edenai_apis.utils.types import (
 )
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
-from .config import audio_voices_ids
-
+from watson_developer_cloud.watson_service import WatsonApiException
 
 class IbmAudioApi(AudioInterface):
     def audio__text_to_speech(
@@ -30,9 +29,12 @@ class IbmAudioApi(AudioInterface):
         language: str, 
         text: str, 
         option: str,
+        voice_id: str,
+        audio_format: str,
         speaking_rate: int, 
         speaking_pitch: int,
-        settings: dict = {}
+        speaking_volume: int,
+        sampling_rate: int
     ) -> ResponseType[TextToSpeechDataClass]:
         """
         :param language:    String that contains language name 'fr-FR', 'en-US', 'es-EN'
@@ -40,13 +42,13 @@ class IbmAudioApi(AudioInterface):
         :param option:      String that contains option of voice(MALE, FEMALE)
         :return:
         """
-        voice_id = retreive_voice_id(self.provider_name, language, option, settings)
-
         text = generate_right_ssml_text(text, speaking_rate, speaking_pitch)
-        
+
+        ext, audio_format = get_right_audio_support_and_sampling_rate(audio_format, sampling_rate)
+
         params = {
             "text": text,
-            "accept": "audio/mp3",
+            "accept": audio_format,
             "voice": voice_id
         }
 
@@ -56,15 +58,15 @@ class IbmAudioApi(AudioInterface):
                 .synthesize(**params)
                 .get_result()
             )
-        except Exception as excp:
-            raise ProviderException(excp)
+        except WatsonApiException as excp:
+            raise ProviderException(excp.message)
         
         audio_content = BytesIO(response.content)
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
         voice_type = 1
 
         audio_content.seek(0)
-        resource_url = upload_file_bytes_to_s3(audio_content, ".mp3", USER_PROCESS)
+        resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
         
         standardized_response = TextToSpeechDataClass(
             audio=audio, voice_type=voice_type, audio_resource_url = resource_url

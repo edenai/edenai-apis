@@ -217,6 +217,13 @@
                     "en-GB",
                     "lv-LV"
                 ],
+                "audio_format": [
+                    "wav",
+                    "mp3",
+                    "ogg",
+                    "wav-mulaw",
+                    "wav-alaw"
+                ],
                 "voice_ids": {
                     "MALE": [
                         "ar-XA-Standard-B",

@@ -1,7 +1,8 @@
 from collections import defaultdict
 from copy import deepcopy
 import json
-from typing import Dict, Optional, Sequence
+from math import ceil, floor
+from typing import Dict, List, Optional, Sequence
 from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FaceAccessories, FaceBoundingBox,
     FaceEmotions, FaceFacialHair,
@@ -371,10 +372,11 @@ def format_text_for_ssml_tags(text: str):
     return text
 
 
-def generate_right_ssml_text(text, voice_id, speaking_rate, speaking_pitch):
+def generate_right_ssml_text(text, voice_id, speaking_rate, speaking_pitch, speaking_volume):
     attribs = {
         "rate": speaking_rate,
-        "pitch": speaking_pitch
+        "pitch": speaking_pitch,
+        "volume": speaking_volume
     }
     cleaned_attribs_string = ""
     for k,v in attribs.items():
@@ -387,3 +389,30 @@ def generate_right_ssml_text(text, voice_id, speaking_rate, speaking_pitch):
                 <voice name='{voice_id}'><prosody {cleaned_attribs_string}>{format_text_for_ssml_tags(text)}</prosody>\
                     </voice></speak>"
     return smll_text, True
+
+
+# list of audio format with there extension and a list of sample rates that it can accept
+audio_format_list_extensions= [
+    ("mp3", "mp3", [16000, 24000, 48000]), ("wav-siren", "wav", [16000]), ("siren", "siren", [16000]), ("silk", "silk", [16000, 24000]), 
+    ("wav", "wav", [8000, 16000, 22050, 24000, 44100, 48000]), ("wav-mulaw", "wav", [8000]), 
+    ("pcm", "pcm", [8000, 16000, 22050, 24000, 44100, 48000]), ("ogg", "ogg", [16000, 24000,48000]), 
+    ("webm", "webm", [16000, 24000]), ("alaw", "alaw", [8000]),
+    ("wav-alaw", "wav", [8000]), ("opus", "opus", [16000, 24000]), ("amr", "amr", [16000])
+]
+
+def get_right_audio_support_and_sampling_rate(audio_format: str, sampling_rate: int, list_audio_formats: List):
+    if not audio_format:
+        audio_format = "mp3"
+    right_extension_sampling = next(filter(lambda x: x[0] == audio_format, audio_format_list_extensions), None)
+    samplings = right_extension_sampling[2]
+    if sampling_rate:
+        nearest_sampling = min(samplings, key=lambda x: abs(x-sampling_rate))
+    nearest_sampling = samplings[floor(len(samplings)/2)]
+    extension = right_extension_sampling[1]
+    if "wav" in audio_format:
+        audio_format = audio_format.replace("wav", "riff")
+    if audio_format == "riff":
+        audio_format = "riff-pcm"
+    right_audio_format = [format for format in list_audio_formats if all(formt in format.lower() for formt in audio_format.split("-"))]
+    right_audio_format = next(filter(lambda x: f"{nearest_sampling}Hz" in x or f"{int(nearest_sampling/1000)}Khz" in x, right_audio_format), None)
+    return extension, right_audio_format

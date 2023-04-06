@@ -11,5 +11,10 @@ def text_to_speech_arguments() -> Dict:
         "language": "fr-FR",
         "text": "Bonjour Je m'appelle Jane",
         "option": "FEMALE",
-        "settings": {}
+        "settings": {},
+        "audio_format": "",
+        "speaking_rate": 0,
+        "speaking_pitch": 0,
+        "speaking_volume": 0,
+        "sampling_rate": 0
     }

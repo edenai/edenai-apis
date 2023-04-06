@@ -37,6 +37,8 @@
                     "cs-CZ",
                     "ar-XA"
                 ],
+                "audio_format": [
+                ],
                 "voice_ids": {
                     "MALE": [
                         "en-US_Austin Hopkins",

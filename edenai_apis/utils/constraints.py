@@ -4,7 +4,7 @@ from typing import Dict, List, Optional
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import get_file_extension
+from edenai_apis.utils.audio import get_file_extension, retreive_voice_id
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.languages import (
@@ -16,6 +16,23 @@ from edenai_apis.utils.resolutions import (
     provider_appropriate_resolution
 
 )
+
+def validate_audio_format_and_voice_id(provider:str, constraints: dict, args: dict) -> dict:
+    provider_audio_format_constraints: List[str] = constraints.get("audio_format", [])
+
+    audio_format = args.get("audio_format")
+
+    #audio format
+    if not audio_format or not provider_audio_format_constraints:
+        return args
+    if audio_format not in provider_audio_format_constraints:
+        raise ProviderException(f"Audio format not supported. Use one of the following: {', '.join(provider_audio_format_constraints)}")
+    
+    # get right voice id
+    voice_id = retreive_voice_id(provider, args["language"], args["option"], args["settings"])
+    args["voice_id"] = voice_id
+    del args["settings"]
+    return args
 
 def validate_input_file_extension(constraints: dict, args: dict) -> dict:
     """Check that a provider offers support for the input file extension for speech to text
@@ -278,6 +295,11 @@ def validate_all_provider_constraints(
         # resolution for image generation
         validated_args = validate_resolution(
             provider_constraints, validated_args
+        )
+
+        # Audio format for text to speech
+        validated_args = validate_audio_format_and_voice_id(
+            provider, provider_constraints, validated_args
         )
         
         # ...

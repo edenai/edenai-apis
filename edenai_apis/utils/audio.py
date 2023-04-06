@@ -213,13 +213,13 @@ def retreive_voice_id(provider_name, language: str, option: str, settings: Dict 
     language = __confirm_appropriate_language(language, provider_name)
     if isinstance(language, list):
         language = None
-    if not language:
-        raise ProviderException(f"Language '{language}' not supported")
     if settings and provider_name in settings:
         selected_voice = settings[provider_name]
         if constrains and __has_voice_in_contrains(constrains, selected_voice):
             return selected_voice
         raise ProviderException(VOICE_EXCEPTION_MESSAGE)
+    if not language:
+        raise ProviderException(f"Language '{language}' not supported")
     suited_voices = __get_voices_from_constrains(constrains, language, option)
     if not suited_voices:
         option_supported = "MALE" if option.upper() == "FEMALE" else "FEMALE"

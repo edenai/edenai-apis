@@ -6,7 +6,7 @@ from typing import List, Optional
 
 import azure.cognitiveservices.speech as speechsdk
 import requests
-from edenai_apis.apis.microsoft.microsoft_helpers import format_text_for_ssml_tags, generate_right_ssml_text
+from edenai_apis.apis.microsoft.microsoft_helpers import format_text_for_ssml_tags, generate_right_ssml_text, get_right_audio_support_and_sampling_rate
 from edenai_apis.features.audio import (
     AudioInterface,
     SpeechDiarization,
@@ -36,26 +36,32 @@ class MicrosoftAudioApi(AudioInterface):
         language: str, 
         text: str, 
         option: str, 
+        voice_id: str,
+        audio_format: str,
         speaking_rate: int,
         speaking_pitch: int,
-        settings: dict = {}
+        speaking_volume: int,
+        sampling_rate: int
     ) -> ResponseType[TextToSpeechDataClass]:
         
         use_ssml = False
         
-        voice_id = retreive_voice_id(self.provider_name, language, option, settings)
-
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
             region=self.api_settings["speech"]["service_region"],
             
         )
         speech_config.speech_synthesis_voice_name = voice_id
+
+        ext, audio_format = get_right_audio_support_and_sampling_rate(
+            audio_format, 0, 
+            speechsdk.SpeechSynthesisOutputFormat._member_names_
+        )
         speech_config.set_speech_synthesis_output_format(
-            speechsdk.SpeechSynthesisOutputFormat.Audio16Khz32KBitRateMonoMp3
+            getattr(speechsdk.SpeechSynthesisOutputFormat, audio_format)
         )
 
-        text, use_ssml = generate_right_ssml_text(text, voice_id, speaking_rate, speaking_pitch)
+        text, use_ssml = generate_right_ssml_text(text, voice_id, speaking_rate, speaking_pitch, speaking_volume)
 
         # Getting response of API
         # output_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=False)
@@ -67,9 +73,8 @@ class MicrosoftAudioApi(AudioInterface):
 
         if response.reason == speechsdk.ResultReason.Canceled:
             cancellation_details = response.cancellation_details
-
             raise ProviderException(
-                "error", f"Speech synthesis canceled: {cancellation_details.reason}"
+                str(cancellation_details.error_details)
             )
 
         audio_content = BytesIO(response.audio_data)
@@ -77,7 +82,7 @@ class MicrosoftAudioApi(AudioInterface):
         voice_type = 1
 
         audio_content.seek(0)
-        resource_url = upload_file_bytes_to_s3(audio_content, ".mp3", USER_PROCESS)
+        resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
 
         standardized_response = TextToSpeechDataClass(
             audio=audio, voice_type=voice_type, audio_resource_url = resource_url

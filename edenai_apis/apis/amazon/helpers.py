@@ -362,17 +362,42 @@ def amazon_speaking_rate_converter(speaking_rate: int):
         speaking_rate = 100
     return speaking_rate + 100
 
-def generate_right_ssml_text(text, speaking_rate, speaking_pitch):
+def amazon_speaking_volume_adapter(speaking_volume: int):
+    if speaking_volume < -100:
+        speaking_volume = 100
+    if speaking_volume > 100:
+        speaking_volume = 100
+    return (speaking_volume * 6 / 100)
+
+def generate_right_ssml_text(text, speaking_rate, speaking_pitch, speaking_volume):
     attribs = {
-        "rate": amazon_speaking_rate_converter(speaking_rate),
-        "pitch": speaking_pitch
+        "rate": (speaking_rate, f'{amazon_speaking_rate_converter(speaking_rate)}%'),
+        "pitch": (speaking_pitch, f'{speaking_pitch}%'),
+        "volume" : (speaking_volume, f'{amazon_speaking_volume_adapter(speaking_volume)}dB')
     }
     cleaned_attribs_string = ""
     for k,v in attribs.items():
-        if not v or (k=="rate" and v==100):
+        if not v[0]:
             continue
-        cleaned_attribs_string = f"{cleaned_attribs_string} {k}='{v}%'"
+        cleaned_attribs_string = f"{cleaned_attribs_string} {k}='{v[1]}'"
     if not cleaned_attribs_string.strip():
         return text, None
     smll_text = f"<speak><prosody {cleaned_attribs_string}>{text}</prosody></speak>"
     return smll_text, "ssml"
+
+
+def get_right_audio_support_and_sampling_rate(audio_format: str, sampling_rate: int):
+    samplings = [8000, 16000, 22050, 24000]
+    pcm_sampling = [8000, 16000]
+    returned_audio_format = audio_format
+    if not returned_audio_format:
+        returned_audio_format = "mp3"
+    if returned_audio_format == "ogg":
+        returned_audio_format = "ogg_vorbis"
+    if not sampling_rate:
+        return audio_format, returned_audio_format, None
+    nearest_sampling = min(samplings, key=lambda x: abs(x-sampling_rate)) \
+        if returned_audio_format != "pcm" else \
+        min(pcm_sampling, key=lambda x: abs(x-sampling_rate))
+    return audio_format, returned_audio_format, nearest_sampling
+    

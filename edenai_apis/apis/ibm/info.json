@@ -60,6 +60,21 @@
                     "nl-NL",
                     "ko-KR"
                 ],
+                "audio_format": [
+                    "alaw",
+                    "basic",
+                    "flac",
+                    "l16",
+                    "mp3",
+                    "mulaw",
+                    "ogg",
+                    "ogg-opus",
+                    "ogg-vorbis",
+                    "wav",
+                    "webm",
+                    "webm-opus",
+                    "webm-vorbis"
+                ],
                 "voice_ids" : {
                     "MALE": [
                         "en-US_MichaelExpressive",

@@ -299,6 +299,20 @@
           "fr-FR",
           "de-DE"
         ],
+        "audio_format": [
+          "wav",
+          "wav-mulaw",
+          "wav-alaw",
+          "ogg",
+          "webm",
+          "mulaw",
+          "mp3",
+          "silk",
+          "pcm",
+          "opus",
+          "alaw",
+          "amr"
+        ],
         "voice_ids": {
           "MALE": [
             "af-ZA-WillemNeural",
