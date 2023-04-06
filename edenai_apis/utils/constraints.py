@@ -119,10 +119,10 @@ def validate_input_file_type(constraints: dict, provider: str, args: dict) -> di
         if input_file_type not in provider_file_type_constraints and not any(
             [global_type in input_file_type for global_type in type_glob]
         ):
-            supported_types = ",".join(provider_file_type_constraints)
+            supported_types = ",\n".join(provider_file_type_constraints)
             raise ProviderException(
                 f"Provider {provider} doesn't support file type: {input_file_type} "
-                f"for this feature. "
+                f"for this feature.\n"
                 f"Supported mimetypes are {supported_types}"
             )
     return args
@@ -207,7 +207,8 @@ def validate_all_input_languages(
         - dict: updated args
     """
 
-    if subfeature == "text_to_speech" and provider_name in (args.get("settings", {}) or {}):
+    # Skip language checking for text_to_speech if settings are passed, execpt for google
+    if subfeature == "text_to_speech" and provider_name in (args.get("settings", {}) or {}) and provider_name != "google":
         return args
 
     accepts_null_language = constraints.get("allow_null_language", False)

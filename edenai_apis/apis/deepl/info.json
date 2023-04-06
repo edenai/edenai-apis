@@ -71,7 +71,15 @@
                     "uk",
                     "zh"
                 ],
-                "allow_null_language": true
+                "allow_null_language": true,
+                "file_types": [
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                    "application/pdf",
+                    "text/html",
+                    "text/plain",
+                    "application/xliff+xml"
+                ]
             },
             "version": "v2"
         }

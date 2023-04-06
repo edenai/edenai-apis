@@ -54,6 +54,7 @@
 | | oneai |
 | | openai |
 | | revai |
+| | speechmatics |
 | | symbl |
 | | voci |
 | | voxist |
@@ -598,6 +599,13 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **image** | logo_detection |
+
+</details>
+<details><summary>speechmatics</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **audio** | speech_to_text_async |
 
 </details>
 <details><summary>stabilityai</summary>

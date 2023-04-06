@@ -40,5 +40,6 @@ from .rossum import RossumApi
 from .lovoai import LovoaiApi
 from .prowritingaid import ProWritingAidApi
 from .writesonic import WritesonicApi
+from .speechmatics import SpeechmaticsApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

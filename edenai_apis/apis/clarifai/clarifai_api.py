@@ -356,10 +356,10 @@ class ClarifaiApi(
                 for region in regions:
                     rect = region["region_info"]["bounding_box"]
                     vertices = []
-                    vertices.append(LogoVertice(x=rect.get("left_col") * width, y=rect.get("top_row") * height))
-                    vertices.append(LogoVertice(x=rect.get("right_col") * width , y=rect.get("top_row") * height))
-                    vertices.append(LogoVertice(x=rect.get("right_col") * width , y=rect.get("bottom_row") * height ))
-                    vertices.append(LogoVertice(x=rect.get("left_col") * width, y=rect.get("bottom_row") * height))
+                    vertices.append(LogoVertice(x=rect.get("left_col",0) * width, y=rect.get("top_row",0) * height))
+                    vertices.append(LogoVertice(x=rect.get("right_col",0) * width , y=rect.get("top_row",0) * height))
+                    vertices.append(LogoVertice(x=rect.get("right_col",0) * width , y=rect.get("bottom_row",0) * height ))
+                    vertices.append(LogoVertice(x=rect.get("left_col",0) * width, y=rect.get("bottom_row",0) * height))
                     items.append(
                         LogoItem(
                             description = region['data']['concepts'][0]['name'],

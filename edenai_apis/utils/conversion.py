@@ -89,7 +89,7 @@ def combine_date_with_time(date: Optional[str], time: Union[str, None]) -> Union
     if time and date:
         for fmt in ["%H:%M", "%H:%M:%S"]:
             try:
-                time = dt.datetime.strptime(time, fmt).time()
+                time = dt.datetime.strptime(str(time), fmt).time()
                 date = str(dt.datetime.combine(dt.datetime.strptime(date, "%Y-%m-%d"), time))
                 break
             except ValueError as exc:
@@ -195,3 +195,17 @@ def convert_pitch_from_percentage_to_semitones(speaking_pitch: float):
     shifting = 1 + diff
     semitone = min(semitones, key=lambda x: abs(x-shifting))
     return sign*semitones.index(semitone)
+
+
+def standardized_confidence_score_picpurify(confidence_score: float, nsfw : bool):
+    if nsfw:
+        if confidence_score >= 0.8:
+            return 5
+        elif confidence_score >= 0.6:
+            return 4
+        elif confidence_score >=0.4:
+            return 3 
+        elif confidence_score >=0.2:
+            return 2
+    else:
+        return 1

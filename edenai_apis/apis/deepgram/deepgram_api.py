@@ -105,24 +105,29 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             else f"{transcribe_id}0"
         )
         return AsyncLaunchJobResponseType(
-            provider_job_id= f"{transcribe_id}EdenAI{file_name}"
+            provider_job_id= f"{transcribe_id}"
         )
 
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
         
-        provider_job_id, file_name = provider_job_id.split("EdenAI")
+        public_provider_job_id = provider_job_id
         profanity = provider_job_id[-1]
         provider_job_id = provider_job_id[:-1]
         # Getting results from webhook.site
-        original_response, response_status = check_webhook_result(provider_job_id, self.api_settings)
+        wehbook_result, response_status = check_webhook_result(provider_job_id, self.api_settings)
+
+        if response_status != 200:
+            raise ProviderException(wehbook_result)
+        try:
+            original_response = json.loads(wehbook_result[0]["content"])
+        except Exception:
+            original_response = None
         if original_response is None :
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id
+                provider_job_id=public_provider_job_id
             )
-        if response_status != 200:
-            raise ProviderException(original_response)
         
         text = ""
         diarization_entries = []
@@ -132,7 +137,9 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             raise ProviderException(f"{original_response.get('err_code')}: {original_response.get('err_msg')}")
         
         if not "results" in original_response:
-            raise ProviderException(f"Provider returned an empty response")
+            return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
+                provider_job_id=public_provider_job_id
+            )
 
         channels = original_response["results"].get("channels", [])
         for channel in channels:
@@ -159,5 +166,5 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         return AsyncResponseType(
             original_response=original_response,
             standardized_response= standardized_response,
-            provider_job_id= provider_job_id
+            provider_job_id= public_provider_job_id
         )
