@@ -38,6 +38,7 @@
                     "ar-XA"
                 ],
                 "audio_format": [
+                    "wav"
                 ],
                 "voice_ids": {
                     "MALE": [

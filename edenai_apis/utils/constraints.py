@@ -23,9 +23,9 @@ def validate_audio_format_and_voice_id(provider:str, constraints: dict, args: di
     audio_format = args.get("audio_format")
 
     #audio format
-    if not audio_format or not provider_audio_format_constraints:
+    if not provider_audio_format_constraints:
         return args
-    if audio_format not in provider_audio_format_constraints:
+    if audio_format and audio_format not in provider_audio_format_constraints:
         raise ProviderException(f"Audio format not supported. Use one of the following: {', '.join(provider_audio_format_constraints)}")
     
     # get right voice id
