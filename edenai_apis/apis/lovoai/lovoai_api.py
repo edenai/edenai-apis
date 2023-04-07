@@ -23,6 +23,15 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             "apiKey": self.api_settings['api_key'],
             "Content-Type": "application/json"
         }
+
+    def __adjust_speaking_rate(self, speaking_rate: int):
+        # convert value from  interval[-100 - 0 - 100] to [0.5 - 1 - 1.5] 
+        if speaking_rate > 100:
+            speaking_rate = 100
+        if speaking_rate < -100:
+            speaking_rate = -100
+        speaking_rate = 10 * round(speaking_rate / 10)
+        return speaking_rate / 200 + 1 
         
 
     def audio__text_to_speech(
@@ -41,6 +50,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         data = json.dumps({
             "text": text,
             "speaker_id": voice_id.split("_")[-1],
+            "speed": self.__adjust_speaking_rate(speaking_rate)
         })
         print(data)
 
