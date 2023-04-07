@@ -206,9 +206,9 @@ def compute_output(
             subfeature=subfeature,
             phase=phase,
         )
+        # replace File Wrapper by file and file_url inputs and also transform input attributes as settings for tts
+        sample_args = validate_all_provider_constraints(provider_name, feature, subfeature, phase, sample_args)
 
-        # replace File Wrapper by file and file_url inputs
-        sample_args = transform_file_args(sample_args)
         # Check if the right arguments were sent by checking
         # if they are equivalent to samples arguments
         assert_equivalent_dict(sample_args, args)
