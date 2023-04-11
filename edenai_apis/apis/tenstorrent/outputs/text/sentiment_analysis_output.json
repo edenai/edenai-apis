@@ -1,0 +1,12 @@
+{
+    "original_response": {
+        "confidence": 0.984375,
+        "predicted_class": 2,
+        "prediction": "positive"
+    },
+    "standardized_response": {
+        "general_sentiment": "positive",
+        "general_sentiment_rate": 0.984375,
+        "items": []
+    }
+}
