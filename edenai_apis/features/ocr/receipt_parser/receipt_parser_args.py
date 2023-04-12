@@ -22,4 +22,4 @@ file_info= FileInfo(
 file_wrapper = FileWrapper(ocr_path, "", file_info)
 
 def receipt_parser_arguments() -> Dict:
-    return {"file": file_wrapper, "language": "en-US"}
+    return {"file": file_wrapper, "language": "en"}
