@@ -228,7 +228,8 @@ def retreive_voice_id(provider_name, language: str, option: str, settings: Dict 
         raise ProviderException(
             f"Only {option_supported} voice is available for the {language} language code"
         )
-    return random.choice(suited_voices)
+    suited_voices.sort()
+    return suited_voices[0]
 
 
 def validate_audio_attribute_against_ssml_tags_use(text, rate, pitch, volume):
