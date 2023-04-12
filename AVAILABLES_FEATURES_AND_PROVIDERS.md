@@ -30,7 +30,8 @@
 | **ocr_tables_async** | amazon |
 | | google |
 | | microsoft |
-| **receipt_parser** | base64 |
+| **receipt_parser** | amazon |
+| | base64 |
 | | dataleon |
 | | google |
 | | klippa |
@@ -242,6 +243,7 @@
 | | invoice_parser |
 | | ocr |
 | | ocr_tables_async |
+| | receipt_parser |
 | **text** | anonymization |
 | | keyword_extraction |
 | | named_entity_recognition |
