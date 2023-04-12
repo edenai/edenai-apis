@@ -15,6 +15,15 @@ from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     MerchantInformationInvoice,
     CustomerInformationInvoice,
     )
+from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
+    ReceiptParserDataClass,
+    InfosReceiptParserDataClass,
+    MerchantInformation,
+    CustomerInformation,
+    Taxes,
+    ItemLines,
+    Locale,
+    )
 from trp import Document
 
 from edenai_apis.features.ocr import (
@@ -349,6 +358,87 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
             extracted_data.append(invoice_infos)
     return InvoiceParserDataClass(extracted_data=extracted_data)
 
+def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass:
+    extracted_data = []
+    for page in pages:
+        for receipt in page["ExpenseDocuments"]:
+        
+            # format response to be more easily parsable
+            summary = {}
+            currencies = {}
+            for field in receipt["SummaryFields"]:
+                field_type = field["Type"]["Text"]
+                summary[field_type] = field["ValueDetection"]["Text"]
+                field_currency = field.get("Currency", {}).get("Code")
+                if field_currency is not None:
+                    if field_currency not in currencies:
+                        currencies[field_currency] = 1
+                    else:
+                        currencies[field_currency] += 1
+
+            item_lines = []
+            for line_item_group in receipt["LineItemGroups"]:
+                for fields in line_item_group["LineItems"]:
+                    parsed_items = {
+                        item["Type"]["Text"]: item["ValueDetection"]["Text"]
+                        for item in fields["LineItemExpenseFields"]
+                    }
+                    item_lines.append(
+                        ItemLines(
+                            description=parsed_items.get("ITEM"),
+                            quantity=convert_string_to_number(parsed_items.get("QUANTITY"), int),
+                            amount=convert_string_to_number(
+                                parsed_items.get("PRICE"), float
+                            ),
+                            unit_price=convert_string_to_number(
+                                parsed_items.get("UNIT_PRICE"), float
+                            )
+                        )
+                    )
+            customer = CustomerInformation(
+                customer_name=summary.get("RECEIVER_NAME", summary.get("NAME")),
+            )
+
+            merchant = MerchantInformation(
+                merchant_name=summary.get("VENDOR_NAME"),
+                merchant_address=summary.get("VENDOR_ADDRESS"),
+                merchant_phone=summary.get("VENDOR_PHONE"),
+                merchant_url=summary.get("VENDOR_URL"),
+                merchant_siret=None,
+                merchant_siren=None,
+            )
+
+            invoice_currency = None
+            if len(currencies) == 1:
+                invoice_currency = list(currencies.keys())[0]
+            # HACK in case multiple currencies are returned,
+            # we get the one who appeared the most
+            elif len(currencies) > 1:
+                invoice_currency = max(currencies, key=currencies.get)
+            locale = Locale(currency=invoice_currency, invoice_language=None, country=None)
+
+            taxes = [
+                Taxes(taxes=convert_string_to_number(summary.get("TAX"), float), rate= None)
+            ]
+
+            receipt_infos = InfosReceiptParserDataClass(
+                customer_information=customer,
+                merchant_information=merchant,
+                invoice_number=summary.get("INVOICE_RECEIPT_ID"),
+                invoice_total=convert_string_to_number(summary.get("TOTAL"), float),
+                invoice_subtotal=convert_string_to_number(
+                    summary.get("SUBTOTAL"), float
+                ),
+                taxes=taxes,
+                date=summary.get("ORDER_DATE", summary.get("INVOICE_RECEIPT_DATE")),
+                due_date=summary.get("DUE_DATE"),
+                locale=locale,
+                item_lines=item_lines,
+                category=None,
+                time = None,
+            )
+            extracted_data.append(receipt_infos)
+    return ReceiptParserDataClass(extracted_data=extracted_data)
 
 def amazon_speaking_rate_converter(speaking_rate: int):
     if speaking_rate < -80:
