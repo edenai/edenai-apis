@@ -27,6 +27,7 @@ from edenai_apis.features.ocr import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.audio import validate_audio_attribute_against_ssml_tags_use
 from edenai_apis.utils.exception import ProviderException
 
 from edenai_apis.utils.types import (
@@ -364,6 +365,7 @@ def amazon_speaking_volume_adapter(speaking_volume: int):
     return (speaking_volume * 6 / 100)
 
 def generate_right_ssml_text(text, speaking_rate, speaking_pitch, speaking_volume):
+    validate_audio_attribute_against_ssml_tags_use(text, speaking_rate, speaking_pitch, speaking_volume)
     attribs = {
         "rate": (speaking_rate, f'{amazon_speaking_rate_converter(speaking_rate)}%'),
         "pitch": (speaking_pitch, f'{speaking_pitch}%'),

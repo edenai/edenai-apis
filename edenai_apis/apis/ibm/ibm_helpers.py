@@ -1,7 +1,9 @@
+from edenai_apis.utils.audio import validate_audio_attribute_against_ssml_tags_use
 from edenai_apis.utils.exception import ProviderException
 
 
 def generate_right_ssml_text(text, speaking_rate, speaking_pitch):
+    validate_audio_attribute_against_ssml_tags_use(text, speaking_rate, speaking_pitch, 0)
     attribs = {
         "rate": speaking_rate,
         "pitch": speaking_pitch
@@ -18,9 +20,9 @@ def generate_right_ssml_text(text, speaking_rate, speaking_pitch):
 
 
 
-# list of audio format with there extension, Wether ot not they a sampling rate is required, and also if you can specify
-# a sampling rate, and any value or from a list
-# Exmp: ("mp3", "mp3", False, []) => means the audio format mp3 with an extension mp3 with not required sampling value and 
+# list of audio format with there extension, Wether or not a sampling rate is required, and also if you can specify
+# a sampling rate with any value or from a list of samplings
+# Exmp: ("mp3", "mp3", False, []) => means the audio format mp3 with an extension mp3 with no required sampling value and 
 # can optionnaly have any sampling rate between 8000Hz and 192000Hz
 audio_format_list_extensions= [
     ("alaw", "alaw", True, []), ("basic", "basic", False, None), ("flac", "flac", False, []), ("l16", "pcm", True, []), 

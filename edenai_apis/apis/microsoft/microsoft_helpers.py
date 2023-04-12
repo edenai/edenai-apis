@@ -26,6 +26,7 @@ from edenai_apis.features.text import (
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import format_date
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.audio import validate_audio_attribute_against_ssml_tags_use
 
 from edenai_apis.utils.conversion import combine_date_with_time, standardized_confidence_score
 
@@ -373,6 +374,8 @@ def format_text_for_ssml_tags(text: str):
 
 
 def generate_right_ssml_text(text, voice_id, speaking_rate, speaking_pitch, speaking_volume):
+    if validate_audio_attribute_against_ssml_tags_use(text, speaking_rate, speaking_pitch, speaking_volume):
+        return text, True
     attribs = {
         "rate": speaking_rate,
         "pitch": speaking_pitch,

@@ -25,7 +25,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         }
 
     def __adjust_speaking_rate(self, speaking_rate: int):
-        # convert value from  interval[-100 - 0 - 100] to [0.5 - 1 - 1.5] 
+        # convert value from  interval[-100 , 0 , 100] to [0.5 , 1 , 1.5] 
         if speaking_rate > 100:
             speaking_rate = 100
         if speaking_rate < -100:

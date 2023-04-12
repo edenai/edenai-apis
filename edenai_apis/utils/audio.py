@@ -11,6 +11,8 @@ from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.languages import provide_appropriate_language
 
 VOICE_EXCEPTION_MESSAGE = "Wrong voice id"
+SSML_TAG_EXCEPTION_MESSAGE = ("Remove audio attributes 'rate, pitch or volume' to be able to use ssml tags, or "
+                                    "add them manually using tags.")
 
 AUDIO_FILE_FORMAT = [
     "wav",
@@ -227,6 +229,14 @@ def retreive_voice_id(provider_name, language: str, option: str, settings: Dict 
             f"Only {option_supported} voice is available for the {language} language code"
         )
     return random.choice(suited_voices)
+
+
+def validate_audio_attribute_against_ssml_tags_use(text, rate, pitch, volume):
+    if "<speak>" in text:
+        if any((rate, pitch, volume)):
+            raise ProviderException(SSML_TAG_EXCEPTION_MESSAGE)
+        return True
+    
 
 
 
