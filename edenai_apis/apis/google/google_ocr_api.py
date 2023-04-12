@@ -4,15 +4,17 @@ from io import BufferedReader
 from typing import Sequence
 
 import googleapiclient.discovery
-from edenai_apis.apis.google.google_helpers import ocr_tables_async_response_add_rows
+from edenai_apis.apis.google.google_helpers import (
+    google_ocr_tables_standardize_response,
+)
 from edenai_apis.features.ocr import (
     BankInvoice,
     CustomerInformationInvoice,
-    InfosInvoiceParserDataClass, 
-    InvoiceParserDataClass, 
-    ItemLinesInvoice, 
-    LocaleInvoice, 
-    MerchantInformationInvoice, 
+    InfosInvoiceParserDataClass,
+    InvoiceParserDataClass,
+    ItemLinesInvoice,
+    LocaleInvoice,
+    MerchantInformationInvoice,
     TaxesInvoice,
     Bounding_box,
     OcrDataClass,
@@ -22,7 +24,16 @@ from edenai_apis.features.ocr import (
     Table,
 )
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
-from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import CustomerInformation, InfosReceiptParserDataClass, ItemLines, Locale, MerchantInformation, PaymentInformation, ReceiptParserDataClass, Taxes
+from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
+    CustomerInformation,
+    InfosReceiptParserDataClass,
+    ItemLines,
+    Locale,
+    MerchantInformation,
+    PaymentInformation,
+    ReceiptParserDataClass,
+    Taxes,
+)
 from edenai_apis.utils.conversion import convert_string_to_number
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.pdfs import get_pdf_width_height
@@ -48,10 +59,10 @@ from google.cloud.vision_v1.types.image_annotator import (
 
 class GoogleOcrApi(OcrInterface):
     def ocr__ocr(
-        self, 
-        file: str, 
+        self,
+        file: str,
         language: str,
-        file_url: str= "",
+        file_url: str = "",
     ) -> ResponseType[OcrDataClass]:
 
         with open(file, "rb") as file_:
@@ -101,33 +112,27 @@ class GoogleOcrApi(OcrInterface):
             original_response=messages_list, standardized_response=standardized
         )
 
-
     def ocr__receipt_parser(
-        self, 
-        file: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
         mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
 
         receipt_parser_project_id = self.api_settings["documentai"]["project_id"]
-        receipt_parser_process_id = self.api_settings["documentai"]["process_receipt_id"]
+        receipt_parser_process_id = self.api_settings["documentai"][
+            "process_receipt_id"
+        ]
 
         opts = ClientOptions(api_endpoint=f"eu-documentai.googleapis.com")
-        receipt_client = documentai.DocumentProcessorServiceClient(
-            client_options=opts
-        )
+        receipt_client = documentai.DocumentProcessorServiceClient(client_options=opts)
         name = receipt_client.processor_path(
-            receipt_parser_project_id,
-            "eu",
-            receipt_parser_process_id
+            receipt_parser_project_id, "eu", receipt_parser_process_id
         )
 
         file_ = open(file, "rb")
-        raw_document = documentai.RawDocument(content= file_.read(), mime_type=mimetype)
+        raw_document = documentai.RawDocument(content=file_.read(), mime_type=mimetype)
 
         try:
-            request = documentai.ProcessRequest(name=name, raw_document= raw_document)
+            request = documentai.ProcessRequest(name=name, raw_document=raw_document)
             result = receipt_client.process_document(request=request)
         except Exception as excp:
             raise ProviderException(str(excp))
@@ -137,18 +142,20 @@ class GoogleOcrApi(OcrInterface):
 
         receipt_infos: InfosReceiptParserDataClass = InfosReceiptParserDataClass()
         receipt_taxe: Taxes = Taxes()
-        item_lines: Sequence[ItemLines]= []
+        item_lines: Sequence[ItemLines] = []
         local_receipt: Locale = Locale()
         payement_information: PaymentInformation = PaymentInformation()
-        merchant_infos : MerchantInformation = MerchantInformation()
+        merchant_infos: MerchantInformation = MerchantInformation()
 
-        entites : Sequence[Document.Entity] = document.entities
+        entites: Sequence[Document.Entity] = document.entities
 
         item_lines_index = 0
         for entity in entites:
             entity_dict = Document.Entity.to_dict(entity)
             entity_type = entity_dict.get("type_", "")
-            entity_value = entity_dict.get("normalized_value", {}).get("text") or entity_dict.get("mention_text")
+            entity_value = entity_dict.get("normalized_value", {}).get(
+                "text"
+            ) or entity_dict.get("mention_text")
             if entity_type == "credit_card_last_four_digits":
                 payement_information.card_number = entity_value
             if entity_type == "currency":
@@ -183,9 +190,11 @@ class GoogleOcrApi(OcrInterface):
                 receipt_taxe.taxes = amount
             if entity_type == "line_item":
                 item = ItemLines()
-                for property in (entity_dict.get("properties", []) or []):
+                for property in entity_dict.get("properties", []) or []:
                     property_type = property.get("type_", "")
-                    property_value = property.get("normalized_value", {}).get("text") or property.get("mention_text")
+                    property_value = property.get("normalized_value", {}).get(
+                        "text"
+                    ) or property.get("mention_text")
                     if property_type == "line_item/amount":
                         string_amount = property_value
                         amount = convert_string_to_number(string_amount, float)
@@ -198,8 +207,8 @@ class GoogleOcrApi(OcrInterface):
                         item.quantity = quantity
                 item_lines.append(item)
 
-            item_lines_index+=1
-        
+            item_lines_index += 1
+
         receipt_infos.merchant_information = merchant_infos
         receipt_infos.taxes = [receipt_taxe]
         receipt_infos.item_lines = item_lines
@@ -207,59 +216,57 @@ class GoogleOcrApi(OcrInterface):
         receipt_infos.payment_information = payement_information
 
         return ResponseType[ReceiptParserDataClass](
-            original_response= Document.to_dict(document),
-            standardized_response= ReceiptParserDataClass(extracted_data=[receipt_infos])
+            original_response=Document.to_dict(document),
+            standardized_response=ReceiptParserDataClass(
+                extracted_data=[receipt_infos]
+            ),
         )
 
-
     def ocr__invoice_parser(
-        self, 
-        file: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
         mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
 
         invoice_parser_project_id = self.api_settings["documentai"]["project_id"]
-        invoice_parser_process_id = self.api_settings["documentai"]["process_invoice_id"]
+        invoice_parser_process_id = self.api_settings["documentai"][
+            "process_invoice_id"
+        ]
 
         opts = ClientOptions(api_endpoint=f"eu-documentai.googleapis.com")
-        invoice_client = documentai.DocumentProcessorServiceClient(
-            client_options=opts
-        )
+        invoice_client = documentai.DocumentProcessorServiceClient(client_options=opts)
         name = invoice_client.processor_path(
-            invoice_parser_project_id,
-            "eu",
-            invoice_parser_process_id
+            invoice_parser_project_id, "eu", invoice_parser_process_id
         )
 
         file_ = open(file, "rb")
 
-        raw_document = documentai.RawDocument(content= file_.read(), mime_type=mimetype)
+        raw_document = documentai.RawDocument(content=file_.read(), mime_type=mimetype)
 
         file_.close()
         try:
-            request = documentai.ProcessRequest(name=name, raw_document= raw_document)
+            request = documentai.ProcessRequest(name=name, raw_document=raw_document)
             result = invoice_client.process_document(request=request)
         except Exception as excp:
             raise ProviderException(str(excp))
         document = result.document
 
-        invoice_infos :InfosInvoiceParserDataClass = InfosInvoiceParserDataClass()
-        merchant_infos : MerchantInformationInvoice = MerchantInformationInvoice()
-        customer_infos : CustomerInformationInvoice = CustomerInformationInvoice()
-        local_invoice : LocaleInvoice = LocaleInvoice()
-        item_lines : Sequence[ItemLinesInvoice] = []
-        bank_invoice : BankInvoice = BankInvoice()
+        invoice_infos: InfosInvoiceParserDataClass = InfosInvoiceParserDataClass()
+        merchant_infos: MerchantInformationInvoice = MerchantInformationInvoice()
+        customer_infos: CustomerInformationInvoice = CustomerInformationInvoice()
+        local_invoice: LocaleInvoice = LocaleInvoice()
+        item_lines: Sequence[ItemLinesInvoice] = []
+        bank_invoice: BankInvoice = BankInvoice()
         invoice_taxe: TaxesInvoice = TaxesInvoice()
 
-        entites : Sequence[Document.Entity] = document.entities
+        entites: Sequence[Document.Entity] = document.entities
 
         item_lines_index = 0
         for entity in entites:
             entity_dict = Document.Entity.to_dict(entity)
             entity_type = entity_dict.get("type_", "")
-            entity_value = entity_dict.get("normalized_value", {}).get("text") or entity_dict.get("mention_text")
+            entity_value = entity_dict.get("normalized_value", {}).get(
+                "text"
+            ) or entity_dict.get("mention_text")
             if entity_type == "total_amount":
                 string_amount = entity_value
                 amount = convert_string_to_number(string_amount, float)
@@ -316,12 +323,14 @@ class GoogleOcrApi(OcrInterface):
                 customer_infos.customer_remittance_address = entity_value
             if entity_type == "ship_to_address":
                 customer_infos.customer_shipping_address = entity_value
-            
+
             if entity_type == "line_item":
                 item = ItemLinesInvoice()
-                for property in (entity_dict.get("properties", []) or []):
+                for property in entity_dict.get("properties", []) or []:
                     property_type = property.get("type_", "")
-                    property_value = property.get("normalized_value", {}).get("text") or property.get("mention_text")
+                    property_value = property.get("normalized_value", {}).get(
+                        "text"
+                    ) or property.get("mention_text")
                     if property_type == "line_item/amount":
                         string_amount = property_value
                         amount = convert_string_to_number(string_amount, float)
@@ -340,7 +349,7 @@ class GoogleOcrApi(OcrInterface):
                         item.product_code = property_value
                 item_lines.append(item)
 
-            item_lines_index+=1
+            item_lines_index += 1
         invoice_infos.merchant_information = merchant_infos
         invoice_infos.customer_information = customer_infos
         invoice_infos.locale = local_invoice
@@ -348,19 +357,15 @@ class GoogleOcrApi(OcrInterface):
         invoice_infos.item_lines = item_lines
         invoice_infos.taxes = [invoice_taxe]
 
-
         return ResponseType[InvoiceParserDataClass](
-            original_response= Document.to_dict(document),
-            standardized_response= InvoiceParserDataClass(extracted_data=[invoice_infos])
+            original_response=Document.to_dict(document),
+            standardized_response=InvoiceParserDataClass(
+                extracted_data=[invoice_infos]
+            ),
         )
 
-
     def ocr__ocr_tables_async__launch_job(
-        self, 
-        file: str, 
-        file_type: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, file_type: str, language: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
         file_name: str = file.split("/")[-1]  # file.name give its whole path
 
@@ -438,42 +443,9 @@ class GoogleOcrApi(OcrInterface):
             byte_res = list(blob_list)[0].download_as_string()
             original_result = json.loads(byte_res.decode("utf8"))
 
-            raw_text = original_result["text"]
-            pages: Sequence[Page] = []
-            num_pages = len(original_result["pages"])
-            for page in original_result["pages"]:
-                tables: Sequence[Table] = []
-                if "tables" in page.keys():
-                    for table in page["tables"]:
-                        ocr_num_rows = 0
-                        ocr_num_cols = 0
-                        rows: Sequence[Row] = []
-                        if "headerRows" in table.keys():
-                            for row in table["headerRows"]:
-                                ocr_num_rows += 1
-                                row, num_row_cols = ocr_tables_async_response_add_rows(
-                                    row, raw_text, is_header=True
-                                )
-                                ocr_num_cols = max(ocr_num_cols, num_row_cols)
-                                rows.append(row)
-                        if "bodyRows" in table.keys():
-                            for row in table["bodyRows"]:
-                                ocr_num_rows += 1
-                                row, num_row_cols = ocr_tables_async_response_add_rows(
-                                    row, raw_text
-                                )
-                                ocr_num_cols = max(ocr_num_cols, num_row_cols)
-                                rows.append(row)
-                        ocr_table = Table(
-                            rows=rows, num_rows=ocr_num_rows, num_cols=ocr_num_cols
-                        )
-                        tables.append(ocr_table)
-                    ocr_page = Page(tables=tables)
-                    pages.append(ocr_page)
-            standardized_response = OcrTablesAsyncDataClass(
-                pages=pages, num_pages=num_pages
+            standardized_response = google_ocr_tables_standardize_response(
+                original_result
             )
-
             return AsyncResponseType[OcrTablesAsyncDataClass](
                 status="succeeded",
                 original_response=original_result,

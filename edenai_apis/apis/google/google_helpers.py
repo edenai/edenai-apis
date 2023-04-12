@@ -9,7 +9,10 @@ import googleapiclient.discovery
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     BoundixBoxOCRTable,
     Cell,
+    OcrTablesAsyncDataClass,
+    Page,
     Row,
+    Table,
 )
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SentimentEnum
 from edenai_apis.utils.conversion import convert_pitch_from_percentage_to_semitones
@@ -71,40 +74,84 @@ def score_to_content(score):
         return 0
 
 
-def ocr_tables_async_response_add_rows(
+def google_ocr_tables_standardize_response(original_response: dict) -> OcrTablesAsyncDataClass:
+    """Standardize ocr table with dataclass from given google response"""
+    raw_text: str = original_response["text"]
+    pages = [
+        _ocr_tables_standardize_page(page, raw_text)
+        for page in original_response.get("pages", [])
+    ]
+
+    return OcrTablesAsyncDataClass(
+        pages=pages, num_pages=len(original_response["pages"])
+    )
+
+
+def _ocr_tables_standardize_page(page: dict, raw_text: str) -> Page:
+    """Standardize one Page of a google ocr table response"""
+    tables = [
+        _ocr_tables_standardize_table(table, raw_text)
+        for table in page.get("tables", [])
+    ]
+    return Page(tables=tables)
+
+
+def _ocr_tables_standardize_table(table: dict, raw_text: str) -> Table:
+    """Standardize one Table of a Page in a google ocr table response"""
+    ocr_num_cols = 0
+    rows: Sequence[Row] = []
+    for row in table.get("headerRows", []):
+        row, num_row_cols = _ocr_tables_standardize_row(
+            row, raw_text, is_header=True
+        )
+        ocr_num_cols = max(ocr_num_cols, num_row_cols)
+        rows.append(row)
+    for row in table.get("bodyRows", []):
+        row, num_row_cols = _ocr_tables_standardize_row(row, raw_text)
+        ocr_num_cols = max(ocr_num_cols, num_row_cols)
+        rows.append(row)
+    return Table(rows=rows, num_rows=len(rows), num_cols=ocr_num_cols)
+
+
+def _ocr_tables_standardize_row(
     row, raw_text, is_header=False
 ) -> Tuple[Row, int]:
-    num_cols = 0
-    ocr_row: Row = Row()
-    if "cells" in row.keys():
-        cells: Sequence[Cell] = []
-        for cell in row["cells"]:
-            num_cols += 1
-            vertices = cell["layout"]["boundingPoly"]["normalizedVertices"]
-            text = ""
-            if "textSegments" in cell["layout"]["textAnchor"].keys():
-                for segment in cell["layout"]["textAnchor"]["textSegments"]:
-                    text = "" + (
-                        raw_text[int(segment["startIndex"]) : int(segment["endIndex"])]
-                        if "startIndex" in segment.keys()
-                        else ""
-                    )
-            ocr_cell = Cell(
-                text=text,
-                row_span=cell["rowSpan"],
-                col_span=cell["colSpan"],
-                confidence=cell["layout"]["confidence"],
-                bounding_box=BoundixBoxOCRTable(
-                    left=float(vertices[0].get("x", 0)),
-                    top=float(vertices[0].get("y", 0)),
-                    width=float(vertices[2].get("x", 0) - vertices[0].get("x", 0)),
-                    height=float(vertices[2].get("y", 0) - vertices[0].get("y", 0)),
-                ),
-            )
+    """Standardize one Row of a Table in a Page of google ocr table response
+        Returns:
+            [Row, int]: the Row object + the num of cells included in the row
+    """
+    cells: Sequence[Cell] = []
+    for cell in row.get("cells", []):
+        std_cell = _ocr_tables_standardize_cell(cell, raw_text, is_header)
+        cells.append(std_cell)
+    ocr_row = Row(cells=cells)
+    return ocr_row, len(cells)
 
-            cells.append(ocr_cell)
-        ocr_row = Row(cells=cells, is_header=is_header)
-    return ocr_row, num_cols
+
+def _ocr_tables_standardize_cell(cell, raw_text, is_header) -> Cell:
+    """Standardize one Cell of a Row in a Table in a Page of google ocr table response"""
+    vertices = cell["layout"]["boundingPoly"]["normalizedVertices"]
+    text = ""
+    for segment in cell["layout"]["textAnchor"].get("textSegments", []):
+        start_index = int(segment.get("startIndex", 0))
+        end_index = int(segment.get("endIndex", 0))
+        text += raw_text[start_index:end_index]
+
+    return Cell(
+        text=text,
+        col_index=0,
+        row_index=0,
+        row_span=cell["rowSpan"],
+        col_span=cell["colSpan"],
+        confidence=cell["layout"]["confidence"],
+        is_header=is_header,
+        bounding_box=BoundixBoxOCRTable(
+            left=float(vertices[0].get("x", 0)),
+            top=float(vertices[0].get("y", 0)),
+            width=float(vertices[2].get("x", 0) - vertices[0].get("x", 0)),
+            height=float(vertices[2].get("y", 0) - vertices[0].get("y", 0)),
+        ),
+    )
 
 def get_tag_name(tag):
     """
@@ -175,4 +222,3 @@ def get_right_audio_support_and_sampling_rate(audio_format: str, list_audio_form
         extension, audio_format = audio_format.split("-")
     right_audio_format = next(filter(lambda x: audio_format in x.lower(), list_audio_formats), None)
     return extension, right_audio_format
-    
