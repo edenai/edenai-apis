@@ -69,7 +69,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             original_response=response,
             standardized_response=TextToSpeechDataClass(
                 audio=audio, 
-                voice_type=0,
+                voice_type=1,
                 audio_resource_url = resource_url
             )
         )
