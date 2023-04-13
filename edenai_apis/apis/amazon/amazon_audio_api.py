@@ -173,7 +173,7 @@ class AmazonAudioApi(AudioInterface):
         profanity_filter: bool,
         vocabulary: list,
         audio_attributes: tuple,
-        model : str,
+        model : str = None,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
 

@@ -227,6 +227,12 @@ def validate_all_input_languages(
     return args
 
 def validate_models(provider: str, constraints: dict, args: dict) -> Dict:
+    models = constraints.get('models')
+    if not models:
+        if 'settings' in args:
+            del args["settings"]
+        return args
+    
     # get right model name
     settings = args.get("settings",{})
     if provider in settings:
@@ -236,8 +242,7 @@ def validate_models(provider: str, constraints: dict, args: dict) -> Dict:
             all_availaible_models = ', '.join(constraints["models"])
             raise ProviderException(f"Wrong model name, availaible models for {provider} are : {all_availaible_models}")
     else:
-        selected_model = constraints.get('default_model')
-        
+        selected_model = constraints.get('default_model')  
     args["model"] = selected_model
     del args["settings"]
     return args

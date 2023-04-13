@@ -28,7 +28,7 @@ class WritesonicApi(ProviderInterface, TextInterface):
         self, text: str,
         output_sentences: int,
         language: str, 
-        model: str
+        model: str = None
         ) -> ResponseType[SummarizeDataClass]:
         url = f"https://api.writesonic.com/v2/business/content/summary?engine=premium&language={language}"
         payload = {

@@ -24,6 +24,7 @@ class AudioInterface:
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
+        model : str = None,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
         """Launch an asynchronous job to convert an audio file to text

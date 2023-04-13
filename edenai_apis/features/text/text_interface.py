@@ -138,6 +138,7 @@ class TextInterface:
         text: str,
         output_sentences: int,
         language: str,
+        model : str = None,
     ) -> ResponseType[SummarizeDataClass]:
         """
         Summarize a given text in a given number of sentences

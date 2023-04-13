@@ -194,7 +194,7 @@ class OneaiApi(
             standardized_response=standardized_response
         )
 
-    def text__summarize(self, text: str, output_sentences: int, language: str, model: str) -> ResponseType[SummarizeDataClass]:
+    def text__summarize(self, text: str, output_sentences: int, language: str, model: str = None) -> ResponseType[SummarizeDataClass]:
         data = json.dumps({
             "input": text,
             "steps": [
@@ -258,7 +258,7 @@ class OneaiApi(
         profanity_filter: bool, 
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model : str,
+        model : str = None,
         file_url: str = "",
         ) -> AsyncLaunchJobResponseType:
 

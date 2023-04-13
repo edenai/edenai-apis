@@ -97,7 +97,7 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
         )
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str
+        self, text: str, output_sentences: int, language: str, model: str = None
     ) -> ResponseType[SummarizeDataClass]:
 
         """
