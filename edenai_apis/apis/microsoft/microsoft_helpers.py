@@ -18,6 +18,7 @@ from edenai_apis.features.ocr import (
     MerchantInformationInvoice,
     TaxesInvoice
 )
+from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import BoundixBoxOCRTable, Cell, OcrTablesAsyncDataClass, Page, Row, Table
 from edenai_apis.features.text import (
     ModerationDataClass,
     TextModerationItem,
@@ -419,3 +420,52 @@ def get_right_audio_support_and_sampling_rate(audio_format: str, sampling_rate: 
     right_audio_format = [format for format in list_audio_formats if all(formt in format.lower() for formt in audio_format.split("-"))]
     right_audio_format = next(filter(lambda x: f"{nearest_sampling}Hz" in x or f"{int(nearest_sampling/1000)}Khz" in x, right_audio_format), None)
     return extension, right_audio_format
+
+def microsoft_ocr_tables_standardize_response(original_response: dict) -> OcrTablesAsyncDataClass:
+    num_pages = len(original_response['pages'])
+    pages: List[Page] = [Page() for _ in range(num_pages)]
+
+    for table in original_response.get("tables", []):
+        std_table = _ocr_tables_standardize_table(table, original_response)
+        page_index = table["boundingRegions"][0]["pageNumber"] -1
+        pages[page_index].tables.append(std_table)
+
+    return OcrTablesAsyncDataClass(
+        pages=pages, num_pages=num_pages
+    )
+
+
+def _ocr_tables_standardize_table(table: dict, original_response: dict) -> Table:
+    num_rows = table.get("rowCount", 0)
+    rows = [Row() for _ in range(num_rows)]
+
+    for cell in table["cells"]:
+        std_cell = _ocr_tables_standardize_cell(cell, original_response)
+        row = rows[cell['rowIndex']]
+        row.cells.append(std_cell)
+
+    std_table = Table(rows=rows, num_cols=table["columnCount"], num_rows=table["rowCount"])
+    return std_table
+
+
+def _ocr_tables_standardize_cell(cell: dict, original_response: dict) -> Cell:
+    current_page_num = cell['boundingRegions'][0]['pageNumber']
+    width = original_response["pages"][current_page_num - 1]["width"]
+    height = original_response["pages"][current_page_num - 1]["height"]
+    is_header = "columnHeader" in cell or  "rowHeader" in cell
+    bounding_box = cell["boundingRegions"][0]["polygon"]
+
+    return Cell(
+        text=cell["content"],
+        col_index=cell["columnIndex"],
+        row_index=cell["rowIndex"],
+        row_span=cell.get("rowSpan", 1),
+        col_span=cell.get("columnSpan", 1),
+        is_header=is_header,
+        bounding_box=BoundixBoxOCRTable(
+            height=(bounding_box[7] - bounding_box[3]) / height,
+            width=(bounding_box[2] - bounding_box[0]) / width,
+            left=bounding_box[1] / width,
+            top=bounding_box[0] / height,
+        ),
+    )
