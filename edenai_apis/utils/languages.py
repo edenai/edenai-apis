@@ -38,7 +38,7 @@ def check_language_format(iso_code: str) -> bool:
         return None
     return bool(
         re.fullmatch(
-            r"^[a-z]{2,3}(-[a-z]{2,3})?(-[A-Z][a-z]{3})?(-([A-Z]{2,3}|\d{3}))?",
+            r"^[a-z]{2,3}(-[a-z]{2,3})?(-[A-Za-z][a-z]{3})?(-([A-Z]{2,3}|\d{3}))?",
             iso_code,
         )
     )
