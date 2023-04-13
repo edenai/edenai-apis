@@ -34,7 +34,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         self.base_url = self.api_settings["base_url"]
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str = None
+        self, text: str, output_sentences: int, language: str, model: str 
     ) -> ResponseType[SummarizeDataClass]:
 
         #check language

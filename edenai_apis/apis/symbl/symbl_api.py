@@ -64,6 +64,7 @@ class SymblApi(ProviderInterface, AudioInterface):
         profanity_filter: bool,
         vocabulary: list, 
         audio_attributes: tuple,
+        model : str,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
 

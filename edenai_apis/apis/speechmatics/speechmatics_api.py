@@ -31,12 +31,13 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
+        model : str,
         file_url: str = "") -> AsyncLaunchJobResponseType:
         file_ = open(file, "rb")
         config = {
             "language" : language, 
             "diarization": "speaker",
-            "operating_point" : "enhanced"
+            "operating_point" : model
         }
         if vocabulary :
             config['additional_vocab'] = [{"content": word} for word in vocabulary]

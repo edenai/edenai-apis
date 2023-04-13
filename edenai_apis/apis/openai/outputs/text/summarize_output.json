@@ -1,12 +1,12 @@
 {
   "original_response": {
-    "id": "cmpl-6gxwJfjW1FGMxGNPvzqMeJCtnTAny",
+    "id": "cmpl-74qAFoeAql0oFfcBw54DVZDG6mz6G",
     "object": "text_completion",
-    "created": 1675698203,
+    "created": 1681388187,
     "model": "text-davinci-003",
     "choices": [
       {
-        "text": ":\nBarack Obama was the first African-American president of the United States, serving from 2009 to 2017. He had previously been a U.S. senator from Illinois and an Illinois state senator.",
+        "text": ":\nBarack Obama was the 44th president of the United States (2009-2017), a member of the Democratic Party and the first African-American president. He previously served as US senator from Illinois (2005-2008) and state senator from Illinois (1997-2004).",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
@@ -14,11 +14,11 @@
     ],
     "usage": {
       "prompt_tokens": 77,
-      "completion_tokens": 41,
-      "total_tokens": 118
+      "completion_tokens": 56,
+      "total_tokens": 133
     }
   },
   "standardized_response": {
-    "result": ":\nBarack Obama was the first African-American president of the United States, serving from 2009 to 2017. He had previously been a U.S. senator from Illinois and an Illinois state senator."
+    "result": ":\nBarack Obama was the 44th president of the United States (2009-2017), a member of the Democratic Party and the first African-American president. He previously served as US senator from Illinois (2005-2008) and state senator from Illinois (1997-2004)."
   }
 }

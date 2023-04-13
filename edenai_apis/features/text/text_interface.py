@@ -138,7 +138,6 @@ class TextInterface:
         text: str,
         output_sentences: int,
         language: str,
-        model: Optional[str],
     ) -> ResponseType[SummarizeDataClass]:
         """
         Summarize a given text in a given number of sentences
@@ -183,7 +182,6 @@ class TextInterface:
         self, text : str, 
         temperature : float, 
         max_tokens : int,
-        model : Optional[str], 
     ) -> ResponseType[GenerationDataClass]:
         """
         Text generation from a given prompt

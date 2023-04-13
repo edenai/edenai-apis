@@ -54,7 +54,7 @@ class ConnexunApi(ProviderInterface, TextInterface):
         )
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: Optional[str]
+        self, text: str, output_sentences: int, language: str, model: str
     ) -> ResponseType[SummarizeDataClass]:
         # Prepare request
         files = {"text": text, "output_sentences": output_sentences}

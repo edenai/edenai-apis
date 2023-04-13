@@ -62,7 +62,12 @@
                     "m4a",
                     "mp4",
                     "flac"
-                ]
+                ],
+                "models":[
+                    "standard",
+                    "enhanced"
+                ],
+                "default_model" : "enhanced"
             },
             "version": "v2"
         }

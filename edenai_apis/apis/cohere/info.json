@@ -1,6 +1,17 @@
 {
     "text": {
       "generation" : {
+        "constraints": {
+          "models": [
+            "command-xlarge-beta",
+            "command-xlarge-nightly", 
+            "xlarge", 
+            "command-medium-beta", 
+            "command-medium-nightly",
+            "medium"
+          ],
+          "default_model" : "command-xlarge-nightly"
+        },
         "version": "2022-12-06"
       },
       "custom_classification":{
@@ -14,7 +25,12 @@
         "constraints": {
           "languages": [
               "en"
-          ]
+          ],
+          "models": [
+            "summarize-xlarge",
+            "summarize-medium"
+          ],
+          "default_model" : "summarize-xlarge"
       }
     }
   }

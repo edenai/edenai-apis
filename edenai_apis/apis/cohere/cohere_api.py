@@ -68,13 +68,11 @@ class CohereApi(ProviderInterface, TextInterface):
         self, text : str, 
         max_tokens : int,
         temperature :float,
-        model : Optional[str] = None,
+        model : str,
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.base_url}generate"
         
-        if not model:
-            model = 'command-xlarge-nightly'
-              
+          
         payload = {
             "prompt": text,
             "model" : model,
@@ -145,11 +143,10 @@ class CohereApi(ProviderInterface, TextInterface):
             standardized_response = CustomClassificationDataClass(classifications = classifications)
         )
     
-    def text__summarize(self, text: str, output_sentences: int, language: str, model: Optional[str]) -> ResponseType[SummarizeDataClass]:
+    def text__summarize(self, text: str, output_sentences: int, language: str, model: str) -> ResponseType[SummarizeDataClass]:
         url = f"{self.base_url}summarize"
         length = 'long'
-        if not model:
-            model = 'summarize-xlarge'
+        
         if output_sentences:
             length = CohereApi._calculate_summarize_length(output_sentences)
             

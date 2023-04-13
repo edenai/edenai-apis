@@ -120,7 +120,7 @@ class MicrosoftTextApi(TextInterface):
         text: str,
         output_sentences: int,
         language: str,
-        model: Optional[str] = None,
+        model: str,
     ) -> ResponseType[SummarizeDataClass]:
 
         """

@@ -29,5 +29,6 @@ def speech_to_text_arguments() -> Dict:
         "speakers" : 2, 
         "profanity_filter": False,
         "vocabulary" : [],
-        "audio_attributes" : ("audio/mp3", "1", "44100")
+        "audio_attributes" : ("audio/mp3", "1", "44100"),
+        "settings" : {"speechmatics":"enhanced"}
         }
