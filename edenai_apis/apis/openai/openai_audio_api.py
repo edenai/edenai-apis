@@ -26,6 +26,7 @@ class OpenaiAudioApi(AudioInterface):
         profanity_filter: bool, 
         vocabulary: Optional[List[str]], 
         audio_attributes: tuple, 
+        model :str,
         file_url: str = "") -> AsyncLaunchJobResponseType:
         data_job_id = {}
         webhook_token = self.api_settings['webhook_token']

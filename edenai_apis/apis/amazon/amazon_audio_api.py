@@ -41,7 +41,7 @@ class AmazonAudioApi(AudioInterface):
         speaking_rate: int, 
         speaking_pitch: int,
         speaking_volume: int,
-        sampling_rate: int
+        sampling_rate: int,
     ) -> ResponseType[TextToSpeechDataClass]:
         
         params = {
@@ -173,6 +173,7 @@ class AmazonAudioApi(AudioInterface):
         profanity_filter: bool,
         vocabulary: list,
         audio_attributes: tuple,
+        model : str,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
 

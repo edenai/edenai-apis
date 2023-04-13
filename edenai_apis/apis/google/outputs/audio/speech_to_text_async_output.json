@@ -1,14 +1,14 @@
 {
   "status": "succeeded",
-  "provider_job_id": "6901534202361427375",
+  "provider_job_id": "6413766938088292873",
   "original_response": {
-    "name": "6901534202361427375",
+    "name": "6413766938088292873",
     "metadata": {
       "@type": "type.googleapis.com/google.cloud.speech.v1.LongRunningRecognizeMetadata",
       "progressPercent": 100,
-      "startTime": "2022-12-16T14:48:07.468053Z",
-      "lastUpdateTime": "2022-12-16T14:48:12.152022Z",
-      "uri": "gs://audios-speech2text/1671202083conversation.mp3"
+      "startTime": "2023-04-13T10:20:20.382547Z",
+      "lastUpdateTime": "2023-04-13T10:20:24.830490Z",
+      "uri": "gs://audios-speech2text/1681381219conversation.mp3"
     },
     "done": true,
     "response": {
@@ -18,7 +18,7 @@
           "alternatives": [
             {
               "transcript": "Unit 1 page 14. Real conversations.",
-              "confidence": 0.9589741,
+              "confidence": 0.95899826,
               "words": [
                 {
                   "startTime": "0s",
@@ -30,7 +30,7 @@
                   "startTime": "0.500s",
                   "endTime": "0.900s",
                   "word": "1",
-                  "confidence": 0.9048932
+                  "confidence": 0.9048826
                 },
                 {
                   "startTime": "0.900s",
@@ -48,7 +48,7 @@
                   "startTime": "2.600s",
                   "endTime": "3.700s",
                   "word": "Real",
-                  "confidence": 0.9584897
+                  "confidence": 0.9586449
                 },
                 {
                   "startTime": "3.700s",
@@ -67,7 +67,7 @@
           "alternatives": [
             {
               "transcript": "Unit 1 page 14 real conversations. Hello. Nice to meet you.",
-              "confidence": 0.8495462,
+              "confidence": 0.84954894,
               "words": [
                 {
                   "startTime": "0s",
@@ -79,7 +79,7 @@
                   "startTime": "0.500s",
                   "endTime": "0.900s",
                   "word": "1",
-                  "confidence": 0.96360403
+                  "confidence": 0.9636292
                 },
                 {
                   "startTime": "0.900s",
@@ -109,19 +109,19 @@
                   "startTime": "4.700s",
                   "endTime": "7.200s",
                   "word": "Hello.",
-                  "confidence": 0.36441997
+                  "confidence": 0.36442143
                 },
                 {
                   "startTime": "7.200s",
                   "endTime": "13s",
                   "word": "Nice",
-                  "confidence": 0.67377067
+                  "confidence": 0.6737741
                 },
                 {
                   "startTime": "13s",
                   "endTime": "13.100s",
                   "word": "to",
-                  "confidence": 0.8489023
+                  "confidence": 0.84890264
                 },
                 {
                   "startTime": "13.100s",
@@ -133,7 +133,7 @@
                   "startTime": "13.200s",
                   "endTime": "14.100s",
                   "word": "you.",
-                  "confidence": 0.63191926
+                  "confidence": 0.6319189
                 }
               ]
             }
@@ -146,7 +146,7 @@
           "alternatives": [
             {
               "transcript": " I'm Chihiro nice to meet you.",
-              "confidence": 0.92869925,
+              "confidence": 0.92870253,
               "words": [
                 {
                   "startTime": "10.800s",
@@ -158,19 +158,19 @@
                   "startTime": "11.600s",
                   "endTime": "12.100s",
                   "word": "Chihiro",
-                  "confidence": 0.8562739
+                  "confidence": 0.85628176
                 },
                 {
                   "startTime": "12.100s",
                   "endTime": "13s",
                   "word": "nice",
-                  "confidence": 0.9517031
+                  "confidence": 0.9517143
                 },
                 {
                   "startTime": "13s",
                   "endTime": "13.100s",
                   "word": "to",
-                  "confidence": 0.980908
+                  "confidence": 0.9809087
                 },
                 {
                   "startTime": "13.100s",
@@ -182,7 +182,7 @@
                   "startTime": "13.400s",
                   "endTime": "16s",
                   "word": "you.",
-                  "confidence": 0.8596411
+                  "confidence": 0.8596413
                 }
               ]
             }
@@ -200,77 +200,88 @@
                   "endTime": "0.500s",
                   "word": "Unit",
                   "confidence": 0.98762906,
-                  "speakerTag": 1
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "0.500s",
                   "endTime": "0.900s",
                   "word": "1",
-                  "confidence": 0.96360403,
-                  "speakerTag": 1
+                  "confidence": 0.9636292,
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "0.900s",
                   "endTime": "1.800s",
                   "word": "page",
                   "confidence": 0.98762906,
-                  "speakerTag": 1
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "1.800s",
                   "endTime": "2.600s",
                   "word": "14",
                   "confidence": 0.9242467,
-                  "speakerTag": 1
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "2.600s",
                   "endTime": "3.700s",
                   "word": "real",
                   "confidence": 0.98762906,
-                  "speakerTag": 1
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "3.700s",
                   "endTime": "4.700s",
                   "word": "conversations.",
                   "confidence": 0.98762906,
-                  "speakerTag": 1
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "4.700s",
                   "endTime": "7.200s",
                   "word": "Hello.",
-                  "confidence": 0.36441997,
-                  "speakerTag": 1
+                  "confidence": 0.36442143,
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "7.200s",
                   "endTime": "13s",
                   "word": "Nice",
-                  "confidence": 0.67377067,
-                  "speakerTag": 1
+                  "confidence": 0.6737741,
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "13s",
                   "endTime": "13.100s",
                   "word": "to",
-                  "confidence": 0.8489023,
-                  "speakerTag": 1
+                  "confidence": 0.84890264,
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "13.100s",
                   "endTime": "13.200s",
                   "word": "meet",
                   "confidence": 0.98762906,
-                  "speakerTag": 1
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "13.200s",
                   "endTime": "14.100s",
                   "word": "you.",
-                  "confidence": 0.63191926,
-                  "speakerTag": 1
+                  "confidence": 0.6319189,
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 }
               ]
             }
@@ -286,84 +297,96 @@
                   "endTime": "0.500s",
                   "word": "Unit",
                   "confidence": 0.98762906,
-                  "speakerTag": 1
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "0.500s",
                   "endTime": "0.900s",
                   "word": "1",
-                  "confidence": 0.9048932,
-                  "speakerTag": 1
+                  "confidence": 0.9048826,
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "0.900s",
                   "endTime": "1.800s",
                   "word": "page",
                   "confidence": 0.98762906,
-                  "speakerTag": 1
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "1.800s",
                   "endTime": "2.600s",
                   "word": "14.",
                   "confidence": 0.9275748,
-                  "speakerTag": 1
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "2.600s",
                   "endTime": "3.700s",
                   "word": "Real",
-                  "confidence": 0.9584897,
-                  "speakerTag": 1
+                  "confidence": 0.9586449,
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "3.700s",
                   "endTime": "4.700s",
                   "word": "conversations.",
                   "confidence": 0.98762906,
-                  "speakerTag": 1
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "10.800s",
                   "endTime": "11.600s",
                   "word": "I'm",
                   "confidence": 0.9385138,
-                  "speakerTag": 1
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "11.600s",
                   "endTime": "12.100s",
                   "word": "Chihiro",
-                  "confidence": 0.8562739,
-                  "speakerTag": 1
+                  "confidence": 0.85628176,
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "12.100s",
                   "endTime": "13s",
                   "word": "nice",
-                  "confidence": 0.9517031,
-                  "speakerTag": 1
+                  "confidence": 0.9517143,
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "13s",
                   "endTime": "13.100s",
                   "word": "to",
-                  "confidence": 0.980908,
-                  "speakerTag": 1
+                  "confidence": 0.9809087,
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "13.100s",
                   "endTime": "13.400s",
                   "word": "meet",
                   "confidence": 0.98515576,
-                  "speakerTag": 1
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 },
                 {
                   "startTime": "13.400s",
                   "endTime": "16s",
                   "word": "you.",
-                  "confidence": 0.8596411,
-                  "speakerTag": 1
+                  "confidence": 0.8596413,
+                  "speakerTag": 1,
+                  "speakerLabel": "1"
                 }
               ]
             }
@@ -372,7 +395,7 @@
         }
       ],
       "totalBilledTime": "36s",
-      "requestId": "6901534202361427375"
+      "requestId": "6413766938088292873"
     }
   },
   "standardized_response": {
@@ -392,7 +415,7 @@
           "start_time": "0.500",
           "end_time": "0.900",
           "speaker": 1,
-          "confidence": 0.9048932
+          "confidence": 0.9048826
         },
         {
           "segment": "page",
@@ -413,7 +436,7 @@
           "start_time": "2.600",
           "end_time": "3.700",
           "speaker": 1,
-          "confidence": 0.9584897
+          "confidence": 0.9586449
         },
         {
           "segment": "conversations.",
@@ -434,21 +457,21 @@
           "start_time": "11.600",
           "end_time": "12.100",
           "speaker": 1,
-          "confidence": 0.8562739
+          "confidence": 0.85628176
         },
         {
           "segment": "nice",
           "start_time": "12.100",
           "end_time": "13",
           "speaker": 1,
-          "confidence": 0.9517031
+          "confidence": 0.9517143
         },
         {
           "segment": "to",
           "start_time": "13",
           "end_time": "13.100",
           "speaker": 1,
-          "confidence": 0.980908
+          "confidence": 0.9809087
         },
         {
           "segment": "meet",
@@ -462,7 +485,7 @@
           "start_time": "13.400",
           "end_time": "16",
           "speaker": 1,
-          "confidence": 0.8596411
+          "confidence": 0.8596413
         }
       ],
       "error_message": null

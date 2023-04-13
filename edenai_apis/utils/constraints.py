@@ -226,6 +226,21 @@ def validate_all_input_languages(
         )
     return args
 
+def validate_models(provider: str, constraints: dict, args: dict) -> Dict:
+    # get right model name
+    settings = args.get("settings",{})
+    if provider in settings:
+        if constraints and settings[provider] in constraints["models"]:
+            selected_model = settings[provider]
+        else:
+            all_availaible_models = ', '.join(constraints["models"])
+            raise ProviderException(f"Wrong model name, availaible models for {provider} are : {all_availaible_models}")
+    else:
+        selected_model = constraints.get('default_model')
+        
+    args["model"] = selected_model
+    del args["settings"]
+    return args
 
 def transform_file_args(args: dict) -> dict:
     """transform the file wrapper to file path and file url for subfeature functions
@@ -300,6 +315,11 @@ def validate_all_provider_constraints(
 
         # Audio format for text to speech
         validated_args = validate_audio_format_and_voice_id(
+            provider, provider_constraints, validated_args
+        )
+        
+        #  Validate models
+        validated_args = validate_models(
             provider, provider_constraints, validated_args
         )
         

@@ -50,7 +50,12 @@
                     "opus",
                     "webm"
                 ],
-                "allow_null_language": true
+                "allow_null_language": true,
+                "model": [
+                    "enhanced",
+                    "base"
+                ],
+                "default_model":"base"
             },
             "version": "v1"
         }

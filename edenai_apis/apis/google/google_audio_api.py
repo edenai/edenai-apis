@@ -122,6 +122,7 @@ class GoogleAudioApi(AudioInterface):
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
+        model : str,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
 

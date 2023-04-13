@@ -48,6 +48,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         profanity_filter: bool, 
         vocabulary: list,
         audio_attributes: tuple,
+        model: str,
         file_url: str = "",
         ) -> AsyncLaunchJobResponseType:
 
@@ -75,7 +76,8 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             "callback" : self.webhook_url,
             "punctuate" : "true",
             "diarize": "true",
-            "profanity_filter": "false"
+            "profanity_filter": "false",
+            "tier" : model,
         }
         if profanity_filter:
             data_config.update({

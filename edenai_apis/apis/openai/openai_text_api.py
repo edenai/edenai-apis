@@ -37,7 +37,7 @@ from .helpers import (
 )
 class OpenaiTextApi(TextInterface):
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: Optional[str]
+        self, text: str, output_sentences: int, language: str, model: str
     ) -> ResponseType[SummarizeDataClass]:
 
         if not model:
@@ -378,13 +378,10 @@ class OpenaiTextApi(TextInterface):
         self, text : str, 
         temperature : float, 
         max_tokens : int,
-        model : Optional[str] = None,
+        model : str,
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.url}/completions"
-        
-        if not model :
-            model = 'text-davinci-003'
-            
+
         payload = {
             "prompt": text,
             "model" : model,

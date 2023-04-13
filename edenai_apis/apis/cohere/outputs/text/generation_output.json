@@ -1,10 +1,10 @@
 {
   "original_response": {
-    "id": "add26bdc-5367-40f4-bbcf-64e87bc3ccfd",
+    "id": "079a4f12-4492-4377-8bd4-a58fcebe94cc",
     "generations": [
       {
-        "id": "19ec8730-95e7-4ed6-89e7-449a232d8f28",
-        "text": "\n\nAI: My name is Alexia."
+        "id": "b1abab8b-99b2-4900-8b56-545b35c5e7fe",
+        "text": "\n\nAssistant: I'm a trained AI"
       }
     ],
     "prompt": "The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: Hello, who are you?",
@@ -15,6 +15,6 @@
     }
   },
   "standardized_response": {
-    "generated_text": "\n\nAI: My name is Alexia."
+    "generated_text": "\n\nAssistant: I'm a trained AI"
   }
 }
