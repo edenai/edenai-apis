@@ -16,6 +16,7 @@ attrs==22.1.0
     # via
     #   automat
     #   jsonlines
+    #   jsonschema
     #   pytest
     #   sagemaker
     #   service-identity
@@ -43,12 +44,12 @@ babel==2.11.0
     # via sphinx
 beautifulsoup4==4.11.1
     # via furo
-boto3==1.26.8
+boto3==1.26.112
     # via
     #   -r requirements.in
     #   amazon-textract-response-parser
     #   sagemaker
-botocore==1.29.8
+botocore==1.29.112
     # via
     #   boto3
     #   s3transfer
@@ -85,8 +86,6 @@ dill==0.3.6
     #   pylint
 docutils==0.19
     # via sphinx
-exceptiongroup==1.0.2
-    # via pytest
 execnet==1.9.0
     # via pytest-xdist
 ffmpeg-python==0.2.0
@@ -178,9 +177,7 @@ idna==3.4
 imagesize==1.4.1
     # via sphinx
 importlib-metadata==4.13.0
-    # via
-    #   sagemaker
-    #   sphinx
+    # via sagemaker
 incremental==22.10.0
     # via twisted
 iniconfig==1.1.1
@@ -197,6 +194,8 @@ jmespath==1.0.1
     #   botocore
 jsonlines==3.1.0
     # via lettria
+jsonschema==4.17.3
+    # via sagemaker
 langcodes==3.3.0
     # via -r requirements.in
 language-data==1.1
@@ -251,7 +250,9 @@ pillow==9.3.0
     #   -r requirements.in
     #   pdf2image
 platformdirs==2.5.4
-    # via pylint
+    # via
+    #   pylint
+    #   sagemaker
 pluggy==1.0.0
     # via pytest
 portalocker==2.6.0
@@ -326,6 +327,8 @@ pyparsing==3.0.9
     #   packaging
 pypdf2==2.11.1
     # via -r requirements.in
+pyrsistent==0.19.3
+    # via jsonschema
 pytest==7.2.0
     # via
     #   -r requirements.in
@@ -354,6 +357,8 @@ pytz==2022.6
     # via
     #   babel
     #   pandas
+pyyaml==5.4.1
+    # via sagemaker
 requests==2.28.1
     # via
     #   affinda
@@ -376,7 +381,7 @@ rsa==4.9
     # via google-auth
 s3transfer==0.6.0
     # via boto3
-sagemaker==2.116.0
+sagemaker==2.146.0
     # via -r requirements.in
 schema==0.7.5
     # via sagemaker
@@ -420,11 +425,6 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
-tomli==2.0.1
-    # via
-    #   coverage
-    #   pylint
-    #   pytest
 tomlkit==0.11.6
     # via pylint
 twisted==22.10.0
@@ -433,12 +433,9 @@ txaio==22.2.1
     # via autobahn
 typing-extensions==4.4.0
     # via
-    #   astroid
     #   azure-ai-formrecognizer
     #   azure-core
     #   pydantic
-    #   pylint
-    #   pypdf2
     #   twisted
 uritemplate==4.1.1
     # via google-api-python-client
