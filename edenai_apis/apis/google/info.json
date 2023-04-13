@@ -146,12 +146,13 @@
                     "flac",
                     "mp3",
                     "wav",
-                    "ulaw",
+                    "mulaw",
                     "amr",
                     "amr-wb",
-                    "opus",
+                    "ogg",
                     "webm",
-                    "spx"
+                    "spx",
+                    "l16"
                 ]
             },
             "version": "v1p1beta1"

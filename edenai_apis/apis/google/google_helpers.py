@@ -129,8 +129,25 @@ def get_tag_name(tag):
         "X": "Other",
     }[tag]
 
+#*****************************Speech to text***************************************************
+def get_encoding_and_sample_rate(extension: str):
+    list_encoding = [("LINEAR16", None), ("MULAW", None), ("AMR", 8000), ("AMR_WB", 16000), 
+                     ("OGG_OPUS", 24000), ("SPEEX_WITH_HEADER_BYTE", 16000), ("WEBM_OPUS", 24000)]
+    if extension in ["wav", "flac"]:
+        return None, None
+    if extension.startswith("mp"):
+        return "ENCODING_UNSPECIFIED", None
+    if extension == "l16":
+        extension = "linear16"
+    if extension == "spx":
+        extension = "speex"
+    if "-" in extension:
+        extension.replace("-", "_")
+    right_encoding_sample: Tuple = next(filter(lambda x: extension in x[0].lower(), list_encoding), (None, None))
+    return right_encoding_sample
 
 
+#*****************************Text to speech**************************************************#
 def get_formated_speaking_rate(speaking_rate: int):
     if speaking_rate > 100:
         speaking_rate = 100
@@ -176,3 +193,4 @@ def get_right_audio_support_and_sampling_rate(audio_format: str, list_audio_form
     right_audio_format = next(filter(lambda x: audio_format in x.lower(), list_audio_formats), None)
     return extension, right_audio_format
     
+#**************************************************************************************************#

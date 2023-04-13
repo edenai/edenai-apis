@@ -6,7 +6,7 @@ from time import time
 from typing import List, Optional
 
 import googleapiclient.discovery
-from edenai_apis.apis.google.google_helpers import generate_tts_params, get_right_audio_support_and_sampling_rate
+from edenai_apis.apis.google.google_helpers import generate_tts_params, get_encoding_and_sample_rate, get_right_audio_support_and_sampling_rate
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechDiarization,
@@ -157,10 +157,19 @@ class GoogleAudioApi(AudioInterface):
             "profanity_filter": profanity_filter,
             "enable_word_confidence": True,
             "enable_automatic_punctuation": True,
-            "enable_spoken_punctuation": True,
+            "enable_spoken_punctuation": True
         }
-        if export_format == "mp3":
-            params.update({"sample_rate_hertz": 16000})
+
+        encoding, sampling = get_encoding_and_sample_rate(export_format.replace('audio/', ''))
+
+        if encoding:
+            params.update({
+                "encoding": getattr(speech.RecognitionConfig.AudioEncoding, encoding)
+            })
+        if sampling:
+            params.update({
+                "sample_rate_hertz": sampling
+            })
 
         # create custum vocabulary phrase_set
         if vocabulary:
