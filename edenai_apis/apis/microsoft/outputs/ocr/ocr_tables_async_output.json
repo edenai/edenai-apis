@@ -1,10 +1,10 @@
 {
   "status": "succeeded",
-  "provider_job_id": "211cd2c0-7795-4e6a-8e5e-dc5f21e66398",
+  "provider_job_id": "f7d89072-db2a-4346-b45e-f1e529dc2c37",
   "original_response": {
     "status": "succeeded",
-    "createdDateTime": "2023-04-14T07:59:30Z",
-    "lastUpdatedDateTime": "2023-04-14T07:59:33Z",
+    "createdDateTime": "2023-04-14T13:05:44Z",
+    "lastUpdatedDateTime": "2023-04-14T13:05:45Z",
     "analyzeResult": {
       "apiVersion": "2022-08-31",
       "modelId": "prebuilt-layout",
@@ -5216,7 +5216,7 @@
                       "width": 0.17246376811594202,
                       "height": 0.12698412698412698
                     },
-                    "is_header": false
+                    "is_header": true
                   },
                   {
                     "text": "Latitude",
@@ -5231,7 +5231,7 @@
                       "width": 0.17391304347826086,
                       "height": 0.12698412698412698
                     },
-                    "is_header": false
+                    "is_header": true
                   },
                   {
                     "text": "Longitude",
@@ -5246,7 +5246,7 @@
                       "width": 0.2,
                       "height": 0.12698412698412698
                     },
-                    "is_header": false
+                    "is_header": true
                   },
                   {
                     "text": "Year",
@@ -5261,7 +5261,7 @@
                       "width": 0.45362318840579713,
                       "height": 0.049886621315192746
                     },
-                    "is_header": false
+                    "is_header": true
                   }
                 ]
               },
@@ -5280,7 +5280,7 @@
                       "width": 0.12608695652173912,
                       "height": 0.07709750566893424
                     },
-                    "is_header": false
+                    "is_header": true
                   },
                   {
                     "text": "1994",
@@ -5295,7 +5295,7 @@
                       "width": 0.1246376811594203,
                       "height": 0.07709750566893424
                     },
-                    "is_header": false
+                    "is_header": true
                   },
                   {
                     "text": "2012",
@@ -5310,7 +5310,7 @@
                       "width": 0.11014492753623188,
                       "height": 0.07709750566893424
                     },
-                    "is_header": false
+                    "is_header": true
                   },
                   {
                     "text": "2013",
@@ -5325,7 +5325,7 @@
                       "width": 0.0927536231884058,
                       "height": 0.07709750566893424
                     },
-                    "is_header": false
+                    "is_header": true
                   }
                 ]
               },

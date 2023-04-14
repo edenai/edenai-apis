@@ -470,7 +470,7 @@ def _ocr_tables_standardize_cell(cell: dict, original_response: dict) -> Cell:
     current_page_num = cell['boundingRegions'][0]['pageNumber']
     width = original_response["pages"][current_page_num - 1]["width"]
     height = original_response["pages"][current_page_num - 1]["height"]
-    is_header = "columnHeader" in cell or  "rowHeader" in cell
+    is_header = cell.get('kind') in ["columnHeader", "rowHeader"]
     bounding_box = cell["boundingRegions"][0]["polygon"]
     return Cell(
         text=cell["content"],
