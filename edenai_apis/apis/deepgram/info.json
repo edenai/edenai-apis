@@ -51,7 +51,7 @@
                     "webm"
                 ],
                 "allow_null_language": true,
-                "model": [
+                "models": [
                     "enhanced",
                     "base"
                 ],
