@@ -1,14 +1,21 @@
 from collections import defaultdict
 from copy import deepcopy
-import json
-from math import ceil, floor
-from typing import Dict, List, Optional, Sequence
+from math import floor
+from typing import Dict, List, Sequence
+
 from edenai_apis.features.image.face_detection.face_detection_dataclass import (
-    FaceAccessories, FaceBoundingBox,
-    FaceEmotions, FaceFacialHair,
-    FaceHair, FaceHairColor, FaceItem,
-    FaceLandmarks, FaceMakeup, FaceOcclusions,
-    FacePoses, FaceQuality
+    FaceAccessories,
+    FaceBoundingBox,
+    FaceEmotions,
+    FaceFacialHair,
+    FaceHair,
+    FaceHairColor,
+    FaceItem,
+    FaceLandmarks,
+    FaceMakeup,
+    FaceOcclusions,
+    FacePoses,
+    FaceQuality,
 )
 from edenai_apis.features.ocr import (
     CustomerInformationInvoice,
@@ -16,20 +23,31 @@ from edenai_apis.features.ocr import (
     InvoiceParserDataClass,
     ItemLinesInvoice,
     MerchantInformationInvoice,
-    TaxesInvoice
+    TaxesInvoice,
 )
-from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import BoundixBoxOCRTable, Cell, OcrTablesAsyncDataClass, Page, Row, Table
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    format_date,
+)
+from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
+    BoundixBoxOCRTable,
+    Cell,
+    OcrTablesAsyncDataClass,
+    Page,
+    Row,
+    Table,
+)
 from edenai_apis.features.text import (
     ModerationDataClass,
+    TextModerationCategoriesMicrosoftEnum,
     TextModerationItem,
-    TextModerationCategoriesMicrosoftEnum
 )
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import format_date
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import validate_audio_attribute_against_ssml_tags_use
-
-from edenai_apis.utils.conversion import combine_date_with_time, standardized_confidence_score
+from edenai_apis.utils.conversion import (
+    combine_date_with_time,
+    standardized_confidence_score,
+)
 
 
 def get_microsoft_headers() -> Dict:
@@ -427,7 +445,7 @@ def microsoft_ocr_tables_standardize_response(original_response: dict) -> OcrTab
 
     for table in original_response.get("tables", []):
         std_table = _ocr_tables_standardize_table(table, original_response)
-        page_index = table["boundingRegions"][0]["pageNumber"] -1
+        page_index: int = table["boundingRegions"][0]["pageNumber"] -1
         pages[page_index].tables.append(std_table)
 
     return OcrTablesAsyncDataClass(
@@ -454,7 +472,6 @@ def _ocr_tables_standardize_cell(cell: dict, original_response: dict) -> Cell:
     height = original_response["pages"][current_page_num - 1]["height"]
     is_header = "columnHeader" in cell or  "rowHeader" in cell
     bounding_box = cell["boundingRegions"][0]["polygon"]
-
     return Cell(
         text=cell["content"],
         col_index=cell["columnIndex"],

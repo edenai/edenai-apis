@@ -98,10 +98,10 @@ def _ocr_tables_standarize_table(table) -> Table:
 
 
 def _ocr_tables_standarize_row(row) -> Tuple[Row, int]:
+    """Returns Row as well has the number of colums in said row"""
     is_header = False
     cells: Sequence[Cell] = []
     for cell in row.cells:
-        is_header = "COLUMN_HEADER" in cell.entityTypes
         std_cell = _ocr_tables_standarize_cell(cell)
         cells.append(std_cell)
 
@@ -110,11 +110,15 @@ def _ocr_tables_standarize_row(row) -> Tuple[Row, int]:
 
 
 def _ocr_tables_standarize_cell(cell) -> Cell:
+    is_header = "COLUMN_HEADER" in cell.entityTypes
     return Cell(
         text=cell.mergedText,
+        row_index=cell.columnIndex,
+        col_index=cell.rowIndex,
         row_span=cell.rowSpan,
         col_span=cell.columnSpan,
         confidence=cell.confidence,
+        is_header=is_header,
         bounding_box=BoundixBoxOCRTable(
             left=cell.geometry.boundingBox.left,
             top=cell.geometry.boundingBox.top,

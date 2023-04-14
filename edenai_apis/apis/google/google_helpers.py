@@ -139,8 +139,8 @@ def _ocr_tables_standardize_cell(cell, raw_text, is_header) -> Cell:
 
     return Cell(
         text=text,
-        col_index=0,
-        row_index=0,
+        col_index=None,
+        row_index=None,
         row_span=cell["rowSpan"],
         col_span=cell["colSpan"],
         confidence=cell["layout"]["confidence"],
