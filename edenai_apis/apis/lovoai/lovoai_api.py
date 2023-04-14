@@ -66,7 +66,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         resource_url = upload_file_bytes_to_s3(audio_content, ".wav", USER_PROCESS)
 
         return ResponseType[TextToSpeechDataClass](
-            original_response=response,
+            original_response={},
             standardized_response=TextToSpeechDataClass(
                 audio=audio, 
                 voice_type=1,
