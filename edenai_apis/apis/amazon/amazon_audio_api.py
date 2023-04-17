@@ -68,7 +68,10 @@ class AmazonAudioApi(AudioInterface):
         if text_type:
             params["TextType"] = "ssml"
 
-        response = self.clients["texttospeech"].synthesize_speech(**params)
+        try:
+            response = self.clients["texttospeech"].synthesize_speech(**params)
+        except Exception as excp:
+            raise ProviderException(str(excp))
 
 
         audio_content = BytesIO(response["AudioStream"].read())
