@@ -35,9 +35,10 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
     VideoTextFrames,
 )
 from edenai_apis.features.video.video_interface import VideoInterface
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
 
-from .helpers import amazon_launch_video_job, amazon_video_response_formatter
+from .helpers import amazon_launch_video_job, amazon_video_original_response, amazon_video_response_formatter
 
 
 class AmazonVideoApi(VideoInterface):
@@ -89,11 +90,10 @@ class AmazonVideoApi(VideoInterface):
         max_result = 20
         finished = False
         while not finished:
-            response = self.clients["video"].get_label_detection(
-                JobId=provider_job_id,
-                MaxResults=max_result,
-                NextToken=pagination_token,
-                SortBy="TIMESTAMP",
+            response = amazon_video_original_response(
+                provider_job_id, max_result, pagination_token,
+                self.clients["video"].get_label_detection,
+                "TIMESTAMP"
             )
             # jobstatus = response['JobStatus'] #SUCCEEDED, FAILED, IN_PROGRESS
             labels = []
@@ -146,10 +146,9 @@ class AmazonVideoApi(VideoInterface):
         finished = False
 
         while not finished:
-            response = self.clients["video"].get_text_detection(
-                JobId=provider_job_id,
-                MaxResults=max_results,
-                NextToken=pagination_token,
+            response = amazon_video_original_response(
+                provider_job_id, max_results, pagination_token,
+                self.clients["video"].get_text_detection
             )
             text_video = []
             # Get unique values of detected text annotation
@@ -212,11 +211,11 @@ class AmazonVideoApi(VideoInterface):
         finished = False
 
         while not finished:
-            response = self.clients["video"].get_face_detection(
-                JobId=provider_job_id,
-                MaxResults=max_results,
-                NextToken=pagination_token,
+            response = amazon_video_original_response(
+                provider_job_id, max_results, pagination_token,
+                self.clients["video"].get_face_detection
             )
+            
             faces = []
             for face in response["Faces"]:
                 # Time stamp
@@ -283,10 +282,9 @@ class AmazonVideoApi(VideoInterface):
         finished = False
 
         while not finished:
-            response = self.clients["video"].get_person_tracking(
-                JobId=provider_job_id,
-                MaxResults=max_results,
-                NextToken=pagination_token,
+            response = amazon_video_original_response(
+                provider_job_id, max_results, pagination_token,
+                self.clients["video"].get_person_tracking
             )
 
             # gather all persons with the same index :
@@ -367,11 +365,11 @@ class AmazonVideoApi(VideoInterface):
         finished = False
 
         while not finished:
-            response = self.clients["video"].get_content_moderation(
-                JobId=provider_job_id,
-                MaxResults=max_results,
-                NextToken=pagination_token,
+            response = amazon_video_original_response(
+                provider_job_id, max_results, pagination_token,
+                self.clients["video"].get_content_moderation
             )
+            
             moderated_content = []
             for label in response.get("ModerationLabels", []):
                 confidence = label.get("ModerationLabel", defaultdict).get("Confidence")

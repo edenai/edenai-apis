@@ -24,7 +24,7 @@ from edenai_apis.features.ocr import (
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import CustomerInformation, InfosReceiptParserDataClass, ItemLines, Locale, MerchantInformation, PaymentInformation, ReceiptParserDataClass, Taxes
 from edenai_apis.utils.conversion import convert_string_to_number
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.pdfs import get_pdf_width_height
 from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
@@ -423,7 +423,15 @@ class GoogleOcrApi(OcrInterface):
         )
 
         request = service.projects().locations().operations().get(name=name)
-        res = request.execute()
+
+        try:
+            res = request.execute()
+        except Exception as excp:
+            if "Operation not found" in str(excp):
+                raise AsyncJobException(
+                    reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
+            raise ProviderException(str(excp))
 
         if res["metadata"]["state"] == "SUCCEEDED":
             # get result from bucket

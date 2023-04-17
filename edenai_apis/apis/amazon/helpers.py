@@ -2,7 +2,7 @@ import json
 import urllib
 from io import BufferedReader
 from time import time
-from typing import Dict, List, Optional, TypeVar, Sequence, Union
+from typing import Callable, Dict, List, Optional, TypeVar, Sequence, Union
 from pathlib import Path
 import requests
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import CustomDocumentParsingAsyncBoundingBox, CustomDocumentParsingAsyncDataClass, CustomDocumentParsingAsyncItem
@@ -37,7 +37,7 @@ from edenai_apis.features.ocr import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import validate_audio_attribute_against_ssml_tags_use
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -183,6 +183,35 @@ def amazon_launch_video_job(file: str, feature: str):
     # return job id
     job_id = response["JobId"]
     return job_id
+
+def amazon_video_original_response(
+    job_id: str, 
+    max_result: int,
+    next_token: str,
+    function_to_call: Callable,
+    sortBy: Optional[str] = None
+):
+    
+    params = {
+        "JobId" : job_id,
+        "MaxResults": max_result,
+        "NextToken" : next_token
+    }
+    if sortBy:
+        params.update({
+            "SortBy" : sortBy
+        })
+
+        
+    try:
+        response = function_to_call(**params)
+    except Exception as excp:
+        if "Could not find JobId" in str(excp):
+            raise AsyncJobException(
+                reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+            )
+        raise ProviderException(str(excp))
+    return response
 
 
 def amazon_video_response_formatter(
