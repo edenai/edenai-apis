@@ -25,7 +25,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     AsyncLaunchJobResponseType, ResponseType
 )
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from .config import get_domain_language_from_code
 
 
@@ -217,6 +217,10 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
             # two message possible
             # ref: https://docs.neuralspace.ai/speech-to-text/transcribe-file
             error = response.json().get("message") or data.get("message")
+            if "Invalid transcribeId" in error:
+                raise AsyncJobException(
+                    reason= AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
             raise ProviderException(error)
 
         diarization = SpeechDiarization(total_speakers=0, entries= [])

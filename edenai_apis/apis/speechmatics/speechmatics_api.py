@@ -5,7 +5,7 @@ from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import AsyncResponseType, AsyncPendingResponseType, AsyncBaseResponseType, AsyncLaunchJobResponseType
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.features.audio.speech_to_text_async import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
@@ -68,13 +68,18 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
             f'{self.base_url}/{provider_job_id}',
             headers=self.headers
         )
+        original_response = response.json()
         if response.status_code != 200:
+            if original_response.get("details") == "path not found":
+                raise AsyncJobException(
+                    reason= AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
             raise ProviderException(
-                message=response.content,
+                message=original_response,
                 code=response.status_code,
             )
 
-        job_details = response.json()['job']
+        job_details = original_response['job']
         errors = job_details.get('errors')
         if errors:
             raise ProviderException(errors)
@@ -89,7 +94,7 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
                 f'{self.base_url}/{provider_job_id}/transcript',
                 headers=self.headers,
             )
-            original_response = response.json()
+            original_response = original_response
             if response.status_code != 200:
                 raise ProviderException(
                     original_response.get('errors'),

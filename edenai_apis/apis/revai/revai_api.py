@@ -15,7 +15,7 @@ from edenai_apis.features.audio import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -220,8 +220,13 @@ class RevAIApi(ProviderInterface, AudioInterface):
         )
         original_response = response.json()
         if response.status_code != 200:
+            error_message = f"{original_response.get('title','')}: {original_response.get('details','')}"
+            if "could not find job" in error_message:
+                raise AsyncJobException(
+                    reason= AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
             raise ProviderException(
-                message=f"{original_response.get('title','')}: {original_response.get('details','')}",
+                message=error_message,
                 code=response.status_code,
             )
         status = original_response["status"]

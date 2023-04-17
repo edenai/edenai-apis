@@ -34,7 +34,7 @@ from edenai_apis.features.translation.language_detection import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -332,4 +332,8 @@ class OneaiApi(
             else:
                 raise ProviderException(original_response)
         else:
+            if original_response.get("status") == "NOT_FOUND":
+                raise AsyncJobException(
+                    reason= AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
             raise ProviderException(original_response)

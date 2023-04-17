@@ -17,7 +17,7 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
 from edenai_apis.utils.audio import retreive_voice_id
-from edenai_apis.utils.exception import LanguageException, ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, LanguageException, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -194,10 +194,19 @@ class GoogleAudioApi(AudioInterface):
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
         service = googleapiclient.discovery.build("speech", "v1")
         service_request_ = service.operations().get(name=provider_job_id)
-        original_response = service_request_.execute()
+        
+        try:
+            original_response = service_request_.execute()
+        except Exception as excp:
+            error_message = str(excp)
+            if "Unrecognized long running operation name" in error_message:
+                raise AsyncJobException(
+                    reason= AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
+            raise ProviderException(error_message)
 
-        if original_response.get("error") is not None:
-            raise ProviderException(original_response["error"])
+        if error_message := original_response.get("error") is not None:
+            raise ProviderException(error_message)
 
         text = ""
         diarization = SpeechDiarization(total_speakers=0, entries=[])

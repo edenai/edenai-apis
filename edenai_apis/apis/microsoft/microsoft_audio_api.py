@@ -17,7 +17,7 @@ from edenai_apis.features.audio import (
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.utils.audio import retreive_voice_id
 from edenai_apis.utils.conversion import convert_pt_date_from_string
-from edenai_apis.utils.exception import LanguageException, ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, LanguageException, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -231,4 +231,8 @@ class MicrosoftAudioApi(AudioInterface):
                 )
         else:
             error = response.json().get("message")
+            if "entity cannot be found" in error or 1:
+                raise AsyncJobException(
+                    reason= AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
             raise ProviderException(error)

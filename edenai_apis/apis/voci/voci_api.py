@@ -9,7 +9,7 @@ from edenai_apis.features.audio.speech_to_text_async import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features.provider.provider_interface import ProviderInterface
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.features import AudioInterface
 from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
@@ -133,4 +133,9 @@ class VociApi(ProviderInterface, AudioInterface):
                 provider_job_id=provider_job_id
             )
         else:
+            error_message = response.text
+            if "request ID" in error_message and any(portion in error_message for portion in ["Invalid", "Malformatted"]):
+                raise AsyncJobException(
+                    reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
             raise ProviderException(response.text)

@@ -11,7 +11,7 @@ from edenai_apis.features.audio import (
 )
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.utils.audio import retreive_voice_id
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -114,7 +114,16 @@ class IbmAudioApi(AudioInterface):
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-        response = self.clients["speech"].check_job(provider_job_id)
+        try:
+            response = self.clients["speech"].check_job(provider_job_id)
+        except Exception as excp:
+            error_message = str(excp)
+            if "job not found" in error_message:
+                raise AsyncJobException(
+                    reason= AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
+            raise ProviderException(error_message)
+        
         status = response.result["status"]
         if status == "completed":
             original_response = response.result["results"]
