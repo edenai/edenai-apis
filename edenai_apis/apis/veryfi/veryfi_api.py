@@ -16,6 +16,7 @@ from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     TaxesInvoice,
 )
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
+    BarCode,
     CustomerInformation,
     Locale,
     InfosReceiptParserDataClass,
@@ -138,7 +139,7 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             invoice_total=original_response['total'],
             invoice_subtotal=original_response['subtotal'],
             invoice_number=original_response['invoice_number'],
-            date=original_response['updated_date'],
+            date=original_response['date'],
             purchase_order=original_response['purchase_order_number'],
             item_lines=item_lines,
             locale=LocaleInvoice(currency=original_response['currency_code']),
@@ -187,6 +188,11 @@ class VeryfiApi(ProviderInterface, OcrInterface):
                 amount=item['total'],
             ))
 
+
+        barcodes = [
+            BarCode(type=code["type"], value=code["data"])
+            for code in original_response.get("barcodes", [])
+        ]
         info_receipt = [InfosReceiptParserDataClass(
             customer_information=customer_information,
             merchant_information=merchant_information,
@@ -194,7 +200,8 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             invoice_number=original_response['invoice_number'],
             invoice_subtotal=original_response['subtotal'],
             invoice_total=original_response['total'],
-            date=original_response['updated_date'],
+            date=original_response['date'],
+            barcodes=barcodes,
             item_lines=items_lines,
             locale=Locale(currency=original_response['currency_code']),
             taxes=[Taxes(value=original_response['tax'])],

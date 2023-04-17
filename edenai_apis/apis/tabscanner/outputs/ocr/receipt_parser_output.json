@@ -706,8 +706,10 @@
         "invoice_total": 168.95,
         "invoice_subtotal": 168.95,
         "barcodes": [
-          "9138579073918",
-          "EAN13"
+          {
+            "value": "9138579073918",
+            "type": "EAN13"
+          }
         ],
         "category": null,
         "date": "2022-04-02 12:29:23",
@@ -741,8 +743,10 @@
         "receipt_infos": {
           "address": "",
           "barcodes": [
-            "9138579073918",
-            "EAN13"
+            {
+              "value": "9138579073918",
+              "type": "EAN13"
+            }
           ],
           "Etablishment": "",
           "payment": "",

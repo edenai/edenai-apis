@@ -12,6 +12,7 @@ from edenai_apis.features.ocr import (
     MerchantInformation,
     PaymentInformation,
 )
+from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import BarCode
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import convert_string_to_number
@@ -75,10 +76,11 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         date = receipt.get("date")
 
         # Barcodes
-        barcodes = receipt.get("barcodes")
-        if barcodes:
-            barcodes = barcodes[0]
-            
+        barcodes = [
+            BarCode(type=code_type, value=code_value)
+            for code_value, code_type in receipt.get("barcodes", [])
+        ]
+
         # Local
         locale = Locale(currecy = receipt.get("currency"))
         # Payment information

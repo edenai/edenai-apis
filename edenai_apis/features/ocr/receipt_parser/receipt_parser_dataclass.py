@@ -43,11 +43,15 @@ class Taxes(BaseModel):
     taxes: Optional[float]
     rate: Optional[float]
 
+class BarCode(BaseModel):
+    value: str
+    type: str
+
 class InfosReceiptParserDataClass(BaseModel):
     invoice_number: Optional[StrictStr]
     invoice_total: Optional[float]
     invoice_subtotal: Optional[float]
-    barcodes : Sequence[StrictStr] = Field(default_factory=list)
+    barcodes : Sequence[BarCode] = Field(default_factory=list)
     category : Optional[StrictStr]
     date: Optional[StrictStr]
     due_date: Optional[StrictStr]
