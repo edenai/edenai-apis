@@ -36,7 +36,7 @@ from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import
     Table,
 )
 from edenai_apis.utils.conversion import add_query_param_in_url
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -391,6 +391,10 @@ class MicrosoftOcrApi(OcrInterface):
 
         if response.status_code >= 400:
             error = response.json()["error"]["message"]
+            if "Resource not found" in error:
+                raise AsyncJobException(
+                    reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
             raise ProviderException(error)
 
         data = response.json()

@@ -24,7 +24,7 @@ from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     OcrTablesAsyncDataClass,
 )
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -32,6 +32,8 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
+
+from botocore.exceptions import ClientError
 
 from .helpers import (
     check_webhook_result,
@@ -220,7 +222,16 @@ class AmazonOcrApi(OcrInterface):
     def ocr__ocr_tables_async__get_job_result(
         self, job_id: str
     ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
-        response = self.clients["textract"].get_document_analysis(JobId=job_id)
+        
+        try:
+            response = self.clients["textract"].get_document_analysis(JobId=job_id)
+        except ClientError as excp:
+            if "Request has invalid Job Id" in str(excp):
+                raise AsyncJobException(
+                    reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
+            raise ProviderException(str(excp))
+            
 
         if response.get("JobStatus") == "IN_PROGRESS":
             return AsyncPendingResponseType[OcrTablesAsyncDataClass](
@@ -293,7 +304,15 @@ class AmazonOcrApi(OcrInterface):
     def ocr__custom_document_parsing_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[CustomDocumentParsingAsyncDataClass]:
-        response = self.clients["textract"].get_document_analysis(JobId=provider_job_id)
+        
+        try:
+            response = self.clients["textract"].get_document_analysis(JobId=provider_job_id)
+        except ClientError as excp:
+            if "Request has invalid Job Id" in str(excp):
+                raise AsyncJobException(
+                    reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
+            raise ProviderException(str(excp))
 
         if response.get("JobStatus") == "IN_PROGRESS":
             return AsyncPendingResponseType[CustomDocumentParsingAsyncDataClass](

@@ -13,6 +13,7 @@ from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import
 )
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SentimentEnum
 from edenai_apis.utils.conversion import convert_pitch_from_percentage_to_semitones
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 
 
 class GoogleVideoFeatures(enum.Enum):
@@ -40,8 +41,15 @@ def google_video_get_job(provider_job_id: str):
             "api_endpoint": "https://videointelligence.googleapis.com/",
         },
     )
-    request = service.projects().locations().operations().get(name=provider_job_id)
-    result = request.execute()
+    try:
+        request = service.projects().locations().operations().get(name=provider_job_id)
+        result = request.execute()
+    except Exception as excp:
+        if "Operation not found" in str(excp):
+            raise AsyncJobException(
+                reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+            )
+        raise ProviderException(str(excp))
     return result
 
 
