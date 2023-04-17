@@ -15,7 +15,7 @@ from edenai_apis.utils.types import (
     AsyncPendingResponseType,
     AsyncResponseType,
 )
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 
@@ -96,7 +96,7 @@ class AssemblyApi(ProviderInterface, AudioInterface):
             else:
                 launch_transcription = True
 
-        transcribe_id = f"{response.json()['id']}EdenAI{file_name}"
+        transcribe_id = response.json()['id']
         return AsyncLaunchJobResponseType(
             provider_job_id= transcribe_id
         )
@@ -105,7 +105,6 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
 
-        provider_job_id, file_name = provider_job_id.split("EdenAI")
         headers = {
             "authorization" : self.api_key
         }
@@ -115,7 +114,12 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         )
 
         if response.status_code != 200:
-            raise ProviderException(response.json().get("error"))
+            error_message = response.json().get('error')
+            if "transcript id not found" in error_message:
+                raise AsyncJobException(
+                    reason= AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
+            raise ProviderException(error_message)
 
         diarization_entries = []
         speakers = {}

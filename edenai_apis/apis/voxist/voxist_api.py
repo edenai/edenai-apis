@@ -1,5 +1,6 @@
 from io import BufferedReader
 import json
+import re
 from typing import Dict, List, Optional
 import requests
 from edenai_apis.features.provider.provider_interface import ProviderInterface
@@ -11,7 +12,7 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -106,17 +107,20 @@ class VoxistApi(ProviderInterface, AudioInterface):
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id
             )
-
-        if response.status_code != 200:
-            error = response.json().get("error")
+        
+        if error := response.json().get("error"):
+            if re.match(r"jobid (.)* is invalid", error):
+                raise AsyncJobException(
+                    reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
             raise ProviderException(error)
-
 
         diarization_entries = []
         speakers = set()
 
         original_response = response.json()
         text = ""
+        print(original_response)
 
         for i, phrase in enumerate(original_response):
             text += phrase["Lexical"]
