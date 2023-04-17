@@ -12,7 +12,7 @@ from edenai_apis.features.audio import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -131,10 +131,10 @@ class SymblApi(ProviderInterface, AudioInterface):
         if not original_response.get("status"):
             if isinstance(original_response.get("message"), str):
                 error_message = original_response.get("message")
-                if "Job with" in error_message:
-                    if "not found" in error_message:
-                        error_message= re.sub("Job with (.)* not found", f"Job with {provider_job_id} not found", error_message )
-                        raise ProviderException(error_message)
+                if all(fraction in error_message for fraction in ["Job with", "not found"]):
+                    raise AsyncJobException(
+                        reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    )
             raise ProviderException(original_response.get("message"))
 
         if original_response["status"] == "completed":

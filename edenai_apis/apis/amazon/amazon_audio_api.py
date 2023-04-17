@@ -5,6 +5,7 @@ import urllib
 import uuid
 import base64
 from io import BufferedReader, BytesIO
+from botocore.exceptions import BotoCoreError
 from edenai_apis.apis.amazon.helpers import amazon_speaking_rate_converter, generate_right_ssml_text, get_right_audio_support_and_sampling_rate
 
 from edenai_apis.features.audio.audio_interface import AudioInterface
@@ -17,7 +18,7 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
 from edenai_apis.utils.audio import retreive_voice_id
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -252,9 +253,17 @@ class AmazonAudioApi(AudioInterface):
                 )
 
         # check transcribe status
-        job_details = self.clients["speech"].get_transcription_job(
-            TranscriptionJobName=job_id
-        )
+        try:
+            job_details = self.clients["speech"].get_transcription_job(
+                TranscriptionJobName=job_id
+            )
+        except Exception as exp:
+            if "job couldn't be found" in str(exp):
+                raise AsyncJobException(
+                        reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    )
+            raise ProviderException(str(exp))
+        
         job_status = job_details["TranscriptionJob"]["TranscriptionJobStatus"]
         if job_status == "COMPLETED":
             # delete vocabulary
