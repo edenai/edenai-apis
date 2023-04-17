@@ -221,7 +221,7 @@ class TestFileWithGoodExtension:
         with pytest.raises(ProviderException) as exc:
             get_file_extension(file_wrapper, accepted_extensions)
         assert str(exc.value) == \
-            f"File extension not supported. Use one of the following extensions: {','.join(accepted_extensions)}"
+            f"File extension not supported. Use one of the following extensions: {', '.join(accepted_extensions)}"
 
     def test_raises_exception_on_mismatch_channels(self):
         data_path = os.path.join(base_path, "features/audio/data/out.wav")
