@@ -17,23 +17,6 @@ from edenai_apis.utils.resolutions import (
 
 )
 
-def validate_audio_format_and_voice_id(provider:str, constraints: dict, args: dict) -> dict:
-    provider_audio_format_constraints: List[str] = constraints.get("audio_format", [])
-
-    audio_format = args.get("audio_format")
-
-    #audio format
-    if not provider_audio_format_constraints:
-        return args
-    if audio_format and audio_format not in provider_audio_format_constraints:
-        raise ProviderException(f"Audio format not supported. Use one of the following: {', '.join(provider_audio_format_constraints)}")
-    
-    # get right voice id
-    voice_id = retreive_voice_id(provider, args["language"], args["option"], args["settings"])
-    args["voice_id"] = voice_id
-    del args["settings"]
-    return args
-
 def validate_input_file_extension(constraints: dict, args: dict) -> dict:
     """Check that a provider offers support for the input file extension for speech to text
 
@@ -226,8 +209,19 @@ def validate_all_input_languages(
         )
     return args
 
+def validate_audio_format(constraints: dict, args: dict) -> dict:
+    provider_audio_format_constraints: List[str] = constraints.get("audio_format", []) or []
+
+    audio_format = args.get("audio_format")
+
+    if audio_format and audio_format not in provider_audio_format_constraints:
+        raise ProviderException(f"Audio format not supported. Use one of the following: {', '.join(provider_audio_format_constraints)}")
+    
+    return args
+
+
 def validate_models(provider: str, constraints: dict, args: dict) -> Dict:
-    models = constraints.get('models')
+    models = constraints.get('models') or constraints.get('voice_ids')
     if not models:
         if 'settings' in args:
             del args["settings"]
@@ -235,15 +229,21 @@ def validate_models(provider: str, constraints: dict, args: dict) -> Dict:
     
     # get right model name
     settings = args.get("settings",{})
-    if provider in settings:
-        if constraints and settings[provider] in constraints["models"]:
-            selected_model = settings[provider]
+
+    # if it's a voice id for text_to_speech
+    if any(option in models for option in ["MALE", "FEMALE"]):
+        voice_id = retreive_voice_id(provider, args["language"], args["option"], args["settings"])
+        args["voice_id"] = voice_id
+    else: # otherwise
+        if settings and provider in settings:
+            if constraints and settings[provider] in models:
+                selected_model = settings[provider]
+            else:
+                all_availaible_models = ', '.join(models)
+                raise ProviderException(f"Wrong model name, availaible models for {provider} are : {all_availaible_models}")
         else:
-            all_availaible_models = ', '.join(constraints["models"])
-            raise ProviderException(f"Wrong model name, availaible models for {provider} are : {all_availaible_models}")
-    else:
-        selected_model = constraints.get('default_model')  
-    args["model"] = selected_model
+            selected_model = constraints.get('default_model')  
+        args["model"] = selected_model
     del args["settings"]
     return args
 
@@ -319,8 +319,8 @@ def validate_all_provider_constraints(
         )
 
         # Audio format for text to speech
-        validated_args = validate_audio_format_and_voice_id(
-            provider, provider_constraints, validated_args
+        validated_args = validate_audio_format(
+            provider_constraints, validated_args
         )
         
         #  Validate models

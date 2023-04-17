@@ -114,7 +114,7 @@ def get_file_extension(
     accepted_format, export_format = supported_extension(file, accepted_extensions)
 
     if not accepted_format:
-        raise ProviderException(f"File extension not supported. Use one of the following extensions: {','.join(accepted_extensions)}")
+        raise ProviderException(f"File extension not supported. Use one of the following extensions: {', '.join(accepted_extensions)}")
 
     if channels and channels != int(file.file_info.file_channels):
         raise ProviderException(f"File audio must be {__channel_number_to_str(channels)}")
