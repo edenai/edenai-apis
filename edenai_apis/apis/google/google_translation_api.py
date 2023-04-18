@@ -1,12 +1,12 @@
 import base64
-
-from io import BufferedReader
 from typing import Sequence
 
 from edenai_apis.features.translation.automatic_translation import (
     AutomaticTranslationDataClass,
 )
-from edenai_apis.features.translation.document_translation import DocumentTranslationDataClass
+from edenai_apis.features.translation.document_translation import (
+    DocumentTranslationDataClass,
+)
 from edenai_apis.features.translation.language_detection import (
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass,
@@ -78,6 +78,7 @@ class GoogleTranslationApi(TranslationInterface):
         file: str,
         source_language: str,
         target_language: str,
+        file_type: str,
         file_url: str=""
     ) -> ResponseType[DocumentTranslationDataClass]:
         client = self.clients["translate"]
@@ -87,7 +88,7 @@ class GoogleTranslationApi(TranslationInterface):
 
         document_input_config = {
         "content": file_.read(),
-        "mime_type": "application/pdf",
+        "mime_type": file_type,
         }
 
         try:

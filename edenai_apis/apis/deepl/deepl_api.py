@@ -52,6 +52,7 @@ class DeeplApi(ProviderInterface, TranslationInterface):
     def translation__document_translation(
         self,
         file: str,
+        file_type: str,
         source_language: str,
         target_language: str,
         file_url: str=""

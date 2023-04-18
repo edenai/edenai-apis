@@ -22,6 +22,7 @@ file_wrapper = FileWrapper(document_path, "", file_info)
 def document_translation_arguments() -> dict:
     return {
         "file": file_wrapper,
+        "file_type": file_info.file_media_type,
         "source_language": "en",
         "target_language": "fr"
     }
