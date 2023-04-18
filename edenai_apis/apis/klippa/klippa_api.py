@@ -1,5 +1,6 @@
 from io import BufferedReader
 from json import JSONDecodeError
+from typing import List
 
 import requests
 from edenai_apis.features import ProviderInterface, OcrInterface
@@ -95,19 +96,20 @@ class KlippaApi(ProviderInterface, OcrInterface):
             language=data_response["document_language"],
         )
 
-        item_lines = []
-        for item in data_response["lines"][0]['lineitems']:
-            item_lines.append(ItemLinesInvoice(
-                    description=item["description"],
-                    quantity=item["quantity"],
-                    unit_price=item["amount_each"],
-                    discount=item["discount_amount"],
-                    amount=item["amount"],
-                    tax_rate=item["vat_percentage"],
-                    tax_amount=item["vat_amount"],
-                    product_code=item["sku"],
+        item_lines: List[ItemLinesInvoice] = []
+        for line in data_response.get('lines', []):
+            for item in line.get('lineitems', []):
+                item_lines.append(ItemLinesInvoice(
+                        description=item["description"],
+                        quantity=item["quantity"],
+                        unit_price=item["amount_each"],
+                        discount=item["discount_amount"],
+                        amount=item["amount"],
+                        tax_rate=item["vat_percentage"],
+                        tax_amount=item["vat_amount"],
+                        product_code=item["sku"],
+                    )
                 )
-            )
 
         standardize_response =InvoiceParserDataClass(extracted_data=[InfosInvoiceParserDataClass(
             customer_information=customer_information,
@@ -168,15 +170,16 @@ class KlippaApi(ProviderInterface, OcrInterface):
             card_number=data_response["payment_card_number"],
         )
 
-        item_lines = []
-        for item in data_response["lines"][0]['lineitems']:
-            item_lines.append(ItemLines(
-                    description=item["description"],
-                    quantity=item["quantity"],
-                    unit_price=item["amount_each"],
-                    amount=item["amount"],
+        item_lines: List[ItemLines] = []
+        for line in data_response.get('lines', []):
+            for lineitem in line.get('linetimes', []):
+                item_lines.append(ItemLines(
+                        description=lineitem["description"],
+                        quantity=lineitem["quantity"],
+                        unit_price=lineitem["amount_each"],
+                        amount=lineitem["amount"],
+                    )
                 )
-            )
 
         info_receipt = [InfosReceiptParserDataClass(
             customer_information=customer_information,
