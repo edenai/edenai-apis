@@ -85,15 +85,6 @@ class InfosIdentityParserDataClass(BaseModel):
         value.value = value.value.title() if value.value else None
         return value
 
-    @validator('expire_date', 'issuance_date', 'birth_date')
-    def date_validator(cls, value):
-        if not value.value:
-            return None
-        try:
-            datetime.datetime.strptime(value.value, '%Y-%m-%d')
-        except ValueError:
-            raise ValueError("Incorrect data format, should be YYYY-MM-DD")
-        return value
 
     
 class IdentityParserDataClass(BaseModel):

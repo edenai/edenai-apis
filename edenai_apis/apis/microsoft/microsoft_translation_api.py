@@ -78,6 +78,11 @@ class MicrosoftTranslationApi(TranslationInterface):
         response = requests.post(url, headers=self.headers["translator"], json=body)
         data = response.json()
 
+        if response.status_code >= 400:
+            error = data.get("error", {}) or {}
+            error_message = error.get("message", "")
+            raise ProviderException(error_message)
+
         # Create output TextAutomaticTranslation object
         standardized_response = AutomaticTranslationDataClass(
             text=data[0]["translations"][0]["text"]

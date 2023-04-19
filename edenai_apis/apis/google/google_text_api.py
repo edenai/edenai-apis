@@ -18,10 +18,12 @@ from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass impor
     ExtractedTopic,
     TopicExtractionDataClass,
 )
+from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
 from google.cloud.language import Document as GoogleDocument
 from google.protobuf.json_format import MessageToDict
+from google.api_core.exceptions import InvalidArgument
 
 
 class GoogleTextApi(TextInterface):
@@ -182,9 +184,14 @@ class GoogleTextApi(TextInterface):
             content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
         )
         # Get Api response
-        response = self.clients["text"].classify_text(
-            document=document,
-        )
+        try:
+            response = self.clients["text"].classify_text(
+                document=document,
+            )
+        except InvalidArgument as invalid_arg_excp:
+            raise ProviderException(invalid_arg_excp.message)
+        except Exception as excp:
+            raise ProviderException(str(excp))
         # Create output response
         # Convert response to dict
         original_response = MessageToDict(response._pb)
