@@ -1,4 +1,5 @@
 from io import BufferedReader
+from typing import List
 import requests
 from collections import defaultdict
 from edenai_apis.features import OcrInterface
@@ -14,6 +15,7 @@ from edenai_apis.features.ocr import (
     ResumeWorkExp,
     ResumeWorkExpEntry,
 )
+from edenai_apis.features.ocr.resume_parser.resume_parser_dataclass import ResumeEducation
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -89,7 +91,7 @@ class HireabilityApi(ProviderInterface, OcrInterface):
         )
 
         # 2 Education
-        edu_entries = []
+        edu_entries: List[ResumeEducationEntry] = []
         for i in infos.get("EducationOrganizationAttendance",{}):
             title = i.get('EducationLevel',[{}])[0].get('Name')
             location = ResumeLocation(
@@ -108,7 +110,7 @@ class HireabilityApi(ProviderInterface, OcrInterface):
                     gpa = i.get('EducationScore',[''])[0],
                 )
             )
-        edu = ResumeEducationEntry(entries=edu_entries)
+        edu = ResumeEducation(entries=edu_entries)
 
         # 3 Work experience
         work_entries = []

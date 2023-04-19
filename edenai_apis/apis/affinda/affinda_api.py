@@ -1,5 +1,5 @@
 from io import BufferedReader
-from typing import Sequence
+from typing import List, Sequence
 from collections import defaultdict
 from affinda import AffindaAPI, TokenCredential
 from edenai_apis.features import OcrInterface
@@ -22,6 +22,7 @@ from edenai_apis.features.ocr import (
     BankInvoice,
     ItemLinesInvoice,
 )
+from edenai_apis.features.ocr.resume_parser.resume_parser_dataclass import ResumeEducation
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -98,7 +99,7 @@ class AffindaApi(ProviderInterface, OcrInterface):
         )
 
         # 2. Education
-        edu_entries = []
+        edu_entries: List[ResumeEducationEntry] = []
         for i in resume["education"]:
             location = i.get("location", {})
             address = ResumeLocation(
@@ -123,7 +124,7 @@ class AffindaApi(ProviderInterface, OcrInterface):
                 )
             )
 
-        edu = ResumeEducationEntry(entries=edu_entries)
+        edu = ResumeEducation(entries=edu_entries)
 
         # Work experience
         work_entries = []
