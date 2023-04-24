@@ -144,7 +144,7 @@ class AmazonOcrApi(OcrInterface):
                         field["ValueDetection"].get("NormalizedValue", {}).get("Value")
                     )
                     infos["expire_date"] = ItemIdentityParserDataClass(
-                        value=format_date(value, "%Y-%m-%dT%H:%M:%S"),
+                        value=format_date(value),
                         confidence=confidence,
                     )
                 elif field_type == "DATE_OF_BIRTH":
@@ -152,7 +152,7 @@ class AmazonOcrApi(OcrInterface):
                         field["ValueDetection"].get("NormalizedValue", {}).get("Value")
                     )
                     infos["birth_date"] = ItemIdentityParserDataClass(
-                        value=format_date(value, "%Y-%m-%dT%H:%M:%S"),
+                        value=format_date(value),
                         confidence=confidence,
                     )
                 elif field_type == "DATE_OF_ISSUE":
@@ -160,7 +160,7 @@ class AmazonOcrApi(OcrInterface):
                         field["ValueDetection"].get("NormalizedValue", {}).get("Value")
                     )
                     infos["issuance_date"] = ItemIdentityParserDataClass(
-                        value=format_date(value, "%Y-%m-%dT%H:%M:%S"),
+                        value=format_date(value),
                         confidence=confidence,
                     )
                 elif field_type == "ID_TYPE":
