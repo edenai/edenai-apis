@@ -1,4 +1,9 @@
+import json
 from typing import Dict, Sequence
+
+import requests
+
+from edenai_apis.utils.exception import ProviderException
 
 
 def get_formatted_language(language: str):
@@ -20,3 +25,13 @@ def calculate_bounding_box(points: Sequence[Dict], max_width, max_height):
         "height": max(points, key=lambda x: x["y"])["y"] / max_height
         - min(points, key=lambda x: x["y"])["y"] / max_height,
     }
+
+def handle_error_image_search(response: requests.Response):
+    message: str = "Unknown error"
+    try:
+        response_json = response.json()
+        message = response_json['error']
+    except json.JSONDecodeError:
+        response_json = {"error": "Unknown error"}
+    raise ProviderException(
+        message=message, code=response.status_code)

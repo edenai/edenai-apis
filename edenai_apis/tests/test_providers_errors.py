@@ -30,6 +30,7 @@ from features.audio.speech_to_text_async.speech_to_text_async_args import data_p
 from features.ocr.resume_parser.resume_parser_args import resume_parser_arguments
 
 
+@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
 class TestProviderErrors:
     def test_input_text_length_audio_ssml(self):
         error       = google_errors[ProviderInvalidInputTextLengthError][0]

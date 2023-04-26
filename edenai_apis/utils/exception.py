@@ -43,7 +43,7 @@ class AsyncJobException(ProviderException):
         if message:
             error_message = message
         else:
-            error_message = reason.value
+            error_message = reason.value if reason else None
         super().__init__(error_message, code)
 
 

@@ -33,13 +33,13 @@ from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 class GoogleAudioApi(AudioInterface):
     def audio__text_to_speech(
-        self, 
-        language: str, 
-        text: str, 
+        self,
+        language: str,
+        text: str,
         option: str,
         voice_id: str,
         audio_format: str,
-        speaking_rate: int, 
+        speaking_rate: int,
         speaking_pitch: int,
         speaking_volume: int,
         sampling_rate: int
@@ -51,22 +51,23 @@ class GoogleAudioApi(AudioInterface):
 
         voice = texttospeech.VoiceSelectionParams(
             language_code=language,
-            name = voice_id
+            name=voice_id
         )
 
         ext, audio_format = get_right_audio_support_and_sampling_rate(
-            audio_format, 
+            audio_format,
             texttospeech.AudioEncoding._member_names_)
 
-        audio_config_params = generate_tts_params(speaking_rate, speaking_pitch, speaking_volume)
+        audio_config_params = generate_tts_params(
+            speaking_rate, speaking_pitch, speaking_volume)
 
         audio_config_params.update({
-            "audio_encoding" : getattr(texttospeech.AudioEncoding, audio_format)
+            "audio_encoding": getattr(texttospeech.AudioEncoding, audio_format)
         })
 
         if sampling_rate:
             audio_config_params.update({
-                "sample_rate_hertz" : sampling_rate
+                "sample_rate_hertz": sampling_rate
             })
 
         audio_config = texttospeech.AudioConfig(
@@ -76,7 +77,8 @@ class GoogleAudioApi(AudioInterface):
         # Getting response of API
         try:
             response = client.synthesize_speech(
-                request={"input": input_text, "voice": voice, "audio_config": audio_config}
+                request={"input": input_text, "voice": voice,
+                         "audio_config": audio_config}
             )
         except Exception as excp:
             raise ProviderException(str(excp))
@@ -86,10 +88,11 @@ class GoogleAudioApi(AudioInterface):
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
 
         audio_content.seek(0)
-        resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
+        resource_url = upload_file_bytes_to_s3(
+            audio_content, f".{ext}", USER_PROCESS)
 
         standardized_response = TextToSpeechDataClass(
-            audio=audio, voice_type=voice_type, audio_resource_url = resource_url
+            audio=audio, voice_type=voice_type, audio_resource_url=resource_url
         )
         return ResponseType[TextToSpeechDataClass](
             original_response={},
@@ -113,7 +116,6 @@ class GoogleAudioApi(AudioInterface):
             raise ProviderException(str(exc)) from exc
         return phrase_set_response.name
 
-
     def audio__speech_to_text_async__launch_job(
         self,
         file: str,
@@ -122,7 +124,7 @@ class GoogleAudioApi(AudioInterface):
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model : str = None,
+        model: str = None,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
 
@@ -161,7 +163,8 @@ class GoogleAudioApi(AudioInterface):
             "enable_spoken_punctuation": True
         }
 
-        encoding, sampling = get_encoding_and_sample_rate(export_format.replace('audio/', ''))
+        encoding, sampling = get_encoding_and_sample_rate(
+            export_format.replace('audio/', ''))
 
         if encoding:
             params.update({
@@ -175,16 +178,19 @@ class GoogleAudioApi(AudioInterface):
         # create custum vocabulary phrase_set
         if vocabulary:
             name = self._create_vocabulary(vocabulary)
-            speech_adaptation = speech.SpeechAdaptation(phrase_set_references=[name])
+            speech_adaptation = speech.SpeechAdaptation(
+                phrase_set_references=[name])
             params.update({"adaptation": speech_adaptation})
 
         config = speech.RecognitionConfig(**params)
         try:
-            operation = client.long_running_recognize(config=config, audio=audio)
+            operation = client.long_running_recognize(
+                config=config, audio=audio)
         except Exception as exc:
             error = str(exc)
             if "bad encoding" in error:
-                raise ProviderException("Could not decode audio file, bad file encoding")
+                raise ProviderException(
+                    "Could not decode audio file, bad file encoding")
             raise ProviderException(error)
         operation_name = operation.operation.name
         return AsyncLaunchJobResponseType(provider_job_id=operation_name)
@@ -194,14 +200,14 @@ class GoogleAudioApi(AudioInterface):
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
         service = googleapiclient.discovery.build("speech", "v1")
         service_request_ = service.operations().get(name=provider_job_id)
-        
+
         try:
             original_response = service_request_.execute()
         except Exception as excp:
             error_message = str(excp)
             if "Unrecognized long running operation name" in error_message:
                 raise AsyncJobException(
-                    reason= AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
                 )
             raise ProviderException(error_message)
 
@@ -223,7 +229,15 @@ class GoogleAudioApi(AudioInterface):
 
                 diarization_entries = []
                 result = original_response["response"]["results"][-1]
-                words_info = result["alternatives"][0]["words"]
+
+                try:
+                    words_info = result["alternatives"][0]["words"]
+                except KeyError:
+                    words_info = []
+
+                if words_info == []:
+                    raise ProviderException("Empty response, try to convert your audio file to a 'wav' format. try to \
+                                            put the 'convert_to_wav' to True")
                 speakers = set()
 
                 for word_info in words_info:

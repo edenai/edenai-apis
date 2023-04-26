@@ -38,6 +38,8 @@ class AmazonTextApi(TextInterface):
         except ClientError as exc:
             if "languageCode" in str(exc):
                 raise LanguageException(str(exc))
+            else:
+                raise ProviderException(str(exc))
 
         # Analysing response
 
@@ -81,6 +83,8 @@ class AmazonTextApi(TextInterface):
         except ClientError as exc:
             if "languageCode" in str(exc):
                 raise LanguageException(str(exc))
+            else:
+                raise ProviderException(str(exc))
 
         # Analysing response
         items: Sequence[InfosKeywordExtractionDataClass] = []
@@ -140,6 +144,8 @@ class AmazonTextApi(TextInterface):
         except ClientError as exc:
             if "languageCode" in str(exc):
                 raise LanguageException(str(exc))
+            else:
+                raise ProviderException(str(exc))
 
         # Create output TextSyntaxAnalysis object
 
@@ -177,7 +183,8 @@ class AmazonTextApi(TextInterface):
         last_end = 0
         new_text = ""
         for entity in res["Entities"]:
-            new_text += text[last_end : entity["BeginOffset"]] + f"<{entity['Type']}>"
+            new_text += text[last_end: entity["BeginOffset"]
+                             ] + f"<{entity['Type']}>"
             last_end = entity["EndOffset"]
         standardized_response = AnonymizationDataClass(result=new_text)
         return ResponseType(

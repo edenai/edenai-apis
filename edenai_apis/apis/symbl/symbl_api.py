@@ -106,7 +106,7 @@ class SymblApi(ProviderInterface, AudioInterface):
 
         original_response = response.json()
         job_id = (
-            original_response["jobId"] + "###" + original_response["conversationId"]
+            original_response["jobId"] + "EdenAI" + original_response["conversationId"]
         )
 
         return AsyncLaunchJobResponseType(
@@ -116,7 +116,7 @@ class SymblApi(ProviderInterface, AudioInterface):
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-        job_id, conversation_id = provider_job_id.split("###")
+        job_id, conversation_id = provider_job_id.split("EdenAI")
 
         headers = {
             "Content-Type": "application/json",

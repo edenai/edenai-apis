@@ -15,6 +15,7 @@ from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.tests.conftest import global_features, only_async
 from edenai_apis.utils.constraints import validate_all_provider_constraints
+from edenai_apis.utils.exception import AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
 from edenai_apis.utils.compare import compare_responses
 
@@ -110,17 +111,38 @@ class CommonAsyncTests:
     def _test_get_job_result_does_not_exist(self, provider, feature, subfeature):
         logging.info(f"Testing get job result with invalid id for {provider}, {subfeature}..\n")
         # Step 1 (setup) : prepare a non-existent job ID
+        
         job_id = '12345678-1234-1234-1234-123456789abc'
+        custom_job_id = '12345678-1234-1234-1234-123456789abcEdenAIabdkla32421221akdakj'
+        google_id_operation = 'projects/148983085864/locations/europe-west1/operations/5890021581918958336'
+
+        exception_message_error = "Should return the right exception indicating that the job id is either wrong or old"
+
         try:
             subfeature_suffix = "__get_job_result"
             feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
             provider_get_job_result_method = getattr(feature_class, f"{subfeature}{subfeature_suffix}")(provider)
         except AttributeError:
             raise('Could not import provider get job method.')
-
+        
         # Step 2 & 3 (action & assert) : Call the feature with the non-existent job ID
-        with pytest.raises(Exception):
-            provider_get_job_result_method(provider, feature, subfeature, job_id)
+        try:
+            provider_get_job_result_method(job_id)
+        except ValueError as value_error_excp: # job id is composed of more than one information
+            try:
+                provider_get_job_result_method(custom_job_id)
+            except ProviderException as prov_excp:
+                assert AsyncJobExceptionReason.DEPRECATED_JOB_ID.value in str(prov_excp), exception_message_error
+        except ProviderException as provider_excp: #google provider job id has sometimes has another structure
+            if "does not match the pattern" in str(provider_excp): 
+                try:
+                    provider_get_job_result_method(google_id_operation)
+                except ProviderException as prov_excp:
+                    assert AsyncJobExceptionReason.DEPRECATED_JOB_ID.value in str(prov_excp), exception_message_error
+            else:
+                # str(provider_excp) == Provider returned an empty response is necessary for openai which return an empty response 
+                assert AsyncJobExceptionReason.DEPRECATED_JOB_ID.value in str(provider_excp) or \
+                      str(provider_excp) == "Provider returned an empty response", exception_message_error
         
     def _test_api_get_job_result_saved_output(self, provider, feature, subfeature):
         logging.info(f"Testing get job result with saved output for {provider}, {subfeature}..\n")
