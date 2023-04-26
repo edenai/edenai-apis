@@ -1,4 +1,5 @@
 from io import BufferedReader
+from pprint import pprint
 from typing import List, Optional, Sequence
 import requests
 
@@ -33,7 +34,8 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
     provider_name = "neuralspace"
 
     def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name)
         self.api_key = self.api_settings["api"]
         self.url = self.api_settings["url"]
         self.header = {
@@ -49,8 +51,11 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
 
         files = {"text": text, "language": language}
 
-        response = requests.request("POST", url, json=files, headers=self.header)
+        response = requests.request(
+            "POST", url, json=files, headers=self.header)
         if response.status_code != 200:
+            print(response.status_code)
+            pprint(response.json())
             if not response.json().get("success"):
                 raise ProviderException(response.json().get("message"))
 
@@ -71,7 +76,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
                     InfosNamedEntityRecognitionDataClass(
                         entity=text,
                         importance=None,
-                        category=category.replace('-',''),
+                        category=category.replace('-', ''),
                     )
                 )
 
@@ -92,7 +97,8 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
             "targetLanguage": target_language,
         }
 
-        response = requests.request("POST", url, json=files, headers=self.header)
+        response = requests.request(
+            "POST", url, json=files, headers=self.header)
         response = response.json()
 
         data = response["data"]
@@ -112,11 +118,15 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         url = f"{self.url}language-detection/v1/detect"
         files = {"text": text}
 
-        response = requests.request("POST", url, json=files, headers=self.header)
+        response = requests.request(
+            "POST", url, json=files, headers=self.header)
 
         original_response = response.json()
         if response.status_code != 200:
-            raise ProviderException(message=original_response['error'], code=response.status_code)
+            print(response.status_code)
+            print(response.json())
+            raise ProviderException(
+                message=original_response['error'], code=response.status_code)
 
         items: Sequence[InfosLanguageDetectionDataClass] = []
         for lang in original_response["data"]["detected_languages"]:
@@ -125,7 +135,8 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
                 items.append(
                     InfosLanguageDetectionDataClass(
                         language=lang["language"],
-                        display_name=get_language_name_from_code(isocode=lang['language']),
+                        display_name=get_language_name_from_code(
+                            isocode=lang['language']),
                         confidence=confidence
                     )
                 )
@@ -134,16 +145,15 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
             standardized_response=LanguageDetectionDataClass(items=items)
         )
 
-
     def audio__speech_to_text_async__launch_job(
-        self, 
-        file: str, 
-        language: str, 
+        self,
+        file: str,
+        language: str,
         speakers: int,
-        profanity_filter: bool, 
+        profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model : str = None,
+        model: str = None,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
 
@@ -153,62 +163,62 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         url_file_transcribe = f"{self.url}transcription/v1/file/transcribe"
         # first, upload file
         headers = {
-            "Authorization" : f"{self.api_key}"
+            "Authorization": f"{self.api_key}"
         }
         file_ = open(file, "rb")
-        files = {"files" : file_}
+        files = {"files": file_}
         response = requests.post(
-            url= url_file_upload,
+            url=url_file_upload,
             headers=headers,
-            files= files
+            files=files
         )
 
         file_.close()
         if response.status_code != 200:
-            raise ProviderException("Failed to upload file for transcription", response.status_code)
+            raise ProviderException(
+                "Failed to upload file for transcription", response.status_code)
 
         original_response = response.json()
         fileId = original_response.get('data').get('fileId')
-    
+
         # then, call spech to text api
         language_domain = get_domain_language_from_code(language)
-        payload= {
+        payload = {
             "fileId": fileId
         }
 
         if language_domain:
             payload.update({
                 "language": language_domain.get('language'),
-                "domain" : language_domain.get('domain')
+                "domain": language_domain.get('domain')
             })
 
         response = requests.post(
-            url = url_file_transcribe,
+            url=url_file_transcribe,
             headers=headers,
-            data= payload
+            data=payload
         )
         original_response = response.json()
         if response.status_code != 201:
             raise ProviderException(original_response.get('data').get('error'))
-        
+
         transcribeId = original_response.get('data').get('transcribeId')
 
         return AsyncLaunchJobResponseType(
-            provider_job_id = transcribeId
+            provider_job_id=transcribeId
         )
 
-    
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
 
         url_transcribe = f"{self.url}transcription/v1/single/transcription?transcribeId={provider_job_id}"
         headers = {
-            "Authorization" : f"{self.api_key}"
+            "Authorization": f"{self.api_key}"
         }
 
-        response= requests.get(
-            url= url_transcribe,
+        response = requests.get(
+            url=url_transcribe,
             headers=headers
         )
 
@@ -219,11 +229,11 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
             error = response.json().get("message") or data.get("message")
             if "Invalid transcribeId" in error:
                 raise AsyncJobException(
-                    reason= AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
                 )
             raise ProviderException(error)
 
-        diarization = SpeechDiarization(total_speakers=0, entries= [])
+        diarization = SpeechDiarization(total_speakers=0, entries=[])
         original_response = response.json()
         status = original_response.get('data').get('transcriptionStatus')
         if status != "Completed":
@@ -232,10 +242,10 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
             )
 
         return AsyncResponseType[SpeechToTextAsyncDataClass](
-            original_response = original_response,
-            standardized_response = SpeechToTextAsyncDataClass(
-                text = original_response.get('data').get('transcripts'),
-                diarization= diarization
+            original_response=original_response,
+            standardized_response=SpeechToTextAsyncDataClass(
+                text=original_response.get('data').get('transcripts'),
+                diarization=diarization
             ),
-            provider_job_id = provider_job_id
+            provider_job_id=provider_job_id
         )
