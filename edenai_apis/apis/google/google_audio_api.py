@@ -235,6 +235,9 @@ class GoogleAudioApi(AudioInterface):
                 except KeyError:
                     words_info = []
 
+                if words_info == []:
+                    raise ProviderException("Empty response, try to convert your audio file to a 'wav' format. try to \
+                                            put the 'convert_to_wav' to True")
                 speakers = set()
 
                 for word_info in words_info:
