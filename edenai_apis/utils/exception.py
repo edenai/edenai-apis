@@ -50,7 +50,6 @@ class AsyncJobException(ProviderException):
 class ProviderInternalServerError(ProviderException):
     """Error Occuring when Provider returns an internal server error"""
 
-
 class ProviderAuthorizationError(ProviderException):
     """When wrong API KEY or other auth related error"""
 
@@ -122,7 +121,7 @@ def get_appropriate_error(
     error_msg = str(exception)
 
     for exception_type, error_list in error_dict.items():
-        if any([re.match(error_pattern, error_msg) for error_pattern in error_list]):
+        if any([re.search(error_pattern, error_msg) for error_pattern in error_list]):
             return exception_type(error_msg)
 
     return exception
