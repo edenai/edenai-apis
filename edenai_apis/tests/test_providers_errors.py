@@ -1,17 +1,20 @@
+from time import sleep
 import mimetypes
 import os
 import re
+from pydub.utils import mediainfo
 
 import pytest
 from apis.google.errors import ERRORS as google_errors
 from apis.ibm.errors import ERRORS as ibm_errors
 from apis.microsoft.errors import ERRORS as microsoft_errors
 from apis.amazon.errors import ERRORS as amazon_errors
-from edenai_apis.interface import compute_output
+from edenai_apis.interface import compute_output, get_async_job_result
 from edenai_apis.loaders.data_loader import FeatureDataEnum
 from edenai_apis.loaders.loaders import load_feature
 from edenai_apis.utils.exception import (
     ProviderException,
+    ProviderInvalidInputAudioDurationError,
     ProviderInvalidInputFileError,
     ProviderInvalidInputFileFormatError,
     ProviderInvalidInputFileSizeError,
@@ -311,3 +314,40 @@ class TestProviderErrors:
         )
         assert re.search(error, str(exc.value)) is not None, f"didn't raise the right error, should be {error}, got {exc.value}"
 
+
+    def test_invalid_file_audio_duration(self):
+        error       = amazon_errors[ProviderInvalidInputAudioDurationError][0]
+        input_field = 'file'
+        feature     = 'audio'
+        subfeature  = 'speech_to_text_async'
+        args        = load_feature(
+                        FeatureDataEnum.SAMPLES_ARGS,
+                        feature=feature,
+                        subfeature=subfeature,
+        )
+
+        audio_path = f"{audio_data_path}/small.mp3"
+        mime_type = mimetypes.guess_type(audio_path)[0]
+        file_info= FileInfo(
+            os.stat(audio_path).st_size,
+            mime_type,
+            [extension[1:] for extension in mimetypes.guess_all_extensions(mime_type)],
+            mediainfo(audio_path).get("sample_rate", "44100"),
+            mediainfo(audio_path).get("channels", "1")
+        )
+        file_wrapper = FileWrapper(audio_path, "", file_info)
+        args[input_field] = file_wrapper
+
+        response = compute_output("amazon", feature, subfeature, args)
+        job_id = response['provider_job_id']
+
+        sleep(5)
+
+        with pytest.raises(ProviderException) as exc:
+            get_async_job_result('amazon', feature, subfeature, job_id)
+
+        assert exc.type == ProviderInvalidInputAudioDurationError, (
+            "exception raised wasn't the right one, expected "
+            f"{ProviderInvalidInputAudioDurationError.__name__} got {exc.type}"
+        )
+        assert re.search(error, str(exc.value)) is not None, f"didn't raise the right error, should be {error}, got {exc.value}"
