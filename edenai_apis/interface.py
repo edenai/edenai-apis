@@ -359,6 +359,9 @@ def get_async_job_result(
     subfeature_method_name = f'{subfeature}{f"__{phase}" if phase else ""}__get_job_result'
     subfeature_class = getattr(feature_class, subfeature_method_name)
 
-    subfeature_result = subfeature_class(provider_name)(async_job_id).dict()
+    try:
+        subfeature_result = subfeature_class(provider_name)(async_job_id).dict()
+    except ProviderException as exc:
+        raise get_appropriate_error(provider_name, exc)
 
     return subfeature_result
