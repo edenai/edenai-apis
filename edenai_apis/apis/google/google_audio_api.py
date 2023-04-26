@@ -223,7 +223,10 @@ class GoogleAudioApi(AudioInterface):
 
                 diarization_entries = []
                 result = original_response["response"]["results"][-1]
-                words_info = result["alternatives"][0]["words"]
+                words_info = result["alternatives"][0].get("words")
+                if not word_info:
+                    raise ProviderException("Empty response, try to convert your audio file to a 'wav' format. try to \
+                                            put the 'convert_to_wav' to True")
                 speakers = set()
 
                 for word_info in words_info:
