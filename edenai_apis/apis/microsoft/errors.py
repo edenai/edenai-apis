@@ -19,11 +19,11 @@ ERRORS: ProviderErrorLists = {
         r"No table found in the document.",
     ],
     ProviderLimitationError: [
-        r"Face List number reached limit\. (Parameter 'faceListCount')",
+        r"Face List number reached limit\. \(Parameter 'faceListCount'\)",
     ],
     ProviderInvalidInputError: [
-        r"Invalid Document in request",  # Document not referring to a file (appear in text features)
-        r"Job task: 'ExtractiveSummarization' failed with validation error: Job task parameter value '\d+' is not supported for sentenceCount parameter for job task type ExtractiveSummarization. Supported values 1 (min) to 20 (max).",
+        r"Invalid Document in request",  # Document not referring to a file (appears in text features)
+        r"Job task: 'ExtractiveSummarization' failed with validation error: Job task parameter value '\d+' is not supported for sentenceCount parameter for job task type ExtractiveSummarization. Supported values 1 \(min\) to 20 \(max\).",
         r"There is more than 1 face in the image.",
     ],
     ProviderInvalidInputFileError: [

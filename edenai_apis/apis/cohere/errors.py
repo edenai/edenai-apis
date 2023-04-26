@@ -20,7 +20,7 @@ ERRORS: ProviderErrorLists = {
         r"Failure",
     ],
     ProviderInvalidInputError: [
-        r"blocked output: please adjust your prompt and try again, as this generation may be a potential violation of our Usage Guidelines (https://docs.cohere.ai/usage-guidelines/).",
+        r"blocked output: please adjust your prompt and try again, as this generation may be a potential violation of our Usage Guidelines \(https://docs.cohere.ai/usage-guidelines/\).",
     ],
     ProviderInvalidInputTextLengthError: [
         r"text must be longer than 250 characters",

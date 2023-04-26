@@ -23,7 +23,7 @@ ERRORS: ProviderErrorLists = {
         r"400 Request payload size exceeds the limit:",
     ],
     ProviderInvalidInputFileSizeError: [
-        r"Document size (\d+) exceeds the limit: 20971520"
+        r"Document size \(\d+\) exceeds the limit: 20971520"
     ],
     ProviderInvalidInputDocumentPages: [
         r"400 Exceed the maximum PDF page support. Received: \d+. Support up to: 20",
