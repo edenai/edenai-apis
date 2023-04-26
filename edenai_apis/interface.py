@@ -238,7 +238,7 @@ def compute_output(
 
 
         try:
-            subfeature_result = subfeature_class(provider_name)(**args)
+            subfeature_result = subfeature_class(provider_name)(**args).dict()
         except ProviderException as exc:
             raise get_appropriate_error(provider_name, exc)
 
@@ -246,7 +246,7 @@ def compute_output(
     final_result: Dict[str, Any] = {
         "status": STATUS_SUCCESS,
         "provider": provider_name,
-        **subfeature_result.dict()
+        **subfeature_result
     }
 
     return final_result
