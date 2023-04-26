@@ -8,6 +8,7 @@ from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.utils.constraints import transform_file_args, validate_all_provider_constraints
 from edenai_apis.utils.compare import assert_equivalent_dict
+from edenai_apis.utils.exception import ProviderException, get_appropriate_error
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
 from edenai_apis.interface_v2 import (
     Audio,
@@ -235,12 +236,17 @@ def compute_output(
         subfeature_method_name = f'{subfeature}{f"__{phase}" if phase else ""}{suffix}'
         subfeature_class = getattr(feature_class, subfeature_method_name)
 
-        subfeature_result = subfeature_class(provider_name)(**args).dict()
+
+        try:
+            subfeature_result = subfeature_class(provider_name)(**args)
+        except ProviderException as exc:
+            raise get_appropriate_error(provider_name, exc)
+
 
     final_result: Dict[str, Any] = {
         "status": STATUS_SUCCESS,
         "provider": provider_name,
-        **subfeature_result
+        **subfeature_result.dict()
     }
 
     return final_result
