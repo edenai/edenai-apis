@@ -1,5 +1,5 @@
 from typing import Optional, Sequence
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 
 
 class SuggestionItem(BaseModel):
@@ -17,25 +17,7 @@ class SuggestionItem(BaseModel):
         SuggestionItem: An instance of the SuggestionItem class.
     """
     suggestion: str
-    score: Optional[float] = Field(default=None)
-
-    @validator('score')
-    def score_must_be_between_0_and_1(cls, v: float) -> float:
-        """
-        Validates if the score is between 0 and 1, and rounds it to 2 decimal places.
-
-        Args:
-            v (float): The score to validate.
-
-        Raises:
-            ValueError: If the score is not between 0 and 1.
-
-        Returns:
-            float: The rounded score.
-        """
-        if v is not None and (v < 0 or v > 1):
-            raise ValueError('Score must be between 0 and 1')
-        return round(v, 3)
+    score: Optional[float] = Field(ge=0, le=1)
 
 
 class SpellCheckItem(BaseModel):
@@ -57,45 +39,9 @@ class SpellCheckItem(BaseModel):
     """
     text: str
     type: str
-    offset: int
-    length: int
+    offset: int = Field(ge=0)
+    length: int = Field(ge=0)
     suggestions: Sequence[SuggestionItem] = Field(default_factory=list)
-
-    @validator('offset')
-    def offset_must_be_positive(cls, v: str) -> str:
-        """
-        Validates if the offset is positive.
-
-        Args:
-            v (int): The offset to validate.
-
-        Raises:
-            ValueError: If the offset is not positive.
-
-        Returns:
-            int: The validated offset.
-        """
-        if v < 0:
-            raise ValueError('Offset must be positive')
-        return v
-
-    @validator('length')
-    def length_must_be_positive(cls, v: str) -> str:
-        """
-        Validates if the length is positive.
-
-        Args:
-            v (int): The length to validate.
-
-        Raises:
-            ValueError: If the length is not positive.
-
-        Returns:
-            int: The validated length.
-        """
-        if v < 0:
-            raise ValueError('Length must be positive')
-        return v
 
 
 class SpellCheckDataClass(BaseModel):
