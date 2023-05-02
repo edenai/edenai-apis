@@ -1,6 +1,4 @@
 import json
-from io import BufferedReader
-from pprint import pprint
 from time import sleep
 from typing import List, Sequence, Dict, Union
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
@@ -36,7 +34,7 @@ from edenai_apis.utils.types import (
 from botocore.exceptions import ClientError
 
 from .helpers import (
-    check_webhook_result,
+    amazon_ocr_async_formatter,
     amazon_ocr_tables_parser,
     amazon_custom_document_parsing_formatter,
     amazon_invoice_parser_formatter,
@@ -102,7 +100,6 @@ class AmazonOcrApi(OcrInterface):
         file: str,
         file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
-
         file_ = open(file, "rb")
         original_response = self.clients["textract"].analyze_id(
             DocumentPages=[
@@ -503,3 +500,62 @@ class AmazonOcrApi(OcrInterface):
             original_response=pages,
             standardized_response=amazon_receipt_parser_formatter(pages),
         )
+
+    def ocr__ocr_async__launch_job(self, file: str, file_url: str = "") -> AsyncLaunchJobResponseType:
+        with open(file, "rb") as file_:
+            file_content = file_.read()
+
+        self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
+            Key=file, Body=file_content
+        )
+
+        try:
+            launch_job_response = self.clients["textract"].start_document_text_detection(
+                DocumentLocation={
+                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
+                }
+            )
+        except Exception as amazon_call_exception:
+            raise ProviderException(str(amazon_call_exception))
+
+        return AsyncLaunchJobResponseType(
+            provider_job_id=launch_job_response["JobId"]
+        )
+    
+    def ocr__ocr_async__get_job_result(self, provider_job_id: str) -> AsyncBaseResponseType[OcrDataClass]:
+        try:
+            response = self.clients["textract"].get_document_text_detection(
+                JobId=provider_job_id
+            )
+        except self.clients["textract"].exceptions.InvalidJobIdException as amazon_call_exception:
+            raise AsyncJobException(AsyncJobExceptionReason.DEPRECATED_JOB_ID, message=str(amazon_call_exception))
+
+        if response["JobStatus"] == "FAILED":
+            error: str = response.get(
+                "StatusMessage", "Amazon returned a job status: FAILED"
+            )
+            raise ProviderException(error)
+
+        if response["JobStatus"] == "SUCCEEDED":
+            pagination_token = response.get("NextToken")
+            responses = [response]
+
+            while pagination_token:
+                response = self.clients["textract"].get_document_text_detection(
+                    JobId=provider_job_id,
+                    NextToken=pagination_token,
+                )
+                responses.append(response)
+                pagination_token = response.get("NextToken")
+
+            return AsyncResponseType(
+                original_response=responses,
+                standardized_response=amazon_ocr_async_formatter(responses),
+                provider_job_id=provider_job_id
+            )
+        
+        return AsyncPendingResponseType(
+                provider_job_id=response["JobStatus"]
+            )
+
+        

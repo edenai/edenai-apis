@@ -15,6 +15,7 @@ from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     MerchantInformationInvoice,
     CustomerInformationInvoice,
     )
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import BoundingBox, Line, OcrAsyncDataClass, Word, Page as OcrAsyncPage
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     ReceiptParserDataClass,
     InfosReceiptParserDataClass,
@@ -527,3 +528,67 @@ def get_right_audio_support_and_sampling_rate(audio_format: str, sampling_rate: 
         if returned_audio_format != "pcm" else \
         min(pcm_sampling, key=lambda x: abs(x-sampling_rate))
     return audio_format, returned_audio_format, nearest_sampling
+
+def _convert_response_to_blocks_with_id(responses: list) -> dict:
+    """
+    Convert the blocks from the response to a dict with Id as key
+    """
+
+    blocks_dict = {}
+    for response in responses:
+        for block in response['Blocks']:
+            blocks_dict[block["Id"]] = block
+    return blocks_dict
+
+def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
+    """
+    Format the response from the OCR API to be more easily parsable
+
+    Args
+        response: the response from the OCR API
+
+    Returns
+        OcrAsyncDataClass: the formatted response
+    """
+    blocks: dict = _convert_response_to_blocks_with_id(responses)
+
+    pages: Sequence[OcrAsyncPage] = []
+    for id, block in blocks.items():
+        if block["BlockType"] != "PAGE":
+            continue
+
+        lines: Sequence[Line] = []
+        for block_id in block["Relationships"][0]["Ids"]:
+            if blocks[block_id]["BlockType"] != "LINE":
+                continue
+
+            words: Sequence[Word] = []
+            for word_id in blocks[block_id]["Relationships"][0]["Ids"]:
+                if blocks[word_id]["BlockType"] != "WORD":
+                    continue
+
+                word = Word(
+                    text=blocks[word_id]["Text"],
+                    bounding_boxes=BoundingBox.from_json(
+                        bounding_box=blocks[word_id]["Geometry"]["BoundingBox"],
+                        modifiers= lambda x: x.title()
+                    ),
+                    confidence = blocks[word_id]["Confidence"]
+                )
+                words.append(word)
+            
+            line = Line(
+                text=blocks[block_id]["Text"],
+                words=words,
+                bounding_boxes=BoundingBox.from_json(
+                    bounding_box=blocks[block_id]["Geometry"]["BoundingBox"],
+                    modifiers= lambda x: x.title()
+                ),
+                confidence = blocks[block_id]["Confidence"]
+            )
+            lines.append(line)
+
+        page = OcrAsyncPage(lines=lines)
+        pages.append(page)
+
+    return OcrAsyncDataClass(pages=pages)
