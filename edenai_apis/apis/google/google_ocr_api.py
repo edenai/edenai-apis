@@ -1,7 +1,9 @@
 import json
 import mimetypes
 from io import BufferedReader
+from pprint import pprint
 from typing import Sequence
+import uuid
 
 import googleapiclient.discovery
 from edenai_apis.apis.google.google_helpers import (
@@ -19,13 +21,10 @@ from edenai_apis.features.ocr import (
     Bounding_box,
     OcrDataClass,
     OcrTablesAsyncDataClass,
-    Page,
-    Row,
-    Table,
 )
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import OcrAsyncDataClass
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
-    CustomerInformation,
     InfosReceiptParserDataClass,
     ItemLines,
     Locale,
@@ -49,7 +48,7 @@ import google.auth
 
 from google.api_core.client_options import ClientOptions
 from google.cloud import documentai_v1beta3 as documentai
-from google.cloud import vision
+from google.cloud import vision, storage
 from google.cloud.documentai_v1beta3 import Document
 from google.cloud.vision_v1.types.image_annotator import (
     AnnotateImageResponse,
@@ -467,3 +466,36 @@ class GoogleOcrApi(OcrInterface):
         return AsyncPendingResponseType[OcrTablesAsyncDataClass](
             status="pending", provider_job_id=job_id
         )
+
+    def ocr__ocr_async__launch_job(self, file: str, file_url: str = "") -> AsyncLaunchJobResponseType:
+        filename: str = uuid.uuid4().hex + file.split("/")[-1]
+
+        gcs_output_uri = "gs://ocr-async/outputs"
+        gcs_input_uri = f"gs://ocr-async/{filename}"
+
+        ocr_async_bucket = self.clients["storage"].get_bucket("ocr-async")
+        new_blob = ocr_async_bucket.blob(filename)
+        new_blob.upload_from_filename(file)
+
+        feature = vision.Feature(type_=vision.Feature.Type.DOCUMENT_TEXT_DETECTION)
+
+        gcs_source = vision.GcsSource(uri=gcs_input_uri)
+        input_config = vision.InputConfig(
+            gcs_source=gcs_source, mime_type='application/pdf')
+
+        gcs_destination = vision.GcsDestination(uri=gcs_output_uri)
+        output_config = vision.OutputConfig(
+            gcs_destination=gcs_destination, batch_size=2)
+
+        async_request = vision.AsyncAnnotateFileRequest(
+            features=[feature], input_config=input_config,
+            output_config=output_config)
+
+        response = self.clients['image'].async_batch_annotate_files(
+            requests=[async_request])
+        
+        operation_id = response.operation.name.split("/")[-1]
+        return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+
+    def ocr__ocr_async__get_job_result(self, job_id: str) -> ResponseType[OcrAsyncDataClass]:
+        raise NotImplementedError
