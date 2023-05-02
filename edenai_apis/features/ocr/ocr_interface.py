@@ -168,7 +168,7 @@ class OcrInterface:
     def ocr__ocr_async__launch_job(
         self, 
         file: str, 
-        file_url: str= ""
+        file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
         """Optical Character Recognition on a file
 
