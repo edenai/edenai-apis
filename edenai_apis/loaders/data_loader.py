@@ -30,7 +30,7 @@ def _load_json(path: str) -> dict:
     return data
 
 
-def load_key(provider_name, location=False):
+def load_key(provider_name, location=False, api_keys = {}):
     """Get settings for a provider name
 
     Args:
@@ -38,12 +38,13 @@ def load_key(provider_name, location=False):
         location (bool, optional): Return as tuple
         and path is second. Defaults to False.
     """
+
+    data = api_keys if api_keys else _load_json(path)
     path = os.path.join(keys_path, provider_name + "_settings.json")
-    data = _load_json(path)
+
     if location:
         return data, path
-    else:
-        return data
+    return data
 
 
 @overload

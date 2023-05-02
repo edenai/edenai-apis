@@ -1,6 +1,6 @@
 from io import BufferedReader
 from collections import defaultdict
-from typing import List, Optional, Sequence, TypeVar
+from typing import Dict, List, Optional, Sequence, TypeVar
 from pydantic import StrictStr
 import requests
 
@@ -45,8 +45,8 @@ ParamsApi = TypeVar("ParamsApi")
 class MindeeApi(ProviderInterface, OcrInterface):
     provider_name = "mindee"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["ocr_invoice"]["subscription_key"]
         self.url = self.api_settings["ocr_invoice"]["url"]
         self.url_receipt = self.api_settings["ocr_receipt"]["url"]

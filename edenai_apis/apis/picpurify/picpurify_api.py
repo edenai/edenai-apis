@@ -1,5 +1,6 @@
 from io import BufferedReader
 import json
+from typing import Dict
 from PIL import Image as Img
 import requests
 
@@ -22,8 +23,8 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
 
     provider_name = "picpurify"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.key = self.api_settings["API_KEY"]
         self.url = self.api_settings["URL"]
 

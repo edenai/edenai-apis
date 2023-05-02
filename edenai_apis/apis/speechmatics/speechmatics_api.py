@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Dict, Optional, List
 import json
 import requests
 from edenai_apis.features import ProviderInterface, AudioInterface
@@ -15,8 +15,8 @@ from edenai_apis.features.audio.speech_to_text_async import (
 class SpeechmaticsApi(ProviderInterface, AudioInterface):
     provider_name = "speechmatics"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.key = self.api_settings["speechmatics_key"]
         self.base_url = self.api_settings['speechmatics_url']
         self.headers = {

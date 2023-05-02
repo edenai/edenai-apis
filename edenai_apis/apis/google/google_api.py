@@ -1,4 +1,5 @@
 import os
+from typing import Dict
 
 from edenai_apis.apis.google.google_audio_api import GoogleAudioApi
 from edenai_apis.apis.google.google_image_api import GoogleImageApi
@@ -27,9 +28,10 @@ class GoogleApi(
 ):
     provider_name = "google"
 
-    def __init__(self):
+    def __init__(self, api_keys: Dict = {}):
         self.api_settings, location = load_provider(
-            ProviderDataEnum.KEY, provider_name=self.provider_name, location=True
+            ProviderDataEnum.KEY, provider_name=self.provider_name, location=True,
+            api_keys = api_keys
         )
         self.project_id = self.api_settings["project_id"]
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = location

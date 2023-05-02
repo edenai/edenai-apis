@@ -1,6 +1,6 @@
 from io import BufferedReader
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 import requests
 from time import time
 from edenai_apis.features import ProviderInterface, AudioInterface
@@ -26,8 +26,8 @@ from .helper import language_matches
 class AssemblyApi(ProviderInterface, AudioInterface):
     provider_name = "assembly"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["assembly_key"]
         self.url = self.api_settings["url"]
         self.url_upload_file = f"{self.url}/upload"

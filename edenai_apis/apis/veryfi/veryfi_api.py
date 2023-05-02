@@ -1,6 +1,7 @@
 from http import HTTPStatus
 from io import BufferedReader
 import mimetypes
+from typing import Dict
 import uuid
 
 import requests
@@ -35,8 +36,8 @@ from edenai_apis.utils.exception import ProviderException
 class VeryfiApi(ProviderInterface, OcrInterface):
     provider_name = "veryfi"
 
-    def __init__(self):
-        self.api_settings = load_key(provider_name=self.provider_name)
+    def __init__(self, api_keys: Dict = {}):
+        self.api_settings = load_key(provider_name=self.provider_name, api_keys = api_keys)
         self.client_id = self.api_settings["client_id"]
         self.client_secret = self.api_settings["client_secret"]
         self.authorization = self.api_settings["Authorization"]

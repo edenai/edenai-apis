@@ -1,5 +1,5 @@
 from io import BufferedReader
-from typing import Any, Sequence
+from typing import Any, Dict, Sequence
 from time import sleep
 import requests
 
@@ -23,8 +23,8 @@ from edenai_apis.utils.types import ResponseType
 class TabscannerApi(ProviderInterface, OcrInterface):
     provider_name = "tabscanner"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api_key"]
         self.url = self.api_settings["url"]
 

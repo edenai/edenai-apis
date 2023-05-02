@@ -1,5 +1,5 @@
 from io import BufferedReader
-from typing import Sequence
+from typing import Dict, Sequence
 import requests
 
 from edenai_apis.features import ProviderInterface, ImageInterface
@@ -19,8 +19,8 @@ from edenai_apis.utils.exception import ProviderException
 class SmartClickApi(ProviderInterface, ImageInterface):
     provider_name = "smartclick"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.key = self.api_settings["key"]
         self.base_url = self.api_settings['base_url']
         self.headers = {

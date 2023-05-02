@@ -1,5 +1,5 @@
 from io import BufferedReader
-from typing import Sequence
+from typing import Dict, Sequence
 import requests
 from pdf2image.pdf2image import convert_from_bytes
 
@@ -46,8 +46,8 @@ class Api4aiApi(
 
     provider_name = "api4ai"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["key"]
         self.urls = {
             "object_detection": f"{self.api_settings['object_detection']['url']}"

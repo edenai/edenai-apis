@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Sequence
+from typing import Dict, Sequence
 import requests
 from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass, SpellCheckItem, SuggestionItem
 from edenai_apis.features.text.text_interface import TextInterface
@@ -12,8 +12,8 @@ from edenai_apis.utils.types import ResponseType
 class ProWritingAidApi(ProviderInterface, TextInterface):
     provider_name = "prowritingaid"
 
-    def __init__(self):
-        api_settings = load_provider(ProviderDataEnum.KEY, provider_name=self.provider_name)
+    def __init__(self, api_keys: Dict = {}):
+        api_settings = load_provider(ProviderDataEnum.KEY, provider_name=self.provider_name, api_keys = api_keys)
         self.api_key = api_settings['api_key']
         self.api_url = api_settings['url']
 

@@ -1,6 +1,7 @@
 
 from io import BufferedReader
 from pathlib import Path
+from typing import Dict
 import requests
 import json
 from time import time
@@ -28,8 +29,8 @@ from edenai_apis.utils.upload_s3 import upload_file_to_s3
 class DeepgramApi(ProviderInterface, AudioInterface):
     provider_name = "deepgram"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_settings_amazon = load_provider(ProviderDataEnum.KEY, "amazon")
         self.api_key = self.api_settings["deepgram_key"]
         self.url = self.api_settings["url"]

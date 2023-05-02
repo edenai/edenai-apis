@@ -25,9 +25,9 @@ from edenai_apis.utils.types import (
 class VoxistApi(ProviderInterface, AudioInterface):
     provider_name: str = "voxist"
 
-    def __init__(self) -> None:
+    def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings: Dict = load_provider(
-            ProviderDataEnum.KEY, self.provider_name
+            ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys
         )
         self.username: str = self.api_settings["username"]
         self.password: str = self.api_settings["password"]

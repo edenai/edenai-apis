@@ -1,5 +1,5 @@
 from asyncio import sleep
-from typing import List, Optional
+from typing import Dict, List, Optional
 import requests
 
 from edenai_apis.features import ProviderInterface, TextInterface, TranslationInterface
@@ -16,8 +16,8 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
     provider_name = "huggingface"
     base_url = "https://api-inference.huggingface.co/models"
 
-    def __init__(self) -> None:
-        self.api_key = load_provider(ProviderDataEnum.KEY, "huggingface")[
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_key = load_provider(ProviderDataEnum.KEY, "huggingface", api_keys = api_keys)[
             "api_key"
         ]
 

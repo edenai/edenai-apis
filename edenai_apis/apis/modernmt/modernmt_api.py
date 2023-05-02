@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Dict, Sequence
 import requests
 
 from edenai_apis.features.translation import (
@@ -17,8 +17,8 @@ from edenai_apis.utils.types import ResponseType
 class ModernmtApi(ProviderInterface, TranslationInterface):
     provider_name = "modernmt"
 
-    def __init__(self):
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}):
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.header = {
             'MMT-ApiKey' : self.api_settings["api_key"]
         }

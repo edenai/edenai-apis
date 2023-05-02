@@ -1,3 +1,4 @@
+from typing import Dict
 from edenai_apis.apis.microsoft.microsoft_audio_api import MicrosoftAudioApi
 from edenai_apis.apis.microsoft.microsoft_helpers import (
     get_microsoft_headers,
@@ -22,10 +23,10 @@ class MicrosoftApi(
 ):
     provider_name = "microsoft"
 
-    def __init__(self, user=None):
+    def __init__(self, user=None, api_keys: Dict = {}):
         super().__init__()
 
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.headers = get_microsoft_headers()
         self.url = get_microsoft_urls()
         self.user = user

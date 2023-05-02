@@ -1,6 +1,7 @@
 from enum import Enum
 from io import BufferedReader
 from time import sleep
+from typing import Dict
 import requests
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import BankInvoice, CustomerInformationInvoice, InfosInvoiceParserDataClass, InvoiceParserDataClass, ItemLinesInvoice, LocaleInvoice, MerchantInformationInvoice, TaxesInvoice
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
@@ -14,8 +15,8 @@ from edenai_apis.utils.types import ResponseType
 class RossumApi(ProviderInterface, OcrInterface):
     provider_name = "rossum"
 
-    def __init__(self):
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}):
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.username = self.api_settings["username"]
         self.password = self.api_settings["password"]
         self.url = self.api_settings["url"]

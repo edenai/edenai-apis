@@ -1,5 +1,5 @@
 from io import BufferedReader
-from typing import Sequence
+from typing import Dict, Sequence
 from google.protobuf.json_format import MessageToDict
 from clarifai_grpc.grpc.api import resources_pb2, service_pb2, service_pb2_grpc
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
@@ -41,8 +41,8 @@ class ClarifaiApi(
 ):
     provider_name = "clarifai"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.user_id = self.api_settings["user_id"]
         self.app_id = self.api_settings["app_id"]
         self.key = self.api_settings["key"]

@@ -1,5 +1,5 @@
 from io import BufferedReader, BytesIO
-from typing import Sequence
+from typing import Dict, Sequence
 from PIL import Image as Img
 import base64
 import requests
@@ -34,9 +34,9 @@ from .sentisight_helpers import calculate_bounding_box, get_formatted_language, 
 class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
     provider_name: str = "sentisight"
 
-    def __init__(self) -> None:
+    def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name)
+            ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.key = self.api_settings["auth-token"]
         self.base_url = self.api_settings["baseUrl"]
         self.headers = {"X-Auth-token": self.key,

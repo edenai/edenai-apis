@@ -1,6 +1,6 @@
 from io import BufferedReader
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 import requests
 import uuid
 from time import time
@@ -30,8 +30,8 @@ from edenai_apis.utils.upload_s3 import upload_file_to_s3
 class RevAIApi(ProviderInterface, AudioInterface):
     provider_name = "revai"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_settings_amazon = load_provider(ProviderDataEnum.KEY, "amazon")
         self.key = self.api_settings["revai_key"]
         self.bucket_name = self.api_settings["bucket"]

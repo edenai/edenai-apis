@@ -1,6 +1,6 @@
 from io import BufferedReader
 from pprint import pprint
-from typing import List, Optional, Sequence
+from typing import Dict, List, Optional, Sequence
 import requests
 
 from edenai_apis.features import ProviderInterface, TextInterface, TranslationInterface
@@ -33,9 +33,9 @@ from .config import get_domain_language_from_code
 class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
     provider_name = "neuralspace"
 
-    def __init__(self) -> None:
+    def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name)
+            ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api"]
         self.url = self.api_settings["url"]
         self.header = {

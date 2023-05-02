@@ -1,5 +1,6 @@
 from io import BufferedReader
 import json
+from typing import Dict
 import requests
 import re
 import os
@@ -25,8 +26,8 @@ from edenai_apis.utils.types import (
 class SymblApi(ProviderInterface, AudioInterface):
     provider_name = "symbl"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.app_id = self.api_settings["app_id"]
         self.app_secret = self.api_settings["app_secret"]
         self._get_access_token()
