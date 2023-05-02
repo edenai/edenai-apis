@@ -51,11 +51,14 @@ class GoogleTranslationApi(TranslationInterface):
     def translation__language_detection(
         self, text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
-        response = self.clients["translate"].detect_language(
-            parent=f"projects/{self.project_id}/locations/global",
-            content=text,
-            mime_type="text/plain",
-        )
+        try:
+            response = self.clients["translate"].detect_language(
+                parent=f"projects/{self.project_id}/locations/global",
+                content=text,
+                mime_type="text/plain",
+            )
+        except Exception as exc:
+            raise ProviderException(str(exc))
 
         items: Sequence[InfosLanguageDetectionDataClass] = []
         for language in response.languages:

@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import Optional, Sequence, Literal
-from pydantic import BaseModel, Field, validator, ValidationError
+from pydantic import BaseModel, Field, validator
 
 class SentimentEnum(Enum):
     POSITIVE = 'Positive'
@@ -17,7 +17,7 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
     """
     segment: str
     sentiment: Literal["Positive", "Negative", "Neutral"]
-    sentiment_rate: Optional[float]
+    sentiment_rate: Optional[float] = Field(ge=0, le=1)
 
     @validator('segment', pre=True)
     @classmethod
@@ -39,10 +39,10 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
     @validator('sentiment_rate', pre=True)
     @classmethod
     def valid_sentiment_rate(cls, value):
+        if value is None:
+            return value
         if not isinstance(value, (float, int)):
             raise TypeError(f"Sentiment rate must be a float, not {type(value)}")
-        if value < 0 or value > 1:
-            raise ValueError(f"{value} are not allowed. Sentiment rate me be contains between 0 and 1")
         return round(value, 2)
 
 
@@ -55,7 +55,7 @@ class SentimentAnalysisDataClass(BaseModel):
         - items (Sequence[SegmentSentimentAnalysisDataClass]): Lists of the different segments analyzed. For more informations, looks at SegmentSentimentAnalysisDataClass's documentations (Default: [])
     """
     general_sentiment: Literal["Positive", "Negative", "Neutral"]
-    general_sentiment_rate: Optional[float]
+    general_sentiment_rate: Optional[float] = Field(ge=0, le=1)
     items: Sequence[SegmentSentimentAnalysisDataClass] = Field(default_factory=list)
 
     @validator('general_sentiment', pre=True)
@@ -71,8 +71,8 @@ class SentimentAnalysisDataClass(BaseModel):
     @validator('general_sentiment_rate', pre=True)
     @classmethod
     def valid_general_sentiment_rate(cls, value):
+        if value is None:
+            return value
         if not isinstance(value, (float, int)):
             raise TypeError(f"General sentiment rate must be a float, not {type(value)}")
-        if value < 0 or value > 1:
-            raise ValueError(f"{value} are not allowed. General sentiment rate me be contains between 0 and 1")
         return round(value, 2)

@@ -236,8 +236,9 @@ class GoogleAudioApi(AudioInterface):
                     words_info = []
 
                 if words_info == []:
-                    raise ProviderException("Empty response, try to convert your audio file to a 'wav' format. try to \
-                                            put the 'convert_to_wav' to True")
+                    error_message= ("Provider has returned an empty response, try to convert your audio file to a 'wav' format, " 
+                                    "or try to put the 'convert_to_wav' parameter to true")
+                    raise ProviderException(error_message)
                 speakers = set()
 
                 for word_info in words_info:

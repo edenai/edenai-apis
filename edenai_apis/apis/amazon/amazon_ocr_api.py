@@ -312,7 +312,7 @@ class AmazonOcrApi(OcrInterface):
         try:
             response = self.clients["textract"].get_document_analysis(
                 JobId=provider_job_id)
-        except self.clients["rekognition"].exceptions.InvalidParameterException as exc:
+        except self.clients["image"].exceptions.InvalidParameterException as exc:
             raise ProviderException(
                 'Invalid Parameter: Only english are supported.')
         except ClientError as excp:

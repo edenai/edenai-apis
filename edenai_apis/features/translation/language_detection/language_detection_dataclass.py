@@ -10,6 +10,8 @@ class InfosLanguageDetectionDataClass(BaseModel):
     @validator('confidence')
     @classmethod
     def normalize_confidence(cls, value):
+        if value is None:
+            return value
         return round(value, 2)
 
 

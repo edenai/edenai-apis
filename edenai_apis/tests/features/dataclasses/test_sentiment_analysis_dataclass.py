@@ -1,3 +1,4 @@
+import re
 from pydantic import ValidationError
 import pytest
 
@@ -106,13 +107,13 @@ class TestSegmentSentimentAnalysisDataClass:
                 segment="Valid segment",
                 sentiment=SentimentEnum.POSITIVE.value,
                 sentiment_rate=-1,
-                expected={ 'raise_type': ValueError, 'raise_message': ' Sentiment rate me be contains between 0 and 1' },
+                expected={ 'raise_type': ValidationError, 'raise_message': re.escape('1 validation error for SegmentSentimentAnalysisDataClass\nsentiment_rate\n  ensure this value is greater than or equal to 0 (type=value_error.number.not_ge; limit_value=0)') },
             ),
             _assign_markers_parametrize(
                 segment="Valid segment",
                 sentiment=SentimentEnum.POSITIVE.value,
                 sentiment_rate=2,
-                expected={ 'raise_type': ValueError, 'raise_message': ' Sentiment rate me be contains between 0 and 1' },
+                expected={ 'raise_type': ValidationError, 'raise_message': re.escape('1 validation error for SegmentSentimentAnalysisDataClass\nsentiment_rate\n  ensure this value is less than or equal to 1 (type=value_error.number.not_le; limit_value=1)') },
             ),
         ],
         ids=[
@@ -204,13 +205,13 @@ class TestSentimentAnalysisDataClass:
                 items=ITEMS,
                 general_sentiment=SentimentEnum.POSITIVE.value,
                 general_sentiment_rate=-1,
-                expected={ 'raise_type': ValueError, 'raise_message': 'General sentiment rate me be contains between 0 and 1' },
+                expected={ 'raise_type': ValidationError, 'raise_message': re.escape('1 validation error for SentimentAnalysisDataClass\ngeneral_sentiment_rate\n  ensure this value is greater than or equal to 0 (type=value_error.number.not_ge; limit_value=0)') },
             ),
             _assign_markers_parametrize(
                 items=ITEMS,
                 general_sentiment=SentimentEnum.POSITIVE.value,
                 general_sentiment_rate=2,
-                expected={ 'raise_type': ValueError, 'raise_message': 'General sentiment rate me be contains between 0 and 1' },
+                expected={ 'raise_type': ValidationError, 'raise_message': re.escape('1 validation error for SentimentAnalysisDataClass\ngeneral_sentiment_rate\n  ensure this value is less than or equal to 1 (type=value_error.number.not_le; limit_value=1)') },
             ),
         ],
         ids=[
