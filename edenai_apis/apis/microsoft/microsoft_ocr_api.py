@@ -28,12 +28,7 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
 )
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
-    BoundixBoxOCRTable,
-    Cell,
     OcrTablesAsyncDataClass,
-    Page,
-    Row,
-    Table,
 )
 from edenai_apis.utils.conversion import add_query_param_in_url
 from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
