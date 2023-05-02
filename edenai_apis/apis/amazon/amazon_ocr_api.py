@@ -527,8 +527,11 @@ class AmazonOcrApi(OcrInterface):
             response = self.clients["textract"].get_document_text_detection(
                 JobId=provider_job_id
             )
-        except self.clients["textract"].exceptions.InvalidJobIdException as amazon_call_exception:
-            raise AsyncJobException(AsyncJobExceptionReason.DEPRECATED_JOB_ID, message=str(amazon_call_exception))
+        except ClientError as amazon_call_exception:
+            error_message: str = str(amazon_call_exception)
+            if "InvalidJobIdException" in error_message:
+                raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
+            raise ProviderException(error_message)
 
         if response["JobStatus"] == "FAILED":
             error: str = response.get(
@@ -541,10 +544,23 @@ class AmazonOcrApi(OcrInterface):
             responses = [response]
 
             while pagination_token:
-                response = self.clients["textract"].get_document_text_detection(
-                    JobId=provider_job_id,
-                    NextToken=pagination_token,
-                )
+                try:
+                    response = self.clients["textract"].get_document_text_detection(
+                        JobId=provider_job_id,
+                        NextToken=pagination_token,
+                    )
+                except ClientError as amazon_call_exception:
+                    error_message: str = str(amazon_call_exception)
+                    if "InvalidJobIdException" in error_message:
+                        raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
+                    raise ProviderException(error_message)
+
+                if response["JobStatus"] == "FAILED":
+                    error: str = response.get(
+                        "StatusMessage", "Amazon returned a job status: FAILED"
+                    )
+                    raise ProviderException(error)
+
                 responses.append(response)
                 pagination_token = response.get("NextToken")
 
@@ -557,5 +573,3 @@ class AmazonOcrApi(OcrInterface):
         return AsyncPendingResponseType(
                 provider_job_id=response["JobStatus"]
             )
-
-        

@@ -553,7 +553,7 @@ def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
     blocks: dict = _convert_response_to_blocks_with_id(responses)
 
     pages: Sequence[OcrAsyncPage] = []
-    for id, block in blocks.items():
+    for _, block in blocks.items():
         if block["BlockType"] != "PAGE":
             continue
 
@@ -582,7 +582,7 @@ def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
                 words=words,
                 bounding_boxes=BoundingBox.from_json(
                     bounding_box=blocks[block_id]["Geometry"]["BoundingBox"],
-                    modifiers= lambda x: x.title()
+                    modifiers=lambda x: x.title()
                 ),
                 confidence = blocks[block_id]["Confidence"]
             )
@@ -591,4 +591,4 @@ def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
         page = OcrAsyncPage(lines=lines)
         pages.append(page)
 
-    return OcrAsyncDataClass(pages=pages)
+    return OcrAsyncDataClass(pages=pages, number_of_pages=len(pages))
