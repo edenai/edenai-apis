@@ -21,5 +21,5 @@ file_info= FileInfo(
 )
 file_wrapper = FileWrapper(ocr_path, "", file_info)
 
-def ocr_async_arguments() -> Dict:
-    return {"file": file_wrapper, "language": "en"}
+def ocr_arguments() -> Dict:
+    return {"file": file_wrapper}
