@@ -34,7 +34,11 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     Taxes,
 )
 from edenai_apis.utils.conversion import convert_string_to_number
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
+)
 from edenai_apis.utils.pdfs import get_pdf_width_height
 from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
@@ -63,7 +67,6 @@ class GoogleOcrApi(OcrInterface):
         language: str,
         file_url: str = "",
     ) -> ResponseType[OcrDataClass]:
-
         with open(file, "rb") as file_:
             file_content = file_.read()
 
@@ -433,7 +436,7 @@ class GoogleOcrApi(OcrInterface):
         except Exception as excp:
             if "Operation not found" in str(excp):
                 raise AsyncJobException(
-                    reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
                 )
             raise ProviderException(str(excp))
 
@@ -467,35 +470,35 @@ class GoogleOcrApi(OcrInterface):
             status="pending", provider_job_id=job_id
         )
 
-    def ocr__ocr_async__launch_job(self, file: str, file_url: str = "") -> AsyncLaunchJobResponseType:
-        filename: str = uuid.uuid4().hex + file.split("/")[-1]
+    # def ocr__ocr_async__launch_job(self, file: str, file_url: str = "") -> AsyncLaunchJobResponseType:
+    #     filename: str = uuid.uuid4().hex + file.split("/")[-1]
 
-        gcs_output_uri = "gs://ocr-async/outputs"
-        gcs_input_uri = f"gs://ocr-async/{filename}"
+    #     gcs_output_uri = "gs://ocr-async/outputs"
+    #     gcs_input_uri = f"gs://ocr-async/{filename}"
 
-        ocr_async_bucket = self.clients["storage"].get_bucket("ocr-async")
-        new_blob = ocr_async_bucket.blob(filename)
-        new_blob.upload_from_filename(file)
+    #     ocr_async_bucket = self.clients["storage"].get_bucket("ocr-async")
+    #     new_blob = ocr_async_bucket.blob(filename)
+    #     new_blob.upload_from_filename(file)
 
-        feature = vision.Feature(type_=vision.Feature.Type.DOCUMENT_TEXT_DETECTION)
+    #     feature = vision.Feature(type_=vision.Feature.Type.DOCUMENT_TEXT_DETECTION)
 
-        gcs_source = vision.GcsSource(uri=gcs_input_uri)
-        input_config = vision.InputConfig(
-            gcs_source=gcs_source, mime_type='application/pdf')
+    #     gcs_source = vision.GcsSource(uri=gcs_input_uri)
+    #     input_config = vision.InputConfig(
+    #         gcs_source=gcs_source, mime_type='application/pdf')
 
-        gcs_destination = vision.GcsDestination(uri=gcs_output_uri)
-        output_config = vision.OutputConfig(
-            gcs_destination=gcs_destination, batch_size=2)
+    #     gcs_destination = vision.GcsDestination(uri=gcs_output_uri)
+    #     output_config = vision.OutputConfig(
+    #         gcs_destination=gcs_destination, batch_size=2)
 
-        async_request = vision.AsyncAnnotateFileRequest(
-            features=[feature], input_config=input_config,
-            output_config=output_config)
+    #     async_request = vision.AsyncAnnotateFileRequest(
+    #         features=[feature], input_config=input_config,
+    #         output_config=output_config)
 
-        response = self.clients['image'].async_batch_annotate_files(
-            requests=[async_request])
-        
-        operation_id = response.operation.name.split("/")[-1]
-        return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+    #     response = self.clients['image'].async_batch_annotate_files(
+    #         requests=[async_request])
 
-    def ocr__ocr_async__get_job_result(self, job_id: str) -> ResponseType[OcrAsyncDataClass]:
-        raise NotImplementedError
+    #     operation_id = response.operation.name.split("/")[-1]
+    #     return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+
+    # def ocr__ocr_async__get_job_result(self, job_id: str) -> ResponseType[OcrAsyncDataClass]:
+    #     raise NotImplementedError

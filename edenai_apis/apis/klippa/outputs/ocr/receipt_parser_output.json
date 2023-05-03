@@ -372,6 +372,7 @@
       "matched_purchase_order_id": "",
       "matched_purchase_orders": null,
       "matched_project_code_id": "",
+      "matched_entity_id": null,
       "barcodes": [
         {
           "type": "EAN13",
@@ -382,7 +383,7 @@
       "hash_duplicate": true,
       "raw_text": "              SC AUCHAN ROMANIA SA\n               HYPERMARCHE AUCHAN\n           STR. ZAHARIA STANCU, NR. 1\n             BRASOV, JUD. BRASOV\n              C.I.F.: RO17233051\n   wwwww\n                                      wwww.\n                  BON FISCAL\n            ZILNIC 07.00-21.00\n   335      PETR 30724BAZ.AUTO\n   STICKERE PUISOR QUA\n              1 BUC X 16,00         16,00 D\n   SELECLINE FIERBATOR\n              1 BUC X 44,01         44,01 D\n  TAXA VERDE  1 BUC X 0,89          0,89 D\n  COS DREPTUNG CARLIGE\n              1 BUC X 5,55          5,55 D\n  CROISSANT 7 DAYS SPU\n              1 BUC X 1,75          1,75 B\n  PAINE CU MAIA SI MAS\n              1 BUC X 3,60          3,60 B\n  PATE DE PORC 20% 120\n              2 BUC X 3,55          7,10 B\n  NUTELLA 700G\n             1 BUC X 19,40         19,40 B\n  RADIERA GALET\n              1 BUC X 4,55          4,55 D\n GP SUPER ALKALINE LR\n            1 BUC X 18,70          18,70 D\n NIVEA BALS DUPA RAS\n             1 BUC X 30,50        30,50 D\n AUC VV LICHID PARBRC\n            1 BUC X 16,90         16,90 D\n END ELEMENTE\n TOATE ARTICOLE SCANATE: 13\n TOTAL:                            168,95\n CARD                              168,95\n 00018 038 46150 0038\n          9138579073918\n TERMINAL:                       2AUCHO08\n TERMINAL ID.:                   2AUCHQ08\n COMERCIANT:                     2AUCHQ08\n ************6855              EXP.: ****\n AID: A0000000041010           MASTERCARD\nVANZARE\nBATCH: 000268            CHITANTA: 023673\nDATA: 02 APR 2022           ORA: 12:29:23\nRRN: 209207265765 NT. AUTORIZ.: 291808\nTOTAL:                         RON 168,95\nPIN VERIFICAT\nSEMNATURA DUS. NU MAI ESTE NECESARA\nTVA           VALOARE               TOTAL\nB-TVA 9%         2,63               31,85\nD-TVA 19%       21,89              137,10\nTOTAL TAXE:     24,52\n      ATI FOST MULTUMIT AZI DE AUCHAN?\n         RASPUNDETI PE Q.AUCHAN.RO\n        SERVICIUL CLIENTI 021-9141\n       VA MULTUMIM CA NE-ATI ALES!\n       AUCHAN...SI VIATA SE SCHIMBA\nCASIER:                   CASA RAPIDA 38\nCASA:                                 38\nNUMAR BON:                    1081-00024\n02.04.2022                      12:29:53\n               FL1000440358\n               BON FISCAL\n                                         D"
     },
-    "request_id": "qq47JzUIrtqlvqvYTfAQ9CLCoddsDhqZ"
+    "request_id": "MxZqYmU1EjdfRRIDFT9NymjeXYAk0mkE"
   },
   "standardized_response": {
     "extracted_data": [

@@ -10,10 +10,10 @@
       "url": "https://api.mindee.net/v1/products/mindee/expense_receipts/v3/predict?local=langage&local=country"
     },
     "document": {
-      "id": "091d6d64-cd72-43d2-9444-a88285af05c1",
+      "id": "cf8bab7b-661e-4e95-b7ba-2e30bff0047b",
       "inference": {
         "extras": {},
-        "finished_at": "2022-12-01T10:57:34.680163",
+        "finished_at": "2023-05-03T09:36:35.649073",
         "is_rotation_applied": true,
         "pages": [
           {
@@ -74,22 +74,22 @@
                 "value": null
               },
               "total_incl": {
-                "confidence": 0.8,
+                "confidence": 0.99,
                 "polygon": [
                   [
-                    0.768,
+                    0.771,
                     0.518
                   ],
                   [
-                    0.895,
+                    0.898,
                     0.518
                   ],
                   [
-                    0.895,
+                    0.898,
                     0.533
                   ],
                   [
-                    0.768,
+                    0.771,
                     0.533
                   ]
                 ],
@@ -149,30 +149,30 @@
             "value": null
           },
           "total_incl": {
-            "confidence": 0.8,
+            "confidence": 0.99,
             "page_id": 0,
             "polygon": [
               [
-                0.768,
+                0.771,
                 0.518
               ],
               [
-                0.895,
+                0.898,
                 0.518
               ],
               [
-                0.895,
+                0.898,
                 0.533
               ],
               [
-                0.768,
+                0.771,
                 0.533
               ]
             ],
             "value": 168.95
           }
         },
-        "processing_time": 0.93,
+        "processing_time": 1.072,
         "product": {
           "features": [
             "locale",
@@ -188,7 +188,7 @@
           "type": "standard",
           "version": "3.1"
         },
-        "started_at": "2022-12-01T10:57:33.750312"
+        "started_at": "2023-05-03T09:36:34.577352"
       },
       "n_pages": 1,
       "name": "receipt.jpg"

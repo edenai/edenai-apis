@@ -76,12 +76,25 @@ def compare_responses(feature: str, subfeature: str, response, phase: str = ""):
             features_path, feature, subfeature, f"{subfeature}_response.json"
         )
 
+    # Some subfeatures have dynamic responses that we can't parse
+    # the keys listed in `ignore_keys` won't be compared
+    ignore_keys = []
+    try:
+        key_ignore_function_name = feature + "__" + subfeature + "_ignore"
+        subfeature_normalized = subfeature.replace("_async", "")
+        imp = import_module(
+            f"edenai_apis.features.{feature}.{subfeature_normalized}.ignore_keys"
+        )
+        ignore_keys = getattr(imp, key_ignore_function_name)()
+    except Exception:
+        pass
+
     # Load valid standard response
     with open(response_path, "r", encoding="utf-8") as f:
         standard_response = json.load(f)
         if "original_response" in standard_response:
             raise TypeError(f"Please remove original_response in {response_path}")
-        assert_standarization(standard_response, response)
+        assert_standarization(standard_response, response, ignore_keys=ignore_keys)
         return True
 
 
@@ -94,10 +107,14 @@ def assert_standarization(
     items_a: Any,
     items_b: Any,
     path_list_error: List = None,
+    ignore_keys: List = None,
 ):
     """assert standarization of  a and b"""
     if path_list_error is None:
         path_list_error = ["<root>"]
+
+    if ignore_keys is None:
+        ignore_keys = []
 
     assert_not_none(isinstance(items_a, dict), items_b, path_list_error)
 
@@ -105,8 +122,7 @@ def assert_standarization(
     if items_a and items_b:
         # Prevent import MemoryFileUploadHandler
         if not (
-            isinstance(items_a, BufferedReader)
-            or isinstance(items_b, BufferedReader)
+            isinstance(items_a, BufferedReader) or isinstance(items_b, BufferedReader)
         ):
             assert type_no_int(items_a) == type_no_int(items_b), format_message_error(
                 f"{type_no_int(items_a).__name__} != {type_no_int(items_b).__name__}",
@@ -115,15 +131,15 @@ def assert_standarization(
 
     # if both are list
     if isinstance(items_a, list) or isinstance(items_b, list):
-        assert_equivalent_list(items_a, items_b, path_list_error)
+        assert_equivalent_list(items_a, items_b, path_list_error, ignore_keys)
 
     # if both are dict
     elif isinstance(items_a, dict) or isinstance(items_b, dict):
-        assert_equivalent_dict(items_a, items_b, path_list_error)
+        assert_equivalent_dict(items_a, items_b, path_list_error, ignore_keys)
 
 
 def assert_equivalent_list(
-    list_a: List, list_b: List, path_list_error: list
+    list_a: List, list_b: List, path_list_error: list, ignore_keys: list
 ):
     """Assert List `a` and `b` are equivalent"""
     # check both are list
@@ -135,11 +151,11 @@ def assert_equivalent_list(
     if len(list_a) > 0 and len(list_b) > 0:
         if isinstance(list_b[0], dict):
             assert_equivalent_dict(
-                list_a[0], list_b[0], path_list_error + ["0"]
+                list_a[0], list_b[0], path_list_error + ["0"], ignore_keys
             )
         elif isinstance(list_b[0], list):
             assert_equivalent_list(
-                list_a[0], list_b[0], path_list_error + ["0"]
+                list_a[0], list_b[0], path_list_error + ["0"], ignore_keys
             )
 
 
@@ -147,10 +163,14 @@ def assert_equivalent_dict(
     dict_a: Dict,
     dict_b: Dict,
     path_list_error: list = None,
+    ignore_keys: list = None,
 ):
     """Assert Dict `a` and `b` are equivalent"""
     if path_list_error is None:
         path_list_error = []
+
+    if ignore_keys is None:
+        ignore_keys = []
 
     # check both are dict
     assert isinstance(dict_a, dict) and isinstance(dict_b, dict), format_message_error(
@@ -164,11 +184,12 @@ def assert_equivalent_dict(
 
     # check all keys
     for key in dict_a:
-        key_a = dict_a.get(key)
-        key_b = dict_b.get(key)
+        if key not in ignore_keys:
+            key_a = dict_a.get(key)
+            key_b = dict_b.get(key)
 
-        # check value of key for both dict
-        assert_standarization(key_a, key_b, path_list_error + [key])
+            # check value of key for both dict
+            assert_standarization(key_a, key_b, path_list_error + [key], ignore_keys)
 
 
 def assert_list_unordered_equality(
