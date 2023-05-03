@@ -3,14 +3,14 @@ from .label_detection_async import (
     VideoLabel,
     VideoLabelBoundingBox,
     VideoLabelTimeStamp,
-    label_detection_arguments
+    label_detection_async_arguments
 )
 from .text_detection_async import (
     TextDetectionAsyncDataClass,
     VideoText,
     VideoTextBoundingBox,
     VideoTextFrames,
-    text_detection_arguments
+    text_detection_async_arguments
 )
 from .face_detection_async import (
     FaceDetectionAsyncDataClass,
@@ -30,24 +30,24 @@ from .person_tracking_async import (
     VideoTrackingBoundingBox,
     VideoPersonPoses,
     VideoPersonQuality,
-    person_tracking_arguments
+    person_tracking_async_arguments
 )
 from .logo_detection_async import (
     LogoDetectionAsyncDataClass,
     LogoTrack,
     VideoLogo,
     VideoLogoBoundingBox,
-    logo_detection_arguments
+    logo_detection_async_arguments
 )
 from .object_tracking_async import (
     ObjectFrame,
     ObjectTrack,
     ObjectTrackingAsyncDataClass,
     VideoObjectBoundingBox,
-    object_tracking_arguments
+    object_tracking_async_arguments
 )
 from .explicit_content_detection_async import (
     ExplicitContentDetectionAsyncDataClass,
     ContentNSFW,
-    explicit_content_detection_arguments
+    explicit_content_detection_async_arguments
 )

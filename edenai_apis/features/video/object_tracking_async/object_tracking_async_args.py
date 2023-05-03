@@ -21,5 +21,5 @@ file_info= FileInfo(
 )
 file_wrapper = FileWrapper(video_path, "", file_info)
 
-def object_tracking_arguments() -> Dict:
+def object_tracking_async_arguments() -> Dict:
     return {"file": file_wrapper}
