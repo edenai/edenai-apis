@@ -21,6 +21,7 @@ from edenai_apis.features.text.custom_named_entity_recognition import  CustomNam
 from edenai_apis.features.text.custom_classification import CustomClassificationDataClass, ItemCustomClassificationDataClass
 from edenai_apis.features.text.moderation import   ModerationDataClass, TextModerationItem
 from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
+from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
 from .helpers import (
     construct_ner_instruction,
     construct_search_context,
@@ -572,7 +573,7 @@ class OpenaiTextApi(TextInterface):
             standardized_response=NamedEntityRecognitionDataClass(items=original_items['items'])
         )
 
-        
+
     def text__embeddings(self, texts: List[str]) -> ResponseType[EmbeddingsDataClass]:
         url = 'https://api.openai.com/v1/embeddings'
         if len(texts) == 1:
@@ -598,6 +599,53 @@ class OpenaiTextApi(TextInterface):
         standardized_response = EmbeddingsDataClass(items=items)
 
         return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response
+        )
+
+    def text__chat(
+        self,
+        text : str,
+        chatbot_global_action: Optional[str],
+        previous_history : Optional[List[Dict[str, str]]],
+        temperature : float, 
+        max_tokens : int,
+        model : str,
+        ) -> ResponseType[ChatDataClass]:
+        url = f"{self.url}/chat/completions"
+        
+        messages = [{"role" : "user", "content" : text}]
+    
+        if previous_history:
+            for message in reversed(previous_history):
+                messages.insert(0, {"role":"user", "content": message.get("user")})
+                messages.insert(1, {"role":"assistant", "content": message.get("assistant")})
+        
+        if chatbot_global_action:
+            messages.insert(0, {
+                "role": "system", "content" : chatbot_global_action
+            })
+            
+        payload = {
+            "model" : model,
+            "temperature": temperature,
+            "messages": messages,
+            "max_tokens": max_tokens
+        }
+        
+        original_response = requests.post(url, json=payload, headers= self.headers).json()
+
+        # Handle errors
+        check_openai_errors(original_response)
+        
+        # Standardize the response 
+        generated_text = original_response['choices'][0]['message']['content']
+        standardized_response = ChatDataClass(
+            generated_text = generated_text, 
+            message = ChatMessageDataClass(user = text, assistant = generated_text)
+        )
+        
+        return ResponseType[ChatDataClass](
             original_response=original_response,
             standardized_response=standardized_response
         )

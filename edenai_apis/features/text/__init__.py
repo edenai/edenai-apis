@@ -72,3 +72,9 @@ from .code_generation import (
     CodeGenerationDataClass,
     code_generation_arguments
 )
+
+from .chat import (
+    ChatDataClass,
+    ChatMessageDataClass,
+    chat_arguments
+)
