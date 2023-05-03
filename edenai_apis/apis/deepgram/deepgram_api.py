@@ -31,14 +31,10 @@ class DeepgramApi(ProviderInterface, AudioInterface):
 
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
-        self.api_settings_amazon = load_provider(ProviderDataEnum.KEY, "amazon")
         self.api_key = self.api_settings["deepgram_key"]
         self.url = self.api_settings["url"]
         self.webhook_token = self.api_settings["webhook_token"]
         self.webhook_url = f"https://webhook.site/{self.webhook_token}"
-
-        self.bucket_name = self.api_settings["bucket"]
-        self.storage_url = self.api_settings["storage_url"]
 
 
     def audio__speech_to_text_async__launch_job(

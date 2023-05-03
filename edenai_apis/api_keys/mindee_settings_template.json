@@ -6,5 +6,9 @@
   "ocr_receipt": {
     "subscription_key": "",
     "url": ""
+  },
+  "ocr_id": {
+    "subscription_key": "",
+    "url": ""
   }
 }

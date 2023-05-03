@@ -33,11 +33,6 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         self.url_upload_file = f"{self.url}/upload"
         self.url_transcription = f"{self.url}/transcript"
 
-        self.bucket_name = self.api_settings["bucket"]
-        self.bucket_region = self.api_settings["region_name"]
-        self.storage_url = self.api_settings["storage_url"]
-        self.api_settings_amazon = load_provider(ProviderDataEnum.KEY, "amazon")
-
 
     def audio__speech_to_text_async__launch_job(
         self, 

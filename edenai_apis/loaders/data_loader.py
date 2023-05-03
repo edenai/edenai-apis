@@ -1,10 +1,12 @@
 from importlib import import_module
 import json
 import os
+import copy
 from enum import Enum
 from typing import Callable, Dict, List, Optional, Union, overload, Type
 
 from edenai_apis.features.provider.provider_interface import ProviderInterface
+from edenai_apis.loaders.utils import load_json, check_messsing_keys
 from edenai_apis.settings import info_path, keys_path, outputs_path
 from edenai_apis.utils.compare import is_valid
 from pydantic import BaseModel
@@ -24,23 +26,31 @@ class ProviderDataEnum(Enum):
     KEY = "load_key"
 
 
-def _load_json(path: str) -> dict:
-    with open(path, 'r', encoding='utf-8') as f:
-        data = json.load(f)
-    return data
 
-
-def load_key(provider_name, location=False, api_keys = {}):
-    """Get settings for a provider name
+def load_key(provider_name, location=False, api_keys: Dict = {}):
+    """Get settings for a provider name of from passed apik_keys dict
 
     Args:
         provider_name (str): EdenAI provider name
         location (bool, optional): Return as tuple
         and path is second. Defaults to False.
+        apik_keys (Dict): users api keys to be used instead of default settings keys
     """
 
-    data = api_keys if api_keys else _load_json(path)
     path = os.path.join(keys_path, provider_name + "_settings.json")
+    common_path = os.path.join(keys_path, "common_settings.json")
+
+    data = load_json(path)
+
+    if api_keys:
+        template_path = os.path.join(keys_path, f"{provider_name}_settings_template.json")
+        template_interface = load_json(template_path)
+        data = api_keys
+        check_messsing_keys(template_interface, data)
+
+    common_data = load_json(common_path)
+
+    data.update(common_data)
 
     if location:
         return data, path
@@ -135,7 +145,7 @@ def load_info_file(provider_name: str = "") -> Dict:
     """
 
     if provider_name:
-        return _load_json(info_path(provider_name))
+        return load_json(info_path(provider_name))
 
     all_infos = {}
     for provider_name_i in map(
@@ -194,7 +204,7 @@ def load_output(
         path = os.path.join(
             outputs_path(provider_name), feature, f"{subfeature}_output.json"
         )
-    data = _load_json(path)
+    data = load_json(path)
     return data
 
 

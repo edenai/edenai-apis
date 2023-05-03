@@ -34,9 +34,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_settings_amazon = load_provider(ProviderDataEnum.KEY, "amazon")
         self.key = self.api_settings["revai_key"]
-        self.bucket_name = self.api_settings["bucket"]
-        self.bucket_region = self.api_settings["region_name"]
-        self.storage_url = self.api_settings["storage_url"]
+        self.bucket_name = self.api_settings["public_bucket"]
 
 
     def _create_vocabulary(self, list_vocabs: list):
