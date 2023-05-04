@@ -37,23 +37,21 @@ def load_key(provider_name, location=False, api_keys: Dict = {}):
         apik_keys (Dict): users api keys to be used instead of default settings keys
     """
 
-    path = os.path.join(keys_path, provider_name + "_settings.json")
+    provider_settings_path = os.path.join(keys_path, provider_name + "_settings.json")
     common_path = os.path.join(keys_path, "common_settings.json")
-
-    data = load_json(path)
+    provider_settings_data = load_json(provider_settings_path)
+    data = provider_settings_data
 
     if api_keys:
-        template_path = os.path.join(keys_path, f"{provider_name}_settings_template.json")
-        template_interface = load_json(template_path)
         data = api_keys
-        check_messsing_keys(template_interface, data)
+        check_messsing_keys(provider_settings_data, data)
 
     common_data = load_json(common_path)
 
     data.update(common_data)
 
     if location:
-        return data, path
+        return data, provider_settings_path
     return data
 
 
