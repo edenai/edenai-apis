@@ -617,9 +617,8 @@ class OpenaiTextApi(TextInterface):
         messages = [{"role" : "user", "content" : text}]
     
         if previous_history:
-            for message in reversed(previous_history):
-                messages.insert(0, {"role":"user", "content": message.get("user")})
-                messages.insert(1, {"role":"assistant", "content": message.get("assistant")})
+            for idx, message in enumerate(previous_history):
+                messages.insert(idx, {"role":message.get("role"), "content": message.get("message")})
         
         if chatbot_global_action:
             messages.insert(0, {

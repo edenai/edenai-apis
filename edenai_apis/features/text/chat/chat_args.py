@@ -4,8 +4,12 @@ def chat_arguments():
         "chatbot_global_action" : "You are a keyword extractor. Extract Only the word from the text provided.",
         "previous_history" : [
             {
-                "user":"Steve Jobs was a co-founder of Apple Inc., a multinational technology company headquartered in Cupertino, California. He was also the CEO and a major shareholder of Pixar Animation Studios, which was later acquired by The Walt Disney Company. Jobs was widely recognized as a visionary entrepreneur and a pioneer in the personal computer industry. In addition to his business ventures, he was also known for his charismatic personality, his signature black turtleneck, and his famous keynote presentations at Apple's product launches.",
-                "assistant":"steve jobs, apple inc, pixar, california"
+                "role" : "user",
+                "message":"Steve Jobs was a co-founder of Apple Inc., a multinational technology company headquartered in Cupertino, California. He was also the CEO and a major shareholder of Pixar Animation Studios, which was later acquired by The Walt Disney Company. Jobs was widely recognized as a visionary entrepreneur and a pioneer in the personal computer industry. In addition to his business ventures, he was also known for his charismatic personality, his signature black turtleneck, and his famous keynote presentations at Apple's product launches.",
+            },
+            {
+                "role" : "assistant",
+                "message": "steve jobs, apple inc, pixar, california"
             }
             ],
         "temperature" : None,
