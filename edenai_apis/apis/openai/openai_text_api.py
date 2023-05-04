@@ -639,9 +639,13 @@ class OpenaiTextApi(TextInterface):
         
         # Standardize the response 
         generated_text = original_response['choices'][0]['message']['content']
+        message = [
+            ChatMessageDataClass(role='user', message = text),
+            ChatMessageDataClass(role = 'assistant', message = generated_text)]
+        
         standardized_response = ChatDataClass(
             generated_text = generated_text, 
-            message = ChatMessageDataClass(user = text, assistant = generated_text)
+            message = message
         )
         
         return ResponseType[ChatDataClass](

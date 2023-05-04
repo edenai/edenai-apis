@@ -1,13 +1,13 @@
-from typing import Dict, Optional
-from pydantic import BaseModel, StrictStr
+from typing import Dict, Optional, Sequence
+from pydantic import BaseModel, StrictStr, Field
 
 class ChatMessageDataClass(BaseModel):
-    user : Optional[StrictStr]
-    assistant : Optional[StrictStr]
+    role : Optional[StrictStr]
+    message : Optional[StrictStr]
     
 class ChatDataClass(BaseModel):
     generated_text: StrictStr
-    message : ChatMessageDataClass = ChatMessageDataClass()
+    message : Sequence[ChatMessageDataClass] = Field(default_factory=list)
 
     @staticmethod
     def direct_response(api_response: Dict):
