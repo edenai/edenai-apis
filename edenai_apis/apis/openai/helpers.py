@@ -40,18 +40,34 @@ def construct_classification_instruction(labels) -> str:
     return f"{instruction.strip()}\n\n"
 
 def construct_anonymization_context(text: str) -> str:
-    prompt = 'identify, categorize, and redact sensitive information in the text below. First write the redacted Text by replacing the entity with [REDACTED], then extract the entity, finally extract the confidence Score between 0.0-1.0.\n\nDesired format:\n{{"redactedText" : "redactedText","entities": [[entity, category, confidence score]]}}\n\n Text:###{data}###\nOutput:'.format(data=text)
+    output_template = '{{"redactedText" : "...", "entities": [[entity, category, confidence score]]}}'
+    prompt = f"""Please analyze the following text and identify any personal and sensitive information contained within it. For each instance of personal information, please provide a category and a confidence score. Categories should include, but are not limited to, names, addresses, phone numbers, email addresses, social security numbers, and credit card numbers. Use a confidence score between 0 and 1 to indicate how certain you are that the identified information is actually personal information.
+    The text is included between three backticks.
+
+    First write the redacted Text by replacing each identified entity with [REDACTED], then extract the entity, finally extract the confidence Score between 0.0-1.0.
+
+    Your output should be a json that looks like this : {output_template}
+
+    The text:
+    ```{text}```
+
+    Your output:'
+    """
     return prompt
 
 def construct_keyword_extraction_context(text: str) -> str:
+    output_template = '{{"items":[{{"keyword": ... , "importance":...}}]}}'
     prompt = f"""
-    You are a highly intelligent and accurate Keyword Extraction system. 
+    You are a highly intelligent and accurate Keyword Extraction system.
     You take text as input and your task is to returns the key phrases or talking points and a confidence score between 0.0-1.0 to support that this is a key phrase.
+    The text is written between three backticks.
     
-    Desired format:
-            {{"items":[{{"keyword":"keyword","importance":"score"}}]}}
+    Your output should be a json that looks like: {output_template} 
     
-    Text: ###{text}###\nOutput:
+    Text:
+    ```{text}```
+
+    Your Output:
     """
     return prompt
 
@@ -64,7 +80,7 @@ def construct_language_detection_context(text: str) -> str:
     return prompt
 
 def construct_sentiment_analysis_context(text: str) -> str:
-    prompt = f"Label the text below with one of these sentiments 'Positive','Negative','Neutral':\n\n text:###"+text+"###\nlabel:"
+    prompt = f"Label the text below with one of these sentiments 'Positive','Negative','Neutral'.\n\nThe text is delimited by triple backticks text:\n ```"+text+"```\n\nYour label:"
     return prompt
 
 def construct_topic_extraction_context(text: str)-> str:
@@ -99,14 +115,16 @@ def construct_ner_instruction(text: str) -> str:
     """
         This function takes a text as input and returns a string that contains the instruction.
     """
-    return f"""
-        Please extract the entities from the text below and the confidence score between 0.0-1.0.
-        We need also the type of the entity.
+    return f"""Please extract named entities, their types and a confidence score from the text below. The confidence score between 0 and 1.
 
-        Desired format:
-            {{"items":[{{"entity":"entity","category":"categrory","importance":score}}]}}
+The text is delimited by triple backticks text.
 
-        Text:###{text}###\nOutput:
+The output should be a json formatted like follows : {{"items":[{{"entity":"entity","category":"categrory","importance":score}}]}}\n
+
+The input text:
+```{text}```
+
+Your output:"
     """
 
 def format_custom_ner_examples(
@@ -153,7 +171,7 @@ def construct_custom_ner_instruction(
     else:
         prompt_examples = f"""
         Text : Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia.
-        Extracted these entities from the Text if they exist: drink, date 
+        Extracted these entities from the Text if they exist: drink, date
         {{
             "items":[
                 {{"entity":"Coca-Cola", "category":"drink"}},
@@ -162,8 +180,11 @@ def construct_custom_ner_instruction(
                 ]
         }}
     """
-    return prompt_examples + f"""
-    Text : {text}
-    Entities :{built_entities}
-    Output:
+    instructions = """You need to act like a named entity recognition mode. The user will specify types entities that you need to extract from his text.
+    The text is included between three backticks."""
+
+    return instructions + prompt_examples + f"""
+    Text : \n```{text}```\n\n
+    Entities : \n{built_entities}\n\n
+    Your output:
     """

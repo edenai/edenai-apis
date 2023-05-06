@@ -184,14 +184,19 @@ class CohereApi(ProviderInterface, TextInterface):
         if examples is not None:
             for example in examples :       
                 prompt_examples = prompt_examples + CohereApi._format_custom_ner_examples(example)
-        prompt =f"""\
-        Extract the specified entities ({built_entities}) from the text enclosed in hash symbols (#) and return a JSON List of dictionaries with two keys: "entity" and "category". The "entity" key represents the detected entity and the "category" key represents the category of the entity.
+        prompt =f"""You act as a named entities recognition model. Extract the specified entities ({built_entities}) from the text enclosed in hash symbols (#) and return a JSON List of dictionaries with two keys: "entity" and "category". The "entity" key represents the detected entity and the "category" key represents the category of the entity.
 
-        If no entities are found, return an empty list.
-        {prompt_examples}
-        Text: #{text}#
-        Answer:
-        """ 
+If no entities are found, return an empty list.
+
+Example :
+
+{prompt_examples}
+
+Text: 
+{text}
+
+Answer:
+""" 
     
         # Construct request
         payload = {
