@@ -155,7 +155,7 @@ class CohereApi(ProviderInterface, TextInterface):
                 "format": "paragraph",
                 "model": model,
                 "extractiveness": "low",
-                "temperature": 0.3,
+                "temperature": 0.0,
                 "text": text,
             }
 

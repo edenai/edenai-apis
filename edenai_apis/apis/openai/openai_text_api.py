@@ -48,7 +48,7 @@ class OpenaiTextApi(TextInterface):
         payload = {
             "prompt": text + "\n\nTl;dr",
             "max_tokens": self.max_tokens,
-            "temperature": 0.7,
+            "temperature": 0.0,
             "frequency_penalty": 0.0,
             "presence_penalty": 0.0,
         }
@@ -229,7 +229,7 @@ class OpenaiTextApi(TextInterface):
             "prompt": prompt,
             "model" : self.model,
             "max_tokens": self.max_tokens,
-            "temperature": 0.7,
+            "temperature": 0.0,
             "frequency_penalty": 0.0,
             "presence_penalty": 0.0,
         }
@@ -506,7 +506,7 @@ class OpenaiTextApi(TextInterface):
             "n": 1,
             "model": "text-davinci-003",
             "max_tokens": 500,
-            "temperature": 0.7,
+            "temperature": 0.0,
             "prompt": prompt
         }
 
@@ -553,7 +553,7 @@ class OpenaiTextApi(TextInterface):
             "n": 1,
             "model": "text-davinci-003",
             "max_tokens": 500,
-            "temperature": 0.7,
+            "temperature": 0.0,
             "prompt": prompt
         }
         try:
