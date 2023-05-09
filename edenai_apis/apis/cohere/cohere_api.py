@@ -119,7 +119,7 @@ class CohereApi(ProviderInterface, TextInterface):
         payload = {
             "inputs": texts,
             "examples" : example_dict,
-            "model" : 'large',
+            "model" : 'base',
         }
         original_response = requests.post(url, json=payload, headers= self.headers).json()
         
@@ -201,7 +201,7 @@ Answer:
         # Construct request
         payload = {
             "prompt": prompt,
-            "model" : 'command-xlarge',
+            "model" : 'command',
             "temperature" : 0,
             "max_tokens" : 200
         }     
