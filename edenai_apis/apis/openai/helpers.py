@@ -19,12 +19,19 @@ def get_score(context, query, log_probs, text_offsets) -> float:
     return log_prob / float(count) * SCORE_MULTIPLIER
 
 def format_example_fn(x: List[List[str]]) -> str:
-    texts = ''
-    labels = ''
+    examples_formated = ""
     for example in x:
-        texts += "{text}\n".format(text=example[0].replace("\n", " ").strip())
-        labels += "{label}\n".format(label=example[1].replace("\n"," ").strip())
-    return texts +"\n\n Text categories:\n\n"+ labels
+        examples_formated += "Text: {text}\nText Classification: {label}\n\n".format(
+            text=example[0].replace("\n", " ").strip(),
+            label=example[1].replace("\n"," ").strip()
+        )
+    return examples_formated
+
+def format_texts_fn(x: List[str]) -> str:
+    texts_formated = ""
+    for text in x:
+        texts_formated += "Text: {text}\n-----\n".format(text=text.replace("\n", " ").strip())
+    return texts_formated
 
 def construct_search_context(query, document) -> str:
     """
@@ -35,13 +42,31 @@ def construct_search_context(query, document) -> str:
     """
     return f"<|endoftext|>{document}\n\n---\n\nThe above passage is related to: {query}"
 
-def construct_classification_instruction(labels) -> str:
-    instruction = f"Please classify these texts into the following categories: {', '.join(labels)}."
-    return f"{instruction.strip()}\n\n"
+def construct_classification_instruction(texts: list, labels: list, examples: list) -> str:
+    json_format = '{"classifications": [{"input": <text>, "label": <label>, "confidence": <confidence_score>}]}'
+    return f"""You should act as a text classifier.
+Classify the text below into one of the following categories: {", ".join(labels)}.
+The texts is delimited by triple hashtags and separate by -----.
+
+The output should be a json. The format is as follows:
+{json_format}
+
+If you cant classify the text into any of the categories, please use the category "other".
+
+Examples:
+{format_example_fn(examples)}
+
+Text:
+#####
+{format_texts_fn(texts)}
+#####
+
+Your output:
+"""
 
 def construct_anonymization_context(text: str) -> str:
     output_template = '{{"redactedText" : "...", "entities": [[entity, category, confidence score]]}}'
-    prompt = f"""Please analyze the following text and identify any personal and sensitive information contained within it. For each instance of personal information, please provide a category and a confidence score. Categories should include, but are not limited to, names, addresses, phone numbers, email addresses, social security numbers, and credit card numbers. Use a confidence score between 0 and 1 to indicate how certain you are that the identified information is actually personal information.
+    prompt = f"""Please analyze the following text and identify any personal and sensitive information contained within it. For each instance of personal information, please provide a category and a confidence score. Categories could include, but should not be limited to, names, addresses, phone numbers, email addresses, social security numbers, enterprise name, any private information and credit card numbers. Use a confidence score between 0 and 1 to indicate how certain you are that the identified information is actually personal information.
     The text is included between three backticks.
 
     First write the redacted Text by replacing each identified entity with [REDACTED], then extract the entity, finally extract the confidence Score between 0.0-1.0.
@@ -99,16 +124,23 @@ def construct_spell_check_instruction(text: str, language: str) -> str:
         This function takes a text as input and returns a string that contains the instruction.
     """
     return f"""
-        Found the spelling mistakes in the text below in {language}.
-        Please create a list of suggests words to replace him and the confidence score between 0.0-1.0.
-        We need also a type of misspelling error
-        To calculate the start offset of the word you must count all off characters before the word including spaces and punctuation.
-        For example: "Hello, world!" the start offset of "world" is 7.
+You should act as a spell and grammar checker.
+Find the spelling and grammar mistakes in the text written in {language} delimited by triple hashtags.
+Please create a list of suggestions to correct each mistake and the confidence score between 0.0 and 1.0.
+You should also return the type of each mistake.
+To calculate the start offset of the word you must count all off characters before the word including spaces and punctuation.
+For example: "Hello, world!" the start offset of "world" is 7.
 
-        Desired format:
-            {{"items":[{{"text":"word","offset":start_offset,"type":type,"suggestions":[{{"suggestion":"new word","score":value}}]}}]}}
+The output should be a json that looks like this:
+{{"items":[{{"text":"word","offset":start_offset,"type":type,"suggestions":[{{"suggestion":"new word","score":value}}]}}]}}
 
-        Text:###{text}###\nOutput:
+If no mistake was found, simply return an empty list of items like follows:
+{{"items":[]}}
+
+Text:
+###{text}###
+
+Output:
     """
 
 def construct_ner_instruction(text: str) -> str:
