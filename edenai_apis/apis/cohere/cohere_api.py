@@ -119,7 +119,7 @@ class CohereApi(ProviderInterface, TextInterface):
         payload = {
             "inputs": texts,
             "examples" : example_dict,
-            "model" : 'base',
+            "model" : 'large',
         }
         original_response = requests.post(url, json=payload, headers= self.headers).json()
         
