@@ -1,7 +1,7 @@
 import json
 import mimetypes
-from io import BufferedReader
 from pprint import pprint
+import re
 from typing import Sequence
 import uuid
 
@@ -22,7 +22,13 @@ from edenai_apis.features.ocr import (
     OcrDataClass,
     OcrTablesAsyncDataClass,
 )
-from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import OcrAsyncDataClass
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
+    BoundingBox,
+    Line,
+    OcrAsyncDataClass,
+    Page,
+    Word,
+)
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     InfosReceiptParserDataClass,
@@ -470,35 +476,142 @@ class GoogleOcrApi(OcrInterface):
             status="pending", provider_job_id=job_id
         )
 
-    # def ocr__ocr_async__launch_job(self, file: str, file_url: str = "") -> AsyncLaunchJobResponseType:
-    #     filename: str = uuid.uuid4().hex + file.split("/")[-1]
+    def ocr__ocr_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
+        call_uuid = uuid.uuid4().hex
+        filename: str = call_uuid + file.split("/")[-1]
 
-    #     gcs_output_uri = "gs://ocr-async/outputs"
-    #     gcs_input_uri = f"gs://ocr-async/{filename}"
+        gcs_output_uri = "gs://ocr-async/outputs-" + call_uuid
+        gcs_input_uri = f"gs://ocr-async/{filename}"
 
-    #     ocr_async_bucket = self.clients["storage"].get_bucket("ocr-async")
-    #     new_blob = ocr_async_bucket.blob(filename)
-    #     new_blob.upload_from_filename(file)
+        ocr_async_bucket = self.clients["storage"].get_bucket("ocr-async")
+        new_blob = ocr_async_bucket.blob(filename)
+        new_blob.upload_from_filename(file)
 
-    #     feature = vision.Feature(type_=vision.Feature.Type.DOCUMENT_TEXT_DETECTION)
+        feature = vision.Feature(type_=vision.Feature.Type.DOCUMENT_TEXT_DETECTION)
 
-    #     gcs_source = vision.GcsSource(uri=gcs_input_uri)
-    #     input_config = vision.InputConfig(
-    #         gcs_source=gcs_source, mime_type='application/pdf')
+        gcs_source = vision.GcsSource(uri=gcs_input_uri)
+        input_config = vision.InputConfig(
+            gcs_source=gcs_source, mime_type="application/pdf"
+        )
 
-    #     gcs_destination = vision.GcsDestination(uri=gcs_output_uri)
-    #     output_config = vision.OutputConfig(
-    #         gcs_destination=gcs_destination, batch_size=2)
+        gcs_destination = vision.GcsDestination(uri=gcs_output_uri)
+        output_config = vision.OutputConfig(
+            gcs_destination=gcs_destination, batch_size=2
+        )
 
-    #     async_request = vision.AsyncAnnotateFileRequest(
-    #         features=[feature], input_config=input_config,
-    #         output_config=output_config)
+        async_request = vision.AsyncAnnotateFileRequest(
+            features=[feature], input_config=input_config, output_config=output_config
+        )
 
-    #     response = self.clients['image'].async_batch_annotate_files(
-    #         requests=[async_request])
+        response = self.clients["image"].async_batch_annotate_files(
+            requests=[async_request]
+        )
 
-    #     operation_id = response.operation.name.split("/")[-1]
-    #     return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+        operation_id = response.operation.name.split("/")[-1]
+        return AsyncLaunchJobResponseType(provider_job_id=operation_id)
 
-    # def ocr__ocr_async__get_job_result(self, job_id: str) -> ResponseType[OcrAsyncDataClass]:
-    #     raise NotImplementedError
+    def ocr__ocr_async__get_job_result(
+        self, job_id: str
+    ) -> ResponseType[OcrAsyncDataClass]:
+        scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+        credentials, _ = google.auth.default(scopes=scopes)
+
+        name = f"projects/{self.project_id}/operations/{job_id}"
+
+        service = googleapiclient.discovery.build(
+            serviceName="vision",
+            version="v1",
+            credentials=credentials,
+            client_options={"api_endpoint": "https://vision.googleapis.com"},
+        )
+
+        request = service.projects().operations().get(name=name)
+
+        try:
+            res = request.execute()
+        except Exception as excp:
+            if "Operation not found" in str(excp):
+                raise AsyncJobException(
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
+            raise ProviderException(str(excp))
+
+        if res["metadata"]["state"] == "DONE":
+            gcs_destination_uri = res["response"]["responses"][0]["outputConfig"][
+                "gcsDestination"
+            ]["uri"]
+            match = re.match(r"gs://([^/]+)/(.+)", gcs_destination_uri)
+            bucket_name = match.group(1)
+            prefix = match.group(2)
+
+            bucket = self.clients["storage"].get_bucket(bucket_name)
+
+            blob_list = [
+                blob
+                for blob in list(bucket.list_blobs(prefix=prefix))
+                if not blob.name.endswith("/")
+            ]
+
+            original_response = {"responses": []}
+            for blob in blob_list:
+                output = blob
+
+                json_string = output.download_as_string()
+                response = json.loads(json_string)
+
+                pages: Sequence[Page] = []
+                for response in response["responses"]:
+                    original_response["responses"].append(
+                        response["fullTextAnnotation"]
+                    )
+                    pprint(response["fullTextAnnotation"])
+                    for page in response["fullTextAnnotation"]["pages"]:
+                        lines: Sequence[Line] = []
+                        for block in page["blocks"]:
+                            page_boxes = BoundingBox.from_normalized_vertices(
+                                normalized_vertices=block["boundingBox"][
+                                    "normalizedVertices"
+                                ]
+                            )
+                            words: Sequence[Word] = []
+                            for paragraph in block["paragraphs"]:
+                                line_boxes = BoundingBox.from_normalized_vertices(
+                                    paragraph["boundingBox"]["normalizedVertices"]
+                                )
+                                for word in paragraph["words"]:
+                                    word_boxes = BoundingBox.from_normalized_vertices(
+                                        word["boundingBox"]["normalizedVertices"]
+                                    )
+                                    word_text = ""
+                                    for symbol in word["symbols"]:
+                                        word_text += symbol["text"]
+                                    words.append(
+                                        Word(
+                                            text=word_text,
+                                            bounding_box=word_boxes,
+                                            confidence=word["confidence"],
+                                        )
+                                    )
+                            lines.append(
+                                Line(
+                                    text=" ".join([word.text for word in words]),
+                                    words=words,
+                                    bounding_box=line_boxes,
+                                    confidence=paragraph["confidence"],
+                                )
+                            )
+                        pages.append(Page(lines=lines))
+            return AsyncResponseType[OcrAsyncDataClass](
+                provider_job_id=job_id,
+                original_response=original_response,
+                standardized_response=OcrAsyncDataClass(
+                    pages=pages, number_of_pages=len(pages)
+                ),
+            )
+
+        elif res["metadata"]["state"] == "FAILED":
+            raise ProviderException(res.get("error"))
+
+        return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)

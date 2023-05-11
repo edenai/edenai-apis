@@ -2,10 +2,12 @@ from enum import Enum
 from typing import Optional, Sequence, Literal
 from pydantic import BaseModel, Field, validator
 
+
 class SentimentEnum(Enum):
-    POSITIVE = 'Positive'
-    NEGATIVE = 'Negative'
-    NEUTRAL = 'Neutral'
+    POSITIVE = "Positive"
+    NEGATIVE = "Negative"
+    NEUTRAL = "Neutral"
+
 
 class SegmentSentimentAnalysisDataClass(BaseModel):
     """This class is used in SentimentAnalysisDataClass to describe each segment analyzed.
@@ -15,28 +17,31 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
         - sentiment (Literal['Positve', 'Negative', 'Neutral']) (Case is ignore): Sentiment of segment
         - sentiment_rate (float between 0 and 1): Rate of sentiment
     """
+
     segment: str
     sentiment: Literal["Positive", "Negative", "Neutral"]
     sentiment_rate: Optional[float] = Field(ge=0, le=1)
 
-    @validator('segment', pre=True)
+    @validator("segment", pre=True)
     @classmethod
     def valid_segment(cls, value):
         if not isinstance(value, str):
             raise TypeError(f"Segment must be a string, not {type(value)}")
         return value
 
-    @validator('sentiment', pre=True)
+    @validator("sentiment", pre=True)
     @classmethod
     def valid_sentiment(cls, value):
         if not isinstance(value, str):
             raise TypeError(f"Sentiment must be a string, not {type(value)}")
         value = value.title()
         if not value in ["Positive", "Negative", "Neutral"]:
-            raise ValueError(f"{value} are not allowed. Sentiment must be 'Positive' or 'Negative' or 'Neutral'")
+            raise ValueError(
+                f"{value} are not allowed. Sentiment must be 'Positive' or 'Negative' or 'Neutral'"
+            )
         return value
 
-    @validator('sentiment_rate', pre=True)
+    @validator("sentiment_rate", pre=True)
     @classmethod
     def valid_sentiment_rate(cls, value):
         if value is None:
@@ -54,25 +59,30 @@ class SentimentAnalysisDataClass(BaseModel):
         - general_sentiment_rate (float between 0 and 1): Rate of general sentiment
         - items (Sequence[SegmentSentimentAnalysisDataClass]): Lists of the different segments analyzed. For more informations, looks at SegmentSentimentAnalysisDataClass's documentations (Default: [])
     """
+
     general_sentiment: Literal["Positive", "Negative", "Neutral"]
     general_sentiment_rate: Optional[float] = Field(ge=0, le=1)
     items: Sequence[SegmentSentimentAnalysisDataClass] = Field(default_factory=list)
 
-    @validator('general_sentiment', pre=True)
+    @validator("general_sentiment", pre=True)
     @classmethod
     def valid_general_sentiment(cls, value):
         if not isinstance(value, str):
             raise TypeError(f"General sentiment must be a string, not {type(value)}")
         value = value.title()
         if not value in ["Positive", "Negative", "Neutral"]:
-            raise ValueError(f"{value} are not allowed. General sentiment must be 'Positive' or 'Negative' or 'Neutral'")
+            raise ValueError(
+                f"{value} are not allowed. General sentiment must be 'Positive' or 'Negative' or 'Neutral'"
+            )
         return value
 
-    @validator('general_sentiment_rate', pre=True)
+    @validator("general_sentiment_rate", pre=True)
     @classmethod
     def valid_general_sentiment_rate(cls, value):
         if value is None:
             return value
         if not isinstance(value, (float, int)):
-            raise TypeError(f"General sentiment rate must be a float, not {type(value)}")
+            raise TypeError(
+                f"General sentiment rate must be a float, not {type(value)}"
+            )
         return round(value, 2)
