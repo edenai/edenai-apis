@@ -598,7 +598,7 @@ def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
 
                 word = Word(
                     text=blocks[word_id]["Text"],
-                    bounding_boxes=BoundingBox.from_json(
+                    bounding_box=BoundingBox.from_json(
                         bounding_box=blocks[word_id]["Geometry"]["BoundingBox"],
                         modifiers=lambda x: x.title(),
                     ),
@@ -609,7 +609,7 @@ def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
             line = Line(
                 text=blocks[block_id]["Text"],
                 words=words,
-                bounding_boxes=BoundingBox.from_json(
+                bounding_box=BoundingBox.from_json(
                     bounding_box=blocks[block_id]["Geometry"]["BoundingBox"],
                     modifiers=lambda x: x.title(),
                 ),

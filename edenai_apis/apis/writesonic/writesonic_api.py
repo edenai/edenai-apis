@@ -1,7 +1,8 @@
-from typing import Optional
+from typing import Dict, List, Optional
 import requests
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import (
+    ChatDataClass,
     SummarizeDataClass,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -50,3 +51,51 @@ class WritesonicApi(ProviderInterface, TextInterface):
             standardized_response = standardized_response
         )
         
+    # def text__chat(
+    #     self, 
+    #     text: str, 
+    #     chatbot_global_action: str = None, 
+    #     previous_history: List[Dict[str, str]] = None,
+    #     temperature: float = 0,
+    #     max_tokens: int = 2048,
+    #     model: str = None) -> ResponseType[ChatDataClass]:
+        
+    #     url = "https://api.writesonic.com/v2/business/content/chatsonic?engine=premium"
+    #     prompt = text
+    #     if chatbot_global_action:
+    #         prompt = chatbot_global_action + prompt        
+    #     payload = {
+    #         "enable_google_results": "true",
+    #         "enable_memory": False,
+    #         "input_text": prompt
+    #     }
+
+    #     if previous_history:
+    #         payload["enable_memory"] = True
+    #         payload["history_data"] = []
+    #         for message in previous_history:
+    #             payload["history_data"].append(
+    #                 {
+    #                 "is_sent": "true",
+    #                 "message": message.get("user")
+    #                 }
+    #             )
+    #             payload["history_data"].append(
+    #                 {
+    #                 "is_sent": "false",
+    #                 "message": message.get("assistant")
+    #                 }
+    #             )
+
+    #     try:
+    #         original_response = requests.post(url, json=payload, headers= self.headers).json()
+    #     except json.JSONDecodeError as exc:
+    #         raise ProviderException("Internal Server Error") from exc
+        
+    #     if "detail" in original_response:
+    #         raise ProviderException(original_response['detail'])
+        
+    #     return ResponseType[ChatDataClass](
+    #         original_response=original_response,
+    #         standardized_response=ChatDataClass()
+    #     )

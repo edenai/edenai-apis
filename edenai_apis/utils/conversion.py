@@ -161,6 +161,18 @@ def concatenate_params_in_url(url: str, params: list, sep: str):
             url += sep + param
     return url
 
+def find_all_occurrence(a_str, sub):
+    start = 0
+    result = []
+    while True:
+        start = a_str.find(sub, start)
+
+        if start == -1:
+            return result
+
+        result.append(start)
+        start += len(sub)
+
 
 def replace_sep(x: str, current_sep: str, new_sep: str):
     if isinstance(x, str):
