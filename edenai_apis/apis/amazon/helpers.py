@@ -254,11 +254,18 @@ def amazon_custom_document_parsing_formatter(
     for index, page in enumerate(pages):
         for block in page["Blocks"]:
             if block["BlockType"] == "QUERY_RESULT":
-                bounding_box = CustomDocumentParsingAsyncBoundingBox(
+                if block.get("Geometry"):
                     left=block["Geometry"]["BoundingBox"]["Left"],
                     top=block["Geometry"]["BoundingBox"]["Top"],
                     width=block["Geometry"]["BoundingBox"]["Width"],
                     height=block["Geometry"]["BoundingBox"]["Height"],
+                else:
+                    left, top, width, height = 0, 0, 0, 0
+                bounding_box = CustomDocumentParsingAsyncBoundingBox(
+                    left=left,
+                    top=top,
+                    width=width,
+                    height=height,
                 )
                 query = query_answer_result(page["Blocks"], block["Id"])
                 item = CustomDocumentParsingAsyncItem(
