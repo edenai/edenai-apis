@@ -60,7 +60,7 @@ class Base64Api(ProviderInterface, OcrInterface):
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["secret"]
-        self.url = self.api_settings["endpoint"]
+        self.url = "https://base64.ai/api/scan"
 
     def _extract_item_lignes(
         self, data, item_lines_type: Union[ItemLines, ItemLinesInvoice]

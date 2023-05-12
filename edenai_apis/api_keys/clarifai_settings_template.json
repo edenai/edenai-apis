@@ -1,8 +1,5 @@
 {
+  "user_id": "",
   "app_id": "",
-  "explicit_content_code": "",
-  "face_detection_code": "",
-  "key": "",
-  "object_detection_code": "",
-  "user_id": ""
+  "key": ""
 }

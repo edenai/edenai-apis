@@ -46,9 +46,9 @@ class ClarifaiApi(
         self.user_id = self.api_settings["user_id"]
         self.app_id = self.api_settings["app_id"]
         self.key = self.api_settings["key"]
-        self.explicit_content_code = self.api_settings["explicit_content_code"]
-        self.face_detection_code = self.api_settings["face_detection_code"]
-        self.object_detection_code = self.api_settings["object_detection_code"]
+        self.explicit_content_code = "moderation-recognition"
+        self.face_detection_code = "face-detection"
+        self.object_detection_code = "general-image-detection"
 
     def ocr__ocr(
         self, 

@@ -41,7 +41,7 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         self.client_id = self.api_settings["client_id"]
         self.client_secret = self.api_settings["client_secret"]
         self.authorization = self.api_settings["Authorization"]
-        self.url = self.api_settings["endpoint_url"]
+        self.url = "https://api.veryfi.com/api/v8/partner"
 
         self.headers = {
             "Accept": "application/json",

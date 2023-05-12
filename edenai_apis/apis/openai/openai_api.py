@@ -20,7 +20,7 @@ class OpenaiApi(ProviderInterface,
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api_key"]
         self.org_key = self.api_settings["org_key"]
-        self.url = self.api_settings["url"]
+        self.url = "https://api.openai.com/v1"
         self.model = 'text-davinci-003'
         self.headers = {
             "Authorization": f"Bearer {self.api_key}",
@@ -28,4 +28,7 @@ class OpenaiApi(ProviderInterface,
             "Content-Type": "application/json",
         }
         self.max_tokens = 270
+
+        self.webhook_settings = load_provider(ProviderDataEnum.KEY, "webhooksite")
+        self.webhook_token = self.webhook_settings["webhook_token"]
 

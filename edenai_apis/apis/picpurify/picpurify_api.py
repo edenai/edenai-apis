@@ -26,7 +26,7 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.key = self.api_settings["API_KEY"]
-        self.url = self.api_settings["URL"]
+        self.url = "https://www.picpurify.com/analyse/1.1"
 
     def image__face_detection(
         self, 

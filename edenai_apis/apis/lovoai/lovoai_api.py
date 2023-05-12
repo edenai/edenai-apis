@@ -17,7 +17,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
 
     def __init__(self, api_keys: Dict = {}):
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
-        self.url = self.api_settings['base_url']
+        self.url = "https://api.lovo.ai/"
 
         self.headers = {
             "apiKey": self.api_settings['api_key'],
@@ -52,7 +52,6 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             "speaker_id": voice_id.split("_")[-1],
             "speed": self.__adjust_speaking_rate(speaking_rate)
         })
-        print(data)
 
         response = requests.post(f'{self.url}v1/conversion', headers=self.headers, data=data)
 

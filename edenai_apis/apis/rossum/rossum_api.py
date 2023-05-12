@@ -19,7 +19,7 @@ class RossumApi(ProviderInterface, OcrInterface):
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.username = self.api_settings["username"]
         self.password = self.api_settings["password"]
-        self.url = self.api_settings["url"]
+        self.url = "https://elis.rossum.ai/api/v1/"
         self.queue_id = self.api_settings["queue_id"]
 
         self._login()

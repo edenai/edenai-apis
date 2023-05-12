@@ -38,7 +38,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.key = self.api_settings["auth-token"]
-        self.base_url = self.api_settings["baseUrl"]
+        self.base_url = "https://platform.sentisight.ai/api/pm-predict/"
         self.headers = {"X-Auth-token": self.key,
                         "Content-Type": "application/json"}
 

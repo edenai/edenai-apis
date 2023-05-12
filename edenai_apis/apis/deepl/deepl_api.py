@@ -19,7 +19,7 @@ class DeeplApi(ProviderInterface, TranslationInterface):
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api_key"]
-        self.url = self.api_settings["url"]
+        self.url = "https://api.deepl.com/v2/"
         self.header = {
             "authorization": f"DeepL-Auth-Key {self.api_key}",
         }

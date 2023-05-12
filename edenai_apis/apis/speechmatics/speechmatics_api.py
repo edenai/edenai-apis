@@ -18,7 +18,7 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.key = self.api_settings["speechmatics_key"]
-        self.base_url = self.api_settings['speechmatics_url']
+        self.base_url = "https://asr.api.speechmatics.com/v2/jobs"
         self.headers = {
             "Authorization" : f"Bearer {self.key}",
         }

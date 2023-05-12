@@ -22,11 +22,11 @@ class ModernmtApi(ProviderInterface, TranslationInterface):
         self.header = {
             'MMT-ApiKey' : self.api_settings["api_key"]
         }
-        self.url = self.api_settings["url"]
+        self.url = "https://api.modernmt.com/translate"
 
     def translation__language_detection(self, text) -> ResponseType[LanguageDetectionDataClass]:
         response = requests.get(
-            url="https://api.modernmt.com/translate/detect",
+            url=f"{self.url}/detect",
             headers=self.header,
             data={ "q" : text }
         )
@@ -62,7 +62,7 @@ class ModernmtApi(ProviderInterface, TranslationInterface):
         }
         
         # Api output
-        output = requests.get('https://api.modernmt.com/translate',
+        output = requests.get(self.url,
                               headers = self.header, data=data)
         response = output.json()
 

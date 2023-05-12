@@ -14,10 +14,10 @@ class MeaningcloudApi(ProviderInterface, TextInterface):
     def __init__(self, api_keys: Dict = {}):
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api_key"]
-        self.url = self.api_settings["url"]
+        self.url = "https://api.meaningcloud.com/summarization-1.0"
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str
+        self, text: str, output_sentences: int, language: str, model: str = None
     ) -> ResponseType[SummarizeDataClass]:
         data = {
             "key": self.api_key,

@@ -31,7 +31,7 @@ class VoxistApi(ProviderInterface, AudioInterface):
         )
         self.username: str = self.api_settings["username"]
         self.password: str = self.api_settings["password"]
-        self.base_url: str = self.api_settings["base_url"]
+        self.base_url: str = "https://asr-lvl.voxist.com/"
         self._connection()
 
     def _connection(self) -> None:

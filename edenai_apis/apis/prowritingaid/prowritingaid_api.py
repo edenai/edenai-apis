@@ -15,7 +15,7 @@ class ProWritingAidApi(ProviderInterface, TextInterface):
     def __init__(self, api_keys: Dict = {}):
         api_settings = load_provider(ProviderDataEnum.KEY, provider_name=self.provider_name, api_keys = api_keys)
         self.api_key = api_settings['api_key']
-        self.api_url = api_settings['url']
+        self.api_url = "https://cloud.prowritingaid.com/analysis/api/async"
 
         self.headers = {
             "Content-Type": "application/json",

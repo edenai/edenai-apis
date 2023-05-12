@@ -18,7 +18,7 @@ class ConnexunApi(ProviderInterface, TextInterface):
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api"]
-        self.base_url = self.api_settings["url"]
+        self.base_url = "https://api.connexun.com/"
 
     def text__sentiment_analysis(
         self, language: str, text: str

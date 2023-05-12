@@ -47,15 +47,14 @@ class MindeeApi(ProviderInterface, OcrInterface):
 
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
-        self.api_key = self.api_settings["ocr_invoice"]["subscription_key"]
-        self.url = self.api_settings["ocr_invoice"]["url"]
-        self.url_receipt = self.api_settings["ocr_receipt"]["url"]
-        self.api_key_receipt = self.api_settings["ocr_receipt"]["subscription_key"]
-        self.url_identity = self.api_settings['ocr_id']['url']
+        self.api_key = self.api_settings["subscription_key"]
+        self.url = "https://api.mindee.net/v1/products/mindee/invoices/v3/predict"
+        self.url_receipt = "https://api.mindee.net/v1/products/mindee/expense_receipts/v3/predict"
+        self.url_identity = "https://api.mindee.net/v1/products/mindee/passport/v1/predict"
 
     def _get_api_attributes(self, file: BufferedReader, language: Optional[str] = None) -> ParamsApi:
         params: ParamsApi = {
-            "headers": {"Authorization": self.api_key_receipt},
+            "headers": {"Authorization": self.api_key},
             "files": {"document": file},
             "params": {
                 "local": {

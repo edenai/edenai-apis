@@ -29,7 +29,7 @@ class AssemblyApi(ProviderInterface, AudioInterface):
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["assembly_key"]
-        self.url = self.api_settings["url"]
+        self.url = "https://api.assemblyai.com/v2"
         self.url_upload_file = f"{self.url}/upload"
         self.url_transcription = f"{self.url}/transcript"
 

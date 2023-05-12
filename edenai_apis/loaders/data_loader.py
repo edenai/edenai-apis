@@ -38,17 +38,12 @@ def load_key(provider_name, location=False, api_keys: Dict = {}):
     """
 
     provider_settings_path = os.path.join(keys_path, provider_name + "_settings.json")
-    common_path = os.path.join(keys_path, "common_settings.json")
     provider_settings_data = load_json(provider_settings_path)
     data = provider_settings_data
 
     if api_keys:
         data = api_keys
         check_messsing_keys(provider_settings_data, data)
-
-    common_data = load_json(common_path)
-
-    data.update(common_data)
 
     if location:
         return data, provider_settings_path

@@ -37,7 +37,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api"]
-        self.url = self.api_settings["url"]
+        self.url = "https://platform.neuralspace.ai/api/"
         self.header = {
             "authorization": f"{self.api_key}",
             "Content-Type": "application/json",

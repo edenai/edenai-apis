@@ -10,5 +10,9 @@
   "topic": "",
   "topic_video": "",
   "bucket": "",
-  "bucket_video": ""
+  "bucket_video": "",
+  "cloudfront_key_id" : "",
+  "providers_resource_bucket": "",
+  "users_resource_bucket" : "",
+  "ressource_region": ""
 }

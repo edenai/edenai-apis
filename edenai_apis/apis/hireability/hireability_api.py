@@ -31,7 +31,7 @@ class HireabilityApi(ProviderInterface, OcrInterface):
         super().__init__()
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.product_code = self.api_settings["product_code"]
-        self.url = self.api_settings["endpoint"]
+        self.url = "http://processing.resumeparser.com/requestprocessing.html"
 
     def ocr__resume_parser(
         self, 

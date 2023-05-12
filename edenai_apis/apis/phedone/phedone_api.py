@@ -23,7 +23,7 @@ class PhedoneApi(ProviderInterface, TranslationInterface):
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api_key"]
-        self.base_url = self.api_settings["base_url"]
+        self.base_url = "https://execute.phedone.com/api/models/"
 
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str

@@ -21,7 +21,7 @@ class CohereApi(ProviderInterface, TextInterface):
     def __init__(self, api_keys: Dict = {}):
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api_key"]
-        self.base_url = self.api_settings["url"]
+        self.base_url = "https://api.cohere.ai/"
         self.headers = {
             'accept': 'application/json',
             'authorization': f'Bearer {self.api_key}',

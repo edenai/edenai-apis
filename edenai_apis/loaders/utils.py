@@ -15,5 +15,5 @@ def load_json(path: str) -> dict:
 def check_messsing_keys(owr_dict: Dict, own_dict: Dict):
     different_keys = owr_dict.keys() - own_dict.keys()
     if len(different_keys) > 0:
-        raise ProviderException(f"Setting keys messing: {', '.join(different_keys)}")
+        raise ProviderException(f"Setting keys missing: {', '.join(different_keys)}")
     return True
