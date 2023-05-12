@@ -5,6 +5,7 @@ import enum
 import google.auth
 import google
 import googleapiclient.discovery
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import BoundingBox
 
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     BoundixBoxOCRTable,
@@ -14,9 +15,15 @@ from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import
     Row,
     Table,
 )
-from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SentimentEnum
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
+    SentimentEnum,
+)
 from edenai_apis.utils.conversion import convert_pitch_from_percentage_to_semitones
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
+)
 
 
 class GoogleVideoFeatures(enum.Enum):
@@ -49,9 +56,7 @@ def google_video_get_job(provider_job_id: str):
         result = request.execute()
     except Exception as excp:
         if "Operation not found" in str(excp):
-            raise AsyncJobException(
-                reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
-            )
+            raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
         raise ProviderException(str(excp))
     return result
 
@@ -82,7 +87,9 @@ def score_to_content(score):
         return 0
 
 
-def google_ocr_tables_standardize_response(original_response: dict) -> OcrTablesAsyncDataClass:
+def google_ocr_tables_standardize_response(
+    original_response: dict,
+) -> OcrTablesAsyncDataClass:
     """Standardize ocr table with dataclass from given google response"""
     raw_text: str = original_response["text"]
     pages = [
@@ -109,9 +116,7 @@ def _ocr_tables_standardize_table(table: dict, raw_text: str) -> Table:
     ocr_num_cols = 0
     rows: Sequence[Row] = []
     for row in table.get("headerRows", []):
-        row, num_row_cols = _ocr_tables_standardize_row(
-            row, raw_text, is_header=True
-        )
+        row, num_row_cols = _ocr_tables_standardize_row(row, raw_text, is_header=True)
         ocr_num_cols = max(ocr_num_cols, num_row_cols)
         rows.append(row)
     for row in table.get("bodyRows", []):
@@ -121,12 +126,10 @@ def _ocr_tables_standardize_table(table: dict, raw_text: str) -> Table:
     return Table(rows=rows, num_rows=len(rows), num_cols=ocr_num_cols)
 
 
-def _ocr_tables_standardize_row(
-    row, raw_text, is_header=False
-) -> Tuple[Row, int]:
+def _ocr_tables_standardize_row(row, raw_text, is_header=False) -> Tuple[Row, int]:
     """Standardize one Row of a Table in a Page of google ocr table response
-        Returns:
-            [Row, int]: the Row object + the num of cells included in the row
+    Returns:
+        [Row, int]: the Row object + the num of cells included in the row
     """
     cells: Sequence[Cell] = []
     for cell in row.get("cells", []):
@@ -161,6 +164,7 @@ def _ocr_tables_standardize_cell(cell, raw_text, is_header) -> Cell:
         ),
     )
 
+
 def get_tag_name(tag):
     """
     Get name of syntax tag of provider selected
@@ -184,10 +188,18 @@ def get_tag_name(tag):
         "X": "Other",
     }[tag]
 
-#*****************************Speech to text***************************************************
+
+# *****************************Speech to text***************************************************
 def get_encoding_and_sample_rate(extension: str):
-    list_encoding = [("LINEAR16", None), ("MULAW", None), ("AMR", 8000), ("AMR_WB", 16000), 
-                     ("OGG_OPUS", 24000), ("SPEEX_WITH_HEADER_BYTE", 16000), ("WEBM_OPUS", 24000)]
+    list_encoding = [
+        ("LINEAR16", None),
+        ("MULAW", None),
+        ("AMR", 8000),
+        ("AMR_WB", 16000),
+        ("OGG_OPUS", 24000),
+        ("SPEEX_WITH_HEADER_BYTE", 16000),
+        ("WEBM_OPUS", 24000),
+    ]
     if extension in ["wav", "flac"]:
         return None, None
     if extension.startswith("mp"):
@@ -198,11 +210,13 @@ def get_encoding_and_sample_rate(extension: str):
         extension = "speex"
     if "-" in extension:
         extension.replace("-", "_")
-    right_encoding_sample: Tuple = next(filter(lambda x: extension in x[0].lower(), list_encoding), (None, None))
+    right_encoding_sample: Tuple = next(
+        filter(lambda x: extension in x[0].lower(), list_encoding), (None, None)
+    )
     return right_encoding_sample
 
 
-#*****************************Text to speech**************************************************#
+# *****************************Text to speech**************************************************#
 def get_formated_speaking_rate(speaking_rate: int):
     if speaking_rate > 100:
         speaking_rate = 100
@@ -210,34 +224,43 @@ def get_formated_speaking_rate(speaking_rate: int):
         speaking_rate = -100
     if speaking_rate >= 0:
         diff = speaking_rate / 100
-        return 1+diff
-    diff = -1/2 * speaking_rate / 100
-    return 1-diff
+        return 1 + diff
+    diff = -1 / 2 * speaking_rate / 100
+    return 1 - diff
+
 
 def get_formated_speaking_volume(speaking_volume: int):
     if speaking_volume > 100:
         speaking_volume = 100
     if speaking_volume < -100:
         speaking_volume = -100
-    return (speaking_volume * 6 / 100)
+    return speaking_volume * 6 / 100
 
 
 def generate_tts_params(speaking_rate, speaking_pitch, speaking_volume):
     attribs = {
         "speaking_rate": (speaking_rate, get_formated_speaking_rate(speaking_rate)),
-        "pitch": (speaking_pitch, convert_pitch_from_percentage_to_semitones(speaking_pitch)),
-        "volume_gain_db": (speaking_volume, get_formated_speaking_volume(speaking_volume))
+        "pitch": (
+            speaking_pitch,
+            convert_pitch_from_percentage_to_semitones(speaking_pitch),
+        ),
+        "volume_gain_db": (
+            speaking_volume,
+            get_formated_speaking_volume(speaking_volume),
+        ),
     }
     params = {}
 
-    for k,v in attribs.items():
+    for k, v in attribs.items():
         if not v[0]:
             continue
         params[k] = v[1]
     return params
 
 
-def get_right_audio_support_and_sampling_rate(audio_format: str, list_audio_formats: List):
+def get_right_audio_support_and_sampling_rate(
+    audio_format: str, list_audio_formats: List
+):
     extension = audio_format
     if not audio_format:
         audio_format = "mp3"
@@ -245,5 +268,7 @@ def get_right_audio_support_and_sampling_rate(audio_format: str, list_audio_form
         audio_format = "wav-linear16"
     if "-" in audio_format:
         extension, audio_format = audio_format.split("-")
-    right_audio_format = next(filter(lambda x: audio_format in x.lower(), list_audio_formats), None)
+    right_audio_format = next(
+        filter(lambda x: audio_format in x.lower(), list_audio_formats), None
+    )
     return extension, right_audio_format

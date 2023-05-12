@@ -21,7 +21,7 @@ from .ocr_tables_async import (
     Cell,
     Page,
     BoundixBoxOCRTable,
-    ocr_tables_arguments,
+    ocr_tables_async_arguments,
 )
 from .receipt_parser import (
     receipt_parser_arguments,

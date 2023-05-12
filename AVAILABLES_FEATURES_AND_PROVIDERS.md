@@ -27,6 +27,7 @@
 | | google |
 | | microsoft |
 | | sentisight |
+| **ocr_async** | amazon |
 | **ocr_tables_async** | amazon |
 | | google |
 | | microsoft |
@@ -243,6 +244,7 @@
 | | identity_parser |
 | | invoice_parser |
 | | ocr |
+| | ocr_async |
 | | ocr_tables_async |
 | | receipt_parser |
 | **text** | anonymization |

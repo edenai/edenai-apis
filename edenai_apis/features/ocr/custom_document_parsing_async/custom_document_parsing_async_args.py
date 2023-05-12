@@ -21,7 +21,7 @@ file_info= FileInfo(
 )
 file_wrapper = FileWrapper(ocr_path, "", file_info)
 
-def custom_document_parsing_arguments() -> Dict:
+def custom_document_parsing_async_arguments() -> Dict:
     return {"file": file_wrapper,
             "queries": [
                 {

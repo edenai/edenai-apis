@@ -4,6 +4,7 @@ from edenai_apis.utils.languages import get_language_name_from_code
 
 SCORE_MULTIPLIER = 100.0
 
+
 def get_score(context, query, log_probs, text_offsets) -> float:
     log_prob = 0
     count = 0
@@ -18,31 +19,39 @@ def get_score(context, query, log_probs, text_offsets) -> float:
 
     return log_prob / float(count) * SCORE_MULTIPLIER
 
+
 def format_example_fn(x: List[List[str]]) -> str:
     examples_formated = ""
     for example in x:
         examples_formated += "Text: {text}\nText Classification: {label}\n\n".format(
             text=example[0].replace("\n", " ").strip(),
-            label=example[1].replace("\n"," ").strip()
+            label=example[1].replace("\n", " ").strip(),
         )
     return examples_formated
+
 
 def format_texts_fn(x: List[str]) -> str:
     texts_formated = ""
     for text in x:
-        texts_formated += "Text: {text}\n-----\n".format(text=text.replace("\n", " ").strip())
+        texts_formated += "Text: {text}\n-----\n".format(
+            text=text.replace("\n", " ").strip()
+        )
     return texts_formated
+
 
 def construct_search_context(query, document) -> str:
     """
-        Given a query and a document, construct a string that serves as a search context.
-        The returned string will contain the document followed by a separator line and a statement 
-        indicating the relevance of the document to the query.
-        
+    Given a query and a document, construct a string that serves as a search context.
+    The returned string will contain the document followed by a separator line and a statement
+    indicating the relevance of the document to the query.
+
     """
     return f"<|endoftext|>{document}\n\n---\n\nThe above passage is related to: {query}"
 
-def construct_classification_instruction(texts: list, labels: list, examples: list) -> str:
+
+def construct_classification_instruction(
+    texts: list, labels: list, examples: list
+) -> str:
     json_format = '{"classifications": [{"input": <text>, "label": <label>, "confidence": <confidence_score>}]}'
     return f"""You should act as a text classifier.
 Classify the text below into one of the following categories: {", ".join(labels)}.
@@ -64,8 +73,11 @@ Text:
 Your output:
 """
 
+
 def construct_anonymization_context(text: str) -> str:
-    output_template = '{{"redactedText" : "...", "entities": [[entity, category, confidence score]]}}'
+    output_template = (
+        '{{"redactedText" : "...", "entities": [[entity, category, confidence score]]}}'
+    )
     prompt = f"""Please analyze the following text and identify any personal and sensitive information contained within it. For each instance of personal information, please provide a category and a confidence score. Categories could include, but should not be limited to, names, addresses, phone numbers, email addresses, social security numbers, enterprise name, any private information and credit card numbers. Use a confidence score between 0 and 1 to indicate how certain you are that the identified information is actually personal information.
     The text is included between three backticks.
 
@@ -79,6 +91,7 @@ def construct_anonymization_context(text: str) -> str:
     Your output:'
     """
     return prompt
+
 
 def construct_keyword_extraction_context(text: str) -> str:
     output_template = '{{"items":[{{"keyword": ... , "importance":...}}]}}'
@@ -96,33 +109,50 @@ def construct_keyword_extraction_context(text: str) -> str:
     """
     return prompt
 
-def construct_translation_context(text: str, source_language : str, target_language: str) -> str:
+
+def construct_translation_context(
+    text: str, source_language: str, target_language: str
+) -> str:
     prompt = f"Translate the following text from {get_language_name_from_code(source_language)} to {get_language_name_from_code(target_language)}:. text:\n###{text}###\ntranslation:"
     return prompt
 
+
 def construct_language_detection_context(text: str) -> str:
-    prompt = "Detect the ISO 639-1 language (only the code) of this text.\n\n Text: ###{data}###\ISO 639-1:".format(data=text)
+    prompt = "Detect the ISO 639-1 language (only the code) of this text.\n\n Text: ###{data}###\ISO 639-1:".format(
+        data=text
+    )
     return prompt
+
 
 def construct_sentiment_analysis_context(text: str) -> str:
-    prompt = f"Label the text below with one of these sentiments 'Positive','Negative','Neutral'.\n\nThe text is delimited by triple backticks text:\n ```"+text+"```\n\nYour label:"
+    prompt = (
+        f"Label the text below with one of these sentiments 'Positive','Negative','Neutral'.\n\nThe text is delimited by triple backticks text:\n ```"
+        + text
+        + "```\n\nYour label:"
+    )
     return prompt
 
-def construct_topic_extraction_context(text: str)-> str:
-    prompt = "What is the main taxonomy of the text below. text:###{data}###put the result in this line:\n\n".format(data=text)
+
+def construct_topic_extraction_context(text: str) -> str:
+    prompt = "What is the main taxonomy of the text below. text:###{data}###put the result in this line:\n\n".format(
+        data=text
+    )
     return prompt
 
-def check_openai_errors(response : dict):
+
+def check_openai_errors(response: dict):
     """
-        This function takes a response from OpenAI API as input and raises a ProviderException if the response contains an error.
+    This function takes a response from OpenAI API as input and raises a ProviderException if the response contains an error.
     """
     if "error" in response:
         raise ProviderException(response["error"]["message"])
 
+
 def construct_spell_check_instruction(text: str, language: str) -> str:
     """
-        This function takes a text as input and returns a string that contains the instruction.
+    This function takes a text as input and returns a string that contains the instruction.
     """
+
     return f"""
 You should act as a spell and grammar checker.
 Find the spelling and grammar mistakes in the text written in {language} delimited by triple hashtags.
@@ -143,9 +173,10 @@ Text:
 Output:
     """
 
+
 def construct_ner_instruction(text: str) -> str:
     """
-        This function takes a text as input and returns a string that contains the instruction.
+    This function takes a text as input and returns a string that contains the instruction.
     """
     return f"""Please extract named entities, their types and a confidence score from the text below. The confidence score between 0 and 1.
 
@@ -159,26 +190,25 @@ The input text:
 Your output:"
     """
 
-def format_custom_ner_examples(
-    example : Dict
-    ):
-    # Get the text 
-    text = example['text']
-    
-    # Get the entities 
-    entities = example['entities']
-    
+
+def format_custom_ner_examples(example: Dict):
+    # Get the text
+    text = example["text"]
+
+    # Get the entities
+    entities = example["entities"]
+
     # Create an empty list to store the extracted entities
     extracted_entities = []
-    
+
     # Loop through the entities and extract the relevant information
     for entity in entities:
-        category = entity['category']
-        entity_name = entity['entity']
-        
+        category = entity["category"]
+        entity_name = entity["entity"]
+
         # Append the extracted entity to the list
-        extracted_entities.append({'entity': entity_name, 'category': category})
-        
+        extracted_entities.append({"entity": entity_name, "category": category})
+
     # Create the string with the extracted entities
     result = f"""Text : {text}
     Entities : {', '.join(set([entity['category'] for entity in extracted_entities]))}
@@ -189,14 +219,14 @@ def format_custom_ner_examples(
             ]
     }}
     """
-    
+
     return result
 
+
 def construct_custom_ner_instruction(
-    text: str, 
-    built_entities : str, 
-    examples : Optional[List[Dict]]) -> str:
-    if examples : 
+    text: str, built_entities: str, examples: Optional[List[Dict]]
+) -> str:
+    if examples:
         prompt_examples = ""
         for example in examples:
             prompt_examples = prompt_examples + format_custom_ner_examples(example)
@@ -215,8 +245,12 @@ def construct_custom_ner_instruction(
     instructions = """You need to act like a named entity recognition mode. The user will specify types entities that you need to extract from his text.
     The text is included between three backticks."""
 
-    return instructions + prompt_examples + f"""
+    return (
+        instructions
+        + prompt_examples
+        + f"""
     Text : \n```{text}```\n\n
     Entities : \n{built_entities}\n\n
     Your output:
     """
+    )
