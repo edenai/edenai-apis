@@ -94,7 +94,7 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
                 f'{self.base_url}/{provider_job_id}/transcript',
                 headers=self.headers,
             )
-            original_response = original_response
+            original_response = response.json()
             if response.status_code != 200:
                 raise ProviderException(
                     original_response.get('errors'),

@@ -2,7 +2,7 @@ from .speech_to_text_async import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
     SpeechDiarization,
-    speech_to_text_arguments,
+    speech_to_text_async_arguments,
 )
 from .text_to_speech import (
     TextToSpeechDataClass,

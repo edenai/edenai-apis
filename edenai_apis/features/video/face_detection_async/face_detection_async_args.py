@@ -21,5 +21,5 @@ file_info= FileInfo(
 )
 file_wrapper = FileWrapper(video_path, "", file_info)
 
-def face_detection_arguments() -> Dict:
+def face_detection_async_arguments() -> Dict:
     return {"file": file_wrapper}

@@ -1,7 +1,9 @@
 import json
 import mimetypes
-from io import BufferedReader
+from pprint import pprint
+import re
 from typing import Sequence
+import uuid
 
 import googleapiclient.discovery
 from edenai_apis.apis.google.google_helpers import (
@@ -19,13 +21,16 @@ from edenai_apis.features.ocr import (
     Bounding_box,
     OcrDataClass,
     OcrTablesAsyncDataClass,
+)
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
+    BoundingBox,
+    Line,
+    OcrAsyncDataClass,
     Page,
-    Row,
-    Table,
+    Word,
 )
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
-    CustomerInformation,
     InfosReceiptParserDataClass,
     ItemLines,
     Locale,
@@ -35,7 +40,11 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     Taxes,
 )
 from edenai_apis.utils.conversion import convert_string_to_number
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
+)
 from edenai_apis.utils.pdfs import get_pdf_width_height
 from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
@@ -49,7 +58,7 @@ import google.auth
 
 from google.api_core.client_options import ClientOptions
 from google.cloud import documentai_v1beta3 as documentai
-from google.cloud import vision
+from google.cloud import vision, storage
 from google.cloud.documentai_v1beta3 import Document
 from google.cloud.vision_v1.types.image_annotator import (
     AnnotateImageResponse,
@@ -64,7 +73,6 @@ class GoogleOcrApi(OcrInterface):
         language: str,
         file_url: str = "",
     ) -> ResponseType[OcrDataClass]:
-
         with open(file, "rb") as file_:
             file_content = file_.read()
 
@@ -434,7 +442,7 @@ class GoogleOcrApi(OcrInterface):
         except Exception as excp:
             if "Operation not found" in str(excp):
                 raise AsyncJobException(
-                    reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
                 )
             raise ProviderException(str(excp))
 

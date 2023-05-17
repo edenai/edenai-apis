@@ -5,7 +5,11 @@ from time import time
 from typing import Callable, Dict, List, Optional, Tuple, TypeVar, Sequence, Union
 from pathlib import Path
 import requests
-from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import CustomDocumentParsingAsyncBoundingBox, CustomDocumentParsingAsyncDataClass, CustomDocumentParsingAsyncItem
+from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
+    CustomDocumentParsingAsyncBoundingBox,
+    CustomDocumentParsingAsyncDataClass,
+    CustomDocumentParsingAsyncItem,
+)
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     InvoiceParserDataClass,
     InfosInvoiceParserDataClass,
@@ -14,7 +18,14 @@ from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     ItemLinesInvoice,
     MerchantInformationInvoice,
     CustomerInformationInvoice,
-    )
+)
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
+    BoundingBox,
+    Line,
+    OcrAsyncDataClass,
+    Word,
+    Page as OcrAsyncPage,
+)
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     ReceiptParserDataClass,
     InfosReceiptParserDataClass,
@@ -23,7 +34,7 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     Taxes,
     ItemLines,
     Locale,
-    )
+)
 from trp import Document
 
 from edenai_apis.features.ocr import (
@@ -37,7 +48,11 @@ from edenai_apis.features.ocr import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.audio import validate_audio_attribute_against_ssml_tags_use
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
+)
 
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -130,8 +145,9 @@ def _ocr_tables_standarize_cell(cell) -> Cell:
 
 T = TypeVar("T")
 
+
 # Video analysis async
-def _upload_video_file_to_amazon_server(file: str, file_name: str, api_settings : Dict):
+def _upload_video_file_to_amazon_server(file: str, file_name: str, api_settings: Dict):
     """
     :param video:       String that contains the video file path
     :return:            String that contains the filename on the server
@@ -139,7 +155,9 @@ def _upload_video_file_to_amazon_server(file: str, file_name: str, api_settings 
     # Store file in an Amazon server
     file_extension = file.split(".")[-1]
     filename = str(int(time())) + file_name.stem + "_video_." + file_extension
-    storage_clients(api_settings)["video"].meta.client.upload_file(file, api_settings['bucket_video'], filename)
+    storage_clients(api_settings)["video"].meta.client.upload_file(
+        file, api_settings["bucket_video"], filename
+    )
 
     return filename
 
@@ -150,9 +168,9 @@ def amazon_launch_video_job(file: str, feature: str):
     filename = _upload_video_file_to_amazon_server(file, Path(file), api_settings)
 
     # Get response
-    role = api_settings['role']
-    topic = api_settings['topic_video']
-    bucket = api_settings['bucket_video']
+    role = api_settings["role"]
+    topic = api_settings["topic_video"]
+    bucket = api_settings["bucket_video"]
 
     features = {
         "LABEL": clients(api_settings)["video"].start_label_detection(
@@ -196,32 +214,23 @@ def amazon_launch_video_job(file: str, feature: str):
     job_id = response["JobId"]
     return job_id
 
+
 def amazon_video_original_response(
-    job_id: str, 
+    job_id: str,
     max_result: int,
     next_token: str,
     function_to_call: Callable,
-    sortBy: Optional[str] = None
+    sortBy: Optional[str] = None,
 ):
-    
-    params = {
-        "JobId" : job_id,
-        "MaxResults": max_result,
-        "NextToken" : next_token
-    }
+    params = {"JobId": job_id, "MaxResults": max_result, "NextToken": next_token}
     if sortBy:
-        params.update({
-            "SortBy" : sortBy
-        })
+        params.update({"SortBy": sortBy})
 
-        
     try:
         response = function_to_call(**params)
     except Exception as excp:
         if "Could not find JobId" in str(excp):
-            raise AsyncJobException(
-                reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
-            )
+            raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
         raise ProviderException(str(excp))
     return response
 
@@ -254,32 +263,39 @@ def amazon_custom_document_parsing_formatter(
     for index, page in enumerate(pages):
         for block in page["Blocks"]:
             if block["BlockType"] == "QUERY_RESULT":
-                bounding_box = CustomDocumentParsingAsyncBoundingBox(
+                if block.get("Geometry"):
                     left=block["Geometry"]["BoundingBox"]["Left"],
                     top=block["Geometry"]["BoundingBox"]["Top"],
                     width=block["Geometry"]["BoundingBox"]["Width"],
                     height=block["Geometry"]["BoundingBox"]["Height"],
+                else:
+                    left, top, width, height = 0, 0, 0, 0
+                bounding_box = CustomDocumentParsingAsyncBoundingBox(
+                    left=left,
+                    top=top,
+                    width=width,
+                    height=height,
                 )
                 query = query_answer_result(page["Blocks"], block["Id"])
                 item = CustomDocumentParsingAsyncItem(
                     confidence=block["Confidence"],
                     value=block["Text"],
-                    query = query,
-                    page=block.get("Page", index+1),
+                    query=query,
+                    page=block.get("Page", index + 1),
                     bounding_box=bounding_box,
                 )
                 items.append(item)
     return CustomDocumentParsingAsyncDataClass(items=items)
 
 
-def query_answer_result(page :List[dict], identifier: str):
+def query_answer_result(page: List[dict], identifier: str):
     """
     Retrieve the text of a query based on its relationship ID.
-    
+
     Parameters:
         page (List[dict]): List of blocks, each representing a query or answer.
         identifier (str): The relationship ID to match against.
-        
+
     Returns:
         str: The text of the query with a matching relationship ID. If no match is found, returns None.
     """
@@ -287,16 +303,16 @@ def query_answer_result(page :List[dict], identifier: str):
     for query in queries:
         relationships = query.get("Relationships")
         if relationships:
-            first_relation_id = relationships[0]['Ids'][0]
+            first_relation_id = relationships[0]["Ids"][0]
             if first_relation_id == identifier:
                 return query["Query"]["Text"]
     return None
+
 
 def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass:
     extracted_data = []
     for page in pages:
         for invoice in page["ExpenseDocuments"]:
-        
             # format response to be more easily parsable
             summary = {}
             currencies = {}
@@ -320,7 +336,9 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
                     item_lines.append(
                         ItemLinesInvoice(
                             description=parsed_items.get("ITEM"),
-                            quantity=convert_string_to_number(parsed_items.get("QUANTITY"), int),
+                            quantity=convert_string_to_number(
+                                parsed_items.get("QUANTITY"), int
+                            ),
                             amount=convert_string_to_number(
                                 parsed_items.get("PRICE"), float
                             ),
@@ -395,15 +413,16 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
                 locale=locale,
                 bank_information=None,
                 item_lines=item_lines,
+                po_number=summary.get("PO_NUMBER"),
             )
             extracted_data.append(invoice_infos)
     return InvoiceParserDataClass(extracted_data=extracted_data)
+
 
 def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass:
     extracted_data = []
     for page in pages:
         for receipt in page["ExpenseDocuments"]:
-        
             # format response to be more easily parsable
             summary = {}
             currencies = {}
@@ -427,13 +446,15 @@ def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass
                     item_lines.append(
                         ItemLines(
                             description=parsed_items.get("ITEM"),
-                            quantity=convert_string_to_number(parsed_items.get("QUANTITY"), int),
+                            quantity=convert_string_to_number(
+                                parsed_items.get("QUANTITY"), int
+                            ),
                             amount=convert_string_to_number(
                                 parsed_items.get("PRICE"), float
                             ),
                             unit_price=convert_string_to_number(
                                 parsed_items.get("UNIT_PRICE"), float
-                            )
+                            ),
                         )
                     )
             customer = CustomerInformation(
@@ -456,10 +477,14 @@ def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass
             # we get the one who appeared the most
             elif len(currencies) > 1:
                 invoice_currency = max(currencies, key=currencies.get)
-            locale = Locale(currency=invoice_currency, invoice_language=None, country=None)
+            locale = Locale(
+                currency=invoice_currency, invoice_language=None, country=None
+            )
 
             taxes = [
-                Taxes(taxes=convert_string_to_number(summary.get("TAX"), float), rate= None)
+                Taxes(
+                    taxes=convert_string_to_number(summary.get("TAX"), float), rate=None
+                )
             ]
 
             receipt_infos = InfosReceiptParserDataClass(
@@ -476,10 +501,11 @@ def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass
                 locale=locale,
                 item_lines=item_lines,
                 category=None,
-                time = None,
+                time=None,
             )
             extracted_data.append(receipt_infos)
     return ReceiptParserDataClass(extracted_data=extracted_data)
+
 
 def amazon_speaking_rate_converter(speaking_rate: int):
     if speaking_rate < -80:
@@ -488,22 +514,29 @@ def amazon_speaking_rate_converter(speaking_rate: int):
         speaking_rate = 100
     return speaking_rate + 100
 
+
 def amazon_speaking_volume_adapter(speaking_volume: int):
     if speaking_volume < -100:
         speaking_volume = 100
     if speaking_volume > 100:
         speaking_volume = 100
-    return (speaking_volume * 6 / 100)
+    return speaking_volume * 6 / 100
+
 
 def generate_right_ssml_text(text, speaking_rate, speaking_pitch, speaking_volume):
-    validate_audio_attribute_against_ssml_tags_use(text, speaking_rate, speaking_pitch, speaking_volume)
+    validate_audio_attribute_against_ssml_tags_use(
+        text, speaking_rate, speaking_pitch, speaking_volume
+    )
     attribs = {
-        "rate": (speaking_rate, f'{amazon_speaking_rate_converter(speaking_rate)}%'),
-        "pitch": (speaking_pitch, f'{speaking_pitch}%'),
-        "volume" : (speaking_volume, f'{amazon_speaking_volume_adapter(speaking_volume)}dB')
+        "rate": (speaking_rate, f"{amazon_speaking_rate_converter(speaking_rate)}%"),
+        "pitch": (speaking_pitch, f"{speaking_pitch}%"),
+        "volume": (
+            speaking_volume,
+            f"{amazon_speaking_volume_adapter(speaking_volume)}dB",
+        ),
     }
     cleaned_attribs_string = ""
-    for k,v in attribs.items():
+    for k, v in attribs.items():
         if not v[0]:
             continue
         cleaned_attribs_string = f"{cleaned_attribs_string} {k}='{v[1]}'"
@@ -523,7 +556,75 @@ def get_right_audio_support_and_sampling_rate(audio_format: str, sampling_rate: 
         returned_audio_format = "ogg_vorbis"
     if not sampling_rate:
         return audio_format, returned_audio_format, None
-    nearest_sampling = min(samplings, key=lambda x: abs(x-sampling_rate)) \
-        if returned_audio_format != "pcm" else \
-        min(pcm_sampling, key=lambda x: abs(x-sampling_rate))
+    nearest_sampling = (
+        min(samplings, key=lambda x: abs(x - sampling_rate))
+        if returned_audio_format != "pcm"
+        else min(pcm_sampling, key=lambda x: abs(x - sampling_rate))
+    )
     return audio_format, returned_audio_format, nearest_sampling
+
+
+def _convert_response_to_blocks_with_id(responses: list) -> dict:
+    """
+    Convert the blocks from the response to a dict with Id as key
+    """
+
+    blocks_dict = {}
+    for response in responses:
+        for block in response["Blocks"]:
+            blocks_dict[block["Id"]] = block
+    return blocks_dict
+
+
+def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
+    """
+    Format the response from the OCR API to be more easily parsable
+
+    Args
+        response: the response from the OCR API
+
+    Returns
+        OcrAsyncDataClass: the formatted response
+    """
+    blocks: dict = _convert_response_to_blocks_with_id(responses)
+
+    pages: Sequence[OcrAsyncPage] = []
+    for _, block in blocks.items():
+        if block["BlockType"] != "PAGE":
+            continue
+
+        lines: Sequence[Line] = []
+        for block_id in block["Relationships"][0]["Ids"]:
+            if blocks[block_id]["BlockType"] != "LINE":
+                continue
+
+            words: Sequence[Word] = []
+            for word_id in blocks[block_id]["Relationships"][0]["Ids"]:
+                if blocks[word_id]["BlockType"] != "WORD":
+                    continue
+
+                word = Word(
+                    text=blocks[word_id]["Text"],
+                    bounding_box=BoundingBox.from_json(
+                        bounding_box=blocks[word_id]["Geometry"]["BoundingBox"],
+                        modifiers=lambda x: x.title(),
+                    ),
+                    confidence=blocks[word_id]["Confidence"],
+                )
+                words.append(word)
+
+            line = Line(
+                text=blocks[block_id]["Text"],
+                words=words,
+                bounding_box=BoundingBox.from_json(
+                    bounding_box=blocks[block_id]["Geometry"]["BoundingBox"],
+                    modifiers=lambda x: x.title(),
+                ),
+                confidence=blocks[block_id]["Confidence"],
+            )
+            lines.append(line)
+
+        page = OcrAsyncPage(lines=lines)
+        pages.append(page)
+
+    return OcrAsyncDataClass(pages=pages, number_of_pages=len(pages))

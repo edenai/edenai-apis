@@ -14,7 +14,8 @@ from edenai_apis.features.text import (
     CustomNamedEntityRecognitionDataClass,
     CustomClassificationDataClass,
     ModerationDataClass,
-    CodeGenerationDataClass
+    CodeGenerationDataClass,
+    ChatDataClass
 )
 from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass
 from edenai_apis.features.text.embeddings.embeddings_dataclass import EmbeddingsDataClass
@@ -280,3 +281,29 @@ class TextInterface:
             ResponseType[EmbeddingsDataClass]
         """
         raise NotImplementedError
+
+    @abstractmethod
+    def text__chat(
+        self,
+        text : str,
+        chatbot_global_action: Optional[str],
+        previous_history : Optional[List[Dict[str, str]]],
+        temperature : float = 0, 
+        max_tokens : int = 25,
+        model : str = None
+        ) -> ResponseType[ChatDataClass]:
+        """Text chat 
+
+        Args:
+            text (str): 
+            chatbot_global_action (Optional[str]): 
+            previous_history (Optional[List[Dict[str, str]]])
+            temperature (float, optional): . Defaults to 0.
+            max_tokens (int, optional) . Defaults to 2048.
+            model (str, optional) . Defaults to None.
+
+        Returns:
+            ResponseType[ChatDataClass]: _description_
+        """
+        raise NotImplementedError
+

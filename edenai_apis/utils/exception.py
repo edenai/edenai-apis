@@ -116,7 +116,11 @@ def get_appropriate_error(
     Given a ProviderException, check in the provider's errors list for corresponding error message
     return appropriate error if present else return original exception
     """
-    provider_mod = importlib.import_module(f"apis.{provider}.errors")
+    try:
+        provider_mod = importlib.import_module(f"apis.{provider}.errors")
+    except ModuleNotFoundError:
+        # we didn't implement errors yet for this provider
+        return exception
     error_dict = getattr(provider_mod, "ERRORS")
     error_msg = str(exception)
 

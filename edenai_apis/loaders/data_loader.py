@@ -53,9 +53,13 @@ def load_key(provider_name, location=False, api_keys: Dict = {}):
 @overload
 def load_class() -> List[Type[ProviderInterface]]:
     ...
+
+
 @overload
 def load_class(provider_name: str) -> Type[ProviderInterface]:
     ...
+
+
 def load_class(
     provider_name: Optional[str] = None,
 ) -> Union[List[Type[ProviderInterface]], Type[ProviderInterface]]:
@@ -147,7 +151,11 @@ def load_info_file(provider_name: str = "") -> Dict:
         provider_info = load_info_file(provider_name_i)
         for feature in provider_info:
             for subfeature in provider_info[feature]:
-                if not provider_info.get(feature, {}).get(subfeature, {}).get('version'):
+                if (
+                    not provider_info.get(feature, {})
+                    .get(subfeature, {})
+                    .get("version")
+                ):
                     for phase in provider_info.get(feature, {}).get(subfeature, []):
                         all_infos[
                             (provider_name_i, feature, subfeature, phase)
@@ -204,7 +212,6 @@ def load_output(
 def load_subfeature(
     provider_name: str, feature: str, subfeature: str, phase: str = "", suffix: str = ""
 ) -> Callable:
-
     """Load subfeature method for provider
 
     Args:
@@ -239,14 +246,8 @@ def load_samples(
     Returns:
         Dict: arguments related to a subfeautre or phase
     """
-    if phase:
-        subfeature_normalized = f"{subfeature}_{phase.replace('_async', '')}"
-        imp = import_module(
-            f"edenai_apis.features.{feature}.{subfeature}.{phase}.{subfeature}_{phase}_args"
-        )
-    else:
-        subfeature_normalized = subfeature.replace("_async", "")
-        imp = import_module(
-            f"edenai_apis.features.{feature}.{subfeature}.{subfeature}_args"
-        )
-    return getattr(imp, f"{subfeature_normalized}_arguments")()
+    normalized_subfeature = f"{subfeature}{f'_{phase}' if phase else ''}"
+    imp = import_module(
+        f"edenai_apis.features.{feature}.{subfeature}{f'.{phase}' if phase else ''}.{normalized_subfeature}_args"
+    )
+    return getattr(imp, f"{normalized_subfeature}_arguments")()

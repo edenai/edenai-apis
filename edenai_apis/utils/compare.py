@@ -122,8 +122,7 @@ def assert_standarization(
     if items_a and items_b:
         # Prevent import MemoryFileUploadHandler
         if not (
-            isinstance(items_a, BufferedReader)
-            or isinstance(items_b, BufferedReader)
+            isinstance(items_a, BufferedReader) or isinstance(items_b, BufferedReader)
         ):
             assert type_no_int(items_a) == type_no_int(items_b), format_message_error(
                 f"{type_no_int(items_a).__name__} != {type_no_int(items_b).__name__}",

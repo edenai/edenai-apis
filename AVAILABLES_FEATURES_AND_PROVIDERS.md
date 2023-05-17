@@ -27,6 +27,7 @@
 | | google |
 | | microsoft |
 | | sentisight |
+| **ocr_async** | amazon |
 | **ocr_tables_async** | amazon |
 | | google |
 | | microsoft |
@@ -138,6 +139,7 @@
 | | microsoft |
 | | oneai |
 | | openai |
+| | tenstorrent |
 | **syntax_analysis** | amazon |
 | | emvista |
 | | google |
@@ -168,6 +170,7 @@
 | **spell_check** | microsoft |
 | | openai |
 | | prowritingaid |
+| **chat** | openai |
 | **code_generation** | openai |
 | **embeddings** | openai |
 | **search** | openai |
@@ -242,6 +245,7 @@
 | | identity_parser |
 | | invoice_parser |
 | | ocr |
+| | ocr_async |
 | | ocr_tables_async |
 | | receipt_parser |
 | **text** | anonymization |
@@ -525,6 +529,7 @@
 | **audio** | speech_to_text_async |
 | **image** | generation |
 | **text** | anonymization |
+| | chat |
 | | code_generation |
 | | custom_classification |
 | | custom_named_entity_recognition |
@@ -629,6 +634,13 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **ocr** | receipt_parser |
+
+</details>
+<details><summary>tenstorrent</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | sentiment_analysis |
 
 </details>
 <details><summary>veryfi</summary>

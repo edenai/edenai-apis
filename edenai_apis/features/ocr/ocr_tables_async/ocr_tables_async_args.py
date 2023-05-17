@@ -21,7 +21,7 @@ file_info= FileInfo(
 )
 file_wrapper = FileWrapper(ocr_path, "", file_info)
 
-def ocr_tables_arguments() -> Dict:
+def ocr_tables_async_arguments() -> Dict:
     return {
         "file": file_wrapper,
         "language": "en-US",
