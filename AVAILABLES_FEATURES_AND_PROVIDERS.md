@@ -139,6 +139,7 @@
 | | microsoft |
 | | oneai |
 | | openai |
+| | tenstorrent |
 | **syntax_analysis** | amazon |
 | | emvista |
 | | google |
@@ -633,6 +634,13 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **ocr** | receipt_parser |
+
+</details>
+<details><summary>tenstorrent</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | sentiment_analysis |
 
 </details>
 <details><summary>veryfi</summary>

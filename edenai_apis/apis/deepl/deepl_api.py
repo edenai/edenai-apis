@@ -1,5 +1,6 @@
 from io import BufferedReader
 from time import sleep
+from typing import Dict
 import requests
 import base64
 from edenai_apis.features.provider.provider_interface import ProviderInterface
@@ -15,10 +16,10 @@ from edenai_apis.utils.types import ResponseType
 class DeeplApi(ProviderInterface, TranslationInterface):
     provider_name = "deepl"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api_key"]
-        self.url = self.api_settings["url"]
+        self.url = "https://api.deepl.com/v2/"
         self.header = {
             "authorization": f"DeepL-Auth-Key {self.api_key}",
         }

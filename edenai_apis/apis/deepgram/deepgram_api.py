@@ -1,6 +1,7 @@
 
 from io import BufferedReader
 from pathlib import Path
+from typing import Dict
 import requests
 import json
 from time import time
@@ -28,16 +29,14 @@ from edenai_apis.utils.upload_s3 import upload_file_to_s3
 class DeepgramApi(ProviderInterface, AudioInterface):
     provider_name = "deepgram"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
-        self.api_settings_amazon = load_provider(ProviderDataEnum.KEY, "amazon")
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["deepgram_key"]
-        self.url = self.api_settings["url"]
-        self.webhook_token = self.api_settings["webhook_token"]
-        self.webhook_url = f"https://webhook.site/{self.webhook_token}"
+        self.url = "https://api.deepgram.com/v1/listen"
 
-        self.bucket_name = self.api_settings["bucket"]
-        self.storage_url = self.api_settings["storage_url"]
+        self.webhook_settings = load_provider(ProviderDataEnum.KEY, "webhooksite")
+        self.webhook_token = self.webhook_settings["webhook_token"]
+        self.webhook_url = f"https://webhook.site/{self.webhook_token}"
 
 
     def audio__speech_to_text_async__launch_job(
@@ -118,7 +117,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         profanity = provider_job_id[-1]
         provider_job_id = provider_job_id[:-1]
         # Getting results from webhook.site
-        wehbook_result, response_status = check_webhook_result(provider_job_id, self.api_settings)
+        wehbook_result, response_status = check_webhook_result(provider_job_id, self.webhook_settings)
 
         if response_status != 200:
             raise ProviderException(wehbook_result)

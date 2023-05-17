@@ -28,8 +28,8 @@ class OpenaiAudioApi(AudioInterface):
         audio_attributes: tuple, 
         model : str = None,
         file_url: str = "") -> AsyncLaunchJobResponseType:
+
         data_job_id = {}
-        webhook_token = self.api_settings['webhook_token']
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "OpenAI-Organization": self.org_key,
@@ -50,7 +50,7 @@ class OpenaiAudioApi(AudioInterface):
         job_id = str(uuid.uuid4())
         data_job_id[job_id] = response.json()
         webhook_send =requests.post(
-            url = f'https://webhook.site/{webhook_token}',
+            url = f'https://webhook.site/{self.webhook_token}',
             data = json.dumps(data_job_id),
             
             headers = {'content-type':'application/json'})
@@ -67,7 +67,7 @@ class OpenaiAudioApi(AudioInterface):
         # List all webhook results
         # Getting results from webhook.site
 
-        wehbook_result, response_status = check_webhook_result(provider_job_id, self.api_settings)
+        wehbook_result, response_status = check_webhook_result(provider_job_id, self.webhook_settings)
 
         if response_status != 200:
             raise ProviderException(wehbook_result)

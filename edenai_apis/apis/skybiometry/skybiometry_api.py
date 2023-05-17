@@ -1,5 +1,5 @@
 from io import BufferedReader
-from typing import List
+from typing import Dict, List
 
 import requests
 from edenai_apis.features import ProviderInterface
@@ -20,9 +20,9 @@ from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 class SkybiometryApi(ProviderInterface, ImageInterface):
     provider_name = 'skybiometry'
 
-    def __init__(self) -> None:
+    def __init__(self, api_keys: Dict = {}) -> None:
         self.base_url = 'https://api.skybiometry.com/fc/'
-        self.settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+        self.settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.settings['api_key']
         self.api_secret = self.settings['api_secret']
 

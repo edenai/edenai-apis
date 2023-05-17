@@ -1,3 +1,4 @@
+from typing import Dict
 from edenai_apis.apis.amazon.amazon_audio_api import AmazonAudioApi
 from edenai_apis.apis.amazon.amazon_image_api import AmazonImageApi
 from edenai_apis.apis.amazon.amazon_ocr_api import AmazonOcrApi
@@ -22,7 +23,7 @@ class AmazonApi(
 ):
     provider_name = "amazon"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, "amazon")
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, "amazon", api_keys = api_keys)
         self.clients = clients(self.api_settings)
         self.storage_clients = storage_clients(self.api_settings)

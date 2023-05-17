@@ -2,7 +2,17 @@
   "aws_access_key_id": "",
   "aws_secret_access_key": "",
   "region_name": "",
+  "video-region": "",
   "storage_url": "",
-  "webhook_api_key": "",
-  "webhook_token": ""
+  "role_arn": "",
+  "storage_url_video": "",
+  "role": "",
+  "topic": "",
+  "topic_video": "",
+  "bucket": "",
+  "bucket_video": "",
+  "cloudfront_key_id" : "",
+  "providers_resource_bucket": "",
+  "users_resource_bucket" : "",
+  "ressource_region": ""
 }

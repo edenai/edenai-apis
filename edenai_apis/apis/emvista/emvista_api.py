@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Dict, Sequence
 import requests
 
 from edenai_apis.features import TextInterface
@@ -28,10 +28,10 @@ class EmvistaApi(ProviderInterface, TextInterface):
 
     provider_name = "emvista"
 
-    def __init__(self):
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}):
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api_key"]
-        self.base_url = self.api_settings["base_url"]
+        self.base_url = "https://pss-api.prevyo.com/pss/api/v1/"
 
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str = None

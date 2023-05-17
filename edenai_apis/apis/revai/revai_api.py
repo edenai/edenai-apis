@@ -1,6 +1,6 @@
 from io import BufferedReader
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 import requests
 import uuid
 from time import time
@@ -30,13 +30,12 @@ from edenai_apis.utils.upload_s3 import upload_file_to_s3
 class RevAIApi(ProviderInterface, AudioInterface):
     provider_name = "revai"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
-        self.api_settings_amazon = load_provider(ProviderDataEnum.KEY, "amazon")
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings_aws = load_provider(ProviderDataEnum.KEY, "amazon")
+        self.public_settings = load_provider(ProviderDataEnum.KEY, "public_ressources")
         self.key = self.api_settings["revai_key"]
-        self.bucket_name = self.api_settings["bucket"]
-        self.bucket_region = self.api_settings["region_name"]
-        self.storage_url = self.api_settings["storage_url"]
+        self.bucket_name = self.public_settings["public_bucket"]
 
 
     def _create_vocabulary(self, list_vocabs: list):
@@ -87,7 +86,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
             if initiate_vocab:
                 config["checked"]= False
                 filename = f"{vocab_name}_settings.txt"
-                storage_clients(self.api_settings_amazon)["speech"].meta.client.put_object(
+                storage_clients(self.api_settings_aws)["speech"].meta.client.put_object(
                     Bucket= self.bucket_name, 
                     Body=json.dumps(config).encode(), 
                     Key=filename
@@ -173,7 +172,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
         headers = {"Authorization": f"Bearer {self.key}"}
         # check if custom vocabulary
         try: # check if job id of vocabulary or not
-            config_content = storage_clients(self.api_settings_amazon)["speech"].meta.client.get_object(
+            config_content = storage_clients(self.api_settings_aws)["speech"].meta.client.get_object(
                 Bucket = self.bucket_name,
                 Key= f"{provider_job_id}_settings.txt"
                 )

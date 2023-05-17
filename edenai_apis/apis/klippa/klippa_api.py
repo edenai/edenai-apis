@@ -1,6 +1,6 @@
 from io import BufferedReader
 from json import JSONDecodeError
-from typing import List
+from typing import Dict, List
 
 import requests
 from edenai_apis.features import ProviderInterface, OcrInterface
@@ -15,10 +15,10 @@ from edenai_apis.utils.exception import ProviderException
 class KlippaApi(ProviderInterface, OcrInterface):
     provider_name = "klippa"
 
-    def __init__(self):
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}):
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["subscription_key"]
-        self.url = self.api_settings["url"]
+        self.url = "https://custom-ocr.klippa.com/api/v1/parseDocument"
 
         self.headers = {
             "X-Auth-Key": self.api_key,

@@ -1,13 +1,17 @@
 {
+  "text_moderation": {
+    "subscription_key": "",
+    "url": ""
+  },
+  "spell_check": {
+    "subscription_key": "",
+    "url": ""
+  },
+  "form_recognizer": {
+    "url": "",
+    "subscription_key": ""
+  },
   "face": {
-    "subscription_key": "",
-    "url": ""
-  },
-  "ocr_invoice": {
-    "subscription_key": "",
-    "url": ""
-  },
-  "ocr_tables_async": {
     "subscription_key": "",
     "url": ""
   },
@@ -17,6 +21,7 @@
     "url": ""
   },
   "summarization": {
+    "subscription_key": "",
     "url": ""
   },
   "text": {
@@ -31,5 +36,19 @@
   "vision": {
     "subscription_key": "",
     "url": ""
+  },
+  "automl": {
+    "workspace_name": "",
+    "subscription_id": "",
+    "resource_group": "",
+    "tenant_id": "",
+    "service_principal_id": "",
+    "service_principal_password": ""
+  },
+  "automl_vision": {
+    "endpoint": "",
+    "training_key": "",
+    "prediction_key": "",
+    "resource_id": ""
   }
 }

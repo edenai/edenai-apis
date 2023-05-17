@@ -1,5 +1,5 @@
 from io import BufferedReader
-from typing import List, Sequence
+from typing import Dict, List, Sequence
 from collections import defaultdict
 from affinda import AffindaAPI, TokenCredential
 from edenai_apis.features import OcrInterface
@@ -35,9 +35,9 @@ from edenai_apis.utils.types import ResponseType
 class AffindaApi(ProviderInterface, OcrInterface):
     provider_name = "affinda"
 
-    def __init__(self):
+    def __init__(self, api_keys: Dict = {}):
         super().__init__()
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         credentials = TokenCredential(token=self.api_settings["api_key"])
         self.client = AffindaAPI(credential=credentials)
 

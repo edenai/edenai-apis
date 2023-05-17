@@ -1,5 +1,5 @@
 from io import BufferedReader
-from typing import List
+from typing import Dict, List
 import requests
 from collections import defaultdict
 from edenai_apis.features import OcrInterface
@@ -27,11 +27,11 @@ from edenai_apis.utils.types import ResponseType
 class HireabilityApi(ProviderInterface, OcrInterface):
     provider_name = "hireability"
 
-    def __init__(self):
+    def __init__(self, api_keys: Dict = {}):
         super().__init__()
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.product_code = self.api_settings["product_code"]
-        self.url = self.api_settings["endpoint"]
+        self.url = "http://processing.resumeparser.com/requestprocessing.html"
 
     def ocr__resume_parser(
         self, 

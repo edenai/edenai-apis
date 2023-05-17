@@ -17,7 +17,7 @@ from settings import base_path, keys_path
 BUCKET = ""
 BUCKET_RESSOURCE = ""
 CLOUDFRONT_KEY_ID = ""
-REGION = "eu-west-3"
+REGION = ""
 CLOUDFRONT_URL = "https://d14uq1pz7dzsdq.cloudfront.net/"
 
 PROVIDER_PROCESS = "provider_process"
@@ -58,10 +58,11 @@ def s3_client_load():
     aws_access_key_id = api_settings["aws_access_key_id"]
     aws_secret_access_key = api_settings["aws_secret_access_key"]
 
-    global BUCKET, BUCKET_RESSOURCE, CLOUDFRONT_KEY_ID
+    global BUCKET, BUCKET_RESSOURCE, CLOUDFRONT_KEY_ID, REGION
     BUCKET = api_settings["providers_resource_bucket"]
     BUCKET_RESSOURCE = api_settings["users_resource_bucket"]
     CLOUDFRONT_KEY_ID = api_settings["cloudfront_key_id"]
+    REGION = api_settings["ressource_region"]
     return boto3.client(
         "s3",
         region_name=REGION,
@@ -118,3 +119,5 @@ def get_providers_json_from_s3():
     )
     json_dict = json.loads(obj["Body"].read().decode("utf-8"))
     return json_dict["cost_data"]
+
+

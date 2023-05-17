@@ -1,7 +1,7 @@
 import base64
 from io import BytesIO
 import json
-from typing import Literal
+from typing import Dict, Literal
 import requests
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import TextToSpeechDataClass
 from edenai_apis.features.provider.provider_interface import ProviderInterface
@@ -15,9 +15,9 @@ from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 class LovoaiApi(ProviderInterface, AudioInterface):
     provider_name = 'lovoai'
 
-    def __init__(self):
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
-        self.url = self.api_settings['base_url']
+    def __init__(self, api_keys: Dict = {}):
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.url = "https://api.lovo.ai/"
 
         self.headers = {
             "apiKey": self.api_settings['api_key'],
@@ -52,7 +52,6 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             "speaker_id": voice_id.split("_")[-1],
             "speed": self.__adjust_speaking_rate(speaking_rate)
         })
-        print(data)
 
         response = requests.post(f'{self.url}v1/conversion', headers=self.headers, data=data)
 

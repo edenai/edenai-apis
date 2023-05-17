@@ -27,11 +27,11 @@ from edenai_apis.utils.exception import ProviderException
 class DataleonApi(ProviderInterface, OcrInterface):
     provider_name = "dataleon"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["key"]
-        self.url_invoice = self.api_settings["invoice_parser"]["url"]
-        self.url_receipt = self.api_settings["receipt_parser"]["url"]
+        self.url_invoice = "https://inference.eu-west-1.dataleon.ai/invoice"
+        self.url_receipt = "https://inference.eu-west-1.dataleon.ai/receipt"
         self.headers = {
             "Api-Key": self.api_key,
         }
