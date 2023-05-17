@@ -8,14 +8,14 @@
     },
     "results": [
       {
-        "url": "https://elis.rossum.ai/api/v1/annotations/28263491",
+        "url": "https://elis.rossum.ai/api/v1/annotations/32437611",
         "status": "to_review",
-        "arrived_at": "2023-03-03T15:53:36.835620Z",
+        "arrived_at": "2023-05-17T09:57:49.497901Z",
         "exported_at": null,
         "document": {
-          "url": "https://elis.rossum.ai/api/v1/documents/30042006",
+          "url": "https://elis.rossum.ai/api/v1/documents/34707778",
           "file_name": "invoice.png",
-          "file": "https://elis.rossum.ai/api/v1/documents/30042006/content"
+          "file": "https://elis.rossum.ai/api/v1/documents/34707778/content"
         },
         "modifier": null,
         "schema": {
@@ -583,7 +583,11 @@
           "customer_billing_address": null,
           "customer_shipping_address": "",
           "customer_service_address": null,
-          "customer_remittance_address": null
+          "customer_remittance_address": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "vat_number": null
         },
         "merchant_information": {
           "merchant_name": "",
@@ -594,11 +598,16 @@
           "merchant_website": null,
           "merchant_tax_id": "",
           "merchant_siret": null,
-          "merchant_siren": null
+          "merchant_siren": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "vat_number": null
         },
         "invoice_number": "",
         "invoice_total": 4520.0,
         "invoice_subtotal": null,
+        "gratuity": null,
         "amount_due": 4520.0,
         "previous_unpaid_balance": null,
         "discount": null,
@@ -608,12 +617,14 @@
             "rate": null
           }
         ],
+        "service_charge": null,
         "payment_term": null,
         "purchase_order": null,
         "date": null,
         "due_date": null,
         "service_date": null,
         "service_due_date": null,
+        "po_number": null,
         "locale": {
           "currency": "usd",
           "language": "eng"

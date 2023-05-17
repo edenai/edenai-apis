@@ -6860,7 +6860,7 @@
                 "length": 8
               }
             ],
-            "confidence": 0.974
+            "confidence": 0.972
           },
           "CustomerId": {
             "value_type": "string",
@@ -6895,7 +6895,7 @@
                 "length": 6
               }
             ],
-            "confidence": 0.421
+            "confidence": 0.505
           },
           "InvoiceDate": {
             "value_type": "date",
@@ -6930,7 +6930,7 @@
                 "length": 8
               }
             ],
-            "confidence": 0.968
+            "confidence": 0.97
           },
           "InvoiceTotal": {
             "value_type": "currency",
@@ -7012,7 +7012,7 @@
                         "length": 4
                       }
                     ],
-                    "confidence": 0.977
+                    "confidence": 0.914
                   },
                   "Description": {
                     "value_type": "string",
@@ -7047,7 +7047,7 @@
                         "length": 41
                       }
                     ],
-                    "confidence": 0.933
+                    "confidence": 0.902
                   },
                   "Quantity": {
                     "value_type": "float",
@@ -7082,7 +7082,7 @@
                         "length": 1
                       }
                     ],
-                    "confidence": 0.976
+                    "confidence": 0.906
                   },
                   "UnitPrice": {
                     "value_type": "currency",
@@ -7120,7 +7120,7 @@
                         "length": 5
                       }
                     ],
-                    "confidence": 0.976
+                    "confidence": 0.91
                   }
                 },
                 "content": "Your item Name Item description goes here\n$1000\n1\n1000",
@@ -7153,7 +7153,7 @@
                     "length": 54
                   }
                 ],
-                "confidence": 0.971
+                "confidence": 0.909
               },
               {
                 "value_type": "dictionary",
@@ -7194,7 +7194,7 @@
                         "length": 4
                       }
                     ],
-                    "confidence": 0.977
+                    "confidence": 0.913
                   },
                   "Description": {
                     "value_type": "string",
@@ -7229,7 +7229,7 @@
                         "length": 41
                       }
                     ],
-                    "confidence": 0.932
+                    "confidence": 0.902
                   },
                   "Quantity": {
                     "value_type": "float",
@@ -7264,7 +7264,7 @@
                         "length": 1
                       }
                     ],
-                    "confidence": 0.976
+                    "confidence": 0.905
                   },
                   "UnitPrice": {
                     "value_type": "currency",
@@ -7302,7 +7302,7 @@
                         "length": 5
                       }
                     ],
-                    "confidence": 0.976
+                    "confidence": 0.909
                   }
                 },
                 "content": "Your item Name Item description goes here\n$1000\n1\n1000",
@@ -7335,7 +7335,7 @@
                     "length": 54
                   }
                 ],
-                "confidence": 0.971
+                "confidence": 0.909
               },
               {
                 "value_type": "dictionary",
@@ -7376,7 +7376,7 @@
                         "length": 4
                       }
                     ],
-                    "confidence": 0.977
+                    "confidence": 0.913
                   },
                   "Description": {
                     "value_type": "string",
@@ -7411,7 +7411,7 @@
                         "length": 41
                       }
                     ],
-                    "confidence": 0.933
+                    "confidence": 0.902
                   },
                   "Quantity": {
                     "value_type": "float",
@@ -7446,7 +7446,7 @@
                         "length": 1
                       }
                     ],
-                    "confidence": 0.976
+                    "confidence": 0.905
                   },
                   "UnitPrice": {
                     "value_type": "currency",
@@ -7484,7 +7484,7 @@
                         "length": 5
                       }
                     ],
-                    "confidence": 0.976
+                    "confidence": 0.909
                   }
                 },
                 "content": "Your item Name Item description goes here\n$1000\n1\n1000",
@@ -7517,7 +7517,7 @@
                     "length": 54
                   }
                 ],
-                "confidence": 0.971
+                "confidence": 0.909
               },
               {
                 "value_type": "dictionary",
@@ -7558,7 +7558,7 @@
                         "length": 4
                       }
                     ],
-                    "confidence": 0.977
+                    "confidence": 0.913
                   },
                   "Description": {
                     "value_type": "string",
@@ -7593,7 +7593,7 @@
                         "length": 41
                       }
                     ],
-                    "confidence": 0.938
+                    "confidence": 0.904
                   },
                   "Quantity": {
                     "value_type": "float",
@@ -7628,7 +7628,7 @@
                         "length": 1
                       }
                     ],
-                    "confidence": 0.975
+                    "confidence": 0.905
                   },
                   "UnitPrice": {
                     "value_type": "currency",
@@ -7666,7 +7666,7 @@
                         "length": 5
                       }
                     ],
-                    "confidence": 0.976
+                    "confidence": 0.91
                   }
                 },
                 "content": "Your item Name Item description goes here\n$1000\n1\n1000",
@@ -7699,7 +7699,7 @@
                     "length": 54
                   }
                 ],
-                "confidence": 0.971
+                "confidence": 0.909
               }
             ],
             "content": null,
@@ -7743,7 +7743,7 @@
                 "length": 8
               }
             ],
-            "confidence": 0.979
+            "confidence": 0.98
           },
           "TotalTax": {
             "value_type": "currency",
@@ -7801,7 +7801,11 @@
           "customer_billing_address": null,
           "customer_shipping_address": null,
           "customer_service_address": null,
-          "customer_remittance_address": null
+          "customer_remittance_address": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "vat_number": null
         },
         "merchant_information": {
           "merchant_name": null,
@@ -7812,11 +7816,16 @@
           "merchant_website": null,
           "merchant_tax_id": null,
           "merchant_siret": null,
-          "merchant_siren": null
+          "merchant_siren": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "vat_number": null
         },
         "invoice_number": null,
         "invoice_total": 4520.0,
         "invoice_subtotal": 4000.0,
+        "gratuity": null,
         "amount_due": 4520.0,
         "previous_unpaid_balance": null,
         "discount": null,
@@ -7826,12 +7835,14 @@
             "rate": null
           }
         ],
+        "service_charge": null,
         "payment_term": null,
         "purchase_order": null,
         "date": "2014-10-07",
         "due_date": null,
         "service_date": null,
         "service_due_date": null,
+        "po_number": null,
         "locale": {
           "currency": null,
           "language": null
