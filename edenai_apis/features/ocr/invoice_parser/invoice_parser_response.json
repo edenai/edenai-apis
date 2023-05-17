@@ -11,7 +11,11 @@
         "customer_billing_address": null,
         "customer_shipping_address": null,
         "customer_service_address": null,
-        "customer_remittance_address": null
+        "customer_remittance_address": null,
+        "abn_number": null,
+        "gst_number": null,
+        "pan_number": null,
+        "vat_number": null
       },
       "merchant_information": {
         "merchant_name": null,
@@ -22,12 +26,19 @@
         "merchant_website": null,
         "merchant_tax_id": null,
         "merchant_siret": null,
-        "merchant_siren": null
+        "merchant_siren": null,
+        "abn_number": null,
+        "gst_number": null,
+        "pan_number": null,
+        "vat_number": null
       },
       "invoice_number": "000000",
       "invoice_total": 4520.0,
       "invoice_subtotal": 4000.0,
       "amount_due": 4520.0,
+      "gratuity": null,
+      "po_number": null,
+      "service_charge": null,
       "previous_unpaid_balance": null,
       "discount": null,
       "taxes": [

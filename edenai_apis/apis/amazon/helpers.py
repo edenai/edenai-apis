@@ -264,12 +264,12 @@ def amazon_custom_document_parsing_formatter(
         for block in page["Blocks"]:
             if block["BlockType"] == "QUERY_RESULT":
                 if block.get("Geometry"):
-                    left=block["Geometry"]["BoundingBox"]["Left"],
-                    top=block["Geometry"]["BoundingBox"]["Top"],
-                    width=block["Geometry"]["BoundingBox"]["Width"],
-                    height=block["Geometry"]["BoundingBox"]["Height"],
+                    left=block["Geometry"]["BoundingBox"]["Left"]
+                    top=block["Geometry"]["BoundingBox"]["Top"]
+                    width=block["Geometry"]["BoundingBox"]["Width"]
+                    height=block["Geometry"]["BoundingBox"]["Height"]
                 else:
-                    left, top, width, height = 0, 0, 0, 0
+                    left, top, width, height = None, None, None, None
                 bounding_box = CustomDocumentParsingAsyncBoundingBox(
                     left=left,
                     top=top,
