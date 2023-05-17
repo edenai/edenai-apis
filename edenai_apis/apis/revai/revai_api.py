@@ -32,7 +32,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
 
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
-        self.api_settings_aws = load_provider(ProviderDataEnum.KEY, "aws_ressources")
+        self.api_settings_aws = load_provider(ProviderDataEnum.KEY, "amazon")
         self.public_settings = load_provider(ProviderDataEnum.KEY, "public_ressources")
         self.key = self.api_settings["revai_key"]
         self.bucket_name = self.public_settings["public_bucket"]
