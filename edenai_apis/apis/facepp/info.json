@@ -1,0 +1,27 @@
+{
+    "image": {
+        "face_recognition": {
+            "create_collection": {
+                "version": "v3"
+            },
+            "list_collections": {
+                "version": "v3"
+            },
+            "delete_collection": {
+                "version": "v3"
+            },
+            "list_faces": {
+                "version": "v3"
+            },
+            "add_face": {
+                "version": "v3"
+            },
+            "delete_face": {
+                "version": "v3"
+            },
+            "recognize": {
+                "version": "v3"
+            }
+        }
+    }
+}

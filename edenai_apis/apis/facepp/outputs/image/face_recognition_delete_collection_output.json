@@ -1,0 +1,11 @@
+{
+  "original_response": {
+    "faceset_token": "7ea421183f16df4374a3299e29bf0b41",
+    "request_id": "1684767390,9241ba68-a2e7-48b3-bd38-561f7b476bf1",
+    "time_used": 119,
+    "outer_id": "test_collection_id"
+  },
+  "standardized_response": {
+    "deleted": true
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "original_response": {
+    "faceset_token": "fce61bbc50ece69b4059207f3681fa21",
+    "time_used": 386,
+    "face_count": 2,
+    "face_added": 1,
+    "request_id": "1684767524,22d4e52d-6083-4951-a702-5b8d82fb5063",
+    "outer_id": "test_collection_id",
+    "failure_detail": []
+  },
+  "standardized_response": {
+    "face_ids": [
+      "12fc0d5b430add004c0e2d50be78ea37"
+    ]
+  }
+}
