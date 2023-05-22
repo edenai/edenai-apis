@@ -7,6 +7,7 @@ import uuid
 import googleapiclient.discovery
 from edenai_apis.apis.google.google_helpers import (
     google_ocr_tables_standardize_response,
+    handle_done_response_ocr_async,
 )
 from edenai_apis.features.ocr import (
     BankInvoice,
@@ -497,7 +498,7 @@ class GoogleOcrApi(OcrInterface):
 
         gcs_destination = vision.GcsDestination(uri=gcs_output_uri)
         output_config = vision.OutputConfig(
-            gcs_destination=gcs_destination, batch_size=2
+            gcs_destination=gcs_destination, batch_size=1
         )
 
         async_request = vision.AsyncAnnotateFileRequest(
@@ -540,71 +541,7 @@ class GoogleOcrApi(OcrInterface):
             raise ProviderException(str(excp))
 
         if res["metadata"]["state"] == "DONE":
-            gcs_destination_uri = res["response"]["responses"][0]["outputConfig"][
-                "gcsDestination"
-            ]["uri"]
-            match = re.match(r"gs://([^/]+)/(.+)", gcs_destination_uri)
-            bucket_name = match.group(1)
-            prefix = match.group(2)
-
-            bucket = self.clients["storage"].get_bucket(bucket_name)
-
-            blob_list = [
-                blob
-                for blob in list(bucket.list_blobs(prefix=prefix))
-                if not blob.name.endswith("/")
-            ]
-
-            original_response = {"responses": []}
-            for blob in blob_list:
-                output = blob
-
-                json_string = output.download_as_string()
-                response = json.loads(json_string)
-
-                pages: Sequence[Page] = []
-                for response in response["responses"]:
-                    original_response["responses"].append(
-                        response["fullTextAnnotation"]
-                    )
-                    for page in response["fullTextAnnotation"]["pages"]:
-                        lines: Sequence[Line] = []
-                        for block in page["blocks"]:
-                            words: Sequence[Word] = []
-                            for paragraph in block["paragraphs"]:
-                                line_boxes = BoundingBox.from_normalized_vertices(
-                                    paragraph["boundingBox"]["normalizedVertices"]
-                                )
-                                for word in paragraph["words"]:
-                                    word_boxes = BoundingBox.from_normalized_vertices(
-                                        word["boundingBox"]["normalizedVertices"]
-                                    )
-                                    word_text = ""
-                                    for symbol in word["symbols"]:
-                                        word_text += symbol["text"]
-                                    words.append(
-                                        Word(
-                                            text=word_text,
-                                            bounding_box=word_boxes,
-                                            confidence=word["confidence"],
-                                        )
-                                    )
-                            lines.append(
-                                Line(
-                                    text=" ".join([word.text for word in words]),
-                                    words=words,
-                                    bounding_box=line_boxes,
-                                    confidence=paragraph["confidence"],
-                                )
-                            )
-                        pages.append(Page(lines=lines))
-            return AsyncResponseType[OcrAsyncDataClass](
-                provider_job_id=job_id,
-                original_response=original_response,
-                standardized_response=OcrAsyncDataClass(
-                    pages=pages, number_of_pages=len(pages)
-                ),
-            )
+            return handle_done_response_ocr_async(res, self.clients["storage"], job_id)
 
         elif res["metadata"]["state"] == "FAILED":
             raise ProviderException(res.get("error"))
