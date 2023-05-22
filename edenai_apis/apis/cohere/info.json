@@ -32,6 +32,15 @@
           ],
           "default_model" : "summarize-xlarge"
       }
+    },
+    "spell_check":{
+      "constraints": {
+        "languages": [
+          "en"
+        ],
+        "allow_null_language": false
+      },
+      "version": "2022-12-06"
     }
   }
 }

@@ -1,4 +1,4 @@
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Sequence
 import requests
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import (
@@ -8,10 +8,12 @@ from edenai_apis.features.text import (
     SummarizeDataClass,
     CustomNamedEntityRecognitionDataClass
 )
+from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass, SpellCheckItem
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.conversion import closest_above_value, find_all_occurrence
 import json
 
 
@@ -64,6 +66,19 @@ class CohereApi(ProviderInterface, TextInterface):
         ---
             """
 
+    def _format_spell_check_prompt(text: str, language: str) -> str:
+        return f"""
+Find the spelling and grammar mistakes by creating a list of suggestions to correct each mistake and the confidence score between 0.0 and 1.0, it will return the type of each mistake.
+To calculate the start offset of the word you must count all off characters before the word including spaces and punctuation, in the text written in samples text.
+--
+Sample: Hollo wrld! Haw are yu?
+Corrected text: {{"items": [{{"text": "Hollo", "type": "typo","offset": 0,"length": 5,"suggestions": [{{"suggestion": "Hello", "score": 1}}]}},{{"text": "wrld","type": "typo","offset": 6,"length": 4, "suggestions": [{{"suggestion": "world", "score": 1 }}] }},{{"text": "Haw", "type": "typo","offset": 12,"length": 3,"suggestions": [{{"suggestion": "How","score": 1}}]}}, {{"text": "yu","type": "typo","offset": 20,"length": 2,"suggestions": [ {{ "suggestion": "you","score": 1}}]}}]}}
+
+--
+Sample:  {text}
+Corrected text:
+"""
+     
     def text__generation(
         self, text : str, 
         max_tokens : int,
@@ -72,7 +87,6 @@ class CohereApi(ProviderInterface, TextInterface):
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.base_url}generate"
         
-          
         payload = {
             "prompt": text,
             "model" : model,
@@ -221,4 +235,44 @@ Answer:
         return ResponseType[CustomNamedEntityRecognitionDataClass](
             original_response=original_response,
             standardized_response=standardized_response
+        )
+
+    def text__spell_check(self, text: str, language: str) -> ResponseType[SpellCheckDataClass]:
+        url = f"{self.base_url}generate"
+        
+        payload = {
+            "prompt": CohereApi._format_spell_check_prompt(text, language),
+            "model" : "command-nightly",
+            "max_tokens":1000,
+            "temperature" : 0,
+            "stop_sequences": ["--"],
+            "truncate": "END",
+        }
+
+        original_response = requests.post(url, json=payload, headers= self.headers).json()
+        
+        if "message" in original_response:
+            raise ProviderException(original_response["message"])
+        
+        generated_texts = original_response.get('generations')
+        try:
+            original_items = json.loads(generated_texts[0]['text'])
+        except (KeyError, json.JSONDecodeError) as exc:
+            raise ProviderException("An error occurred while parsing the response.") from exc
+        
+        items: Sequence[SpellCheckItem] = []
+        for item in original_items['items']:
+
+            real_offset = closest_above_value(find_all_occurrence(text, item['text']), item['offset'])
+
+            items.append(SpellCheckItem(
+                text=item['text'],
+                offset=real_offset,
+                length=len(item['text']),
+                type=item['type'],
+                suggestions=item['suggestions'],
+            ))
+        return ResponseType[SpellCheckDataClass](
+            original_response=original_response,
+            standardized_response = SpellCheckDataClass(text=text, items=items)
         )
