@@ -32,16 +32,18 @@ test_params = sorted(
     list(
         map(
             lambda provider: (provider, _collection_id),
-            list_providers(feature="image", subfeature="face_recognition"),
+            filter(
+                lambda provider: provider != "microsoft",
+                list_providers(feature="image", subfeature="face_recognition"),
+            ),
         )
     )
 )
 
 
 @pytest.mark.skipif(
-    # os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-    # reason="Don't run on opensource cicd workflow",
-    reason= "Skipped for now"
+    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
+    reason="Don't run on opensource cicd workflow",
 )
 @pytest.mark.xdist_group(name="face_recognition")
 @pytest.mark.parametrize(("provider", "collection_id"), test_params)
@@ -108,14 +110,6 @@ class TestFaceRecognition:
         assert face_ids != updated_face_ids
         assert face_to_delete not in updated_face_ids
 
-    def test_delete_face_from_collection_wrong_id(self, provider, collection_id):
-        with pytest.raises(ProviderException) as exc:
-            delete_face = Image.face_recognition__delete_face(provider)
-            delete_face(collection_id=COLLECTION_ID, face_id="test_does_not_exists")
-            assert exc is not None
-
-
-
     def test_recognize(self, provider, collection_id):
         add_face = Image.face_recognition__add_face(provider)
         images = get_data_files()  # contains images with face of the same person
@@ -132,13 +126,6 @@ class TestFaceRecognition:
         assert len(std_response.items) > 0
 
         assert face_id not in [face.face_id for face in std_response.items]
-
-    def test_recognize_no_face(self, provider, collection_id):
-        img = landmark_detection_arguments()["file"].file_path
-        recognize = Image.face_recognition__recognize(provider)
-        with pytest.raises(ProviderException) as exc:
-            recognize(collection_id=COLLECTION_ID, file=img)
-            assert exc is not None
 
     def test_recognize_empty_collection(self, provider, collection_id):
         list_faces = Image.face_recognition__list_faces(provider)

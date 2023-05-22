@@ -50,12 +50,26 @@ class AsyncJobException(ProviderException):
 class ProviderInternalServerError(ProviderException):
     """Error Occuring when Provider returns an internal server error"""
 
+
 class ProviderAuthorizationError(ProviderException):
     """When wrong API KEY or other auth related error"""
 
 
+class ProviderPermissionError(ProviderException):
+    """When the client doesn't have sufficient permissions for the request sent"""
+
+
+class ProviderNotFoundError(ProviderException):
+    """When resource requested is not found"""
+
+
+class ProviderTimeoutError(ProviderException):
+    """When provider timeout"""
+
+
 class ProviderLimitationError(ProviderException):
     """Provider limit concurrent requests or other recourses"""
+
 
 class ProviderParsingError(ProviderException):
     """When the provider couldn't analyze/parse inputs as expected
@@ -64,6 +78,7 @@ class ProviderParsingError(ProviderException):
         - Couldn't find face in image/video
         - Couldn't find sentiment in text
     """
+
 
 class ProviderInvalidInputError(ProviderException):
     """General Error when the input sent to provider is invalid"""

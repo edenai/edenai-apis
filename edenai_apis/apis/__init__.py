@@ -42,5 +42,6 @@ from .prowritingaid import ProWritingAidApi
 from .writesonic import WritesonicApi
 from .speechmatics import SpeechmaticsApi
 from .tenstorrent import TenstorrentApi
+from .facepp import FaceppApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

@@ -1,0 +1,26 @@
+{
+  "original_response": {
+    "time_used": 47,
+    "facesets": [
+      {
+        "faceset_token": "f468b2e72bff4108f2e8a33e414c7226",
+        "outer_id": "test1",
+        "display_name": "",
+        "tags": ""
+      },
+      {
+        "faceset_token": "fce61bbc50ece69b4059207f3681fa21",
+        "outer_id": "test_collection_id",
+        "display_name": "",
+        "tags": ""
+      }
+    ],
+    "request_id": "1684767448,a8098064-dfdf-4eba-ac87-deca7f1925dd"
+  },
+  "standardized_response": {
+    "collections": [
+      "test1",
+      "test_collection_id"
+    ]
+  }
+}

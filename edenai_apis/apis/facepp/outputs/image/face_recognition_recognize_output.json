@@ -1,0 +1,38 @@
+{
+  "original_response": {
+    "image_id": "H8gzfZPr/NsOQxkdshSxTA==",
+    "faces": [
+      {
+        "face_rectangle": {
+          "width": 452,
+          "top": 364,
+          "left": 466,
+          "height": 452
+        },
+        "face_token": "634170960f824e7e0534a6e713206e12"
+      }
+    ],
+    "time_used": 493,
+    "thresholds": {
+      "1e-3": 62.327,
+      "1e-5": 73.975,
+      "1e-4": 69.101
+    },
+    "request_id": "1684767538,f3f60084-728e-4b28-bf29-3b3996907f60",
+    "results": [
+      {
+        "confidence": 96.238,
+        "user_id": "",
+        "face_token": "a06d0f123d7f8fa96faa7ca06ddc5c99"
+      }
+    ]
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "confidence": 96.238,
+        "face_id": "a06d0f123d7f8fa96faa7ca06ddc5c99"
+      }
+    ]
+  }
+}
