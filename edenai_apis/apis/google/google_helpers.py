@@ -1,3 +1,5 @@
+import json
+import re
 from typing import List, Sequence
 from typing import Tuple
 
@@ -5,7 +7,12 @@ import enum
 import google.auth
 import google
 import googleapiclient.discovery
-from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import BoundingBox
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
+    BoundingBox,
+    Line,
+    OcrAsyncDataClass,
+    Word,
+)
 
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     BoundixBoxOCRTable,
@@ -24,6 +31,7 @@ from edenai_apis.utils.exception import (
     AsyncJobExceptionReason,
     ProviderException,
 )
+from edenai_apis.utils.types import AsyncResponseType
 
 
 class GoogleVideoFeatures(enum.Enum):
@@ -272,3 +280,71 @@ def get_right_audio_support_and_sampling_rate(
         filter(lambda x: audio_format in x.lower(), list_audio_formats), None
     )
     return extension, right_audio_format
+
+
+def handle_done_response_ocr_async(
+    result, client, job_id
+) -> AsyncResponseType[OcrAsyncDataClass]:
+    gcs_destination_uri = result["response"]["responses"][0]["outputConfig"][
+        "gcsDestination"
+    ]["uri"]
+    match = re.match(r"gs://([^/]+)/(.+)", gcs_destination_uri)
+    bucket_name = match.group(1)
+    prefix = match.group(2)
+
+    bucket = client.get_bucket(bucket_name)
+
+    blob_list = [
+        blob
+        for blob in list(bucket.list_blobs(prefix=prefix))
+        if not blob.name.endswith("/")
+    ]
+
+    original_response = {"responses": []}
+    pages: Sequence[Page] = []
+    for blob in blob_list:
+        output = blob
+
+        json_string = output.download_as_string()
+        response = json.loads(json_string)
+
+        for response in response["responses"]:
+            original_response["responses"].append(response["fullTextAnnotation"])
+            for page in response["fullTextAnnotation"]["pages"]:
+                lines: Sequence[Line] = []
+                for block in page["blocks"]:
+                    words: Sequence[Word] = []
+                    for paragraph in block["paragraphs"]:
+                        line_boxes = BoundingBox.from_normalized_vertices(
+                            paragraph["boundingBox"]["normalizedVertices"]
+                        )
+                        for word in paragraph["words"]:
+                            word_boxes = BoundingBox.from_normalized_vertices(
+                                word["boundingBox"]["normalizedVertices"]
+                            )
+                            word_text = ""
+                            for symbol in word["symbols"]:
+                                word_text += symbol["text"]
+                            words.append(
+                                Word(
+                                    text=word_text,
+                                    bounding_box=word_boxes,
+                                    confidence=word["confidence"],
+                                )
+                            )
+                lines.append(
+                    Line(
+                        text=" ".join([word.text for word in words]),
+                        words=words,
+                        bounding_box=line_boxes,
+                        confidence=paragraph["confidence"],
+                    )
+                )
+        pages.append(Page(lines=lines))
+    return AsyncResponseType[OcrAsyncDataClass](
+        provider_job_id=job_id,
+        original_response=original_response,
+        standardized_response=OcrAsyncDataClass(
+            pages=pages, number_of_pages=len(pages)
+        ),
+    )

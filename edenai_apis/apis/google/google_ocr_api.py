@@ -1,6 +1,5 @@
 import json
 import mimetypes
-from pprint import pprint
 import re
 from typing import Sequence
 import uuid
@@ -8,6 +7,7 @@ import uuid
 import googleapiclient.discovery
 from edenai_apis.apis.google.google_helpers import (
     google_ocr_tables_standardize_response,
+    handle_done_response_ocr_async,
 )
 from edenai_apis.features.ocr import (
     BankInvoice,
@@ -475,3 +475,75 @@ class GoogleOcrApi(OcrInterface):
         return AsyncPendingResponseType[OcrTablesAsyncDataClass](
             status="pending", provider_job_id=job_id
         )
+
+    def ocr__ocr_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
+        call_uuid = uuid.uuid4().hex
+        filename: str = call_uuid + file.split("/")[-1]
+
+        gcs_output_uri = "gs://ocr-async/outputs-" + call_uuid
+        gcs_input_uri = f"gs://ocr-async/{filename}"
+
+        ocr_async_bucket = self.clients["storage"].get_bucket("ocr-async")
+        new_blob = ocr_async_bucket.blob(filename)
+        new_blob.upload_from_filename(file)
+
+        feature = vision.Feature(type_=vision.Feature.Type.DOCUMENT_TEXT_DETECTION)
+
+        mime_type, _ = mimetypes.guess_type(file)
+
+        gcs_source = vision.GcsSource(uri=gcs_input_uri)
+        input_config = vision.InputConfig(gcs_source=gcs_source, mime_type=mime_type)
+
+        gcs_destination = vision.GcsDestination(uri=gcs_output_uri)
+        output_config = vision.OutputConfig(
+            gcs_destination=gcs_destination, batch_size=1
+        )
+
+        async_request = vision.AsyncAnnotateFileRequest(
+            features=[feature], input_config=input_config, output_config=output_config
+        )
+
+        response = self.clients["image"].async_batch_annotate_files(
+            requests=[async_request]
+        )
+
+        operation_id = response.operation.name.split("/")[-1]
+        return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+
+    def ocr__ocr_async__get_job_result(
+        self, job_id: str
+    ) -> ResponseType[OcrAsyncDataClass]:
+        scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+        credentials, _ = google.auth.default(scopes=scopes)
+
+        name = f"projects/{self.project_id}/operations/{job_id}"
+
+        service = googleapiclient.discovery.build(
+            serviceName="vision",
+            version="v1",
+            credentials=credentials,
+            client_options={"api_endpoint": "https://vision.googleapis.com"},
+        )
+
+        request = service.projects().operations().get(name=name)
+
+        try:
+            res = request.execute()
+        except Exception as excp:
+            if "Operation not found" in str(excp) or "Invalid operation id" in str(
+                excp
+            ):
+                raise AsyncJobException(
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
+            raise ProviderException(str(excp))
+
+        if res["metadata"]["state"] == "DONE":
+            return handle_done_response_ocr_async(res, self.clients["storage"], job_id)
+
+        elif res["metadata"]["state"] == "FAILED":
+            raise ProviderException(res.get("error"))
+
+        return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)

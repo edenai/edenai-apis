@@ -23,7 +23,11 @@ from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     OcrTablesAsyncDataClass,
 )
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
+)
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -39,7 +43,7 @@ from .helpers import (
     amazon_ocr_tables_parser,
     amazon_custom_document_parsing_formatter,
     amazon_invoice_parser_formatter,
-    amazon_receipt_parser_formatter
+    amazon_receipt_parser_formatter,
 )
 
 
@@ -97,9 +101,7 @@ class AmazonOcrApi(OcrInterface):
         )
 
     def ocr__identity_parser(
-        self,
-        file: str,
-        file_url: str = ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
         file_ = open(file, "rb")
         original_response = self.clients["textract"].analyze_id(
@@ -119,8 +121,7 @@ class AmazonOcrApi(OcrInterface):
             infos["given_names"] = []
             for field in document["IdentityDocumentFields"]:
                 field_type = field["Type"]["Text"]
-                confidence = round(
-                    field["ValueDetection"]["Confidence"] / 100, 2)
+                confidence = round(field["ValueDetection"]["Confidence"] / 100, 2)
                 value = (
                     field["ValueDetection"]["Text"]
                     if field["ValueDetection"]["Text"] != ""
@@ -132,8 +133,7 @@ class AmazonOcrApi(OcrInterface):
                     )
                 elif field_type in ("FIRST_NAME", "MIDDLE_NAME") and value:
                     infos["given_names"].append(
-                        ItemIdentityParserDataClass(
-                            value=value, confidence=confidence)
+                        ItemIdentityParserDataClass(value=value, confidence=confidence)
                     )
                 elif field_type == "DOCUMENT_NUMBER":
                     infos["document_id"] = ItemIdentityParserDataClass(
@@ -141,8 +141,7 @@ class AmazonOcrApi(OcrInterface):
                     )
                 elif field_type == "EXPIRATION_DATE":
                     value = (
-                        field["ValueDetection"].get(
-                            "NormalizedValue", {}).get("Value")
+                        field["ValueDetection"].get("NormalizedValue", {}).get("Value")
                     )
                     infos["expire_date"] = ItemIdentityParserDataClass(
                         value=format_date(value),
@@ -150,8 +149,7 @@ class AmazonOcrApi(OcrInterface):
                     )
                 elif field_type == "DATE_OF_BIRTH":
                     value = (
-                        field["ValueDetection"].get(
-                            "NormalizedValue", {}).get("Value")
+                        field["ValueDetection"].get("NormalizedValue", {}).get("Value")
                     )
                     infos["birth_date"] = ItemIdentityParserDataClass(
                         value=format_date(value),
@@ -159,8 +157,7 @@ class AmazonOcrApi(OcrInterface):
                     )
                 elif field_type == "DATE_OF_ISSUE":
                     value = (
-                        field["ValueDetection"].get(
-                            "NormalizedValue", {}).get("Value")
+                        field["ValueDetection"].get("NormalizedValue", {}).get("Value")
                     )
                     infos["issuance_date"] = ItemIdentityParserDataClass(
                         value=format_date(value),
@@ -175,8 +172,7 @@ class AmazonOcrApi(OcrInterface):
                         value=value, confidence=confidence
                     )
                 elif field_type == "COUNTY" and value:
-                    infos["country"] = get_info_country(
-                        InfoCountry.NAME, value)
+                    infos["country"] = get_info_country(InfoCountry.NAME, value)
                     infos["country"]["confidence"] = confidence
                 elif field_type == "MRZ_CODE":
                     infos["mrz"] = ItemIdentityParserDataClass(
@@ -193,13 +189,8 @@ class AmazonOcrApi(OcrInterface):
         )
 
     def ocr__ocr_tables_async__launch_job(
-        self,
-        file: str,
-        file_type: str,
-        language: str,
-        file_url: str = ""
+        self, file: str, file_type: str, language: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
-
         with open(file, "rb") as file_:
             file_content = file_.read()
 
@@ -226,10 +217,8 @@ class AmazonOcrApi(OcrInterface):
     def ocr__ocr_tables_async__get_job_result(
         self, job_id: str
     ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
-
         try:
-            response = self.clients["textract"].get_document_analysis(
-                JobId=job_id)
+            response = self.clients["textract"].get_document_analysis(JobId=job_id)
         except ClientError as excp:
             if "Request has invalid Job Id" in str(excp):
                 raise AsyncJobException(
@@ -275,20 +264,18 @@ class AmazonOcrApi(OcrInterface):
         )
 
     def ocr__custom_document_parsing_async__launch_job(
-        self,
-        file: str,
-        queries: List[Dict[str, Union[str, str]]],
-        file_url: str = ""
+        self, file: str, queries: List[Dict[str, Union[str, str]]], file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
-
         with open(file, "rb") as file_:
             file_content = file_.read()
 
         self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
             Key=file, Body=file_content
         )
-        formatted_queries = [{"Text": query.get("query"), "Pages": query.get(
-            "pages").split(',')} for query in queries]
+        formatted_queries = [
+            {"Text": query.get("query"), "Pages": query.get("pages").split(",")}
+            for query in queries
+        ]
 
         try:
             response = self.clients["textract"].start_document_analysis(
@@ -309,13 +296,12 @@ class AmazonOcrApi(OcrInterface):
     def ocr__custom_document_parsing_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[CustomDocumentParsingAsyncDataClass]:
-
         try:
             response = self.clients["textract"].get_document_analysis(
-                JobId=provider_job_id)
+                JobId=provider_job_id
+            )
         except self.clients["image"].exceptions.InvalidParameterException as exc:
-            raise ProviderException(
-                'Invalid Parameter: Only english are supported.')
+            raise ProviderException("Invalid Parameter: Only english are supported.")
         except ClientError as excp:
             if "Request has invalid Job Id" in str(excp):
                 raise AsyncJobException(
@@ -338,8 +324,7 @@ class AmazonOcrApi(OcrInterface):
         if not pagination_token:
             return AsyncResponseType[CustomDocumentParsingAsyncDataClass](
                 original_response=pages,
-                standardized_response=amazon_custom_document_parsing_formatter(
-                    pages),
+                standardized_response=amazon_custom_document_parsing_formatter(pages),
                 provider_job_id=provider_job_id,
             )
 
@@ -357,18 +342,13 @@ class AmazonOcrApi(OcrInterface):
 
         return AsyncResponseType[CustomDocumentParsingAsyncDataClass](
             original_response=pages,
-            standardized_response=amazon_custom_document_parsing_formatter(
-                pages),
+            standardized_response=amazon_custom_document_parsing_formatter(pages),
             provider_job_id=provider_job_id,
         )
 
     def ocr__invoice_parser(
-        self,
-        file: str,
-        language: str,
-        file_url: str = ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
-
         with open(file, "rb") as file_:
             file_content = file_.read()
 
@@ -387,9 +367,8 @@ class AmazonOcrApi(OcrInterface):
             raise ProviderException(str(amazon_call_exception))
 
         # Get job result
-        job_id = launch_job_response.get('JobId')
-        get_response = self.clients["textract"].get_expense_analysis(
-            JobId=job_id)
+        job_id = launch_job_response.get("JobId")
+        get_response = self.clients["textract"].get_expense_analysis(JobId=job_id)
 
         if get_response["JobStatus"] == "FAILED":
             error: str = get_response.get(
@@ -399,12 +378,11 @@ class AmazonOcrApi(OcrInterface):
 
         wait_time = 0
         while wait_time < 60:  # Wait for the answer from provider
-            if get_response['JobStatus'] == "SUCCEEDED":
+            if get_response["JobStatus"] == "SUCCEEDED":
                 break
             sleep(3)
             wait_time += 3
-            get_response = self.clients["textract"].get_expense_analysis(
-                JobId=job_id)
+            get_response = self.clients["textract"].get_expense_analysis(JobId=job_id)
 
         # Check if NextToken exist
         pagination_token = get_response.get("NextToken")
@@ -433,12 +411,8 @@ class AmazonOcrApi(OcrInterface):
         )
 
     def ocr__receipt_parser(
-        self,
-        file: str,
-        language: str,
-        file_url: str = ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
-
         with open(file, "rb") as file_:
             file_content = file_.read()
 
@@ -457,9 +431,8 @@ class AmazonOcrApi(OcrInterface):
             raise ProviderException(str(amazon_call_exception))
 
         # Get job result
-        job_id = launch_job_response.get('JobId')
-        get_response = self.clients["textract"].get_expense_analysis(
-            JobId=job_id)
+        job_id = launch_job_response.get("JobId")
+        get_response = self.clients["textract"].get_expense_analysis(JobId=job_id)
 
         if get_response["JobStatus"] == "FAILED":
             error: str = get_response.get(
@@ -469,12 +442,11 @@ class AmazonOcrApi(OcrInterface):
 
         wait_time = 0
         while wait_time < 60:  # Wait for the answer from provider
-            if get_response['JobStatus'] == "SUCCEEDED":
+            if get_response["JobStatus"] == "SUCCEEDED":
                 break
             sleep(3)
             wait_time += 3
-            get_response = self.clients["textract"].get_expense_analysis(
-                JobId=job_id)
+            get_response = self.clients["textract"].get_expense_analysis(JobId=job_id)
 
         # Check if NextToken exist
         pagination_token = get_response.get("NextToken")
@@ -502,7 +474,9 @@ class AmazonOcrApi(OcrInterface):
             standardized_response=amazon_receipt_parser_formatter(pages),
         )
 
-    def ocr__ocr_async__launch_job(self, file: str, file_url: str = "") -> AsyncLaunchJobResponseType:
+    def ocr__ocr_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
         with open(file, "rb") as file_:
             file_content = file_.read()
 
@@ -511,7 +485,9 @@ class AmazonOcrApi(OcrInterface):
         )
 
         try:
-            launch_job_response = self.clients["textract"].start_document_text_detection(
+            launch_job_response = self.clients[
+                "textract"
+            ].start_document_text_detection(
                 DocumentLocation={
                     "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
                 }
@@ -519,11 +495,11 @@ class AmazonOcrApi(OcrInterface):
         except Exception as amazon_call_exception:
             raise ProviderException(str(amazon_call_exception))
 
-        return AsyncLaunchJobResponseType(
-            provider_job_id=launch_job_response["JobId"]
-        )
-    
-    def ocr__ocr_async__get_job_result(self, provider_job_id: str) -> AsyncBaseResponseType[OcrAsyncDataClass]:
+        return AsyncLaunchJobResponseType(provider_job_id=launch_job_response["JobId"])
+
+    def ocr__ocr_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrAsyncDataClass]:
         try:
             response = self.clients["textract"].get_document_text_detection(
                 JobId=provider_job_id
@@ -531,7 +507,9 @@ class AmazonOcrApi(OcrInterface):
         except ClientError as amazon_call_exception:
             error_message: str = str(amazon_call_exception)
             if "InvalidJobIdException" in error_message:
-                raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
+                raise AsyncJobException(
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
             raise ProviderException(error_message)
 
         if response["JobStatus"] == "FAILED":
@@ -553,7 +531,9 @@ class AmazonOcrApi(OcrInterface):
                 except ClientError as amazon_call_exception:
                     error_message: str = str(amazon_call_exception)
                     if "InvalidJobIdException" in error_message:
-                        raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
+                        raise AsyncJobException(
+                            reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                        )
                     raise ProviderException(error_message)
 
                 if response["JobStatus"] == "FAILED":
@@ -568,9 +548,7 @@ class AmazonOcrApi(OcrInterface):
             return AsyncResponseType(
                 original_response=responses,
                 standardized_response=amazon_ocr_async_formatter(responses),
-                provider_job_id=provider_job_id
+                provider_job_id=provider_job_id,
             )
-        
-        return AsyncPendingResponseType(
-                provider_job_id=response["JobStatus"]
-            )
+
+        return AsyncPendingResponseType(provider_job_id=response["JobStatus"])
