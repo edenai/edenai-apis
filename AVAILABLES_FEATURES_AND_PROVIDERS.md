@@ -28,6 +28,7 @@
 | | microsoft |
 | | sentisight |
 | **ocr_async** | amazon |
+| | google |
 | **ocr_tables_async** | amazon |
 | | google |
 | | microsoft |
@@ -374,6 +375,7 @@
 | | object_detection |
 | **ocr** | invoice_parser |
 | | ocr |
+| | ocr_async |
 | | ocr_tables_async |
 | | receipt_parser |
 | **text** | named_entity_recognition |
