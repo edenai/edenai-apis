@@ -11,7 +11,9 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
-
+import mimetypes
+from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
+from io import BytesIO
 
 class DeeplApi(ProviderInterface, TranslationInterface):
     provider_name = "deepl"
@@ -59,6 +61,9 @@ class DeeplApi(ProviderInterface, TranslationInterface):
         file_url: str=""
     ) -> ResponseType[DocumentTranslationDataClass]:
 
+        mimetype = mimetypes.guess_type(file)[0]
+        extension = mimetypes.guess_extension(mimetype)
+
         file_ = open(file, "rb")
 
         files = {
@@ -94,7 +99,9 @@ class DeeplApi(ProviderInterface, TranslationInterface):
         response = requests.post(f'{self.url}document/{document_id}/result', headers=self.header, data=doc_key)
 
         b64_file = base64.b64encode(response.content)
-        std_resp = DocumentTranslationDataClass(file=b64_file)
+        resource_url = upload_file_bytes_to_s3(BytesIO(response.content), extension, USER_PROCESS)
+        
+        std_resp = DocumentTranslationDataClass(file=b64_file, document_resource_url = resource_url) 
         return ResponseType[DocumentTranslationDataClass](
             original_response=response.content, standardized_response=std_resp
         )

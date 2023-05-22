@@ -14,4 +14,5 @@ class AnonymizationItem(BaseModel):
     bounding_boxes: AnonymizationBoundingBox = AnonymizationBoundingBox()
 class AnonymizationDataClass(BaseModel):
     image: StrictStr
+    image_resource_url: StrictStr
     items: Sequence[AnonymizationItem] = Field(default_factory=list)

@@ -15,8 +15,10 @@ from edenai_apis.features.translation.translation_interface import TranslationIn
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
-
+import mimetypes
+from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
 from google.protobuf.json_format import MessageToDict
+from io import BytesIO
 
 
 class GoogleTranslationApi(TranslationInterface):
@@ -84,6 +86,8 @@ class GoogleTranslationApi(TranslationInterface):
         file_type: str,
         file_url: str=""
     ) -> ResponseType[DocumentTranslationDataClass]:
+        mimetype = mimetypes.guess_type(file)[0]
+        extension = mimetypes.guess_extension(mimetype)
         client = self.clients["translate"]
         parent = f"projects/{self.project_id}/locations/global"
 
@@ -111,8 +115,9 @@ class GoogleTranslationApi(TranslationInterface):
         file_.close()
 
         b64_file = base64.b64encode(file_bytes)
-
+        resource_url = upload_file_bytes_to_s3(BytesIO(file_bytes), extension, USER_PROCESS)
+        
         return ResponseType[DocumentTranslationDataClass](
             original_response=original_response,
-            standardized_response=DocumentTranslationDataClass(file=b64_file)
+            standardized_response=DocumentTranslationDataClass(file=b64_file, document_resource_url=resource_url)
         )

@@ -36,7 +36,9 @@ from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from .helpers import get_errors_from_response
-
+from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
+from io import BytesIO
+import base64
 
 class Api4aiApi(
     ProviderInterface,
@@ -184,9 +186,10 @@ class Api4aiApi(
                     confidence=value,
                     bounding_boxes=AnonymizationBoundingBox(x_min=entity["box"][0], x_max=entity["box"][1], y_min=entity["box"][2], y_max=entity["box"][3]),
                 ))
-            
-
-        standardized_response = AnonymizationDataClass(image=img_b64, items=items)
+        image_data = img_b64.encode()
+        image_content = BytesIO(base64.b64decode(image_data))  
+        resource_url = upload_file_bytes_to_s3(image_content, ".jpeg", USER_PROCESS)
+        standardized_response = AnonymizationDataClass(image=img_b64, items=items, image_resource_url=resource_url)
         result = ResponseType[AnonymizationDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
