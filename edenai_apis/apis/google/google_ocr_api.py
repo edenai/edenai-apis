@@ -377,7 +377,7 @@ class GoogleOcrApi(OcrInterface):
         file_name: str = file.split("/")[-1]  # file.name give its whole path
 
         documentai_projectid = self.api_settings["documentai"]["project_id"]
-        documentai_processid = self.api_settings["documentai"]["process_id"]
+        documentai_processid = self.api_settings["documentai"]["process_ocr_tables_id"]
 
         gcs_output_uri = "gs://async-ocr-tables"
         gcs_output_uri_prefix = "outputs"
@@ -531,7 +531,9 @@ class GoogleOcrApi(OcrInterface):
         try:
             res = request.execute()
         except Exception as excp:
-            if "Operation not found" in str(excp) or "Invalid operation id" in str(excp):
+            if "Operation not found" in str(excp) or "Invalid operation id" in str(
+                excp
+            ):
                 raise AsyncJobException(
                     reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
                 )

@@ -1,7 +1,7 @@
 import base64
 from io import BytesIO
 import requests
-from typing import Sequence, Literal
+from typing import Dict, Sequence, Literal
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features import ProviderInterface, ImageInterface
 from edenai_apis.utils.exception import ProviderException
@@ -16,8 +16,8 @@ from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 class StabilityAIApi(ProviderInterface, ImageInterface):
     provider_name = "stabilityai"
 
-    def __init__(self):
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}):
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api_key"]
         self.headers = {
             "Authorization": f"Bearer {self.api_key}",

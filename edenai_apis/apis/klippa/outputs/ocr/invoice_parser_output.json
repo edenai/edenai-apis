@@ -37,7 +37,7 @@
           "description": "",
           "lineitems": [
             {
-              "title": "Your item Name 1000 1 1000",
+              "title": "Your item Name",
               "description": "",
               "amount": 100000,
               "amount_each": 100000,
@@ -57,7 +57,7 @@
               "matched_purchase_order": null
             },
             {
-              "title": "Your item Name 1000 1 1000",
+              "title": "Your item Name",
               "description": "",
               "amount": 100000,
               "amount_each": 100000,
@@ -77,7 +77,7 @@
               "matched_purchase_order": null
             },
             {
-              "title": "Your item Name 1000 1 1000",
+              "title": "Your item Name",
               "description": "",
               "amount": 100000,
               "amount_each": 100000,
@@ -97,7 +97,7 @@
               "matched_purchase_order": null
             },
             {
-              "title": "Your item Name 1000 1 1000",
+              "title": "Your item Name",
               "description": "",
               "amount": 100000,
               "amount_each": 100000,
@@ -195,12 +195,13 @@
       "matched_purchase_order_id": "",
       "matched_purchase_orders": null,
       "matched_project_code_id": "",
+      "matched_entity_id": null,
       "barcodes": null,
       "hash": "708d35cafeacba59d632cddb7220080b0f30f3c1",
       "hash_duplicate": true,
       "raw_text": "                                                           647-444-1234              1 Your Address\n                                                        your@email.com           City, State, Country\nINVOICE\n                                                        yourwebsite.com                  ZIP CODE\nBilled To                     Invoice Number                                             Invoice Total\nClient Name                   000000\n                                                                            $4520.00\n1 Client Address\n                              Date Of Issue\nCity, State, Country\nZIP CODE                      10/07/14\n Description                                         Unit Cost        Qty / Hr Rate       Amount\n Your item Name                                        $1000                    1           1000\n Item description goes here\n Your item Name                                        $1000                    1           1000\n Item description goes here\n Your item Name                                        $1000                    1           1000\n Item description goes here\n Your item Name                                        $1000                    1           1000\n Item description goes here\n                                                                     Subtotal            $4000.00\n                                                                         Tax              $520.00\n                                                                        Total           $4520.00\nInvoice Terms\nEx. Please pay your invoice by....                         Amount Due (USD)              $4520.00"
     },
-    "request_id": "vlIHOZbcKLf5lpNcZprBJ9u960f6PIb7"
+    "request_id": "Im4ZKEWyYirQcqjvRLT13YkgOssc1gd9"
   },
   "standardized_response": {
     "extracted_data": [
@@ -215,7 +216,11 @@
           "customer_billing_address": "",
           "customer_shipping_address": null,
           "customer_service_address": null,
-          "customer_remittance_address": null
+          "customer_remittance_address": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "vat_number": null
         },
         "merchant_information": {
           "merchant_name": "Yourwebsite",
@@ -226,11 +231,16 @@
           "merchant_website": "http://yourwebsite.com",
           "merchant_tax_id": "",
           "merchant_siret": "",
-          "merchant_siren": null
+          "merchant_siren": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "vat_number": null
         },
         "invoice_number": "000000",
         "invoice_total": 452000.0,
         "invoice_subtotal": null,
+        "gratuity": null,
         "amount_due": null,
         "previous_unpaid_balance": null,
         "discount": null,
@@ -240,12 +250,14 @@
             "rate": null
           }
         ],
+        "service_charge": null,
         "payment_term": null,
         "purchase_order": null,
         "date": null,
         "due_date": null,
         "service_date": null,
         "service_due_date": null,
+        "po_number": null,
         "locale": {
           "currency": "USD",
           "language": "EN"

@@ -1,5 +1,5 @@
 from io import BufferedReader
-from typing import List, Optional
+from typing import Dict, List, Optional
 import requests
 from edenai_apis.features.audio.speech_to_text_async import (
     SpeechToTextAsyncDataClass,
@@ -24,8 +24,8 @@ import json
 class VociApi(ProviderInterface, AudioInterface):
     provider_name = "voci"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.key = self.api_settings["voci_key"]
 
 

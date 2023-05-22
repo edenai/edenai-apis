@@ -894,7 +894,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.8984428,
+              "confidence": 0.8984429,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -1866,7 +1866,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9933918,
+              "confidence": 0.9933919,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -3218,7 +3218,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.8984428,
+              "confidence": 0.8984429,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -4190,7 +4190,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9933918,
+              "confidence": 0.9933919,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -5912,7 +5912,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.8984428,
+              "confidence": 0.8984429,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -7210,7 +7210,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9933918,
+              "confidence": 0.9933919,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -8038,7 +8038,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9515661,
+              "confidence": 0.951566,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -8221,7 +8221,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9750986,
+              "confidence": 0.97509867,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -8280,7 +8280,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.7809508,
+              "confidence": 0.78095084,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -9729,7 +9729,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9342178,
+              "confidence": 0.934218,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -9791,7 +9791,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9936599,
+              "confidence": 0.99366,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -9850,7 +9850,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.92586607,
+              "confidence": 0.92586595,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -10331,7 +10331,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9213905,
+              "confidence": 0.92139035,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -10393,7 +10393,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.47402084,
+              "confidence": 0.4740217,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -10455,7 +10455,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.95700806,
+              "confidence": 0.9570081,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -10517,7 +10517,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.95805496,
+              "confidence": 0.958055,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -10933,7 +10933,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.97532904,
+              "confidence": 0.9753291,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -11904,7 +11904,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9929997,
+              "confidence": 0.9929996,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -12261,7 +12261,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9809035,
+              "confidence": 0.98090357,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -13170,7 +13170,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9923836,
+              "confidence": 0.99238366,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -13291,7 +13291,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9933918,
+              "confidence": 0.9933919,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -13763,7 +13763,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.99288183,
+              "confidence": 0.9928819,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -14371,7 +14371,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.94770366,
+              "confidence": 0.9477037,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -14554,7 +14554,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9846443,
+              "confidence": 0.98464435,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -14672,7 +14672,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9923526,
+              "confidence": 0.99235255,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -15113,7 +15113,7 @@
       },
       {
         "type_": "invoice_type",
-        "confidence": 0.75764793,
+        "confidence": 0.7576478,
         "page_anchor": {
           "page_refs": [
             {
@@ -16044,7 +16044,11 @@
           "customer_billing_address": null,
           "customer_shipping_address": null,
           "customer_service_address": null,
-          "customer_remittance_address": null
+          "customer_remittance_address": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "vat_number": null
         },
         "merchant_information": {
           "merchant_name": null,
@@ -16055,11 +16059,16 @@
           "merchant_website": "yourwebsite.com",
           "merchant_tax_id": null,
           "merchant_siret": null,
-          "merchant_siren": null
+          "merchant_siren": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "vat_number": null
         },
         "invoice_number": "000000",
         "invoice_total": 4520.0,
         "invoice_subtotal": 4000.0,
+        "gratuity": null,
         "amount_due": null,
         "previous_unpaid_balance": null,
         "discount": null,
@@ -16069,12 +16078,14 @@
             "rate": null
           }
         ],
+        "service_charge": null,
         "payment_term": null,
         "purchase_order": null,
         "date": "2014-10-07",
         "due_date": null,
         "service_date": null,
         "service_due_date": null,
+        "po_number": null,
         "locale": {
           "currency": "USD",
           "language": null

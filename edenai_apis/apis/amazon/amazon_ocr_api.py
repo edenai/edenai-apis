@@ -14,6 +14,7 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     InvoiceParserDataClass,
 )
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import OcrAsyncDataClass
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     ReceiptParserDataClass,
 )
@@ -498,7 +499,7 @@ class AmazonOcrApi(OcrInterface):
 
     def ocr__ocr_async__get_job_result(
         self, provider_job_id: str
-    ) -> AsyncBaseResponseType[OcrDataClass]:
+    ) -> AsyncBaseResponseType[OcrAsyncDataClass]:
         try:
             response = self.clients["textract"].get_document_text_detection(
                 JobId=provider_job_id

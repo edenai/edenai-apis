@@ -10,7 +10,7 @@ Example:
     >>> 3d_from_img = 3DModels.create_3d_model_from_image('<provider_here>')
     >>> response = 3d_from_img(image=...)
 """
-from typing import Callable
+from typing import Callable, Dict
 
 from edenai_apis.features import AudioInterface, ImageInterface, OcrInterface
 from edenai_apis.features import ProviderInterface as ProviderInterface
@@ -29,7 +29,7 @@ def return_provider_method(func: Callable) -> Callable:
         Callable: function take a provider_name and return its class's methods
     """
 
-    def wrapped(provider: str) -> Callable:
+    def wrapped(provider: str, api_keys: Dict = {}) -> Callable:
         """find given func in given provider's class, and returns it
 
         Args:
@@ -44,7 +44,7 @@ def return_provider_method(func: Callable) -> Callable:
 
         # Instantiate the provider's class.
         # Example : google_api = GoogleAPI()
-        provider_instance = ProviderClass()
+        provider_instance = ProviderClass(api_keys)
 
         # Get the right function.
         # Example : google_api.image__object_detection

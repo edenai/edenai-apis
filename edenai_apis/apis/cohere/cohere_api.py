@@ -18,10 +18,10 @@ import json
 class CohereApi(ProviderInterface, TextInterface):
     provider_name = "cohere"
 
-    def __init__(self):
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}):
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api_key"]
-        self.base_url = self.api_settings["url"]
+        self.base_url = "https://api.cohere.ai/"
         self.headers = {
             'accept': 'application/json',
             'authorization': f'Bearer {self.api_key}',
@@ -59,9 +59,9 @@ class CohereApi(ProviderInterface, TextInterface):
             
         # Create the string with the extracted entities
         return f"""
-            {text}
-            Extract {', '.join(set([entity['category'] for entity in extracted_entities]))} from this text: {{"items":[ {', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]}}
-            ---
+        Text: #{text}#
+        Answer: "[{', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]"
+        ---
             """
 
     def text__generation(
@@ -155,7 +155,7 @@ class CohereApi(ProviderInterface, TextInterface):
                 "format": "paragraph",
                 "model": model,
                 "extractiveness": "low",
-                "temperature": 0.3,
+                "temperature": 0.0,
                 "text": text,
             }
 
@@ -177,24 +177,31 @@ class CohereApi(ProviderInterface, TextInterface):
         entities: List[str],
         examples: Optional[List[Dict]] = None) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         url = f"{self.base_url}generate"
-
-        # Generate prompt
-        prompt_examples = ''
-        if examples == None: 
-            examples = [{"text" : "Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia.","entities" : [{"entity": "John Stith Pemberton", "category": "Person"},{"entity": "Georgia", "category": "State"},{"entity": "Coca-Cola", "category": "Drink"},{"entity": "Coke", "category": "Drink"},{"entity": "19th century", "category": "Date"}]}]
         
-        for example in examples :       
-            prompt_examples = prompt_examples + CohereApi._format_custom_ner_examples(example) 
-            
+        # Construct the prompt
         built_entities = ','.join(entities)
-        prompt = prompt_examples + f"""
-        {text}
-        Extract {built_entities} from this text: """
-        
+        prompt_examples = ''
+        if examples is not None:
+            for example in examples :       
+                prompt_examples = prompt_examples + CohereApi._format_custom_ner_examples(example)
+        prompt =f"""You act as a named entities recognition model. Extract the specified entities ({built_entities}) from the text enclosed in hash symbols (#) and return a JSON List of dictionaries with two keys: "entity" and "category". The "entity" key represents the detected entity and the "category" key represents the category of the entity.
+
+If no entities are found, return an empty list.
+
+Example :
+
+{prompt_examples}
+
+Text: 
+{text}
+
+Answer:
+""" 
+    
         # Construct request
         payload = {
             "prompt": prompt,
-            "model" : 'xlarge',
+            "model" : 'command',
             "temperature" : 0,
             "max_tokens" : 200
         }     
@@ -204,12 +211,12 @@ class CohereApi(ProviderInterface, TextInterface):
         
         original_response = response.json()
         try:
-            data = original_response.get('generations')[0]['text'].split("---")
-            items = json.loads(data[0])
+            data = original_response.get('generations')[0]['text']
+            items = json.loads(data)
         except (IndexError, KeyError, json.JSONDecodeError) as exc:
             raise ProviderException("An error occurred while parsing the response.") from exc
         
-        standardized_response = CustomNamedEntityRecognitionDataClass(items=items['items'])
+        standardized_response = CustomNamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[CustomNamedEntityRecognitionDataClass](
             original_response=original_response,

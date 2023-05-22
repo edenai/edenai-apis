@@ -1,3 +1,4 @@
+from pprint import pprint
 from typing import List, Optional, Sequence, Dict
 import requests
 import numpy as np
@@ -5,7 +6,7 @@ import json
 from edenai_apis.features.text.code_generation.code_generation_dataclass import CodeGenerationDataClass
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import NamedEntityRecognitionDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass, SpellCheckItem
-from edenai_apis.utils.conversion import standardized_confidence_score
+from edenai_apis.utils.conversion import closest_above_value, find_all_occurrence, standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features import TextInterface
@@ -21,6 +22,7 @@ from edenai_apis.features.text.custom_named_entity_recognition import  CustomNam
 from edenai_apis.features.text.custom_classification import CustomClassificationDataClass, ItemCustomClassificationDataClass
 from edenai_apis.features.text.moderation import   ModerationDataClass, TextModerationItem
 from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
+from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
 from .helpers import (
     construct_ner_instruction,
     construct_search_context,
@@ -47,7 +49,7 @@ class OpenaiTextApi(TextInterface):
         payload = {
             "prompt": text + "\n\nTl;dr",
             "max_tokens": self.max_tokens,
-            "temperature": 0.7,
+            "temperature": 0.0,
             "frequency_penalty": 0.0,
             "presence_penalty": 0.0,
         }
@@ -228,7 +230,7 @@ class OpenaiTextApi(TextInterface):
             "prompt": prompt,
             "model" : self.model,
             "max_tokens": self.max_tokens,
-            "temperature": 0.7,
+            "temperature": 0.0,
             "frequency_penalty": 0.0,
             "presence_penalty": 0.0,
         }
@@ -307,10 +309,11 @@ class OpenaiTextApi(TextInterface):
 
         prompt = construct_topic_extraction_context(text)
         payload = {
-        "prompt" : prompt,
+        "prompt": prompt,
         "max_tokens" : self.max_tokens,
-        "model" : self.model,
-        "logprobs":1,
+        "model": self.model,
+        "logprobs": 1,
+        "temperature": 0,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
 
@@ -416,7 +419,7 @@ class OpenaiTextApi(TextInterface):
         "model" : self.model,
         "temperature" : 0.0,
         "top_p": 1,
-        "max_tokens":250,
+        "max_tokens": 250,
         "frequency_penalty": 0,
         "presence_penalty": 0,
         }
@@ -447,23 +450,18 @@ class OpenaiTextApi(TextInterface):
     ) -> ResponseType[CustomClassificationDataClass]:
         url = f"{self.url}/completions"
 
-        # Construct prompt 
-        instruction = construct_classification_instruction(labels)
-        example_prompts = format_example_fn(examples) 
-        inputs_prompts = [
-            f"{input}\n" for input in texts
-        ]
-        prompt = example_prompts + instruction + "".join(inputs_prompts)+ "\n\nText categories:\n\n"
+        prompt = construct_classification_instruction(texts, labels, examples)
 
         # Build the request
         payload = {
-        "prompt" : prompt,
-        "model" : self.model,
-        "top_p": 1,
-        "max_tokens":250,
-        "logprobs": 1,
-        "frequency_penalty": 0,
-        "presence_penalty": 0,
+            "prompt" : prompt,
+            "model" : self.model,
+            "top_p": 1,
+            "max_tokens": 500,
+            "temperature": 0,
+            "logprobs": 1,
+            "frequency_penalty": 0,
+            "presence_penalty": 0,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
 
@@ -471,31 +469,15 @@ class OpenaiTextApi(TextInterface):
         check_openai_errors(original_response)
 
         # Getting labels 
-        detected_labels = original_response['choices'][0]['text'].split('\n')
-        # Calculate scores
-        scores = []
-        score = 0
-        logprobs = original_response['choices'][0]['logprobs']['top_logprobs']
-        for prob in logprobs:
-            score = score + list(prob.values())[0]
-            if prob.get("\n") or prob.get("<|endoftext|>"):
-                scores.append(np.exp(score))
-                score = 0
+        detected_labels = original_response['choices'][0]['text']
 
-        classifications = []
-        for (input, label, score) in zip(texts, detected_labels, scores):
-            classifications.append(
-                ItemCustomClassificationDataClass(
-                    input = input,
-                    label = label,
-                    confidence = float(score),
-                )
-            )
+        json_detected_labels = json.loads(detected_labels)
 
         return ResponseType[CustomClassificationDataClass](
             original_response=original_response,
-            standardized_response=CustomClassificationDataClass(classifications=classifications))
-        
+            standardized_response=CustomClassificationDataClass(classifications=json_detected_labels['classifications'])
+        )
+
     def text__spell_check(self, text: str, language: str) -> ResponseType[SpellCheckDataClass]:
         url = f"{self.url}/completions"
 
@@ -505,7 +487,7 @@ class OpenaiTextApi(TextInterface):
             "n": 1,
             "model": "text-davinci-003",
             "max_tokens": 500,
-            "temperature": 0.7,
+            "temperature": 0.0,
             "prompt": prompt
         }
 
@@ -517,19 +499,15 @@ class OpenaiTextApi(TextInterface):
         check_openai_errors(original_response)
 
         try:
-            print(original_response['choices'][0]['text'])
             original_items = json.loads(original_response['choices'][0]['text'])
         except (KeyError, json.JSONDecodeError) as exc:
-            print(exc)
             raise ProviderException("An error occurred while parsing the response.") from exc
 
         items: Sequence[SpellCheckItem] = []
         for item in original_items['items']:
-            # The offset return by OpenAI aren't real offsets, so we need to found the real offset with the word and the approximate offset
-            real_offset = text.find(item['text'], item['offset'])
-            print(item['text'])
-            print(item['offset'])
-            print(real_offset)
+
+            real_offset = closest_above_value(find_all_occurrence(text, item['text']), item['offset'])
+
             items.append(SpellCheckItem(
                 text=item['text'],
                 offset=real_offset,
@@ -552,7 +530,7 @@ class OpenaiTextApi(TextInterface):
             "n": 1,
             "model": "text-davinci-003",
             "max_tokens": 500,
-            "temperature": 0.7,
+            "temperature": 0.0,
             "prompt": prompt
         }
         try:
@@ -572,7 +550,7 @@ class OpenaiTextApi(TextInterface):
             standardized_response=NamedEntityRecognitionDataClass(items=original_items['items'])
         )
 
-        
+
     def text__embeddings(self, texts: List[str]) -> ResponseType[EmbeddingsDataClass]:
         url = 'https://api.openai.com/v1/embeddings'
         if len(texts) == 1:
@@ -598,6 +576,56 @@ class OpenaiTextApi(TextInterface):
         standardized_response = EmbeddingsDataClass(items=items)
 
         return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response
+        )
+
+    def text__chat(
+        self,
+        text : str,
+        chatbot_global_action: Optional[str],
+        previous_history : Optional[List[Dict[str, str]]],
+        temperature : float, 
+        max_tokens : int,
+        model : str,
+        ) -> ResponseType[ChatDataClass]:
+        url = f"{self.url}/chat/completions"
+        
+        messages = [{"role" : "user", "content" : text}]
+    
+        if previous_history:
+            for idx, message in enumerate(previous_history):
+                messages.insert(idx, {"role":message.get("role"), "content": message.get("message")})
+        
+        if chatbot_global_action:
+            messages.insert(0, {
+                "role": "system", "content" : chatbot_global_action
+            })
+            
+        payload = {
+            "model" : model,
+            "temperature": temperature,
+            "messages": messages,
+            "max_tokens": max_tokens
+        }
+        
+        original_response = requests.post(url, json=payload, headers= self.headers).json()
+
+        # Handle errors
+        check_openai_errors(original_response)
+        
+        # Standardize the response 
+        generated_text = original_response['choices'][0]['message']['content']
+        message = [
+            ChatMessageDataClass(role='user', message = text),
+            ChatMessageDataClass(role = 'assistant', message = generated_text)]
+        
+        standardized_response = ChatDataClass(
+            generated_text = generated_text, 
+            message = message
+        )
+        
+        return ResponseType[ChatDataClass](
             original_response=original_response,
             standardized_response=standardized_response
         )

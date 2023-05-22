@@ -1,0 +1,13 @@
+{
+    "text": {
+        "sentiment_analysis": {
+            "constraints": {
+                "languages": [
+                    "en"
+                ],
+                "allow_null_language": true
+            },
+            "version": "v1.0.0"
+        }
+    }
+}

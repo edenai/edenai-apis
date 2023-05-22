@@ -1,6 +1,6 @@
 import requests
 import base64
-from typing import Literal
+from typing import Dict, Literal
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features import ProviderInterface, ImageInterface
 from edenai_apis.utils.exception import ProviderException
@@ -14,8 +14,8 @@ from edenai_apis.features.image.generation import (
 class DeepAIApi(ProviderInterface, ImageInterface):
     provider_name = "deepai"
 
-    def __init__(self):
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}):
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["api_key"]
         self.headers = {
             "Api-Key": f"{self.api_key}",

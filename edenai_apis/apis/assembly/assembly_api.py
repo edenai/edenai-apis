@@ -1,6 +1,6 @@
 from io import BufferedReader
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 import requests
 from time import time
 from edenai_apis.features import ProviderInterface, AudioInterface
@@ -26,17 +26,12 @@ from .helper import language_matches
 class AssemblyApi(ProviderInterface, AudioInterface):
     provider_name = "assembly"
 
-    def __init__(self) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name)
+    def __init__(self, api_keys: Dict = {}) -> None:
+        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["assembly_key"]
-        self.url = self.api_settings["url"]
+        self.url = "https://api.assemblyai.com/v2"
         self.url_upload_file = f"{self.url}/upload"
         self.url_transcription = f"{self.url}/transcript"
-
-        self.bucket_name = self.api_settings["bucket"]
-        self.bucket_region = self.api_settings["region_name"]
-        self.storage_url = self.api_settings["storage_url"]
-        self.api_settings_amazon = load_provider(ProviderDataEnum.KEY, "amazon")
 
 
     def audio__speech_to_text_async__launch_job(

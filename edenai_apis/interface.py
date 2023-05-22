@@ -177,6 +177,7 @@ def compute_output(
     args: Dict[str, Any],
     phase: str = "",
     fake: bool = False,
+    api_keys: Dict = {}
 ) -> Dict:
     """
     Compute subfeature for provider and subfeature
@@ -238,7 +239,7 @@ def compute_output(
 
 
         try:
-            subfeature_result = subfeature_class(provider_name)(**args).dict()
+            subfeature_result = subfeature_class(provider_name, api_keys)(**args).dict()
         except ProviderException as exc:
             raise get_appropriate_error(provider_name, exc)
 
