@@ -152,6 +152,10 @@
 | | openai |
 | **generation** | cohere |
 | | openai |
+| **spell_check** | cohere |
+| | microsoft |
+| | openai |
+| | prowritingaid |
 | **summarize** | cohere |
 | | connexun |
 | | emvista |
@@ -168,9 +172,6 @@
 | | openai |
 | **moderation** | microsoft |
 | | openai |
-| **spell_check** | microsoft |
-| | openai |
-| | prowritingaid |
 | **chat** | openai |
 | **code_generation** | openai |
 | **embeddings** | openai |
@@ -310,6 +311,7 @@
 | **text** | custom_classification |
 | | custom_named_entity_recognition |
 | | generation |
+| | spell_check |
 | | summarize |
 
 </details>
