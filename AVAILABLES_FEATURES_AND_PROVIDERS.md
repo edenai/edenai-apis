@@ -87,6 +87,7 @@
 | | picpurify |
 | | skybiometry |
 | **face_recognition** | amazon |
+| | facepp |
 | | microsoft |
 | **object_detection** | amazon |
 | | api4ai |
@@ -362,6 +363,13 @@
 | | sentiment_analysis |
 | | summarize |
 | | syntax_analysis |
+
+</details>
+<details><summary>facepp</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | face_recognition |
 
 </details>
 <details><summary>google</summary>
