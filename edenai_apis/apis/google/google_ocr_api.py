@@ -1,6 +1,5 @@
 import json
 import mimetypes
-from pprint import pprint
 import re
 from typing import Sequence
 import uuid
@@ -491,10 +490,10 @@ class GoogleOcrApi(OcrInterface):
 
         feature = vision.Feature(type_=vision.Feature.Type.DOCUMENT_TEXT_DETECTION)
 
+        mime_type, _ = mimetypes.guess_type(file)
+
         gcs_source = vision.GcsSource(uri=gcs_input_uri)
-        input_config = vision.InputConfig(
-            gcs_source=gcs_source, mime_type="application/pdf"
-        )
+        input_config = vision.InputConfig(gcs_source=gcs_source, mime_type=mime_type)
 
         gcs_destination = vision.GcsDestination(uri=gcs_output_uri)
         output_config = vision.OutputConfig(
@@ -532,7 +531,7 @@ class GoogleOcrApi(OcrInterface):
         try:
             res = request.execute()
         except Exception as excp:
-            if "Operation not found" in str(excp):
+            if "Operation not found" in str(excp) or "Invalid operation id" in str(excp):
                 raise AsyncJobException(
                     reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
                 )
@@ -566,15 +565,9 @@ class GoogleOcrApi(OcrInterface):
                     original_response["responses"].append(
                         response["fullTextAnnotation"]
                     )
-                    pprint(response["fullTextAnnotation"])
                     for page in response["fullTextAnnotation"]["pages"]:
                         lines: Sequence[Line] = []
                         for block in page["blocks"]:
-                            page_boxes = BoundingBox.from_normalized_vertices(
-                                normalized_vertices=block["boundingBox"][
-                                    "normalizedVertices"
-                                ]
-                            )
                             words: Sequence[Word] = []
                             for paragraph in block["paragraphs"]:
                                 line_boxes = BoundingBox.from_normalized_vertices(

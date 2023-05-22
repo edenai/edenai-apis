@@ -796,6 +796,15 @@
                 "allow_null_language": true
             },
             "version": "DocumentAI v1 beta3"
+        },
+        "ocr_async": {
+            "constraints": {
+                "file_types": [
+                    "application/pdf",
+                    "image/tiff"
+                ]
+            },
+            "version": "v1"
         }
     },
     "text": {
