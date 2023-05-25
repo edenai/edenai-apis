@@ -101,6 +101,8 @@
 | | google |
 | | microsoft |
 | | smartclick |
+| **face_compare** | base64 |
+| | facepp |
 | **generation** | deepai |
 | | openai |
 | | stabilityai |
@@ -288,6 +290,7 @@
 
 | Features | Subfeatures |
 |----------|-------------|
+| **image** | face_compare |
 | **ocr** | identity_parser |
 | | invoice_parser |
 | | ocr |
@@ -369,7 +372,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **image** | face_recognition |
+| **image** | face_compare |
+| | face_recognition |
 
 </details>
 <details><summary>google</summary>
