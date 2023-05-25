@@ -256,15 +256,17 @@ def transform_file_args(args: dict) -> dict:
     Returns:
         dict: updated args
     """
-    if args.get("file") and isinstance(args.get("file"), FileWrapper):
-        file_wrapper: FileWrapper = args["file"]
-        file_path = file_wrapper.file_path
-        file_url = file_wrapper.file_url
-        args.update({
-            "file": file_path,
-            "file_url": file_url
-        })
-        return args
+    file_args = ["file", "file1", "file2"]
+    
+    for file_arg in file_args:
+        if args.get(file_arg) and isinstance(args.get(file_arg), FileWrapper):
+            file_wrapper: FileWrapper = args[file_arg]
+            file_path = file_wrapper.file_path
+            file_url = file_wrapper.file_url
+            args.update({
+                file_arg: file_path,
+                f"{file_arg}_url": file_url
+            })
     return args
 
 

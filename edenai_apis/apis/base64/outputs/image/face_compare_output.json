@@ -1,0 +1,27 @@
+{
+  "original_response": {
+    "matches": [
+      {
+        "confidence": 0.9,
+        "left": 234,
+        "top": 157,
+        "width": 136,
+        "height": 184,
+        "label": "face"
+      }
+    ]
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "confidence": 0.9,
+        "bounding_box": {
+          "top": 157.0,
+          "left": 234.0,
+          "height": 184.0,
+          "width": 136.0
+        }
+      }
+    ]
+  }
+}
