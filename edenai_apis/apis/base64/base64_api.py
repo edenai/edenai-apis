@@ -11,7 +11,10 @@ from edenai_apis.features.ocr.identity_parser import (
     InfoCountry,
     ItemIdentityParserDataClass,
     get_info_country,
-    InfosIdentityParserDataClass
+    InfosIdentityParserDataClass,
+)
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    format_date,
 )
 from edenai_apis.features.ocr.invoice_parser import (
     CustomerInformationInvoice,
@@ -58,7 +61,9 @@ class Base64Api(ProviderInterface, OcrInterface):
     provider_name = "base64"
 
     def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.api_key = self.api_settings["secret"]
         self.url = "https://base64.ai/api/scan"
 
@@ -115,63 +120,68 @@ class Base64Api(ProviderInterface, OcrInterface):
         )
 
         default_dict = defaultdict(lambda: None)
-        #----------------------Merchant & customer informations----------------------#
+        # ----------------------Merchant & customer informations----------------------#
         merchant_name = fields.get("companyName", default_dict)["value"]
         merchant_address = fields.get("from", default_dict)["value"]
         customer_name = fields.get("billTo", default_dict)["value"]
-        customer_address = fields.get("address",default_dict)["value"] # Deprecated need to be removed
+        customer_address = fields.get("address", default_dict)[
+            "value"
+        ]  # Deprecated need to be removed
         customer_mailing_address = fields.get("address", default_dict)["value"]
         customer_billing_address = fields.get("billTo", default_dict)["value"]
         customer_shipping_address = fields.get("shipTo", default_dict)["value"]
         customer_remittance_address = fields.get("soldTo", default_dict)["value"]
-        #---------------------- invoice  informations----------------------#
+        # ---------------------- invoice  informations----------------------#
         invoice_number = fields.get("invoiceNumber", default_dict)["value"]
         invoice_total = fields.get("total", default_dict)["value"]
         invoice_total = convert_string_to_number(invoice_total, float)
         invoice_subtotal = fields.get("subtotal", default_dict)["value"]
         invoice_subtotal = convert_string_to_number(invoice_subtotal, float)
-        amount_due = fields.get("balanceDue",default_dict)["value"]
+        amount_due = fields.get("balanceDue", default_dict)["value"]
         amount_due = convert_string_to_number(amount_due, float)
-        discount  = fields.get("discount",default_dict)["value"]
+        discount = fields.get("discount", default_dict)["value"]
         discount = convert_string_to_number(discount, float)
         taxe = fields.get("tax", default_dict)["value"]
         taxe = convert_string_to_number(taxe, float)
         taxes: Sequence[TaxesInvoice] = [(TaxesInvoice(value=taxe))]
-        #---------------------- payment informations----------------------#
-        payment_term = fields.get("paymentTerms",default_dict)["value"]
-        purchase_order = fields.get("purchaseOrder",default_dict)["value"]
+        # ---------------------- payment informations----------------------#
+        payment_term = fields.get("paymentTerms", default_dict)["value"]
+        purchase_order = fields.get("purchaseOrder", default_dict)["value"]
         date = fields.get("invoiceDate", default_dict)["value"]
         time = fields.get("invoiceTime", default_dict)["value"]
         date = combine_date_with_time(date, time)
         due_date = fields.get("dueDate", default_dict)["value"]
         due_time = fields.get("dueTime", default_dict)["value"]
         due_date = combine_date_with_time(due_date, due_time)
-        #---------------------- bank and local informations----------------------#
-        iban = fields.get("iban",default_dict)["value"]
-        account_number = fields.get("accountNumber",default_dict)["value"]
+        # ---------------------- bank and local informations----------------------#
+        iban = fields.get("iban", default_dict)["value"]
+        account_number = fields.get("accountNumber", default_dict)["value"]
         currency = fields.get("currency", default_dict)["value"]
-        
+
         invoice_parser = InfosInvoiceParserDataClass(
-            merchant_information = MerchantInformationInvoice(
-                merchant_name = merchant_name, merchant_address = merchant_address
+            merchant_information=MerchantInformationInvoice(
+                merchant_name=merchant_name, merchant_address=merchant_address
             ),
-            customer_information = CustomerInformationInvoice(
-              customer_name = customer_name, customer_address = customer_address, customer_mailing_address = customer_mailing_address
-              , customer_remittance_address = customer_remittance_address, customer_shipping_address = customer_shipping_address
-              ,customer_billing_address = customer_billing_address
+            customer_information=CustomerInformationInvoice(
+                customer_name=customer_name,
+                customer_address=customer_address,
+                customer_mailing_address=customer_mailing_address,
+                customer_remittance_address=customer_remittance_address,
+                customer_shipping_address=customer_shipping_address,
+                customer_billing_address=customer_billing_address,
             ),
-            invoice_number = invoice_number,
-            invoice_total = invoice_total,
-            invoice_subtotal = invoice_subtotal,
-            amount_due = amount_due,
-            discount = discount,
-            taxes = taxes,
-            payment_term = payment_term,
-            purchase_order = purchase_order,
-            date = date,
-            due_date = due_date,
-            locale = LocaleInvoice(currency=currency),
-            bank_informations = BankInvoice(iban=iban,account_number=account_number),
+            invoice_number=invoice_number,
+            invoice_total=invoice_total,
+            invoice_subtotal=invoice_subtotal,
+            amount_due=amount_due,
+            discount=discount,
+            taxes=taxes,
+            payment_term=payment_term,
+            purchase_order=purchase_order,
+            date=date,
+            due_date=due_date,
+            locale=LocaleInvoice(currency=currency),
+            bank_informations=BankInvoice(iban=iban, account_number=account_number),
             item_lines=items,
         )
 
@@ -197,7 +207,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         merchant_name = fields.get("companyName", default_dict)["value"]
         merchant_address = fields.get("addressBlock", default_dict)["value"]
         currency = fields.get("currency", default_dict)["value"]
-        card_number = fields.get("cardNumber",default_dict)["value"]
+        card_number = fields.get("cardNumber", default_dict)["value"]
         card_type = fields.get("cardType", default_dict)["value"]
 
         taxe = fields.get("tax", default_dict)["value"]
@@ -216,11 +226,15 @@ class Base64Api(ProviderInterface, OcrInterface):
             invoice_total=invoice_total,
             invoice_subtotal=invoice_subtotal,
             locale=Locale(currency=currency),
-            merchant_information=MerchantInformation(merchant_name=merchant_name, merchant_address=merchant_address),
+            merchant_information=MerchantInformation(
+                merchant_name=merchant_name, merchant_address=merchant_address
+            ),
             customer_information=CustomerInformation(customer_name=customer_name),
-            payment_information = PaymentInformation(card_number=card_number, card_type=card_type),
+            payment_information=PaymentInformation(
+                card_number=card_number, card_type=card_type
+            ),
             date=str(date),
-            time = str(time),
+            time=str(time),
             receipt_infos=receipt_infos,
             item_lines=items,
             taxes=taxes,
@@ -256,9 +270,13 @@ class Base64Api(ProviderInterface, OcrInterface):
             ocr_file, "finance/" + document_type.value
         )
         if document_type == SubfeatureParser.RECEIPT:
-            standardized_response = self._format_receipt_document_data(original_response)
+            standardized_response = self._format_receipt_document_data(
+                original_response
+            )
         elif document_type == SubfeatureParser.INVOICE:
-            standardized_response = self._format_invoice_document_data(original_response)
+            standardized_response = self._format_invoice_document_data(
+                original_response
+            )
 
         result = ResponseType[T](
             original_response=original_response,
@@ -267,52 +285,38 @@ class Base64Api(ProviderInterface, OcrInterface):
         return result
 
     def ocr__ocr(
-        self, 
-        file: str, 
+        self,
+        file: str,
         language: str,
-        file_url: str= "",
+        file_url: str = "",
     ):
         raise ProviderException(
             message="This provider is deprecated. You won't be charged for your call."
         )
 
     def ocr__invoice_parser(
-        self, 
-        file: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
         return self._ocr_finance_document(file, SubfeatureParser.INVOICE)
 
     def ocr__receipt_parser(
-        self, 
-        file: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
         return self._ocr_finance_document(file, SubfeatureParser.RECEIPT)
 
     def ocr__identity_parser(
-        self, 
-        file: str, 
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
-
         file_ = open(file, "rb")
-        
+
         image_as_base64 = (
             f"data:{mimetypes.guess_type(file)[0]};base64,"
             + base64.b64encode(file_.read()).decode()
         )
 
-        payload = json.dumps({
-            "image": image_as_base64
-        })
+        payload = json.dumps({"image": image_as_base64})
 
-        headers = {
-            'Content-Type': 'application/json',
-            'Authorization': self.api_key
-        }
+        headers = {"Content-Type": "application/json", "Authorization": self.api_key}
 
         response = requests.post(url=self.url, headers=headers, data=payload)
 
@@ -320,79 +324,124 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         original_response = response.json()
         if response.status_code != 200:
-            raise ProviderException(message=original_response['message'])
+            raise ProviderException(message=original_response["message"])
 
         items = []
 
         for document in original_response:
-            image_id=[ItemIdentityParserDataClass(value=doc.get('image', []), confidence=doc.get('confidence')) for doc in document['features'].get('faces', {})]
-            image_signature=[ItemIdentityParserDataClass(value=doc.get('image', []), confidence=doc.get('confidence')) for doc in document['features'].get('signatures', {})]
-            given_names=document['fields'].get('givenName', {}).get('value', "").split(' ') if document['fields'].get('givenName', {}).get('value', "") != "" else []
+            image_id = [
+                ItemIdentityParserDataClass(
+                    value=doc.get("image", []), confidence=doc.get("confidence")
+                )
+                for doc in document["features"].get("faces", {})
+            ]
+            image_signature = [
+                ItemIdentityParserDataClass(
+                    value=doc.get("image", []), confidence=doc.get("confidence")
+                )
+                for doc in document["features"].get("signatures", {})
+            ]
+            given_names = (
+                document["fields"].get("givenName", {}).get("value", "").split(" ")
+                if document["fields"].get("givenName", {}).get("value", "") != ""
+                else []
+            )
             given_names_final = []
             for given_name in given_names:
-                given_names_final.append(ItemIdentityParserDataClass(
-                    value=given_name,
-                    confidence=document['fields'].get('givenName', {}).get('confidence')
-                ))
+                given_names_final.append(
+                    ItemIdentityParserDataClass(
+                        value=given_name,
+                        confidence=document["fields"]
+                        .get("givenName", {})
+                        .get("confidence"),
+                    )
+                )
 
-            country=get_info_country(
+            country = get_info_country(
                 key=InfoCountry.ALPHA3,
-                value=document['fields'].get('countryCode', {}).get('value', "")
+                value=document["fields"].get("countryCode", {}).get("value", ""),
             )
             if country:
-                country['confidence'] = document['fields'].get('countryCode', {}).get('confidence')
-
-            items.append(InfosIdentityParserDataClass(
-                document_type=ItemIdentityParserDataClass(
-                    value=document['fields'].get('documentType', {}).get('value'),
-                    confidence=document['fields'].get('documentType', {}).get('confidence')
-                ),
-                last_name=ItemIdentityParserDataClass(
-                    value=document['fields'].get('familyName', {}).get('value'),
-                    confidence=document['fields'].get('familyName', {}).get('confidence')
-                ),
-                given_names=given_names_final,
-                birth_date=ItemIdentityParserDataClass(
-                    value=document['fields'].get('dateOfBirth', {}).get('value'),
-                    confidence=document['fields'].get('dateOfBirth', {}).get('confidence'),
-                ),
-                country=country,
-                document_id=ItemIdentityParserDataClass(
-                    value=document['fields'].get('documentNumber', {}).get('value'),
-                    confidence=document['fields'].get('documentNumber', {}).get('confidence'),
-                ),
-                age=ItemIdentityParserDataClass(
-                    value=str(document['fields'].get('age', {}).get('value')),
-                    confidence=document['fields'].get('age', {}).get('confidence'),
-                ),
-                nationality=ItemIdentityParserDataClass(
-                    value=document['fields'].get('nationality', {}).get('value'),
-                    confidence=document['fields'].get('nationality', {}).get('confidence'),
-                ),
-                issuing_state=ItemIdentityParserDataClass(
-                    value=document['fields'].get('issuingState', {}).get('value'),
-                    confidence=document['fields'].get('issuingState', {}).get('confidence'),
-                ),
-                image_id=image_id,
-                image_signature=image_signature,
-                gender=ItemIdentityParserDataClass(
-                    value=document['fields'].get('sex', {}).get('value'),
-                    confidence=document['fields'].get('sex', {}).get('confidence'),
-                ),
-                expire_date=ItemIdentityParserDataClass(
-                    value=document['fields'].get('expirationDate', {}).get('value'),
-                    confidence=document['fields'].get('expirationDate', {}).get('confidence')
-                ),
-                issuance_date=ItemIdentityParserDataClass(
-                    value=document['fields'].get('issueDate', {}).get('value'),
-                    confidence=document['fields'].get('issueDate', {}).get('confidence'),
-                ),
-                address=ItemIdentityParserDataClass(
-                    value=document['fields'].get('address', {}).get('value'),
-                    confidence=document['fields'].get('address', {}).get('confidence'),
+                country["confidence"] = (
+                    document["fields"].get("countryCode", {}).get("confidence")
                 )
-            ))
 
+            items.append(
+                InfosIdentityParserDataClass(
+                    document_type=ItemIdentityParserDataClass(
+                        value=document["fields"].get("documentType", {}).get("value"),
+                        confidence=document["fields"]
+                        .get("documentType", {})
+                        .get("confidence"),
+                    ),
+                    last_name=ItemIdentityParserDataClass(
+                        value=document["fields"].get("familyName", {}).get("value"),
+                        confidence=document["fields"]
+                        .get("familyName", {})
+                        .get("confidence"),
+                    ),
+                    given_names=given_names_final,
+                    birth_date=ItemIdentityParserDataClass(
+                        value=format_date(
+                            document["fields"].get("dateOfBirth", {}).get("value")
+                        ),
+                        confidence=document["fields"]
+                        .get("dateOfBirth", {})
+                        .get("confidence"),
+                    ),
+                    country=country,
+                    document_id=ItemIdentityParserDataClass(
+                        value=document["fields"].get("documentNumber", {}).get("value"),
+                        confidence=document["fields"]
+                        .get("documentNumber", {})
+                        .get("confidence"),
+                    ),
+                    age=ItemIdentityParserDataClass(
+                        value=str(document["fields"].get("age", {}).get("value")),
+                        confidence=document["fields"].get("age", {}).get("confidence"),
+                    ),
+                    nationality=ItemIdentityParserDataClass(
+                        value=document["fields"].get("nationality", {}).get("value"),
+                        confidence=document["fields"]
+                        .get("nationality", {})
+                        .get("confidence"),
+                    ),
+                    issuing_state=ItemIdentityParserDataClass(
+                        value=document["fields"].get("issuingState", {}).get("value"),
+                        confidence=document["fields"]
+                        .get("issuingState", {})
+                        .get("confidence"),
+                    ),
+                    image_id=image_id,
+                    image_signature=image_signature,
+                    gender=ItemIdentityParserDataClass(
+                        value=document["fields"].get("sex", {}).get("value"),
+                        confidence=document["fields"].get("sex", {}).get("confidence"),
+                    ),
+                    expire_date=ItemIdentityParserDataClass(
+                        value=format_date(
+                            document["fields"].get("expirationDate", {}).get("value")
+                        ),
+                        confidence=document["fields"]
+                        .get("expirationDate", {})
+                        .get("confidence"),
+                    ),
+                    issuance_date=ItemIdentityParserDataClass(
+                        value=format_date(
+                            document["fields"].get("issueDate", {}).get("value")
+                        ),
+                        confidence=document["fields"]
+                        .get("issueDate", {})
+                        .get("confidence"),
+                    ),
+                    address=ItemIdentityParserDataClass(
+                        value=document["fields"].get("address", {}).get("value"),
+                        confidence=document["fields"]
+                        .get("address", {})
+                        .get("confidence"),
+                    ),
+                )
+            )
 
         standardized_response = IdentityParserDataClass(extracted_data=items)
 
