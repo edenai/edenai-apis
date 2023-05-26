@@ -1,11 +1,11 @@
 from enum import Enum
-from typing import NewType, Union
+from typing import Dict, List, NewType, Union
 from edenai_apis.features.text.anonymization.pattern import SubCategoryPattern
 
 
 class SubCategoryBase(str):
     @classmethod
-    def list_choices(cls) -> dict["SubCategoryBase", list[str]]:
+    def list_choices(cls) -> Dict["SubCategoryBase", List[str]]:
         raise NotImplementedError
 
     @classmethod
@@ -70,7 +70,7 @@ class PersonalInformationSubCategoryType(SubCategoryBase, Enum):
     PersonType = "PersonType"
 
     @classmethod
-    def list_choices(cls) -> dict["SubCategoryBase", list[str]]:
+    def list_choices(cls) -> Dict["SubCategoryBase", List[str]]:
         return {
             cls.Name: SubCategoryPattern.PersonnalInformation.NAME,
             cls.Age: SubCategoryPattern.PersonnalInformation.AGE,
@@ -89,7 +89,7 @@ class FinancialInformationSubCategoryType(SubCategoryBase, Enum):
     TaxIdentificationNumber = "TaxIdentificationNumber"
 
     @classmethod
-    def list_choices(cls) -> dict["SubCategoryBase", list[str]]:
+    def list_choices(cls) -> Dict["SubCategoryBase", List[str]]:
         return {
             cls.CreditCard: SubCategoryPattern.FinancialInformation.CREDIT_CARD,
             cls.CardExpiry: SubCategoryPattern.FinancialInformation.CARD_EXPIRY,
@@ -109,7 +109,7 @@ class IdentificationNumbersSubCategoryType(SubCategoryBase, Enum):
     PassportNumber = "PassportNumber"
 
     @classmethod
-    def list_choices(cls) -> dict["SubCategoryBase", list[str]]:
+    def list_choices(cls) -> dict["SubCategoryBase", List[str]]:
         return {
             cls.SocialSecurityNumber: SubCategoryPattern.IdentificationNumbers.SOCIAL_SECURITY,
             cls.NationalIdentificationNumber: SubCategoryPattern.IdentificationNumbers.NATIONAL_ID,
@@ -132,7 +132,7 @@ class MiscellaneousSubCategoryType(SubCategoryBase, Enum):
     Password = "Password"
 
     @classmethod
-    def list_choices(cls) -> dict["SubCategoryBase", list[str]]:
+    def list_choices(cls) -> Dict["SubCategoryBase", List[str]]:
         return {
             cls.URL: SubCategoryPattern.Miscellaneous.URL,
             cls.IP: SubCategoryPattern.Miscellaneous.IP,
@@ -152,7 +152,7 @@ class OrganizationSubCategoryType(SubCategoryBase, Enum):
     BuisnessNumber = "BuisnessNumber"
 
     @classmethod
-    def list_choices(cls) -> dict["SubCategoryBase", list[str]]:
+    def list_choices(cls) -> Dict["SubCategoryBase", List[str]]:
         return {
             cls.CompanyName: SubCategoryPattern.Organization.COMPANY_NAME,
             cls.CompanyNumber: SubCategoryPattern.Organization.COMPANY_NUMBER,
@@ -167,7 +167,7 @@ class DateAndTimeSubCategoryType(SubCategoryBase, Enum):
     Duration = "Duration"
 
     @classmethod
-    def list_choices(cls) -> dict["SubCategoryBase", list[str]]:
+    def list_choices(cls) -> Dict["SubCategoryBase", List[str]]:
         return {
             cls.Duration: SubCategoryPattern.DateAndTime.DURATION,
             cls.DateTime: SubCategoryPattern.DateAndTime.DATE_TIME,
@@ -181,7 +181,7 @@ class LocationInformationSubCategoryType(SubCategoryBase, Enum):
     Location = "Location"
 
     @classmethod
-    def list_choices(cls) -> dict["SubCategoryBase", list[str]]:
+    def list_choices(cls) -> Dict["SubCategoryBase", List[str]]:
         return {
             cls.Address: SubCategoryPattern.LocationInformation.ADDRESS,
             cls.Location: SubCategoryPattern.LocationInformation.LOCATION,
@@ -196,7 +196,7 @@ class OtherSubCategoryType(SubCategoryBase, Enum):
     Unknown = "Unknown"
 
     @classmethod
-    def list_choices(cls) -> dict["SubCategoryBase", list[str]]:
+    def list_choices(cls) -> Dict["SubCategoryBase", List[str]]:
         return {
             cls.Other: SubCategoryPattern.Other.OTHER,
             cls.Anonymized: SubCategoryPattern.Other.ANONYMIZED,

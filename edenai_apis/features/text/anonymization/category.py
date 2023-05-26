@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Dict
 
 from edenai_apis.features.text.anonymization.subcategory import (
     FinancialInformationSubCategoryType,
@@ -34,7 +35,7 @@ class CategoryType(ACategoryType, Enum):
         return [category for category in cls]
 
     @classmethod
-    def list_choices(cls) -> dict["ACategoryType", SubCategoryBase]:
+    def list_choices(cls) -> Dict["ACategoryType", SubCategoryBase]:
         return {
             cls.PersonalInformation: PersonalInformationSubCategoryType,
             cls.FinancialInformation: FinancialInformationSubCategoryType,
