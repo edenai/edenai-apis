@@ -1,7 +1,9 @@
 from typing import Sequence
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
+    AnonymizationEntity,
 )
+from edenai_apis.features.text.anonymization.category import CategoryType
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
     InfosKeywordExtractionDataClass,
     KeywordExtractionDataClass,
@@ -117,7 +119,6 @@ class AmazonTextApi(TextInterface):
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
         for ent in response["Entities"]:
-
             items.append(
                 InfosNamedEntityRecognitionDataClass(
                     entity=ent["Text"],
@@ -135,7 +136,6 @@ class AmazonTextApi(TextInterface):
     def text__syntax_analysis(
         self, language: str, text: str
     ) -> ResponseType[SyntaxAnalysisDataClass]:
-
         # Getting response
         try:
             response = self.clients["text"].detect_syntax(
@@ -182,11 +182,28 @@ class AmazonTextApi(TextInterface):
 
         last_end = 0
         new_text = ""
+        entities: Sequence[AnonymizationEntity] = []
         for entity in res["Entities"]:
-            new_text += text[last_end: entity["BeginOffset"]
-                             ] + f"<{entity['Type']}>"
+            new_text += text[last_end : entity["BeginOffset"]] + "*" * (
+                entity["EndOffset"] - entity["BeginOffset"]
+            )
             last_end = entity["EndOffset"]
-        standardized_response = AnonymizationDataClass(result=new_text)
+            classification = CategoryType.choose_category_subcategory(entity["Type"])
+            entities.append(
+                AnonymizationEntity(
+                    offset=entity["BeginOffset"],
+                    length=entity["EndOffset"] - entity["BeginOffset"],
+                    original_label=entity["Type"],
+                    content=text[entity["BeginOffset"] : entity["EndOffset"]],
+                    confidence_score=entity["Score"],
+                    category=classification["category"],
+                    subcategory=classification["subcategory"],
+                )
+            )
+        new_text += text[last_end:]
+        standardized_response = AnonymizationDataClass(
+            result=new_text, entities=entities
+        )
         return ResponseType(
             original_response=res, standardized_response=standardized_response
         )

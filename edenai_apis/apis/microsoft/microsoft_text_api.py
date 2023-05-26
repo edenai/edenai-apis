@@ -14,10 +14,11 @@ from edenai_apis.features.text import (
     SentimentAnalysisDataClass,
     SummarizeDataClass,
 )
-from edenai_apis.features.text import (
-    AnonymizationDataClass,
-    ModerationDataClass
+from edenai_apis.features.text import AnonymizationDataClass, ModerationDataClass
+from edenai_apis.features.text.anonymization.anonymization_dataclass import (
+    AnonymizationEntity,
 )
+from edenai_apis.features.text.anonymization.category import CategoryType
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SegmentSentimentAnalysisDataClass,
 )
@@ -30,20 +31,16 @@ from .microsoft_helpers import microsoft_text_moderation_personal_infos
 
 
 class MicrosoftTextApi(TextInterface):
-
     def text__moderation(
         self, text: str, language: str
     ) -> ResponseType[ModerationDataClass]:
-
         if not language:
-            language=""
+            language = ""
         try:
             response = requests.post(
                 f"{self.url['text_moderation']}&language={language}",
-                headers= self.headers['text_moderation'],
-                json={
-                    "text" : text
-                }
+                headers=self.headers["text_moderation"],
+                json={"text": text},
             )
         except Exception as exc:
             raise ProviderException(str(exc))
@@ -53,13 +50,15 @@ class MicrosoftTextApi(TextInterface):
             if "Errors" in data:
                 error = data.get("Errors", []) or []
                 if error:
-                    raise ProviderException(error[0].get("Message", "Provider could not process request"))
-            else :
+                    raise ProviderException(
+                        error[0].get("Message", "Provider could not process request")
+                    )
+            else:
                 raise ProviderException(data)
         standardized_response = microsoft_text_moderation_personal_infos(data)
-        
+
         return ResponseType[ModerationDataClass](
-            original_response= data, standardized_response= standardized_response
+            original_response=data, standardized_response=standardized_response
         )
 
     def text__named_entity_recognition(
@@ -84,15 +83,15 @@ class MicrosoftTextApi(TextInterface):
                     },
                 },
             )
-            
+
         except Exception as exc:
             raise ProviderException(f"Unexpected error! {sys.exc_info()[0]}") from exc
 
         data = response.json()
         self._check_microsoft_error(data)
 
-        print("The data is ",data)
-        
+        print("The data is ", data)
+
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
         for ent in data["results"]["documents"][0]["entities"]:
             entity = ent["text"]
@@ -122,7 +121,6 @@ class MicrosoftTextApi(TextInterface):
         language: str,
         model: str = None,
     ) -> ResponseType[SummarizeDataClass]:
-
         """
         :param text:        String that contains input text
         :return:            String that contains output result
@@ -208,8 +206,25 @@ class MicrosoftTextApi(TextInterface):
         if response.status_code != 200:
             raise ProviderException(original_response, response.status_code)
 
+        entities: Sequence[AnonymizationEntity] = []
+
+        for entity in original_response["results"]["documents"][0]["entities"]:
+            classificator = CategoryType.choose_category_subcategory(entity["category"])
+            entities.append(
+                AnonymizationEntity(
+                    content=entity["text"],
+                    original_label=entity["category"],
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    offset=entity["offset"],
+                    length=entity["length"],
+                    confidence_score=entity["confidenceScore"],
+                )
+            )
+
         standardized_response = AnonymizationDataClass(
-            result=original_response["results"]["documents"][0]["redactedText"]
+            result=original_response["results"]["documents"][0]["redactedText"],
+            entities=entities,
         )
         return ResponseType[AnonymizationDataClass](
             original_response=original_response,
@@ -293,8 +308,8 @@ class MicrosoftTextApi(TextInterface):
     def _check_microsoft_error(self, data: Dict):
         if not data:
             raise ProviderException("Provider returned an empty response")
-        data = data.get('results') or {}
-        error = data.get("error", {}) or data.get("errors",[]) or {}
+        data = data.get("results") or {}
+        error = data.get("error", {}) or data.get("errors", []) or {}
         if not error:
             return
         if isinstance(error, dict) and error.get("message"):
@@ -303,7 +318,6 @@ class MicrosoftTextApi(TextInterface):
             errors = error[0]
             raise ProviderException(errors.get("error").get("message"))
 
-        
     def text__keyword_extraction(
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
@@ -340,18 +354,23 @@ class MicrosoftTextApi(TextInterface):
             original_response=data, standardized_response=standardized_response
         )
 
-    def text__spell_check(self, text: str, language: str) -> ResponseType[SpellCheckDataClass]:
+    def text__spell_check(
+        self, text: str, language: str
+    ) -> ResponseType[SpellCheckDataClass]:
         if len(text) >= 130:
-            raise ProviderException(message="Text is too long for spell check. Max length is 130 characters", code=400)
+            raise ProviderException(
+                message="Text is too long for spell check. Max length is 130 characters",
+                code=400,
+            )
 
-        data = { "text": text }
-        params = { "mkt": language, "mode": "spell" }
+        data = {"text": text}
+        params = {"mkt": language, "mode": "spell"}
 
         response = requests.post(
             self.url["spell_check"],
-            headers=self.headers['spell_check'],
+            headers=self.headers["spell_check"],
             data=data,
-            params=params
+            params=params,
         )
 
         if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
@@ -359,21 +378,25 @@ class MicrosoftTextApi(TextInterface):
 
         orginal_response = response.json()
         if response.status_code != HTTPStatus.OK:
-            raise ProviderException(orginal_response['errors']['message'], response.status_code)
+            raise ProviderException(
+                orginal_response["errors"]["message"], response.status_code
+            )
 
         items: Sequence[SpellCheckItem] = []
-        for flag_token in orginal_response['flaggedTokens']:
-            items.append(SpellCheckItem(
-                offset=flag_token['offset'],
-                length=len(flag_token['token']),
-                type=flag_token['type'],
-                text=flag_token['token'],
-                suggestions=flag_token['suggestions']
-            ))
+        for flag_token in orginal_response["flaggedTokens"]:
+            items.append(
+                SpellCheckItem(
+                    offset=flag_token["offset"],
+                    length=len(flag_token["token"]),
+                    type=flag_token["type"],
+                    text=flag_token["token"],
+                    suggestions=flag_token["suggestions"],
+                )
+            )
 
         standardized_response = SpellCheckDataClass(text=text, items=items)
 
         return ResponseType[SpellCheckDataClass](
             original_response=orginal_response,
-            standardized_response=standardized_response
+            standardized_response=standardized_response,
         )

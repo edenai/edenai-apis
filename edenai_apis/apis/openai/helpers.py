@@ -75,14 +75,14 @@ Your output:
 
 
 def construct_anonymization_context(text: str) -> str:
-    output_template = (
-        '{{"redactedText" : "...", "entities": [[entity, category, confidence score]]}}'
-    )
+    output_template = '{{"redactedText" : "...", "entities": [{{content: entity, label: category, confidence_score: confidence score, offset: start_offset}}]}}'
     prompt = f"""Please analyze the following text and identify any personal and sensitive information contained within it. For each instance of personal information, please provide a category and a confidence score. Categories could include, but should not be limited to, names, addresses, phone numbers, email addresses, social security numbers, enterprise name, any private information and credit card numbers. Use a confidence score between 0 and 1 to indicate how certain you are that the identified information is actually personal information.
     The text is included between three backticks.
 
-    First write the redacted Text by replacing each identified entity with [REDACTED], then extract the entity, finally extract the confidence Score between 0.0-1.0.
+    First write the redacted Text by replacing each character of identified entity with `*`, then extract the entity, finally extract the confidence Score between 0.0-1.0.
 
+    The category must be one of the following: "name", "address", "phonenumber", "email", "social security number", "organization", "credit card number", "other".
+    
     Your output should be a json that looks like this : {output_template}
 
     The text:

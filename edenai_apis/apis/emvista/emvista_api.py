@@ -10,34 +10,37 @@ from edenai_apis.features.text import (
     KeywordExtractionDataClass,
     InfosSyntaxAnalysisDataClass,
     InfosKeywordExtractionDataClass,
-    SentimentAnalysisDataClass
+    SentimentAnalysisDataClass,
 )
 from edenai_apis.features.provider.provider_interface import ProviderInterface
-from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import SentimentEnum
+from edenai_apis.features.text.anonymization.anonymization_dataclass import (
+    AnonymizationEntity,
+)
+from edenai_apis.features.text.anonymization.category import CategoryType
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
+    SentimentEnum,
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.exception import (
-    ProviderException,
-    LanguageException
-)
+from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.types import ResponseType
 from .emvista_tags import tags
 
 
 class EmvistaApi(ProviderInterface, TextInterface):
-
     provider_name = "emvista"
 
     def __init__(self, api_keys: Dict = {}):
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.api_key = self.api_settings["api_key"]
         self.base_url = "https://pss-api.prevyo.com/pss/api/v1/"
 
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str = None
     ) -> ResponseType[SummarizeDataClass]:
-
-        #check language
+        # check language
         if not language:
             raise LanguageException("Language not provided")
 
@@ -56,7 +59,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
 
         # Check errors from API
         if response.status_code == 201:
-            raise ProviderException('Input text is too long')
+            raise ProviderException("Input text is too long")
         if response.status_code != 200:
             raise ProviderException(original_response["message"])
 
@@ -78,8 +81,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
     def text__syntax_analysis(
         self, language: str, text: str
     ) -> ResponseType[SyntaxAnalysisDataClass]:
-
-        #check language
+        # check language
         if not language:
             raise LanguageException("Language not provided")
         # Prepare request
@@ -95,7 +97,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         response = requests.post(url, headers=headers, json=files)
 
         if response.status_code == 201:
-            raise ProviderException('Input text is too long')
+            raise ProviderException("Input text is too long")
 
         original_response = response.json()
 
@@ -147,13 +149,37 @@ class EmvistaApi(ProviderInterface, TextInterface):
 
         # Check errors from API
         if response.status_code == 201:
-            raise ProviderException('Input text is too long')
+            raise ProviderException("Input text is too long")
         if response.status_code != 200:
             raise ProviderException(original_response["message"])
 
+        entities: Sequence[AnonymizationEntity] = []
+        new_text = text
+        for entity in original_response["result"]["namedEntities"]:
+            classification = CategoryType.choose_category_subcategory(
+                entity["tags"][0].split("/")[-1]
+            )
+            tmp_new_text = new_text[0 : entity["start"]] + "*" * (
+                entity["end"] - entity["start"]
+            )
+            tmp_new_text += new_text[entity["end"] :]
+            new_text = tmp_new_text
+            entities.append(
+                AnonymizationEntity(
+                    content=entity["value"],
+                    original_label=entity["tags"][0],
+                    offset=entity["start"],
+                    length=len(entity["value"]),
+                    confidence_score=None,
+                    category=classification["category"],
+                    subcategory=classification["subcategory"],
+                )
+            )
+
         # Return standardized response
         standardized_response = AnonymizationDataClass(
-            result=original_response["result"]["annotatedValue"]
+            result=new_text,
+            entities=entities,
         )
 
         result = ResponseType[AnonymizationDataClass](
@@ -163,7 +189,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return result
 
     def _normalize_sentiment(self, rate: float) -> str:
-        if rate == 'NaN':
+        if rate == "NaN":
             return SentimentEnum.NEUTRAL.value
         if rate > 0:
             return SentimentEnum.POSITIVE.value
@@ -172,25 +198,17 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return SentimentEnum.NEUTRAL.value
 
     def text__sentiment_analysis(
-        self,
-        language: str,
-        text: str
-        ) -> ResponseType[SentimentAnalysisDataClass]:
+        self, language: str, text: str
+    ) -> ResponseType[SentimentAnalysisDataClass]:
         # check language
         if not language:
             raise LanguageException("Language not provided")
         # Prepare request
-        files = {
-            "text": text,
-            "parameters": [{
-                "name": "lang",
-                "value": language
-            }]
-        }
+        files = {"text": text, "parameters": [{"name": "lang", "value": language}]}
         headers = {
             "Poa-Token": self.api_key,
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
         }
         url = f"{self.base_url}opinions"
 
@@ -198,20 +216,24 @@ class EmvistaApi(ProviderInterface, TextInterface):
         response = requests.post(url, headers=headers, json=files)
 
         if response.status_code == 201:
-            raise ProviderException('Input text is too long')
+            raise ProviderException("Input text is too long")
 
         original_response = response.json()
 
-        print(original_response['result']['globalScore'])
+        print(original_response["result"]["globalScore"])
 
         standardized_response = SentimentAnalysisDataClass(
-            general_sentiment=self._normalize_sentiment(original_response['result']['globalScore']),
-            general_sentiment_rate=abs(original_response['result']['globalScore']) if original_response['result']['globalScore'] != 'NaN' else 0
+            general_sentiment=self._normalize_sentiment(
+                original_response["result"]["globalScore"]
+            ),
+            general_sentiment_rate=abs(original_response["result"]["globalScore"])
+            if original_response["result"]["globalScore"] != "NaN"
+            else 0,
         )
 
         result = ResponseType[SentimentAnalysisDataClass](
             original_response=original_response,
-            standardized_response=standardized_response
+            standardized_response=standardized_response,
         )
         return result
 
@@ -229,7 +251,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
             standardized_response: Keyword_extraction(text: str)
           )
         """
-        #check language
+        # check language
         if not language:
             raise LanguageException("Language not provided")
         # Prepare request
@@ -247,7 +269,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
 
         # Check error from API
         if response.status_code == 201:
-            raise ProviderException('Input text is too long')
+            raise ProviderException("Input text is too long")
         if response.status_code != 200:
             raise ProviderException(original_response["message"])
 
