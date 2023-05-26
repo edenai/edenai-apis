@@ -74,7 +74,7 @@ class OneaiApi(ProviderInterface, TextInterface, TranslationInterface, AudioInte
     ) -> ResponseType[AnonymizationDataClass]:
         data = json.dumps({"input": text, "steps": [{"skill": "anonymize"}]})
 
-        response = requests.post(url=self.url, headers=self.header)
+        response = requests.post(url=self.url, headers=self.header, data=data)
         original_response = response.json()
 
         if response.status_code != 200:

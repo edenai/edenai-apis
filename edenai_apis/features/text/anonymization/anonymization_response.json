@@ -1,3 +1,23 @@
 {
-  "result": "Le num\u00e9ro de <PERSON_685043453>  est le <PHONENUMBER_841632998> ."
+  "result": "The phone number of *** is the **************.",
+  "entities": [
+    {
+      "offset": 20,
+      "length": 3,
+      "category": "PersonalInformation",
+      "subcategory": "Name",
+      "original_label": "NAME",
+      "content": "Luc",
+      "confidence_score": 1.0
+    },
+    {
+      "offset": 31,
+      "length": 14,
+      "category": "DateAndTime",
+      "subcategory": "DateTime",
+      "original_label": "DATE_TIME",
+      "content": "06 21 32 43 54",
+      "confidence_score": 0.992
+    }
+  ]
 }

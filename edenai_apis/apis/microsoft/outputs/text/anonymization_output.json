@@ -30,6 +30,26 @@
     }
   },
   "standardized_response": {
-    "result": "The phone number of *** is the **************."
+    "result": "The phone number of *** is the **************.",
+    "entities": [
+      {
+        "offset": 20,
+        "length": 3,
+        "category": "PersonalInformation",
+        "subcategory": "Name",
+        "original_label": "Person",
+        "content": "Luc",
+        "confidence_score": 0.99
+      },
+      {
+        "offset": 31,
+        "length": 14,
+        "category": "PersonalInformation",
+        "subcategory": "Phone",
+        "original_label": "PhoneNumber",
+        "content": "06 21 32 43 54",
+        "confidence_score": 0.8
+      }
+    ]
   }
 }

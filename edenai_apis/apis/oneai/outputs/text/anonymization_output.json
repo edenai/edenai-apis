@@ -35,6 +35,7 @@
     }
   },
   "standardized_response": {
-    "result": "Le num\u00e9ro de *** est le 06 21 32 43 54."
+    "result": "Le num\u00e9ro de *** est le 06 21 32 43 54.",
+    "entities": []
   }
 }

@@ -1,36 +1,59 @@
 {
   "original_response": {
+    "message": null,
+    "code": 0,
+    "language": "en",
+    "startTime": 1685095739744,
+    "endTime": 1685095739746,
     "result": {
       "namedEntities": [
         {
-          "start": 24,
-          "end": 38,
-          "source": "06 21 32 43 54",
-          "value": "06 21 32 43 54",
-          "refValue": "0-6",
+          "id": "879564584",
+          "value": "the 06 21 32",
+          "refValue": "0-8",
           "tags": [
-            "Thing/Abstract/PhoneNumber"
-          ]
+            "Thing/Abstract/Time"
+          ],
+          "start": 37,
+          "end": 39,
+          "source": "32"
         },
         {
-          "start": 13,
-          "end": 16,
-          "source": "Luc",
+          "id": "967892151",
           "value": "Luc",
           "refValue": "0-3",
           "tags": [
             "Thing/Concrete/Animate/Livingbeing/Human"
-          ]
+          ],
+          "start": 20,
+          "end": 23,
+          "source": "Luc"
         }
       ],
-      "annotatedValue": "Le num\u00e9ro de <THING/CONCRETE/ANIMATE/LIVINGBEING/HUMAN_637079294>  est le <THING/ABSTRACT/PHONENUMBER_39973140> ."
-    },
-    "code": 0,
-    "startTime": 1668438595144,
-    "endTime": 1668438595145,
-    "message": "OK"
+      "annotatedValue": "The phone number of <Thing/Concrete/Animate/Livingbeing/Human_967892151> is <Thing/Abstract/Time_879564584> 43 54."
+    }
   },
   "standardized_response": {
-    "result": "Le num\u00e9ro de <THING/CONCRETE/ANIMATE/LIVINGBEING/HUMAN_637079294>  est le <THING/ABSTRACT/PHONENUMBER_39973140> ."
+    "result": "The phone number of *** is the 06 21 ** 43 54.",
+    "entities": [
+      {
+        "offset": 37,
+        "length": 12,
+        "category": "DateAndTime",
+        "subcategory": "Duration",
+        "original_label": "Thing/Abstract/Time",
+        "content": "the 06 21 32",
+        "confidence_score": null
+      },
+      {
+        "offset": 20,
+        "length": 3,
+        "category": "PersonalInformation",
+        "subcategory": "Name",
+        "original_label": "Thing/Concrete/Animate/Livingbeing/Human",
+        "content": "Luc",
+        "confidence_score": null
+      }
+    ]
   }
 }

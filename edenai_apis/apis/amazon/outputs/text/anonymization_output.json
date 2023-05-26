@@ -15,18 +15,38 @@
       }
     ],
     "ResponseMetadata": {
-      "RequestId": "9c15669c-ece6-440a-b565-37fe4920960f",
+      "RequestId": "842e3681-566b-4816-a504-73009306bc51",
       "HTTPStatusCode": 200,
       "HTTPHeaders": {
-        "x-amzn-requestid": "9c15669c-ece6-440a-b565-37fe4920960f",
+        "x-amzn-requestid": "842e3681-566b-4816-a504-73009306bc51",
         "content-type": "application/x-amz-json-1.1",
         "content-length": "169",
-        "date": "Mon, 06 Feb 2023 14:29:13 GMT"
+        "date": "Fri, 26 May 2023 10:08:35 GMT"
       },
       "RetryAttempts": 0
     }
   },
   "standardized_response": {
-    "result": "The phone number of <NAME> is the <DATE_TIME>"
+    "result": "The phone number of *** is the **************.",
+    "entities": [
+      {
+        "offset": 20,
+        "length": 3,
+        "category": "PersonalInformation",
+        "subcategory": "Name",
+        "original_label": "NAME",
+        "content": "Luc",
+        "confidence_score": 1.0
+      },
+      {
+        "offset": 31,
+        "length": 14,
+        "category": "DateAndTime",
+        "subcategory": "DateTime",
+        "original_label": "DATE_TIME",
+        "content": "06 21 32 43 54",
+        "confidence_score": 0.992
+      }
+    ]
   }
 }
