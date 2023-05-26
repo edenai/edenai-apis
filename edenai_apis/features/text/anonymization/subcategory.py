@@ -109,7 +109,7 @@ class IdentificationNumbersSubCategoryType(SubCategoryBase, Enum):
     PassportNumber = "PassportNumber"
 
     @classmethod
-    def list_choices(cls) -> dict["SubCategoryBase", List[str]]:
+    def list_choices(cls) -> Dict["SubCategoryBase", List[str]]:
         return {
             cls.SocialSecurityNumber: SubCategoryPattern.IdentificationNumbers.SOCIAL_SECURITY,
             cls.NationalIdentificationNumber: SubCategoryPattern.IdentificationNumbers.NATIONAL_ID,
