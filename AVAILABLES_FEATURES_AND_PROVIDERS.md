@@ -287,12 +287,13 @@
 </details>
 <details><summary>base64</summary>
 
-| Features | Subfeatures     |
-| -------- | --------------- |
-| **ocr**  | identity_parser |
-|          | invoice_parser  |
-|          | ocr             |
-|          | receipt_parser  |
+| Features  | Subfeatures     |
+| --------- | --------------- |
+| **image** | face_compare    |
+| **ocr**   | identity_parser |
+|           | invoice_parser  |
+|           | ocr             |
+|           | receipt_parser  |
 
 </details>
 <details><summary>clarifai</summary>

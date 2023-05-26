@@ -711,13 +711,14 @@
           "dpiY": 72,
           "width": 1176,
           "height": 1528,
+          "segment": null,
           "pageCount": 1,
           "startPage": 0,
           "isSelectable": false,
           "isEditable": false,
           "isInFocus": true,
           "isGlareFree": true,
-          "originalFileName": "6eca1743-c4c2-4e41-9ef1-cc67c087f666.png"
+          "originalFileName": "ca6d911d-709b-4fdc-a98e-4a3bf672d33f.png"
         },
         "tables": [
           [
@@ -7246,6 +7247,7 @@
                 "height": 1528,
                 "normalizedWidth": 1176,
                 "normalizedHeight": 1528,
+                "segment": null,
                 "pageCount": 1,
                 "startPage": 0
               },
@@ -8601,7 +8603,7 @@
         }
       },
       "ocr": "647-444-1234\nINVOICE\nZIP CODE\n1 Your Address\nyour@email.com\nCity, State, Country\nyourwebsite.com\nBilled To\nInvoice Number\nInvoice Total\nClient Name\n000000\n$4520.00\n1 Client Address\nDate Of Issue\nCity, State, Country\nZIP CODE\n10/07/14\nDescription\nUnit Cost\nQty / Hr Rate\nAmount\nYour item Name\nItem description goes here\n$1000\n1 1000\nYour item Name\n$1000\n1\n1000\nItem description goes here\nYour item Name\n$1000\n1 1000\nItem description goes here\nYour item Name\nItem description goes here\n$1000\n1 1000\nSubtotal\n$4000.00\nTax\n$520.00\nTotal\n$4520.00\nInvoice Terms\nEx. Please pay your invoice by ....\nAmount Due (USD)\n$4520.00",
-      "uuid": "c08dde38-5447-4170-b39f-8545e0502215",
+      "uuid": "00629308-ce9c-463c-b758-38604d6d86a0",
       "status": "needsReview"
     }
   ],

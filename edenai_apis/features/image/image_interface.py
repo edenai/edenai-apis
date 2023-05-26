@@ -53,6 +53,9 @@ from edenai_apis.features.image.search.upload_image.search_upload_image_dataclas
 from edenai_apis.features.image.generation.generation_dataclass import (
     GenerationDataClass
 )
+from edenai_apis.features.image.face_compare.face_compare_dataclass import (
+    FaceCompareDataClass
+)
 from edenai_apis.utils.types import ResponseType
 
 
@@ -322,5 +325,23 @@ class ImageInterface:
 
         Args:
             text(str): prompt of the image to generate
+        """
+        raise NotImplementedError
+    
+    @abstractmethod
+    def image__face_compare(
+        self,
+        file1: str,
+        file2: str,
+        file1_url: str,
+        file2_url: str,
+    ) -> ResponseType[FaceCompareDataClass]:
+        """
+
+        Args:
+            file1 (str): _description_
+            file2 (str): _description_
+            file1_url (str): _description_
+            file2_url (str): _description_
         """
         raise NotImplementedError

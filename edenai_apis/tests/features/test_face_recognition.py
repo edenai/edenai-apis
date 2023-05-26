@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from time import sleep
 
 import pytest
 from edenai_apis import Image
@@ -131,6 +132,8 @@ class TestFaceRecognition:
         list_faces = Image.face_recognition__list_faces(provider)
         response = list_faces(collection_id=COLLECTION_ID)
         face_ids = response.standardized_response.face_ids
+
+        sleep(1)
 
         image = face_recognition_recognize_arguments()["file"].file_path
         delete_face = Image.face_recognition__delete_face(provider)

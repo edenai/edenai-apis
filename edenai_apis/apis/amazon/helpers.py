@@ -37,11 +37,11 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 )
 from trp import Document
 
-from edenai_apis.features.ocr import (
+from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     BoundixBoxOCRTable,
     Cell,
     OcrTablesAsyncDataClass,
-    Page,
+    Page as OcrTablesPage,
     Row,
     Table,
 )
@@ -94,9 +94,9 @@ def amazon_ocr_tables_parser(original_result) -> OcrTablesAsyncDataClass:
     return OcrTablesAsyncDataClass(pages=std_pages, num_pages=len(std_pages))
 
 
-def _ocr_tables_standarize_page(page) -> Page:
+def _ocr_tables_standarize_page(page) -> OcrTablesPage:
     std_tables = [_ocr_tables_standarize_table(table) for table in page.tables]
-    return Page(tables=std_tables)
+    return OcrTablesPage(tables=std_tables)
 
 
 def _ocr_tables_standarize_table(table) -> Table:

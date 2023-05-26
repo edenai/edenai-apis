@@ -22,6 +22,15 @@
             "recognize": {
                 "version": "v3"
             }
+        },
+        "face_compare":{
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png"
+                ]
+            },
+            "version":"v3"
         }
     }
 }

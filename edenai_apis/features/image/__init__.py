@@ -58,4 +58,10 @@ from .generation import(
     GeneratedImageDataClass,
     generation_arguments
 )
+from .face_compare import (
+    FaceCompareDataClass,
+    FaceCompareBoundingBox,
+    FaceMatch,
+    face_compare_arguments
+)
 from .image_interface import ImageInterface

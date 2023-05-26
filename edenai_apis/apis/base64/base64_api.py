@@ -36,7 +36,11 @@ from edenai_apis.features.ocr.receipt_parser import (
     Taxes,
     PaymentInformation,
 )
-
+from edenai_apis.features.image.face_compare import (
+    FaceCompareDataClass,
+    FaceMatch,
+    FaceCompareBoundingBox,
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features import ProviderInterface, OcrInterface
@@ -446,6 +450,67 @@ class Base64Api(ProviderInterface, OcrInterface):
         standardized_response = IdentityParserDataClass(extracted_data=items)
 
         return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    def image__face_compare(
+        self,
+        file1: str,
+        file2: str,
+        file1_url: str = "",
+        file2_url: str = "",
+        ) -> ResponseType[FaceCompareDataClass]:
+        url = "https://base64.ai/api/face/verify"
+        
+        headers = {
+        'Authorization': self.api_key,
+        'Content-Type': 'application/json'
+        }
+        
+        if file1_url and file2_url:
+            payload = json.dumps({
+                "referenceUrl": file1_url,
+                "queryUrl": file2_url
+            })
+        else:
+            file_reference_ = open(file1, "rb")
+            file_query_ = open(file2, "rb")
+            image_reference_as_base64 = (
+                f"data:{mimetypes.guess_type(file1)[0]};base64,"
+                + base64.b64encode(file_reference_.read()).decode()
+            )
+            image_query_as_base64 = (
+                f"data:{mimetypes.guess_type(file2)[0]};base64,"
+                + base64.b64encode(file_query_.read()).decode()
+            )
+            payload = json.dumps({
+                "referenceImage": image_reference_as_base64,
+                "queryImage": image_query_as_base64
+            })
+        
+        response = requests.request("POST", url, headers=headers, data=payload)
+        original_response = response.json()
+        
+        if response.status_code != 200:
+            raise ProviderException(message=original_response['message'])
+        
+        faces = []
+        for matching_face in original_response.get('matches',[]):
+            faces.append(
+                FaceMatch(
+                    confidence=matching_face.get('confidence'),
+                    bounding_box=FaceCompareBoundingBox(
+                        top=matching_face.get('top'),
+                        left=matching_face.get('left'),
+                        height=matching_face.get('height'),
+                        width=matching_face.get('width'),
+                    )
+                )
+            )
+        standardized_response = FaceCompareDataClass(items=faces)
+
+        return ResponseType[FaceCompareDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
         )

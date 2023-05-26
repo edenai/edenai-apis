@@ -1,0 +1,13 @@
+{
+    "items": [
+      {
+        "confidence": 0.9,
+        "bounding_box": {
+          "top": 157.0,
+          "left": 234.0,
+          "height": 184.0,
+          "width": 136.0
+        }
+      }
+    ]
+  }
