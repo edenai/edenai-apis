@@ -48,7 +48,11 @@ class SubCategoryPattern:
             "debit card number",
         ]
         CARD_EXPIRY = ["credit_debit_expiry"]
-        BANK_ACCOUNT_NUMBER = ["bank account number", "bank_account_number"]
+        BANK_ACCOUNT_NUMBER = [
+            "bank account number",
+            "bank_account_number",
+            "international_bank_account_number",
+        ]
         BANK_ROUTING_NUMBER = ["bank_routing", "aba_routing_number", "iban"]
         SWIFT_CODE = ["swift code", "swift_code"]
         TAX_ID = [

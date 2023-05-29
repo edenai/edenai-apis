@@ -257,7 +257,7 @@ class OpenaiTextApi(TextInterface):
         payload = {
             "prompt": prompt,
             "model": self.model,
-            "max_tokens": self.max_tokens,
+            "max_tokens": 4096,
             "temperature": 0.0,
             "frequency_penalty": 0.0,
             "presence_penalty": 0.0,

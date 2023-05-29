@@ -49,6 +49,12 @@ class SubCategoryBase(str):
 
         normalized_label = label.lower()
         for subcategory in cls.list_choices().keys():
+            print(normalized_label)
+            print(cls.get_choices(subcategory))
+            for choice in cls.get_choices(subcategory):
+                print(choice)
+                print(normalized_label in choice)
+            print("----")
             choices: list = list(
                 map(
                     lambda label: normalized_label in label,
