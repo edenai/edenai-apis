@@ -461,7 +461,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         file1_url: str = "",
         file2_url: str = "",
         ) -> ResponseType[FaceCompareDataClass]:
-        url = "https://base64.ai/api/face/verify"
+        url = "https://base64.ai/api/face"
         
         headers = {
         'Authorization': self.api_key,

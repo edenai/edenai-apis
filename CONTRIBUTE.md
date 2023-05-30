@@ -88,7 +88,7 @@ folder should contain:
 
 -   Generate an ouptut from your feature method:
     
-        pytest -s edenai_apis/tests/utils/outputs.py --provider <provider> --feature <feature> --subfeature <subfeature>
+        pytest -s edenai_apis/tests/outputs.py --provider <provider> --feature <feature> --subfeature <subfeature>
 -   Run all projects tests:
     
         pytest
