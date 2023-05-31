@@ -1,4 +1,5 @@
 import json
+from pprint import pprint
 import urllib
 from io import BufferedReader
 from time import time
@@ -9,6 +10,10 @@ from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_pars
     CustomDocumentParsingAsyncBoundingBox,
     CustomDocumentParsingAsyncDataClass,
     CustomDocumentParsingAsyncItem,
+)
+from edenai_apis.features.ocr.document_parsing.document_parsing_dataclass import (
+    DocumentParsingDataClass,
+    ItemDocumentParsing,
 )
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     InvoiceParserDataClass,
@@ -63,6 +68,7 @@ from edenai_apis.utils.types import (
 
 from .config import clients, storage_clients
 from edenai_apis.utils.conversion import convert_string_to_number
+from edenai_apis.utils.bounding_box import BoundingBox as BBox
 
 
 def check_webhook_result(job_id: str, api_settings: dict) -> Dict:
@@ -264,10 +270,10 @@ def amazon_custom_document_parsing_formatter(
         for block in page["Blocks"]:
             if block["BlockType"] == "QUERY_RESULT":
                 if block.get("Geometry"):
-                    left=block["Geometry"]["BoundingBox"]["Left"]
-                    top=block["Geometry"]["BoundingBox"]["Top"]
-                    width=block["Geometry"]["BoundingBox"]["Width"]
-                    height=block["Geometry"]["BoundingBox"]["Height"]
+                    left = block["Geometry"]["BoundingBox"]["Left"]
+                    top = block["Geometry"]["BoundingBox"]["Top"]
+                    width = block["Geometry"]["BoundingBox"]["Width"]
+                    height = block["Geometry"]["BoundingBox"]["Height"]
                 else:
                     left, top, width, height = None, None, None, None
                 bounding_box = CustomDocumentParsingAsyncBoundingBox(
@@ -628,3 +634,47 @@ def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
         pages.append(page)
 
     return OcrAsyncDataClass(pages=pages, number_of_pages=len(pages))
+
+
+def amazon_document_parsing_formatter(
+    responses: list[dict],
+) -> DocumentParsingDataClass:
+    """
+    Format the response for OCR Document parsing to be more easily parsable
+
+    Args
+        responses: the responses from Textract.Client.analyse_document
+
+    return DocumentParsingDataClass: the formatted response
+    """
+    blocks = _convert_response_to_blocks_with_id(responses)
+    items: Sequence[ItemDocumentParsing] = []
+
+    for _, block in blocks.items():
+        if block["BlockType"] != "KEY_VALUE_SET":
+            continue
+
+        if block["EntityTypes"] != ["KEY"]:
+            continue
+
+        if len(block.get("Relationships", [])) < 2:
+            continue
+
+        item = {}
+        for relation in block["Relationships"]:
+            if relation["Type"] == "CHILD":
+                item["key"] = blocks[relation["Ids"][0]]["Text"]
+            elif relation["Type"] == "VALUE":
+                value_id = relation["Ids"][0]
+                child = blocks[blocks[value_id]["Relationships"][0]["Ids"][0]]
+                item["value"] = child["Text"]
+                item["bounding_box"] = BBox.from_json(
+                    child["Geometry"]["BoundingBox"],
+                    modifiers=lambda x: x.title(),
+                )
+
+                item["confidence_score"] = child["Confidence"] / 100
+
+        items.append(ItemDocumentParsing(**item))
+
+    return DocumentParsingDataClass(fields=items)

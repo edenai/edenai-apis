@@ -1,8 +1,10 @@
 from abc import abstractmethod
-from io import BufferedReader
 from typing import List, Dict, Union
-from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
+from edenai_apis.features.ocr.custom_document_parsing_async import (
     CustomDocumentParsingAsyncDataClass,
+)
+from edenai_apis.features.ocr.document_parsing.document_parsing_dataclass import (
+    DocumentParsingDataClass,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     IdentityParserDataClass,
@@ -21,16 +23,17 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 from edenai_apis.features.ocr.resume_parser.resume_parser_dataclass import (
     ResumeParserDataClass,
 )
-from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType, ResponseType
+from edenai_apis.utils.types import (
+    AsyncBaseResponseType,
+    AsyncLaunchJobResponseType,
+    ResponseType,
+)
 
 
 class OcrInterface:
     @abstractmethod
     def ocr__ocr(
-        self, 
-        file: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[OcrDataClass]:
         """Optical Character Recognition on a file
 
@@ -42,10 +45,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__invoice_parser(
-        self, 
-        file: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
         """Parse an invoice and returned structured data
 
@@ -57,11 +57,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__ocr_tables_async__launch_job(
-        self, 
-        file: str, 
-        file_type: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, file_type: str, language: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
         """Launch an asynchronous job to analyze tables in document
         Args:
@@ -96,10 +92,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__receipt_parser(
-        self, 
-        file: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
         """Parse a receipt and returned structured data
 
@@ -111,9 +104,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__resume_parser(
-        self, 
-        file: str, 
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ResumeParserDataClass]:
         """Parse a resume and returned structured data
 
@@ -125,9 +116,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__identity_parser(
-        self, 
-        file: str, 
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
         """Parse a identity document and returned structured data
 
@@ -138,10 +127,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__custom_document_parsing_async__launch_job(
-        self, 
-        file: str, 
-        queries: List[Dict[str, Union[str, str]]],
-        file_url: str= "" 
+        self, file: str, queries: List[Dict[str, Union[str, str]]], file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
         """
         Parse a document and extract data according to queries
@@ -163,12 +149,10 @@ class OcrInterface:
             - provider_job_id (str): id of async job
         """
         raise NotImplementedError
-    
+
     @abstractmethod
     def ocr__ocr_async__launch_job(
-        self, 
-        file: str, 
-        file_url: str = ""
+        self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
         """Optical Character Recognition on a file
 
@@ -176,7 +160,7 @@ class OcrInterface:
             file (BufferedReader): document to analyze
         """
         raise NotImplementedError
-    
+
     @abstractmethod
     def ocr__ocr_async__get_job_result(
         self, provider_job_id: str
@@ -186,5 +170,14 @@ class OcrInterface:
 
         Args:
             provider_job_id (str): id of async job
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def ocr__document_parsing(
+        self, file: str, file_url: str = ""
+    ) -> ResponseType[DocumentParsingDataClass]:
+        """
+        Parse a document and extract all informations
         """
         raise NotImplementedError

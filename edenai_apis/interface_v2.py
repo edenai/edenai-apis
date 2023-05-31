@@ -10,10 +10,10 @@ Example:
     >>> 3d_from_img = 3DModels.create_3d_model_from_image('<provider_here>')
     >>> response = 3d_from_img(image=...)
 """
-from typing import Callable, Dict
+from typing import Callable, Dict, Type
 
 from edenai_apis.features import AudioInterface, ImageInterface, OcrInterface
-from edenai_apis.features import ProviderInterface as ProviderInterface
+from edenai_apis.features import ProviderInterface
 from edenai_apis.features import TextInterface, TranslationInterface, VideoInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -55,7 +55,7 @@ def return_provider_method(func: Callable) -> Callable:
     return wrapped
 
 
-def abstract(InterfaceClass: ProviderInterface, method_prefix: str):
+def abstract(InterfaceClass: Type[ProviderInterface], method_prefix: str):
     """create an Abstracted Class and set all the methods of given InterfaceClass
     to it with modified names, methods have the same names as the subfeature
 

@@ -203,7 +203,7 @@ class MicrosoftTextApi(TextInterface):
             raise ProviderException(f"Unexpected error! {sys.exc_info()[0]}") from exc
 
         original_response = response.json()
-        if response.status_code != 200:
+        if response.status_code != 200 or "error" in response.text:
             raise ProviderException(original_response, response.status_code)
 
         entities: Sequence[AnonymizationEntity] = []

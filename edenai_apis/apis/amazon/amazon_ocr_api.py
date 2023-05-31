@@ -1,8 +1,12 @@
 import json
+from pprint import pprint
 from time import sleep
 from typing import List, Sequence, Dict, Union
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
     CustomDocumentParsingAsyncDataClass,
+)
+from edenai_apis.features.ocr.document_parsing.document_parsing_dataclass import (
+    DocumentParsingDataClass,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     IdentityParserDataClass,
@@ -39,6 +43,7 @@ from edenai_apis.utils.types import (
 from botocore.exceptions import ClientError
 
 from .helpers import (
+    amazon_document_parsing_formatter,
     amazon_ocr_async_formatter,
     amazon_ocr_tables_parser,
     amazon_custom_document_parsing_formatter,
@@ -552,3 +557,18 @@ class AmazonOcrApi(OcrInterface):
             )
 
         return AsyncPendingResponseType(provider_job_id=response["JobStatus"])
+
+    def ocr__document_parsing(
+        self, file: str, file_url: str = ""
+    ) -> ResponseType[DocumentParsingDataClass]:
+        with open(file, "rb") as f_stream:
+            response = self.clients["textract"].analyze_document(
+                Document={"Bytes": f_stream.read()},
+                FeatureTypes=["FORMS"],
+            )
+        pprint(response)
+        standardized_response = amazon_document_parsing_formatter([response])
+
+        return ResponseType[DocumentParsingDataClass](
+            original_response=response, standardized_response=standardized_response
+        )

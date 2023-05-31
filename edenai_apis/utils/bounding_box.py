@@ -1,9 +1,10 @@
-import enum
-from typing import Optional, Sequence, Callable
+from enum import IntEnum
+from typing_extensions import overload
 from pydantic import BaseModel, Field, validator
+from typing import Callable, Dict, List, Sequence, Any
 
 
-class BoundingBoxEnum(enum.Enum):
+class BoundingBoxEnum(IntEnum):
     """Enum for the keys of the bounding box JSON object
 
     Attributes:
@@ -19,7 +20,7 @@ class BoundingBoxEnum(enum.Enum):
     HEIGHT = 3
 
 
-class BoundingBoxCornerEnum(enum.Enum):
+class BoundingBoxCornerEnum(IntEnum):
     """Enum for the corners of the bounding box
 
     Attributes:
@@ -35,7 +36,7 @@ class BoundingBoxCornerEnum(enum.Enum):
     BOTTOM_RIGHT = 3
 
 
-class CoordinateEnum(enum.Enum):
+class CoordinateEnum(IntEnum):
     """Enum for the keys of the coordinate JSON object
 
     Attributes:
@@ -50,7 +51,6 @@ class CoordinateEnum(enum.Enum):
 class BoundingBox(BaseModel):
     """Bounding box of a word in the image
 
-
     Attributes:
         left (float): Left coordinate of the bounding box
         top (float): Top coordinate of the bounding box
@@ -61,6 +61,7 @@ class BoundingBox(BaseModel):
     Constructor:
         from_json (classmethod): Create a new instance of BoundingBox from a JSON object
         from_normalized_vertices (classmethod): Create a new instance of BoundingBox from normalized vertices
+        unknown (classmethod): Return a invalid bouding_box with all field filled with `-1`
     """
 
     left: float = Field(description="Left coordinate of the bounding box")
@@ -84,12 +85,16 @@ class BoundingBox(BaseModel):
             raise ValueError(f"Value {value} cannot be converted to float") from exc
 
     @classmethod
+    def unknown(cls) -> "BoundingBox":
+        return cls(left=-1, top=-1, width=-1, height=-1)
+
+    @classmethod
     def from_json(
         cls,
         bounding_box: dict,
         modifiers: Callable = lambda x: x,
         keys: Sequence[str] = ["left", "top", "width", "height"],
-    ):
+    ) -> "BoundingBox":
         """Create a new instance of BoundingBox from a JSON object
         Args:
             bounding_box (dict): JSON object representing the bounding box
@@ -107,18 +112,43 @@ class BoundingBox(BaseModel):
         )
 
     @classmethod
+    @overload
     def from_normalized_vertices(
         cls,
-        normalized_vertices: list,
+        normalized_vertices: Dict[str, float],
+        coordinate_keys: Sequence[str] = ["x", "y"],
+        corner_position_keys: Sequence[str] = [
+            "topLeft",
+            "topRight",
+            "bottomLeft",
+            "bottomRight",
+        ],
+    ) -> "BoundingBox":
+        ...
+
+    @classmethod
+    @overload
+    def from_normalized_vertices(
+        cls,
+        normalized_vertices: List[float],
         coordinate_keys: Sequence[str] = ["x", "y"],
         corner_position_keys: Sequence[int] = [0, 1, 2, 3],
-    ):
+    ) -> "BoundingBox":
+        ...
+
+    @classmethod
+    def from_normalized_vertices(
+        cls,
+        normalized_vertices,
+        coordinate_keys=["x", "y"],
+        corner_position_keys=[],
+    ) -> "BoundingBox":
         """Create a new instance of BoundingBox from a list of normalized vertices
 
         Args:
             normalized_vertices (list): List of normalized vertices
             coordinate_keys (Sequence[str | int]): Keys of the JSON object (default: ["x", "y"]).
-            corner_position_keys (Sequence[int | str]): Keys of the JSON object (default: [0, 1, 2, 3]).
+            corner_position_keys (Sequence[int | str]): Keys of the JSON object.
 
         Returns:
             BoundingBox: BoundingBox created from the list of normalized vertices.
@@ -126,9 +156,21 @@ class BoundingBox(BaseModel):
         Dependencies:
             BoundingBox.from_json
         """
+        if corner_position_keys == []:
+            if isinstance(normalized_vertices, dict):
+                corner_position_keys = [
+                    "topLeft",
+                    "topRight",
+                    "bottomLeft",
+                    "bottomRight",
+                ]
+            elif isinstance(normalized_vertices, list):
+                corner_position_keys = [0, 1, 2, 3]
+            else:
+                raise ValueError("normalized_vertices must be a dict or string")
+
         boxes = {}
 
-        # x_key and y_key are the coordinate keys of the normalized vertices after applying the modifiers
         x_key = coordinate_keys[CoordinateEnum.X.value]
         y_key = coordinate_keys[CoordinateEnum.Y.value]
 
@@ -149,73 +191,3 @@ class BoundingBox(BaseModel):
         }
 
         return cls.from_json(boxes)
-
-
-class Word(BaseModel):
-    """Word of a document
-
-    Attributes:
-        text (str): Text detected in the word
-        bounding_boxes (Sequence[BoundingBox]): Bounding boxes of the words in the word
-        confidence (float): Confidence score of the word
-    """
-
-    text: str = Field(description="Text detected in the word")
-    bounding_box: BoundingBox = Field(
-        description="Bounding boxes of the words in the word"
-    )
-    confidence: Optional[float] = Field(..., description="Confidence score of the word")
-
-    @validator("confidence")
-    def round_confidence(cls, v):
-        """Round confidence to 2 decimals"""
-        if v is not None:
-            return round(v, 2)
-        return v
-
-
-class Line(BaseModel):
-    """Line of a document
-
-    Attributes:
-        text (str): Text detected in the line
-        bounding_boxes (Sequence[BoundingBox]): Bounding boxes of the words in the line
-        words (Sequence[Word]): List of words of the line
-        confidence (float): Confidence of the line
-    """
-
-    text: str = Field(description="Text detected in the line")
-    words: Sequence[Word] = Field(default_factory=list, description="List of words")
-    bounding_box: BoundingBox = Field(
-        description="Bounding boxes of the words in the line"
-    )
-    confidence: Optional[float] = Field(..., description="Confidence of the line")
-
-    @validator("confidence")
-    @classmethod
-    def round_confidence(cls, v):
-        """Round confidence to 2 decimals"""
-        if v is not None:
-            return round(v, 2)
-        return v
-
-
-class Page(BaseModel):
-    """Page of a document
-
-    Attributes:
-        lines (Sequence[Line]): List of lines of the page
-    """
-
-    lines: Sequence[Line] = Field(default_factory=list, description="List of lines")
-
-
-class OcrAsyncDataClass(BaseModel):
-    """OCR Async Data Class
-
-    Attributes:
-        pages (Sequence[Page]): Pages of the document
-    """
-
-    pages: Sequence[Page] = Field(default_factory=list, description="List of pages")
-    number_of_pages: int = Field(description="Number of pages in the document")

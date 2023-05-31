@@ -6,6 +6,10 @@ import mimetypes
 import base64
 from enum import Enum
 import requests
+from edenai_apis.features.ocr.document_parsing.document_parsing_dataclass import (
+    DocumentParsingDataClass,
+    ItemDocumentParsing,
+)
 from edenai_apis.features.ocr.identity_parser import (
     IdentityParserDataClass,
     InfoCountry,
@@ -44,6 +48,7 @@ from edenai_apis.features.image.face_compare import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features import ProviderInterface, OcrInterface
+from edenai_apis.utils.bounding_box import BoundingBox
 from edenai_apis.utils.conversion import (
     combine_date_with_time,
     convert_string_to_number,
@@ -460,19 +465,13 @@ class Base64Api(ProviderInterface, OcrInterface):
         file2: str,
         file1_url: str = "",
         file2_url: str = "",
-        ) -> ResponseType[FaceCompareDataClass]:
+    ) -> ResponseType[FaceCompareDataClass]:
         url = "https://base64.ai/api/face"
-        
-        headers = {
-        'Authorization': self.api_key,
-        'Content-Type': 'application/json'
-        }
-        
+
+        headers = {"Authorization": self.api_key, "Content-Type": "application/json"}
+
         if file1_url and file2_url:
-            payload = json.dumps({
-                "referenceUrl": file1_url,
-                "queryUrl": file2_url
-            })
+            payload = json.dumps({"referenceUrl": file1_url, "queryUrl": file2_url})
         else:
             file_reference_ = open(file1, "rb")
             file_query_ = open(file2, "rb")
@@ -484,33 +483,83 @@ class Base64Api(ProviderInterface, OcrInterface):
                 f"data:{mimetypes.guess_type(file2)[0]};base64,"
                 + base64.b64encode(file_query_.read()).decode()
             )
-            payload = json.dumps({
-                "referenceImage": image_reference_as_base64,
-                "queryImage": image_query_as_base64
-            })
-        
+            payload = json.dumps(
+                {
+                    "referenceImage": image_reference_as_base64,
+                    "queryImage": image_query_as_base64,
+                }
+            )
+
         response = requests.request("POST", url, headers=headers, data=payload)
         original_response = response.json()
-        
+
         if response.status_code != 200:
-            raise ProviderException(message=original_response['message'])
-        
+            raise ProviderException(message=original_response["message"])
+
         faces = []
-        for matching_face in original_response.get('matches',[]):
+        for matching_face in original_response.get("matches", []):
             faces.append(
                 FaceMatch(
-                    confidence=matching_face.get('confidence'),
+                    confidence=matching_face.get("confidence"),
                     bounding_box=FaceCompareBoundingBox(
-                        top=matching_face.get('top'),
-                        left=matching_face.get('left'),
-                        height=matching_face.get('height'),
-                        width=matching_face.get('width'),
-                    )
+                        top=matching_face.get("top"),
+                        left=matching_face.get("left"),
+                        height=matching_face.get("height"),
+                        width=matching_face.get("width"),
+                    ),
                 )
             )
         standardized_response = FaceCompareDataClass(items=faces)
 
         return ResponseType[FaceCompareDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    def ocr__document_parsing(
+        self, file: str, file_url: str = ""
+    ) -> ResponseType[DocumentParsingDataClass]:
+        with open(file, "rb") as f_stream:
+            image_as_base64 = (
+                f"data:{mimetypes.guess_type(file)[0]};base64,"
+                + base64.b64encode(f_stream.read()).decode()
+            )
+
+            payload = json.dumps({"image": image_as_base64})
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": self.api_key,
+            }
+
+            response = requests.post(url=self.url, headers=headers, data=payload)
+
+        original_response = response.json()
+        if response.status_code != 200:
+            raise ProviderException(message=original_response["message"])
+
+        items: Sequence[ItemDocumentParsing] = []
+
+        for document in original_response:
+            for _, value in document.get("fields", {}).items():
+                try:
+                    bbox = BoundingBox.from_normalized_vertices(
+                        normalized_vertices=value.get("location")
+                    )
+                except ValueError:
+                    bbox = BoundingBox.unknown()
+
+                items.append(
+                    ItemDocumentParsing(
+                        key=value.get("key"),
+                        value=value.get("value"),
+                        confidence_score=value.get("confidence"),
+                        bounding_box=bbox,
+                    )
+                )
+
+        standardized_response = DocumentParsingDataClass(fields=items)
+
+        return ResponseType(
             original_response=original_response,
             standardized_response=standardized_response,
         )
