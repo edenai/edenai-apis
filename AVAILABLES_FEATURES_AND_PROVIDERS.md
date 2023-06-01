@@ -16,6 +16,8 @@
 | **resume_parser** | affinda |
 | | hireability |
 | **custom_document_parsing_async** | amazon |
+| **document_parsing** | amazon |
+| | base64 |
 | **identity_parser** | amazon |
 | | base64 |
 | | microsoft |
@@ -247,6 +249,7 @@
 | | face_recognition |
 | | object_detection |
 | **ocr** | custom_document_parsing_async |
+| | document_parsing |
 | | identity_parser |
 | | invoice_parser |
 | | ocr |
@@ -291,7 +294,8 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **image** | face_compare |
-| **ocr** | identity_parser |
+| **ocr** | document_parsing |
+| | identity_parser |
 | | invoice_parser |
 | | ocr |
 | | receipt_parser |
