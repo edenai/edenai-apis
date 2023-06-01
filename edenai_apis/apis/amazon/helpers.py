@@ -637,7 +637,7 @@ def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
 
 
 def amazon_document_parsing_formatter(
-    responses: list[dict],
+    responses: List[dict],
 ) -> DocumentParsingDataClass:
     """
     Format the response for OCR Document parsing to be more easily parsable

@@ -566,7 +566,6 @@ class AmazonOcrApi(OcrInterface):
                 Document={"Bytes": f_stream.read()},
                 FeatureTypes=["FORMS"],
             )
-        pprint(response)
         standardized_response = amazon_document_parsing_formatter([response])
 
         return ResponseType[DocumentParsingDataClass](

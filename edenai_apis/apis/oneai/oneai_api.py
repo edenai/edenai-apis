@@ -96,7 +96,7 @@ class OneaiApi(ProviderInterface, TextInterface, TranslationInterface, AudioInte
     ) -> ResponseType[KeywordExtractionDataClass]:
         payload = {
             "input": text,
-            "input_type": "conversation",
+            "input_type": "article",
             "content_type": "application/json",
             "output_type": "json",
             "multilingual": {"enabled": True},
