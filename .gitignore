@@ -22,3 +22,5 @@ media
 
 .vscode
 .idea
+
+pyrightconfig.json

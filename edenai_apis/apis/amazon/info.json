@@ -159,6 +159,17 @@
       },
       "version": "boto3 (v1.15.18)"
     },
+    "document_parsing": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "application/pdf",
+          "image/tiff"
+        ]
+      },
+      "version": "boto3 (v1.15.18)"
+    },
     "ocr_async": {
       "constraints": {
         "file_types": ["application/pdf", "image/tiff"]

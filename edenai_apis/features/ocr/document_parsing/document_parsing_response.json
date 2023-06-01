@@ -1,0 +1,15 @@
+{
+  "fields": [
+    {
+      "key": "",
+      "value": "",
+      "bounding_box": {
+        "left": 0.0,
+        "top": 0.0,
+        "width": 0.0,
+        "height": 0.0
+      },
+      "confidence_score": 0.5
+    }
+  ]
+}
