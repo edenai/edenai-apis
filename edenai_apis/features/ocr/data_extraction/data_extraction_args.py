@@ -23,5 +23,5 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(ocr_path, "", file_info)
 
 
-def document_parsing_arguments() -> Dict:
+def data_extraction_arguments() -> Dict:
     return {"file": file_wrapper}

@@ -6,9 +6,9 @@ import mimetypes
 import base64
 from enum import Enum
 import requests
-from edenai_apis.features.ocr.document_parsing.document_parsing_dataclass import (
-    DocumentParsingDataClass,
-    ItemDocumentParsing,
+from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import (
+    DataExtractionDataClass,
+    ItemDataExtraction,
 )
 from edenai_apis.features.ocr.identity_parser import (
     IdentityParserDataClass,
@@ -516,9 +516,9 @@ class Base64Api(ProviderInterface, OcrInterface):
             standardized_response=standardized_response,
         )
 
-    def ocr__document_parsing(
+    def ocr__data_extraction(
         self, file: str, file_url: str = ""
-    ) -> ResponseType[DocumentParsingDataClass]:
+    ) -> ResponseType[DataExtractionDataClass]:
         with open(file, "rb") as f_stream:
             image_as_base64 = (
                 f"data:{mimetypes.guess_type(file)[0]};base64,"
@@ -537,7 +537,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         if response.status_code != 200:
             raise ProviderException(message=original_response["message"])
 
-        items: Sequence[ItemDocumentParsing] = []
+        items: Sequence[ItemDataExtraction] = []
 
         for document in original_response:
             for _, value in document.get("fields", {}).items():
@@ -549,7 +549,7 @@ class Base64Api(ProviderInterface, OcrInterface):
                     bbox = BoundingBox.unknown()
 
                 items.append(
-                    ItemDocumentParsing(
+                    ItemDataExtraction(
                         key=value.get("key"),
                         value=value.get("value"),
                         confidence_score=value.get("confidence"),
@@ -557,7 +557,7 @@ class Base64Api(ProviderInterface, OcrInterface):
                     )
                 )
 
-        standardized_response = DocumentParsingDataClass(fields=items)
+        standardized_response = DataExtractionDataClass(fields=items)
 
         return ResponseType(
             original_response=original_response,

@@ -11,9 +11,9 @@ from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_pars
     CustomDocumentParsingAsyncDataClass,
     CustomDocumentParsingAsyncItem,
 )
-from edenai_apis.features.ocr.document_parsing.document_parsing_dataclass import (
-    DocumentParsingDataClass,
-    ItemDocumentParsing,
+from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import (
+    DataExtractionDataClass,
+    ItemDataExtraction,
 )
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     InvoiceParserDataClass,
@@ -636,19 +636,19 @@ def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
     return OcrAsyncDataClass(pages=pages, number_of_pages=len(pages))
 
 
-def amazon_document_parsing_formatter(
+def amazon_data_extraction_formatter(
     responses: List[dict],
-) -> DocumentParsingDataClass:
+) -> DataExtractionDataClass:
     """
     Format the response for OCR Document parsing to be more easily parsable
 
     Args
         responses: the responses from Textract.Client.analyse_document
 
-    return DocumentParsingDataClass: the formatted response
+    return DataExtractionDataClass
     """
     blocks = _convert_response_to_blocks_with_id(responses)
-    items: Sequence[ItemDocumentParsing] = []
+    items: Sequence[ItemDataExtraction] = []
 
     for _, block in blocks.items():
         if block["BlockType"] != "KEY_VALUE_SET":
@@ -675,6 +675,6 @@ def amazon_document_parsing_formatter(
 
                 item["confidence_score"] = child["Confidence"] / 100
 
-        items.append(ItemDocumentParsing(**item))
+        items.append(ItemDataExtraction(**item))
 
-    return DocumentParsingDataClass(fields=items)
+    return DataExtractionDataClass(fields=items)

@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field, validator
 from edenai_apis.utils.bounding_box import BoundingBox
 
 
-class ItemDocumentParsing(BaseModel):
+class ItemDataExtraction(BaseModel):
     key: str
     value: Any
     bounding_box: BoundingBox
@@ -17,5 +17,5 @@ class ItemDocumentParsing(BaseModel):
         return v
 
 
-class DocumentParsingDataClass(BaseModel):
-    fields: Sequence[ItemDocumentParsing] = Field(default_factory=list)
+class DataExtractionDataClass(BaseModel):
+    fields: Sequence[ItemDataExtraction] = Field(default_factory=list)

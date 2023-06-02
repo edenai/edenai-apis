@@ -3,8 +3,8 @@ from typing import List, Dict, Union
 from edenai_apis.features.ocr.custom_document_parsing_async import (
     CustomDocumentParsingAsyncDataClass,
 )
-from edenai_apis.features.ocr.document_parsing.document_parsing_dataclass import (
-    DocumentParsingDataClass,
+from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import (
+    DataExtractionDataClass,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     IdentityParserDataClass,
@@ -174,9 +174,9 @@ class OcrInterface:
         raise NotImplementedError
 
     @abstractmethod
-    def ocr__document_parsing(
+    def ocr__data_extraction(
         self, file: str, file_url: str = ""
-    ) -> ResponseType[DocumentParsingDataClass]:
+    ) -> ResponseType[DataExtractionDataClass]:
         """
         Parse a document and extract all informations
         """

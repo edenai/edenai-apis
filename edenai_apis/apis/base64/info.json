@@ -109,7 +109,7 @@
                 ]
             }
         },
-        "document_parsing": {
+        "data_extraction": {
             "version": "latest",
             "constraints": {
                 "file_types": [
@@ -134,20 +134,20 @@
             }
         }
     },
-    "image" : {
-        "face_compare" : {
-                "constraints": {
-                    "file_types": [
-                        "image/jpeg",
-                        "image/png",
-                        "image/gif",
-                        "image/x-ms-bmp",
-                        "image/tiff",
-                        "image/webp",
-                        "image/heic"
-                    ]
-                },
-                "version": "latest"
+    "image": {
+        "face_compare": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "image/gif",
+                    "image/x-ms-bmp",
+                    "image/tiff",
+                    "image/webp",
+                    "image/heic"
+                ]
+            },
+            "version": "latest"
         }
     }
 }
