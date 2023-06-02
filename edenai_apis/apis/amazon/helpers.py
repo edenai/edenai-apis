@@ -661,20 +661,23 @@ def amazon_data_extraction_formatter(
             continue
 
         item = {}
-        for relation in block["Relationships"]:
-            if relation["Type"] == "CHILD":
-                item["key"] = blocks[relation["Ids"][0]]["Text"]
-            elif relation["Type"] == "VALUE":
-                value_id = relation["Ids"][0]
-                child = blocks[blocks[value_id]["Relationships"][0]["Ids"][0]]
-                item["value"] = child["Text"]
-                item["bounding_box"] = BBox.from_json(
-                    child["Geometry"]["BoundingBox"],
-                    modifiers=lambda x: x.title(),
-                )
+        try:
+            for relation in block["Relationships"]:
+                if relation["Type"] == "CHILD":
+                    item["key"] = blocks[relation["Ids"][0]]["Text"]
+                elif relation["Type"] == "VALUE":
+                    value_id = relation["Ids"][0]
+                    child = blocks[blocks[value_id]["Relationships"][0]["Ids"][0]]
+                    item["value"] = child["Text"]
+                    item["bounding_box"] = BBox.from_json(
+                        child["Geometry"]["BoundingBox"],
+                        modifiers=lambda x: x.title(),
+                    )
 
-                item["confidence_score"] = child["Confidence"] / 100
+                    item["confidence_score"] = child["Confidence"] / 100
 
-        items.append(ItemDataExtraction(**item))
+            items.append(ItemDataExtraction(**item))
+        except KeyError:
+            continue
 
     return DataExtractionDataClass(fields=items)
