@@ -24,4 +24,4 @@ file_wrapper = FileWrapper(image_path, "", file_info)
 
 
 def object_detection_arguments() -> Dict:
-    return {"file": file_wrapper}
+    return {"file": file_wrapper, "settings" : {}}

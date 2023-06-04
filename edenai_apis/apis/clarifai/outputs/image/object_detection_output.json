@@ -16,12 +16,12 @@
             {
               "id": "ai_h0XtN8cG",
               "name": "Clothing",
-              "value": 0.89644414,
+              "value": 0.89644444,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.89644414
+        "value": 0.89644444
       },
       {
         "id": "cc48c9a66d3d905240ab2e32319831d6",
@@ -38,12 +38,12 @@
             {
               "id": "ai_NtNnPh8S",
               "name": "Curtain",
-              "value": 0.734484,
+              "value": 0.73448414,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.734484
+        "value": 0.73448414
       },
       {
         "id": "6111d6e5c72863544f4f9ef089a1b32a",
@@ -71,7 +71,7 @@
         "id": "f72dbbef230cf723e14a7987893e7fb1",
         "region_info": {
           "bounding_box": {
-            "top_row": 0.015252693,
+            "top_row": 0.015252742,
             "left_col": 0.019715799,
             "bottom_row": 0.9541081,
             "right_col": 0.9832136
@@ -82,19 +82,19 @@
             {
               "id": "ai_ddnpXJdp",
               "name": "House",
-              "value": 0.6560371,
+              "value": 0.6560373,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.6560371
+        "value": 0.6560373
       },
       {
         "id": "0eb895984968d8948fffe223ab2f96ec",
         "region_info": {
           "bounding_box": {
             "top_row": 0.6416893,
-            "left_col": 0.38131875,
+            "left_col": 0.38131878,
             "bottom_row": 0.9031049,
             "right_col": 0.66858953
           }
@@ -104,20 +104,20 @@
             {
               "id": "ai_k8h86dz9",
               "name": "Coffee table",
-              "value": 0.5853401,
+              "value": 0.5853396,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.5853401
+        "value": 0.5853396
       },
       {
         "id": "6858d6a51137c88261a44689006e39b4",
         "region_info": {
           "bounding_box": {
-            "top_row": 0.09490048,
+            "top_row": 0.094900526,
             "left_col": 0.80095077,
-            "bottom_row": 0.5134875,
+            "bottom_row": 0.51348764,
             "right_col": 0.94917464
           }
         },
@@ -126,12 +126,12 @@
             {
               "id": "ai_Tt1pWqPZ",
               "name": "Window",
-              "value": 0.58307046,
+              "value": 0.5830702,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.58307046
+        "value": 0.5830702
       },
       {
         "id": "2e60f098c7f937d6fd986980c9fb4073",
@@ -159,10 +159,10 @@
         "id": "1e5f4c05863826f65e1ff6db8b36b88a",
         "region_info": {
           "bounding_box": {
-            "top_row": 0.501599,
-            "left_col": 0.3981044,
+            "top_row": 0.5015989,
+            "left_col": 0.39810437,
             "bottom_row": 0.6868936,
-            "right_col": 0.6702463
+            "right_col": 0.67024624
           }
         },
         "data": {
@@ -192,18 +192,18 @@
             {
               "id": "ai_XQmNlTrs",
               "name": "Human face",
-              "value": 0.5269308,
+              "value": 0.52693033,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.5269308
+        "value": 0.52693033
       },
       {
         "id": "797de31f73dd9dfb0539b6d4cf88d5c1",
         "region_info": {
           "bounding_box": {
-            "top_row": 0.1087867,
+            "top_row": 0.10878669,
             "left_col": 0.6710669,
             "bottom_row": 0.53203183,
             "right_col": 0.75017715
@@ -214,12 +214,12 @@
             {
               "id": "ai_NtNnPh8S",
               "name": "Curtain",
-              "value": 0.49142942,
+              "value": 0.49142897,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.49142942
+        "value": 0.49142897
       },
       {
         "id": "baf5fe4529cad452bb936a6ac2840afd",
@@ -236,20 +236,20 @@
             {
               "id": "ai_ZGs91rfG",
               "name": "Woman",
-              "value": 0.4596227,
+              "value": 0.45962214,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.4596227
+        "value": 0.45962214
       },
       {
         "id": "43df0701b76cab25fe745ce1cb434783",
         "region_info": {
           "bounding_box": {
             "top_row": 0.68181366,
-            "left_col": 0.15110222,
-            "bottom_row": 0.92381763,
+            "left_col": 0.15110223,
+            "bottom_row": 0.92381775,
             "right_col": 0.4018321
           }
         },
@@ -280,12 +280,12 @@
             {
               "id": "ai_xVVLRp7N",
               "name": "Chair",
-              "value": 0.4196434,
+              "value": 0.41964388,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.4196434
+        "value": 0.41964388
       },
       {
         "id": "55865a8e767ff12f63d45726639b82fe",
@@ -302,21 +302,21 @@
             {
               "id": "ai_XQmNlTrs",
               "name": "Human face",
-              "value": 0.41313717,
+              "value": 0.4131381,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.41313717
+        "value": 0.4131381
       },
       {
         "id": "00f9d1b226464bffea3b43fd363f4fd7",
         "region_info": {
           "bounding_box": {
-            "top_row": 0.13725756,
-            "left_col": 0.624748,
-            "bottom_row": 0.5414588,
-            "right_col": 0.66841996
+            "top_row": 0.13725758,
+            "left_col": 0.62474805,
+            "bottom_row": 0.54145867,
+            "right_col": 0.6684199
           }
         },
         "data": {
@@ -324,20 +324,20 @@
             {
               "id": "ai_Tt1pWqPZ",
               "name": "Window",
-              "value": 0.4119214,
+              "value": 0.41192088,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.4119214
+        "value": 0.41192088
       },
       {
         "id": "0ce9e250b782ce80311bccc765f4068d",
         "region_info": {
           "bounding_box": {
-            "top_row": 0.33155304,
+            "top_row": 0.331553,
             "left_col": 0.20510127,
-            "bottom_row": 0.44076225,
+            "bottom_row": 0.4407623,
             "right_col": 0.25858188
           }
         },
@@ -346,12 +346,12 @@
             {
               "id": "ai_M5wzhtLg",
               "name": "Plant",
-              "value": 0.39147264,
+              "value": 0.39147234,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.39147264
+        "value": 0.39147234
       },
       {
         "id": "0482198e2040740779dca5df92605be4",
@@ -359,7 +359,7 @@
           "bounding_box": {
             "top_row": 0.55392635,
             "left_col": 0.5027826,
-            "bottom_row": 0.6276002,
+            "bottom_row": 0.6276003,
             "right_col": 0.5442276
           }
         },
@@ -368,12 +368,12 @@
             {
               "id": "ai_xdMdHrPG",
               "name": "Person",
-              "value": 0.39135808,
+              "value": 0.39135784,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.39135808
+        "value": 0.39135784
       },
       {
         "id": "4f5cedc5377d0c0ab62e7b455340d59f",
@@ -390,12 +390,12 @@
             {
               "id": "ai_h0XtN8cG",
               "name": "Clothing",
-              "value": 0.3836032,
+              "value": 0.38360316,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.3836032
+        "value": 0.38360316
       },
       {
         "id": "3c0205548002105cd36d445d9dd0c0a1",
@@ -412,18 +412,18 @@
             {
               "id": "ai_fsXD6jnV",
               "name": "Flower",
-              "value": 0.38266745,
+              "value": 0.38266772,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.38266745
+        "value": 0.38266772
       },
       {
         "id": "3fb089cc73503ab4ccfa39bfc6f2e6b7",
         "region_info": {
           "bounding_box": {
-            "top_row": 0.12453045,
+            "top_row": 0.12453044,
             "left_col": 0.391575,
             "bottom_row": 0.5895702,
             "right_col": 0.4383898
@@ -434,12 +434,12 @@
             {
               "id": "ai_Tt1pWqPZ",
               "name": "Window",
-              "value": 0.36772433,
+              "value": 0.36772406,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.36772433
+        "value": 0.36772406
       },
       {
         "id": "7e7f0079cf2da56b4075aa61ecac6e96",
@@ -456,12 +456,12 @@
             {
               "id": "ai_Bh3F7qrd",
               "name": "Pillow",
-              "value": 0.36052826,
+              "value": 0.36052886,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.36052826
+        "value": 0.36052886
       },
       {
         "id": "595c3915e2dc41e7c006d5ba14ceab18",
@@ -478,12 +478,12 @@
             {
               "id": "ai_DMHt1gfF",
               "name": "Human hair",
-              "value": 0.3515357,
+              "value": 0.35153487,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.3515357
+        "value": 0.35153487
       },
       {
         "id": "5a5d403db5151d12734b487a6b4a6870",
@@ -500,12 +500,12 @@
             {
               "id": "ai_ZtQ4vlBB",
               "name": "Fashion accessory",
-              "value": 0.3366793,
+              "value": 0.33667952,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.3366793
+        "value": 0.33667952
       }
     ]
   },
@@ -513,7 +513,7 @@
     "items": [
       {
         "label": "Clothing",
-        "confidence": 0.89644414,
+        "confidence": 0.89644444,
         "x_min": 0.6814497,
         "x_max": 0.83617514,
         "y_min": 0.51708305,
@@ -521,7 +521,7 @@
       },
       {
         "label": "Curtain",
-        "confidence": 0.734484,
+        "confidence": 0.73448414,
         "x_min": 0.32020876,
         "x_max": 0.4021018,
         "y_min": 0.105178185,
@@ -537,27 +537,27 @@
       },
       {
         "label": "House",
-        "confidence": 0.6560371,
+        "confidence": 0.6560373,
         "x_min": 0.019715799,
         "x_max": 0.9832136,
-        "y_min": 0.015252693,
+        "y_min": 0.015252742,
         "y_max": 0.9541081
       },
       {
         "label": "Coffee table",
-        "confidence": 0.5853401,
-        "x_min": 0.38131875,
+        "confidence": 0.5853396,
+        "x_min": 0.38131878,
         "x_max": 0.66858953,
         "y_min": 0.6416893,
         "y_max": 0.9031049
       },
       {
         "label": "Window",
-        "confidence": 0.58307046,
+        "confidence": 0.5830702,
         "x_min": 0.80095077,
         "x_max": 0.94917464,
-        "y_min": 0.09490048,
-        "y_max": 0.5134875
+        "y_min": 0.094900526,
+        "y_max": 0.51348764
       },
       {
         "label": "Window",
@@ -570,14 +570,14 @@
       {
         "label": "Couch",
         "confidence": 0.5683306,
-        "x_min": 0.3981044,
-        "x_max": 0.6702463,
-        "y_min": 0.501599,
+        "x_min": 0.39810437,
+        "x_max": 0.67024624,
+        "y_min": 0.5015989,
         "y_max": 0.6868936
       },
       {
         "label": "Human face",
-        "confidence": 0.5269308,
+        "confidence": 0.52693033,
         "x_min": 0.7713931,
         "x_max": 0.7967755,
         "y_min": 0.47904685,
@@ -585,15 +585,15 @@
       },
       {
         "label": "Curtain",
-        "confidence": 0.49142942,
+        "confidence": 0.49142897,
         "x_min": 0.6710669,
         "x_max": 0.75017715,
-        "y_min": 0.1087867,
+        "y_min": 0.10878669,
         "y_max": 0.53203183
       },
       {
         "label": "Woman",
-        "confidence": 0.4596227,
+        "confidence": 0.45962214,
         "x_min": 0.6469467,
         "x_max": 0.859907,
         "y_min": 0.46188837,
@@ -602,14 +602,14 @@
       {
         "label": "Chair",
         "confidence": 0.4393106,
-        "x_min": 0.15110222,
+        "x_min": 0.15110223,
         "x_max": 0.4018321,
         "y_min": 0.68181366,
-        "y_max": 0.92381763
+        "y_max": 0.92381775
       },
       {
         "label": "Chair",
-        "confidence": 0.4196434,
+        "confidence": 0.41964388,
         "x_min": 0.75919795,
         "x_max": 0.9380631,
         "y_min": 0.6744109,
@@ -617,7 +617,7 @@
       },
       {
         "label": "Human face",
-        "confidence": 0.41313717,
+        "confidence": 0.4131381,
         "x_min": 0.51348746,
         "x_max": 0.53855014,
         "y_min": 0.5376572,
@@ -625,31 +625,31 @@
       },
       {
         "label": "Window",
-        "confidence": 0.4119214,
-        "x_min": 0.624748,
-        "x_max": 0.66841996,
-        "y_min": 0.13725756,
-        "y_max": 0.5414588
+        "confidence": 0.41192088,
+        "x_min": 0.62474805,
+        "x_max": 0.6684199,
+        "y_min": 0.13725758,
+        "y_max": 0.54145867
       },
       {
         "label": "Plant",
-        "confidence": 0.39147264,
+        "confidence": 0.39147234,
         "x_min": 0.20510127,
         "x_max": 0.25858188,
-        "y_min": 0.33155304,
-        "y_max": 0.44076225
+        "y_min": 0.331553,
+        "y_max": 0.4407623
       },
       {
         "label": "Person",
-        "confidence": 0.39135808,
+        "confidence": 0.39135784,
         "x_min": 0.5027826,
         "x_max": 0.5442276,
         "y_min": 0.55392635,
-        "y_max": 0.6276002
+        "y_max": 0.6276003
       },
       {
         "label": "Clothing",
-        "confidence": 0.3836032,
+        "confidence": 0.38360316,
         "x_min": 0.6878231,
         "x_max": 0.7791296,
         "y_min": 0.5905774,
@@ -657,7 +657,7 @@
       },
       {
         "label": "Flower",
-        "confidence": 0.38266745,
+        "confidence": 0.38266772,
         "x_min": 0.21129946,
         "x_max": 0.2380523,
         "y_min": 0.32393286,
@@ -665,15 +665,15 @@
       },
       {
         "label": "Window",
-        "confidence": 0.36772433,
+        "confidence": 0.36772406,
         "x_min": 0.391575,
         "x_max": 0.4383898,
-        "y_min": 0.12453045,
+        "y_min": 0.12453044,
         "y_max": 0.5895702
       },
       {
         "label": "Pillow",
-        "confidence": 0.36052826,
+        "confidence": 0.36052886,
         "x_min": 0.4371793,
         "x_max": 0.52689016,
         "y_min": 0.5102555,
@@ -681,7 +681,7 @@
       },
       {
         "label": "Human hair",
-        "confidence": 0.3515357,
+        "confidence": 0.35153487,
         "x_min": 0.7720833,
         "x_max": 0.8175764,
         "y_min": 0.46381092,
@@ -689,7 +689,7 @@
       },
       {
         "label": "Fashion accessory",
-        "confidence": 0.3366793,
+        "confidence": 0.33667952,
         "x_min": 0.784471,
         "x_max": 0.8032416,
         "y_min": 0.49879467,

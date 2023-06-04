@@ -1679,6 +1679,9 @@
       "version": "v3.2"
     },
     "object_detection": {
+      "constraints":{
+        "models" : []
+      },
       "version": "v3.2"
     },
     "landmark_detection": {
