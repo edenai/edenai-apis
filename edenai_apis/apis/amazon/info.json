@@ -477,6 +477,9 @@
       "version": "boto3 (v1.15.18)"
     },
     "object_detection": {
+      "constraints":{
+        "models" : []
+      },
       "version": "boto3 (v1.15.18)"
     },
     "face_recognition": {
