@@ -49,6 +49,7 @@ class AmazonImageApi(ImageInterface):
     def image__object_detection(
         self, 
         file: str,
+        model: str = None,
         file_url: str= ""
     ) -> ResponseType[ObjectDetectionDataClass]:
 

@@ -1217,8 +1217,7 @@
         },
         "object_detection": {
             "constraints":{
-                "models" : []
-              },
+            },
             "version": "v1"
         }
     }

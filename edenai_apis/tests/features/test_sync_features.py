@@ -29,15 +29,16 @@ class CommonTestsSubfeatures:
             FeatureDataEnum.SAMPLES_ARGS,
             feature=feature,
             subfeature=subfeature)
-        if not feature_args.get('file'):
+        feature_validated_args = validate_all_provider_constraints(provider, feature, subfeature, "",feature_args)
+        if not feature_validated_args.get('file'):
             pytest.skip("unsupported configuration")
-        feature_args['file'] = invalid_file
+        feature_validated_args['file'] = invalid_file
 
         # Action
         with pytest.raises((ProviderException, AttributeError, FileNotFoundError)) as exc:
             feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
             provider_method = getattr(feature_class, f"{subfeature}")(provider)
-            provider_method(**feature_args)
+            provider_method(**feature_validated_args)
             assert exc is not None, 'ProviderException, AttributeError or FileNotFoundError expected.'
 
     def _test_feature_api_call(self, provider, feature, subfeature):

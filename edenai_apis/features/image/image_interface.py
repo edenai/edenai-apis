@@ -133,7 +133,8 @@ class ImageInterface:
     def image__object_detection(
         self, 
         file: str,
-        file_url: str= ""
+        file_url: str= "",
+        model: str = None,
     ) -> ResponseType[ObjectDetectionDataClass]:
         """
         Detect objects in an image

@@ -2,8 +2,7 @@
     "image": {
         "object_detection": {
             "constraints":{
-                "models" : []
-              },
+            },
             "version": "1.9.2"
         },
         "logo_detection": {

@@ -67,7 +67,8 @@ class Api4aiApi(
     def image__object_detection(
         self, 
         file: str,
-        file_url: str= ""
+        file_url: str= "",
+        model: str = None,
     ) -> ResponseType[ObjectDetectionDataClass]:
         """
         This function is used to detect objects in an image.
