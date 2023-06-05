@@ -45,8 +45,12 @@ class AmazonAudioApi(AudioInterface):
         sampling_rate: int,
     ) -> ResponseType[TextToSpeechDataClass]:
         
+        _, voice_id_name, engine = voice_id.split("_")
+        engine = engine.lower()
+
         params = {
-            "VoiceId" : voice_id.split("_")[1],
+            "Engine": engine,
+            "VoiceId" : voice_id_name,
             "OutputFormat": "mp3"
         }
 
