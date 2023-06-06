@@ -35,7 +35,7 @@ ERRORS: ProviderErrorLists = {
         r"An error occurred \(ImageTooLargeException\) when calling the DetectLabels operation: Image dimensions: null x null pixels exceed the maximum limit.",
     ],
     ProviderInvalidInputFileSizeError: [
-        r"An error occurred \(ValidationException\) when calling the \w+ operation: 1 validation error detected: Value 'java\.nio\.HeapByteBuffer\[pos=0 lim=5357237 cap=5357237\]' at 'image\.bytes' failed to satisfy constraint: Member must have length less than or equal to 5242880",
+        r"An error occurred \(ValidationException\) when calling the \w+ operation: 1 validation error detected: Value 'java\.nio\.HeapByteBuffer\[pos=0 lim=\d+ cap=\d+\]' at 'image\.bytes' failed to satisfy constraint: Member must have length less than or equal to 5242880",
     ],
     ProviderInvalidInputAudioDurationError: [
         r"The input media file length is too small\. Minimum audio duration is 0\.500000 milliseconds\. Check the length of the file and try your request again\.",
