@@ -1,5 +1,6 @@
 from edenai_apis.utils.exception import (
     ProviderErrorLists,
+    ProviderInternalServerError,
     ProviderInvalidInputError,
     ProviderInvalidInputPayloadSize,
     ProviderMissingInputError,
@@ -20,5 +21,9 @@ ERRORS: ProviderErrorLists = {
     ],
     ProviderInvalidInputError: [
         r"unsupported text language: unknown",
-    ]
+        r"Input contains unmatched open SSML tags",
+    ],
+    ProviderInternalServerError: [
+        r"Internal Server Error",
+    ],
 }

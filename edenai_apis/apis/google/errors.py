@@ -3,6 +3,7 @@ from edenai_apis.utils.exception import (
     ProviderInternalServerError,
     ProviderInvalidInputAudioEncodingError,
     ProviderInvalidInputDocumentPages,
+    ProviderInvalidInputError,
     ProviderInvalidInputFileError,
     ProviderInvalidInputFileSizeError,
     ProviderInvalidInputPayloadSize,
@@ -11,10 +12,14 @@ from edenai_apis.utils.exception import (
 
 # NOTE: error messages should be regex patterns
 ERRORS: ProviderErrorLists = {
+    ProviderInvalidInputError: [
+        "Request contains an invalid argument",
+    ],
     ProviderInvalidInputTextLengthError: [
         r"400 Either `input\.text` or `input\.ssml` is longer than the limit of 5000 bytes",
         r"400 This request contains sentences that are too long",
-        r"400 Text is too long"
+        r"400 Text is too long",
+        r"Invalid text content: too few tokens \(words\) to process",
     ],
     ProviderInvalidInputFileError: [
         r"Bad image data",
@@ -23,18 +28,19 @@ ERRORS: ProviderErrorLists = {
         r"400 Request payload size exceeds the limit:",
     ],
     ProviderInvalidInputFileSizeError: [
-        r"Document size \(\d+\) exceeds the limit: 20971520"
+        r"Document size \(\d+\) exceeds the limit: 20971520",
     ],
     ProviderInvalidInputDocumentPages: [
         r"400 Exceed the maximum PDF page support. Received: \d+. Support up to: 20",
-        r"400 Document pages exceed the limit: 15 got \d+ "
+        r"400 Document pages exceed the limit: 15 got \d+ ",
     ],
     ProviderInternalServerError: [
-        r"500 Internal error encountered"
-        r"Internal server error\. Unexpected feature response"
+        r"500 Internal error encountered",
+        r"Internal server error. Unexpected feature response",
+        r"The service is currently unavailable",
     ],
     ProviderInvalidInputAudioEncodingError: [
-        r"bad encoding"
+        r"bad encoding",
         r"Could not decode audio file, bad file encoding",
     ],
 }
