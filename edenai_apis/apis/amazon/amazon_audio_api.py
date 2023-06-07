@@ -192,6 +192,8 @@ class AmazonAudioApi(AudioInterface):
             file, Path(file).stem + "." + export_format
         )
         if vocabulary:
+            if language is None:
+                raise ProviderException("Cannot launch with vocabulary when language is auto-detect.")
             vocab_name = self._create_vocabulary(language, vocabulary)
             self._launch_transcribe(
                 filename,
