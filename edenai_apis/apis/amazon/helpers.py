@@ -407,7 +407,7 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
                     summary.get("SUBTOTAL"), float
                 ),
                 amount_due=convert_string_to_number(summary.get("AMOUNT_DUE"), float),
-                previous_unpaid_balance=summary.get("PRIOR_BALANCE"),
+                previous_unpaid_balance=convert_string_to_number(summary.get("PRIOR_BALANCE"), float),
                 discount=convert_string_to_number(summary.get("DISCOUNT"), float),
                 taxes=taxes,
                 payment_term=summary.get("PAYMENT_TERMS"),
