@@ -318,6 +318,8 @@ def query_answer_result(page: List[dict], identifier: str):
 def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass:
     extracted_data = []
     for page in pages:
+        if page.get('JobStatus') == 'FAILED':
+            raise ProviderException(page.get('StatusMessage', 'Amazon returned a job status: FAILED'))
         for invoice in page["ExpenseDocuments"]:
             # format response to be more easily parsable
             summary = {}
