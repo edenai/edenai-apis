@@ -118,6 +118,7 @@
                 "ar-LB",
                 "ar-MA",
                 "ar-MR",
+                "ar-PS",
                 "ar-OM",
                 "ar-QA",
                 "ar-SA",
@@ -299,7 +300,8 @@
                 "vi",
                 "vi-VN",
                 "zu",
-                "zu-ZA"
+                "zu-ZA",
+                "zh"
             ],
             "file_extensions": [
                 "mp3",

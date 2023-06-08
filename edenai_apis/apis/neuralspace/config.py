@@ -7,6 +7,9 @@ supported_domains = [
             "language": "English",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-australia-default",
                     "accent": "Australia"
                 },
@@ -93,6 +96,9 @@ supported_domains = [
             "language": "Hindi",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-india-default",
                     "accent": "India"
                 },
@@ -107,6 +113,9 @@ supported_domains = [
             "language": "Swedish",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-sweden-default",
                     "accent": "Sweden"
                 }
@@ -116,6 +125,12 @@ supported_domains = [
             "code": "ar",
             "language": "Arabic",
             "domains": [
+                 {
+                    "domain": "multilingual-v3"
+                },
+                {
+                    "domain": "multilingual-v2"
+                },
                 {
                     "domain": "general-v3-algeria-default",
                     "accent": "Algeria"
@@ -218,11 +233,11 @@ supported_domains = [
                 },
                 {
                     "domain": "general-v3-state_of_palestine-default",
-                    "accent": "State Of Palestine"
+                    "accent": "Palestinian Territories"
                 },
                 {
                     "domain": "general-v3-state_of_palestine-latest_long",
-                    "accent": "State Of Palestine"
+                    "accent": "Palestinian Territories"
                 },
                 {
                     "domain": "general-v3-tunisia-default",
@@ -255,6 +270,9 @@ supported_domains = [
             "language": "Russian",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-russia-default",
                     "accent": "Russia"
                 },
@@ -268,6 +286,9 @@ supported_domains = [
             "code": "fr",
             "language": "French",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-belgium-default",
                     "accent": "Belgium"
@@ -299,6 +320,9 @@ supported_domains = [
             "language": "Ukrainian",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-ukraine-default",
                     "accent": "Ukraine"
                 },
@@ -312,6 +336,9 @@ supported_domains = [
             "code": "de",
             "language": "German",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-austria-default",
                     "accent": "Austria"
@@ -335,6 +362,9 @@ supported_domains = [
             "language": "Greek",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-greece-default",
                     "accent": "Greece"
                 }
@@ -355,6 +385,9 @@ supported_domains = [
             "language": "Dutch",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-belgium-default",
                     "accent": "Belgium"
                 },
@@ -372,6 +405,9 @@ supported_domains = [
             "code": "pt",
             "language": "Portuguese",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-brazil-default",
                     "accent": "Brazil"
@@ -394,6 +430,9 @@ supported_domains = [
             "code": "es",
             "language": "Spanish",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-argentina-default",
                     "accent": "Argentina"
@@ -489,6 +528,9 @@ supported_domains = [
             "language": "Catalan",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-spain-default",
                     "accent": "Spain"
                 }
@@ -499,6 +541,9 @@ supported_domains = [
             "language": "Czech",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-czech_republic-default",
                     "accent": "Czech Republic"
                 }
@@ -508,6 +553,9 @@ supported_domains = [
             "code": "ja",
             "language": "Japanese",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-japan-default",
                     "accent": "Japan"
@@ -533,6 +581,9 @@ supported_domains = [
             "language": "Turkish",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-turkey-default",
                     "accent": "Turkey"
                 },
@@ -547,6 +598,9 @@ supported_domains = [
             "language": "Italian",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-italy-default",
                     "accent": "Italy"
                 },
@@ -557,6 +611,15 @@ supported_domains = [
                 {
                     "domain": "general-v3-switzerland-default",
                     "accent": "Switzerland"
+                }
+            ]
+        },
+        {
+            "code": "zh",
+            "language": "Chinese",
+            "domains": [
+                {
+                    "domain": "multilingual-v1"
                 }
             ]
         },
@@ -594,6 +657,9 @@ supported_domains = [
             "language": "Bulgarian",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-bulgaria-default",
                     "accent": "Bulgaria"
                 }
@@ -603,6 +669,9 @@ supported_domains = [
             "code": "bn",
             "language": "Bengali",
             "domains": [
+                {
+                    "domain": "multilingual-v2"
+                },
                 {
                     "domain": "general-v3-bangladesh-default",
                     "accent": "Bangladesh"
@@ -618,6 +687,9 @@ supported_domains = [
             "language": "Bosnian",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-bosnia_and_herzegovina-default",
                     "accent": "Bosnia And Herzegovina"
                 }
@@ -627,6 +699,9 @@ supported_domains = [
             "code": "da",
             "language": "Danish",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-denmark-default",
                     "accent": "Denmark"
@@ -662,6 +737,9 @@ supported_domains = [
             "language": "Finnish",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-finland-default",
                     "accent": "Finland"
                 },
@@ -676,6 +754,9 @@ supported_domains = [
             "language": "Galician",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-spain-default",
                     "accent": "Spain"
                 }
@@ -686,6 +767,9 @@ supported_domains = [
             "language": "Gujarati",
             "domains": [
                 {
+                    "domain": "multilingual-v2"
+                },
+                {
                     "domain": "general-v3-india-default",
                     "accent": "India"
                 }
@@ -695,6 +779,9 @@ supported_domains = [
             "code": "hr",
             "language": "Croatian",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-croatia-default",
                     "accent": "Croatia"
@@ -779,6 +866,9 @@ supported_domains = [
             "language": "Kannada",
             "domains": [
                 {
+                    "domain": "multilingual-v2"
+                },
+                {
                     "domain": "general-v3-india-default",
                     "accent": "India"
                 }
@@ -788,6 +878,9 @@ supported_domains = [
             "code": "ko",
             "language": "Korean",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-south_korea-default",
                     "accent": "South Korea"
@@ -846,6 +939,9 @@ supported_domains = [
             "language": "Malayalam",
             "domains": [
                 {
+                    "domain": "multilingual-v2"
+                },
+                {
                     "domain": "general-v3-india-default",
                     "accent": "India"
                 }
@@ -865,6 +961,9 @@ supported_domains = [
             "language": "Marathi",
             "domains": [
                 {
+                    "domain": "multilingual-v2"
+                },
+                {
                     "domain": "general-v3-india-default",
                     "accent": "India"
                 }
@@ -874,6 +973,9 @@ supported_domains = [
             "code": "ms",
             "language": "Malay",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-malaysia-default",
                     "accent": "Malaysia"
@@ -904,6 +1006,9 @@ supported_domains = [
             "code": "no",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-norway-default",
                     "accent": "Norway"
                 },
@@ -918,6 +1023,9 @@ supported_domains = [
             "language": "Punjabi",
             "domains": [
                 {
+                    "domain": "multilingual-v2"
+                },
+                {
                     "domain": "general-v3-gurmukhi_india-default",
                     "accent": "Gurmukhi India"
                 }
@@ -927,6 +1035,9 @@ supported_domains = [
             "code": "pl",
             "language": "Polish",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-poland-default",
                     "accent": "Poland"
@@ -941,6 +1052,9 @@ supported_domains = [
             "code": "ro",
             "language": "Romanian",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-romania-default",
                     "accent": "Romania"
@@ -964,6 +1078,9 @@ supported_domains = [
             "code": "sk",
             "language": "Slovak",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-slovakia-default",
                     "accent": "Slovakia"
@@ -1029,6 +1146,9 @@ supported_domains = [
             "language": "Tamil",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-india-default",
                     "accent": "India"
                 },
@@ -1051,6 +1171,9 @@ supported_domains = [
             "language": "Telugu",
             "domains": [
                 {
+                    "domain": "multilingual-v2"
+                },
+                {
                     "domain": "general-v3-india-default",
                     "accent": "India"
                 }
@@ -1059,6 +1182,9 @@ supported_domains = [
         {
             "code": "th",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-thailand-default",
                     "accent": "Thailand"
@@ -1073,6 +1199,9 @@ supported_domains = [
             "code": "ur",
             "language": "Urdu",
             "domains": [
+                {
+                    "domain": "multilingual-v1"
+                },
                 {
                     "domain": "general-v3-india-default",
                     "accent": "India"
@@ -1098,6 +1227,9 @@ supported_domains = [
             "language": "Vietnamese",
             "domains": [
                 {
+                    "domain": "multilingual-v1"
+                },
+                {
                     "domain": "general-v3-vietnam-default",
                     "accent": "Vietnam"
                 },
@@ -1122,18 +1254,8 @@ supported_domains = [
 def get_domain_language_from_code(lang_code):
     if not lang_code:
         return None
-    list_languages = load_language_constraints("neuralspace", "audio", "speech_to_text_async")
-    list_languages_four_digits = [lang for lang in list_languages if len(lang) > 2]
     language = lang_code
-    call_iteraction = 100
-    if len(lang_code) == 2:
-        while call_iteraction > 0:
-            try:
-                lang_code = closest_supported_match(lang_code, list_languages_four_digits)
-                break
-            except RuntimeError:
-                call_iteraction -=1
-    if lang_code:
+    if len(lang_code) > 2:
         code = lang_code[:2]
         language_name = get_language_name_from_code(lang_code)
         for domain in supported_domains:
