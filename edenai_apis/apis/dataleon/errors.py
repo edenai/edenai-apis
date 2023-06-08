@@ -1,5 +1,6 @@
 from edenai_apis.utils.exception import (
     ProviderErrorLists,
+    ProviderInternalServerError,
     ProviderInvalidInputFileFormatError,
 )
 
@@ -7,5 +8,8 @@ from edenai_apis.utils.exception import (
 ERRORS: ProviderErrorLists = {
     ProviderInvalidInputFileFormatError: [
         r"File type not managed",
+    ],
+    ProviderInternalServerError: [
+        r"500 Internal Server Error",
     ]
 }

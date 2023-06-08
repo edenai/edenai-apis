@@ -1,5 +1,6 @@
 from edenai_apis.utils.exception import (
     ProviderErrorLists,
+    ProviderInternalServerError,
     ProviderInvalidInputError,
     ProviderInvalidInputPayloadSize,
     ProviderInvalidInputTextLengthError,
@@ -9,6 +10,9 @@ from edenai_apis.utils.exception import (
 
 # NOTE: error messages should be regex patterns
 ERRORS: ProviderErrorLists = {
+    ProviderInternalServerError: [
+        r"The server had an error while processing your request\. Sorry about that",
+    ],
     ProviderParsingError: [
         r"An error occurred while parsing the response",
     ],
@@ -18,12 +22,12 @@ ERRORS: ProviderErrorLists = {
         r"That model is currently overloaded with other requests. You can retry your request, or contact us through our help center at help.openai.com if the error persists",
     ],
     ProviderInvalidInputTextLengthError: [
-        r"This model's maximum context length is \d+ tokens, however you requested \d+ tokens",
+        r"This model's maximum context length is \d+ tokens",
     ],
     ProviderInvalidInputPayloadSize: [
         r"Maximum content size limit \(26214400\) exceeded \(\d+ bytes read\)",
     ],
     ProviderInvalidInputError: [
-        r"Your request was rejected as a result of our safety system. Your prompt may contain text that is not allowed by our safety system.",
+        r"Your request was rejected as a result of our safety system",
     ]
 }

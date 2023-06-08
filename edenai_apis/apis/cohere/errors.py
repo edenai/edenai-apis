@@ -14,6 +14,7 @@ ERRORS: ProviderErrorLists = {
     ],
     ProviderParsingError: [
         r"Provider has not found a sentiment of the text.",
+        r"An error occurred while parsing the response",
     ],
     ProviderInternalServerError: [
         r"Error calling Clarifai API",

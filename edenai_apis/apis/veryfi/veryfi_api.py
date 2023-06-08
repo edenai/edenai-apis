@@ -193,6 +193,7 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         barcodes = [
             BarCode(type=code["type"], value=code["data"])
             for code in original_response.get("barcodes", [])
+            if code["data"] is not None and code["type"] is not None
         ]
         info_receipt = [InfosReceiptParserDataClass(
             customer_information=customer_information,

@@ -115,7 +115,6 @@ class ProviderInvalidInputFileFormatError(ProviderInvalidInputFileError):
 class ProviderInvalidInputImageResolutionError(ProviderInvalidInputFileError):
     """When input Image Resolution is not supported"""
 
-
 class ProviderInvalidInputAudioDurationError(ProviderInvalidInputFileError):
     """When input Audio is too short/long"""
 

@@ -2,6 +2,7 @@ from edenai_apis.utils.exception import (
     ProviderErrorLists,
     ProviderInternalServerError,
     ProviderInvalidInputError,
+    ProviderTimeoutError,
 )
 
 # NOTE: error messages should be regex patterns
@@ -12,6 +13,9 @@ ERRORS: ProviderErrorLists = {
     ],
     ProviderInternalServerError: [
         r"Internal Server Error",
-        r"504 Gateway Time-out",
+        r"Unknown error",
     ],
+    ProviderTimeoutError: [
+        r"504 Gateway Time-out",
+    ]
 }
