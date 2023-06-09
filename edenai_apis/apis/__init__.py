@@ -43,5 +43,6 @@ from .writesonic import WritesonicApi
 from .speechmatics import SpeechmaticsApi
 from .tenstorrent import TenstorrentApi
 from .facepp import FaceppApi
+from .originalityai import OriginalityaiApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
