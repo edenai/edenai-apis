@@ -78,3 +78,9 @@ from .chat import (
     ChatMessageDataClass,
     chat_arguments
 )
+
+from .ai_detection import (
+    AiDetectionDataClass,
+    AiDetectionItem,
+    ai_detection_arguments
+)
