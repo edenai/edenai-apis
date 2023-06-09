@@ -181,6 +181,7 @@
 | **code_generation** | openai |
 | **embeddings** | openai |
 | **search** | openai |
+| **ai_detection** | originalityai |
 
 </details>
 <details><summary>translation</summary>
@@ -566,6 +567,13 @@
 | | topic_extraction |
 | **translation** | automatic_translation |
 | | language_detection |
+
+</details>
+<details><summary>originalityai</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | ai_detection |
 
 </details>
 <details><summary>phedone</summary>
