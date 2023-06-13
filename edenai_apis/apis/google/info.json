@@ -878,7 +878,31 @@
                 "allow_null_language": true
             },
             "version": "v1"
-        }
+        },
+        "generation": {
+            "constraints": {
+                "models": [
+                  "text-bison"
+                ],
+                "default_model": "text-bison"
+              },
+            "version" : "v1"
+        },
+        "chat" : {
+            "constraints": {
+                "models": [
+                  "chat-bison"
+                ],
+                "default_model": "chat-bison"
+              },
+            "version" : "v1"
+        },
+        "embeddings" : {
+            "version" : "v1"
+        },
+        "code_generation": {
+            "version": "v1"
+          }
     },
     "translation": {
         "automatic_translation": {

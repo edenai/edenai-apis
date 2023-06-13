@@ -12,8 +12,8 @@ def chat_arguments():
                 "message": "steve jobs, apple inc, pixar, california"
             }
             ],
-        "temperature" : None,
-        "max_tokens" : None,
+        "temperature" : 0.6,
+        "max_tokens" : 1024,
         "settings": {}
     }
 

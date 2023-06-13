@@ -32,7 +32,8 @@ from edenai_apis.utils.exception import (
     ProviderException,
 )
 from edenai_apis.utils.types import AsyncResponseType
-
+from google.oauth2 import service_account
+import google.auth
 
 class GoogleVideoFeatures(enum.Enum):
     LABEL = "LABEL"
@@ -348,3 +349,27 @@ def handle_done_response_ocr_async(
             pages=pages, number_of_pages=len(pages)
         ),
     )
+
+
+def get_access_token(location: str):
+    """
+    Retrieves an access token for the Google Cloud Platform using service account credentials.
+
+    Args:
+        location (str): The file location of the service account credentials.
+
+    Returns:
+        str: The access token required for making API REST calls.
+
+    Example:
+        location = "/path/to/credentials.json"
+        access_token = get_access_token(location)
+        # Use the access_token for API REST calls
+        response = requests.get(url, headers={"Authorization": f"Bearer {access_token}"})
+
+    """
+    scopes = ['https://www.googleapis.com/auth/cloud-platform']
+    credentials = service_account.Credentials.from_service_account_file(location, scopes=scopes)
+    auth_req = google.auth.transport.requests.Request()
+    credentials.refresh(auth_req)
+    return credentials.token

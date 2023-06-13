@@ -1,0 +1,20 @@
+{
+  "original_response": {
+    "predictions": [
+      {
+        "safetyAttributes": {
+          "scores": [],
+          "blocked": false,
+          "categories": []
+        },
+        "citationMetadata": {
+          "citations": []
+        },
+        "content": "```python\ndef is_leap_year(year):\n  \"\"\"\n  Determines whether a year is a leap year.\n\n  Args:\n    year: The year to check.\n\n  Returns:\n    True if the year is a leap year, False otherwise.\n  \"\"\"\n\n  # A year is a leap year if it is divisible by 4, unless it is divisible by 100\n  # unless it is also divisible by 400.\n\n  if year % 4 == 0:\n    if year % 100 == 0:\n      return year % 400 == 0\n    else:\n      return True\n  else:\n    return False\n```"
+      }
+    ]
+  },
+  "standardized_response": {
+    "generated_text": "```python\ndef is_leap_year(year):\n  \"\"\"\n  Determines whether a year is a leap year.\n\n  Args:\n    year: The year to check.\n\n  Returns:\n    True if the year is a leap year, False otherwise.\n  \"\"\"\n\n  # A year is a leap year if it is divisible by 4, unless it is divisible by 100\n  # unless it is also divisible by 400.\n\n  if year % 4 == 0:\n    if year % 100 == 0:\n      return year % 400 == 0\n    else:\n      return True\n  else:\n    return False\n```"
+  }
+}

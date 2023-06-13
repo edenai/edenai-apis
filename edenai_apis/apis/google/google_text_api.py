@@ -1,6 +1,7 @@
-from typing import Sequence
-
-from edenai_apis.apis.google.google_helpers import get_tag_name, score_to_sentiment
+from typing import Dict, List, Optional, Sequence
+from edenai_apis.apis.google.google_helpers import get_tag_name, score_to_sentiment, get_access_token
+from edenai_apis.features.text import AnonymizationDataClass, ChatDataClass, CodeGenerationDataClass, GenerationDataClass, ChatMessageDataClass
+from edenai_apis.features.text.embeddings.embeddings_dataclass import EmbeddingsDataClass, EmbeddingDataClass
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
     InfosNamedEntityRecognitionDataClass,
     NamedEntityRecognitionDataClass,
@@ -24,7 +25,7 @@ from edenai_apis.utils.types import ResponseType
 from google.cloud.language import Document as GoogleDocument
 from google.protobuf.json_format import MessageToDict
 from google.api_core.exceptions import InvalidArgument
-
+import requests
 
 class GoogleTextApi(TextInterface):
     def text__named_entity_recognition(
@@ -212,3 +213,172 @@ class GoogleTextApi(TextInterface):
         )
 
         return result
+
+    def text__generation(
+        self,
+        text: str,
+        temperature: float,
+        max_tokens: int,
+        model: str,
+    ) -> ResponseType[GenerationDataClass]:
+        url_subdomain = 'us-central1-aiplatform'
+        location = 'us-central1'
+        token = get_access_token(self.location)
+        url = f'https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict'
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}',
+        }
+
+        payload = {
+            "instances": [
+                {"prompt": text}
+            ],
+            "parameters": {
+                "temperature": temperature,
+                "maxOutputTokens": max_tokens
+            }
+        }
+        response = requests.post(url=url, headers=headers, json=payload)
+        original_response = response.json()
+        if 'error' in original_response:
+            raise ProviderException(message = original_response['error']['message'])
+        
+        standardized_response = GenerationDataClass(generated_text=original_response['predictions'][0]['content'])
+        
+        return ResponseType[GenerationDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    def text__chat(
+        self,
+        text: str,
+        chatbot_global_action: Optional[str],
+        previous_history: Optional[List[Dict[str, str]]],
+        temperature: float,
+        max_tokens: int,
+        model: str,
+    ) -> ResponseType[ChatDataClass]:
+        url_subdomain = 'us-central1-aiplatform'
+        location = 'us-central1'
+        token = get_access_token(self.location)
+        url = f'https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict'
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}',
+        }
+        messages = [{"author": "user", "content": text}]
+        if previous_history:
+            for idx, message in enumerate(previous_history):
+                role = message.get("role")
+                if role == "assistant":
+                    role = "bot"
+                messages.insert(
+                    idx,
+                    {"author": role, "content": message.get("message")},
+                )
+        context = chatbot_global_action if chatbot_global_action else None
+        payload = {
+            "instances": [
+                {
+                    "context": context,
+                    "messages" : messages
+                }
+            ],
+            "parameters": {
+                "temperature": temperature,
+                "maxOutputTokens": max_tokens
+            }
+        }
+        response = requests.post(url=url, headers=headers, json=payload)
+        original_response = response.json()
+        if 'error' in original_response:
+            raise ProviderException(message = original_response['error']['message'])
+                
+        # Standardize the response
+        generated_text = original_response["predictions"][0]["candidates"][0]["content"]
+        message = [
+            ChatMessageDataClass(role="user", message=text),
+            ChatMessageDataClass(role="assistant", message=generated_text),
+        ]
+
+        standardized_response = ChatDataClass(
+            generated_text=generated_text, message=message
+        )
+        return ResponseType[ChatDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+        
+    def text__embeddings(self, texts: List[str]) -> ResponseType[EmbeddingsDataClass]:
+        url_subdomain = 'us-central1-aiplatform'
+        location = 'us-central1'
+        token = get_access_token(self.location)
+        url = f'https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/textembedding-gecko:predict'
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}',
+        }
+        instances = []
+        for text in texts:
+            instances.append(
+                {
+                    'content': text
+                }
+            )
+        payload = {
+            "instances": instances
+        }
+        response = requests.post(url=url, headers=headers, json=payload)
+        original_response = response.json()
+        if 'error' in original_response:
+            raise ProviderException(message = original_response['error']['message'])
+        
+        items: Sequence[EmbeddingsDataClass] = []
+        for prediction in original_response['predictions']:   
+            embedding = prediction['embeddings']['values']
+            items.append(EmbeddingDataClass(embedding=embedding))
+            
+        standardized_response = EmbeddingsDataClass(items=items)
+        return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+        
+    def text__code_generation(
+        self,
+        instruction: str,
+        temperature: float,
+        max_tokens: int,
+        prompt: str = "") -> ResponseType[CodeGenerationDataClass]:
+        url_subdomain = 'us-central1-aiplatform'
+        location = 'us-central1'
+        token = get_access_token(self.location)
+        url = f'https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/code-bison:predict'
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}',
+        }
+        payload = {
+            "instances": [
+                {
+                    "prefix": instruction,
+                }
+            ],
+            "parameters": {
+                "temperature": temperature,
+                "maxOutputTokens": max_tokens
+            }
+        }
+        response = requests.post(url=url, headers=headers, json=payload)
+        original_response = response.json()
+        if 'error' in original_response:
+            raise ProviderException(message = original_response['error']['message'])
+        
+        standardized_response = CodeGenerationDataClass(
+            generated_text=original_response['predictions'][0]['content'])
+        return ResponseType[CodeGenerationDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )

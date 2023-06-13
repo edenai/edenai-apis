@@ -1,24 +1,26 @@
 {
   "original_response": {
-    "id": "cmpl-6wAEpNCEbHjJYXIpgFjpvI6rcxgUz",
-    "object": "text_completion",
-    "created": 1679320399,
-    "model": "code-davinci-002",
+    "id": "chatcmpl-7Qzaip4y0YQrOFlXLLPBqNzbHcKhd",
+    "object": "chat.completion",
+    "created": 1686667640,
+    "model": "gpt-3.5-turbo-0301",
+    "usage": {
+      "prompt_tokens": 39,
+      "completion_tokens": 175,
+      "total_tokens": 214
+    },
     "choices": [
       {
-        "text": " numbers.\n\nThe function should take one argument, n, and return the nth fibonacci number.\n\nThe fibonacci sequence is defined as follows:\n\nf(0) = 0\nf(1) = 1\nf(n) = f(n-1) + f(n-2)\n\nFor example, f(3) = f(2) + f(1) = 1 + 0 = 1\n\nThe function should return",
-        "index": 0,
-        "logprobs": null,
-        "finish_reason": "length"
+        "message": {
+          "role": "assistant",
+          "content": "Sure, here's a Python function that checks if a year is a leap year:\n\n```python\ndef is_leap_year(year):\n    \"\"\"\n    Returns True if the given year is a leap year, False otherwise.\n    \"\"\"\n    if year % 4 == 0:\n        if year % 100 == 0:\n            if year % 400 == 0:\n                return True\n            else:\n                return False\n        else:\n            return True\n    else:\n        return False\n```\n\nThis function takes a year as input and returns True if it is a leap year, and False otherwise. It uses the standard rules for determining leap years: a year is a leap year if it is divisible by 4, unless it is also divisible by 100, in which case it is only a leap year if it is also divisible by 400."
+        },
+        "finish_reason": "stop",
+        "index": 0
       }
-    ],
-    "usage": {
-      "prompt_tokens": 10,
-      "completion_tokens": 100,
-      "total_tokens": 110
-    }
+    ]
   },
   "standardized_response": {
-    "generated_text": " numbers.\n\nThe function should take one argument, n, and return the nth fibonacci number.\n\nThe fibonacci sequence is defined as follows:\n\nf(0) = 0\nf(1) = 1\nf(n) = f(n-1) + f(n-2)\n\nFor example, f(3) = f(2) + f(1) = 1 + 0 = 1\n\nThe function should return"
+    "generated_text": "Sure, here's a Python function that checks if a year is a leap year:\n\n```python\ndef is_leap_year(year):\n    \"\"\"\n    Returns True if the given year is a leap year, False otherwise.\n    \"\"\"\n    if year % 4 == 0:\n        if year % 100 == 0:\n            if year % 400 == 0:\n                return True\n            else:\n                return False\n        else:\n            return True\n    else:\n        return False\n```\n\nThis function takes a year as input and returns True if it is a leap year, and False otherwise. It uses the standard rules for determining leap years: a year is a leap year if it is divisible by 4, unless it is also divisible by 100, in which case it is only a leap year if it is also divisible by 400."
   }
 }

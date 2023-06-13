@@ -1,0 +1,26 @@
+{
+  "original_response": {
+    "predictions": [
+      {
+        "safetyAttributes": {
+          "categories": [
+            "Finance",
+            "Health"
+          ],
+          "blocked": false,
+          "scores": [
+            0.1,
+            0.1
+          ]
+        },
+        "citationMetadata": {
+          "citations": []
+        },
+        "content": "I am glad to meet you! I am an AI assistant, and I am here to help you with your tasks."
+      }
+    ]
+  },
+  "standardized_response": {
+    "generated_text": "hello"
+  }
+}
