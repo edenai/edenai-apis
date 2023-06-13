@@ -35,19 +35,19 @@ amazon-textract-response-parser
 boto3
 
 #clarifai
-clarifai-grpc==8.7.0
+clarifai-grpc==9.5.0
 
 #google
-google-api-python-client
-google-cloud-documentai
-google-cloud-language
-google-cloud-speech
-google-cloud-storage
-google-cloud-texttospeech
-google-cloud-translate
-google-cloud-vision
-google-cloud-videointelligence
-google-cloud-automl
+google-api-python-client==2.88.0
+google-cloud-documentai==2.15.0
+google-cloud-language==2.10.0
+google-cloud-speech==2.20.0
+google-cloud-storage==2.9.0
+google-cloud-texttospeech==2.14.1
+google-cloud-translate==3.11.1
+google-cloud-vision==3.4.2
+google-cloud-videointelligence==2.11.2
+google-cloud-automl==2.11.1
 
 #ibm
 ibm-watson>=6.0.0
