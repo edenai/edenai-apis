@@ -278,7 +278,7 @@ class GoogleTextApi(TextInterface):
                     idx,
                     {"author": role, "content": message.get("message")},
                 )
-        context = chatbot_global_action if chatbot_global_action else None
+        context = chatbot_global_action if chatbot_global_action else ''
         payload = {
             "instances": [
                 {
