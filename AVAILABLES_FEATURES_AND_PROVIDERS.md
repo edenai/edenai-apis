@@ -156,6 +156,7 @@
 | **custom_named_entity_recognition** | cohere |
 | | openai |
 | **generation** | cohere |
+| | google |
 | | openai |
 | **spell_check** | cohere |
 | | microsoft |
@@ -170,6 +171,12 @@
 | | oneai |
 | | openai |
 | | writesonic |
+| **chat** | google |
+| | openai |
+| **code_generation** | google |
+| | openai |
+| **embeddings** | google |
+| | openai |
 | **topic_extraction** | google |
 | | ibm |
 | | openai |
@@ -177,9 +184,6 @@
 | | openai |
 | **moderation** | microsoft |
 | | openai |
-| **chat** | openai |
-| **code_generation** | openai |
-| **embeddings** | openai |
 | **search** | openai |
 | **ai_detection** | originalityai |
 
@@ -397,7 +401,11 @@
 | | ocr_async |
 | | ocr_tables_async |
 | | receipt_parser |
-| **text** | named_entity_recognition |
+| **text** | chat |
+| | code_generation |
+| | embeddings |
+| | generation |
+| | named_entity_recognition |
 | | sentiment_analysis |
 | | syntax_analysis |
 | | topic_extraction |
