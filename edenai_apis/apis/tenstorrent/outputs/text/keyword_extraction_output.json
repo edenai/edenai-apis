@@ -1,0 +1,58 @@
+{
+    "original_response": {
+        "items": [
+          {
+            "keyword": "Barack Hussein Obama",
+            "importance": 1.0
+          },
+          {
+            "keyword": "44th president of the United States",
+            "importance": 1.0
+          },
+          {
+            "keyword": "Democratic Party",
+            "importance": 1.0
+          },
+          {
+            "keyword": "first African-American president",
+            "importance": 1.0
+          },
+          {
+            "keyword": "U.S. senator from Illinois",
+            "importance": 1.0
+          },
+          {
+            "keyword": "Illinois state senator",
+            "importance": 1.0
+          }
+        ]
+    },
+    "standardized_response": {
+        "items": [
+          {
+            "keyword": "Barack Hussein Obama",
+            "importance": 1.0
+          },
+          {
+            "keyword": "44th president of the United States",
+            "importance": 1.0
+          },
+          {
+            "keyword": "Democratic Party",
+            "importance": 1.0
+          },
+          {
+            "keyword": "first African-American president",
+            "importance": 1.0
+          },
+          {
+            "keyword": "U.S. senator from Illinois",
+            "importance": 1.0
+          },
+          {
+            "keyword": "Illinois state senator",
+            "importance": 1.0
+          }
+        ]
+    }
+}

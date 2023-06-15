@@ -22,5 +22,5 @@ class TenstorrentApi(
             "accept": "application/json",
             "authorization": self.api_key,
             "content-type": "application/json",
-            "Tenstorrent-Version": "2023-05-15",
+            "Tenstorrent-Version": "2023-06-16",
         }
