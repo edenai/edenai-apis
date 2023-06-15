@@ -1,5 +1,14 @@
 {
     "text": {
+        "keyword_extraction": {
+            "constraints": {
+                "languages": [
+                    "en"
+                ],
+                "allow_null_language": true
+            },
+            "version": "v1.0.0"
+        },
         "sentiment_analysis": {
             "constraints": {
                 "languages": [

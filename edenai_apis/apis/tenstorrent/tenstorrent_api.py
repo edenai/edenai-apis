@@ -17,10 +17,11 @@ class TenstorrentApi(
             ProviderDataEnum.KEY, provider_name=self.provider_name, api_keys = api_keys
         )
         self.api_key = self.api_settings["api_key"]
-        self.base_url = "https://sentiment-analysis--eden-ai.workload.tenstorrent.com"
+#        self.base_url = self.api_settings["base_url"]
+#        self.base_url = "https://sentiment-analysis--eden-ai.workload.tenstorrent.com"
         self.headers = {
             "accept": "application/json",
             "authorization": self.api_key,
             "content-type": "application/json",
-            "Tenstorrent-Version": "2023-05-15",
+            "Tenstorrent-Version": "2023-06-26",
         }
