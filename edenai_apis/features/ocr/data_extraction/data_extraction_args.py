@@ -9,7 +9,8 @@ feature_path = os.path.dirname(os.path.dirname(__file__))
 
 data_path = os.path.join(feature_path, "data")
 
-filename = "receipt.jpg"
+filename = "ocr_multipages.pdf"
+
 ocr_path = f"{data_path}/{filename}"
 
 mime_type = mimetypes.guess_type(ocr_path)[0]
