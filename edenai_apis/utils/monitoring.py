@@ -35,7 +35,7 @@ from loaders.loaders import load_provider
 from psycopg2 import errors
 from psycopg2.extensions import AsIs
 
-from utils.upload_s3 import get_providers_json_from_s3
+from .upload_s3 import get_providers_json_from_s3
 
 global INFOS_FROM_S3
 global POSTGRES_CONNECTION
