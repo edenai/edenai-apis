@@ -1,0 +1,20 @@
+{
+  "amount": 25.0,
+  "amount_text": "Twenty-five and no/100",
+  "bank_address": null,
+  "bank_name": "WASHINGTON'S OLDEST NATIONAL BANK\nFIRST NATIONAL BANK",
+  "date": null,
+  "memo": "world hunger relief",
+  "payer_address": null,
+  "payer_name": "HON. GERALD R. FORD\nMRS. BETTY B. FORD",
+  "receiver_address": null,
+  "receiver_name": "Presiding Bishop, Episcopal Church",
+  "currency": null,
+  "micr": {
+    "raw": "A0540D0004A C140611 6C B0000002500B",
+    "account_number": null,
+    "routing_number": "05400004",
+    "serial_number": null,
+    "check_number": "878"
+  }
+}

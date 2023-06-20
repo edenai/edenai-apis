@@ -1,8 +1,4 @@
-from .ocr import (
-    OcrDataClass,
-    Bounding_box,
-    ocr_arguments
-)
+from .ocr import OcrDataClass, Bounding_box, ocr_arguments
 from .invoice_parser import (
     InfosInvoiceParserDataClass,
     InvoiceParserDataClass,
@@ -56,5 +52,5 @@ from .identity_parser import (
     InfoCountry,
     InfosIdentityParserDataClass,
     IdentityParserDataClass,
-    ItemIdentityParserDataClass
+    ItemIdentityParserDataClass,
 )
