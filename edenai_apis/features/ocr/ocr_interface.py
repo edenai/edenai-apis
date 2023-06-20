@@ -181,3 +181,19 @@ class OcrInterface:
         Parse a document and extract all informations
         """
         raise NotImplementedError
+
+    @abstractmethod
+    def ocr__bank_check_parsing(
+        self,
+        file: str,
+        file_url: str = "",
+    ) -> ResponseType[DataExtractionDataClass]:
+        """
+        Parse a bank check and extract all informations
+
+        Args:
+            file (str): Path of file
+            language (str): Language of check
+            file_url (optional | str): Url of file
+        """
+        raise NotImplementedError

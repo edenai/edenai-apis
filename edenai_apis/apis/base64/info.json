@@ -1,153 +1,169 @@
 {
-    "ocr": {
-        "invoice_parser": {
-            "constraints": {
-                "file_types": [
-                    "image/jpeg",
-                    "image/png",
-                    "image/gif",
-                    "image/x-ms-bmp",
-                    "image/tiff",
-                    "image/webp",
-                    "image/heic",
-                    "application/msword",
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    "application/vnd.ms-excel",
-                    "application/vnd.ms-powerpoint",
-                    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-                    "application/pdf",
-                    "application/vnd.oasis.opendocument.spreadsheet",
-                    "application/vnd.oasis.opendocument.text",
-                    "application/vnd.oasis.opendocument.presentation",
-                    "application/zip"
-                ],
-                "languages": [
-                    "en-US"
-                ],
-                "allow_null_language": true
-            },
-            "version": "latest"
-        },
-        "ocr": {
-            "constraints": {
-                "file_types": [
-                    "image/jpeg",
-                    "image/png",
-                    "image/gif",
-                    "image/x-ms-bmp",
-                    "image/tiff",
-                    "image/webp",
-                    "image/heic",
-                    "application/msword",
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    "application/vnd.ms-excel",
-                    "application/vnd.ms-powerpoint",
-                    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-                    "application/pdf",
-                    "application/vnd.oasis.opendocument.spreadsheet",
-                    "application/vnd.oasis.opendocument.text",
-                    "application/vnd.oasis.opendocument.presentation",
-                    "application/zip"
-                ],
-                "languages": [
-                    "en-US",
-                    "tr"
-                ]
-            },
-            "version": "latest"
-        },
-        "receipt_parser": {
-            "constraints": {
-                "file_types": [
-                    "image/jpeg",
-                    "image/png",
-                    "image/gif",
-                    "image/x-ms-bmp",
-                    "image/tiff",
-                    "image/webp",
-                    "image/heic",
-                    "application/msword",
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    "application/vnd.ms-excel",
-                    "application/vnd.ms-powerpoint",
-                    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-                    "application/pdf",
-                    "application/vnd.oasis.opendocument.spreadsheet",
-                    "application/vnd.oasis.opendocument.text",
-                    "application/vnd.oasis.opendocument.presentation",
-                    "application/zip"
-                ],
-                "languages": [
-                    "en-US",
-                    "tr"
-                ],
-                "allow_null_language": true
-            },
-            "version": "latest"
-        },
-        "identity_parser": {
-            "version": "latest",
-            "constraints": {
-                "file_types": [
-                    "image/jpeg",
-                    "image/png",
-                    "image/gif",
-                    "image/x-ms-bmp",
-                    "image/tiff",
-                    "image/webp",
-                    "image/heic",
-                    "application/msword",
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    "application/vnd.ms-excel",
-                    "application/vnd.ms-powerpoint",
-                    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-                    "application/pdf",
-                    "application/vnd.oasis.opendocument.spreadsheet",
-                    "application/vnd.oasis.opendocument.text",
-                    "application/vnd.oasis.opendocument.presentation",
-                    "application/zip"
-                ]
-            }
-        },
-        "data_extraction": {
-            "version": "latest",
-            "constraints": {
-                "file_types": [
-                    "image/jpeg",
-                    "image/png",
-                    "image/gif",
-                    "image/x-ms-bmp",
-                    "image/tiff",
-                    "image/webp",
-                    "image/heic",
-                    "application/msword",
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    "application/vnd.ms-excel",
-                    "application/vnd.ms-powerpoint",
-                    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-                    "application/pdf",
-                    "application/vnd.oasis.opendocument.spreadsheet",
-                    "application/vnd.oasis.opendocument.text",
-                    "application/vnd.oasis.opendocument.presentation",
-                    "application/zip"
-                ]
-            }
-        }
+  "ocr": {
+    "invoice_parser": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "image/webp",
+          "image/heic",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.ms-excel",
+          "application/vnd.ms-powerpoint",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "application/pdf",
+          "application/vnd.oasis.opendocument.spreadsheet",
+          "application/vnd.oasis.opendocument.text",
+          "application/vnd.oasis.opendocument.presentation",
+          "application/zip"
+        ],
+        "languages": ["en-US"],
+        "allow_null_language": true
+      },
+      "version": "latest"
     },
-    "image": {
-        "face_compare": {
-            "constraints": {
-                "file_types": [
-                    "image/jpeg",
-                    "image/png",
-                    "image/gif",
-                    "image/x-ms-bmp",
-                    "image/tiff",
-                    "image/webp",
-                    "image/heic"
-                ]
-            },
-            "version": "latest"
-        }
+    "ocr": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "image/webp",
+          "image/heic",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.ms-excel",
+          "application/vnd.ms-powerpoint",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "application/pdf",
+          "application/vnd.oasis.opendocument.spreadsheet",
+          "application/vnd.oasis.opendocument.text",
+          "application/vnd.oasis.opendocument.presentation",
+          "application/zip"
+        ],
+        "languages": ["en-US", "tr"]
+      },
+      "version": "latest"
+    },
+    "receipt_parser": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "image/webp",
+          "image/heic",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.ms-excel",
+          "application/vnd.ms-powerpoint",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "application/pdf",
+          "application/vnd.oasis.opendocument.spreadsheet",
+          "application/vnd.oasis.opendocument.text",
+          "application/vnd.oasis.opendocument.presentation",
+          "application/zip"
+        ],
+        "languages": ["en-US", "tr"],
+        "allow_null_language": true
+      },
+      "version": "latest"
+    },
+    "identity_parser": {
+      "version": "latest",
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "image/webp",
+          "image/heic",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.ms-excel",
+          "application/vnd.ms-powerpoint",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "application/pdf",
+          "application/vnd.oasis.opendocument.spreadsheet",
+          "application/vnd.oasis.opendocument.text",
+          "application/vnd.oasis.opendocument.presentation",
+          "application/zip"
+        ]
+      }
+    },
+    "data_extraction": {
+      "version": "latest",
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "image/webp",
+          "image/heic",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.ms-excel",
+          "application/vnd.ms-powerpoint",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "application/pdf",
+          "application/vnd.oasis.opendocument.spreadsheet",
+          "application/vnd.oasis.opendocument.text",
+          "application/vnd.oasis.opendocument.presentation",
+          "application/zip"
+        ]
+      }
+    },
+    "bank_check_parsing": {
+      "version": "latest",
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "image/webp",
+          "image/heic",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.ms-excel",
+          "application/vnd.ms-powerpoint",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "application/pdf",
+          "application/vnd.oasis.opendocument.spreadsheet",
+          "application/vnd.oasis.opendocument.text",
+          "application/vnd.oasis.opendocument.presentation",
+          "application/zip"
+        ]
+      }
     }
+  },
+  "image": {
+    "face_compare": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "image/webp",
+          "image/heic"
+        ]
+      },
+      "version": "latest"
+    }
+  }
 }

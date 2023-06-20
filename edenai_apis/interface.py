@@ -1,4 +1,5 @@
 # pylint: disable=locally-disabled, too-many-branches
+import os
 from typing import Any, Dict, List, Literal, Optional, Set, Tuple, Type, Union, overload
 from uuid import uuid4
 
@@ -6,17 +7,13 @@ from edenai_apis import interface_v2
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
-from edenai_apis.utils.constraints import transform_file_args, validate_all_provider_constraints
 from edenai_apis.utils.compare import assert_equivalent_dict
+from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException, get_appropriate_error
+from edenai_apis.utils.monitoring import insert_api_call, monitor_call
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
-from edenai_apis.interface_v2 import (
-    Audio,
-    Ocr,
-    Audio,
-    Video,
-    Translation,
-)
+
+IS_MONITORING = os.environ.get("MONITORING") is not None  # see utils.monitoring
 
 ProviderDict = Dict[
     str, Dict[
@@ -170,6 +167,7 @@ def list_providers(
 
 STATUS_SUCCESS = "success"
 
+@monitor_call(condition=IS_MONITORING)
 def compute_output(
     provider_name: str,
     feature: str,
@@ -177,7 +175,8 @@ def compute_output(
     args: Dict[str, Any],
     phase: str = "",
     fake: bool = False,
-    api_keys: Dict = {}
+    api_keys: Dict = {},
+    user_email: Optional[str] = None
 ) -> Dict:
     """
     Compute subfeature for provider and subfeature
@@ -189,6 +188,8 @@ def compute_output(
         phase (str): Eden AI phase name if give, Default to `Literal[""]`
         args (Dict): inputs arguments for the feature call
         fake (bool, optional): take result from sample. Defaults to `False`.
+        api_keys (dict, optional): optional user's api_keys for each providers
+        user_email (str, optional): optinal user email for monitoring (opted-out by default)
 
     Returns:
         dict: Result dict
@@ -249,6 +250,16 @@ def compute_output(
         "provider": provider_name,
         **subfeature_result
     }
+
+    if os.environ.get("MONITORING", False) is True and user_email:
+        error = "Fake" if fake else None
+        insert_api_call(
+            provider=provider_name,
+            feature=feature,
+            subfeature=subfeature,
+            user_email=user_email,
+            error=error
+        )
 
     return final_result
 
@@ -321,6 +332,7 @@ def check_provider_constraints(
                     )
     return True, "All Good!"
 
+@monitor_call(condition=IS_MONITORING)
 def get_async_job_result(
     provider_name: str,
     feature: str,
@@ -328,6 +340,7 @@ def get_async_job_result(
     async_job_id: AsyncLaunchJobResponseType,
     phase: str = "",
     fake: bool = False,
+    user_email = None,
 ) -> Dict:
     """Get async result from job id
 

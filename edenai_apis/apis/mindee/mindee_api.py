@@ -17,6 +17,7 @@ from edenai_apis.features.ocr import (
     get_info_country,
     ItemIdentityParserDataClass,
 )
+from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import DataExtractionDataClass
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     CustomerInformationInvoice,
     LocaleInvoice,
@@ -51,6 +52,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         self.url = "https://api.mindee.net/v1/products/mindee/invoices/v3/predict"
         self.url_receipt = "https://api.mindee.net/v1/products/mindee/expense_receipts/v3/predict"
         self.url_identity = "https://api.mindee.net/v1/products/mindee/passport/v1/predict"
+        self.url_financial = "https://api.mindee.net/v1/products/mindee/financial_document/v1/predict"
 
     def _get_api_attributes(self, file: BufferedReader, language: Optional[str] = None) -> ParamsApi:
         params: ParamsApi = {

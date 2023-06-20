@@ -20,6 +20,7 @@
 | | base64 |
 | **identity_parser** | amazon |
 | | base64 |
+| | klippa |
 | | microsoft |
 | | mindee |
 | **ocr** | amazon |
@@ -42,6 +43,8 @@
 | | microsoft |
 | | mindee |
 | | tabscanner |
+| | veryfi |
+| **bank_check_parsing** | base64 |
 | | veryfi |
 
 </details>
@@ -299,7 +302,8 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **image** | face_compare |
-| **ocr** | data_extraction |
+| **ocr** | bank_check_parsing |
+| | data_extraction |
 | | identity_parser |
 | | invoice_parser |
 | | ocr |
@@ -456,7 +460,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | invoice_parser |
+| **ocr** | identity_parser |
+| | invoice_parser |
 | | receipt_parser |
 
 </details>
@@ -683,7 +688,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | invoice_parser |
+| **ocr** | bank_check_parsing |
+| | invoice_parser |
 | | receipt_parser |
 
 </details>
