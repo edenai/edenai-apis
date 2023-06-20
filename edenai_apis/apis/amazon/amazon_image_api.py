@@ -43,6 +43,13 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.features.image.face_compare.face_compare_dataclass import (
+    FaceCompareBoundingBox,
+    FaceMatch,
+    FaceCompareDataClass
+)
+
+
 
 
 class AmazonImageApi(ImageInterface):
@@ -408,3 +415,54 @@ class AmazonImageApi(ImageInterface):
             original_response=response,
             standardized_response=FaceRecognitionRecognizeDataClass(items=faces),
         )
+    
+    def image__face_compare(
+        self,
+        file1: str,
+        file2: str,
+        file1_url: str,
+        file2_url: str,
+    ) -> ResponseType[FaceCompareDataClass]:
+        client = self.clients.get("image")  # Use 'get' method to avoid AttributeError
+
+        if not client:
+            raise ValueError("Image client is not available.")
+
+        if not hasattr(client, "face_compare"):
+            # Si la méthode 'face_compare' n'est pas présente, renvoyez une réponse avec une liste vide
+            return ResponseType(original_response={}, standardized_response=FaceCompareDataClass(items=[]))
+
+        with open(file1, "rb") as file1_:
+            file1_content = file1_.read()
+
+        with open(file2, "rb") as file2_:
+            file2_content = file2_.read()
+
+        response = client.face_compare(file1_content, file2_content)
+
+        face_match_list = []
+        for faceMatch in response['FaceMatches']:
+            position = faceMatch['Face']['BoundingBox']
+            similarity = faceMatch['Similarity']
+            bounding_box = FaceCompareBoundingBox(
+                top=position['Top'],
+                left=position['Left'],
+                height=position['Height'],
+                width=position['Width']
+            )
+            face_match = FaceMatch(confidence=similarity, bounding_box=bounding_box)
+            face_match_list.append(face_match)
+
+        return ResponseType(
+            original_response=response,
+            standardized_response=FaceCompareDataClass(items=face_match_list),
+        )
+
+        
+        
+
+
+
+        
+        
+        

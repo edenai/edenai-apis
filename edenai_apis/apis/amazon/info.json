@@ -556,6 +556,9 @@
       "recognize": {
         "version": "boto3 1.26.8"
       }
+    },
+    "face_compare": {
+      "version": "boto3 (v1.15.18)"
     }
   },
   "video": {
