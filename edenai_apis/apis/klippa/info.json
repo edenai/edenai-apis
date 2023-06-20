@@ -11,6 +11,9 @@
                 "allow_null_language": true
             },
             "version": "v1"
+        },
+        "identity_parser": {
+            "version": "v1"
         }
     }
 }

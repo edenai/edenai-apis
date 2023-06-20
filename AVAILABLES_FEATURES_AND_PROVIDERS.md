@@ -20,6 +20,7 @@
 | | base64 |
 | **identity_parser** | amazon |
 | | base64 |
+| | klippa |
 | | microsoft |
 | | mindee |
 | **ocr** | amazon |
@@ -456,7 +457,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | invoice_parser |
+| **ocr** | identity_parser |
+| | invoice_parser |
 | | receipt_parser |
 
 </details>
