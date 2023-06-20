@@ -1,0 +1,192 @@
+{
+  "original_response": {
+    "result": "success",
+    "data": {
+      "document_type": "receipt",
+      "full_document_type": [
+        {
+          "classification": "financial",
+          "confidence": 1
+        },
+        {
+          "classification": "invoice",
+          "confidence": 0.68
+        },
+        {
+          "classification": "transport",
+          "confidence": 0.96
+        }
+      ],
+      "amount": 0,
+      "amount_change": 0,
+      "amount_shipping": 0,
+      "amount_tip": 0,
+      "vatamount": 0,
+      "amountexvat": 0,
+      "currency": "USD",
+      "date": "2020-10-15T00:00:00",
+      "purchasedate": "2020-10-15",
+      "purchasetime": "00:00:00",
+      "date_of_arrival": "",
+      "date_of_departure": "",
+      "service_date": "",
+      "vatitems": [],
+      "vat_context": "",
+      "lines": [],
+      "paymentmethod": "",
+      "payment_auth_code": "",
+      "payment_card_number": "",
+      "payment_card_account_number": "",
+      "payment_card_bank": "",
+      "payment_card_issuer": "",
+      "payment_due_date": "",
+      "terminal_number": "",
+      "document_subject": "",
+      "package_number": "",
+      "invoice_number": "",
+      "invoice_type": "",
+      "receipt_number": "",
+      "shop_number": "",
+      "transaction_number": "",
+      "transaction_reference": "",
+      "order_number": "",
+      "table_number": "",
+      "table_group": "",
+      "server": "",
+      "merchant_name": "The United",
+      "merchant_id": "",
+      "merchant_coc_number": "",
+      "merchant_vat_number": "",
+      "merchant_fiscal_number": "",
+      "merchant_bank_account_number": "",
+      "merchant_bank_account_number_bic": "",
+      "merchant_chain_liability_bank_account_number": "",
+      "merchant_chain_liability_amount": 0,
+      "merchant_bank_domestic_account_number": "",
+      "merchant_bank_domestic_bank_code": "",
+      "merchant_website": "",
+      "merchant_email": "",
+      "merchant_address": "",
+      "merchant_street_name": "",
+      "merchant_house_number": "",
+      "merchant_zipcode": "",
+      "merchant_city": "",
+      "merchant_municipality": "",
+      "merchant_province": "",
+      "merchant_country": "",
+      "merchant_country_code": "US",
+      "merchant_phone": "",
+      "merchant_main_activity_code": "",
+      "customer_id": "",
+      "customer_name": "",
+      "customer_number": "",
+      "customer_reference": "",
+      "customer_address": "",
+      "customer_street_name": "",
+      "customer_house_number": "",
+      "customer_zipcode": "",
+      "customer_city": "",
+      "customer_municipality": "",
+      "customer_province": "",
+      "customer_country": "",
+      "customer_phone": "",
+      "customer_vat_number": "",
+      "customer_fiscal_number": "",
+      "customer_coc_number": "",
+      "customer_bank_account_number": "",
+      "customer_bank_account_number_bic": "",
+      "customer_website": "",
+      "customer_email": "",
+      "payment_slip_code": "",
+      "payment_slip_reference_number": "",
+      "payment_slip_customer_number": "",
+      "document_language": "EN",
+      "personal_income_tax_amount": 0,
+      "personal_income_tax_rate": 0,
+      "project_code": "",
+      "matched_keywords": null,
+      "matched_lineitems": null,
+      "matched_purchase_order_id": "",
+      "matched_purchase_orders": null,
+      "matched_project_code_id": "",
+      "matched_entity_id": null,
+      "barcodes": null,
+      "hash": "",
+      "hash_duplicate": false,
+      "raw_text": "   PASSPORT\n                      THE UNITED STATES OF AMERICA\nPASSEPORT/PASAPORTE\n                     Type/Type/Tipo Code/Code/C\u00f3digo Passport No./No. du Passeport/No.de Pasaporte\n                         P         USA\n                                                 E00007730\n  USA\n                   Surname/Nom/Apellidos\n                    TRAVELER\n                   Given names/Pr\u00e9noms/Nombres\n                    HAPPY\n                       Nationality/Nationalit\u00e9/Nacionalidad\n                       UNITED STATES OF AMER\n                       Date of birth/Date de naissande/Rocha\n                        05 FEB 1965\n                       Sex/Sexe/Sexo\n                                     ECIMEN\n                       Place of birth ou de naissance/Lugar de nacimiento\n                        WASHINGTON, D.C., U.S.A.\n                       Date of issue/Date de d\u00e9livrance/Fecha de expedici\u00f3n\n                        15 OCT 2020\n                       Date of expiration/Date d'expiration/Fecha de caducidad\n                        14 OCT 2030\n             ECODOT\n                       Authority/Autorit\u00e9/Autoridad          05 02 65\n                       UNITED STATES DEPARTMENT OF STATE\nP<USATRAVELER<<HAPPY<<<<<<<<<<<<<<<<<<<<<<<<<<\nE000077303USA6502056F3010149500101920<091824"
+    },
+    "request_id": "EO1fJYKa1FaC0G9TFaOjgEJxvHEYVwTd"
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "last_name": {
+          "value": null,
+          "confidence": null
+        },
+        "given_names": [
+          {
+            "value": null,
+            "confidence": null
+          }
+        ],
+        "birth_place": {
+          "value": null,
+          "confidence": null
+        },
+        "birth_date": {
+          "value": null,
+          "confidence": null
+        },
+        "issuance_date": {
+          "value": null,
+          "confidence": null
+        },
+        "expire_date": {
+          "value": null,
+          "confidence": null
+        },
+        "document_id": {
+          "value": null,
+          "confidence": null
+        },
+        "issuing_state": {
+          "value": null,
+          "confidence": null
+        },
+        "address": {
+          "value": null,
+          "confidence": null
+        },
+        "age": {
+          "value": null,
+          "confidence": null
+        },
+        "country": {
+          "name": null,
+          "alpha2": null,
+          "alpha3": null,
+          "confidence": null
+        },
+        "document_type": {
+          "value": null,
+          "confidence": null
+        },
+        "gender": {
+          "value": null,
+          "confidence": null
+        },
+        "image_id": [],
+        "image_signature": [],
+        "mrz": {
+          "value": null,
+          "confidence": null
+        },
+        "nationality": {
+          "value": null,
+          "confidence": null
+        }
+      }
+    ]
+  }
+}
