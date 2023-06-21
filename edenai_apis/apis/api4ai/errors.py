@@ -12,9 +12,10 @@ ERRORS: ProviderErrorLists = {
     ],
     ProviderInvalidInputImageResolutionError: [
         r"Resolution is too big: \d+x\d+. Max allowed resolution: 4096x4096",
+        r"Resolution is too big: exceeds limit of 178956970 pixels."
     ],
     ProviderInvalidInputFileError: [
-        r"Can not load image",
+        r"Can not load image.",
     ]
 
 }

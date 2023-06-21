@@ -20,7 +20,7 @@ ERRORS: ProviderErrorLists = {
         r"Exceeded max content length for translate request, max allowed is 50 KiB",
     ],
     ProviderInvalidInputError: [
-        r"unsupported text language: unknown",
+        r"unsupported text language: \w+",
         r"Input contains unmatched open SSML tags",
     ],
     ProviderInternalServerError: [
