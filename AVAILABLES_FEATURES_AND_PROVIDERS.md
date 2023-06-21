@@ -44,6 +44,8 @@
 | | mindee |
 | | tabscanner |
 | | veryfi |
+| **bank_check_parsing** | base64 |
+| | veryfi |
 
 </details>
 <details><summary>audio</summary>
@@ -300,7 +302,8 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **image** | face_compare |
-| **ocr** | data_extraction |
+| **ocr** | bank_check_parsing |
+| | data_extraction |
 | | identity_parser |
 | | invoice_parser |
 | | ocr |
@@ -685,7 +688,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | invoice_parser |
+| **ocr** | bank_check_parsing |
+| | invoice_parser |
 | | receipt_parser |
 
 </details>
