@@ -43,12 +43,7 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.features.image.face_compare.face_compare_dataclass import (
-    FaceCompareBoundingBox,
-    FaceMatch,
-    FaceCompareDataClass
-)
-
+from edenai_apis.features.image.face_compare.face_compare_dataclass import  FaceCompareDataClass, FaceMatch, FaceCompareBoundingBox
 
 
 
@@ -423,40 +418,50 @@ class AmazonImageApi(ImageInterface):
         file1_url: str,
         file2_url: str,
     ) -> ResponseType[FaceCompareDataClass]:
-        client = self.clients.get("image")  # Use 'get' method to avoid AttributeError
+        client = self.clients.get("image")  
 
-        if not client:
-            raise ValueError("Image client is not available.")
 
-        if not hasattr(client, "face_compare"):
-            # Si la méthode 'face_compare' n'est pas présente, renvoyez une réponse avec une liste vide
-            return ResponseType(original_response={}, standardized_response=FaceCompareDataClass(items=[]))
-
+        
+        
+        image_source={}
+        image_tar={}
+        
         with open(file1, "rb") as file1_:
             file1_content = file1_.read()
+            image_source['Bytes'] = file1_content
+        
 
         with open(file2, "rb") as file2_:
             file2_content = file2_.read()
+            image_tar['Bytes'] = file2_content
 
-        response = client.face_compare(file1_content, file2_content)
+
+
+
+        response = client.compare_faces(
+            SourceImage=image_source,
+            TargetImage=image_tar,
+        )
+        
 
         face_match_list = []
-        for faceMatch in response['FaceMatches']:
-            position = faceMatch['Face']['BoundingBox']
-            similarity = faceMatch['Similarity']
+        for face_match in response.get('FaceMatches', []):
+            position = face_match['Face']['BoundingBox']
+            similarity = face_match['Similarity']
             bounding_box = FaceCompareBoundingBox(
                 top=position['Top'],
                 left=position['Left'],
                 height=position['Height'],
                 width=position['Width']
             )
-            face_match = FaceMatch(confidence=similarity, bounding_box=bounding_box)
-            face_match_list.append(face_match)
+            face_match_obj= FaceMatch(confidence=similarity / 100, bounding_box=bounding_box)
+            face_match_list.append(face_match_obj)
 
         return ResponseType(
             original_response=response,
             standardized_response=FaceCompareDataClass(items=face_match_list),
         )
+
 
         
         

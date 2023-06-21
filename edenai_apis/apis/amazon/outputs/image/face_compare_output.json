@@ -1,6 +1,88 @@
 {
-  "original_response": {},
+  "original_response": {
+    "SourceImageFace": {
+      "BoundingBox": {
+        "Width": 0.10103210806846619,
+        "Height": 0.18568004667758942,
+        "Left": 0.2303404062986374,
+        "Top": 0.3747314214706421
+      },
+      "Confidence": 99.99436950683594
+    },
+    "FaceMatches": [
+      {
+        "Similarity": 100.0,
+        "Face": {
+          "BoundingBox": {
+            "Width": 0.30692076683044434,
+            "Height": 0.39993175864219666,
+            "Left": 0.5635119080543518,
+            "Top": 0.3467252850532532
+          },
+          "Confidence": 99.99749755859375,
+          "Landmarks": [
+            {
+              "Type": "eyeLeft",
+              "X": 0.6684795022010803,
+              "Y": 0.48475539684295654
+            },
+            {
+              "Type": "eyeRight",
+              "X": 0.7993856072425842,
+              "Y": 0.506355345249176
+            },
+            {
+              "Type": "mouthLeft",
+              "X": 0.653088390827179,
+              "Y": 0.6153730750083923
+            },
+            {
+              "Type": "mouthRight",
+              "X": 0.7623416185379028,
+              "Y": 0.633219838142395
+            },
+            {
+              "Type": "nose",
+              "X": 0.7331593036651611,
+              "Y": 0.5610278248786926
+            }
+          ],
+          "Pose": {
+            "Roll": 12.597965240478516,
+            "Yaw": 5.891750812530518,
+            "Pitch": 5.107203006744385
+          },
+          "Quality": {
+            "Brightness": 87.38392639160156,
+            "Sharpness": 67.22731018066406
+          }
+        }
+      }
+    ],
+    "UnmatchedFaces": [],
+    "ResponseMetadata": {
+      "RequestId": "9c803878-949f-4847-9518-ec1db98f71ee",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "9c803878-949f-4847-9518-ec1db98f71ee",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "895",
+        "date": "Wed, 21 Jun 2023 10:09:08 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
   "standardized_response": {
-    "items": []
+    "items": [
+      {
+        "confidence": 1.0,
+        "bounding_box": {
+          "top": 0.3467252850532532,
+          "left": 0.5635119080543518,
+          "height": 0.39993175864219666,
+          "width": 0.30692076683044434
+        }
+      }
+    ]
   }
 }
