@@ -11,6 +11,9 @@ from edenai_apis.features.ocr.bank_check_parsing import (
     BankCheckParsingDataClass,
     MicrModel,
 )
+from edenai_apis.features.ocr.bank_check_parsing.bank_check_parsing_dataclass import (
+    ItemBankCheckParsingDataClass,
+)
 from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import (
     DataExtractionDataClass,
     ItemDataExtraction,
@@ -598,33 +601,35 @@ class Base64Api(ProviderInterface, OcrInterface):
                 if response.status_code != 200:
                     raise ProviderException(message=original_response["message"])
 
-                fields = Base64Api.Field(original_response[0])
-            except (KeyError, IndexError):
-                raise ProviderException(message="Parsing error")
             except json.JSONDecodeError:
                 raise ProviderException(message="Internal Server Error")
 
-            standardized_response = BankCheckParsingDataClass(
-                amount=fields["amount"],
-                amount_text=None,
-                bank_name=None,
-                bank_address=None,
-                date=fields["date"],
-                memo=None,
-                payer_address=fields["address"],
-                payer_name=fields["payee"],
-                receiver_name=None,
-                receiver_address=None,
-                currency=fields["currency"],
-                micr=MicrModel(
-                    raw=fields["micr"],
-                    account_number=fields["accountMumber"],
-                    serial_number=None,
-                    check_number=fields["checkNumber"],
-                    routing_number=fields["routingNumber"],
-                ),
-            )
+            items: Sequence[ItemBankCheckParsingDataClass] = []
+            for fields_not_formated in original_response:
+                fields = Base64Api.Field(fields_not_formated)
+                items.append(
+                    ItemBankCheckParsingDataClass(
+                        amount=fields["amount"],
+                        amount_text=None,
+                        bank_name=None,
+                        bank_address=None,
+                        date=fields["date"],
+                        memo=None,
+                        payer_address=fields["address"],
+                        payer_name=fields["payee"],
+                        receiver_name=None,
+                        receiver_address=None,
+                        currency=fields["currency"],
+                        micr=MicrModel(
+                            raw=fields["micr"],
+                            account_number=fields["accountMumber"],
+                            serial_number=None,
+                            check_number=fields["checkNumber"],
+                            routing_number=fields["routingNumber"],
+                        ),
+                    )
+                )
             return ResponseType[BankCheckParsingDataClass](
                 original_response=original_response,
-                standardized_response=standardized_response,
+                standardized_response=BankCheckParsingDataClass(extracted_data=items),
             )

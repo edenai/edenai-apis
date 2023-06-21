@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Sequence
 from pydantic import BaseModel, Field
 
 
@@ -10,7 +10,7 @@ class MicrModel(BaseModel):
     check_number: Optional[str] = Field(...)
 
 
-class BankCheckParsingDataClass(BaseModel):
+class ItemBankCheckParsingDataClass(BaseModel):
     amount: Optional[float] = Field(...)
     amount_text: Optional[str] = Field(...)
     bank_address: Optional[str] = Field(...)
@@ -23,3 +23,9 @@ class BankCheckParsingDataClass(BaseModel):
     receiver_name: Optional[str] = Field(...)
     currency: Optional[str] = Field(...)
     micr: MicrModel = Field(...)
+
+
+class BankCheckParsingDataClass(BaseModel):
+    extracted_data: Sequence[ItemBankCheckParsingDataClass] = Field(
+        default_factory=list
+    )

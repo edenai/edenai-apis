@@ -9,6 +9,9 @@ from edenai_apis.features.ocr.bank_check_parsing import (
     BankCheckParsingDataClass,
     MicrModel,
 )
+from edenai_apis.features.ocr.bank_check_parsing.bank_check_parsing_dataclass import (
+    ItemBankCheckParsingDataClass,
+)
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     BankInvoice,
@@ -222,27 +225,35 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         with open(file, "rb") as file_:
             original_response = self._make_post_request(file_, endpoint="/checks")
 
-        standardized_response = BankCheckParsingDataClass(
-            amount=original_response["amount"],
-            amount_text=original_response["amount_text"],
-            bank_name=original_response["bank_name"],
-            bank_address=original_response["bank_address"],
-            date=original_response["date"],
-            memo=original_response["memo"],
-            payer_address=original_response["payer_address"],
-            payer_name=original_response["payer_name"],
-            receiver_name=original_response["receiver_name"],
-            receiver_address=original_response["receiver_address"],
-            currency=None,
-            micr=MicrModel(
-                raw=original_response.get("micr", {}).get("raw"),
-                account_number=original_response.get("micr", {}).get("account_number"),
-                serial_number=original_response.get("micr", {}).get("serial_number"),
-                check_number=original_response["check_number"],
-                routing_number=original_response.get("micr", {}).get("routing_number"),
-            ),
-        )
+        items = [
+            ItemBankCheckParsingDataClass(
+                amount=original_response["amount"],
+                amount_text=original_response["amount_text"],
+                bank_name=original_response["bank_name"],
+                bank_address=original_response["bank_address"],
+                date=original_response["date"],
+                memo=original_response["memo"],
+                payer_address=original_response["payer_address"],
+                payer_name=original_response["payer_name"],
+                receiver_name=original_response["receiver_name"],
+                receiver_address=original_response["receiver_address"],
+                currency=None,
+                micr=MicrModel(
+                    raw=original_response.get("micr", {}).get("raw"),
+                    account_number=original_response.get("micr", {}).get(
+                        "account_number"
+                    ),
+                    serial_number=original_response.get("micr", {}).get(
+                        "serial_number"
+                    ),
+                    check_number=original_response["check_number"],
+                    routing_number=original_response.get("micr", {}).get(
+                        "routing_number"
+                    ),
+                ),
+            )
+        ]
         return ResponseType[BankCheckParsingDataClass](
             original_response=original_response,
-            standardized_response=standardized_response,
+            standardized_response=BankCheckParsingDataClass(extracted_data=items),
         )
