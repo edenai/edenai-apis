@@ -66,7 +66,7 @@ class MicrosoftAudioApi(AudioInterface):
         # Getting response of API
         # output_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=False)
         speech_synthesizer = speechsdk.SpeechSynthesizer(
-            speech_config=speech_config, audio_config=None
+            speech_config=speech_config
         )
         response = speech_synthesizer.speak_text_async(text).get() if not use_ssml \
             else speech_synthesizer.speak_ssml_async(text).get()
