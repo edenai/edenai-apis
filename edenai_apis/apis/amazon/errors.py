@@ -43,7 +43,7 @@ ERRORS: ProviderErrorLists = {
         r"An error occurred \(UnsupportedDocumentException\) when calling the \w+ operation: Request has unsupported document format",
         r"An error occurred \(InvalidImageFormatException\) when calling the \w+ operation: Request has invalid image format",
         r"Audio format not supported. Use one of the following: \w+",
-        r"Provider amazon doesn't support file type: application/json for this feature. Supported mimetypes are image/jpeg, image/png, application/pdf, image/tiff"
+        r"Provider amazon doesn't support file type: \w+ for this feature. Supported mimetypes are \w+"
         r"File extension not supported. Use one of the following extensions: \w+",
     ],
     ProviderInvalidInputImageResolutionError: [
@@ -59,6 +59,7 @@ ERRORS: ProviderErrorLists = {
     ],
     ProviderNotFoundError: [
         r"An error occurred \(ResourceNotFoundException\) when calling the ListFaces operation: The collection id: .+ does not exist",
+        r"Face Collection is empty"
     ],
     ProviderInvalidInputPayloadSize: [
         r"An error occurred (413) when calling the \w+ operation:"

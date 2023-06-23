@@ -3,6 +3,7 @@ from edenai_apis.utils.exception import (
     ProviderInternalServerError,
     ProviderInvalidInputFileError,
     ProviderInvalidInputImageResolutionError,
+    ProviderInvalidInputFileFormatError
 )
 
 # NOTE: error messages should be regex patterns
@@ -16,6 +17,9 @@ ERRORS: ProviderErrorLists = {
     ],
     ProviderInvalidInputFileError: [
         r"Can not load image.",
+    ],
+    ProviderInvalidInputFileFormatError: [
+        r"Provider \w+ doesn't support file type: \w+ for this feature. Supported mimetypes are \w+"
     ]
 
 }
