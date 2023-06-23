@@ -1,16 +1,13 @@
 from edenai_apis.utils.exception import (
     ProviderErrorLists,
     ProviderInvalidInputError,
-    ProviderInternalServerError
+    ProviderInvalidInputImageResolutionError,
 )
 
 # NOTE: error messages should be regex patterns
 ERRORS: ProviderErrorLists = {
     ProviderInvalidInputError: [
-        r"invalid url or image",
+        r"Provider does not support selected language: \w+",
+        r"This provider doesn't auto-detect languages, please provide a valid language"
     ],
-    ProviderInternalServerError : [
-        r"Service Temporarily Unavailable",
-        r"Internal Server Error"
-    ]
 }
