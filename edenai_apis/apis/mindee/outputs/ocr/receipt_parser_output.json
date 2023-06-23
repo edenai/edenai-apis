@@ -7,13 +7,13 @@
       ],
       "status": "success",
       "status_code": 201,
-      "url": "https://api.mindee.net/v1/products/mindee/expense_receipts/v3/predict?local=langage&local=country"
+      "url": "https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict?local=langage&local=country"
     },
     "document": {
-      "id": "cf8bab7b-661e-4e95-b7ba-2e30bff0047b",
+      "id": "0e9e3687-6963-4bd6-baa7-7ec7333c75ea",
       "inference": {
         "extras": {},
-        "finished_at": "2023-05-03T09:36:35.649073",
+        "finished_at": "2023-06-23T12:33:53.611016",
         "is_rotation_applied": true,
         "pages": [
           {
@@ -30,13 +30,318 @@
               "date": {
                 "confidence": 0.0,
                 "polygon": [],
-                "raw": null,
                 "value": null
               },
+              "document_type": {
+                "confidence": 0.98,
+                "value": "EXPENSE RECEIPT"
+              },
+              "line_items": [
+                {
+                  "confidence": 0.94,
+                  "description": "335 PETR STICKERE PUISOR 1 SELECLINE BUC",
+                  "polygon": [
+                    [
+                      0.037,
+                      0.167
+                    ],
+                    [
+                      0.867,
+                      0.164
+                    ],
+                    [
+                      0.867,
+                      0.211
+                    ],
+                    [
+                      0.037,
+                      0.214
+                    ]
+                  ],
+                  "quantity": null,
+                  "total_amount": 16.0,
+                  "unit_price": 16.0
+                },
+                {
+                  "confidence": 0.93,
+                  "description": "1 BUC",
+                  "polygon": [
+                    [
+                      0.278,
+                      0.209
+                    ],
+                    [
+                      0.864,
+                      0.207
+                    ],
+                    [
+                      0.864,
+                      0.222
+                    ],
+                    [
+                      0.278,
+                      0.224
+                    ]
+                  ],
+                  "quantity": null,
+                  "total_amount": 44.01,
+                  "unit_price": 44.01
+                },
+                {
+                  "confidence": 0.95,
+                  "description": "TAXA VERDE 1 COS DREPTUNG BUC CARLIGE",
+                  "polygon": [
+                    [
+                      0.036,
+                      0.222
+                    ],
+                    [
+                      0.866,
+                      0.219
+                    ],
+                    [
+                      0.866,
+                      0.245
+                    ],
+                    [
+                      0.036,
+                      0.248
+                    ]
+                  ],
+                  "quantity": null,
+                  "total_amount": 0.89,
+                  "unit_price": null
+                },
+                {
+                  "confidence": 0.94,
+                  "description": "1 CROISSANT 7 BUC DAYS",
+                  "polygon": [
+                    [
+                      0.036,
+                      0.245
+                    ],
+                    [
+                      0.865,
+                      0.242
+                    ],
+                    [
+                      0.865,
+                      0.268
+                    ],
+                    [
+                      0.036,
+                      0.271
+                    ]
+                  ],
+                  "quantity": null,
+                  "total_amount": 5.55,
+                  "unit_price": null
+                },
+                {
+                  "confidence": 0.96,
+                  "description": "1 PAINE CU MAIA BUC SI",
+                  "polygon": [
+                    [
+                      0.036,
+                      0.27
+                    ],
+                    [
+                      0.863,
+                      0.267
+                    ],
+                    [
+                      0.863,
+                      0.292
+                    ],
+                    [
+                      0.036,
+                      0.295
+                    ]
+                  ],
+                  "quantity": null,
+                  "total_amount": 1.75,
+                  "unit_price": null
+                },
+                {
+                  "confidence": 0.86,
+                  "description": "1 PATE DE PORC BUC 20%",
+                  "polygon": [
+                    [
+                      0.036,
+                      0.293
+                    ],
+                    [
+                      0.863,
+                      0.29
+                    ],
+                    [
+                      0.863,
+                      0.316
+                    ],
+                    [
+                      0.036,
+                      0.319
+                    ]
+                  ],
+                  "quantity": null,
+                  "total_amount": 3.6,
+                  "unit_price": null
+                },
+                {
+                  "confidence": 0.94,
+                  "description": "2 NUTELLA 700G BUC",
+                  "polygon": [
+                    [
+                      0.039,
+                      0.316
+                    ],
+                    [
+                      0.863,
+                      0.313
+                    ],
+                    [
+                      0.863,
+                      0.339
+                    ],
+                    [
+                      0.039,
+                      0.342
+                    ]
+                  ],
+                  "quantity": null,
+                  "total_amount": 7.1,
+                  "unit_price": 3.55
+                },
+                {
+                  "confidence": 0.91,
+                  "description": "1 RADIERA GALET BUC",
+                  "polygon": [
+                    [
+                      0.036,
+                      0.34
+                    ],
+                    [
+                      0.86,
+                      0.337
+                    ],
+                    [
+                      0.861,
+                      0.362
+                    ],
+                    [
+                      0.036,
+                      0.365
+                    ]
+                  ],
+                  "quantity": null,
+                  "total_amount": 19.4,
+                  "unit_price": 19.4
+                },
+                {
+                  "confidence": 0.89,
+                  "description": "1 GP SUPER ALKALINE BUC",
+                  "polygon": [
+                    [
+                      0.036,
+                      0.362
+                    ],
+                    [
+                      0.861,
+                      0.359
+                    ],
+                    [
+                      0.861,
+                      0.385
+                    ],
+                    [
+                      0.036,
+                      0.388
+                    ]
+                  ],
+                  "quantity": null,
+                  "total_amount": 4.55,
+                  "unit_price": 4.55
+                },
+                {
+                  "confidence": 0.97,
+                  "description": "1 NIVEA BALS DUPA x RAS",
+                  "polygon": [
+                    [
+                      0.039,
+                      0.385
+                    ],
+                    [
+                      0.863,
+                      0.382
+                    ],
+                    [
+                      0.863,
+                      0.408
+                    ],
+                    [
+                      0.039,
+                      0.411
+                    ]
+                  ],
+                  "quantity": null,
+                  "total_amount": 18.7,
+                  "unit_price": 18.7
+                },
+                {
+                  "confidence": 0.94,
+                  "description": "1 AUC VV LICHID x PARBRC",
+                  "polygon": [
+                    [
+                      0.039,
+                      0.407
+                    ],
+                    [
+                      0.861,
+                      0.404
+                    ],
+                    [
+                      0.861,
+                      0.431
+                    ],
+                    [
+                      0.039,
+                      0.434
+                    ]
+                  ],
+                  "quantity": null,
+                  "total_amount": 30.5,
+                  "unit_price": 30.5
+                },
+                {
+                  "confidence": 0.94,
+                  "description": "1 END ELEMENTE",
+                  "polygon": [
+                    [
+                      0.039,
+                      0.431
+                    ],
+                    [
+                      0.861,
+                      0.428
+                    ],
+                    [
+                      0.861,
+                      0.455
+                    ],
+                    [
+                      0.039,
+                      0.458
+                    ]
+                  ],
+                  "quantity": null,
+                  "total_amount": 16.9,
+                  "unit_price": 16.9
+                }
+              ],
               "locale": {
-                "confidence": 0.0,
+                "confidence": 0.47,
                 "country": null,
-                "currency": null,
+                "currency": "RON",
                 "language": null,
                 "value": null
               },
@@ -44,8 +349,35 @@
                 "confidence": 0.99,
                 "degrees": 0
               },
-              "supplier": {
-                "confidence": 0.52,
+              "subcategory": {
+                "confidence": 0.75,
+                "value": "restaurant"
+              },
+              "supplier_address": {
+                "confidence": 0.8,
+                "polygon": [
+                  [
+                    0.2,
+                    0.067
+                  ],
+                  [
+                    0.752,
+                    0.067
+                  ],
+                  [
+                    0.752,
+                    0.104
+                  ],
+                  [
+                    0.2,
+                    0.104
+                  ]
+                ],
+                "value": "hypermarche auchan str zaharia stancu nr 1 brasov jud brasov"
+              },
+              "supplier_company_registrations": [],
+              "supplier_name": {
+                "confidence": 0.98,
                 "polygon": [
                   [
                     0.368,
@@ -66,34 +398,96 @@
                 ],
                 "value": "BON FISCAL"
               },
-              "taxes": [],
-              "time": {
+              "supplier_phone_number": {
                 "confidence": 0.0,
                 "polygon": [],
-                "raw": null,
                 "value": null
               },
-              "total_incl": {
+              "taxes": [
+                {
+                  "base": null,
+                  "code": "TVA",
+                  "confidence": 0.99,
+                  "polygon": [
+                    [
+                      0.089,
+                      0.784
+                    ],
+                    [
+                      0.505,
+                      0.784
+                    ],
+                    [
+                      0.505,
+                      0.799
+                    ],
+                    [
+                      0.089,
+                      0.799
+                    ]
+                  ],
+                  "rate": 19.0,
+                  "value": 21.89
+                }
+              ],
+              "time": {
                 "confidence": 0.99,
                 "polygon": [
                   [
-                    0.771,
-                    0.518
+                    0.76,
+                    0.941
                   ],
                   [
-                    0.898,
-                    0.518
+                    0.933,
+                    0.941
                   ],
                   [
-                    0.898,
-                    0.533
+                    0.933,
+                    0.953
                   ],
                   [
-                    0.771,
-                    0.533
+                    0.76,
+                    0.953
                   ]
                 ],
-                "value": 168.95
+                "value": "12:29"
+              },
+              "tip": {
+                "confidence": 0.0,
+                "polygon": [],
+                "value": null
+              },
+              "total_amount": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.794,
+                    0.784
+                  ],
+                  [
+                    0.923,
+                    0.784
+                  ],
+                  [
+                    0.923,
+                    0.797
+                  ],
+                  [
+                    0.794,
+                    0.797
+                  ]
+                ],
+                "value": 137.1
+              },
+              "total_net": {
+                "confidence": 0.0,
+                "polygon": [],
+                "value": null
+              },
+              "total_tax": {
+                "confidence": 0.99,
+                "polygon": [],
+                "value": 21.89
               }
             }
           }
@@ -107,18 +501,363 @@
             "confidence": 0.0,
             "page_id": null,
             "polygon": [],
-            "raw": null,
             "value": null
           },
+          "document_type": {
+            "confidence": 0.98,
+            "value": "EXPENSE RECEIPT"
+          },
+          "line_items": [
+            {
+              "confidence": 0.94,
+              "description": "335 PETR STICKERE PUISOR 1 SELECLINE BUC",
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.037,
+                  0.167
+                ],
+                [
+                  0.867,
+                  0.164
+                ],
+                [
+                  0.867,
+                  0.211
+                ],
+                [
+                  0.037,
+                  0.214
+                ]
+              ],
+              "quantity": null,
+              "total_amount": 16.0,
+              "unit_price": 16.0
+            },
+            {
+              "confidence": 0.93,
+              "description": "1 BUC",
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.278,
+                  0.209
+                ],
+                [
+                  0.864,
+                  0.207
+                ],
+                [
+                  0.864,
+                  0.222
+                ],
+                [
+                  0.278,
+                  0.224
+                ]
+              ],
+              "quantity": null,
+              "total_amount": 44.01,
+              "unit_price": 44.01
+            },
+            {
+              "confidence": 0.95,
+              "description": "TAXA VERDE 1 COS DREPTUNG BUC CARLIGE",
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.036,
+                  0.222
+                ],
+                [
+                  0.866,
+                  0.219
+                ],
+                [
+                  0.866,
+                  0.245
+                ],
+                [
+                  0.036,
+                  0.248
+                ]
+              ],
+              "quantity": null,
+              "total_amount": 0.89,
+              "unit_price": null
+            },
+            {
+              "confidence": 0.94,
+              "description": "1 CROISSANT 7 BUC DAYS",
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.036,
+                  0.245
+                ],
+                [
+                  0.865,
+                  0.242
+                ],
+                [
+                  0.865,
+                  0.268
+                ],
+                [
+                  0.036,
+                  0.271
+                ]
+              ],
+              "quantity": null,
+              "total_amount": 5.55,
+              "unit_price": null
+            },
+            {
+              "confidence": 0.96,
+              "description": "1 PAINE CU MAIA BUC SI",
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.036,
+                  0.27
+                ],
+                [
+                  0.863,
+                  0.267
+                ],
+                [
+                  0.863,
+                  0.292
+                ],
+                [
+                  0.036,
+                  0.295
+                ]
+              ],
+              "quantity": null,
+              "total_amount": 1.75,
+              "unit_price": null
+            },
+            {
+              "confidence": 0.86,
+              "description": "1 PATE DE PORC BUC 20%",
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.036,
+                  0.293
+                ],
+                [
+                  0.863,
+                  0.29
+                ],
+                [
+                  0.863,
+                  0.316
+                ],
+                [
+                  0.036,
+                  0.319
+                ]
+              ],
+              "quantity": null,
+              "total_amount": 3.6,
+              "unit_price": null
+            },
+            {
+              "confidence": 0.94,
+              "description": "2 NUTELLA 700G BUC",
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.039,
+                  0.316
+                ],
+                [
+                  0.863,
+                  0.313
+                ],
+                [
+                  0.863,
+                  0.339
+                ],
+                [
+                  0.039,
+                  0.342
+                ]
+              ],
+              "quantity": null,
+              "total_amount": 7.1,
+              "unit_price": 3.55
+            },
+            {
+              "confidence": 0.91,
+              "description": "1 RADIERA GALET BUC",
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.036,
+                  0.34
+                ],
+                [
+                  0.86,
+                  0.337
+                ],
+                [
+                  0.861,
+                  0.362
+                ],
+                [
+                  0.036,
+                  0.365
+                ]
+              ],
+              "quantity": null,
+              "total_amount": 19.4,
+              "unit_price": 19.4
+            },
+            {
+              "confidence": 0.89,
+              "description": "1 GP SUPER ALKALINE BUC",
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.036,
+                  0.362
+                ],
+                [
+                  0.861,
+                  0.359
+                ],
+                [
+                  0.861,
+                  0.385
+                ],
+                [
+                  0.036,
+                  0.388
+                ]
+              ],
+              "quantity": null,
+              "total_amount": 4.55,
+              "unit_price": 4.55
+            },
+            {
+              "confidence": 0.97,
+              "description": "1 NIVEA BALS DUPA x RAS",
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.039,
+                  0.385
+                ],
+                [
+                  0.863,
+                  0.382
+                ],
+                [
+                  0.863,
+                  0.408
+                ],
+                [
+                  0.039,
+                  0.411
+                ]
+              ],
+              "quantity": null,
+              "total_amount": 18.7,
+              "unit_price": 18.7
+            },
+            {
+              "confidence": 0.94,
+              "description": "1 AUC VV LICHID x PARBRC",
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.039,
+                  0.407
+                ],
+                [
+                  0.861,
+                  0.404
+                ],
+                [
+                  0.861,
+                  0.431
+                ],
+                [
+                  0.039,
+                  0.434
+                ]
+              ],
+              "quantity": null,
+              "total_amount": 30.5,
+              "unit_price": 30.5
+            },
+            {
+              "confidence": 0.94,
+              "description": "1 END ELEMENTE",
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.039,
+                  0.431
+                ],
+                [
+                  0.861,
+                  0.428
+                ],
+                [
+                  0.861,
+                  0.455
+                ],
+                [
+                  0.039,
+                  0.458
+                ]
+              ],
+              "quantity": null,
+              "total_amount": 16.9,
+              "unit_price": 16.9
+            }
+          ],
           "locale": {
-            "confidence": 0.0,
+            "confidence": 0.47,
             "country": null,
-            "currency": null,
+            "currency": "RON",
             "language": null,
             "value": null
           },
-          "supplier": {
-            "confidence": 0.52,
+          "subcategory": {
+            "confidence": 0.75,
+            "value": "restaurant"
+          },
+          "supplier_address": {
+            "confidence": 0.8,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.2,
+                0.067
+              ],
+              [
+                0.752,
+                0.067
+              ],
+              [
+                0.752,
+                0.104
+              ],
+              [
+                0.2,
+                0.104
+              ]
+            ],
+            "value": "hypermarche auchan str zaharia stancu nr 1 brasov jud brasov"
+          },
+          "supplier_company_registrations": [],
+          "supplier_name": {
+            "confidence": 0.98,
             "page_id": 0,
             "polygon": [
               [
@@ -140,55 +879,131 @@
             ],
             "value": "BON FISCAL"
           },
-          "taxes": [],
-          "time": {
+          "supplier_phone_number": {
             "confidence": 0.0,
             "page_id": null,
             "polygon": [],
-            "raw": null,
             "value": null
           },
-          "total_incl": {
+          "taxes": [
+            {
+              "base": null,
+              "code": "TVA",
+              "confidence": 0.99,
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.089,
+                  0.784
+                ],
+                [
+                  0.505,
+                  0.784
+                ],
+                [
+                  0.505,
+                  0.799
+                ],
+                [
+                  0.089,
+                  0.799
+                ]
+              ],
+              "rate": 19.0,
+              "value": 21.89
+            }
+          ],
+          "time": {
             "confidence": 0.99,
             "page_id": 0,
             "polygon": [
               [
-                0.771,
-                0.518
+                0.76,
+                0.941
               ],
               [
-                0.898,
-                0.518
+                0.933,
+                0.941
               ],
               [
-                0.898,
-                0.533
+                0.933,
+                0.953
               ],
               [
-                0.771,
-                0.533
+                0.76,
+                0.953
               ]
             ],
-            "value": 168.95
+            "value": "12:29"
+          },
+          "tip": {
+            "confidence": 0.0,
+            "page_id": null,
+            "polygon": [],
+            "value": null
+          },
+          "total_amount": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.794,
+                0.784
+              ],
+              [
+                0.923,
+                0.784
+              ],
+              [
+                0.923,
+                0.797
+              ],
+              [
+                0.794,
+                0.797
+              ]
+            ],
+            "value": 137.1
+          },
+          "total_net": {
+            "confidence": 0.0,
+            "page_id": null,
+            "polygon": [],
+            "value": null
+          },
+          "total_tax": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [],
+            "value": 21.89
           }
         },
-        "processing_time": 1.072,
+        "processing_time": 1.327,
         "product": {
           "features": [
             "locale",
             "category",
+            "subcategory",
+            "document_type",
             "date",
             "time",
-            "total_incl",
+            "total_amount",
+            "total_net",
+            "total_tax",
+            "tip",
             "taxes",
-            "supplier",
-            "orientation"
+            "supplier_name",
+            "supplier_company_registrations",
+            "supplier_address",
+            "supplier_phone_number",
+            "orientation",
+            "line_items"
           ],
           "name": "mindee/expense_receipts",
           "type": "standard",
-          "version": "3.1"
+          "version": "5.0"
         },
-        "started_at": "2023-05-03T09:36:34.577352"
+        "started_at": "2023-06-23T12:33:52.284107"
       },
       "n_pages": 1,
       "name": "receipt.jpg"
@@ -198,7 +1013,7 @@
     "extracted_data": [
       {
         "invoice_number": null,
-        "invoice_total": 168.95,
+        "invoice_total": 137.1,
         "invoice_subtotal": null,
         "barcodes": [],
         "category": null,
@@ -210,7 +1025,7 @@
         },
         "merchant_information": {
           "merchant_name": "BON FISCAL",
-          "merchant_address": null,
+          "merchant_address": "hypermarche auchan str zaharia stancu nr 1 brasov jud brasov",
           "merchant_phone": null,
           "merchant_url": null,
           "merchant_siret": null,
@@ -225,16 +1040,91 @@
           "change": null
         },
         "locale": {
-          "currency": null,
+          "currency": "RON",
           "language": null,
           "country": null
         },
-        "taxes": [],
-        "receipt_infos": {
-          "language": null,
-          "category": "food"
-        },
-        "item_lines": []
+        "taxes": [
+          {
+            "taxes": 21.89,
+            "rate": 19.0
+          }
+        ],
+        "receipt_infos": {},
+        "item_lines": [
+          {
+            "description": "335 PETR STICKERE PUISOR 1 SELECLINE BUC",
+            "quantity": null,
+            "amount": 16.0,
+            "unit_price": 16.0
+          },
+          {
+            "description": "1 BUC",
+            "quantity": null,
+            "amount": 44.01,
+            "unit_price": 44.01
+          },
+          {
+            "description": "TAXA VERDE 1 COS DREPTUNG BUC CARLIGE",
+            "quantity": null,
+            "amount": 0.89,
+            "unit_price": null
+          },
+          {
+            "description": "1 CROISSANT 7 BUC DAYS",
+            "quantity": null,
+            "amount": 5.55,
+            "unit_price": null
+          },
+          {
+            "description": "1 PAINE CU MAIA BUC SI",
+            "quantity": null,
+            "amount": 1.75,
+            "unit_price": null
+          },
+          {
+            "description": "1 PATE DE PORC BUC 20%",
+            "quantity": null,
+            "amount": 3.6,
+            "unit_price": null
+          },
+          {
+            "description": "2 NUTELLA 700G BUC",
+            "quantity": null,
+            "amount": 7.1,
+            "unit_price": 3.55
+          },
+          {
+            "description": "1 RADIERA GALET BUC",
+            "quantity": null,
+            "amount": 19.4,
+            "unit_price": 19.4
+          },
+          {
+            "description": "1 GP SUPER ALKALINE BUC",
+            "quantity": null,
+            "amount": 4.55,
+            "unit_price": 4.55
+          },
+          {
+            "description": "1 NIVEA BALS DUPA x RAS",
+            "quantity": null,
+            "amount": 18.7,
+            "unit_price": 18.7
+          },
+          {
+            "description": "1 AUC VV LICHID x PARBRC",
+            "quantity": null,
+            "amount": 30.5,
+            "unit_price": 30.5
+          },
+          {
+            "description": "1 END ELEMENTE",
+            "quantity": null,
+            "amount": 16.9,
+            "unit_price": 16.9
+          }
+        ]
       }
     ]
   }

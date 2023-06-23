@@ -26,8 +26,11 @@ from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     TaxesInvoice,
 )
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
+    CustomerInformation,
+    ItemLines,
     Locale,
     MerchantInformation,
+    PaymentInformation,
     Taxes,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -50,7 +53,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
         self.api_key = self.api_settings["subscription_key"]
         self.url = "https://api.mindee.net/v1/products/mindee/invoices/v3/predict"
-        self.url_receipt = "https://api.mindee.net/v1/products/mindee/expense_receipts/v3/predict"
+        self.url_receipt = "https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict"
         self.url_identity = "https://api.mindee.net/v1/products/mindee/passport/v1/predict"
         self.url_financial = "https://api.mindee.net/v1/products/mindee/financial_document/v1/predict"
 
@@ -91,32 +94,59 @@ class MindeeApi(ProviderInterface, OcrInterface):
             )
 
         receipt_data = original_response["document"]["inference"]["prediction"]
+        extracted_data = [
+            InfosReceiptParserDataClass(
+                invoice_number=None,
+                invoice_total=receipt_data["total_amount"]["value"],
+                invoice_subtotal=None,
+                barcode=[],
+                date=combine_date_with_time(
+                    receipt_data["date"]["value"], receipt_data["time"]["value"]
+                ),
+                due_date=None,
+                customer_information=CustomerInformation(
+                    customer_name=None
+                ),
+                merchant_information=MerchantInformation(
+                    merchant_name=receipt_data["supplier_name"]["value"],
+                    merchant_address=receipt_data["supplier_address"]["value"],
+                    merchant_phone=receipt_data["supplier_phone_number"]["value"],
+                    merchant_url=None,
+                    merchant_siret=None,
+                    merchant_siren=None,
+                ),
+                payment_information=PaymentInformation(
+                    card_number=None,
+                    card_type=None,
+                    cash=None,
+                    tip=None,
+                    change=None,
+                    discount=None,
+                ),
+                locale=Locale(
+                    currency=receipt_data["locale"]["currency"],
+                    language=receipt_data["locale"]["language"],
+                    country=receipt_data["locale"]["country"],
+                ),
+                taxes=[
+                    Taxes(
+                        taxes=tax["value"],
+                        rate=tax["rate"],
+                    ) for tax in receipt_data["taxes"]
+                ],
+                item_lines=[
+                    ItemLines(
+                        description=item["description"],
+                        quantity=item["quantity"],
+                        unit_price=item["unit_price"],
+                        amount=item["total_amount"],
+                    )
+                    for item in receipt_data["line_items"]
+                ],
+            )
+        ]
 
-        date = receipt_data["date"]["value"]
-        time = receipt_data["time"]["value"]
-        date = combine_date_with_time(date, time)
-        currency = receipt_data["locale"]["currency"]
-        supplier = receipt_data["supplier"]["value"]
-        total_value = receipt_data["total_incl"]["value"]
-        total = total_value and float(total_value)
-        map_keyword_json_to_class = [("value", "taxes"), ("rate", "rate")]
-        taxes: List[Taxes] = from_jsonarray_to_list(
-            Taxes, receipt_data["taxes"], map_keyword_json_to_class
-        )
-        receipt_infos = {
-            "language": receipt_data["locale"]["language"],
-            "category": receipt_data["category"]["value"],
-        }
-
-        ocr_receipt = InfosReceiptParserDataClass(
-            invoice_total=total,
-            locale=Locale(currency=currency),
-            merchant_information=MerchantInformation(merchant_name=supplier),
-            date=date,
-            taxes=taxes,
-            receipt_infos=receipt_infos,
-        )
-        standardized_response = ReceiptParserDataClass(extracted_data=[ocr_receipt])
+        standardized_response = ReceiptParserDataClass(extracted_data=extracted_data)
 
         result = ResponseType[ReceiptParserDataClass](
             original_response=original_response,
