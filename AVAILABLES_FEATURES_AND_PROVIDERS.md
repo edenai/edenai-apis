@@ -84,6 +84,9 @@
 | | microsoft |
 | | picpurify |
 | | sentisight |
+| **face_compare** | amazon |
+| | base64 |
+| | facepp |
 | **face_detection** | amazon |
 | | api4ai |
 | | clarifai |
@@ -106,8 +109,6 @@
 | | google |
 | | microsoft |
 | | smartclick |
-| **face_compare** | base64 |
-| | facepp |
 | **generation** | deepai |
 | | openai |
 | | stabilityai |
@@ -253,6 +254,7 @@
 | **audio** | speech_to_text_async |
 | | text_to_speech |
 | **image** | explicit_content |
+| | face_compare |
 | | face_detection |
 | | face_recognition |
 | | object_detection |
