@@ -561,13 +561,76 @@ class AmazonOcrApi(OcrInterface):
     def ocr__data_extraction(
         self, file: str, file_url: str = ""
     ) -> ResponseType[DataExtractionDataClass]:
-        with open(file, "rb") as f_stream:
-            response = self.clients["textract"].analyze_document(
-                Document={"Bytes": f_stream.read()},
-                FeatureTypes=["FORMS"],
-            )
-        standardized_response = amazon_data_extraction_formatter([response])
+        with open(file, "rb") as fstream:
+            file_content = fstream.read()
 
-        return ResponseType[DataExtractionDataClass](
-            original_response=response, standardized_response=standardized_response
-        )
+            self.storage_clients["textract"].Bucket(
+                self.api_settings["bucket"]
+            ).put_object(Key=file, Body=file_content)
+            try:
+                launch_job_response = self.clients["textract"].start_document_analysis(
+                    DocumentLocation={
+                        "S3Object": {
+                            "Bucket": self.api_settings["bucket"],
+                            "Name": file,
+                        },
+                    },
+                    FeatureTypes=["FORMS"],
+                )
+            except Exception as amazon_call_exception:
+                raise ProviderException(str(amazon_call_exception))
+
+            while True:
+                try:
+                    response = self.clients["textract"].get_document_analysis(
+                        JobId=launch_job_response["JobId"]
+                    )
+                except ClientError as amazon_call_exception:
+                    error_message: str = str(amazon_call_exception)
+                    if "InvalidJobIdException" in error_message:
+                        raise AsyncJobException(
+                            reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                        )
+                    raise ProviderException(error_message)
+
+                if response["JobStatus"] != "IN_PROGRESS":
+                    break
+
+                sleep(1)
+
+            if response["JobStatus"] == "FAILED":
+                error: str = response.get(
+                    "StatusMessage", "Amazon returned a job status: FAILED"
+                )
+                raise ProviderException(error)
+
+            responses = [response]
+
+            standardized_response = amazon_data_extraction_formatter(responses)
+
+            while pagination_token := response.get("NextToken"):
+                try:
+                    response = self.clients["textract"].get_document_analysis(
+                        JobId=launch_job_response["JobId"],
+                        NextToken=pagination_token,
+                    )
+                except ClientError as amazon_call_exception:
+                    error_message: str = str(amazon_call_exception)
+                    if "InvalidJobIdException" in error_message:
+                        raise AsyncJobException(
+                            reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                        )
+                    raise ProviderException(error_message)
+
+                if response["JobStatus"] == "FAILED":
+                    error: str = response.get(
+                        "StatusMessage", "Amazon returned a job status: FAILED"
+                    )
+                    raise ProviderException(error)
+
+                responses.append(response)
+
+            return ResponseType[DataExtractionDataClass](
+                original_response=response,
+                standardized_response=standardized_response,
+            )

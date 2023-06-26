@@ -6,7 +6,11 @@ from typing import List, Optional
 
 import azure.cognitiveservices.speech as speechsdk
 import requests
-from edenai_apis.apis.microsoft.microsoft_helpers import format_text_for_ssml_tags, generate_right_ssml_text, get_right_audio_support_and_sampling_rate
+from edenai_apis.apis.microsoft.microsoft_helpers import (
+    format_text_for_ssml_tags,
+    generate_right_ssml_text,
+    get_right_audio_support_and_sampling_rate,
+)
 from edenai_apis.features.audio import (
     AudioInterface,
     SpeechDiarization,
@@ -17,7 +21,12 @@ from edenai_apis.features.audio import (
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.utils.audio import retreive_voice_id
 from edenai_apis.utils.conversion import convert_pt_date_from_string
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, LanguageException, ProviderException
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    LanguageException,
+    ProviderException,
+)
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -25,57 +34,59 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
-from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3, upload_file_to_s3
+from edenai_apis.utils.upload_s3 import (
+    USER_PROCESS,
+    upload_file_bytes_to_s3,
+    upload_file_to_s3,
+)
 
 from .config import audio_voice_ids
 
 
 class MicrosoftAudioApi(AudioInterface):
     def audio__text_to_speech(
-        self, 
-        language: str, 
-        text: str, 
-        option: str, 
+        self,
+        language: str,
+        text: str,
+        option: str,
         voice_id: str,
         audio_format: str,
         speaking_rate: int,
         speaking_pitch: int,
         speaking_volume: int,
-        sampling_rate: int
+        sampling_rate: int,
     ) -> ResponseType[TextToSpeechDataClass]:
-        
         use_ssml = False
-        
+
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
             region=self.api_settings["speech"]["service_region"],
-            
         )
         speech_config.speech_synthesis_voice_name = voice_id
 
         ext, audio_format = get_right_audio_support_and_sampling_rate(
-            audio_format, 0, 
-            speechsdk.SpeechSynthesisOutputFormat._member_names_
+            audio_format, 0, speechsdk.SpeechSynthesisOutputFormat._member_names_
         )
         speech_config.set_speech_synthesis_output_format(
             getattr(speechsdk.SpeechSynthesisOutputFormat, audio_format)
         )
 
-        text, use_ssml = generate_right_ssml_text(text, voice_id, speaking_rate, speaking_pitch, speaking_volume)
+        text, use_ssml = generate_right_ssml_text(
+            text, voice_id, speaking_rate, speaking_pitch, speaking_volume
+        )
 
         # Getting response of API
-        # output_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=False)
-        speech_synthesizer = speechsdk.SpeechSynthesizer(
-            speech_config=speech_config, audio_config=None
-        )
-        response = speech_synthesizer.speak_text_async(text).get() if not use_ssml \
+        # output_config = speechsdk.audio.AudioOutputConfig(filename="outputaudio.wav")
+        speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
+        response = (
+            speech_synthesizer.speak_text_async(text).get()
+            if not use_ssml
             else speech_synthesizer.speak_ssml_async(text).get()
+        )
 
         if response.reason == speechsdk.ResultReason.Canceled:
             cancellation_details = response.cancellation_details
-            raise ProviderException(
-                str(cancellation_details.error_details)
-            )
+            raise ProviderException(str(cancellation_details.error_details))
 
         audio_content = BytesIO(response.audio_data)
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
@@ -85,7 +96,7 @@ class MicrosoftAudioApi(AudioInterface):
         resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
 
         standardized_response = TextToSpeechDataClass(
-            audio=audio, voice_type=voice_type, audio_resource_url = resource_url
+            audio=audio, voice_type=voice_type, audio_resource_url=resource_url
         )
 
         return ResponseType[TextToSpeechDataClass](
@@ -100,10 +111,9 @@ class MicrosoftAudioApi(AudioInterface):
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model : str = None,
+        model: str = None,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
-
         export_format, channels, frame_rate = audio_attributes
 
         # check language
@@ -112,9 +122,7 @@ class MicrosoftAudioApi(AudioInterface):
 
         content_url = file_url
         if not content_url:
-            content_url = upload_file_to_s3(
-                file, Path(file).stem + "." + export_format
-            )
+            content_url = upload_file_to_s3(file, Path(file).stem + "." + export_format)
 
         headers = self.headers["speech"]
         headers["Content-Type"] = "application/json"
@@ -153,7 +161,6 @@ class MicrosoftAudioApi(AudioInterface):
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-
         headers = self.headers["speech"]
         response = requests.get(
             url=f'{self.url["speech"]}/{provider_job_id}/files', headers=headers
@@ -233,6 +240,6 @@ class MicrosoftAudioApi(AudioInterface):
             error = response.json().get("message")
             if "entity cannot be found" in error or 1:
                 raise AsyncJobException(
-                    reason= AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
                 )
             raise ProviderException(error)

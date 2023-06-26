@@ -6,7 +6,10 @@ import requests
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.core.credentials import AzureKeyCredential
 from azure.core.exceptions import AzureError
-from edenai_apis.apis.microsoft.microsoft_helpers import microsoft_ocr_tables_standardize_response, normalize_invoice_result
+from edenai_apis.apis.microsoft.microsoft_helpers import (
+    microsoft_ocr_tables_standardize_response,
+    normalize_invoice_result,
+)
 from edenai_apis.features.ocr import (
     Bounding_box,
     IdentityParserDataClass,
@@ -31,7 +34,11 @@ from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import
     OcrTablesAsyncDataClass,
 )
 from edenai_apis.utils.conversion import add_query_param_in_url
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
+)
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -44,12 +51,11 @@ from PIL import Image as Img
 
 class MicrosoftOcrApi(OcrInterface):
     def ocr__ocr(
-        self, 
-        file: str, 
+        self,
+        file: str,
         language: str,
-        file_url: str= "",
+        file_url: str = "",
     ) -> ResponseType[OcrDataClass]:
-
         with open(file, "rb") as file_:
             file_content = file_.read()
 
@@ -94,12 +100,8 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__invoice_parser(
-        self, 
-        file: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
-
         file_ = open(file, "rb")
         try:
             document_analysis_client = DocumentAnalysisClient(
@@ -115,6 +117,8 @@ class MicrosoftOcrApi(OcrInterface):
         except AzureError as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
 
+        if invoices is None:
+            raise ProviderException("Provider return an empty response")
         original_response = invoices.to_dict()
         file_.close()
 
@@ -124,12 +128,8 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__receipt_parser(
-        self, 
-        file: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
-
         file_ = open(file, "rb")
         try:
             document_analysis_client = DocumentAnalysisClient(
@@ -145,6 +145,8 @@ class MicrosoftOcrApi(OcrInterface):
         except AzureError as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
 
+        if form_pages is None:
+            raise ProviderException("Provider return an empty response")
         original_response = form_pages.to_dict()
         file_.close()
 
@@ -222,11 +224,8 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__identity_parser(
-        self, 
-        file: str, 
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
-
         file_ = open(file, "rb")
         try:
             document_analysis_client = DocumentAnalysisClient(
@@ -242,6 +241,8 @@ class MicrosoftOcrApi(OcrInterface):
         except AzureError as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
 
+        if response is None:
+            raise ProviderException("Provider return an empty response")
         original_response = response.to_dict()
 
         file_.close()
@@ -332,13 +333,8 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__ocr_tables_async__launch_job(
-        self, 
-        file: str, 
-        file_type: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, file_type: str, language: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
-
         with open(file, "rb") as file_:
             file_content = file_.read()
         url = (
@@ -369,7 +365,6 @@ class MicrosoftOcrApi(OcrInterface):
     def ocr__ocr_tables_async__get_job_result(
         self, job_id: str
     ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
-
         headers = {
             "Content-Type": "application/octet-stream",
             "Ocp-Apim-Subscription-Key": self.api_settings["form_recognizer"][
@@ -388,7 +383,7 @@ class MicrosoftOcrApi(OcrInterface):
             error = response.json()["error"]["message"]
             if "Resource not found" in error:
                 raise AsyncJobException(
-                    reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
                 )
             raise ProviderException(error)
 
@@ -397,7 +392,9 @@ class MicrosoftOcrApi(OcrInterface):
             raise ProviderException(data.get("error"))
         if data["status"] == "succeeded":
             original_result = data["analyzeResult"]
-            standardized_response = microsoft_ocr_tables_standardize_response(original_result)
+            standardized_response = microsoft_ocr_tables_standardize_response(
+                original_result
+            )
             return AsyncResponseType[OcrTablesAsyncDataClass](
                 original_response=data,
                 standardized_response=standardized_response,

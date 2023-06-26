@@ -1,0 +1,49 @@
+{
+  "original_response": {
+    "id": 62483,
+    "pdf_url": "https://scdn.veryfi.com/checks/f87fc88812a7e493/58ab0d96-eb5f-493a-81aa-413d52c0a5dd/d23a538e-f1ca-4cd1-89dd-65fb85aaff40.pdf?Expires=1687358726&Signature=aBYHfxJP3WaUdKZ40bHiIPZv8MLHSiBtGE4tAUv4C6fDjbI-SF15PDeoPKMiSVw7uhWraSGiJPdi~kMHOtGb6t7OGrFZvQpmHGr8gYQDpuzjImOcl92fH8tG8vBiu2lFTqKVXsvJgb4Yv69eA~Zf3~L~sq4kAMUoYYMB5-idgkV7ABoTl2PhcqjYKcl1PbV4rMVk8OVqzdmNs1pocZhAJPo7ytDmu8~2KEk6jleb37jaIv2RGe3-iOec64JSYpmaDfvQA7YViNZ6c31rGzBGlfMVCNl0qdczEHsPyLzKMPEecij6BG-BmDz9YKjtrE3tYhjNhOyBs1P3f180C6hVQQ__&Key-Pair-Id=APKAJCILBXEJFZF4DCHQ",
+    "amount": 25.0,
+    "amount_text": "Twenty-five and no/100",
+    "bank_address": null,
+    "bank_name": "WASHINGTON'S OLDEST NATIONAL BANK\nFIRST NATIONAL BANK",
+    "fractional_routing_number": null,
+    "routing_from_fractional": null,
+    "micr": {
+      "routing_number": "05400004",
+      "account_number": null,
+      "serial_number": null,
+      "raw": "A0540D0004A C140611 6C B0000002500B"
+    },
+    "check_number": "878",
+    "date": null,
+    "memo": "world hunger relief",
+    "payer_address": null,
+    "payer_name": "HON. GERALD R. FORD\nMRS. BETTY B. FORD",
+    "receiver_address": null,
+    "receiver_name": "Presiding Bishop, Episcopal Church"
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "amount": 25.0,
+        "amount_text": "Twenty-five and no/100",
+        "bank_address": null,
+        "bank_name": "WASHINGTON'S OLDEST NATIONAL BANK\nFIRST NATIONAL BANK",
+        "date": null,
+        "memo": "world hunger relief",
+        "payer_address": null,
+        "payer_name": "HON. GERALD R. FORD\nMRS. BETTY B. FORD",
+        "receiver_address": null,
+        "receiver_name": "Presiding Bishop, Episcopal Church",
+        "currency": null,
+        "micr": {
+          "raw": "A0540D0004A C140611 6C B0000002500B",
+          "account_number": null,
+          "routing_number": "05400004",
+          "serial_number": null,
+          "check_number": "878"
+        }
+      }
+    ]
+  }
+}

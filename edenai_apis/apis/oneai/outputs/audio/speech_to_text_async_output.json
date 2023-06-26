@@ -1,16 +1,125 @@
 {
   "status": "succeeded",
-  "provider_job_id": "ee0b54bb-e6a8-48ca-baf4-b387b3ffa489",
+  "provider_job_id": "cbf036c1-4000-46c6-a8da-a645d8450cef",
   "original_response": {
     "result": {
-      "input_text": "[00:00:00.000] speaker 0:\n Unit 1, Page 14, Real Conversations\n\n",
+      "input_text": "[00:00:00.000] Speaker 1:\n Unit 1, Page 14, Real Conversations\n\n",
       "status": "success",
       "output": [
         {
           "text_generated_by_step_name": "transcribe",
           "text_generated_by_step_id": 1,
-          "text": "[00:00:00.000] speaker 0:\n Unit 1, Page 14, Real Conversations\n\n",
-          "labels": []
+          "text": "[00:00:00.000] Speaker 1:\n Unit 1, Page 14, Real Conversations\n\n",
+          "labels": [
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "span_text": " Unit",
+              "span": [
+                26,
+                31
+              ],
+              "output_spans": [
+                {
+                  "section": 0,
+                  "start": 0,
+                  "end": 5
+                }
+              ],
+              "timestamp": "0.0",
+              "timestamp_end": "0.42"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "span_text": " 1,",
+              "span": [
+                31,
+                34
+              ],
+              "output_spans": [
+                {
+                  "section": 0,
+                  "start": 5,
+                  "end": 8
+                }
+              ],
+              "timestamp": "0.42",
+              "timestamp_end": "1.2"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "span_text": " Page",
+              "span": [
+                35,
+                40
+              ],
+              "output_spans": [
+                {
+                  "section": 0,
+                  "start": 8,
+                  "end": 13
+                }
+              ],
+              "timestamp": "1.8",
+              "timestamp_end": "1.82"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "span_text": " 14,",
+              "span": [
+                40,
+                44
+              ],
+              "output_spans": [
+                {
+                  "section": 0,
+                  "start": 13,
+                  "end": 17
+                }
+              ],
+              "timestamp": "1.82",
+              "timestamp_end": "2.62"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "span_text": " Real",
+              "span": [
+                46,
+                51
+              ],
+              "output_spans": [
+                {
+                  "section": 0,
+                  "start": 17,
+                  "end": 22
+                }
+              ],
+              "timestamp": "3.64",
+              "timestamp_end": "3.7"
+            },
+            {
+              "type": "word",
+              "skill": "transcribe",
+              "span_text": " Conversations",
+              "span": [
+                51,
+                65
+              ],
+              "output_spans": [
+                {
+                  "section": 0,
+                  "start": 22,
+                  "end": 36
+                }
+              ],
+              "timestamp": "3.7",
+              "timestamp_end": "4.9"
+            }
+          ]
         }
       ],
       "stats": {
@@ -19,10 +128,10 @@
         "total_waiting_jobs": 0
       }
     },
-    "task_id": "ee0b54bb-e6a8-48ca-baf4-b387b3ffa489",
+    "task_id": "cbf036c1-4000-46c6-a8da-a645d8450cef",
     "status": "COMPLETED",
-    "completion_time": "2023-04-13T13:16:29.544000",
-    "creation_time": "2023-04-13T13:16:26.378000"
+    "completion_time": "2023-06-16T13:02:40.970000",
+    "creation_time": "2023-06-16T13:02:37.348000"
   },
   "standardized_response": {
     "text": "Unit 1, Page 14, Real Conversations",

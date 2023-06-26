@@ -107,7 +107,10 @@ class InfosIdentityParserDataClass(BaseModel):
     @validator('expire_date', 'issuance_date', 'birth_date')
     def date_validator(cls, value):
         if not value.value:
-            return None
+            return {
+                "value": None,
+                "confidence": None
+            }
         try:
             datetime.datetime.strptime(value.value, '%Y-%m-%d')
         except ValueError:

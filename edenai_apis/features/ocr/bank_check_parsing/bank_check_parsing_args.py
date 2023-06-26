@@ -9,7 +9,7 @@ feature_path = os.path.dirname(os.path.dirname(__file__))
 
 data_path = os.path.join(feature_path, "data")
 
-filename = "ocr_multipages.pdf"
+filename = "signed_check.jpg"
 
 ocr_path = f"{data_path}/{filename}"
 
@@ -24,5 +24,5 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(ocr_path, "", file_info)
 
 
-def data_extraction_arguments() -> Dict:
+def bank_check_parsing_arguments() -> Dict:
     return {"file": file_wrapper}

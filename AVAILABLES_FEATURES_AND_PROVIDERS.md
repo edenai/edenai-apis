@@ -20,6 +20,7 @@
 | | base64 |
 | **identity_parser** | amazon |
 | | base64 |
+| | klippa |
 | | microsoft |
 | | mindee |
 | **ocr** | amazon |
@@ -42,6 +43,8 @@
 | | microsoft |
 | | mindee |
 | | tabscanner |
+| | veryfi |
+| **bank_check_parsing** | base64 |
 | | veryfi |
 
 </details>
@@ -81,6 +84,9 @@
 | | microsoft |
 | | picpurify |
 | | sentisight |
+| **face_compare** | amazon |
+| | base64 |
+| | facepp |
 | **face_detection** | amazon |
 | | api4ai |
 | | clarifai |
@@ -103,8 +109,6 @@
 | | google |
 | | microsoft |
 | | smartclick |
-| **face_compare** | base64 |
-| | facepp |
 | **generation** | deepai |
 | | openai |
 | | stabilityai |
@@ -250,6 +254,7 @@
 | **audio** | speech_to_text_async |
 | | text_to_speech |
 | **image** | explicit_content |
+| | face_compare |
 | | face_detection |
 | | face_recognition |
 | | object_detection |
@@ -299,7 +304,8 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **image** | face_compare |
-| **ocr** | data_extraction |
+| **ocr** | bank_check_parsing |
+| | data_extraction |
 | | identity_parser |
 | | invoice_parser |
 | | ocr |
@@ -456,7 +462,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | invoice_parser |
+| **ocr** | identity_parser |
+| | invoice_parser |
 | | receipt_parser |
 
 </details>
@@ -683,7 +690,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | invoice_parser |
+| **ocr** | bank_check_parsing |
+| | invoice_parser |
 | | receipt_parser |
 
 </details>

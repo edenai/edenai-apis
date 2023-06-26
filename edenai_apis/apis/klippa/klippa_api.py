@@ -11,7 +11,16 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import Cus
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
-
+#from edenai_apis.features.ocr.resume_parser import ResumeParserDataClass, ResumeLocation, ResumeSkill, ResumeLang, ResumeWorkExpEntry, ResumeWorkExp, ResumeEducationEntry, ResumeEducation, ResumePersonalName, ResumePersonalInfo, ResumeExtractedData
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    Country,
+    InfoCountry,
+    ItemIdentityParserDataClass,
+    format_date,
+    get_info_country,
+)
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import InfosIdentityParserDataClass
 class KlippaApi(ProviderInterface, OcrInterface):
     provider_name = "klippa"
 
@@ -24,14 +33,14 @@ class KlippaApi(ProviderInterface, OcrInterface):
             "X-Auth-Key": self.api_key,
         }
 
-    def _make_post_request(self, file: BufferedReader):
+    def _make_post_request(self, file: BufferedReader, endpoint: str = ""):
         files = {
             "document": file,
             "pdf_text_extraction": "full",
         }
 
         response = requests.post(
-            url=self.url,
+            url=self.url + endpoint,
             headers=self.headers,
             files=files
         )
@@ -197,4 +206,158 @@ class KlippaApi(ProviderInterface, OcrInterface):
         return ResponseType[ReceiptParserDataClass](
             original_response=original_response,
             standardized_response=standardize_response
+        )
+    
+
+    def ocr__identity_parser(
+        self,
+        file: str,
+        file_url: str = ""
+    ) -> ResponseType[IdentityParserDataClass]:
+        file_ = open(file, "rb")
+        original_response = self._make_post_request(file_, endpoint="/identity")
+        file_.close()
+
+        items = []
+        fields = {}
+        country = {}
+
+        parsed_data = original_response.get("data", {}).get("parsed", {})
+        for document in original_response.get("original_response", {}).get("data", {}).get("parsed", {}).get("documents", []):
+            fields = document["fields"]
+            country["value"] = get_info_country(
+                key=InfoCountry.ALPHA3,
+                value=fields.get("CountryRegion", {}).get("content"),
+            )
+            country["confidence"] = fields.get("CountryRegion", {}).get("confidence")
+
+        given_names = parsed_data.get("given_names", {}).get("value", "").split(" ")
+        final_given_names = []
+        for given_name in given_names:
+            final_given_names.append(
+                ItemIdentityParserDataClass(
+                    value=given_name,
+                    confidence=(parsed_data.get("given_names", {}) or {}).get("confidence"),
+                )
+            )
+        birth_date = parsed_data.get("date_of_birth", {}) or {}
+        birth_date_value = birth_date.get("value")
+        birth_date_confidence = birth_date.get("confidence")
+        formatted_birth_date = format_date(birth_date_value)
+
+        issuance_date = parsed_data.get("date_of_issue", {}) or {}
+        issuance_date_value = issuance_date.get("value")
+        issuance_date_confidence = issuance_date.get("confidence")
+        formatted_issuance_date = format_date(issuance_date_value)
+
+        expire_date = parsed_data.get("date_of_expiry", {}) or {}
+        expire_date_value = expire_date.get("value")
+        expire_date_confidence = expire_date.get("confidence")
+        formatted_expire_date = format_date(expire_date_value)
+
+        last_name = parsed_data.get("surname", {}) or {}
+        birth_place = parsed_data.get("place_of_birth", {}) or {}
+        document_id = parsed_data.get("document_number", {}) or {}
+        issuing_state = parsed_data.get("issuing_institution", {}) or {}
+        address = parsed_data.get("address", {}) or {}
+        age = parsed_data.get("age", {}) or {}
+        document_type = parsed_data.get("document_type", {}) or {}
+        gender = parsed_data.get("gender", {}) or {}
+        mrz = parsed_data.get("mrz", {}) or {}
+        nationality = parsed_data.get("nationality", {}) or {}
+
+        images = [ItemIdentityParserDataClass(
+                        value=image.get("signature"),
+                        confidence=image.get("confidence"),
+                    ) for image in fields.get("images", [])] or []
+        
+        if img_value:= (parsed_data.get('face', {}) or {}).get("value", ""):
+            images.append(
+                ItemIdentityParserDataClass(
+                    value=img_value                
+                )
+            )
+        identity_imgs = parsed_data.get('identity_document', []) or []
+        if len(identity_imgs) > 0:
+            for identity_img in identity_imgs:
+                if img_value:= identity_img.get("image", ""):
+                    images.append(
+                        ItemIdentityParserDataClass(
+                            value= img_value
+                        )
+            )
+            
+
+
+        items.append(
+            InfosIdentityParserDataClass(
+                last_name=ItemIdentityParserDataClass(
+                    value = last_name.get("value"),
+                    confidence=last_name.get("confidence"),
+                ),
+                given_names=final_given_names,
+                birth_place=ItemIdentityParserDataClass(
+                    value = birth_place.get("value"),
+                    confidence=birth_place.get("confidence"),
+                ),
+                birth_date=ItemIdentityParserDataClass(
+                    value=formatted_birth_date,
+                    confidence=birth_date_confidence,
+                ),
+                issuance_date=ItemIdentityParserDataClass(
+                    value=formatted_issuance_date,
+                    confidence=issuance_date_confidence,
+                ),
+                expire_date=ItemIdentityParserDataClass(
+                    value=formatted_expire_date,
+                    confidence=expire_date_confidence,
+                ),
+                document_id=ItemIdentityParserDataClass(
+                    value = document_id.get("value"),
+                    confidence=document_id.get("confidence"),
+                ),
+                issuing_state=ItemIdentityParserDataClass(
+                    value = issuing_state.get("value"),
+                    confidence=issuing_state.get("confidence"),
+                ),
+                address=ItemIdentityParserDataClass(
+                    value = address.get("value"),
+                    confidence= address.get("confidence"),
+                ),
+                age=ItemIdentityParserDataClass(
+                    value = age.get("value"),
+                    confidence=age.get("confidence"),
+                ),
+                country=country,
+                document_type=ItemIdentityParserDataClass(
+                    value = document_type.get("value"),
+                    confidence=document_type.get("confidence"),
+                ),
+                gender=ItemIdentityParserDataClass(
+                    value = gender.get("value"),
+                    confidence = gender.get("confidence"),
+                ),
+                image_id=images,
+                image_signature=[
+                    ItemIdentityParserDataClass(
+                        value=image.get("signature"),
+                        confidence=image.get("confidence"),
+                    ) for image in fields.get("images", [])
+                ],
+                mrz=ItemIdentityParserDataClass(
+                    value = mrz.get("value"),
+                    confidence=mrz.get("confidence"),
+                ),
+                nationality=ItemIdentityParserDataClass(
+                    value = nationality.get("value"),
+                    confidence=nationality.get("confidence"),
+                ),
+            )
+        )
+
+        standardized_response = IdentityParserDataClass(extracted_data=items)
+
+        return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
         )

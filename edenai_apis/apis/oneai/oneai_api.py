@@ -318,15 +318,16 @@ class OneaiApi(ProviderInterface, TextInterface, TranslationInterface, AudioInte
                 words_info = original_response["result"]["output"][0]["labels"]
 
                 for word_info in words_info:
-                    speakers.add(word_info["speaker"])
-                    diarization_entries.append(
-                        SpeechDiarizationEntry(
-                            segment=word_info["span_text"],
-                            start_time=word_info["timestamp"],
-                            end_time=word_info["timestamp_end"],
-                            speaker=int(word_info["speaker"].split("speaker")[1]),
+                    if word_info.get("speaker"):
+                        speakers.add(word_info["speaker"])
+                        diarization_entries.append(
+                            SpeechDiarizationEntry(
+                                segment=word_info["span_text"],
+                                start_time=word_info["timestamp"],
+                                end_time=word_info["timestamp_end"],
+                                speaker=int(word_info["speaker"].split("speaker")[1]),
+                            )
                         )
-                    )
                 diarization = SpeechDiarization(
                     total_speakers=len(speakers), entries=diarization_entries
                 )
