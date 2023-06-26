@@ -17,6 +17,7 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     InfoCountry,
     ItemIdentityParserDataClass,
     format_date,
+    get_info_country,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import InfosIdentityParserDataClass
@@ -437,7 +438,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
                     value = (parsed_data.get("surname", {}) or {}).get("value"),
                     confidence=(parsed_data.get("surname", {}) or {}).get("confidence"),
                 ),
-                given_names=[ItemIdentityParserDataClass(value= given_name.value, confidence = given_name.confidence) for given_name in final_given_names],
+                given_names=final_given_names,
                 birth_place=ItemIdentityParserDataClass(
                     value = (parsed_data.get("place_of_birth", {}) or {}).get("value"),
                     confidence=(parsed_data.get("place_of_birth", {}) or {}).get("confidence"),
