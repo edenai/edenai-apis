@@ -207,186 +207,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
             original_response=original_response,
             standardized_response=standardize_response
         )
-    """
-    def ocr__resume_parser(
-        self,
-        file:str,
-        file_url: str = ""
-    )-> ResponseType[ResumeParserDataClass]:
-        
-        file_ = open(file, "rb")
-        
-        original_response = self._make_post_request(file_)
-        file_.close()
-        
-        data_response = original_response["data"]
-
-        print(data_response)
-
-        personal_info = ResumePersonalInfo(
-            name=ResumePersonalName(
-                first_name=data_response["first_name"],
-                last_name=data_response["last_name"],
-                raw_name=data_response["raw_name"],
-                middle=data_response["middle"],
-                title=data_response["title"],
-                prefix=data_response["prefix"],
-                suffix=data_response["suffix"]
-            ),
-            address=ResumeLocation(
-                formatted_location=data_response["formatted_location"],
-                postal_code=data_response["postal_code"],
-                region=data_response["region"],
-                country=data_response["country"],
-                country_code=data_response["country_code"],
-                raw_input_location=data_response["raw_input_location"],
-                street=data_response["street"],
-                street_number=data_response["street_number"],
-                appartment_number=data_response["appartment_number"],
-                city=data_response["city"]
-            ),
-            self_summary=data_response["self_summary"],
-            objective=data_response["objective"],
-            date_of_birth=data_response["date_of_birth"],
-            place_of_birth=data_response["place_of_birth"],
-            phones=data_response["phones"],
-            mails=data_response["mails"],
-            urls=data_response["urls"],
-            fax=data_response["fax"],
-            current_profession=data_response["current_profession"],
-            dateOfBirth=data_response["dateOfBirth"],
-            gender=data_response["gender"],
-            nationality=data_response["nationality"],
-            martial_status=data_response["martial_status"],
-            current_salary=data_response["current_salary"]
-        )
-
-
-
-        education_entries = []
-        for entry in data_response["education"]["entries"]:
-            education_entry = ResumeEducationEntry(
-                title=entry["title"],
-                start_date=entry["start_date"],
-                end_date=entry["end_date"],
-                location=ResumeLocation(
-                    formatted_location=entry["location"]["formatted_location"],
-                    postal_code=entry["location"]["postal_code"],
-                    region=entry["location"]["region"],
-                    country=entry["location"]["country"],
-                    country_code=entry["location"]["country_code"],
-                    raw_input_location=entry["location"]["raw_input_location"],
-                    street=entry["location"]["street"],
-                    street_number=entry["location"]["street_number"],
-                    appartment_number=entry["location"]["appartment_number"],
-                    city=entry["location"]["city"]
-                ),
-                establishment=entry["establishment"],
-                description=entry["description"],
-                gpa=entry["gpa"],
-                accreditation=entry["accreditation"]
-            )
-            education_entries.append(education_entry)
-
-        education_info = ResumeEducation(
-            total_years_education=data_response["education"]["total_years_education"],
-            entries=education_entries
-        )
-
-        work_exp_entries=[]
-        for entry in data_response["work_experience"]["entries"]:
-            work_exp_entry = ResumeWorkExpEntry(
-                title=entry["title"],
-                start_date=entry["start_date"],
-                end_date=entry["end_date"],
-                company=entry["company"],
-                location=ResumeLocation(
-                    formatted_location=entry["location"]["formatted_location"],
-                    postal_code=entry["location"]["postal_code"],
-                    region=entry["location"]["region"],
-                    country=entry["location"]["country"],
-                    country_code=entry["location"]["country_code"],
-                    raw_input_location=entry["location"]["raw_input_location"],
-                    street=entry["location"]["street"],
-                    street_number=entry["location"]["street_number"],
-                    appartment_number=entry["location"]["appartment_number"],
-                    city=entry["location"]["city"]
-                ),
-                description=entry["description"],
-                industry=entry["industry"]
-            )
-            work_exp_entries.append(work_exp_entry)
-        work_experience = ResumeWorkExp(
-            total_years_experience=data_response["work_experience"]["total_years_experience"],
-            entries=work_exp_entries
-        )
-
-        language_info=[]
-        for l in data_response["languages"]:
-            language = ResumeLang(
-                name=l["name"],
-                code=l["code"]
-            )
-            language_info.append(language)
-
-        skill_info = []
-        for s in data_response["skills"]:
-            skill = ResumeSkill(
-                name=s["name"],
-                type=s["type"]
-            )
-            skill_info.append(skill)
-
-        certification_info = []
-        for cert in data_response["certifications"]:
-            cert = ResumeSkill(
-                name=cert["name"],
-                type=cert["type"]
-            )
-            certification_info.append(skill)
-
-        course_info = []
-        for co in data_response["courses"]:
-            co = ResumeSkill(
-                name=co["name"],
-                type=co["type"]
-            )
-            course_info.append(skill)
-
-        publication_info = []
-        for p in data_response["publications"]:
-            p = ResumeSkill(
-                name=p["name"],
-                type=p["type"]
-            )
-            publication_info.append(skill)
-
-        interest_info = []
-        for i in data_response["interests"]:
-            i = ResumeSkill(
-                name=i["name"],
-                type=i["type"]
-            )
-            interest_info.append(skill)
-        extracted_data = ResumeExtractedData(
-            personal_infos=personal_info,
-            education=education_info,
-            work_experience=work_exp_info,
-            languages=language_info,
-            skills=skill_info,
-            certifications=certification_info,
-            courses=course_info,
-            publications=publication_info,
-            interests=interest_info
-        )
-        standardized_response = ResumeParserDataClass(
-            extracted_data=extracted_data
-        )
-        return ResponseType[ResumeParserDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response
-        )    
-        """
+    
 
     def ocr__identity_parser(
         self,
@@ -402,7 +223,6 @@ class KlippaApi(ProviderInterface, OcrInterface):
         country = {}
 
         parsed_data = original_response.get("data", {}).get("parsed", {})
-        print(parsed_data["surname"])
         for document in original_response.get("original_response", {}).get("data", {}).get("parsed", {}).get("documents", []):
             fields = document["fields"]
             country["value"] = get_info_country(
@@ -420,28 +240,65 @@ class KlippaApi(ProviderInterface, OcrInterface):
                     confidence=(parsed_data.get("given_names", {}) or {}).get("confidence"),
                 )
             )
-        birth_date_value = (parsed_data.get("date_of_birth", {}) or {}).get("value")
-        birth_date_confidence = (parsed_data.get("date_of_birth", {}) or {}).get("confidence")
+        birth_date = parsed_data.get("date_of_birth", {}) or {}
+        birth_date_value = birth_date.get("value")
+        birth_date_confidence = birth_date.get("confidence")
         formatted_birth_date = format_date(birth_date_value)
 
-        issuance_date_value = (parsed_data.get("date_of_issue", {}) or {}).get("value")
-        issuance_date_confidence = (parsed_data.get("date_of_issue", {}) or {}).get("confidence")
+        issuance_date = parsed_data.get("date_of_issue", {}) or {}
+        issuance_date_value = issuance_date.get("value")
+        issuance_date_confidence = issuance_date.get("confidence")
         formatted_issuance_date = format_date(issuance_date_value)
 
-        expire_date_value = (parsed_data.get("date_of_expiry", {}) or {}).get("value")
-        expire_date_confidence = (parsed_data.get("date_of_expiry", {}) or {}).get("confidence")
+        expire_date = parsed_data.get("date_of_expiry", {}) or {}
+        expire_date_value = expire_date.get("value")
+        expire_date_confidence = expire_date.get("confidence")
         formatted_expire_date = format_date(expire_date_value)
+
+        last_name = parsed_data.get("surname", {}) or {}
+        birth_place = parsed_data.get("place_of_birth", {}) or {}
+        document_id = parsed_data.get("document_number", {}) or {}
+        issuing_state = parsed_data.get("issuing_institution", {}) or {}
+        address = parsed_data.get("address", {}) or {}
+        age = parsed_data.get("age", {}) or {}
+        document_type = parsed_data.get("document_type", {}) or {}
+        gender = parsed_data.get("gender", {}) or {}
+        mrz = parsed_data.get("mrz", {}) or {}
+        nationality = parsed_data.get("nationality", {}) or {}
+
+        images = [ItemIdentityParserDataClass(
+                        value=image.get("signature"),
+                        confidence=image.get("confidence"),
+                    ) for image in fields.get("images", [])] or []
+        
+        if img_value:= (parsed_data.get('face', {}) or {}).get("value", ""):
+            images.append(
+                ItemIdentityParserDataClass(
+                    value=img_value                
+                )
+            )
+        identity_imgs = parsed_data.get('identity_document', []) or []
+        if len(identity_imgs) > 0:
+            for identity_img in identity_imgs:
+                if img_value:= identity_img.get("image", ""):
+                    images.append(
+                        ItemIdentityParserDataClass(
+                            value= img_value
+                        )
+            )
+            
+
 
         items.append(
             InfosIdentityParserDataClass(
                 last_name=ItemIdentityParserDataClass(
-                    value = (parsed_data.get("surname", {}) or {}).get("value"),
-                    confidence=(parsed_data.get("surname", {}) or {}).get("confidence"),
+                    value = last_name.get("value"),
+                    confidence=last_name.get("confidence"),
                 ),
                 given_names=final_given_names,
                 birth_place=ItemIdentityParserDataClass(
-                    value = (parsed_data.get("place_of_birth", {}) or {}).get("value"),
-                    confidence=(parsed_data.get("place_of_birth", {}) or {}).get("confidence"),
+                    value = birth_place.get("value"),
+                    confidence=birth_place.get("confidence"),
                 ),
                 birth_date=ItemIdentityParserDataClass(
                     value=formatted_birth_date,
@@ -456,36 +313,31 @@ class KlippaApi(ProviderInterface, OcrInterface):
                     confidence=expire_date_confidence,
                 ),
                 document_id=ItemIdentityParserDataClass(
-                    value = (parsed_data.get("document_number", {}) or {}).get("value"),
-                    confidence=(parsed_data.get("document_number", {}) or {}).get("confidence"),
+                    value = document_id.get("value"),
+                    confidence=document_id.get("confidence"),
                 ),
                 issuing_state=ItemIdentityParserDataClass(
-                    value = (parsed_data.get("issuing_institution", {}) or {}).get("value"),
-                    confidence=(parsed_data.get("issuing_institution", {}) or {}).get("confidence"),
+                    value = issuing_state.get("value"),
+                    confidence=issuing_state.get("confidence"),
                 ),
                 address=ItemIdentityParserDataClass(
-                    value = (parsed_data.get("address", {}) or {}).get("value"),
-                    confidence=(parsed_data.get("address", {}) or {}).get("confidence"),
+                    value = address.get("value"),
+                    confidence= address.get("confidence"),
                 ),
                 age=ItemIdentityParserDataClass(
-                    value = (parsed_data.get("age", {}) or {}).get("value"),
-                    confidence=(parsed_data.get("age", {}) or {}).get("confidence"),
+                    value = age.get("value"),
+                    confidence=age.get("confidence"),
                 ),
                 country=country,
                 document_type=ItemIdentityParserDataClass(
-                    value = (parsed_data.get("document_type", {}) or {}).get("value"),
-                    confidence=(parsed_data.get("document_type", {}) or {}).get("confidence"),
+                    value = document_type.get("value"),
+                    confidence=document_type.get("confidence"),
                 ),
                 gender=ItemIdentityParserDataClass(
-                    value = (parsed_data.get("gender", {}) or {}).get("value"),
-                    confidence=(parsed_data.get("gender", {}) or {}).get("confidence"),
+                    value = gender.get("value"),
+                    confidence = gender.get("confidence"),
                 ),
-                image_id=[
-                    ItemIdentityParserDataClass(
-                        value=image.get("id"),
-                        confidence=image.get("confidence"),
-                    ) for image in fields.get("images", [])
-                ],
+                image_id=images,
                 image_signature=[
                     ItemIdentityParserDataClass(
                         value=image.get("signature"),
@@ -493,12 +345,12 @@ class KlippaApi(ProviderInterface, OcrInterface):
                     ) for image in fields.get("images", [])
                 ],
                 mrz=ItemIdentityParserDataClass(
-                    value = (parsed_data.get("mrz", {}) or {}).get("value"),
-                    confidence=(parsed_data.get("mrz", {}) or {}).get("confidence"),
+                    value = mrz.get("value"),
+                    confidence=mrz.get("confidence"),
                 ),
                 nationality=ItemIdentityParserDataClass(
-                    value = (parsed_data.get("nationality", {}) or {}).get("value"),
-                    confidence=(parsed_data.get("nationality", {}) or {}).get("confidence"),
+                    value = nationality.get("value"),
+                    confidence=nationality.get("confidence"),
                 ),
             )
         )
