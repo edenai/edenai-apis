@@ -32,14 +32,14 @@ class KlippaApi(ProviderInterface, OcrInterface):
             "X-Auth-Key": self.api_key,
         }
 
-    def _make_post_request(self, file: BufferedReader):
+    def _make_post_request(self, file: BufferedReader, endpoint: str = ""):
         files = {
             "document": file,
             "pdf_text_extraction": "full",
         }
 
         response = requests.post(
-            url=self.url,
+            url=self.url + endpoint,
             headers=self.headers,
             files=files
         )
@@ -386,154 +386,125 @@ class KlippaApi(ProviderInterface, OcrInterface):
             standardized_response=standardized_response
         )    
         """
+
     def ocr__identity_parser(
         self,
         file: str,
         file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
         file_ = open(file, "rb")
-        original_response = self._make_post_request(file_)
+        original_response = self._make_post_request(file_, endpoint="/identity")
         file_.close()
 
         items = []
         fields = {}
         country = {}
 
-        for document in original_response.get("documents", []):
+        parsed_data = original_response.get("data", {}).get("parsed", {})
+        print(parsed_data["surname"])
+        for document in original_response.get("original_response", {}).get("data", {}).get("parsed", {}).get("documents", []):
             fields = document["fields"]
             country["value"] = get_info_country(
                 key=InfoCountry.ALPHA3,
                 value=fields.get("CountryRegion", {}).get("content"),
             )
-            country["confidence"] = fields.get("CountryRegion", {}).get(
-                "confidence"
-            )
+            country["confidence"] = fields.get("CountryRegion", {}).get("confidence")
 
-        given_names = original_response.get("FirstName", {}).get("content", "").split(" ")
+        given_names = parsed_data.get("given_names", {}).get("value", "").split(" ")
         final_given_names = []
         for given_name in given_names:
             final_given_names.append(
                 ItemIdentityParserDataClass(
                     value=given_name,
-                    confidence=original_response.get("FirstName", {}).get("confidence"),
+                    confidence=(parsed_data.get("given_names", {}) or {}).get("confidence"),
                 )
             )
+        birth_date_value = (parsed_data.get("date_of_birth", {}) or {}).get("value")
+        birth_date_confidence = (parsed_data.get("date_of_birth", {}) or {}).get("confidence")
+        formatted_birth_date = format_date(birth_date_value)
+
+        issuance_date_value = (parsed_data.get("date_of_issue", {}) or {}).get("value")
+        issuance_date_confidence = (parsed_data.get("date_of_issue", {}) or {}).get("confidence")
+        formatted_issuance_date = format_date(issuance_date_value)
+
+        expire_date_value = (parsed_data.get("date_of_expiry", {}) or {}).get("value")
+        expire_date_confidence = (parsed_data.get("date_of_expiry", {}) or {}).get("confidence")
+        formatted_expire_date = format_date(expire_date_value)
 
         items.append(
             InfosIdentityParserDataClass(
-                last_name=InfosIdentityParserDataClass.to_uppercase(
-
-                    ItemIdentityParserDataClass(
-                        value=fields.get("last_name", {}).get("content"),
-                        confidence=fields.get("last_name", {}).get("confidence"),
-                    )
+                last_name=ItemIdentityParserDataClass(
+                    value = (parsed_data.get("surname", {}) or {}).get("value"),
+                    confidence=(parsed_data.get("surname", {}) or {}).get("confidence"),
                 ),
-                given_names=[InfosIdentityParserDataClass.to_title(given_name) for given_name in final_given_names],
-                birth_place=InfosIdentityParserDataClass.to_title(
-                   
-                    ItemIdentityParserDataClass(
-                        value=fields.get("birth_place", {}).get("content"),
-                        confidence=fields.get("birth_place", {}).get("confidence"),
-                    )
+                given_names=[ItemIdentityParserDataClass(value= given_name.value, confidence = given_name.confidence) for given_name in final_given_names],
+                birth_place=ItemIdentityParserDataClass(
+                    value = (parsed_data.get("place_of_birth", {}) or {}).get("value"),
+                    confidence=(parsed_data.get("place_of_birth", {}) or {}).get("confidence"),
                 ),
                 birth_date=ItemIdentityParserDataClass(
-                    value=format_date(fields.get("DateOfBirth", {}).get("value")),
-                    confidence=fields.get("DateOfBirth", {}).get("confidence"),
+                    value=formatted_birth_date,
+                    confidence=birth_date_confidence,
                 ),
                 issuance_date=ItemIdentityParserDataClass(
-                    value=format_date(fields.get("DateOfIssue", {}).get("value")),
-                    confidence=fields.get("DateOfIssue", {}).get("confidence"),
+                    value=formatted_issuance_date,
+                    confidence=issuance_date_confidence,
                 ),
                 expire_date=ItemIdentityParserDataClass(
-                    value=format_date(
-                        fields.get("DateOfExpiration", {}).get("value")
-                    ),
-                    confidence=fields.get("DateOfExpiration", {}).get("confidence"),
+                    value=formatted_expire_date,
+                    confidence=expire_date_confidence,
                 ),
                 document_id=ItemIdentityParserDataClass(
-                    value=fields.get("document_id", {}).get("content"),
-                    confidence=fields.get("document_id", {}).get("confidence"),
+                    value = (parsed_data.get("document_number", {}) or {}).get("value"),
+                    confidence=(parsed_data.get("document_number", {}) or {}).get("confidence"),
                 ),
-                issuing_state=InfosIdentityParserDataClass.to_title(
-                  
-                    ItemIdentityParserDataClass(
-                        value=fields.get("issuing_state", {}).get("content"),
-                        confidence=fields.get("issuing_state", {}).get("confidence"),
-                    )
+                issuing_state=ItemIdentityParserDataClass(
+                    value = (parsed_data.get("issuing_institution", {}) or {}).get("value"),
+                    confidence=(parsed_data.get("issuing_institution", {}) or {}).get("confidence"),
                 ),
                 address=ItemIdentityParserDataClass(
-                    value=fields.get("address", {}).get("content"),
-                    confidence=fields.get("address", {}).get("confidence"),
+                    value = (parsed_data.get("address", {}) or {}).get("value"),
+                    confidence=(parsed_data.get("address", {}) or {}).get("confidence"),
                 ),
                 age=ItemIdentityParserDataClass(
-                    value=fields.get("age", {}).get("content"),
-                    confidence=fields.get("age", {}).get("confidence"),
+                    value = (parsed_data.get("age", {}) or {}).get("value"),
+                    confidence=(parsed_data.get("age", {}) or {}).get("confidence"),
                 ),
                 country=country,
-                document_type=InfosIdentityParserDataClass.to_title(
-                   
-                    ItemIdentityParserDataClass(
-                        value=fields.get("document_type", {}).get("content"),
-                        confidence=fields.get("document_type", {}).get("confidence"),
-                    )
+                document_type=ItemIdentityParserDataClass(
+                    value = (parsed_data.get("document_type", {}) or {}).get("value"),
+                    confidence=(parsed_data.get("document_type", {}) or {}).get("confidence"),
                 ),
                 gender=ItemIdentityParserDataClass(
-                    value=fields.get("gender", {}).get("content"),
-                    confidence=fields.get("gender", {}).get("confidence"),
+                    value = (parsed_data.get("gender", {}) or {}).get("value"),
+                    confidence=(parsed_data.get("gender", {}) or {}).get("confidence"),
                 ),
-                image_id=[ItemIdentityParserDataClass(
-                    value=image.get("id"),
-                    confidence=image.get("confidence"),
-                ) for image in fields.get("images", [])],
-                image_signature=[ItemIdentityParserDataClass(
-                    value=image.get("signature"),
-                    confidence=image.get("confidence"),
-                ) for image in fields.get("images", [])],
-                mrz=ItemIdentityParserDataClass(
-                    value=fields.get("mrz", {}).get("content"),
-                    confidence=fields.get("mrz", {}).get("confidence"),
-                ),
-                nationality=InfosIdentityParserDataClass.to_title(
-                    
+                image_id=[
                     ItemIdentityParserDataClass(
-                        value=fields.get("nationality", {}).get("content"),
-                        confidence=fields.get("nationality", {}).get("confidence"),
-                    )
-                )
+                        value=image.get("id"),
+                        confidence=image.get("confidence"),
+                    ) for image in fields.get("images", [])
+                ],
+                image_signature=[
+                    ItemIdentityParserDataClass(
+                        value=image.get("signature"),
+                        confidence=image.get("confidence"),
+                    ) for image in fields.get("images", [])
+                ],
+                mrz=ItemIdentityParserDataClass(
+                    value = (parsed_data.get("mrz", {}) or {}).get("value"),
+                    confidence=(parsed_data.get("mrz", {}) or {}).get("confidence"),
+                ),
+                nationality=ItemIdentityParserDataClass(
+                    value = (parsed_data.get("nationality", {}) or {}).get("value"),
+                    confidence=(parsed_data.get("nationality", {}) or {}).get("confidence"),
+                ),
             )
         )
 
         standardized_response = IdentityParserDataClass(extracted_data=items)
+
         return ResponseType[IdentityParserDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
         )
-
-
-
-    
-
-
-                
-
-
-            
-
-            
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
