@@ -32,6 +32,7 @@
 | | sentisight |
 | **ocr_async** | amazon |
 | | google |
+| | oneai |
 | **ocr_tables_async** | amazon |
 | | google |
 | | microsoft |
@@ -551,6 +552,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | speech_to_text_async |
+| **ocr** | ocr_async |
 | **text** | anonymization |
 | | keyword_extraction |
 | | named_entity_recognition |
