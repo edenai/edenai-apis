@@ -132,6 +132,7 @@
 | | microsoft |
 | | oneai |
 | | openai |
+| | tenstorrent |
 | **named_entity_recognition** | amazon |
 | | google |
 | | ibm |
@@ -683,7 +684,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | sentiment_analysis |
+| **text** | keyword_extraction |
+| | sentiment_analysis |
 
 </details>
 <details><summary>veryfi</summary>
