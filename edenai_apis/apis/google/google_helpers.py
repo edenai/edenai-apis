@@ -302,7 +302,7 @@ def handle_done_response_ocr_async(
     ]
 
     original_response = {"responses": []}
-    pages: Sequence[Page] = []
+    pages: List[Page] = []
     for blob in blob_list:
         output = blob
 
@@ -342,11 +342,15 @@ def handle_done_response_ocr_async(
                     )
                 )
         pages.append(Page(lines=lines))
-    return AsyncResponseType[OcrAsyncDataClass](
+
+
+
+    raw_text = ''.join([res['text'] for res in original_response['responses']])
+    return AsyncResponseType(
         provider_job_id=job_id,
         original_response=original_response,
         standardized_response=OcrAsyncDataClass(
-            pages=pages, number_of_pages=len(pages)
+            raw_text=raw_text, pages=pages, number_of_pages=len(pages)
         ),
     )
 

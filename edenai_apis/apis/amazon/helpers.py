@@ -635,7 +635,12 @@ def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
         page = OcrAsyncPage(lines=lines)
         pages.append(page)
 
-    return OcrAsyncDataClass(pages=pages, number_of_pages=len(pages))
+    text = ""
+    for page in pages:
+        for line in page.lines:
+            text += line.text + "\n"
+
+    return OcrAsyncDataClass(raw_text=text, pages=pages, number_of_pages=len(pages))
 
 
 def amazon_data_extraction_formatter(

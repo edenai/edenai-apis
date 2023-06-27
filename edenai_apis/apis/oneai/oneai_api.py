@@ -1,36 +1,34 @@
-from enum import Enum
-from io import BufferedReader
 import json
 from typing import Dict, List, Optional
 
 import requests
 from edenai_apis.features import (
+    AudioInterface,
+    OcrInterface,
     ProviderInterface,
     TextInterface,
     TranslationInterface,
-    AudioInterface,
 )
 from edenai_apis.features.audio import (
-    SpeechToTextAsyncDataClass,
-    SpeechDiarizationEntry,
     SpeechDiarization,
+    SpeechDiarizationEntry,
+    SpeechToTextAsyncDataClass,
 )
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import OcrAsyncDataClass
 from edenai_apis.features.text import (
     AnonymizationDataClass,
+    InfosKeywordExtractionDataClass,
+    InfosNamedEntityRecognitionDataClass,
     KeywordExtractionDataClass,
     NamedEntityRecognitionDataClass,
-    InfosNamedEntityRecognitionDataClass,
-    InfosKeywordExtractionDataClass,
     SentimentAnalysisDataClass,
-    SummarizeDataClass,
     SentimentEnum,
+    SummarizeDataClass,
 )
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SegmentSentimentAnalysisDataClass,
 )
-from edenai_apis.features.translation import (
-    LanguageDetectionDataClass,
-)
+from edenai_apis.features.translation import LanguageDetectionDataClass
 from edenai_apis.features.translation.language_detection import (
     InfosLanguageDetectionDataClass,
 )
@@ -41,6 +39,7 @@ from edenai_apis.utils.exception import (
     AsyncJobExceptionReason,
     ProviderException,
 )
+from edenai_apis.utils.languages import get_code_from_language_name
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -49,16 +48,10 @@ from edenai_apis.utils.types import (
     ResponseType,
 )
 
-from edenai_apis.utils.languages import get_code_from_language_name
+from .helpers import OneAIAsyncStatus
 
 
-class StatusEnum(Enum):
-    SUCCESS = "COMPLETED"
-    RUNNING = "RUNNING"
-    FAILED = "FAILED"
-
-
-class OneaiApi(ProviderInterface, TextInterface, TranslationInterface, AudioInterface):
+class OneaiApi(ProviderInterface, TextInterface, TranslationInterface, AudioInterface, OcrInterface):
     provider_name = "oneai"
 
     def __init__(self, api_keys: Dict = {}) -> None:
@@ -305,7 +298,7 @@ class OneaiApi(ProviderInterface, TextInterface, TranslationInterface, AudioInte
         original_response = response.json()
 
         if response.status_code == 200:
-            if original_response["status"] == StatusEnum.SUCCESS.value:
+            if original_response["status"] == OneAIAsyncStatus.SUCCESS.value:
                 final_text = ""
                 phrase = original_response["result"]["input_text"].split("\n\n")
                 for item in phrase:
@@ -339,7 +332,7 @@ class OneaiApi(ProviderInterface, TextInterface, TranslationInterface, AudioInte
                     standardized_response=standardized_response,
                     provider_job_id=provider_job_id,
                 )
-            elif original_response["status"] == StatusEnum.RUNNING.value:
+            elif original_response["status"] == OneAIAsyncStatus.RUNNING.value:
                 return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                     provider_job_id=provider_job_id
                 )
@@ -350,4 +343,64 @@ class OneaiApi(ProviderInterface, TextInterface, TranslationInterface, AudioInte
                 raise AsyncJobException(
                     reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
                 )
+            raise ProviderException(original_response)
+
+    def ocr__ocr_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
+        params = {
+            "input_type": "article",
+            "content_type": "text/pdf",
+            "steps": [{"skill": "pdf-extract-text"}],
+        }
+
+        if file_url:
+            params["input"] = file_url
+            file_param = None
+        else:
+            with open(file, "rb") as _file:
+                file_param = _file.read()
+
+        response = requests.post(
+            f"{self.url}/async/file",
+            params={"pipeline": json.dumps(params)},
+            headers=self.header,
+            data=file_param,
+        )
+
+        if not response.ok:
+            raise ProviderException(message=response.json()["message"], code=response.status_code)
+
+        data = response.json()
+
+        return AsyncLaunchJobResponseType(provider_job_id=data["task_id"])
+
+
+    def ocr__ocr_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrAsyncDataClass]:
+        response = requests.get(
+            url=f"{self.url}/async/tasks/{provider_job_id}", headers=self.header
+        )
+        original_response = response.json()
+        status = original_response["status"]
+
+        if status in (OneAIAsyncStatus.RUNNING.value, OneAIAsyncStatus.QUEUED.value):
+            return AsyncPendingResponseType(
+                provider_job_id=provider_job_id
+            )
+        elif status == OneAIAsyncStatus.COMPLETED.value:
+            standardized_response = OcrAsyncDataClass(
+                raw_text=original_response["result"]["output"][0]["text"]
+            )
+            return AsyncResponseType(
+                provider_job_id=provider_job_id,
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+        elif status == OneAIAsyncStatus.FAILED.value:
+            raise ProviderException(original_response)
+        elif status == OneAIAsyncStatus.NOT_FOUND.value:
+            raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
+        else:
             raise ProviderException(original_response)

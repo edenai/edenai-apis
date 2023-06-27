@@ -1,4 +1,14 @@
 {
+  "ocr": {
+    "ocr_async": {
+      "version": "v0",
+      "constraints": {
+        "file_types": [
+          "application/pdf"
+        ]
+      }
+    }
+  },
   "text": {
     "anonymization": {
       "constraints": {

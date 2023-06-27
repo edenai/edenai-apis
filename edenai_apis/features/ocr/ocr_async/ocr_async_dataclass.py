@@ -1,5 +1,5 @@
 import enum
-from typing import Optional, Sequence, Callable
+from typing import List, Optional, Sequence, Callable
 from pydantic import BaseModel, Field, validator
 
 
@@ -217,5 +217,6 @@ class OcrAsyncDataClass(BaseModel):
         pages (Sequence[Page]): Pages of the document
     """
 
-    pages: Sequence[Page] = Field(default_factory=list, description="List of pages")
-    number_of_pages: int = Field(description="Number of pages in the document")
+    raw_text: str
+    pages: List[Page] = Field(default_factory=list, description="List of pages")
+    number_of_pages: Optional[int] = Field(description="Number of pages in the document", default=None)
