@@ -1,5 +1,8 @@
 import requests
 
+from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
+    KeywordExtractionDataClass,
+)
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SentimentAnalysisDataClass,
 )
@@ -9,10 +12,37 @@ from edenai_apis.utils.types import ResponseType
 
 
 class TenstorrentTextApi(TextInterface):
+
+    def text__keyword_extraction(
+        self, language: str, text: str
+    ) -> ResponseType[KeywordExtractionDataClass]:
+        base_url = "https://keyword-extraction--eden-ai.workload.tenstorrent.com"
+        url = f"{base_url}/predictions/keyword_extraction"
+        payload = {
+            "text": text,
+        }
+        try:
+            original_response = requests.post(url, json=payload, headers=self.headers)
+            original_response.raise_for_status()
+        except Exception as exc:
+            raise ProviderException(original_response.text)
+
+        original_response = original_response.json()
+
+        # Check for errors
+        self.check_for_errors(original_response)
+
+        standardized_response = KeywordExtractionDataClass(items=original_response["items"])
+        return ResponseType[KeywordExtractionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
     def text__sentiment_analysis(
         self, language: str, text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
-        url = f"{self.base_url}/predictions/sentiment_analysis"
+        base_url = "https://sentiment-analysis--eden-ai.workload.tenstorrent.com"
+        url = f"{base_url}/predictions/sentiment_analysis"
         payload = {
             "text": text,
         }

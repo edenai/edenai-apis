@@ -1,0 +1,58 @@
+{
+  "original_response": {
+    "items": [
+      {
+        "keyword": "barack hussein obama",
+        "importance": 1.0
+      },
+      {
+        "keyword": "democratic party",
+        "importance": 0.98046875
+      },
+      {
+        "keyword": "u. s. senator",
+        "importance": 0.9765625
+      },
+      {
+        "keyword": "illinois state",
+        "importance": 0.955078125
+      },
+      {
+        "keyword": "president of the united states",
+        "importance": 0.91484375
+      },
+      {
+        "keyword": "african - american president",
+        "importance": 0.859375
+      }
+    ]
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "keyword": "barack hussein obama",
+        "importance": 1.0
+      },
+      {
+        "keyword": "democratic party",
+        "importance": 0.98
+      },
+      {
+        "keyword": "u. s. senator",
+        "importance": 0.98
+      },
+      {
+        "keyword": "illinois state",
+        "importance": 0.96
+      },
+      {
+        "keyword": "president of the united states",
+        "importance": 0.91
+      },
+      {
+        "keyword": "african - american president",
+        "importance": 0.86
+      }
+    ]
+  }
+}
