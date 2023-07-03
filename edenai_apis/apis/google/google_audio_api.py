@@ -57,7 +57,7 @@ class GoogleAudioApi(AudioInterface):
         ext, audio_format = get_right_audio_support_and_sampling_rate(
             audio_format,
             texttospeech.AudioEncoding._member_names_)
-
+        
         audio_config_params = generate_tts_params(
             speaking_rate, speaking_pitch, speaking_volume)
 

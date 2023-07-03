@@ -560,6 +560,7 @@ def get_right_audio_support_and_sampling_rate(audio_format: str, sampling_rate: 
     returned_audio_format = audio_format
     if not returned_audio_format:
         returned_audio_format = "mp3"
+        audio_format = "mp3"
     if returned_audio_format == "ogg":
         returned_audio_format = "ogg_vorbis"
     if not sampling_rate:
