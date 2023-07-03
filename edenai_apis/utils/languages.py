@@ -6,7 +6,7 @@ from typing import List, Optional, Sequence
 import pycountry
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from langcodes import Language, closest_supported_match
+from langcodes import Language, closest_supported_match, tag_parser
 
 
 
@@ -139,7 +139,10 @@ def get_language_name_from_code(isocode: str) -> str:
         )
         if not language and not isocode:
             return ""
-        output = Language.get(isocode).display_name() if not language else language.name
+        try:
+            output = Language.get(isocode).display_name() if not language else language.name
+        except tag_parser.LanguageTagError:
+            return ""
     else:
         language = Language.get(isocode)
         output = language.display_name()

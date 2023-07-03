@@ -25,13 +25,12 @@ class OpenaiTranslationApi(TranslationInterface):
             "logprobs":1,
         }
         original_response = requests.post(url, json=payload, headers=self.headers).json()
-        
+
         # Handle errors
         check_openai_errors(original_response)
-        
         items: Sequence[InfosLanguageDetectionDataClass] = []
+
         score = np.exp(original_response['choices'][0]['logprobs']['token_logprobs'][0])
-        
         # replace are necessary to keep only language code
         isocode = original_response['choices'][0]['text'].replace(' ', '')
         items.append(
@@ -46,7 +45,7 @@ class OpenaiTranslationApi(TranslationInterface):
             original_response=original_response,
             standardized_response=LanguageDetectionDataClass(items=items),
         )
-        
+
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str
     ) -> ResponseType[AutomaticTranslationDataClass]:

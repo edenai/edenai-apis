@@ -278,6 +278,13 @@ class TestGetLanguageNameFromCode:
         assert output == expected_output, \
             f"Expected `{expected_output}` for `{isocode}` but got `{output}`"
 
+    def test_invalid_isocode(self):
+        isocode = "unknown"
+        expected_output = ""
+        output = get_language_name_from_code(isocode)
+        assert output == expected_output, \
+            f"Expected `{expected_output}` for `{isocode}` but got `{output}`"
+
 class TestGetCodeFromLanguageName:
     def test_valid_name(self):
         name = "English"
