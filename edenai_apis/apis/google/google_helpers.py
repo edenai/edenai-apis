@@ -275,6 +275,7 @@ def get_right_audio_support_and_sampling_rate(
         audio_format = "mp3"
     if audio_format == "wav":
         audio_format = "wav-linear16"
+    extension = audio_format
     if "-" in audio_format:
         extension, audio_format = audio_format.split("-")
     right_audio_format = next(
