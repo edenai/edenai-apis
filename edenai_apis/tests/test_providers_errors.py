@@ -76,7 +76,7 @@ class TestProviderErrors:
         input_field = 'text'
         feature     = 'audio'
         subfeature  = 'text_to_speech'
-        text        = 'This is a sentence is too long ' * 20 + '.'
+        text        = 'This is a sentence is too long ' * 40 + '.'
         args        = load_feature(
                         FeatureDataEnum.SAMPLES_ARGS,
                         feature=feature,
