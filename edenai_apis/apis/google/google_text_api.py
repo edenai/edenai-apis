@@ -360,10 +360,13 @@ class GoogleTextApi(TextInterface):
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {token}',
         }
+        text = instruction
+        if prompt:
+            text += prompt
         payload = {
             "instances": [
                 {
-                    "prefix": instruction,
+                    "prefix": text,
                 }
             ],
             "parameters": {
