@@ -64,7 +64,8 @@ class EmvistaApi(ProviderInterface, TextInterface):
             raise ProviderException(original_response["message"])
 
         # Return standardized response
-        standardized_response_list = original_response["result"].get("sentences", [])
+        standardized_response_list = original_response.get("result", {}).get("sentences", [])
+
         level_items = [
             element for element in standardized_response_list if element["level"] == 10
         ]
