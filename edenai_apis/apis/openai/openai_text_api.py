@@ -278,7 +278,10 @@ class OpenaiTextApi(TextInterface):
             .replace("\n", "")
             .strip()
         )
-        data_dict = json.loads(rf"{data}")
+        try:
+            data_dict = json.loads(rf"{data}")
+        except json.JSONDecodeError:
+            raise ProviderException("An error occurred while parsing the response.")
         new_text = text
         entities: Sequence[AnonymizationEntity] = []
         for entity in data_dict.get("entities", []):
@@ -557,7 +560,11 @@ class OpenaiTextApi(TextInterface):
         # Getting labels
         detected_labels = original_response["choices"][0]["text"]
 
-        json_detected_labels = json.loads(detected_labels)
+        try:
+            json_detected_labels = json.loads(detected_labels)
+        except json.JSONDecodeError:
+            raise ProviderException("An error occurred while parsing the response.")
+
 
         return ResponseType[CustomClassificationDataClass](
             original_response=original_response,

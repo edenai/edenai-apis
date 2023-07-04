@@ -92,22 +92,23 @@ class HireabilityApi(ProviderInterface, OcrInterface):
 
         # 2 Education
         edu_entries: List[ResumeEducationEntry] = []
-        for i in infos.get("EducationOrganizationAttendance",{}):
-            title = i.get('EducationLevel',[{}])[0].get('Name')
+        for i in infos.get("EducationOrganizationAttendance", {}):
+            title = i.get("EducationLevel", [{}])[0].get("Name")  # value of MajorProgramName can be None
+            description = (i.get("MajorProgramName") or [None])[0]
             location = ResumeLocation(
-                country_code = i.get('ReferenceLocation',{}).get('CountryCode'),
-                region = i.get('ReferenceLocation',{}).get('CountrySubDivisionCode'),
-                city = i.get('ReferenceLocation',{}).get('CityName','')
+                country_code=i.get("ReferenceLocation", {}).get("CountryCode"),
+                region=i.get("ReferenceLocation", {}).get("CountrySubDivisionCode"),
+                city=i.get("ReferenceLocation", {}).get("CityName", ""),
             )
             edu_entries.append(
                 ResumeEducationEntry(
                     start_date=i.get("AttendanceStartDate"),
                     end_date=i.get("AttendanceEndDate"),
                     establishment=i.get("School"),
-                    location = location,
+                    location=location,
                     title=title,
-                    description = i.get('MajorProgramName',[''])[0],
-                    gpa = i.get('EducationScore',[''])[0],
+                    description=description,
+                    gpa=i.get("EducationScore", [""])[0],
                 )
             )
         edu = ResumeEducation(entries=edu_entries)

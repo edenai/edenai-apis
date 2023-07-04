@@ -71,21 +71,25 @@ class MicrosoftTextApi(TextInterface):
         the entities and their importances
         """
 
-        try:
-            response = requests.post(
-                f"{self.url['text']}",
-                headers=self.headers["text"],
-                json={
-                    "kind": "EntityRecognition",
-                    "parameters": {"modelVersion": "latest"},
-                    "analysisInput": {
-                        "documents": [{"id": "1", "language": language, "text": text}]
-                    },
+        response = requests.post(
+            f"{self.url['text']}",
+            headers=self.headers["text"],
+            json={
+                "kind": "EntityRecognition",
+                "parameters": {"modelVersion": "latest"},
+                "analysisInput": {
+                    "documents": [{"id": "1", "language": language, "text": text}]
                 },
-            )
+            },
+        )
 
-        except Exception as exc:
-            raise ProviderException(f"Unexpected error! {sys.exc_info()[0]}") from exc
+        if not response.ok:
+            try:
+                data = response.json()
+                raise ProviderException(data['error']['innererror']['message'])
+            except:
+                raise ProviderException(response.text)
+
 
         data = response.json()
         self._check_microsoft_error(data)
