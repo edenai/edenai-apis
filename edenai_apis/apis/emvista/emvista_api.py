@@ -155,7 +155,9 @@ class EmvistaApi(ProviderInterface, TextInterface):
 
         entities: Sequence[AnonymizationEntity] = []
         new_text = text
-        for entity in original_response["result"]["namedEntities"]:
+
+        result = original_response['result'] or {}
+        for entity in result.get("namedEntities", []):
             classification = CategoryType.choose_category_subcategory(
                 entity["tags"][0].split("/")[-1]
             )
@@ -220,14 +222,14 @@ class EmvistaApi(ProviderInterface, TextInterface):
 
         original_response = response.json()
 
-        print(original_response["result"]["globalScore"])
+        result = original_response['result'] or {}
 
         standardized_response = SentimentAnalysisDataClass(
             general_sentiment=self._normalize_sentiment(
-                original_response["result"]["globalScore"]
+                result.get("globalScore", 0)
             ),
-            general_sentiment_rate=abs(original_response["result"]["globalScore"])
-            if original_response["result"]["globalScore"] != "NaN"
+            general_sentiment_rate=abs(result.get("globalScore", 0))
+            if result.get("globalScore") != "NaN"
             else 0,
         )
 
