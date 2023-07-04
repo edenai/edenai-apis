@@ -117,7 +117,7 @@ class MicrosoftOcrApi(OcrInterface):
         except AzureError as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
 
-        if invoices is None:
+        if invoices is None or not hasattr(invoices, "to_dict"):
             raise ProviderException("Provider return an empty response")
         original_response = invoices.to_dict()
         file_.close()
@@ -145,7 +145,7 @@ class MicrosoftOcrApi(OcrInterface):
         except AzureError as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
 
-        if form_pages is None:
+        if form_pages is None or not hasattr(form_pages, "to_dict"):
             raise ProviderException("Provider return an empty response")
         original_response = form_pages.to_dict()
         file_.close()
@@ -241,7 +241,7 @@ class MicrosoftOcrApi(OcrInterface):
         except AzureError as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
 
-        if response is None:
+        if response is None or not hasattr(response, "to_dict"):
             raise ProviderException("Provider return an empty response")
         original_response = response.to_dict()
 
