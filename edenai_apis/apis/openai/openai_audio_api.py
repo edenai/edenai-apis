@@ -77,8 +77,12 @@ class OpenaiAudioApi(AudioInterface):
 
         if not result_object or not result_object.get("content"):
             raise ProviderException("Provider returned an empty response")
-                
-        original_response = json.loads(result_object["content"]).get(provider_job_id, None)
+
+        try:
+            original_response = json.loads(result_object["content"]).get(provider_job_id, None)
+        except json.JSONDecodeError:
+            raise ProviderException("An error occurred while parsing the response.")
+
         if original_response is None:
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id
