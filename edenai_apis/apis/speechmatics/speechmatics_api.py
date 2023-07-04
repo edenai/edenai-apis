@@ -106,14 +106,15 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
             text = ""
             for entry in original_response.get('results'):
                 text = text + " " + entry['alternatives'][0]['content']
-                speakers.add(int(entry['alternatives'][0]['speaker'][1]))
+                speakers.add(entry['alternatives'][0]['speaker'])
+
                 diarization_entries.append(
                     SpeechDiarizationEntry(
                         segment=entry['alternatives'][0]['content'],
                         start_time= str(entry['start_time']),
                         end_time= str(entry["end_time"]),
                         confidence= entry['alternatives'][0]['confidence'],
-                        speaker= int(entry['alternatives'][0]['speaker'][1])
+                        speaker=list(speakers).index(entry['alternatives'][0]['speaker'][1])
                     )
                 )
             diarization = SpeechDiarization(total_speakers=len(speakers), entries=diarization_entries)
