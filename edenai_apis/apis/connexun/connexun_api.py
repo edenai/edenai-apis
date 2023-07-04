@@ -1,3 +1,4 @@
+import json
 from typing import Dict, Optional
 import requests
 
@@ -16,7 +17,9 @@ class ConnexunApi(ProviderInterface, TextInterface):
     provider_name = "connexun"
 
     def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.api_key = self.api_settings["api"]
         self.base_url = "https://api.connexun.com/"
 
@@ -67,18 +70,23 @@ class ConnexunApi(ProviderInterface, TextInterface):
 
         # Send request to API
         response = requests.post(url, headers=headers, json=files)
-        original_response = response.json()
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError:
+            raise ProviderException("Internal server error")
         if response.status_code != 200:
-            raise ProviderException(response.json()['detail'])
-        if original_response.get('Error'):
-            raise ProviderException(original_response['Error'])
+            raise ProviderException(response.json()["detail"])
+        if original_response.get("Error"):
+            raise ProviderException(original_response["Error"])
 
         # Check errors from API
         if isinstance(original_response, dict) and original_response.get("message"):
             raise ProviderException(original_response["message"])
 
         # Return standardized response
-        standardized_response = SummarizeDataClass(result=original_response.get("summary", {}))
+        standardized_response = SummarizeDataClass(
+            result=original_response.get("summary", {})
+        )
         result = ResponseType[SummarizeDataClass](
             original_response=original_response,
             standardized_response=standardized_response,

@@ -262,9 +262,12 @@ class OpenaiTextApi(TextInterface):
             "frequency_penalty": 0.0,
             "presence_penalty": 0.0,
         }
-        original_response = requests.post(
-            url, json=payload, headers=self.headers
-        ).json()
+        try:
+            original_response = requests.post(
+                url, json=payload, headers=self.headers
+            ).json()
+        except json.JSONDecodeError:
+            raise ProviderException("An error occurred while parsing the response.")
 
         # Handle errors
         check_openai_errors(original_response)
@@ -325,7 +328,9 @@ class OpenaiTextApi(TextInterface):
                 url, json=payload, headers=self.headers
             ).json()
         except json.JSONDecodeError as exc:
-            raise ProviderException("Internal Server Error") from exc
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
 
         # Handle errors
         check_openai_errors(original_response)
@@ -433,9 +438,12 @@ class OpenaiTextApi(TextInterface):
             "max_tokens": max_tokens,
         }
 
-        original_response = requests.post(
-            url, json=payload, headers=self.headers
-        ).json()
+        try:
+            original_response = requests.post(
+                url, json=payload, headers=self.headers
+            ).json()
+        except json.JSONDecodeError:
+            raise ProviderException("An error occurred while parsing the response.")
 
         # Handle errors
         check_openai_errors(original_response)
@@ -536,9 +544,12 @@ class OpenaiTextApi(TextInterface):
             "frequency_penalty": 0,
             "presence_penalty": 0,
         }
-        original_response = requests.post(
-            url, json=payload, headers=self.headers
-        ).json()
+        try:
+            original_response = requests.post(
+                url, json=payload, headers=self.headers
+            ).json()
+        except json.JSONDecodeError:
+            raise ProviderException("An error occurred while parsing the response.")
 
         # Handle errors
         check_openai_errors(original_response)
@@ -575,7 +586,9 @@ class OpenaiTextApi(TextInterface):
                 url, json=payload, headers=self.headers
             ).json()
         except json.JSONDecodeError as exc:
-            raise ProviderException("Internal Server Error") from exc
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
 
         check_openai_errors(original_response)
 
@@ -626,7 +639,9 @@ class OpenaiTextApi(TextInterface):
                 url, json=payload, headers=self.headers
             ).json()
         except json.JSONDecodeError as exc:
-            raise ProviderException("Internal Server Error") from exc
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
 
         check_openai_errors(original_response)
 
@@ -658,7 +673,9 @@ class OpenaiTextApi(TextInterface):
                 url, json=payload, headers=self.headers
             ).json()
         except json.JSONDecodeError as exc:
-            raise ProviderException("Internal Server Error") from exc
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
 
         check_openai_errors(original_response)
 
@@ -705,9 +722,14 @@ class OpenaiTextApi(TextInterface):
             "max_tokens": max_tokens,
         }
 
-        original_response = requests.post(
-            url, json=payload, headers=self.headers
-        ).json()
+        try:
+            original_response = requests.post(
+                url, json=payload, headers=self.headers
+            ).json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
 
         # Handle errors
         check_openai_errors(original_response)
