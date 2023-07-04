@@ -58,7 +58,7 @@ class HireabilityApi(ProviderInterface, OcrInterface):
             raise ProviderException(errors['Error'][0]['ErrorMessage'],code = errors['Error'][0]['ErrorCode']) 
 
         
-        infos = original_response['Results'][0]['HireAbilityJSONResults'][0]      
+        infos = original_response['Results'][0]['HireAbilityJSONResults'][0]
 
         # Resume parser std 
         default_dict = defaultdict(lambda: None) 
@@ -114,7 +114,7 @@ class HireabilityApi(ProviderInterface, OcrInterface):
 
         # 3 Work experience
         work_entries = []
-        for i in infos.get("PositionHistory",default_dict):
+        for i in infos.get("PositionHistory", []):
             work_location = ResumeLocation(
                 country_code = i.get('ReferenceLocation', default_dict).get('CountryCode'),
                 region = i.get('ReferenceLocation',default_dict).get('CountrySubDivisionCode'),
