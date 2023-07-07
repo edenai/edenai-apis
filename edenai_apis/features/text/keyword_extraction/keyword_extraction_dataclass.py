@@ -1,13 +1,13 @@
 from typing import Optional, Sequence
 
-from pydantic import BaseModel, Field, StrictStr, validator
+from pydantic import BaseModel, Field, StrictStr, field_validator
 
 
 class InfosKeywordExtractionDataClass(BaseModel):
     keyword: str
     importance: Optional[float]
 
-    @validator('importance')
+    @field_validator("importance")
     def valid_importance(cls, value):
         if value:
             value = round(value, 2)

@@ -1,17 +1,34 @@
 from io import BufferedReader
 from json import JSONDecodeError
-from typing import Dict, List
+from typing import Dict, List, Sequence
 
 import requests
 from edenai_apis.features import ProviderInterface, OcrInterface
 from edenai_apis.features.ocr.invoice_parser import InvoiceParserDataClass
-from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import BankInvoice, CustomerInformationInvoice, InfosInvoiceParserDataClass, ItemLinesInvoice, LocaleInvoice, MerchantInformationInvoice, TaxesInvoice
+from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
+    BankInvoice,
+    CustomerInformationInvoice,
+    InfosInvoiceParserDataClass,
+    ItemLinesInvoice,
+    LocaleInvoice,
+    MerchantInformationInvoice,
+    TaxesInvoice,
+)
 from edenai_apis.features.ocr.receipt_parser import ReceiptParserDataClass
-from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import CustomerInformation, InfosReceiptParserDataClass, ItemLines, Locale, MerchantInformation, PaymentInformation, Taxes
+from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
+    CustomerInformation,
+    InfosReceiptParserDataClass,
+    ItemLines,
+    Locale,
+    MerchantInformation,
+    PaymentInformation,
+    Taxes,
+)
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
-#from edenai_apis.features.ocr.resume_parser import ResumeParserDataClass, ResumeLocation, ResumeSkill, ResumeLang, ResumeWorkExpEntry, ResumeWorkExp, ResumeEducationEntry, ResumeEducation, ResumePersonalName, ResumePersonalInfo, ResumeExtractedData
+
+# from edenai_apis.features.ocr.resume_parser import ResumeParserDataClass, ResumeLocation, ResumeSkill, ResumeLang, ResumeWorkExpEntry, ResumeWorkExp, ResumeEducationEntry, ResumeEducation, ResumePersonalName, ResumePersonalInfo, ResumeExtractedData
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     Country,
     InfoCountry,
@@ -19,13 +36,21 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     format_date,
     get_info_country,
 )
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import InfosIdentityParserDataClass
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    IdentityParserDataClass,
+)
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    InfosIdentityParserDataClass,
+)
+
+
 class KlippaApi(ProviderInterface, OcrInterface):
     provider_name = "klippa"
 
     def __init__(self, api_keys: Dict = {}):
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.api_key = self.api_settings["subscription_key"]
         self.url = "https://custom-ocr.klippa.com/api/v1/parseDocument"
 
@@ -40,15 +65,15 @@ class KlippaApi(ProviderInterface, OcrInterface):
         }
 
         response = requests.post(
-            url=self.url + endpoint,
-            headers=self.headers,
-            files=files
+            url=self.url + endpoint, headers=self.headers, files=files
         )
 
         try:
             original_response = response.json()
         except JSONDecodeError:
-            raise ProviderException(message="Internal Server Error", code=500) from JSONDecodeError
+            raise ProviderException(
+                message="Internal Server Error", code=500
+            ) from JSONDecodeError
 
         if response.status_code != 200:
             raise ProviderException(message=response.json(), code=response.status_code)
@@ -56,12 +81,8 @@ class KlippaApi(ProviderInterface, OcrInterface):
         return original_response
 
     def ocr__invoice_parser(
-        self,
-        file: str,
-        language: str,
-        file_url: str = ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
-
         file_ = open(file, "rb")
         original_response = self._make_post_request(file_)
 
@@ -76,6 +97,14 @@ class KlippaApi(ProviderInterface, OcrInterface):
             customer_tax_id=data_response["customer_vat_number"],
             customer_id=data_response["customer_id"],
             customer_billing_address=data_response["customer_address"],
+            customer_mailing_address=None,
+            customer_remittance_address=None,
+            customer_service_address=None,
+            customer_shipping_address=None,
+            abn_number=None,
+            vat_number=None,
+            gst_number=None,
+            pan_number=None,
         )
 
         merchant_information = MerchantInformationInvoice(
@@ -87,17 +116,27 @@ class KlippaApi(ProviderInterface, OcrInterface):
             merchant_id=data_response["merchant_id"],
             merchant_siret=data_response["merchant_coc_number"],
             merchant_website=data_response["merchant_website"],
+            merchant_fax=None,
+            merchant_siren=None,
+            abn_number=None,
+            gst_number=None,
+            pan_number=None,
+            vat_number=None,
         )
 
         bank_information = BankInvoice(
             account_number=data_response["merchant_bank_account_number"],
-            sort_code=data_response["merchant_bank_domestic_bank_code"],
             iban=data_response["merchant_bank_account_number_bic"],
+            bsb=None,
+            sort_code=data_response["merchant_bank_domestic_bank_code"],
+            vat_number=None,
+            rooting_number=None,
+            swift=None,
         )
 
         tax_information = TaxesInvoice(
-            tax_rate=data_response["personal_income_tax_rate"],
-            tax_amount=data_response["personal_income_tax_amount"],
+            value=data_response["personal_income_tax_amount"],
+            rate=data_response["personal_income_tax_rate"],
         )
 
         locale_information = LocaleInvoice(
@@ -106,9 +145,10 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
 
         item_lines: List[ItemLinesInvoice] = []
-        for line in data_response.get('lines', []):
-            for item in line.get('lineitems', []):
-                item_lines.append(ItemLinesInvoice(
+        for line in data_response.get("lines", []):
+            for item in line.get("lineitems", []):
+                item_lines.append(
+                    ItemLinesInvoice(
                         description=item["description"],
                         quantity=item["quantity"],
                         unit_price=item["amount_each"],
@@ -120,30 +160,30 @@ class KlippaApi(ProviderInterface, OcrInterface):
                     )
                 )
 
-        standardize_response =InvoiceParserDataClass(extracted_data=[InfosInvoiceParserDataClass(
-            customer_information=customer_information,
-            merchant_information=merchant_information,
-            bank_informations=bank_information,
-            taxes=[tax_information],
-            locale=locale_information,
-            item_lines=item_lines,
-            invoice_number=data_response["invoice_number"],
-            invoice_date=data_response["date"],
-            invoice_total=data_response["amount"],
-        )])
+        standardize_response = InvoiceParserDataClass(
+            extracted_data=[
+                InfosInvoiceParserDataClass(
+                    customer_information=customer_information,
+                    merchant_information=merchant_information,
+                    bank_informations=bank_information,
+                    taxes=[tax_information],
+                    locale=locale_information,
+                    item_lines=item_lines,
+                    invoice_number=data_response["invoice_number"],
+                    invoice_date=data_response["date"],
+                    invoice_total=data_response["amount"],
+                )
+            ]
+        )
 
         return ResponseType[InvoiceParserDataClass](
             original_response=original_response,
-            standardized_response=standardize_response
+            standardized_response=standardize_response,
         )
 
     def ocr__receipt_parser(
-        self,
-        file: str,
-        language: str,
-        file_url: str= ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
-
         file_ = open(file, "rb")
         original_response = self._make_post_request(file_)
 
@@ -180,9 +220,10 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
 
         item_lines: List[ItemLines] = []
-        for line in data_response.get('lines', []):
-            for lineitem in line.get('linetimes', []):
-                item_lines.append(ItemLines(
+        for line in data_response.get("lines", []):
+            for lineitem in line.get("linetimes", []):
+                item_lines.append(
+                    ItemLines(
                         description=lineitem["description"],
                         quantity=lineitem["quantity"],
                         unit_price=lineitem["amount_each"],
@@ -190,46 +231,42 @@ class KlippaApi(ProviderInterface, OcrInterface):
                     )
                 )
 
-        info_receipt = [InfosReceiptParserDataClass(
-            customer_information=customer_information,
-            merchant_information=merchant_information,
-            locale=locale_information,
-            taxes=[taxes_information],
-            payment_information=payment_information,
-            invoice_number=data_response["invoice_number"],
-            date=data_response["date"],
-            invoice_total=data_response["amount"],
-        )]
+        info_receipt = [
+            InfosReceiptParserDataClass(
+                customer_information=customer_information,
+                merchant_information=merchant_information,
+                locale=locale_information,
+                taxes=[taxes_information],
+                payment_information=payment_information,
+                invoice_number=data_response["invoice_number"],
+                date=data_response["date"],
+                invoice_total=data_response["amount"],
+            )
+        ]
 
         standardize_response = ReceiptParserDataClass(extracted_data=info_receipt)
 
         return ResponseType[ReceiptParserDataClass](
             original_response=original_response,
-            standardized_response=standardize_response
+            standardized_response=standardize_response,
         )
-    
 
     def ocr__identity_parser(
-        self,
-        file: str,
-        file_url: str = ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
         file_ = open(file, "rb")
         original_response = self._make_post_request(file_, endpoint="/identity")
         file_.close()
 
-        items = []
-        fields = {}
-        country = {}
+        items: Sequence[InfosIdentityParserDataClass] = []
 
         parsed_data = original_response.get("data", {}).get("parsed", {})
-        for document in original_response.get("original_response", {}).get("data", {}).get("parsed", {}).get("documents", []):
-            fields = document["fields"]
-            country["value"] = get_info_country(
-                key=InfoCountry.ALPHA3,
-                value=fields.get("CountryRegion", {}).get("content"),
-            )
-            country["confidence"] = fields.get("CountryRegion", {}).get("confidence")
+
+        country = get_info_country(
+            key=InfoCountry.ALPHA3,
+            value=parsed_data.get("issuing_country", {}).get("value", ""),
+        )
+        country["confidence"] = None
 
         given_names = parsed_data.get("given_names", {}).get("value", "").split(" ")
         final_given_names = []
@@ -237,7 +274,9 @@ class KlippaApi(ProviderInterface, OcrInterface):
             final_given_names.append(
                 ItemIdentityParserDataClass(
                     value=given_name,
-                    confidence=(parsed_data.get("given_names", {}) or {}).get("confidence"),
+                    confidence=(parsed_data.get("given_names", {}) or {}).get(
+                        "confidence"
+                    ),
                 )
             )
         birth_date = parsed_data.get("date_of_birth", {}) or {}
@@ -266,38 +305,35 @@ class KlippaApi(ProviderInterface, OcrInterface):
         mrz = parsed_data.get("mrz", {}) or {}
         nationality = parsed_data.get("nationality", {}) or {}
 
-        images = [ItemIdentityParserDataClass(
-                        value=image.get("signature"),
-                        confidence=image.get("confidence"),
-                    ) for image in fields.get("images", [])] or []
-        
-        if img_value:= (parsed_data.get('face', {}) or {}).get("value", ""):
+        images = []
+
+        if img_value := (parsed_data.get("face", {}) or {}).get("value", ""):
             images.append(
                 ItemIdentityParserDataClass(
-                    value=img_value                
+                    value=img_value,
+                    confidence=None,
                 )
             )
-        identity_imgs = parsed_data.get('identity_document', []) or []
+        identity_imgs = parsed_data.get("identity_document", []) or []
         if len(identity_imgs) > 0:
             for identity_img in identity_imgs:
-                if img_value:= identity_img.get("image", ""):
+                if img_value := identity_img.get("image", ""):
                     images.append(
                         ItemIdentityParserDataClass(
-                            value= img_value
+                            value=img_value,
+                            confidence=None,
                         )
-            )
-            
-
+                    )
 
         items.append(
             InfosIdentityParserDataClass(
                 last_name=ItemIdentityParserDataClass(
-                    value = last_name.get("value"),
+                    value=last_name.get("value"),
                     confidence=last_name.get("confidence"),
                 ),
                 given_names=final_given_names,
                 birth_place=ItemIdentityParserDataClass(
-                    value = birth_place.get("value"),
+                    value=birth_place.get("value"),
                     confidence=birth_place.get("confidence"),
                 ),
                 birth_date=ItemIdentityParserDataClass(
@@ -313,43 +349,38 @@ class KlippaApi(ProviderInterface, OcrInterface):
                     confidence=expire_date_confidence,
                 ),
                 document_id=ItemIdentityParserDataClass(
-                    value = document_id.get("value"),
+                    value=document_id.get("value"),
                     confidence=document_id.get("confidence"),
                 ),
                 issuing_state=ItemIdentityParserDataClass(
-                    value = issuing_state.get("value"),
+                    value=issuing_state.get("value"),
                     confidence=issuing_state.get("confidence"),
                 ),
                 address=ItemIdentityParserDataClass(
-                    value = address.get("value"),
-                    confidence= address.get("confidence"),
+                    value=address.get("value"),
+                    confidence=address.get("confidence"),
                 ),
                 age=ItemIdentityParserDataClass(
-                    value = age.get("value"),
+                    value=age.get("value"),
                     confidence=age.get("confidence"),
                 ),
                 country=country,
                 document_type=ItemIdentityParserDataClass(
-                    value = document_type.get("value"),
+                    value=document_type.get("value"),
                     confidence=document_type.get("confidence"),
                 ),
                 gender=ItemIdentityParserDataClass(
-                    value = gender.get("value"),
-                    confidence = gender.get("confidence"),
+                    value=gender.get("value"),
+                    confidence=gender.get("confidence"),
                 ),
                 image_id=images,
-                image_signature=[
-                    ItemIdentityParserDataClass(
-                        value=image.get("signature"),
-                        confidence=image.get("confidence"),
-                    ) for image in fields.get("images", [])
-                ],
+                image_signature=[],
                 mrz=ItemIdentityParserDataClass(
-                    value = mrz.get("value"),
+                    value=mrz.get("value"),
                     confidence=mrz.get("confidence"),
                 ),
                 nationality=ItemIdentityParserDataClass(
-                    value = nationality.get("value"),
+                    value=nationality.get("value"),
                     confidence=nationality.get("confidence"),
                 ),
             )

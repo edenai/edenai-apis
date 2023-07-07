@@ -25,7 +25,7 @@ class FaceAttributes(BaseModel):
     smiling: Optional[float]
     brightness: Optional[float]
     sharpness: Optional[float]
-    pose: VideoFacePoses = VideoFacePoses()
+    pose: VideoFacePoses
 
 
 class LandmarksVideo(BaseModel):
@@ -38,10 +38,9 @@ class LandmarksVideo(BaseModel):
 
 class VideoFace(BaseModel):
     offset: Optional[float]
-    bounding_box: VideoBoundingBox = VideoBoundingBox()
-    attributes: FaceAttributes = FaceAttributes()
-    landmarks: LandmarksVideo = LandmarksVideo()
-    # thumbnail : Optional[StrictStr]
+    bounding_box: VideoBoundingBox
+    attributes: FaceAttributes
+    landmarks: LandmarksVideo
 
 
 class FaceDetectionAsyncDataClass(BaseModel):

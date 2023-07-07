@@ -1,6 +1,6 @@
 from enum import IntEnum
 from typing_extensions import overload
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from typing import Callable, Dict, List, Sequence, Any
 
 
@@ -69,7 +69,7 @@ class BoundingBox(BaseModel):
     width: float = Field(description="Width of the bounding box")
     height: float = Field(description="Height of the bounding box")
 
-    @validator("left", "top", "width", "height", pre=True)
+    @field_validator("left", "top", "width", "height", mode="before")
     def convert_to_float(cls, value):
         """Convert the value to float
 

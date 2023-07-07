@@ -6,7 +6,7 @@ from pdf2image.pdf2image import convert_from_bytes
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
     AnonymizationItem,
-    AnonymizationBoundingBox
+    AnonymizationBoundingBox,
 )
 from edenai_apis.features.image.explicit_content import (
     ExplicitContentDataClass,
@@ -17,6 +17,17 @@ from edenai_apis.features.image.face_detection import (
     FaceDetectionDataClass,
     FaceItem,
     FaceLandmarks,
+)
+from edenai_apis.features.image.face_detection.face_detection_dataclass import (
+    FaceAccessories,
+    FaceEmotions,
+    FaceFacialHair,
+    FaceFeatures,
+    FaceHair,
+    FaceMakeup,
+    FaceOcclusions,
+    FacePoses,
+    FaceQuality,
 )
 from edenai_apis.features.image.logo_detection import (
     LogoBoundingPoly,
@@ -40,34 +51,36 @@ from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
 from io import BytesIO
 import base64
 
+
 class Api4aiApi(
     ProviderInterface,
     ImageInterface,
     OcrInterface,
 ):
-
     provider_name = "api4ai"
 
     def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.api_key = self.api_settings["key"]
         self.urls = {
             "object_detection": f"https://api4ai.cloud/general-det/v1/results"
-                + f"?api_key={self.api_key}",
+            + f"?api_key={self.api_key}",
             "logo_detection": f"https://api4ai.cloud/brand-det/v1/results"
-                + f"?api_key={self.api_key}",
+            + f"?api_key={self.api_key}",
             "face_detection": f"https://api4ai.cloud/face-analyzer/v1/results"
-                + f"?api_key={self.api_key}",
+            + f"?api_key={self.api_key}",
             "anonymization": "https://api4ai.cloud/img-anonymization/v1/results"
-                + f"?api_key={self.api_key}",
+            + f"?api_key={self.api_key}",
             "nsfw": f"https://api4ai.cloud/nsfw/v1/results?api_key={self.api_key}",
             "ocr": f"https://api4ai.cloud/ocr/v1/results?api_key={self.api_key}",
         }
 
     def image__object_detection(
-        self, 
+        self,
         file: str,
-        file_url: str= "",
+        file_url: str = "",
         model: str = None,
     ) -> ResponseType[ObjectDetectionDataClass]:
         """
@@ -81,10 +94,12 @@ class Api4aiApi(
         ).json()
 
         file_.close()
-        
-        if 'failure' in original_response['results'][0]['status']['code']:
-            raise ProviderException(original_response['results'][0]['status']['message'])
-            
+
+        if "failure" in original_response["results"][0]["status"]["code"]:
+            raise ProviderException(
+                original_response["results"][0]["status"]["message"]
+            )
+
         items = []
         for item in original_response["results"][0]["entities"][0]["objects"]:
             label = next(iter(item.get("entities", [])[0].get("classes", {})))
@@ -110,11 +125,8 @@ class Api4aiApi(
         return result
 
     def image__face_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[FaceDetectionDataClass]:
-
         file_ = open(file, "rb")
         payload = {
             "image": file_,
@@ -123,10 +135,12 @@ class Api4aiApi(
         response = requests.post(self.urls["face_detection"], files=payload)
         original_response = response.json()
         file_.close()
-        
+
         # Handle errors
-        if 'failure' in original_response['results'][0]['status']['code']:
-            raise ProviderException(original_response['results'][0]['status']['message'])
+        if "failure" in original_response["results"][0]["status"]["code"]:
+            raise ProviderException(
+                original_response["results"][0]["status"]["message"]
+            )
 
         # Face std
         faces_list = []
@@ -151,7 +165,20 @@ class Api4aiApi(
             )
             faces_list.append(
                 FaceItem(
-                    confidence=confidence, bounding_box=bouding_box, landmarks=landmarks
+                    confidence=confidence,
+                    bounding_box=bouding_box,
+                    landmarks=landmarks,
+                    emotions=FaceEmotions.default(),
+                    poses=FacePoses.default(),
+                    age=None,
+                    gender=None,
+                    hair=FaceHair.default(),
+                    facial_hair=FaceFacialHair.default(),
+                    quality=FaceQuality.default(),
+                    makeup=FaceMakeup.default(),
+                    occlusions=FaceOcclusions.default(),
+                    accessories=FaceAccessories.default(),
+                    features=FaceFeatures.default(),
                 )
             )
         standardized_response = FaceDetectionDataClass(items=faces_list)
@@ -162,9 +189,7 @@ class Api4aiApi(
         return result
 
     def image__anonymization(
-        self, 
-        file: str,
-        file_url: str=""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[AnonymizationDataClass]:
         file_ = open(file, "rb")
         files = {"image": file_}
@@ -174,23 +199,34 @@ class Api4aiApi(
 
         file_.close()
 
-        if 'failure' in original_response['results'][0]['status']['code']:
-            raise ProviderException(original_response['results'][0]['status']['message'])
+        if "failure" in original_response["results"][0]["status"]["code"]:
+            raise ProviderException(
+                original_response["results"][0]["status"]["message"]
+            )
 
         img_b64 = original_response["results"][0]["entities"][0]["image"]
         entities = original_response["results"][0]["entities"][1].get("objects", [])
         items = []
         for entity in entities:
             for key, value in entity["entities"][0]["classes"].items():
-                items.append(AnonymizationItem(
-                    kind=key,
-                    confidence=value,
-                    bounding_boxes=AnonymizationBoundingBox(x_min=entity["box"][0], x_max=entity["box"][1], y_min=entity["box"][2], y_max=entity["box"][3]),
-                ))
+                items.append(
+                    AnonymizationItem(
+                        kind=key,
+                        confidence=value,
+                        bounding_boxes=AnonymizationBoundingBox(
+                            x_min=entity["box"][0],
+                            x_max=entity["box"][1],
+                            y_min=entity["box"][2],
+                            y_max=entity["box"][3],
+                        ),
+                    )
+                )
         image_data = img_b64.encode()
-        image_content = BytesIO(base64.b64decode(image_data))  
+        image_content = BytesIO(base64.b64decode(image_data))
         resource_url = upload_file_bytes_to_s3(image_content, ".jpeg", USER_PROCESS)
-        standardized_response = AnonymizationDataClass(image=img_b64, items=items, image_resource_url=resource_url)
+        standardized_response = AnonymizationDataClass(
+            image=img_b64, items=items, image_resource_url=resource_url
+        )
         result = ResponseType[AnonymizationDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
@@ -198,9 +234,7 @@ class Api4aiApi(
         return result
 
     def image__logo_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[LogoDetectionDataClass]:
         file_ = open(file, "rb")
         payload = {
@@ -211,8 +245,10 @@ class Api4aiApi(
         original_response = response.json()
         file_.close()
         # Handle errors
-        if 'failure' in original_response['results'][0]['status']['code']:
-            raise ProviderException(original_response['results'][0]['status']['message'])
+        if "failure" in original_response["results"][0]["status"]["code"]:
+            raise ProviderException(
+                original_response["results"][0]["status"]["message"]
+            )
 
         # Get result
         logos = original_response["results"][0]["entities"][0]["objects"]
@@ -242,51 +278,53 @@ class Api4aiApi(
         return result
 
     def image__explicit_content(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
-
-        file_= open(file, "rb")
+        file_ = open(file, "rb")
         payload = {
             "image": file_,
         }
         # Get response
         response = requests.post(self.urls["nsfw"], files=payload)
         original_response = response.json()
-        
+
         file_.close()
 
         # Handle errors
-        if response.status_code != 200 or "failure" in original_response["results"][0]["status"]["code"]:
+        if (
+            response.status_code != 200
+            or "failure" in original_response["results"][0]["status"]["code"]
+        ):
             raise ProviderException(response.json()["results"][0]["status"]["message"])
-        
+
         # Get result
         nsfw_items = []
         nsfw_response = original_response["results"][0]["entities"][0]["classes"]
         for classe in nsfw_response:
             nsfw_items.append(
                 ExplicitItem(
-                    label=classe, likelihood=standardized_confidence_score(nsfw_response[classe])
+                    label=classe,
+                    likelihood=standardized_confidence_score(nsfw_response[classe]),
                 )
             )
 
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(nsfw_items)
-        standardized_response = ExplicitContentDataClass(items=nsfw_items, nsfw_likelihood=nsfw_likelihood)
+        standardized_response = ExplicitContentDataClass(
+            items=nsfw_items, nsfw_likelihood=nsfw_likelihood
+        )
 
         result = ResponseType[ExplicitContentDataClass](
             original_response=original_response,
-            standardized_response=standardized_response
+            standardized_response=standardized_response,
         )
         return result
 
     def ocr__ocr(
-        self, 
-        file: str, 
+        self,
+        file: str,
         language: str,
-        file_url: str= "",
+        file_url: str = "",
     ) -> ResponseType[OcrDataClass]:
-
         file_ = open(file, "rb")
         response = requests.post(self.urls["ocr"], files={"image": file_})
         file_.close()
@@ -315,7 +353,7 @@ class Api4aiApi(
 
         final_text += " " + full_text
 
-        standardized_response = OcrDataClass(text=full_text, bounding_boxes=boxes).dict()
+        standardized_response = OcrDataClass(text=full_text, bounding_boxes=boxes)
         result = ResponseType[OcrDataClass](
             original_response=data,
             standardized_response=standardized_response,

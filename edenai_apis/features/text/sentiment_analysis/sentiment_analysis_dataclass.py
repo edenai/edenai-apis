@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import Optional, Sequence, Literal
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 
 class SentimentEnum(Enum):
@@ -22,14 +22,14 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
     sentiment: Literal["Positive", "Negative", "Neutral"]
     sentiment_rate: Optional[float] = Field(ge=0, le=1)
 
-    @validator("segment", pre=True)
+    @field_validator("segment", mode="before")
     @classmethod
     def valid_segment(cls, value):
         if not isinstance(value, str):
             raise TypeError(f"Segment must be a string, not {type(value)}")
         return value
 
-    @validator("sentiment", pre=True)
+    @field_validator("sentiment", mode="before")
     @classmethod
     def valid_sentiment(cls, value):
         if not isinstance(value, str):
@@ -41,7 +41,7 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
             )
         return value
 
-    @validator("sentiment_rate", pre=True)
+    @field_validator("sentiment_rate", mode="before")
     @classmethod
     def valid_sentiment_rate(cls, value):
         if value is None:
@@ -64,7 +64,7 @@ class SentimentAnalysisDataClass(BaseModel):
     general_sentiment_rate: Optional[float] = Field(ge=0, le=1)
     items: Sequence[SegmentSentimentAnalysisDataClass] = Field(default_factory=list)
 
-    @validator("general_sentiment", pre=True)
+    @field_validator("general_sentiment", mode="before")
     @classmethod
     def valid_general_sentiment(cls, value):
         if not isinstance(value, str):
@@ -76,7 +76,7 @@ class SentimentAnalysisDataClass(BaseModel):
             )
         return value
 
-    @validator("general_sentiment_rate", pre=True)
+    @field_validator("general_sentiment_rate", mode="before")
     @classmethod
     def valid_general_sentiment_rate(cls, value):
         if value is None:

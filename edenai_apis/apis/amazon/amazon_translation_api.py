@@ -49,12 +49,10 @@ class AmazonTranslationApi(TranslationInterface):
             if "SourceLanguageCode" in str(exc):
                 raise LanguageException(str(exc))
 
-        standardized: AutomaticTranslationDataClass
-        if response["TranslatedText"] != "":
-            standardized = AutomaticTranslationDataClass(
-                text=response["TranslatedText"]
-            )
+        standardized: AutomaticTranslationDataClass = AutomaticTranslationDataClass(
+            text=response["TranslatedText"]
+        )
 
         return ResponseType[AutomaticTranslationDataClass](
-            original_response=response, standardized_response=standardized.dict()
+            original_response=response, standardized_response=standardized
         )

@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import Dict, Optional, Sequence, Union
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from edenai_apis.features.text.anonymization.category import (
     CategoryType,
@@ -51,28 +51,28 @@ class AnonymizationEntity(BaseModel):
     class Config:
         use_enum_values = True
 
-    @validator("content", pre=True)
+    @field_validator("content", mode="before")
     @classmethod
     def content_must_be_str(cls, v):
         if not isinstance(v, str):
             raise TypeError("entity must be a string")
         return v
 
-    @validator("original_label", pre=True)
+    @field_validator("original_label", mode="before")
     @classmethod
     def original_label_must_be_str(cls, v):
         if not isinstance(v, str):
             raise TypeError("original_label must be a string")
         return v
 
-    @validator("content")
+    @model_validator(mode="after")
     @classmethod
-    def content_length_must_be_equal_to_length(cls, v, values):
-        if len(v) != values.get("length", 0):
+    def content_length_must_be_equal_to_length(cls, instance: "AnonymizationEntity"):
+        if len(instance.content) != instance.length:
             raise ValueError("content length must be equal to length")
-        return v
+        return instance
 
-    @validator("confidence_score")
+    @field_validator("confidence_score")
     @classmethod
     def round_confidence_score(cls, v):
         if v is not None:
@@ -91,7 +91,7 @@ class AnonymizationDataClass(BaseModel):
     result: str
     entities: Sequence[AnonymizationEntity] = Field(default_factory=list)
 
-    @validator("result", pre=True)
+    @field_validator("result", mode="before")
     def result_must_be_str(cls, v):
         if not isinstance(v, str):
             raise TypeError("result must be a string")

@@ -1,4 +1,3 @@
-from pprint import pprint
 from typing import List, Optional, Sequence, Dict
 import requests
 import numpy as np
@@ -208,7 +207,7 @@ class OpenaiTextApi(TextInterface):
         url = f"{self.url}/completions"
 
         # With search get the top document with the question & construct the context
-        document = self.text__search(texts, question).dict()
+        document = self.text__search(texts, question).model_dump()
         context = document["standardized_response"]["items"][0]["document"]
         prompt_questions = [
             "\nQ:" + example[0] + "\nA:" + example[1] for example in examples
@@ -564,7 +563,6 @@ class OpenaiTextApi(TextInterface):
             json_detected_labels = json.loads(detected_labels)
         except json.JSONDecodeError:
             raise ProviderException("An error occurred while parsing the response.")
-
 
         return ResponseType[CustomClassificationDataClass](
             original_response=original_response,

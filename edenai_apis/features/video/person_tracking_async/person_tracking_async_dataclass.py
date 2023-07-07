@@ -46,22 +46,40 @@ class PersonLandmarks(BaseModel):
     mouth_left: Sequence[float] = Field(default_factory=list)
     mouth_right: Sequence[float] = Field(default_factory=list)
 
+
 class VideoPersonPoses(BaseModel):
     pitch: Optional[float]
     roll: Optional[float]
     yaw: Optional[float]
-    
+
+    @staticmethod
+    def default() -> "VideoPersonPoses":
+        return VideoPersonPoses(
+            pitch=None,
+            roll=None,
+            yaw=None,
+        )
+
+
 class VideoPersonQuality(BaseModel):
     brightness: Optional[float]
-    sharpness: Optional[float] 
-    
+    sharpness: Optional[float]
+
+    @staticmethod
+    def default() -> "VideoPersonQuality":
+        return VideoPersonQuality(
+            brightness=None,
+            sharpness=None,
+        )
+
+
 class PersonTracking(BaseModel):
     offset: float
     attributes: PersonAttributes = Field(default_factory=PersonAttributes)
     landmarks: PersonLandmarks = Field(default_factory=PersonLandmarks)
-    poses : VideoPersonPoses = Field(default_factory =VideoPersonPoses)
-    quality : VideoPersonQuality = Field(default_factory = VideoPersonQuality)
-    bounding_box: VideoTrackingBoundingBox = VideoTrackingBoundingBox()
+    poses: VideoPersonPoses = Field(default_factory=VideoPersonPoses)
+    quality: VideoPersonQuality = Field(default_factory=VideoPersonQuality)
+    bounding_box: VideoTrackingBoundingBox
 
 
 class VideoTrackingPerson(BaseModel):

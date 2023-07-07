@@ -102,7 +102,6 @@ class IbmTextApi(TextInterface):
     def text__named_entity_recognition(
         self, language: str, text: str
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
-
         try:
             response = (
                 self.clients["text"]
@@ -146,7 +145,6 @@ class IbmTextApi(TextInterface):
     def text__syntax_analysis(
         self, language: str, text: str
     ) -> ResponseType[SyntaxAnalysisDataClass]:
-
         try:
             response = (
                 self.clients["text"]
@@ -173,21 +171,15 @@ class IbmTextApi(TextInterface):
         # Getting syntax detected of word and its score of confidence
         for keyword in response["syntax"]["tokens"]:
             tag_ = tags[keyword["part_of_speech"]]
-            if "lemma" in keyword:
-                items.append(
-                    InfosSyntaxAnalysisDataClass(
-                        word=keyword["text"],
-                        tag=tag_,
-                        lemma=keyword["lemma"],
-                    )
+            items.append(
+                InfosSyntaxAnalysisDataClass(
+                    word=keyword["text"],
+                    importance=None,
+                    others=None,
+                    tag=tag_,
+                    lemma=keyword.get("lemma"),
                 )
-            else:
-                items.append(
-                    InfosSyntaxAnalysisDataClass(
-                        word=keyword["text"],
-                        tag=tag_,
-                    )
-                )
+            )
 
         standardized_response = SyntaxAnalysisDataClass(items=items)
 

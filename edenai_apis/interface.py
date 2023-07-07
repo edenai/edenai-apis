@@ -16,16 +16,7 @@ from edenai_apis.utils.types import AsyncLaunchJobResponseType
 IS_MONITORING = os.environ.get("MONITORING") is not None  # see utils.monitoring
 
 ProviderDict = Dict[
-    str, Dict[
-        str, Dict[
-            str, Union[
-                Dict[
-                    str, Literal[True]
-                ],
-                Literal[True]
-            ]
-        ]
-    ]
+    str, Dict[str, Dict[str, Union[Dict[str, Literal[True]], Literal[True]]]]
 ]
 FeatureSubfeatureProviderTuple = Union[Tuple[str, str, str], Tuple[str, str, str, str]]
 ProviderList = List[FeatureSubfeatureProviderTuple]
@@ -37,14 +28,20 @@ def list_features(
     feature: Optional[str] = None,
     subfeature: Optional[str] = None,
     as_dict: Literal[False] = False,
-) -> ProviderList: ...
+) -> ProviderList:
+    ...
+
+
 @overload
 def list_features(
     provider_name: Optional[str] = None,
     feature: Optional[str] = None,
     subfeature: Optional[str] = None,
     as_dict: Literal[True] = True,
-) -> ProviderDict: ...
+) -> ProviderDict:
+    ...
+
+
 def list_features(
     provider_name: Optional[str] = None,
     feature: Optional[str] = None,
@@ -117,7 +114,9 @@ def list_features(
                 ):  # filter by subfeature if provided
                     if len(others) > 0 and "async" not in subfeature_i:
                         phase = others[0]
-                        method_set.add((cls.provider_name, feature_i, subfeature_i, phase))
+                        method_set.add(
+                            (cls.provider_name, feature_i, subfeature_i, phase)
+                        )
                     else:
                         method_set.add((cls.provider_name, feature_i, subfeature_i))
     method_list: ProviderList = list(method_set)
@@ -144,6 +143,7 @@ def list_features(
 
     return result
 
+
 def list_providers(
     feature: Optional[str] = None, subfeature: Optional[str] = None
 ) -> List[str]:
@@ -165,7 +165,9 @@ def list_providers(
                 providers_set.add(provider)
     return list(providers_set)
 
+
 STATUS_SUCCESS = "success"
+
 
 @monitor_call(condition=IS_MONITORING)
 def compute_output(
@@ -176,7 +178,7 @@ def compute_output(
     phase: str = "",
     fake: bool = False,
     api_keys: Dict = {},
-    user_email: Optional[str] = None
+    user_email: Optional[str] = None,
 ) -> Dict:
     """
     Compute subfeature for provider and subfeature
@@ -200,7 +202,9 @@ def compute_output(
     suffix = "__launch_job" if is_async else ""
 
     # if language input, update args with a standardized language
-    args = validate_all_provider_constraints(provider_name, feature, subfeature, phase, args)
+    args = validate_all_provider_constraints(
+        provider_name, feature, subfeature, phase, args
+    )
 
     if fake:
         sample_args = load_feature(
@@ -210,7 +214,9 @@ def compute_output(
             phase=phase,
         )
         # replace File Wrapper by file and file_url inputs and also transform input attributes as settings for tts
-        sample_args = validate_all_provider_constraints(provider_name, feature, subfeature, phase, sample_args)
+        sample_args = validate_all_provider_constraints(
+            provider_name, feature, subfeature, phase, sample_args
+        )
 
         # Check if the right arguments were sent by checking
         # if they are equivalent to samples arguments
@@ -218,7 +224,9 @@ def compute_output(
 
         # Return mocked results
         if is_async:
-            subfeature_result: Any = AsyncLaunchJobResponseType(provider_job_id=str(uuid4())).dict()
+            subfeature_result: Any = AsyncLaunchJobResponseType(
+                provider_job_id=str(uuid4())
+            ).model_dump()
         # TODO: refacto image search to save output with this phase
         elif phase in ["upload_image", "delete_image"]:
             subfeature_result = {"status": STATUS_SUCCESS}
@@ -238,17 +246,17 @@ def compute_output(
         subfeature_method_name = f'{subfeature}{f"__{phase}" if phase else ""}{suffix}'
         subfeature_class = getattr(feature_class, subfeature_method_name)
 
-
         try:
-            subfeature_result = subfeature_class(provider_name, api_keys)(**args).dict()
+            subfeature_result = subfeature_class(provider_name, api_keys)(
+                **args
+            ).model_dump()
         except ProviderException as exc:
             raise get_appropriate_error(provider_name, exc)
-
 
     final_result: Dict[str, Any] = {
         "status": STATUS_SUCCESS,
         "provider": provider_name,
-        **subfeature_result
+        **subfeature_result,
     }
 
     if os.environ.get("MONITORING", False) is True and user_email:
@@ -258,10 +266,11 @@ def compute_output(
             feature=feature,
             subfeature=subfeature,
             user_email=user_email,
-            error=error
+            error=error,
         )
 
     return final_result
+
 
 # HACK: Why this function is the package provider instead of the backend ?
 # It only use in the backend, never in the package provider
@@ -332,6 +341,7 @@ def check_provider_constraints(
                     )
     return True, "All Good!"
 
+
 @monitor_call(condition=IS_MONITORING)
 def get_async_job_result(
     provider_name: str,
@@ -340,7 +350,7 @@ def get_async_job_result(
     async_job_id: AsyncLaunchJobResponseType,
     phase: str = "",
     fake: bool = False,
-    user_email = None,
+    user_email=None,
 ) -> Dict:
     """Get async result from job id
 
@@ -370,11 +380,13 @@ def get_async_job_result(
         return fake_result
 
     feature_class = getattr(interface_v2, feature.title())
-    subfeature_method_name = f'{subfeature}{f"__{phase}" if phase else ""}__get_job_result'
+    subfeature_method_name = (
+        f'{subfeature}{f"__{phase}" if phase else ""}__get_job_result'
+    )
     subfeature_class = getattr(feature_class, subfeature_method_name)
 
     try:
-        subfeature_result = subfeature_class(provider_name)(async_job_id).dict()
+        subfeature_result = subfeature_class(provider_name)(async_job_id).model_dump()
     except ProviderException as exc:
         raise get_appropriate_error(provider_name, exc)
 

@@ -12,8 +12,11 @@ from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FaceEmotions,
     FaceFacialHair,
     FaceFeatures,
+    FaceHair,
     FaceItem,
     FaceLandmarks,
+    FaceMakeup,
+    FaceOcclusions,
     FacePoses,
     FaceQuality,
 )
@@ -23,8 +26,12 @@ from edenai_apis.features.image.face_recognition.add_face.face_recognition_add_f
 from edenai_apis.features.image.face_recognition.create_collection.face_recognition_create_collection_dataclass import (
     FaceRecognitionCreateCollectionDataClass,
 )
-from edenai_apis.features.image.face_recognition.delete_collection.face_recognition_delete_collection_dataclass import FaceRecognitionDeleteCollectionDataClass
-from edenai_apis.features.image.face_recognition.delete_face.face_recognition_delete_face_dataclass import FaceRecognitionDeleteFaceDataClass
+from edenai_apis.features.image.face_recognition.delete_collection.face_recognition_delete_collection_dataclass import (
+    FaceRecognitionDeleteCollectionDataClass,
+)
+from edenai_apis.features.image.face_recognition.delete_face.face_recognition_delete_face_dataclass import (
+    FaceRecognitionDeleteFaceDataClass,
+)
 from edenai_apis.features.image.face_recognition.recognize.face_recognition_recognize_dataclass import (
     FaceRecognitionRecognizeDataClass,
     FaceRecognitionRecognizedFaceDataClass,
@@ -43,18 +50,17 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.features.image.face_compare.face_compare_dataclass import  FaceCompareDataClass, FaceMatch, FaceCompareBoundingBox
-
+from edenai_apis.features.image.face_compare.face_compare_dataclass import (
+    FaceCompareDataClass,
+    FaceMatch,
+    FaceCompareBoundingBox,
+)
 
 
 class AmazonImageApi(ImageInterface):
     def image__object_detection(
-        self, 
-        file: str,
-        model: str = None,
-        file_url: str= ""
+        self, file: str, model: str = None, file_url: str = ""
     ) -> ResponseType[ObjectDetectionDataClass]:
-
         with open(file, "rb") as file_:
             file_content = file_.read()
         # Getting API response
@@ -68,7 +74,6 @@ class AmazonImageApi(ImageInterface):
         # Standarization
         items = []
         for object_label in original_response.get("Labels"):
-
             if object_label.get("Instances"):
                 bounding_box = object_label.get("Instances")[0].get("BoundingBox")
                 x_min, x_max = (
@@ -99,11 +104,8 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[FaceDetectionDataClass]:
-        
         with open(file, "rb") as file_:
             file_content = file_.read()
 
@@ -115,7 +117,6 @@ class AmazonImageApi(ImageInterface):
         # Standarize Response
         faces_list = []
         for face in original_response.get("FaceDetails", []):
-
             # Age
             age_output = None
             age_range = face.get("AgeRange")
@@ -135,18 +136,26 @@ class AmazonImageApi(ImageInterface):
             accessories = FaceAccessories(
                 sunglasses=face.get("Sunglasses", {}).get("Confidence", 0.0) / 100,
                 eyeglasses=face.get("Eyeglasses", {}).get("Confidence", 0.0) / 100,
+                reading_glasses=None,
+                swimming_goggles=None,
+                face_mask=None,
+                headwear=None,
             )
 
             # facial hair
             facial_hair = FaceFacialHair(
                 moustache=face.get("Mustache", {}).get("Confidence", 0.0) / 100,
                 beard=face.get("Beard", {}).get("Confidence", 0.0) / 100,
+                sideburns=None,
             )
 
             # quality
             quality = FaceQuality(
                 brightness=face.get("Quality").get("Brightness", 0.0) / 100,
                 sharpness=face.get("Quality").get("Sharpness", 0.0) / 100,
+                noise=None,
+                exposure=None,
+                blur=None,
             )
 
             # emotions
@@ -156,9 +165,9 @@ class AmazonImageApi(ImageInterface):
                 if emo.get("Type"):
                     if emo.get("Type").lower() == "happy":  # normalise keywords
                         emo["Type"] = "happiness"
-                    emotion_output[emo.get("Type").lower()] = standardized_confidence_score(
-                        normalized_emo / 100
-                    )
+                    emotion_output[
+                        emo.get("Type").lower()
+                    ] = standardized_confidence_score(normalized_emo / 100)
             emotions = FaceEmotions(
                 anger=emotion_output.get("angry"),
                 surprise=emotion_output.get("surprise"),
@@ -168,6 +177,9 @@ class AmazonImageApi(ImageInterface):
                 calm=emotion_output.get("calm"),
                 disgust=emotion_output.get("disgsusted"),
                 joy=emotion_output.get("happiness"),
+                unknown=None,
+                neutral=None,
+                contempt=None,
             )
 
             # landmarks
@@ -234,6 +246,9 @@ class AmazonImageApi(ImageInterface):
                         y_max=face.get("BoundingBox", {}).get("Top", 0.0)
                         + face.get("BoundingBox", {}).get("Height", 0.0),
                     ),
+                    occlusions=FaceOcclusions.default(),
+                    makeup=FaceMakeup.default(),
+                    hair=FaceHair.default(),
                 )
             )
 
@@ -244,9 +259,7 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__explicit_content(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -263,7 +276,9 @@ class AmazonImageApi(ImageInterface):
             items.append(
                 ExplicitItem(
                     label=label.get("Name"),
-                    likelihood=standardized_confidence_score(label.get("Confidence") / 100),
+                    likelihood=standardized_confidence_score(
+                        label.get("Confidence") / 100
+                    ),
                 )
             )
 
@@ -294,8 +309,8 @@ class AmazonImageApi(ImageInterface):
             response = client.list_collections()
         except Exception as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
-        return ResponseType(
-            original_responer=response,
+        return ResponseType[FaceRecognitionListCollectionsDataClass](
+            original_response=response,
             standardized_response=FaceRecognitionListCollectionsDataClass(
                 collections=response["CollectionIds"]
             ),
@@ -313,13 +328,11 @@ class AmazonImageApi(ImageInterface):
         # TODO handle NextToken if response is paginated
         return ResponseType(
             original_response=response,
-            standardized_response=FaceRecognitionListFacesDataClass(
-                face_ids=face_ids
-            ),
+            standardized_response=FaceRecognitionListFacesDataClass(face_ids=face_ids),
         )
 
     def image__face_recognition__delete_collection(
-            self, collection_id: str
+        self, collection_id: str
     ) -> ResponseType[FaceRecognitionDeleteCollectionDataClass]:
         client = self.clients["image"]
         try:
@@ -330,14 +343,11 @@ class AmazonImageApi(ImageInterface):
             original_response=response,
             standardized_response=FaceRecognitionDeleteCollectionDataClass(
                 deleted=True
-            )
+            ),
         )
 
     def image__face_recognition__add_face(
-        self, 
-        collection_id: str, 
-        file: str,
-        file_url: str= ""
+        self, collection_id: str, file: str, file_url: str = ""
     ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
         client = self.clients["image"]
         with open(file, "rb") as file_:
@@ -358,7 +368,7 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_recognition__delete_face(
-            self, collection_id, face_id
+        self, collection_id, face_id
     ) -> ResponseType[FaceRecognitionDeleteFaceDataClass]:
         client = self.clients["image"]
         try:
@@ -372,16 +382,11 @@ class AmazonImageApi(ImageInterface):
             raise ProviderException(str(provider_call_exception))
         return ResponseType(
             original_response=response,
-            standardized_response=FaceRecognitionDeleteFaceDataClass(
-                deleted=True
-            )
+            standardized_response=FaceRecognitionDeleteFaceDataClass(deleted=True),
         )
 
     def image__face_recognition__recognize(
-        self, 
-        collection_id: str, 
-        file: str,
-        file_url: str= ""
+        self, collection_id: str, file: str, file_url: str = ""
     ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         client = self.clients["image"]
         with open(file, "rb") as file_:
@@ -410,7 +415,7 @@ class AmazonImageApi(ImageInterface):
             original_response=response,
             standardized_response=FaceRecognitionRecognizeDataClass(items=faces),
         )
-    
+
     def image__face_compare(
         self,
         file1: str,
@@ -418,56 +423,40 @@ class AmazonImageApi(ImageInterface):
         file1_url: str,
         file2_url: str,
     ) -> ResponseType[FaceCompareDataClass]:
-        client = self.clients.get("image")  
+        client = self.clients.get("image")
 
+        image_source = {}
+        image_tar = {}
 
-        
-        
-        image_source={}
-        image_tar={}
-        
         with open(file1, "rb") as file1_:
             file1_content = file1_.read()
-            image_source['Bytes'] = file1_content
-        
+            image_source["Bytes"] = file1_content
 
         with open(file2, "rb") as file2_:
             file2_content = file2_.read()
-            image_tar['Bytes'] = file2_content
-
-
-
+            image_tar["Bytes"] = file2_content
 
         response = client.compare_faces(
             SourceImage=image_source,
             TargetImage=image_tar,
         )
-        
 
         face_match_list = []
-        for face_match in response.get('FaceMatches', []):
-            position = face_match['Face']['BoundingBox']
-            similarity = face_match['Similarity']
+        for face_match in response.get("FaceMatches", []):
+            position = face_match["Face"]["BoundingBox"]
+            similarity = face_match["Similarity"]
             bounding_box = FaceCompareBoundingBox(
-                top=position['Top'],
-                left=position['Left'],
-                height=position['Height'],
-                width=position['Width']
+                top=position["Top"],
+                left=position["Left"],
+                height=position["Height"],
+                width=position["Width"],
             )
-            face_match_obj= FaceMatch(confidence=similarity / 100, bounding_box=bounding_box)
+            face_match_obj = FaceMatch(
+                confidence=similarity / 100, bounding_box=bounding_box
+            )
             face_match_list.append(face_match_obj)
 
         return ResponseType(
             original_response=response,
             standardized_response=FaceCompareDataClass(items=face_match_list),
         )
-
-
-        
-        
-
-
-
-        
-        
-        

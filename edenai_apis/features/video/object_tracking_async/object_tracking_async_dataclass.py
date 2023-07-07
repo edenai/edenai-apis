@@ -12,7 +12,7 @@ class VideoObjectBoundingBox(BaseModel):
 
 class ObjectFrame(BaseModel):
     timestamp: float
-    bounding_box: VideoObjectBoundingBox = VideoObjectBoundingBox()
+    bounding_box: VideoObjectBoundingBox
 
 
 class ObjectTrack(BaseModel):

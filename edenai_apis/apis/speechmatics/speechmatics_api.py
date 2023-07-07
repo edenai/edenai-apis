@@ -4,23 +4,35 @@ import requests
 from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.types import AsyncResponseType, AsyncPendingResponseType, AsyncBaseResponseType, AsyncLaunchJobResponseType
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
+from edenai_apis.utils.types import (
+    AsyncResponseType,
+    AsyncPendingResponseType,
+    AsyncBaseResponseType,
+    AsyncLaunchJobResponseType,
+)
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
+)
 from edenai_apis.features.audio.speech_to_text_async import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
-    SpeechDiarization
+    SpeechDiarization,
 )
+
 
 class SpeechmaticsApi(ProviderInterface, AudioInterface):
     provider_name = "speechmatics"
 
     def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.key = self.api_settings["speechmatics_key"]
         self.base_url = "https://asr.api.speechmatics.com/v2/jobs"
         self.headers = {
-            "Authorization" : f"Bearer {self.key}",
+            "Authorization": f"Bearer {self.key}",
         }
 
     def audio__speech_to_text_async__launch_job(
@@ -31,97 +43,100 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model : str,
-        file_url: str = "") -> AsyncLaunchJobResponseType:
+        model: str,
+        file_url: str = "",
+    ) -> AsyncLaunchJobResponseType:
         file_ = open(file, "rb")
         config = {
-            "language" : language, 
+            "language": language,
             "diarization": "speaker",
-            "operating_point" : model
+            "operating_point": model,
         }
-        if vocabulary :
-            config['additional_vocab'] = [{"content": word} for word in vocabulary]
-            
+        if vocabulary:
+            config["additional_vocab"] = [{"content": word} for word in vocabulary]
+
         payload = {
-            'config' : json.dumps({
-                "type": "transcription",
-                "transcription_config": config
-            })
+            "config": json.dumps(
+                {"type": "transcription", "transcription_config": config}
+            )
         }
         # Send request
         response = requests.post(
             url=self.base_url,
             headers=self.headers,
             data=payload,
-            files= { 'data_file': file_}
+            files={"data_file": file_},
         )
         if response.status_code != 201:
             raise ProviderException(response.content, response.status_code)
 
-        return AsyncLaunchJobResponseType(provider_job_id=response.json()['id'])
+        return AsyncLaunchJobResponseType(provider_job_id=response.json()["id"])
 
-    
     def audio__speech_to_text_async__get_job_result(
-        self, 
-        provider_job_id: str) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
         response = requests.get(
-            f'{self.base_url}/{provider_job_id}',
-            headers=self.headers
+            f"{self.base_url}/{provider_job_id}", headers=self.headers
         )
         original_response = response.json()
         if response.status_code != 200:
             if original_response.get("details") == "path not found":
                 raise AsyncJobException(
-                    reason= AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
                 )
             raise ProviderException(
                 message=original_response,
                 code=response.status_code,
             )
 
-        job_details = original_response['job']
-        errors = job_details.get('errors')
+        job_details = original_response["job"]
+        errors = job_details.get("errors")
         if errors:
             raise ProviderException(errors)
 
-        status = job_details['status']
-        if status == 'running':
+        status = job_details["status"]
+        if status == "running":
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id
             )
-        elif status == 'done':
+        elif status == "done":
             response = requests.get(
-                f'{self.base_url}/{provider_job_id}/transcript',
+                f"{self.base_url}/{provider_job_id}/transcript",
                 headers=self.headers,
             )
             original_response = response.json()
             if response.status_code != 200:
                 raise ProviderException(
-                    original_response.get('errors'),
-                    code=response.status_code
-                    )
-                
+                    original_response.get("errors"), code=response.status_code
+                )
+
             diarization_entries = []
             speakers = set()
             text = ""
-            for entry in original_response.get('results'):
-                text = text + " " + entry['alternatives'][0]['content']
-                speakers.add(entry['alternatives'][0]['speaker'])
+            for entry in original_response.get("results"):
+                text = text + " " + entry["alternatives"][0]["content"]
+                speakers.add(entry["alternatives"][0]["speaker"])
 
                 diarization_entries.append(
                     SpeechDiarizationEntry(
-                        segment=entry['alternatives'][0]['content'],
-                        start_time= str(entry['start_time']),
-                        end_time= str(entry["end_time"]),
-                        confidence= entry['alternatives'][0]['confidence'],
-                        speaker=list(speakers).index(entry['alternatives'][0]['speaker'][1])
+                        segment=entry["alternatives"][0]["content"],
+                        start_time=str(entry["start_time"]),
+                        end_time=str(entry["end_time"]),
+                        confidence=entry["alternatives"][0]["confidence"],
+                        speaker=list(speakers).index(
+                            entry["alternatives"][0]["speaker"]
+                        ),
                     )
                 )
-            diarization = SpeechDiarization(total_speakers=len(speakers), entries=diarization_entries)
+            diarization = SpeechDiarization(
+                total_speakers=len(speakers), entries=diarization_entries
+            )
             return AsyncResponseType(
                 original_response=original_response,
-                standardized_response=SpeechToTextAsyncDataClass(text=text,diarization=diarization),
-                provider_job_id=provider_job_id
+                standardized_response=SpeechToTextAsyncDataClass(
+                    text=text, diarization=diarization
+                ),
+                provider_job_id=provider_job_id,
             )
         else:
             raise ProviderException(f"Unexpected job failed")

@@ -64,7 +64,9 @@ class EmvistaApi(ProviderInterface, TextInterface):
             raise ProviderException(original_response["message"])
 
         # Return standardized response
-        standardized_response_list = original_response.get("result", {}).get("sentences", [])
+        standardized_response_list = original_response.get("result", {}).get(
+            "sentences", []
+        )
 
         level_items = [
             element for element in standardized_response_list if element["level"] == 10
@@ -121,6 +123,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
                             tag=tags[word["pos"]],
                             lemma=word["lemma"],
                             others=other,
+                            importance=None,
                         )
                     )
 
@@ -157,7 +160,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         entities: Sequence[AnonymizationEntity] = []
         new_text = text
 
-        result = original_response['result'] or {}
+        result = original_response["result"] or {}
         for entity in result.get("namedEntities", []):
             classification = CategoryType.choose_category_subcategory(
                 entity["tags"][0].split("/")[-1]
@@ -223,12 +226,10 @@ class EmvistaApi(ProviderInterface, TextInterface):
 
         original_response = response.json()
 
-        result = original_response['result'] or {}
+        result = original_response["result"] or {}
 
         standardized_response = SentimentAnalysisDataClass(
-            general_sentiment=self._normalize_sentiment(
-                result.get("globalScore", 0)
-            ),
+            general_sentiment=self._normalize_sentiment(result.get("globalScore", 0)),
             general_sentiment_rate=abs(result.get("globalScore", 0))
             if result.get("globalScore") != "NaN"
             else 0,

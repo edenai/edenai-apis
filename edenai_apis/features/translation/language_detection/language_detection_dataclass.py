@@ -1,13 +1,14 @@
 from typing import Sequence, Optional
 
-from pydantic import BaseModel, Field, StrictStr, validator
+from pydantic import BaseModel, Field, StrictStr, field_validator
+
 
 class InfosLanguageDetectionDataClass(BaseModel):
     language: StrictStr
     display_name: StrictStr
     confidence: Optional[float]
 
-    @validator('confidence')
+    @field_validator("confidence")
     @classmethod
     def normalize_confidence(cls, value):
         if value is None:

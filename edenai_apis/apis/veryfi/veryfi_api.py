@@ -95,10 +95,18 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         customer_information = CustomerInformationInvoice(
             customer_name=original_response["bill_to"]["name"],
             customer_address=original_response["bill_to"]["address"],
-            customer_tax_id=original_response["bill_to"]["vat_number"],
+            customer_email=None,
             customer_id=original_response["account_number"],
+            customer_tax_id=original_response["bill_to"]["vat_number"],
+            customer_mailing_address=None,
             customer_billing_address=original_response["bill_to"]["address"],
             customer_shipping_address=ship_address,
+            customer_service_address=None,
+            customer_remittance_address=None,
+            abn_number=None,
+            gst_number=None,
+            pan_number=None,
+            vat_number=None,
         )
 
         merchant_information = MerchantInformationInvoice(
@@ -110,6 +118,12 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             merchant_id=original_response["vendor"]["reg_number"],
             merchant_website=original_response["vendor"]["web"],
             merchant_fax=original_response["vendor"]["fax_number"],
+            merchant_siren=None,
+            merchant_siret=None,
+            abn_number=None,
+            gst_number=None,
+            pan_number=None,
+            vat_number=None,
         )
 
         bank_informations = BankInvoice(
@@ -117,6 +131,9 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             iban=original_response["vendor"]["iban"],
             swift=original_response["vendor"]["bank_swift"],
             vat_number=original_response["vendor"]["vat_number"],
+            bsb=None,
+            sort_code=None,
+            rooting_number=None,
         )
 
         item_lines = []
@@ -139,14 +156,16 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             InfosInvoiceParserDataClass(
                 customer_information=customer_information,
                 merchant_information=merchant_information,
-                taxes=[TaxesInvoice(value=original_response["tax"])],
+                taxes=[TaxesInvoice(value=original_response["tax"], rate=None)],
                 invoice_total=original_response["total"],
                 invoice_subtotal=original_response["subtotal"],
                 invoice_number=original_response["invoice_number"],
                 date=original_response["date"],
                 purchase_order=original_response["purchase_order_number"],
                 item_lines=item_lines,
-                locale=LocaleInvoice(currency=original_response["currency_code"]),
+                locale=LocaleInvoice(
+                    currency=original_response["currency_code"], language=None
+                ),
                 bank_informations=bank_informations,
             )
         ]
