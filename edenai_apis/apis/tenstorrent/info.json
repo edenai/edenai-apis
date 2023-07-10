@@ -17,6 +17,9 @@
                 "allow_null_language": true
             },
             "version": "v1.0.0"
+        },
+        "question_answer": {
+            "version": "v1.0.0"
         }
     }
 }

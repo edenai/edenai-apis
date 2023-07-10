@@ -1,0 +1,11 @@
+{
+  "original_response": {
+    "answer": "geopelia humeralis",
+    "confidence": 0.77734375
+  },
+  "standardized_response": {
+    "answers": [
+      "geopelia humeralis"
+    ]
+  }
+}
