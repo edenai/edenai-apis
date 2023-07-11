@@ -321,13 +321,13 @@ class TextInterface:
 
     @abstractmethod
     def text__prompt_optimization(
-        text: str, provider: Literal["openai", "google", "cohere"]
-    ) -> ResponseType[PromptOptimizationDataClass]:
+        text: str,
+        target_provider: Literal["openai", "google", "cohere"] ) -> ResponseType[PromptOptimizationDataClass]:
         """
         Generate a prompt given a User description for 3 generative providers 'OpenAI', 'Google' & 'Cohere
 
         Args:
             text (str): User description
-            provider (Literal[&quot;openai&quot;, &quot;google&quot;, &quot;cohere&quot;])
+            target_provider (Literal[&quot;openai&quot;, &quot;google&quot;, &quot;cohere&quot;])
         """
         raise NotImplementedError

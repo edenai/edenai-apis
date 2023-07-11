@@ -352,14 +352,14 @@ By following these tips and refining your prompts, you can guide GPT models to g
 User Description : {description}
 Prompt : 
 """
-)
-
-
-def construct_prompt_optimization_instruction(text: str, provider: str):
+def construct_prompt_optimization_instruction(
+    text: str,
+    target_provider: str
+    ):
     prompt = {
         "google": google_prompt_guidelines(text),
         "cohere": cohere_prompt_guideines(text),
         "openai": openai_prompt_guidelines(text),
     }
-
-    return prompt[provider]
+    
+    return prompt[target_provider]
