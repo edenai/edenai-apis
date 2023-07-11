@@ -6,7 +6,14 @@ import json
 import os
 from typing import List, Optional, Sequence, Any
 
-from pydantic import AfterValidator, BaseModel, Field, StrictStr, field_validator
+from pydantic import (
+    AfterValidator,
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictStr,
+    field_validator,
+)
 
 
 def format_date(value):
@@ -63,15 +70,9 @@ class ItemIdentityParserDataClass(BaseModel):
     confidence: Optional[float] = None
 
 
-GivenName = Annotated[
-    ItemIdentityParserDataClass,
-    AfterValidator(lambda x: x.value.title() if x.value else x.value),
-]
-
-
 class InfosIdentityParserDataClass(BaseModel):
     last_name: ItemIdentityParserDataClass
-    given_names: Sequence[GivenName] = Field(default_factory=list)
+    given_names: Sequence[ItemIdentityParserDataClass] = Field(default_factory=list)
     birth_place: ItemIdentityParserDataClass
     birth_date: ItemIdentityParserDataClass
     issuance_date: ItemIdentityParserDataClass
@@ -97,6 +98,11 @@ class InfosIdentityParserDataClass(BaseModel):
     def to_title(cls, value):
         value.value = value.value.title() if value.value else None
         return value
+
+    @field_validator("given_names")
+    def given_names_to_title(cls, value):
+        for v in value:
+            v.value = v.value.title() if v.value else None
 
     @field_validator("expire_date", "issuance_date", "birth_date")
     def date_validator(cls, value):

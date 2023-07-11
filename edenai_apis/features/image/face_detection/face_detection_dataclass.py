@@ -96,11 +96,11 @@ class FaceHairColor(BaseModel):
 class FaceHair(BaseModel):
     hair_color: Sequence[FaceHairColor] = Field(default_factory=list)  # microsoft
     bald: Optional[float]  # microsoft
-    invisible: bool  # microsoft
+    invisible: Optional[bool]  # microsoft
 
     @staticmethod
     def default() -> "FaceHair":
-        return FaceHair(hair_color=[], bald=None, invisible=False)
+        return FaceHair(hair_color=[], bald=None, invisible=None)
 
 
 class FaceFacialHair(BaseModel):

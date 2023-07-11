@@ -22,7 +22,7 @@ attrs==23.1.0
     #   sagemaker
     #   service-identity
     #   twisted
-autobahn==23.6.2
+autobahn==22.7.1
     # via watson-developer-cloud
 automat==22.10.0
     # via twisted
@@ -231,7 +231,7 @@ msrest==0.7.1
     #   azure-ai-formrecognizer
 multiprocess==0.70.14
     # via pathos
-numpy==1.25.0
+numpy==1.23.4
     # via
     #   pandas
     #   sagemaker

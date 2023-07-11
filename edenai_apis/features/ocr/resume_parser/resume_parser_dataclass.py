@@ -13,7 +13,7 @@ class ResumeLocation(BaseModel):
     street: Optional[StrictStr]  # Affinda
     street_number: Optional[StrictStr]  # Affinda
     appartment_number: Optional[StrictStr]  # Affinda
-    city: str  # All
+    city: Optional[str]  # All
 
 
 class ResumeSkill(BaseModel):
