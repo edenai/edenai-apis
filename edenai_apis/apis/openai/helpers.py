@@ -350,8 +350,9 @@ Q: What’s the mass of Jupiter compared to the Sun?
 By following these tips and refining your prompts, you can guide GPT models to generate more accurate and desired completions.
 
 User Description : {description}
-Prompt : 
+Prompt :
 """
+)
 def construct_prompt_optimization_instruction(
     text: str,
     target_provider: str
@@ -361,5 +362,5 @@ def construct_prompt_optimization_instruction(
         "cohere": cohere_prompt_guideines(text),
         "openai": openai_prompt_guidelines(text),
     }
-    
+
     return prompt[target_provider]
