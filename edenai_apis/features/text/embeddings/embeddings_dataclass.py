@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 
 
 class EmbeddingDataClass(BaseModel):
-    embedding : Sequence[float]
+    embedding: Sequence[float]
 
 
 class EmbeddingsDataClass(BaseModel):

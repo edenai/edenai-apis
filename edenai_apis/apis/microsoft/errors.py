@@ -11,7 +11,7 @@ from edenai_apis.utils.exception import (
     ProviderTimeoutError,
     ProviderNotFoundError,
     ProviderInvalidInputFileFormatError,
-    ProviderInvalidInputPayloadSize
+    ProviderInvalidInputPayloadSize,
 )
 
 # NOTE: error messages should be regex patterns
@@ -21,7 +21,7 @@ ERRORS: ProviderErrorLists = {
     ],
     ProviderParsingError: [
         r"No table found in the document.",
-        r"Connection was closed by the remote host. Error code: 1007. Error details: \w+ is an unexpected token. The expected token is \w+ or \w+. Line \d+, position \d+. USP state: 3. Received audio size: \w+"
+        r"Connection was closed by the remote host. Error code: 1007. Error details: \w+ is an unexpected token. The expected token is \w+ or \w+. Line \d+, position \d+. USP state: 3. Received audio size: \w+",
     ],
     ProviderLimitationError: [
         r"Face List number reached limit",
@@ -37,7 +37,7 @@ ERRORS: ProviderErrorLists = {
         r"No face detected in the image",
         r"Remove audio attributes \w+ to be able to use ssml tags, or add them manually using tags.",
         r"The input language is not supported.",
-        r"Wrong voice id"
+        r"Wrong voice id",
     ],
     ProviderInvalidInputFileError: [
         r"Input data is not a valid image",
@@ -57,19 +57,17 @@ ERRORS: ProviderErrorLists = {
     ProviderInvalidInputTextLengthError: [
         r"Text is too long for spell check\. Max length is 130 characters",
     ],
-    ProviderTimeoutError : [
+    ProviderTimeoutError: [
         r"The operation was timeout.",
-        r"USP error: timeout waiting for the first audio chunk"
+        r"USP error: timeout waiting for the first audio chunk",
     ],
-    ProviderNotFoundError : [
+    ProviderNotFoundError: [
         r"Face list is not found. \(Parameter 'faceListId'\)",
-        r"Persisted face [a-z0-9\-]+ is not found. \(Parameter 'persistedFaceId'\)"
+        r"Persisted face [a-z0-9\-]+ is not found. \(Parameter 'persistedFaceId'\)",
     ],
-    ProviderInvalidInputFileFormatError : [
+    ProviderInvalidInputFileFormatError: [
         r"Decoding error, image format unsupported.",
-        r"File extension not supported. Use one of the following extensions: \w+"
+        r"File extension not supported. Use one of the following extensions: \w+",
     ],
-    ProviderInvalidInputPayloadSize : [
-        r"The maximum request size has been exceeded."
-    ]
+    ProviderInvalidInputPayloadSize: [r"The maximum request size has been exceeded."],
 }

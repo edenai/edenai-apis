@@ -9,11 +9,14 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
 from edenai_apis.utils.files import FileWrapper
-from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType, ResponseType
+from edenai_apis.utils.types import (
+    AsyncBaseResponseType,
+    AsyncLaunchJobResponseType,
+    ResponseType,
+)
 
 
 class AudioInterface:
-
     ### Speech to Text methods
     @abstractmethod
     def audio__speech_to_text_async__launch_job(
@@ -24,7 +27,7 @@ class AudioInterface:
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model : str = None,
+        model: str = None,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
         """Launch an asynchronous job to convert an audio file to text

@@ -6,7 +6,11 @@ import uuid
 import base64
 from io import BufferedReader, BytesIO
 from botocore.exceptions import BotoCoreError
-from edenai_apis.apis.amazon.helpers import amazon_speaking_rate_converter, generate_right_ssml_text, get_right_audio_support_and_sampling_rate
+from edenai_apis.apis.amazon.helpers import (
+    amazon_speaking_rate_converter,
+    generate_right_ssml_text,
+    get_right_audio_support_and_sampling_rate,
+)
 
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
@@ -18,7 +22,11 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
 from edenai_apis.utils.audio import retreive_voice_id
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
+)
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -33,41 +41,35 @@ from .config import audio_voices_ids
 
 class AmazonAudioApi(AudioInterface):
     def audio__text_to_speech(
-        self, 
-        language: str, 
-        text: str, 
+        self,
+        language: str,
+        text: str,
         option: str,
         voice_id: str,
         audio_format: str,
-        speaking_rate: int, 
+        speaking_rate: int,
         speaking_pitch: int,
         speaking_volume: int,
         sampling_rate: int,
     ) -> ResponseType[TextToSpeechDataClass]:
-        
         _, voice_id_name, engine = voice_id.split("_")
         engine = engine.lower()
 
-        params = {
-            "Engine": engine,
-            "VoiceId" : voice_id_name,
-            "OutputFormat": "mp3"
-        }
+        params = {"Engine": engine, "VoiceId": voice_id_name, "OutputFormat": "mp3"}
 
-        text, text_type = generate_right_ssml_text(text, speaking_rate, speaking_pitch, speaking_volume)
+        text, text_type = generate_right_ssml_text(
+            text, speaking_rate, speaking_pitch, speaking_volume
+        )
 
-        ext, audio_format, sampling = get_right_audio_support_and_sampling_rate(audio_format, sampling_rate)
+        ext, audio_format, sampling = get_right_audio_support_and_sampling_rate(
+            audio_format, sampling_rate
+        )
 
-        params_update = {
-            "OutputFormat": audio_format,
-            "Text": text
-        }
+        params_update = {"OutputFormat": audio_format, "Text": text}
         if sampling:
             params_update["SampleRate"] = str(sampling)
-        
-        params.update({
-            **params_update
-        })
+
+        params.update({**params_update})
 
         if text_type:
             params["TextType"] = "ssml"
@@ -76,7 +78,6 @@ class AmazonAudioApi(AudioInterface):
             response = self.clients["texttospeech"].synthesize_speech(**params)
         except Exception as excp:
             raise ProviderException(str(excp))
-
 
         audio_content = BytesIO(response["AudioStream"].read())
 
@@ -88,7 +89,7 @@ class AmazonAudioApi(AudioInterface):
         resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
 
         standardized_response = TextToSpeechDataClass(
-            audio=audio_file, voice_type=voice_type, audio_resource_url = resource_url
+            audio=audio_file, voice_type=voice_type, audio_resource_url=resource_url
         )
         return ResponseType[TextToSpeechDataClass](
             original_response={}, standardized_response=standardized_response
@@ -164,14 +165,12 @@ class AmazonAudioApi(AudioInterface):
             self.clients["speech"].start_transcription_job(**params)
         except KeyError as exc:
             raise ProviderException(str(exc)) from exc
-        
 
     def _delete_vocabularies(self, vocab_name):
         try:
             self.clients["speech"].delete_vocabulary(VocabularyName=vocab_name)
         except Exception as exc:
             raise ProviderException(str(exc)) from exc
-
 
     def audio__speech_to_text_async__launch_job(
         self,
@@ -181,19 +180,19 @@ class AmazonAudioApi(AudioInterface):
         profanity_filter: bool,
         vocabulary: list,
         audio_attributes: tuple,
-        model : str = None,
+        model: str = None,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
-
         export_format, channels, frame_rate = audio_attributes
-
 
         filename = self._upload_audio_file_to_amazon_server(
             file, Path(file).stem + "." + export_format
         )
         if vocabulary:
             if language is None:
-                raise ProviderException("Cannot launch with vocabulary when language is auto-detect.")
+                raise ProviderException(
+                    "Cannot launch with vocabulary when language is auto-detect."
+                )
             vocab_name = self._create_vocabulary(language, vocabulary)
             self._launch_transcribe(
                 filename,
@@ -216,13 +215,12 @@ class AmazonAudioApi(AudioInterface):
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-
         if not provider_job_id:
             raise ProviderException("Job id None or empty!")
         # check custom vocabilory job state
         job_id, *vocab = provider_job_id.split("EdenAI")
         if vocab:  # if vocabilory is used and
-            can_use_vocab = True # if failed, we don't use the vocabulary
+            can_use_vocab = True  # if failed, we don't use the vocabulary
             setting_content = self.storage_clients["speech"].meta.client.get_object(
                 Bucket=self.api_settings["bucket"], Key=f"{job_id}_settings.txt"
             )
@@ -241,7 +239,7 @@ class AmazonAudioApi(AudioInterface):
                     return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                         provider_job_id=provider_job_id
                     )
-                
+
                 self._launch_transcribe(
                     settings["TranscriptionJobName"],
                     "",
@@ -269,17 +267,17 @@ class AmazonAudioApi(AudioInterface):
         except Exception as exp:
             if "job couldn't be found" in str(exp):
                 raise AsyncJobException(
-                        reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
-                    )
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
             raise ProviderException(str(exp))
-        
+
         job_status = job_details["TranscriptionJob"]["TranscriptionJobStatus"]
         if job_status == "COMPLETED":
             # delete vocabulary
             try:
                 self._delete_vocabularies(vocab[0])
             except IndexError as ir:  # if no vocabulary was created
-                pass                
+                pass
 
             json_res = job_details["TranscriptionJob"]["Transcript"][
                 "TranscriptFileUri"
@@ -289,7 +287,11 @@ class AmazonAudioApi(AudioInterface):
                 # diarization
                 diarization_entries = []
                 words_info = original_response["results"]["items"]
-                speakers = original_response["results"].get("speaker_labels", {}).get("speakers", 0)
+                speakers = (
+                    original_response["results"]
+                    .get("speaker_labels", {})
+                    .get("speakers", 0)
+                )
 
                 for word_info in words_info:
                     if word_info.get("speaker_label"):
@@ -333,7 +335,7 @@ class AmazonAudioApi(AudioInterface):
                 self._delete_vocabularies(vocab[0])
             except IndexError as ir:  # if no vocabulary was created
                 pass
-            
+
             error = job_details["TranscriptionJob"].get("FailureReason")
             raise ProviderException(error)
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](

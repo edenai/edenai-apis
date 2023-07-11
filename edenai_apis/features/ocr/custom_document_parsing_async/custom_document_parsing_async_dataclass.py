@@ -8,12 +8,14 @@ class CustomDocumentParsingAsyncBoundingBox(BaseModel):
     width: Optional[float]
     height: Optional[float]
 
+
 class CustomDocumentParsingAsyncItem(BaseModel):
     confidence: float
     value: StrictStr
-    query : StrictStr
+    query: StrictStr
     bounding_box: CustomDocumentParsingAsyncBoundingBox
     page: int
+
 
 class CustomDocumentParsingAsyncDataClass(BaseModel):
     items: List[CustomDocumentParsingAsyncItem] = Field(default_factory=list)

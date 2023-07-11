@@ -12,7 +12,6 @@ from edenai_apis.utils.types import ResponseType
 
 
 class TenstorrentTextApi(TextInterface):
-
     def text__keyword_extraction(
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
@@ -32,7 +31,9 @@ class TenstorrentTextApi(TextInterface):
         # Check for errors
         self.check_for_errors(original_response)
 
-        standardized_response = KeywordExtractionDataClass(items=original_response["items"])
+        standardized_response = KeywordExtractionDataClass(
+            items=original_response["items"]
+        )
         return ResponseType[KeywordExtractionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,

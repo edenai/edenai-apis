@@ -16,6 +16,7 @@ class SuggestionItem(BaseModel):
     Returns:
         SuggestionItem: An instance of the SuggestionItem class.
     """
+
     suggestion: str
     score: Optional[float] = Field(ge=0, le=1)
 
@@ -37,6 +38,7 @@ class SpellCheckItem(BaseModel):
     Returns:
         SpellCheckItem: An instance of the SpellCheckItem class.
     """
+
     text: str
     type: str
     offset: int = Field(ge=0)
@@ -55,5 +57,6 @@ class SpellCheckDataClass(BaseModel):
     Returns:
         SpellCheckDataClass: An instance of the SpellCheckDataClass class.
     """
+
     text: str
     items: Sequence[SpellCheckItem] = Field(default_factory=list)

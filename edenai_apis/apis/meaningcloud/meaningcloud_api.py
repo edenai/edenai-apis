@@ -7,12 +7,13 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.utils.types import ResponseType
 
 
-
 class MeaningcloudApi(ProviderInterface, TextInterface):
     provider_name = "meaningcloud"
 
     def __init__(self, api_keys: Dict = {}):
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.api_key = self.api_settings["api_key"]
         self.url = "https://api.meaningcloud.com/summarization-1.0"
 
@@ -32,6 +33,6 @@ class MeaningcloudApi(ProviderInterface, TextInterface):
 
         result = ResponseType[SummarizeDataClass](
             original_response=original_response,
-            standardized_response=standardized_response
+            standardized_response=standardized_response,
         )
         return result

@@ -84,7 +84,7 @@ class GoogleTranslationApi(TranslationInterface):
         source_language: str,
         target_language: str,
         file_type: str,
-        file_url: str=""
+        file_url: str = "",
     ) -> ResponseType[DocumentTranslationDataClass]:
         mimetype = mimetypes.guess_type(file)[0]
         extension = mimetypes.guess_extension(mimetype)
@@ -94,8 +94,8 @@ class GoogleTranslationApi(TranslationInterface):
         file_ = open(file, "rb")
 
         document_input_config = {
-        "content": file_.read(),
-        "mime_type": file_type,
+            "content": file_.read(),
+            "mime_type": file_type,
         }
 
         try:
@@ -115,9 +115,13 @@ class GoogleTranslationApi(TranslationInterface):
         file_.close()
 
         b64_file = base64.b64encode(file_bytes)
-        resource_url = upload_file_bytes_to_s3(BytesIO(file_bytes), extension, USER_PROCESS)
-        
+        resource_url = upload_file_bytes_to_s3(
+            BytesIO(file_bytes), extension, USER_PROCESS
+        )
+
         return ResponseType[DocumentTranslationDataClass](
             original_response=original_response,
-            standardized_response=DocumentTranslationDataClass(file=b64_file, document_resource_url=resource_url)
+            standardized_response=DocumentTranslationDataClass(
+                file=b64_file, document_resource_url=resource_url
+            ),
         )

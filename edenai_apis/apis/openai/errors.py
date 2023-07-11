@@ -20,7 +20,7 @@ ERRORS: ProviderErrorLists = {
         r"Gateway timeout",
         r"Internal error",
         r"Internal Server Error",
-        r"Request failed due to server shutdown"
+        r"Request failed due to server shutdown",
     ],
     ProviderParsingError: [
         r"An error occurred while parsing the response",
@@ -43,18 +43,18 @@ ERRORS: ProviderErrorLists = {
     ProviderInvalidInputError: [
         r"Your request was rejected as a result of our safety system",
         r"Invalid language format for: \w+.",
-        r"Wrong model name, availaible models for openai are : \w+"
+        r"Wrong model name, availaible models for openai are : \w+",
     ],
     ProviderInvalidInputAudioDurationError: [
         r"Audio file is too short. Minimum audio length is 0.1 seconds."
     ],
-    ProviderInvalidInputFileFormatError : [
+    ProviderInvalidInputFileFormatError: [
         r"File extension not supported. Use one of the following extensions: \w+"
     ],
-    ProviderAuthorizationError : [
+    ProviderAuthorizationError: [
         r"You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys"
     ],
-    ProviderInvalidPromptError : [
+    ProviderInvalidPromptError: [
         r"Your request was rejected as a result of our safety system. Your prompt may contain text that is not allowed by our safety system."
-    ]
+    ],
 }

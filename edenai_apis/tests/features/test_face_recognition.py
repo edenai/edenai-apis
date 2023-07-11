@@ -75,7 +75,6 @@ class TestFaceRecognition:
             assert exc is not None
 
     def test_add_face_to_collection(self, provider, collection_id):
-
         img = face_recognition_recognize_arguments()["file"].file_path
         add_face = Image.face_recognition__add_face(provider)
         response = add_face(collection_id=COLLECTION_ID, file=img)

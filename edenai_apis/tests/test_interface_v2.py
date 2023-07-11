@@ -13,7 +13,11 @@ _correct_list_feature = lambda: map(
     lambda flist: [*flist, ""] if len(flist) == 3 else flist, list_features()
 )
 
-@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
+
+@pytest.mark.skipif(
+    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
+    reason="Don't run on opensource cicd workflow",
+)
 @pytest.mark.parametrize(
     ("provider", "feature", "subfeature", "phase"), _correct_list_feature()
 )
@@ -23,14 +27,13 @@ def test_return_provider_method_returns_right_method(
     """Take a random method from a random feature interface"""
 
     subfeature_methods = [subfeature]
-    if '_async' in subfeature:
+    if "_async" in subfeature:
         subfeature_methods.append(subfeature)
-        subfeature_methods[0] += '__launch_job'
-        subfeature_methods[1] += '__get_job_result'
+        subfeature_methods[0] += "__launch_job"
+        subfeature_methods[1] += "__get_job_result"
     phase_suffix = f"__{phase}" if phase else ""
 
     for method_name in subfeature_methods:
-
         feature_interface_module = importlib.import_module(
             f"edenai_apis.features.{feature}.{feature}_interface"
         )
@@ -38,7 +41,9 @@ def test_return_provider_method_returns_right_method(
             feature_interface_module, f"{feature.capitalize()}Interface"
         )
 
-        assert hasattr(provider_interface_class, f"{feature}__{method_name}{phase_suffix}")
+        assert hasattr(
+            provider_interface_class, f"{feature}__{method_name}{phase_suffix}"
+        )
 
         tested_interface_method = getattr(
             provider_interface_class, f"{feature}__{method_name}{phase_suffix}"
@@ -57,17 +62,20 @@ def test_return_provider_method_returns_right_method(
         assert isinstance(test_method.__self__, type(right_method.__self__))
 
 
-@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Don't run on opensource cicd workflow")
+@pytest.mark.skipif(
+    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
+    reason="Don't run on opensource cicd workflow",
+)
 @pytest.mark.parametrize(
     ("provider", "feature", "subfeature", "phase"), _correct_list_feature()
 )
 def test_abstract_returns_right_method(provider, feature, subfeature, phase):
     """Test the abstract method that create Interfaces"""
     subfeature_methods = [subfeature]
-    if '_async' in subfeature:
+    if "_async" in subfeature:
         subfeature_methods.append(subfeature)
-        subfeature_methods[0] += '__launch_job'
-        subfeature_methods[1] += '__get_job_result'
+        subfeature_methods[0] += "__launch_job"
+        subfeature_methods[1] += "__get_job_result"
     phase_suffix = f"__{phase}" if phase else ""
 
     for method_name in subfeature_methods:

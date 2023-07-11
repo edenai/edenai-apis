@@ -6,7 +6,7 @@ from edenai_apis.utils.exception import (
     ProviderLimitationError,
     ProviderParsingError,
     ProviderInvalidInputError,
-    ProviderInvalidInputTextLengthError
+    ProviderInvalidInputTextLengthError,
 )
 
 # NOTE: error messages should be regex patterns
@@ -21,23 +21,23 @@ ERRORS: ProviderErrorLists = {
     ProviderInternalServerError: [
         r"Error calling Clarifai API",
         r"Failure",
-        r"internal server error, this has been reported to our developer"
+        r"internal server error, this has been reported to our developer",
     ],
     ProviderInvalidPromptError: [
         r"blocked output: please adjust your prompt and try again, as this generation may be a potential violation of our Usage Guidelines \(https://docs.cohere.ai/usage-guidelines/\).",
-        r"blocked input: please adjust your prompt and try again, as it may be a potential violation of our Usage Guidelines \(https://docs.cohere.ai/usage-guidelines/\)."
+        r"blocked input: please adjust your prompt and try again, as it may be a potential violation of our Usage Guidelines \(https://docs.cohere.ai/usage-guidelines/\).",
     ],
     ProviderInvalidInputTextLengthError: [
         r"text must be longer than 250 characters",
     ],
-    ProviderInvalidInputError : [
+    ProviderInvalidInputError: [
         r"Invalid language format for: \w+",
         r"invalid request: each unique label must have at least 2 examples. Not enough examples for: \w+",
-        r"Wrong model name, availaible models for cohere are : command, command-light, command-nightly, command-light-nightly, base, base-light"
+        r"Wrong model name, availaible models for cohere are : command, command-light, command-nightly, command-light-nightly, base, base-light",
     ],
-    ProviderInvalidInputTextLengthError : [
+    ProviderInvalidInputTextLengthError: [
         r"invalid request: text must be longer than 250 characters",
         r"invalid request: text size limit exceeded by \d+ characters.",
-        r"too many tokens: total number of tokens \(prompt and prediction\) cannot exceed 2048 - received \d+. Try using a shorter prompt, a smaller max_tokens value, or enabling prompt truncating. See https://docs.cohere.ai/reference/generate for more details"
-    ]
+        r"too many tokens: total number of tokens \(prompt and prediction\) cannot exceed 2048 - received \d+. Try using a shorter prompt, a smaller max_tokens value, or enabling prompt truncating. See https://docs.cohere.ai/reference/generate for more details",
+    ],
 }

@@ -1,6 +1,6 @@
-from .moderation_dataclass import(
+from .moderation_dataclass import (
     ModerationDataClass,
     TextModerationItem,
-    TextModerationCategoriesMicrosoftEnum
+    TextModerationCategoriesMicrosoftEnum,
 )
 from .moderation_args import moderation_arguments

@@ -1,6 +1,6 @@
 from io import BufferedReader
 from collections import defaultdict
-from typing import Dict, List, Optional, Sequence, TypeVar
+from typing import Dict, List, Optional, Sequence, TypeVar, Union
 from pydantic import StrictStr
 import requests
 
@@ -20,6 +20,7 @@ from edenai_apis.features.ocr import (
 from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import (
     DataExtractionDataClass,
 )
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import Country
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     CustomerInformationInvoice,
     LocaleInvoice,
@@ -109,7 +110,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
                 invoice_number=None,
                 invoice_total=receipt_data["total_amount"]["value"],
                 invoice_subtotal=None,
-                barcode=[],
+                barcodes=[],
                 date=combine_date_with_time(
                     receipt_data["date"]["value"], receipt_data["time"]["value"]
                 ),
@@ -294,7 +295,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
 
         identity_data = original_response["document"]["inference"]["prediction"]
 
-        given_names: Sequence[StrictStr] = []
+        given_names: Sequence[ItemIdentityParserDataClass] = []
 
         for given_name in identity_data["given_names"]:
             given_names.append(
@@ -315,11 +316,13 @@ class MindeeApi(ProviderInterface, OcrInterface):
             value=identity_data["birth_place"]["value"],
             confidence=identity_data["birth_place"]["confidence"],
         )
-        country = get_info_country(
+
+        country: Country = get_info_country(
             key=InfoCountry.ALPHA3, value=identity_data["country"]["value"]
         )
         if country:
-            country["confidence"] = identity_data["country"]["confidence"]
+            country.confidence = identity_data["country"]["confidence"]
+
         issuance_date = ItemIdentityParserDataClass(
             value=identity_data["issuance_date"]["value"],
             confidence=identity_data["issuance_date"]["confidence"],
@@ -347,18 +350,19 @@ class MindeeApi(ProviderInterface, OcrInterface):
                 given_names=given_names,
                 birth_date=birth_date,
                 birth_place=birth_place,
-                country=country,
+                country=country or Country.default(),
                 issuance_date=issuance_date,
                 expire_date=expire_date,
                 document_id=document_id,
                 gender=gender,
                 mrz=mrz,
-                image_id=ItemIdentityParserDataClass(),
+                image_id=[ItemIdentityParserDataClass()],
                 issuing_state=ItemIdentityParserDataClass(),
                 address=ItemIdentityParserDataClass(),
                 age=ItemIdentityParserDataClass(),
                 document_type=ItemIdentityParserDataClass(),
                 nationality=ItemIdentityParserDataClass(),
+                image_signature=[ItemIdentityParserDataClass()],
             )
         )
 

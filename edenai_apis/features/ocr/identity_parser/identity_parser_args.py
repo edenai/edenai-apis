@@ -9,19 +9,20 @@ feature_path = os.path.dirname(os.path.dirname(__file__))
 
 data_path = os.path.join(feature_path, "data")
 
-filename = 'passport-US.pdf'
+filename = "passport-US.pdf"
 ocr_path = f"{data_path}/{filename}"
 
 mime_type = mimetypes.guess_type(ocr_path)[0]
-file_info= FileInfo(
+file_info = FileInfo(
     os.stat(ocr_path).st_size,
     mime_type,
     [extension[1:] for extension in mimetypes.guess_all_extensions(mime_type)],
     mediainfo(ocr_path).get("sample_rate", "44100"),
-    mediainfo(ocr_path).get("channels", "1")
+    mediainfo(ocr_path).get("channels", "1"),
 )
 file_wrapper = FileWrapper(ocr_path, "", file_info)
 
+
 def identity_parser_arguments() -> Dict:
-    filename = 'passport-US.pdf'
+    filename = "passport-US.pdf"
     return {"file": file_wrapper}

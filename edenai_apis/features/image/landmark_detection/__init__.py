@@ -4,5 +4,5 @@ from .landmark_detection_dataclass import (
     LandmarkItem,
     LandmarkLatLng,
     LandmarkLocation,
-    LandmarkVertice
+    LandmarkVertice,
 )

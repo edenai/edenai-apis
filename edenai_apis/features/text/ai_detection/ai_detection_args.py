@@ -6,4 +6,4 @@ def ai_detection_arguments():
         The diet of a panther consists mainly of deer, wild boar, and smaller mammals. However, they are opportunistic hunters and can also target livestock and domestic animals in areas where their habitats overlap with human settlements. Unfortunately, this sometimes leads to conflicts with humans, resulting in the panther being perceived as a threat. \
         Despite their association with darkness and mystery, panthers play a vital role in maintaining the balance of ecosystems. As apex predators, they help control populations of herbivores, preventing overgrazing and maintaining healthy prey dynamics. \
         Conservation efforts are crucial to the survival of panther populations worldwide. Habitat loss, poaching, and illegal wildlife trade pose significant threats to their existence. Various organizations and governments are working tirelessly to protect these magnificent creatures through initiatives such as establishing protected areas, promoting sustainable land use practices, and raising awareness about their importance in the natural world."
-            }
+    }

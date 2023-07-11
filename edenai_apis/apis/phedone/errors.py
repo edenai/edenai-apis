@@ -4,7 +4,7 @@ from edenai_apis.utils.exception import (
     ProviderInvalidInputTextLengthError,
     ProviderInternalServerError,
     ProviderMissingInputError,
-    ProviderLimitationError
+    ProviderLimitationError,
 )
 
 # NOTE: error messages should be regex patterns
@@ -14,16 +14,9 @@ ERRORS: ProviderErrorLists = {
     ],
     ProviderInvalidInputError: [
         r"The language defined in \w+ locale is not yet supported",
-        r"Invalid language format for: \w+."
+        r"Invalid language format for: \w+.",
     ],
-    ProviderInternalServerError : [
-        r"Server Error"
-    ],
-    ProviderMissingInputError : [
-        r"The \w+ locale field is required."
-    ],
-    ProviderLimitationError : [
-        r"Too Many Attempts."
-    ]
-
+    ProviderInternalServerError: [r"Server Error"],
+    ProviderMissingInputError: [r"The \w+ locale field is required."],
+    ProviderLimitationError: [r"Too Many Attempts."],
 }

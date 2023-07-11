@@ -16,7 +16,6 @@ class IbmTranslationApi(TranslationInterface):
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str
     ) -> ResponseType[AutomaticTranslationDataClass]:
-
         try:
             response = (
                 self.clients["translation"]
@@ -26,7 +25,9 @@ class IbmTranslationApi(TranslationInterface):
         except Exception as excp:
             error_message = str(excp)
             try:
-                language_detection_error = re.search("Error:(.)*language,", error_message).group()[:-1]
+                language_detection_error = re.search(
+                    "Error:(.)*language,", error_message
+                ).group()[:-1]
                 raise ProviderException(language_detection_error)
             except AttributeError:
                 raise ProviderException(error_message)

@@ -2,7 +2,7 @@ from edenai_apis.utils.exception import (
     ProviderErrorLists,
     ProviderMissingInputError,
     ProviderParsingError,
-    ProviderInternalServerError
+    ProviderInternalServerError,
 )
 
 # NOTE: error messages should be regex patterns
@@ -12,9 +12,7 @@ ERRORS: ProviderErrorLists = {
     ],
     ProviderParsingError: [
         r"Failed to parse input",
-        r"HTML input requires an HTML-to-text preprocessing skill"
+        r"HTML input requires an HTML-to-text preprocessing skill",
     ],
-    ProviderInternalServerError : [
-        r"Server error"
-    ]
+    ProviderInternalServerError: [r"Server error"],
 }

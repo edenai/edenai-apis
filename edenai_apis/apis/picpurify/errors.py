@@ -8,7 +8,7 @@ from edenai_apis.utils.exception import (
 ERRORS: ProviderErrorLists = {
     ProviderInvalidInputError: [
         r"Unable to process this image",
-        r"File is not an image"
+        r"File is not an image",
     ],
     ProviderInvalidInputImageResolutionError: [
         r"Image size too large : \d+x\d+, Maximum size authorized: 4096x4096",

@@ -2,7 +2,7 @@ from edenai_apis.utils.exception import (
     ProviderErrorLists,
     ProviderInvalidInputAudioDurationError,
     ProviderInvalidInputFileFormatError,
-    ProviderInvalidInputError
+    ProviderInvalidInputError,
 )
 
 # NOTE: error messages should be regex patterns
@@ -10,10 +10,10 @@ ERRORS: ProviderErrorLists = {
     ProviderInvalidInputAudioDurationError: [
         r"Audio duration below minimum limit of 2 seconds",
     ],
-    ProviderInvalidInputError : [
+    ProviderInvalidInputError: [
         r"filter_profanity: This option is not allowed for foreign languages. Use \w+ language for profanity filter"
     ],
-    ProviderInvalidInputFileFormatError : [
+    ProviderInvalidInputFileFormatError: [
         r"File extension not supported. Use one of the following extensions: \w+"
-    ]
+    ],
 }

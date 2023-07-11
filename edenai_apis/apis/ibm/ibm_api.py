@@ -13,5 +13,7 @@ class IbmApi(ProviderInterface, IbmTranslationApi, IbmAudioApi, IbmTextApi):
     provider_name = "ibm"
 
     def __init__(self, api_keys: Dict = {}):
-        self.api_settings = load_provider(ProviderDataEnum.KEY, "ibm", api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, "ibm", api_keys=api_keys
+        )
         self.clients = ibm_clients(self.api_settings)

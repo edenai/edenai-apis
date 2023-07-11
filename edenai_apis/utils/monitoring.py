@@ -43,6 +43,7 @@ global POSTGRES_CONNECTION
 
 def monitor_call(condition=False):
     """decorator for compute output functions to add monitoring features"""
+
     def decorator_monitor_call(compute_func):
         def wrapper(
             provider_name,
@@ -53,12 +54,12 @@ def monitor_call(condition=False):
         ):
             fake = kwargs.get("fake", False)
             error = "Fake" if fake else None
-            user_email= kwargs.get("user_email")
+            user_email = kwargs.get("user_email")
             try:
-                 return compute_func(
-                     provider_name,
-                     feature,
-                     subfeature,
+                return compute_func(
+                    provider_name,
+                    feature,
+                    subfeature,
                     *args,
                     **kwargs,
                 )
@@ -74,7 +75,9 @@ def monitor_call(condition=False):
                         user_email=user_email,
                         error=error,
                     )
+
         return wrapper
+
     return decorator_monitor_call
 
 

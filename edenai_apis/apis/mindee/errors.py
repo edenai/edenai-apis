@@ -4,7 +4,7 @@ from edenai_apis.utils.exception import (
     ProviderInvalidInputError,
     ProviderNotFoundError,
     ProviderInvalidInputFileFormatError,
-    ProviderLimitationError
+    ProviderLimitationError,
 )
 
 # NOTE: error messages should be regex patterns
@@ -18,10 +18,8 @@ ERRORS: ProviderErrorLists = {
     ProviderNotFoundError: [
         r"Resource not found",
     ],
-    ProviderInvalidInputFileFormatError : [
+    ProviderInvalidInputFileFormatError: [
         r"Provider mindee doesn't support file type: \w+ for this feature. Supported mimetypes are \w+"
     ],
-    ProviderLimitationError : [
-        r"Too many requests"
-    ]
+    ProviderLimitationError: [r"Too many requests"],
 }

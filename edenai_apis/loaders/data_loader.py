@@ -26,7 +26,6 @@ class ProviderDataEnum(Enum):
     KEY = "load_key"
 
 
-
 def load_key(provider_name, location=False, api_keys: Dict = {}):
     """Get settings for a provider name of from passed apik_keys dict
 

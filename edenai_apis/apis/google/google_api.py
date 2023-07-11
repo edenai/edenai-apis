@@ -30,8 +30,10 @@ class GoogleApi(
 
     def __init__(self, api_keys: Dict = {}):
         self.api_settings, self.location = load_provider(
-            ProviderDataEnum.KEY, provider_name=self.provider_name, location=True,
-            api_keys = api_keys
+            ProviderDataEnum.KEY,
+            provider_name=self.provider_name,
+            location=True,
+            api_keys=api_keys,
         )
         self.project_id = self.api_settings["project_id"]
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self.location

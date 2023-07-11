@@ -2,8 +2,6 @@ from typing import Dict
 from pydantic import BaseModel, StrictStr
 
 
-
-
 class AutomaticTranslationDataClass(BaseModel):
     text: StrictStr
 

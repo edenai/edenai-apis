@@ -7,6 +7,6 @@ from edenai_apis.utils.exception import (
 ERRORS: ProviderErrorLists = {
     ProviderInvalidInputError: [
         r"Invalid language format for: \w+.",
-        r"Language pair not supported: \w+ > \w+"
+        r"Language pair not supported: \w+ > \w+",
     ],
 }

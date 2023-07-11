@@ -5,8 +5,7 @@ from watson_developer_cloud.speech_to_text_v1 import SpeechToTextV1
 from typing import Dict
 
 
-
-def ibm_clients(api_settings : Dict) -> Dict:
+def ibm_clients(api_settings: Dict) -> Dict:
     return {
         "text": NaturalLanguageUnderstandingV1(
             version="2021-08-01",
@@ -27,6 +26,7 @@ def ibm_clients(api_settings : Dict) -> Dict:
             url=api_settings["speech_to_text"]["url"],
         ),
     }
+
 
 models = {
     "fr-FR": "fr-FR_NarrowbandModel",
@@ -54,7 +54,7 @@ audio_voices_ids = {
     "es-US": {"FEMALE": "es-US_SofiaV3Voice", "MALE": ""},
     "en-AU": {"FEMALE": "en-AU_HeidiExpressive", "MALE": "en-AU_JackExpressive"},
     "nl-NL": {"FEMALE": "nl-NL_MerelV3Voice"},
-    "ko-KR": {"FEMALE": "ko-KR_JinV3Voice"}
+    "ko-KR": {"FEMALE": "ko-KR_JinV3Voice"},
 }
 
 language_iso = {

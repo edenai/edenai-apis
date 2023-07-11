@@ -255,7 +255,9 @@ def construct_custom_ner_instruction(
     """
     )
 
-cohere_prompt_guideines = lambda description : f"""
+
+cohere_prompt_guideines = (
+    lambda description: f"""
 Construct a prompt for cohere Large language Model from a user description by following these guidelines :
 
 To write a good prompt in the Cohere Playground, you can follow these guidelines based on the provided article:
@@ -275,7 +277,9 @@ Remember, prompt design is a combination of science and art. While there are gui
 User Description : {description}
 Prompt : 
 """
-google_prompt_guidelines = lambda description : f"""
+)
+google_prompt_guidelines = (
+    lambda description: f"""
 Construct a prompt for Google Generative Ai Large Language Model from a user description by following these guidelines : 
 
     Give clear instructions:
@@ -301,7 +305,9 @@ Construct a prompt for Google Generative Ai Large Language Model from a user des
 User Description : {description}
 Prompt : 
 """
-openai_prompt_guidelines = lambda description : f"""
+)
+openai_prompt_guidelines = (
+    lambda description: f"""
 Construct a prompt for OpenAI GPT Large Language Model from a user description by following these guidelines : 
 To write good prompts for GPT models, you can follow these guidelines :
 
@@ -346,14 +352,14 @@ By following these tips and refining your prompts, you can guide GPT models to g
 User Description : {description}
 Prompt : 
 """
-def construct_prompt_optimization_instruction(
-    text: str,
-    provider: str
-    ):
+)
+
+
+def construct_prompt_optimization_instruction(text: str, provider: str):
     prompt = {
-        "google" : google_prompt_guidelines(text),
-        "cohere" : cohere_prompt_guideines(text),
-        "openai" : openai_prompt_guidelines(text)
+        "google": google_prompt_guidelines(text),
+        "cohere": cohere_prompt_guideines(text),
+        "openai": openai_prompt_guidelines(text),
     }
-    
+
     return prompt[provider]

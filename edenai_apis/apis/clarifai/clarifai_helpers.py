@@ -23,7 +23,7 @@ def explicit_content_likelihood(value):
         return 2
     elif value < 60:
         return 3
-    elif  value < 80:
+    elif value < 80:
         return 4
     elif value > 80:
         return 5

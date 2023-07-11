@@ -1,7 +1,7 @@
 from edenai_apis.utils.exception import (
     ProviderErrorLists,
     ProviderInvalidInputError,
-    ProviderInternalServerError
+    ProviderInternalServerError,
 )
 
 # NOTE: error messages should be regex patterns
@@ -9,8 +9,8 @@ ERRORS: ProviderErrorLists = {
     ProviderInvalidInputError: [
         r"invalid url or image",
     ],
-    ProviderInternalServerError : [
+    ProviderInternalServerError: [
         r"Service Temporarily Unavailable",
-        r"Internal Server Error"
-    ]
+        r"Internal Server Error",
+    ],
 }

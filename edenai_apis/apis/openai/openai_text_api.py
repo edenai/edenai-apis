@@ -48,7 +48,10 @@ from edenai_apis.features.text.custom_classification import (
     CustomClassificationDataClass,
     ItemCustomClassificationDataClass,
 )
-from edenai_apis.features.text.prompt_optimization import PromptOptimizationDataClass, PromptDataClass
+from edenai_apis.features.text.prompt_optimization import (
+    PromptOptimizationDataClass,
+    PromptDataClass,
+)
 from edenai_apis.features.text.moderation import ModerationDataClass, TextModerationItem
 from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
 from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
@@ -759,18 +762,23 @@ class OpenaiTextApi(TextInterface):
         )
 
     def text__prompt_optimization(
-        self,
-        text: str, 
-        provider: Literal['openai', 'google', 'cohere']) -> ResponseType[PromptOptimizationDataClass]:
+        self, text: str, provider: Literal["openai", "google", "cohere"]
+    ) -> ResponseType[PromptOptimizationDataClass]:
         url = f"{self.url}/chat/completions"
         prompt = construct_prompt_optimization_instruction(text, provider)
         messages = [{"role": "user", "content": prompt}]
-        messages.insert(0, {"role": "system", "content": "Act as a Prompt Optimizer for LLMs, you take a description in input and generate a prompt from it."})
+        messages.insert(
+            0,
+            {
+                "role": "system",
+                "content": "Act as a Prompt Optimizer for LLMs, you take a description in input and generate a prompt from it.",
+            },
+        )
         payload = {
             "model": "gpt-4",
             "messages": messages,
-            "temperature" : 0.2,
-            "n" : 3,
+            "temperature": 0.2,
+            "n": 3,
         }
 
         original_response = requests.post(
@@ -782,13 +790,11 @@ class OpenaiTextApi(TextInterface):
 
         # Standardize the response
         prompts: Sequence[PromptDataClass] = []
-        
+
         for generated_prompt in original_response["choices"]:
-            prompts.append(PromptDataClass(text = generated_prompt["message"]["content"]))
-            
-        standardized_response = PromptOptimizationDataClass(
-            items = prompts
-        )
+            prompts.append(PromptDataClass(text=generated_prompt["message"]["content"]))
+
+        standardized_response = PromptOptimizationDataClass(items=prompts)
 
         return ResponseType[PromptOptimizationDataClass](
             original_response=original_response,

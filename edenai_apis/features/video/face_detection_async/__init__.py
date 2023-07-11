@@ -5,5 +5,5 @@ from .face_detection_async_dataclass import (
     VideoFace,
     VideoFacePoses,
     VideoBoundingBox,
-    LandmarksVideo
+    LandmarksVideo,
 )

@@ -11,6 +11,6 @@ ERRORS: ProviderErrorLists = {
     ],
     ProviderInvalidInputFileFormatError: [
         r"Detected MIME Type as \\'video/mp4\\'. This endpoint only supports audio files. For video files please use /v1/process/video or /v1/process/video/url endpoints.",
-        r"File extension not supported. Use one of the following extensions: \w+"
-    ]
+        r"File extension not supported. Use one of the following extensions: \w+",
+    ],
 }

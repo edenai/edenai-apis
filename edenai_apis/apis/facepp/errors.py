@@ -39,9 +39,7 @@ ERRORS: ProviderErrorLists = {
     ProviderInternalServerError: [
         r"INTERNAL_ERROR",
     ],
-    ProviderInvalidInputPayloadSize: [
-        r"Request Entity Too Large"
-    ],
+    ProviderInvalidInputPayloadSize: [r"Request Entity Too Large"],
     ProviderPermissionError: [
         r"INSUFFICIENT_PERMISSION",
         r"AUTHORIZATION_ERROR",

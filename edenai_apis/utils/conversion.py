@@ -1,7 +1,7 @@
 import re
 import locale
 import datetime as dt
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
 from edenai_apis.utils.public_enum import AutomlClassificationProviderName
 
@@ -29,7 +29,7 @@ def _format_string_for_conversion(string_number: str) -> str:
 
 
 def convert_string_to_number(
-    string_number: Optional[str], val_type: Union[int, float]
+    string_number: Optional[str], val_type: Union[Type[int], Type[float]]
 ) -> Union[int, float, None]:
     """convert a `string` to either `int` or `float`"""
     if not string_number:

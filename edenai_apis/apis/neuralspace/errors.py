@@ -11,5 +11,5 @@ ERRORS: ProviderErrorLists = {
     ],
     ProviderNotFoundError: [
         r"getaddrinfo ENOTFOUND",
-    ]
+    ],
 }

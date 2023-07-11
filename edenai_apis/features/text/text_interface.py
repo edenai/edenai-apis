@@ -16,10 +16,14 @@ from edenai_apis.features.text import (
     ModerationDataClass,
     CodeGenerationDataClass,
     ChatDataClass,
-    PromptOptimizationDataClass
+    PromptOptimizationDataClass,
 )
-from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass
-from edenai_apis.features.text.embeddings.embeddings_dataclass import EmbeddingsDataClass
+from edenai_apis.features.text.spell_check.spell_check_dataclass import (
+    SpellCheckDataClass,
+)
+from edenai_apis.features.text.embeddings.embeddings_dataclass import (
+    EmbeddingsDataClass,
+)
 from edenai_apis.utils.types import ResponseType
 
 
@@ -88,7 +92,7 @@ class TextInterface:
         temperature: float,
         examples_context: str,
         examples: List[List[str]],
-        model: Optional[str]
+        model: Optional[str],
     ) -> ResponseType[QuestionAnswerDataClass]:
         """
         Ask question related to given texts and get an answer
@@ -140,7 +144,7 @@ class TextInterface:
         text: str,
         output_sentences: int,
         language: str,
-        model : str = None,
+        model: str = None,
     ) -> ResponseType[SummarizeDataClass]:
         """
         Summarize a given text in a given number of sentences
@@ -179,12 +183,13 @@ class TextInterface:
             language (str): text's language code in ISO format
         """
         raise NotImplementedError
-    
+
     @abstractmethod
     def text__generation(
-        self, text : str, 
-        temperature : float, 
-        max_tokens : int,
+        self,
+        text: str,
+        temperature: float,
+        max_tokens: int,
     ) -> ResponseType[GenerationDataClass]:
         """
         Text generation from a given prompt
@@ -193,14 +198,10 @@ class TextInterface:
             text (str): your prompt
         """
         raise NotImplementedError
-    
+
     @abstractmethod
     def text__code_generation(
-        self,
-        instruction: str,
-        temperature: float,
-        max_tokens: int,
-        prompt: str = ""
+        self, instruction: str, temperature: float, max_tokens: int, prompt: str = ""
     ) -> ResponseType[CodeGenerationDataClass]:
         """Code generation
 
@@ -217,11 +218,11 @@ class TextInterface:
             ResponseType[CodeGenerationDataClass]:
         """
         raise NotImplementedError
-    
+
     @abstractmethod
     def text__custom_named_entity_recognition(
-        self, 
-        text : str, 
+        self,
+        text: str,
         entities: List[str],
         examples: Optional[List[Dict]],
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
@@ -235,18 +236,15 @@ class TextInterface:
             ResponseType[CustomNamedEntityRecognitionDataClass]
         """
         raise NotImplementedError
-    
+
     @abstractmethod
     def text__custom_classification(
-        self,
-        texts: List[str],
-        labels: List[str],
-        examples: List[dict]
+        self, texts: List[str], labels: List[str], examples: List[dict]
     ) -> ResponseType[CustomClassificationDataClass]:
         """custom text classification
 
         Args:
-            inputs (List[str]): Represents a list of queries to be classified, 
+            inputs (List[str]): Represents a list of queries to be classified,
                     each entry must not be empty. The maximum is 32 inputs.
             examples (List[List[str]]): An array of examples to provide context to the model.
                     each example is a text string and its associated label/class.
@@ -257,9 +255,11 @@ class TextInterface:
         """
 
         raise NotImplementedError
-    
+
     @abstractmethod
-    def text__spell_check(self, text: str, language: str) -> ResponseType[SpellCheckDataClass]:
+    def text__spell_check(
+        self, text: str, language: str
+    ) -> ResponseType[SpellCheckDataClass]:
         """Spell check
 
         Args:
@@ -286,18 +286,18 @@ class TextInterface:
     @abstractmethod
     def text__chat(
         self,
-        text : str,
+        text: str,
         chatbot_global_action: Optional[str],
-        previous_history : Optional[List[Dict[str, str]]],
-        temperature : float = 0, 
-        max_tokens : int = 25,
-        model : str = None
-        ) -> ResponseType[ChatDataClass]:
-        """Text chat 
+        previous_history: Optional[List[Dict[str, str]]],
+        temperature: float = 0,
+        max_tokens: int = 25,
+        model: str = None,
+    ) -> ResponseType[ChatDataClass]:
+        """Text chat
 
         Args:
-            text (str): 
-            chatbot_global_action (Optional[str]): 
+            text (str):
+            chatbot_global_action (Optional[str]):
             previous_history (Optional[List[Dict[str, str]]])
             temperature (float, optional): . Defaults to 0.
             max_tokens (int, optional) . Defaults to 2048.
@@ -318,14 +318,14 @@ class TextInterface:
 
         """
         raise NotImplementedError
-    
+
     @abstractmethod
     def text__prompt_optimization(
-        text: str,
-        provider: Literal["openai", "google", "cohere"] ) -> ResponseType[PromptOptimizationDataClass]:
+        text: str, provider: Literal["openai", "google", "cohere"]
+    ) -> ResponseType[PromptOptimizationDataClass]:
         """
         Generate a prompt given a User description for 3 generative providers 'OpenAI', 'Google' & 'Cohere
-        
+
         Args:
             text (str): User description
             provider (Literal[&quot;openai&quot;, &quot;google&quot;, &quot;cohere&quot;])

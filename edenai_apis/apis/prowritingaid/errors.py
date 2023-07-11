@@ -8,6 +8,6 @@ from edenai_apis.utils.exception import (
 ERRORS: ProviderErrorLists = {
     ProviderInvalidInputError: [
         r"Provider does not support selected language: \w+",
-        r"This provider doesn't auto-detect languages, please provide a valid language"
+        r"This provider doesn't auto-detect languages, please provide a valid language",
     ],
 }

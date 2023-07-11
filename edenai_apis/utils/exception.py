@@ -115,6 +115,7 @@ class ProviderInvalidInputFileFormatError(ProviderInvalidInputFileError):
 class ProviderInvalidInputImageResolutionError(ProviderInvalidInputFileError):
     """When input Image Resolution is not supported"""
 
+
 class ProviderInvalidInputAudioDurationError(ProviderInvalidInputFileError):
     """When input Audio is too short/long"""
 
@@ -122,8 +123,10 @@ class ProviderInvalidInputAudioDurationError(ProviderInvalidInputFileError):
 class ProviderInvalidInputAudioEncodingError(ProviderInvalidInputFileError):
     """Invalid Encoding is passed"""
 
+
 class ProviderInvalidPromptError(ProviderInvalidInputError):
     """When an invalid Prompt is passed to generative features"""
+
 
 def get_appropriate_error(
     provider: str, exception: ProviderException

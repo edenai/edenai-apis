@@ -24,11 +24,11 @@ PROVIDER_PROCESS = "provider_process"
 USER_PROCESS = "users_process"
 
 URL_SHORT_PERIOD = 3600
-URL_LONG_PERIOD  = 3600 * 24 * 7
+URL_LONG_PERIOD = 3600 * 24 * 7
 
 
 def set_time_and_presigned_url_process(process_type: str) -> Tuple[Callable, int, str]:
-    """ Returns A tuple with the adequat function to call, the url expiration time and the bucket to which
+    """Returns A tuple with the adequat function to call, the url expiration time and the bucket to which
                 the file will be uploaded, depending of the process type
 
     Args:
@@ -42,16 +42,15 @@ def set_time_and_presigned_url_process(process_type: str) -> Tuple[Callable, int
         return get_s3_file_url, URL_SHORT_PERIOD, BUCKET
     if process_type == USER_PROCESS:
         return get_cloud_front_file_url, URL_LONG_PERIOD, BUCKET_RESSOURCE
-    
+
 
 def rsa_signer(message):
-    with open(os.path.join(keys_path, "cloudfront_private_key.pem"), 'rb') as key:
+    with open(os.path.join(keys_path, "cloudfront_private_key.pem"), "rb") as key:
         private_key = serialization.load_pem_private_key(
-            key.read(),
-            password= None,
-            backend= default_backend()
+            key.read(), password=None, backend=default_backend()
         )
     return private_key.sign(message, padding.PKCS1v15(), hashes.SHA1())
+
 
 def s3_client_load():
     api_settings = load_provider(ProviderDataEnum.KEY, "amazon")
@@ -71,7 +70,7 @@ def s3_client_load():
     )
 
 
-def upload_file_to_s3(file_path: str, file_name: str, process_type = PROVIDER_PROCESS):
+def upload_file_to_s3(file_path: str, file_name: str, process_type=PROVIDER_PROCESS):
     """Upload file to s3"""
     filename = str(uuid4()) + "_" + str(file_name)
     s3_client = s3_client_load()
@@ -79,7 +78,10 @@ def upload_file_to_s3(file_path: str, file_name: str, process_type = PROVIDER_PR
     s3_client.upload_file(file_path, bucket, filename)
     return func_call(filename, process_time)
 
-def upload_file_bytes_to_s3(file : BytesIO, file_name: str, process_type = PROVIDER_PROCESS):
+
+def upload_file_bytes_to_s3(
+    file: BytesIO, file_name: str, process_type=PROVIDER_PROCESS
+):
     """Upload file byte to s3"""
     filename = str(uuid4()) + "_" + str(file_name)
     s3_client = s3_client_load()
@@ -92,8 +94,9 @@ def get_cloud_front_file_url(filename: str, process_time: int):
     cloudfront_signer = CloudFrontSigner(CLOUDFRONT_KEY_ID, rsa_signer)
 
     signed_url = cloudfront_signer.generate_presigned_url(
-        f"{CLOUDFRONT_URL}{filename}", 
-        date_less_than= datetime.datetime.now() + datetime.timedelta(seconds= process_time)
+        f"{CLOUDFRONT_URL}{filename}",
+        date_less_than=datetime.datetime.now()
+        + datetime.timedelta(seconds=process_time),
     )
     return signed_url
 
@@ -119,5 +122,3 @@ def get_providers_json_from_s3():
     )
     json_dict = json.loads(obj["Body"].read().decode("utf-8"))
     return json_dict["cost_data"]
-
-

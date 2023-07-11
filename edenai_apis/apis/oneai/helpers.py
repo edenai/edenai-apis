@@ -1,5 +1,6 @@
 import enum
 
+
 class OneAIAsyncStatus(enum.Enum):
     QUEUED = "QUEUED"
     RUNNING = "RUNNING"
