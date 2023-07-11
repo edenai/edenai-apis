@@ -161,6 +161,8 @@ class AmazonTextApi(TextInterface):
                     word=ent["Text"],
                     importance=ent["PartOfSpeech"]["Score"],
                     tag=tag,
+                    lemma=None,
+                    others=None,
                 )
             )
 

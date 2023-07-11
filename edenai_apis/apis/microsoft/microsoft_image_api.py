@@ -24,8 +24,12 @@ from edenai_apis.features.image.face_recognition.add_face.face_recognition_add_f
 from edenai_apis.features.image.face_recognition.create_collection.face_recognition_create_collection_dataclass import (
     FaceRecognitionCreateCollectionDataClass,
 )
-from edenai_apis.features.image.face_recognition.delete_collection.face_recognition_delete_collection_dataclass import FaceRecognitionDeleteCollectionDataClass
-from edenai_apis.features.image.face_recognition.delete_face.face_recognition_delete_face_dataclass import FaceRecognitionDeleteFaceDataClass
+from edenai_apis.features.image.face_recognition.delete_collection.face_recognition_delete_collection_dataclass import (
+    FaceRecognitionDeleteCollectionDataClass,
+)
+from edenai_apis.features.image.face_recognition.delete_face.face_recognition_delete_face_dataclass import (
+    FaceRecognitionDeleteFaceDataClass,
+)
 from edenai_apis.features.image.face_recognition.recognize.face_recognition_recognize_dataclass import (
     FaceRecognitionRecognizeDataClass,
     FaceRecognitionRecognizedFaceDataClass,
@@ -45,11 +49,8 @@ from PIL import Image as Img
 
 class MicrosoftImageApi(ImageInterface):
     def image__explicit_content(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
-
         file_ = open(file, "rb")
         # Getting response of API
         response = requests.post(
@@ -94,12 +95,8 @@ class MicrosoftImageApi(ImageInterface):
         return res
 
     def image__object_detection(
-        self, 
-        file: str,
-        model: str = None,
-        file_url: str= ""
+        self, file: str, model: str = None, file_url: str = ""
     ) -> ResponseType[ObjectDetectionDataClass]:
-
         file_ = open(file, "rb")
         response = requests.post(
             f"{self.url['vision']}/detect",
@@ -150,11 +147,8 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[FaceDetectionDataClass]:
-
         file_ = open(file, "rb")
         file_content = file_.read()
         # Getting size of image
@@ -180,7 +174,6 @@ class MicrosoftImageApi(ImageInterface):
 
         # handle error
         if not isinstance(response, list) and response.get("error") is not None:
-            print(response)
             raise ProviderException(
                 f'Error calling Microsoft Api: {response["error"].get("message", "error 500")}'
             )
@@ -196,9 +189,7 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__logo_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[LogoDetectionDataClass]:
         file_ = open(file, "rb")
         response = requests.post(
@@ -241,11 +232,8 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__landmark_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[LandmarkDetectionDataClass]:
-
         with open(file, "rb") as file_:
             file_content = file_.read()
 
@@ -326,13 +314,11 @@ class MicrosoftImageApi(ImageInterface):
         ]
         return ResponseType(
             original_response=response,
-            standardized_response=FaceRecognitionListFacesDataClass(
-                face_ids=face_ids
-            ),
+            standardized_response=FaceRecognitionListFacesDataClass(face_ids=face_ids),
         )
 
     def image__face_recognition__delete_collection(
-            self, collection_id: str
+        self, collection_id: str
     ) -> ResponseType[FaceRecognitionDeleteCollectionDataClass]:
         url = f"{self.url['face']}facelists/{collection_id}"
         headers = {
@@ -347,14 +333,11 @@ class MicrosoftImageApi(ImageInterface):
             original_response=response.text,
             standardized_response=FaceRecognitionDeleteCollectionDataClass(
                 deleted=True
-            )
+            ),
         )
 
     def image__face_recognition__add_face(
-        self, 
-        collection_id: str, 
-        file: str,
-        file_url: str= ""
+        self, collection_id: str, file: str, file_url: str = ""
     ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
         url = f"{self.url['face']}facelists/{collection_id}/persistedFaces?detectionModel=detection_03"
         headers = self.headers["face"]
@@ -372,7 +355,7 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_recognition__delete_face(
-            self, collection_id, face_id
+        self, collection_id, face_id
     ) -> ResponseType[FaceRecognitionDeleteFaceDataClass]:
         url = f"{self.url['face']}facelists/{collection_id}/persistedFaces/{face_id}"
         headers = {
@@ -385,16 +368,11 @@ class MicrosoftImageApi(ImageInterface):
             raise ProviderException(response.json()["error"]["message"])
         return ResponseType(
             original_response=response.text,
-            standardized_response=FaceRecognitionDeleteFaceDataClass(
-                deleted=True
-            )
+            standardized_response=FaceRecognitionDeleteFaceDataClass(deleted=True),
         )
 
     def image__face_recognition__recognize(
-        self, 
-        collection_id: str, 
-        file: str,
-        file_url: str= ""
+        self, collection_id: str, file: str, file_url: str = ""
     ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         # we first need to detect the face, extract the faceId
         # and then make the call for face similarities using this id
@@ -426,5 +404,7 @@ class MicrosoftImageApi(ImageInterface):
         ]
         return ResponseType(
             original_response=original_response,
-            standardized_response=FaceRecognitionRecognizeDataClass(items=recognized_faces),
+            standardized_response=FaceRecognitionRecognizeDataClass(
+                items=recognized_faces
+            ),
         )

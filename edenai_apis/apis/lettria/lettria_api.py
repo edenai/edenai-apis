@@ -156,6 +156,7 @@ class LettriaApi(ProviderInterface, TextInterface):
                             tag=tags[word["tag"]],
                             lemma=word["lemma"],
                             others=other,
+                            importance=None,
                         )
                     )
 

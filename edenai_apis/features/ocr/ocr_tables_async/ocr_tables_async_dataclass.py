@@ -17,7 +17,7 @@ class Cell(BaseModel):
     row_span: Optional[int]
     col_span: Optional[int]
     confidence: Optional[float]
-    bounding_box: BoundixBoxOCRTable = BoundixBoxOCRTable()
+    bounding_box: BoundixBoxOCRTable
     is_header: bool = False
 
 

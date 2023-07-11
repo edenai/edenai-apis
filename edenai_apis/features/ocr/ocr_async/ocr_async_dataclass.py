@@ -1,6 +1,6 @@
 import enum
 from typing import List, Optional, Sequence, Callable
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 
 class BoundingBoxEnum(enum.Enum):
@@ -68,7 +68,7 @@ class BoundingBox(BaseModel):
     width: float = Field(description="Width of the bounding box")
     height: float = Field(description="Height of the bounding box")
 
-    @validator("left", "top", "width", "height", pre=True)
+    @field_validator("left", "top", "width", "height", mode="before")
     def convert_to_float(cls, value):
         """Convert the value to float
 
@@ -166,7 +166,7 @@ class Word(BaseModel):
     )
     confidence: Optional[float] = Field(..., description="Confidence score of the word")
 
-    @validator("confidence")
+    @field_validator("confidence")
     def round_confidence(cls, v):
         """Round confidence to 2 decimals"""
         if v is not None:
@@ -191,7 +191,7 @@ class Line(BaseModel):
     )
     confidence: Optional[float] = Field(..., description="Confidence of the line")
 
-    @validator("confidence")
+    @field_validator("confidence")
     @classmethod
     def round_confidence(cls, v):
         """Round confidence to 2 decimals"""
@@ -219,4 +219,6 @@ class OcrAsyncDataClass(BaseModel):
 
     raw_text: str
     pages: List[Page] = Field(default_factory=list, description="List of pages")
-    number_of_pages: Optional[int] = Field(description="Number of pages in the document", default=None)
+    number_of_pages: Optional[int] = Field(
+        description="Number of pages in the document",
+    )

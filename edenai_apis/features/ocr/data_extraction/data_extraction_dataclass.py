@@ -1,5 +1,5 @@
 from typing import Any, Sequence, Optional
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from edenai_apis.utils.bounding_box import BoundingBox
 
 
@@ -9,7 +9,7 @@ class ItemDataExtraction(BaseModel):
     bounding_box: BoundingBox
     confidence_score: Optional[float] = Field(..., ge=0, le=1)
 
-    @validator("confidence_score")
+    @field_validator("confidence_score")
     @classmethod
     def round_confidence_score(cls, v) -> Optional[float]:
         if v is not None:

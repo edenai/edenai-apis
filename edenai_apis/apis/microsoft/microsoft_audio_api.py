@@ -150,7 +150,6 @@ class MicrosoftAudioApi(AudioInterface):
         response = requests.post(
             url=self.url["speech"], headers=headers, data=json.dumps(config)
         )
-        print(response.json())
         if response.status_code == 201:
             result_location = response.headers["Location"]
             provider_id = result_location.split("/")[-1]

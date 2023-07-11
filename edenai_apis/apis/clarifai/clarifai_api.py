@@ -6,6 +6,18 @@ from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
 from clarifai_grpc.grpc.api.status import status_code_pb2
 from collections import defaultdict
 from PIL import Image as Img
+from edenai_apis.features.image.face_detection.face_detection_dataclass import (
+    FaceAccessories,
+    FaceEmotions,
+    FaceFacialHair,
+    FaceFeatures,
+    FaceHair,
+    FaceLandmarks,
+    FaceMakeup,
+    FaceOcclusions,
+    FacePoses,
+    FaceQuality,
+)
 from edenai_apis.features.image.object_detection.object_detection_dataclass import (
     ObjectItem,
 )
@@ -20,15 +32,12 @@ from edenai_apis.features.image import (
     LogoDetectionDataClass,
     LogoItem,
     LogoBoundingPoly,
-    LogoVertice
+    LogoVertice,
 )
 from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.exception import (
-    ProviderException,
-    LanguageException
-)
+from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.types import ResponseType
 
 from .clarifai_helpers import explicit_content_likelihood, get_formatted_language
@@ -42,7 +51,9 @@ class ClarifaiApi(
     provider_name = "clarifai"
 
     def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.user_id = self.api_settings["user_id"]
         self.app_id = self.api_settings["app_id"]
         self.key = self.api_settings["key"]
@@ -50,42 +61,38 @@ class ClarifaiApi(
         self.face_detection_code = "face-detection"
 
     def ocr__ocr(
-        self, 
-        file: str, 
+        self,
+        file: str,
         language: str,
-        file_url: str= "",
+        file_url: str = "",
     ) -> ResponseType[OcrDataClass]:
-
         if not language:
             raise LanguageException("Language not provided")
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
         with open(file, "rb") as file_:
             file_content = file_.read()
-            
+
         metadata = (("authorization", self.key),)
-        user_data_object = resources_pb2.UserAppIDSet(
-            user_id='clarifai', app_id='main'
-        )
+        user_data_object = resources_pb2.UserAppIDSet(user_id="clarifai", app_id="main")
 
         post_model_outputs_response = stub.PostModelOutputs(
-        service_pb2.PostModelOutputsRequest(
-            # The user_data_object is created in the overview and is required when using a PAT
-            user_app_id=user_data_object,
-            model_id=get_formatted_language(language),
-            inputs=[
-                resources_pb2.Input(
-                    data=resources_pb2.Data(
-                        image=resources_pb2.Image(base64=file_content)
+            service_pb2.PostModelOutputsRequest(
+                # The user_data_object is created in the overview and is required when using a PAT
+                user_app_id=user_data_object,
+                model_id=get_formatted_language(language),
+                inputs=[
+                    resources_pb2.Input(
+                        data=resources_pb2.Data(
+                            image=resources_pb2.Image(base64=file_content)
+                        )
                     )
-                )
-            ],
-        ),
-        metadata=metadata,
+                ],
+            ),
+            metadata=metadata,
         )
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
             raise ProviderException("Error calling Clarifai API")
-
 
         boxes: Sequence[Bounding_box] = []
         original_response = []
@@ -121,22 +128,18 @@ class ClarifaiApi(
         return result
 
     def image__explicit_content(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
 
         with open(file, "rb") as file_:
             file_content = file_.read()
-        user_id = 'clarifai'
-        app_id = 'main'
-                
+        user_id = "clarifai"
+        app_id = "main"
+
         metadata = (("authorization", self.key),)
-        user_data_object = resources_pb2.UserAppIDSet(
-            user_id=user_id, app_id=app_id
-        )
+        user_data_object = resources_pb2.UserAppIDSet(user_id=user_id, app_id=app_id)
 
         post_model_outputs_response = stub.PostModelOutputs(
             service_pb2.PostModelOutputsRequest(
@@ -173,25 +176,23 @@ class ClarifaiApi(
         nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
         return ResponseType[ExplicitContentDataClass](
             original_response=original_response,
-            standardized_response=ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw),
+            standardized_response=ExplicitContentDataClass(
+                items=items, nsfw_likelihood=nsfw
+            ),
         )
 
     def image__face_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[FaceDetectionDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
         with open(file, "rb") as file_:
             file_content = file_.read()
-            
-        user_id = 'clarifai'
-        app_id = 'main'
+
+        user_id = "clarifai"
+        app_id = "main"
         metadata = (("authorization", self.key),)
-        user_data_object = resources_pb2.UserAppIDSet(
-            user_id=user_id, app_id=app_id
-        )
+        user_data_object = resources_pb2.UserAppIDSet(user_id=user_id, app_id=app_id)
 
         post_model_outputs_response = stub.PostModelOutputs(
             service_pb2.PostModelOutputsRequest(
@@ -210,7 +211,6 @@ class ClarifaiApi(
         )
 
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
-            print(post_model_outputs_response)
             raise ProviderException(
                 "Error calling Clarifai API: "
                 + post_model_outputs_response.status.description
@@ -231,6 +231,21 @@ class ClarifaiApi(
                         y_min=rect.get("top_row"),
                         y_max=rect.get("bottom_row"),
                     ),
+                    # Not supported by Clarifai
+                    # --------------------------
+                    age=None,
+                    gender=None,
+                    landmarks=FaceLandmarks(),
+                    emotions=FaceEmotions.default(),
+                    poses=FacePoses.default(),
+                    hair=FaceHair.default(),
+                    facial_hair=FaceFacialHair.default(),
+                    quality=FaceQuality.default(),
+                    makeup=FaceMakeup.default(),
+                    accessories=FaceAccessories.default(),
+                    occlusions=FaceOcclusions.default(),
+                    features=FaceFeatures.default(),
+                    # --------------------------
                 )
                 items.append(item)
 
@@ -241,24 +256,18 @@ class ClarifaiApi(
             return result
 
     def image__object_detection(
-        self, 
-        file: str,
-        model: str,
-        file_url: str= ""
+        self, file: str, model: str, file_url: str = ""
     ) -> ResponseType[ObjectDetectionDataClass]:
-
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
 
         with open(file, "rb") as file_:
             file_content = file_.read()
-            
-        user_id = 'clarifai'
-        app_id = 'main'
+
+        user_id = "clarifai"
+        app_id = "main"
         metadata = (("authorization", self.key),)
-        user_data_object = resources_pb2.UserAppIDSet(
-            user_id=user_id, app_id=app_id
-        )
+        user_data_object = resources_pb2.UserAppIDSet(user_id=user_id, app_id=app_id)
 
         post_model_outputs_response = stub.PostModelOutputs(
             service_pb2.PostModelOutputsRequest(
@@ -292,8 +301,9 @@ class ClarifaiApi(
                     rect = region["region_info"]["bounding_box"]
                     items.append(
                         ObjectItem(
-                            label=region.get("data",default_dict).get(
-                                "concepts",[default_dict])[0].get("name"),
+                            label=region.get("data", default_dict)
+                            .get("concepts", [default_dict])[0]
+                            .get("name"),
                             confidence=region.get("value"),
                             x_min=rect.get("left_col"),
                             x_max=rect.get("right_col"),
@@ -308,9 +318,7 @@ class ClarifaiApi(
             )
 
     def image__logo_detection(
-        self, 
-        file: str,
-        file_url :str = ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[LogoDetectionDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
@@ -318,12 +326,10 @@ class ClarifaiApi(
         with open(file, "rb") as file_:
             file_content = file_.read()
         width, height = Img.open(file).size
-        user_id = 'clarifai'
-        app_id = 'main'
+        user_id = "clarifai"
+        app_id = "main"
         metadata = (("authorization", self.key),)
-        user_data_object = resources_pb2.UserAppIDSet(
-            user_id=user_id, app_id=app_id
-        )
+        user_data_object = resources_pb2.UserAppIDSet(user_id=user_id, app_id=app_id)
         model_id = "logos-yolov5"
         post_model_outputs_response = stub.PostModelOutputs(
             service_pb2.PostModelOutputsRequest(
@@ -340,7 +346,6 @@ class ClarifaiApi(
             ),
             metadata=metadata,
         )
-    
 
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
             raise ProviderException("Error calling Clarifai API")
@@ -356,18 +361,38 @@ class ClarifaiApi(
                 for region in regions:
                     rect = region["region_info"]["bounding_box"]
                     vertices = []
-                    vertices.append(LogoVertice(x=rect.get("left_col",0) * width, y=rect.get("top_row",0) * height))
-                    vertices.append(LogoVertice(x=rect.get("right_col",0) * width , y=rect.get("top_row",0) * height))
-                    vertices.append(LogoVertice(x=rect.get("right_col",0) * width , y=rect.get("bottom_row",0) * height ))
-                    vertices.append(LogoVertice(x=rect.get("left_col",0) * width, y=rect.get("bottom_row",0) * height))
-                    items.append(
-                        LogoItem(
-                            description = region['data']['concepts'][0]['name'],
-                            score = region['data']['concepts'][0]['value'],
-                            bounding_poly=LogoBoundingPoly(vertices=vertices)
+                    vertices.append(
+                        LogoVertice(
+                            x=rect.get("left_col", 0) * width,
+                            y=rect.get("top_row", 0) * height,
                         )
                     )
-            
+                    vertices.append(
+                        LogoVertice(
+                            x=rect.get("right_col", 0) * width,
+                            y=rect.get("top_row", 0) * height,
+                        )
+                    )
+                    vertices.append(
+                        LogoVertice(
+                            x=rect.get("right_col", 0) * width,
+                            y=rect.get("bottom_row", 0) * height,
+                        )
+                    )
+                    vertices.append(
+                        LogoVertice(
+                            x=rect.get("left_col", 0) * width,
+                            y=rect.get("bottom_row", 0) * height,
+                        )
+                    )
+                    items.append(
+                        LogoItem(
+                            description=region["data"]["concepts"][0]["name"],
+                            score=region["data"]["concepts"][0]["value"],
+                            bounding_poly=LogoBoundingPoly(vertices=vertices),
+                        )
+                    )
+
             return ResponseType[LogoDetectionDataClass](
                 original_response=original_response,
                 standardized_response=LogoDetectionDataClass(items=items),

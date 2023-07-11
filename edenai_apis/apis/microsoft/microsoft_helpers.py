@@ -8,6 +8,7 @@ from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FaceBoundingBox,
     FaceEmotions,
     FaceFacialHair,
+    FaceFeatures,
     FaceHair,
     FaceHairColor,
     FaceItem,
@@ -53,86 +54,78 @@ from edenai_apis.utils.conversion import (
 def get_microsoft_headers() -> Dict:
     api_settings = load_provider(ProviderDataEnum.KEY, "microsoft")
     return {
-            "vision": {
-                "Ocp-Apim-Subscription-Key": api_settings["vision"][
-                    "subscription_key"
-                ],
-                "Content-Type": "application/octet-stream",
-            },
-            "face": {
-                "Ocp-Apim-Subscription-Key": api_settings["face"][
-                    "subscription_key"
-                ],
-                "Content-Type": "application/octet-stream",
-            },
-            "text": {
-                "Ocp-Apim-Subscription-Key": api_settings["text"][
-                    "subscription_key"
-                ],
-            },
-            "text_moderation": {
-                "Ocp-Apim-Subscription-Key": api_settings["text_moderation"][
-                    "subscription_key"
-                ],
-                "Content-Type": "text/plain"
-            },
-            "translator": {
-                "Ocp-Apim-Subscription-Key": api_settings["translator"][
-                    "subscription_key"
-                ],
-                "Ocp-Apim-Subscription-Region": api_settings["translator"][
-                    "service_region"
-                ],
-                "Content-Type": "application/json",
-            },
-            "speech": {
-                "Ocp-Apim-Subscription-Key": api_settings["speech"][
-                    "subscription_key"
-                ]
-            },
-            "spell_check": {
-                "Ocp-Apim-Subscription-Key": api_settings["spell_check"]["subscription_key"],
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-        }
+        "vision": {
+            "Ocp-Apim-Subscription-Key": api_settings["vision"]["subscription_key"],
+            "Content-Type": "application/octet-stream",
+        },
+        "face": {
+            "Ocp-Apim-Subscription-Key": api_settings["face"]["subscription_key"],
+            "Content-Type": "application/octet-stream",
+        },
+        "text": {
+            "Ocp-Apim-Subscription-Key": api_settings["text"]["subscription_key"],
+        },
+        "text_moderation": {
+            "Ocp-Apim-Subscription-Key": api_settings["text_moderation"][
+                "subscription_key"
+            ],
+            "Content-Type": "text/plain",
+        },
+        "translator": {
+            "Ocp-Apim-Subscription-Key": api_settings["translator"]["subscription_key"],
+            "Ocp-Apim-Subscription-Region": api_settings["translator"][
+                "service_region"
+            ],
+            "Content-Type": "application/json",
+        },
+        "speech": {
+            "Ocp-Apim-Subscription-Key": api_settings["speech"]["subscription_key"]
+        },
+        "spell_check": {
+            "Ocp-Apim-Subscription-Key": api_settings["spell_check"][
+                "subscription_key"
+            ],
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    }
+
 
 def get_microsoft_urls() -> Dict:
     api_settings = load_provider(ProviderDataEnum.KEY, "microsoft")
     return {
-            "summarization": api_settings["summarization"]["url"],
-            "vision": api_settings["vision"]["url"],
-            "face": api_settings["face"]["url"],
-            "text": api_settings["text"]["url"],
-            "text_moderation" : api_settings["text_moderation"]["url"],
-            "translator": api_settings["translator"]["url"],
-            "speech": api_settings["speech"]["url"],
-            "spell_check": api_settings["spell_check"]["url"],
-        }
+        "summarization": api_settings["summarization"]["url"],
+        "vision": api_settings["vision"]["url"],
+        "face": api_settings["face"]["url"],
+        "text": api_settings["text"]["url"],
+        "text_moderation": api_settings["text_moderation"]["url"],
+        "translator": api_settings["translator"]["url"],
+        "speech": api_settings["speech"]["url"],
+        "spell_check": api_settings["spell_check"]["url"],
+    }
+
 
 def microsoft_text_moderation_personal_infos(data):
-    classification : Sequence[TextModerationItem] = []
-    text_moderation : ModerationDataClass
+    classification: Sequence[TextModerationItem] = []
+    text_moderation: ModerationDataClass
 
     if classif := data.get("Classification"):
         for key, value in classif.items():
             try:
                 classification.append(
                     TextModerationItem(
-                        label= TextModerationCategoriesMicrosoftEnum[key].value,
-                        likelihood= standardized_confidence_score(value["Score"])
+                        label=TextModerationCategoriesMicrosoftEnum[key].value,
+                        likelihood=standardized_confidence_score(value["Score"]),
                     )
                 )
             except Exception as exc:
                 continue
 
     text_moderation = ModerationDataClass(
-        nsfw_likelihood= ModerationDataClass.calculate_nsfw_likelihood(classification),
-        items= classification
+        nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(classification),
+        items=classification,
     )
 
     return text_moderation
-        
-
 
 
 def miscrosoft_normalize_face_detection_response(response, img_size):
@@ -153,8 +146,11 @@ def miscrosoft_normalize_face_detection_response(response, img_size):
             if "type" in access:
                 accessories[access["type"]] = access["confidence"]
         accessories_data_class = FaceAccessories(
+            sunglasses=None,
             reading_glasses=accessories.get("glasses", 0.0),
+            swimming_goggles=None,
             face_mask=accessories.get("mask", 0.0),
+            eyeglasses=None,
             headwear=accessories.get("headwear", 0.0),
         )
 
@@ -185,6 +181,8 @@ def miscrosoft_normalize_face_detection_response(response, img_size):
             noise=face_attr["noise"].get("value", 0.0),
             exposure=face_attr["exposure"].get("value", 0.0),
             blur=face_attr["blur"].get("value", 0.0),
+            brightness=None,
+            sharpness=None,
         )
 
         # occlusion
@@ -240,6 +238,9 @@ def miscrosoft_normalize_face_detection_response(response, img_size):
             contempt=int(face_attr.get("emotion").get("contempt")),
             fear=int(face_attr.get("emotion").get("fear")),
             neutral=int(face_attr.get("emotion").get("neutral")),
+            confusion=None,
+            calm=None,
+            unknown=None,
         )
 
         # poses
@@ -271,9 +272,11 @@ def miscrosoft_normalize_face_detection_response(response, img_size):
                     y_min=rect.get("top", 0) / height,
                     y_max=(rect.get("top", 0) + rect.get("height", 0)) / height,
                 ),
+                features=FaceFeatures.default(),
             )
         )
     return deepcopy(faces_list)
+
 
 def normalize_invoice_result(response):
     """normalize the original response of the provider api"""
@@ -292,11 +295,15 @@ def normalize_invoice_result(response):
         customer_mailing_address = fields.get("CustomerAddress", default_dict).get(
             "content"
         )
-        customer_billing_address = fields.get("BillingAddress", default_dict).get("content")
+        customer_billing_address = fields.get("BillingAddress", default_dict).get(
+            "content"
+        )
         customer_shipping_address = fields.get("ShippingAddress", default_dict).get(
             "content"
         )
-        customer_service_address = fields.get("ServiceAddress", default_dict).get("content")
+        customer_service_address = fields.get("ServiceAddress", default_dict).get(
+            "content"
+        )
         customer_remittance_address = fields.get("RemittanceAddress", default_dict).get(
             "content"
         )
@@ -309,20 +316,32 @@ def normalize_invoice_result(response):
         # Others
         purchase_order = fields.get("PurchaseOrder", default_dict).get("value")
         payment_term = fields.get("PaymentTerm", default_dict).get("value")
-        invoice_total = fields.get("InvoiceTotal", default_dict).get("value", default_dict).get("amount")
-        invoice_subtotal = fields.get("SubTotal", default_dict).get("value", default_dict).get("amount")
-        invoice_number = (
-            fields.get("InvoiceId", default_dict)
-            .get("value")
+        invoice_total = (
+            fields.get("InvoiceTotal", default_dict)
+            .get("value", default_dict)
+            .get("amount")
         )
+        invoice_subtotal = (
+            fields.get("SubTotal", default_dict)
+            .get("value", default_dict)
+            .get("amount")
+        )
+        invoice_number = fields.get("InvoiceId", default_dict).get("value")
         date = format_date(fields.get("InvoiceDate", default_dict).get("value"))
         invoice_time = fields.get("InvoiceTime", default_dict).get("value")
         date = combine_date_with_time(date, invoice_time)
         due_date = format_date(fields.get("DueDate", default_dict).get("value"))
         taxes = [
-            TaxesInvoice(value=fields.get("TotalTax", default_dict).get("value", {}).get("amount"))
+            TaxesInvoice(
+                value=fields.get("TotalTax", default_dict)
+                .get("value", {})
+                .get("amount"),
+                rate=None,
+            )
         ]
-        amount_due = fields.get("AmountDue", default_dict).get("value", {}).get("amount")
+        amount_due = (
+            fields.get("AmountDue", default_dict).get("value", {}).get("amount")
+        )
         service_start_date = fields.get("ServiceStartDate", default_dict).get("value")
         service_end_date = fields.get("ServiceEndDate", default_dict).get("value")
         previous_unpaid_balance = fields.get("PreviousUnpaidBalance", default_dict).get(
@@ -337,13 +356,19 @@ def normalize_invoice_result(response):
             if line:
                 item_lines.append(
                     ItemLinesInvoice(
-                        amount=line.get("Amount", default_dict).get("value", default_dict).get("amount"),
+                        amount=line.get("Amount", default_dict)
+                        .get("value", default_dict)
+                        .get("amount"),
                         description=line.get("Description", default_dict).get("value"),
                         quantity=line.get("Quantity", default_dict).get("value"),
-                        unit_price=line.get("UnitPrice", default_dict).get("value", default_dict).get("amount"),
+                        unit_price=line.get("UnitPrice", default_dict)
+                        .get("value", default_dict)
+                        .get("amount"),
                         product_code=line.get("ProductCode", default_dict).get("value"),
                         date_item=line.get("Date", default_dict).get("value"),
-                        tax_item=line.get("Tax", default_dict).get("value", default_dict).get("amount"),
+                        tax_item=line.get("Tax", default_dict)
+                        .get("value", default_dict)
+                        .get("amount"),
                     )
                 )
 
@@ -359,11 +384,26 @@ def normalize_invoice_result(response):
                     customer_shipping_address=customer_shipping_address,
                     customer_service_address=customer_service_address,
                     customer_remittance_address=customer_remittance_address,
+                    customer_email=None,
+                    abn_number=None,
+                    gst_number=None,
+                    pan_number=None,
+                    vat_number=None,
                 ),
                 merchant_information=MerchantInformationInvoice(
                     merchant_name=merchant_name,
                     merchant_address=merchant_address,
+                    merchant_phone=None,
+                    merchant_email=None,
+                    merchant_fax=None,
+                    merchant_website=None,
                     merchant_tax_id=merchant_tax_id,
+                    merchant_siret=None,
+                    merchant_siren=None,
+                    abn_number=None,
+                    gst_number=None,
+                    pan_number=None,
+                    vat_number=None,
                 ),
                 invoice_number=invoice_number,
                 invoice_total=invoice_total,
@@ -392,16 +432,20 @@ def format_text_for_ssml_tags(text: str):
     return text
 
 
-def generate_right_ssml_text(text, voice_id, speaking_rate, speaking_pitch, speaking_volume):
-    if validate_audio_attribute_against_ssml_tags_use(text, speaking_rate, speaking_pitch, speaking_volume):
+def generate_right_ssml_text(
+    text, voice_id, speaking_rate, speaking_pitch, speaking_volume
+):
+    if validate_audio_attribute_against_ssml_tags_use(
+        text, speaking_rate, speaking_pitch, speaking_volume
+    ):
         return text, True
     attribs = {
         "rate": speaking_rate,
         "pitch": speaking_pitch,
-        "volume": speaking_volume
+        "volume": speaking_volume,
     }
     cleaned_attribs_string = ""
-    for k,v in attribs.items():
+    for k, v in attribs.items():
         if not v:
             continue
         cleaned_attribs_string = f"{cleaned_attribs_string} {k}='{v}%'"
@@ -414,43 +458,68 @@ def generate_right_ssml_text(text, voice_id, speaking_rate, speaking_pitch, spea
 
 
 # list of audio format with there extension and a list of sample rates that it can accept
-audio_format_list_extensions= [
-    ("mp3", "mp3", [16000, 24000, 48000]), ("wav-siren", "wav", [16000]), ("siren", "siren", [16000]), ("silk", "silk", [16000, 24000]), 
-    ("wav", "wav", [8000, 16000, 22050, 24000, 44100, 48000]), ("wav-mulaw", "wav", [8000]), 
-    ("pcm", "pcm", [8000, 16000, 22050, 24000, 44100, 48000]), ("ogg", "ogg", [16000, 24000,48000]), 
-    ("webm", "webm", [16000, 24000]), ("alaw", "alaw", [8000]),
-    ("wav-alaw", "wav", [8000]), ("opus", "opus", [16000, 24000]), ("amr", "amr", [16000])
+audio_format_list_extensions = [
+    ("mp3", "mp3", [16000, 24000, 48000]),
+    ("wav-siren", "wav", [16000]),
+    ("siren", "siren", [16000]),
+    ("silk", "silk", [16000, 24000]),
+    ("wav", "wav", [8000, 16000, 22050, 24000, 44100, 48000]),
+    ("wav-mulaw", "wav", [8000]),
+    ("pcm", "pcm", [8000, 16000, 22050, 24000, 44100, 48000]),
+    ("ogg", "ogg", [16000, 24000, 48000]),
+    ("webm", "webm", [16000, 24000]),
+    ("alaw", "alaw", [8000]),
+    ("wav-alaw", "wav", [8000]),
+    ("opus", "opus", [16000, 24000]),
+    ("amr", "amr", [16000]),
 ]
 
-def get_right_audio_support_and_sampling_rate(audio_format: str, sampling_rate: int, list_audio_formats: List):
+
+def get_right_audio_support_and_sampling_rate(
+    audio_format: str, sampling_rate: int, list_audio_formats: List
+):
     if not audio_format:
         audio_format = "mp3"
-    right_extension_sampling = next(filter(lambda x: x[0] == audio_format, audio_format_list_extensions), None)
+    right_extension_sampling = next(
+        filter(lambda x: x[0] == audio_format, audio_format_list_extensions), None
+    )
     samplings = right_extension_sampling[2]
     if sampling_rate:
-        nearest_sampling = min(samplings, key=lambda x: abs(x-sampling_rate))
-    nearest_sampling = samplings[floor(len(samplings)/2)]
+        nearest_sampling = min(samplings, key=lambda x: abs(x - sampling_rate))
+    nearest_sampling = samplings[floor(len(samplings) / 2)]
     extension = right_extension_sampling[1]
     if "wav" in audio_format:
         audio_format = audio_format.replace("wav", "riff")
     if audio_format == "riff":
         audio_format = "riff-pcm"
-    right_audio_format = [format for format in list_audio_formats if all(formt in format.lower() for formt in audio_format.split("-"))]
-    right_audio_format = next(filter(lambda x: f"{nearest_sampling}Hz" in x or f"{int(nearest_sampling/1000)}Khz" in x, right_audio_format), None)
+    right_audio_format = [
+        format
+        for format in list_audio_formats
+        if all(formt in format.lower() for formt in audio_format.split("-"))
+    ]
+    right_audio_format = next(
+        filter(
+            lambda x: f"{nearest_sampling}Hz" in x
+            or f"{int(nearest_sampling/1000)}Khz" in x,
+            right_audio_format,
+        ),
+        None,
+    )
     return extension, right_audio_format
 
-def microsoft_ocr_tables_standardize_response(original_response: dict) -> OcrTablesAsyncDataClass:
-    num_pages = len(original_response['pages'])
+
+def microsoft_ocr_tables_standardize_response(
+    original_response: dict,
+) -> OcrTablesAsyncDataClass:
+    num_pages = len(original_response["pages"])
     pages: List[Page] = [Page() for _ in range(num_pages)]
 
     for table in original_response.get("tables", []):
         std_table = _ocr_tables_standardize_table(table, original_response)
-        page_index: int = table["boundingRegions"][0]["pageNumber"] -1
+        page_index: int = table["boundingRegions"][0]["pageNumber"] - 1
         pages[page_index].tables.append(std_table)
 
-    return OcrTablesAsyncDataClass(
-        pages=pages, num_pages=num_pages
-    )
+    return OcrTablesAsyncDataClass(pages=pages, num_pages=num_pages)
 
 
 def _ocr_tables_standardize_table(table: dict, original_response: dict) -> Table:
@@ -459,18 +528,20 @@ def _ocr_tables_standardize_table(table: dict, original_response: dict) -> Table
 
     for cell in table["cells"]:
         std_cell = _ocr_tables_standardize_cell(cell, original_response)
-        row = rows[cell['rowIndex']]
+        row = rows[cell["rowIndex"]]
         row.cells.append(std_cell)
 
-    std_table = Table(rows=rows, num_cols=table["columnCount"], num_rows=table["rowCount"])
+    std_table = Table(
+        rows=rows, num_cols=table["columnCount"], num_rows=table["rowCount"]
+    )
     return std_table
 
 
 def _ocr_tables_standardize_cell(cell: dict, original_response: dict) -> Cell:
-    current_page_num = cell['boundingRegions'][0]['pageNumber']
+    current_page_num = cell["boundingRegions"][0]["pageNumber"]
     width = original_response["pages"][current_page_num - 1]["width"]
     height = original_response["pages"][current_page_num - 1]["height"]
-    is_header = cell.get('kind') in ["columnHeader", "rowHeader"]
+    is_header = cell.get("kind") in ["columnHeader", "rowHeader"]
     bounding_box = cell["boundingRegions"][0]["polygon"]
     return Cell(
         text=cell["content"],
@@ -485,4 +556,5 @@ def _ocr_tables_standardize_cell(cell: dict, original_response: dict) -> Cell:
             left=bounding_box[1] / width,
             top=bounding_box[0] / height,
         ),
+        confidence=None,
     )

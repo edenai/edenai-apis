@@ -1,6 +1,6 @@
 import json
 import re
-from typing import List, Sequence
+from typing import List, Optional, Sequence
 from typing import Tuple
 
 import enum
@@ -12,6 +12,7 @@ from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
     Line,
     OcrAsyncDataClass,
     Word,
+    Page as OcrAsyncPage,
 )
 
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
@@ -34,6 +35,7 @@ from edenai_apis.utils.exception import (
 from edenai_apis.utils.types import AsyncResponseType
 from google.oauth2 import service_account
 import google.auth
+
 
 class GoogleVideoFeatures(enum.Enum):
     LABEL = "LABEL"
@@ -269,7 +271,7 @@ def generate_tts_params(speaking_rate, speaking_pitch, speaking_volume):
 
 def get_right_audio_support_and_sampling_rate(
     audio_format: str, list_audio_formats: List
-):
+) -> Tuple[str, str]:
     extension = audio_format
     if not audio_format:
         audio_format = "mp3"
@@ -281,7 +283,7 @@ def get_right_audio_support_and_sampling_rate(
     right_audio_format = next(
         filter(lambda x: audio_format in x.lower(), list_audio_formats), None
     )
-    return extension, right_audio_format
+    return extension, right_audio_format or audio_format
 
 
 def handle_done_response_ocr_async(
@@ -307,7 +309,7 @@ def handle_done_response_ocr_async(
     for blob in blob_list:
         output = blob
 
-        json_string = output.download_as_string()
+        json_string = output.download_as_bytes()
         response = json.loads(json_string)
 
         for response in response["responses"]:
@@ -342,11 +344,9 @@ def handle_done_response_ocr_async(
                         confidence=paragraph["confidence"],
                     )
                 )
-        pages.append(Page(lines=lines))
+        pages.append(OcrAsyncPage(lines=lines))
 
-
-
-    raw_text = ''.join([res['text'] for res in original_response['responses']])
+    raw_text = "".join([res["text"] for res in original_response["responses"]])
     return AsyncResponseType(
         provider_job_id=job_id,
         original_response=original_response,
@@ -373,8 +373,10 @@ def get_access_token(location: str):
         response = requests.get(url, headers={"Authorization": f"Bearer {access_token}"})
 
     """
-    scopes = ['https://www.googleapis.com/auth/cloud-platform']
-    credentials = service_account.Credentials.from_service_account_file(location, scopes=scopes)
+    scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+    credentials = service_account.Credentials.from_service_account_file(
+        location, scopes=scopes
+    )
     auth_req = google.auth.transport.requests.Request()
     credentials.refresh(auth_req)
     return credentials.token

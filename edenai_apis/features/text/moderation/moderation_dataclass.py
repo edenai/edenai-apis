@@ -1,6 +1,6 @@
 from typing import Sequence
 from enum import Enum
-from pydantic import BaseModel, Field, StrictStr, validator
+from pydantic import BaseModel, Field, StrictStr, field_validator
 
 
 class TextModerationCategoriesMicrosoftEnum(Enum):
@@ -8,15 +8,17 @@ class TextModerationCategoriesMicrosoftEnum(Enum):
     Category2 = "sexually suggestive"
     Category3 = "offensive"
 
+
 class TextModerationItem(BaseModel):
     label: StrictStr
-    likelihood : int
+    likelihood: int
+
 
 class ModerationDataClass(BaseModel):
-    nsfw_likelihood : int
+    nsfw_likelihood: int
     items: Sequence[TextModerationItem] = Field(default_factory=list)
 
-    @validator('nsfw_likelihood')
+    @field_validator("nsfw_likelihood")
     @classmethod
     def check_min_max(cls, value):
         if not 0 <= value <= 5:

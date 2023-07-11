@@ -1,6 +1,6 @@
 from itertools import zip_longest
 import json
-from typing import Any, Dict, Sequence, TypeVar, Union
+from typing import Any, Dict, Sequence, Type, TypeVar, Union
 from collections import defaultdict
 import mimetypes
 import base64
@@ -92,7 +92,7 @@ class Base64Api(ProviderInterface, OcrInterface):
             return self.document.get("fields", {}).get(key, {}).get("value")
 
     def _extract_item_lignes(
-        self, data, item_lines_type: Union[ItemLines, ItemLinesInvoice]
+        self, data, item_lines_type: Union[Type[ItemLines], Type[ItemLinesInvoice]]
     ) -> list:
         items_description = [
             value["value"]
@@ -167,7 +167,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         discount = convert_string_to_number(discount, float)
         taxe = fields.get("tax", default_dict)["value"]
         taxe = convert_string_to_number(taxe, float)
-        taxes: Sequence[TaxesInvoice] = [(TaxesInvoice(value=taxe))]
+        taxes: Sequence[TaxesInvoice] = [(TaxesInvoice(value=taxe, rate=None))]
         # ---------------------- payment informations----------------------#
         payment_term = fields.get("paymentTerms", default_dict)["value"]
         purchase_order = fields.get("purchaseOrder", default_dict)["value"]
@@ -184,15 +184,35 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         invoice_parser = InfosInvoiceParserDataClass(
             merchant_information=MerchantInformationInvoice(
-                merchant_name=merchant_name, merchant_address=merchant_address
+                merchant_name=merchant_name,
+                merchant_address=merchant_address,
+                merchant_email=None,
+                merchant_phone=None,
+                merchant_website=None,
+                merchant_fax=None,
+                merchant_siren=None,
+                merchant_siret=None,
+                merchant_tax_id=None,
+                abn_number=None,
+                vat_number=None,
+                pan_number=None,
+                gst_number=None,
             ),
             customer_information=CustomerInformationInvoice(
                 customer_name=customer_name,
                 customer_address=customer_address,
+                customer_email=None,
+                customer_id=None,
                 customer_mailing_address=customer_mailing_address,
                 customer_remittance_address=customer_remittance_address,
                 customer_shipping_address=customer_shipping_address,
                 customer_billing_address=customer_billing_address,
+                customer_service_address=None,
+                customer_tax_id=None,
+                pan_number=None,
+                gst_number=None,
+                vat_number=None,
+                abn_number=None,
             ),
             invoice_number=invoice_number,
             invoice_total=invoice_total,
@@ -204,8 +224,19 @@ class Base64Api(ProviderInterface, OcrInterface):
             purchase_order=purchase_order,
             date=date,
             due_date=due_date,
-            locale=LocaleInvoice(currency=currency),
-            bank_informations=BankInvoice(iban=iban, account_number=account_number),
+            locale=LocaleInvoice(
+                currency=currency,
+                language=None,
+            ),
+            bank_informations=BankInvoice(
+                iban=iban,
+                account_number=account_number,
+                bsb=None,
+                sort_code=None,
+                vat_number=None,
+                rooting_number=None,
+                swift=None,
+            ),
             item_lines=items,
         )
 
@@ -464,6 +495,10 @@ class Base64Api(ProviderInterface, OcrInterface):
                         .get("address", {})
                         .get("confidence"),
                     ),
+                    birth_place=ItemIdentityParserDataClass(
+                        value=None, confidence=None
+                    ),
+                    mrz=ItemIdentityParserDataClass(),
                 )
             )
 

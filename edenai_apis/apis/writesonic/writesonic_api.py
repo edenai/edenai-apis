@@ -16,54 +16,56 @@ class WritesonicApi(ProviderInterface, TextInterface):
     provider_name = "writesonic"
 
     def __init__(self, api_keys: Dict = {}):
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.api_key = self.api_settings["api_key"]
         self.headers = {
             "accept": "application/json",
             "content-type": "application/json",
-            "X-API-KEY": self.api_key
+            "X-API-KEY": self.api_key,
         }
 
-
     def text__summarize(
-        self, text: str,
-        output_sentences: int,
-        language: str, 
-        model: str = None
-        ) -> ResponseType[SummarizeDataClass]:
+        self, text: str, output_sentences: int, language: str, model: str = None
+    ) -> ResponseType[SummarizeDataClass]:
         url = f"https://api.writesonic.com/v2/business/content/summary?engine=premium&language={language}"
         payload = {
             "article_text": text,
-            }
-        
+        }
+
         try:
-            original_response = requests.post(url, json=payload, headers= self.headers).json()
+            original_response = requests.post(
+                url, json=payload, headers=self.headers
+            ).json()
         except json.JSONDecodeError as exc:
             raise ProviderException("Internal Server Error") from exc
-        
+
         if "detail" in original_response:
-            raise ProviderException(original_response['detail'])
-        
-        standardized_response = SummarizeDataClass(result=original_response[0].get("summary", {}))
-        
+            raise ProviderException(original_response["detail"])
+
+        standardized_response = SummarizeDataClass(
+            result=original_response[0].get("summary", {})
+        )
+
         return ResponseType[SummarizeDataClass](
             original_response=original_response,
-            standardized_response = standardized_response
+            standardized_response=standardized_response,
         )
-        
+
     # def text__chat(
-    #     self, 
-    #     text: str, 
-    #     chatbot_global_action: str = None, 
+    #     self,
+    #     text: str,
+    #     chatbot_global_action: str = None,
     #     previous_history: List[Dict[str, str]] = None,
     #     temperature: float = 0,
     #     max_tokens: int = 2048,
     #     model: str = None) -> ResponseType[ChatDataClass]:
-        
+
     #     url = "https://api.writesonic.com/v2/business/content/chatsonic?engine=premium"
     #     prompt = text
     #     if chatbot_global_action:
-    #         prompt = chatbot_global_action + prompt        
+    #         prompt = chatbot_global_action + prompt
     #     payload = {
     #         "enable_google_results": "true",
     #         "enable_memory": False,
@@ -91,10 +93,10 @@ class WritesonicApi(ProviderInterface, TextInterface):
     #         original_response = requests.post(url, json=payload, headers= self.headers).json()
     #     except json.JSONDecodeError as exc:
     #         raise ProviderException("Internal Server Error") from exc
-        
+
     #     if "detail" in original_response:
     #         raise ProviderException(original_response['detail'])
-        
+
     #     return ResponseType[ChatDataClass](
     #         original_response=original_response,
     #         standardized_response=ChatDataClass()

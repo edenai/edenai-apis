@@ -13,9 +13,7 @@ class VideoTextBoundingBox(BaseModel):
 class VideoTextFrames(BaseModel):
     confidence: float
     timestamp: float
-    bounding_box: VideoTextBoundingBox = (
-        VideoTextBoundingBox()
-    )  # Sequence[VideoTextBoundingBox] = Field(default_factory=list)
+    bounding_box: VideoTextBoundingBox
 
 
 class VideoText(BaseModel):

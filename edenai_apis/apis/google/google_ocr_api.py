@@ -259,12 +259,16 @@ class GoogleOcrApi(OcrInterface):
         document = result.document
 
         invoice_infos: InfosInvoiceParserDataClass = InfosInvoiceParserDataClass()
-        merchant_infos: MerchantInformationInvoice = MerchantInformationInvoice()
-        customer_infos: CustomerInformationInvoice = CustomerInformationInvoice()
-        local_invoice: LocaleInvoice = LocaleInvoice()
+        merchant_infos: MerchantInformationInvoice = (
+            MerchantInformationInvoice.default()
+        )
+        customer_infos: CustomerInformationInvoice = (
+            CustomerInformationInvoice.default()
+        )
+        local_invoice: LocaleInvoice = LocaleInvoice.default()
         item_lines: Sequence[ItemLinesInvoice] = []
-        bank_invoice: BankInvoice = BankInvoice()
-        invoice_taxe: TaxesInvoice = TaxesInvoice()
+        bank_invoice: BankInvoice = BankInvoice.default()
+        invoice_taxe: TaxesInvoice = TaxesInvoice.default()
 
         entites: Sequence[Document.Entity] = document.entities
 
@@ -456,8 +460,8 @@ class GoogleOcrApi(OcrInterface):
             prefix = output_uri.split("gs://async-ocr-tables/")[1] + "/"
             blob_list = ocr_tables_bucket.list_blobs(prefix=prefix)
             # convert byte array to json
-            byte_res = list(blob_list)[0].download_as_string()
-            original_result = json.loads(byte_res.decode("utf8"))
+            byte_res = list(blob_list)[0].download_as_bytes()
+            original_result = json.loads(byte_res)
 
             standardized_response = google_ocr_tables_standardize_response(
                 original_result

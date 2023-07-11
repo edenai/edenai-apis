@@ -210,7 +210,7 @@ class OpenaiTextApi(TextInterface):
         url = f"{self.url}/completions"
 
         # With search get the top document with the question & construct the context
-        document = self.text__search(texts, question).dict()
+        document = self.text__search(texts, question).model_dump()
         context = document["standardized_response"]["items"][0]["document"]
         prompt_questions = [
             "\nQ:" + example[0] + "\nA:" + example[1] for example in examples
@@ -567,7 +567,6 @@ class OpenaiTextApi(TextInterface):
         except json.JSONDecodeError:
             raise ProviderException("An error occurred while parsing the response.")
 
-
         return ResponseType[CustomClassificationDataClass](
             original_response=original_response,
             standardized_response=CustomClassificationDataClass(
@@ -794,4 +793,3 @@ class OpenaiTextApi(TextInterface):
         return ResponseType[PromptOptimizationDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
-        )

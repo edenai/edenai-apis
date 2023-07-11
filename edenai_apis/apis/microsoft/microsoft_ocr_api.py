@@ -17,7 +17,7 @@ from edenai_apis.features.ocr import (
     InfosReceiptParserDataClass,
     InvoiceParserDataClass,
     ItemLines,
-    MerchantInformation,
+    # MerchantInformation,
     OcrDataClass,
     PaymentInformation,
     ReceiptParserDataClass,
@@ -32,6 +32,9 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     OcrTablesAsyncDataClass,
+)
+from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
+    MerchantInformation,
 )
 from edenai_apis.utils.conversion import add_query_param_in_url
 from edenai_apis.utils.exception import (
@@ -177,6 +180,9 @@ class MicrosoftOcrApi(OcrInterface):
                 merchant_phone=fields.get("MerchantPhoneNumber", default_dict).get(
                     "value"
                 ),
+                merchant_url=None,
+                merchant_siren=None,
+                merchant_siret=None,
             )
 
             # 5. Taxes
@@ -322,6 +328,8 @@ class MicrosoftOcrApi(OcrInterface):
                         value=fields.get("Sex", {}).get("content"),
                         confidence=fields.get("Sex", {}).get("confidence"),
                     ),
+                    address=ItemIdentityParserDataClass(),
+                    age=IdentityParserDataClass(),
                 )
             )
 

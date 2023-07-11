@@ -3,7 +3,10 @@ import os
 import pathlib
 import time
 from typing import Callable
-from edenai_apis.utils.constraints import validate_all_input_languages, validate_all_provider_constraints
+from edenai_apis.utils.constraints import (
+    validate_all_input_languages,
+    validate_all_provider_constraints,
+)
 import pytest
 
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
@@ -16,6 +19,7 @@ from edenai_apis.utils.types import AsyncLaunchJobResponseType
 MAX_TIME = 120
 TIME_BETWEEN_CHECK = 10
 
+
 def fake_cron_check(function: Callable, *args):
     """Fake cron function to use for test.
     Loop foop a certain number of time until we hit MAX_TIME
@@ -26,7 +30,7 @@ def fake_cron_check(function: Callable, *args):
     while current_time > 0:
         print(f"wait job result {MAX_TIME- current_time}s")
         api_output = function(*args)
-        api_output = api_output.dict()
+        api_output = api_output.model_dump()
         if api_output["status"] != "pending":
             return api_output
         current_time = current_time - TIME_BETWEEN_CHECK
@@ -41,7 +45,6 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
     and generate {subfeature}_{phase}_output.json file if generate = True
     """
 
-
     args = load_feature(
         FeatureDataEnum.SAMPLES_ARGS,
         feature=feature,
@@ -50,7 +53,7 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
     )
     print("------------------------------------------------------------")
     args = validate_all_provider_constraints(provider, feature, subfeature, phase, args)
-    
+
     print(args)
 
     if "async" in subfeature:
@@ -76,7 +79,9 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
         )
 
         # loop over __get_job_result function to get async subfeature result
-        api_output = fake_cron_check(get_job_result, launch_job_response.provider_job_id)
+        api_output = fake_cron_check(
+            get_job_result, launch_job_response.provider_job_id
+        )
 
     else:
         # Subfeature is not asyncronous
@@ -87,18 +92,22 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
             feature=feature,
             phase=phase,
             args=args,
-        )(**args).dict()
+        )(**args).model_dump()
 
     # Generate output
     if generate:
         output_path = os.path.join(outputs_path(provider), feature)
         pathlib.Path(output_path).mkdir(parents=True, exist_ok=True)
         if phase:
-            json_output_path = os.path.join(output_path, f"{subfeature}_{phase}_output.json")
+            json_output_path = os.path.join(
+                output_path, f"{subfeature}_{phase}_output.json"
+            )
         else:
-            json_output_path = os.path.join(output_path, f"{subfeature}{phase}_output.json")
+            json_output_path = os.path.join(
+                output_path, f"{subfeature}{phase}_output.json"
+            )
         print(f"Write {json_output_path}.")
-        with open(json_output_path, "w", encoding='utf-8') as f:
+        with open(json_output_path, "w", encoding="utf-8") as f:
             f.write(json.dumps(api_output, indent=2, default=str))
         if api_output.get("standardized_response"):
             feature_sample_path = os.path.join(
@@ -106,7 +115,7 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
             )
             if not os.path.isfile(feature_sample_path):
                 print(f"Write {feature_sample_path}.")
-                with open(feature_sample_path, "w", encoding='utf-8') as f:
+                with open(feature_sample_path, "w", encoding="utf-8") as f:
                     f.write(
                         json.dumps(
                             api_output["standardized_response"], indent=2, default=str

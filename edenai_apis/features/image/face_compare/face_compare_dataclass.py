@@ -9,10 +9,11 @@ class FaceCompareBoundingBox(BaseModel):
     height: Optional[float]
     width: Optional[float]
 
+
 class FaceMatch(BaseModel):
-    confidence : float
-    bounding_box : FaceCompareBoundingBox = FaceCompareBoundingBox()
-    
+    confidence: float
+    bounding_box: FaceCompareBoundingBox
+
+
 class FaceCompareDataClass(BaseModel):
     items: Sequence[FaceMatch] = Field(default_factory=list)
-

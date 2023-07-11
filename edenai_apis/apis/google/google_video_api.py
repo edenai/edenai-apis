@@ -24,8 +24,10 @@ from edenai_apis.features.video import (
 from edenai_apis.features.video.face_detection_async.face_detection_async_dataclass import (
     FaceAttributes,
     FaceDetectionAsyncDataClass,
+    LandmarksVideo,
     VideoBoundingBox,
     VideoFace,
+    VideoFacePoses,
 )
 from edenai_apis.features.video.label_detection_async.label_detection_async_dataclass import (
     LabelDetectionAsyncDataClass,
@@ -51,6 +53,8 @@ from edenai_apis.features.video.person_tracking_async.person_tracking_async_data
     PersonTracking,
     PersonTrackingAsyncDataClass,
     UpperCloth,
+    VideoPersonPoses,
+    VideoPersonQuality,
     VideoTrackingBoundingBox,
     VideoTrackingPerson,
 )
@@ -62,9 +66,11 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
 )
 
 from google.cloud import videointelligence
+
+
 class GoogleVideoApi(VideoInterface):
     def google_video_launch_job(
-        self, 
+        self,
         file: str,
         feature: GoogleVideoFeatures,
     ) -> AsyncLaunchJobResponseType:
@@ -72,9 +78,7 @@ class GoogleVideoApi(VideoInterface):
         storage_client = self.clients["storage"]
         bucket_name = "audios-speech2text"
         file_extension = file.split(".")[-1]
-        file_name = (
-            str(int(time())) + Path(file).stem + "_video_." + file_extension
-        )
+        file_name = str(int(time())) + Path(file).stem + "_video_." + file_extension
 
         # Upload video to GCS
         bucket = storage_client.get_bucket(bucket_name)
@@ -142,54 +146,66 @@ class GoogleVideoApi(VideoInterface):
         }
 
         # Return job id (operation name)
-        return AsyncLaunchJobResponseType(provider_job_id=features[feature].operation.name)
+        return AsyncLaunchJobResponseType(
+            provider_job_id=features[feature].operation.name
+        )
 
     # Launch label detection job
-    def video__label_detection_async__launch_job(self, file: str, file_url: str= "") -> AsyncLaunchJobResponseType:
+    def video__label_detection_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.LABEL)
 
     # Launch text detection job
-    def video__text_detection_async__launch_job(self, file: str, file_url: str= "") -> AsyncLaunchJobResponseType:
+    def video__text_detection_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.TEXT)
 
     # Launch face detection job
-    def video__face_detection_async__launch_job(self, file: str, file_url: str= "") -> AsyncLaunchJobResponseType:
+    def video__face_detection_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.FACE)
 
     # Launch person tracking job
-    def video__person_tracking_async__launch_job(self, file: str, file_url: str= "") -> AsyncLaunchJobResponseType:
+    def video__person_tracking_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.PERSON)
 
     # Launch logo detection job
-    def video__logo_detection_async__launch_job(self, file: str, file_url: str= "") -> AsyncLaunchJobResponseType:
+    def video__logo_detection_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.LOGO)
 
     # Launch object tracking job
-    def video__object_tracking_async__launch_job(self, file: str, file_url: str= "") -> AsyncLaunchJobResponseType:
+    def video__object_tracking_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.OBJECT)
 
     # Launch explicit content detection job
     def video__explicit_content_detection_async__launch_job(
-        self, file: str, file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
         return self.google_video_launch_job(file, GoogleVideoFeatures.EXPLICIT)
 
     def video__label_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[LabelDetectionAsyncDataClass]:
-        
         try:
             result = google_video_get_job(provider_job_id)
         except ProviderException as provider_excp:
             raise provider_excp
         except Exception as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
-        
+
         if result.get("done"):
             annotations = result["response"]["annotationResults"][0]
-            label = (
-                annotations.get("segmentLabelAnnotations", "")
-                + annotations.get("shotLabelAnnotations", "")
+            label = annotations.get("segmentLabelAnnotations", "") + annotations.get(
+                "shotLabelAnnotations", ""
             )
             label_list = []
 
@@ -233,14 +249,13 @@ class GoogleVideoApi(VideoInterface):
     def video__text_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[TextDetectionAsyncDataClass]:
-        
         try:
             result = google_video_get_job(provider_job_id)
         except ProviderException as provider_excp:
             raise provider_excp
         except Exception as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
-    
+
         if result.get("done"):
             annotations = result["response"]["annotationResults"][0]
             texts = []
@@ -291,30 +306,34 @@ class GoogleVideoApi(VideoInterface):
             raise provider_excp
         except Exception as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
-        
+
         if result.get("done"):
             faces = []
             response = result["response"]["annotationResults"][0]
             if response.get("faceDetectionAnnotations") is not None:
-                for annotation in response['faceDetectionAnnotations']:
+                for annotation in response["faceDetectionAnnotations"]:
                     for track in annotation["tracks"]:
-                        timestamp = float(track["timestampedObjects"][0]["timeOffset"][:-1])
+                        timestamp = float(
+                            track["timestampedObjects"][0]["timeOffset"][:-1]
+                        )
                         bounding_box = VideoBoundingBox(
-                            top=track["timestampedObjects"][0]["normalizedBoundingBox"].get(
-                                "top", 0
-                            ),
-                            left=track["timestampedObjects"][0]["normalizedBoundingBox"].get(
-                                "left", 0
-                            ),
-                            height=track["timestampedObjects"][0]["normalizedBoundingBox"].get(
-                                "bottom", 0
-                            ),
-                            width=track["timestampedObjects"][0]["normalizedBoundingBox"].get(
-                                "right", 0
-                            ),
+                            top=track["timestampedObjects"][0][
+                                "normalizedBoundingBox"
+                            ].get("top", 0),
+                            left=track["timestampedObjects"][0][
+                                "normalizedBoundingBox"
+                            ].get("left", 0),
+                            height=track["timestampedObjects"][0][
+                                "normalizedBoundingBox"
+                            ].get("bottom", 0),
+                            width=track["timestampedObjects"][0][
+                                "normalizedBoundingBox"
+                            ].get("right", 0),
                         )
                         attribute_dict = {}
-                        for attr in track["timestampedObjects"][0].get("attributes", []):
+                        for attr in track["timestampedObjects"][0].get(
+                            "attributes", []
+                        ):
                             attribute_dict[attr["name"]] = attr["confidence"]
                         attributs = FaceAttributes(
                             headwear=attribute_dict.get("headwear"),
@@ -323,11 +342,15 @@ class GoogleVideoApi(VideoInterface):
                             glasses=attribute_dict.get("glasses"),
                             mouth_open=attribute_dict.get("mouth_open"),
                             smiling=attribute_dict.get("smiling"),
+                            brightness=None,
+                            sharpness=None,
+                            pose=VideoFacePoses(pitch=None, roll=None, yawn=None),
                         )
                         face = VideoFace(
                             offset=timestamp,
                             bounding_box=bounding_box,
                             attributes=attributs,
+                            landmarks=LandmarksVideo(),
                         )
                         faces.append(face)
             standardized_response = FaceDetectionAsyncDataClass(faces=faces)
@@ -345,14 +368,13 @@ class GoogleVideoApi(VideoInterface):
     def video__person_tracking_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[PersonTrackingAsyncDataClass]:
-        
         try:
             result = google_video_get_job(provider_job_id)
         except ProviderException as provider_excp:
             raise provider_excp
         except Exception as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
-        
+
         if result.get("done"):
             response = result["response"]["annotationResults"][0]
             persons = response["personDetectionAnnotations"]
@@ -361,7 +383,6 @@ class GoogleVideoApi(VideoInterface):
                 tracked_person = []
                 for track in person["tracks"]:
                     for time_stamped_object in track["timestampedObjects"]:
-
                         # Bounding box
                         bounding_box = VideoTrackingBoundingBox(
                             top=float(
@@ -435,10 +456,16 @@ class GoogleVideoApi(VideoInterface):
                                 attributes=tracked_attributes,
                                 landmarks=landmark_tracking,
                                 bounding_box=bounding_box,
+                                poses=VideoPersonPoses(pitch=None, roll=None, yaw=None),
+                                quality=VideoPersonQuality(
+                                    brightness=None, sharpness=None
+                                ),
                             )
                         )
                 tracked_persons.append(VideoTrackingPerson(tracked=tracked_person))
-            standardized_response = PersonTrackingAsyncDataClass(persons=tracked_persons)
+            standardized_response = PersonTrackingAsyncDataClass(
+                persons=tracked_persons
+            )
 
             return AsyncResponseType[PersonTrackingAsyncDataClass](
                 status="succeeded",
@@ -454,20 +481,17 @@ class GoogleVideoApi(VideoInterface):
     def video__logo_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[LogoDetectionAsyncDataClass]:
-        
         try:
             result = google_video_get_job(provider_job_id)
         except ProviderException as provider_excp:
             raise provider_excp
         except Exception as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
-    
-        print('RESULT', result)
+
         if result.get("done"):
             response = result["response"]["annotationResults"][0]
             tracks = []
-            print('RESPONSE', response)
-            if 'logoRecognitionAnnotations' in response:
+            if "logoRecognitionAnnotations" in response:
                 for logo in response["logoRecognitionAnnotations"]:
                     objects = []
                     description = logo["entity"]["description"]
@@ -476,17 +500,21 @@ class GoogleVideoApi(VideoInterface):
                             timestamp = float(time_stamped_object["timeOffset"][:-1])
                             bounding_box = VideoLogoBoundingBox(
                                 top=time_stamped_object["normalizedBoundingBox"]["top"],
-                                left=time_stamped_object["normalizedBoundingBox"]["left"],
+                                left=time_stamped_object["normalizedBoundingBox"][
+                                    "left"
+                                ],
                                 height=time_stamped_object["normalizedBoundingBox"][
                                     "bottom"
                                 ],
-                                width=time_stamped_object["normalizedBoundingBox"]["right"],
+                                width=time_stamped_object["normalizedBoundingBox"][
+                                    "right"
+                                ],
                             )
                             objects.append(
                                 VideoLogo(
                                     timestamp=timestamp,
                                     bounding_box=bounding_box,
-                                    confidence=track['confidence']
+                                    confidence=track["confidence"],
                                 )
                             )
                     tracks.append(LogoTrack(description=description, tracking=objects))
@@ -506,21 +534,20 @@ class GoogleVideoApi(VideoInterface):
     def video__object_tracking_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[ObjectTrackingAsyncDataClass]:
-        
         try:
             result = google_video_get_job(provider_job_id)
         except ProviderException as provider_excp:
             raise provider_excp
         except Exception as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
-    
+
         if result.get("done"):
             response = result["response"]["annotationResults"][0]
             objects = response["objectAnnotations"]
             object_tracking = []
             for detected_object in objects:
                 frames = []
-                confidence = detected_object['confidence']
+                confidence = detected_object["confidence"]
                 description = detected_object["entity"]["description"]
                 for frame in detected_object["frames"]:
                     timestamp = float(frame["timeOffset"][:-1])
@@ -534,9 +561,13 @@ class GoogleVideoApi(VideoInterface):
                         ObjectFrame(timestamp=timestamp, bounding_box=bounding_box)
                     )
                 object_tracking.append(
-                    ObjectTrack(description=description, confidence=confidence, frames=frames)
+                    ObjectTrack(
+                        description=description, confidence=confidence, frames=frames
+                    )
                 )
-            standardized_response = ObjectTrackingAsyncDataClass(objects=object_tracking)
+            standardized_response = ObjectTrackingAsyncDataClass(
+                objects=object_tracking
+            )
             return AsyncResponseType[ObjectTrackingAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
@@ -551,7 +582,6 @@ class GoogleVideoApi(VideoInterface):
     def video__explicit_content_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[ExplicitContentDetectionAsyncDataClass]:
-
         try:
             result = google_video_get_job(provider_job_id)
         except ProviderException as provider_excp:
@@ -560,7 +590,7 @@ class GoogleVideoApi(VideoInterface):
             raise ProviderException(str(provider_call_exception))
 
         if result.get("error"):
-            raise ProviderException(result['error'].get("message"))
+            raise ProviderException(result["error"].get("message"))
 
         if result.get("done"):
             response = result["response"]["annotationResults"][0]

@@ -1,4 +1,4 @@
-from io import BufferedReader
+from io import BufferedReader, BytesIO
 import json
 from uuid import uuid4
 import os
@@ -79,7 +79,7 @@ def upload_file_to_s3(file_path: str, file_name: str, process_type = PROVIDER_PR
     s3_client.upload_file(file_path, bucket, filename)
     return func_call(filename, process_time)
 
-def upload_file_bytes_to_s3(file : bytes, file_name: str, process_type = PROVIDER_PROCESS):
+def upload_file_bytes_to_s3(file : BytesIO, file_name: str, process_type = PROVIDER_PROCESS):
     """Upload file byte to s3"""
     filename = str(uuid4()) + "_" + str(file_name)
     s3_client = s3_client_load()

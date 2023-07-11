@@ -4,64 +4,67 @@ from pydantic import BaseModel, Field, StrictStr
 
 
 class CustomerInformation(BaseModel):
-    customer_name: Optional[StrictStr]
-
+    customer_name: Optional[StrictStr] = None
 
 
 class MerchantInformation(BaseModel):
-    merchant_name: Optional[StrictStr]
-    merchant_address : Optional[StrictStr]
-    merchant_phone: Optional[StrictStr]
-    merchant_url: Optional[StrictStr]
-    merchant_siret: Optional[StrictStr]
-    merchant_siren: Optional[StrictStr]
+    merchant_name: Optional[StrictStr] = None
+    merchant_address: Optional[StrictStr] = None
+    merchant_phone: Optional[StrictStr] = None
+    merchant_url: Optional[StrictStr] = None
+    merchant_siret: Optional[StrictStr] = None
+    merchant_siren: Optional[StrictStr] = None
+
 
 class PaymentInformation(BaseModel):
-    card_type : Optional[StrictStr]
-    card_number : Optional[StrictStr]
-    cash : Optional[StrictStr]
-    tip : Optional[StrictStr]
-    discount : Optional[StrictStr]
-    change : Optional[StrictStr]
+    card_type: Optional[StrictStr] = None
+    card_number: Optional[StrictStr] = None
+    cash: Optional[StrictStr] = None
+    tip: Optional[StrictStr] = None
+    discount: Optional[StrictStr] = None
+    change: Optional[StrictStr] = None
+
 
 class Locale(BaseModel):
-    currency: Optional[StrictStr]
-    language: Optional[StrictStr]
-    country: Optional[StrictStr]
-
+    currency: Optional[StrictStr] = None
+    language: Optional[StrictStr] = None
+    country: Optional[StrictStr] = None
 
 
 class ItemLines(BaseModel):
-    description: Optional[StrictStr]
-    quantity: Optional[int]
-    amount: Optional[float]
-    unit_price: Optional[float]
-
+    description: Optional[str] = None
+    quantity: Optional[int] = None
+    amount: Optional[float] = None
+    unit_price: Optional[float] = None
 
 
 class Taxes(BaseModel):
-    taxes: Optional[float]
-    rate: Optional[float]
+    taxes: Optional[float] = None
+    rate: Optional[float] = None
+
 
 class BarCode(BaseModel):
     value: str
     type: str
 
+
 class InfosReceiptParserDataClass(BaseModel):
-    invoice_number: Optional[StrictStr]
-    invoice_total: Optional[float]
-    invoice_subtotal: Optional[float]
-    barcodes : Sequence[BarCode] = Field(default_factory=list)
-    category : Optional[StrictStr]
-    date: Optional[StrictStr]
-    due_date: Optional[StrictStr]
-    time : Optional[StrictStr]
+    invoice_number: Optional[StrictStr] = None
+    invoice_total: Optional[float] = None
+    invoice_subtotal: Optional[float] = None
+    barcodes: Sequence[BarCode] = Field(default_factory=list)
+    category: Optional[StrictStr] = None
+    date: Optional[StrictStr] = None
+    due_date: Optional[StrictStr] = None
+    time: Optional[StrictStr] = None
     customer_information: CustomerInformation = CustomerInformation()
     merchant_information: MerchantInformation = MerchantInformation()
-    payment_information : PaymentInformation = PaymentInformation()
+    payment_information: PaymentInformation = PaymentInformation()
     locale: Locale = Locale()
     taxes: Sequence[Taxes] = Field(default_factory=list)
-    receipt_infos: Dict[str, object] = Field(default_factory=dict) # DEPRECATED MUST BE DELETED
+    receipt_infos: Dict[str, object] = Field(
+        default_factory=dict
+    )  # DEPRECATED MUST BE DELETED
     item_lines: Sequence[ItemLines] = Field(default_factory=list)
 
 

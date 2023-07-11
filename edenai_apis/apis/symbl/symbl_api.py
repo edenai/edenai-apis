@@ -9,11 +9,15 @@ from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
-    SpeechDiarization
+    SpeechDiarization,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
+)
 from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -27,7 +31,9 @@ class SymblApi(ProviderInterface, AudioInterface):
     provider_name = "symbl"
 
     def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.app_id = self.api_settings["app_id"]
         self.app_secret = self.api_settings["app_secret"]
         self._get_access_token()
@@ -55,20 +61,17 @@ class SymblApi(ProviderInterface, AudioInterface):
         )
         self.access_token = response.json()["accessToken"]
 
-
-
     def audio__speech_to_text_async__launch_job(
-        self, 
-        file: str, 
+        self,
+        file: str,
         language: str,
-        speakers : int, 
+        speakers: int,
         profanity_filter: bool,
-        vocabulary: list, 
+        vocabulary: list,
         audio_attributes: tuple,
-        model : str = None,
+        model: str = None,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
-
         export_format, channels, frame_rate = audio_attributes
 
         number_of_bytes = os.stat(file).st_size
@@ -79,17 +82,15 @@ class SymblApi(ProviderInterface, AudioInterface):
         }
 
         params = {
-            "enableSpeakerDiarization" : "true",
-            "diarizationSpeakerCount" : speakers
-            }
+            "enableSpeakerDiarization": "true",
+            "diarizationSpeakerCount": speakers,
+        }
         if language:
             params.update({"languageCode": language})
         if vocabulary:
             if len(vocabulary) == 1:
                 vocabulary.append(vocabulary[0])
-            params.update({
-                "customVocabulary": vocabulary
-            })
+            params.update({"customVocabulary": vocabulary})
 
         file_ = open(file, "rb")
         response = requests.post(
@@ -110,9 +111,7 @@ class SymblApi(ProviderInterface, AudioInterface):
             original_response["jobId"] + "EdenAI" + original_response["conversationId"]
         )
 
-        return AsyncLaunchJobResponseType(
-            provider_job_id=job_id
-        )
+        return AsyncLaunchJobResponseType(provider_job_id=job_id)
 
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
@@ -132,9 +131,11 @@ class SymblApi(ProviderInterface, AudioInterface):
         if not original_response.get("status"):
             if isinstance(original_response.get("message"), str):
                 error_message = original_response.get("message")
-                if all(fraction in error_message for fraction in ["Job with", "not found"]):
+                if all(
+                    fraction in error_message for fraction in ["Job with", "not found"]
+                ):
                     raise AsyncJobException(
-                        reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                        reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
                     )
             raise ProviderException(original_response.get("message"))
 
@@ -145,23 +146,26 @@ class SymblApi(ProviderInterface, AudioInterface):
                 raise ProviderException(response_status.text)
 
             original_response = response.json()
-            print(json.dumps(original_response, indent=2))
             diarization_entries = []
             speakers = set()
 
-            text = " ".join([message["text"] for message in original_response["messages"]])
+            text = " ".join(
+                [message["text"] for message in original_response["messages"]]
+            )
 
             for text_info in original_response["messages"]:
                 words_info = text_info["words"]
                 for word_info in words_info:
-                    speakers.add(word_info.get("speakerTag",1))
+                    speakers.add(word_info.get("speakerTag", 1))
                     diarization_entries.append(
                         SpeechDiarizationEntry(
-                            segment= word_info["word"],
-                            speaker= word_info.get("speakerTag", 1),
-                            start_time= str(word_info["timeOffset"]),
-                            end_time= str(word_info["timeOffset"] + word_info["duration"]),
-                            confidence= word_info.get("score")
+                            segment=word_info["word"],
+                            speaker=word_info.get("speakerTag", 1),
+                            start_time=str(word_info["timeOffset"]),
+                            end_time=str(
+                                word_info["timeOffset"] + word_info["duration"]
+                            ),
+                            confidence=word_info.get("score"),
                         )
                     )
 
@@ -169,7 +173,9 @@ class SymblApi(ProviderInterface, AudioInterface):
                 total_speakers=len(speakers), entries=diarization_entries
             )
 
-            standardized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
+            standardized_response = SpeechToTextAsyncDataClass(
+                text=text, diarization=diarization
+            )
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,
                 standardized_response=standardized_response,
