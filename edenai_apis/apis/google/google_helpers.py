@@ -1,6 +1,6 @@
 import json
 import re
-from typing import List, Sequence
+from typing import List, Optional, Sequence
 from typing import Tuple
 
 import enum
@@ -271,7 +271,7 @@ def generate_tts_params(speaking_rate, speaking_pitch, speaking_volume):
 
 def get_right_audio_support_and_sampling_rate(
     audio_format: str, list_audio_formats: List
-):
+) -> Tuple[str, str]:
     extension = audio_format
     if not audio_format:
         audio_format = "mp3"
@@ -283,7 +283,7 @@ def get_right_audio_support_and_sampling_rate(
     right_audio_format = next(
         filter(lambda x: audio_format in x.lower(), list_audio_formats), None
     )
-    return extension, right_audio_format
+    return extension, right_audio_format or audio_format
 
 
 def handle_done_response_ocr_async(

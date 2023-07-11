@@ -1,6 +1,6 @@
 import base64
 import uuid
-from io import BufferedReader, BytesIO
+from io import BytesIO
 from pathlib import Path
 from time import time
 from typing import List, Optional
@@ -20,7 +20,6 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
-from edenai_apis.utils.audio import retreive_voice_id
 from edenai_apis.utils.exception import (
     AsyncJobException,
     AsyncJobExceptionReason,
@@ -56,8 +55,9 @@ class GoogleAudioApi(AudioInterface):
         voice_type = 1
 
         client = texttospeech.TextToSpeechClient()
-        input_text = texttospeech.SynthesisInput(text=text)
-
+        if "<speak>" not in text:
+            text = f"<speak>{text}</speak>"
+        input_text = texttospeech.SynthesisInput(ssml=text)
         voice = texttospeech.VoiceSelectionParams(language_code=language, name=voice_id)
 
         ext, audio_format = get_right_audio_support_and_sampling_rate(
@@ -129,10 +129,10 @@ class GoogleAudioApi(AudioInterface):
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model: str = None,
+        model: Optional[str] = None,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
-        export_format, channels, frame_rate = audio_attributes
+        export_format, channels, _ = audio_attributes
 
         # check language
         if not language:
@@ -213,7 +213,7 @@ class GoogleAudioApi(AudioInterface):
                 )
             raise ProviderException(error_message)
 
-        if error_message := original_response.get("error") is not None:
+        if (error_message := original_response.get("error")) is not None:
             raise ProviderException(error_message)
 
         text = ""

@@ -20,6 +20,7 @@ ERRORS: ProviderErrorLists = {
         r"400 Requested language code \w+ doesn't match the voice \w+ language code \w+. Either pick a different voice, or change the requested language code to \w+.",
         r"400 Target language can't be equal to source language. \w+",
         r"The language \w+ is not supported for \w+.",
+        r"400 Invalid SSML. Newer voices like \w+ require valid SSML"
         r"Wrong voice id"
     ],
     ProviderInvalidInputTextLengthError: [
