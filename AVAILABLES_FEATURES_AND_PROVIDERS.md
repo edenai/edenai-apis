@@ -190,6 +190,7 @@
 | | openai |
 | **moderation** | microsoft |
 | | openai |
+| **prompt_optimization** | openai |
 | **search** | openai |
 | **ai_detection** | originalityai |
 
@@ -577,6 +578,7 @@
 | | keyword_extraction |
 | | moderation |
 | | named_entity_recognition |
+| | prompt_optimization |
 | | question_answer |
 | | search |
 | | sentiment_analysis |
