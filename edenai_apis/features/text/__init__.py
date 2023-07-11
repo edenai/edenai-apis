@@ -84,3 +84,9 @@ from .ai_detection import (
     AiDetectionItem,
     ai_detection_arguments
 )
+
+from .prompt_optimization import (
+    PromptOptimizationDataClass,
+    PromptDataClass,
+    prompt_optimization_arguments
+)

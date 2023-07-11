@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Literal
 from edenai_apis.features.text import (
     KeywordExtractionDataClass,
     NamedEntityRecognitionDataClass,
@@ -15,7 +15,8 @@ from edenai_apis.features.text import (
     CustomClassificationDataClass,
     ModerationDataClass,
     CodeGenerationDataClass,
-    ChatDataClass
+    ChatDataClass,
+    PromptOptimizationDataClass
 )
 from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass
 from edenai_apis.features.text.embeddings.embeddings_dataclass import EmbeddingsDataClass
@@ -315,5 +316,18 @@ class TextInterface:
         Args:
             text (str): The text to be analyzed.
 
+        """
+        raise NotImplementedError
+    
+    @abstractmethod
+    def text__prompt_optimization(
+        text: str,
+        provider: Literal["openai", "google", "cohere"] ) -> ResponseType[PromptOptimizationDataClass]:
+        """
+        Generate a prompt given a User description for 3 generative providers 'OpenAI', 'Google' & 'Cohere
+        
+        Args:
+            text (str): User description
+            provider (Literal[&quot;openai&quot;, &quot;google&quot;, &quot;cohere&quot;])
         """
         raise NotImplementedError
