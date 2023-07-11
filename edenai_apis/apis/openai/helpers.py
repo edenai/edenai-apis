@@ -348,7 +348,7 @@ Prompt :
 """
 def construct_prompt_optimization_instruction(
     text: str,
-    provider: str
+    target_provider: str
     ):
     prompt = {
         "google" : google_prompt_guidelines(text),
@@ -356,4 +356,4 @@ def construct_prompt_optimization_instruction(
         "openai" : openai_prompt_guidelines(text)
     }
     
-    return prompt[provider]
+    return prompt[target_provider]

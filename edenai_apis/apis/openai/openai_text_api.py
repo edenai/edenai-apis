@@ -761,9 +761,9 @@ class OpenaiTextApi(TextInterface):
     def text__prompt_optimization(
         self,
         text: str, 
-        provider: Literal['openai', 'google', 'cohere']) -> ResponseType[PromptOptimizationDataClass]:
+        target_provider: Literal['openai', 'google', 'cohere']) -> ResponseType[PromptOptimizationDataClass]:
         url = f"{self.url}/chat/completions"
-        prompt = construct_prompt_optimization_instruction(text, provider)
+        prompt = construct_prompt_optimization_instruction(text, target_provider)
         messages = [{"role": "user", "content": prompt}]
         messages.insert(0, {"role": "system", "content": "Act as a Prompt Optimizer for LLMs, you take a description in input and generate a prompt from it."})
         payload = {
