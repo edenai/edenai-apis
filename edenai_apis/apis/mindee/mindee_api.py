@@ -321,7 +321,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
             key=InfoCountry.ALPHA3, value=identity_data["country"]["value"]
         )
         if country:
-            country.confidence = identity_data["country"]["confidence"]
+            country["confidence"] = identity_data["country"]["confidence"]
 
         issuance_date = ItemIdentityParserDataClass(
             value=identity_data["issuance_date"]["value"],
@@ -356,13 +356,13 @@ class MindeeApi(ProviderInterface, OcrInterface):
                 document_id=document_id,
                 gender=gender,
                 mrz=mrz,
-                image_id=[ItemIdentityParserDataClass()],
+                image_id=[],
                 issuing_state=ItemIdentityParserDataClass(),
                 address=ItemIdentityParserDataClass(),
                 age=ItemIdentityParserDataClass(),
                 document_type=ItemIdentityParserDataClass(),
                 nationality=ItemIdentityParserDataClass(),
-                image_signature=[ItemIdentityParserDataClass()],
+                image_signature=[],
             )
         )
 

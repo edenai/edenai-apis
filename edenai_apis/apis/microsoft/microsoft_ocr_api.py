@@ -25,6 +25,7 @@ from edenai_apis.features.ocr import (
     get_info_country,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    Country,
     InfoCountry,
     ItemIdentityParserDataClass,
     format_date,
@@ -282,7 +283,7 @@ class MicrosoftOcrApi(OcrInterface):
                         value=document.get("docType"),
                         confidence=document.get("confidence"),
                     ),
-                    country=country,
+                    country=country or Country.default(),
                     birth_date=ItemIdentityParserDataClass(
                         value=format_date(fields.get("DateOfBirth", {}).get("value")),
                         confidence=fields.get("DateOfBirth", {}).get("confidence"),
@@ -329,7 +330,9 @@ class MicrosoftOcrApi(OcrInterface):
                         confidence=fields.get("Sex", {}).get("confidence"),
                     ),
                     address=ItemIdentityParserDataClass(),
-                    age=IdentityParserDataClass(),
+                    age=ItemIdentityParserDataClass(),
+                    image_id=[],
+                    image_signature=[]
                 )
             )
 

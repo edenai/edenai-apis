@@ -1,15 +1,12 @@
 import datetime
-from typing_extensions import Annotated
 from dateutil import parser
 from enum import Enum
 import json
 import os
-from typing import List, Optional, Sequence, Any
+from typing import List, Optional, Sequence 
 
 from pydantic import (
-    AfterValidator,
     BaseModel,
-    ConfigDict,
     Field,
     StrictStr,
     field_validator,
@@ -72,7 +69,7 @@ class ItemIdentityParserDataClass(BaseModel):
 
 class InfosIdentityParserDataClass(BaseModel):
     last_name: ItemIdentityParserDataClass
-    given_names: Sequence[ItemIdentityParserDataClass] = Field(default_factory=list)
+    given_names: List[ItemIdentityParserDataClass] = Field(default_factory=list)
     birth_place: ItemIdentityParserDataClass
     birth_date: ItemIdentityParserDataClass
     issuance_date: ItemIdentityParserDataClass
@@ -103,6 +100,7 @@ class InfosIdentityParserDataClass(BaseModel):
     def given_names_to_title(cls, value):
         for v in value:
             v.value = v.value.title() if v.value else None
+        return value
 
     @field_validator("expire_date", "issuance_date", "birth_date")
     def date_validator(cls, value):
@@ -118,7 +116,6 @@ class InfosIdentityParserDataClass(BaseModel):
     def default():
         return InfosIdentityParserDataClass(
             last_name=ItemIdentityParserDataClass(),
-            given_names=[],
             birth_place=ItemIdentityParserDataClass(),
             birth_date=ItemIdentityParserDataClass(),
             issuance_date=ItemIdentityParserDataClass(),
@@ -130,8 +127,6 @@ class InfosIdentityParserDataClass(BaseModel):
             country=Country.default(),
             document_type=ItemIdentityParserDataClass(),
             gender=ItemIdentityParserDataClass(),
-            image_id=[],
-            image_signature=[],
             mrz=ItemIdentityParserDataClass(),
             nationality=ItemIdentityParserDataClass(),
         )

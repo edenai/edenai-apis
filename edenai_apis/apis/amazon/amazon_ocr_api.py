@@ -1,6 +1,8 @@
 import json
 from time import sleep
 from typing import List, Sequence, Dict, Union
+
+from pydantic import Extra
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
     CustomDocumentParsingAsyncDataClass,
 )
