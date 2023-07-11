@@ -793,3 +793,4 @@ class OpenaiTextApi(TextInterface):
         return ResponseType[PromptOptimizationDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
+        )
