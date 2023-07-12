@@ -196,10 +196,10 @@ class HireabilityApi(ProviderInterface, OcrInterface):
             skills.append(ResumeSkill(name=skill, type=skill_type))
 
         languages = [
-            ResumeLang(name=i.get("LanguageCode")) for i in infos.get("Languages", [])
+            ResumeLang(name=i.get("LanguageCode"), code=None) for i in infos.get("Languages", [])
         ]
         certifications = [
-            ResumeSkill(name=i.get("CertificationName"))
+            ResumeSkill(name=i.get("CertificationName"), type=None)
             for i in infos.get("Certification", [])
         ]
 
