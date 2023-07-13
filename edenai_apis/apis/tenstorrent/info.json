@@ -20,6 +20,9 @@
         },
         "question_answer": {
             "version": "v1.0.0"
+        },
+        "topic_extraction": {
+            "version": "v1.0.0"
         }
     }
 }

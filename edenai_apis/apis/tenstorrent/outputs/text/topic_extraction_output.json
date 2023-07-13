@@ -1,0 +1,26 @@
+{
+    "original_response": {
+        "items": [
+            {
+                "category": "Film Tv & Video",
+                "importance": 0.99
+            },
+            {
+                "category": "Celebrity & Pop Culture",
+                "importance": 0.79
+            }
+        ]
+    },
+    "standardized_response": {
+        "items": [
+            {
+                "category": "Film Tv & Video",
+                "importance": 0.99
+            },
+            {
+                "category": "Celebrity & Pop Culture",
+                "importance": 0.79
+            }
+        ]
+    }
+}

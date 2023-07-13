@@ -10,13 +10,15 @@ from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass i
 from edenai_apis.features.text.question_answer.question_answer_dataclass import (
     QuestionAnswerDataClass,
 )
+from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass import (
+    TopicExtractionDataClass,
+)
 from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
 
 class TenstorrentTextApi(TextInterface):
-
     def text__keyword_extraction(
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
@@ -36,7 +38,9 @@ class TenstorrentTextApi(TextInterface):
         # Check for errors
         self.check_for_errors(original_response)
 
-        standardized_response = KeywordExtractionDataClass(items=original_response["items"])
+        standardized_response = KeywordExtractionDataClass(
+            items=original_response["items"]
+        )
         return ResponseType[KeywordExtractionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
@@ -100,8 +104,37 @@ class TenstorrentTextApi(TextInterface):
         # Check for errors
         self.check_for_errors(original_response)
 
-        standardized_response = QuestionAnswerDataClass(answers=[original_response["answer"]])
+        standardized_response = QuestionAnswerDataClass(
+            answers=[original_response["answer"]]
+        )
         return ResponseType[QuestionAnswerDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    def text__topic_extraction(
+        self, text: str
+    ) -> ResponseType[TopicExtractionDataClass]:
+        base_url = "https://topic-extraction--eden-ai.workload.tenstorrent.com"
+        url = f"{base_url}/predictions/topic_extraction"
+        payload = {
+            "text": text,
+        }
+        try:
+            original_response = requests.post(url, json=payload, headers=self.headers)
+            original_response.raise_for_status()
+        except Exception as exc:
+            raise ProviderException(original_response.text)
+
+        original_response = original_response.json()
+
+        # Check for errors
+        self.check_for_errors(original_response)
+
+        standardized_response = TopicExtractionDataClass(
+            items=original_response["items"]
+        )
+        return ResponseType[TopicExtractionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
         )
