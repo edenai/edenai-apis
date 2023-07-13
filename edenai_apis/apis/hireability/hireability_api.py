@@ -114,12 +114,11 @@ class HireabilityApi(ProviderInterface, OcrInterface):
             date_of_birth=infos.get("DateOfBirth"),
             place_of_birth=infos.get("PlaceOfBirth"),
             nationality=infos.get("Nationality"),
-            marital_status=infos.get("MaritalStatus"),
+            martial_status=infos.get("MaritalStatus"),
             objective=infos.get("Objective"),
             current_salary=infos.get("Salary"),
             self_summary=None,
             current_profession=None,
-            martial_status=None,
         )
 
         # 2 Education
