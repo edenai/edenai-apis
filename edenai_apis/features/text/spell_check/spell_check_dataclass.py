@@ -27,7 +27,7 @@ class SpellCheckItem(BaseModel):
 
     Args:
         text (str): The text to spell check.
-        type (str): The type of the text.
+        type (str, optional): The type of the text.
         offset (int): The offset of the text.
         length (int): The length of the text.
         suggestions (Sequence[SuggestionItem], optional): The list of suggestions for the misspelled text.
