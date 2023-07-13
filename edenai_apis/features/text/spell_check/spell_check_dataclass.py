@@ -40,7 +40,7 @@ class SpellCheckItem(BaseModel):
     """
 
     text: str
-    type: str
+    type: Optional[str]
     offset: int = Field(ge=0)
     length: int = Field(ge=0)
     suggestions: Sequence[SuggestionItem] = Field(default_factory=list)
