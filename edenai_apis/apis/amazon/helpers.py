@@ -57,6 +57,7 @@ from edenai_apis.utils.exception import (
     AsyncJobExceptionReason,
     ProviderException,
 )
+from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
 
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -545,10 +546,7 @@ def amazon_speaking_volume_adapter(speaking_volume: int):
     return speaking_volume * 6 / 100
 
 
-def generate_right_ssml_text(text, speaking_rate, speaking_pitch, speaking_volume):
-    validate_audio_attribute_against_ssml_tags_use(
-        text, speaking_rate, speaking_pitch, speaking_volume
-    )
+def generate_right_ssml_text(text, speaking_rate, speaking_pitch, speaking_volume) -> str:
     attribs = {
         "rate": (speaking_rate, f"{amazon_speaking_rate_converter(speaking_rate)}%"),
         "pitch": (speaking_pitch, f"{speaking_pitch}%"),
@@ -563,9 +561,8 @@ def generate_right_ssml_text(text, speaking_rate, speaking_pitch, speaking_volum
             continue
         cleaned_attribs_string = f"{cleaned_attribs_string} {k}='{v[1]}'"
     if not cleaned_attribs_string.strip():
-        return text, None
-    smll_text = f"<speak><prosody {cleaned_attribs_string}>{text}</prosody></speak>"
-    return smll_text, "ssml"
+        return text
+    return convert_audio_attr_in_prosody_tag(cleaned_attribs_string, text)
 
 
 def get_right_audio_support_and_sampling_rate(audio_format: str, sampling_rate: int):

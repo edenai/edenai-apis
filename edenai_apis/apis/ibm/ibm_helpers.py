@@ -1,11 +1,14 @@
 from edenai_apis.utils.audio import validate_audio_attribute_against_ssml_tags_use
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.ssml import (
+    convert_audio_attr_in_prosody_tag,
+    get_index_after_first_speak_tag,
+    get_index_before_last_speak_tag,
+    is_ssml,
+)
 
 
 def generate_right_ssml_text(text, speaking_rate, speaking_pitch):
-    validate_audio_attribute_against_ssml_tags_use(
-        text, speaking_rate, speaking_pitch, 0
-    )
     attribs = {"rate": speaking_rate, "pitch": speaking_pitch}
     cleaned_attribs_string = ""
     for k, v in attribs.items():
@@ -14,8 +17,7 @@ def generate_right_ssml_text(text, speaking_rate, speaking_pitch):
         cleaned_attribs_string = f"{cleaned_attribs_string} {k}='{v}%'"
     if not cleaned_attribs_string.strip():
         return text
-    smll_text = f"<speak><prosody {cleaned_attribs_string}>{text}</prosody></speak>"
-    return smll_text
+    return convert_audio_attr_in_prosody_tag(cleaned_attribs_string, text)
 
 
 # list of audio format with there extension, Wether or not a sampling rate is required, and also if you can specify

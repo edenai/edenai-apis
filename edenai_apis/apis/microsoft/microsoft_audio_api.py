@@ -27,6 +27,7 @@ from edenai_apis.utils.exception import (
     LanguageException,
     ProviderException,
 )
+from edenai_apis.utils.ssml import is_ssml
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -56,8 +57,6 @@ class MicrosoftAudioApi(AudioInterface):
         speaking_volume: int,
         sampling_rate: int,
     ) -> ResponseType[TextToSpeechDataClass]:
-        use_ssml = False
-
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
             region=self.api_settings["speech"]["service_region"],
@@ -71,7 +70,7 @@ class MicrosoftAudioApi(AudioInterface):
             getattr(speechsdk.SpeechSynthesisOutputFormat, audio_format)
         )
 
-        text, use_ssml = generate_right_ssml_text(
+        text = generate_right_ssml_text(
             text, voice_id, speaking_rate, speaking_pitch, speaking_volume
         )
 
@@ -80,7 +79,7 @@ class MicrosoftAudioApi(AudioInterface):
         speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
         response = (
             speech_synthesizer.speak_text_async(text).get()
-            if not use_ssml
+            if not is_ssml(text)
             else speech_synthesizer.speak_ssml_async(text).get()
         )
 

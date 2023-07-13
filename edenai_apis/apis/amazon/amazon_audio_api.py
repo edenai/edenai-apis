@@ -27,6 +27,7 @@ from edenai_apis.utils.exception import (
     AsyncJobExceptionReason,
     ProviderException,
 )
+from edenai_apis.utils.ssml import is_ssml
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -57,7 +58,7 @@ class AmazonAudioApi(AudioInterface):
 
         params = {"Engine": engine, "VoiceId": voice_id_name, "OutputFormat": "mp3"}
 
-        text, text_type = generate_right_ssml_text(
+        text = generate_right_ssml_text(
             text, speaking_rate, speaking_pitch, speaking_volume
         )
 
@@ -71,7 +72,7 @@ class AmazonAudioApi(AudioInterface):
 
         params.update({**params_update})
 
-        if text_type:
+        if is_ssml(text):
             params["TextType"] = "ssml"
 
         try:

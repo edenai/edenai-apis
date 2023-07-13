@@ -44,11 +44,11 @@ from edenai_apis.features.text import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.audio import validate_audio_attribute_against_ssml_tags_use
 from edenai_apis.utils.conversion import (
     combine_date_with_time,
     standardized_confidence_score,
 )
+from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
 
 
 def get_microsoft_headers() -> Dict:
@@ -434,11 +434,7 @@ def format_text_for_ssml_tags(text: str):
 
 def generate_right_ssml_text(
     text, voice_id, speaking_rate, speaking_pitch, speaking_volume
-):
-    if validate_audio_attribute_against_ssml_tags_use(
-        text, speaking_rate, speaking_pitch, speaking_volume
-    ):
-        return text, True
+) -> str:
     attribs = {
         "rate": speaking_rate,
         "pitch": speaking_pitch,
@@ -450,11 +446,14 @@ def generate_right_ssml_text(
             continue
         cleaned_attribs_string = f"{cleaned_attribs_string} {k}='{v}%'"
     if not cleaned_attribs_string.strip():
-        return text, False
-    smll_text = f"<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'> \
-                <voice name='{voice_id}'><prosody {cleaned_attribs_string}>{format_text_for_ssml_tags(text)}</prosody>\
-                    </voice></speak>"
-    return smll_text, True
+        return text
+
+    return convert_audio_attr_in_prosody_tag(
+        cleaned_attribs=cleaned_attribs_string,
+        text=text,
+        voice_tag=f"<voice_name={voice_id}",
+        speak_attr="version=1.0 xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'"
+    )
 
 
 # list of audio format with there extension and a list of sample rates that it can accept

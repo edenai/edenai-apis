@@ -26,6 +26,7 @@ from edenai_apis.utils.exception import (
     LanguageException,
     ProviderException,
 )
+from edenai_apis.utils.ssml import is_ssml
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -42,7 +43,8 @@ from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 class GoogleAudioApi(AudioInterface):
     def audio__text_to_speech(
         self,
-        language: str,
+        language: str
+        ,
         text: str,
         option: str,
         voice_id: str,
@@ -55,9 +57,12 @@ class GoogleAudioApi(AudioInterface):
         voice_type = 1
 
         client = texttospeech.TextToSpeechClient()
-        if "<speak>" not in text:
-            text = f"<speak>{text}</speak>"
-        input_text = texttospeech.SynthesisInput(ssml=text)
+
+        if is_ssml(text):
+            input_text = texttospeech.SynthesisInput(ssml=text)
+        else:
+            input_text = texttospeech.SynthesisInput(text=text)
+
         voice = texttospeech.VoiceSelectionParams(language_code=language, name=voice_id)
 
         ext, audio_format = get_right_audio_support_and_sampling_rate(
