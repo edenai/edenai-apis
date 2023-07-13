@@ -9,6 +9,12 @@ class TestIsSSML:
     @pytest.mark.parametrize('ssml_text', [
         "<speak>hello</speak>",
         "<speak version='1.0'>hello</speak>",
+        "<speak> Hello <break time=\"3s\"/> world </speak>",
+        "<speak><voice-id 453>Hello world</voice-id></speak>",
+        "<speak><voice-id 453>Hello <break time=\"3s\"/> world</voice-id></speak>",
+        "<speak><voice-id 453>Hello <break time=\"3s\"/> <break time=\"3s\"/> <break time=\"3s\"/> world</voice-id></speak>",
+        "<speak><voice-id 453><prosody pitch=0.35>Hello <break time=\"3s\"/> world</prosody></voice-id></speak>"
+
     ])
     def test__is_valid_ssml(self, ssml_text: str):
         assert is_ssml(ssml_text) == True, f"ssml_text `{ssml_text}` is valid ssml_text"

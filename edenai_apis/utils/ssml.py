@@ -11,7 +11,7 @@ def is_ssml(ssml_text: str) -> bool:
     Returns:
         bool: True if ssml_text, False otherwise
     """
-    regex: str = r"^<\s*speak\b[^>]*>[^<]*<\/speak\s*>$"
+    regex: str = r'^<\s*speak\b[^>]*>(?:(?!(<\/\s*speak\s*>|<speak\s*>))[\s\S])*<\/\s*speak\s*>$'
     match: Optional[re.Match] = re.match(regex, ssml_text, re.MULTILINE)
     return match is not None
 
