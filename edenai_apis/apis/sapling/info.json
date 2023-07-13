@@ -1,0 +1,52 @@
+{
+    "text": {
+        "spell_check": {
+            "constraints": {
+                "languages": [
+                    "en",
+                    "ar",
+                    "bg",
+                    "ca",
+                    "cs",
+                    "da",
+                    "de",
+                    "el",
+                    "es",
+                    "et",
+                    "fa",
+                    "fi",
+                    "fr",
+                    "he",
+                    "hi",
+                    "hr",
+                    "hu",
+                    "id",
+                    "is",
+                    "it",
+                    "ja",
+                    "ko",
+                    "lt",
+                    "lv",
+                    "nl",
+                    "no",
+                    "pl",
+                    "pt",
+                    "ro",
+                    "ru",
+                    "sk",
+                    "sq",
+                    "sr",
+                    "sv",
+                    "th",
+                    "tl",
+                    "tr",
+                    "uk",
+                    "vi",
+                    "zh"
+                ],
+                "allow_null_language": true
+            },
+            "version": "v1"
+        }
+    }
+}
