@@ -68,7 +68,7 @@ class SaplingApi(ProviderInterface, TextInterface):
                 suggestions.append(SuggestionItem(suggestion=edit["replacement"], score=None))
             items.append(
                 SpellCheckItem(
-                    text = edit["sentence"],
+                    text = checked_word,
                     offset= edit["start"] + text.index(edit["sentence"]),
                     length= end - start,
                     suggestions= suggestions,
