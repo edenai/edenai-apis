@@ -168,6 +168,7 @@
 | | microsoft |
 | | openai |
 | | prowritingaid |
+| | sapling |
 | **summarize** | cohere |
 | | connexun |
 | | emvista |
@@ -630,6 +631,13 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **ocr** | invoice_parser |
+
+</details>
+<details><summary>sapling</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | spell_check |
 
 </details>
 <details><summary>sentisight</summary>
