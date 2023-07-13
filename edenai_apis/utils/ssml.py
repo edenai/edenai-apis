@@ -81,5 +81,5 @@ def convert_audio_attr_in_prosody_tag(
         + f"{voice_tag}<prosody {cleaned_attribs}>"
         + text[idx_after_first_tag:idx_before_last_tag]
         + f"</prosody>{f'</voice>' if voice_tag else ''}"
-        + text[idx_before_last_tag:-1]
+        + text[idx_before_last_tag:]
     )
