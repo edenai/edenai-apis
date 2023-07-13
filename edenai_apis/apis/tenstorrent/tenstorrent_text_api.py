@@ -13,6 +13,9 @@ from edenai_apis.features.text.question_answer.question_answer_dataclass import 
 from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass import (
     TopicExtractionDataClass,
 )
+from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
+    NamedEntityRecognitionDataClass,
+)
 from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
@@ -108,6 +111,33 @@ class TenstorrentTextApi(TextInterface):
             answers=[original_response["answer"]]
         )
         return ResponseType[QuestionAnswerDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    def text__named_entity_recognition(
+        self, text: str
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        base_url = "https://named-entity-recognition--eden-ai.workload.tenstorrent.com"
+        url = f"{base_url}/predictions/named_entity_recognition"
+        payload = {
+            "text": text,
+        }
+        try:
+            original_response = requests.post(url, json=payload, headers=self.headers)
+            original_response.raise_for_status()
+        except Exception as exc:
+            raise ProviderException(original_response.text)
+
+        original_response = original_response.json()
+
+        # Check for errors
+        self.check_for_errors(original_response)
+
+        standardized_response = NamedEntityRecognitionDataClass(
+            items=original_response["items"]
+        )
+        return ResponseType[NamedEntityRecognitionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
         )

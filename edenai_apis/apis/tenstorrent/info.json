@@ -23,6 +23,9 @@
         },
         "topic_extraction": {
             "version": "v1.0.0"
+        },
+        "named_entity_recognition": {
+            "version": "v1.0.0"
         }
     }
 }
