@@ -1,7 +1,8 @@
 import json
-from pprint import pprint
 from time import sleep
 from typing import List, Sequence, Dict, Union
+
+from pydantic import Extra
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
     CustomDocumentParsingAsyncDataClass,
 )
@@ -11,6 +12,7 @@ from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import (
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     IdentityParserDataClass,
     InfoCountry,
+    InfosIdentityParserDataClass,
     ItemIdentityParserDataClass,
     format_date,
     get_info_country,
@@ -120,10 +122,9 @@ class AmazonOcrApi(OcrInterface):
 
         file_.close()
 
-        items = []
+        items: Sequence[InfosIdentityParserDataClass] = []
         for document in original_response["IdentityDocuments"]:
-            infos = {}
-            infos["given_names"] = []
+            infos: InfosIdentityParserDataClass = InfosIdentityParserDataClass.default()
             for field in document["IdentityDocumentFields"]:
                 field_type = field["Type"]["Text"]
                 confidence = round(field["ValueDetection"]["Confidence"] / 100, 2)
@@ -133,22 +134,22 @@ class AmazonOcrApi(OcrInterface):
                     else None
                 )
                 if field_type == "LAST_NAME":
-                    infos["last_name"] = ItemIdentityParserDataClass(
+                    infos.last_name = ItemIdentityParserDataClass(
                         value=value, confidence=confidence
                     )
                 elif field_type in ("FIRST_NAME", "MIDDLE_NAME") and value:
-                    infos["given_names"].append(
+                    infos.given_names.append(
                         ItemIdentityParserDataClass(value=value, confidence=confidence)
                     )
                 elif field_type == "DOCUMENT_NUMBER":
-                    infos["document_id"] = ItemIdentityParserDataClass(
+                    infos.document_id = ItemIdentityParserDataClass(
                         value=value, confidence=confidence
                     )
                 elif field_type == "EXPIRATION_DATE":
                     value = (
                         field["ValueDetection"].get("NormalizedValue", {}).get("Value")
                     )
-                    infos["expire_date"] = ItemIdentityParserDataClass(
+                    infos.expire_date = ItemIdentityParserDataClass(
                         value=format_date(value),
                         confidence=confidence,
                     )
@@ -156,7 +157,7 @@ class AmazonOcrApi(OcrInterface):
                     value = (
                         field["ValueDetection"].get("NormalizedValue", {}).get("Value")
                     )
-                    infos["birth_date"] = ItemIdentityParserDataClass(
+                    infos.birth_date = ItemIdentityParserDataClass(
                         value=format_date(value),
                         confidence=confidence,
                     )
@@ -164,23 +165,23 @@ class AmazonOcrApi(OcrInterface):
                     value = (
                         field["ValueDetection"].get("NormalizedValue", {}).get("Value")
                     )
-                    infos["issuance_date"] = ItemIdentityParserDataClass(
+                    infos.issuance_date = ItemIdentityParserDataClass(
                         value=format_date(value),
                         confidence=confidence,
                     )
                 elif field_type == "ID_TYPE":
-                    infos["document_type"] = ItemIdentityParserDataClass(
+                    infos.document_type = ItemIdentityParserDataClass(
                         value=value, confidence=confidence
                     )
                 elif field_type == "ADDRESS":
-                    infos["address"] = ItemIdentityParserDataClass(
+                    infos.address = ItemIdentityParserDataClass(
                         value=value, confidence=confidence
                     )
                 elif field_type == "COUNTY" and value:
-                    infos["country"] = get_info_country(InfoCountry.NAME, value)
-                    infos["country"]["confidence"] = confidence
+                    infos.country = get_info_country(InfoCountry.NAME, value)
+                    infos.country.confidence = confidence
                 elif field_type == "MRZ_CODE":
-                    infos["mrz"] = ItemIdentityParserDataClass(
+                    infos.mrz = ItemIdentityParserDataClass(
                         value=value, confidence=confidence
                     )
 

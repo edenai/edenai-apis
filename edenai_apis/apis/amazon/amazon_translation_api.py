@@ -9,7 +9,7 @@ from edenai_apis.features.translation.language_detection.language_detection_data
     LanguageDetectionDataClass,
 )
 from edenai_apis.features.translation.translation_interface import TranslationInterface
-from edenai_apis.utils.exception import LanguageException
+from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
 
@@ -48,13 +48,12 @@ class AmazonTranslationApi(TranslationInterface):
         except ParamValidationError as exc:
             if "SourceLanguageCode" in str(exc):
                 raise LanguageException(str(exc))
+            raise ProviderException(str(exc)) from exc
 
-        standardized: AutomaticTranslationDataClass
-        if response["TranslatedText"] != "":
-            standardized = AutomaticTranslationDataClass(
-                text=response["TranslatedText"]
-            )
+        standardized: AutomaticTranslationDataClass = AutomaticTranslationDataClass(
+            text=response["TranslatedText"]
+        )
 
         return ResponseType[AutomaticTranslationDataClass](
-            original_response=response, standardized_response=standardized.dict()
+            original_response=response, standardized_response=standardized
         )

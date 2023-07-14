@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "text": "\"Given the following text, please identify and extract all instances of the specified entities. The entities to look for are [Entity1, Entity2, Entity3]. Here is the text: [Insert Text Here]. Please format your response as a list, with each extracted entity on a separate line.\""
+    },
+    {
+      "text": "\"Given the following text, please identify and extract all instances of the specified entities. The entities to look for are [entity/entities]. Here is the text: [text]. Please format your response as a list, with each extracted entity on a new line.\""
+    },
+    {
+      "text": "\"Given the following text, please identify and extract all instances of the specified entities. The entities to look for are [Entity 1, Entity 2, ...]. The text is as follows: [Insert Text]. Please format your response as a list, with each extracted entity on a new line.\""
+    }
+  ]
+}

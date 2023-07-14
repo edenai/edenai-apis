@@ -1,12 +1,16 @@
 import base64
 import uuid
-from io import BufferedReader, BytesIO
+from io import BytesIO
 from pathlib import Path
 from time import time
 from typing import List, Optional
 
 import googleapiclient.discovery
-from edenai_apis.apis.google.google_helpers import generate_tts_params, get_encoding_and_sample_rate, get_right_audio_support_and_sampling_rate
+from edenai_apis.apis.google.google_helpers import (
+    generate_tts_params,
+    get_encoding_and_sample_rate,
+    get_right_audio_support_and_sampling_rate,
+)
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechDiarization,
@@ -16,8 +20,13 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
-from edenai_apis.utils.audio import retreive_voice_id
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, LanguageException, ProviderException
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    LanguageException,
+    ProviderException,
+)
+from edenai_apis.utils.ssml import is_ssml
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -34,7 +43,8 @@ from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 class GoogleAudioApi(AudioInterface):
     def audio__text_to_speech(
         self,
-        language: str,
+        language: str
+        ,
         text: str,
         option: str,
         voice_id: str,
@@ -42,43 +52,44 @@ class GoogleAudioApi(AudioInterface):
         speaking_rate: int,
         speaking_pitch: int,
         speaking_volume: int,
-        sampling_rate: int
+        sampling_rate: int,
     ) -> ResponseType[TextToSpeechDataClass]:
         voice_type = 1
 
         client = texttospeech.TextToSpeechClient()
-        input_text = texttospeech.SynthesisInput(text=text)
 
-        voice = texttospeech.VoiceSelectionParams(
-            language_code=language,
-            name=voice_id
-        )
+        if is_ssml(text):
+            input_text = texttospeech.SynthesisInput(ssml=text)
+        else:
+            input_text = texttospeech.SynthesisInput(text=text)
+
+        voice = texttospeech.VoiceSelectionParams(language_code=language, name=voice_id)
 
         ext, audio_format = get_right_audio_support_and_sampling_rate(
-            audio_format,
-            texttospeech.AudioEncoding._member_names_)
-        
-        audio_config_params = generate_tts_params(
-            speaking_rate, speaking_pitch, speaking_volume)
+            audio_format, texttospeech.AudioEncoding._member_names_
+        )
 
-        audio_config_params.update({
-            "audio_encoding": getattr(texttospeech.AudioEncoding, audio_format)
-        })
+        audio_config_params = generate_tts_params(
+            speaking_rate, speaking_pitch, speaking_volume
+        )
+
+        audio_config_params.update(
+            {"audio_encoding": getattr(texttospeech.AudioEncoding, audio_format)}
+        )
 
         if sampling_rate:
-            audio_config_params.update({
-                "sample_rate_hertz": sampling_rate
-            })
+            audio_config_params.update({"sample_rate_hertz": sampling_rate})
 
-        audio_config = texttospeech.AudioConfig(
-            **audio_config_params
-        )
+        audio_config = texttospeech.AudioConfig(**audio_config_params)
 
         # Getting response of API
         try:
             response = client.synthesize_speech(
-                request={"input": input_text, "voice": voice,
-                         "audio_config": audio_config}
+                request={
+                    "input": input_text,
+                    "voice": voice,
+                    "audio_config": audio_config,
+                }
             )
         except Exception as excp:
             raise ProviderException(str(excp))
@@ -88,8 +99,7 @@ class GoogleAudioApi(AudioInterface):
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
 
         audio_content.seek(0)
-        resource_url = upload_file_bytes_to_s3(
-            audio_content, f".{ext}", USER_PROCESS)
+        resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
 
         standardized_response = TextToSpeechDataClass(
             audio=audio, voice_type=voice_type, audio_resource_url=resource_url
@@ -124,11 +134,10 @@ class GoogleAudioApi(AudioInterface):
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model: str = None,
+        model: Optional[str] = None,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
-
-        export_format, channels, frame_rate = audio_attributes
+        export_format, channels, _ = audio_attributes
 
         # check language
         if not language:
@@ -160,37 +169,35 @@ class GoogleAudioApi(AudioInterface):
             "profanity_filter": profanity_filter,
             "enable_word_confidence": True,
             "enable_automatic_punctuation": True,
-            "enable_spoken_punctuation": True
+            "enable_spoken_punctuation": True,
         }
 
         encoding, sampling = get_encoding_and_sample_rate(
-            export_format.replace('audio/', ''))
+            export_format.replace("audio/", "")
+        )
 
         if encoding:
-            params.update({
-                "encoding": getattr(speech.RecognitionConfig.AudioEncoding, encoding)
-            })
+            params.update(
+                {"encoding": getattr(speech.RecognitionConfig.AudioEncoding, encoding)}
+            )
         if sampling:
-            params.update({
-                "sample_rate_hertz": sampling
-            })
+            params.update({"sample_rate_hertz": sampling})
 
         # create custum vocabulary phrase_set
         if vocabulary:
             name = self._create_vocabulary(vocabulary)
-            speech_adaptation = speech.SpeechAdaptation(
-                phrase_set_references=[name])
+            speech_adaptation = speech.SpeechAdaptation(phrase_set_references=[name])
             params.update({"adaptation": speech_adaptation})
 
         config = speech.RecognitionConfig(**params)
         try:
-            operation = client.long_running_recognize(
-                config=config, audio=audio)
+            operation = client.long_running_recognize(config=config, audio=audio)
         except Exception as exc:
             error = str(exc)
             if "bad encoding" in error:
                 raise ProviderException(
-                    "Could not decode audio file, bad file encoding")
+                    "Could not decode audio file, bad file encoding"
+                )
             raise ProviderException(error)
         operation_name = operation.operation.name
         return AsyncLaunchJobResponseType(provider_job_id=operation_name)
@@ -211,7 +218,7 @@ class GoogleAudioApi(AudioInterface):
                 )
             raise ProviderException(error_message)
 
-        if error_message := original_response.get("error") is not None:
+        if (error_message := original_response.get("error")) is not None:
             raise ProviderException(error_message)
 
         text = ""
@@ -236,8 +243,10 @@ class GoogleAudioApi(AudioInterface):
                     words_info = []
 
                 if words_info == []:
-                    error_message= ("Provider has returned an empty response, try to convert your audio file to a 'wav' format, " 
-                                    "or try to put the 'convert_to_wav' parameter to true")
+                    error_message = (
+                        "Provider has returned an empty response, try to convert your audio file to a 'wav' format, "
+                        "or try to put the 'convert_to_wav' parameter to true"
+                    )
                     raise ProviderException(error_message)
                 speakers = set()
 

@@ -5,7 +5,7 @@ from edenai_apis.features import ImageInterface, ProviderInterface
 from edenai_apis.features.image.face_compare.face_compare_dataclass import (
     FaceCompareDataClass,
     FaceCompareBoundingBox,
-    FaceMatch
+    FaceMatch,
 )
 from edenai_apis.features.image.face_recognition.add_face.face_recognition_add_face_dataclass import (
     FaceRecognitionAddFaceDataClass,
@@ -188,7 +188,9 @@ class FaceppApi(ProviderInterface, ImageInterface):
             )
         else:
             response = requests.post(
-                f"{self.base_url}/search", data=payload, files={"image_file": open(file, 'rb')}
+                f"{self.base_url}/search",
+                data=payload,
+                files={"image_file": open(file, "rb")},
             )
         if not response.ok:
             raise ProviderException(response.text)
@@ -208,46 +210,43 @@ class FaceppApi(ProviderInterface, ImageInterface):
         )
 
     def image__face_compare(
-        self, 
-        file1: str, 
-        file2: str, 
-        file1_url: str = "", 
-        file2_url: str = ""
-        ) -> ResponseType[FaceCompareDataClass]:
-        url = self.base_url+"/compare"
+        self, file1: str, file2: str, file1_url: str = "", file2_url: str = ""
+    ) -> ResponseType[FaceCompareDataClass]:
+        url = self.base_url + "/compare"
         if file1_url and file2_url:
             payload = {
                 **self.api_settings,
-                "image_url1":file1_url,
-                "image_url2":file2_url,
+                "image_url1": file1_url,
+                "image_url2": file2_url,
             }
-            response = requests.post(url, data = payload)
+            response = requests.post(url, data=payload)
         else:
             response = requests.post(
                 url=url,
                 data=self.api_settings,
                 files={
                     "image_file1": open(file1, "rb"),
-                    "image_file2": open(file2, "rb")
-                    },
+                    "image_file2": open(file2, "rb"),
+                },
             )
         if not response.ok:
             raise ProviderException(response.text)
-        
+
         original_response = response.json()
         faces = []
-        for matching_face in original_response.get('faces2'):
+        for matching_face in original_response.get("faces2"):
             faces.append(
                 FaceMatch(
-                confidence = original_response.get('confidence') / 100,
-                bounding_box = FaceCompareBoundingBox(
-                    top=matching_face.get('face_rectangle').get('top'),
-                    left=matching_face.get('face_rectangle').get('left'),
-                    height=matching_face.get('face_rectangle').get('height'),
-                    width=matching_face.get('face_rectangle').get('width'),
+                    confidence=original_response.get("confidence") / 100,
+                    bounding_box=FaceCompareBoundingBox(
+                        top=matching_face.get("face_rectangle").get("top"),
+                        left=matching_face.get("face_rectangle").get("left"),
+                        height=matching_face.get("face_rectangle").get("height"),
+                        width=matching_face.get("face_rectangle").get("width"),
+                    ),
                 )
-            ))
-        standardized_response = FaceCompareDataClass(items = faces)
+            )
+        standardized_response = FaceCompareDataClass(items=faces)
 
         return ResponseType[FaceCompareDataClass](
             original_response=original_response,

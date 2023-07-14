@@ -20,7 +20,9 @@ class SmartClickApi(ProviderInterface, ImageInterface):
     provider_name = "smartclick"
 
     def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.key = self.api_settings["key"]
         self.base_url = "https://r-api.starla.ai/"
         self.headers = {
@@ -29,9 +31,7 @@ class SmartClickApi(ProviderInterface, ImageInterface):
         }
 
     def image__logo_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[LogoDetectionDataClass]:
         url = f"{self.base_url}logo-detection"
 
@@ -61,10 +61,11 @@ class SmartClickApi(ProviderInterface, ImageInterface):
             items.append(
                 LogoItem(
                     bounding_poly=LogoBoundingPoly(vertices=vertices),
+                    description=None,
+                    score=None,
                 )
             )
         standardized = LogoDetectionDataClass(items=items)
         return ResponseType[LogoDetectionDataClass](
-            original_response=response.json(),
-            standardized_response=standardized
+            original_response=response.json(), standardized_response=standardized
         )

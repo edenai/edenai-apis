@@ -204,7 +204,8 @@
           "raw_input_location": null,
           "street": null,
           "street_number": null,
-          "appartment_number": null
+          "appartment_number": null,
+          "city": null
         },
         "self_summary": null,
         "objective": null,
@@ -217,7 +218,6 @@
         "urls": [],
         "fax": [],
         "current_profession": null,
-        "dateOfBirth": null,
         "gender": null,
         "nationality": null,
         "martial_status": null,
@@ -244,7 +244,8 @@
               "raw_input_location": null,
               "street": null,
               "street_number": null,
-              "appartment_number": null
+              "appartment_number": null,
+              "city": null
             },
             "description": null,
             "industry": null
@@ -263,7 +264,8 @@
               "raw_input_location": null,
               "street": null,
               "street_number": null,
-              "appartment_number": null
+              "appartment_number": null,
+              "city": null
             },
             "description": null,
             "industry": null
@@ -282,7 +284,8 @@
               "raw_input_location": null,
               "street": null,
               "street_number": null,
-              "appartment_number": null
+              "appartment_number": null,
+              "city": null
             },
             "description": null,
             "industry": "academia"

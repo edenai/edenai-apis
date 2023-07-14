@@ -11,15 +11,15 @@ from edenai_apis.utils.conversion import concatenate_params_in_url
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
-class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
 
+class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
     provider_name = "huggingface"
     base_url = "https://api-inference.huggingface.co/models"
 
     def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_key = load_provider(ProviderDataEnum.KEY, "huggingface", api_keys = api_keys)[
-            "api_key"
-        ]
+        self.api_key = load_provider(
+            ProviderDataEnum.KEY, "huggingface", api_keys=api_keys
+        )["api_key"]
 
         self.headers = {
             "Authorization": f"Bearer {self.api_key}",
@@ -29,7 +29,9 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
     def _post(self, url: str, inputs: dict):
         res = requests.post(url, headers=self.headers, json={"inputs": inputs})
         if res.status_code >= 500:
-            raise ProviderException(message='Internal Server Error', code=res.status_code)
+            raise ProviderException(
+                message="Internal Server Error", code=res.status_code
+            )
         return (res.status_code, res.json())
 
     def translation__automatic_translation(
@@ -51,7 +53,7 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
             url = concatenate_params_in_url(
                 url=f"{self.base_url}/{model_type}",
                 params=[source_language, target_language],
-                sep='-'
+                sep="-",
             )
             # url = format_string_url_language(
             #     f"{self.base_url}/{model_type}",
@@ -73,14 +75,12 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
 
             # Wait for model to load and _post again
             if "estimated_time" in response:
-                print('sleeping for {response["estimated_time"]}')
                 sleep(int(response["estimated_time"]) + 1)
                 status_code, response = self._post(url, text)
 
             break
 
         if isinstance(response, dict) and response.get("error"):
-            print(response["error"])
             raise ProviderException(response["error"])
 
         # Create output TextAutomaticTranslation object
@@ -89,17 +89,17 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
         # Getting translation
         result = response[0]
         if result["translation_text"] != "":
-            standardized = AutomaticTranslationDataClass(text=result["translation_text"])
+            standardized = AutomaticTranslationDataClass(
+                text=result["translation_text"]
+            )
 
         return ResponseType[AutomaticTranslationDataClass](
-            original_response=response,
-            standardized_response=standardized
+            original_response=response, standardized_response=standardized
         )
 
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str = None
     ) -> ResponseType[SummarizeDataClass]:
-
         """
         :param text:        String that contains input text
         :return:            String that contains output result
@@ -114,8 +114,7 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
         )
 
         return ResponseType[SummarizeDataClass](
-            original_response=response,
-            standardized_response=standardized_response
+            original_response=response, standardized_response=standardized_response
         )
 
     def text__question_answer(
@@ -137,15 +136,16 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
 
         url = f"{self.base_url}/deepset/roberta-base-squad2"
         # Create standardized response
-        status_code, response = self._post(url, {"question": question, "context": texts[0]})
+        status_code, response = self._post(
+            url, {"question": question, "context": texts[0]}
+        )
         if status_code != 200:
-            raise ProviderException(response.get('error'))
+            raise ProviderException(response.get("error"))
 
         data = response
 
         standardized_response = QuestionAnswerDataClass(answers=[data.get("answer")])
 
         return ResponseType[QuestionAnswerDataClass](
-            original_response=response,
-            standardized_response=standardized_response
+            original_response=response, standardized_response=standardized_response
         )

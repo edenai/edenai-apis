@@ -24,7 +24,9 @@ class TabscannerApi(ProviderInterface, OcrInterface):
     provider_name = "tabscanner"
 
     def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.api_key = self.api_settings["api_key"]
         self.url = "https://api.tabscanner.com/api/"
 
@@ -48,12 +50,8 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         return response
 
     def ocr__receipt_parser(
-        self, 
-        file: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
-
         file_ = open(file, "rb")
         token = self._process(file_, "receipt")
         sleep(1)
@@ -64,13 +62,13 @@ class TabscannerApi(ProviderInterface, OcrInterface):
             raise ProviderException(original_response["message"])
 
         receipt = original_response.get("result")
-        
+
         # Merchant information
         merchant_information = MerchantInformation(
-            merchant_name = receipt.get("establishment"),
-            merchant_address = receipt.get("address"),
-            merchant_phone = receipt.get("phoneNumber"),
-            merchant_url = receipt.get("url")
+            merchant_name=receipt.get("establishment"),
+            merchant_address=receipt.get("address"),
+            merchant_phone=receipt.get("phoneNumber"),
+            merchant_url=receipt.get("url"),
         )
         # Date & time
         date = receipt.get("date")
@@ -82,14 +80,14 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         ]
 
         # Local
-        locale = Locale(currecy = receipt.get("currency"))
+        locale = Locale(currecy=receipt.get("currency"))
         # Payment information
         payment_information = PaymentInformation(
-            card_type = str(receipt.get("paymentMethod")),
-            cash = str(receipt.get("cash")),
-            tip = str(receipt.get("tip")),
-            change = str(receipt.get("change")),
-            discount = str(receipt.get("discount"))
+            card_type=str(receipt.get("paymentMethod")),
+            cash=str(receipt.get("cash")),
+            tip=str(receipt.get("tip")),
+            change=str(receipt.get("change")),
+            discount=str(receipt.get("discount")),
         )
         # Total & subtotal
         subtotal = receipt.get("subTotal")
@@ -119,10 +117,10 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         ocr_receipt = InfosReceiptParserDataClass(
             invoice_subtotal=subtotal,
             invoice_total=total,
-            date = date,
+            date=date,
             merchant_information=merchant_information,
-            payment_information = payment_information,
-            barcodes = barcodes,
+            payment_information=payment_information,
+            barcodes=barcodes,
             locale=locale,
             receipt_infos=receipt_info,
             item_lines=list_items,

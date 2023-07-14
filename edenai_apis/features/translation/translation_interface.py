@@ -3,7 +3,9 @@ from abc import abstractmethod
 from edenai_apis.features.translation.automatic_translation.automatic_translation_dataclass import (
     AutomaticTranslationDataClass,
 )
-from edenai_apis.features.translation.document_translation import DocumentTranslationDataClass
+from edenai_apis.features.translation.document_translation import (
+    DocumentTranslationDataClass,
+)
 from edenai_apis.features.translation.language_detection.language_detection_dataclass import (
     LanguageDetectionDataClass,
 )

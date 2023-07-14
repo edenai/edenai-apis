@@ -18,36 +18,48 @@ from edenai_apis.interface import (
 from edenai_apis.utils.types import ResponseType
 
 
-
 VALID_PROVIDER = "amazon"
 VALID_FEATURE = "audio"
 VALID_SUBFEATURE = "text_to_speech"
 
 
 @pytest.mark.parametrize(
-    ('provider', 'feature', 'subfeature', 'phase'),
+    ("provider", "feature", "subfeature", "phase"),
     global_features(return_phase=True)["ungrouped_providers"],
 )
 class TestComputeOutput:
-    def test_output_fake(self, mocker: MockerFixture, provider, feature, subfeature, phase):
-        if phase == 'create_project':
+    def test_output_fake(
+        self, mocker: MockerFixture, provider, feature, subfeature, phase
+    ):
+        if phase == "create_project":
             pytest.skip("create_project is not supported in fake mode")
-        mocker.patch('edenai_apis.interface.validate_all_provider_constraints', return_value={})
-        mocker.patch('edenai_apis.interface.assert_equivalent_dict', return_value=True)
-        final_result = compute_output(provider, feature, subfeature, {}, fake=True, phase=phase)
-        assert final_result['provider'] == provider
+        mocker.patch(
+            "edenai_apis.interface.validate_all_provider_constraints", return_value={}
+        )
+        mocker.patch("edenai_apis.interface.assert_equivalent_dict", return_value=True)
+        final_result = compute_output(
+            provider, feature, subfeature, {}, fake=True, phase=phase
+        )
+        assert final_result["provider"] == provider
         assert final_result["status"] == "success"
 
+
 @pytest.mark.parametrize(
-    ('provider', 'feature', 'subfeature', 'phase'),
+    ("provider", "feature", "subfeature", "phase"),
     global_features(filter=only_async, return_phase=True)["ungrouped_providers"],
 )
 class TestGetAsyncJobResult:
-    def test_output_fake(self, mocker: MockerFixture, provider, feature, subfeature, phase):
-        mocker.patch('edenai_apis.interface.validate_all_provider_constraints', return_value={})
-        mocker.patch('edenai_apis.interface.assert_equivalent_dict', return_value=True)
-        final_result = compute_output(provider, feature, subfeature, {}, fake=True, phase=phase)
-        assert final_result['provider'] == provider
+    def test_output_fake(
+        self, mocker: MockerFixture, provider, feature, subfeature, phase
+    ):
+        mocker.patch(
+            "edenai_apis.interface.validate_all_provider_constraints", return_value={}
+        )
+        mocker.patch("edenai_apis.interface.assert_equivalent_dict", return_value=True)
+        final_result = compute_output(
+            provider, feature, subfeature, {}, fake=True, phase=phase
+        )
+        assert final_result["provider"] == provider
         assert final_result["status"] == "success"
 
 

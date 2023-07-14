@@ -56,7 +56,6 @@ class FaceLandmarks(BaseModel):
     upper_jawline_right: Sequence[float] = Field(default_factory=list)
     left_cheek_center: Sequence[float] = Field(default_factory=list)
     right_cheek_center: Sequence[float] = Field(default_factory=list)
-    # unknown: Sequence[float] = None
 
 
 class FaceEmotions(BaseModel):
@@ -72,6 +71,22 @@ class FaceEmotions(BaseModel):
     neutral: Optional[int]  # microsoft
     contempt: Optional[int]  # microsoft
 
+    @staticmethod
+    def default() -> "FaceEmotions":
+        return FaceEmotions(
+            joy=None,
+            sorrow=None,
+            anger=None,
+            surprise=None,
+            disgust=None,
+            fear=None,
+            confusion=None,
+            calm=None,
+            unknown=None,
+            neutral=None,
+            contempt=None,
+        )
+
 
 class FaceHairColor(BaseModel):
     color: StrictStr
@@ -81,13 +96,21 @@ class FaceHairColor(BaseModel):
 class FaceHair(BaseModel):
     hair_color: Sequence[FaceHairColor] = Field(default_factory=list)  # microsoft
     bald: Optional[float]  # microsoft
-    invisible: bool = None  # microsoft
+    invisible: Optional[bool]  # microsoft
+
+    @staticmethod
+    def default() -> "FaceHair":
+        return FaceHair(hair_color=[], bald=None, invisible=None)
 
 
 class FaceFacialHair(BaseModel):
     moustache: Optional[float]  # microsoft, amazon
     beard: Optional[float]  # microsoft, amazon
     sideburns: Optional[float]  # microsoft
+
+    @staticmethod
+    def default() -> "FaceFacialHair":
+        return FaceFacialHair(moustache=None, beard=None, sideburns=None)
 
 
 class FaceBoundingBox(BaseModel):
@@ -96,11 +119,24 @@ class FaceBoundingBox(BaseModel):
     y_min: Optional[float]
     y_max: Optional[float]
 
+    @staticmethod
+    def default() -> "FaceBoundingBox":
+        return FaceBoundingBox(
+            x_min=None,
+            x_max=None,
+            y_min=None,
+            y_max=None,
+        )
+
 
 class FacePoses(BaseModel):
     pitch: Optional[float]  # all
     roll: Optional[float]  # all
     yaw: Optional[float]  # all
+
+    @staticmethod
+    def default() -> "FacePoses":
+        return FacePoses(pitch=None, roll=None, yaw=None)
 
 
 class FaceQuality(BaseModel):
@@ -110,16 +146,34 @@ class FaceQuality(BaseModel):
     brightness: Optional[float]  # amazon
     sharpness: Optional[float]  # amazon
 
+    @staticmethod
+    def default() -> "FaceQuality":
+        return FaceQuality(
+            noise=None,
+            exposure=None,
+            blur=None,
+            brightness=None,
+            sharpness=None,
+        )
+
 
 class FaceMakeup(BaseModel):
-    eye_make: bool = None  # microsoft
-    lip_make: bool = None  # microsoft
+    eye_make: Optional[bool]  # microsoft
+    lip_make: Optional[bool]  # microsoft
+
+    @staticmethod
+    def default() -> "FaceMakeup":
+        return FaceMakeup(eye_make=None, lip_make=None)
 
 
 class FaceFeatures(BaseModel):
     eyes_open: Optional[float]  # amazon
     smile: Optional[float]  # amazon
     mouth_open: Optional[float]  # amazon
+
+    @staticmethod
+    def default() -> "FaceFeatures":
+        return FaceFeatures(eyes_open=None, smile=None, mouth_open=None)
 
 
 class FaceAccessories(BaseModel):
@@ -130,28 +184,47 @@ class FaceAccessories(BaseModel):
     eyeglasses: Optional[float]  # amazon
     headwear: Optional[float]  # google, microsoft
 
+    @staticmethod
+    def default() -> "FaceAccessories":
+        return FaceAccessories(
+            sunglasses=None,
+            reading_glasses=None,
+            swimming_goggles=None,
+            face_mask=None,
+            eyeglasses=None,
+            headwear=None,
+        )
+
 
 class FaceOcclusions(BaseModel):
-    eye_occluded: bool = None  # microsoft
-    forehead_occluded: bool = None  # microsoft
-    mouth_occluded: bool = None  # microsoft
+    eye_occluded: Optional[bool]  # microsoft
+    forehead_occluded: Optional[bool]  # microsoft
+    mouth_occluded: Optional[bool]  # microsoft
+
+    @staticmethod
+    def default() -> "FaceOcclusions":
+        return FaceOcclusions(
+            eye_occluded=None,
+            forehead_occluded=None,
+            mouth_occluded=None,
+        )
 
 
 class FaceItem(BaseModel):
     confidence: float
-    landmarks: FaceLandmarks = FaceLandmarks()
-    emotions: FaceEmotions = FaceEmotions()
-    poses: FacePoses = FacePoses()
+    landmarks: FaceLandmarks
+    emotions: FaceEmotions
+    poses: FacePoses
     age: Optional[float]
     gender: Optional[StrictStr]
-    bounding_box: FaceBoundingBox = FaceBoundingBox()
-    hair: FaceHair = FaceHair()
-    facial_hair: FaceFacialHair = FaceFacialHair()
-    quality: FaceQuality = FaceQuality()
-    makeup: FaceMakeup = FaceMakeup()
-    accessories: FaceAccessories = FaceAccessories()
-    occlusions: FaceOcclusions = FaceOcclusions()
-    features: FaceFeatures = FaceFeatures()
+    bounding_box: FaceBoundingBox
+    hair: FaceHair
+    facial_hair: FaceFacialHair
+    quality: FaceQuality
+    makeup: FaceMakeup
+    accessories: FaceAccessories
+    occlusions: FaceOcclusions
+    features: FaceFeatures
 
 
 class FaceDetectionDataClass(BaseModel):

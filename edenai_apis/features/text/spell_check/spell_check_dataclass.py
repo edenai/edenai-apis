@@ -16,6 +16,7 @@ class SuggestionItem(BaseModel):
     Returns:
         SuggestionItem: An instance of the SuggestionItem class.
     """
+
     suggestion: str
     score: Optional[float] = Field(ge=0, le=1)
 
@@ -26,7 +27,7 @@ class SpellCheckItem(BaseModel):
 
     Args:
         text (str): The text to spell check.
-        type (str): The type of the text.
+        type (str, optional): The type of the text.
         offset (int): The offset of the text.
         length (int): The length of the text.
         suggestions (Sequence[SuggestionItem], optional): The list of suggestions for the misspelled text.
@@ -37,8 +38,9 @@ class SpellCheckItem(BaseModel):
     Returns:
         SpellCheckItem: An instance of the SpellCheckItem class.
     """
+
     text: str
-    type: str
+    type: Optional[str]
     offset: int = Field(ge=0)
     length: int = Field(ge=0)
     suggestions: Sequence[SuggestionItem] = Field(default_factory=list)
@@ -55,5 +57,6 @@ class SpellCheckDataClass(BaseModel):
     Returns:
         SpellCheckDataClass: An instance of the SpellCheckDataClass class.
     """
+
     text: str
     items: Sequence[SpellCheckItem] = Field(default_factory=list)

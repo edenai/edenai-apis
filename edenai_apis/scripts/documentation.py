@@ -24,9 +24,9 @@ def format_feature_list_to_feature_dict(feature_list: ProviderList):
     return feature_dict
 
 
-
-
-def dict_to_markdown_table(provider_feature_dict: ProviderDict, first_header, second_header) -> str:
+def dict_to_markdown_table(
+    provider_feature_dict: ProviderDict, first_header, second_header
+) -> str:
     """convert dict of providers or features to a markdown table
 
     Listing providers, then features as subcategory
@@ -46,17 +46,14 @@ def dict_to_markdown_table(provider_feature_dict: ProviderDict, first_header, se
                     table += f"| **{category}** | {subcategory} |\n"
                 else:
                     table += f"| | {subcategory} |\n"
-        text += (
-            f"<details><summary>{header}</summary>\n"
-            f"{table}\n"
-            "</details>\n"
-        )
+        text += f"<details><summary>{header}</summary>\n" f"{table}\n" "</details>\n"
     return text
+
 
 def main():
     """write outputs to a markdown file"""
     MARKDOWN_FILE_NAME = "AVAILABLES_FEATURES_AND_PROVIDERS.md"
-    path = os.path.join(base_path, '..', MARKDOWN_FILE_NAME)
+    path = os.path.join(base_path, "..", MARKDOWN_FILE_NAME)
     print(f"=== Generating {MARKDOWN_FILE_NAME} ===")
     with open(path, "w") as doc:
         doc.write("")  # emtpy file
@@ -64,13 +61,14 @@ def main():
     with open(path, "a+") as doc:
         feature_dict = format_feature_list_to_feature_dict(list_features())
         doc.write("# Available Features:\n")
-        doc.write(dict_to_markdown_table(feature_dict, 'Subfeatures', 'Providers'))
+        doc.write(dict_to_markdown_table(feature_dict, "Subfeatures", "Providers"))
 
         doc.write("\n\n")
 
         provider_dict = list_features(as_dict=True)
         doc.write("# Available Providers:\n")
-        doc.write(dict_to_markdown_table(provider_dict, 'Features', 'Subfeatures'))
+        doc.write(dict_to_markdown_table(provider_dict, "Features", "Subfeatures"))
+
 
 if __name__ == "__main__":
     main()

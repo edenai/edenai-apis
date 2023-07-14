@@ -86,15 +86,12 @@ class MicrosoftTextApi(TextInterface):
         if not response.ok:
             try:
                 data = response.json()
-                raise ProviderException(data['error']['innererror']['message'])
+                raise ProviderException(data["error"]["innererror"]["message"])
             except:
                 raise ProviderException(response.text)
 
-
         data = response.json()
         self._check_microsoft_error(data)
-
-        print("The data is ", data)
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
         for ent in data["results"]["documents"][0]["entities"]:
@@ -208,7 +205,6 @@ class MicrosoftTextApi(TextInterface):
 
         original_response = response.json()
         if response.status_code != 200:
-            print(response.status_code, response.text)
             raise ProviderException(original_response, response.status_code)
 
         entities: Sequence[AnonymizationEntity] = []
@@ -351,7 +347,9 @@ class MicrosoftTextApi(TextInterface):
 
         items: Sequence[InfosKeywordExtractionDataClass] = []
         for key_phrase in data["results"]["documents"][0]["keyPhrases"]:
-            items.append(InfosKeywordExtractionDataClass(keyword=key_phrase))
+            items.append(
+                InfosKeywordExtractionDataClass(keyword=key_phrase, importance=None)
+            )
 
         standardized_response = KeywordExtractionDataClass(items=items)
 

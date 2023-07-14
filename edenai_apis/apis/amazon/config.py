@@ -1,7 +1,8 @@
 import boto3
 from typing import Dict
 
-def clients(api_settings : Dict) -> Dict:
+
+def clients(api_settings: Dict) -> Dict:
     return {
         "speech": boto3.client(
             "transcribe",
@@ -58,35 +59,38 @@ def clients(api_settings : Dict) -> Dict:
             aws_secret_access_key=api_settings["aws_secret_access_key"],
         ),
     }
+
+
 def storage_clients(api_settings: Dict) -> Dict:
     return {
-    "speech": boto3.resource(
-        "s3",
-        region_name=api_settings["region_name"],
-        aws_access_key_id=api_settings["aws_access_key_id"],
-        aws_secret_access_key=api_settings["aws_secret_access_key"],
-    ),
-    "textract": boto3.resource(
-        "s3",
-        region_name=api_settings["region_name"],
-        aws_access_key_id=api_settings["aws_access_key_id"],
-        aws_secret_access_key=api_settings["aws_secret_access_key"],
-    ),
-    "text_classification": boto3.resource(
-        "s3",
-        region_name=api_settings["region_name"],
-        aws_access_key_id=api_settings["aws_access_key_id"],
-        aws_secret_access_key=api_settings["aws_secret_access_key"],
-    ),
-    "image": None,
-    "text": None,
-    "video": boto3.resource(
-        "s3",
-        region_name=api_settings["video-region"],
-        aws_access_key_id=api_settings["aws_access_key_id"],
-        aws_secret_access_key=api_settings["aws_secret_access_key"],
-    ),
+        "speech": boto3.resource(
+            "s3",
+            region_name=api_settings["region_name"],
+            aws_access_key_id=api_settings["aws_access_key_id"],
+            aws_secret_access_key=api_settings["aws_secret_access_key"],
+        ),
+        "textract": boto3.resource(
+            "s3",
+            region_name=api_settings["region_name"],
+            aws_access_key_id=api_settings["aws_access_key_id"],
+            aws_secret_access_key=api_settings["aws_secret_access_key"],
+        ),
+        "text_classification": boto3.resource(
+            "s3",
+            region_name=api_settings["region_name"],
+            aws_access_key_id=api_settings["aws_access_key_id"],
+            aws_secret_access_key=api_settings["aws_secret_access_key"],
+        ),
+        "image": None,
+        "text": None,
+        "video": boto3.resource(
+            "s3",
+            region_name=api_settings["video-region"],
+            aws_access_key_id=api_settings["aws_access_key_id"],
+            aws_secret_access_key=api_settings["aws_secret_access_key"],
+        ),
     }
+
 
 audio_voices_ids = {
     "arb": {"FEMALE": "Zeina", "MALE": ""},

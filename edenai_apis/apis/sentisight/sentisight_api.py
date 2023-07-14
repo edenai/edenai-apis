@@ -28,7 +28,11 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import add_query_param_in_url
 from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.types import ResponseType, ResponseSuccess
-from .sentisight_helpers import calculate_bounding_box, get_formatted_language, handle_error_image_search
+from .sentisight_helpers import (
+    calculate_bounding_box,
+    get_formatted_language,
+    handle_error_image_search,
+)
 
 
 class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
@@ -36,11 +40,11 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
 
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.key = self.api_settings["auth-token"]
         self.base_url = "https://platform.sentisight.ai/api/pm-predict/"
-        self.headers = {"X-Auth-token": self.key,
-                        "Content-Type": "application/json"}
+        self.headers = {"X-Auth-token": self.key, "Content-Type": "application/json"}
 
     def ocr__ocr(
         self,
@@ -55,8 +59,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
 
         file_ = open(file, "rb")
         response = requests.post(
-            url=add_query_param_in_url(
-                url, {"lang": get_formatted_language(language)}),
+            url=add_query_param_in_url(url, {"lang": get_formatted_language(language)}),
             headers={
                 "accept": "*/*",
                 "X-Auth-token": self.key,
@@ -79,8 +82,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
                 text = item["label"]
             else:
                 text = text + " " + item["label"]
-            bounding_box = calculate_bounding_box(
-                item["points"], width, height)
+            bounding_box = calculate_bounding_box(item["points"], width, height)
             bounding_boxes.append(
                 Bounding_box(
                     text=item["label"],
@@ -101,12 +103,8 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         return result
 
     def image__object_detection(
-        self,
-        file: str,
-        model: str = None,
-        file_url: str = ""
+        self, file: str, model: str = None, file_url: str = ""
     ) -> ResponseType[ObjectDetectionDataClass]:
-
         file_ = open(file, "rb")
         response = requests.post(
             self.base_url + "Object-detection",
@@ -146,9 +144,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         return result
 
     def image__explicit_content(
-        self,
-        file: str,
-        file_url: str = ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
         file_ = open(file, "rb")
         response = requests.post(
@@ -170,16 +166,15 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             ExplicitItem(
                 label="nudity",
                 likelihood=round(
-                    [x for x in original_response if x["label"]
-                        == "unsafe"][0]["score"]
+                    [x for x in original_response if x["label"] == "unsafe"][0]["score"]
                     / 20
                 ),
             )
         )
-        nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(
-            items)
+        nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
         standardized_response = ExplicitContentDataClass(
-            items=items, nsfw_likelihood=nsfw_likelihood)
+            items=items, nsfw_likelihood=nsfw_likelihood
+        )
 
         result = ResponseType[ExplicitContentDataClass](
             original_response=original_response,
@@ -209,11 +204,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         return project_id
 
     def image__search__upload_image(
-        self,
-        file: str,
-        image_name: str,
-        project_id: str,
-        file_url: str = ""
+        self, file: str, image_name: str, project_id: str, file_url: str = ""
     ) -> ResponseSuccess:
         upload_project_url = (
             "https://platform.sentisight.ai/api/image/"
@@ -241,13 +232,11 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
     def image__search__delete_image(
         self, image_name: str, project_id: str
     ) -> ResponseSuccess:
-
         delete_project_url = (
             f"https://platform.sentisight.ai/api/image/{project_id}/{image_name}/"
         )
 
-        response = requests.delete(
-            delete_project_url, headers=self.headers, data={})
+        response = requests.delete(delete_project_url, headers=self.headers, data={})
 
         if response.status_code != 200:
             handle_error_image_search(response)
@@ -292,15 +281,11 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         image = SearchGetImageDataClass(image=image_b64)
         # Return the image as bytes
         return ResponseType[SearchGetImageDataClass](
-            original_response=response.content,
-            standardized_response=image
+            original_response=response.content, standardized_response=image
         )
 
     def image__search__launch_similarity(
-        self,
-        file: str,
-        project_id: str,
-        file_url: str = ""
+        self, file: str, project_id: str, file_url: str = ""
     ) -> ResponseType[SearchDataClass]:
         search_project_url = (
             "https://platform.sentisight.ai/api/similarity"
@@ -324,8 +309,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
 
         items = []
         for image in response.json():
-            items.append(
-                ImageItem(image_name=image["image"], score=image["score"]))
+            items.append(ImageItem(image_name=image["image"], score=image["score"]))
         standardized_response = SearchDataClass(items=items)
         result = ResponseType[SearchDataClass](
             original_response=response.json(),

@@ -17,8 +17,12 @@ from edenai_apis.features.image.face_recognition.add_face.face_recognition_add_f
 from edenai_apis.features.image.face_recognition.create_collection.face_recognition_create_collection_dataclass import (
     FaceRecognitionCreateCollectionDataClass,
 )
-from edenai_apis.features.image.face_recognition.delete_collection.face_recognition_delete_collection_dataclass import FaceRecognitionDeleteCollectionDataClass
-from edenai_apis.features.image.face_recognition.delete_face.face_recognition_delete_face_dataclass import FaceRecognitionDeleteFaceDataClass
+from edenai_apis.features.image.face_recognition.delete_collection.face_recognition_delete_collection_dataclass import (
+    FaceRecognitionDeleteCollectionDataClass,
+)
+from edenai_apis.features.image.face_recognition.delete_face.face_recognition_delete_face_dataclass import (
+    FaceRecognitionDeleteFaceDataClass,
+)
 from edenai_apis.features.image.face_recognition.recognize.face_recognition_recognize_dataclass import (
     FaceRecognitionRecognizeDataClass,
 )
@@ -51,10 +55,10 @@ from edenai_apis.features.image.search.upload_image.search_upload_image_dataclas
     SearchUploadImageDataClass,
 )
 from edenai_apis.features.image.generation.generation_dataclass import (
-    GenerationDataClass
+    GenerationDataClass,
 )
 from edenai_apis.features.image.face_compare.face_compare_dataclass import (
-    FaceCompareDataClass
+    FaceCompareDataClass,
 )
 from edenai_apis.utils.types import ResponseType
 
@@ -74,9 +78,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__explicit_content(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
         """
         Detect explicit content in an image
@@ -88,9 +90,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__face_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[FaceDetectionDataClass]:
         """
         Detect faces in an image
@@ -102,9 +102,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__landmark_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[LandmarkDetectionDataClass]:
         """
         Detect popular landmark in an image
@@ -117,9 +115,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__logo_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[LogoDetectionDataClass]:
         """
         Detect Logo in an image
@@ -131,9 +127,9 @@ class ImageInterface:
 
     @abstractmethod
     def image__object_detection(
-        self, 
+        self,
         file: str,
-        file_url: str= "",
+        file_url: str = "",
         model: str = None,
     ) -> ResponseType[ObjectDetectionDataClass]:
         """
@@ -157,11 +153,7 @@ class ImageInterface:
     ## TO DO better response types for image search
     @abstractmethod
     def image__search__upload_image(
-        self, 
-        file: str, 
-        image_name: str, 
-        project_id: str,
-        file_url: str= ""
+        self, file: str, image_name: str, project_id: str, file_url: str = ""
     ) -> SearchUploadImageDataClass:
         """
         Upload image for an image search project
@@ -213,10 +205,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__search__launch_similarity(
-        self, 
-        file: str,
-        project_id: str,
-        file_url: str= ""
+        self, file: str, project_id: str, file_url: str = ""
     ) -> ResponseType[SearchDataClass]:
         """
         Launch similarity analysis of a search image project
@@ -261,7 +250,9 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
-    def image__face_recognition__delete_collection(self, collection_id: str) -> ResponseType[FaceRecognitionDeleteCollectionDataClass]:
+    def image__face_recognition__delete_collection(
+        self, collection_id: str
+    ) -> ResponseType[FaceRecognitionDeleteCollectionDataClass]:
         """
         Delete a Face Collection
 
@@ -272,10 +263,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__face_recognition__add_face(
-        self, 
-        collection_id: str, 
-        file: str,
-        file_url: str= ""
+        self, collection_id: str, file: str, file_url: str = ""
     ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
         """
         Detect and add a face to a collection from an image
@@ -287,7 +275,9 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
-    def image__face_recognition__delete_face(self, collection_id, face_id) -> ResponseType[FaceRecognitionDeleteFaceDataClass]:
+    def image__face_recognition__delete_face(
+        self, collection_id, face_id
+    ) -> ResponseType[FaceRecognitionDeleteFaceDataClass]:
         """
         Delete a face from collection
 
@@ -299,10 +289,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__face_recognition__recognize(
-        self, 
-        collection_id: str, 
-        file: str,
-        file_url: str= ""
+        self, collection_id: str, file: str, file_url: str = ""
     ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         """
         Detect the biggers face from image and try
@@ -318,8 +305,8 @@ class ImageInterface:
     def image__generation(
         self,
         text: str,
-        resolution: Literal["256x256", "512x512","1024x1024"], 
-        num_images : int = 1
+        resolution: Literal["256x256", "512x512", "1024x1024"],
+        num_images: int = 1,
     ) -> ResponseType[GenerationDataClass]:
         """
         Generate an image based on a text prompt.
@@ -328,7 +315,7 @@ class ImageInterface:
             text(str): prompt of the image to generate
         """
         raise NotImplementedError
-    
+
     @abstractmethod
     def image__face_compare(
         self,

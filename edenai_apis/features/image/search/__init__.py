@@ -1,7 +1,4 @@
-from .search_dataclass import (
-    SearchDataClass,
-    ImageItem
-)
+from .search_dataclass import SearchDataClass, ImageItem
 from .delete_image.search_delete_image_args import search_delete_image_arguments
 from .upload_image.search_upload_image_args import search_upload_image_arguments
 from .get_image.search_get_image_args import search_get_image_arguments

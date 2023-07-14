@@ -11,8 +11,10 @@ from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.languages import provide_appropriate_language
 
 VOICE_EXCEPTION_MESSAGE = "Wrong voice id"
-SSML_TAG_EXCEPTION_MESSAGE = ("Remove audio attributes 'rate, pitch or volume' to be able to use ssml tags, or "
-                                    "add them manually using tags.")
+SSML_TAG_EXCEPTION_MESSAGE = (
+    "Remove audio attributes 'rate, pitch or volume' to be able to use ssml tags, or "
+    "add them manually using tags."
+)
 
 AUDIO_FILE_FORMAT = [
     "wav",
@@ -25,6 +27,7 @@ AUDIO_FILE_FORMAT = [
     "aac",
     "m4a",
 ]
+
 
 def audio_converter(
     audio_file: BufferedReader,
@@ -64,9 +67,12 @@ def audio_converter(
         audio_out.channels,
     )
 
+
 def get_audio_attributes(audio_file: BufferedReader):
     file_features = mediainfo(audio_file.name)
-    return int(file_features.get("channels", "1")), int(file_features.get("sample_rate", "44100"))
+    return int(file_features.get("channels", "1")), int(
+        file_features.get("sample_rate", "44100")
+    )
 
 
 def audio_format(audio_file_path: str, extensions: List[str]):
@@ -91,16 +97,17 @@ def supported_extension(file: FileWrapper, accepted_extensions: List[str]):
         return False, "nop"
     return False, "nop"
 
+
 def __channel_number_to_str(channel_number):
     if channel_number == 1:
         return "Mono"
     return "Stereo"
 
+
 def get_file_extension(
-    file: FileWrapper,
-    accepted_extensions: List[str],
-    channels: int= None) -> str:
-    """ Checks whether or not the extension of the audio file is within the list of accepted extensions,
+    file: FileWrapper, accepted_extensions: List[str], channels: int = None
+) -> str:
+    """Checks whether or not the extension of the audio file is within the list of accepted extensions,
     otherwise, it raise a Provider Exception for the format used
 
     Args:
@@ -114,15 +121,20 @@ def get_file_extension(
     accepted_format, export_format = supported_extension(file, accepted_extensions)
 
     if not accepted_format:
-        raise ProviderException(f"File extension not supported. Use one of the following extensions: {', '.join(accepted_extensions)}")
+        raise ProviderException(
+            f"File extension not supported. Use one of the following extensions: {', '.join(accepted_extensions)}"
+        )
 
     if channels and channels != int(file.file_info.file_channels):
-        raise ProviderException(f"File audio must be {__channel_number_to_str(channels)}")
+        raise ProviderException(
+            f"File audio must be {__channel_number_to_str(channels)}"
+        )
 
     return export_format
 
 
-#******Text_to_Speech******#
+# ******Text_to_Speech******#
+
 
 def __confirm_appropriate_language(language: str, provider: str):
     if not language:
@@ -140,26 +152,33 @@ def __confirm_appropriate_language(language: str, provider: str):
         return []
     return formated_language
 
+
 def __get_voices_from_constrains(constraints: Dict, language: str, gender: str):
     if isinstance(language, list):
         return []
     voices = {
         "MALE": constraints["voice_ids"]["MALE"],
-        "FEMALE": constraints["voice_ids"]["FEMALE"]
+        "FEMALE": constraints["voice_ids"]["FEMALE"],
     }
     if language:
         voices = {
-            "MALE": list(filter(lambda voice: voice.startswith(language), voices["MALE"])),
-            "FEMALE": list(filter(lambda voice: voice.startswith(language), voices["FEMALE"]))
+            "MALE": list(
+                filter(lambda voice: voice.startswith(language), voices["MALE"])
+            ),
+            "FEMALE": list(
+                filter(lambda voice: voice.startswith(language), voices["FEMALE"])
+            ),
         }
     if gender:
-        voices = voices["MALE"] if gender.upper() == "MALE" else \
-                                voices["FEMALE"]
+        voices = voices["MALE"] if gender.upper() == "MALE" else voices["FEMALE"]
     return voices
+
 
 def __get_provider_tts_constraints(provider):
     try:
-        provider_info = load_provider(ProviderDataEnum.PROVIDER_INFO, provider, "audio", "text_to_speech")
+        provider_info = load_provider(
+            ProviderDataEnum.PROVIDER_INFO, provider, "audio", "text_to_speech"
+        )
         if constrains := provider_info.get("constraints"):
             return constrains
     except:
@@ -169,7 +188,7 @@ def __get_provider_tts_constraints(provider):
 
 def __has_voice_in_contrains(contraints: Dict, voice: str):
     all_voices = contraints["voice_ids"]["MALE"] + contraints["voice_ids"]["FEMALE"]
-    return (voice in all_voices)
+    return voice in all_voices
 
 
 def get_voices(language: str, gender: str, providers: List[str]) -> Dict[str, List]:
@@ -188,13 +207,19 @@ def get_voices(language: str, gender: str, providers: List[str]) -> Dict[str, Li
         constrains = __get_provider_tts_constraints(provider)
         if constrains:
             formtatted_language = __confirm_appropriate_language(language, provider)
-            voices.update({
-                provider: __get_voices_from_constrains(constrains, formtatted_language, gender)
-            })
+            voices.update(
+                {
+                    provider: __get_voices_from_constrains(
+                        constrains, formtatted_language, gender
+                    )
+                }
+            )
     return voices
 
 
-def retreive_voice_id(provider_name, language: str, option: str, settings: Dict = {}) -> str:
+def retreive_voice_id(
+    provider_name, language: str, option: str, settings: Dict = {}
+) -> str:
     """Retreives a voice id for text_to_speech methods depending on the settings parameters if a voice_id is \
         specified, otherwise depening on the language and the gender
 
@@ -237,10 +262,3 @@ def validate_audio_attribute_against_ssml_tags_use(text, rate, pitch, volume):
         if any((rate, pitch, volume)):
             raise ProviderException(SSML_TAG_EXCEPTION_MESSAGE)
         return True
-    
-
-
-
-
-
-

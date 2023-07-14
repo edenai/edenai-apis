@@ -11,44 +11,51 @@ from edenai_apis.features.image.search.get_images import SearchGetImagesDataClas
 from edenai_apis.features.image.search.get_image import SearchGetImageDataClass
 from edenai_apis.features.image.search import SearchDataClass
 from edenai_apis.utils.exception import ProviderException
- 
 
 
-image_search_providers = list_providers(feature='image', subfeature='search')
+image_search_providers = list_providers(feature="image", subfeature="search")
 
-@pytest.mark.skipif(os.environ.get("TEST_SCOPE") == 'CICD-OPENSOURCE', reason="Skip in opensource package cicd workflow")
+
+@pytest.mark.skipif(
+    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
+    reason="Skip in opensource package cicd workflow",
+)
 @pytest.mark.parametrize(("provider"), image_search_providers)
 class TestImageSearch:
     def test_upload_image(self, provider):
         # Setup
         feature_args = load_feature(
             FeatureDataEnum.SAMPLES_ARGS,
-            feature='image',
-            subfeature='search',
-            phase='upload_image')
-        feature_args = validate_all_provider_constraints(provider, 'image', 'search', 'upload_image', feature_args)
+            feature="image",
+            subfeature="search",
+            phase="upload_image",
+        )
+        feature_args = validate_all_provider_constraints(
+            provider, "image", "search", "upload_image", feature_args
+        )
         try:
             upload_image_method = Image.search__upload_image(provider)
         except AttributeError:
-            raise('Could not import upload image phase.')
+            raise ("Could not import upload image phase.")
 
         # Actions
-        upload_output = upload_image_method(**feature_args).dict()
+        upload_output = upload_image_method(**feature_args).model_dump()
 
         # Assert
-        assert upload_output.get('status') == "success", "Upload phase failed"
- 
+        assert upload_output.get("status") == "success", "Upload phase failed"
+
     def test_get_all_images(self, provider):
         # Setup
         feature_args = load_feature(
             FeatureDataEnum.SAMPLES_ARGS,
-            feature='image',
-            subfeature='search',
-            phase='get_images')
+            feature="image",
+            subfeature="search",
+            phase="get_images",
+        )
         try:
             get_images_method = Image.search__get_images(provider)
         except AttributeError:
-            raise('Could not import get images phase.')
+            raise ("Could not import get images phase.")
 
         # Actions
         get_images_output = get_images_method(**feature_args)
@@ -56,21 +63,26 @@ class TestImageSearch:
         standardized_response = get_images_output.standardized_response
 
         # Assert
-        assert isinstance(get_images_output, ResponseType), f"Expected ResponseType but got {type(get_images_output)}"
-        assert isinstance(standardized_response, SearchGetImagesDataClass), f"Expected SearchGetImagesDataClass but got {type(standardized_response)}"
+        assert isinstance(
+            get_images_output, ResponseType
+        ), f"Expected ResponseType but got {type(get_images_output)}"
+        assert isinstance(
+            standardized_response, SearchGetImagesDataClass
+        ), f"Expected SearchGetImagesDataClass but got {type(standardized_response)}"
         assert original_response is not None
 
     def test_get_image(self, provider):
         # Setup
         feature_args = load_feature(
             FeatureDataEnum.SAMPLES_ARGS,
-            feature='image',
-            subfeature='search',
-            phase='get_image')
+            feature="image",
+            subfeature="search",
+            phase="get_image",
+        )
         try:
             get_image_method = Image.search__get_image(provider)
         except AttributeError:
-            raise('Could not import get image phase.')
+            raise ("Could not import get image phase.")
 
         # Actions
         get_image_output = get_image_method(**feature_args)
@@ -78,38 +90,48 @@ class TestImageSearch:
         standardized_response = get_image_output.standardized_response
 
         # Assert
-        assert isinstance(get_image_output, ResponseType), f"Expected ResponseType but got {type(get_image_output)}"
-        assert isinstance(standardized_response, SearchGetImageDataClass), f"Expected SearchGetImageDataClass but got {type(standardized_response)}"
-        assert original_response is not None, 'Original response should not be empty.'
+        assert isinstance(
+            get_image_output, ResponseType
+        ), f"Expected ResponseType but got {type(get_image_output)}"
+        assert isinstance(
+            standardized_response, SearchGetImageDataClass
+        ), f"Expected SearchGetImageDataClass but got {type(standardized_response)}"
+        assert original_response is not None, "Original response should not be empty."
 
     def test_get_image_does_not_exist(self, provider):
-        # Setup : prepare a non-existent image 
-        invalid_image = 'image-not-exist.jpg'
+        # Setup : prepare a non-existent image
+        invalid_image = "image-not-exist.jpg"
         feature_args = load_feature(
             FeatureDataEnum.SAMPLES_ARGS,
-            feature='image',
-            subfeature='search',
-            phase='get_image')
-        feature_args['image_name'] = invalid_image
+            feature="image",
+            subfeature="search",
+            phase="get_image",
+        )
+        feature_args["image_name"] = invalid_image
         get_image_method = Image.search__get_image(provider)
 
         # Action and Assert
         with pytest.raises(ProviderException) as exc:
             api_output = get_image_method(**feature_args)
-            assert exc is not None, 'ProviderException expected but got an empty Exception.'
+            assert (
+                exc is not None
+            ), "ProviderException expected but got an empty Exception."
 
     def test_launch_similarity_api_call(self, provider):
         # Setup
         feature_args = load_feature(
             FeatureDataEnum.SAMPLES_ARGS,
-            feature='image',
-            subfeature='search',
-            phase='launch_similarity')
-        feature_args = validate_all_provider_constraints(provider, 'image', 'search', 'upload_image', feature_args)
+            feature="image",
+            subfeature="search",
+            phase="launch_similarity",
+        )
+        feature_args = validate_all_provider_constraints(
+            provider, "image", "search", "upload_image", feature_args
+        )
         try:
             launch_similarity_method = Image.search__launch_similarity(provider)
         except AttributeError:
-            raise('Could not import launch similarity phase.')
+            raise ("Could not import launch similarity phase.")
 
         # Actions
         launch_similarity_output = launch_similarity_method(**feature_args)
@@ -117,21 +139,27 @@ class TestImageSearch:
         standardized_response = launch_similarity_output.standardized_response
 
         # Assert
-        assert isinstance(launch_similarity_output, ResponseType), f"Expected ResponseType but got {type(launch_similarity_output)}"
-        assert isinstance(standardized_response, SearchDataClass), f"Expected SearchDataClass but got {type(standardized_response)}"
+        assert isinstance(
+            launch_similarity_output, ResponseType
+        ), f"Expected ResponseType but got {type(launch_similarity_output)}"
+        assert isinstance(
+            standardized_response, SearchDataClass
+        ), f"Expected SearchDataClass but got {type(standardized_response)}"
         assert original_response is not None
 
     def test_launch_similarity_saved_output(self, provider):
         # Setup
         saved_output = load_provider(
-            ProviderDataEnum.OUTPUT, provider, 'image', 'search', 'launch_similarity'
+            ProviderDataEnum.OUTPUT, provider, "image", "search", "launch_similarity"
         )
 
         # Actions
-        standardized = compare_responses(feature = 'image',
-                                         subfeature = 'search',
-                                         phase = 'launch_similarity',
-                                         response = saved_output['standardized_response'])
+        standardized = compare_responses(
+            feature="image",
+            subfeature="search",
+            phase="launch_similarity",
+            response=saved_output["standardized_response"],
+        )
 
         # Assert
-        assert standardized, 'The output is not standardized'
+        assert standardized, "The output is not standardized"

@@ -10,12 +10,10 @@ from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.languages import (
     LanguageErrorMessage,
     provide_appropriate_language,
-    load_standardized_language
+    load_standardized_language,
 )
-from edenai_apis.utils.resolutions import (
-    provider_appropriate_resolution
+from edenai_apis.utils.resolutions import provider_appropriate_resolution
 
-)
 
 def validate_input_file_extension(constraints: dict, args: dict) -> dict:
     """Check that a provider offers support for the input file extension for speech to text
@@ -31,7 +29,9 @@ def validate_input_file_extension(constraints: dict, args: dict) -> dict:
         - `ProviderException`: if file extension is not supported or in the provider requires a certain number of audio channels
     """
 
-    provider_file_extensions_constraints: List[str] = constraints.get("file_extensions", [])
+    provider_file_extensions_constraints: List[str] = constraints.get(
+        "file_extensions", []
+    )
 
     input_file: Optional[FileWrapper] = args.get("file")
 
@@ -43,27 +43,29 @@ def validate_input_file_extension(constraints: dict, args: dict) -> dict:
     args["audio_attributes"] = (export_format, channels, frame_rate)
     return args
 
-def validate_resolution(constraints : dict, args: dict) -> dict: 
+
+def validate_resolution(constraints: dict, args: dict) -> dict:
     supported_resolutions: List[str] = constraints.get("resolutions", [])
 
-    if not args.get('resolution') or not supported_resolutions:
+    if not args.get("resolution") or not supported_resolutions:
         return args
     try:
-        resolution = provider_appropriate_resolution(args['resolution'])
+        resolution = provider_appropriate_resolution(args["resolution"])
     except SyntaxError as exc:
         raise ProviderException(exc)
-    
-    data = resolution.split('x')
-    if len(data) != 2 :
-        raise ProviderException(
-             f"Invalid resolution format :`{args['resolution']}`."
-        )
-        
+
+    data = resolution.split("x")
+    if len(data) != 2:
+        raise ProviderException(f"Invalid resolution format :`{args['resolution']}`.")
+
     if resolution not in supported_resolutions:
-        raise ProviderException(f"Resolution not supported by the provider. Use one of the following resolutions: {','.join(supported_resolutions)}")
-    
-    args['resolution'] = resolution
+        raise ProviderException(
+            f"Resolution not supported by the provider. Use one of the following resolutions: {','.join(supported_resolutions)}"
+        )
+
+    args["resolution"] = resolution
     return args
+
 
 def validate_input_file_type(constraints: dict, provider: str, args: dict) -> dict:
     """Check that a provider offers support for the input file type
@@ -136,36 +138,46 @@ def validate_single_language(
     """
 
     # if user specifies the auto-detect language
-    if language['value'] and language['value'].lower() == "auto-detect":
-        language['value'] = None
+    if language["value"] and language["value"].lower() == "auto-detect":
+        language["value"] = None
 
-    if not language['value']:
+    if not language["value"]:
         if null_language_accepted is True:
-            return language['value']
+            return language["value"]
         else:
-            raise ProviderException(LanguageErrorMessage.LANGUAGE_REQUIRED(language['key']))
+            raise ProviderException(
+                LanguageErrorMessage.LANGUAGE_REQUIRED(language["key"])
+            )
 
     try:
         formated_language = provide_appropriate_language(
-            language['value'],
+            language["value"],
             provider_name=provider_name,
             feature=feature,
             subfeature=subfeature,
         )
     except SyntaxError as exc:
-        raise ProviderException(LanguageErrorMessage.LANGUAGE_SYNTAX_ERROR(language['value']))
+        raise ProviderException(
+            LanguageErrorMessage.LANGUAGE_SYNTAX_ERROR(language["value"])
+        )
 
     if null_language_accepted is False:
         if formated_language is None:
-            if "-" in language['value']:
-                supported_languages = load_standardized_language(feature, subfeature, [provider_name])
-                suggested_language = language['value'].split("-")[0]
+            if "-" in language["value"]:
+                supported_languages = load_standardized_language(
+                    feature, subfeature, [provider_name]
+                )
+                suggested_language = language["value"].split("-")[0]
                 if suggested_language in supported_languages:
                     raise ProviderException(
-                        LanguageErrorMessage.LANGUAGE_GENERIQUE_REQUESTED(language['value'], suggested_language, language['key'])
+                        LanguageErrorMessage.LANGUAGE_GENERIQUE_REQUESTED(
+                            language["value"], suggested_language, language["key"]
+                        )
                     )
             raise ProviderException(
-                LanguageErrorMessage.LANGUAGE_NOT_SUPPORTED(language['value'], language['key'])
+                LanguageErrorMessage.LANGUAGE_NOT_SUPPORTED(
+                    language["value"], language["key"]
+                )
             )
 
     return formated_language
@@ -191,61 +203,75 @@ def validate_all_input_languages(
     """
 
     # Skip language checking for text_to_speech if settings are passed, execpt for google
-    if subfeature == "text_to_speech" and provider_name in (args.get("settings", {}) or {}) and provider_name != "google":
+    if (
+        subfeature == "text_to_speech"
+        and provider_name in (args.get("settings", {}) or {})
+        and provider_name != "google"
+    ):
         return args
 
     accepts_null_language = constraints.get("allow_null_language", False)
 
     for argument_name, argument_value in args.items():
-        if 'language' not in argument_name:
+        if "language" not in argument_name:
             continue
 
         args[argument_name] = validate_single_language(
             provider_name=provider_name,
             feature=feature,
             subfeature=subfeature,
-            language={ 'key': argument_name, 'value': argument_value },
+            language={"key": argument_name, "value": argument_value},
             null_language_accepted=accepts_null_language,
         )
     return args
 
+
 def validate_audio_format(constraints: dict, args: dict) -> dict:
-    provider_audio_format_constraints: List[str] = constraints.get("audio_format", []) or []
+    provider_audio_format_constraints: List[str] = (
+        constraints.get("audio_format", []) or []
+    )
 
     audio_format = args.get("audio_format")
 
     if audio_format and audio_format not in provider_audio_format_constraints:
-        raise ProviderException(f"Audio format not supported. Use one of the following: {', '.join(provider_audio_format_constraints)}")
-    
+        raise ProviderException(
+            f"Audio format not supported. Use one of the following: {', '.join(provider_audio_format_constraints)}"
+        )
+
     return args
 
 
 def validate_models(provider: str, constraints: dict, args: dict) -> Dict:
-    models = constraints.get('models') or constraints.get('voice_ids')
+    models = constraints.get("models") or constraints.get("voice_ids")
     if not models:
-        if 'settings' in args:
+        if "settings" in args:
             del args["settings"]
         return args
-    
+
     # get right model name
-    settings = args.get("settings",{})
+    settings = args.get("settings", {})
 
     # if it's a voice id for text_to_speech
     if any(option in models for option in ["MALE", "FEMALE"]):
-        voice_id = retreive_voice_id(provider, args["language"], args["option"], args["settings"])
+        voice_id = retreive_voice_id(
+            provider, args["language"], args["option"], args["settings"]
+        )
         args["voice_id"] = voice_id
-    else: # otherwise
+    else:  # otherwise
         if settings and provider in settings:
             if constraints and settings[provider] in models:
                 selected_model = settings[provider]
             else:
-                all_availaible_models = ', '.join(models)
-                raise ProviderException(f"Wrong model name, availaible models for {provider} are : {all_availaible_models}")
+                all_availaible_models = ", ".join(models)
+                raise ProviderException(
+                    f"Wrong model name, availaible models for {provider} are : {all_availaible_models}"
+                )
         else:
-            selected_model = constraints.get('default_model')  
+            selected_model = constraints.get("default_model")
         args["model"] = selected_model
     del args["settings"]
     return args
+
 
 def transform_file_args(args: dict) -> dict:
     """transform the file wrapper to file path and file url for subfeature functions
@@ -257,16 +283,13 @@ def transform_file_args(args: dict) -> dict:
         dict: updated args
     """
     file_args = ["file", "file1", "file2"]
-    
+
     for file_arg in file_args:
         if args.get(file_arg) and isinstance(args.get(file_arg), FileWrapper):
             file_wrapper: FileWrapper = args[file_arg]
             file_path = file_wrapper.file_path
             file_url = file_wrapper.file_url
-            args.update({
-                file_arg: file_path,
-                f"{file_arg}_url": file_url
-            })
+            args.update({file_arg: file_path, f"{file_arg}_url": file_url})
     return args
 
 
@@ -296,7 +319,6 @@ def validate_all_provider_constraints(
     )
     provider_constraints = provider_info.get("constraints")
 
-
     if provider_constraints is not None:
         validated_args = args.copy()
         ## Validate here
@@ -316,26 +338,19 @@ def validate_all_provider_constraints(
             provider_constraints, validated_args
         )
         # resolution for image generation
-        validated_args = validate_resolution(
-            provider_constraints, validated_args
-        )
+        validated_args = validate_resolution(provider_constraints, validated_args)
 
         # Audio format for text to speech
-        validated_args = validate_audio_format(
-            provider_constraints, validated_args
-        )
-        
+        validated_args = validate_audio_format(provider_constraints, validated_args)
+
         #  Validate models
-        validated_args = validate_models(
-            provider, provider_constraints, validated_args
-        )
-        
+        validated_args = validate_models(provider, provider_constraints, validated_args)
+
         # ...
 
         validated_args = transform_file_args(validated_args)
 
         return validated_args
-
 
     args = transform_file_args(args)
 

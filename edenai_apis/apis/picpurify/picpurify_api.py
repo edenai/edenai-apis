@@ -12,6 +12,18 @@ from edenai_apis.features.image import (
     FaceItem,
     FaceDetectionDataClass,
 )
+from edenai_apis.features.image.face_detection.face_detection_dataclass import (
+    FaceAccessories,
+    FaceEmotions,
+    FaceFacialHair,
+    FaceFeatures,
+    FaceHair,
+    FaceLandmarks,
+    FaceMakeup,
+    FaceOcclusions,
+    FacePoses,
+    FaceQuality,
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import standardized_confidence_score_picpurify
@@ -20,18 +32,17 @@ from edenai_apis.utils.types import ResponseType
 
 
 class PicpurifyApi(ProviderInterface, ImageInterface):
-
     provider_name = "picpurify"
 
     def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.key = self.api_settings["API_KEY"]
         self.url = "https://www.picpurify.com/analyse/1.1"
 
     def image__face_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[FaceDetectionDataClass]:
         payload = {
             "API_KEY": self.key,
@@ -68,7 +79,23 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
             confidence = face["face"]["confidence_score"]
             faces.append(
                 FaceItem(
-                    age=age, gender=gender, confidence=confidence, bounding_box=box
+                    age=age,
+                    gender=gender,
+                    confidence=confidence,
+                    bounding_box=box,
+                    # Not supported by picpurify
+                    # ---------------------------
+                    landmarks=FaceLandmarks(),
+                    emotions=FaceEmotions.default(),
+                    poses=FacePoses.default(),
+                    hair=FaceHair.default(),
+                    accessories=FaceAccessories.default(),
+                    facial_hair=FaceFacialHair.default(),
+                    quality=FaceQuality.default(),
+                    makeup=FaceMakeup.default(),
+                    occlusions=FaceOcclusions.default(),
+                    features=FaceFeatures.default(),
+                    # ---------------------------
                 )
             )
         standardized_response = FaceDetectionDataClass(items=faces)
@@ -78,16 +105,14 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
         )
 
     def image__explicit_content(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
         payload = {
             "API_KEY": self.key,
             "task": "suggestive_nudity_moderation,gore_moderation,"
             + "weapon_moderation,drug_moderation,hate_sign_moderation",
         }
-        file_= open(file, "rb")
+        file_ = open(file, "rb")
         files = {"image": file_}
         response = requests.post(self.url, files=files, data=payload)
         original_response = response.json()
@@ -106,17 +131,21 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
                 ExplicitItem(
                     label=label.replace("moderation", "content"),
                     likelihood=standardized_confidence_score_picpurify(
-                        original_response[label]["confidence_score"], original_response[label][label.replace("moderation","content")]
+                        original_response[label]["confidence_score"],
+                        original_response[label][
+                            label.replace("moderation", "content")
+                        ],
                     ),
                 )
             )
 
         nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
 
-        standardized_response = ExplicitContentDataClass(items=items, nsfw_likelihood=nsfw)
-        res = ResponseType[ExplicitContentDataClass](
-            original_response=original_response, standardized_response=standardized_response
+        standardized_response = ExplicitContentDataClass(
+            items=items, nsfw_likelihood=nsfw
         )
-        print(res.dict())
+        res = ResponseType[ExplicitContentDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
         return res
-    

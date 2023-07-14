@@ -26,7 +26,9 @@ class MicrosoftApi(
     def __init__(self, user=None, api_keys: Dict = {}):
         super().__init__()
 
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.headers = get_microsoft_headers()
         self.url = get_microsoft_urls()
         self.user = user

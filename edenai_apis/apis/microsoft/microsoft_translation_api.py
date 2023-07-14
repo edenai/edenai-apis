@@ -63,10 +63,7 @@ class MicrosoftTranslationApi(TranslationInterface):
 
         url = add_query_param_in_url(
             url=self.url["translator"],
-            query_params={
-                "from": source_language,
-                "to": target_language
-            }
+            query_params={"from": source_language, "to": target_language},
         )
 
         body = [

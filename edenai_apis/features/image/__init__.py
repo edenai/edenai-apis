@@ -1,7 +1,7 @@
 from .explicit_content import (
     ExplicitContentDataClass,
     ExplicitItem,
-    explicit_content_arguments
+    explicit_content_arguments,
 )
 from .face_detection import (
     FaceAccessories,
@@ -18,7 +18,7 @@ from .face_detection import (
     FaceOcclusions,
     FacePoses,
     FaceQuality,
-    face_detection_arguments
+    face_detection_arguments,
 )
 from .landmark_detection import (
     LandmarkVertice,
@@ -26,19 +26,19 @@ from .landmark_detection import (
     LandmarkDetectionDataClass,
     LandmarkItem,
     LandmarkLatLng,
-    landmark_detection_arguments
+    landmark_detection_arguments,
 )
 from .logo_detection import (
     LogoDetectionDataClass,
     LogoBoundingPoly,
     LogoVertice,
     LogoItem,
-    logo_detection_arguments
+    logo_detection_arguments,
 )
 from .object_detection import (
     ObjectDetectionDataClass,
     ObjectItem,
-    object_detection_arguments
+    object_detection_arguments,
 )
 from .anonymization import (
     AnonymizationDataClass,
@@ -51,17 +51,17 @@ from .search import (
     search_get_image_arguments,
     search_get_images_arguments,
     search_launch_similarity_arguments,
-    search_upload_image_arguments
+    search_upload_image_arguments,
 )
-from .generation import(
+from .generation import (
     GenerationDataClass,
     GeneratedImageDataClass,
-    generation_arguments
+    generation_arguments,
 )
 from .face_compare import (
     FaceCompareDataClass,
     FaceCompareBoundingBox,
     FaceMatch,
-    face_compare_arguments
+    face_compare_arguments,
 )
 from .image_interface import ImageInterface

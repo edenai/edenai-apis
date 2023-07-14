@@ -9,6 +9,4 @@ from .text_to_speech import (
     text_to_speech_arguments,
 )
 
-from .audio_interface import (
-    AudioInterface
-)
+from .audio_interface import AudioInterface

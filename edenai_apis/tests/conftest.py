@@ -3,10 +3,11 @@ import pytest
 
 from edenai_apis.interface import list_features, list_providers
 
-only_async = lambda p, f, s, ph: '_async' not in s
+only_async = lambda p, f, s, ph: "_async" not in s
 without_phase = lambda p, f, s, ph: ph
-without_async = lambda p, f, s, ph: '_async' in s
-without_async_and_phase = lambda p, f, s, ph: '_async' in s or ph
+without_async = lambda p, f, s, ph: "_async" in s
+without_async_and_phase = lambda p, f, s, ph: "_async" in s or ph
+
 
 def global_features(filter: Callable[[Any], bool] = None, return_phase: bool = False):
     """Generate a list of parameters for tests classes.
@@ -19,7 +20,7 @@ def global_features(filter: Callable[[Any], bool] = None, return_phase: bool = F
     detailed_providers_list = []
     params_dict = {}
 
-    for provider, feature, subfeature, *phase in method_list:        
+    for provider, feature, subfeature, *phase in method_list:
         if filter and filter(provider, feature, subfeature, phase):
             continue
         params_list = [provider, feature, subfeature]
@@ -36,12 +37,12 @@ def global_features(filter: Callable[[Any], bool] = None, return_phase: bool = F
             ],
         )
         detailed_providers_list.append(detailed_params)
-    
+
         if (feature, subfeature) in params_dict.keys():
             params_dict[(feature, subfeature)].append(provider)
         else:
             params_dict[(feature, subfeature)] = [provider]
-    
+
     grouped_providers_list = [
         pytest.param(
             providers,
@@ -55,6 +56,7 @@ def global_features(filter: Callable[[Any], bool] = None, return_phase: bool = F
         "grouped_providers": grouped_providers_list,
         "ungrouped_providers": detailed_providers_list,
     }
+
 
 def global_providers(filter: Callable[[str], bool] = None):
     """Generate a list of parameters for tests classes.
@@ -73,7 +75,7 @@ def global_providers(filter: Callable[[str], bool] = None):
             provider,
             marks=[
                 getattr(pytest.mark, provider),
-            ]
+            ],
         )
         detailed_providers_list.append(detailed_params)
     return detailed_providers_list

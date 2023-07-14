@@ -12,7 +12,7 @@ class VideoLogoBoundingBox(BaseModel):
 
 class VideoLogo(BaseModel):
     timestamp: float
-    bounding_box: VideoLogoBoundingBox = VideoLogoBoundingBox()
+    bounding_box: VideoLogoBoundingBox
     confidence: Optional[float]
 
 

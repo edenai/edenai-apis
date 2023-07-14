@@ -4,12 +4,16 @@ import requests
 from edenai_apis.features.audio.speech_to_text_async import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
-    SpeechDiarization
+    SpeechDiarization,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features.provider.provider_interface import ProviderInterface
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
+)
 from edenai_apis.features import AudioInterface
 from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
@@ -25,41 +29,36 @@ class VociApi(ProviderInterface, AudioInterface):
     provider_name = "voci"
 
     def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.key = self.api_settings["voci_key"]
 
-
-
     def audio__speech_to_text_async__launch_job(
-        self, 
-        file: str, 
+        self,
+        file: str,
         language: str,
-        speakers : int, 
+        speakers: int,
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model : str = None,
+        model: str = None,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
-
         export_format, channels, frame_rate = audio_attributes
 
         data_config = {
-                "output": "json",
-                "token": self.key,
-                "filetype": f"audio/{export_format}",
-                "emotion": "true",
-                "gender": "true",
-                "diarize": "true"
-            }
+            "output": "json",
+            "token": self.key,
+            "filetype": f"audio/{export_format}",
+            "emotion": "true",
+            "gender": "true",
+            "diarize": "true",
+        }
         if language:
-            data_config.update({
-                "model": f"{language.lower()}:callcenter"
-            })
+            data_config.update({"model": f"{language.lower()}:callcenter"})
         else:
-            data_config.update({
-                "lid": "true"
-            })
+            data_config.update({"lid": "true"})
         # if vocabulary:
         #     data_config.update({
         #         "hints": json.dumps({
@@ -70,7 +69,7 @@ class VociApi(ProviderInterface, AudioInterface):
         file_ = open(file, "rb")
         response = requests.post(
             url="https://vcloud.vocitec.com/transcribe",
-            data= data_config,
+            data=data_config,
             files=[("file", file_)],
         )
         if response.status_code != 200:
@@ -101,28 +100,31 @@ class VociApi(ProviderInterface, AudioInterface):
                 )
 
             original_response = response_text.json()
-            print(original_response)
 
             diarization_entries = []
             speakers = set()
-            
+
             text = ""
             for utterance in original_response.get("utterances"):
                 for event in utterance.get("events"):
                     text += event.get("word") + " "
-                    
+
                     speakers.add(utterance["metadata"]["channel"])
                     diarization_entries.append(
                         SpeechDiarizationEntry(
-                            segment= event["word"],
-                            start_time= str(event["start"]),
-                            end_time= str(event["end"]),
-                            confidence= event["confidence"],
-                            speaker= utterance["metadata"]["channel"] + 1
+                            segment=event["word"],
+                            start_time=str(event["start"]),
+                            end_time=str(event["end"]),
+                            confidence=event["confidence"],
+                            speaker=utterance["metadata"]["channel"] + 1,
                         )
                     )
-            diarization = SpeechDiarization(total_speakers=len(speakers), entries=diarization_entries)
-            standardized_response = SpeechToTextAsyncDataClass(text=text, diarization=diarization)
+            diarization = SpeechDiarization(
+                total_speakers=len(speakers), entries=diarization_entries
+            )
+            standardized_response = SpeechToTextAsyncDataClass(
+                text=text, diarization=diarization
+            )
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,
                 standardized_response=standardized_response,
@@ -134,8 +136,10 @@ class VociApi(ProviderInterface, AudioInterface):
             )
         else:
             error_message = response.text
-            if "request ID" in error_message and any(portion in error_message for portion in ["Invalid", "Malformatted"]):
+            if "request ID" in error_message and any(
+                portion in error_message for portion in ["Invalid", "Malformatted"]
+            ):
                 raise AsyncJobException(
-                    reason = AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
                 )
             raise ProviderException(response.text)

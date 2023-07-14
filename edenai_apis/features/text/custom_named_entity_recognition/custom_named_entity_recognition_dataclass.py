@@ -9,4 +9,6 @@ class InfosCustomNamedEntityRecognitionDataClass(BaseModel):
 
 
 class CustomNamedEntityRecognitionDataClass(BaseModel):
-    items: Sequence[InfosCustomNamedEntityRecognitionDataClass] = Field(default_factory=list)
+    items: Sequence[InfosCustomNamedEntityRecognitionDataClass] = Field(
+        default_factory=list
+    )

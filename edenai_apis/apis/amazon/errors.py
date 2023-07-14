@@ -32,7 +32,6 @@ ERRORS: ProviderErrorLists = {
         r"An error occurred \(InvalidParameterException\) when calling the \w+ operation: There are no faces in the image. Should be at least 1.",
         r"An error occurred \(ValidationException\) when calling the \w+ operation: Value \w+ at 'languageCode'failed to satisfy constraint: Member must satisfy enum value set: [de, pt, en, it, fr, es]",
         r"An error occurred \(BadRequestException\) when calling the StartTranscriptionJob operation: 1 validation error detected: Value '\d+' at 'settings.maxSpeakerLabels' failed to satisfy constraint: Member must have value less than or equal to \d+",
-
     ],
     ProviderInvalidInputTextLengthError: [
         r"Invalid length for parameter QueriesConfig.Queries\[\d+\].Text, value: \d+, valid min length: 1",

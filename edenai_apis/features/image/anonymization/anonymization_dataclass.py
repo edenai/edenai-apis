@@ -8,10 +8,13 @@ class AnonymizationBoundingBox(BaseModel):
     y_min: Optional[float]
     y_max: Optional[float]
 
+
 class AnonymizationItem(BaseModel):
     kind: StrictStr
     confidence: float
-    bounding_boxes: AnonymizationBoundingBox = AnonymizationBoundingBox()
+    bounding_boxes: AnonymizationBoundingBox
+
+
 class AnonymizationDataClass(BaseModel):
     image: StrictStr
     image_resource_url: StrictStr

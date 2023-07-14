@@ -51,7 +51,9 @@ from edenai_apis.utils.types import (
 from .helpers import OneAIAsyncStatus
 
 
-class OneaiApi(ProviderInterface, TextInterface, TranslationInterface, AudioInterface, OcrInterface):
+class OneaiApi(
+    ProviderInterface, TextInterface, TranslationInterface, AudioInterface, OcrInterface
+):
     provider_name = "oneai"
 
     def __init__(self, api_keys: Dict = {}) -> None:
@@ -369,12 +371,13 @@ class OneaiApi(ProviderInterface, TextInterface, TranslationInterface, AudioInte
         )
 
         if not response.ok:
-            raise ProviderException(message=response.json()["message"], code=response.status_code)
+            raise ProviderException(
+                message=response.json()["message"], code=response.status_code
+            )
 
         data = response.json()
 
         return AsyncLaunchJobResponseType(provider_job_id=data["task_id"])
-
 
     def ocr__ocr_async__get_job_result(
         self, provider_job_id: str
@@ -386,9 +389,7 @@ class OneaiApi(ProviderInterface, TextInterface, TranslationInterface, AudioInte
         status = original_response["status"]
 
         if status in (OneAIAsyncStatus.RUNNING.value, OneAIAsyncStatus.QUEUED.value):
-            return AsyncPendingResponseType(
-                provider_job_id=provider_job_id
-            )
+            return AsyncPendingResponseType(provider_job_id=provider_job_id)
         elif status == OneAIAsyncStatus.COMPLETED.value:
             standardized_response = OcrAsyncDataClass(
                 raw_text=original_response["result"]["output"][0]["text"]

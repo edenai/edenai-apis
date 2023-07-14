@@ -2,7 +2,7 @@ from edenai_apis.utils.exception import (
     ProviderErrorLists,
     ProviderInternalServerError,
     ProviderInvalidInputTextLengthError,
-    ProviderInvalidInputError
+    ProviderInvalidInputError,
 )
 
 # NOTE: error messages should be regex patterns
@@ -13,8 +13,8 @@ ERRORS: ProviderErrorLists = {
     ProviderInvalidInputTextLengthError: [
         r"Input text is too long",
     ],
-    ProviderInvalidInputError : [
+    ProviderInvalidInputError: [
         r"Invalid language format for: \w+.",
-        r"This provider doesn't auto-detect languages, please provide a valid language"
-    ]
+        r"This provider doesn't auto-detect languages, please provide a valid language",
+    ],
 }

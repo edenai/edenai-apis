@@ -9,9 +9,9 @@ from edenai_apis.loaders.loaders import load_provider
 from langcodes import Language, closest_supported_match, tag_parser
 
 
-
 AUTO_DETECT = "auto-detect"
 AUTO_DETECT_NAME = "Auto detection"
+
 
 class LanguageErrorMessage:
     LANGUAGE_REQUIRED = lambda input_lang: (
@@ -27,9 +27,7 @@ class LanguageErrorMessage:
         f" a more general language: '{suggested_lang}'"
     )
 
-    LANGUAGE_SYNTAX_ERROR = lambda lang: (
-        f"Invalid language format for: '{lang}'."
-    )
+    LANGUAGE_SYNTAX_ERROR = lambda lang: (f"Invalid language format for: '{lang}'.")
 
 
 def check_language_format(iso_code: str) -> bool:
@@ -58,14 +56,16 @@ def convert_three_two_letters(iso_code: str) -> Optional[str]:
     return language.alpha_2 if hasattr(language, "alpha_2") else language.alpha_3
 
 
-def load_language_constraints(provider_name: str, feature: str, subfeature: str) -> list:
+def load_language_constraints(
+    provider_name: str, feature: str, subfeature: str
+) -> list:
     """Loads the list of languages supported by
     the provider for a couple of (feature, subfeature)"""
     info = load_provider(
         ProviderDataEnum.PROVIDER_INFO,
         provider_name=provider_name,
         feature=feature,
-        subfeature=subfeature
+        subfeature=subfeature,
     )
     default = defaultdict(lambda: None)
     languages = info.get("constraints", default).get("languages", [])
@@ -92,12 +92,14 @@ def expand_languages_for_user(list_languages: list) -> list:
     return appended_list
 
 
-def load_standardized_language(feature: str, subfeature: str, providers: Optional[List[str]]):
+def load_standardized_language(
+    feature: str, subfeature: str, providers: Optional[List[str]]
+):
     """Displays a standardized list of languages for a list of providers
     for the pair (feature, subfeature)"""
 
     if providers is None:
-        interface = import_module('edenai_apis.interface')
+        interface = import_module("edenai_apis.interface")
         providers = interface.list_providers(feature, subfeature)
 
     result = []
@@ -140,7 +142,9 @@ def get_language_name_from_code(isocode: str) -> str:
         if not language and not isocode:
             return ""
         try:
-            output = Language.get(isocode).display_name() if not language else language.name
+            output = (
+                Language.get(isocode).display_name() if not language else language.name
+            )
         except tag_parser.LanguageTagError:
             return ""
     else:
@@ -148,34 +152,48 @@ def get_language_name_from_code(isocode: str) -> str:
         output = language.display_name()
     return format_language_name(output, isocode)
 
+
 def get_code_from_language_name(name: str) -> str:
     """Returns the iso639-2 from the language name"""
     try:
         if not name:
-            return 'Unknow'
+            return "Unknow"
         output = Language.find(name=name)
     except LookupError:
-        return 'Unknow'
+        return "Unknow"
     return output.__str__()
+
 
 def has_language_contrains_script(iso_code: str, selected_code_language: str) -> bool:
     ## To be able to handle zh (chinese) constraints
     if Language.get(iso_code).script:
-        if Language.get(iso_code).language == Language.get(selected_code_language).language:
+        if (
+            Language.get(iso_code).language
+            == Language.get(selected_code_language).language
+        ):
             return True
     return False
 
 
-def compare_language_and_region_code(iso_code: str, selected_code_language: str) -> bool:
-    return Language.get(iso_code).language == Language.get(selected_code_language).language and \
-                Language.get(iso_code).territory == Language.get(selected_code_language).territory 
+def compare_language_and_region_code(
+    iso_code: str, selected_code_language: str
+) -> bool:
+    return (
+        Language.get(iso_code).language == Language.get(selected_code_language).language
+        and Language.get(iso_code).territory
+        == Language.get(selected_code_language).territory
+    )
 
 
-def provide_appropriate_language(iso_code: str, provider_name: str, feature: str, subfeature: str):
+def provide_appropriate_language(
+    iso_code: str, provider_name: str, feature: str, subfeature: str
+):
     if not check_language_format(iso_code):
         raise SyntaxError(f"Language code '{iso_code}' badly formatted")
 
-    list_languages: Sequence[str] = load_language_constraints(provider_name, feature, subfeature)
+    list_languages: Sequence[str] = load_language_constraints(
+        provider_name, feature, subfeature
+    )
 
     # Sometimes closest_supported_match raise a RuntimeError,
     # so we need a while True for catch this error and retry until function works
@@ -186,10 +204,10 @@ def provide_appropriate_language(iso_code: str, provider_name: str, feature: str
         except RuntimeError:
             pass
 
-    if '-' in iso_code and selected_code_language:
+    if "-" in iso_code and selected_code_language:
         if has_language_contrains_script(iso_code, selected_code_language):
             return selected_code_language
-        if (compare_language_and_region_code(iso_code, selected_code_language)):
+        if compare_language_and_region_code(iso_code, selected_code_language):
             return selected_code_language
         return None
 

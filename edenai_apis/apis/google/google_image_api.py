@@ -12,8 +12,13 @@ from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FaceBoundingBox,
     FaceDetectionDataClass,
     FaceEmotions,
+    FaceFacialHair,
+    FaceFeatures,
+    FaceHair,
     FaceItem,
     FaceLandmarks,
+    FaceMakeup,
+    FaceOcclusions,
     FacePoses,
     FaceQuality,
 )
@@ -46,9 +51,7 @@ from google.protobuf.json_format import MessageToDict
 
 class GoogleImageApi(ImageInterface):
     def image__explicit_content(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
         with open(file, "rb") as file_:
             content = file_.read()
@@ -85,12 +88,8 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__object_detection(
-        self, 
-        file: str,
-        model: str = None,
-        file_url: str= ""
+        self, file: str, model: str = None, file_url: str = ""
     ) -> ResponseType[ObjectDetectionDataClass]:
-
         file_ = open(file, "rb")
         image = vision.Image(content=file_.read())
         response = self.clients["image"].object_localization(image=image)
@@ -127,9 +126,7 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__face_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[FaceDetectionDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -141,13 +138,22 @@ class GoogleImageApi(ImageInterface):
         result = []
         width, height = img_size
         for face in original_result.get("faceAnnotations", []):
-
             # emotions
             emotions = FaceEmotions(
                 joy=score_to_content(face.get("joyLikelihood")),
                 sorrow=score_to_content(face.get("sorrowLikelihood")),
                 anger=score_to_content(face.get("angerLikelihood")),
                 surprise=score_to_content(face.get("surpriseLikelihood")),
+                # Not supported by Google
+                # ------------------------
+                disgust=None,
+                fear=None,
+                confusion=None,
+                calm=None,
+                contempt=None,
+                unknown=None,
+                neutral=None,
+                # ------------------------
             )
 
             # quality
@@ -156,11 +162,16 @@ class GoogleImageApi(ImageInterface):
                 * score_to_content(face.get("underExposedLikelihood", 0))
                 / 10,
                 blur=2 * score_to_content(face.get("blurredLikelihood", 0)) / 10,
+                noise=None,
+                brightness=None,
+                sharpness=None,
             )
 
             # accessories
-            headwear = 2 * score_to_content(face.get("headwearLikelihood", 0)) / 10
-            accessories = FaceAccessories(headwear=headwear)
+            accessories = FaceAccessories.default()
+            accessories.headwear = (
+                2 * score_to_content(face.get("headwearLikelihood", 0)) / 10
+            )
 
             # landmarks
             landmark_output = {}
@@ -233,6 +244,16 @@ class GoogleImageApi(ImageInterface):
                         y_min=bounding_poly[0].get("y", 0.0) / height,
                         y_max=bounding_poly[3].get("y", height) / height,
                     ),
+                    # Not supported by Google Cloud Vision
+                    # --------------------
+                    age=None,
+                    gender=None,
+                    hair=FaceHair.default(),
+                    facial_hair=FaceFacialHair.default(),
+                    makeup=FaceMakeup.default(),
+                    occlusions=FaceOcclusions.default(),
+                    features=FaceFeatures.default(),
+                    # --------------------
                 )
             )
         return ResponseType[FaceDetectionDataClass](
@@ -241,9 +262,7 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__landmark_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[LandmarkDetectionDataClass]:
         with open(file, "rb") as file_:
             content = file_.read()
@@ -289,9 +308,7 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__logo_detection(
-        self, 
-        file: str,
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[LogoDetectionDataClass]:
         with open(file, "rb") as file_:
             content = file_.read()
@@ -314,8 +331,10 @@ class GoogleImageApi(ImageInterface):
             vertices = []
             for vertice in key.get("boundingPoly").get("vertices"):
                 vertices.append(
-                    LogoVertice(x=float_or_none(vertice.get("x")),
-                                y=float_or_none(vertice.get("y")))
+                    LogoVertice(
+                        x=float_or_none(vertice.get("x")),
+                        y=float_or_none(vertice.get("y")),
+                    )
                 )
 
             items.append(

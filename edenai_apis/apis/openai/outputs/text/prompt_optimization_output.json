@@ -1,0 +1,52 @@
+{
+  "original_response": {
+    "id": "chatcmpl-7b8EMOXYt1Iix9EMoDC5LZCnsB1dz",
+    "object": "chat.completion",
+    "created": 1689084130,
+    "model": "gpt-4-0613",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "\"Given the following text, please extract all instances of the specified entities. The entities to look for are [Entity 1, Entity 2, ...]. The text is as follows: [Text]. Please format your response as a list, with each item representing an extracted entity and its context within the text.\""
+        },
+        "finish_reason": "stop"
+      },
+      {
+        "index": 1,
+        "message": {
+          "role": "assistant",
+          "content": "\"Given the following text, please identify and extract all instances of the specified entities. The entities to look for are [Entity 1, Entity 2, Entity 3]. The text is as follows: [Insert Text Here]. Please format your response as a list, with each extracted entity on a new line.\""
+        },
+        "finish_reason": "stop"
+      },
+      {
+        "index": 2,
+        "message": {
+          "role": "assistant",
+          "content": "\"Given the following text and a list of entities, please extract all instances of these entities from the text. The entities are [entity1, entity2, ...]. The text is as follows: [text]. Please format your response as a list, with each item representing an entity and its occurrences in the text.\""
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 328,
+      "completion_tokens": 191,
+      "total_tokens": 519
+    }
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "text": "\"Given the following text, please extract all instances of the specified entities. The entities to look for are [Entity 1, Entity 2, ...]. The text is as follows: [Text]. Please format your response as a list, with each item representing an extracted entity and its context within the text.\""
+      },
+      {
+        "text": "\"Given the following text, please identify and extract all instances of the specified entities. The entities to look for are [Entity 1, Entity 2, Entity 3]. The text is as follows: [Insert Text Here]. Please format your response as a list, with each extracted entity on a new line.\""
+      },
+      {
+        "text": "\"Given the following text and a list of entities, please extract all instances of these entities from the text. The entities are [entity1, entity2, ...]. The text is as follows: [text]. Please format your response as a list, with each item representing an entity and its occurrences in the text.\""
+      }
+    ]
+  }
+}

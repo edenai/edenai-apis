@@ -1,9 +1,66 @@
 {
   "original_response": {
+    "extractor": "invoice",
+    "meta": {
+      "identifier": "xFuXBJrg",
+      "file_name": "invoice.png",
+      "ready": true,
+      "ready_dt": "2023-07-07T10:25:58.279742Z",
+      "failed": false,
+      "language": "en",
+      "pdf": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/invoice_pA5L8lk.png_nxSOn9h.pdf?versionId=SrabKcFCYizxtTmLhLZhdcnFnx.9sQWu&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNE5T6JOUG%2F20230707%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230707T102600Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAPKrM%2BpYOFEKAeRZZMoya6nLYTbYUjehxnVAf9SpHSgUAiEArth8vzrCreyAS7FyaXm5RNuAXS1oWhnuNElxriOXcjAqiQUIWxACGgwzMzU1OTQ1NzExNjIiDE4oz851DSd9IX2beCrmBC8V5hn3yyHvnfj5c3ZFpE1qm%2Fai5itwsYQQ911EjsOXqEeFW63B4t%2FFr3wpwaE0cjHvqRAdOwY6YMjLrhboROtOXgxmp9%2B4FuM4A%2BH5WcSsceG5bNfaIjdw1dV%2FmGfSgUUm4JkDl5W%2BmF4Goo9sfG91F8O7IhG46GIKO5s13vXdeixA5x8jxWU4SKH3yEwQg90fNYyMwLOIpcUKBqzzb79vAFWI8K%2FqE9O7wpFWCvDDjB0vEqKp4yATWZZu9u6kX0M88c6BqLryUuiPaIsfNeC1gqCZVhJmQTlG5%2BeSGz2EegpdnQQWce%2FgYYe%2BkzGZbPLPBRo3ke97QPYOsSpwQgLQSUzT8VODcTj8vrUGBRyBc7uA04aW8bOOtPzK7w3e33vX9kh2VxYRY%2Fh60oLOUId%2FXZVeGBxA6gqbvgGaQXTd8BR1ekugy%2BQkx7iACi1GV0mCl8xOljFrnW7qCvcxf2MTsjWerpQtFNBYtUHzPZ%2FOUJoJIkimmUOBwa0xeIQWN%2Bx8uoziX9hL7kXxJ8AV16CHxwEGQCyCadtlQOaeHQWt3P7o%2BfosfiyvyzMeJMEwkdi3pYbTwK%2FNZZM9wbwmYQK8m8rztLdxMl4q%2B7jfDV7COQb2aYSPNNLGD8Q50psT0U9VC%2Fgtal72efXngtemu%2BF2y4kx%2FPijK5coVuBqk7hWaTb7sqWGrx%2FMEEX5K56Iteo2WAB%2F09REIfDt9KOhl%2F8dqQCOYJUXXnYzH95jSUyNuCNFtwxQRQ3aZvx7aQQDvCKWl%2F6aXwZ6n2PIF7NKW1uqsTwoKREYjufpHZCatEgFn0Fj2T4oMLLMn6UGOpkBR1YWt3bRHagRY1aH5lCcf6U%2BaSGS%2Bh2Krw%2B5k4RIHGxVGbdO7t0v9syLLn0hMj1qZTZhrIdh%2FrlR1RkVgXf9EdjOX%2FVULMo2Iar5rJHECc9gtqeeOtzlc2po6ricIh6QkDZCzq1hPwRZAjLgAyWHh5L9ON6zDxZU828KxMawqif0NDjH8gGwIJ5bkeo1IhKiMsYMXx81idyX&X-Amz-Signature=507941394af3362efb3f01be5e2e260d59ee10349da122cb1bac2d8f3af6f9b4",
+      "child_documents": [],
+      "pages": [
+        {
+          "id": 27908090,
+          "page_index": 0,
+          "image": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/pages/27908090_r4xoYlr.png?versionId=0CrHl507oGjesy5UNToaYKxwxOrdE_RO&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNE5T6JOUG%2F20230707%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230707T102600Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAPKrM%2BpYOFEKAeRZZMoya6nLYTbYUjehxnVAf9SpHSgUAiEArth8vzrCreyAS7FyaXm5RNuAXS1oWhnuNElxriOXcjAqiQUIWxACGgwzMzU1OTQ1NzExNjIiDE4oz851DSd9IX2beCrmBC8V5hn3yyHvnfj5c3ZFpE1qm%2Fai5itwsYQQ911EjsOXqEeFW63B4t%2FFr3wpwaE0cjHvqRAdOwY6YMjLrhboROtOXgxmp9%2B4FuM4A%2BH5WcSsceG5bNfaIjdw1dV%2FmGfSgUUm4JkDl5W%2BmF4Goo9sfG91F8O7IhG46GIKO5s13vXdeixA5x8jxWU4SKH3yEwQg90fNYyMwLOIpcUKBqzzb79vAFWI8K%2FqE9O7wpFWCvDDjB0vEqKp4yATWZZu9u6kX0M88c6BqLryUuiPaIsfNeC1gqCZVhJmQTlG5%2BeSGz2EegpdnQQWce%2FgYYe%2BkzGZbPLPBRo3ke97QPYOsSpwQgLQSUzT8VODcTj8vrUGBRyBc7uA04aW8bOOtPzK7w3e33vX9kh2VxYRY%2Fh60oLOUId%2FXZVeGBxA6gqbvgGaQXTd8BR1ekugy%2BQkx7iACi1GV0mCl8xOljFrnW7qCvcxf2MTsjWerpQtFNBYtUHzPZ%2FOUJoJIkimmUOBwa0xeIQWN%2Bx8uoziX9hL7kXxJ8AV16CHxwEGQCyCadtlQOaeHQWt3P7o%2BfosfiyvyzMeJMEwkdi3pYbTwK%2FNZZM9wbwmYQK8m8rztLdxMl4q%2B7jfDV7COQb2aYSPNNLGD8Q50psT0U9VC%2Fgtal72efXngtemu%2BF2y4kx%2FPijK5coVuBqk7hWaTb7sqWGrx%2FMEEX5K56Iteo2WAB%2F09REIfDt9KOhl%2F8dqQCOYJUXXnYzH95jSUyNuCNFtwxQRQ3aZvx7aQQDvCKWl%2F6aXwZ6n2PIF7NKW1uqsTwoKREYjufpHZCatEgFn0Fj2T4oMLLMn6UGOpkBR1YWt3bRHagRY1aH5lCcf6U%2BaSGS%2Bh2Krw%2B5k4RIHGxVGbdO7t0v9syLLn0hMj1qZTZhrIdh%2FrlR1RkVgXf9EdjOX%2FVULMo2Iar5rJHECc9gtqeeOtzlc2po6ricIh6QkDZCzq1hPwRZAjLgAyWHh5L9ON6zDxZU828KxMawqif0NDjH8gGwIJ5bkeo1IhKiMsYMXx81idyX&X-Amz-Signature=8f481d3b537daab22ea33a4dad4e52dde6ca0989eb1988a66655014dd8076baa",
+          "height": 1500.0,
+          "width": 1154.0,
+          "rotation": 0
+        }
+      ],
+      "is_ocrd": true,
+      "ocr_confidence": 0.979019801980198,
+      "review_url": "https://app.affinda.com/review/xFuXBJrg?signature=eyJ1c2VyX2lkIjoyNDIzfQ:1qHif2:MXEv-XuamJ48uAwTv8Lh_mLMfuZig4wO4oIqS4kl1OI:1qHif2:PEWYie7yagbWLkxA24ukVc7FRrfkoSMFRwVaakMg6bU",
+      "collection": {
+        "identifier": "ZymiQVPU",
+        "name": "Invoice Parses",
+        "extractor": {
+          "identifier": "invoice",
+          "name": "Invoice",
+          "validatable": true
+        }
+      },
+      "workspace": {
+        "identifier": "PfCwwgJc",
+        "name": "Accounts Payable"
+      },
+      "is_archived": false,
+      "is_confirmed": false,
+      "is_rejected": false,
+      "created_dt": "2023-07-07T10:25:54.888724Z",
+      "file": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/invoice_pA5L8lk.png?versionId=.6BuE1n3EvxkTkd0IFNNjkrxkmqaDPmJ&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNE5T6JOUG%2F20230707%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230707T102600Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAPKrM%2BpYOFEKAeRZZMoya6nLYTbYUjehxnVAf9SpHSgUAiEArth8vzrCreyAS7FyaXm5RNuAXS1oWhnuNElxriOXcjAqiQUIWxACGgwzMzU1OTQ1NzExNjIiDE4oz851DSd9IX2beCrmBC8V5hn3yyHvnfj5c3ZFpE1qm%2Fai5itwsYQQ911EjsOXqEeFW63B4t%2FFr3wpwaE0cjHvqRAdOwY6YMjLrhboROtOXgxmp9%2B4FuM4A%2BH5WcSsceG5bNfaIjdw1dV%2FmGfSgUUm4JkDl5W%2BmF4Goo9sfG91F8O7IhG46GIKO5s13vXdeixA5x8jxWU4SKH3yEwQg90fNYyMwLOIpcUKBqzzb79vAFWI8K%2FqE9O7wpFWCvDDjB0vEqKp4yATWZZu9u6kX0M88c6BqLryUuiPaIsfNeC1gqCZVhJmQTlG5%2BeSGz2EegpdnQQWce%2FgYYe%2BkzGZbPLPBRo3ke97QPYOsSpwQgLQSUzT8VODcTj8vrUGBRyBc7uA04aW8bOOtPzK7w3e33vX9kh2VxYRY%2Fh60oLOUId%2FXZVeGBxA6gqbvgGaQXTd8BR1ekugy%2BQkx7iACi1GV0mCl8xOljFrnW7qCvcxf2MTsjWerpQtFNBYtUHzPZ%2FOUJoJIkimmUOBwa0xeIQWN%2Bx8uoziX9hL7kXxJ8AV16CHxwEGQCyCadtlQOaeHQWt3P7o%2BfosfiyvyzMeJMEwkdi3pYbTwK%2FNZZM9wbwmYQK8m8rztLdxMl4q%2B7jfDV7COQb2aYSPNNLGD8Q50psT0U9VC%2Fgtal72efXngtemu%2BF2y4kx%2FPijK5coVuBqk7hWaTb7sqWGrx%2FMEEX5K56Iteo2WAB%2F09REIfDt9KOhl%2F8dqQCOYJUXXnYzH95jSUyNuCNFtwxQRQ3aZvx7aQQDvCKWl%2F6aXwZ6n2PIF7NKW1uqsTwoKREYjufpHZCatEgFn0Fj2T4oMLLMn6UGOpkBR1YWt3bRHagRY1aH5lCcf6U%2BaSGS%2Bh2Krw%2B5k4RIHGxVGbdO7t0v9syLLn0hMj1qZTZhrIdh%2FrlR1RkVgXf9EdjOX%2FVULMo2Iar5rJHECc9gtqeeOtzlc2po6ricIh6QkDZCzq1hPwRZAjLgAyWHh5L9ON6zDxZU828KxMawqif0NDjH8gGwIJ5bkeo1IhKiMsYMXx81idyX&X-Amz-Signature=ad93d6e82408ef4397786f9b39d1fb1f16e50055513ad28248d7b9bdf712bbba",
+      "tags": [],
+      "created_by": {
+        "id": 2423,
+        "name": "Eden AI",
+        "username": "contact",
+        "email": "contact@edenai.co"
+      },
+      "region_bias": {}
+    },
+    "error": {},
+    "warnings": [],
     "data": {
       "invoice_date": {
-        "textExtractionConfidence": 0.955,
-        "isClientVerified": false,
+        "id": 74052849,
+        "rectangle": {
+          "x0": 372.742,
+          "y0": 455.83,
+          "x1": 452.368,
+          "y1": 480.06399999999996
+        },
         "rectangles": [
           {
             "x0": 372.742,
@@ -12,27 +69,27 @@
             "y1": 480.06399999999996
           }
         ],
-        "contentType": "date",
-        "isAutoVerified": true,
-        "document": "lVJldyps",
-        "classificationConfidence": 0.969,
-        "id": 60409665,
-        "rectangle": {
-          "x0": 372.742,
-          "y0": 455.83,
-          "x1": 452.368,
-          "y1": 480.06399999999996
-        },
+        "document": "xFuXBJrg",
         "page_index": 0,
         "raw": "10/07/14",
         "confidence": 0.925,
+        "classification_confidence": 0.969,
+        "text_extraction_confidence": 0.955,
         "is_verified": true,
-        "classification": "invoiceDate",
+        "is_client_verified": false,
+        "is_auto_verified": true,
+        "data_point": "sRakysMP",
+        "content_type": "date",
         "parsed": "2014-07-10"
       },
       "payment_amount_base": {
-        "textExtractionConfidence": 0.991,
-        "isClientVerified": false,
+        "id": 74052854,
+        "rectangle": {
+          "x0": 968.206,
+          "y0": 1115.918,
+          "x1": 1055.91,
+          "y1": 1137.844
+        },
         "rectangles": [
           {
             "x0": 968.206,
@@ -41,27 +98,27 @@
             "y1": 1137.844
           }
         ],
-        "contentType": "decimal",
-        "isAutoVerified": true,
-        "document": "lVJldyps",
-        "classificationConfidence": 0.976,
-        "id": 60409692,
-        "rectangle": {
-          "x0": 968.206,
-          "y0": 1115.918,
-          "x1": 1055.91,
-          "y1": 1137.844
-        },
+        "document": "xFuXBJrg",
         "page_index": 0,
         "raw": "$4000.00",
         "confidence": 0.967,
+        "classification_confidence": 0.976,
+        "text_extraction_confidence": 0.991,
         "is_verified": true,
-        "classification": "paymentAmountBase",
+        "is_client_verified": false,
+        "is_auto_verified": true,
+        "data_point": "ahbnOQdE",
+        "content_type": "decimal",
         "parsed": "4000.00"
       },
       "payment_amount_tax": {
-        "textExtractionConfidence": 0.993,
-        "isClientVerified": false,
+        "id": 74052856,
+        "rectangle": {
+          "x0": 979.746,
+          "y0": 1160.924,
+          "x1": 1054.756,
+          "y1": 1184.004
+        },
         "rectangles": [
           {
             "x0": 979.746,
@@ -70,27 +127,27 @@
             "y1": 1184.004
           }
         ],
-        "contentType": "decimal",
-        "isAutoVerified": true,
-        "document": "lVJldyps",
-        "classificationConfidence": 0.979,
-        "id": 60409694,
-        "rectangle": {
-          "x0": 979.746,
-          "y0": 1160.924,
-          "x1": 1054.756,
-          "y1": 1184.004
-        },
+        "document": "xFuXBJrg",
         "page_index": 0,
         "raw": "$520.00",
         "confidence": 0.973,
+        "classification_confidence": 0.979,
+        "text_extraction_confidence": 0.993,
         "is_verified": true,
-        "classification": "paymentAmountTax",
+        "is_client_verified": false,
+        "is_auto_verified": true,
+        "data_point": "qZHQmopv",
+        "content_type": "decimal",
         "parsed": "520.00"
       },
       "payment_amount_total": {
-        "textExtractionConfidence": 0.993,
-        "isClientVerified": false,
+        "id": 74052857,
+        "rectangle": {
+          "x0": 968.206,
+          "y0": 1205.93,
+          "x1": 1054.756,
+          "y1": 1229.01
+        },
         "rectangles": [
           {
             "x0": 968.206,
@@ -99,27 +156,27 @@
             "y1": 1229.01
           }
         ],
-        "contentType": "decimal",
-        "isAutoVerified": false,
-        "document": "lVJldyps",
-        "classificationConfidence": 0.921,
-        "id": 60409695,
-        "rectangle": {
-          "x0": 968.206,
-          "y0": 1205.93,
-          "x1": 1054.756,
-          "y1": 1229.01
-        },
+        "document": "xFuXBJrg",
         "page_index": 0,
         "raw": "$4520.00",
         "confidence": 0.915,
+        "classification_confidence": 0.921,
+        "text_extraction_confidence": 0.993,
         "is_verified": false,
-        "classification": "paymentAmountTotal",
+        "is_client_verified": false,
+        "is_auto_verified": false,
+        "data_point": "jeMSNwCq",
+        "content_type": "decimal",
         "parsed": "4520.00"
       },
       "payment_amount_due": {
-        "textExtractionConfidence": 0.991,
-        "isClientVerified": false,
+        "id": 74052855,
+        "rectangle": {
+          "x0": 968.206,
+          "y0": 1295.942,
+          "x1": 1054.756,
+          "y1": 1317.868
+        },
         "rectangles": [
           {
             "x0": 968.206,
@@ -128,27 +185,27 @@
             "y1": 1317.868
           }
         ],
-        "contentType": "decimal",
-        "isAutoVerified": false,
-        "document": "lVJldyps",
-        "classificationConfidence": 0.862,
-        "id": 60409693,
-        "rectangle": {
-          "x0": 968.206,
-          "y0": 1295.942,
-          "x1": 1054.756,
-          "y1": 1317.868
-        },
+        "document": "xFuXBJrg",
         "page_index": 0,
         "raw": "$4520.00",
         "confidence": 0.855,
+        "classification_confidence": 0.862,
+        "text_extraction_confidence": 0.991,
         "is_verified": false,
-        "classification": "paymentAmountDue",
+        "is_client_verified": false,
+        "is_auto_verified": false,
+        "data_point": "hTyimjpc",
+        "content_type": "decimal",
         "parsed": "4520.00"
       },
       "invoice_number": {
-        "textExtractionConfidence": 0.993,
-        "isClientVerified": false,
+        "id": 74052850,
+        "rectangle": {
+          "x0": 838.958,
+          "y0": 358.894,
+          "x1": 1067.45,
+          "y1": 409.67
+        },
         "rectangles": [
           {
             "x0": 838.958,
@@ -157,27 +214,27 @@
             "y1": 409.67
           }
         ],
-        "contentType": "text",
-        "isAutoVerified": false,
-        "document": "lVJldyps",
-        "classificationConfidence": 0.539,
-        "id": 60409668,
-        "rectangle": {
-          "x0": 838.958,
-          "y0": 358.894,
-          "x1": 1067.45,
-          "y1": 409.67
-        },
+        "document": "xFuXBJrg",
         "page_index": 0,
         "raw": "$4520.00",
         "confidence": 0.536,
+        "classification_confidence": 0.539,
+        "text_extraction_confidence": 0.993,
         "is_verified": false,
-        "classification": "invoiceNumber",
+        "is_client_verified": false,
+        "is_auto_verified": false,
+        "data_point": "bWFyBeNU",
+        "content_type": "text",
         "parsed": "$4520.00"
       },
       "customer_billing_address": {
-        "textExtractionConfidence": 0.988,
-        "isClientVerified": false,
+        "id": 74052858,
+        "rectangle": {
+          "x0": 65.778,
+          "y0": 425.82599999999996,
+          "x1": 244.648,
+          "y1": 452.368
+        },
         "rectangles": [
           {
             "x0": 65.778,
@@ -186,32 +243,34 @@
             "y1": 452.368
           }
         ],
-        "contentType": "location",
-        "isAutoVerified": false,
-        "document": "lVJldyps",
-        "classificationConfidence": 0.887,
-        "id": 60409697,
-        "rectangle": {
-          "x0": 65.778,
-          "y0": 425.82599999999996,
-          "x1": 244.648,
-          "y1": 452.368
-        },
+        "document": "xFuXBJrg",
         "page_index": 0,
         "raw": "City, State, Country",
         "confidence": 0.877,
+        "classification_confidence": 0.887,
+        "text_extraction_confidence": 0.988,
         "is_verified": false,
-        "classification": "customerBillingAddress",
+        "is_client_verified": false,
+        "is_auto_verified": false,
+        "data_point": "IIrmUFpr",
+        "content_type": "location",
         "parsed": {
           "formatted": "United States",
           "country": "United States",
           "country_code": "US",
-          "raw_input": "City, State, Country"
+          "raw_input": "City, State, Country",
+          "latitude": 37.09024,
+          "longitude": -95.712891
         }
       },
       "supplier_phone_number": {
-        "textExtractionConfidence": 0.969,
-        "isClientVerified": false,
+        "id": 74052852,
+        "rectangle": {
+          "x0": 662.396,
+          "y0": 75.01,
+          "x1": 790.49,
+          "y1": 96.93599999999999
+        },
         "rectangles": [
           {
             "x0": 662.396,
@@ -220,27 +279,27 @@
             "y1": 96.93599999999999
           }
         ],
-        "contentType": "text",
-        "isAutoVerified": false,
-        "document": "lVJldyps",
-        "classificationConfidence": 0.949,
-        "id": 60409670,
-        "rectangle": {
-          "x0": 662.396,
-          "y0": 75.01,
-          "x1": 790.49,
-          "y1": 96.93599999999999
-        },
+        "document": "xFuXBJrg",
         "page_index": 0,
         "raw": "647-444-1234",
         "confidence": 0.92,
+        "classification_confidence": 0.949,
+        "text_extraction_confidence": 0.969,
         "is_verified": false,
-        "classification": "supplierPhoneNumber",
+        "is_client_verified": false,
+        "is_auto_verified": false,
+        "data_point": "gCGTnHfC",
+        "content_type": "text",
         "parsed": "647-444-1234"
       },
       "supplier_email": {
-        "textExtractionConfidence": 0.991,
-        "isClientVerified": false,
+        "id": 74052851,
+        "rectangle": {
+          "x0": 635.854,
+          "y0": 108.476,
+          "x1": 785.874,
+          "y1": 133.864
+        },
         "rectangles": [
           {
             "x0": 635.854,
@@ -249,27 +308,27 @@
             "y1": 133.864
           }
         ],
-        "contentType": "text",
-        "isAutoVerified": false,
-        "document": "lVJldyps",
-        "classificationConfidence": 0.924,
-        "id": 60409669,
-        "rectangle": {
-          "x0": 635.854,
-          "y0": 108.476,
-          "x1": 785.874,
-          "y1": 133.864
-        },
+        "document": "xFuXBJrg",
         "page_index": 0,
         "raw": "your@email.com",
         "confidence": 0.916,
+        "classification_confidence": 0.924,
+        "text_extraction_confidence": 0.991,
         "is_verified": false,
-        "classification": "supplierEmail",
+        "is_client_verified": false,
+        "is_auto_verified": false,
+        "data_point": "HulOoEaC",
+        "content_type": "text",
         "parsed": "your@email.com"
       },
       "supplier_website": {
-        "textExtractionConfidence": 0.993,
-        "isClientVerified": false,
+        "id": 74052853,
+        "rectangle": {
+          "x0": 637.008,
+          "y0": 141.942,
+          "x1": 785.874,
+          "y1": 166.176
+        },
         "rectangles": [
           {
             "x0": 637.008,
@@ -278,77 +337,39 @@
             "y1": 166.176
           }
         ],
-        "contentType": "text",
-        "isAutoVerified": false,
-        "document": "lVJldyps",
-        "classificationConfidence": 0.918,
-        "id": 60409671,
-        "rectangle": {
-          "x0": 637.008,
-          "y0": 141.942,
-          "x1": 785.874,
-          "y1": 166.176
-        },
+        "document": "xFuXBJrg",
         "page_index": 0,
         "raw": "yourwebsite.com",
         "confidence": 0.911,
+        "classification_confidence": 0.918,
+        "text_extraction_confidence": 0.993,
         "is_verified": false,
-        "classification": "supplierWebsite",
+        "is_client_verified": false,
+        "is_auto_verified": false,
+        "data_point": "aAywZuvk",
+        "content_type": "text",
         "parsed": "yourwebsite.com"
       },
       "currency_code": {
-        "textExtractionConfidence": 1.0,
-        "isClientVerified": false,
+        "id": 74052872,
         "rectangles": [],
-        "contentType": "enum",
-        "isAutoVerified": false,
-        "document": "lVJldyps",
-        "classificationConfidence": null,
-        "id": 60409713,
+        "document": "xFuXBJrg",
         "page_index": 0,
         "raw": "USD",
+        "text_extraction_confidence": 1.0,
         "is_verified": false,
-        "classification": "currencyCode",
-        "parsed": "USD"
-      },
-      "custom_fields": {}
-    },
-    "meta": {
-      "review_url": "https://app.affinda.com/review/lVJldyps?signature=eyJ1c2VyX2lkIjoyNDIzfQ:1pzDIK:8XEvUePXVPExlDwvkFUUoD9LjLCaJ8d82pXPJxX_nvI:1pzDIK:GqL0kTd_9a8jGuA8vv31-DhBb1MJ-w6jdupA30jMYWQ",
-      "ocrConfidence": 0.979069306930693,
-      "documentType": "invoice",
-      "validatedDt": null,
-      "createdDt": "2023-05-17T09:18:00.845063Z",
-      "isVerified": false,
-      "file": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/invoice_Aj8lZoB.png?versionId=Qe4AfDM3JazYXYMiXXteX4RVaGRMnThA&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNEF44MZEO%2F20230517%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230517T091804Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEBkaDmFwLXNvdXRoZWFzdC0yIkcwRQIhANnCEGoyeybYhsrpyrQI8hw9ugjSMXnP2IPmj3dWvXOcAiBTEMB3SHH%2BnEfUxtuDCfM5r0kKYfVa%2FWbuFb26Wb0dPCqJBQhCEAIaDDMzNTU5NDU3MTE2MiIMMHRBCD%2B60QL3uf1vKuYElyGH%2FFCyAbU%2BACQGp81uMk%2FuFkV8MAyN89%2Fe7XeIKIuC9w2pXy9qibQqJkMsLmgN50iC9RJXffsGxIAffEsCvGjZBJ0NenALGF0ZtXXc7TqMu3W0k3yyI0fWzC%2BIiscDULkWpZqUELZjA0qsVypH7f453dCVlwUb6lZ55oRaAWYwQVmdTXdTCAKw7VNUQ8nlluCYUhahwpFSOXMcMah47zBSGOhyIUFl1842Im0WGSyn4kNlZNkJZq0HtQPWvW9l6coA%2Bvnd3QLrQ7wfR9UTGrWN23lYVZkULx0VDw7x36ULAQrRQ93pDDToKcNu4Pdgp1aWX33hqNZNfrzridRDiEV1fLUOlOKh2VnH13tAYTW4EfMd%2FfgjhQdYE%2F%2FKTBe4eyVYbPRiudMXRRknF0WDbcsQALfKxo7GERZRBx0x4nijfR7mFmDKk1NNgJa%2FV6RRugV1Din8HPaIF8zlqY%2Bh8NxxY1mqIpfJClQMYhQTiSX7kSNP3hPY9OFMhVpTcWIOQF5J2cafdbHcKYQEtli44v7apuPJ6YGJx4JLLtf9Jtw3aaY2QRj2qbsIetf65CLa1Abt4SsjlAVtKBV%2BY8yTHMM9Ary1kkJcx4IV8N0qh9k4%2BpT9awR6wlE4I0psShIGQXNJt0ZszBSHAYio%2BZUvtCn4lnnkph9o6adZcUi2aZpsnKWlg1%2BHbutpZUy7420wn4LdhtKmOsli5%2BiEdFreSWZPUZWupM25ZU2qPpm6bt6dNQB7jel4F31CDlWErOs1wwqdotuWMYDHkkXCG%2BJvhdJMhFN3hmd74rN%2BRj7PkJI%2FuhvZ%2BSMwg6eSowY6mgE%2FjaGk8TAxOEg4yQ2ASa%2BdZWM6ICp4xV4xfCQcKE7KUN%2FkJ9qOJYZo8uzy1iUa2%2Bo2YtbZxr3rThR47zA%2FFfaBSWN6khEs4x2fz4o22HROsWrwMA3LAZxefCVboJOKOJi51SfMSdRT2OX7L58FkF3NTzMPfQkQamtzLp8L1XygZNdDGlDaRW4zJTQdkep41rcCRZOS9sdo5Iyq&X-Amz-Signature=d415d5945965163d5436d9e99c2fe7b3d89b7dd15dc03f3bc0563008761ea53a",
-      "regionBias": {
-        "country": null,
-        "countries": null,
-        "squareCoordinates": null
-      },
-      "errorDetail": null,
-      "exportedDt": null,
-      "isExported": false,
-      "identifier": "lVJldyps",
-      "file_name": "invoice.png",
-      "ready": true,
-      "ready_dt": "2023-05-17T09:18:04.291773Z",
-      "failed": false,
-      "language": "en",
-      "pdf": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/invoice_Aj8lZoB.png_efadVAU.pdf?versionId=Pf1XY5BpLcVSM.fZlGS1rj7FWgDQ8Vgi&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNEF44MZEO%2F20230517%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230517T091804Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEBkaDmFwLXNvdXRoZWFzdC0yIkcwRQIhANnCEGoyeybYhsrpyrQI8hw9ugjSMXnP2IPmj3dWvXOcAiBTEMB3SHH%2BnEfUxtuDCfM5r0kKYfVa%2FWbuFb26Wb0dPCqJBQhCEAIaDDMzNTU5NDU3MTE2MiIMMHRBCD%2B60QL3uf1vKuYElyGH%2FFCyAbU%2BACQGp81uMk%2FuFkV8MAyN89%2Fe7XeIKIuC9w2pXy9qibQqJkMsLmgN50iC9RJXffsGxIAffEsCvGjZBJ0NenALGF0ZtXXc7TqMu3W0k3yyI0fWzC%2BIiscDULkWpZqUELZjA0qsVypH7f453dCVlwUb6lZ55oRaAWYwQVmdTXdTCAKw7VNUQ8nlluCYUhahwpFSOXMcMah47zBSGOhyIUFl1842Im0WGSyn4kNlZNkJZq0HtQPWvW9l6coA%2Bvnd3QLrQ7wfR9UTGrWN23lYVZkULx0VDw7x36ULAQrRQ93pDDToKcNu4Pdgp1aWX33hqNZNfrzridRDiEV1fLUOlOKh2VnH13tAYTW4EfMd%2FfgjhQdYE%2F%2FKTBe4eyVYbPRiudMXRRknF0WDbcsQALfKxo7GERZRBx0x4nijfR7mFmDKk1NNgJa%2FV6RRugV1Din8HPaIF8zlqY%2Bh8NxxY1mqIpfJClQMYhQTiSX7kSNP3hPY9OFMhVpTcWIOQF5J2cafdbHcKYQEtli44v7apuPJ6YGJx4JLLtf9Jtw3aaY2QRj2qbsIetf65CLa1Abt4SsjlAVtKBV%2BY8yTHMM9Ary1kkJcx4IV8N0qh9k4%2BpT9awR6wlE4I0psShIGQXNJt0ZszBSHAYio%2BZUvtCn4lnnkph9o6adZcUi2aZpsnKWlg1%2BHbutpZUy7420wn4LdhtKmOsli5%2BiEdFreSWZPUZWupM25ZU2qPpm6bt6dNQB7jel4F31CDlWErOs1wwqdotuWMYDHkkXCG%2BJvhdJMhFN3hmd74rN%2BRj7PkJI%2FuhvZ%2BSMwg6eSowY6mgE%2FjaGk8TAxOEg4yQ2ASa%2BdZWM6ICp4xV4xfCQcKE7KUN%2FkJ9qOJYZo8uzy1iUa2%2Bo2YtbZxr3rThR47zA%2FFfaBSWN6khEs4x2fz4o22HROsWrwMA3LAZxefCVboJOKOJi51SfMSdRT2OX7L58FkF3NTzMPfQkQamtzLp8L1XygZNdDGlDaRW4zJTQdkep41rcCRZOS9sdo5Iyq&X-Amz-Signature=9e2e4f4d3611f704b3796221a1906ac2ddfd5506a1b44cc4e9f97a50179ed7c0",
-      "child_documents": [],
-      "pages": [
-        {
-          "id": 22660271,
-          "page_index": 0,
-          "image": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/pages/22660271_IGy4LNC.png?versionId=Cmr1CYv_U0irYYq4u4Yz9o1UuXyTjwTr&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNEF44MZEO%2F20230517%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230517T091804Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEBkaDmFwLXNvdXRoZWFzdC0yIkcwRQIhANnCEGoyeybYhsrpyrQI8hw9ugjSMXnP2IPmj3dWvXOcAiBTEMB3SHH%2BnEfUxtuDCfM5r0kKYfVa%2FWbuFb26Wb0dPCqJBQhCEAIaDDMzNTU5NDU3MTE2MiIMMHRBCD%2B60QL3uf1vKuYElyGH%2FFCyAbU%2BACQGp81uMk%2FuFkV8MAyN89%2Fe7XeIKIuC9w2pXy9qibQqJkMsLmgN50iC9RJXffsGxIAffEsCvGjZBJ0NenALGF0ZtXXc7TqMu3W0k3yyI0fWzC%2BIiscDULkWpZqUELZjA0qsVypH7f453dCVlwUb6lZ55oRaAWYwQVmdTXdTCAKw7VNUQ8nlluCYUhahwpFSOXMcMah47zBSGOhyIUFl1842Im0WGSyn4kNlZNkJZq0HtQPWvW9l6coA%2Bvnd3QLrQ7wfR9UTGrWN23lYVZkULx0VDw7x36ULAQrRQ93pDDToKcNu4Pdgp1aWX33hqNZNfrzridRDiEV1fLUOlOKh2VnH13tAYTW4EfMd%2FfgjhQdYE%2F%2FKTBe4eyVYbPRiudMXRRknF0WDbcsQALfKxo7GERZRBx0x4nijfR7mFmDKk1NNgJa%2FV6RRugV1Din8HPaIF8zlqY%2Bh8NxxY1mqIpfJClQMYhQTiSX7kSNP3hPY9OFMhVpTcWIOQF5J2cafdbHcKYQEtli44v7apuPJ6YGJx4JLLtf9Jtw3aaY2QRj2qbsIetf65CLa1Abt4SsjlAVtKBV%2BY8yTHMM9Ary1kkJcx4IV8N0qh9k4%2BpT9awR6wlE4I0psShIGQXNJt0ZszBSHAYio%2BZUvtCn4lnnkph9o6adZcUi2aZpsnKWlg1%2BHbutpZUy7420wn4LdhtKmOsli5%2BiEdFreSWZPUZWupM25ZU2qPpm6bt6dNQB7jel4F31CDlWErOs1wwqdotuWMYDHkkXCG%2BJvhdJMhFN3hmd74rN%2BRj7PkJI%2FuhvZ%2BSMwg6eSowY6mgE%2FjaGk8TAxOEg4yQ2ASa%2BdZWM6ICp4xV4xfCQcKE7KUN%2FkJ9qOJYZo8uzy1iUa2%2Bo2YtbZxr3rThR47zA%2FFfaBSWN6khEs4x2fz4o22HROsWrwMA3LAZxefCVboJOKOJi51SfMSdRT2OX7L58FkF3NTzMPfQkQamtzLp8L1XygZNdDGlDaRW4zJTQdkep41rcCRZOS9sdo5Iyq&X-Amz-Signature=f514b9515e0b95d1b48e5015145e8c0b174e244aa112972823faedcdfe7569d8",
-          "height": 1500.0,
-          "width": 1154.0,
-          "rotation": 0
+        "is_client_verified": false,
+        "is_auto_verified": false,
+        "data_point": "JZguvEaB",
+        "content_type": "enum",
+        "parsed": {
+          "id": 1,
+          "label": "USD",
+          "value": "USD"
         }
-      ]
-    },
-    "error": {}
+      },
+      "raw_text": "INVOICE 647-444-1234 your@email.com yourwebsite.com 1 Your Address City, State, Country ZIP CODE Billed To Invoice Number Client Name 1 Client Address City, State, Country ZIP CODE 000000 Invoice Total $4520.00 \nDescription Your item Name Item description goes here Your item Name Item description goes here Your item Name Item description goes here Your item Name $1000 Item description goes here \nInvoice Terms Date Of Issue 10/07/14 \nEx. Please pay your invoice by .... Unit Cost Qty / Hr Rate $1000 1 $1000 1 1000 $1000 1 1000 1 1000 Subtotal $4000.00 Tax $520.00 Total $4520.00 Amount Due (USD) $4520.00 Amount 1000"
+    }
   },
   "standardized_response": {
     "extracted_data": [

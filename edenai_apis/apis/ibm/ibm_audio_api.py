@@ -1,7 +1,10 @@
 import base64
 from io import BufferedReader, BytesIO
 from typing import List, Optional
-from edenai_apis.apis.ibm.ibm_helpers import generate_right_ssml_text, get_right_audio_support_and_sampling_rate
+from edenai_apis.apis.ibm.ibm_helpers import (
+    generate_right_ssml_text,
+    get_right_audio_support_and_sampling_rate,
+)
 
 from edenai_apis.features.audio import (
     SpeechDiarization,
@@ -11,7 +14,11 @@ from edenai_apis.features.audio import (
 )
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.utils.audio import retreive_voice_id
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
+)
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -23,18 +30,19 @@ from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 from watson_developer_cloud.watson_service import WatsonApiException
 
+
 class IbmAudioApi(AudioInterface):
     def audio__text_to_speech(
-        self, 
-        language: str, 
-        text: str, 
+        self,
+        language: str,
+        text: str,
         option: str,
         voice_id: str,
         audio_format: str,
-        speaking_rate: int, 
+        speaking_rate: int,
         speaking_pitch: int,
         speaking_volume: int,
-        sampling_rate: int
+        sampling_rate: int,
     ) -> ResponseType[TextToSpeechDataClass]:
         """
         :param language:    String that contains language name 'fr-FR', 'en-US', 'es-EN'
@@ -44,38 +52,31 @@ class IbmAudioApi(AudioInterface):
         """
         text = generate_right_ssml_text(text, speaking_rate, speaking_pitch)
 
-        ext, audio_format = get_right_audio_support_and_sampling_rate(audio_format, sampling_rate)
+        ext, audio_format = get_right_audio_support_and_sampling_rate(
+            audio_format, sampling_rate
+        )
 
-        params = {
-            "text": text,
-            "accept": audio_format,
-            "voice": voice_id
-        }
+        params = {"text": text, "accept": audio_format, "voice": voice_id}
 
         try:
-            response = (
-                self.clients["texttospeech"]
-                .synthesize(**params)
-                .get_result()
-            )
+            response = self.clients["texttospeech"].synthesize(**params).get_result()
         except WatsonApiException as excp:
             raise ProviderException(excp.message)
-        
+
         audio_content = BytesIO(response.content)
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
         voice_type = 1
 
         audio_content.seek(0)
         resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
-        
+
         standardized_response = TextToSpeechDataClass(
-            audio=audio, voice_type=voice_type, audio_resource_url = resource_url
+            audio=audio, voice_type=voice_type, audio_resource_url=resource_url
         )
 
         return ResponseType[TextToSpeechDataClass](
             original_response={}, standardized_response=standardized_response
         )
-
 
     def audio__speech_to_text_async__launch_job(
         self,
@@ -85,14 +86,13 @@ class IbmAudioApi(AudioInterface):
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model : str = None,
+        model: str = None,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
-
         export_format, channels, frame_rate = audio_attributes
-       
+
         language_audio = language
-        
+
         file_ = open(file, "rb")
         audio_config = {
             "audio": file_,
@@ -120,10 +120,10 @@ class IbmAudioApi(AudioInterface):
             error_message = str(excp)
             if "job not found" in error_message:
                 raise AsyncJobException(
-                    reason= AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
                 )
             raise ProviderException(error_message)
-        
+
         status = response.result["status"]
         if status == "completed":
             original_response = response.result["results"]
@@ -148,7 +148,7 @@ class IbmAudioApi(AudioInterface):
                         segment=time_stamps[idx_word][0],
                         start_time=str(time_stamps[idx_word][1]),
                         end_time=str(time_stamps[idx_word][2]),
-                        speaker= int(word_info["speaker"]) + 1,
+                        speaker=int(word_info["speaker"]) + 1,
                         confidence=word_info["confidence"],
                     )
                 )

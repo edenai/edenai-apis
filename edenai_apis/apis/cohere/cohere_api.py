@@ -220,15 +220,15 @@ Answer:"""
 
         # Construct request
         payload = {
-            "model":'command',
-            "prompt":prompt,
-            "max_tokens":650,
-            "temperature":0,
-            "k":0,
+            "model": "command",
+            "prompt": prompt,
+            "max_tokens": 650,
+            "temperature": 0,
+            "k": 0,
             "frequency_penalty": 0.3,
             "truncate": "END",
-            "stop_sequences":[],
-            "return_likelihoods":'NONE'
+            "stop_sequences": [],
+            "return_likelihoods": "NONE",
         }
         response = requests.post(url, json=payload, headers=self.headers)
         if response.status_code != 200:

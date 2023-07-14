@@ -24,6 +24,8 @@ class AmazonApi(
     provider_name = "amazon"
 
     def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, "amazon", api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, "amazon", api_keys=api_keys
+        )
         self.clients = clients(self.api_settings)
         self.storage_clients = storage_clients(self.api_settings)

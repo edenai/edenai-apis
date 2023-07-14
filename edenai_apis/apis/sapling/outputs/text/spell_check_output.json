@@ -1,0 +1,52 @@
+{
+  "original_response": {
+    "candidates": {},
+    "edits": [
+      {
+        "end": 5,
+        "id": "bcf644c4-7ae8-5ffd-9a31-5e171c03ec6c",
+        "replacement": "Hello",
+        "sentence": "Hollo, wrld!",
+        "sentence_start": 0,
+        "start": 0
+      },
+      {
+        "end": 11,
+        "id": "a760959a-4be6-5abe-a7a8-812885540b2d",
+        "replacement": "world",
+        "sentence": "Hollo, wrld!",
+        "sentence_start": 0,
+        "start": 7
+      }
+    ]
+  },
+  "standardized_response": {
+    "text": "Hollo, wrld! How r yu?",
+    "items": [
+      {
+        "text": "Hollo",
+        "type": null,
+        "offset": 0,
+        "length": 5,
+        "suggestions": [
+          {
+            "suggestion": "Hello",
+            "score": null
+          }
+        ]
+      },
+      {
+        "text": "wrld",
+        "type": null,
+        "offset": 7,
+        "length": 4,
+        "suggestions": [
+          {
+            "suggestion": "world",
+            "score": null
+          }
+        ]
+      }
+    ]
+  }
+}

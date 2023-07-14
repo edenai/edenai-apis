@@ -1,4 +1,5 @@
 import re
+
 # import ipdb
 from .mt_models_huggingface import models
 
@@ -8,8 +9,10 @@ normal_models = [
 other_models = [m for m in models if m not in normal_models]
 other_two_models = [mod for mod in other_models if "tatoeba" in mod or "tc-big-" in mod]
 
+
 def find_if_ok(i, j):
     return re.findall(i, j)[0] if re.findall(i, j) else j
+
 
 normal_languages = [find_if_ok("[a-zA-Z]+-[a-zA-Z]+$", m) for m in normal_models]
 other_languages = [find_if_ok("[a-zA-Z]+-[a-zA-Z]+$", m) for m in other_models]

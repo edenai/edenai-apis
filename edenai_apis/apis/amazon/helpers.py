@@ -1,5 +1,4 @@
 import json
-from pprint import pprint
 import urllib
 from io import BufferedReader
 from time import time
@@ -58,6 +57,7 @@ from edenai_apis.utils.exception import (
     AsyncJobExceptionReason,
     ProviderException,
 )
+from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
 
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -318,8 +318,10 @@ def query_answer_result(page: List[dict], identifier: str):
 def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass:
     extracted_data = []
     for page in pages:
-        if page.get('JobStatus') == 'FAILED':
-            raise ProviderException(page.get('StatusMessage', 'Amazon returned a job status: FAILED'))
+        if page.get("JobStatus") == "FAILED":
+            raise ProviderException(
+                page.get("StatusMessage", "Amazon returned a job status: FAILED")
+            )
         for invoice in page["ExpenseDocuments"]:
             # format response to be more easily parsable
             summary = {}
@@ -366,6 +368,7 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
                     "RECEIVER_ADDRESS", summary.get("ADDRESS")
                 ),
                 customer_email=None,
+                customer_id=None,
                 customer_number=summary.get("CUSTOMER_NUMBER"),
                 customer_tax_id=None,
                 customer_mailing_address=None,
@@ -373,6 +376,10 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
                 customer_shipping_address=None,
                 customer_service_address=None,
                 customer_remittance_address=None,
+                abn_number=None,
+                gst_number=None,
+                pan_number=None,
+                vat_number=None,
             )
 
             merchant = MerchantInformationInvoice(
@@ -385,6 +392,10 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
                 merchant_tax_id=summary.get("TAX_PAYER_ID"),
                 merchant_siret=None,
                 merchant_siren=None,
+                abn_number=None,
+                gst_number=None,
+                pan_number=None,
+                vat_number=None,
             )
 
             invoice_currency = None
@@ -394,10 +405,12 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
             # we get the one who appeared the most
             elif len(currencies) > 1:
                 invoice_currency = max(currencies, key=currencies.get)
-            locale = LocaleInvoice(currency=invoice_currency, invoice_language=None)
+            locale = LocaleInvoice(currency=invoice_currency, language=None)
 
             taxes = [
-                TaxesInvoice(value=convert_string_to_number(summary.get("TAX"), float))
+                TaxesInvoice(
+                    value=convert_string_to_number(summary.get("TAX"), float), rate=None
+                )
             ]
 
             invoice_infos = InfosInvoiceParserDataClass(
@@ -409,7 +422,9 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
                     summary.get("SUBTOTAL"), float
                 ),
                 amount_due=convert_string_to_number(summary.get("AMOUNT_DUE"), float),
-                previous_unpaid_balance=convert_string_to_number(summary.get("PRIOR_BALANCE"), float),
+                previous_unpaid_balance=convert_string_to_number(
+                    summary.get("PRIOR_BALANCE"), float
+                ),
                 discount=convert_string_to_number(summary.get("DISCOUNT"), float),
                 taxes=taxes,
                 payment_term=summary.get("PAYMENT_TERMS"),
@@ -531,10 +546,7 @@ def amazon_speaking_volume_adapter(speaking_volume: int):
     return speaking_volume * 6 / 100
 
 
-def generate_right_ssml_text(text, speaking_rate, speaking_pitch, speaking_volume):
-    validate_audio_attribute_against_ssml_tags_use(
-        text, speaking_rate, speaking_pitch, speaking_volume
-    )
+def generate_right_ssml_text(text, speaking_rate, speaking_pitch, speaking_volume) -> str:
     attribs = {
         "rate": (speaking_rate, f"{amazon_speaking_rate_converter(speaking_rate)}%"),
         "pitch": (speaking_pitch, f"{speaking_pitch}%"),
@@ -549,9 +561,8 @@ def generate_right_ssml_text(text, speaking_rate, speaking_pitch, speaking_volum
             continue
         cleaned_attribs_string = f"{cleaned_attribs_string} {k}='{v[1]}'"
     if not cleaned_attribs_string.strip():
-        return text, None
-    smll_text = f"<speak><prosody {cleaned_attribs_string}>{text}</prosody></speak>"
-    return smll_text, "ssml"
+        return text
+    return convert_audio_attr_in_prosody_tag(cleaned_attribs_string, text)
 
 
 def get_right_audio_support_and_sampling_rate(audio_format: str, sampling_rate: int):

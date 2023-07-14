@@ -1,18 +1,18 @@
 from typing import Sequence
 
-from pydantic import BaseModel, Field, StrictStr, validator
+from pydantic import BaseModel, Field, StrictStr, field_validator
 
 
 class ExplicitItem(BaseModel):
     label: StrictStr
     likelihood: int
 
+
 class ExplicitContentDataClass(BaseModel):
     nsfw_likelihood: int
     items: Sequence[ExplicitItem] = Field(default_factory=list)
 
-    # TODO reuse validator
-    @validator('nsfw_likelihood')
+    @field_validator("nsfw_likelihood")
     def check_min_max(cls, v):
         if not 0 <= v <= 5:
             raise ValueError("Value should be between 0 and 5")

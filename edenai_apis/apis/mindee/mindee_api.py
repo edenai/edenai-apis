@@ -1,6 +1,6 @@
 from io import BufferedReader
 from collections import defaultdict
-from typing import Dict, List, Optional, Sequence, TypeVar
+from typing import Dict, List, Optional, Sequence, TypeVar, Union
 from pydantic import StrictStr
 import requests
 
@@ -17,7 +17,10 @@ from edenai_apis.features.ocr import (
     get_info_country,
     ItemIdentityParserDataClass,
 )
-from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import DataExtractionDataClass
+from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import (
+    DataExtractionDataClass,
+)
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import Country
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     CustomerInformationInvoice,
     LocaleInvoice,
@@ -38,7 +41,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import (
     combine_date_with_time,
     convert_string_to_number,
-    from_jsonarray_to_list
+    from_jsonarray_to_list,
 )
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
@@ -50,14 +53,24 @@ class MindeeApi(ProviderInterface, OcrInterface):
     provider_name = "mindee"
 
     def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.api_key = self.api_settings["subscription_key"]
         self.url = "https://api.mindee.net/v1/products/mindee/invoices/v3/predict"
-        self.url_receipt = "https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict"
-        self.url_identity = "https://api.mindee.net/v1/products/mindee/passport/v1/predict"
-        self.url_financial = "https://api.mindee.net/v1/products/mindee/financial_document/v1/predict"
+        self.url_receipt = (
+            "https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict"
+        )
+        self.url_identity = (
+            "https://api.mindee.net/v1/products/mindee/passport/v1/predict"
+        )
+        self.url_financial = (
+            "https://api.mindee.net/v1/products/mindee/financial_document/v1/predict"
+        )
 
-    def _get_api_attributes(self, file: BufferedReader, language: Optional[str] = None) -> ParamsApi:
+    def _get_api_attributes(
+        self, file: BufferedReader, language: Optional[str] = None
+    ) -> ParamsApi:
         params: ParamsApi = {
             "headers": {"Authorization": self.api_key},
             "files": {"document": file},
@@ -66,17 +79,15 @@ class MindeeApi(ProviderInterface, OcrInterface):
                     "langage": language.split("-")[0],
                     "country": language.split("-")[1],
                 }
-            } if language else None,
+            }
+            if language
+            else None,
         }
         return params
 
     def ocr__receipt_parser(
-        self, 
-        file: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
-
         file_ = open(file, "rb")
         args = self._get_api_attributes(file_, language)
         original_response = requests.post(
@@ -99,14 +110,12 @@ class MindeeApi(ProviderInterface, OcrInterface):
                 invoice_number=None,
                 invoice_total=receipt_data["total_amount"]["value"],
                 invoice_subtotal=None,
-                barcode=[],
+                barcodes=[],
                 date=combine_date_with_time(
                     receipt_data["date"]["value"], receipt_data["time"]["value"]
                 ),
                 due_date=None,
-                customer_information=CustomerInformation(
-                    customer_name=None
-                ),
+                customer_information=CustomerInformation(customer_name=None),
                 merchant_information=MerchantInformation(
                     merchant_name=receipt_data["supplier_name"]["value"],
                     merchant_address=receipt_data["supplier_address"]["value"],
@@ -132,7 +141,8 @@ class MindeeApi(ProviderInterface, OcrInterface):
                     Taxes(
                         taxes=tax["value"],
                         rate=tax["rate"],
-                    ) for tax in receipt_data["taxes"]
+                    )
+                    for tax in receipt_data["taxes"]
                 ],
                 item_lines=[
                     ItemLines(
@@ -155,12 +165,8 @@ class MindeeApi(ProviderInterface, OcrInterface):
         return result
 
     def ocr__invoice_parser(
-        self, 
-        file: str, 
-        language: str,
-        file_url: str= ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
-
         headers = {
             "Authorization": self.api_key,
         }
@@ -177,18 +183,22 @@ class MindeeApi(ProviderInterface, OcrInterface):
             raise ProviderException(
                 original_response["api_request"]["error"]["message"]
             )
-        # Invoice std : 
+        # Invoice std :
         invoice_data = original_response["document"]["inference"]["prediction"]
         default_dict = defaultdict(lambda: None)
-        
-        # Customer informations 
+
+        # Customer informations
         customer_name = invoice_data.get("customer", default_dict).get("value", None)
-        customer_address = invoice_data.get("customer_address", default_dict).get("value", None)
-        
+        customer_address = invoice_data.get("customer_address", default_dict).get(
+            "value", None
+        )
+
         # Merchant information
         merchant_name = invoice_data.get("supplier", default_dict).get("value", None)
-        merchant_address = invoice_data.get("supplier_address", default_dict).get("value", None)
-        
+        merchant_address = invoice_data.get("supplier_address", default_dict).get(
+            "value", None
+        )
+
         # Others
         date = invoice_data.get("date", default_dict).get("value", None)
         time = invoice_data.get("time", default_dict).get("value", None)
@@ -214,11 +224,38 @@ class MindeeApi(ProviderInterface, OcrInterface):
 
         invoice_parser = InfosInvoiceParserDataClass(
             merchant_information=MerchantInformationInvoice(
-            merchant_name=merchant_name, merchant_address=merchant_address
+                merchant_name=merchant_name,
+                merchant_address=merchant_address,
+                # Not supported by the Mindee
+                # --------------------------------
+                merchant_phone=None,
+                merchant_email=None,
+                merchant_fax=None,
+                merchant_website=None,
+                merchant_siret=None,
+                merchant_siren=None,
+                merchant_tax_id=None,
+                abn_number=None,
+                gst_number=None,
+                vat_number=None,
+                pan_number=None,
+                # --------------------------------
             ),
-            customer_information = CustomerInformationInvoice(
-            customer_name=customer_name, customer_address=customer_address,
-            customer_mailing_address = customer_address
+            customer_information=CustomerInformationInvoice(
+                customer_name=customer_name,
+                customer_address=customer_address,
+                customer_mailing_address=customer_address,
+                customer_email=None,
+                customer_id=None,
+                customer_tax_id=None,
+                customer_billing_address=None,
+                customer_remittance_address=None,
+                customer_service_address=None,
+                customer_shipping_address=None,
+                abn_number=None,
+                gst_number=None,
+                pan_number=None,
+                vat_number=None,
             ),
             invoice_number=invoice_number,
             invoice_total=invoice_total,
@@ -229,9 +266,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
             locale=LocaleInvoice(currency=currency, language=language),
         )
 
-        standardized_response = InvoiceParserDataClass(
-            extracted_data=[invoice_parser]
-        ).dict()
+        standardized_response = InvoiceParserDataClass(extracted_data=[invoice_parser])
 
         result = ResponseType[InvoiceParserDataClass](
             original_response=original_response,
@@ -240,83 +275,100 @@ class MindeeApi(ProviderInterface, OcrInterface):
         return result
 
     def ocr__identity_parser(
-        self, 
-        file: str, 
-        file_url: str= ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
         file_ = open(file, "rb")
         args = self._get_api_attributes(file_)
 
-        response = requests.post(url=self.url_identity, files=args['files'], headers=args['headers'])
+        response = requests.post(
+            url=self.url_identity, files=args["files"], headers=args["headers"]
+        )
 
         file_.close()
 
         original_response = response.json()
         if response.status_code != 201:
-            raise ProviderException(message=original_response['api_request']['error']['message'], code=response.status_code)
+            raise ProviderException(
+                message=original_response["api_request"]["error"]["message"],
+                code=response.status_code,
+            )
 
         identity_data = original_response["document"]["inference"]["prediction"]
 
-        given_names: Sequence[StrictStr] = []
+        given_names: Sequence[ItemIdentityParserDataClass] = []
 
-        for given_name in identity_data['given_names']:
-            given_names.append(ItemIdentityParserDataClass(
-                value=given_name['value'],
-                confidence=given_name['confidence'])
+        for given_name in identity_data["given_names"]:
+            given_names.append(
+                ItemIdentityParserDataClass(
+                    value=given_name["value"], confidence=given_name["confidence"]
+                )
             )
 
         last_name = ItemIdentityParserDataClass(
-            value=identity_data['surname']['value'],
-            confidence=identity_data['surname']['confidence']
+            value=identity_data["surname"]["value"],
+            confidence=identity_data["surname"]["confidence"],
         )
         birth_date = ItemIdentityParserDataClass(
-            value=identity_data['birth_date']['value'],
-            confidence=identity_data['birth_date']['confidence']
+            value=identity_data["birth_date"]["value"],
+            confidence=identity_data["birth_date"]["confidence"],
         )
         birth_place = ItemIdentityParserDataClass(
-            value=identity_data['birth_place']['value'],
-            confidence=identity_data['birth_place']['confidence']
+            value=identity_data["birth_place"]["value"],
+            confidence=identity_data["birth_place"]["confidence"],
         )
-        country = get_info_country(key=InfoCountry.ALPHA3, value=identity_data['country']['value'])
+
+        country: Country = get_info_country(
+            key=InfoCountry.ALPHA3, value=identity_data["country"]["value"]
+        )
         if country:
-            country['confidence'] = identity_data['country']['confidence']
+            country["confidence"] = identity_data["country"]["confidence"]
+
         issuance_date = ItemIdentityParserDataClass(
-            value=identity_data['issuance_date']['value'],
-            confidence=identity_data['issuance_date']['confidence']
+            value=identity_data["issuance_date"]["value"],
+            confidence=identity_data["issuance_date"]["confidence"],
         )
         expire_date = ItemIdentityParserDataClass(
-            value=identity_data['expiry_date']['value'],
-            confidence=identity_data['expiry_date']['confidence']
+            value=identity_data["expiry_date"]["value"],
+            confidence=identity_data["expiry_date"]["confidence"],
         )
         document_id = ItemIdentityParserDataClass(
-            value=identity_data['id_number']['value'],
-            confidence=identity_data['id_number']['confidence']
+            value=identity_data["id_number"]["value"],
+            confidence=identity_data["id_number"]["confidence"],
         )
         gender = ItemIdentityParserDataClass(
-            value=identity_data['gender']['value'],
-            confidence=identity_data['gender']['confidence']
+            value=identity_data["gender"]["value"],
+            confidence=identity_data["gender"]["confidence"],
         )
         mrz = ItemIdentityParserDataClass(
-            value=identity_data['mrz1']['value'],
-            confidence=identity_data['mrz1']['confidence']
+            value=identity_data["mrz1"]["value"],
+            confidence=identity_data["mrz1"]["confidence"],
         )
         items: Sequence[InfosIdentityParserDataClass] = []
-        items.append(InfosIdentityParserDataClass(
-            last_name=last_name,
-            given_names=given_names,
-            birth_date=birth_date,
-            birth_place=birth_place,
-            country=country,
-            issuance_date=issuance_date,
-            expire_date=expire_date,
-            document_id=document_id,
-            gender=gender,
-            mrz=mrz,
-        ))
+        items.append(
+            InfosIdentityParserDataClass(
+                last_name=last_name,
+                given_names=given_names,
+                birth_date=birth_date,
+                birth_place=birth_place,
+                country=country or Country.default(),
+                issuance_date=issuance_date,
+                expire_date=expire_date,
+                document_id=document_id,
+                gender=gender,
+                mrz=mrz,
+                image_id=[],
+                issuing_state=ItemIdentityParserDataClass(),
+                address=ItemIdentityParserDataClass(),
+                age=ItemIdentityParserDataClass(),
+                document_type=ItemIdentityParserDataClass(),
+                nationality=ItemIdentityParserDataClass(),
+                image_signature=[],
+            )
+        )
 
         standardized_response = IdentityParserDataClass(extracted_data=items)
 
         return ResponseType[IdentityParserDataClass](
             original_response=original_response,
-            standardized_response=standardized_response
+            standardized_response=standardized_response,
         )

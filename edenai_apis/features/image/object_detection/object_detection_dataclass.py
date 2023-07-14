@@ -1,6 +1,7 @@
 from typing import Optional, Sequence
 from pydantic import BaseModel, StrictStr, Field
 
+
 class ObjectItem(BaseModel):
     label: StrictStr
     confidence: float

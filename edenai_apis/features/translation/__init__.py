@@ -1,6 +1,6 @@
 from .automatic_translation import (
     AutomaticTranslationDataClass,
-    automatic_translation_arguments
+    automatic_translation_arguments,
 )
 from .language_detection import (
     LanguageDetectionDataClass,

@@ -226,6 +226,9 @@
     },
     "embeddings": {
       "version": "v3.0.0"
+    },
+    "prompt_optimization" : {
+      "version" : "v3.0.0"
     }
   },
   "translation": {

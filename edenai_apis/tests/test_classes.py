@@ -51,7 +51,9 @@ def load_class_with_subfeature() -> List[ParameterSet]:
 @pytest.mark.parametrize("cls", load_class_with_subfeature())
 class TestApiClass:
     def test_issubclass(self, cls: ProviderInterface):
-        assert issubclass(cls, ProviderInterface), f"Please inherit {cls} from ProviderInterface"
+        assert issubclass(
+            cls, ProviderInterface
+        ), f"Please inherit {cls} from ProviderInterface"
 
     def test_info_file_exists(self, cls: ProviderInterface):
         provider = cls.provider_name
@@ -65,9 +67,13 @@ class TestApiClass:
             for subfeature in info[feature]:
                 if not info[feature][subfeature].get("version"):
                     for phase in info[feature][subfeature]:
-                        assert "version" in info[feature][subfeature][phase], "missing 'version' property"
+                        assert (
+                            "version" in info[feature][subfeature][phase]
+                        ), "missing 'version' property"
                 else:
-                    assert "version" in info[feature][subfeature], "missing 'version' property"
+                    assert (
+                        "version" in info[feature][subfeature]
+                    ), "missing 'version' property"
 
     def test_implemented_features_documented(self, cls: ProviderInterface):
         """Test if all implemented features are documented in the provider's info.json file"""
@@ -76,12 +82,15 @@ class TestApiClass:
         info = load_provider(ProviderDataEnum.INFO_FILE, provider)
         implemented_features = list_features(provider_name=provider)
 
-        #Action
-        for _,feature, subfeature, *phase in implemented_features:
+        # Action
+        for _, feature, subfeature, *phase in implemented_features:
             if phase:
-                feature_info = info.get(feature, {}).get(subfeature, {}).get(phase[0], {})
+                feature_info = (
+                    info.get(feature, {}).get(subfeature, {}).get(phase[0], {})
+                )
             else:
                 feature_info = info.get(feature, {}).get(subfeature, {})
             # Assert if feature_info doesn't exist
-            assert feature_info, \
-                f"Please add {(feature,subfeature,phase[0] if phase else '')} to info.json file of {cls.__name__}"
+            assert (
+                feature_info
+            ), f"Please add {(feature,subfeature,phase[0] if phase else '')} to info.json file of {cls.__name__}"

@@ -10,5 +10,5 @@ from .resume_parser_dataclass import (
     ResumeWorkExpEntry,
     ResumeWorkExp,
     ResumePersonalName,
-    ResumeLocation
+    ResumeLocation,
 )

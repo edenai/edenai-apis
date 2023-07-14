@@ -4,7 +4,7 @@ from edenai_apis.utils.exception import (
     ProviderInvalidInputTextLengthError,
     ProviderAuthorizationError,
     ProviderNotFoundError,
-    ProviderInvalidInputError
+    ProviderInvalidInputError,
 )
 
 # NOTE: error messages should be regex patterns
@@ -15,14 +15,12 @@ ERRORS: ProviderErrorLists = {
     ProviderInternalServerError: [
         r"Internal server error",
     ],
-    ProviderAuthorizationError : [
-        r"Invalid API Key"
-    ],
-    ProviderNotFoundError : [
+    ProviderAuthorizationError: [r"Invalid API Key"],
+    ProviderNotFoundError: [
         r"Unavailable voice skin.",
     ],
-    ProviderInvalidInputError : [
+    ProviderInvalidInputError: [
         r"Speaker \w+ for language \w+ is not available",
-        r"Wrong voice id"
-    ]
+        r"Wrong voice id",
+    ],
 }

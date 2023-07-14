@@ -1,5 +1,4 @@
 from io import BufferedReader
-from pprint import pprint
 from typing import Dict, List, Optional, Sequence
 import requests
 
@@ -15,7 +14,7 @@ from edenai_apis.features.translation import (
 )
 from edenai_apis.features.audio.speech_to_text_async import (
     SpeechToTextAsyncDataClass,
-    SpeechDiarization
+    SpeechDiarization,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -24,9 +23,14 @@ from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
-    AsyncLaunchJobResponseType, ResponseType
+    AsyncLaunchJobResponseType,
+    ResponseType,
 )
-from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
+)
 from .config import get_domain_language_from_code
 
 
@@ -35,7 +39,8 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
 
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name, api_keys = api_keys)
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
         self.api_key = self.api_settings["api"]
         self.url = "https://platform.neuralspace.ai/api/"
         self.header = {
@@ -51,11 +56,8 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
 
         files = {"text": text, "language": language}
 
-        response = requests.request(
-            "POST", url, json=files, headers=self.header)
+        response = requests.request("POST", url, json=files, headers=self.header)
         if response.status_code != 200:
-            print(response.status_code)
-            pprint(response.json())
             if not response.json().get("success"):
                 raise ProviderException(response.json().get("message"))
 
@@ -67,8 +69,8 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         if len(data["entities"]) > 0:
             for entity in data["entities"]:
                 text = entity["text"]
-                if entity["type"] == 'time':
-                    category = 'DATE'
+                if entity["type"] == "time":
+                    category = "DATE"
                 else:
                     category = entity["type"].upper()
 
@@ -76,7 +78,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
                     InfosNamedEntityRecognitionDataClass(
                         entity=text,
                         importance=None,
-                        category=category.replace('-', ''),
+                        category=category.replace("-", ""),
                     )
                 )
 
@@ -97,8 +99,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
             "targetLanguage": target_language,
         }
 
-        response = requests.request(
-            "POST", url, json=files, headers=self.header)
+        response = requests.request("POST", url, json=files, headers=self.header)
         response = response.json()
 
         data = response["data"]
@@ -114,19 +115,19 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
             original_response=data, standardized_response=standardized_response
         )
 
-    def translation__language_detection(self, text) -> ResponseType[LanguageDetectionDataClass]:
+    def translation__language_detection(
+        self, text
+    ) -> ResponseType[LanguageDetectionDataClass]:
         url = f"{self.url}language-detection/v1/detect"
         files = {"text": text}
 
-        response = requests.request(
-            "POST", url, json=files, headers=self.header)
+        response = requests.request("POST", url, json=files, headers=self.header)
 
         original_response = response.json()
         if response.status_code != 200:
-            print(response.status_code)
-            print(response.json())
             raise ProviderException(
-                message=original_response['error'], code=response.status_code)
+                message=original_response["error"], code=response.status_code
+            )
 
         items: Sequence[InfosLanguageDetectionDataClass] = []
         for lang in original_response["data"]["detected_languages"]:
@@ -136,13 +137,14 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
                     InfosLanguageDetectionDataClass(
                         language=lang["language"],
                         display_name=get_language_name_from_code(
-                            isocode=lang['language']),
-                        confidence=confidence
+                            isocode=lang["language"]
+                        ),
+                        confidence=confidence,
                     )
                 )
         return ResponseType[LanguageDetectionDataClass](
             original_response=original_response,
-            standardized_response=LanguageDetectionDataClass(items=items)
+            standardized_response=LanguageDetectionDataClass(items=items),
         )
 
     def audio__speech_to_text_async__launch_job(
@@ -156,71 +158,53 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         model: str = None,
         file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
-
         export_format, channels, frame_rate = audio_attributes
 
         url_file_upload = f"{self.url}file/upload"
         url_file_transcribe = f"{self.url}transcription/v1/file/transcribe"
         # first, upload file
-        headers = {
-            "Authorization": f"{self.api_key}"
-        }
+        headers = {"Authorization": f"{self.api_key}"}
         file_ = open(file, "rb")
         files = {"files": file_}
-        response = requests.post(
-            url=url_file_upload,
-            headers=headers,
-            files=files
-        )
+        response = requests.post(url=url_file_upload, headers=headers, files=files)
 
         file_.close()
         if response.status_code != 200:
             raise ProviderException(
-                "Failed to upload file for transcription", response.status_code)
+                "Failed to upload file for transcription", response.status_code
+            )
 
         original_response = response.json()
-        fileId = original_response.get('data').get('fileId')
+        fileId = original_response.get("data").get("fileId")
 
         # then, call spech to text api
         language_domain = get_domain_language_from_code(language)
-        payload = {
-            "fileId": fileId
-        }
+        payload = {"fileId": fileId}
 
         if language_domain:
-            payload.update({
-                "language": language_domain.get('language'),
-                "domain": language_domain.get('domain')
-            })
+            payload.update(
+                {
+                    "language": language_domain.get("language"),
+                    "domain": language_domain.get("domain"),
+                }
+            )
 
-        response = requests.post(
-            url=url_file_transcribe,
-            headers=headers,
-            data=payload
-        )
+        response = requests.post(url=url_file_transcribe, headers=headers, data=payload)
         original_response = response.json()
         if response.status_code != 201:
-            raise ProviderException(original_response.get('data').get('error'))
+            raise ProviderException(original_response.get("data").get("error"))
 
-        transcribeId = original_response.get('data').get('transcribeId')
+        transcribeId = original_response.get("data").get("transcribeId")
 
-        return AsyncLaunchJobResponseType(
-            provider_job_id=transcribeId
-        )
+        return AsyncLaunchJobResponseType(provider_job_id=transcribeId)
 
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-
         url_transcribe = f"{self.url}transcription/v1/single/transcription?transcribeId={provider_job_id}"
-        headers = {
-            "Authorization": f"{self.api_key}"
-        }
+        headers = {"Authorization": f"{self.api_key}"}
 
-        response = requests.get(
-            url=url_transcribe,
-            headers=headers
-        )
+        response = requests.get(url=url_transcribe, headers=headers)
 
         if response.status_code != 200:
             data = response.json().get("data") or {}
@@ -235,7 +219,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
 
         diarization = SpeechDiarization(total_speakers=0, entries=[])
         original_response = response.json()
-        status = original_response.get('data').get('transcriptionStatus')
+        status = original_response.get("data").get("transcriptionStatus")
         if status != "Completed":
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id
@@ -244,8 +228,8 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         return AsyncResponseType[SpeechToTextAsyncDataClass](
             original_response=original_response,
             standardized_response=SpeechToTextAsyncDataClass(
-                text=original_response.get('data').get('transcripts'),
-                diarization=diarization
+                text=original_response.get("data").get("transcripts"),
+                diarization=diarization,
             ),
-            provider_job_id=provider_job_id
+            provider_job_id=provider_job_id,
         )

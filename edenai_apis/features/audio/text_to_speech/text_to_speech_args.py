@@ -16,5 +16,5 @@ def text_to_speech_arguments() -> Dict:
         "speaking_rate": 0,
         "speaking_pitch": 0,
         "speaking_volume": 0,
-        "sampling_rate": 0
+        "sampling_rate": 0,
     }

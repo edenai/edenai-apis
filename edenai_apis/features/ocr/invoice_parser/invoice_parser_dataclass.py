@@ -19,6 +19,25 @@ class CustomerInformationInvoice(BaseModel):
     pan_number: Optional[StrictStr]  # New
     vat_number: Optional[StrictStr]  # New
 
+    @staticmethod
+    def default() -> "CustomerInformationInvoice":
+        return CustomerInformationInvoice(
+            customer_name=None,
+            customer_address=None,
+            customer_email=None,
+            customer_id=None,
+            customer_tax_id=None,
+            customer_mailing_address=None,
+            customer_billing_address=None,
+            customer_shipping_address=None,
+            customer_service_address=None,
+            customer_remittance_address=None,
+            abn_number=None,
+            gst_number=None,
+            pan_number=None,
+            vat_number=None,
+        )
+
 
 class MerchantInformationInvoice(BaseModel):
     merchant_name: Optional[StrictStr]
@@ -33,29 +52,55 @@ class MerchantInformationInvoice(BaseModel):
     abn_number: Optional[StrictStr]  # New
     gst_number: Optional[StrictStr]  # New
     pan_number: Optional[StrictStr]  # New
-    vat_number: Optional[StrictStr]  # New
+    vat_number: Optional[StrictStr]
+
+    @staticmethod
+    def default() -> "MerchantInformationInvoice":
+        return MerchantInformationInvoice(
+            merchant_name=None,
+            merchant_address=None,
+            merchant_phone=None,
+            merchant_email=None,
+            merchant_fax=None,
+            merchant_website=None,
+            merchant_tax_id=None,
+            merchant_siret=None,
+            merchant_siren=None,
+            abn_number=None,
+            gst_number=None,
+            pan_number=None,
+            vat_number=None,
+        )
 
 
 class LocaleInvoice(BaseModel):
     currency: Optional[StrictStr]
     language: Optional[StrictStr]
 
+    @staticmethod
+    def default() -> "LocaleInvoice":
+        return LocaleInvoice(currency=None, language=None)
+
 
 class ItemLinesInvoice(BaseModel):
-    description: Optional[StrictStr]
-    quantity: Optional[int]
-    amount: Optional[float]
-    unit_price: Optional[float]
-    discount: Optional[int]  # New
-    product_code: Optional[StrictStr]  # New
-    date_item: Optional[str]  # New
-    tax_item: Optional[float]  # New
-    tax_rate: Optional[float]  # New
+    description: Optional[StrictStr] = None
+    quantity: Optional[int] = None
+    amount: Optional[float] = None
+    unit_price: Optional[float] = None
+    discount: Optional[int] = None  # New
+    product_code: Optional[StrictStr] = None  # New
+    date_item: Optional[str] = None  # New
+    tax_item: Optional[float] = None  # New
+    tax_rate: Optional[float] = None  # New
 
 
 class TaxesInvoice(BaseModel):
     value: Optional[float]
     rate: Optional[float]
+
+    @staticmethod
+    def default() -> "TaxesInvoice":
+        return TaxesInvoice(value=None, rate=None)
 
 
 class BankInvoice(BaseModel):  # New obj
@@ -67,33 +112,49 @@ class BankInvoice(BaseModel):  # New obj
     rooting_number: Optional[StrictStr]  # New
     swift: Optional[StrictStr]
 
+    @staticmethod
+    def default() -> "BankInvoice":
+        return BankInvoice(
+            account_number=None,
+            iban=None,
+            bsb=None,
+            sort_code=None,
+            vat_number=None,
+            rooting_number=None,
+            swift=None,
+        )
+
 
 class InfosInvoiceParserDataClass(BaseModel):
-    customer_information: CustomerInformationInvoice = CustomerInformationInvoice()
-    merchant_information: MerchantInformationInvoice = MerchantInformationInvoice()
+    customer_information: CustomerInformationInvoice = (
+        CustomerInformationInvoice.default()
+    )
+    merchant_information: MerchantInformationInvoice = (
+        MerchantInformationInvoice.default()
+    )
     # --------------------------------------------#
-    invoice_number: Optional[StrictStr]
-    invoice_total: Optional[float]
-    invoice_subtotal: Optional[float]
-    gratuity: Optional[float]  # New
-    amount_due: Optional[float]  # New
-    previous_unpaid_balance: Optional[float]  # New
-    discount: Optional[float]  # New
+    invoice_number: Optional[StrictStr] = None
+    invoice_total: Optional[float] = None
+    invoice_subtotal: Optional[float] = None
+    gratuity: Optional[float] = None  # New
+    amount_due: Optional[float] = None  # New
+    previous_unpaid_balance: Optional[float] = None  # New
+    discount: Optional[float] = None  # New
     taxes: Sequence[TaxesInvoice] = Field(
         default_factory=list
     )  # Change from list to item -> total_tax
-    service_charge: Optional[float]  # New
+    service_charge: Optional[float] = None  # New
     # --------------------------------------------#
-    payment_term: Optional[StrictStr]  # New
-    purchase_order: Optional[StrictStr]  # New
-    date: Optional[StrictStr]
-    due_date: Optional[StrictStr]
-    service_date: Optional[StrictStr]  # New
-    service_due_date: Optional[StrictStr]  # New
-    po_number: Optional[StrictStr]  # New
+    payment_term: Optional[StrictStr] = None  # New
+    purchase_order: Optional[StrictStr] = None  # New
+    date: Optional[StrictStr] = None
+    due_date: Optional[StrictStr] = None
+    service_date: Optional[StrictStr] = None  # New
+    service_due_date: Optional[StrictStr] = None  # New
+    po_number: Optional[StrictStr] = None  # New
     # --------------------------------------------#
-    locale: LocaleInvoice = LocaleInvoice()
-    bank_informations: BankInvoice = BankInvoice()  # New
+    locale: LocaleInvoice = LocaleInvoice(currency=None, language=None)
+    bank_informations: BankInvoice = BankInvoice.default()  # New
     # --------------------------------------------#
     item_lines: Sequence[ItemLinesInvoice] = Field(default_factory=list)
 

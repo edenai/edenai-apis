@@ -10,10 +10,10 @@
       "url": "https://api.mindee.net/v1/products/mindee/passport/v1/predict"
     },
     "document": {
-      "id": "f8a2879d-009f-4e56-b908-d657406435b1",
+      "id": "ab86b4f9-9345-484b-8568-d35077981221",
       "inference": {
         "extras": {},
-        "finished_at": "2022-11-21T14:26:11.550979",
+        "finished_at": "2023-07-11T13:18:40.287284",
         "is_rotation_applied": true,
         "pages": [
           {
@@ -531,7 +531,7 @@
             "value": "TRAVELER"
           }
         },
-        "processing_time": 1.044,
+        "processing_time": 1.195,
         "product": {
           "features": [
             "country",
@@ -551,7 +551,7 @@
           "type": "standard",
           "version": "1.0"
         },
-        "started_at": "2022-11-21T14:26:10.506492"
+        "started_at": "2023-07-11T13:18:39.092748"
       },
       "n_pages": 1,
       "name": "passport-US.pdf"
