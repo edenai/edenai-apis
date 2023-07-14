@@ -12,11 +12,17 @@
         "sentiment_analysis": {
             "constraints": {
                 "languages": [
-                    "en"
+                    "en",
+                    "es",
+                    "fr",
+                    "de",
+                    "it",
+                    "pt",
+                    "ar"
                 ],
                 "allow_null_language": true
             },
-            "version": "v1.0.0"
+            "version": "v1.1.0"
         },
         "question_answer": {
             "version": "v1.0.0"
