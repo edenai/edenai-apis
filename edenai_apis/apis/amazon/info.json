@@ -351,9 +351,11 @@
   },
   "text": {
     "entity_sentiment": {
-      "languages": [
-        "en"
-      ],
+      "constraints": {
+        "languages": [
+          "en"
+        ]
+      },
       "version": "boto3 1.26.8"
     },
     "keyword_extraction": {
