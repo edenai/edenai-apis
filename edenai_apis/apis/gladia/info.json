@@ -285,12 +285,7 @@
                     "wav",
                     "wmv"
                 ],
-                "allow_null_language": true,
-                "models": [
-                    "enhanced",
-                    "base"
-                ],
-                "default_model":"base"
+                "allow_null_language": true
             },
             "version": "v1"
         }

@@ -44,5 +44,6 @@ from .speechmatics import SpeechmaticsApi
 from .tenstorrent import TenstorrentApi
 from .facepp import FaceppApi
 from .originalityai import OriginalityaiApi
+from .gladia import GladiaApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
