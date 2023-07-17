@@ -124,9 +124,6 @@ class SaplingApi(ProviderInterface, TextInterface):
             sentiment_rate = response_json["results"][i][0][0]
 
             if sentiment != "Mixed":
-                if best_sentiment["general_sentiment_rate"] <= sentiment_rate:
-                    best_sentiment["general_sentiment"] = sentiment
-                    best_sentiment["general_sentiment_rate"] = sentiment_rate
 
                 segment_sentiment = SegmentSentimentAnalysisDataClass(
                     segment=sentence,
@@ -135,16 +132,15 @@ class SaplingApi(ProviderInterface, TextInterface):
                 )
                 best_sentiment["items"].append(segment_sentiment)
 
-        sentiment_analysis = SentimentAnalysisDataClass(
-            general_sentiment=best_sentiment["general_sentiment"],
-            general_sentiment_rate=best_sentiment["general_sentiment_rate"],
-            items=best_sentiment["items"]
-        )
+        best_sentiment.update({
+            "general_sentiment": response_json["overall"][0][1],
+            "general_sentiment_rate": response_json["overall"][0][0]
+        })
 
         standarize = SentimentAnalysisDataClass(
             general_sentiment=best_sentiment["general_sentiment"],
             general_sentiment_rate=best_sentiment["general_sentiment_rate"],
-            items=[]
+            items=best_sentiment["items"]
         )
 
         return cast(
