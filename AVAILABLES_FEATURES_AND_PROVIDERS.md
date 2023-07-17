@@ -153,6 +153,7 @@
 | | microsoft |
 | | oneai |
 | | openai |
+| | sapling |
 | | tenstorrent |
 | **syntax_analysis** | amazon |
 | | emvista |
@@ -641,7 +642,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | spell_check |
+| **text** | sentiment_analysis |
+| | spell_check |
 
 </details>
 <details><summary>sentisight</summary>
