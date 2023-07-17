@@ -1,4 +1,5 @@
-from typing import Sequence
+from typing import List, Sequence
+from edenai_apis.features.text.entity_sentiment.entities import Entities
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
     AnonymizationEntity,
@@ -19,6 +20,7 @@ from edenai_apis.features.text.syntax_analysis.syntax_analysis_dataclass import 
     InfosSyntaxAnalysisDataClass,
     SyntaxAnalysisDataClass,
 )
+from edenai_apis.features.text.entity_sentiment.entity_sentiment_dataclass import Entity, EntitySentimentDataClass
 from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import ResponseType
@@ -26,6 +28,7 @@ from edenai_apis.utils.types import ResponseType
 from botocore.exceptions import ClientError
 
 from .config import tags
+
 
 
 class AmazonTextApi(TextInterface):
@@ -208,4 +211,29 @@ class AmazonTextApi(TextInterface):
         )
         return ResponseType(
             original_response=res, standardized_response=standardized_response
+        )
+
+    def text__entity_sentiment(self, text: str, language: str) -> ResponseType:
+        try:
+            original_response = self.clients['text'].detect_targeted_sentiment(
+                Text=text,
+                LanguageCode=language
+            )
+        except Exception as exc:
+            raise ProviderException(str(exc))
+
+        entity_items: List[Entity]  = []
+        for entity in original_response['Entities']:
+            for mention in entity['Mentions']:
+                std_entity = Entity(
+                    text=mention['Text'],
+                    type=Entities.get_entity(mention['Type']),
+                    sentiment=mention['MentionSentiment']['Sentiment'].lower().capitalize(),
+                    begin_offset=mention['BeginOffset'],
+                    end_offset=mention['EndOffset']
+                )
+                entity_items.append(std_entity)
+        return ResponseType(
+            original_response=original_response,
+            standardized_response=EntitySentimentDataClass(items=entity_items),
         )

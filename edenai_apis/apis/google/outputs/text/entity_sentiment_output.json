@@ -1,0 +1,340 @@
+{
+  "original_response": {
+    "entities": [
+      {
+        "name": "Barack Hussein Obama",
+        "type": "PERSON",
+        "metadata": {
+          "wikipedia_url": "https://en.wikipedia.org/wiki/Barack_Obama",
+          "mid": "/m/02mjmr"
+        },
+        "salience": 0.74435586,
+        "mentions": [
+          {
+            "text": {
+              "content": "Barack Hussein Obama"
+            },
+            "type": "PROPER",
+            "sentiment": {}
+          },
+          {
+            "text": {
+              "content": "politician",
+              "beginOffset": 36
+            },
+            "type": "COMMON",
+            "sentiment": {}
+          },
+          {
+            "text": {
+              "content": "Obama",
+              "beginOffset": 154
+            },
+            "type": "PROPER",
+            "sentiment": {}
+          }
+        ],
+        "sentiment": {
+          "magnitude": 0.1
+        }
+      },
+      {
+        "name": "president",
+        "type": "PERSON",
+        "salience": 0.07021436,
+        "mentions": [
+          {
+            "text": {
+              "content": "member",
+              "beginOffset": 122
+            },
+            "type": "COMMON",
+            "sentiment": {}
+          },
+          {
+            "text": {
+              "content": "president",
+              "beginOffset": 191
+            },
+            "type": "COMMON",
+            "sentiment": {}
+          }
+        ],
+        "sentiment": {}
+      },
+      {
+        "name": "American",
+        "type": "LOCATION",
+        "metadata": {
+          "wikipedia_url": "https://en.wikipedia.org/wiki/United_States",
+          "mid": "/m/09c7w0"
+        },
+        "salience": 0.066377416,
+        "mentions": [
+          {
+            "text": {
+              "content": "American",
+              "beginOffset": 27
+            },
+            "type": "PROPER",
+            "sentiment": {}
+          },
+          {
+            "text": {
+              "content": "United States",
+              "beginOffset": 87
+            },
+            "type": "PROPER",
+            "sentiment": {}
+          },
+          {
+            "text": {
+              "content": "United States",
+              "beginOffset": 208
+            },
+            "type": "PROPER",
+            "sentiment": {}
+          },
+          {
+            "text": {
+              "content": "U.S.",
+              "beginOffset": 249
+            },
+            "type": "PROPER",
+            "sentiment": {}
+          }
+        ],
+        "sentiment": {}
+      },
+      {
+        "name": "president",
+        "type": "PERSON",
+        "salience": 0.04346809,
+        "mentions": [
+          {
+            "text": {
+              "content": "president",
+              "beginOffset": 70
+            },
+            "type": "COMMON",
+            "sentiment": {}
+          }
+        ],
+        "sentiment": {}
+      },
+      {
+        "name": "African-American",
+        "type": "PERSON",
+        "salience": 0.007983226,
+        "mentions": [
+          {
+            "text": {
+              "content": "African-American",
+              "beginOffset": 174
+            },
+            "type": "PROPER",
+            "sentiment": {}
+          }
+        ],
+        "sentiment": {}
+      },
+      {
+        "name": "Democratic Party",
+        "type": "ORGANIZATION",
+        "metadata": {
+          "mid": "/m/0d075m",
+          "wikipedia_url": "https://en.wikipedia.org/wiki/Democratic_Party_(United_States)"
+        },
+        "salience": 0.00764491,
+        "mentions": [
+          {
+            "text": {
+              "content": "Democratic Party",
+              "beginOffset": 136
+            },
+            "type": "PROPER",
+            "sentiment": {}
+          }
+        ],
+        "sentiment": {}
+      },
+      {
+        "name": "state senator",
+        "type": "PERSON",
+        "salience": 0.0070930053,
+        "mentions": [
+          {
+            "text": {
+              "content": "state senator",
+              "beginOffset": 313
+            },
+            "type": "COMMON",
+            "sentiment": {}
+          }
+        ],
+        "sentiment": {}
+      },
+      {
+        "name": "Illinois",
+        "type": "LOCATION",
+        "metadata": {
+          "mid": "/m/03v0t",
+          "wikipedia_url": "https://en.wikipedia.org/wiki/Illinois"
+        },
+        "salience": 0.005297011,
+        "mentions": [
+          {
+            "text": {
+              "content": "Illinois",
+              "beginOffset": 267
+            },
+            "type": "PROPER",
+            "sentiment": {}
+          },
+          {
+            "text": {
+              "content": "Illinois",
+              "beginOffset": 304
+            },
+            "type": "PROPER",
+            "sentiment": {}
+          }
+        ],
+        "sentiment": {}
+      },
+      {
+        "name": "senator",
+        "type": "PERSON",
+        "salience": 0.004453033,
+        "mentions": [
+          {
+            "text": {
+              "content": "senator",
+              "beginOffset": 254
+            },
+            "type": "COMMON",
+            "sentiment": {}
+          }
+        ],
+        "sentiment": {}
+      }
+    ],
+    "language": "en"
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "type": "PERSON",
+        "text": "Barack Hussein Obama",
+        "sentiment": "Neutral",
+        "begin_offset": null,
+        "end_offset": null
+      },
+      {
+        "type": "PERSON",
+        "text": "politician",
+        "sentiment": "Neutral",
+        "begin_offset": 36,
+        "end_offset": 46
+      },
+      {
+        "type": "PERSON",
+        "text": "Obama",
+        "sentiment": "Neutral",
+        "begin_offset": 154,
+        "end_offset": 159
+      },
+      {
+        "type": "PERSON",
+        "text": "member",
+        "sentiment": "Neutral",
+        "begin_offset": 122,
+        "end_offset": 128
+      },
+      {
+        "type": "PERSON",
+        "text": "president",
+        "sentiment": "Neutral",
+        "begin_offset": 191,
+        "end_offset": 200
+      },
+      {
+        "type": "LOCATION",
+        "text": "American",
+        "sentiment": "Neutral",
+        "begin_offset": 27,
+        "end_offset": 35
+      },
+      {
+        "type": "LOCATION",
+        "text": "United States",
+        "sentiment": "Neutral",
+        "begin_offset": 87,
+        "end_offset": 100
+      },
+      {
+        "type": "LOCATION",
+        "text": "United States",
+        "sentiment": "Neutral",
+        "begin_offset": 208,
+        "end_offset": 221
+      },
+      {
+        "type": "LOCATION",
+        "text": "U.S.",
+        "sentiment": "Neutral",
+        "begin_offset": 249,
+        "end_offset": 253
+      },
+      {
+        "type": "PERSON",
+        "text": "president",
+        "sentiment": "Neutral",
+        "begin_offset": 70,
+        "end_offset": 79
+      },
+      {
+        "type": "PERSON",
+        "text": "African-American",
+        "sentiment": "Neutral",
+        "begin_offset": 174,
+        "end_offset": 190
+      },
+      {
+        "type": "ORGANIZATION",
+        "text": "Democratic Party",
+        "sentiment": "Neutral",
+        "begin_offset": 136,
+        "end_offset": 152
+      },
+      {
+        "type": "PERSON",
+        "text": "state senator",
+        "sentiment": "Neutral",
+        "begin_offset": 313,
+        "end_offset": 326
+      },
+      {
+        "type": "LOCATION",
+        "text": "Illinois",
+        "sentiment": "Neutral",
+        "begin_offset": 267,
+        "end_offset": 275
+      },
+      {
+        "type": "LOCATION",
+        "text": "Illinois",
+        "sentiment": "Neutral",
+        "begin_offset": 304,
+        "end_offset": 312
+      },
+      {
+        "type": "PERSON",
+        "text": "senator",
+        "sentiment": "Neutral",
+        "begin_offset": 254,
+        "end_offset": 261
+      }
+    ]
+  }
+}

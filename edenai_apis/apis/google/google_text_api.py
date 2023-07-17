@@ -1,19 +1,25 @@
 from typing import Dict, List, Optional, Sequence
+
+import requests
 from edenai_apis.apis.google.google_helpers import (
+    get_access_token,
     get_tag_name,
     score_to_sentiment,
-    get_access_token,
 )
 from edenai_apis.features.text import (
-    AnonymizationDataClass,
     ChatDataClass,
+    ChatMessageDataClass,
     CodeGenerationDataClass,
     GenerationDataClass,
-    ChatMessageDataClass,
 )
 from edenai_apis.features.text.embeddings.embeddings_dataclass import (
-    EmbeddingsDataClass,
     EmbeddingDataClass,
+    EmbeddingsDataClass,
+)
+from edenai_apis.features.text.entity_sentiment.entities import Entities
+from edenai_apis.features.text.entity_sentiment.entity_sentiment_dataclass import (
+    Entity,
+    EntitySentimentDataClass,
 )
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
     InfosNamedEntityRecognitionDataClass,
@@ -35,10 +41,10 @@ from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass impor
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
+from google.api_core.exceptions import InvalidArgument
+from google.cloud import language_v1
 from google.cloud.language import Document as GoogleDocument
 from google.protobuf.json_format import MessageToDict
-from google.api_core.exceptions import InvalidArgument
-import requests
 
 
 class GoogleTextApi(TextInterface):
@@ -376,4 +382,52 @@ class GoogleTextApi(TextInterface):
         return ResponseType[CodeGenerationDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
+        )
+
+    def text__entity_sentiment(self, text: str, language: str):
+        client = language_v1.LanguageServiceClient()
+        type_ = language_v1.types.Document.Type.PLAIN_TEXT
+        document = {"content": text, "type_": type_, "language": language}
+        encoding_type = language_v1.EncodingType.UTF8
+
+        try:
+            response = client.analyze_entity_sentiment(
+                request={"document": document, "encoding_type": encoding_type}
+            )
+        except Exception as exc:
+            raise ProviderException(str(exc))
+
+        original_response = MessageToDict(response._pb)
+
+        entity_items: List[Entity] = []
+        for entity in original_response['entities']:
+            for mention in entity['mentions']:
+
+                sentiment = mention['sentiment'].get("score")
+                if sentiment is None:
+                    sentiment_score = 'Neutral'
+                elif sentiment > 0:
+                    sentiment_score = 'Positive'
+                elif sentiment < 0:
+                    sentiment_score = 'Negative'
+                else:
+                    sentiment_score = 'Neutral'
+
+                begin_offset = mention['text'].get("beginOffset")
+                end_offset = None
+                if begin_offset:
+                    end_offset = mention["text"]["beginOffset"] + len(mention["text"]["content"])
+
+                std_entity = Entity(
+                    text=mention['text']['content'],
+                    type=Entities.get_entity(entity['type']),
+                    sentiment=sentiment_score,
+                    begin_offset=begin_offset,
+                    end_offset=end_offset
+                )
+                entity_items.append(std_entity)
+
+        return ResponseType(
+            original_response=original_response,
+            standardized_response=EntitySentimentDataClass(items=entity_items),
         )

@@ -350,6 +350,12 @@
     }
   },
   "text": {
+    "entity_sentiment": {
+      "languages": [
+        "en"
+      ],
+      "version": "boto3 1.26.8"
+    },
     "keyword_extraction": {
       "constraints": {
         "languages": [
