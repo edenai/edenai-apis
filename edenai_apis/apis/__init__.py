@@ -44,5 +44,5 @@ from .speechmatics import SpeechmaticsApi
 from .tenstorrent import TenstorrentApi
 from .facepp import FaceppApi
 from .originalityai import OriginalityaiApi
-
+from .sapling import SaplingApi
 # THIS NEEDS TO BE DONE AUTOMATICALLY

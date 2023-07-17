@@ -1,0 +1,8 @@
+{
+  "original_response": "<Response [200]>",
+  "standardized_response": {
+    "general_sentiment": "Neutral",
+    "general_sentiment_rate": 1.0,
+    "items": []
+  }
+}
