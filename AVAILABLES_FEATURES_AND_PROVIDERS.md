@@ -127,6 +127,8 @@
 | | microsoft |
 | | oneai |
 | | openai |
+| **entity_sentiment** | amazon |
+| | google |
 | **keyword_extraction** | amazon |
 | | emvista |
 | | ibm |
@@ -271,6 +273,7 @@
 | | ocr_tables_async |
 | | receipt_parser |
 | **text** | anonymization |
+| | entity_sentiment |
 | | keyword_extraction |
 | | named_entity_recognition |
 | | sentiment_analysis |
@@ -414,6 +417,7 @@
 | **text** | chat |
 | | code_generation |
 | | embeddings |
+| | entity_sentiment |
 | | generation |
 | | named_entity_recognition |
 | | sentiment_analysis |
