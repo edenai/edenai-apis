@@ -56,6 +56,7 @@
 | **speech_to_text_async** | amazon |
 | | assembly |
 | | deepgram |
+| | gladia |
 | | google |
 | | ibm |
 | | microsoft |
@@ -397,6 +398,13 @@
 |----------|-------------|
 | **image** | face_compare |
 | | face_recognition |
+
+</details>
+<details><summary>gladia</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **audio** | speech_to_text_async |
 
 </details>
 <details><summary>google</summary>
