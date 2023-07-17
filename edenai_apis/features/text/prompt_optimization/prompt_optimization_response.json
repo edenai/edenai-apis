@@ -1,4 +1,5 @@
 {
+  "missing_information": "- What type of entities are you referring to? (e.g., names, places, organizations, dates)\n- Could you provide examples of the texts you will be using for entity extraction?\n- What format would you like the extracted entities to be in?\n- Are there any specific tools, libraries, or methodologies you would like to be used (or not to be) for the entity extraction?\n- How do you want to handle entities that might have multiple instances within the text?",
   "items": [
     {
       "text": "\"Given the following text, please identify and extract all instances of the specified entities. The entities to look for are [Entity1, Entity2, Entity3]. Here is the text: [Insert Text Here]. Please format your response as a list, with each extracted entity on a separate line.\""

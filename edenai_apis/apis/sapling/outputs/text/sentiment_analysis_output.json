@@ -1,0 +1,104 @@
+{
+  "original_response": {
+    "overall": [
+      [
+        0.5090816482581898,
+        "NEGATIVE"
+      ],
+      [
+        0.3254070186412166,
+        "POSITIVE"
+      ],
+      [
+        0.16551133310059352,
+        "NEUTRAL"
+      ]
+    ],
+    "results": [
+      [
+        [
+          0.9607561649754643,
+          "POSITIVE"
+        ]
+      ],
+      [
+        [
+          0.9988981080241501,
+          "NEUTRAL"
+        ],
+        [
+          0.00016684555157553405,
+          "POSITIVE"
+        ]
+      ],
+      [
+        [
+          0.6736086010932922,
+          "POSITIVE"
+        ],
+        [
+          0.2735685557126999,
+          "NEUTRAL"
+        ]
+      ],
+      [
+        [
+          0.6154678463935852,
+          "NEUTRAL"
+        ],
+        [
+          0.2984175980091095,
+          "POSITIVE"
+        ]
+      ],
+      [
+        [
+          0.9607282876968384,
+          "NEGATIVE"
+        ],
+        [
+          0.017256956547498703,
+          "NEUTRAL"
+        ]
+      ]
+    ],
+    "sents": [
+      "Overall I am satisfied with my experience at Amazon, but two areas of major improvement needed.",
+      "First is the product reviews and pricing.",
+      "There are thousands of positive reviews for so many items, and it's clear that the reviews are bogus or not really associated with that product.",
+      "There needs to be a way to only view products sold by Amazon directly, because many market sellers way overprice items that can be purchased cheaper elsewhere (like Walmart, Target, etc).",
+      "The second issue is they make it too difficult to get help when there's an issue with an order."
+    ]
+  },
+  "standardized_response": {
+    "general_sentiment": "Negative",
+    "general_sentiment_rate": 0.51,
+    "items": [
+      {
+        "segment": "Overall I am satisfied with my experience at Amazon, but two areas of major improvement needed.",
+        "sentiment": "Positive",
+        "sentiment_rate": 0.96
+      },
+      {
+        "segment": "First is the product reviews and pricing.",
+        "sentiment": "Neutral",
+        "sentiment_rate": 1.0
+      },
+      {
+        "segment": "There are thousands of positive reviews for so many items, and it's clear that the reviews are bogus or not really associated with that product.",
+        "sentiment": "Positive",
+        "sentiment_rate": 0.67
+      },
+      {
+        "segment": "There needs to be a way to only view products sold by Amazon directly, because many market sellers way overprice items that can be purchased cheaper elsewhere (like Walmart, Target, etc).",
+        "sentiment": "Neutral",
+        "sentiment_rate": 0.62
+      },
+      {
+        "segment": "The second issue is they make it too difficult to get help when there's an issue with an order.",
+        "sentiment": "Negative",
+        "sentiment_rate": 0.96
+      }
+    ]
+  }
+}

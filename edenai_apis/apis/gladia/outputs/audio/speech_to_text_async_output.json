@@ -1,0 +1,214 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "gladia_stt3cc0df15-3cf5-4904-94ae-f60e2d3cf824",
+  "original_response": {
+    "prediction": [
+      {
+        "words": [
+          {
+            "word": "Unit",
+            "time_begin": 0.21813,
+            "time_end": 0.45838,
+            "confidence": 0.4
+          },
+          {
+            "word": " 1,",
+            "time_begin": 0.63857,
+            "time_end": 0.8788199999999999,
+            "confidence": 0.76
+          }
+        ],
+        "transcription": "Unit 1,",
+        "language": "en",
+        "time_begin": 0.21813,
+        "time_end": 0.8788199999999999,
+        "speaker": 0,
+        "channel": "channel_0"
+      },
+      {
+        "words": [
+          {
+            "word": "page",
+            "time_begin": 1.45943,
+            "time_end": 1.8198,
+            "confidence": 0.45
+          },
+          {
+            "word": " 14,",
+            "time_begin": 1.89989,
+            "time_end": 2.52054,
+            "confidence": 0.78
+          }
+        ],
+        "transcription": "page 14,",
+        "language": "en",
+        "time_begin": 1.45943,
+        "time_end": 2.52054,
+        "speaker": 0,
+        "channel": "channel_0"
+      },
+      {
+        "words": [
+          {
+            "word": "Real",
+            "time_begin": 3.4014599999999997,
+            "time_end": 3.66173,
+            "confidence": 0.18
+          },
+          {
+            "word": " Conversations.",
+            "time_begin": 3.74181,
+            "time_end": 12.951450000000001,
+            "confidence": 0.41
+          }
+        ],
+        "transcription": "Real Conversations.",
+        "language": "en",
+        "time_begin": 3.4014599999999997,
+        "time_end": 12.951450000000001,
+        "speaker": 2,
+        "channel": "channel_0"
+      }
+    ],
+    "prediction_raw": {
+      "transcription": [
+        {
+          "words": [
+            {
+              "word": "Unit",
+              "time_begin": 0.21813,
+              "time_end": 0.45838,
+              "confidence": 0.4
+            },
+            {
+              "word": " 1,",
+              "time_begin": 0.63857,
+              "time_end": 0.8788199999999999,
+              "confidence": 0.76
+            }
+          ],
+          "transcription": "Unit 1,",
+          "language": "en",
+          "time_begin": 0.21813,
+          "time_end": 0.8788199999999999,
+          "speaker": 0,
+          "channel": "channel_0"
+        },
+        {
+          "words": [
+            {
+              "word": "page",
+              "time_begin": 1.45943,
+              "time_end": 1.8198,
+              "confidence": 0.45
+            },
+            {
+              "word": " 14,",
+              "time_begin": 1.89989,
+              "time_end": 2.52054,
+              "confidence": 0.78
+            }
+          ],
+          "transcription": "page 14,",
+          "language": "en",
+          "time_begin": 1.45943,
+          "time_end": 2.52054,
+          "speaker": 0,
+          "channel": "channel_0"
+        },
+        {
+          "words": [
+            {
+              "word": "Real",
+              "time_begin": 3.4014599999999997,
+              "time_end": 3.66173,
+              "confidence": 0.18
+            },
+            {
+              "word": " Conversations.",
+              "time_begin": 3.74181,
+              "time_end": 12.951450000000001,
+              "confidence": 0.41
+            }
+          ],
+          "transcription": "Real Conversations.",
+          "language": "en",
+          "time_begin": 3.4014599999999997,
+          "time_end": 12.951450000000001,
+          "speaker": 2,
+          "channel": "channel_0"
+        }
+      ],
+      "metadata": {
+        "provided_file_metadata": {
+          "nb_channels": 2,
+          "sample_rate": 44100,
+          "sample_width": 0,
+          "duration": 17.084082,
+          "original_file_type": "audio",
+          "number_similar_channels": 1
+        },
+        "nb_silent_channels": -1,
+        "total_speech_duration": 11.271790000000001,
+        "audio_conversion_time": 0.5279178619384766,
+        "vad_time": 0.12275004386901855,
+        "inference_time": 1.889753818511963,
+        "translation_time": 1.1920928955078125e-06,
+        "emotion_time": 4.76837158203125e-07,
+        "summarization_time": 2.384185791015625e-07,
+        "chapterization_time": 4.76837158203125e-07,
+        "total_transcription_time": 2.5509183406829834
+      },
+      "speaker_mapping": [
+        {
+          "speaker": 0,
+          "channel": "channel_0",
+          "time_begin": 0.21813,
+          "time_end": 0.8788199999999999
+        },
+        {
+          "speaker": 0,
+          "channel": "channel_0",
+          "time_begin": 1.45943,
+          "time_end": 2.52054
+        },
+        {
+          "speaker": 2,
+          "channel": "channel_0",
+          "time_begin": 3.4014599999999997,
+          "time_end": 12.951450000000001
+        }
+      ]
+    }
+  },
+  "standardized_response": {
+    "text": "Unit 1, page 14, Real Conversations. ",
+    "diarization": {
+      "total_speakers": 2,
+      "entries": [
+        {
+          "segment": "Unit 1,",
+          "start_time": "0.21813",
+          "end_time": "0.8788199999999999",
+          "speaker": 1,
+          "confidence": 0.08000000000000002
+        },
+        {
+          "segment": "page 14,",
+          "start_time": "1.45943",
+          "end_time": "2.52054",
+          "speaker": 1,
+          "confidence": 0.11499999999999999
+        },
+        {
+          "segment": "Real Conversations.",
+          "start_time": "3.4014599999999997",
+          "end_time": "12.951450000000001",
+          "speaker": 2,
+          "confidence": -0.20500000000000004
+        }
+      ],
+      "error_message": null
+    }
+  }
+}

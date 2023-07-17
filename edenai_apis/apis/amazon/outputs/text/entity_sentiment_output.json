@@ -1,0 +1,632 @@
+{
+  "original_response": {
+    "Entities": [
+      {
+        "DescriptiveMentionIndex": [
+          1
+        ],
+        "Mentions": [
+          {
+            "Score": 0.9999529719352722,
+            "GroupScore": 0.42270898818969727,
+            "Text": "He",
+            "Type": "PERSON",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 0.0,
+                "Negative": 0.0,
+                "Neutral": 1.0,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 223,
+            "EndOffset": 225
+          },
+          {
+            "Score": 0.9930379986763,
+            "GroupScore": 1.0,
+            "Text": "Barack Hussein Obama",
+            "Type": "PERSON",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 2.2000000171829015e-05,
+                "Negative": 3.999999989900971e-06,
+                "Neutral": 0.9999729990959167,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 0,
+            "EndOffset": 20
+          },
+          {
+            "Score": 0.9558969736099243,
+            "GroupScore": 0.6674439907073975,
+            "Text": "president",
+            "Type": "PERSONAL_TITLE",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 0.0015140000032261014,
+                "Negative": 2.5999999706982635e-05,
+                "Neutral": 0.9984509944915771,
+                "Mixed": 7.999999979801942e-06
+              }
+            },
+            "BeginOffset": 191,
+            "EndOffset": 200
+          },
+          {
+            "Score": 0.9992579817771912,
+            "GroupScore": 0.9374009966850281,
+            "Text": "Obama",
+            "Type": "PERSON",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 9.000000318337698e-06,
+                "Negative": 9.999999974752427e-07,
+                "Neutral": 0.9999899864196777,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 154,
+            "EndOffset": 159
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          0
+        ],
+        "Mentions": [
+          {
+            "Score": 0.9135990142822266,
+            "GroupScore": 1.0,
+            "Text": "politician",
+            "Type": "PERSON",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 0.0,
+                "Negative": 0.0,
+                "Neutral": 1.0,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 36,
+            "EndOffset": 46
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          0
+        ],
+        "Mentions": [
+          {
+            "Score": 0.4911479949951172,
+            "GroupScore": 1.0,
+            "Text": "44th",
+            "Type": "PERSON",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 3.000000106112566e-06,
+                "Negative": 3.000000106112566e-06,
+                "Neutral": 0.9999920129776001,
+                "Mixed": 3.000000106112566e-06
+              }
+            },
+            "BeginOffset": 65,
+            "EndOffset": 69
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          0
+        ],
+        "Mentions": [
+          {
+            "Score": 0.9857230186462402,
+            "GroupScore": 1.0,
+            "Text": "president",
+            "Type": "PERSONAL_TITLE",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 0.0004959999932907522,
+                "Negative": 4.099999932805076e-05,
+                "Neutral": 0.9994310140609741,
+                "Mixed": 3.099999958067201e-05
+              }
+            },
+            "BeginOffset": 70,
+            "EndOffset": 79
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          1,
+          2
+        ],
+        "Mentions": [
+          {
+            "Score": 0.648160994052887,
+            "GroupScore": 0.8204920291900635,
+            "Text": "U.S.",
+            "Type": "ORGANIZATION",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 2.499999936844688e-05,
+                "Negative": 0.00031999999191612005,
+                "Neutral": 0.9996529817581177,
+                "Mixed": 1.9999999949504854e-06
+              }
+            },
+            "BeginOffset": 249,
+            "EndOffset": 253
+          },
+          {
+            "Score": 0.5415419936180115,
+            "GroupScore": 1.0,
+            "Text": "United States",
+            "Type": "ORGANIZATION",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 1.9999999949504854e-06,
+                "Negative": 9.000000318337698e-06,
+                "Neutral": 0.9999880194664001,
+                "Mixed": 9.999999974752427e-07
+              }
+            },
+            "BeginOffset": 87,
+            "EndOffset": 100
+          },
+          {
+            "Score": 0.6710360050201416,
+            "GroupScore": 0.9992759823799133,
+            "Text": "United States",
+            "Type": "ORGANIZATION",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 0.0,
+                "Negative": 1.9999999949504854e-06,
+                "Neutral": 0.9999970197677612,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 208,
+            "EndOffset": 221
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          0
+        ],
+        "Mentions": [
+          {
+            "Score": 0.9736239910125732,
+            "GroupScore": 1.0,
+            "Text": "from 2009 to 2017",
+            "Type": "DATE",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 9.999999974752427e-07,
+                "Negative": 1.9999999949504854e-06,
+                "Neutral": 0.9999970197677612,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 101,
+            "EndOffset": 118
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          0
+        ],
+        "Mentions": [
+          {
+            "Score": 0.9953160285949707,
+            "GroupScore": 1.0,
+            "Text": "member",
+            "Type": "PERSON",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 0.0,
+                "Negative": 0.0,
+                "Neutral": 1.0,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 122,
+            "EndOffset": 128
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          0
+        ],
+        "Mentions": [
+          {
+            "Score": 0.823049008846283,
+            "GroupScore": 1.0,
+            "Text": "Democratic Party",
+            "Type": "ORGANIZATION",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 1.4999999621068127e-05,
+                "Negative": 1.9999999949504854e-06,
+                "Neutral": 0.999983012676239,
+                "Mixed": 9.999999974752427e-07
+              }
+            },
+            "BeginOffset": 136,
+            "EndOffset": 152
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          0
+        ],
+        "Mentions": [
+          {
+            "Score": 0.9997439980506897,
+            "GroupScore": 1.0,
+            "Text": "first",
+            "Type": "QUANTITY",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 0.0,
+                "Negative": 0.0,
+                "Neutral": 1.0,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 168,
+            "EndOffset": 173
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          0
+        ],
+        "Mentions": [
+          {
+            "Score": 0.8435670137405396,
+            "GroupScore": 1.0,
+            "Text": "senator",
+            "Type": "PERSON",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 0.0,
+                "Negative": 0.0,
+                "Neutral": 0.9999989867210388,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 254,
+            "EndOffset": 261
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          0,
+          1
+        ],
+        "Mentions": [
+          {
+            "Score": 0.9798089861869812,
+            "GroupScore": 1.0,
+            "Text": "Illinois",
+            "Type": "LOCATION",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 0.0,
+                "Negative": 0.0,
+                "Neutral": 1.0,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 267,
+            "EndOffset": 275
+          },
+          {
+            "Score": 0.9673429727554321,
+            "GroupScore": 0.9999600052833557,
+            "Text": "Illinois",
+            "Type": "LOCATION",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 0.0,
+                "Negative": 0.0,
+                "Neutral": 1.0,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 304,
+            "EndOffset": 312
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          0
+        ],
+        "Mentions": [
+          {
+            "Score": 0.8415970206260681,
+            "GroupScore": 1.0,
+            "Text": "from 2005 to 2008",
+            "Type": "DATE",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 1.9999999949504854e-06,
+                "Negative": 9.999999974752427e-07,
+                "Neutral": 0.9999970197677612,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 276,
+            "EndOffset": 293
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          0
+        ],
+        "Mentions": [
+          {
+            "Score": 0.4071260094642639,
+            "GroupScore": 1.0,
+            "Text": "senator",
+            "Type": "PERSONAL_TITLE",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 9.999999974752427e-07,
+                "Negative": 9.999999974752427e-07,
+                "Neutral": 0.9999979734420776,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 319,
+            "EndOffset": 326
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          0
+        ],
+        "Mentions": [
+          {
+            "Score": 0.7852489948272705,
+            "GroupScore": 1.0,
+            "Text": "from 1997",
+            "Type": "DATE",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 0.0,
+                "Negative": 0.0,
+                "Neutral": 0.9999989867210388,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 327,
+            "EndOffset": 336
+          }
+        ]
+      },
+      {
+        "DescriptiveMentionIndex": [
+          0
+        ],
+        "Mentions": [
+          {
+            "Score": 0.9724270105361938,
+            "GroupScore": 1.0,
+            "Text": "2004",
+            "Type": "DATE",
+            "MentionSentiment": {
+              "Sentiment": "NEUTRAL",
+              "SentimentScore": {
+                "Positive": 0.0,
+                "Negative": 0.0,
+                "Neutral": 0.9999989867210388,
+                "Mixed": 0.0
+              }
+            },
+            "BeginOffset": 340,
+            "EndOffset": 344
+          }
+        ]
+      }
+    ],
+    "ResponseMetadata": {
+      "RequestId": "a6de2c77-e7f4-4452-8759-e6a4737052f0",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "a6de2c77-e7f4-4452-8759-e6a4737052f0",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "6440",
+        "date": "Mon, 17 Jul 2023 09:05:16 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "type": "PERSON",
+        "text": "He",
+        "sentiment": "Neutral",
+        "begin_offset": 223,
+        "end_offset": 225
+      },
+      {
+        "type": "PERSON",
+        "text": "Barack Hussein Obama",
+        "sentiment": "Neutral",
+        "begin_offset": 0,
+        "end_offset": 20
+      },
+      {
+        "type": "OTHER",
+        "text": "president",
+        "sentiment": "Neutral",
+        "begin_offset": 191,
+        "end_offset": 200
+      },
+      {
+        "type": "PERSON",
+        "text": "Obama",
+        "sentiment": "Neutral",
+        "begin_offset": 154,
+        "end_offset": 159
+      },
+      {
+        "type": "PERSON",
+        "text": "politician",
+        "sentiment": "Neutral",
+        "begin_offset": 36,
+        "end_offset": 46
+      },
+      {
+        "type": "PERSON",
+        "text": "44th",
+        "sentiment": "Neutral",
+        "begin_offset": 65,
+        "end_offset": 69
+      },
+      {
+        "type": "OTHER",
+        "text": "president",
+        "sentiment": "Neutral",
+        "begin_offset": 70,
+        "end_offset": 79
+      },
+      {
+        "type": "ORGANIZATION",
+        "text": "U.S.",
+        "sentiment": "Neutral",
+        "begin_offset": 249,
+        "end_offset": 253
+      },
+      {
+        "type": "ORGANIZATION",
+        "text": "United States",
+        "sentiment": "Neutral",
+        "begin_offset": 87,
+        "end_offset": 100
+      },
+      {
+        "type": "ORGANIZATION",
+        "text": "United States",
+        "sentiment": "Neutral",
+        "begin_offset": 208,
+        "end_offset": 221
+      },
+      {
+        "type": "DATE",
+        "text": "from 2009 to 2017",
+        "sentiment": "Neutral",
+        "begin_offset": 101,
+        "end_offset": 118
+      },
+      {
+        "type": "PERSON",
+        "text": "member",
+        "sentiment": "Neutral",
+        "begin_offset": 122,
+        "end_offset": 128
+      },
+      {
+        "type": "ORGANIZATION",
+        "text": "Democratic Party",
+        "sentiment": "Neutral",
+        "begin_offset": 136,
+        "end_offset": 152
+      },
+      {
+        "type": "QUANTITY",
+        "text": "first",
+        "sentiment": "Neutral",
+        "begin_offset": 168,
+        "end_offset": 173
+      },
+      {
+        "type": "PERSON",
+        "text": "senator",
+        "sentiment": "Neutral",
+        "begin_offset": 254,
+        "end_offset": 261
+      },
+      {
+        "type": "LOCATION",
+        "text": "Illinois",
+        "sentiment": "Neutral",
+        "begin_offset": 267,
+        "end_offset": 275
+      },
+      {
+        "type": "LOCATION",
+        "text": "Illinois",
+        "sentiment": "Neutral",
+        "begin_offset": 304,
+        "end_offset": 312
+      },
+      {
+        "type": "DATE",
+        "text": "from 2005 to 2008",
+        "sentiment": "Neutral",
+        "begin_offset": 276,
+        "end_offset": 293
+      },
+      {
+        "type": "OTHER",
+        "text": "senator",
+        "sentiment": "Neutral",
+        "begin_offset": 319,
+        "end_offset": 326
+      },
+      {
+        "type": "DATE",
+        "text": "from 1997",
+        "sentiment": "Neutral",
+        "begin_offset": 327,
+        "end_offset": 336
+      },
+      {
+        "type": "DATE",
+        "text": "2004",
+        "sentiment": "Neutral",
+        "begin_offset": 340,
+        "end_offset": 344
+      }
+    ]
+  }
+}

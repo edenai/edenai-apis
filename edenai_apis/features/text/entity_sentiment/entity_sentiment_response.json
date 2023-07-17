@@ -1,0 +1,151 @@
+{
+  "items": [
+    {
+      "type": "PERSON",
+      "text": "He",
+      "sentiment": "Neutral",
+      "begin_offset": 223,
+      "end_offset": 225
+    },
+    {
+      "type": "PERSON",
+      "text": "Barack Hussein Obama",
+      "sentiment": "Neutral",
+      "begin_offset": 0,
+      "end_offset": 20
+    },
+    {
+      "type": "OTHER",
+      "text": "president",
+      "sentiment": "Neutral",
+      "begin_offset": 191,
+      "end_offset": 200
+    },
+    {
+      "type": "PERSON",
+      "text": "Obama",
+      "sentiment": "Neutral",
+      "begin_offset": 154,
+      "end_offset": 159
+    },
+    {
+      "type": "PERSON",
+      "text": "politician",
+      "sentiment": "Neutral",
+      "begin_offset": 36,
+      "end_offset": 46
+    },
+    {
+      "type": "PERSON",
+      "text": "44th",
+      "sentiment": "Neutral",
+      "begin_offset": 65,
+      "end_offset": 69
+    },
+    {
+      "type": "OTHER",
+      "text": "president",
+      "sentiment": "Neutral",
+      "begin_offset": 70,
+      "end_offset": 79
+    },
+    {
+      "type": "ORGANIZATION",
+      "text": "U.S.",
+      "sentiment": "Neutral",
+      "begin_offset": 249,
+      "end_offset": 253
+    },
+    {
+      "type": "ORGANIZATION",
+      "text": "United States",
+      "sentiment": "Neutral",
+      "begin_offset": 87,
+      "end_offset": 100
+    },
+    {
+      "type": "ORGANIZATION",
+      "text": "United States",
+      "sentiment": "Neutral",
+      "begin_offset": 208,
+      "end_offset": 221
+    },
+    {
+      "type": "DATE",
+      "text": "from 2009 to 2017",
+      "sentiment": "Neutral",
+      "begin_offset": 101,
+      "end_offset": 118
+    },
+    {
+      "type": "PERSON",
+      "text": "member",
+      "sentiment": "Neutral",
+      "begin_offset": 122,
+      "end_offset": 128
+    },
+    {
+      "type": "ORGANIZATION",
+      "text": "Democratic Party",
+      "sentiment": "Neutral",
+      "begin_offset": 136,
+      "end_offset": 152
+    },
+    {
+      "type": "QUANTITY",
+      "text": "first",
+      "sentiment": "Neutral",
+      "begin_offset": 168,
+      "end_offset": 173
+    },
+    {
+      "type": "PERSON",
+      "text": "senator",
+      "sentiment": "Neutral",
+      "begin_offset": 254,
+      "end_offset": 261
+    },
+    {
+      "type": "LOCATION",
+      "text": "Illinois",
+      "sentiment": "Neutral",
+      "begin_offset": 267,
+      "end_offset": 275
+    },
+    {
+      "type": "LOCATION",
+      "text": "Illinois",
+      "sentiment": "Neutral",
+      "begin_offset": 304,
+      "end_offset": 312
+    },
+    {
+      "type": "DATE",
+      "text": "from 2005 to 2008",
+      "sentiment": "Neutral",
+      "begin_offset": 276,
+      "end_offset": 293
+    },
+    {
+      "type": "OTHER",
+      "text": "senator",
+      "sentiment": "Neutral",
+      "begin_offset": 319,
+      "end_offset": 326
+    },
+    {
+      "type": "DATE",
+      "text": "from 1997",
+      "sentiment": "Neutral",
+      "begin_offset": 327,
+      "end_offset": 336
+    },
+    {
+      "type": "DATE",
+      "text": "2004",
+      "sentiment": "Neutral",
+      "begin_offset": 340,
+      "end_offset": 344
+    }
+  ]
+}

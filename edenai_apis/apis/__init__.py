@@ -45,5 +45,6 @@ from .tenstorrent import TenstorrentApi
 from .facepp import FaceppApi
 from .originalityai import OriginalityaiApi
 from .sapling import SaplingApi
+from .gladia import GladiaApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

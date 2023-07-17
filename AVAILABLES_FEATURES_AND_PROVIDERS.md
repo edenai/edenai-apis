@@ -56,6 +56,7 @@
 | **speech_to_text_async** | amazon |
 | | assembly |
 | | deepgram |
+| | gladia |
 | | google |
 | | ibm |
 | | microsoft |
@@ -127,6 +128,8 @@
 | | microsoft |
 | | oneai |
 | | openai |
+| **entity_sentiment** | amazon |
+| | google |
 | **keyword_extraction** | amazon |
 | | emvista |
 | | ibm |
@@ -151,6 +154,7 @@
 | | microsoft |
 | | oneai |
 | | openai |
+| | sapling |
 | | tenstorrent |
 | **syntax_analysis** | amazon |
 | | emvista |
@@ -271,6 +275,7 @@
 | | ocr_tables_async |
 | | receipt_parser |
 | **text** | anonymization |
+| | entity_sentiment |
 | | keyword_extraction |
 | | named_entity_recognition |
 | | sentiment_analysis |
@@ -395,6 +400,13 @@
 | | face_recognition |
 
 </details>
+<details><summary>gladia</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **audio** | speech_to_text_async |
+
+</details>
 <details><summary>google</summary>
 
 | Features | Subfeatures |
@@ -414,6 +426,7 @@
 | **text** | chat |
 | | code_generation |
 | | embeddings |
+| | entity_sentiment |
 | | generation |
 | | named_entity_recognition |
 | | sentiment_analysis |
@@ -637,7 +650,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | spell_check |
+| **text** | sentiment_analysis |
+| | spell_check |
 
 </details>
 <details><summary>sentisight</summary>

@@ -808,6 +808,17 @@
         }
     },
     "text": {
+        "entity_sentiment": {
+            "version": "v1",
+            "constraints": {
+                "languages": [
+                    "en",
+                    "ja",
+                    "es"
+                ]
+            },
+            "allow_null_language": true
+        },
         "named_entity_recognition": {
             "constraints": {
                 "languages": [

@@ -1,7 +1,6 @@
 
 
 from http import HTTPStatus
-import json
 from typing import Dict, Sequence
 import uuid
 
@@ -13,6 +12,14 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
+from typing import Dict
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
+    SentimentAnalysisDataClass,
+    SegmentSentimentAnalysisDataClass,
+)
+
+
+from typing import cast
 
 class SaplingApi(ProviderInterface, TextInterface):
     provider_name = "sapling"
@@ -22,7 +29,7 @@ class SaplingApi(ProviderInterface, TextInterface):
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
         self.api_key = self.api_settings["key"]
-        self.url = "https://api.sapling.ai/api/v1/spellcheck"
+        self.url = "https://api.sapling.ai/api/v1/"
 
 
     def text__spell_check(
@@ -43,7 +50,7 @@ class SaplingApi(ProviderInterface, TextInterface):
             })
 
         try:
-            response = requests.post(self.url, json = payload)
+            response = requests.post(f"{self.url}spellcheck", json = payload)
         except Exception as excp:
             raise ProviderException(str(excp))
         
@@ -82,3 +89,64 @@ class SaplingApi(ProviderInterface, TextInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )        
+       
+
+    def text__sentiment_analysis(
+        self, language: str, text: str
+    ) -> ResponseType[SentimentAnalysisDataClass]:
+        headers = {
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "key": self.api_key,
+            "text": text
+        }
+
+        try:
+            response = requests.post(f"{self.url}sentiment", json=payload, headers=headers)
+        except Exception as excp:
+            raise ProviderException(str(excp))
+        
+        response_json = response.json()
+        
+        if response.status_code > HTTPStatus.BAD_REQUEST:
+            raise ProviderException(response_json)
+
+        best_sentiment = {
+            "general_sentiment": None,
+            "general_sentiment_rate": 0,
+            "items": [],
+        }
+
+        for i in range(len(response_json["sents"])):
+            sentence = response_json["sents"][i]
+            sentiment = response_json["results"][i][0][1]
+            sentiment_rate = response_json["results"][i][0][0]
+
+            if sentiment != "Mixed":
+
+                segment_sentiment = SegmentSentimentAnalysisDataClass(
+                    segment=sentence,
+                    sentiment=sentiment,
+                    sentiment_rate=sentiment_rate
+                )
+                best_sentiment["items"].append(segment_sentiment)
+
+        best_sentiment.update({
+            "general_sentiment": response_json["overall"][0][1],
+            "general_sentiment_rate": response_json["overall"][0][0]
+        })
+
+        standarize = SentimentAnalysisDataClass(
+            general_sentiment=best_sentiment["general_sentiment"],
+            general_sentiment_rate=best_sentiment["general_sentiment_rate"],
+            items=best_sentiment["items"]
+        )
+
+        return cast(
+            ResponseType[SentimentAnalysisDataClass],
+            ResponseType(
+                original_response=response_json,
+                standardized_response=standarize
+            )
+        )

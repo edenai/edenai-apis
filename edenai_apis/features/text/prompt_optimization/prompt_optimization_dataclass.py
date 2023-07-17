@@ -7,4 +7,5 @@ class PromptDataClass(BaseModel):
 
 
 class PromptOptimizationDataClass(BaseModel):
+    missing_information: StrictStr
     items: Sequence[PromptDataClass] = Field(default_factory=list)

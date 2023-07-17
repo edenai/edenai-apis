@@ -68,6 +68,7 @@ from .helpers import (
     construct_topic_extraction_context,
     construct_custom_ner_instruction,
     construct_prompt_optimization_instruction,
+    prompt_optimization_missing_information
 )
 
 
@@ -789,13 +790,26 @@ class OpenaiTextApi(TextInterface):
         # Handle errors
         check_openai_errors(original_response)
 
+        missing_information_response = requests.post(
+            url,
+            json = {
+                "model" : "gpt-4",
+                "messages" : [{"role":"user","content":prompt_optimization_missing_information(text)}],
+                },
+            headers=self.headers
+        ).json()
+        
+        check_openai_errors(missing_information_response)
+                
         # Standardize the response
         prompts: Sequence[PromptDataClass] = []
 
         for generated_prompt in original_response["choices"]:
             prompts.append(PromptDataClass(text=generated_prompt["message"]["content"]))
 
-        standardized_response = PromptOptimizationDataClass(items=prompts)
+        standardized_response = PromptOptimizationDataClass(
+            missing_information=missing_information_response["choices"][0]["message"]["content"],
+            items=prompts)
 
         return ResponseType[PromptOptimizationDataClass](
             original_response=original_response,
