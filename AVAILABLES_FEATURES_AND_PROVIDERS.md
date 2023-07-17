@@ -56,6 +56,7 @@
 | **speech_to_text_async** | amazon |
 | | assembly |
 | | deepgram |
+| | gladia |
 | | google |
 | | ibm |
 | | microsoft |
@@ -153,6 +154,7 @@
 | | microsoft |
 | | oneai |
 | | openai |
+| | sapling |
 | | tenstorrent |
 | **syntax_analysis** | amazon |
 | | emvista |
@@ -398,6 +400,13 @@
 | | face_recognition |
 
 </details>
+<details><summary>gladia</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **audio** | speech_to_text_async |
+
+</details>
 <details><summary>google</summary>
 
 | Features | Subfeatures |
@@ -641,7 +650,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | spell_check |
+| **text** | sentiment_analysis |
+| | spell_check |
 
 </details>
 <details><summary>sentisight</summary>
