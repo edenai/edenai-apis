@@ -74,17 +74,17 @@ def convert_audio_attr_in_prosody_tag(
         return (
             f"<speak{f' {speak_attr}' if speak_attr else ''}>"
             + f"{voice_tag}"
-            + f"<prosody {cleaned_attribs}>" if cleaned_attribs else ""
+            + (f"<prosody {cleaned_attribs}>" if cleaned_attribs else "")
             + text
-            + f"</prosody>" if cleaned_attribs else ""
+            + (f"</prosody>" if cleaned_attribs else "")
             + f"{f'</voice>' if voice_tag else ''}</speak>"
         )
     return (
         text[0:idx_after_first_tag]
         + f"{voice_tag}"
-        + f"<prosody {cleaned_attribs}>" if cleaned_attribs else ""
+        + (f"<prosody {cleaned_attribs}>" if cleaned_attribs else "")
         + text[idx_after_first_tag:idx_before_last_tag]
-        + f"</prosody>" if cleaned_attribs else ""
+        + (f"</prosody>" if cleaned_attribs else "")
         + f"{f'</voice>' if voice_tag else ''}"
         + text[idx_before_last_tag:]
     )

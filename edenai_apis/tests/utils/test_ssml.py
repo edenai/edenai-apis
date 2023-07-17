@@ -3,6 +3,7 @@ from edenai_apis.utils.ssml import (
     is_ssml,
     get_index_after_first_speak_tag,
     get_index_before_last_speak_tag,
+    convert_audio_attr_in_prosody_tag
 )
 
 class TestIsSSML:
@@ -78,3 +79,12 @@ class TestGetIndexBeforeLastSpeakTag:
         assert get_index_before_last_speak_tag(ssml_text) == -1, \
             f"ssml_text `{ssml_text}` should return index -1 before last </speak> tag"
 
+
+class TestConvertAudioAttriInProsodyTag:
+    def test__convert_audio_attri_in_prosody_tag(self):
+        cleaned_attribs = "pitch=0.35"
+        text = "Hello world"
+        expected = "<speak><prosody pitch=0.35>Hello world</prosody></speak>"
+
+        assert convert_audio_attr_in_prosody_tag(cleaned_attribs, text) == expected, \
+            f"should return {expected} after converting audio attributes in prosody tag"
