@@ -274,6 +274,7 @@ To write a good prompt in the Cohere Playground, you can follow these guidelines
 
 
 Remember, prompt design is a combination of science and art. While there are guiding principles, it's also essential to be creative and open to exploring different approaches until you achieve the desired outcome.  
+
 User Description : {description}
 Prompt : 
 """
@@ -353,6 +354,21 @@ User Description : {description}
 Prompt :
 """
 )
+prompt_optimization_missing_information = lambda user_description : f"""
+You are a Prompt Optimizer for LLMs, you take a description in input and generate a prompt from it.
+
+The user's project description is delimited by triple back-ticks.
+
+You should to tell him to provide you what any missing information about his project would guide you towards giving him a better prompt.
+
+If the description is clear don't provide any missing information.
+
+The User's description :
+
+```{user_description}```
+
+missing information : 
+"""
 def construct_prompt_optimization_instruction(
     text: str,
     target_provider: str
