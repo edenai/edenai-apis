@@ -445,14 +445,12 @@ def generate_right_ssml_text(
         if not v:
             continue
         cleaned_attribs_string = f"{cleaned_attribs_string} {k}='{v}%'"
-    if not cleaned_attribs_string.strip():
-        return text
 
     return convert_audio_attr_in_prosody_tag(
         cleaned_attribs=cleaned_attribs_string,
         text=text,
-        voice_tag=f"<voice_name={voice_id}",
-        speak_attr="version=1.0 xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'"
+        voice_tag=f"<voice name=\"{voice_id}\">",
+        speak_attr="version=\"1.0\" xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'"
     )
 
 
