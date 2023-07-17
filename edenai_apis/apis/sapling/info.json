@@ -47,6 +47,29 @@
                 "allow_null_language": true
             },
             "version": "v1"
+        },
+
+        "sentiment_analysis": {
+            "constraints": {
+                "languages": [
+                    "de",
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "ja",
+                    "ko",
+                    "hi",
+                    "ar",
+                    "zh",
+                    "zh-TW"
+                ],
+                "allow_null_language": true
+            },
+            "version": "v1.9"
         }
     }
 }
+    
+  
