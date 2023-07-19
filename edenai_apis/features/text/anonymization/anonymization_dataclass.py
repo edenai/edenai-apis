@@ -1,6 +1,7 @@
 from enum import Enum
-from typing import Dict, Optional, Sequence, Union
-from pydantic import BaseModel, Field, field_validator, model_validator
+from typing import Any, Dict, Optional, Sequence, Type, Union
+from pydantic import BaseModel, ConfigDict, Field, FieldSerializationInfo, field_serializer, field_validator, model_validator
+from pydantic.fields import FieldInfo
 
 from edenai_apis.features.text.anonymization.category import (
     CategoryType,
@@ -42,14 +43,13 @@ class AnonymizationEntity(BaseModel):
 
     offset: int = Field(..., ge=0)
     length: int = Field(..., gt=0)
-    category: CategoryType = Field(...)
-    subcategory: SubCategoryType = Field(...)
+    category: CategoryType
+    subcategory: SubCategoryType
     original_label: str = Field(..., min_length=1)
     content: str = Field(..., min_length=1)
     confidence_score: Optional[float] = Field(..., ge=0, le=1)
 
-    class Config:
-        use_enum_values = True
+    model_config = ConfigDict(use_enum_values=True)
 
     @field_validator("content", mode="before")
     @classmethod
@@ -66,11 +66,10 @@ class AnonymizationEntity(BaseModel):
         return v
 
     @model_validator(mode="after")
-    @classmethod
-    def content_length_must_be_equal_to_length(cls, instance: "AnonymizationEntity"):
-        if len(instance.content) != instance.length:
+    def content_length_must_be_equal_to_length(self):
+        if len(self.content) != self.length:
             raise ValueError("content length must be equal to length")
-        return instance
+        return self
 
     @field_validator("confidence_score")
     @classmethod
@@ -78,6 +77,10 @@ class AnonymizationEntity(BaseModel):
         if v is not None:
             return round(v, 3)
         return v
+
+    @field_serializer('subcategory', mode="plain", when_used="always")
+    def serialize_subcategory(self, value: SubCategoryType, _: FieldSerializationInfo):
+        return value.value
 
 
 class AnonymizationDataClass(BaseModel):
