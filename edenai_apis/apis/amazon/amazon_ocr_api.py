@@ -10,6 +10,7 @@ from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import (
     DataExtractionDataClass,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    Country,
     IdentityParserDataClass,
     InfoCountry,
     InfosIdentityParserDataClass,
@@ -178,7 +179,7 @@ class AmazonOcrApi(OcrInterface):
                         value=value, confidence=confidence
                     )
                 elif field_type == "COUNTY" and value:
-                    infos.country = get_info_country(InfoCountry.NAME, value)
+                    infos.country = get_info_country(InfoCountry.NAME, value) or Country.default()
                     infos.country.confidence = confidence
                 elif field_type == "MRZ_CODE":
                     infos.mrz = ItemIdentityParserDataClass(
