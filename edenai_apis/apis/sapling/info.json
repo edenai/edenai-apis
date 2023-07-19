@@ -67,7 +67,16 @@
                 ],
                 "allow_null_language": true
             },
-            "version": "v1.9"
+            "version": "v1"
+        },
+        "ai_detection": {
+            "constraints": {
+                "languages": [
+                   
+                ],
+                "allow_null_language": true
+            },
+            "version": "v1"
         }
     }
 }
