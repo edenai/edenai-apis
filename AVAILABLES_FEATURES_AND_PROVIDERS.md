@@ -198,6 +198,7 @@
 | **prompt_optimization** | openai |
 | **search** | openai |
 | **ai_detection** | originalityai |
+| | sapling |
 
 </details>
 <details><summary>translation</summary>
@@ -650,7 +651,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | sentiment_analysis |
+| **text** | ai_detection |
+| | sentiment_analysis |
 | | spell_check |
 
 </details>
