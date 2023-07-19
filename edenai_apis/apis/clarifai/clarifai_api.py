@@ -35,8 +35,10 @@ from edenai_apis.features.image import (
     LogoVertice,
 )
 from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
+from edenai_apis.features.text.moderation.moderation_dataclass import ModerationDataClass, TextModerationItem
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.types import ResponseType
 
@@ -59,6 +61,69 @@ class ClarifaiApi(
         self.key = self.api_settings["key"]
         self.explicit_content_code = "moderation-recognition"
         self.face_detection_code = "face-detection"
+        self.text_moderation_code = "moderation-multilingual-text-classification"
+
+
+    def text__moderation(
+        self, text: str, language: str
+    ) -> ResponseType[ModerationDataClass]:
+        
+        channel = ClarifaiChannel.get_grpc_channel()
+        stub = service_pb2_grpc.V2Stub(channel)
+
+        metadata = (("authorization", self.key),)
+        user_data_object = resources_pb2.UserAppIDSet(user_id="clarifai", app_id="main")
+
+        post_model_outputs_response = stub.PostModelOutputs(
+            service_pb2.PostModelOutputsRequest(
+                user_app_id=user_data_object,  # The userDataObject is created in the overview and is required when using a PAT
+                model_id= self.text_moderation_code,
+                inputs=[
+                    resources_pb2.Input(
+                        data=resources_pb2.Data(
+                            text=resources_pb2.Text(
+                                raw=text
+                            )
+                        )
+                    )
+                ]
+            ),
+            metadata=metadata
+        )
+
+        if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
+            raise ProviderException(post_model_outputs_response.status.description)
+        
+        response = MessageToDict(
+            post_model_outputs_response, preserving_proto_field_name=True
+        )
+        output = response.get("outputs", [])
+        if len(output) == 0:
+            raise ProviderException("Clarifai returned an empty response!")
+        
+        original_response = output[0].get("data", {}) or {}
+        
+        classification: Sequence[TextModerationItem] = []
+        for concept in original_response.get("concepts", []) or []:
+            classification.append(
+                TextModerationItem(
+                    label= concept["name"],
+                    likelihood= standardized_confidence_score(concept["value"])
+                )
+            )
+        
+        standardized_response: ModerationDataClass = ModerationDataClass(
+            nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
+                classification
+            ),
+            items=classification
+        ) 
+        
+        return ResponseType[ModerationDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
 
     def ocr__ocr(
         self,

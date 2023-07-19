@@ -1,4 +1,114 @@
 {
+    "text": {
+        "moderation": {
+            "constraints": {
+                "languages": [
+                    "af",
+                    "sq",
+                    "ar",
+                    "an",
+                    "hy",
+                    "ast",
+                    "az",
+                    "ba",
+                    "eu",
+                    "bar",
+                    "be",
+                    "bn",
+                    "bpy",
+                    "bs",
+                    "br",
+                    "bg",
+                    "my",
+                    "ca",
+                    "ceb",
+                    "ce",
+                    "zh",
+                    "zh-Hant",
+                    "cv",
+                    "hr",
+                    "cs",
+                    "da",
+                    "nl",
+                    "en",
+                    "et",
+                    "fi",
+                    "fr",
+                    "gl",
+                    "ka",
+                    "de",
+                    "el",
+                    "gu",
+                    "ht",
+                    "he",
+                    "hi",
+                    "hu",
+                    "is",
+                    "io",
+                    "id",
+                    "ga",
+                    "it",
+                    "ja",
+                    "jv",
+                    "kn",
+                    "kk",
+                    "ky",
+                    "ko",
+                    "la",
+                    "lv",
+                    "lt",
+                    "lmo",
+                    "nds-NL",
+                    "lb",
+                    "mk",
+                    "mg",
+                    "ms",
+                    "ml",
+                    "mr",
+                    "min",
+                    "ne",
+                    "no",
+                    "nn",
+                    "oc",
+                    "fa",
+                    "pms",
+                    "pl",
+                    "pt",
+                    "pa",
+                    "ro",
+                    "ru",
+                    "sco",
+                    "sr",
+                    "sh",
+                    "scn",
+                    "sk",
+                    "sl",
+                    "azb",
+                    "es",
+                    "su",
+                    "sw",
+                    "sv",
+                    "tl",
+                    "tg",
+                    "ta",
+                    "tt",
+                    "te",
+                    "tr",
+                    "uk",
+                    "ur",
+                    "uz",
+                    "vi",
+                    "vo",
+                    "war",
+                    "cy",
+                    "fy",
+                    "lah",
+                    "yo"
+                ]
+            },
+            "version": "8.0.0"
+        }
+    },
     "ocr": {
         "ocr": {
             "constraints": {
@@ -33,18 +143,18 @@
         "object_detection": {
             "constraints": {
                 "models": [
-                  "hate-symbol-detection",
-                  "weapon-detection",
-                  "people-detection-yolov5",
-                  "apparel-detection",
-                  "general-image-detection"
+                    "hate-symbol-detection",
+                    "weapon-detection",
+                    "people-detection-yolov5",
+                    "apparel-detection",
+                    "general-image-detection"
                 ],
                 "default_model": "general-image-detection"
-              },
+            },
             "version": "8.0.0"
         },
-        "logo_detection":{
-            "version" : "8.0.0"
+        "logo_detection": {
+            "version": "8.0.0"
         }
     }
 }

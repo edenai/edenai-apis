@@ -1,0 +1,71 @@
+{
+  "original_response": {
+    "concepts": [
+      {
+        "id": "ai_pkltpBZ7",
+        "name": "toxic",
+        "value": 0.79653984,
+        "app_id": "main"
+      },
+      {
+        "id": "ai_jf9vs404",
+        "name": "obscene",
+        "value": 0.18101883,
+        "app_id": "main"
+      },
+      {
+        "id": "ai_PlX1h51x",
+        "name": "insult",
+        "value": 0.009806201,
+        "app_id": "main"
+      },
+      {
+        "id": "ai_r1pWFTsm",
+        "name": "severe_toxic",
+        "value": 0.00045600787,
+        "app_id": "main"
+      },
+      {
+        "id": "ai_250jHcJ5",
+        "name": "threat",
+        "value": 7.207947e-05,
+        "app_id": "main"
+      },
+      {
+        "id": "ai_2Dv0D4Nm",
+        "name": "identity_hate",
+        "value": 6.1927596e-05,
+        "app_id": "main"
+      }
+    ]
+  },
+  "standardized_response": {
+    "nsfw_likelihood": 4,
+    "items": [
+      {
+        "label": "toxic",
+        "likelihood": 4
+      },
+      {
+        "label": "obscene",
+        "likelihood": 1
+      },
+      {
+        "label": "insult",
+        "likelihood": 1
+      },
+      {
+        "label": "severe_toxic",
+        "likelihood": 1
+      },
+      {
+        "label": "threat",
+        "likelihood": 1
+      },
+      {
+        "label": "identity_hate",
+        "likelihood": 1
+      }
+    ]
+  }
+}
