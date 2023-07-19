@@ -6,6 +6,8 @@ import uuid
 
 import requests
 from edenai_apis.features import ProviderInterface, TextInterface
+from edenai_apis.features.text import ChatDataClass
+from edenai_apis.features.text.ai_detection.ai_detection_dataclass import AiDetectionDataClass, AiDetectionItem
 from edenai_apis.features.text.spell_check.spell_check_dataclass import SpellCheckDataClass, SpellCheckItem, SuggestionItem
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -150,3 +152,44 @@ class SaplingApi(ProviderInterface, TextInterface):
                 standardized_response=standarize
             )
         )
+    
+    def text__ai_detection(
+        self, text: str
+    ) -> ResponseType[ChatDataClass]:
+        
+        payload = {
+            "key": self.api_key,
+            "text": text,
+        }
+
+        try:
+            response = requests.post(f"{self.url}aidetect", json = payload)
+        except Exception as excp:
+            raise ProviderException(str(excp))
+        
+        original_response = response.json()
+        
+        if response.status_code > HTTPStatus.BAD_REQUEST:
+            raise ProviderException(original_response)
+        
+        items = []
+        for sentence_score in original_response.get("sentence_scores", {}):
+            ai_score = sentence_score["score"]
+            items.append(
+                AiDetectionItem(
+                    text= sentence_score["sentence"],
+                    prediction= AiDetectionItem.set_label_based_on_score(ai_score),
+                    ai_score= ai_score
+                )
+            )
+
+        standardized_response = AiDetectionDataClass(
+            ai_score= original_response.get("score"), items= items
+        )
+
+        result = ResponseType[AiDetectionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+        return result
