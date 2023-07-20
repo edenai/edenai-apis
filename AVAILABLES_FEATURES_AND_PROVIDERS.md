@@ -161,6 +161,9 @@
 | | google |
 | | ibm |
 | | lettria |
+| **moderation** | clarifai |
+| | microsoft |
+| | openai |
 | **custom_classification** | cohere |
 | | openai |
 | **custom_named_entity_recognition** | cohere |
@@ -193,12 +196,11 @@
 | | openai |
 | **question_answer** | huggingface |
 | | openai |
-| **moderation** | microsoft |
-| | openai |
 | **prompt_optimization** | openai |
 | **search** | openai |
 | **ai_detection** | originalityai |
 | | sapling |
+| **plagia_detection** | originalityai |
 
 </details>
 <details><summary>translation</summary>
@@ -331,6 +333,7 @@
 | | logo_detection |
 | | object_detection |
 | **ocr** | ocr |
+| **text** | moderation |
 
 </details>
 <details><summary>cohere</summary>
@@ -609,6 +612,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | ai_detection |
+| | plagia_detection |
 
 </details>
 <details><summary>phedone</summary>

@@ -2,6 +2,9 @@
     "text": {
         "ai_detection": {
             "version": "v1"
+        },
+        "plagia_detection": {
+            "version": "v1"
         }
     }
 }

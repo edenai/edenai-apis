@@ -1,0 +1,93 @@
+{
+  "original_response": [
+    {
+      "phrase": "Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in where its mobile devices are headed.",
+      "matches": [
+        {
+          "website": "https://www.cnet.com/tech/mobile/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
+          "score": 100,
+          "pText": "Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in where its mobile devices are headed."
+        }
+      ]
+    },
+    {
+      "phrase": "Samsung is one of the world's largest smartphone manufacturers by market share, meaning it has more influence than most other tech companies on the devices we carry in our pockets each day.",
+      "matches": [
+        {
+          "website": "https://www.cnet.com/tech/mobile/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
+          "score": 96,
+          "pText": "Samsung is one of the world's largest smartphone manufacturers\u00a0by market share, meaning it has more influence than most other tech companies on the devices we carry in our pockets each day."
+        }
+      ]
+    },
+    {
+      "phrase": "Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers.",
+      "matches": [
+        {
+          "website": "https://www.cnet.com/tech/mobile/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
+          "score": 100,
+          "pText": "Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers."
+        }
+      ]
+    },
+    {
+      "phrase": "It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices.",
+      "matches": [
+        {
+          "website": "https://www.cnet.com/tech/mobile/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
+          "score": 100,
+          "pText": "It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices."
+        }
+      ]
+    }
+  ],
+  "standardized_response": {
+    "plagia_score": 0.57,
+    "items": [
+      {
+        "text": "Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in where its mobile devices are headed.",
+        "candidates": [
+          {
+            "url": "https://www.cnet.com/tech/mobile/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in where its mobile devices are headed."
+          }
+        ]
+      },
+      {
+        "text": "Samsung is one of the world's largest smartphone manufacturers by market share, meaning it has more influence than most other tech companies on the devices we carry in our pockets each day.",
+        "candidates": [
+          {
+            "url": "https://www.cnet.com/tech/mobile/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
+            "plagia_score": 0.96,
+            "prediction": "plagiarized",
+            "plagiarized_text": "Samsung is one of the world's largest smartphone manufacturers\u00a0by market share, meaning it has more influence than most other tech companies on the devices we carry in our pockets each day."
+          }
+        ]
+      },
+      {
+        "text": "Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers.",
+        "candidates": [
+          {
+            "url": "https://www.cnet.com/tech/mobile/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers."
+          }
+        ]
+      },
+      {
+        "text": "It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices.",
+        "candidates": [
+          {
+            "url": "https://www.cnet.com/tech/mobile/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices."
+          }
+        ]
+      }
+    ]
+  }
+}
