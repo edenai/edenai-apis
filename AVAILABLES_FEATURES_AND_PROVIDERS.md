@@ -145,6 +145,7 @@
 | | neuralspace |
 | | oneai |
 | | openai |
+| | tenstorrent |
 | **sentiment_analysis** | amazon |
 | | connexun |
 | | emvista |
@@ -194,8 +195,10 @@
 | **topic_extraction** | google |
 | | ibm |
 | | openai |
+| | tenstorrent |
 | **question_answer** | huggingface |
 | | openai |
+| | tenstorrent |
 | **prompt_optimization** | openai |
 | **search** | openai |
 | **ai_detection** | originalityai |
@@ -717,7 +720,10 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | keyword_extraction |
+| | named_entity_recognition |
+| | question_answer |
 | | sentiment_analysis |
+| | topic_extraction |
 
 </details>
 <details><summary>veryfi</summary>
