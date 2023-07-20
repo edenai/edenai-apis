@@ -200,6 +200,7 @@
 | **search** | openai |
 | **ai_detection** | originalityai |
 | | sapling |
+| **plagia_detection** | originalityai |
 
 </details>
 <details><summary>translation</summary>
@@ -611,6 +612,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | ai_detection |
+| | plagia_detection |
 
 </details>
 <details><summary>phedone</summary>
