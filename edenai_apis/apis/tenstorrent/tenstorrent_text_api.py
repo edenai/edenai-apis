@@ -149,7 +149,7 @@ class TenstorrentTextApi(TextInterface):
         )
 
     def text__topic_extraction(
-        self, text: str
+        self, text: str, language : str
     ) -> ResponseType[TopicExtractionDataClass]:
         base_url = "https://topic-extraction--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/topic_extraction"
