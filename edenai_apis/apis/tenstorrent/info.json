@@ -12,10 +12,25 @@
         "sentiment_analysis": {
             "constraints": {
                 "languages": [
-                    "en"
+                    "en",
+                    "es",
+                    "fr",
+                    "de",
+                    "it",
+                    "pt",
+                    "ar"
                 ],
                 "allow_null_language": true
             },
+            "version": "v1.1.0"
+        },
+        "question_answer": {
+            "version": "v1.0.0"
+        },
+        "topic_extraction": {
+            "version": "v1.0.0"
+        },
+        "named_entity_recognition": {
             "version": "v1.0.0"
         }
     }

@@ -1,0 +1,100 @@
+{
+  "original_response": {
+    "items": [
+      {
+        "entity": "American",
+        "category": "OTHER",
+        "importance": 0.53125
+      },
+      {
+        "entity": "Barack Hussein Obama",
+        "category": "PERSON",
+        "importance": 0.5091145833333334
+      },
+      {
+        "entity": "African American",
+        "category": "OTHER",
+        "importance": 0.4775390625
+      },
+      {
+        "entity": "Democratic Party",
+        "category": "ORGANIZATION",
+        "importance": 0.3203125
+      },
+      {
+        "entity": "United States",
+        "category": "LOCATION",
+        "importance": 0.16015625
+      },
+      {
+        "entity": "Illinois",
+        "category": "LOCATION",
+        "importance": 0.1572265625
+      },
+      {
+        "entity": "United States",
+        "category": "LOCATION",
+        "importance": 0.15576171875
+      },
+      {
+        "entity": "U. S.",
+        "category": "LOCATION",
+        "importance": 0.08258056640625
+      },
+      {
+        "entity": "Obama",
+        "category": "PERSON",
+        "importance": 0.0390625
+      }
+    ]
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "entity": "American",
+        "category": "OTHER",
+        "importance": 0.53
+      },
+      {
+        "entity": "Barack Hussein Obama",
+        "category": "PERSON",
+        "importance": 0.51
+      },
+      {
+        "entity": "African American",
+        "category": "OTHER",
+        "importance": 0.48
+      },
+      {
+        "entity": "Democratic Party",
+        "category": "ORGANIZATION",
+        "importance": 0.32
+      },
+      {
+        "entity": "United States",
+        "category": "LOCATION",
+        "importance": 0.16
+      },
+      {
+        "entity": "Illinois",
+        "category": "LOCATION",
+        "importance": 0.15
+      },
+      {
+        "entity": "United States",
+        "category": "LOCATION",
+        "importance": 0.16
+      },
+      {
+        "entity": "U. S.",
+        "category": "LOCATION",
+        "importance": 0.08
+      },
+      {
+        "entity": "Obama",
+        "category": "PERSON",
+        "importance": 0.04
+      }
+    ]
+  }
+}
