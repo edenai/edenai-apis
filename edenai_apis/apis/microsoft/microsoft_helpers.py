@@ -360,7 +360,7 @@ def normalize_invoice_result(response):
                         .get("value", default_dict)
                         .get("amount"),
                         description=line.get("Description", default_dict).get("value"),
-                        quantity=line.get("Quantity", default_dict).get("value"),
+                        quantity=int(line.get("Quantity", default_dict).get("value"), 0) or None,
                         unit_price=line.get("UnitPrice", default_dict)
                         .get("value", default_dict)
                         .get("amount"),

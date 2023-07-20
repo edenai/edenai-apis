@@ -2,26 +2,26 @@
   "original_response": {
     "Entities": [
       {
-        "Score": 0.9996160268783569,
+        "Score": 0.999704897403717,
         "Type": "NAME",
         "BeginOffset": 20,
         "EndOffset": 23
       },
       {
-        "Score": 0.9920434355735779,
+        "Score": 0.8774792551994324,
         "Type": "DATE_TIME",
         "BeginOffset": 31,
         "EndOffset": 45
       }
     ],
     "ResponseMetadata": {
-      "RequestId": "842e3681-566b-4816-a504-73009306bc51",
+      "RequestId": "c71e7b32-8268-4306-99dc-3d43c1757ddf",
       "HTTPStatusCode": 200,
       "HTTPHeaders": {
-        "x-amzn-requestid": "842e3681-566b-4816-a504-73009306bc51",
+        "x-amzn-requestid": "c71e7b32-8268-4306-99dc-3d43c1757ddf",
         "content-type": "application/x-amz-json-1.1",
-        "content-length": "169",
-        "date": "Fri, 26 May 2023 10:08:35 GMT"
+        "content-length": "168",
+        "date": "Wed, 19 Jul 2023 10:08:53 GMT"
       },
       "RetryAttempts": 0
     }
@@ -45,7 +45,7 @@
         "subcategory": "DateTime",
         "original_label": "DATE_TIME",
         "content": "06 21 32 43 54",
-        "confidence_score": 0.992
+        "confidence_score": 0.877
       }
     ]
   }

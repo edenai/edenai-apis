@@ -1,3 +1,4 @@
+from logging import exception
 import requests
 
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
@@ -20,16 +21,18 @@ class TenstorrentTextApi(TextInterface):
         payload = {
             "text": text,
         }
+
         try:
             original_response = requests.post(url, json=payload, headers=self.headers)
-            original_response.raise_for_status()
-        except Exception as exc:
-            raise ProviderException(original_response.text)
+        except requests.exceptions.RequestException as exc:
+            raise ProviderException(message=str(exc))
+        if original_response.status_code != 200:
+            raise ProviderException(message=original_response.text, code=original_response.status_code)
 
         original_response = original_response.json()
 
         # Check for errors
-        self.check_for_errors(original_response)
+        self.__check_for_errors(original_response)
 
         standardized_response = KeywordExtractionDataClass(
             items=original_response["items"]
@@ -49,14 +52,15 @@ class TenstorrentTextApi(TextInterface):
         }
         try:
             original_response = requests.post(url, json=payload, headers=self.headers)
-            original_response.raise_for_status()
-        except Exception as exc:
-            raise ProviderException(original_response.text)
+        except requests.exceptions.RequestException as exc:
+            raise ProviderException(message=str(exc))
+        if original_response.status_code != 200:
+            raise ProviderException(message=original_response.text, code=original_response.status_code)
 
         original_response = original_response.json()
 
         # Check for errors
-        self.check_for_errors(original_response)
+        self.__check_for_errors(original_response)
 
         # Create output response
         confidence = float(original_response["confidence"])
@@ -71,6 +75,6 @@ class TenstorrentTextApi(TextInterface):
             standardized_response=standardized_response,
         )
 
-    def check_for_errors(self, response):
+    def __check_for_errors(self, response):
         if "message" in response:
             raise ProviderException(response["message"])
