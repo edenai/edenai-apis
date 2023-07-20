@@ -120,6 +120,10 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
             ai_score=original_response.get("score", defaultdict).get("ai"), items=items
         )
 
+        #remove credits information from original response
+        original_response.pop("credits_used")
+        original_response.pop("credits")
+        
         result = ResponseType[AiDetectionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
