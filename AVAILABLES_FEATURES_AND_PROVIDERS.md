@@ -161,6 +161,9 @@
 | | google |
 | | ibm |
 | | lettria |
+| **moderation** | clarifai |
+| | microsoft |
+| | openai |
 | **custom_classification** | cohere |
 | | openai |
 | **custom_named_entity_recognition** | cohere |
@@ -192,8 +195,6 @@
 | | ibm |
 | | openai |
 | **question_answer** | huggingface |
-| | openai |
-| **moderation** | microsoft |
 | | openai |
 | **prompt_optimization** | openai |
 | **search** | openai |
@@ -331,6 +332,7 @@
 | | logo_detection |
 | | object_detection |
 | **ocr** | ocr |
+| **text** | moderation |
 
 </details>
 <details><summary>cohere</summary>
