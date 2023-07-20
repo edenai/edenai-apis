@@ -386,16 +386,16 @@ class GoogleVideoApi(VideoInterface):
                         # Bounding box
                         bounding_box = VideoTrackingBoundingBox(
                             top=float(
-                                time_stamped_object["normalizedBoundingBox"]["top"]
+                                time_stamped_object["normalizedBoundingBox"].get("top",0)
                             ),
                             left=float(
-                                time_stamped_object["normalizedBoundingBox"]["left"]
+                                time_stamped_object["normalizedBoundingBox"].get("left",0)
                             ),
                             height=float(
-                                time_stamped_object["normalizedBoundingBox"]["bottom"]
+                                time_stamped_object["normalizedBoundingBox"].get("bottom",0)
                             ),
                             width=float(
-                                time_stamped_object["normalizedBoundingBox"]["right"]
+                                time_stamped_object["normalizedBoundingBox"].get("right",0)
                             ),
                         )
 
@@ -499,22 +499,16 @@ class GoogleVideoApi(VideoInterface):
                         for time_stamped_object in track["timestampedObjects"]:
                             timestamp = float(time_stamped_object["timeOffset"][:-1])
                             bounding_box = VideoLogoBoundingBox(
-                                top=time_stamped_object["normalizedBoundingBox"]["top"],
-                                left=time_stamped_object["normalizedBoundingBox"][
-                                    "left"
-                                ],
-                                height=time_stamped_object["normalizedBoundingBox"][
-                                    "bottom"
-                                ],
-                                width=time_stamped_object["normalizedBoundingBox"][
-                                    "right"
-                                ],
+                                top=time_stamped_object["normalizedBoundingBox"].get("top", 0),
+                                left=time_stamped_object["normalizedBoundingBox"].get("left", 0),
+                                height=time_stamped_object["normalizedBoundingBox"].get("bottom", 0),
+                                width=time_stamped_object["normalizedBoundingBox"].get("right", 0),
                             )
                             objects.append(
                                 VideoLogo(
                                     timestamp=timestamp,
                                     bounding_box=bounding_box,
-                                    confidence=track["confidence"],
+                                    confidence=track.get("confidence", 0),
                                 )
                             )
                     tracks.append(LogoTrack(description=description, tracking=objects))
@@ -547,7 +541,7 @@ class GoogleVideoApi(VideoInterface):
             object_tracking = []
             for detected_object in objects:
                 frames = []
-                confidence = detected_object["confidence"]
+                confidence = detected_object.get("confidence", 0)
                 description = detected_object["entity"]["description"]
                 for frame in detected_object["frames"]:
                     timestamp = float(frame["timeOffset"][:-1])
