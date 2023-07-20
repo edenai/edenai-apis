@@ -18,6 +18,7 @@ from edenai_apis.features.text import (
     ChatDataClass,
     PromptOptimizationDataClass,
 )
+from edenai_apis.features.text.plagia_detection.plagia_detection_dataclass import PlagiaDetectionDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
 )
@@ -338,4 +339,18 @@ class TextInterface:
         """
         Detect sentiment of entities foung through the given text
         """
+        raise NotImplementedError
+    
+    @abstractmethod
+    def text__plagia_detection(
+        self, text: str, title: str = ""
+    ) -> ResponseType[PlagiaDetectionDataClass]:
+        """
+        Detects plagiarized content within a given text
+
+        Args:
+            text (str): text to analyse
+            title (str, optional): text's title
+        """
+
         raise NotImplementedError

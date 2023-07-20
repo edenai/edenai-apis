@@ -46,5 +46,5 @@ from .facepp import FaceppApi
 from .originalityai import OriginalityaiApi
 from .sapling import SaplingApi
 from .gladia import GladiaApi
-
+from .originalityai import OriginalityaiApi
 # THIS NEEDS TO BE DONE AUTOMATICALLY
