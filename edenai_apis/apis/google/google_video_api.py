@@ -267,10 +267,10 @@ class GoogleVideoApi(VideoInterface):
                     for frame in segment["frames"]:
                         offset = frame["timeOffset"]
                         timestamp = float(offset[:-1])
-                        xleft = frame["rotatedBoundingBox"]["vertices"][0]["x"]
-                        xright = frame["rotatedBoundingBox"]["vertices"][1]["x"]
-                        ytop = frame["rotatedBoundingBox"]["vertices"][0]["y"]
-                        ybottom = frame["rotatedBoundingBox"]["vertices"][2]["y"]
+                        xleft = frame["rotatedBoundingBox"]["vertices"][0].get("x", 0)
+                        xright = frame["rotatedBoundingBox"]["vertices"][1].get("x", 0)
+                        ytop = frame["rotatedBoundingBox"]["vertices"][0].get("y", 0)
+                        ybottom = frame["rotatedBoundingBox"]["vertices"][2].get("y", 0)
                         bounding_box = VideoTextBoundingBox(
                             top=ytop,
                             left=xleft,
