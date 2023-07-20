@@ -121,7 +121,7 @@ class TenstorrentTextApi(TextInterface):
         )
 
     def text__named_entity_recognition(
-        self, text: str
+        self, text: str, language : str
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         base_url = "https://named-entity-recognition--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/named_entity_recognition"
