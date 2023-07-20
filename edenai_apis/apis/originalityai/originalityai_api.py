@@ -79,7 +79,7 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
         original_response.pop("credits")
 
         result = ResponseType[PlagiaDetectionDataClass](
-            original_response=original_response.get("results", []),
+            original_response=original_response,
             standardized_response=standardized_response,
         )
 
