@@ -800,7 +800,13 @@ class OpenaiTextApi(TextInterface):
         ).json()
         
         check_openai_errors(missing_information_response)
-                
+        
+        # Calculate total tokens consumed
+        total_tokens_missing_information = missing_information_response["usage"]["total_tokens"]
+        original_response["usage"]["missing_information_tokens"] = total_tokens_missing_information
+        original_response["usage"]["total_tokens"] += total_tokens_missing_information
+        
+        
         # Standardize the response
         prompts: Sequence[PromptDataClass] = []
 
