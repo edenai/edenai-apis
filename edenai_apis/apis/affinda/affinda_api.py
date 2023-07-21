@@ -1,7 +1,12 @@
-from io import BufferedReader
 from typing import Dict, List, Sequence
 from collections import defaultdict
 from affinda import AffindaAPI, TokenCredential
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass
+
+from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import ReceiptParserDataClass
+
+from .document import FileParameter, UploadDocumentParams
+from .client import Client
 from edenai_apis.features import OcrInterface
 from edenai_apis.features.ocr import (
     ResumeEducationEntry,
@@ -45,6 +50,17 @@ class AffindaApi(ProviderInterface, OcrInterface):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
+
+        # NOTE: Temporary use API and SDK in the same time. Will be removed in August 2023.
+        # TODO: I refacto the affinda API when im come back in august. --coscialp
+        self.receipt_client = Client(self.api_settings["api_key"])
+        self.receipt_client.current_organization = self.receipt_client.get_workspaces()[0].identifier
+        self.receipt_client.current_workspace = self.api_settings["receipt_workspace"]
+
+        self.identity_client = Client(self.api_settings["api_key"])
+        self.identity_client.current_organization = self.receipt_client.get_workspaces()[0].identifier
+        self.identity_client.current_workspace = self.api_settings["identity_workspace"]
+
         credentials = TokenCredential(token=self.api_settings["api_key"])
         self.client = AffindaAPI(credential=credentials)
 
@@ -371,3 +387,11 @@ class AffindaApi(ProviderInterface, OcrInterface):
             standardized_response=standardized_response,
         )
         return result
+
+    def ocr__receipt_parser(self, file: str, language: str, file_url: str = "") -> ResponseType[ReceiptParserDataClass]:
+        #TODO: Stay to standardized_response
+        original_response = self.receipt_client.create_document(file=FileParameter(file=file, url=file_url), parameters=UploadDocumentParams(language=language))
+
+    def ocr__identity_parser(self, file: str, file_url: str = "") -> ResponseType[IdentityParserDataClass]:
+        #TODO: Stay to standardized_response
+        original_response = self.receipt_client.create_document(file=FileParameter(file=file, url=file_url))

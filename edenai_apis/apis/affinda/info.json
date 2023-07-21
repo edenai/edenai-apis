@@ -1,46 +1,146 @@
 {
-    "ocr": {
-        "invoice_parser": {
-            "constraints": {
-                "file_types": [
-                    "application/pdf",
-                    "application/msword",
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document'",
-                    "text/plain",
-                    "application/rtf",
-                    "text/html",
-                    "image/png",
-                    "image/jpeg"
-                ],
-                "languages": [
-                    "en",
-                    "fr",
-                    "es"
-                ],
-                "allow_null_language":true
-            },
-            "version": "affinda 1.0.2"
-        },
-        "resume_parser": {
-            "constraints": {
-                "file_types": [
-                    "application/pdf",
-                    "application/msword",
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document'",
-                    "text/plain",
-                    "application/rtf",
-                    "text/html",
-                    "image/png",
-                    "image/jpeg"
-                ],
-                "languages": [
-                    "en",
-                    "fr",
-                    "ar"
-                ],
-                "allow_null_language": true
-            },
-            "version": "affinda 1.0.2"
-        }
+  "ocr": {
+    "invoice_parser": {
+      "constraints": {
+        "file_types": [
+          "application/pdf",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document'",
+          "text/plain",
+          "application/rtf",
+          "text/html",
+          "image/png",
+          "image/jpeg"
+        ],
+        "languages": [
+          "zh-tw",
+          "zh-cn",
+          "en",
+          "de",
+          "ja",
+          "es",
+          "fr",
+          "it",
+          "pt",
+          "nl",
+          "pl",
+          "sv",
+          "cs",
+          "ru",
+          "da",
+          "ro",
+          "no",
+          "id",
+          "hu",
+          "tr",
+          "hr",
+          "sk",
+          "fi",
+          "vi",
+          "th",
+          "sl",
+          "el",
+          "et",
+          "ar",
+          "ko",
+          "lt",
+          "fa",
+          "bg",
+          "he",
+          "uk",
+          "tl",
+          "mk",
+          "so",
+          "lv",
+          "sq",
+          "af",
+          "sw",
+          "bn",
+          "hi",
+          "ur",
+          "mr",
+          "gu",
+          "ta",
+          "ne",
+          "ml",
+          "te",
+          "kn",
+          "pa"
+        ],
+        "allow_null_language": true
+      },
+      "version": "v3"
+    },
+    "resume_parser": {
+      "constraints": {
+        "file_types": [
+          "application/pdf",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document'",
+          "text/plain",
+          "application/rtf",
+          "text/html",
+          "image/png",
+          "image/jpeg"
+        ],
+        "languages": [
+          "zh-tw",
+          "zh-cn",
+          "en",
+          "de",
+          "ja",
+          "es",
+          "fr",
+          "it",
+          "pt",
+          "nl",
+          "pl",
+          "sv",
+          "cs",
+          "ru",
+          "da",
+          "ro",
+          "no",
+          "id",
+          "hu",
+          "tr",
+          "hr",
+          "sk",
+          "fi",
+          "vi",
+          "th",
+          "sl",
+          "el",
+          "et",
+          "ar",
+          "ko",
+          "lt",
+          "fa",
+          "bg",
+          "he",
+          "uk",
+          "tl",
+          "mk",
+          "so",
+          "lv",
+          "sq",
+          "af",
+          "sw",
+          "bn",
+          "hi",
+          "ur",
+          "mr",
+          "gu",
+          "ta",
+          "ne",
+          "ml",
+          "te",
+          "kn",
+          "pa"
+        ],
+        "allow_null_language": true
+      },
+      "version": "v3"
     }
+  }
 }

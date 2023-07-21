@@ -5,7 +5,7 @@ from .connexun import ConnexunApi
 from .emvista import EmvistaApi
 from .ibm import IbmApi
 from .huggingface import HuggingfaceApi
-from .affinda import AffindaApi
+from .affinda import AffindaAPI
 from .clarifai import ClarifaiApi
 from .base64 import Base64Api
 from .deepl import DeeplApi
