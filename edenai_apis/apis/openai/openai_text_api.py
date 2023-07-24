@@ -811,7 +811,7 @@ class OpenaiTextApi(TextInterface):
         prompts: Sequence[PromptDataClass] = []
 
         for generated_prompt in original_response["choices"]:
-            prompts.append(PromptDataClass(text=generated_prompt["message"]["content"]))
+            prompts.append(PromptDataClass(text=generated_prompt["message"]["content"].strip('\"')))
 
         standardized_response = PromptOptimizationDataClass(
             missing_information=missing_information_response["choices"][0]["message"]["content"],
