@@ -11,12 +11,13 @@ from edenai_apis.features.text import (
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
     SpellCheckItem,
+    SuggestionItem
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.conversion import closest_above_value, find_all_occurrence
+from edenai_apis.utils.conversion import extract_spell_check_info
 import json
 
 
@@ -71,16 +72,12 @@ class CohereApi(ProviderInterface, TextInterface):
 
     def _format_spell_check_prompt(text: str, language: str) -> str:
         return f"""
-Find the spelling and grammar mistakes by creating a list of suggestions to correct each mistake and the confidence score between 0.0 and 1.0, it will return the type of each mistake.
-To calculate the start offset of the word you must count all off characters before the word including spaces and punctuation, in the text written in samples text.
---
-Sample: Hollo wrld! Haw are yu?
-Corrected text: {{"items": [{{"text": "Hollo", "type": "typo","offset": 0,"length": 5,"suggestions": [{{"suggestion": "Hello", "score": 1}}]}},{{"text": "wrld","type": "typo","offset": 6,"length": 4, "suggestions": [{{"suggestion": "world", "score": 1 }}] }},{{"text": "Haw", "type": "typo","offset": 12,"length": 3,"suggestions": [{{"suggestion": "How","score": 1}}]}}, {{"text": "yu","type": "typo","offset": 20,"length": 2,"suggestions": [ {{ "suggestion": "you","score": 1}}]}}]}}
+Find the spelling and grammar mistakes in this text and correct it.
+Do not remove any word just correct it if you can.
+If the text is correct return nothing.
+Text: {text}
+Corrected Text: """
 
---
-Sample:  {text}
-Corrected text:
-"""
 
     def text__generation(
         self,
@@ -271,29 +268,18 @@ Answer:"""
         if "message" in original_response:
             raise ProviderException(original_response["message"])
 
-        generated_texts = original_response.get("generations")
-        try:
-            original_items = json.loads(generated_texts[0]["text"])
-        except (KeyError, json.JSONDecodeError) as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response."
-            ) from exc
-
+        corrected_text = original_response.get("generations")[0]["text"]
+        corrected_items = extract_spell_check_info(text, corrected_text)
+        
         items: Sequence[SpellCheckItem] = []
-        for item in original_items["items"]:
-            try:
-                real_offset = closest_above_value(
-                    find_all_occurrence(text, item["text"]), item["offset"]
-                )
-            except ValueError:
-                real_offset = item["offset"]
+        for item in corrected_items:
             items.append(
                 SpellCheckItem(
-                    text=item["text"],
-                    offset=real_offset,
-                    length=len(item["text"]),
-                    type=item["type"],
-                    suggestions=item["suggestions"],
+                    text=item["word"],
+                    offset=item["offset"],
+                    length=item["length"],
+                    type = None,
+                    suggestions=[SuggestionItem(suggestion=item["suggestion"], score = 1.0)],
                 )
             )
         return ResponseType[SpellCheckDataClass](

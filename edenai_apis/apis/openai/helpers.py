@@ -148,30 +148,36 @@ def check_openai_errors(response: dict):
         raise ProviderException(response["error"]["message"])
 
 
-def construct_spell_check_instruction(text: str, language: str) -> str:
-    """
-    This function takes a text as input and returns a string that contains the instruction.
-    """
+# def construct_spell_check_instruction(text: str, language: str) -> str:
+#     """
+#     This function takes a text as input and returns a string that contains the instruction.
+#     """
 
+#     return f"""
+# You should act as a spell and grammar checker.
+# Find the spelling and grammar mistakes in the text written in {language} delimited by triple hashtags.
+# Please create a list of suggestions to correct each mistake and the confidence score between 0.0 and 1.0.
+# You should also return the type of each mistake.
+# To calculate the start offset of the word you must count all off characters before the word including spaces and punctuation.
+# For example: "Hello, world!" the start offset of "world" is 7.
+
+# The output should be a json that looks like this:
+# {{"items":[{{"text":"word","offset":start_offset,"type":type,"suggestions":[{{"suggestion":"new word","score":value}}]}}]}}
+
+# If no mistake was found, simply return an empty list of items like follows:
+# {{"items":[]}}
+
+# Text:
+# ###{text}###
+
+# Output:
+#     """
+def construct_spell_check_instruction(text: str, language: str):
     return f"""
-You should act as a spell and grammar checker.
 Find the spelling and grammar mistakes in the text written in {language} delimited by triple hashtags.
-Please create a list of suggestions to correct each mistake and the confidence score between 0.0 and 1.0.
-You should also return the type of each mistake.
-To calculate the start offset of the word you must count all off characters before the word including spaces and punctuation.
-For example: "Hello, world!" the start offset of "world" is 7.
-
-The output should be a json that looks like this:
-{{"items":[{{"text":"word","offset":start_offset,"type":type,"suggestions":[{{"suggestion":"new word","score":value}}]}}]}}
-
-If no mistake was found, simply return an empty list of items like follows:
-{{"items":[]}}
-
-Text:
-###{text}###
-
-Output:
-    """
+# Text:
+# ###{text}###
+"""
 
 
 def construct_ner_instruction(text: str) -> str:

@@ -262,3 +262,27 @@ def standardized_confidence_score_picpurify(confidence_score: float, nsfw: bool)
             return 2
     else:
         return 1
+
+def extract_spell_check_info(original_text, corrected_text):
+        # Find all the words and their positions in the original text
+        word_pattern = re.compile(r'\b\w+\b')
+        original_words = [(match.group(), match.start()) for match in re.finditer(word_pattern, original_text)]
+
+        # Find all the words and their positions in the corrected text
+        corrected_words = [(match.group(), match.start()) for match in re.finditer(word_pattern, corrected_text)]
+        
+        # Initialize variables to store the spell check information
+        spell_check_info = []
+
+        # Find mistakes by comparing the words in the original and corrected texts
+        for pos, original_word in enumerate(original_words):
+            if original_word[0] != corrected_words[pos][0]:
+                length = len(original_word[0])
+                spell_check_info.append({
+                    'word': original_word[0],
+                    'offset': original_word[1],
+                    'length': length,
+                    'suggestion': corrected_words[pos][0]
+                })
+
+        return spell_check_info

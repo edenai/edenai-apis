@@ -1,21 +1,23 @@
 {
   "original_response": {
-    "id": "cmpl-6pKWEjV26KFFokPPGTwCYMizwHgQT",
-    "object": "text_completion",
-    "created": 1677691622,
-    "model": "text-davinci-003",
+    "id": "chatcmpl-7fnGT0F7PbQ8XFUvTj11UyrcN6A9d",
+    "object": "chat.completion",
+    "created": 1690195177,
+    "model": "gpt-3.5-turbo-0613",
     "choices": [
       {
-        "text": " {\"items\":[{\"text\":\"Hollo\",\"offset\":0,\"type\":\"Typo\",\"suggestions\":[{\"suggestion\":\"Hello\",\"score\":1.0}]},{\"text\":\"wrld\",\"offset\":7,\"type\":\"Typo\",\"suggestions\":[{\"suggestion\":\"world\",\"score\":1.0}]},{\"text\":\"yu\",\"offset\":15,\"type\":\"Typo\",\"suggestions\":[{\"suggestion\":\"you\",\"score\":1.0}]}]}",
         "index": 0,
-        "logprobs": null,
+        "message": {
+          "role": "assistant",
+          "content": "Text:\n###Hello, world! How are you?###"
+        },
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 156,
-      "completion_tokens": 92,
-      "total_tokens": 248
+      "prompt_tokens": 88,
+      "completion_tokens": 12,
+      "total_tokens": 100
     }
   },
   "standardized_response": {
@@ -23,9 +25,21 @@
     "items": [
       {
         "text": "Hollo",
-        "type": "Typo",
+        "type": null,
         "offset": 0,
         "length": 5,
+        "suggestions": [
+          {
+            "suggestion": "Text",
+            "score": 1.0
+          }
+        ]
+      },
+      {
+        "text": "wrld",
+        "type": null,
+        "offset": 7,
+        "length": 4,
         "suggestions": [
           {
             "suggestion": "Hello",
@@ -34,10 +48,10 @@
         ]
       },
       {
-        "text": "wrld",
-        "type": "Typo",
-        "offset": 7,
-        "length": 4,
+        "text": "How",
+        "type": null,
+        "offset": 13,
+        "length": 3,
         "suggestions": [
           {
             "suggestion": "world",
@@ -46,13 +60,25 @@
         ]
       },
       {
+        "text": "r",
+        "type": null,
+        "offset": 17,
+        "length": 1,
+        "suggestions": [
+          {
+            "suggestion": "How",
+            "score": 1.0
+          }
+        ]
+      },
+      {
         "text": "yu",
-        "type": "Typo",
+        "type": null,
         "offset": 19,
         "length": 2,
         "suggestions": [
           {
-            "suggestion": "you",
+            "suggestion": "are",
             "score": 1.0
           }
         ]

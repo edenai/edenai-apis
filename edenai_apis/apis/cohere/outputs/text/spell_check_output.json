@@ -1,17 +1,20 @@
 {
   "original_response": {
-    "id": "5918b5ae-f7aa-4fee-a98b-ee1003c4730c",
+    "id": "cc161b6f-cfa0-4c49-9bc0-d0eecf52dcfc",
     "generations": [
       {
-        "id": "971de394-4d30-48c8-8f6b-e24c06a36611",
-        "text": "{\"items\": [{\"text\": \"Hollo\",\"type\": \"typo\",\"offset\": 0,\"length\": 5,\"suggestions\": [{\"suggestion\": \"Hello\",\"score\": 1}]},{\"text\": \"wrld\",\"type\": \"typo\",\"offset\": 6,\"length\": 4,\"suggestions\": [{\"suggestion\": \"world\",\"score\": 1}]}, {\"text\": \"How\",\"type\": \"typo\",\"offset\": 12,\"length\": 3,\"suggestions\": [{\"suggestion\": \"How\",\"score\": 1}]}, {\"text\": \"yu\",\"type\": \"typo\",\"offset\": 20,\"length\": 2,\"suggestions\": [{\"suggestion\": \"you\",\"score\": 1}]}]}"
+        "id": "e653470e-f1f9-44d7-b53d-c6a428166e9e",
+        "text": "Hello, world! How are you?"
       }
     ],
-    "prompt": "\nFind the spelling and grammar mistakes by creating a list of suggestions to correct each mistake and the confidence score between 0.0 and 1.0, it will return the type of each mistake.\nTo calculate the start offset of the word you must count all off characters before the word including spaces and punctuation, in the text written in samples text.\n--\nSample: Hollo wrld! Haw are yu?\nCorrected text: {\"items\": [{\"text\": \"Hollo\", \"type\": \"typo\",\"offset\": 0,\"length\": 5,\"suggestions\": [{\"suggestion\": \"Hello\", \"score\": 1}]},{\"text\": \"wrld\",\"type\": \"typo\",\"offset\": 6,\"length\": 4, \"suggestions\": [{\"suggestion\": \"world\", \"score\": 1 }] },{\"text\": \"Haw\", \"type\": \"typo\",\"offset\": 12,\"length\": 3,\"suggestions\": [{\"suggestion\": \"How\",\"score\": 1}]}, {\"text\": \"yu\",\"type\": \"typo\",\"offset\": 20,\"length\": 2,\"suggestions\": [ { \"suggestion\": \"you\",\"score\": 1}]}]}\n\n--\nSample:  Hollo, wrld! How r yu?\nCorrected text:\n",
+    "prompt": "\nFind the spelling and grammar mistakes in this text and correct it.\nDo not remove any word just correct it if you can.\nIf the text is correct return nothing.\nText: Hollo, wrld! How r yu?\nCorrected Text:",
     "meta": {
       "api_version": {
         "version": "2022-12-06"
-      }
+      },
+      "warnings": [
+        "Your text contains a trailing whitespace, which has been trimmed to ensure high quality generations."
+      ]
     }
   },
   "standardized_response": {
@@ -19,7 +22,7 @@
     "items": [
       {
         "text": "Hollo",
-        "type": "typo",
+        "type": null,
         "offset": 0,
         "length": 5,
         "suggestions": [
@@ -31,7 +34,7 @@
       },
       {
         "text": "wrld",
-        "type": "typo",
+        "type": null,
         "offset": 7,
         "length": 4,
         "suggestions": [
@@ -42,20 +45,20 @@
         ]
       },
       {
-        "text": "How",
-        "type": "typo",
-        "offset": 13,
-        "length": 3,
+        "text": "r",
+        "type": null,
+        "offset": 17,
+        "length": 1,
         "suggestions": [
           {
-            "suggestion": "How",
+            "suggestion": "are",
             "score": 1.0
           }
         ]
       },
       {
         "text": "yu",
-        "type": "typo",
+        "type": null,
         "offset": 19,
         "length": 2,
         "suggestions": [

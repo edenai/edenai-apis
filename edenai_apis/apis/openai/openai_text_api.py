@@ -17,6 +17,7 @@ from edenai_apis.features.text.named_entity_recognition.named_entity_recognition
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
     SpellCheckItem,
+    SuggestionItem
 )
 from edenai_apis.utils.conversion import (
     closest_above_value,
@@ -34,7 +35,6 @@ from edenai_apis.features.text.generation import GenerationDataClass
 from edenai_apis.features.text.search import SearchDataClass, InfosSearchDataClass
 from edenai_apis.features.text.keyword_extraction import (
     KeywordExtractionDataClass,
-    InfosKeywordExtractionDataClass,
 )
 from edenai_apis.features.text.topic_extraction import (
     TopicExtractionDataClass,
@@ -42,11 +42,9 @@ from edenai_apis.features.text.topic_extraction import (
 )
 from edenai_apis.features.text.custom_named_entity_recognition import (
     CustomNamedEntityRecognitionDataClass,
-    InfosCustomNamedEntityRecognitionDataClass,
 )
 from edenai_apis.features.text.custom_classification import (
     CustomClassificationDataClass,
-    ItemCustomClassificationDataClass,
 )
 from edenai_apis.features.text.prompt_optimization import (
     PromptOptimizationDataClass,
@@ -70,6 +68,7 @@ from .helpers import (
     construct_prompt_optimization_instruction,
     prompt_optimization_missing_information
 )
+from edenai_apis.utils.conversion import extract_spell_check_info
 
 
 class OpenaiTextApi(TextInterface):
@@ -581,49 +580,39 @@ class OpenaiTextApi(TextInterface):
     def text__spell_check(
         self, text: str, language: str
     ) -> ResponseType[SpellCheckDataClass]:
-        url = f"{self.url}/completions"
-
+        url = f"{self.url}/chat/completions"
         prompt = construct_spell_check_instruction(text, language)
-
+        messages = [{"role": "user", "content": prompt}]
+        messages.insert(
+            0,
+            {
+                "role": "system",
+                "content": "Act As a spell and grammar checker, your role is to analyze the provided text and proficiently correct any spelling and grammar errors. Accept input texts and deliver precise and accurate corrections to enhance the overall writing quality.",
+            },
+        )
         payload = {
-            "n": 1,
-            "model": "text-davinci-003",
-            "max_tokens": 500,
+            "model": "gpt-3.5-turbo",
+            "messages": messages,
             "temperature": 0.0,
-            "prompt": prompt,
         }
-
-        try:
-            original_response = requests.post(
-                url, json=payload, headers=self.headers
-            ).json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response."
-            ) from exc
-
+        original_response = requests.post(
+            url, json=payload, headers=self.headers
+        ).json()
+        
         check_openai_errors(original_response)
 
-        try:
-            original_items = json.loads(original_response["choices"][0]["text"])
-        except (KeyError, json.JSONDecodeError) as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response."
-            ) from exc
-
+        corrected_text = original_response["choices"][0]["message"]["content"]
+        corrected_items = extract_spell_check_info(text, corrected_text)
+        
         items: Sequence[SpellCheckItem] = []
-        for item in original_items["items"]:
-            real_offset = closest_above_value(
-                find_all_occurrence(text, item["text"]), item["offset"]
-            )
-
+        for item in corrected_items:
             items.append(
                 SpellCheckItem(
-                    text=item["text"],
-                    offset=real_offset,
-                    length=len(item["text"]),
-                    type=item["type"],
-                    suggestions=item["suggestions"],
+                    text=item["word"],
+                    offset=item["offset"],
+                    length=item["length"],
+                    type = None,
+                    suggestions=[SuggestionItem(suggestion=item["suggestion"], score = 1.0)],
                 )
             )
 
