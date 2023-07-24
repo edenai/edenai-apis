@@ -131,7 +131,7 @@ class AmazonVideoApi(VideoInterface):
                             start=float(label["Timestamp"]) / 1000.0, end=None
                         )
                     ],
-                    confidence=label["Label"]["Confidence"],
+                    confidence=label["Label"].get("Confidence", 0) / 100,
                     name=label["Label"]["Name"],
                     category=parents,
                     bounding_box=boxes,
@@ -185,10 +185,10 @@ class AmazonVideoApi(VideoInterface):
                     )
                     geometry = annotation["TextDetection"]["Geometry"]["BoundingBox"]
                     bounding_box = VideoTextBoundingBox(
-                        top=geometry["Top"],
-                        left=geometry["Left"],
-                        width=geometry["Width"],
-                        height=geometry["Height"],
+                        top=geometry.get("Top", 0),
+                        left=geometry.get("Left", 0),
+                        width=geometry.get("Width", 0),
+                        height=geometry.get("Height", 0),
                     )
                     frame = VideoTextFrames(
                         timestamp=timestamp,

@@ -229,7 +229,7 @@ class GoogleVideoApi(VideoInterface):
                     VideoLabel(
                         name=name,
                         category=categories,
-                        confidence=(sum(confidences) / len(confidences)) * 100,
+                        confidence=(sum(confidences) / len(confidences)),
                         timestamp=timestamps,
                     )
                 )
@@ -541,7 +541,7 @@ class GoogleVideoApi(VideoInterface):
             object_tracking = []
             for detected_object in objects:
                 frames = []
-                confidence = detected_object.get("confidence", 0)
+                confidence = detected_object.get("confidence", 0) / 100
                 description = detected_object["entity"]["description"]
                 for frame in detected_object["frames"]:
                     timestamp = float(frame["timeOffset"][:-1])
