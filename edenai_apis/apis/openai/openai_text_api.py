@@ -68,7 +68,7 @@ from .helpers import (
     construct_prompt_optimization_instruction,
     prompt_optimization_missing_information
 )
-from edenai_apis.utils.conversion import extract_spell_check_info
+from edenai_apis.utils.conversion import construct_word_list
 
 
 class OpenaiTextApi(TextInterface):
@@ -587,7 +587,7 @@ class OpenaiTextApi(TextInterface):
             0,
             {
                 "role": "system",
-                "content": "Act As a spell and grammar checker, your role is to analyze the provided text and proficiently correct any spelling and grammar errors. Accept input texts and deliver precise and accurate corrections to enhance the overall writing quality.",
+                "content": "Act As a spell checker, your role is to analyze the provided text and proficiently correct any spelling errors. Accept input texts and deliver precise and accurate corrections to enhance the overall writing quality.",
             },
         )
         payload = {
@@ -600,12 +600,16 @@ class OpenaiTextApi(TextInterface):
         ).json()
         
         check_openai_errors(original_response)
-
-        corrected_text = original_response["choices"][0]["message"]["content"]
-        corrected_items = extract_spell_check_info(text, corrected_text)
-        
+        try:
+            data =  original_response["choices"][0]["message"]["content"]
+            corrected_items = json.loads(data)
+        except (json.JSONDecodeError) as exc:
+            raise exc
+            
+        corrections = construct_word_list(text, corrected_items)
+            
         items: Sequence[SpellCheckItem] = []
-        for item in corrected_items:
+        for item in corrections:
             items.append(
                 SpellCheckItem(
                     text=item["word"],

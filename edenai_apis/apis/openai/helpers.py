@@ -174,9 +174,9 @@ def check_openai_errors(response: dict):
 #     """
 def construct_spell_check_instruction(text: str, language: str):
     return f"""
-Find the spelling and grammar mistakes in the text written in {language} delimited by triple hashtags.
-# Text:
-# ###{text}###
+Given the following text between written in {language} and delimited by triple hashtags, identify and correct any spelling mistakes. Return the results as a list of dictionaries, each containing the original incorrect word and the corrected word. The dictionaries should be structured as follows: {{"word": "incorrect spelling", "correction": "correct spelling"}}.
+
+Text: ###{text}###
 """
 
 

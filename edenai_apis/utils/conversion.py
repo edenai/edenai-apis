@@ -263,26 +263,28 @@ def standardized_confidence_score_picpurify(confidence_score: float, nsfw: bool)
     else:
         return 1
 
-def extract_spell_check_info(original_text, corrected_text):
-        # Find all the words and their positions in the original text
-        word_pattern = re.compile(r'\b\w+\b')
-        original_words = [(match.group(), match.start()) for match in re.finditer(word_pattern, original_text)]
+def construct_word_list(original_text, corrected_words):
+    word_list = []
+    for correction in corrected_words:
+        word_with_mistake = correction['word']
+        corrected_word = correction['correction']
 
-        # Find all the words and their positions in the corrected text
-        corrected_words = [(match.group(), match.start()) for match in re.finditer(word_pattern, corrected_text)]
-        
-        # Initialize variables to store the spell check information
-        spell_check_info = []
+        # Find the index of the word with the mistake in the original text
+        offset = original_text.find(word_with_mistake)
+        real_offset = closest_above_value(
+            find_all_occurrence(original_text, word_with_mistake), offset
+        )
+        length = len(word_with_mistake)
 
-        # Find mistakes by comparing the words in the original and corrected texts
-        for pos, original_word in enumerate(original_words):
-            if original_word[0] != corrected_words[pos][0]:
-                length = len(original_word[0])
-                spell_check_info.append({
-                    'word': original_word[0],
-                    'offset': original_word[1],
-                    'length': length,
-                    'suggestion': corrected_words[pos][0]
-                })
+        # Create a new dictionary with the extracted information
+        word_info = {
+            'word': word_with_mistake,
+            'offset': real_offset,
+            'length': length,
+            'suggestion': corrected_word
+        }
 
-        return spell_check_info
+        # Append to the final list
+        word_list.append(word_info)
+
+    return word_list
