@@ -101,9 +101,9 @@ class AffindaApi(ProviderInterface, OcrInterface):
         personal_infos = ResumePersonalInfo(
             name=names,
             address=address,
-            phones=resume.get("phone_numbers"),
-            mails=resume.get("emails"),
-            urls=resume.get("websites"),
+            phones=resume.get("phone_numbers", []) or [],
+            mails=resume.get("emails", []) or [],
+            urls=resume.get("websites", []) or [],
             self_summary=resume.get("summary"),
             current_profession=resume.get("profession"),
             objective=resume.get("objective"),
@@ -117,7 +117,7 @@ class AffindaApi(ProviderInterface, OcrInterface):
 
         # 2. Education
         edu_entries: List[ResumeEducationEntry] = []
-        for i in resume["education"]:
+        for i in (resume.get("education", []) or []):
             location = i.get("location", {})
             address = ResumeLocation(
                 raw_input_location=location.get("rawInput"),
@@ -149,7 +149,7 @@ class AffindaApi(ProviderInterface, OcrInterface):
 
         # Work experience
         work_entries = []
-        for i in resume["work_experience"]:
+        for i in (resume.get("work_experience", []) or []):
             dates = i.get("dates", {})
             location = i.get("location", {})
             address = ResumeLocation(
@@ -180,7 +180,7 @@ class AffindaApi(ProviderInterface, OcrInterface):
 
         # Others
         skills = []
-        for i in resume.get("skills"):
+        for i in (resume.get("skills", []) or []):
             skill = i.get("name")
             skill_type = i.get("type").split("_skill")[0]
             skills.append(ResumeSkill(name=skill, type=skill_type))
