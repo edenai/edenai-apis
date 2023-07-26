@@ -51,16 +51,27 @@ class AffindaApi(ProviderInterface, OcrInterface):
     def ocr__resume_parser(
         self, file: str, file_url: str = ""
     ) -> ResponseType[ResumeParserDataClass]:
+        file_ = open(file, "rb")
+        params = {
+            "workspace" : self.api_settings["resume_workspace"],
+            "file": file_
+        }
         if file_url:
-            original_response = self.client.create_document(
-                url=file_url, workspace=self.api_settings["resume_workspace"]
-            ).as_dict()
-        else:
-            file_ = open(file, "rb")
-            original_response = self.client.create_document(
-                file=file_, workspace=self.api_settings["resume_workspace"]
-            ).as_dict()
-            file_.close()
+            del params["file"]
+            params["url"] = file_url
+    
+        original_response = self.client.create_document(**params).as_dict()
+
+        file_.close()
+
+        if original_response.get("error"):
+            error_code = None
+            try:
+                error_code = int(original_response["error"].get("error_code"))
+            except:
+                pass
+            raise ProviderException(original_response["error"]["error_detail"], 
+                            code= error_code if isinstance(error_code, int) else None)
 
         if "detail" in original_response:
             raise ProviderException(original_response["detail"])
