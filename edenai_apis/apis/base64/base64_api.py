@@ -26,6 +26,7 @@ from edenai_apis.features.ocr.identity_parser import (
     InfosIdentityParserDataClass,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    Country,
     format_date,
 )
 from edenai_apis.features.ocr.invoice_parser import (
@@ -444,7 +445,7 @@ class Base64Api(ProviderInterface, OcrInterface):
                         .get("dateOfBirth", {})
                         .get("confidence"),
                     ),
-                    country=country,
+                    country=country or Country.default(),
                     document_id=ItemIdentityParserDataClass(
                         value=document["fields"].get("documentNumber", {}).get("value"),
                         confidence=document["fields"]
