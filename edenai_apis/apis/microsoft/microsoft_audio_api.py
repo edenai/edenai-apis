@@ -154,7 +154,7 @@ class MicrosoftAudioApi(AudioInterface):
             provider_id = result_location.split("/")[-1]
             return AsyncLaunchJobResponseType(provider_job_id=provider_id)
         else:
-            raise Exception(response.json().get("message"))
+            raise ProviderException(response.json().get("message"), code= response.status_code)
 
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
@@ -238,6 +238,7 @@ class MicrosoftAudioApi(AudioInterface):
             error = response.json().get("message")
             if "entity cannot be found" in error or 1:
                 raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                    code = response.status_code
                 )
-            raise ProviderException(error)
+            raise ProviderException(error, code = response.status_code)

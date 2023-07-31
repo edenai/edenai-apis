@@ -82,7 +82,8 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
         if response.status_code != 200:
             if original_response.get("details") == "path not found":
                 raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                    code = response.status_code
                 )
             raise ProviderException(
                 message=original_response,
@@ -92,7 +93,7 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
         job_details = original_response["job"]
         errors = job_details.get("errors")
         if errors:
-            raise ProviderException(errors)
+            raise ProviderException(errors, code = response.status_code)
 
         status = job_details["status"]
         if status == "running":

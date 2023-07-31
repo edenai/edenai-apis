@@ -1,4 +1,5 @@
 from typing import List, Sequence
+from edenai_apis.apis.amazon.helpers import handle_amazon_call
 from edenai_apis.features.text.entity_sentiment.entities import Entities
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
@@ -36,16 +37,12 @@ class AmazonTextApi(TextInterface):
         self, language: str, text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
         # Getting response
-        try:
-            response = self.clients["text"].detect_sentiment(
-                Text=text, LanguageCode=language
-            )
-        except ClientError as exc:
-            if "languageCode" in str(exc):
-                raise LanguageException(str(exc))
-            else:
-                raise ProviderException(str(exc))
-
+        payload = {
+            "Text" : text,
+            "LanguageCode" : language
+        }
+        response = handle_amazon_call(self.clients["text"].detect_sentiment, **payload)
+        
         # Analysing response
 
         best_sentiment = {
@@ -81,15 +78,11 @@ class AmazonTextApi(TextInterface):
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
         # Getting response
-        try:
-            response = self.clients["text"].detect_key_phrases(
-                Text=text, LanguageCode=language
-            )
-        except ClientError as exc:
-            if "languageCode" in str(exc):
-                raise LanguageException(str(exc))
-            else:
-                raise ProviderException(str(exc))
+        payload = {
+            "Text" : text,
+            "LanguageCode" : language
+        }
+        response = handle_amazon_call(self.clients["text"].detect_key_phrases, **payload)
 
         # Analysing response
         items: Sequence[InfosKeywordExtractionDataClass] = []
@@ -110,15 +103,11 @@ class AmazonTextApi(TextInterface):
         self, language: str, text: str
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         # Getting response
-        try:
-            response = self.clients["text"].detect_entities(
-                Text=text, LanguageCode=language
-            )
-        except ClientError as exc:
-            if "languageCode" in str(exc):
-                raise LanguageException(str(exc)) from exc
-            else:
-                raise ProviderException(str(exc)) from exc
+        payload = {
+            "Text" : text,
+            "LanguageCode" : language
+        }
+        response = handle_amazon_call(self.clients["text"].detect_entities, **payload)
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
         for ent in response["Entities"]:
@@ -140,15 +129,11 @@ class AmazonTextApi(TextInterface):
         self, language: str, text: str
     ) -> ResponseType[SyntaxAnalysisDataClass]:
         # Getting response
-        try:
-            response = self.clients["text"].detect_syntax(
-                Text=text, LanguageCode=language
-            )
-        except ClientError as exc:
-            if "languageCode" in str(exc):
-                raise LanguageException(str(exc))
-            else:
-                raise ProviderException(str(exc))
+        payload = {
+            "Text" : text,
+            "LanguageCode" : language
+        }
+        response = handle_amazon_call(self.clients["text"].detect_syntax, **payload)
 
         # Create output TextSyntaxAnalysis object
 
@@ -178,12 +163,11 @@ class AmazonTextApi(TextInterface):
     def text__anonymization(
         self, text: str, language: str
     ) -> ResponseType[AnonymizationDataClass]:
-        try:
-            res = self.clients["text"].detect_pii_entities(
-                Text=text, LanguageCode=language
-            )
-        except Exception as exc:
-            raise ProviderException(exc) from exc
+        payload = {
+            "Text" : text,
+            "LanguageCode" : language
+        }
+        res = handle_amazon_call(self.clients["text"].detect_pii_entities, **payload)
 
         last_end = 0
         new_text = ""
@@ -214,13 +198,11 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__entity_sentiment(self, text: str, language: str) -> ResponseType:
-        try:
-            original_response = self.clients['text'].detect_targeted_sentiment(
-                Text=text,
-                LanguageCode=language
-            )
-        except Exception as exc:
-            raise ProviderException(str(exc))
+        payload = {
+            "Text" : text,
+            "LanguageCode" : language
+        }
+        original_response = handle_amazon_call(self.clients['text'].detect_targeted_sentiment, **payload)
 
         entity_items: List[Entity]  = []
         for entity in original_response['Entities']:

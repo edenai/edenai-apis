@@ -65,16 +65,17 @@ class MicrosoftOcrApi(OcrInterface):
 
         url = f"{self.api_settings['vision']['url']}/ocr?detectOrientation=true"
 
-        response = requests.post(
+        request = requests.post(
             url=add_query_param_in_url(url, {"language": language}),
             headers=self.headers["vision"],
             data=file_content,
-        ).json()
+        )
+        response = response.json()
 
         final_text = ""
 
         if "error" in response:
-            raise ProviderException(response["error"]["message"])
+            raise ProviderException(response["error"]["message"], request.status_code)
 
         # Get width and hight
         width, height = Img.open(file).size
@@ -367,7 +368,7 @@ class MicrosoftOcrApi(OcrInterface):
 
         if response.status_code != 202:
             error = response.json()["error"]["innerror"]["message"]
-            raise ProviderException(error)
+            raise ProviderException(error, code = response.status_code)
 
         return AsyncLaunchJobResponseType(
             provider_job_id=response.headers.get("apim-request-id")
@@ -394,13 +395,14 @@ class MicrosoftOcrApi(OcrInterface):
             error = response.json()["error"]["message"]
             if "Resource not found" in error:
                 raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, 
+                    code = response.status_code
                 )
-            raise ProviderException(error)
+            raise ProviderException(error, code= response.status_code)
 
         data = response.json()
         if data.get("error"):
-            raise ProviderException(data.get("error"))
+            raise ProviderException(data.get("error"), code= response.status_code)
         if data["status"] == "succeeded":
             original_result = data["analyzeResult"]
             standardized_response = microsoft_ocr_tables_standardize_response(

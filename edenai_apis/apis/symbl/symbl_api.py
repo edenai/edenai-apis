@@ -103,7 +103,8 @@ class SymblApi(ProviderInterface, AudioInterface):
         if response.status_code != 201:
             raise ProviderException(
                 f"Call to Symbl failed.\nResponse Status: {response.status_code}.\n"
-                + f"Response Content: {response.content}"
+                + f"Response Content: {response.content}",
+                code = response.status_code
             )
 
         original_response = response.json()
@@ -135,15 +136,19 @@ class SymblApi(ProviderInterface, AudioInterface):
                     fraction in error_message for fraction in ["Job with", "not found"]
                 ):
                     raise AsyncJobException(
-                        reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                        reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                        code = response_status.status_code
                     )
-            raise ProviderException(original_response.get("message"))
+            raise ProviderException(
+                original_response.get("message"),
+                code = response_status.status_code
+            )
 
         if original_response["status"] == "completed":
             url = f"https://api.symbl.ai/v1/conversations/{conversation_id}/messages?sentiment=true&verbose=true"
             response = requests.get(url=url, headers=headers)
             if response.status_code != 200:
-                raise ProviderException(response_status.text)
+                raise ProviderException(response_status.text, code = response.status_code)
 
             original_response = response.json()
             diarization_entries = []

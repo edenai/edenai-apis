@@ -88,7 +88,10 @@ class AssemblyApi(ProviderInterface, AudioInterface):
                     parameter = error.split(":")[1].strip()
                     del data[parameter]
                 else:
-                    raise ProviderException(response.json().get("error"))
+                    raise ProviderException(
+                        response.json().get("error"),
+                        code = response.status_code
+                        )
             else:
                 launch_transcription = True
 
@@ -108,9 +111,10 @@ class AssemblyApi(ProviderInterface, AudioInterface):
             error_message = response.json().get("error")
             if "transcript id not found" in error_message:
                 raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                    code = response.status_code
                 )
-            raise ProviderException(error_message)
+            raise ProviderException(error_message, code = response.status_code)
 
         diarization_entries = []
         speakers = {}
@@ -119,7 +123,7 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         original_response = response.json()
         status = original_response["status"]
         if status == "error":
-            raise ProviderException(original_response)
+            raise ProviderException(original_response, code = response.status_code)
         if status != "completed":
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id

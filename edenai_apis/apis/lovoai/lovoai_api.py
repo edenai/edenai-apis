@@ -65,10 +65,11 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         if response.status_code != 200:
             try:
                 raise ProviderException(
-                    response.json().get("error", "Something went wrong")
+                    response.json().get("error", "Something went wrong"),
+                    code = response.status_code
                 )
             except json.JSONDecodeError:
-                raise ProviderException("Internal Server Error")
+                raise ProviderException("Internal Server Error", code = 500)
 
         audio_content = BytesIO(response.content)
         audio = base64.b64encode(audio_content.read()).decode("utf-8")

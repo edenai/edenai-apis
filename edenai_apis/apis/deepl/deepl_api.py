@@ -49,7 +49,8 @@ class DeeplApi(ProviderInterface, TranslationInterface):
 
         if response.status_code != 200:
             raise ProviderException(
-                message=original_response["message"], code=response.status_code
+                message=original_response["message"], 
+                code=response.status_code
             )
 
         standardized_response = AutomaticTranslationDataClass(
@@ -89,7 +90,8 @@ class DeeplApi(ProviderInterface, TranslationInterface):
 
         if response.status_code != 200:
             raise ProviderException(
-                message=original_response["message"], code=response.status_code
+                message=original_response["message"], 
+                code=response.status_code
             )
 
         document_id, document_key = response.json().values()

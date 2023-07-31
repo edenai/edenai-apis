@@ -28,12 +28,13 @@ class OpenaiImageApi(ImageInterface):
             "size": resolution,
             "response_format": "b64_json",
         }
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         generations: Sequence[GeneratedImageDataClass] = []
         for generated_image in original_response.get("data"):

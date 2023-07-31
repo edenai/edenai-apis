@@ -49,15 +49,19 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         }
 
         try:
-            original_response = requests.post(
+            response = requests.post(
                 url, headers=self.headers, json=payload
-            ).json()
+            )
+            original_response = response.json()
         except json.JSONDecodeError:
-            raise ProviderException("Internal Server Error")
+            raise ProviderException("Internal Server Error", code=500)
 
         # Handle error
         if "message" in original_response:
-            raise ProviderException(original_response["message"])
+            raise ProviderException(
+                original_response["message"],
+                code = response.status_code
+            )
 
         generations: Sequence[GeneratedImageDataClass] = []
         for generated_image in original_response.get("artifacts"):

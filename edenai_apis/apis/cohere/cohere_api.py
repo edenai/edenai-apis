@@ -102,12 +102,16 @@ List of corrected words :
         if max_tokens != 0:
             payload["max_tokens"] = max_tokens
 
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         if "message" in original_response:
-            raise ProviderException(original_response["message"])
+            raise ProviderException(
+                original_response["message"],
+                code = response.status_code
+            )
 
         generated_texts = original_response.get("generations")
         standardized_response = GenerationDataClass(
@@ -131,13 +135,18 @@ List of corrected words :
             "examples": example_dict,
             "model": "large",
         }
-        original_response = requests.post(
+
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         # Handle provider errors
         if "message" in original_response:
-            raise ProviderException(original_response["message"])
+            raise ProviderException(
+                original_response["message"],
+                code = response.status_code
+            )
 
         # Standardization
         classifications = []
@@ -175,12 +184,16 @@ List of corrected words :
             "text": text,
         }
 
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         if "message" in original_response:
-            raise ProviderException(original_response["message"])
+            raise ProviderException(
+                original_response["message"],
+                code = response.status_code
+            )
 
         standardized_response = SummarizeDataClass(
             result=original_response.get("summary", {})
@@ -263,12 +276,16 @@ Answer:"""
             "truncate": "END",
         }
 
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         if "message" in original_response:
-            raise ProviderException(original_response["message"])
+            raise ProviderException(
+                original_response["message"],
+                code = response.status_code
+            )
 
         try:
             data = original_response.get("generations")[0]["text"]

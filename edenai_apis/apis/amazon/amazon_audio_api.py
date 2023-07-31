@@ -5,11 +5,12 @@ import urllib
 import uuid
 import base64
 from io import BufferedReader, BytesIO
-from botocore.exceptions import BotoCoreError
+from botocore.exceptions import BotoCoreError, ClientError
 from edenai_apis.apis.amazon.helpers import (
     amazon_speaking_rate_converter,
     generate_right_ssml_text,
     get_right_audio_support_and_sampling_rate,
+    handle_amazon_call,
 )
 
 from edenai_apis.features.audio.audio_interface import AudioInterface
@@ -75,11 +76,8 @@ class AmazonAudioApi(AudioInterface):
         if is_ssml(text):
             params["TextType"] = "ssml"
 
-        try:
-            response = self.clients["texttospeech"].synthesize_speech(**params)
-        except Exception as excp:
-            raise ProviderException(str(excp))
-
+        response = handle_amazon_call(self.clients["texttospeech"].synthesize_speech, **params)
+        
         audio_content = BytesIO(response["AudioStream"].read())
 
         # convert 'StreamBody' to b64
@@ -116,12 +114,12 @@ class AmazonAudioApi(AudioInterface):
     def _create_vocabulary(self, language: str, list_vocabs: list):
         list_vocabs = ["-".join(vocab.strip().split()) for vocab in list_vocabs]
         vocab_name = str(uuid.uuid4())
-        try:
-            self.clients["speech"].create_vocabulary(
-                LanguageCode=language, VocabularyName=vocab_name, Phrases=list_vocabs
-            )
-        except Exception as exc:
-            raise ProviderException(str(exc)) from exc
+        payload = {
+            "LanguageCode" : language,
+            "VocabularyName" : vocab_name,
+            "Phrases": list_vocabs
+        }
+        response = handle_amazon_call(self.clients["speech"].create_vocabulary, **payload)
 
         return vocab_name
 
@@ -168,10 +166,11 @@ class AmazonAudioApi(AudioInterface):
             raise ProviderException(str(exc)) from exc
 
     def _delete_vocabularies(self, vocab_name):
-        try:
-            self.clients["speech"].delete_vocabulary(VocabularyName=vocab_name)
-        except Exception as exc:
-            raise ProviderException(str(exc)) from exc
+        payload = {
+            "VocabularyName" : vocab_name
+        }
+        handle_amazon_call(self.clients["speech"].delete_vocabulary, **payload)
+        
 
     def audio__speech_to_text_async__launch_job(
         self,
@@ -192,7 +191,8 @@ class AmazonAudioApi(AudioInterface):
         if vocabulary:
             if language is None:
                 raise ProviderException(
-                    "Cannot launch with vocabulary when language is auto-detect."
+                    "Cannot launch with vocabulary when language is auto-detect.",
+                    code = 400
                 )
             vocab_name = self._create_vocabulary(language, vocabulary)
             self._launch_transcribe(
@@ -261,17 +261,9 @@ class AmazonAudioApi(AudioInterface):
                 )
 
         # check transcribe status
-        try:
-            job_details = self.clients["speech"].get_transcription_job(
-                TranscriptionJobName=job_id
-            )
-        except Exception as exp:
-            if "job couldn't be found" in str(exp):
-                raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
-                )
-            raise ProviderException(str(exp))
-
+        payload= {"TranscriptionJobName" : job_id}
+        job_details = handle_amazon_call(self.clients["speech"].get_transcription_job, **payload)
+        
         job_status = job_details["TranscriptionJob"]["TranscriptionJobStatus"]
         if job_status == "COMPLETED":
             # delete vocabulary

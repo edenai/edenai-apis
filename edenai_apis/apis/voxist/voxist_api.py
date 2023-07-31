@@ -82,13 +82,16 @@ class VoxistApi(ProviderInterface, AudioInterface):
         )
 
         if response.status_code == 504:
-            raise ProviderException(message="Gateway Timeout")
+            raise ProviderException(message="Gateway Timeout", code = response.status_code)
 
         original_response = response.json()
 
         # Raise error
         if response.status_code != 200:
-            raise ProviderException(message=original_response.get("error"))
+            raise ProviderException(
+                message=original_response.get("error"),
+                code = response.status_code
+            )
 
         return AsyncLaunchJobResponseType(
             provider_job_id=original_response.get("jobid")
@@ -112,9 +115,10 @@ class VoxistApi(ProviderInterface, AudioInterface):
         if error := response.json().get("error"):
             if re.match(r"jobid (.)* is invalid", error):
                 raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                    code= response.status_code
                 )
-            raise ProviderException(error)
+            raise ProviderException(error, code = response.status_code)
 
         diarization_entries = []
         speakers = set()

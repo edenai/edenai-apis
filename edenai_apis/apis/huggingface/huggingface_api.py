@@ -81,7 +81,7 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
             break
 
         if isinstance(response, dict) and response.get("error"):
-            raise ProviderException(response["error"])
+            raise ProviderException(response["error"], code = status_code)
 
         # Create output TextAutomaticTranslation object
         standardized: AutomaticTranslationDataClass
@@ -140,7 +140,7 @@ class HuggingfaceApi(ProviderInterface, TextInterface, TranslationInterface):
             url, {"question": question, "context": texts[0]}
         )
         if status_code != 200:
-            raise ProviderException(response.get("error"))
+            raise ProviderException(response.get("error"), code = status_code)
 
         data = response
 

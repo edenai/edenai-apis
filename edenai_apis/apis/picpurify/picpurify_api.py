@@ -56,7 +56,10 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
 
         # Handle error
         if "error" in original_response:
-            raise ProviderException(original_response["error"]["errorMsg"])
+            raise ProviderException(
+                original_response["error"]["errorMsg"],
+                code = response.status_code
+            )
 
         # Std response
         img_size = Img.open(file).size
@@ -120,7 +123,10 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
 
         # Handle error
         if "error" in original_response:
-            raise ProviderException(original_response["error"]["errorMsg"])
+            raise ProviderException(
+                original_response["error"]["errorMsg"],
+                code = response.status_code
+            )
 
         # get moderation label keys from categegories found in image
         # (eg: 'drug_moderation', 'gore_moderation' etc.)

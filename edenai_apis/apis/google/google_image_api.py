@@ -2,7 +2,7 @@ from io import BufferedReader
 from typing import Optional, Sequence
 
 import numpy as np
-from edenai_apis.apis.google.google_helpers import score_to_content
+from edenai_apis.apis.google.google_helpers import handle_google_call, score_to_content
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
     ExplicitItem,
@@ -57,10 +57,8 @@ class GoogleImageApi(ImageInterface):
             content = file_.read()
         image = vision.Image(content=content)
 
-        try:
-            response = self.clients["image"].safe_search_detection(image=image)
-        except Exception as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
+        payload = { "image": image }
+        response = handle_google_call(self.clients["image"].safe_search_detection, **payload)
 
         # Convert response to dict
         data = AnnotateImageResponse.to_dict(response)
@@ -92,8 +90,11 @@ class GoogleImageApi(ImageInterface):
     ) -> ResponseType[ObjectDetectionDataClass]:
         file_ = open(file, "rb")
         image = vision.Image(content=file_.read())
-        response = self.clients["image"].object_localization(image=image)
+
+        payload = { "image": image }
+        response = handle_google_call(self.clients["image"].object_localization, **payload)
         response = MessageToDict(response._pb)
+
         file_.close()
         items = []
         for object_annotation in response.get("localizedObjectAnnotations", []):
@@ -132,7 +133,12 @@ class GoogleImageApi(ImageInterface):
             file_content = file_.read()
         img_size = Img.open(file).size
         image = vision.Image(content=file_content)
-        response = self.clients["image"].face_detection(image=image, max_results=100)
+        
+        payload = {
+            "image": image,
+            "max_results": 100
+        }
+        response = handle_google_call(self.clients["image"].face_detection, **payload)
         original_result = MessageToDict(response._pb)
 
         result = []
@@ -267,7 +273,8 @@ class GoogleImageApi(ImageInterface):
         with open(file, "rb") as file_:
             content = file_.read()
         image = vision.Image(content=content)
-        response = self.clients["image"].landmark_detection(image=image)
+        payload = { "image": image }
+        response = handle_google_call(self.clients["image"].landmark_detection, **payload)
         dict_response = vision.AnnotateImageResponse.to_dict(response)
         landmarks = dict_response.get("landmark_annotations", [])
 
@@ -314,11 +321,9 @@ class GoogleImageApi(ImageInterface):
             content = file_.read()
         image = vision.Image(content=content)
 
-        try:
-            response = self.clients["image"].logo_detection(image=image)
-        except Exception as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
-
+        payload = { "image": image }
+        response = handle_google_call(self.clients["image"].logo_detection, **payload)
+        
         response = MessageToDict(response._pb)
 
         float_or_none = lambda val: float(val) if val else None

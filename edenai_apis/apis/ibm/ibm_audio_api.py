@@ -4,6 +4,7 @@ from typing import List, Optional
 from edenai_apis.apis.ibm.ibm_helpers import (
     generate_right_ssml_text,
     get_right_audio_support_and_sampling_rate,
+    handle_ibm_call,
 )
 
 from edenai_apis.features.audio import (
@@ -58,10 +59,8 @@ class IbmAudioApi(AudioInterface):
 
         params = {"text": text, "accept": audio_format, "voice": voice_id}
 
-        try:
-            response = self.clients["texttospeech"].synthesize(**params).get_result()
-        except WatsonApiException as excp:
-            raise ProviderException(excp.message)
+        request = handle_ibm_call(self.clients["texttospeech"].synthesize, **params)
+        response = handle_ibm_call(request.get_result)
 
         audio_content = BytesIO(response.content)
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
@@ -105,24 +104,20 @@ class IbmAudioApi(AudioInterface):
             audio_config.update({"model": f"{language_audio}_Telephony"})
             if language_audio == "ja-JP":
                 audio_config["model"] = f"{language_audio}_Multimedia"
-        response = self.clients["speech"].create_job(**audio_config)
+        response = handle_ibm_call(self.clients["speech"].create_job, **audio_config)
         if response.status_code == 201:
             return AsyncLaunchJobResponseType(provider_job_id=response.result["id"])
         else:
-            raise ProviderException("An error occured during ibm api call")
+            raise ProviderException(
+                "An error occured during ibm api call", 
+                code = response.status_code
+            )
 
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-        try:
-            response = self.clients["speech"].check_job(provider_job_id)
-        except Exception as excp:
-            error_message = str(excp)
-            if "job not found" in error_message:
-                raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
-                )
-            raise ProviderException(error_message)
+        payload = { "id": provider_job_id }
+        response = handle_ibm_call(self.clients["speech"].check_job, **payload)
 
         status = response.result["status"]
         if status == "completed":

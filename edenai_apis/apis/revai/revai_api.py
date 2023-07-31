@@ -111,7 +111,8 @@ class RevAIApi(ProviderInterface, AudioInterface):
             for key, value in parameters.items():
                 if "filter_profanity" in key:
                     raise ProviderException(
-                        f"{key}: {value[0]} Use 'en' language for profanity filter"
+                        f"{key}: {value[0]} Use 'en' language for profanity filter",
+                        code = response.status_code
                     )
             message = f"{original_response.get('title','')}: {original_response.get('details','')}"
             if message and message[0] == ":":
@@ -227,7 +228,8 @@ class RevAIApi(ProviderInterface, AudioInterface):
             error_message = f"{original_response.get('title','')}: {original_response.get('details','')}"
             if "could not find job" in error_message:
                 raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                    code= response.status_code
                 )
             raise ProviderException(
                 message=error_message,

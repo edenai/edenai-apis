@@ -315,7 +315,10 @@ class Base64Api(ProviderInterface, OcrInterface):
         response = requests.post(url=self.url, headers=headers, json=data)
 
         if response.status_code != 200:
-            raise ProviderException(response.text)
+            raise ProviderException(
+                response.text,
+                code = response.status_code
+                )
 
         return response.json()
 
@@ -347,7 +350,8 @@ class Base64Api(ProviderInterface, OcrInterface):
         file_url: str = "",
     ):
         raise ProviderException(
-            message="This provider is deprecated. You won't be charged for your call."
+            message="This provider is deprecated. You won't be charged for your call.",
+            code = 500
         )
 
     def ocr__invoice_parser(
@@ -380,7 +384,10 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         original_response = response.json()
         if response.status_code != 200:
-            raise ProviderException(message=original_response["message"])
+            raise ProviderException(
+                message=original_response["message"],
+                code = response.status_code
+                )
 
         items = []
 
@@ -545,7 +552,10 @@ class Base64Api(ProviderInterface, OcrInterface):
         original_response = response.json()
 
         if response.status_code != 200:
-            raise ProviderException(message=original_response["message"])
+            raise ProviderException(
+                message=original_response["message"],
+                code = response.status_code
+                )
 
         faces = []
         for matching_face in original_response.get("matches", []):
@@ -586,7 +596,10 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         original_response = response.json()
         if response.status_code != 200:
-            raise ProviderException(message=original_response["message"])
+            raise ProviderException(
+                message=original_response["message"],
+                code = response.status_code
+                )
 
         items: Sequence[ItemDataExtraction] = []
 
@@ -635,10 +648,16 @@ class Base64Api(ProviderInterface, OcrInterface):
             try:
                 original_response = response.json()
                 if response.status_code != 200:
-                    raise ProviderException(message=original_response["message"])
+                    raise ProviderException(
+                        message=original_response["message"],
+                        code = response.status_code
+                        )
 
             except json.JSONDecodeError:
-                raise ProviderException(message="Internal Server Error")
+                raise ProviderException(
+                    message="Internal Server Error",
+                    code = response.status_code
+                    )
 
             items: Sequence[ItemBankCheckParsingDataClass] = []
             for fields_not_formated in original_response:

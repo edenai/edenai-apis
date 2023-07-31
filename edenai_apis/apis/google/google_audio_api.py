@@ -10,6 +10,7 @@ from edenai_apis.apis.google.google_helpers import (
     generate_tts_params,
     get_encoding_and_sample_rate,
     get_right_audio_support_and_sampling_rate,
+    handle_google_call,
 )
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
@@ -83,16 +84,14 @@ class GoogleAudioApi(AudioInterface):
         audio_config = texttospeech.AudioConfig(**audio_config_params)
 
         # Getting response of API
-        try:
-            response = client.synthesize_speech(
-                request={
-                    "input": input_text,
-                    "voice": voice,
-                    "audio_config": audio_config,
-                }
-            )
-        except Exception as excp:
-            raise ProviderException(str(excp))
+        payload = {
+            "request": {
+                "input": input_text,
+                "voice": voice,
+                "audio_config": audio_config,
+            }
+        }
+        response = handle_google_call(client.synthesize_speech, **payload)
 
         audio_content = BytesIO(response.audio_content)
 
@@ -114,16 +113,13 @@ class GoogleAudioApi(AudioInterface):
         parent = f"projects/{self.project_id}/locations/global"
         phrases = [{"value": value} for value in list_vocabs]
         phrase_set_id = str(uuid.uuid4())
-        try:
-            phrase_set_response = adaptation_client.create_phrase_set(
-                {
-                    "parent": parent,
-                    "phrase_set_id": phrase_set_id,
-                    "phrase_set": {"boost": 10, "phrases": phrases},
-                }
-            )
-        except Exception as exc:
-            raise ProviderException(str(exc)) from exc
+
+        payload = {
+            "parent": parent,
+            "phrase_set_id": phrase_set_id,
+            "phrase_set": {"boost": 10, "phrases": phrases},
+        }
+        phrase_set_response = handle_google_call(adaptation_client.create_phrase_set, **payload)
         return phrase_set_response.name
 
     def audio__speech_to_text_async__launch_job(
@@ -190,15 +186,12 @@ class GoogleAudioApi(AudioInterface):
             params.update({"adaptation": speech_adaptation})
 
         config = speech.RecognitionConfig(**params)
-        try:
-            operation = client.long_running_recognize(config=config, audio=audio)
-        except Exception as exc:
-            error = str(exc)
-            if "bad encoding" in error:
-                raise ProviderException(
-                    "Could not decode audio file, bad file encoding"
-                )
-            raise ProviderException(error)
+        payload = {
+            "config": config,
+            "audio": audio
+        }
+        operation = handle_google_call(client.long_running_recognize, **payload)
+        
         operation_name = operation.operation.name
         return AsyncLaunchJobResponseType(provider_job_id=operation_name)
 
@@ -208,16 +201,8 @@ class GoogleAudioApi(AudioInterface):
         service = googleapiclient.discovery.build("speech", "v1")
         service_request_ = service.operations().get(name=provider_job_id)
 
-        try:
-            original_response = service_request_.execute()
-        except Exception as excp:
-            error_message = str(excp)
-            if "Unrecognized long running operation name" in error_message:
-                raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
-                )
-            raise ProviderException(error_message)
-
+        original_response = handle_google_call(service_request_.execute)
+        
         if (error_message := original_response.get("error")) is not None:
             raise ProviderException(error_message)
 

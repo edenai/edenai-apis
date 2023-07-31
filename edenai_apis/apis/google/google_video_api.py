@@ -195,13 +195,8 @@ class GoogleVideoApi(VideoInterface):
     def video__label_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[LabelDetectionAsyncDataClass]:
-        try:
-            result = google_video_get_job(provider_job_id)
-        except ProviderException as provider_excp:
-            raise provider_excp
-        except Exception as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
-
+        result = google_video_get_job(provider_job_id)
+        
         if result.get("done"):
             annotations = result["response"]["annotationResults"][0]
             label = annotations.get("segmentLabelAnnotations", "") + annotations.get(
@@ -249,13 +244,8 @@ class GoogleVideoApi(VideoInterface):
     def video__text_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[TextDetectionAsyncDataClass]:
-        try:
-            result = google_video_get_job(provider_job_id)
-        except ProviderException as provider_excp:
-            raise provider_excp
-        except Exception as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
-
+        result = google_video_get_job(provider_job_id)
+        
         if result.get("done"):
             annotations = result["response"]["annotationResults"][0]
             texts = []
@@ -300,13 +290,8 @@ class GoogleVideoApi(VideoInterface):
     def video__face_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[FaceDetectionAsyncDataClass]:
-        try:
-            result = google_video_get_job(provider_job_id)
-        except ProviderException as provider_excp:
-            raise provider_excp
-        except Exception as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
-
+        result = google_video_get_job(provider_job_id)
+        
         if result.get("done"):
             faces = []
             response = result["response"]["annotationResults"][0]
@@ -368,12 +353,7 @@ class GoogleVideoApi(VideoInterface):
     def video__person_tracking_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[PersonTrackingAsyncDataClass]:
-        try:
-            result = google_video_get_job(provider_job_id)
-        except ProviderException as provider_excp:
-            raise provider_excp
-        except Exception as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
+        result = google_video_get_job(provider_job_id)
 
         if result.get("done"):
             response = result["response"]["annotationResults"][0]
@@ -481,13 +461,8 @@ class GoogleVideoApi(VideoInterface):
     def video__logo_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[LogoDetectionAsyncDataClass]:
-        try:
-            result = google_video_get_job(provider_job_id)
-        except ProviderException as provider_excp:
-            raise provider_excp
-        except Exception as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
-
+        result = google_video_get_job(provider_job_id)
+        
         if result.get("done"):
             response = result["response"]["annotationResults"][0]
             tracks = []
@@ -528,12 +503,7 @@ class GoogleVideoApi(VideoInterface):
     def video__object_tracking_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[ObjectTrackingAsyncDataClass]:
-        try:
-            result = google_video_get_job(provider_job_id)
-        except ProviderException as provider_excp:
-            raise provider_excp
-        except Exception as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
+        result = google_video_get_job(provider_job_id)
 
         if result.get("done"):
             response = result["response"]["annotationResults"][0]
@@ -576,13 +546,8 @@ class GoogleVideoApi(VideoInterface):
     def video__explicit_content_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[ExplicitContentDetectionAsyncDataClass]:
-        try:
-            result = google_video_get_job(provider_job_id)
-        except ProviderException as provider_excp:
-            raise provider_excp
-        except Exception as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
-
+        result = google_video_get_job(provider_job_id)
+        
         if result.get("error"):
             raise ProviderException(result["error"].get("message"))
 

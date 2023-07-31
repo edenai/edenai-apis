@@ -36,18 +36,20 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         headers = {"apikey": self.api_key}
         response = requests.post(
             self.url + "2/process", files=files, data=payload, headers=headers
-        ).json()
-        if response.get("success") == False:
-            raise ProviderException(response.get("message"))
-        return response["token"]
+        )
+        response_json = response.json()
+        if response_json.get("success") == False:
+            raise ProviderException(response_json.get("message"), code = response.status_code)
+        return response_json["token"]
 
     def _get_response(self, token: str, retry=0) -> Any:
         headers = {"apikey": self.api_key}
-        response = requests.get(self.url + "result/" + token, headers=headers).json()
-        if response["status"] == "pending" and retry <= 5:
+        response = requests.get(self.url + "result/" + token, headers=headers)
+        response_json = response.json()
+        if response_json["status"] == "pending" and retry <= 5:
             sleep(1)
             return self._get_response(token, retry + 1)
-        return response
+        return response_json, response.status_code
 
     def ocr__receipt_parser(
         self, file: str, language: str, file_url: str = ""
@@ -55,11 +57,11 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         file_ = open(file, "rb")
         token = self._process(file_, "receipt")
         sleep(1)
-        original_response = self._get_response(token)
+        original_response, status_code = self._get_response(token)
         file_.close()
 
         if "result" not in original_response:
-            raise ProviderException(original_response["message"])
+            raise ProviderException(original_response["message"], code = status_code)
 
         receipt = original_response.get("result")
 

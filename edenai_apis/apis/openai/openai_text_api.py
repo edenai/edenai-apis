@@ -87,12 +87,13 @@ class OpenaiTextApi(TextInterface):
             "presence_penalty": 0.0,
         }
 
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         standardized_response = SummarizeDataClass(
             result=original_response["choices"][0]["text"]
@@ -112,11 +113,11 @@ class OpenaiTextApi(TextInterface):
                 f"{self.url}/moderations", headers=self.headers, json={"input": text}
             )
         except Exception as exc:
-            raise ProviderException(str(exc))
+            raise ProviderException(str(exc), code= 500)
         original_response = response.json()
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         classification: Sequence[TextModerationItem] = []
         if result := original_response.get("results", None):
@@ -159,12 +160,13 @@ class OpenaiTextApi(TextInterface):
             "echo": True,
         }
 
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         resps_by_index = {
             choice["index"]: choice for choice in original_response["choices"]
@@ -237,12 +239,13 @@ class OpenaiTextApi(TextInterface):
             "frequency_penalty": 0,
             "presence_penalty": 0,
         }
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         answer = original_response["choices"][0]["text"].split("\n")
         answer = answer[0]
@@ -268,14 +271,15 @@ class OpenaiTextApi(TextInterface):
             "presence_penalty": 0.0,
         }
         try:
-            original_response = requests.post(
+            response = requests.post(
                 url, json=payload, headers=self.headers
-            ).json()
+            )
+            original_response = response.json()
         except json.JSONDecodeError:
-            raise ProviderException("An error occurred while parsing the response.")
+            raise ProviderException("An error occurred while parsing the response.", code = 500)
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         data = (
             original_response["choices"][0]["text"]
@@ -332,16 +336,15 @@ class OpenaiTextApi(TextInterface):
             "model": self.model,
         }
         try:
-            original_response = requests.post(
+            response = requests.post(
                 url, json=payload, headers=self.headers
-            ).json()
+            )
+            original_response = response.json()
         except json.JSONDecodeError as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response."
-            ) from exc
+            raise ProviderException( "An error occurred while parsing the response.", 500)
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         try:
             keywords = json.loads(original_response["choices"][0]["text"])
@@ -367,12 +370,13 @@ class OpenaiTextApi(TextInterface):
             "temperature": 0,
             "logprobs": 1,
         }
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         # Create output response
         # Get score
@@ -399,12 +403,13 @@ class OpenaiTextApi(TextInterface):
             "logprobs": 1,
             "temperature": 0,
         }
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         # Create output response
         # Get score
@@ -447,14 +452,15 @@ class OpenaiTextApi(TextInterface):
         }
 
         try:
-            original_response = requests.post(
+            response = requests.post(
                 url, json=payload, headers=self.headers
-            ).json()
+            )
+            original_response = response.json()
         except json.JSONDecodeError:
-            raise ProviderException("An error occurred while parsing the response.")
+            raise ProviderException("An error occurred while parsing the response.", code = 500)
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         standardized_response = CodeGenerationDataClass(
             generated_text=original_response["choices"][0]["message"]["content"]
@@ -481,12 +487,13 @@ class OpenaiTextApi(TextInterface):
         if max_tokens != 0:
             payload["max_tokens"] = max_tokens
 
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         standardized_response = GenerationDataClass(
             generated_text=original_response["choices"][0]["text"]
@@ -522,7 +529,8 @@ class OpenaiTextApi(TextInterface):
             items = json.loads(original_response["choices"][0]["text"])
         except (KeyError, json.JSONDecodeError) as exc:
             raise ProviderException(
-                "An error occurred while parsing the response."
+                "An error occurred while parsing the response.",
+                code= 500
             ) from exc
 
         standardized_response = CustomNamedEntityRecognitionDataClass(
@@ -553,14 +561,18 @@ class OpenaiTextApi(TextInterface):
             "presence_penalty": 0,
         }
         try:
-            original_response = requests.post(
+            response = requests.post(
                 url, json=payload, headers=self.headers
-            ).json()
+            )
+            original_response = response.json()
         except json.JSONDecodeError:
-            raise ProviderException("An error occurred while parsing the response.")
+            raise ProviderException(
+                "An error occurred while parsing the response.",
+                code= 500
+            )
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         # Getting labels
         detected_labels = original_response["choices"][0]["text"]
@@ -595,11 +607,12 @@ class OpenaiTextApi(TextInterface):
             "messages": messages,
             "temperature": 0.0,
         }
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
         
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
         try:
             data =  original_response["choices"][0]["message"]["content"]
             corrected_items = json.loads(data)
@@ -640,15 +653,17 @@ class OpenaiTextApi(TextInterface):
             "prompt": prompt,
         }
         try:
-            original_response = requests.post(
+            response = requests.post(
                 url, json=payload, headers=self.headers
-            ).json()
+            )
+            original_response = response.json()
         except json.JSONDecodeError as exc:
             raise ProviderException(
-                "An error occurred while parsing the response."
+                "An error occurred while parsing the response.",
+                code = 500
             ) from exc
 
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         try:
             original_items = json.loads(original_response["choices"][0]["text"])
@@ -674,15 +689,17 @@ class OpenaiTextApi(TextInterface):
         }
 
         try:
-            original_response = requests.post(
+            response = requests.post(
                 url, json=payload, headers=self.headers
-            ).json()
+            )
+            original_response = response.json()
         except json.JSONDecodeError as exc:
             raise ProviderException(
-                "An error occurred while parsing the response."
+                "An error occurred while parsing the response.",
+                code = 500
             ) from exc
 
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         items: Sequence[EmbeddingsDataClass] = []
         embeddings = original_response["data"]
@@ -728,16 +745,18 @@ class OpenaiTextApi(TextInterface):
         }
 
         try:
-            original_response = requests.post(
+            response = requests.post(
                 url, json=payload, headers=self.headers
-            ).json()
+            )
+            original_response = response.json()
         except json.JSONDecodeError as exc:
             raise ProviderException(
-                "An error occurred while parsing the response."
+                "An error occurred while parsing the response.",
+                code = 500
             ) from exc
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         # Standardize the response
         generated_text = original_response["choices"][0]["message"]["content"]
@@ -776,23 +795,25 @@ class OpenaiTextApi(TextInterface):
             "n": 3,
         }
 
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
-        missing_information_response = requests.post(
+        missing_information_call = requests.post(
             url,
             json = {
                 "model" : "gpt-4",
                 "messages" : [{"role":"user","content":prompt_optimization_missing_information(text)}],
                 },
             headers=self.headers
-        ).json()
+        )
+        missing_information_response = missing_information_call.json()
         
-        check_openai_errors(missing_information_response)
+        check_openai_errors(missing_information_response, missing_information_call.status_code)
         
         # Calculate total tokens consumed
         total_tokens_missing_information = missing_information_response["usage"]["total_tokens"]

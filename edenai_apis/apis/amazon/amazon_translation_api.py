@@ -1,6 +1,7 @@
 from typing import Sequence
 
 from botocore.exceptions import ParamValidationError
+from edenai_apis.apis.amazon.helpers import handle_amazon_call
 from edenai_apis.features.translation.automatic_translation.automatic_translation_dataclass import (
     AutomaticTranslationDataClass,
 )
@@ -39,16 +40,12 @@ class AmazonTranslationApi(TranslationInterface):
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str
     ) -> ResponseType[AutomaticTranslationDataClass]:
-        try:
-            response = self.clients["translate"].translate_text(
-                Text=text,
-                SourceLanguageCode=source_language,
-                TargetLanguageCode=target_language,
-            )
-        except ParamValidationError as exc:
-            if "SourceLanguageCode" in str(exc):
-                raise LanguageException(str(exc))
-            raise ProviderException(str(exc)) from exc
+        payload = {
+            "Text": text,
+            "SourceLanguageCode": source_language,
+            "TargetLanguageCode": target_language
+        }
+        response = handle_amazon_call(self.clients["translate"].translate_text, **payload)
 
         standardized: AutomaticTranslationDataClass = AutomaticTranslationDataClass(
             text=response["TranslatedText"]

@@ -94,7 +94,11 @@ class GladiaApi(ProviderInterface, AudioInterface):
             "request_id": " "
             }
             """
-            raise ProviderException(f"{original_response.get('timestamp')} - {original_response.get('statusCode')}: {original_response.get('message')} - request_id: {original_response.get('request_id')}")
+            raise ProviderException(
+                f"{original_response.get('timestamp')} - {original_response.get('statusCode')}: "\
+                f"{original_response.get('message')} - request_id: {original_response.get('request_id')}",
+                code = response.status_code
+            )
         
         job_id = "gladia_stt" + str(uuid.uuid4())
         data_job_id[job_id] = original_response
@@ -119,7 +123,7 @@ class GladiaApi(ProviderInterface, AudioInterface):
         wehbook_result, response_status = check_webhook_result(provider_job_id, self.webhook_settings)
 
         if response_status != 200:
-            raise ProviderException(wehbook_result)
+            raise ProviderException(wehbook_result, code = response_status)
         
         result_object = next(filter(lambda response: provider_job_id in response["content"], wehbook_result), None) \
             if wehbook_result else None

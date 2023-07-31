@@ -52,6 +52,7 @@ from .helpers import (
     amazon_custom_document_parsing_formatter,
     amazon_invoice_parser_formatter,
     amazon_receipt_parser_formatter,
+    handle_amazon_call,
 )
 
 
@@ -64,19 +65,16 @@ class AmazonOcrApi(OcrInterface):
     ) -> ResponseType[OcrDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
-
-        try:
-            response = self.clients["textract"].detect_document_text(
-                Document={
-                    "Bytes": file_content,
-                    "S3Object": {
-                        "Bucket": self.api_settings["bucket"],
-                        "Name": file,
-                    },
+        payload = {
+            "Document": {
+                "Bytes": file_content,
+                "S3Object": {
+                    "Bucket": self.api_settings["bucket"],
+                    "Name": file
                 }
-            )
-        except Exception as amazon_call_exception:
-            raise ProviderException(str(amazon_call_exception))
+            }
+        }
+        response = handle_amazon_call(self.clients["textract"].detect_document_text, **payload)
 
         final_text = ""
         output_value = json.dumps(response, ensure_ascii=False)
@@ -224,14 +222,10 @@ class AmazonOcrApi(OcrInterface):
     def ocr__ocr_tables_async__get_job_result(
         self, job_id: str
     ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
-        try:
-            response = self.clients["textract"].get_document_analysis(JobId=job_id)
-        except ClientError as excp:
-            if "Request has invalid Job Id" in str(excp):
-                raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
-                )
-            raise ProviderException(str(excp))
+        payload = {
+            "JobId" : job_id
+        }
+        response = handle_amazon_call(self.clients["textract"].get_document_analysis, **payload)
 
         if response.get("JobStatus") == "IN_PROGRESS":
             return AsyncPendingResponseType[OcrTablesAsyncDataClass](
@@ -284,19 +278,17 @@ class AmazonOcrApi(OcrInterface):
             for query in queries
         ]
 
-        try:
-            response = self.clients["textract"].start_document_analysis(
-                DocumentLocation={
-                    "S3Object": {
-                        "Bucket": self.api_settings["bucket"],
-                        "Name": file,
-                    },
-                },
-                FeatureTypes=["QUERIES"],
-                QueriesConfig={"Queries": formatted_queries},
-            )
-        except Exception as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
+        payload = {
+            "DocumentLocation": {
+                "S3Object": {
+                    "Bucket": self.api_settings["bucket"],
+                    "Name": file
+                }
+            },
+            "FeatureTypes": ["QUERIES"],
+            "QueriesConfig": {"Queries": formatted_queries}
+        }
+        response = handle_amazon_call(self.clients["textract"].start_document_analysis, **payload)
 
         return AsyncLaunchJobResponseType(provider_job_id=response["JobId"])
 
@@ -310,11 +302,14 @@ class AmazonOcrApi(OcrInterface):
         except self.clients["image"].exceptions.InvalidParameterException as exc:
             raise ProviderException("Invalid Parameter: Only english are supported.")
         except ClientError as excp:
+            response_meta = exc.response.get("ResponseMetadata", {}) or {}
+            status_code = response_meta.get("HTTPStatusCode", None)
             if "Request has invalid Job Id" in str(excp):
                 raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                    code = status_code
                 )
-            raise ProviderException(str(excp))
+            raise ProviderException(str(excp), code= status_code)
 
         if response.get("JobStatus") == "IN_PROGRESS":
             return AsyncPendingResponseType[CustomDocumentParsingAsyncDataClass](
@@ -364,14 +359,12 @@ class AmazonOcrApi(OcrInterface):
         )
 
         # Launch invoice job
-        try:
-            launch_job_response = self.clients["textract"].start_expense_analysis(
-                DocumentLocation={
+        payload = {
+            "DocumentLocation" : {
                     "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
                 }
-            )
-        except Exception as amazon_call_exception:
-            raise ProviderException(str(amazon_call_exception))
+        }
+        launch_job_response = handle_amazon_call(self.clients["textract"].start_expense_analysis, **payload)
 
         # Get job result
         job_id = launch_job_response.get("JobId")
@@ -428,15 +421,13 @@ class AmazonOcrApi(OcrInterface):
         )
 
         # Launch invoice job
-        try:
-            launch_job_response = self.clients["textract"].start_expense_analysis(
-                DocumentLocation={
-                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
-                }
-            )
-        except Exception as amazon_call_exception:
-            raise ProviderException(str(amazon_call_exception))
-
+        payload = {
+            "DocumentLocation": {
+                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file}
+            }
+        }
+        launch_job_response = handle_amazon_call(self.clients["textract"].start_expense_analysis, **payload)
+        
         # Get job result
         job_id = launch_job_response.get("JobId")
         get_response = self.clients["textract"].get_expense_analysis(JobId=job_id)
@@ -491,33 +482,22 @@ class AmazonOcrApi(OcrInterface):
             Key=file, Body=file_content
         )
 
-        try:
-            launch_job_response = self.clients[
-                "textract"
-            ].start_document_text_detection(
-                DocumentLocation={
-                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
-                }
-            )
-        except Exception as amazon_call_exception:
-            raise ProviderException(str(amazon_call_exception))
+        payload = {
+            "DocumentLocation": {
+                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file}
+            }
+        }
+        launch_job_response = handle_amazon_call(self.clients["textract"].start_document_text_detection, **payload)
 
         return AsyncLaunchJobResponseType(provider_job_id=launch_job_response["JobId"])
 
     def ocr__ocr_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[OcrAsyncDataClass]:
-        try:
-            response = self.clients["textract"].get_document_text_detection(
-                JobId=provider_job_id
-            )
-        except ClientError as amazon_call_exception:
-            error_message: str = str(amazon_call_exception)
-            if "InvalidJobIdException" in error_message:
-                raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
-                )
-            raise ProviderException(error_message)
+        payload = {
+            "JobId" : provider_job_id
+        }
+        response = handle_amazon_call(self.clients["textract"].get_document_text_detection, **payload)
 
         if response["JobStatus"] == "FAILED":
             error: str = response.get(
@@ -530,19 +510,12 @@ class AmazonOcrApi(OcrInterface):
             responses = [response]
 
             while pagination_token:
-                try:
-                    response = self.clients["textract"].get_document_text_detection(
-                        JobId=provider_job_id,
-                        NextToken=pagination_token,
-                    )
-                except ClientError as amazon_call_exception:
-                    error_message: str = str(amazon_call_exception)
-                    if "InvalidJobIdException" in error_message:
-                        raise AsyncJobException(
-                            reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
-                        )
-                    raise ProviderException(error_message)
-
+                payload = {
+                    "JobId": provider_job_id,
+                    "NextToken" : pagination_token,
+                }
+                response = handle_amazon_call(self.clients["textract"].get_document_text_detection, **payload)
+                
                 if response["JobStatus"] == "FAILED":
                     error: str = response.get(
                         "StatusMessage", "Amazon returned a job status: FAILED"
@@ -569,31 +542,23 @@ class AmazonOcrApi(OcrInterface):
             self.storage_clients["textract"].Bucket(
                 self.api_settings["bucket"]
             ).put_object(Key=file, Body=file_content)
-            try:
-                launch_job_response = self.clients["textract"].start_document_analysis(
-                    DocumentLocation={
-                        "S3Object": {
-                            "Bucket": self.api_settings["bucket"],
-                            "Name": file,
-                        },
-                    },
-                    FeatureTypes=["FORMS"],
-                )
-            except Exception as amazon_call_exception:
-                raise ProviderException(str(amazon_call_exception))
+
+            payload = {
+                "DocumentLocation": {
+                    "S3Object": {
+                        "Bucket": self.api_settings["bucket"],
+                        "Name": file,
+                    }
+                },
+                "FeatureTypes": ["FORMS"]
+            }
+            launch_job_response = handle_amazon_call(self.clients["textract"].start_document_analysis, **payload)
 
             while True:
-                try:
-                    response = self.clients["textract"].get_document_analysis(
-                        JobId=launch_job_response["JobId"]
-                    )
-                except ClientError as amazon_call_exception:
-                    error_message: str = str(amazon_call_exception)
-                    if "InvalidJobIdException" in error_message:
-                        raise AsyncJobException(
-                            reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
-                        )
-                    raise ProviderException(error_message)
+                payload = {
+                    "JobId": launch_job_response["JobId"]
+                }
+                response = handle_amazon_call(self.clients["textract"].get_document_analysis, **payload)
 
                 if response["JobStatus"] != "IN_PROGRESS":
                     break
@@ -611,19 +576,12 @@ class AmazonOcrApi(OcrInterface):
             standardized_response = amazon_data_extraction_formatter(responses)
 
             while pagination_token := response.get("NextToken"):
-                try:
-                    response = self.clients["textract"].get_document_analysis(
-                        JobId=launch_job_response["JobId"],
-                        NextToken=pagination_token,
-                    )
-                except ClientError as amazon_call_exception:
-                    error_message: str = str(amazon_call_exception)
-                    if "InvalidJobIdException" in error_message:
-                        raise AsyncJobException(
-                            reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
-                        )
-                    raise ProviderException(error_message)
-
+                payload = {
+                    "JobId": launch_job_response["JobId"],
+                    "NextToken": pagination_token
+                }
+                response = handle_amazon_call(self.clients["textract"].get_document_analysis, **payload)
+                
                 if response["JobStatus"] == "FAILED":
                     error: str = response.get(
                         "StatusMessage", "Amazon returned a job status: FAILED"

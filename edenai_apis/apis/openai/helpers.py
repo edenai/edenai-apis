@@ -140,12 +140,12 @@ def construct_topic_extraction_context(text: str) -> str:
     return prompt
 
 
-def check_openai_errors(response: dict):
+def check_openai_errors(response: dict, status_code: Optional[int] = None):
     """
     This function takes a response from OpenAI API as input and raises a ProviderException if the response contains an error.
     """
     if "error" in response:
-        raise ProviderException(response["error"]["message"])
+        raise ProviderException(response["error"]["message"], code = status_code)
 
 
 # def construct_spell_check_instruction(text: str, language: str) -> str:

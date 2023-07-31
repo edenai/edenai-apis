@@ -8,6 +8,7 @@ import googleapiclient.discovery
 from edenai_apis.apis.google.google_helpers import (
     google_ocr_tables_standardize_response,
     handle_done_response_ocr_async,
+    handle_google_call,
 )
 from edenai_apis.features.ocr import (
     BankInvoice,
@@ -77,7 +78,8 @@ class GoogleOcrApi(OcrInterface):
             file_content = file_.read()
 
         image = vision.Image(content=file_content)
-        response = self.clients["image"].text_detection(image=image)
+        payload = { "image": image }
+        response = handle_google_call(self.clients["image"].text_detection, **payload)
 
         mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
         if mimetype.startswith("image"):
@@ -139,11 +141,12 @@ class GoogleOcrApi(OcrInterface):
         file_ = open(file, "rb")
         raw_document = documentai.RawDocument(content=file_.read(), mime_type=mimetype)
 
-        try:
-            request = documentai.ProcessRequest(name=name, raw_document=raw_document)
-            result = receipt_client.process_document(request=request)
-        except Exception as excp:
-            raise ProviderException(str(excp))
+        payload_request = {"name": name, "raw_document": raw_document}
+        request = handle_google_call(documentai.ProcessRequest, **payload_request)
+
+        payload_result = {"request": request}
+        result = handle_google_call(receipt_client.process_document, **payload_result)
+        
         document = result.document
 
         file_.close()
@@ -251,11 +254,12 @@ class GoogleOcrApi(OcrInterface):
         raw_document = documentai.RawDocument(content=file_.read(), mime_type=mimetype)
 
         file_.close()
-        try:
-            request = documentai.ProcessRequest(name=name, raw_document=raw_document)
-            result = invoice_client.process_document(request=request)
-        except Exception as excp:
-            raise ProviderException(str(excp))
+        payload_request = {"name": name, "raw_document": raw_document}
+        request = handle_google_call(documentai.ProcessRequest, **payload_request)
+
+        payload_result = {"request": request}
+        result = handle_google_call(invoice_client.process_document, **payload_result)
+        
         document = result.document
 
         invoice_infos: InfosInvoiceParserDataClass = InfosInvoiceParserDataClass()
@@ -441,15 +445,8 @@ class GoogleOcrApi(OcrInterface):
 
         request = service.projects().locations().operations().get(name=name)
 
-        try:
-            res = request.execute()
-        except Exception as excp:
-            if "Operation not found" in str(excp):
-                raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
-                )
-            raise ProviderException(str(excp))
-
+        res = handle_google_call(request.execute)
+        
         if res["metadata"]["state"] == "SUCCEEDED":
             # get result from bucket
             bucket_client = self.clients["storage"]
@@ -533,17 +530,8 @@ class GoogleOcrApi(OcrInterface):
 
         request = service.projects().operations().get(name=name)
 
-        try:
-            res = request.execute()
-        except Exception as excp:
-            if "Operation not found" in str(excp) or "Invalid operation id" in str(
-                excp
-            ):
-                raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
-                )
-            raise ProviderException(str(excp))
-
+        res = handle_google_call(request.execute)
+        
         if res["metadata"]["state"] == "DONE":
             return handle_done_response_ocr_async(res, self.clients["storage"], job_id)
 

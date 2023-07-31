@@ -39,11 +39,12 @@ class DeepAIApi(ProviderInterface, ImageInterface):
                 "width": int(size[0]),
                 "height": int(size[1]),
             }
-            original_response = requests.post(
+            response = requests.post(
                 url, data=payload, headers=self.headers
-            ).json()
+            )
+            original_response = response.json()
         except Exception as exc:
-            raise ProviderException(str(exc)) from exc
+            raise ProviderException(str(exc), code = response.status_code)
 
         if "err" in original_response:
             raise ProviderException(original_response["err"])

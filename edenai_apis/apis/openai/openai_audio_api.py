@@ -67,7 +67,7 @@ class OpenaiAudioApi(AudioInterface):
         )
 
         if response_status != 200:
-            raise ProviderException(wehbook_result)
+            raise ProviderException(wehbook_result, code = response_status)
 
         result_object = (
             next(

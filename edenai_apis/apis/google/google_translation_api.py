@@ -1,5 +1,6 @@
 import base64
 from typing import Sequence
+from edenai_apis.apis.google.google_helpers import handle_google_call
 
 from edenai_apis.features.translation.automatic_translation import (
     AutomaticTranslationDataClass,
@@ -29,14 +30,15 @@ class GoogleTranslationApi(TranslationInterface):
         client = self.clients["translate"]
         parent = f"projects/{self.project_id}/locations/global"
 
-        response = client.translate_text(
-            parent=parent,
-            contents=[text],
-            mime_type="text/plain",  # mime types: text/plain, text/html
-            source_language_code=source_language,
-            target_language_code=target_language,
-        )
-
+        payload = {
+            "parent": parent,
+            "contents": [text],
+            "mime_type" : "text/plain",  # mime types: text/plain, text/html
+            "source_language_code": source_language,
+            "target_language_code": target_language
+        }
+        response = handle_google_call(client.translate_text, **payload)
+        
         # Analyze response
         # Getting the translated text
         data = response.translations
@@ -53,15 +55,14 @@ class GoogleTranslationApi(TranslationInterface):
     def translation__language_detection(
         self, text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
-        try:
-            response = self.clients["translate"].detect_language(
-                parent=f"projects/{self.project_id}/locations/global",
-                content=text,
-                mime_type="text/plain",
-            )
-        except Exception as exc:
-            raise ProviderException(str(exc))
-
+        
+        payload = {
+            "parent": f"projects/{self.project_id}/locations/global",
+            "content": text,
+            "mime_type": "text/plain"
+        }
+        response = handle_google_call(self.clients["translate"].detect_language, **payload)
+        
         items: Sequence[InfosLanguageDetectionDataClass] = []
         for language in response.languages:
             items.append(
@@ -98,17 +99,15 @@ class GoogleTranslationApi(TranslationInterface):
             "mime_type": file_type,
         }
 
-        try:
-            original_response = client.translate_document(
-                request={
-                    "parent": parent,
-                    "target_language_code": target_language,
-                    "source_language_code": source_language,
-                    "document_input_config": document_input_config,
-                }
-            )
-        except Exception as exc:
-            raise ProviderException(str(exc))
+        payload = {
+            "request": {
+                "parent": parent,
+                "target_language_code": target_language,
+                "source_language_code": source_language,
+                "document_input_config": document_input_config,
+            }
+        }
+        original_response = handle_google_call(client.translate_document, **payload)
 
         file_bytes = original_response.document_translation.byte_stream_outputs[0]
 

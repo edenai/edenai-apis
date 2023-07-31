@@ -65,9 +65,9 @@ class MicrosoftImageApi(ImageInterface):
         if response.status_code != 200:
             if response.status_code == 415:
                 # 415 response doesn't have 'error' key
-                raise ProviderException(data["message"])
+                raise ProviderException(data["message"], code = response.status_code)
             else:
-                raise ProviderException(data["error"]["message"])
+                raise ProviderException(data["error"]["message"], code = response.status_code)
 
         # key is adult but contains all categories (gore, racy, adult)
         moderation_content = data["adult"]
@@ -113,7 +113,7 @@ class MicrosoftImageApi(ImageInterface):
                 if "innererror" in error
                 else error["message"]
             )
-            raise ProviderException(err_msg)
+            raise ProviderException(err_msg, code = response.status_code)
 
         items = []
 
@@ -165,17 +165,19 @@ class MicrosoftImageApi(ImageInterface):
             ),
         }
         # Getting response of API
-        response = requests.post(
+        request = requests.post(
             f"{self.url['face']}/detect",
             params=params,
             headers=self.headers["face"],
             data=file_content,
-        ).json()
+        )
+        response = request.json()
 
         # handle error
         if not isinstance(response, list) and response.get("error") is not None:
             raise ProviderException(
-                f'Error calling Microsoft Api: {response["error"].get("message", "error 500")}'
+                f'Error calling Microsoft Api: {response["error"].get("message", "error 500")}',
+                code= request.status_code
             )
         # Create response VisionFaceDetection object
 
@@ -204,7 +206,7 @@ class MicrosoftImageApi(ImageInterface):
             # sometimes no "error" key in repsonse
             # ref: https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-2/operations/56f91f2e778daf14a499f21b
             error_msg = data.get("message", data.get("error", "message"))
-            raise ProviderException(error_msg)
+            raise ProviderException(error_msg, code = response.status_code)
 
         items: Sequence[LogoItem] = []
         for key in data.get("brands"):
@@ -272,7 +274,10 @@ class MicrosoftImageApi(ImageInterface):
         payload = {"name": collection_id, "recognitionModel": "recognition_04"}
         response = requests.put(url=url, headers=headers, json=payload)
         if response.status_code != 200:
-            raise ProviderException(response.json()["error"]["message"])
+            raise ProviderException(
+                response.json()["error"]["message"],
+                code = response.status_code
+            )
         return FaceRecognitionCreateCollectionDataClass(collection_id=collection_id)
 
     def image__face_recognition__list_collections(
@@ -286,7 +291,10 @@ class MicrosoftImageApi(ImageInterface):
         }
         response = requests.get(url=url, headers=headers)
         if response.status_code != 200:
-            raise ProviderException(response.json()["error"]["message"])
+            raise ProviderException(
+                response.json()["error"]["message"],
+                code = response.status_code
+            )
 
         original_response = response.json()
         collections = FaceRecognitionListCollectionsDataClass(
@@ -307,7 +315,10 @@ class MicrosoftImageApi(ImageInterface):
         }
         response = requests.get(url=url, headers=headers)
         if response.status_code != 200:
-            raise ProviderException(response.json()["error"]["message"])
+            raise ProviderException(
+                response.json()["error"]["message"],
+                code = response.status_code
+            )
         original_response = response.json()
         face_ids = [
             face["persistedFaceId"] for face in original_response["persistedFaces"]
@@ -328,7 +339,10 @@ class MicrosoftImageApi(ImageInterface):
         }
         response = requests.delete(url=url, headers=headers)
         if response.status_code != 200:
-            raise ProviderException(response.json()["error"]["message"])
+            raise ProviderException(
+                response.json()["error"]["message"],
+                code = response.status_code
+            )
         return ResponseType(
             original_response=response.text,
             standardized_response=FaceRecognitionDeleteCollectionDataClass(
@@ -345,7 +359,10 @@ class MicrosoftImageApi(ImageInterface):
         response = requests.post(url=url, headers=headers, data=file_)
         file_.close()
         if response.status_code != 200:
-            raise ProviderException(response.json()["error"]["message"])
+            raise ProviderException(
+                response.json()["error"]["message"],
+                code = response.status_code
+            )
         original_response = response.json()
         return ResponseType(
             original_response=original_response,
@@ -365,7 +382,10 @@ class MicrosoftImageApi(ImageInterface):
         }
         response = requests.delete(url=url, headers=headers)
         if response.status_code != 200:
-            raise ProviderException(response.json()["error"]["message"])
+            raise ProviderException(
+                response.json()["error"]["message"],
+                code = response.status_code
+            )
         return ResponseType(
             original_response=response.text,
             standardized_response=FaceRecognitionDeleteFaceDataClass(deleted=True),
@@ -394,7 +414,10 @@ class MicrosoftImageApi(ImageInterface):
         }
         response = requests.post(url=url, headers=headers, json=payload)
         if response.status_code != 200:
-            raise ProviderException(response.json()["error"]["message"])
+            raise ProviderException(
+                response.json()["error"]["message"],
+                code = response.status_code
+            )
         original_response = response.json()
         recognized_faces = [
             FaceRecognitionRecognizedFaceDataClass(

@@ -89,15 +89,17 @@ class Api4aiApi(
 
         file_ = open(file, "rb")
         files = {"image": file_}
-        original_response = requests.post(
+        response = requests.post(
             self.urls["object_detection"], files=files
-        ).json()
+        )
+        original_response = response.json()
 
         file_.close()
 
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
-                original_response["results"][0]["status"]["message"]
+                original_response["results"][0]["status"]["message"],
+                code= response.status_code
             )
 
         items = []
@@ -139,7 +141,8 @@ class Api4aiApi(
         # Handle errors
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
-                original_response["results"][0]["status"]["message"]
+                original_response["results"][0]["status"]["message"],
+                code= response.status_code
             )
 
         # Face std
@@ -201,7 +204,8 @@ class Api4aiApi(
 
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
-                original_response["results"][0]["status"]["message"]
+                original_response["results"][0]["status"]["message"],
+                code= response.status_code
             )
 
         img_b64 = original_response["results"][0]["entities"][0]["image"]
@@ -247,7 +251,8 @@ class Api4aiApi(
         # Handle errors
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
-                original_response["results"][0]["status"]["message"]
+                original_response["results"][0]["status"]["message"],
+                code = response.status_code
             )
 
         # Get result
@@ -295,7 +300,10 @@ class Api4aiApi(
             response.status_code != 200
             or "failure" in original_response["results"][0]["status"]["code"]
         ):
-            raise ProviderException(response.json()["results"][0]["status"]["message"])
+            raise ProviderException(
+                response.json()["results"][0]["status"]["message"],
+                code = response.status_code              
+                )
 
         # Get result
         nsfw_items = []
@@ -331,7 +339,7 @@ class Api4aiApi(
 
         error = get_errors_from_response(response)
         if error is not None:
-            raise ProviderException(error)
+            raise ProviderException(error, code = response.status_code)
 
         data = response.json()
 

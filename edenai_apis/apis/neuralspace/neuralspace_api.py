@@ -59,7 +59,10 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         response = requests.request("POST", url, json=files, headers=self.header)
         if response.status_code != 200:
             if not response.json().get("success"):
-                raise ProviderException(response.json().get("message"))
+                raise ProviderException(
+                    response.json().get("message"),
+                    code = response.status_code
+                )
 
         response = response.json()
         data = response["data"]
@@ -100,12 +103,12 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         }
 
         response = requests.request("POST", url, json=files, headers=self.header)
-        response = response.json()
+        original_resoonse = response.json()
 
-        data = response["data"]
+        data = original_resoonse["data"]
 
-        if response["success"] is False:
-            raise ProviderException(data["error"])
+        if original_resoonse["success"] is False:
+            raise ProviderException(data["error"], code = response.status_code)
 
         standardized_response = AutomaticTranslationDataClass(
             text=data["translatedText"]
@@ -192,7 +195,10 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         response = requests.post(url=url_file_transcribe, headers=headers, data=payload)
         original_response = response.json()
         if response.status_code != 201:
-            raise ProviderException(original_response.get("data").get("error"))
+            raise ProviderException(
+                original_response.get("data").get("error"),
+                code= response.status_code
+            )
 
         transcribeId = original_response.get("data").get("transcribeId")
 
@@ -206,16 +212,18 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
 
         response = requests.get(url=url_transcribe, headers=headers)
 
-        if response.status_code != 200:
+        status_code = response.status_code
+        if status_code != 200:
             data = response.json().get("data") or {}
             # two message possible
             # ref: https://docs.neuralspace.ai/speech-to-text/transcribe-file
             error = response.json().get("message") or data.get("message")
             if "Invalid transcribeId" in error:
                 raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                    code = status_code
                 )
-            raise ProviderException(error)
+            raise ProviderException(error, code = status_code)
 
         diarization = SpeechDiarization(total_speakers=0, entries=[])
         original_response = response.json()
