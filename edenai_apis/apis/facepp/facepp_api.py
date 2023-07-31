@@ -184,7 +184,7 @@ class FaceppApi(ProviderInterface, ImageInterface):
         }
         if file_url:
             response = requests.post(
-                f"{self.base_url}/search", data=payload.update({"image_url": file_url})
+                f"{self.base_url}/search", data={"image_url": file_url, **payload}
             )
         else:
             response = requests.post(
