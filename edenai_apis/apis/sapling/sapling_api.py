@@ -56,6 +56,9 @@ class SaplingApi(ProviderInterface, TextInterface):
         except Exception as excp:
             raise ProviderException(str(excp))
         
+        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
+            raise ProviderException("Internal server error")
+        
         original_response = response.json()
         
         if response.status_code > HTTPStatus.BAD_REQUEST:
@@ -108,6 +111,9 @@ class SaplingApi(ProviderInterface, TextInterface):
             response = requests.post(f"{self.url}sentiment", json=payload, headers=headers)
         except Exception as excp:
             raise ProviderException(str(excp))
+        
+        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
+            raise ProviderException("Internal server error")
         
         response_json = response.json()
         
@@ -166,6 +172,9 @@ class SaplingApi(ProviderInterface, TextInterface):
             response = requests.post(f"{self.url}aidetect", json = payload)
         except Exception as excp:
             raise ProviderException(str(excp))
+        
+        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
+            raise ProviderException("Internal server error")
         
         original_response = response.json()
         

@@ -17,7 +17,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.conversion import extract_spell_check_info
+from edenai_apis.utils.conversion import construct_word_list
 import json
 
 
@@ -72,11 +72,13 @@ class CohereApi(ProviderInterface, TextInterface):
 
     def _format_spell_check_prompt(text: str, language: str) -> str:
         return f"""
-Find the spelling and grammar mistakes in this text and correct it.
-Do not remove any word just correct it if you can.
-If the text is correct return nothing.
-Text: {text}
-Corrected Text: """
+Given a text with spelling errors, identify the misspelled words and correct them. 
+Return the results as a list of dictionaries, where each dictionary contains two keys: "word" and "correction". 
+The "word" key should contain the misspelled word, and the "correction" key should contain the corrected version of the word. 
+For example, if the misspelled word is 'halo', the corresponding dictionary should be: {{"word": "halo", "correction": "hello"}}.
+Text : {text}
+List of corrected words :
+"""
 
 
     def text__generation(
@@ -268,11 +270,17 @@ Answer:"""
         if "message" in original_response:
             raise ProviderException(original_response["message"])
 
-        corrected_text = original_response.get("generations")[0]["text"]
-        corrected_items = extract_spell_check_info(text, corrected_text)
-        
+        try:
+            data = original_response.get("generations")[0]["text"]
+            corrected_items = json.loads(data)
+        except (json.JSONDecodeError) as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+            
+        corrections = construct_word_list(text, corrected_items)
         items: Sequence[SpellCheckItem] = []
-        for item in corrected_items:
+        for item in corrections:
             items.append(
                 SpellCheckItem(
                     text=item["word"],

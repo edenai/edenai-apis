@@ -174,9 +174,9 @@ def check_openai_errors(response: dict):
 #     """
 def construct_spell_check_instruction(text: str, language: str):
     return f"""
-Find the spelling and grammar mistakes in the text written in {language} delimited by triple hashtags.
-# Text:
-# ###{text}###
+Given the following text between written in {language} and delimited by triple hashtags, identify and correct any spelling mistakes. Return the results as a list of dictionaries, each containing the original incorrect word and the corrected word. The dictionaries should be structured as follows: {{"word": "incorrect spelling", "correction": "correct spelling"}}.
+
+Text: ###{text}###
 """
 
 
@@ -268,20 +268,23 @@ Construct a prompt for cohere Large language Model from a user description by fo
 
 To write a good prompt in the Cohere Playground, you can follow these guidelines based on the provided article:
 
-    Understand the Purpose: Clearly define the purpose of your prompt. Identify what specific output or task you want the generative model to perform.
+Understand the Purpose: Clearly define the purpose of your prompt. Identify what specific output or task you want the generative model to perform.
 
-    Be Clear and Specific: Craft your prompt to provide clear instructions or commands to the model. Use imperative verbs like "generate," "write," "list," or "provide" to guide the model's output. The more specific you are, the better the model will understand your requirements.
+Be Clear and Specific: Craft your prompt to provide clear instructions or commands to the model. Use imperative verbs like "generate," "write," "list," or "provide" to guide the model's output. The more specific you are, the better the model will understand your requirements.
 
-    Use Context and Examples: Consider adding context or examples to your prompt to help ground the model's output. Providing additional information or relevant examples can improve the accuracy and relevance of the generated text.
+Use Context and Examples: Consider adding context or examples to your prompt to help ground the model's output. Providing additional information or relevant examples can improve the accuracy and relevance of the generated text.
 
-    Iterate and Experiment: Prompt design is a creative process, so feel free to iterate and experiment with different variations of prompts. Test different instructions, formats, or additional details to refine and improve the output.
+Iterate and Experiment: Prompt design is a creative process, so feel free to iterate and experiment with different variations of prompts. Test different instructions, formats, or additional details to refine and improve the output.
 
-    Consider Prompt Length: Depending on the complexity of the task, you can use both short and long prompts. A concise prompt can sometimes yield satisfactory results, while longer prompts with more instructions and context may be necessary for more specific tasks.
+Consider Prompt Length: Depending on the complexity of the task, you can use both short and long prompts. A concise prompt can sometimes yield satisfactory results, while longer prompts with more instructions and context may be necessary for more specific tasks.
 
 
 Remember, prompt design is a combination of science and art. While there are guiding principles, it's also essential to be creative and open to exploring different approaches until you achieve the desired outcome.  
 
-User Description : {description}
+User Description : 
+
+{description}
+
 Prompt : 
 """
 )
@@ -289,27 +292,30 @@ google_prompt_guidelines = (
     lambda description: f"""
 Construct a prompt for Google Generative Ai Large Language Model from a user description by following these guidelines : 
 
-    Give clear instructions:
-    Prompt the model to provide specific guidance and suggestions to enhance the formatting of academic papers. For example:
-    "Please provide recommendations to improve the structure and organization of the introduction section of an academic paper on [topic]."
+Give clear instructions:
+Prompt the model to provide specific guidance and suggestions to enhance the formatting of academic papers. For example:
+"Please provide recommendations to improve the structure and organization of the introduction section of an academic paper on [topic]."
 
-    Include examples:
-    Present the model with well-formatted examples of academic paper sections or elements. Request the model to generate similar structures or formats. For instance:
-    "Based on the provided abstract, generate a concise and well-structured conclusion for an academic paper."
+Include examples:
+Present the model with well-formatted examples of academic paper sections or elements. Request the model to generate similar structures or formats. For instance:
+"Based on the provided abstract, generate a concise and well-structured conclusion for an academic paper."
 
-    Contextual information:
-    If needed, provide contextual information that the model can use to tailor its response. For example:
-    "Given the research question, provide a discussion section that presents the findings and their implications in a clear and coherent manner."
+Contextual information:
+If needed, provide contextual information that the model can use to tailor its response. For example:
+"Given the research question, provide a discussion section that presents the findings and their implications in a clear and coherent manner."
 
-    Partial input completion:
-    Ask the model to complete or revise partial content based on formatting rules. For instance:
-    "Given the incomplete citation, please generate the full APA citation for the provided scholarly article."
+Partial input completion:
+Ask the model to complete or revise partial content based on formatting rules. For instance:
+"Given the incomplete citation, please generate the full APA citation for the provided scholarly article."
 
-    Response formatting:
-    Guide the model to format its responses appropriately. For example:
-    "Format your response as a bulleted list, outlining the key steps involved in conducting a literature review for an academic research paper."
+Response formatting:
+Guide the model to format its responses appropriately. For example:
+"Format your response as a bulleted list, outlining the key steps involved in conducting a literature review for an academic research paper."
 
-User Description : {description}
+User Description : 
+
+{description}
+
 Prompt : 
 """
 )
@@ -320,9 +326,9 @@ To write good prompts for GPT models, you can follow these guidelines :
 
 Be clear and specific: Provide clear instructions and constraints in your prompt to guide the model towards generating the desired output. Avoid leaving ambiguous or open-ended prompts that may result in unexpected responses. Specify the task or query explicitly.
 
-Example: Instead of "Classify this post," use "Classify the sentiment of this post as positive, neutral, or negative: 'My cat is adorable ❤️❤️'"
+Example: Instead of "Classify this post," use "Classify the sentiment of this post as positive, neutral, or negative: 'My cat is adorable '"
 
-    Provide sample outputs: If you have specific formatting requirements or want the model to generate outputs in a particular structure, provide examples of the expected output. This helps the model understand the desired format and align its responses accordingly.
+Provide sample outputs: If you have specific formatting requirements or want the model to generate outputs in a particular structure, provide examples of the expected output. This helps the model understand the desired format and align its responses accordingly.
 
 Example: Instead of just asking to extract cities and airport codes, provide an example of the expected JSON output structure:
 
@@ -352,7 +358,7 @@ A: Jupiter
 
 Q: What’s the mass of Jupiter compared to the Sun?
 
-    Refine, refine, refine: Prompt engineering can be an iterative process. Experiment with different techniques, iterate on your prompts, and learn from the initial outputs generated by the model. Use the generated outputs to provide additional context or guidance in subsequent prompts to improve the quality of the responses.
+Refine, refine, refine: Prompt engineering can be an iterative process. Experiment with different techniques, iterate on your prompts, and learn from the initial outputs generated by the model. Use the generated outputs to provide additional context or guidance in subsequent prompts to improve the quality of the responses.
 
 By following these tips and refining your prompts, you can guide GPT models to generate more accurate and desired completions.
 
