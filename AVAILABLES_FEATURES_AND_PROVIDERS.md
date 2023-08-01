@@ -73,6 +73,7 @@
 | | ibm |
 | | lovoai |
 | | microsoft |
+| **text_to_speech_async** | lovoai |
 
 </details>
 <details><summary>image</summary>
@@ -505,6 +506,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | text_to_speech |
+| | text_to_speech_async |
 
 </details>
 <details><summary>meaningcloud</summary>
