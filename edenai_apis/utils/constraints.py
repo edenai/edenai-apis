@@ -241,7 +241,7 @@ def validate_audio_format(constraints: dict, args: dict) -> dict:
     return args
 
 
-def validate_models(provider: str, constraints: dict, args: dict) -> Dict:
+def validate_models(provider: str, subfeature: str, constraints: dict, args: dict) -> Dict:
     models = constraints.get("models") or constraints.get("voice_ids")
     if not models:
         if "settings" in args:
@@ -254,7 +254,7 @@ def validate_models(provider: str, constraints: dict, args: dict) -> Dict:
     # if it's a voice id for text_to_speech
     if any(option in models for option in ["MALE", "FEMALE"]):
         voice_id = retreive_voice_id(
-            provider, args["language"], args["option"], args["settings"]
+            provider, subfeature, args["language"], args["option"], args["settings"]
         )
         args["voice_id"] = voice_id
     else:  # otherwise
@@ -344,7 +344,7 @@ def validate_all_provider_constraints(
         validated_args = validate_audio_format(provider_constraints, validated_args)
 
         #  Validate models
-        validated_args = validate_models(provider, provider_constraints, validated_args)
+        validated_args = validate_models(provider, subfeature, provider_constraints, validated_args)
 
         # ...
 

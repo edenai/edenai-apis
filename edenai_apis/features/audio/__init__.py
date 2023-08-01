@@ -9,4 +9,9 @@ from .text_to_speech import (
     text_to_speech_arguments,
 )
 
+from .text_to_speech_async import (
+    TextToSpeechAsyncDataClass,
+    text_to_speech_async_arguments
+)
+
 from .audio_interface import AudioInterface
