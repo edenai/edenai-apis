@@ -148,9 +148,10 @@ def get_appropriate_error(
         return exception
     error_dict = getattr(provider_mod, "ERRORS")
     error_msg = str(exception)
+    error_code = exception.status_code
 
     for exception_type, error_list in error_dict.items():
         if any([re.search(error_pattern, error_msg) for error_pattern in error_list]):
-            return exception_type(error_msg)
+            return exception_type(error_msg, error_code)
 
     return exception
