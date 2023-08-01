@@ -302,7 +302,7 @@ class AmazonOcrApi(OcrInterface):
         except self.clients["image"].exceptions.InvalidParameterException as exc:
             raise ProviderException("Invalid Parameter: Only english are supported.")
         except ClientError as excp:
-            response_meta = exc.response.get("ResponseMetadata", {}) or {}
+            response_meta = excp.response.get("ResponseMetadata", {}) or {}
             status_code = response_meta.get("HTTPStatusCode", None)
             if "Request has invalid Job Id" in str(excp):
                 raise AsyncJobException(

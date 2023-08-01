@@ -700,14 +700,18 @@ def amazon_data_extraction_formatter(
 
 
 def handle_amazon_call(func : Callable, **kwargs):
-    job_id_strings_errors = ["InvalidJobIdException", "Request has invalid Job Id"]
-    general_job_id_string_errors = ["Could not find JobId", "job couldn't be found"]
+    job_id_strings_errors = [
+        "InvalidJobIdException", 
+        "Request has invalid Job Id", 
+        "Could not find JobId", 
+        "job couldn't be found"
+    ]
     try:
         response = func(**kwargs)
     except ClientError as exc:
         response_meta = exc.response.get("ResponseMetadata", {}) or {}
         status_code = response_meta.get("HTTPStatusCode", None)
-        if any(str_error in str(exc) for str_error in job_id_strings_errors) in str(exc):
+        if any(str_error in str(exc) for str_error in job_id_strings_errors):
             raise AsyncJobException(
                 reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
                 code = status_code
@@ -716,7 +720,7 @@ def handle_amazon_call(func : Callable, **kwargs):
     except ParamValidationError as exc:    
         raise ProviderException(str(exc), code= 400) from exc
     except Exception as exc:
-        if any(str_error in str(exc) for str_error in general_job_id_string_errors):
+        if any(str_error in str(exc) for str_error in job_id_strings_errors):
             raise AsyncJobException(
                 reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
             )

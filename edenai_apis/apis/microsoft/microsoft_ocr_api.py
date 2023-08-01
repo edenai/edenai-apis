@@ -70,7 +70,7 @@ class MicrosoftOcrApi(OcrInterface):
             headers=self.headers["vision"],
             data=file_content,
         )
-        response = response.json()
+        response = request.json()
 
         final_text = ""
 

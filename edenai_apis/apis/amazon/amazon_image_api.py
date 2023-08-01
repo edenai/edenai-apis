@@ -118,7 +118,7 @@ class AmazonImageApi(ImageInterface):
             },
             "Attributes" : ["ALL"]
         }
-        original_response = handle_amazon_call(self.clients["image"].detect_faces, *payload)
+        original_response = handle_amazon_call(self.clients["image"].detect_faces, **payload)
         
         # Standarize Response
         faces_list = []
