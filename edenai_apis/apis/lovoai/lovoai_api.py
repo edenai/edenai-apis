@@ -131,6 +131,10 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             )
         
         if response_status.status_code != 200 :
+            if "param: jobId is not valid objectId" in original_response.get("error"):
+                raise AsyncJobException(
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                )
             raise ProviderException(original_response.get("error"), code = original_response.get("statusCode"))
         
         if original_response.get("status") != "done":
