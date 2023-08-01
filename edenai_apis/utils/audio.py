@@ -175,6 +175,8 @@ def __get_voices_from_constrains(constraints: Dict, language: str, gender: str):
 
 
 def __get_provider_tts_constraints(provider, subfeature):
+    if "text_to_speech" not in subfeature:
+        return {}
     try:
         provider_info = load_provider(
             ProviderDataEnum.PROVIDER_INFO, provider, "audio", subfeature
