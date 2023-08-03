@@ -97,15 +97,15 @@ class AffindaApi(ProviderInterface, OcrInterface):
         location = resume.get("location", {})
         address = ResumeLocation(
             raw_input_location=location.get("rawInput"),
-            postal_code=location.get("postalCode"),
+            postal_code=location.get("postal_code"),
             region=location.get("state"),
-            country_code=location.get("countryCode"),
+            country_code=location.get("country_code"),
             country=location.get("country"),
-            appartment_number=location.get("apartmentNumber"),
+            appartment_number=location.get("apartment_number"),
             city=location.get("city", ""),
             street=location.get("street"),
-            street_number=location.get("streetNumber"),
-            formatted_location=None,
+            street_number=location.get("street_number"),
+            formatted_location=location.get("formatted"),
         )
 
         # 1.3 Others
@@ -132,27 +132,27 @@ class AffindaApi(ProviderInterface, OcrInterface):
             location = i.get("location", {})
             address = ResumeLocation(
                 raw_input_location=location.get("rawInput"),
-                postal_code=location.get("postalCode"),
+                postal_code=location.get("postal_code"),
                 region=location.get("state"),
                 country=location.get("country"),
-                country_code=location.get("countryCode"),
-                street_number=location.get("streetNumber"),
+                country_code=location.get("country_code"),
+                street_number=location.get("street_number"),
                 street=location.get("street"),
-                appartment_number=location.get("appartmentNumber"),
+                appartment_number=location.get("appartment_number"),
                 city=location.get("city", ""),
-                formatted_location=None,
+                formatted_location=location.get("formatted"),
             )
             dates = i.get("dates", {})
             edu_entries.append(
                 ResumeEducationEntry(
                     location=address,
                     start_date=dates.get("start_date"),
-                    end_date=dates.get("end_date"),
+                    end_date=dates.get("completion_date"),
                     establishment=i.get("organization"),
                     gpa=i.get("grade", {}).get("value"),
                     title=None,
                     description=None,
-                    accreditation=None,
+                    accreditation=i.get("accreditation", {}).get("education"),
                 )
             )
 
@@ -165,15 +165,15 @@ class AffindaApi(ProviderInterface, OcrInterface):
             location = i.get("location", {})
             address = ResumeLocation(
                 raw_input_location=location.get("rawInput"),
-                postal_code=location.get("postalCode"),
+                postal_code=location.get("postal_code"),
                 region=location.get("state"),
                 country=location.get("country"),
-                country_code=location.get("countryCode"),
-                street_number=location.get("streetNumber"),
+                country_code=location.get("country_code"),
+                street_number=location.get("street_number"),
                 street=location.get("street"),
-                appartment_number=location.get("appartmentNumber"),
+                appartment_number=location.get("appartment_number"),
                 city=location.get("city", ""),
-                formatted_location=None,
+                formatted_location=location.get("formatted"),
             )
             work_entries.append(
                 ResumeWorkExpEntry(
