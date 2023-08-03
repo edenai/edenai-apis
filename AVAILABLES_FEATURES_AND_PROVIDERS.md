@@ -170,6 +170,9 @@
 | | openai |
 | **custom_named_entity_recognition** | cohere |
 | | openai |
+| **embeddings** | cohere |
+| | google |
+| | openai |
 | **generation** | cohere |
 | | google |
 | | openai |
@@ -190,8 +193,6 @@
 | **chat** | google |
 | | openai |
 | **code_generation** | google |
-| | openai |
-| **embeddings** | google |
 | | openai |
 | **topic_extraction** | google |
 | | ibm |
@@ -346,6 +347,7 @@
 |----------|-------------|
 | **text** | custom_classification |
 | | custom_named_entity_recognition |
+| | embeddings |
 | | generation |
 | | spell_check |
 | | summarize |
