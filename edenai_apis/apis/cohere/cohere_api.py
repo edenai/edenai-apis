@@ -7,6 +7,8 @@ from edenai_apis.features.text import (
     CustomClassificationDataClass,
     SummarizeDataClass,
     CustomNamedEntityRecognitionDataClass,
+    EmbeddingsDataClass,
+    EmbeddingDataClass
 )
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
@@ -310,4 +312,27 @@ Answer:"""
         return ResponseType[SpellCheckDataClass](
             original_response=original_response,
             standardized_response=SpellCheckDataClass(text=text, items=items),
+        )
+
+    def text__embeddings(self, texts: List[str]) -> ResponseType[EmbeddingsDataClass]:
+        url = f"{self.base_url}embed"
+        payload = {
+            "texts" : texts,
+        }
+        response = requests.post(url, json = payload, headers=self.headers)
+        original_response = response.json()
+        if "message" in original_response:
+            raise ProviderException(
+                original_response["message"],
+                code = response.status_code
+            )
+        
+        items: Sequence[EmbeddingsDataClass] = []
+        for prediction in original_response["embeddings"]:
+            items.append(EmbeddingDataClass(embedding=prediction))
+
+        standardized_response = EmbeddingsDataClass(items=items)
+        return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
         )

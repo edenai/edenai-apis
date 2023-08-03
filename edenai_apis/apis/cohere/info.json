@@ -41,6 +41,9 @@
         "allow_null_language": false
       },
       "version": "2022-12-06"
+    },
+    "embeddings" : {
+      "version" : "v1"
     }
   }
 }
