@@ -10,10 +10,10 @@
       "url": "https://api.mindee.net/v1/products/mindee/invoices/v3/predict?locale=language"
     },
     "document": {
-      "id": "e12c191c-4c14-4e0a-9c7f-fbed5912f6c5",
+      "id": "bbe095ac-3aa6-4f0b-a3b2-1fc49825e937",
       "inference": {
         "extras": {},
-        "finished_at": "2023-05-17T09:16:40.735404",
+        "finished_at": "2023-08-04T10:07:52.171012",
         "is_rotation_applied": true,
         "pages": [
           {
@@ -25,122 +25,122 @@
             "prediction": {
               "company_registration": [],
               "customer": {
-                "confidence": 0.89,
+                "confidence": 0.22,
                 "polygon": [
                   [
-                    0.06,
-                    0.24
+                    0.091,
+                    0.228
                   ],
                   [
-                    0.157,
-                    0.24
+                    0.234,
+                    0.228
                   ],
                   [
-                    0.157,
-                    0.253
+                    0.234,
+                    0.239
                   ],
                   [
-                    0.06,
-                    0.253
+                    0.091,
+                    0.239
                   ]
                 ],
-                "value": "CLIENT NAME"
+                "value": "DAMITA J GOLDSMITH."
               },
               "customer_address": {
-                "confidence": 0.52,
+                "confidence": 0.29,
                 "polygon": [
                   [
-                    0.06,
-                    0.262
+                    0.091,
+                    0.242
                   ],
                   [
-                    0.212,
-                    0.262
+                    0.292,
+                    0.242
                   ],
                   [
-                    0.212,
-                    0.319
+                    0.292,
+                    0.271
                   ],
                   [
-                    0.06,
-                    0.319
+                    0.091,
+                    0.271
                   ]
                 ],
-                "value": "1 Client Address City, State, Country ZIP CODE"
+                "value": "201 Stan Fey Dr Upper Marlboro MD 20774"
               },
               "customer_company_registration": [],
               "date": {
-                "confidence": 0.99,
+                "confidence": 0.93,
                 "polygon": [
                   [
-                    0.324,
-                    0.306
+                    0.807,
+                    0.136
                   ],
                   [
-                    0.394,
-                    0.306
+                    0.932,
+                    0.136
                   ],
                   [
-                    0.394,
-                    0.319
+                    0.932,
+                    0.149
                   ],
                   [
-                    0.324,
-                    0.319
+                    0.807,
+                    0.149
                   ]
                 ],
-                "value": "2014-10-07"
+                "value": "2013-01-20"
               },
               "document_type": {
                 "value": "INVOICE"
               },
               "due_date": {
-                "confidence": 0.99,
+                "confidence": 0.65,
                 "polygon": [
                   [
-                    0.324,
-                    0.306
+                    0.809,
+                    0.375
                   ],
                   [
-                    0.393,
-                    0.306
+                    0.879,
+                    0.375
                   ],
                   [
-                    0.393,
-                    0.319
+                    0.879,
+                    0.385
                   ],
                   [
-                    0.324,
-                    0.319
+                    0.809,
+                    0.385
                   ]
                 ],
-                "raw": "2014-10-07",
-                "value": "2014-10-07"
+                "raw": "2013-01-20",
+                "value": "2013-01-20"
               },
               "invoice_number": {
-                "confidence": 0.94,
+                "confidence": 0.89,
                 "polygon": [
                   [
-                    0.324,
-                    0.238
+                    0.876,
+                    0.121
                   ],
                   [
-                    0.383,
-                    0.238
+                    0.932,
+                    0.121
                   ],
                   [
-                    0.383,
-                    0.252
+                    0.932,
+                    0.131
                   ],
                   [
-                    0.324,
-                    0.252
+                    0.876,
+                    0.131
                   ]
                 ],
-                "value": "000000"
+                "value": "014-03"
               },
               "locale": {
-                "confidence": 0.8,
+                "confidence": 0.72,
                 "currency": "USD",
                 "language": "en"
               },
@@ -150,59 +150,93 @@
               },
               "payment_details": [],
               "supplier": {
-                "confidence": 0.0,
-                "polygon": [],
-                "value": null
+                "confidence": 0.72,
+                "polygon": [
+                  [
+                    0.272,
+                    0.05
+                  ],
+                  [
+                    0.579,
+                    0.05
+                  ],
+                  [
+                    0.579,
+                    0.071
+                  ],
+                  [
+                    0.272,
+                    0.071
+                  ]
+                ],
+                "value": "SNG ENGINEERING, INC."
               },
               "supplier_address": {
-                "confidence": 0.0,
-                "polygon": [],
-                "value": null
+                "confidence": 0.28,
+                "polygon": [
+                  [
+                    0.272,
+                    0.088
+                  ],
+                  [
+                    0.463,
+                    0.088
+                  ],
+                  [
+                    0.463,
+                    0.116
+                  ],
+                  [
+                    0.272,
+                    0.116
+                  ]
+                ],
+                "value": "344 Main Street Suite 200 Gaithersburg.MD 20878"
               },
               "taxes": [],
               "total_excl": {
                 "confidence": 0.99,
                 "polygon": [
                   [
-                    0.842,
-                    0.744
+                    0.874,
+                    0.648
                   ],
                   [
-                    0.92,
-                    0.744
+                    0.935,
+                    0.648
                   ],
                   [
-                    0.92,
-                    0.761
+                    0.935,
+                    0.666
                   ],
                   [
-                    0.842,
-                    0.761
+                    0.874,
+                    0.666
                   ]
                 ],
-                "value": 4000.0
+                "value": 750.0
               },
               "total_incl": {
                 "confidence": 0.99,
                 "polygon": [
                   [
-                    0.729,
-                    0.239
+                    0.874,
+                    0.74
                   ],
                   [
-                    0.937,
-                    0.239
+                    0.935,
+                    0.74
                   ],
                   [
-                    0.937,
-                    0.275
+                    0.935,
+                    0.757
                   ],
                   [
-                    0.729,
-                    0.275
+                    0.874,
+                    0.757
                   ]
                 ],
-                "value": 4520.0
+                "value": 750.0
               }
             }
           }
@@ -210,142 +244,176 @@
         "prediction": {
           "company_registration": [],
           "customer": {
-            "confidence": 0.89,
+            "confidence": 0.22,
             "page_id": 0,
             "polygon": [
               [
-                0.06,
-                0.24
+                0.091,
+                0.228
               ],
               [
-                0.157,
-                0.24
+                0.234,
+                0.228
               ],
               [
-                0.157,
-                0.253
+                0.234,
+                0.239
               ],
               [
-                0.06,
-                0.253
+                0.091,
+                0.239
               ]
             ],
-            "value": "CLIENT NAME"
+            "value": "DAMITA J GOLDSMITH."
           },
           "customer_address": {
-            "confidence": 0.52,
+            "confidence": 0.29,
             "page_id": 0,
             "polygon": [
               [
-                0.06,
-                0.262
+                0.091,
+                0.242
               ],
               [
-                0.212,
-                0.262
+                0.292,
+                0.242
               ],
               [
-                0.212,
-                0.319
+                0.292,
+                0.271
               ],
               [
-                0.06,
-                0.319
+                0.091,
+                0.271
               ]
             ],
-            "value": "1 Client Address City, State, Country ZIP CODE"
+            "value": "201 Stan Fey Dr Upper Marlboro MD 20774"
           },
           "customer_company_registration": [],
           "date": {
-            "confidence": 0.99,
+            "confidence": 0.93,
             "page_id": 0,
             "polygon": [
               [
-                0.324,
-                0.306
+                0.807,
+                0.136
               ],
               [
-                0.394,
-                0.306
+                0.932,
+                0.136
               ],
               [
-                0.394,
-                0.319
+                0.932,
+                0.149
               ],
               [
-                0.324,
-                0.319
+                0.807,
+                0.149
               ]
             ],
-            "value": "2014-10-07"
+            "value": "2013-01-20"
           },
           "document_type": {
             "value": "INVOICE"
           },
           "due_date": {
-            "confidence": 0.99,
+            "confidence": 0.65,
             "page_id": 0,
             "polygon": [
               [
-                0.324,
-                0.306
+                0.809,
+                0.375
               ],
               [
-                0.393,
-                0.306
+                0.879,
+                0.375
               ],
               [
-                0.393,
-                0.319
+                0.879,
+                0.385
               ],
               [
-                0.324,
-                0.319
+                0.809,
+                0.385
               ]
             ],
-            "raw": "2014-10-07",
-            "value": "2014-10-07"
+            "raw": "2013-01-20",
+            "value": "2013-01-20"
           },
           "invoice_number": {
-            "confidence": 0.94,
+            "confidence": 0.89,
             "page_id": 0,
             "polygon": [
               [
-                0.324,
-                0.238
+                0.876,
+                0.121
               ],
               [
-                0.383,
-                0.238
+                0.932,
+                0.121
               ],
               [
-                0.383,
-                0.252
+                0.932,
+                0.131
               ],
               [
-                0.324,
-                0.252
+                0.876,
+                0.131
               ]
             ],
-            "value": "000000"
+            "value": "014-03"
           },
           "locale": {
-            "confidence": 0.8,
+            "confidence": 0.72,
             "currency": "USD",
             "language": "en"
           },
           "payment_details": [],
           "supplier": {
-            "confidence": 0.0,
+            "confidence": 0.72,
             "page_id": 0,
-            "polygon": [],
-            "value": null
+            "polygon": [
+              [
+                0.272,
+                0.05
+              ],
+              [
+                0.579,
+                0.05
+              ],
+              [
+                0.579,
+                0.071
+              ],
+              [
+                0.272,
+                0.071
+              ]
+            ],
+            "value": "SNG ENGINEERING, INC."
           },
           "supplier_address": {
-            "confidence": 0.0,
-            "page_id": null,
-            "polygon": [],
-            "value": null
+            "confidence": 0.28,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.272,
+                0.088
+              ],
+              [
+                0.463,
+                0.088
+              ],
+              [
+                0.463,
+                0.116
+              ],
+              [
+                0.272,
+                0.116
+              ]
+            ],
+            "value": "344 Main Street Suite 200 Gaithersburg.MD 20878"
           },
           "taxes": [],
           "total_excl": {
@@ -353,49 +421,49 @@
             "page_id": 0,
             "polygon": [
               [
-                0.842,
-                0.744
+                0.874,
+                0.648
               ],
               [
-                0.92,
-                0.744
+                0.935,
+                0.648
               ],
               [
-                0.92,
-                0.761
+                0.935,
+                0.666
               ],
               [
-                0.842,
-                0.761
+                0.874,
+                0.666
               ]
             ],
-            "value": 4000.0
+            "value": 750.0
           },
           "total_incl": {
             "confidence": 0.99,
             "page_id": 0,
             "polygon": [
               [
-                0.729,
-                0.239
+                0.874,
+                0.74
               ],
               [
-                0.937,
-                0.239
+                0.935,
+                0.74
               ],
               [
-                0.937,
-                0.275
+                0.935,
+                0.757
               ],
               [
-                0.729,
-                0.275
+                0.874,
+                0.757
               ]
             ],
-            "value": 4520.0
+            "value": 750.0
           }
         },
-        "processing_time": 0.783,
+        "processing_time": 1.65,
         "product": {
           "features": [
             "locale",
@@ -419,7 +487,7 @@
           "type": "standard",
           "version": "3.3"
         },
-        "started_at": "2023-05-17T09:16:39.952754"
+        "started_at": "2023-08-04T10:07:50.520657"
       },
       "n_pages": 1,
       "name": "invoice.png"
@@ -429,12 +497,12 @@
     "extracted_data": [
       {
         "customer_information": {
-          "customer_name": "CLIENT NAME",
-          "customer_address": "1 Client Address City, State, Country ZIP CODE",
+          "customer_name": "DAMITA J GOLDSMITH.",
+          "customer_address": "201 Stan Fey Dr Upper Marlboro MD 20774",
           "customer_email": null,
           "customer_id": null,
           "customer_tax_id": null,
-          "customer_mailing_address": "1 Client Address City, State, Country ZIP CODE",
+          "customer_mailing_address": "201 Stan Fey Dr Upper Marlboro MD 20774",
           "customer_billing_address": null,
           "customer_shipping_address": null,
           "customer_service_address": null,
@@ -445,8 +513,8 @@
           "vat_number": null
         },
         "merchant_information": {
-          "merchant_name": null,
-          "merchant_address": null,
+          "merchant_name": "SNG ENGINEERING, INC.",
+          "merchant_address": "344 Main Street Suite 200 Gaithersburg.MD 20878",
           "merchant_phone": null,
           "merchant_email": null,
           "merchant_fax": null,
@@ -459,9 +527,9 @@
           "pan_number": null,
           "vat_number": null
         },
-        "invoice_number": "000000",
-        "invoice_total": 4520.0,
-        "invoice_subtotal": 4000.0,
+        "invoice_number": "014-03",
+        "invoice_total": 750.0,
+        "invoice_subtotal": 750.0,
         "gratuity": null,
         "amount_due": null,
         "previous_unpaid_balance": null,
@@ -470,8 +538,8 @@
         "service_charge": null,
         "payment_term": null,
         "purchase_order": null,
-        "date": "2014-10-07",
-        "due_date": "2014-10-07",
+        "date": "2013-01-20",
+        "due_date": "2013-01-20",
         "service_date": null,
         "service_due_date": null,
         "po_number": null,
