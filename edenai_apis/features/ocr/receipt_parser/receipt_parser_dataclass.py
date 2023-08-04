@@ -33,7 +33,7 @@ class Locale(BaseModel):
 
 class ItemLines(BaseModel):
     description: Optional[str] = None
-    quantity: Optional[int] = None
+    quantity: Optional[float] = None
     amount: Optional[float] = None
     unit_price: Optional[float] = None
 

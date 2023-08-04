@@ -150,7 +150,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
                 item_lines.append(
                     ItemLinesInvoice(
                         description=item["description"],
-                        quantity=int(item["quantity"]),
+                        quantity=item["quantity"],
                         unit_price=item["amount_each"],
                         discount=item["discount_amount"],
                         amount=item["amount"],

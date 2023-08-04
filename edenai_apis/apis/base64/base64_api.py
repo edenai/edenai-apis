@@ -130,7 +130,7 @@ class Base64Api(ProviderInterface, OcrInterface):
             items.append(
                 item_lines_type(
                     description=item[0] if item[0] else "",
-                    quantity=convert_string_to_number(item_quantity, int),
+                    quantity=convert_string_to_number(item_quantity, float),
                     amount=convert_string_to_number(item[2], float),
                     unit_price=convert_string_to_number(item[3], float),
                 )

@@ -214,7 +214,7 @@ class GoogleOcrApi(OcrInterface):
                         item.description = property_value
                     if property_type == "line_item/quantity":
                         string_quantity = property_value
-                        quantity = convert_string_to_number(string_quantity, int)
+                        quantity = convert_string_to_number(string_quantity, float)
                         item.quantity = quantity
                 item_lines.append(item)
 
@@ -353,7 +353,7 @@ class GoogleOcrApi(OcrInterface):
                         item.amount = amount
                     if property_type == "line_item/quantity":
                         string_quantity = property_value
-                        quantity = convert_string_to_number(string_quantity, int)
+                        quantity = convert_string_to_number(string_quantity, float)
                         item.quantity = quantity
                     if property_type == "line_item/unit_price":
                         string_unit_price = property_value

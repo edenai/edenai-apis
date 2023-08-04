@@ -344,7 +344,7 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
                         ItemLinesInvoice(
                             description=parsed_items.get("ITEM"),
                             quantity=convert_string_to_number(
-                                parsed_items.get("QUANTITY"), int
+                                parsed_items.get("QUANTITY"), float
                             ),
                             amount=convert_string_to_number(
                                 parsed_items.get("PRICE"), float
@@ -467,7 +467,7 @@ def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass
                         ItemLines(
                             description=parsed_items.get("ITEM"),
                             quantity=convert_string_to_number(
-                                parsed_items.get("QUANTITY"), int
+                                parsed_items.get("QUANTITY"), float
                             ),
                             amount=convert_string_to_number(
                                 parsed_items.get("PRICE"), float
