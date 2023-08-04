@@ -1,0 +1,138 @@
+{
+  "original_response": {
+    "moderationCategories": [
+      {
+        "name": "Toxic",
+        "confidence": 0.2391817
+      },
+      {
+        "name": "Insult",
+        "confidence": 0.052930057
+      },
+      {
+        "name": "Profanity",
+        "confidence": 0.28705063
+      },
+      {
+        "name": "Derogatory",
+        "confidence": 0.0047925273
+      },
+      {
+        "name": "Sexual",
+        "confidence": 0.0024352302
+      },
+      {
+        "name": "Death, Harm & Tragedy",
+        "confidence": 0.0005420054
+      },
+      {
+        "name": "Violent",
+        "confidence": 0.0025138261
+      },
+      {
+        "name": "Firearms & Weapons"
+      },
+      {
+        "name": "Public Safety",
+        "confidence": 0.010695187
+      },
+      {
+        "name": "Health",
+        "confidence": 0.004199916
+      },
+      {
+        "name": "Religion & Belief",
+        "confidence": 0.012507818
+      },
+      {
+        "name": "Illicit Drugs",
+        "confidence": 0.0023364485
+      },
+      {
+        "name": "War & Conflict",
+        "confidence": 0.00047664443
+      },
+      {
+        "name": "Politics",
+        "confidence": 0.0028191702
+      },
+      {
+        "name": "Finance",
+        "confidence": 0.01904762
+      },
+      {
+        "name": "Legal",
+        "confidence": 0.0029382957
+      }
+    ]
+  },
+  "standardized_response": {
+    "nsfw_likelihood": 2,
+    "items": [
+      {
+        "label": "Toxic",
+        "likelihood": 2
+      },
+      {
+        "label": "Insult",
+        "likelihood": 1
+      },
+      {
+        "label": "Profanity",
+        "likelihood": 2
+      },
+      {
+        "label": "Derogatory",
+        "likelihood": 1
+      },
+      {
+        "label": "Sexual",
+        "likelihood": 1
+      },
+      {
+        "label": "Death, Harm & Tragedy",
+        "likelihood": 1
+      },
+      {
+        "label": "Violent",
+        "likelihood": 1
+      },
+      {
+        "label": "Firearms & Weapons",
+        "likelihood": 1
+      },
+      {
+        "label": "Public Safety",
+        "likelihood": 1
+      },
+      {
+        "label": "Health",
+        "likelihood": 1
+      },
+      {
+        "label": "Religion & Belief",
+        "likelihood": 1
+      },
+      {
+        "label": "Illicit Drugs",
+        "likelihood": 1
+      },
+      {
+        "label": "War & Conflict",
+        "likelihood": 1
+      },
+      {
+        "label": "Politics",
+        "likelihood": 1
+      },
+      {
+        "label": "Finance",
+        "likelihood": 1
+      },
+      {
+        "label": "Legal",
+        "likelihood": 1
+      }
+    ]
+  }
+}

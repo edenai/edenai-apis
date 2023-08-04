@@ -39,6 +39,10 @@ from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass impor
     ExtractedTopic,
     TopicExtractionDataClass,
 )
+from edenai_apis.features.text.moderation.moderation_dataclass import (
+    ModerationDataClass,
+    TextModerationItem
+)
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
@@ -46,6 +50,7 @@ from google.api_core.exceptions import InvalidArgument
 from google.cloud import language_v1
 from google.cloud.language import Document as GoogleDocument
 from google.protobuf.json_format import MessageToDict
+from edenai_apis.utils.conversion import standardized_confidence_score
 
 
 class GoogleTextApi(TextInterface):
@@ -441,4 +446,49 @@ class GoogleTextApi(TextInterface):
         return ResponseType(
             original_response=original_response,
             standardized_response=EntitySentimentDataClass(items=entity_items),
+        )
+
+    def text__moderation(
+        self, language: str, text: str
+    ) -> ResponseType[ModerationDataClass]:
+        """
+        :param language:        String that contains the language code
+        :param text:            String that contains the text to analyse
+        :return:                Array that contain api response and TextSentimentAnalysis
+        Object that contains the sentiments and their rates
+        """
+
+        # Create configuration dictionnary
+        client = language_v1.LanguageServiceClient()
+        document = GoogleDocument(
+            content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
+        )
+
+        # Getting response of API
+        payload= {
+            "document": document
+        }
+        response = handle_google_call(client.moderate_text, **payload)
+        
+        # Convert response to dict
+        original_response = MessageToDict(response._pb)
+        
+        # Create output response
+        items: Sequence[TextModerationItem] = []
+        for moderation in original_response.get("moderationCategories", []) or []:
+            items.append(
+                TextModerationItem(
+                    label= moderation.get("name"),
+                    likelihood= standardized_confidence_score(moderation.get("confidence", 0))
+                )
+            )
+        standardized_response: ModerationDataClass = ModerationDataClass(
+            nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
+                items
+            ),
+            items=items
+        ) 
+
+        return ResponseType[ModerationDataClass](
+            original_response=original_response, standardized_response=standardized_response
         )

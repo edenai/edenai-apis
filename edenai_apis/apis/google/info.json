@@ -913,7 +913,29 @@
         },
         "code_generation": {
             "version": "v1"
-          }
+        },
+        "moderation": {
+            "constraints": {
+                "languages": [
+                    "es",
+                    "en",
+                    "pt",
+                    "fr",
+                    "it",
+                    "de",
+                    "zh",
+                    "ja",
+                    "ko",
+                    "nl",
+                    "ru",
+                    "ar",
+                    "hi",
+                    "id"
+                ],
+                "allow_null_language": true
+            },
+            "version": "v1"
+        }
     },
     "translation": {
         "automatic_translation": {
