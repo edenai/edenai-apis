@@ -164,6 +164,7 @@
 | | ibm |
 | | lettria |
 | **moderation** | clarifai |
+| | google |
 | | microsoft |
 | | openai |
 | **custom_classification** | cohere |
@@ -438,6 +439,7 @@
 | | embeddings |
 | | entity_sentiment |
 | | generation |
+| | moderation |
 | | named_entity_recognition |
 | | sentiment_analysis |
 | | syntax_analysis |
