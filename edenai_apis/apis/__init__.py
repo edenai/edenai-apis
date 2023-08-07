@@ -46,5 +46,6 @@ from .facepp import FaceppApi
 from .originalityai import OriginalityaiApi
 from .sapling import SaplingApi
 from .gladia import GladiaApi
+from .elevenlabs import ElevenlabsApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
