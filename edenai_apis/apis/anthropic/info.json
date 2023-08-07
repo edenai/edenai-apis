@@ -1,0 +1,15 @@
+{
+    "text" : {
+        "generation" : {
+            "constraints": {
+              "models": [
+                "claude-v2",
+                "claude-v1",
+                "claude-instant"
+              ],
+              "default_model" : "claude-v2"
+            },
+            "version": "v1"
+          }
+    }
+}

@@ -1,0 +1,13 @@
+{
+  "original_response": {
+    "text": {
+      "raw": " I'm Claude, an AI assistant created by Anthropic.",
+      "text_info": {
+        "encoding": "UnknownTextEnc"
+      }
+    }
+  },
+  "standardized_response": {
+    "generated_text": " I'm Claude, an AI assistant created by Anthropic."
+  }
+}
