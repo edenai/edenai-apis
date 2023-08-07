@@ -206,6 +206,7 @@
 | | smartclick |
 | **generation** | deepai |
 | | openai |
+| | replicate |
 | | stabilityai |
 | **landmark_detection** | google |
 | | microsoft |
@@ -668,6 +669,13 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | spell_check |
+
+</details>
+<details><summary>replicate</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | generation |
 
 </details>
 <details><summary>revai</summary>
