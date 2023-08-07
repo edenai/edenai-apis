@@ -49,5 +49,6 @@ from .gladia import GladiaApi
 from .elevenlabs import ElevenlabsApi
 from .anthropic import AnthropicApi
 from .ai21labs import Ai21labsApi
+from .replicate import ReplicateApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
