@@ -69,6 +69,7 @@
 | | voci |
 | | voxist |
 | **text_to_speech** | amazon |
+| | elevenlabs |
 | | google |
 | | ibm |
 | | lovoai |
@@ -390,6 +391,13 @@
 |----------|-------------|
 | **translation** | automatic_translation |
 | | document_translation |
+
+</details>
+<details><summary>elevenlabs</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **audio** | text_to_speech |
 
 </details>
 <details><summary>emvista</summary>
