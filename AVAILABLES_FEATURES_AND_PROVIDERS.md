@@ -49,6 +49,97 @@
 | | veryfi |
 
 </details>
+<details><summary>text</summary>
+
+| Subfeatures | Providers |
+|----------|-------------|
+| **generation** | ai21labs |
+| | anthropic |
+| | cohere |
+| | google |
+| | openai |
+| **anonymization** | amazon |
+| | emvista |
+| | microsoft |
+| | oneai |
+| | openai |
+| **entity_sentiment** | amazon |
+| | google |
+| **keyword_extraction** | amazon |
+| | emvista |
+| | ibm |
+| | microsoft |
+| | oneai |
+| | openai |
+| | tenstorrent |
+| **named_entity_recognition** | amazon |
+| | google |
+| | ibm |
+| | lettria |
+| | microsoft |
+| | neuralspace |
+| | oneai |
+| | openai |
+| | tenstorrent |
+| **sentiment_analysis** | amazon |
+| | connexun |
+| | emvista |
+| | google |
+| | ibm |
+| | lettria |
+| | microsoft |
+| | oneai |
+| | openai |
+| | sapling |
+| | tenstorrent |
+| **syntax_analysis** | amazon |
+| | emvista |
+| | google |
+| | ibm |
+| | lettria |
+| **moderation** | clarifai |
+| | google |
+| | microsoft |
+| | openai |
+| **custom_classification** | cohere |
+| | openai |
+| **custom_named_entity_recognition** | cohere |
+| | openai |
+| **embeddings** | cohere |
+| | google |
+| | openai |
+| **spell_check** | cohere |
+| | microsoft |
+| | openai |
+| | prowritingaid |
+| | sapling |
+| **summarize** | cohere |
+| | connexun |
+| | emvista |
+| | huggingface |
+| | meaningcloud |
+| | microsoft |
+| | oneai |
+| | openai |
+| | writesonic |
+| **chat** | google |
+| | openai |
+| **code_generation** | google |
+| | openai |
+| **topic_extraction** | google |
+| | ibm |
+| | openai |
+| | tenstorrent |
+| **question_answer** | huggingface |
+| | openai |
+| | tenstorrent |
+| **prompt_optimization** | openai |
+| **search** | openai |
+| **ai_detection** | originalityai |
+| | sapling |
+| **plagia_detection** | originalityai |
+
+</details>
 <details><summary>audio</summary>
 
 | Subfeatures | Providers |
@@ -121,95 +212,6 @@
 | **search** | sentisight |
 
 </details>
-<details><summary>text</summary>
-
-| Subfeatures | Providers |
-|----------|-------------|
-| **anonymization** | amazon |
-| | emvista |
-| | microsoft |
-| | oneai |
-| | openai |
-| **entity_sentiment** | amazon |
-| | google |
-| **keyword_extraction** | amazon |
-| | emvista |
-| | ibm |
-| | microsoft |
-| | oneai |
-| | openai |
-| | tenstorrent |
-| **named_entity_recognition** | amazon |
-| | google |
-| | ibm |
-| | lettria |
-| | microsoft |
-| | neuralspace |
-| | oneai |
-| | openai |
-| | tenstorrent |
-| **sentiment_analysis** | amazon |
-| | connexun |
-| | emvista |
-| | google |
-| | ibm |
-| | lettria |
-| | microsoft |
-| | oneai |
-| | openai |
-| | sapling |
-| | tenstorrent |
-| **syntax_analysis** | amazon |
-| | emvista |
-| | google |
-| | ibm |
-| | lettria |
-| **moderation** | clarifai |
-| | google |
-| | microsoft |
-| | openai |
-| **custom_classification** | cohere |
-| | openai |
-| **custom_named_entity_recognition** | cohere |
-| | openai |
-| **embeddings** | cohere |
-| | google |
-| | openai |
-| **generation** | cohere |
-| | google |
-| | openai |
-| **spell_check** | cohere |
-| | microsoft |
-| | openai |
-| | prowritingaid |
-| | sapling |
-| **summarize** | cohere |
-| | connexun |
-| | emvista |
-| | huggingface |
-| | meaningcloud |
-| | microsoft |
-| | oneai |
-| | openai |
-| | writesonic |
-| **chat** | google |
-| | openai |
-| **code_generation** | google |
-| | openai |
-| **topic_extraction** | google |
-| | ibm |
-| | openai |
-| | tenstorrent |
-| **question_answer** | huggingface |
-| | openai |
-| | tenstorrent |
-| **prompt_optimization** | openai |
-| **search** | openai |
-| **ai_detection** | originalityai |
-| | sapling |
-| **plagia_detection** | originalityai |
-
-</details>
 <details><summary>translation</summary>
 
 | Subfeatures | Providers |
@@ -265,6 +267,13 @@
 | | resume_parser |
 
 </details>
+<details><summary>ai21labs</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | generation |
+
+</details>
 <details><summary>amazon</summary>
 
 | Features | Subfeatures |
@@ -297,6 +306,13 @@
 | | label_detection_async |
 | | person_tracking_async |
 | | text_detection_async |
+
+</details>
+<details><summary>anthropic</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | generation |
 
 </details>
 <details><summary>api4ai</summary>
