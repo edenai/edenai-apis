@@ -47,5 +47,7 @@ from .originalityai import OriginalityaiApi
 from .sapling import SaplingApi
 from .gladia import GladiaApi
 from .elevenlabs import ElevenlabsApi
+from .anthropic import AnthropicApi
+from .ai21labs import Ai21labsApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
