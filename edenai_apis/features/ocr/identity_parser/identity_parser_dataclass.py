@@ -3,7 +3,7 @@ from dateutil import parser
 from enum import Enum
 import json
 import os
-from typing import List, Optional, Sequence 
+from typing import Any, List, Optional, Sequence, Union
 
 from pydantic import (
     BaseModel,
@@ -13,12 +13,20 @@ from pydantic import (
 )
 
 
-def format_date(value):
+def format_date(value: Any) -> Union[str, None]:
+    """
+    try returning a string date from value.
+    format: YYYY-MM-DD
+    """
     if not value:
         return None
     if isinstance(value, datetime.date):
         return value.strftime("%Y-%m-%d")
-    value = parser.parse(value)
+    try:
+        value = parser.parse(value)
+    except parser.ParserError:
+        return None
+
     return value.strftime("%Y-%m-%d")
 
 
