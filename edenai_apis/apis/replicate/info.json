@@ -8,7 +8,18 @@
                   "1024x1024"
                 ]
               },
-            "version" : "V1"
+            "version" : "v1"
         }
-    }
+    },
+    "text" : {
+      "chat" : {
+          "constraints": {
+            "models": [
+              "llama-2-70b-chat"
+            ],
+            "default_model" : "llama-2-70b-chat"
+          },
+          "version": "v1"
+        }
+  }
 }

@@ -1,14 +1,16 @@
-from typing import Dict, Literal
+from typing import Dict, List, Literal, Optional
 import requests
 from edenai_apis.features.image.generation.generation_dataclass import GenerationDataClass, GeneratedImageDataClass
-from edenai_apis.features.image.image_interface import ImageInterface
+from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
+from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass, GenerationDataClass as TextGenerationDataClass
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 import base64
+from .config import get_model_id
 
-class ReplicateApi(ProviderInterface, ImageInterface):
+class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
     provider_name = "replicate"
 
     def __init__(self, api_keys: Dict = {}):
@@ -22,22 +24,10 @@ class ReplicateApi(ProviderInterface, ImageInterface):
         }
         self.base_url = "https://api.replicate.com/v1"
 
-    def image__generation(
-        self, 
-        text: str, 
-        resolution: Literal['256x256', '512x512', '1024x1024'], 
-        num_images: int = 1) -> ResponseType[GenerationDataClass]:
-        url = f"{self.base_url}/predictions"
-        size = resolution.split("x")
-        payload = {
-            "input" : {
-                "prompt" : text,
-                "width" : int(size[0]),
-                "height" : int(size[1]),
-            },
-            "version": "c0259010b93e7a4102a4ba946d70e06d7d0c7dc007201af443cfc8f943ab1d3c"
-        }
-        
+    def __get_response(
+        self,
+        url: str,
+        payload: dict) -> dict:
         # Launch job 
         launch_job_response = requests.post(url, headers=self.headers, json = payload)
         launch_job_response_dict = launch_job_response.json()
@@ -59,7 +49,26 @@ class ReplicateApi(ProviderInterface, ImageInterface):
             if get_response.status_code != 200:
                 raise ProviderException(get_response_dict["error"], code=get_response.status_code)
             status = get_response_dict["status"]
-
+            
+        return get_response_dict
+            
+    def image__generation(
+        self, 
+        text: str, 
+        resolution: Literal['256x256', '512x512', '1024x1024'], 
+        num_images: int = 1) -> ResponseType[GenerationDataClass]:
+        url = f"{self.base_url}/predictions"
+        size = resolution.split("x")
+        payload = {
+            "input" : {
+                "prompt" : text,
+                "width" : int(size[0]),
+                "height" : int(size[1]),
+            },
+            "version": "c0259010b93e7a4102a4ba946d70e06d7d0c7dc007201af443cfc8f943ab1d3c"
+        }
+        
+        get_response_dict= ReplicateApi.__get_response(self, url, payload)
         image_url = get_response_dict.get("output")
         image_bytes = base64.b64encode(requests.get(image_url).content)
         
@@ -72,4 +81,97 @@ class ReplicateApi(ProviderInterface, ImageInterface):
                     )
                 ]
             )
+        )
+    
+    def text__generation(
+        self,
+        text: str,
+        temperature: float,
+        max_tokens: int,
+        model: str,) -> ResponseType[TextGenerationDataClass]:
+        url = f"{self.base_url}/predictions"
+        model_id = get_model_id[model]
+        payload = {
+            "input" : {
+                "prompt" : text,
+                "max_length" : max_tokens,
+                "temperature" : temperature,
+                "top_p" : 1,
+                "repetition_penalty" : 1
+                
+            },
+            "version": model_id
+        }
+        get_response_dict = ReplicateApi.__get_response(self, url, payload)
+        
+        standardized_response = TextGenerationDataClass(
+            generated_text= ''.join(get_response_dict.get('output', ['']))
+        )
+        return ResponseType[TextGenerationDataClass](
+            original_response=get_response_dict,
+            standardized_response=standardized_response,
+        )
+
+    def text__chat(
+        self,
+        text: str,
+        chatbot_global_action: Optional[str],
+        previous_history: Optional[List[Dict[str, str]]],
+        temperature: float,
+        max_tokens: int,
+        model: str,
+    ) -> ResponseType[ChatDataClass]:
+        # Construct the API URL
+        url = f"{self.base_url}/predictions"
+        
+        # Get the model ID based on the provided model name
+        model_id = get_model_id[model]
+        
+        # Build the prompt by formatting the previous history and current text
+        prompt = ''
+        if previous_history:
+            for msg in previous_history:
+                if msg["role"] == "user":
+                    prompt += "\n[INST]" + msg["message"] + "[/INST]\n"
+                else:
+                    prompt += "\n" + msg["message"] + "\n"
+        
+        prompt += "\n[INST]" + text + "[/INST]\n"
+        
+        # Construct the payload for chat interaction
+        payload = {
+            "input": {
+                "prompt": prompt,
+                "max_new_tokens": max_tokens,
+                "temperature": temperature,
+                "min_new_tokens": -1
+            },
+            "version": model_id
+        }
+        
+        # Include system prompt if provided
+        if chatbot_global_action: 
+            payload["input"]["system_prompt"] = chatbot_global_action
+        
+        # Call the API and get the response dictionary
+        get_response_dict = ReplicateApi.__get_response(self, url, payload)
+        
+        # Extract generated text from the API response
+        generated_text = ''.join(get_response_dict.get('output', ['']))
+        
+        # Build a list of ChatMessageDataClass objects for the conversation history
+        message = [
+            ChatMessageDataClass(role="user", message=text),
+            ChatMessageDataClass(role="assistant", message=generated_text),
+        ]
+        
+        # Build the standardized response
+        standardized_response = ChatDataClass(
+            generated_text=generated_text,
+            message=message
+        )
+        
+        return ResponseType[ChatDataClass](
+            original_response=get_response_dict,
+            standardized_response=standardized_response,
         )
