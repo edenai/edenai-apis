@@ -679,13 +679,17 @@ class OpenaiTextApi(TextInterface):
             ),
         )
 
-    def text__embeddings(self, texts: List[str]) -> ResponseType[EmbeddingsDataClass]:
+    def text__embeddings(
+        self, 
+        texts: List[str],
+        model: str) -> ResponseType[EmbeddingsDataClass]:
         url = "https://api.openai.com/v1/embeddings"
+        model = model.split("__")
         if len(texts) == 1:
             texts = texts[0]
         payload = {
             "input": texts,
-            "model": "text-embedding-ada-002",
+            "model": model[1],
         }
 
         try:

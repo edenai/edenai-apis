@@ -332,11 +332,15 @@ class GoogleTextApi(TextInterface):
             standardized_response=standardized_response,
         )
 
-    def text__embeddings(self, texts: List[str]) -> ResponseType[EmbeddingsDataClass]:
+    def text__embeddings(
+        self, 
+        texts: List[str],
+        model: str) -> ResponseType[EmbeddingsDataClass]:
+        model = model.split("__")
         url_subdomain = "us-central1-aiplatform"
         location = "us-central1"
         token = get_access_token(self.location)
-        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/textembedding-gecko:predict"
+        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model[1]}:predict"
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {token}",

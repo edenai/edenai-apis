@@ -273,7 +273,10 @@ class TextInterface:
         raise NotImplementedError
 
     @abstractmethod
-    def text__embeddings(self, texts: List[str]) -> ResponseType[EmbeddingsDataClass]:
+    def text__embeddings(
+        self,
+        texts: List[str],
+        model : Optional[str] = None) -> ResponseType[EmbeddingsDataClass]:
         """Spell check
 
         Args:

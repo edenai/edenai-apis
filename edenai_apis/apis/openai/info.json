@@ -226,6 +226,12 @@
       "version": "v3.0.0"
     },
     "embeddings": {
+        "constraints": {
+          "models": [
+            "1536__text-embedding-ada-002"
+          ],
+          "default_model": "1536__text-embedding-ada-002"
+        },
       "version": "v3.0.0"
     },
     "prompt_optimization" : {

@@ -909,6 +909,12 @@
             "version" : "v1"
         },
         "embeddings" : {
+            "constraints" : {
+                "models" : [
+                    "768__textembedding-gecko"
+                ],
+                "default_model" : "768__textembedding-gecko"
+            },
             "version" : "v1"
         },
         "code_generation": {

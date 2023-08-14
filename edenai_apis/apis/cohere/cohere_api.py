@@ -314,10 +314,15 @@ Answer:"""
             standardized_response=SpellCheckDataClass(text=text, items=items),
         )
 
-    def text__embeddings(self, texts: List[str]) -> ResponseType[EmbeddingsDataClass]:
+    def text__embeddings(
+        self, 
+        texts: List[str],
+        model: str) -> ResponseType[EmbeddingsDataClass]:
         url = f"{self.base_url}embed"
+        model = model.split("__")
         payload = {
             "texts" : texts,
+            "model" : model[1]
         }
         response = requests.post(url, json = payload, headers=self.headers)
         original_response = response.json()
