@@ -83,35 +83,6 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
             )
         )
     
-    def text__generation(
-        self,
-        text: str,
-        temperature: float,
-        max_tokens: int,
-        model: str,) -> ResponseType[TextGenerationDataClass]:
-        url = f"{self.base_url}/predictions"
-        model_id = get_model_id[model]
-        payload = {
-            "input" : {
-                "prompt" : text,
-                "max_length" : max_tokens,
-                "temperature" : temperature,
-                "top_p" : 1,
-                "repetition_penalty" : 1
-                
-            },
-            "version": model_id
-        }
-        get_response_dict = ReplicateApi.__get_response(self, url, payload)
-        
-        standardized_response = TextGenerationDataClass(
-            generated_text= ''.join(get_response_dict.get('output', ['']))
-        )
-        return ResponseType[TextGenerationDataClass](
-            original_response=get_response_dict,
-            standardized_response=standardized_response,
-        )
-
     def text__chat(
         self,
         text: str,
