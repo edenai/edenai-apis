@@ -388,12 +388,15 @@ class GoogleTextApi(TextInterface):
         }
         response = requests.post(url=url, headers=headers, json=payload)
         original_response = response.json()
+        print("THe original response is\n\n",original_response)
         if "error" in original_response:
             raise ProviderException(
                 message=original_response["error"]["message"],
                 code = response.status_code
             )
-
+        if not original_response.get("predictions"):
+            raise ProviderException('Provider return an empty response')
+        
         standardized_response = CodeGenerationDataClass(
             generated_text=original_response["predictions"][0]["content"]
         )
