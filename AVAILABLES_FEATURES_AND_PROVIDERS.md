@@ -124,6 +124,7 @@
 | | writesonic |
 | **chat** | google |
 | | openai |
+| | replicate |
 | **code_generation** | google |
 | | openai |
 | **topic_extraction** | google |
@@ -676,6 +677,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **image** | generation |
+| **text** | chat |
 
 </details>
 <details><summary>revai</summary>
