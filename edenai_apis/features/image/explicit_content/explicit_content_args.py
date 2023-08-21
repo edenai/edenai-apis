@@ -22,5 +22,5 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(image_path, "", file_info)
 
 
-def explicit_content_arguments() -> Dict:
+def explicit_content_arguments(provider_name: str) -> Dict:
     return {"file": file_wrapper}

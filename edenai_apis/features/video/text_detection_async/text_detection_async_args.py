@@ -22,5 +22,5 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(video_path, "", file_info)
 
 
-def text_detection_async_arguments() -> Dict:
+def text_detection_async_arguments(provider_name: str) -> Dict:
     return {"file": file_wrapper}

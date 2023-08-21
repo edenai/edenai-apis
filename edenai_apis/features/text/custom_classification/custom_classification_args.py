@@ -1,5 +1,5 @@
 # pylint: disable=locally-disabled, line-too-long
-def custom_classification_arguments():
+def custom_classification_arguments(provider_name: str):
     return {
         "texts": ["Confirm your email address", "hey i need u to send some $"],
         "labels": ["spam", "not spam"],

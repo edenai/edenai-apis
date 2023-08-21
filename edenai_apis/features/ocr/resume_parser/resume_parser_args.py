@@ -22,5 +22,5 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(ocr_path, "", file_info)
 
 
-def resume_parser_arguments() -> Dict:
+def resume_parser_arguments(provider_name: str) -> Dict:
     return {"file": file_wrapper}

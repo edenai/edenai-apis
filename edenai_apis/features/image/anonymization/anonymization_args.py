@@ -22,5 +22,5 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(image_path, "", file_info)
 
 
-def anonymization_arguments() -> Dict:
+def anonymization_arguments(provider_name: str) -> Dict:
     return {"file": file_wrapper}

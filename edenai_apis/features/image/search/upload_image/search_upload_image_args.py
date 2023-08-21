@@ -21,9 +21,17 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(image_path, "", file_info)
 
 
-def search_upload_image_arguments() -> Dict:
+def search_upload_image_arguments(provider_name: str) -> Dict:
+
+    if provider_name == 'sentisight':
+        project_id = '42874'
+    elif provider_name == 'nyckel':
+        project_id = 'yiilyy1cm0sxiw7n'
+    else:
+        raise NotImplementedError(f"Please add a project id for test arguments of provider: {provider_name}")
+
     return {
         "file": file_wrapper,
         "image_name": "test.jpg",
-        "project_id": "42874",
+        "project_id": project_id,
     }
