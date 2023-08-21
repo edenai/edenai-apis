@@ -73,7 +73,7 @@ folder should contain:
             return {"original_response": response, "standardized_response": standardized}
 
 
--   An output directory containing one directory by feature, each feature directory will contain output json files representing original response returned by provider for a subfeature
+-   An output directory containing one directory by feature, each feature directory will contain output json files representing original response returned by provider for a subfeature. This output directory and it's subdirectories or files can be automatically created when calling the generate output pytest function. Please refer to [this section](#tests)
 
 
 <a id="org97d5614"></a>
