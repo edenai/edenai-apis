@@ -108,7 +108,7 @@ For some subfeatures, the computation may encompass different stages to execute,
   def image__search__get_image(self, image_name: str, project_id: str) -> ResponseType[SearchGetImageDataClass]:
 ```
 
-In this case for example, in order get an image using method `image__search__get_image`, you must first create a project using the method `image__search__create_project`. After that, you should upload some images using the `image__search__upload_image` method.
+In this case for example, in order retreive an image using the `image__search__get_image` method, you must first create a project with calling the method `image__search__create_project`. After that, you should upload some images using the `image__search__upload_image` method.
 
 ### **Async logic**
 
