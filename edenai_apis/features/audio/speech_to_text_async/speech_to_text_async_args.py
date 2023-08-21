@@ -23,7 +23,7 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(audio_path, "", file_info)
 
 
-def speech_to_text_async_arguments() -> Dict:
+def speech_to_text_async_arguments(provider_name: str) -> Dict:
     return {
         "file": file_wrapper,
         "language": "en",

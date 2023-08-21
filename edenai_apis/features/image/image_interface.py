@@ -60,7 +60,7 @@ from edenai_apis.features.image.generation.generation_dataclass import (
 from edenai_apis.features.image.face_compare.face_compare_dataclass import (
     FaceCompareDataClass,
 )
-from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.types import ResponseSuccess, ResponseType
 
 
 class ImageInterface:
@@ -154,7 +154,7 @@ class ImageInterface:
     @abstractmethod
     def image__search__upload_image(
         self, file: str, image_name: str, project_id: str, file_url: str = ""
-    ) -> SearchUploadImageDataClass:
+    ) -> ResponseSuccess:
         """
         Upload image for an image search project
 
@@ -168,7 +168,7 @@ class ImageInterface:
     @abstractmethod
     def image__search__delete_image(
         self, image_name: str, project_id: str
-    ) -> SearchDeleteImageDataClass:
+    ) -> ResponseSuccess:
         """
         Delete image of an image search project
 

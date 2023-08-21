@@ -1,0 +1,24 @@
+{
+    "image": {
+        "search": {
+            "upload_image": {
+                "version": "v1.0.0"
+            },
+            "create_project": {
+                "version": "v1.0.0"
+            },
+            "delete_image": {
+                "version": "v1.0.0"
+            },
+            "get_image": {
+                "version": "v1.0.0"
+            },
+            "get_images": {
+                "version": "v1.0.0"
+            },
+            "launch_similarity": {
+                "version": "v1.0.0"
+            }
+        }
+    }
+}

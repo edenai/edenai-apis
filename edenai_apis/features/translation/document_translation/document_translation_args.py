@@ -19,7 +19,7 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(document_path, "", file_info)
 
 
-def document_translation_arguments() -> dict:
+def document_translation_arguments(provider_name: str) -> dict:
     return {
         "file": file_wrapper,
         "file_type": file_info.file_media_type,

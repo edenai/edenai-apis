@@ -24,5 +24,5 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(face_path, "", file_info)
 
 
-def face_recognition_add_face_arguments() -> Dict:
+def face_recognition_add_face_arguments(provider_name: str) -> Dict:
     return {"file": file_wrapper, "collection_id": COLLECTION_ID}

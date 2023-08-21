@@ -367,7 +367,7 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
         if response.status_code != 202:
-            error = response.json()["error"]["innerror"]["message"]
+            error = response.json()["error"]["innererror"]["message"]
             raise ProviderException(error, code = response.status_code)
 
         return AsyncLaunchJobResponseType(

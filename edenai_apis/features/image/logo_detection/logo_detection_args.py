@@ -22,5 +22,5 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(image_path, "", file_info)
 
 
-def logo_detection_arguments() -> Dict:
+def logo_detection_arguments(provider_name: str) -> Dict:
     return {"file": file_wrapper}
