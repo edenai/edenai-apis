@@ -55,9 +55,22 @@ folder should contain:
             Image
             Ocr,
         ):
-            def image__object_detection(file_name: str, file_content: io.BytesIO) -> Dict:
+            def image__object_detection(self, file: str, model: str= None, file_url: str = "") -> Dict:
                 """your code here"""
                 return {"original_response": response, "standardized_response": standardized}
+
+    Within your feature method, your api or sdk integration may throw and exception or return an error. In this case, you should raise a specific exception: a `ProviderException` with an *exception message* and an `optional` *error code*.
+
+    eg:
+
+        def image__object_detection(self, file: str, model: str=None, file_url: str = "") -> Dict:
+            """your code here"""
+            ...
+            if error_condition: # if status code equal to 400 for example
+                raise ProviderException('exception message', status_code)
+            ...
+            return {"original_response": response, "standardized_response": standardized}
+
 
 -   An output directory containing one directory by feature, each feature directory will contain output json files representing original response returned by provider for a subfeature
 
