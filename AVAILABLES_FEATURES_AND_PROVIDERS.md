@@ -211,7 +211,8 @@
 | | stabilityai |
 | **landmark_detection** | google |
 | | microsoft |
-| **search** | sentisight |
+| **search** | nyckel |
+| | sentisight |
 
 </details>
 <details><summary>translation</summary>
@@ -599,6 +600,13 @@
 | **text** | named_entity_recognition |
 | **translation** | automatic_translation |
 | | language_detection |
+
+</details>
+<details><summary>nyckel</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | search |
 
 </details>
 <details><summary>oneai</summary>
