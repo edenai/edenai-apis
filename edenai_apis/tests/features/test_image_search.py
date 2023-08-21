@@ -20,6 +20,7 @@ image_search_providers = list_providers(feature="image", subfeature="search")
     os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
     reason="Skip in opensource package cicd workflow",
 )
+@pytest.mark.xdist_group(name="image_search")
 @pytest.mark.parametrize(("provider"), image_search_providers)
 class TestImageSearch:
     def test_upload_image(self, provider):
