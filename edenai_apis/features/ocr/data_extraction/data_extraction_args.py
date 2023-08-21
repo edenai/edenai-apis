@@ -24,5 +24,5 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(ocr_path, "", file_info)
 
 
-def data_extraction_arguments() -> Dict:
+def data_extraction_arguments(provider_name: str) -> Dict:
     return {"file": file_wrapper}

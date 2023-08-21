@@ -24,5 +24,5 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(ocr_path, "", file_info)
 
 
-def bank_check_parsing_arguments() -> Dict:
+def bank_check_parsing_arguments(provider_name: str) -> Dict:
     return {"file": file_wrapper}

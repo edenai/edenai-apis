@@ -215,6 +215,7 @@ def compute_output(
             feature=feature,
             subfeature=subfeature,
             phase=phase,
+            provider_name=provider_name
         )
         # replace File Wrapper by file and file_url inputs and also transform input attributes as settings for tts
         sample_args = validate_all_provider_constraints(

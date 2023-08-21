@@ -1,4 +1,4 @@
-def ai_detection_arguments():
+def ai_detection_arguments(provider_name: str):
     return {
         "text": "The panther, also known as the black panther, is a magnificent and enigmatic creature that captivates the imagination of many. It is not a distinct species itself, but rather a melanistic variant of leopards and jaguars. The mesmerizing black coat of the panther is a result of a genetic mutation that increases the production of dark pigment, melanin. \
         Panthers are highly adaptable predators, found primarily in dense forests and jungles across Africa, Asia, and the Americas. Their stealthy nature and exceptional agility make them formidable hunters. They are solitary creatures, preferring to roam alone in their vast territories, which can span over a hundred square miles. \

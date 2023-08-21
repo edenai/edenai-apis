@@ -192,9 +192,9 @@ class TestLoadSamples:
         ("feature", "subfeature", "phase"), _get_feature_subfeature_phase()
     )
     def test_load_sample_valid_parameters(self, feature, subfeature, phase):
-        if phase == "create_project":
+        if feature == 'image' and subfeature == 'search':
             pytest.skip(
-                "image-search-create_project because this method don't need arguments"
+                "image-search need dynamic argument as each provider should have a different project_id"
             )
 
         args = load_samples(feature, subfeature, phase)

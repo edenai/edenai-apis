@@ -23,6 +23,6 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(ocr_path, "", file_info)
 
 
-def identity_parser_arguments() -> Dict:
+def identity_parser_arguments(provider_name: str) -> Dict:
     filename = "passport-US.pdf"
     return {"file": file_wrapper}

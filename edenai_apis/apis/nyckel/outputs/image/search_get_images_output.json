@@ -1,0 +1,16 @@
+{
+  "original_response": [
+    {
+      "id": "sample_3y59prdn03bpwtp6",
+      "data": "https://s3.us-west-2.amazonaws.com/nyckel.server.production/Samples/yiilyy1cm0sxiw7n/g57rptn8gpcssdvk.data?X-Amz-Expires=1200&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEBQaCXVzLXdlc3QtMiJIMEYCIQCscpGj1jqGxXluNFvOHCkwKrt82y69tw%2FNkro%2FJX76ewIhAM6c5%2B9o7YKIgw6ONsmwUthTu%2FDi4sdQJamdaPhtVwJqKrwECM3%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQARoMNjg0ODQ2OTQ2NDg4IgyC6wYIhBjcEVM8WkAqkAQX1be%2BsM7W9D94utb0Tu1BPZinM9efe3Fvs2ut%2FYhgswCtVHZv7sHcwYZ4RlJddb3vMmFSHcy5XzneL8EoK0%2BugW2eXKu9Bo8iRpeOUnOGvr2E6%2FjMYBVTPLxyxQ56xxlIc7kG3b93QjiLwIdp9etah1YWXic7TWKdf%2BDbYhTScBooH3fguxn0ft0u7Jt6O61y2x%2FBbiJtjZwCKGx0y8zMfooLJT%2FFaFaejUkMKceT2D5P8nyxDukwxmOFBm5LxUGMGlZfjYECSxKy%2FCuFmCs2gJTYWDYuiqtDPYljhG6u%2F1Tko2hrXHeDbyYiAgQa%2BGDfjLyKOCbb4C2xOAGqmh%2BP5X6%2F7596wSxXZaB5CHYWb7eCOMKQvXhn2WY1ozegmdNdspOSqEYW65tjuY032OSOw9TfepT86vIM5ZkEW9e2Wq5rvo0gzbYivH569DzFd6rbLUGyKc4Zqz0lYHSVjVPlcv6RkUUNEX2p43v%2F%2FTSVlOzip%2F7mmn%2BmCUqvbj9maOrcVGqxbHl5K4j0em1mI1w6lDA%2BayU6cJqB0zJjBZXxZGp0VjtM9GcsiMao0ja9MKXG96GKfuuvvtGyOk8dsIIe9KioMvxLrCzIxVQ9ibeHICccUj8svvsExeXre1TdXrNdLfSL%2FKa13%2Fd9qnnhSjs9%2BHBiQPzxPYG%2FqLb3PAjXBbfDQxZst1ApfAbJZy%2FdZm4w4sKLpwY6pQGijhJk%2FGnnuI96Dku0M2LZYx07ejAISCcIVNbLmy83DOWQjKyChx89W1neT7rZpwja6gUomB7h2hywKBEUrSnwKKizi0nRowU%2FdtagJaJUxGmJH6ouFccyjQjht91eue%2FjG6ObtMzMVswSjIUpR6D3Ky13E5JWNYwiDROsIguwofGhldPy9BkHg2QM4LlwYEiiyUBXMhCywz%2BL9AxLV1x4iyQj0gg%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAZ65APDC4HT247IX4/20230821/us-west-2/s3/aws4_request&X-Amz-Date=20230821T090431Z&X-Amz-SignedHeaders=host&X-Amz-Signature=71795cfd093902f1859ce7c4e8ba278aec21bfd85b46c73389e8a0692778ba03",
+      "externalId": "test.jpg"
+    }
+  ],
+  "standardized_response": {
+    "list_images": [
+      {
+        "image_name": "test.jpg"
+      }
+    ]
+  }
+}

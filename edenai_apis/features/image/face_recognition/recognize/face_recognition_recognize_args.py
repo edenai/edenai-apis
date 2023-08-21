@@ -31,5 +31,5 @@ def get_data_files() -> List[BufferedReader]:
     ]
 
 
-def face_recognition_recognize_arguments() -> Dict:
+def face_recognition_recognize_arguments(provider_name: str) -> Dict:
     return {"file": file_wrapper, "collection_id": COLLECTION_ID}
