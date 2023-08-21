@@ -1,9 +1,8 @@
 import base64
 import time
-from typing import Dict
+from typing import Dict, Optional
 
 import requests
-
 from edenai_apis.features import ImageInterface, ProviderInterface
 from edenai_apis.features.image.search.delete_image.search_delete_image_dataclass import (
     SearchDeleteImageDataClass,
@@ -25,7 +24,7 @@ from edenai_apis.features.image.search.upload_image.search_upload_image_dataclas
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.types import ResponseSuccess, ResponseType
 
 
 def strip_nyckel_prefix(prefixed_id: str) -> str:
@@ -37,12 +36,12 @@ def strip_nyckel_prefix(prefixed_id: str) -> str:
 
 
 class NyckelApi(ProviderInterface, ImageInterface):
-    PROVIDER_NAME: str = "nyckel"
+    provider_name: str = "nyckel"
     DEFAULT_SIMILAR_IMAGE_COUNT = 10
 
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.PROVIDER_NAME, api_keys=api_keys
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
         self._session = requests.Session()
         self._renew_at = 0
@@ -92,7 +91,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
 
     def image__search__upload_image(
         self, file: str, image_name: str, project_id: str, file_url: str = ""
-    ) -> SearchUploadImageDataClass:
+    ) -> ResponseSuccess:
         self._refresh_session_auth_headers_if_needed()
 
         url = f"https://www.nyckel.com/v1/functions/{project_id}/samples"
@@ -104,7 +103,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
             data = {"data": file_url, "externalId": image_name}
             response = self._session.post(url, json=data)
         else:
-            with open("<fileName>", "rb") as f:
+            with open(file, "rb") as f:
                 data = {"externalId": image_name}
                 files = {"data": f}
                 response = self._session.post(url, files=files, data=data)
@@ -112,7 +111,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         if not response.status_code == 200:
             self._raise_provider_exception(url, data, response)
 
-        return SearchUploadImageDataClass(status=response.status_code)
+        return ResponseSuccess()
 
     def image__search__get_image(
         self, image_name: str, project_id: str
@@ -157,7 +156,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
 
     def image__search__delete_image(
         self, image_name: str, project_id: str
-    ) -> SearchDeleteImageDataClass:
+    ) -> ResponseSuccess:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{project_id}/samples?externalId={image_name}"
 
@@ -166,10 +165,10 @@ class NyckelApi(ProviderInterface, ImageInterface):
         if response.status_code != 200:
             self._raise_provider_exception(url, {}, response)
 
-        return SearchDeleteImageDataClass(status=response.status_code)
+        return ResponseSuccess()
 
     def image__search__launch_similarity(
-        self, file: str, project_id: str, file_url: str = ""
+        self, project_id: str, file: Optional[str] = None, file_url: str = ""
     ) -> ResponseType[SearchDataClass]:
         self._refresh_session_auth_headers_if_needed()
 
@@ -193,6 +192,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         if not response.status_code == 200:
             self._raise_provider_exception(url, data, response)
 
+        print(response.json())
         return ResponseType[SearchDataClass](
             original_response=response.json(),
             standardized_response=SearchDataClass(
@@ -201,7 +201,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
                         image_name=entry["externalId"],
                         score=1.0 - entry["distance"],
                     )
-                    for entry in response.json()
+                    for entry in response.json()['searchSamples']
                 ]
             ),
         )
