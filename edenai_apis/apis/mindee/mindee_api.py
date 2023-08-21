@@ -90,18 +90,20 @@ class MindeeApi(ProviderInterface, OcrInterface):
     ) -> ResponseType[ReceiptParserDataClass]:
         file_ = open(file, "rb")
         args = self._get_api_attributes(file_, language)
-        original_response = requests.post(
+        response = requests.post(
             self.url_receipt,
             headers=args["headers"],
             files=args["files"],
             params=args["params"],
-        ).json()
+        )
+        original_response = response.json()
 
         file_.close()
 
         if "document" not in original_response:
             raise ProviderException(
-                original_response["api_request"]["error"]["message"]
+                original_response["api_request"]["error"]["message"],
+                code = response.status_code
             )
 
         receipt_data = original_response["document"]["inference"]["prediction"]
@@ -173,15 +175,17 @@ class MindeeApi(ProviderInterface, OcrInterface):
         file_ = open(file, "rb")
         files = {"document": file_}
         params = {"locale": {"language": language}}
-        original_response = requests.post(
+        response = requests.post(
             self.url, headers=headers, files=files, params=params
-        ).json()
+        )
+        original_response = response.json()
 
         file_.close()
 
         if "document" not in original_response:
             raise ProviderException(
-                original_response["api_request"]["error"]["message"]
+                original_response["api_request"]["error"]["message"],
+                code = response
             )
         # Invoice std :
         invoice_data = original_response["document"]["inference"]["prediction"]

@@ -1,5 +1,6 @@
 from typing import Sequence
 import re
+from edenai_apis.apis.ibm.ibm_helpers import handle_ibm_call
 
 from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
@@ -16,21 +17,13 @@ class IbmTranslationApi(TranslationInterface):
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str
     ) -> ResponseType[AutomaticTranslationDataClass]:
-        try:
-            response = (
-                self.clients["translation"]
-                .translate(text=text, source=source_language, target=target_language)
-                .get_result()
-            )
-        except Exception as excp:
-            error_message = str(excp)
-            try:
-                language_detection_error = re.search(
-                    "Error:(.)*language,", error_message
-                ).group()[:-1]
-                raise ProviderException(language_detection_error)
-            except AttributeError:
-                raise ProviderException(error_message)
+        payload = {
+            "text" : text, 
+            "source": source_language, 
+            "target": target_language
+        }
+        request = handle_ibm_call(self.clients["translation"].translate, **payload)
+        response = handle_ibm_call(request.get_result)
 
         # Create output TextAutomaticTranslation object
         standardized: AutomaticTranslationDataClass

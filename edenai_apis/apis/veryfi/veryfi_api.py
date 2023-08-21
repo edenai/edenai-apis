@@ -1,9 +1,11 @@
+import mimetypes
+import pathlib
+import uuid
 from http import HTTPStatus
 from io import BufferedReader
-import mimetypes
-from typing import Dict
-import uuid
+from typing import Dict, Literal
 
+import boto3
 import requests
 from edenai_apis.features.ocr.bank_check_parsing import (
     BankCheckParsingDataClass,
@@ -12,7 +14,6 @@ from edenai_apis.features.ocr.bank_check_parsing import (
 from edenai_apis.features.ocr.bank_check_parsing.bank_check_parsing_dataclass import (
     ItemBankCheckParsingDataClass,
 )
-from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     BankInvoice,
     CustomerInformationInvoice,
@@ -23,12 +24,13 @@ from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     MerchantInformationInvoice,
     TaxesInvoice,
 )
+from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     BarCode,
     CustomerInformation,
-    Locale,
     InfosReceiptParserDataClass,
     ItemLines,
+    Locale,
     MerchantInformation,
     PaymentInformation,
     ReceiptParserDataClass,
@@ -36,21 +38,28 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 )
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import load_key
-from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.types import ResponseType
 
 
 class VeryfiApi(ProviderInterface, OcrInterface):
     provider_name = "veryfi"
 
     def __init__(self, api_keys: Dict = {}):
+        self.url = "https://api.veryfi.com/api/v8/partner"
+
         self.api_settings = load_key(
             provider_name=self.provider_name, api_keys=api_keys
         )
         self.client_id = self.api_settings["client_id"]
         self.client_secret = self.api_settings["client_secret"]
         self.authorization = self.api_settings["Authorization"]
-        self.url = "https://api.veryfi.com/api/v8/partner"
+
+        # settings for veryfi partners, upload documents to veryfi's bucket for processing
+        self.partner_iam_api_key_id = self.api_settings.get("optional_iam_api_key_id")
+        self.partner_iam_api_key_secret = self.api_settings.get("optional_iam_api_key_secret")
+        self.partner_bucket_name = self.api_settings.get("optional_bucket_name")
+        self.partner_upload_folder = self.api_settings.get("optional_upload_folder")
 
         self.headers = {
             "Accept": "application/json",
@@ -58,34 +67,71 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             "Authorization": self.authorization,
         }
 
-    def _make_post_request(self, file: BufferedReader, endpoint: str = "/documents"):
-        payload = {"file_name": f"test-{uuid.uuid4()}"}
-
-        files = {"file": ("file", file, mimetypes.guess_type(file.name)[0])}
-
-        response = requests.request(
-            method="POST",
-            url=self.url + endpoint,
-            headers=self.headers,
-            data=payload,
-            files=files,
-        )
-
-        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
-            raise ProviderException(message=response.json(), code=response.status_code)
+    def _process_document(
+        self, file: str, document_type: Literal["documents", "checks"] = "documents"
+    ):
+        is_partner = all([
+            self.partner_iam_api_key_id,
+            self.partner_iam_api_key_secret,
+            self.partner_bucket_name,
+            self.partner_upload_folder,
+        ])
+        if is_partner:
+            response = self._process_document_through_bucket(file, document_type)
+        else:
+            response = self._process_document_directly(file, document_type)
 
         if response.status_code != HTTPStatus.CREATED:
             raise ProviderException(message=response.json(), code=response.status_code)
 
         return response.json()
 
+    def _process_document_through_bucket(self, filename: str, document_type: str):
+        """Upload file to veryfi bucket then process it"""
+        client = boto3.client(
+            "s3",
+            aws_access_key_id=self.partner_iam_api_key_id,
+            aws_secret_access_key=self.partner_iam_api_key_secret,
+        )
+
+        random_filename = f"{document_type}_{uuid.uuid4()}{pathlib.Path(filename).suffix}"
+
+        client.upload_file(
+            filename,
+            self.partner_bucket_name,
+            f"{self.partner_upload_folder}/{random_filename}",
+        )
+
+        return requests.request(
+            method="POST",
+            url=f"{self.url}/{document_type}",
+            headers=self.headers,
+            json={
+                "bucket": self.partner_bucket_name,
+                "package_path": f"{self.partner_upload_folder}/{random_filename}",
+            },
+        )
+
+    def _process_document_directly(self, file: str, document_type: str):
+        """Send file directly to veryfi for processing"""
+        with open(file, "rb") as file_:
+            payload = {"file_name": f"test-{uuid.uuid4()}"}
+
+            files = {"file": ("file", file_, mimetypes.guess_type(file_.name)[0])}
+
+            return requests.request(
+                method="POST",
+                url=f"{self.url}/{document_type}",
+                headers=self.headers,
+                data=payload,
+                files=files,
+            )
+
+
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
-        file_ = open(file, "rb")
-        original_response = self._make_post_request(file_)
-
-        file_.close()
+        original_response = self._process_document(file)
 
         ship_name = original_response["ship_to"]["name"]
         ship_address = original_response["ship_to"]["address"]
@@ -115,7 +161,6 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             merchant_phone=original_response["vendor"]["phone_number"],
             merchant_email=original_response["vendor"]["email"],
             merchant_tax_id=original_response["vendor"]["vat_number"],
-            merchant_id=original_response["vendor"]["reg_number"],
             merchant_website=original_response["vendor"]["web"],
             merchant_fax=original_response["vendor"]["fax_number"],
             merchant_siren=None,
@@ -180,9 +225,7 @@ class VeryfiApi(ProviderInterface, OcrInterface):
     def ocr__receipt_parser(
         self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
-        file_ = open(file, "rb")
-        original_response = self._make_post_request(file_)
-        file_.close()
+        original_response = self._process_document(file)
 
         customer_information = CustomerInformation(
             customer_name=original_response["bill_to"]["name"],
@@ -241,8 +284,7 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__bank_check_parsing(self, file: str, file_url: str = "") -> ResponseType:
-        with open(file, "rb") as file_:
-            original_response = self._make_post_request(file_, endpoint="/checks")
+        original_response = self._process_document(file, document_type="checks")
 
         items = [
             ItemBankCheckParsingDataClass(

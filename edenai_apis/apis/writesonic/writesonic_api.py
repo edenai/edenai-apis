@@ -35,14 +35,15 @@ class WritesonicApi(ProviderInterface, TextInterface):
         }
 
         try:
-            original_response = requests.post(
+            response = requests.post(
                 url, json=payload, headers=self.headers
-            ).json()
+            )
+            original_response = response.json()
         except json.JSONDecodeError as exc:
-            raise ProviderException("Internal Server Error") from exc
+            raise ProviderException("Internal Server Error", code=500) from exc
 
         if "detail" in original_response:
-            raise ProviderException(original_response["detail"])
+            raise ProviderException(original_response["detail"], code= response.status_code)
 
         standardized_response = SummarizeDataClass(
             result=original_response[0].get("summary", {})

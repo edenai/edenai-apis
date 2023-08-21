@@ -49,6 +49,98 @@
 | | veryfi |
 
 </details>
+<details><summary>text</summary>
+
+| Subfeatures | Providers |
+|----------|-------------|
+| **generation** | ai21labs |
+| | anthropic |
+| | cohere |
+| | google |
+| | openai |
+| **anonymization** | amazon |
+| | emvista |
+| | microsoft |
+| | oneai |
+| | openai |
+| **entity_sentiment** | amazon |
+| | google |
+| **keyword_extraction** | amazon |
+| | emvista |
+| | ibm |
+| | microsoft |
+| | oneai |
+| | openai |
+| | tenstorrent |
+| **named_entity_recognition** | amazon |
+| | google |
+| | ibm |
+| | lettria |
+| | microsoft |
+| | neuralspace |
+| | oneai |
+| | openai |
+| | tenstorrent |
+| **sentiment_analysis** | amazon |
+| | connexun |
+| | emvista |
+| | google |
+| | ibm |
+| | lettria |
+| | microsoft |
+| | oneai |
+| | openai |
+| | sapling |
+| | tenstorrent |
+| **syntax_analysis** | amazon |
+| | emvista |
+| | google |
+| | ibm |
+| | lettria |
+| **moderation** | clarifai |
+| | google |
+| | microsoft |
+| | openai |
+| **custom_classification** | cohere |
+| | openai |
+| **custom_named_entity_recognition** | cohere |
+| | openai |
+| **embeddings** | cohere |
+| | google |
+| | openai |
+| **spell_check** | cohere |
+| | microsoft |
+| | openai |
+| | prowritingaid |
+| | sapling |
+| **summarize** | cohere |
+| | connexun |
+| | emvista |
+| | huggingface |
+| | meaningcloud |
+| | microsoft |
+| | oneai |
+| | openai |
+| | writesonic |
+| **chat** | google |
+| | openai |
+| | replicate |
+| **code_generation** | google |
+| | openai |
+| **topic_extraction** | google |
+| | ibm |
+| | openai |
+| | tenstorrent |
+| **question_answer** | huggingface |
+| | openai |
+| | tenstorrent |
+| **prompt_optimization** | openai |
+| **search** | openai |
+| **ai_detection** | originalityai |
+| | sapling |
+| **plagia_detection** | originalityai |
+
+</details>
 <details><summary>audio</summary>
 
 | Subfeatures | Providers |
@@ -69,10 +161,12 @@
 | | voci |
 | | voxist |
 | **text_to_speech** | amazon |
+| | elevenlabs |
 | | google |
 | | ibm |
 | | lovoai |
 | | microsoft |
+| **text_to_speech_async** | lovoai |
 
 </details>
 <details><summary>image</summary>
@@ -113,94 +207,11 @@
 | | smartclick |
 | **generation** | deepai |
 | | openai |
+| | replicate |
 | | stabilityai |
 | **landmark_detection** | google |
 | | microsoft |
 | **search** | sentisight |
-
-</details>
-<details><summary>text</summary>
-
-| Subfeatures | Providers |
-|----------|-------------|
-| **anonymization** | amazon |
-| | emvista |
-| | microsoft |
-| | oneai |
-| | openai |
-| **entity_sentiment** | amazon |
-| | google |
-| **keyword_extraction** | amazon |
-| | emvista |
-| | ibm |
-| | microsoft |
-| | oneai |
-| | openai |
-| | tenstorrent |
-| **named_entity_recognition** | amazon |
-| | google |
-| | ibm |
-| | lettria |
-| | microsoft |
-| | neuralspace |
-| | oneai |
-| | openai |
-| **sentiment_analysis** | amazon |
-| | connexun |
-| | emvista |
-| | google |
-| | ibm |
-| | lettria |
-| | microsoft |
-| | oneai |
-| | openai |
-| | sapling |
-| | tenstorrent |
-| **syntax_analysis** | amazon |
-| | emvista |
-| | google |
-| | ibm |
-| | lettria |
-| **moderation** | clarifai |
-| | microsoft |
-| | openai |
-| **custom_classification** | cohere |
-| | openai |
-| **custom_named_entity_recognition** | cohere |
-| | openai |
-| **generation** | cohere |
-| | google |
-| | openai |
-| **spell_check** | cohere |
-| | microsoft |
-| | openai |
-| | prowritingaid |
-| | sapling |
-| **summarize** | cohere |
-| | connexun |
-| | emvista |
-| | huggingface |
-| | meaningcloud |
-| | microsoft |
-| | oneai |
-| | openai |
-| | writesonic |
-| **chat** | google |
-| | openai |
-| **code_generation** | google |
-| | openai |
-| **embeddings** | google |
-| | openai |
-| **topic_extraction** | google |
-| | ibm |
-| | openai |
-| **question_answer** | huggingface |
-| | openai |
-| **prompt_optimization** | openai |
-| **search** | openai |
-| **ai_detection** | originalityai |
-| | sapling |
-| **plagia_detection** | originalityai |
 
 </details>
 <details><summary>translation</summary>
@@ -258,6 +269,13 @@
 | | resume_parser |
 
 </details>
+<details><summary>ai21labs</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | generation |
+
+</details>
 <details><summary>amazon</summary>
 
 | Features | Subfeatures |
@@ -290,6 +308,13 @@
 | | label_detection_async |
 | | person_tracking_async |
 | | text_detection_async |
+
+</details>
+<details><summary>anthropic</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | generation |
 
 </details>
 <details><summary>api4ai</summary>
@@ -342,6 +367,7 @@
 |----------|-------------|
 | **text** | custom_classification |
 | | custom_named_entity_recognition |
+| | embeddings |
 | | generation |
 | | spell_check |
 | | summarize |
@@ -383,6 +409,13 @@
 |----------|-------------|
 | **translation** | automatic_translation |
 | | document_translation |
+
+</details>
+<details><summary>elevenlabs</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **audio** | text_to_speech |
 
 </details>
 <details><summary>emvista</summary>
@@ -432,6 +465,7 @@
 | | embeddings |
 | | entity_sentiment |
 | | generation |
+| | moderation |
 | | named_entity_recognition |
 | | sentiment_analysis |
 | | syntax_analysis |
@@ -502,6 +536,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | text_to_speech |
+| | text_to_speech_async |
 
 </details>
 <details><summary>meaningcloud</summary>
@@ -637,6 +672,14 @@
 | **text** | spell_check |
 
 </details>
+<details><summary>replicate</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | generation |
+| **text** | chat |
+
+</details>
 <details><summary>revai</summary>
 
 | Features | Subfeatures |
@@ -717,7 +760,10 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | keyword_extraction |
+| | named_entity_recognition |
+| | question_answer |
 | | sentiment_analysis |
+| | topic_extraction |
 
 </details>
 <details><summary>veryfi</summary>

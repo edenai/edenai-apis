@@ -54,12 +54,18 @@ class SaplingApi(ProviderInterface, TextInterface):
         try:
             response = requests.post(f"{self.url}spellcheck", json = payload)
         except Exception as excp:
-            raise ProviderException(str(excp))
+            raise ProviderException(str(excp), code=500)
+        
+        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
+            raise ProviderException("Internal server error", code = response.status_code)
         
         original_response = response.json()
         
         if response.status_code > HTTPStatus.BAD_REQUEST:
-            raise ProviderException(original_response)
+            raise ProviderException(
+                original_response,
+                code = response.status_code
+            )
                 
         items: Sequence[SpellCheckItem] = []
         candidates = original_response.get("candidates", {})
@@ -107,12 +113,15 @@ class SaplingApi(ProviderInterface, TextInterface):
         try:
             response = requests.post(f"{self.url}sentiment", json=payload, headers=headers)
         except Exception as excp:
-            raise ProviderException(str(excp))
+            raise ProviderException(str(excp), code = 500)
+        
+        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
+            raise ProviderException("Internal server error", code = response.status_code)
         
         response_json = response.json()
         
         if response.status_code > HTTPStatus.BAD_REQUEST:
-            raise ProviderException(response_json)
+            raise ProviderException(response_json, code = response.status_code)
 
         best_sentiment = {
             "general_sentiment": None,
@@ -165,12 +174,15 @@ class SaplingApi(ProviderInterface, TextInterface):
         try:
             response = requests.post(f"{self.url}aidetect", json = payload)
         except Exception as excp:
-            raise ProviderException(str(excp))
+            raise ProviderException(str(excp), code=500)
+        
+        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
+            raise ProviderException("Internal server error", code= response.status_code)
         
         original_response = response.json()
         
         if response.status_code > HTTPStatus.BAD_REQUEST:
-            raise ProviderException(original_response)
+            raise ProviderException(original_response, code = response.status_code)
         
         items = []
         for sentence_score in original_response.get("sentence_scores", {}):

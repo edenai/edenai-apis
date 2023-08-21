@@ -46,7 +46,7 @@ class SmartClickApi(ProviderInterface, ImageInterface):
         if response.status_code != 200:
             # Poorly documented
             # ref: https://smartclick.ai/api/logo-detection/
-            raise ProviderException(message=response.text)
+            raise ProviderException(message=response.text, code = response.status_code)
 
         # standardized response : description/score/bounding_box
         items: Sequence[LogoItem] = []

@@ -1,5 +1,7 @@
 # pylint: disable=locally-disabled, too-many-branches
 import os
+import random
+import time
 from typing import Any, Dict, List, Literal, Optional, Set, Tuple, Type, Union, overload
 from uuid import uuid4
 
@@ -207,6 +209,7 @@ def compute_output(
     )
 
     if fake:
+        time.sleep(random.uniform(0.5, 1.5))  # sleep to fake the response time from a provider
         sample_args = load_feature(
             FeatureDataEnum.SAMPLES_ARGS,
             feature=feature,
@@ -367,6 +370,7 @@ def get_async_job_result(
     """
 
     if fake is True:
+        time.sleep(random.uniform(0.5, 1.5))  # sleep to fake the response time from a provider
         # Load fake data from edenai_apis' saved output
         fake_result = load_provider(
             ProviderDataEnum.OUTPUT,

@@ -136,7 +136,7 @@ def get_file_extension(
 # ******Text_to_Speech******#
 
 
-def __confirm_appropriate_language(language: str, provider: str):
+def __confirm_appropriate_language(language: str, provider: str, subfeature: str):
     if not language:
         return None
     try:
@@ -144,7 +144,7 @@ def __confirm_appropriate_language(language: str, provider: str):
             language,
             provider_name=provider,
             feature="audio",
-            subfeature="text_to_speech",
+            subfeature=subfeature,
         )
     except SyntaxError as exc:
         formated_language = None
@@ -174,10 +174,12 @@ def __get_voices_from_constrains(constraints: Dict, language: str, gender: str):
     return voices
 
 
-def __get_provider_tts_constraints(provider):
+def __get_provider_tts_constraints(provider, subfeature):
+    if "text_to_speech" not in subfeature:
+        return {}
     try:
         provider_info = load_provider(
-            ProviderDataEnum.PROVIDER_INFO, provider, "audio", "text_to_speech"
+            ProviderDataEnum.PROVIDER_INFO, provider, "audio", subfeature
         )
         if constrains := provider_info.get("constraints"):
             return constrains
@@ -191,7 +193,7 @@ def __has_voice_in_contrains(contraints: Dict, voice: str):
     return voice in all_voices
 
 
-def get_voices(language: str, gender: str, providers: List[str]) -> Dict[str, List]:
+def get_voices(language: str, subfeature: str, gender: str, providers: List[str]) -> Dict[str, List]:
     """Returns the list of voices for each provider withing the providers parameter according the the language and gender
 
     Args:
@@ -204,9 +206,9 @@ def get_voices(language: str, gender: str, providers: List[str]) -> Dict[str, Li
     """
     voices = {}
     for provider in providers:
-        constrains = __get_provider_tts_constraints(provider)
+        constrains = __get_provider_tts_constraints(provider, subfeature)
         if constrains:
-            formtatted_language = __confirm_appropriate_language(language, provider)
+            formtatted_language = __confirm_appropriate_language(language, provider, subfeature)
             voices.update(
                 {
                     provider: __get_voices_from_constrains(
@@ -218,7 +220,7 @@ def get_voices(language: str, gender: str, providers: List[str]) -> Dict[str, Li
 
 
 def retreive_voice_id(
-    provider_name, language: str, option: str, settings: Dict = {}
+    provider_name, subfeature: str, language: str, option: str, settings: Dict = {}
 ) -> str:
     """Retreives a voice id for text_to_speech methods depending on the settings parameters if a voice_id is \
         specified, otherwise depening on the language and the gender
@@ -236,8 +238,8 @@ def retreive_voice_id(
         str: the voice id selected
     """
     # provider_name = getattr(object_instance, "provider_name")
-    constrains = __get_provider_tts_constraints(provider_name)
-    language = __confirm_appropriate_language(language, provider_name)
+    constrains = __get_provider_tts_constraints(provider_name, subfeature)
+    language = __confirm_appropriate_language(language, provider_name, subfeature)
     if isinstance(language, list):
         language = None
     if settings and provider_name in settings:

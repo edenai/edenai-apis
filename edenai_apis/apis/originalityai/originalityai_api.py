@@ -43,11 +43,14 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
         try:
             response = requests.post(url, headers=headers, json = payload)
         except Exception as excp:
-            raise ProviderException(str(excp))
+            raise ProviderException(str(excp), code = 500)
         
         original_response = response.json()
         if response.status_code > HTTPStatus.BAD_REQUEST:
-            raise ProviderException(original_response)
+            raise ProviderException(
+                original_response, 
+                code= response.status_code
+            )
         
         total_score = float(int(original_response["total_text_score"].replace("%", "")) / 100)
 
@@ -102,7 +105,10 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
         original_response = response.json()
 
         if response.status_code != 200:
-            raise ProviderException(original_response.get("error"))
+            raise ProviderException(
+                original_response.get("error"),
+                code = response.status_code
+            )
 
         default_dict = defaultdict(lambda: None)
         items = []
@@ -120,6 +126,10 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
             ai_score=original_response.get("score", defaultdict).get("ai"), items=items
         )
 
+        #remove credits information from original response
+        original_response.pop("credits_used")
+        original_response.pop("credits")
+        
         result = ResponseType[AiDetectionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,

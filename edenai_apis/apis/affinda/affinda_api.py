@@ -67,16 +67,27 @@ class AffindaApi(ProviderInterface, OcrInterface):
     def ocr__resume_parser(
         self, file: str, file_url: str = ""
     ) -> ResponseType[ResumeParserDataClass]:
+        file_ = open(file, "rb")
+        params = {
+            "workspace" : self.api_settings["resume_workspace"],
+            "file": file_
+        }
         if file_url:
-            original_response = self.client.create_document(
-                url=file_url, workspace=self.api_settings["resume_workspace"]
-            ).as_dict()
-        else:
-            file_ = open(file, "rb")
-            original_response = self.client.create_document(
-                file=file_, workspace=self.api_settings["resume_workspace"]
-            ).as_dict()
-            file_.close()
+            del params["file"]
+            params["url"] = file_url
+    
+        original_response = self.client.create_document(**params).as_dict()
+
+        file_.close()
+
+        if original_response.get("error"):
+            error_code = None
+            try:
+                error_code = int(original_response["error"].get("error_code"))
+            except:
+                pass
+            raise ProviderException(original_response["error"]["error_detail"], 
+                            code= error_code if isinstance(error_code, int) else None)
 
         if "detail" in original_response:
             raise ProviderException(original_response["detail"])
@@ -102,24 +113,24 @@ class AffindaApi(ProviderInterface, OcrInterface):
         location = resume.get("location", {})
         address = ResumeLocation(
             raw_input_location=location.get("rawInput"),
-            postal_code=location.get("postalCode"),
+            postal_code=location.get("postal_code"),
             region=location.get("state"),
-            country_code=location.get("countryCode"),
+            country_code=location.get("country_code"),
             country=location.get("country"),
-            appartment_number=location.get("apartmentNumber"),
+            appartment_number=location.get("apartment_number"),
             city=location.get("city", ""),
             street=location.get("street"),
-            street_number=location.get("streetNumber"),
-            formatted_location=None,
+            street_number=location.get("street_number"),
+            formatted_location=location.get("formatted"),
         )
 
         # 1.3 Others
         personal_infos = ResumePersonalInfo(
             name=names,
             address=address,
-            phones=resume.get("phone_numbers"),
-            mails=resume.get("emails"),
-            urls=resume.get("websites"),
+            phones=resume.get("phone_numbers", []) or [],
+            mails=resume.get("emails", []) or [],
+            urls=resume.get("websites", []) or [],
             self_summary=resume.get("summary"),
             current_profession=resume.get("profession"),
             objective=resume.get("objective"),
@@ -133,31 +144,31 @@ class AffindaApi(ProviderInterface, OcrInterface):
 
         # 2. Education
         edu_entries: List[ResumeEducationEntry] = []
-        for i in resume["education"]:
+        for i in (resume.get("education", []) or []):
             location = i.get("location", {})
             address = ResumeLocation(
                 raw_input_location=location.get("rawInput"),
-                postal_code=location.get("postalCode"),
+                postal_code=location.get("postal_code"),
                 region=location.get("state"),
                 country=location.get("country"),
-                country_code=location.get("countryCode"),
-                street_number=location.get("streetNumber"),
+                country_code=location.get("country_code"),
+                street_number=location.get("street_number"),
                 street=location.get("street"),
-                appartment_number=location.get("appartmentNumber"),
+                appartment_number=location.get("appartment_number"),
                 city=location.get("city", ""),
-                formatted_location=None,
+                formatted_location=location.get("formatted"),
             )
             dates = i.get("dates", {})
             edu_entries.append(
                 ResumeEducationEntry(
                     location=address,
                     start_date=dates.get("start_date"),
-                    end_date=dates.get("end_date"),
+                    end_date=dates.get("completion_date"),
                     establishment=i.get("organization"),
                     gpa=i.get("grade", {}).get("value"),
                     title=None,
                     description=None,
-                    accreditation=None,
+                    accreditation=i.get("accreditation", {}).get("education"),
                 )
             )
 
@@ -165,20 +176,20 @@ class AffindaApi(ProviderInterface, OcrInterface):
 
         # Work experience
         work_entries = []
-        for i in resume["work_experience"]:
+        for i in (resume.get("work_experience", []) or []):
             dates = i.get("dates", {})
             location = i.get("location", {})
             address = ResumeLocation(
                 raw_input_location=location.get("rawInput"),
-                postal_code=location.get("postalCode"),
+                postal_code=location.get("postal_code"),
                 region=location.get("state"),
                 country=location.get("country"),
-                country_code=location.get("countryCode"),
-                street_number=location.get("streetNumber"),
+                country_code=location.get("country_code"),
+                street_number=location.get("street_number"),
                 street=location.get("street"),
-                appartment_number=location.get("appartmentNumber"),
+                appartment_number=location.get("appartment_number"),
                 city=location.get("city", ""),
-                formatted_location=None,
+                formatted_location=location.get("formatted"),
             )
             work_entries.append(
                 ResumeWorkExpEntry(
@@ -196,7 +207,7 @@ class AffindaApi(ProviderInterface, OcrInterface):
 
         # Others
         skills = []
-        for i in resume.get("skills"):
+        for i in (resume.get("skills", []) or []):
             skill = i.get("name")
             skill_type = i.get("type").split("_skill")[0]
             skills.append(ResumeSkill(name=skill, type=skill_type))

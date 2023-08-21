@@ -1,3 +1,4 @@
+from http import HTTPStatus
 import json
 import re
 from typing import List, Optional, Sequence
@@ -36,6 +37,8 @@ from edenai_apis.utils.types import AsyncResponseType
 from google.oauth2 import service_account
 import google.auth
 
+from google.api_core.exceptions import GoogleAPIError 
+
 
 class GoogleVideoFeatures(enum.Enum):
     LABEL = "LABEL"
@@ -46,6 +49,51 @@ class GoogleVideoFeatures(enum.Enum):
     OBJECT = "OBJECT"
     EXPLICIT = "EXPLICIT"
 
+
+
+def handle_google_call(function_to_call, **kwargs):
+    error_encoding_str  = "bad encoding"
+    msg_exception_encoding = "Could not decode audio file, bad file encoding"
+
+    wrong_job_id_strs = ["Unrecognized long running operation name", "Operation not found", "Invalid operation id"]
+
+    try:
+        response = function_to_call(**kwargs)
+    except GoogleAPIError as exc:
+        try:
+            status_code = exc.code
+            if isinstance(status_code, HTTPStatus):
+                status_code = status_code.value
+            if not isinstance(status_code, int):
+                try:
+                    status_code = int(status_code)
+                except:
+                    status_code = None
+        except:
+            status_code = None
+        try:
+            message = exc.message
+        except:
+            message = str(exc)
+        if error_encoding_str in str(exc):
+            message = msg_exception_encoding
+        if any(str_error in str(exc) for str_error in wrong_job_id_strs):
+            raise AsyncJobException(
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                code = status_code
+            )
+        raise ProviderException(message, code = status_code)
+    except Exception as exc:
+        message = str(exc)
+        if any(str_error in str(exc) for str_error in message):
+            raise AsyncJobException(
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+            )
+        if error_encoding_str in message:
+            message = msg_exception_encoding
+        raise ProviderException(message)
+
+    return response
 
 def score_to_rate(score):
     return abs(score)
@@ -62,13 +110,11 @@ def google_video_get_job(provider_job_id: str):
             "api_endpoint": "https://videointelligence.googleapis.com/",
         },
     )
-    try:
-        request = service.projects().locations().operations().get(name=provider_job_id)
-        result = request.execute()
-    except Exception as excp:
-        if "Operation not found" in str(excp):
-            raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
-        raise ProviderException(str(excp))
+    payload_request = { "name": provider_job_id }
+    request = handle_google_call(service.projects().locations().operations().get, **payload_request)
+
+    result = handle_google_call(request.execute)
+    
     return result
 
 

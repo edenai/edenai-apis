@@ -7,16 +7,19 @@ from edenai_apis.features.text import (
     CustomClassificationDataClass,
     SummarizeDataClass,
     CustomNamedEntityRecognitionDataClass,
+    EmbeddingsDataClass,
+    EmbeddingDataClass
 )
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
     SpellCheckItem,
+    SuggestionItem
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.conversion import closest_above_value, find_all_occurrence
+from edenai_apis.utils.conversion import construct_word_list
 import json
 
 
@@ -71,16 +74,14 @@ class CohereApi(ProviderInterface, TextInterface):
 
     def _format_spell_check_prompt(text: str, language: str) -> str:
         return f"""
-Find the spelling and grammar mistakes by creating a list of suggestions to correct each mistake and the confidence score between 0.0 and 1.0, it will return the type of each mistake.
-To calculate the start offset of the word you must count all off characters before the word including spaces and punctuation, in the text written in samples text.
---
-Sample: Hollo wrld! Haw are yu?
-Corrected text: {{"items": [{{"text": "Hollo", "type": "typo","offset": 0,"length": 5,"suggestions": [{{"suggestion": "Hello", "score": 1}}]}},{{"text": "wrld","type": "typo","offset": 6,"length": 4, "suggestions": [{{"suggestion": "world", "score": 1 }}] }},{{"text": "Haw", "type": "typo","offset": 12,"length": 3,"suggestions": [{{"suggestion": "How","score": 1}}]}}, {{"text": "yu","type": "typo","offset": 20,"length": 2,"suggestions": [ {{ "suggestion": "you","score": 1}}]}}]}}
-
---
-Sample:  {text}
-Corrected text:
+Given a text with spelling errors, identify the misspelled words and correct them. 
+Return the results as a list of dictionaries, where each dictionary contains two keys: "word" and "correction". 
+The "word" key should contain the misspelled word, and the "correction" key should contain the corrected version of the word. 
+For example, if the misspelled word is 'halo', the corresponding dictionary should be: {{"word": "halo", "correction": "hello"}}.
+Text : {text}
+List of corrected words :
 """
+
 
     def text__generation(
         self,
@@ -103,12 +104,16 @@ Corrected text:
         if max_tokens != 0:
             payload["max_tokens"] = max_tokens
 
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         if "message" in original_response:
-            raise ProviderException(original_response["message"])
+            raise ProviderException(
+                original_response["message"],
+                code = response.status_code
+            )
 
         generated_texts = original_response.get("generations")
         standardized_response = GenerationDataClass(
@@ -132,13 +137,18 @@ Corrected text:
             "examples": example_dict,
             "model": "large",
         }
-        original_response = requests.post(
+
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         # Handle provider errors
         if "message" in original_response:
-            raise ProviderException(original_response["message"])
+            raise ProviderException(
+                original_response["message"],
+                code = response.status_code
+            )
 
         # Standardization
         classifications = []
@@ -176,12 +186,16 @@ Corrected text:
             "text": text,
         }
 
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         if "message" in original_response:
-            raise ProviderException(original_response["message"])
+            raise ProviderException(
+                original_response["message"],
+                code = response.status_code
+            )
 
         standardized_response = SummarizeDataClass(
             result=original_response.get("summary", {})
@@ -264,39 +278,66 @@ Answer:"""
             "truncate": "END",
         }
 
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         if "message" in original_response:
-            raise ProviderException(original_response["message"])
+            raise ProviderException(
+                original_response["message"],
+                code = response.status_code
+            )
 
-        generated_texts = original_response.get("generations")
         try:
-            original_items = json.loads(generated_texts[0]["text"])
-        except (KeyError, json.JSONDecodeError) as exc:
+            data = original_response.get("generations")[0]["text"]
+            corrected_items = json.loads(data)
+        except (json.JSONDecodeError) as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
-
+            
+        corrections = construct_word_list(text, corrected_items)
         items: Sequence[SpellCheckItem] = []
-        for item in original_items["items"]:
-            try:
-                real_offset = closest_above_value(
-                    find_all_occurrence(text, item["text"]), item["offset"]
-                )
-            except ValueError:
-                real_offset = item["offset"]
+        for item in corrections:
             items.append(
                 SpellCheckItem(
-                    text=item["text"],
-                    offset=real_offset,
-                    length=len(item["text"]),
-                    type=item["type"],
-                    suggestions=item["suggestions"],
+                    text=item["word"],
+                    offset=item["offset"],
+                    length=item["length"],
+                    type = None,
+                    suggestions=[SuggestionItem(suggestion=item["suggestion"], score = 1.0)],
                 )
             )
         return ResponseType[SpellCheckDataClass](
             original_response=original_response,
             standardized_response=SpellCheckDataClass(text=text, items=items),
+        )
+
+    def text__embeddings(
+        self, 
+        texts: List[str],
+        model: str) -> ResponseType[EmbeddingsDataClass]:
+        url = f"{self.base_url}embed"
+        model = model.split("__")
+        payload = {
+            "texts" : texts,
+            "model" : model[1]
+        }
+        response = requests.post(url, json = payload, headers=self.headers)
+        original_response = response.json()
+        if "message" in original_response:
+            raise ProviderException(
+                original_response["message"],
+                code = response.status_code
+            )
+        
+        items: Sequence[EmbeddingsDataClass] = []
+        for prediction in original_response["embeddings"]:
+            items.append(EmbeddingDataClass(embedding=prediction))
+
+        standardized_response = EmbeddingsDataClass(items=items)
+        return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
         )

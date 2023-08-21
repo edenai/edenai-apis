@@ -1,0 +1,25 @@
+{
+    "image": {
+        "generation": {
+            "constraints": {
+                "resolutions": [
+                  "256x256",
+                  "512x512",
+                  "1024x1024"
+                ]
+              },
+            "version" : "v1"
+        }
+    },
+    "text" : {
+      "chat" : {
+          "constraints": {
+            "models": [
+              "llama-2-70b-chat"
+            ],
+            "default_model" : "llama-2-70b-chat"
+          },
+          "version": "v1"
+        }
+  }
+}

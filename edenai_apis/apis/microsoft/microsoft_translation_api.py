@@ -78,7 +78,7 @@ class MicrosoftTranslationApi(TranslationInterface):
         if response.status_code >= 400:
             error = data.get("error", {}) or {}
             error_message = error.get("message", "")
-            raise ProviderException(error_message)
+            raise ProviderException(error_message, code = response.status_code)
 
         # Create output TextAutomaticTranslation object
         standardized_response = AutomaticTranslationDataClass(

@@ -31,12 +31,13 @@ class OpenaiTranslationApi(TranslationInterface):
             "temperature": 0,
             "logprobs": 1,
         }
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
         items: Sequence[InfosLanguageDetectionDataClass] = []
 
         score = np.exp(original_response["choices"][0]["logprobs"]["token_logprobs"][0])
@@ -65,12 +66,13 @@ class OpenaiTranslationApi(TranslationInterface):
             "max_tokens": self.max_tokens,
             "model": self.model,
         }
-        original_response = requests.post(
+        response = requests.post(
             url, json=payload, headers=self.headers
-        ).json()
+        )
+        original_response = response.json()
 
         # Handle errors
-        check_openai_errors(original_response)
+        check_openai_errors(original_response, response.status_code)
 
         standardized = AutomaticTranslationDataClass(
             text=original_response["choices"][0]["text"]

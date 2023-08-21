@@ -75,7 +75,8 @@ class VociApi(ProviderInterface, AudioInterface):
         if response.status_code != 200:
             raise ProviderException(
                 f"Call to Voci failed.\nResponse Status: {response.status_code}.\n"
-                + f"Response Content: {response.content}"
+                + f"Response Content: {response.content}",
+                code = response.status_code
             )
         else:
             original_response = response.json()
@@ -96,7 +97,8 @@ class VociApi(ProviderInterface, AudioInterface):
             if response_text.status_code != 200:
                 raise ProviderException(
                     f"Call to Voci failed.\nResponse Status: {response.status_code}.\n"
-                    + f"Response Content: {response.text}"
+                    + f"Response Content: {response.text}",
+                    code = response.status_code
                 )
 
             original_response = response_text.json()
@@ -140,6 +142,7 @@ class VociApi(ProviderInterface, AudioInterface):
                 portion in error_message for portion in ["Invalid", "Malformatted"]
             ):
                 raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                    code = response.status_code
                 )
             raise ProviderException(response.text)

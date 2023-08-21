@@ -26,6 +26,7 @@ from edenai_apis.features.ocr.identity_parser import (
     InfosIdentityParserDataClass,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    Country,
     format_date,
 )
 from edenai_apis.features.ocr.invoice_parser import (
@@ -129,7 +130,7 @@ class Base64Api(ProviderInterface, OcrInterface):
             items.append(
                 item_lines_type(
                     description=item[0] if item[0] else "",
-                    quantity=convert_string_to_number(item_quantity, int),
+                    quantity=convert_string_to_number(item_quantity, float),
                     amount=convert_string_to_number(item[2], float),
                     unit_price=convert_string_to_number(item[3], float),
                 )
@@ -314,7 +315,10 @@ class Base64Api(ProviderInterface, OcrInterface):
         response = requests.post(url=self.url, headers=headers, json=data)
 
         if response.status_code != 200:
-            raise ProviderException(response.text)
+            raise ProviderException(
+                response.text,
+                code = response.status_code
+                )
 
         return response.json()
 
@@ -346,7 +350,8 @@ class Base64Api(ProviderInterface, OcrInterface):
         file_url: str = "",
     ):
         raise ProviderException(
-            message="This provider is deprecated. You won't be charged for your call."
+            message="This provider is deprecated. You won't be charged for your call.",
+            code = 500
         )
 
     def ocr__invoice_parser(
@@ -379,7 +384,10 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         original_response = response.json()
         if response.status_code != 200:
-            raise ProviderException(message=original_response["message"])
+            raise ProviderException(
+                message=original_response["message"],
+                code = response.status_code
+                )
 
         items = []
 
@@ -444,7 +452,7 @@ class Base64Api(ProviderInterface, OcrInterface):
                         .get("dateOfBirth", {})
                         .get("confidence"),
                     ),
-                    country=country,
+                    country=country or Country.default(),
                     document_id=ItemIdentityParserDataClass(
                         value=document["fields"].get("documentNumber", {}).get("value"),
                         confidence=document["fields"]
@@ -544,7 +552,10 @@ class Base64Api(ProviderInterface, OcrInterface):
         original_response = response.json()
 
         if response.status_code != 200:
-            raise ProviderException(message=original_response["message"])
+            raise ProviderException(
+                message=original_response["message"],
+                code = response.status_code
+                )
 
         faces = []
         for matching_face in original_response.get("matches", []):
@@ -585,7 +596,10 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         original_response = response.json()
         if response.status_code != 200:
-            raise ProviderException(message=original_response["message"])
+            raise ProviderException(
+                message=original_response["message"],
+                code = response.status_code
+                )
 
         items: Sequence[ItemDataExtraction] = []
 
@@ -634,10 +648,16 @@ class Base64Api(ProviderInterface, OcrInterface):
             try:
                 original_response = response.json()
                 if response.status_code != 200:
-                    raise ProviderException(message=original_response["message"])
+                    raise ProviderException(
+                        message=original_response["message"],
+                        code = response.status_code
+                        )
 
             except json.JSONDecodeError:
-                raise ProviderException(message="Internal Server Error")
+                raise ProviderException(
+                    message="Internal Server Error",
+                    code = response.status_code
+                    )
 
             items: Sequence[ItemBankCheckParsingDataClass] = []
             for fields_not_formated in original_response:

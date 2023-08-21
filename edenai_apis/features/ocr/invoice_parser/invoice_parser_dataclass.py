@@ -84,7 +84,7 @@ class LocaleInvoice(BaseModel):
 
 class ItemLinesInvoice(BaseModel):
     description: Optional[StrictStr] = None
-    quantity: Optional[int] = None
+    quantity: Optional[float] = None
     amount: Optional[float] = None
     unit_price: Optional[float] = None
     discount: Optional[int] = None  # New

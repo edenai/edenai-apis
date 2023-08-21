@@ -385,6 +385,7 @@ class OneaiApi(
         response = requests.get(
             url=f"{self.url}/async/tasks/{provider_job_id}", headers=self.header
         )
+        status_code = response.status_code
         original_response = response.json()
         status = original_response["status"]
 
@@ -400,8 +401,10 @@ class OneaiApi(
                 standardized_response=standardized_response,
             )
         elif status == OneAIAsyncStatus.FAILED.value:
-            raise ProviderException(original_response)
+            raise ProviderException(original_response, code = status_code)
         elif status == OneAIAsyncStatus.NOT_FOUND.value:
-            raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
+            raise AsyncJobException(
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, 
+                code = status_code)
         else:
-            raise ProviderException(original_response)
+            raise ProviderException(original_response, code=status_code)

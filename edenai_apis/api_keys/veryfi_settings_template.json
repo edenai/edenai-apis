@@ -2,4 +2,8 @@
     "client_id": "",
     "client_secret": "",
     "Authorization": ""
+    "optional_iam_api_key_id": "",
+    "optional_iam_api_key_secret": "",
+    "optional_bucket_name": "",
+    "optional_upload_folder": ""
 }

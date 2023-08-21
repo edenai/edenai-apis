@@ -88,7 +88,7 @@ class DataleonApi(ProviderInterface, OcrInterface):
         file_.close()
 
         if response.status_code != 200:
-            raise ProviderException(response.content)
+            raise ProviderException(response.content, code = response.status_code)
 
         original_response = response.json()
         normalized_response = self._normalize_invoice_result(original_response)
@@ -187,7 +187,7 @@ class DataleonApi(ProviderInterface, OcrInterface):
         file_.close()
 
         if response.status_code != 200:
-            raise ProviderException(response.content)
+            raise ProviderException(response.content, code = response.status_code)
 
         original_response = response.json()
         normalized_response = self._normalize_invoice_result(original_response)

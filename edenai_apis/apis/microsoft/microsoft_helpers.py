@@ -360,12 +360,12 @@ def normalize_invoice_result(response):
                         .get("value", default_dict)
                         .get("amount"),
                         description=line.get("Description", default_dict).get("value"),
-                        quantity=int(line.get("Quantity", default_dict).get("value"), 0) or None,
+                        quantity=float((line.get("Quantity", {}) or {}).get("value", 0) or 0) or None,
                         unit_price=line.get("UnitPrice", default_dict)
                         .get("value", default_dict)
                         .get("amount"),
                         product_code=line.get("ProductCode", default_dict).get("value"),
-                        date_item=line.get("Date", default_dict).get("value"),
+                        date_item=str(line.get("Date", default_dict).get("value", "") or ""),
                         tax_item=line.get("Tax", default_dict)
                         .get("value", default_dict)
                         .get("amount"),

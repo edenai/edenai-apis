@@ -43,7 +43,7 @@ class LettriaApi(ProviderInterface, TextInterface):
         try:
             original_response = original_response.json()
         except json.decoder.JSONDecodeError:
-            raise ProviderException("Internal Server error")
+            raise ProviderException("Internal Server error", code= 500)
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
         for value in original_response["sentences"]:
@@ -80,7 +80,7 @@ class LettriaApi(ProviderInterface, TextInterface):
                 url=self.url, headers=self.headers, json={"text": text}
             ).json()
         except json.JSONDecodeError:
-            raise ProviderException("Internal Server error")
+            raise ProviderException("Internal Server error", code = 500)
 
         items = []
         for sentence in original_response["sentences"]:

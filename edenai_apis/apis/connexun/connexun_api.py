@@ -38,13 +38,19 @@ class ConnexunApi(ProviderInterface, TextInterface):
         original_response = response.json()
 
         if isinstance(original_response, dict) and original_response.get("message"):
-            raise ProviderException(original_response["message"])
+            raise ProviderException(
+                original_response["message"],
+                code = response.status_code
+            )
 
         general_sentiment = original_response.get("Sentiment")
         general_sentiment_rate = original_response.get("Value")
 
         if not general_sentiment and not general_sentiment_rate:
-            raise ProviderException("Provider has not found a sentiment of the text.")
+            raise ProviderException(
+                "Provider has not found a sentiment of the text.",
+                code = 200
+            )
 
         standardized_response = SentimentAnalysisDataClass(
             general_sentiment=original_response.get("Sentiment"),
@@ -70,18 +76,19 @@ class ConnexunApi(ProviderInterface, TextInterface):
 
         # Send request to API
         response = requests.post(url, headers=headers, json=files)
+        status_code = response.status_code
         try:
             original_response = response.json()
         except json.JSONDecodeError:
-            raise ProviderException("Internal server error")
-        if response.status_code != 200:
-            raise ProviderException(response.json()["detail"])
+            raise ProviderException("Internal server error", code = status_code)
+        if status_code != 200:
+            raise ProviderException(response.json()["detail"], code = status_code)
         if original_response.get("Error"):
-            raise ProviderException(original_response["Error"])
+            raise ProviderException(original_response["Error"], code = status_code)
 
         # Check errors from API
         if isinstance(original_response, dict) and original_response.get("message"):
-            raise ProviderException(original_response["message"])
+            raise ProviderException(original_response["message"], code = status_code)
 
         # Return standardized response
         standardized_response = SummarizeDataClass(

@@ -118,10 +118,10 @@ class AmazonVideoApi(VideoInterface):
                 boxes = []
                 for instance in label["Label"]["Instances"]:
                     video_box = VideoLabelBoundingBox(
-                        top=instance["BoundingBox"]["Top"],
-                        left=instance["BoundingBox"]["Left"],
-                        width=instance["BoundingBox"]["Width"],
-                        height=instance["BoundingBox"]["Height"],
+                        top=instance["BoundingBox"].get("Top", 0),
+                        left=instance["BoundingBox"].get("Left", 0),
+                        width=instance["BoundingBox"].get("Width", 0),
+                        height=instance["BoundingBox"].get("Height", 0),
                     )
                     boxes.append(video_box)
 
@@ -131,7 +131,7 @@ class AmazonVideoApi(VideoInterface):
                             start=float(label["Timestamp"]) / 1000.0, end=None
                         )
                     ],
-                    confidence=label["Label"]["Confidence"],
+                    confidence=label["Label"].get("Confidence", 0) / 100,
                     name=label["Label"]["Name"],
                     category=parents,
                     bounding_box=boxes,
@@ -185,10 +185,10 @@ class AmazonVideoApi(VideoInterface):
                     )
                     geometry = annotation["TextDetection"]["Geometry"]["BoundingBox"]
                     bounding_box = VideoTextBoundingBox(
-                        top=geometry["Top"],
-                        left=geometry["Left"],
-                        width=geometry["Width"],
-                        height=geometry["Height"],
+                        top=geometry.get("Top", 0),
+                        left=geometry.get("Left", 0),
+                        width=geometry.get("Width", 0),
+                        height=geometry.get("Height", 0),
                     )
                     frame = VideoTextFrames(
                         timestamp=timestamp,
@@ -237,22 +237,22 @@ class AmazonVideoApi(VideoInterface):
 
                 # Bounding box
                 bounding_box = VideoBoundingBox(
-                    top=face["Face"]["BoundingBox"]["Top"],
-                    left=face["Face"]["BoundingBox"]["Left"],
-                    height=face["Face"]["BoundingBox"]["Height"],
-                    width=face["Face"]["BoundingBox"]["Width"],
+                    top=face["Face"]["BoundingBox"].get("Top", 0),
+                    left=face["Face"]["BoundingBox"].get("Left", 0),
+                    height=face["Face"]["BoundingBox"].get("Height", 0),
+                    width=face["Face"]["BoundingBox"].get("Width", 0),
                 )
 
                 # Attributes
                 poses = VideoFacePoses(
-                    pitch=face["Face"]["Pose"]["Pitch"] / 100,
-                    yawn=face["Face"]["Pose"]["Yaw"] / 100,
-                    roll=face["Face"]["Pose"]["Roll"] / 100,
+                    pitch=face["Face"]["Pose"].get("Pitch", 0) / 100,
+                    yawn=face["Face"]["Pose"].get("Yaw", 0) / 100,
+                    roll=face["Face"]["Pose"].get("Roll", 0) / 100,
                 )
                 attributes_video = FaceAttributes(
                     pose=poses,
-                    brightness=face["Face"]["Quality"]["Brightness"] / 100,
-                    sharpness=face["Face"]["Quality"]["Sharpness"] / 100,
+                    brightness=face["Face"]["Quality"].get("Brightness", 0) / 100,
+                    sharpness=face["Face"]["Quality"].get("Sharpness", 0) / 100,
                     headwear=None,
                     frontal_gaze=None,
                     eyes_visible=None,
@@ -324,10 +324,10 @@ class AmazonVideoApi(VideoInterface):
                         offset = float(detected_person["Timestamp"] / 1000.0)
                         bounding_box = detected_person.get("Person").get("BoundingBox")
                         bounding_box = VideoTrackingBoundingBox(
-                            top=bounding_box["Top"],
-                            left=bounding_box["Left"],
-                            height=bounding_box["Height"],
-                            width=bounding_box["Width"],
+                            top=bounding_box.get("Top", 0),
+                            left=bounding_box.get("Left", 0),
+                            height=bounding_box.get("Height", 0) ,
+                            width=bounding_box.get("Width", 0),
                         )
                         face = detected_person["Person"].get("Face")
                         # Get landmarks

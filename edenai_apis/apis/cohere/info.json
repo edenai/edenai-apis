@@ -41,6 +41,17 @@
         "allow_null_language": false
       },
       "version": "2022-12-06"
+    },
+    "embeddings" : {
+      "constraints": {
+        "models": [
+          "4096__embed-english-v2.0",
+          "1024__embed-english-light-v2.0",
+          "768__embed-multilingual-v2.0"
+        ],
+        "default_model" : "4096__embed-english-v2.0"
+      },
+      "version" : "v1"
     }
   }
 }

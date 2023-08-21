@@ -55,6 +55,7 @@ from edenai_apis.utils.audio import validate_audio_attribute_against_ssml_tags_u
 from edenai_apis.utils.exception import (
     AsyncJobException,
     AsyncJobExceptionReason,
+    LanguageException,
     ProviderException,
 )
 from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
@@ -70,6 +71,7 @@ from .config import clients, storage_clients
 from edenai_apis.utils.conversion import convert_string_to_number
 from edenai_apis.utils.bounding_box import BoundingBox as BBox
 
+from botocore.exceptions import ClientError, ParamValidationError
 
 def check_webhook_result(job_id: str, api_settings: dict) -> Dict:
     """Try get result on webhook.site with job id
@@ -232,12 +234,7 @@ def amazon_video_original_response(
     if sortBy:
         params.update({"SortBy": sortBy})
 
-    try:
-        response = function_to_call(**params)
-    except Exception as excp:
-        if "Could not find JobId" in str(excp):
-            raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
-        raise ProviderException(str(excp))
+    response = handle_amazon_call(function_to_call, **params)
     return response
 
 
@@ -347,7 +344,7 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
                         ItemLinesInvoice(
                             description=parsed_items.get("ITEM"),
                             quantity=convert_string_to_number(
-                                parsed_items.get("QUANTITY"), int
+                                parsed_items.get("QUANTITY"), float
                             ),
                             amount=convert_string_to_number(
                                 parsed_items.get("PRICE"), float
@@ -470,7 +467,7 @@ def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass
                         ItemLines(
                             description=parsed_items.get("ITEM"),
                             quantity=convert_string_to_number(
-                                parsed_items.get("QUANTITY"), int
+                                parsed_items.get("QUANTITY"), float
                             ),
                             amount=convert_string_to_number(
                                 parsed_items.get("PRICE"), float
@@ -700,3 +697,32 @@ def amazon_data_extraction_formatter(
             continue
 
     return DataExtractionDataClass(fields=items)
+
+
+def handle_amazon_call(func : Callable, **kwargs):
+    job_id_strings_errors = [
+        "InvalidJobIdException", 
+        "Request has invalid Job Id", 
+        "Could not find JobId", 
+        "job couldn't be found"
+    ]
+    try:
+        response = func(**kwargs)
+    except ClientError as exc:
+        response_meta = exc.response.get("ResponseMetadata", {}) or {}
+        status_code = response_meta.get("HTTPStatusCode", None)
+        if any(str_error in str(exc) for str_error in job_id_strings_errors):
+            raise AsyncJobException(
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                code = status_code
+            )
+        raise ProviderException(str(exc), code=status_code)
+    except ParamValidationError as exc:    
+        raise ProviderException(str(exc), code= 400) from exc
+    except Exception as exc:
+        if any(str_error in str(exc) for str_error in job_id_strings_errors):
+            raise AsyncJobException(
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
+            )
+        raise ProviderException(str(exc))
+    return response

@@ -4,6 +4,7 @@ import requests
 from edenai_apis.apis.google.google_helpers import (
     get_access_token,
     get_tag_name,
+    handle_google_call,
     score_to_sentiment,
 )
 from edenai_apis.features.text import (
@@ -38,6 +39,10 @@ from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass impor
     ExtractedTopic,
     TopicExtractionDataClass,
 )
+from edenai_apis.features.text.moderation.moderation_dataclass import (
+    ModerationDataClass,
+    TextModerationItem
+)
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
@@ -45,6 +50,7 @@ from google.api_core.exceptions import InvalidArgument
 from google.cloud import language_v1
 from google.cloud.language import Document as GoogleDocument
 from google.protobuf.json_format import MessageToDict
+from edenai_apis.utils.conversion import standardized_confidence_score
 
 
 class GoogleTextApi(TextInterface):
@@ -61,11 +67,12 @@ class GoogleTextApi(TextInterface):
             content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
         )
         # Getting response of API
-        response = self.clients["text"].analyze_entities(
-            document=document,
-            encoding_type="UTF8",
-        )
-
+        payload = {
+            "document": document,
+            "encoding_type": "UTF8"
+        }
+        response = handle_google_call(self.clients["text"].analyze_entities, **payload)
+        
         # Create output response
         # Convert response to dict
         response = MessageToDict(response._pb)
@@ -107,11 +114,12 @@ class GoogleTextApi(TextInterface):
         )
 
         # Getting response of API
-        response = self.clients["text"].analyze_sentiment(
-            document=document,
-            encoding_type="UTF8",
-        )
-
+        payload= {
+            "document": document,
+            "encoding_type": "UTF8",
+        }
+        response = handle_google_call(self.clients["text"].analyze_sentiment, **payload)
+        
         # Convert response to dict
         response = MessageToDict(response._pb)
         # Create output response
@@ -151,10 +159,11 @@ class GoogleTextApi(TextInterface):
             content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
         )
         # Getting response of API
-        response = self.clients["text"].analyze_syntax(
-            document=document,
-            encoding_type="UTF8",
-        )
+        payload= {
+            "document": document,
+            "encoding_type": "UTF8",
+        }
+        response = handle_google_call(self.clients["text"].analyze_syntax, **payload)
         # Convert response to dict
         response = MessageToDict(response._pb)
 
@@ -205,14 +214,11 @@ class GoogleTextApi(TextInterface):
             content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
         )
         # Get Api response
-        try:
-            response = self.clients["text"].classify_text(
-                document=document,
-            )
-        except InvalidArgument as invalid_arg_excp:
-            raise ProviderException(invalid_arg_excp.message)
-        except Exception as excp:
-            raise ProviderException(str(excp))
+        payload= {
+            "document": document,
+        }
+        response = handle_google_call(self.clients["text"].classify_text, **payload)
+    
         # Create output response
         # Convert response to dict
         original_response = MessageToDict(response._pb)
@@ -257,7 +263,10 @@ class GoogleTextApi(TextInterface):
         response = requests.post(url=url, headers=headers, json=payload)
         original_response = response.json()
         if "error" in original_response:
-            raise ProviderException(message=original_response["error"]["message"])
+            raise ProviderException(
+                message=original_response["error"]["message"],
+                code = response.status_code
+            )
 
         standardized_response = GenerationDataClass(
             generated_text=original_response["predictions"][0]["content"]
@@ -303,7 +312,10 @@ class GoogleTextApi(TextInterface):
         response = requests.post(url=url, headers=headers, json=payload)
         original_response = response.json()
         if "error" in original_response:
-            raise ProviderException(message=original_response["error"]["message"])
+            raise ProviderException(
+                message=original_response["error"]["message"],
+                code = response.status_code
+            )
 
         # Standardize the response
         generated_text = original_response["predictions"][0]["candidates"][0]["content"]
@@ -320,11 +332,15 @@ class GoogleTextApi(TextInterface):
             standardized_response=standardized_response,
         )
 
-    def text__embeddings(self, texts: List[str]) -> ResponseType[EmbeddingsDataClass]:
+    def text__embeddings(
+        self, 
+        texts: List[str],
+        model: str) -> ResponseType[EmbeddingsDataClass]:
+        model = model.split("__")
         url_subdomain = "us-central1-aiplatform"
         location = "us-central1"
         token = get_access_token(self.location)
-        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/textembedding-gecko:predict"
+        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model[1]}:predict"
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {token}",
@@ -336,7 +352,10 @@ class GoogleTextApi(TextInterface):
         response = requests.post(url=url, headers=headers, json=payload)
         original_response = response.json()
         if "error" in original_response:
-            raise ProviderException(message=original_response["error"]["message"])
+            raise ProviderException(
+                message=original_response["error"]["message"],
+                code = response.status_code
+            )
 
         items: Sequence[EmbeddingsDataClass] = []
         for prediction in original_response["predictions"]:
@@ -373,9 +392,15 @@ class GoogleTextApi(TextInterface):
         }
         response = requests.post(url=url, headers=headers, json=payload)
         original_response = response.json()
+        print("THe original response is\n\n",original_response)
         if "error" in original_response:
-            raise ProviderException(message=original_response["error"]["message"])
-
+            raise ProviderException(
+                message=original_response["error"]["message"],
+                code = response.status_code
+            )
+        if not original_response.get("predictions"):
+            raise ProviderException('Provider return an empty response')
+        
         standardized_response = CodeGenerationDataClass(
             generated_text=original_response["predictions"][0]["content"]
         )
@@ -390,13 +415,11 @@ class GoogleTextApi(TextInterface):
         document = {"content": text, "type_": type_, "language": language}
         encoding_type = language_v1.EncodingType.UTF8
 
-        try:
-            response = client.analyze_entity_sentiment(
-                request={"document": document, "encoding_type": encoding_type}
-            )
-        except Exception as exc:
-            raise ProviderException(str(exc))
-
+        payload = {
+            "request": {"document": document, "encoding_type": encoding_type}
+        }
+        response = handle_google_call(client.analyze_entity_sentiment, **payload)
+        
         original_response = MessageToDict(response._pb)
 
         entity_items: List[Entity] = []
@@ -430,4 +453,49 @@ class GoogleTextApi(TextInterface):
         return ResponseType(
             original_response=original_response,
             standardized_response=EntitySentimentDataClass(items=entity_items),
+        )
+
+    def text__moderation(
+        self, language: str, text: str
+    ) -> ResponseType[ModerationDataClass]:
+        """
+        :param language:        String that contains the language code
+        :param text:            String that contains the text to analyse
+        :return:                Array that contain api response and TextSentimentAnalysis
+        Object that contains the sentiments and their rates
+        """
+
+        # Create configuration dictionnary
+        client = language_v1.LanguageServiceClient()
+        document = GoogleDocument(
+            content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
+        )
+
+        # Getting response of API
+        payload= {
+            "document": document
+        }
+        response = handle_google_call(client.moderate_text, **payload)
+        
+        # Convert response to dict
+        original_response = MessageToDict(response._pb)
+        
+        # Create output response
+        items: Sequence[TextModerationItem] = []
+        for moderation in original_response.get("moderationCategories", []) or []:
+            items.append(
+                TextModerationItem(
+                    label= moderation.get("name"),
+                    likelihood= standardized_confidence_score(moderation.get("confidence", 0))
+                )
+            )
+        standardized_response: ModerationDataClass = ModerationDataClass(
+            nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
+                items
+            ),
+            items=items
+        ) 
+
+        return ResponseType[ModerationDataClass](
+            original_response=original_response, standardized_response=standardized_response
         )

@@ -1,0 +1,14 @@
+{
+    "text" : {
+        "generation" : {
+            "constraints": {
+              "models": [
+                "Jurassic2-Jumbo",
+                "Jurassic2-Jumbo-Instruct"
+              ],
+              "default_model" : "Jurassic2-Jumbo"
+            },
+            "version": "v1"
+          }
+    }
+}

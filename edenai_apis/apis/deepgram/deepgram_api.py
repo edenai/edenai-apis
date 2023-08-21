@@ -92,7 +92,8 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         result = response.json()
         if response.status_code != 200:
             raise ProviderException(
-                f"{result.get('err_code')}: {result.get('err_msg')}"
+                f"{result.get('err_code')}: {result.get('err_msg')}",
+                code = response.status_code
             )
 
         transcribe_id = response.json()["request_id"]
@@ -115,7 +116,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         )
 
         if response_status != 200:
-            raise ProviderException(wehbook_result)
+            raise ProviderException(wehbook_result, code = response_status)
         try:
             original_response = json.loads(wehbook_result[0]["content"])
         except Exception:
@@ -131,7 +132,8 @@ class DeepgramApi(ProviderInterface, AudioInterface):
 
         if original_response.get("err_code"):
             raise ProviderException(
-                f"{original_response.get('err_code')}: {original_response.get('err_msg')}"
+                f"{original_response.get('err_code')}: {original_response.get('err_msg')}",
+                code = response_status
             )
 
         if not "results" in original_response:

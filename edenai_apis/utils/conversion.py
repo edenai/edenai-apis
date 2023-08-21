@@ -262,3 +262,29 @@ def standardized_confidence_score_picpurify(confidence_score: float, nsfw: bool)
             return 2
     else:
         return 1
+
+def construct_word_list(original_text, corrected_words):
+    word_list = []
+    for correction in corrected_words:
+        word_with_mistake = correction['word']
+        corrected_word = correction['correction']
+
+        # Find the index of the word with the mistake in the original text
+        offset = original_text.find(word_with_mistake)
+        real_offset = closest_above_value(
+            find_all_occurrence(original_text, word_with_mistake), offset
+        )
+        length = len(word_with_mistake)
+
+        # Create a new dictionary with the extracted information
+        word_info = {
+            'word': word_with_mistake,
+            'offset': real_offset,
+            'length': length,
+            'suggestion': corrected_word
+        }
+
+        # Append to the final list
+        word_list.append(word_info)
+
+    return word_list

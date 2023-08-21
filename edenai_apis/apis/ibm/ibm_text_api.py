@@ -1,4 +1,5 @@
 from typing import Sequence
+from edenai_apis.apis.ibm.ibm_helpers import handle_ibm_call
 
 from edenai_apis.features.text import (
     ExtractedTopic,
@@ -33,21 +34,13 @@ class IbmTextApi(TextInterface):
     def text__sentiment_analysis(
         self, language: str, text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
-        try:
-            response = (
-                self.clients["text"]
-                .analyze(
-                    text=text,
-                    language=language,
-                    features=Features(sentiment=SentimentOptions()),
-                )
-                .get_result()
-            )
-        except WatsonApiException as exc:
-            if "not enough text for language id" in exc.message:
-                raise LanguageException(exc.message)
-            else:
-                raise ProviderException(exc.message)
+        payload = {
+            "text": text,
+            "language": language,
+            "features": Features(sentiment=SentimentOptions())
+        }
+        request = handle_ibm_call(self.clients["text"].analyze, **payload)
+        response = handle_ibm_call(request.get_result)
 
         # Create output object
         items: Sequence[SegmentSentimentAnalysisDataClass] = []
@@ -66,24 +59,14 @@ class IbmTextApi(TextInterface):
     def text__keyword_extraction(
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
-        try:
-            response = (
-                self.clients["text"]
-                .analyze(
-                    text=text,
-                    language=language,
-                    features=Features(
-                        keywords=KeywordsOptions(emotion=True, sentiment=True)
-                    ),
-                )
-                .get_result()
-            )
-        except WatsonApiException as exc:
-            if "not enough text for language id" in exc.message:
-                raise LanguageException(exc.message)
-            else:
-                raise ProviderException(exc.message)
-
+        payload = {
+            "text": text,
+            "language": language,
+            "features": Features(keywords=KeywordsOptions(emotion=True, sentiment=True))
+        }
+        request = handle_ibm_call(self.clients["text"].analyze, **payload)
+        response = handle_ibm_call(request.get_result)
+        
         # Analysing response
         items: Sequence[InfosKeywordExtractionDataClass] = []
         for key_phrase in response["keywords"]:
@@ -102,26 +85,14 @@ class IbmTextApi(TextInterface):
     def text__named_entity_recognition(
         self, language: str, text: str
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
-        try:
-            response = (
-                self.clients["text"]
-                .analyze(
-                    text=text,
-                    language=language,
-                    features=Features(
-                        entities=EntitiesOptions(
-                            sentiment=True, mentions=True, emotion=True
-                        )
-                    ),
-                )
-                .get_result()
-            )
-        except WatsonApiException as exc:
-            if "not enough text for language id" in exc.message:
-                raise LanguageException(exc.message)
-            else:
-                raise ProviderException(exc.message)
-
+        payload = {
+            "text": text,
+            "language": language,
+            "features": Features(entities=EntitiesOptions(sentiment=True, mentions=True, emotion=True))
+        }
+        request = handle_ibm_call(self.clients["text"].analyze, **payload)
+        response = handle_ibm_call(request.get_result)
+        
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
 
         for ent in response["entities"]:
@@ -145,27 +116,15 @@ class IbmTextApi(TextInterface):
     def text__syntax_analysis(
         self, language: str, text: str
     ) -> ResponseType[SyntaxAnalysisDataClass]:
-        try:
-            response = (
-                self.clients["text"]
-                .analyze(
-                    text=text,
-                    language=language,
-                    features=Features(
-                        syntax=SyntaxOptions(
-                            sentences=True,
-                            tokens=SyntaxOptionsTokens(lemma=True, part_of_speech=True),
-                        )
-                    ),
-                )
-                .get_result()
-            )
-        except WatsonApiException as exc:
-            if "not enough text for language id" in exc.message:
-                raise LanguageException(exc.message)
-            else:
-                raise ProviderException(exc.message)
-
+        payload = {
+            "text": text,
+            "language": language,
+            "features": Features(syntax=SyntaxOptions(sentences=True,
+                            tokens=SyntaxOptionsTokens(lemma=True, part_of_speech=True)))
+        }
+        request = handle_ibm_call(self.clients["text"].analyze, **payload)
+        response = handle_ibm_call(request.get_result)
+        
         items: Sequence[InfosSyntaxAnalysisDataClass] = []
 
         # Getting syntax detected of word and its score of confidence
@@ -190,22 +149,14 @@ class IbmTextApi(TextInterface):
     def text__topic_extraction(
         self, language: str, text: str
     ) -> ResponseType[TopicExtractionDataClass]:
-        try:
-            original_response = (
-                self.clients["text"]
-                .analyze(
-                    text=text,
-                    language=language,
-                    features=Features(categories=CategoriesOptions()),
-                )
-                .get_result()
-            )
-        except WatsonApiException as exc:
-            if "not enough text for language id" in exc.message:
-                raise LanguageException(exc.message)
-            else:
-                raise ProviderException(exc.message)
-
+        payload = {
+            "text": text,
+            "language": language,
+            "features": Features(categories=CategoriesOptions())
+        }
+        request = handle_ibm_call(self.clients["text"].analyze, **payload)
+        original_response = handle_ibm_call(request.get_result)
+        
         categories: Sequence[ExtractedTopic] = []
         for category in original_response.get("categories"):
             categories.append(

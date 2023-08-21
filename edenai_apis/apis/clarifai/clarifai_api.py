@@ -92,14 +92,20 @@ class ClarifaiApi(
         )
 
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
-            raise ProviderException(post_model_outputs_response.status.description)
+            raise ProviderException(
+                post_model_outputs_response.status.description,
+                code= post_model_outputs_response.status.code
+                )
         
         response = MessageToDict(
             post_model_outputs_response, preserving_proto_field_name=True
         )
         output = response.get("outputs", [])
         if len(output) == 0:
-            raise ProviderException("Clarifai returned an empty response!")
+            raise ProviderException(
+                "Clarifai returned an empty response!",
+                code= post_model_outputs_response.status.code
+                )
         
         original_response = output[0].get("data", {}) or {}
         
@@ -132,7 +138,7 @@ class ClarifaiApi(
         file_url: str = "",
     ) -> ResponseType[OcrDataClass]:
         if not language:
-            raise LanguageException("Language not provided")
+            raise LanguageException("Language not provided", code= 400)
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
         with open(file, "rb") as file_:
@@ -157,7 +163,10 @@ class ClarifaiApi(
             metadata=metadata,
         )
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
-            raise ProviderException("Error calling Clarifai API")
+            raise ProviderException(
+                "Error calling Clarifai API",
+                code= post_model_outputs_response.status.code
+                )
 
         boxes: Sequence[Bounding_box] = []
         original_response = []
@@ -223,7 +232,10 @@ class ClarifaiApi(
         )
 
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
-            raise ProviderException(post_model_outputs_response.status.description)
+            raise ProviderException(
+                post_model_outputs_response.status.description,
+                code= post_model_outputs_response.status.code
+                )
 
         response = MessageToDict(
             post_model_outputs_response, preserving_proto_field_name=True
@@ -278,7 +290,8 @@ class ClarifaiApi(
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
             raise ProviderException(
                 "Error calling Clarifai API: "
-                + post_model_outputs_response.status.description
+                + post_model_outputs_response.status.description,
+                code= post_model_outputs_response.status.code
             )
         else:
             response = MessageToDict(
@@ -351,7 +364,10 @@ class ClarifaiApi(
         )
 
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
-            raise ProviderException("Error calling Clarifai API")
+            raise ProviderException(
+                "Error calling Clarifai API",
+                code= post_model_outputs_response.status.code
+                )
 
         else:
             response = MessageToDict(
@@ -413,7 +429,10 @@ class ClarifaiApi(
         )
 
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
-            raise ProviderException("Error calling Clarifai API")
+            raise ProviderException(
+                "Error calling Clarifai API",
+                code= post_model_outputs_response.status.code
+                )
 
         else:
             response = MessageToDict(
