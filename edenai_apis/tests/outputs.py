@@ -50,6 +50,7 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
         feature=feature,
         subfeature=subfeature,
         phase=phase,
+        provider_name=provider
     )
     print("------------------------------------------------------------")
     args = validate_all_provider_constraints(provider, feature, subfeature, phase, args)

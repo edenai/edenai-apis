@@ -11,7 +11,7 @@ question_answer_sample = {
 }
 
 
-def question_answer_arguments():
+def question_answer_arguments(provider_name: str):
     return {
         "texts": question_answer_sample["texts"],
         "question": question_answer_sample["question"],

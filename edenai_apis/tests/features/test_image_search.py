@@ -29,6 +29,7 @@ class TestImageSearch:
             feature="image",
             subfeature="search",
             phase="upload_image",
+            provider_name=provider
         )
         feature_args = validate_all_provider_constraints(
             provider, "image", "search", "upload_image", feature_args
@@ -36,7 +37,7 @@ class TestImageSearch:
         try:
             upload_image_method = Image.search__upload_image(provider)
         except AttributeError:
-            raise ("Could not import upload image phase.")
+            raise AttributeError("Could not import upload image phase.")
 
         # Actions
         upload_output = upload_image_method(**feature_args).model_dump()
@@ -51,11 +52,12 @@ class TestImageSearch:
             feature="image",
             subfeature="search",
             phase="get_images",
+            provider_name=provider
         )
         try:
             get_images_method = Image.search__get_images(provider)
         except AttributeError:
-            raise ("Could not import get images phase.")
+            raise AttributeError("Could not import get images phase.")
 
         # Actions
         get_images_output = get_images_method(**feature_args)
@@ -78,11 +80,12 @@ class TestImageSearch:
             feature="image",
             subfeature="search",
             phase="get_image",
+            provider_name=provider
         )
         try:
             get_image_method = Image.search__get_image(provider)
         except AttributeError:
-            raise ("Could not import get image phase.")
+            raise AttributeError("Could not import get image phase.")
 
         # Actions
         get_image_output = get_image_method(**feature_args)
@@ -106,6 +109,7 @@ class TestImageSearch:
             feature="image",
             subfeature="search",
             phase="get_image",
+            provider_name=provider
         )
         feature_args["image_name"] = invalid_image
         get_image_method = Image.search__get_image(provider)
@@ -124,6 +128,7 @@ class TestImageSearch:
             feature="image",
             subfeature="search",
             phase="launch_similarity",
+            provider_name=provider
         )
         feature_args = validate_all_provider_constraints(
             provider, "image", "search", "upload_image", feature_args
@@ -131,7 +136,7 @@ class TestImageSearch:
         try:
             launch_similarity_method = Image.search__launch_similarity(provider)
         except AttributeError:
-            raise ("Could not import launch similarity phase.")
+            raise AttributeError("Could not import launch similarity phase.")
 
         # Actions
         launch_similarity_output = launch_similarity_method(**feature_args)

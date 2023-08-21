@@ -32,5 +32,5 @@ file_wrapper_1 = FileWrapper(image1_path, "", file_info_1)
 file_wrapper_2 = FileWrapper(image2_path, "", file_info_2)
 
 
-def face_compare_arguments() -> Dict:
+def face_compare_arguments(provider_name: str) -> Dict:
     return {"file1": file_wrapper_1, "file2": file_wrapper_2}
