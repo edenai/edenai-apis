@@ -2,7 +2,8 @@
 # Table of Contents
 1.  [Add a new provider](#orga3ef4f7)
 2.  [Add a new feature](#org97d5614)
-3.  [Tests](#org3fd3a19)
+3.  [Add your secret keys](#org8h7as8i)
+4.  [Tests](#org3fd3a19)
 
 
 <a id="orga3ef4f7"></a>
@@ -92,6 +93,29 @@ folder should contain:
 -   \<subfeature>_dataclass.py class for output
 -   \<subfeature>_response.json: validated standardized response to compare with your own standarization
 
+
+<a id="org8h7as8i"></a>
+
+## Add a settings JSON file which will contain your personal key/secret keys
+
+    edenai_apis
+    ├── __init__.py
+    ├── apis
+    ├── ...
+    └── api_keys
+        ├── amazon_settings.json
+        ├── microsoft_settings.json
+        ├──...
+        └── <provider>_settings.json
+
+
+your settings file should be named following this pattern: provider`_settings`.json, and should contains a json object with key/values paires.
+
+eg:
+
+    {
+        "key": "key_value" 
+    }
 
 <a id="org3fd3a19"></a>
 
