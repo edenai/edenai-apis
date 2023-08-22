@@ -117,7 +117,7 @@ Some subfeatures can be time consuming, like converting *speech* to *text*, and 
 In order to support this implementation logic, subfeatures that are asynchronous end with **_async** and are splitted into two methods called with two possible [`suffix`](#suffix): **__launch_job** and **__get_job_result**. *E.g.:*
 
 ```python
-  def audio__speech_to_text_async__launch_job(self, file: BufferedReader, language: str) -> AsyncLaunchJobResponseType:
+  def audio__speech_to_text_async__launch_job(self, file: str, language: str, ...) -> AsyncLaunchJobResponseType:
 ```
 
 ```python
@@ -145,7 +145,7 @@ The `api` package is grouped by providers name, each of this providers folder co
 
   ```python
     def image__explicit_content(
-        self, file: BufferedReader
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
         file_content = file.read()
         response = clients["image"].detect_moderation_labels(
