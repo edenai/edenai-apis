@@ -163,7 +163,7 @@ class TestProviderErrors:
             subfeature=subfeature,
         )
 
-        args[input_field] = resume_parser_arguments()[input_field]
+        args[input_field] = resume_parser_arguments(provider_name=None)[input_field]
 
         with pytest.raises(ProviderException) as exc:
             compute_output("microsoft", feature, subfeature, args)
@@ -326,7 +326,7 @@ class TestProviderErrors:
             subfeature=subfeature,
         )
 
-        args[input_field] = resume_parser_arguments()[input_field]
+        args[input_field] = resume_parser_arguments(provider_name=None)[input_field]
 
         with pytest.raises(ProviderException) as exc:
             compute_output("amazon", feature, subfeature, args)
