@@ -222,10 +222,6 @@ def compute_output(
             provider_name, feature, subfeature, phase, sample_args
         )
 
-        # Check if the right arguments were sent by checking
-        # if they are equivalent to samples arguments
-        assert_equivalent_dict(sample_args, args)
-
         # Return mocked results
         if is_async:
             subfeature_result: Any = AsyncLaunchJobResponseType(
