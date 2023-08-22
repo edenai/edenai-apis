@@ -75,7 +75,7 @@ class TestFaceRecognition:
             assert exc is not None
 
     def test_add_face_to_collection(self, provider, collection_id):
-        img = face_recognition_recognize_arguments()["file"].file_path
+        img = face_recognition_recognize_arguments(None)["file"].file_path
         add_face = Image.face_recognition__add_face(provider)
         response = add_face(collection_id=COLLECTION_ID, file=img)
         face_ids = response.standardized_response.face_ids
@@ -86,7 +86,7 @@ class TestFaceRecognition:
             assert face_id in collection.standardized_response.face_ids
 
     def test_add_face_to_collection_no_face(self, provider, collection_id):
-        img = landmark_detection_arguments()["file"].file_path
+        img = landmark_detection_arguments(None)["file"].file_path
         add_face = Image.face_recognition__add_face(provider)
         with pytest.raises(ProviderException) as exc:
             add_face(collection_id=COLLECTION_ID, file=img)
@@ -116,7 +116,7 @@ class TestFaceRecognition:
         for image in images[:-1]:
             add_face(collection_id=COLLECTION_ID, file=image)
         # image with face different person
-        other_image = face_detection_arguments()["file"].file_path
+        other_image = face_detection_arguments(None)["file"].file_path
         add_face_response = add_face(collection_id=COLLECTION_ID, file=other_image)
         face_id = add_face_response.standardized_response.face_ids[0]
 
@@ -134,7 +134,7 @@ class TestFaceRecognition:
 
         sleep(1)
 
-        image = face_recognition_recognize_arguments()["file"].file_path
+        image = face_recognition_recognize_arguments(None)["file"].file_path
         delete_face = Image.face_recognition__delete_face(provider)
         for face_id in face_ids:
             delete_face(COLLECTION_ID, face_id)

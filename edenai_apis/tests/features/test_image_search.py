@@ -11,7 +11,8 @@ from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.utils.compare import compare_responses
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.types import ResponseType, ResponseSuccess
+
 
 image_search_providers = sorted(list_providers(feature="image", subfeature="search"))
 
@@ -169,3 +170,18 @@ class TestImageSearch:
 
         # Assert
         assert standardized, "The output is not standardized"
+
+    def test_delete_image(self, provider):
+        feature_args = load_feature(
+            FeatureDataEnum.SAMPLES_ARGS,
+            feature="image",
+            subfeature="search",
+            phase="delete_image",
+            provider_name=provider
+        )
+        delete_image = Image.search__delete_image(provider)
+
+        launch_similarity_output = delete_image(**feature_args)
+
+        # Assert
+        assert isinstance(launch_similarity_output, ResponseSuccess)
