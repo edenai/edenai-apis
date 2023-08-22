@@ -1,0 +1,43 @@
+[project]
+name = "edenaiapis"
+version = "0.1.2"
+description = "Providers connectors"
+dynamic = ["dependencies"]
+requires-python = ">=3.8"
+license = { file = "LICENCE"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10"
+]
+authors = [
+    {name = "Samy Melaine", email = "samy@edenai.co"},
+    {name = "François Humbert", email = "francois.humbert@edenai.co"},
+    {name = "Adnane Guettaf", email = "adnane.guettaf@edenai.co" },
+    {name = "Abdelghani Kaoula", email = "ghani.kaoula@edenai.co"},
+    {name = "Kyrian Castel", email = "kyrian.castel@edenai.co"},
+    {name = "Corentin Scialpi", email = "corentin.scialpi@edenai.co"}
+]
+maintainers = [
+    {name = "Samy Melaine", email = "samy@edenai.co"},
+    {name = "François Humbert", email = "francois.humbert@edenai.co"},
+    {name = "Adnane Guettaf", email = "adnane.guettaf@edenai.co" },
+    {name = "Abdelghani Kaoula", email = "ghani.kaoula@edenai.co"},
+    {name = "Kyrian Castel", email = "kyrian.castel@edenai.co"},
+    {name = "Corentin Scialpi", email = "corentin.scialpi@edenai.co"}
+]
+readme = "README.md"
+keywords = ["IA", "connectors","API", "AI engines"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[project.urls]
+repository = "https://github.com/edenai/edenai-apis"
+homepage = "https://www.edenai.co/"
+documentation = "https://docs.edenai.co/docs"
