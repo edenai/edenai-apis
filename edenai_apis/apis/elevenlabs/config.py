@@ -36,5 +36,6 @@ voice_ids = {
     "Sam" : "yoZ06aMxZJJ28mfd3POQ",
     "Glinda" : "z9fAnlkpzviPz146aGWa",
     "Giovanni" : "zcAOhNBS3c14rBihAFp1",
-    "Mimi" : "zrHiDhphv9ZnVXBqCLjz"
+    "Mimi" : "zrHiDhphv9ZnVXBqCLjz",
+    "Domi" : "AZnzlk1XvdvUeBnXmlld"
 }

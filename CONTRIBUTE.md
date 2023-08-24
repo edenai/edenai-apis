@@ -2,7 +2,8 @@
 # Table of Contents
 1.  [Add a new provider](#orga3ef4f7)
 2.  [Add a new feature](#org97d5614)
-3.  [Tests](#org3fd3a19)
+3.  [Add your secret keys](#org8h7as8i)
+4.  [Tests](#org3fd3a19)
 
 
 <a id="orga3ef4f7"></a>
@@ -55,11 +56,24 @@ folder should contain:
             Image
             Ocr,
         ):
-            def image__object_detection(file_name: str, file_content: io.BytesIO) -> Dict:
+            def image__object_detection(self, file: str, model: str= None, file_url: str = "") -> Dict:
                 """your code here"""
                 return {"original_response": response, "standardized_response": standardized}
 
--   An output directory containing one directory by feature, each feature directory will contain output json files representing original response returned by provider for a subfeature
+    Within your feature method, your api or sdk integration may throw and exception or return an error. In this case, you should raise a specific exception: a `ProviderException` with an *exception message* and an `optional` *error code*.
+
+    eg:
+
+        def image__object_detection(self, file: str, model: str=None, file_url: str = "") -> Dict:
+            """your code here"""
+            ...
+            if error_condition: # if status code equal to 400 for example
+                raise ProviderException('exception message', status_code)
+            ...
+            return {"original_response": response, "standardized_response": standardized}
+
+
+-   An output directory containing one directory by feature, each feature directory will contain output json files representing original response returned by provider for a subfeature. This output directory and it's subdirectories or files can be automatically created when calling the generate output pytest function. Please refer to [this section](#tests)
 
 
 <a id="org97d5614"></a>
@@ -79,6 +93,29 @@ folder should contain:
 -   \<subfeature>_dataclass.py class for output
 -   \<subfeature>_response.json: validated standardized response to compare with your own standarization
 
+
+<a id="org8h7as8i"></a>
+
+## Add a settings JSON file which will contain your personal key/secret keys
+
+    edenai_apis
+    ├── __init__.py
+    ├── apis
+    ├── ...
+    └── api_keys
+        ├── amazon_settings.json
+        ├── microsoft_settings.json
+        ├──...
+        └── <provider>_settings.json
+
+
+your settings file should be named following this pattern: provider`_settings`.json, and should contains a json object with key/values paires.
+
+eg:
+
+    {
+        "key": "key_value" 
+    }
 
 <a id="org3fd3a19"></a>
 

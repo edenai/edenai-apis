@@ -42,7 +42,7 @@ class CommonAsyncTests:
                 feature_class, f"{subfeature}{subfeature_suffix}"
             )(provider)
         except AttributeError:
-            raise ("Could not import provider launch job method.")
+            raise AttributeError("Could not import provider launch job method.")
 
         # Step 2 (action) : Launch the job (action)
         launch_job_response: AsyncLaunchJobResponseType = provider_launch_job_function(
@@ -73,7 +73,7 @@ class CommonAsyncTests:
                 feature_class, f"{subfeature}{subfeature_suffix}"
             )(provider)
         except AttributeError:
-            raise ("Could not import provider get job method.")
+            raise AttributeError("Could not import provider get job method.")
 
         # Step 2 (actions) : call get job result with a valid job id
         sleep(5)
@@ -120,7 +120,7 @@ class CommonAsyncTests:
                 feature_class, f"{subfeature}{subfeature_suffix}"
             )(provider)
         except AttributeError:
-            raise ("Could not import provider launch job method.")
+            raise AttributeError("Could not import provider launch job method.")
 
         # Step 2 & 3 (action & assert ) : Call the feature with invalid parameters
         with pytest.raises(TypeError):
@@ -145,7 +145,7 @@ class CommonAsyncTests:
                 feature_class, f"{subfeature}{subfeature_suffix}"
             )(provider)
         except AttributeError:
-            raise ("Could not import provider get job method.")
+            raise AttributeError("Could not import provider get job method.")
 
         # Step 2 & 3 (action & assert) : Call the feature with the non-existent job ID
         try:

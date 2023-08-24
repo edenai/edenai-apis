@@ -90,6 +90,26 @@ To better apprehend the use of each of the `subfeatures` available in our platfo
 
 For some subfeatures, the computation may encompass different stages to execute, usually sequentially, but not always. These stages are named `phases`. *E.g.* the subfeature `seach` inside the feature `image` encompass four **phases**: *upload_image*, *get_image*, *get_images*, *launch_similarity*, *delete_image*.
 
+```python
+  def image__search__create_project(self, project_name: str) -> str:
+    ...
+    return project_id 
+```
+
+```python
+  def image__search__upload_image(self, file: str, image_name: str, project_id: str, file_url: str = "") -> ResponseSuccess:
+```
+
+```python
+  def image__search__delete_image(self, image_name: str, project_id: str)-> ResponseSuccess:
+```
+
+```python
+  def image__search__get_image(self, image_name: str, project_id: str) -> ResponseType[SearchGetImageDataClass]:
+```
+
+In this case for example, in order retreive an image using the `image__search__get_image` method, you must first create a project with calling the method `image__search__create_project`. After that, you should upload some images using the `image__search__upload_image` method.
+
 ### **Async logic**
 
 Some subfeatures can be time consuming, like converting *speech* to *text*, and so, in a logic cycle of (request/response), the computing result can not be sent directly to the user. In this context, we propose an `Asynchrone logic`, in which the final result is differed, but instead, users can check repeatedly for the call result.
@@ -97,7 +117,7 @@ Some subfeatures can be time consuming, like converting *speech* to *text*, and 
 In order to support this implementation logic, subfeatures that are asynchronous end with **_async** and are splitted into two methods called with two possible [`suffix`](#suffix): **__launch_job** and **__get_job_result**. *E.g.:*
 
 ```python
-  def audio__speech_to_text_async__launch_job(self, file: BufferedReader, language: str) -> AsyncLaunchJobResponseType:
+  def audio__speech_to_text_async__launch_job(self, file: str, language: str, ...) -> AsyncLaunchJobResponseType:
 ```
 
 ```python
@@ -112,6 +132,10 @@ Used suffixes are usually either **__launch_job** or **__get_job_result**. The *
 
 Responses to the same `subfeature` even if called from different providers are all `standardized` to a uniform response.
 
+### Language Standardization
+
+Language standardization is the process in which language constraints are managed within our system. For more information, please refer to the following [link of our documentation](https://docs.edenai.co/docs/language-standardization). 
+
 
 ### **api**
 
@@ -121,7 +145,7 @@ The `api` package is grouped by providers name, each of this providers folder co
 
   ```python
     def image__explicit_content(
-        self, file: BufferedReader
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
         file_content = file.read()
         response = clients["image"].detect_moderation_labels(

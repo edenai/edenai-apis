@@ -233,6 +233,7 @@ def load_samples(
     feature: str,
     subfeature: str,
     phase: str = "",
+    provider_name: Optional[str] = None
 ) -> Dict:
     """Get arguments for the pair (feature, subfeature)
     or for the triple (feature, subfeature, phase)
@@ -249,4 +250,4 @@ def load_samples(
     imp = import_module(
         f"edenai_apis.features.{feature}.{subfeature}{f'.{phase}' if phase else ''}.{normalized_subfeature}_args"
     )
-    return getattr(imp, f"{normalized_subfeature}_arguments")()
+    return getattr(imp, f"{normalized_subfeature}_arguments")(provider_name)
