@@ -1,5 +1,6 @@
 #TODO: Add tests for this file
 from enum import Enum
+from io import BufferedReader
 from json import JSONDecodeError
 from typing import Any, Dict, List, Literal, Optional
 from warnings import warn
@@ -9,7 +10,7 @@ from http import HTTPStatus
 
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.http import HTTPMethod
-from .models import Organization, Workspace, Collection
+from .models import Document, Organization, Workspace, Collection
 from .document import DocumentState, FileParameter, QueryBuilder, UploadDocumentParams
 
 class ExtractorType(Enum):
@@ -46,7 +47,6 @@ class Client:
     """This class are use to simplify the usage of affinda api
 
     Constants:
-        d
         BASE_URL (str): base url for the affinda api (https://api.affinda.com/v3)
 
     Methods:
@@ -85,6 +85,7 @@ class Client:
     __current_organization: Optional[Organization]
     __current_workspace: Optional[Workspace]
     __current_collection: Optional[Collection]
+    __last_api_response: Optional[dict]
 
     def __init__(self, api_keys: str) -> None:
         self.__api_keys = api_keys
@@ -92,6 +93,7 @@ class Client:
         self.__current_organization = None
         self.__current_workspace = None
         self.__current_collection = None
+        self.__last_api_response = None
 
     def __requests(
         self,
@@ -141,7 +143,8 @@ class Client:
             if response.status_code == HTTPStatus.NO_CONTENT:
                 return {"status_code": response.status_code}
 
-            return response.json()
+            self.__last_api_response = response.json()
+            return self.__last_api_response
         except requests.exceptions.HTTPError as exc:
             raise ProviderException(
                 message=f"{exc}\nError message: {exc.response.text}",
@@ -151,6 +154,11 @@ class Client:
             raise ProviderException(
                 message="Internal server error", code=response.status_code
             )
+
+    @property
+    def last_api_response(self):
+        """The last_api_response property."""
+        return self.__last_api_response
 
     def get_organizations(self) -> List[Organization]:
         """Return all organizations of the current user"""
@@ -392,7 +400,7 @@ class Client:
             "workspace": self.__current_workspace.identifier,
             "extractor": extractor.value,
         }
-        new_collection = Collection(
+        new_collection: Collection = Collection(
             **self.__requests(
                 method=HTTPMethod.POST,
                 url=f"{self.BASE_URL}/collections",
@@ -455,7 +463,7 @@ class Client:
         self,
         file: FileParameter,
         parameters: UploadDocumentParams = UploadDocumentParams(),
-    ) -> dict:
+    ) -> Document:
         """Create a new document in the current_collection property.
         Args:
             file (FileParameter): The file to upload.
@@ -473,19 +481,21 @@ class Client:
             )
         }
 
-        files: Optional[Dict[str, str]] = None
+        files: Optional[Dict[str, BufferedReader]] = None
 
         if file.type == 'url':
             payload['url'] = file.file
         elif file.type == 'file':
-            files = { 'file': file.file }
+            files = { 'file': open(file.file, 'rb') }
 
-        return self.__requests(
-            method=HTTPMethod.POST,
-            url=f"{self.BASE_URL}/documents",
-            headers=self.headers,
-            files=files,
-            data=payload,
+        return Document(
+            **self.__requests(
+                method=HTTPMethod.POST,
+                url=f"{self.BASE_URL}/documents",
+                headers=self.headers,
+                files=files,
+                data=payload,
+            )
         )
 
     def delete_document(self, identifier: str) -> None:

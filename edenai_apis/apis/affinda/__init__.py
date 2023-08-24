@@ -1,1 +1,1 @@
-from .affinda_api import AffindaAPI
+from .affinda_api import AffindaApi

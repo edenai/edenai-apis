@@ -1,0 +1,2432 @@
+{
+  "original_response": {
+    "data": {
+      "date": {
+        "id": 78633730,
+        "rectangle": {
+          "x0": 16.290954487172627,
+          "y0": 1414.6473170745658,
+          "x1": 81.32830282809792,
+          "y1": 1429.914277826103
+        },
+        "rectangles": [
+          {
+            "x0": 16.290954487172627,
+            "y0": 1414.6473170745658,
+            "x1": 81.32830282809792,
+            "y1": 1429.914277826103
+          }
+        ],
+        "document": "RgzKJTxP",
+        "pageIndex": 0,
+        "raw": "02.04.2022",
+        "parsed": "2022-04-02",
+        "confidence": 0.952,
+        "classificationConfidence": 0.952,
+        "textExtractionConfidence": 1.0,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "ZgWvyAxL",
+        "contentType": "date"
+      },
+      "lineItemTable": [
+        {
+          "id": 78633731,
+          "rectangle": {
+            "x0": 22.039360307935254,
+            "y0": 269.2231390734346,
+            "x1": 271.8419859069771,
+            "y1": 666.5579150969104
+          },
+          "rectangles": [
+            {
+              "x0": 28.436429723891308,
+              "y0": 269.2231390734346,
+              "x1": 151.46958393518918,
+              "y1": 284.18125904536555
+            },
+            {
+              "x0": 98.89023961629414,
+              "y0": 283.5401663876819,
+              "x1": 183.87920699956118,
+              "y1": 299.484816909798
+            },
+            {
+              "x0": 27.97854634616823,
+              "y0": 300.92925880214193,
+              "x1": 150.72364469422953,
+              "y1": 316.7357341672573
+            },
+            {
+              "x0": 98.11099976604555,
+              "y0": 316.50838480132757,
+              "x1": 271.8419859069771,
+              "y1": 333.4421081624225
+            },
+            {
+              "x0": 26.31848860156549,
+              "y0": 333.7875740193598,
+              "x1": 271.3291509310401,
+              "y1": 351.573843314236
+            },
+            {
+              "x0": 26.369277623618274,
+              "y0": 352.5911601493521,
+              "x1": 156.89188427906657,
+              "y1": 369.4333068349024
+            },
+            {
+              "x0": 103.61071284074552,
+              "y0": 369.2017948928115,
+              "x1": 269.6482803056318,
+              "y1": 386.6841681634904
+            },
+            {
+              "x0": 25.560899740241837,
+              "y0": 388.503241910335,
+              "x1": 155.28677813267774,
+              "y1": 404.86417801299865
+            },
+            {
+              "x0": 102.59004357315203,
+              "y0": 405.94309538241214,
+              "x1": 180.3226627772913,
+              "y1": 421.9143975777336
+            },
+            {
+              "x0": 24.765009585348793,
+              "y0": 423.9799014262036,
+              "x1": 154.99539780139943,
+              "y1": 440.871160917568
+            },
+            {
+              "x0": 102.58255652894914,
+              "y0": 441.7636004678505,
+              "x1": 180.15783594708526,
+              "y1": 457.7740141004251
+            },
+            {
+              "x0": 23.960794278133505,
+              "y0": 459.15517924223286,
+              "x1": 154.19950764650636,
+              "y1": 476.57760023041743
+            },
+            {
+              "x0": 100.98577553488256,
+              "y0": 477.0970561780023,
+              "x1": 179.58256232873148,
+              "y1": 493.5079152301637
+            },
+            {
+              "x0": 24.024909136788978,
+              "y0": 495.13637654615184,
+              "x1": 103.61657959758097,
+              "y1": 511.15262897112626
+            },
+            {
+              "x0": 95.22133380210968,
+              "y0": 511.50139133166965,
+              "x1": 267.53701608382516,
+              "y1": 528.3543495294646
+            },
+            {
+              "x0": 22.720346582120072,
+              "y0": 529.3900488143352,
+              "x1": 109.08631653103376,
+              "y1": 545.7068448310295
+            },
+            {
+              "x0": 100.56703155884826,
+              "y0": 546.2179756262922,
+              "x1": 177.7784906347283,
+              "y1": 562.0652106804638
+            },
+            {
+              "x0": 23.6061651607547,
+              "y0": 563.4230765815435,
+              "x1": 152.19647040488883,
+              "y1": 579.430193710512
+            },
+            {
+              "x0": 92.88277614324458,
+              "y0": 578.6991726290869,
+              "x1": 265.45737625506877,
+              "y1": 595.7027937123659
+            },
+            {
+              "x0": 22.526381718786183,
+              "y0": 596.4579241782027,
+              "x1": 145.36805742667258,
+              "y1": 615.1407955995226
+            },
+            {
+              "x0": 92.66299771482466,
+              "y0": 611.7365065856685,
+              "x1": 265.51232785328267,
+              "y1": 630.3711033092936
+            },
+            {
+              "x0": 22.039360307935254,
+              "y0": 631.120367018295,
+              "x1": 151.42639381508184,
+              "y1": 649.9997176273068
+            },
+            {
+              "x0": 91.21106877827786,
+              "y0": 647.4679213554846,
+              "x1": 265.8603359990136,
+              "y1": 666.5579150969104
+            }
+          ],
+          "document": "RgzKJTxP",
+          "pageIndex": 0,
+          "raw": "STICKERE PUISOR OUA 1 BUC \u00d7 16,00 SELECLINE FIERBATOR 1 BUC \u00d7 44,01 44,01 TAXA VERDE 1 BUC \u00d7 0,89 0,89 COS DREPTUNG CARLIGE 1 BUC X 5,55 5,55 CROISSANT 7 DAYS SPU 1 BUC \u00d7 1,75 PAINE CU MAIA SI MAS 1 BUC X 3,60 PATE DE PORC 20% 120 2 BUC X 3,55 NUTELLA 700G 1 BUC \u00d7 19,40 19,40 RADIERA GALET 1 BUC \u00d7 4,55 GP SUPER ALKALINE LR 1 BUC X 18,70 18,70 NIVEA BALS DUPA RAS 1 BUC X 30,50 30,50 AUC VV LICHID PARBRC 1 BUC \u00d7 16,90 16,90",
+          "parsed": {
+            "rows": [
+              {
+                "id": 78633732,
+                "rectangle": {
+                  "x0": 22.039360307935254,
+                  "y0": 269.2231390734346,
+                  "x1": 271.8419859069771,
+                  "y1": 283.8607127165237
+                },
+                "rectangles": [
+                  {
+                    "x0": 22.039360307935254,
+                    "y0": 269.2231390734346,
+                    "x1": 271.8419859069771,
+                    "y1": 283.8607127165237
+                  }
+                ],
+                "document": "RgzKJTxP",
+                "pageIndex": 0,
+                "raw": "STICKERE PUISOR OUA",
+                "parsed": {
+                  "itemDescription": {
+                    "id": 78633745,
+                    "rectangle": {
+                      "x0": 28.436429723891308,
+                      "y0": 269.2231390734346,
+                      "x1": 151.46958393518918,
+                      "y1": 284.18125904536555
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 28.436429723891308,
+                        "y0": 269.3879938680763,
+                        "x1": 81.45535886406188,
+                        "y1": 284.18125904536555
+                      },
+                      {
+                        "x0": 84.12778868837148,
+                        "y0": 269.42961962968747,
+                        "x1": 125.82428695481356,
+                        "y1": 283.8324127915152
+                      },
+                      {
+                        "x0": 129.37337209731618,
+                        "y0": 269.2231390734346,
+                        "x1": 151.46958393518918,
+                        "y1": 283.04565793262816
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "STICKERE PUISOR OUA",
+                    "parsed": "STICKERE PUISOR OUA",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "aIiiegGU",
+                    "contentType": "text"
+                  }
+                },
+                "confidence": 0.95,
+                "classificationConfidence": 0.95,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": "cXqQaWDo",
+                "contentType": "group"
+              },
+              {
+                "id": 78633733,
+                "rectangle": {
+                  "x0": 22.039360307935254,
+                  "y0": 283.8607127165237,
+                  "x1": 271.8419859069771,
+                  "y1": 300.20703785596993
+                },
+                "rectangles": [
+                  {
+                    "x0": 22.039360307935254,
+                    "y0": 283.8607127165237,
+                    "x1": 271.8419859069771,
+                    "y1": 300.20703785596993
+                  }
+                ],
+                "document": "RgzKJTxP",
+                "pageIndex": 0,
+                "raw": "1 BUC \u00d7 16,00",
+                "parsed": {
+                  "itemUnitPrice": {
+                    "id": 78633757,
+                    "rectangle": {
+                      "x0": 150.10923167418701,
+                      "y0": 283.5401663876819,
+                      "x1": 183.87920699956118,
+                      "y1": 299.484816909798
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 150.10923167418701,
+                        "y0": 283.5401663876819,
+                        "x1": 183.87920699956118,
+                        "y1": 299.484816909798
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "16,00",
+                    "parsed": "16.00",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "dVGdChNl",
+                    "contentType": "decimal"
+                  },
+                  "itemQuantity": {
+                    "id": 78633769,
+                    "rectangle": {
+                      "x0": 98.89023961629414,
+                      "y0": 285.29682945654537,
+                      "x1": 105.71532812646862,
+                      "y1": 299.12351089189997
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 98.89023961629414,
+                        "y0": 285.29682945654537,
+                        "x1": 105.71532812646862,
+                        "y1": 299.12351089189997
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "1",
+                    "parsed": 1.0,
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "EEOzlgxz",
+                    "contentType": "float"
+                  }
+                },
+                "confidence": 0.95,
+                "classificationConfidence": 0.95,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": "cXqQaWDo",
+                "contentType": "group"
+              },
+              {
+                "id": 78633734,
+                "rectangle": {
+                  "x0": 22.039360307935254,
+                  "y0": 300.20703785596993,
+                  "x1": 271.8419859069771,
+                  "y1": 333.61484109089116
+                },
+                "rectangles": [
+                  {
+                    "x0": 22.039360307935254,
+                    "y0": 300.20703785596993,
+                    "x1": 271.8419859069771,
+                    "y1": 333.61484109089116
+                  }
+                ],
+                "document": "RgzKJTxP",
+                "pageIndex": 0,
+                "raw": "SELECLINE FIERBATOR 1 BUC \u00d7 44,01 44,01",
+                "parsed": {
+                  "itemDescription": {
+                    "id": 78633746,
+                    "rectangle": {
+                      "x0": 27.97854634616823,
+                      "y0": 300.92925880214193,
+                      "x1": 150.72364469422953,
+                      "y1": 316.7357341672573
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 27.97854634616823,
+                        "y0": 301.44960878671736,
+                        "x1": 87.12241309332593,
+                        "y1": 316.7357341672573
+                      },
+                      {
+                        "x0": 90.21110053374743,
+                        "y0": 300.92925880214193,
+                        "x1": 150.72364469422953,
+                        "y1": 315.90816369044273
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "SELECLINE FIERBATOR",
+                    "parsed": "SELECLINE FIERBATOR",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "aIiiegGU",
+                    "contentType": "text"
+                  },
+                  "itemTotal": {
+                    "id": 78633781,
+                    "rectangle": {
+                      "x0": 237.8472314689025,
+                      "y0": 316.50838480132757,
+                      "x1": 271.8419859069771,
+                      "y1": 333.2197874452089
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 237.8472314689025,
+                        "y0": 316.50838480132757,
+                        "x1": 271.8419859069771,
+                        "y1": 333.2197874452089
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "44,01",
+                    "parsed": "44.01",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "pLbttUNY",
+                    "contentType": "decimal"
+                  },
+                  "itemUnitPrice": {
+                    "id": 78633758,
+                    "rectangle": {
+                      "x0": 147.66077081889412,
+                      "y0": 317.599035684412,
+                      "x1": 181.65968783312982,
+                      "y1": 333.4421081624225
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 147.66077081889412,
+                        "y0": 317.599035684412,
+                        "x1": 181.65968783312982,
+                        "y1": 333.4421081624225
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "44,01",
+                    "parsed": "44.01",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "dVGdChNl",
+                    "contentType": "decimal"
+                  },
+                  "itemQuantity": {
+                    "id": 78633770,
+                    "rectangle": {
+                      "x0": 98.11099976604555,
+                      "y0": 318.1351978655126,
+                      "x1": 105.24079444410106,
+                      "y1": 333.1141027538134
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 98.11099976604555,
+                        "y0": 318.1351978655126,
+                        "x1": 105.24079444410106,
+                        "y1": 333.1141027538134
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "1",
+                    "parsed": 1.0,
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "EEOzlgxz",
+                    "contentType": "float"
+                  }
+                },
+                "confidence": 0.95,
+                "classificationConfidence": 0.95,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": "cXqQaWDo",
+                "contentType": "group"
+              },
+              {
+                "id": 78633735,
+                "rectangle": {
+                  "x0": 22.039360307935254,
+                  "y0": 333.61484109089116,
+                  "x1": 271.8419859069771,
+                  "y1": 352.0825017317941
+                },
+                "rectangles": [
+                  {
+                    "x0": 22.039360307935254,
+                    "y0": 333.61484109089116,
+                    "x1": 271.8419859069771,
+                    "y1": 352.0825017317941
+                  }
+                ],
+                "document": "RgzKJTxP",
+                "pageIndex": 0,
+                "raw": "TAXA VERDE 1 BUC \u00d7 0,89 0,89",
+                "parsed": {
+                  "itemTotal": {
+                    "id": 78633782,
+                    "rectangle": {
+                      "x0": 242.15558168896746,
+                      "y0": 333.7875740193598,
+                      "x1": 271.3291509310401,
+                      "y1": 348.9263330180218
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 242.15558168896746,
+                        "y0": 333.7875740193598,
+                        "x1": 271.3291509310401,
+                        "y1": 348.9263330180218
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "0,89",
+                    "parsed": "0.89",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "pLbttUNY",
+                    "contentType": "decimal"
+                  },
+                  "itemUnitPrice": {
+                    "id": 78633759,
+                    "rectangle": {
+                      "x0": 153.17213351395807,
+                      "y0": 335.0896781785419,
+                      "x1": 181.92276823939966,
+                      "y1": 350.9327506565524
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 153.17213351395807,
+                        "y0": 335.0896781785419,
+                        "x1": 181.92276823939966,
+                        "y1": 350.9327506565524
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "0,89",
+                    "parsed": "0.89",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "dVGdChNl",
+                    "contentType": "decimal"
+                  },
+                  "itemQuantity": {
+                    "id": 78633771,
+                    "rectangle": {
+                      "x0": 102.97464883177804,
+                      "y0": 335.38941162657807,
+                      "x1": 111.10765232909884,
+                      "y1": 350.9485908175132
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 102.97464883177804,
+                        "y0": 335.38941162657807,
+                        "x1": 111.10765232909884,
+                        "y1": 350.9485908175132
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "1",
+                    "parsed": 1.0,
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "EEOzlgxz",
+                    "contentType": "float"
+                  },
+                  "itemDescription": {
+                    "id": 78633747,
+                    "rectangle": {
+                      "x0": 26.31848860156549,
+                      "y0": 335.52761474801434,
+                      "x1": 92.6679145057982,
+                      "y1": 351.573843314236
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 26.31848860156549,
+                        "y0": 336.12621557153176,
+                        "x1": 54.627890253928484,
+                        "y1": 351.573843314236
+                      },
+                      {
+                        "x0": 57.72906542283333,
+                        "y0": 335.52761474801434,
+                        "x1": 92.6679145057982,
+                        "y1": 351.15923394992717
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "TAXA VERDE",
+                    "parsed": "TAXA VERDE",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "aIiiegGU",
+                    "contentType": "text"
+                  }
+                },
+                "confidence": 0.95,
+                "classificationConfidence": 0.95,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": "cXqQaWDo",
+                "contentType": "group"
+              },
+              {
+                "id": 78633736,
+                "rectangle": {
+                  "x0": 22.039360307935254,
+                  "y0": 352.0825017317941,
+                  "x1": 271.8419859069771,
+                  "y1": 387.59370503691275
+                },
+                "rectangles": [
+                  {
+                    "x0": 22.039360307935254,
+                    "y0": 352.0825017317941,
+                    "x1": 271.8419859069771,
+                    "y1": 387.59370503691275
+                  }
+                ],
+                "document": "RgzKJTxP",
+                "pageIndex": 0,
+                "raw": "COS DREPTUNG CARLIGE 1 BUC X 5,55 5,55",
+                "parsed": {
+                  "itemDescription": {
+                    "id": 78633748,
+                    "rectangle": {
+                      "x0": 26.369277623618274,
+                      "y0": 352.5911601493521,
+                      "x1": 156.89188427906657,
+                      "y1": 369.4333068349024
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 26.369277623618274,
+                        "y0": 353.0091219461383,
+                        "x1": 46.30424636131558,
+                        "y1": 369.4333068349024
+                      },
+                      {
+                        "x0": 49.41790925870379,
+                        "y0": 352.9941198932969,
+                        "x1": 105.02517859184222,
+                        "y1": 368.9021453380823
+                      },
+                      {
+                        "x0": 107.96901397474392,
+                        "y0": 352.5911601493521,
+                        "x1": 156.89188427906657,
+                        "y1": 369.00201920151346
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "COS DREPTUNG CARLIGE",
+                    "parsed": "COS DREPTUNG CARLIGE",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "aIiiegGU",
+                    "contentType": "text"
+                  },
+                  "itemTotal": {
+                    "id": 78633783,
+                    "rectangle": {
+                      "x0": 241.64358482114983,
+                      "y0": 369.2017948928115,
+                      "x1": 269.6482803056318,
+                      "y1": 385.50942764906426
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 241.64358482114983,
+                        "y0": 369.2017948928115,
+                        "x1": 269.6482803056318,
+                        "y1": 385.50942764906426
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "5,55",
+                    "parsed": "5.55",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "pLbttUNY",
+                    "contentType": "decimal"
+                  },
+                  "itemUnitPrice": {
+                    "id": 78633760,
+                    "rectangle": {
+                      "x0": 151.8001316325919,
+                      "y0": 370.09596658820396,
+                      "x1": 181.6988272348186,
+                      "y1": 386.0797285475732
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 151.8001316325919,
+                        "y0": 370.09596658820396,
+                        "x1": 181.6988272348186,
+                        "y1": 386.0797285475732
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "5,55",
+                    "parsed": "5.55",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "dVGdChNl",
+                    "contentType": "decimal"
+                  },
+                  "itemQuantity": {
+                    "id": 78633772,
+                    "rectangle": {
+                      "x0": 103.61071284074552,
+                      "y0": 370.93683493718567,
+                      "x1": 110.59149288512009,
+                      "y1": 386.6841681634904
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 103.61071284074552,
+                        "y0": 370.93683493718567,
+                        "x1": 110.59149288512009,
+                        "y1": 386.6841681634904
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "1",
+                    "parsed": 1.0,
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "EEOzlgxz",
+                    "contentType": "float"
+                  }
+                },
+                "confidence": 0.95,
+                "classificationConfidence": 0.95,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": "cXqQaWDo",
+                "contentType": "group"
+              },
+              {
+                "id": 78633737,
+                "rectangle": {
+                  "x0": 22.039360307935254,
+                  "y0": 387.59370503691275,
+                  "x1": 271.8419859069771,
+                  "y1": 422.9471495019686
+                },
+                "rectangles": [
+                  {
+                    "x0": 22.039360307935254,
+                    "y0": 387.59370503691275,
+                    "x1": 271.8419859069771,
+                    "y1": 422.9471495019686
+                  }
+                ],
+                "document": "RgzKJTxP",
+                "pageIndex": 0,
+                "raw": "CROISSANT 7 DAYS SPU 1 BUC \u00d7 1,75",
+                "parsed": {
+                  "itemDescription": {
+                    "id": 78633749,
+                    "rectangle": {
+                      "x0": 25.560899740241837,
+                      "y0": 388.503241910335,
+                      "x1": 155.28677813267774,
+                      "y1": 404.86417801299865
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 25.560899740241837,
+                        "y0": 388.73053534739347,
+                        "x1": 86.132558075099,
+                        "y1": 404.86417801299865
+                      },
+                      {
+                        "x0": 88.9498399569284,
+                        "y0": 388.6048199544406,
+                        "x1": 97.37089931748574,
+                        "y1": 404.3355028761009
+                      },
+                      {
+                        "x0": 100.18818119931515,
+                        "y0": 388.503241910335,
+                        "x1": 129.92953701553867,
+                        "y1": 404.209787483148
+                      },
+                      {
+                        "x0": 133.03487476060465,
+                        "y0": 388.54903024810733,
+                        "x1": 155.28677813267774,
+                        "y1": 404.1082094390424
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "CROISSANT 7 DAYS SPU",
+                    "parsed": "CROISSANT 7 DAYS SPU",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "aIiiegGU",
+                    "contentType": "text"
+                  },
+                  "itemUnitPrice": {
+                    "id": 78633761,
+                    "rectangle": {
+                      "x0": 152.43619564155938,
+                      "y0": 405.94309538241214,
+                      "x1": 180.3226627772913,
+                      "y1": 421.7820052842615
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 152.43619564155938,
+                        "y0": 405.94309538241214,
+                        "x1": 180.3226627772913,
+                        "y1": 421.7820052842615
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "1,75",
+                    "parsed": "1.75",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "dVGdChNl",
+                    "contentType": "decimal"
+                  },
+                  "itemQuantity": {
+                    "id": 78633773,
+                    "rectangle": {
+                      "x0": 102.59004357315203,
+                      "y0": 406.5516975744905,
+                      "x1": 109.72400082736866,
+                      "y1": 421.9143975777336
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 102.59004357315203,
+                        "y0": 406.5516975744905,
+                        "x1": 109.72400082736866,
+                        "y1": 421.9143975777336
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "1",
+                    "parsed": 1.0,
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "EEOzlgxz",
+                    "contentType": "float"
+                  }
+                },
+                "confidence": 0.95,
+                "classificationConfidence": 0.95,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": "cXqQaWDo",
+                "contentType": "group"
+              },
+              {
+                "id": 78633738,
+                "rectangle": {
+                  "x0": 22.039360307935254,
+                  "y0": 422.9471495019686,
+                  "x1": 271.8419859069771,
+                  "y1": 458.464596671329
+                },
+                "rectangles": [
+                  {
+                    "x0": 22.039360307935254,
+                    "y0": 422.9471495019686,
+                    "x1": 271.8419859069771,
+                    "y1": 458.464596671329
+                  }
+                ],
+                "document": "RgzKJTxP",
+                "pageIndex": 0,
+                "raw": "PAINE CU MAIA SI MAS 1 BUC X 3,60",
+                "parsed": {
+                  "itemDescription": {
+                    "id": 78633750,
+                    "rectangle": {
+                      "x0": 24.765009585348793,
+                      "y0": 423.9799014262036,
+                      "x1": 154.99539780139943,
+                      "y1": 440.871160917568
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 24.765009585348793,
+                        "y0": 424.15143312136445,
+                        "x1": 58.52665975840074,
+                        "y1": 440.871160917568
+                      },
+                      {
+                        "x0": 61.64032265578895,
+                        "y0": 424.3370728323761,
+                        "x1": 77.5466718843356,
+                        "y1": 440.5314779241593
+                      },
+                      {
+                        "x0": 80.65617220556268,
+                        "y0": 424.2313322121094,
+                        "x1": 110.04619540801352,
+                        "y1": 440.23009622432
+                      },
+                      {
+                        "x0": 113.27392407799063,
+                        "y0": 424.22216895166787,
+                        "x1": 129.3501008210238,
+                        "y1": 440.1243556040534
+                      },
+                      {
+                        "x0": 132.00171776452783,
+                        "y0": 423.9799014262036,
+                        "x1": 154.99539780139943,
+                        "y1": 440.14349226862026
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "PAINE CU MAIA SI MAS",
+                    "parsed": "PAINE CU MAIA SI MAS",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "aIiiegGU",
+                    "contentType": "text"
+                  },
+                  "itemUnitPrice": {
+                    "id": 78633762,
+                    "rectangle": {
+                      "x0": 151.2806477205714,
+                      "y0": 441.8260391102673,
+                      "x1": 180.15783594708526,
+                      "y1": 457.6732741644389
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 151.2806477205714,
+                        "y0": 441.8260391102673,
+                        "x1": 180.15783594708526,
+                        "y1": 457.6732741644389
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "3,60",
+                    "parsed": "3.60",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "dVGdChNl",
+                    "contentType": "decimal"
+                  },
+                  "itemQuantity": {
+                    "id": 78633774,
+                    "rectangle": {
+                      "x0": 102.58255652894914,
+                      "y0": 442.2747871919844,
+                      "x1": 108.98722484685061,
+                      "y1": 457.63748719522755
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 102.58255652894914,
+                        "y0": 442.2747871919844,
+                        "x1": 108.98722484685061,
+                        "y1": 457.63748719522755
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "1",
+                    "parsed": 1.0,
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "EEOzlgxz",
+                    "contentType": "float"
+                  }
+                },
+                "confidence": 0.95,
+                "classificationConfidence": 0.95,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": "cXqQaWDo",
+                "contentType": "group"
+              },
+              {
+                "id": 78633739,
+                "rectangle": {
+                  "x0": 22.039360307935254,
+                  "y0": 458.464596671329,
+                  "x1": 271.8419859069771,
+                  "y1": 494.32214588815776
+                },
+                "rectangles": [
+                  {
+                    "x0": 22.039360307935254,
+                    "y0": 458.464596671329,
+                    "x1": 271.8419859069771,
+                    "y1": 494.32214588815776
+                  }
+                ],
+                "document": "RgzKJTxP",
+                "pageIndex": 0,
+                "raw": "PATE DE PORC 20% 120 2 BUC X 3,55",
+                "parsed": {
+                  "itemDescription": {
+                    "id": 78633751,
+                    "rectangle": {
+                      "x0": 23.960794278133505,
+                      "y0": 459.15517924223286,
+                      "x1": 154.19950764650636,
+                      "y1": 476.57760023041743
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 23.960794278133505,
+                        "y0": 459.68969317153045,
+                        "x1": 51.67327132321779,
+                        "y1": 476.57760023041743
+                      },
+                      {
+                        "x0": 55.07915266000366,
+                        "y0": 459.66804218260546,
+                        "x1": 70.11717172267953,
+                        "y1": 476.1629908661086
+                      },
+                      {
+                        "x0": 73.23083462006774,
+                        "y0": 459.5747892908222,
+                        "x1": 103.48502541222823,
+                        "y1": 475.84912143778604
+                      },
+                      {
+                        "x0": 106.42053564280769,
+                        "y0": 459.3691468426886,
+                        "x1": 129.13032239260386,
+                        "y1": 475.7883310471723
+                      },
+                      {
+                        "x0": 132.34972591025874,
+                        "y0": 459.15517924223286,
+                        "x1": 154.19950764650636,
+                        "y1": 476.15047517318965
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "PATE DE PORC 20% 120",
+                    "parsed": "PATE DE PORC 20% 120",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "aIiiegGU",
+                    "contentType": "text"
+                  },
+                  "itemUnitPrice": {
+                    "id": 78633763,
+                    "rectangle": {
+                      "x0": 150.53970916389224,
+                      "y0": 477.0970561780023,
+                      "x1": 179.58256232873148,
+                      "y1": 493.5079152301637
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 150.53970916389224,
+                        "y0": 477.0970561780023,
+                        "x1": 179.58256232873148,
+                        "y1": 493.5079152301637
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "3,55",
+                    "parsed": "3.55",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "dVGdChNl",
+                    "contentType": "decimal"
+                  },
+                  "itemQuantity": {
+                    "id": 78633775,
+                    "rectangle": {
+                      "x0": 100.98577553488256,
+                      "y0": 477.2211233191522,
+                      "x1": 108.41611380465797,
+                      "y1": 493.06419579716265
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 100.98577553488256,
+                        "y0": 477.2211233191522,
+                        "x1": 108.41611380465797,
+                        "y1": 493.06419579716265
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "2",
+                    "parsed": 2.0,
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "EEOzlgxz",
+                    "contentType": "float"
+                  }
+                },
+                "confidence": 0.95,
+                "classificationConfidence": 0.95,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": "cXqQaWDo",
+                "contentType": "group"
+              },
+              {
+                "id": 78633740,
+                "rectangle": {
+                  "x0": 22.039360307935254,
+                  "y0": 494.32214588815776,
+                  "x1": 271.8419859069771,
+                  "y1": 528.8721991718999
+                },
+                "rectangles": [
+                  {
+                    "x0": 22.039360307935254,
+                    "y0": 494.32214588815776,
+                    "x1": 271.8419859069771,
+                    "y1": 528.8721991718999
+                  }
+                ],
+                "document": "RgzKJTxP",
+                "pageIndex": 0,
+                "raw": "NUTELLA 700G 1 BUC \u00d7 19,40 19,40",
+                "parsed": {
+                  "itemDescription": {
+                    "id": 78633752,
+                    "rectangle": {
+                      "x0": 24.024909136788978,
+                      "y0": 495.13637654615184,
+                      "x1": 103.61657959758097,
+                      "y1": 511.15262897112626
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 24.024909136788978,
+                        "y0": 495.13637654615184,
+                        "x1": 72.20184020015202,
+                        "y1": 511.15262897112626
+                      },
+                      {
+                        "x0": 75.31134052137911,
+                        "y0": 495.18216488392414,
+                        "x1": 103.61657959758097,
+                        "y1": 511.0293999380957
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "NUTELLA 700G",
+                    "parsed": "NUTELLA 700G",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "aIiiegGU",
+                    "contentType": "text"
+                  },
+                  "itemTotal": {
+                    "id": 78633784,
+                    "rectangle": {
+                      "x0": 232.96198734311633,
+                      "y0": 511.50139133166965,
+                      "x1": 267.53701608382516,
+                      "y1": 527.9205755361533
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 232.96198734311633,
+                        "y0": 511.50139133166965,
+                        "x1": 267.53701608382516,
+                        "y1": 527.9205755361533
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "19,40",
+                    "parsed": "19.40",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "pLbttUNY",
+                    "contentType": "decimal"
+                  },
+                  "itemUnitPrice": {
+                    "id": 78633764,
+                    "rectangle": {
+                      "x0": 144.84686933397774,
+                      "y0": 512.2315463405398,
+                      "x1": 178.49861631060188,
+                      "y1": 528.3543495294646
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 144.84686933397774,
+                        "y0": 512.2315463405398,
+                        "x1": 178.49861631060188,
+                        "y1": 528.3543495294646
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "19,40",
+                    "parsed": "19.40",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "dVGdChNl",
+                    "contentType": "decimal"
+                  },
+                  "itemQuantity": {
+                    "id": 78633776,
+                    "rectangle": {
+                      "x0": 95.22133380210968,
+                      "y0": 512.8401485326181,
+                      "x1": 101.35043398525795,
+                      "y1": 527.5393227100046
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 95.22133380210968,
+                        "y0": 512.8401485326181,
+                        "x1": 101.35043398525795,
+                        "y1": 527.5393227100046
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "1",
+                    "parsed": 1.0,
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "EEOzlgxz",
+                    "contentType": "float"
+                  }
+                },
+                "confidence": 0.95,
+                "classificationConfidence": 0.95,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": "cXqQaWDo",
+                "contentType": "group"
+              },
+              {
+                "id": 78633741,
+                "rectangle": {
+                  "x0": 22.039360307935254,
+                  "y0": 528.8721991718999,
+                  "x1": 271.8419859069771,
+                  "y1": 562.7441436310037
+                },
+                "rectangles": [
+                  {
+                    "x0": 22.039360307935254,
+                    "y0": 528.8721991718999,
+                    "x1": 271.8419859069771,
+                    "y1": 562.7441436310037
+                  }
+                ],
+                "document": "RgzKJTxP",
+                "pageIndex": 0,
+                "raw": "RADIERA GALET 1 BUC \u00d7 4,55",
+                "parsed": {
+                  "itemDescription": {
+                    "id": 78633753,
+                    "rectangle": {
+                      "x0": 22.720346582120072,
+                      "y0": 529.3900488143352,
+                      "x1": 109.08631653103376,
+                      "y1": 545.7068448310295
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 22.720346582120072,
+                        "y0": 529.3900488143352,
+                        "x1": 69.91904428318453,
+                        "y1": 545.7068448310295
+                      },
+                      {
+                        "x0": 72.2867679396131,
+                        "y0": 529.4358371521074,
+                        "x1": 109.08631653103376,
+                        "y1": 545.502850634699
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "RADIERA GALET",
+                    "parsed": "RADIERA GALET",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "aIiiegGU",
+                    "contentType": "text"
+                  },
+                  "itemUnitPrice": {
+                    "id": 78633765,
+                    "rectangle": {
+                      "x0": 149.76963257408525,
+                      "y0": 546.2179756262922,
+                      "x1": 177.7784906347283,
+                      "y1": 562.0652106804638
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 149.76963257408525,
+                        "y0": 546.2179756262922,
+                        "x1": 177.7784906347283,
+                        "y1": 562.0652106804638
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "4,55",
+                    "parsed": "4.55",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "dVGdChNl",
+                    "contentType": "decimal"
+                  },
+                  "itemQuantity": {
+                    "id": 78633777,
+                    "rectangle": {
+                      "x0": 100.56703155884826,
+                      "y0": 546.918154493915,
+                      "x1": 106.54460278395754,
+                      "y1": 561.897059382216
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 100.56703155884826,
+                        "y0": 546.918154493915,
+                        "x1": 106.54460278395754,
+                        "y1": 561.897059382216
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "1",
+                    "parsed": 1.0,
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "EEOzlgxz",
+                    "contentType": "float"
+                  }
+                },
+                "confidence": 0.95,
+                "classificationConfidence": 0.95,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": "cXqQaWDo",
+                "contentType": "group"
+              },
+              {
+                "id": 78633742,
+                "rectangle": {
+                  "x0": 22.039360307935254,
+                  "y0": 562.7441436310037,
+                  "x1": 271.8419859069771,
+                  "y1": 596.0803589452843
+                },
+                "rectangles": [
+                  {
+                    "x0": 22.039360307935254,
+                    "y0": 562.7441436310037,
+                    "x1": 271.8419859069771,
+                    "y1": 596.0803589452843
+                  }
+                ],
+                "document": "RgzKJTxP",
+                "pageIndex": 0,
+                "raw": "GP SUPER ALKALINE LR 1 BUC X 18,70 18,70",
+                "parsed": {
+                  "itemDescription": {
+                    "id": 78633754,
+                    "rectangle": {
+                      "x0": 23.6061651607547,
+                      "y0": 563.4230765815435,
+                      "x1": 152.19647040488883,
+                      "y1": 579.430193710512
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 23.6061651607547,
+                        "y0": 564.0666555991495,
+                        "x1": 37.21639263573114,
+                        "y1": 579.430193710512
+                      },
+                      {
+                        "x0": 40.09695126809669,
+                        "y0": 563.4555670471487,
+                        "x1": 74.67614258496661,
+                        "y1": 579.3794046884592
+                      },
+                      {
+                        "x0": 78.93370378297881,
+                        "y0": 563.4364024181461,
+                        "x1": 133.46451414219052,
+                        "y1": 578.789129017264
+                      },
+                      {
+                        "x0": 136.26930829553658,
+                        "y0": 563.4230765815435,
+                        "x1": 152.19647040488883,
+                        "y1": 578.1813649333051
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "GP SUPER ALKALINE LR",
+                    "parsed": "GP SUPER ALKALINE LR",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "aIiiegGU",
+                    "contentType": "text"
+                  },
+                  "itemTotal": {
+                    "id": 78633785,
+                    "rectangle": {
+                      "x0": 232.28016296081222,
+                      "y0": 578.6991726290869,
+                      "x1": 265.45737625506877,
+                      "y1": 595.7027937123659
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 232.28016296081222,
+                        "y0": 578.6991726290869,
+                        "x1": 265.45737625506877,
+                        "y1": 595.7027937123659
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "18,70",
+                    "parsed": "18.70",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "pLbttUNY",
+                    "contentType": "decimal"
+                  },
+                  "itemUnitPrice": {
+                    "id": 78633766,
+                    "rectangle": {
+                      "x0": 143.30920251428617,
+                      "y0": 579.619968033249,
+                      "x1": 176.37235003595384,
+                      "y1": 594.7004509656555
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 143.30920251428617,
+                        "y0": 579.619968033249,
+                        "x1": 176.37235003595384,
+                        "y1": 594.7004509656555
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "18,70",
+                    "parsed": "18.70",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "dVGdChNl",
+                    "contentType": "decimal"
+                  },
+                  "itemQuantity": {
+                    "id": 78633778,
+                    "rectangle": {
+                      "x0": 92.88277614324458,
+                      "y0": 580.5457641216918,
+                      "x1": 100.87257583484865,
+                      "y1": 595.232450570595
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 92.88277614324458,
+                        "y0": 580.5457641216918,
+                        "x1": 100.87257583484865,
+                        "y1": 595.232450570595
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "1",
+                    "parsed": 1.0,
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "EEOzlgxz",
+                    "contentType": "float"
+                  }
+                },
+                "confidence": 0.95,
+                "classificationConfidence": 0.95,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": "cXqQaWDo",
+                "contentType": "group"
+              },
+              {
+                "id": 78633743,
+                "rectangle": {
+                  "x0": 22.039360307935254,
+                  "y0": 596.0803589452843,
+                  "x1": 271.8419859069771,
+                  "y1": 630.7457351637943
+                },
+                "rectangles": [
+                  {
+                    "x0": 22.039360307935254,
+                    "y0": 596.0803589452843,
+                    "x1": 271.8419859069771,
+                    "y1": 630.7457351637943
+                  }
+                ],
+                "document": "RgzKJTxP",
+                "pageIndex": 0,
+                "raw": "NIVEA BALS DUPA RAS 1 BUC X 30,50 30,50",
+                "parsed": {
+                  "itemDescription": {
+                    "id": 78633755,
+                    "rectangle": {
+                      "x0": 22.526381718786183,
+                      "y0": 596.4579241782027,
+                      "x1": 145.36805742667258,
+                      "y1": 615.1407955995226
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 22.526381718786183,
+                        "y0": 598.3361400638579,
+                        "x1": 56.01662633324605,
+                        "y1": 615.1407955995226
+                      },
+                      {
+                        "x0": 59.12612665447314,
+                        "y0": 597.6376374124736,
+                        "x1": 87.43552830683612,
+                        "y1": 614.2291634558019
+                      },
+                      {
+                        "x0": 90.82892191513864,
+                        "y0": 596.9474599134116,
+                        "x1": 119.42637943073818,
+                        "y1": 613.2467675173422
+                      },
+                      {
+                        "x0": 122.53171717580415,
+                        "y0": 596.4579241782027,
+                        "x1": 145.36805742667258,
+                        "y1": 612.2643715788824
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "NIVEA BALS DUPA RAS",
+                    "parsed": "NIVEA BALS DUPA RAS",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "aIiiegGU",
+                    "contentType": "text"
+                  },
+                  "itemTotal": {
+                    "id": 78633786,
+                    "rectangle": {
+                      "x0": 231.7973041261224,
+                      "y0": 611.7365065856685,
+                      "x1": 265.51232785328267,
+                      "y1": 627.8676349269156
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 231.7973041261224,
+                        "y0": 611.7365065856685,
+                        "x1": 265.51232785328267,
+                        "y1": 627.8676349269156
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "30,50",
+                    "parsed": "30.50",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "pLbttUNY",
+                    "contentType": "decimal"
+                  },
+                  "itemUnitPrice": {
+                    "id": 78633767,
+                    "rectangle": {
+                      "x0": 140.7891397561349,
+                      "y0": 613.9069409107213,
+                      "x1": 176.4531151992538,
+                      "y1": 629.7458508125708
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 140.7891397561349,
+                        "y0": 613.9069409107213,
+                        "x1": 176.4531151992538,
+                        "y1": 629.7458508125708
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "30,50",
+                    "parsed": "30.50",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "dVGdChNl",
+                    "contentType": "decimal"
+                  },
+                  "itemQuantity": {
+                    "id": 78633779,
+                    "rectangle": {
+                      "x0": 92.66299771482466,
+                      "y0": 615.3921984209927,
+                      "x1": 99.79279239288013,
+                      "y1": 630.3711033092936
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 92.66299771482466,
+                        "y0": 615.3921984209927,
+                        "x1": 99.79279239288013,
+                        "y1": 630.3711033092936
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "1",
+                    "parsed": 1.0,
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "EEOzlgxz",
+                    "contentType": "float"
+                  }
+                },
+                "confidence": 0.95,
+                "classificationConfidence": 0.95,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": "cXqQaWDo",
+                "contentType": "group"
+              },
+              {
+                "id": 78633744,
+                "rectangle": {
+                  "x0": 22.039360307935254,
+                  "y0": 630.7457351637943,
+                  "x1": 271.8419859069771,
+                  "y1": 666.5579150969104
+                },
+                "rectangles": [
+                  {
+                    "x0": 22.039360307935254,
+                    "y0": 630.7457351637943,
+                    "x1": 271.8419859069771,
+                    "y1": 666.5579150969104
+                  }
+                ],
+                "document": "RgzKJTxP",
+                "pageIndex": 0,
+                "raw": "AUC VV LICHID PARBRC 1 BUC \u00d7 16,90 16,90",
+                "parsed": {
+                  "itemDescription": {
+                    "id": 78633756,
+                    "rectangle": {
+                      "x0": 22.039360307935254,
+                      "y0": 631.120367018295,
+                      "x1": 151.42639381508184,
+                      "y1": 649.9997176273068
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 22.039360307935254,
+                        "y0": 632.7080406807913,
+                        "x1": 42.542115619783445,
+                        "y1": 649.9997176273068
+                      },
+                      {
+                        "x0": 45.6641036694939,
+                        "y0": 632.7063644645526,
+                        "x1": 61.854346185115986,
+                        "y1": 649.4727187066478
+                      },
+                      {
+                        "x0": 65.02296068071809,
+                        "y0": 632.1910151642576,
+                        "x1": 105.94770614111447,
+                        "y1": 648.887443719733
+                      },
+                      {
+                        "x0": 109.11632063671658,
+                        "y0": 631.120367018295,
+                        "x1": 151.42639381508184,
+                        "y1": 648.0840385562014
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "AUC VV LICHID PARBRC",
+                    "parsed": "AUC VV LICHID PARBRC",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "aIiiegGU",
+                    "contentType": "text"
+                  },
+                  "itemTotal": {
+                    "id": 78633787,
+                    "rectangle": {
+                      "x0": 232.4333681350899,
+                      "y0": 647.4679213554846,
+                      "x1": 265.8603359990136,
+                      "y1": 663.6964651646762
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 232.4333681350899,
+                        "y0": 647.4679213554846,
+                        "x1": 265.8603359990136,
+                        "y1": 663.6964651646762
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "16,90",
+                    "parsed": "16.90",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "pLbttUNY",
+                    "contentType": "decimal"
+                  },
+                  "itemUnitPrice": {
+                    "id": 78633768,
+                    "rectangle": {
+                      "x0": 141.65830803012503,
+                      "y0": 649.0372684970977,
+                      "x1": 175.08111331788763,
+                      "y1": 665.8419240327623
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 141.65830803012503,
+                        "y0": 649.0372684970977,
+                        "x1": 175.08111331788763,
+                        "y1": 665.8419240327623
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "16,90",
+                    "parsed": "16.90",
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "dVGdChNl",
+                    "contentType": "decimal"
+                  },
+                  "itemQuantity": {
+                    "id": 78633780,
+                    "rectangle": {
+                      "x0": 91.21106877827786,
+                      "y0": 650.5266885835302,
+                      "x1": 99.0560164123621,
+                      "y1": 666.5579150969104
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 91.21106877827786,
+                        "y0": 650.5266885835302,
+                        "x1": 99.0560164123621,
+                        "y1": 666.5579150969104
+                      }
+                    ],
+                    "document": "RgzKJTxP",
+                    "pageIndex": 0,
+                    "raw": "1",
+                    "parsed": 1.0,
+                    "confidence": 0.95,
+                    "classificationConfidence": 0.95,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "EEOzlgxz",
+                    "contentType": "float"
+                  }
+                },
+                "confidence": 0.95,
+                "classificationConfidence": 0.95,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": "cXqQaWDo",
+                "contentType": "group"
+              }
+            ]
+          },
+          "confidence": 0.95,
+          "classificationConfidence": 0.95,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "dataPoint": "EsjgEMID",
+          "contentType": "table"
+        }
+      ],
+      "paymentAmountBase": null,
+      "paymentAmountOther": [],
+      "paymentAmountPaid": {
+        "id": 78633788,
+        "rectangle": {
+          "x0": 236.9066011142322,
+          "y0": 781.6028899039717,
+          "x1": 276.66247281703784,
+          "y1": 797.156230302507
+        },
+        "rectangles": [
+          {
+            "x0": 236.9066011142322,
+            "y0": 781.6028899039717,
+            "x1": 276.66247281703784,
+            "y1": 797.156230302507
+          }
+        ],
+        "document": "RgzKJTxP",
+        "pageIndex": 0,
+        "raw": "168,95",
+        "parsed": "168.95",
+        "confidence": 0.944,
+        "classificationConfidence": 0.944,
+        "textExtractionConfidence": 1.0,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "pmsJvHuw",
+        "contentType": "decimal"
+      },
+      "paymentAmountTax": [],
+      "paymentAmountTotal": {
+        "id": 78633789,
+        "rectangle": {
+          "x0": 235.907554871128,
+          "y0": 736.9334182215001,
+          "x1": 277.52412608238944,
+          "y1": 766.9103646626687
+        },
+        "rectangles": [
+          {
+            "x0": 235.907554871128,
+            "y0": 736.9334182215001,
+            "x1": 277.52412608238944,
+            "y1": 766.9103646626687
+          }
+        ],
+        "document": "RgzKJTxP",
+        "pageIndex": 0,
+        "raw": "168,95",
+        "parsed": "168.95",
+        "confidence": 0.834,
+        "classificationConfidence": 0.834,
+        "textExtractionConfidence": 1.0,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "fahQquAq",
+        "contentType": "decimal"
+      },
+      "paymentCardInformation": null,
+      "paymentChange": null,
+      "receiptCurrencyCode": {
+        "id": 78633790,
+        "rectangle": null,
+        "rectangles": [],
+        "document": "RgzKJTxP",
+        "pageIndex": 0,
+        "raw": null,
+        "parsed": {
+          "id": 317,
+          "label": "USD",
+          "value": "USD",
+          "synonyms": null,
+          "description": null,
+          "collection": null,
+          "organization": null
+        },
+        "confidence": 0.795,
+        "classificationConfidence": 0.867,
+        "textExtractionConfidence": 0.914,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "yflKcMdj",
+        "contentType": "enum"
+      },
+      "receiptNumber": null,
+      "supplierAddress": {
+        "id": 78633791,
+        "rectangle": {
+          "x0": 77.57905049219828,
+          "y0": 101.71783047547638,
+          "x1": 244.33841984919684,
+          "y1": 156.1262219453414
+        },
+        "rectangles": [
+          {
+            "x0": 102.31771601313369,
+            "y0": 101.71783047547638,
+            "x1": 220.1034260437568,
+            "y1": 120.69951334340624
+          },
+          {
+            "x0": 77.57905049219828,
+            "y0": 118.93541915921116,
+            "x1": 244.33841984919684,
+            "y1": 139.20085170100424
+          },
+          {
+            "x0": 95.81149761556232,
+            "y0": 136.48933840387724,
+            "x1": 219.5955917521003,
+            "y1": 156.1262219453414
+          }
+        ],
+        "document": "RgzKJTxP",
+        "pageIndex": 0,
+        "raw": "HYPERMARCHE AUCHAN STR. ZAHARIA STANCU, NR. 1 BRASOV, JUD. BRASOV",
+        "parsed": {
+          "formatted": "Brasov, Romania",
+          "streetNumber": null,
+          "street": null,
+          "apartmentNumber": null,
+          "city": null,
+          "postalCode": null,
+          "state": "Brasov",
+          "country": "Romania",
+          "rawInput": "HYPERMARCHE AUCHAN STR. ZAHARIA STANCU, NR. 1 BRASOV, JUD. BRASOV",
+          "countryCode": "RO",
+          "latitude": 45.836583,
+          "longitude": 25.250644
+        },
+        "confidence": 0.97,
+        "classificationConfidence": 0.97,
+        "textExtractionConfidence": 1.0,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "EcVdFrWi",
+        "contentType": "location"
+      },
+      "supplierBusinessNumber": null,
+      "supplierCompanyName": {
+        "id": 78633792,
+        "rectangle": {
+          "x0": 97.4290914904345,
+          "y0": 85.51593833949039,
+          "x1": 227.258196178779,
+          "y1": 104.38023096678955
+        },
+        "rectangles": [
+          {
+            "x0": 97.4290914904345,
+            "y0": 85.51593833949039,
+            "x1": 227.258196178779,
+            "y1": 104.38023096678955
+          }
+        ],
+        "document": "RgzKJTxP",
+        "pageIndex": 0,
+        "raw": "SC AUCHAN ROMANIA SA",
+        "parsed": "SC AUCHAN ROMANIA SA",
+        "confidence": 0.971,
+        "classificationConfidence": 0.971,
+        "textExtractionConfidence": 1.0,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "kExkcFDp",
+        "contentType": "text"
+      },
+      "supplierEmail": null,
+      "supplierPhoneNumber": {
+        "id": 78633793,
+        "rectangle": {
+          "x0": 150.57625034791604,
+          "y0": 155.1480165474785,
+          "x1": 217.34193386826064,
+          "y1": 173.38043570640673
+        },
+        "rectangles": [
+          {
+            "x0": 150.57625034791604,
+            "y0": 155.1480165474785,
+            "x1": 217.34193386826064,
+            "y1": 173.38043570640673
+          }
+        ],
+        "document": "RgzKJTxP",
+        "pageIndex": 0,
+        "raw": "R017233051",
+        "parsed": "R017233051",
+        "confidence": 0.671,
+        "classificationConfidence": 0.671,
+        "textExtractionConfidence": 1.0,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "ecXOUOfa",
+        "contentType": "text"
+      },
+      "supplierWebsite": null,
+      "time": {
+        "id": 78633794,
+        "rectangle": {
+          "x0": 225.0931540401055,
+          "y0": 1414.9961073995446,
+          "x1": 277.81570216471727,
+          "y1": 1431.3087128756424
+        },
+        "rectangles": [
+          {
+            "x0": 225.0931540401055,
+            "y0": 1414.9961073995446,
+            "x1": 277.81570216471727,
+            "y1": 1431.3087128756424
+          }
+        ],
+        "document": "RgzKJTxP",
+        "pageIndex": 0,
+        "raw": "12:29:53",
+        "parsed": "12:29:53",
+        "confidence": 0.971,
+        "classificationConfidence": 0.971,
+        "textExtractionConfidence": 1.0,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "kaIipvfX",
+        "contentType": "text"
+      },
+      "rawText": "SC AUCHAN ROMANIA SA HYPERMARCHE AUCHAN STR. ZAHARIA STANCU, NR. 1 BRASOV, JUD. BRASOV C.I.F .: R017233051 BON FISCAL ZILNIC 07.00-21.00 PETR 30724BAZ.AUTO 335 STICKERE PUISOR OUA 1 BUC \u00d7 16,00 SELECLINE FIERBATOR 1 BUC \u00d7 44,01 44,01 D TAXA VERDE 1 BUC \u00d7 0,89 0,89 D COS DREPTUNG CARLIGE 1 BUC X 5,55 5,55 D CROISSANT 7 DAYS SPU 1 BUC \u00d7 1,75 PAINE CU MAIA SI MAS 1 BUC X 3,60 PATE DE PORC 20% 120 2 BUC X 3,55 NUTELLA 700G 1 BUC \u00d7 19,40 19,40 B RADIERA GALET 1 BUC \u00d7 4,55 GP SUPER ALKALINE LR 1 BUC X 18,70 18,70 D NIVEA BALS DUPA RAS 1 BUC X 30,50 30,50 0 AUC VV LICHID PARBRC 1 BUC \u00d7 16,90 16,90 D END ELEMENTE TOATE ARTICOLE SCANATE: 13 TOTAL : 168,95 CARD 168,95 16,00 D 1,75 B 3,60 B 7,10 B 4,55 D 00018 038 46150 0038 9138579073918 TERMINAL : 2AUCH008 TERMINAL ID .: 2AUCHQ08 COMERCIANT : 2AUCHQ08 ************ 6855 AID: A0000000041010 VANZARE BATCH: 000268 CHITANTA: 023673 ORA: 12:29:23 DATA: 02 APR 2022 RRN: 209207265765 NT. AUTORIZ .: 291808 EXP .: **** MASTERCARD TOTAL: PIN VERIFICAT SEMNATURA DUS. NU MAI ESTE NECESARA TVA RON 168,95 VALOARE TOTAL B-TVA 9% 2,63 TOTAL TAXE: 24,52 31,85 D-TVA 19% 21,89 137,10 ATI FOST MULTUMIT AZI DE AUCHAN? RASPUNDETI PE Q.AUCHAN.RO SERVICIUL CLIENTI 021-9141 VA MULTUMIM CA NE-ATI ALES! AUCHAN ... SI VIATA SE SCHIMBA CASIER: CASA: NUMAR BON: CASA RAPIDA 38 38 02.04.2022 1081-00024 12:29:53 FL 1000440358 BON FISCAL"
+    },
+    "meta": {
+      "identifier": "RgzKJTxP",
+      "ready": true,
+      "failed": false,
+      "readyDt": "2023-08-23T14:44:01.566744Z",
+      "fileName": "receipt.jpg",
+      "expiryTime": null,
+      "language": "en",
+      "pdf": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/dmVyc2lvbl9pZABkb2N1bWVudHMvcmVjZWlwdF92Y0poM05sLmpwZw_2r19Z6E_WRnahgx.pdf?versionId=vfOI.y46J7lifIJku2eN2cJSwZrpr6E_&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNA5AQNLW4%2F20230823%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230823T144404Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEE4aDmFwLXNvdXRoZWFzdC0yIkcwRQIhAMg%2FTQ%2BKxo%2BJDTZ4EWqmBkw0rXJlxhwd6nOhZXo9TcGHAiBQGhu%2F%2Br4ZOp4KcQncEf5QzW0yPyxOgu0Cfptuoob1OyqJBQgXEAIaDDMzNTU5NDU3MTE2MiIMDGpN75oblmfPyQ6iKuYEr2kATdv%2BQgUEg%2BRb0OGUFmZm7kH8XsS9Zs3YAeMcUR4S93ReTXUghLtxLOhupLunDHNeUkoXC1sFDByAQNi5yhDKRfLK3j1Es5xULtUM8FE%2FcvQ8qk3I1ZHdEKmoh%2FGahkKpzONQzcRahfk%2B1zvLpnlrue95fsu843si9ig%2F6IoG%2FgA40HvGfWFzkdYTojz9tgq9qOJxE2wpYBY%2FohWd0akFoFjg4vqogx42xU7c8wQZbM3%2FRGPuOKxnVNq%2BIYKe5jEsrY2Ul00dNfjadCkkwxB%2BaKQGg%2FNyaYD8XLm0DR%2FvX5Ccq5%2F4DVxDBTRt1Azf7ndNIQOaqPhAFyfUJXU2LVwIghfcUSZp8vgdj5T0e0%2BOu2Wjr6AYrck9nwJTWOH9hB0lDFVrazcFhy1nTOMvDGI6FUQwmcC1XVjhLhMOVaKTEEGr1rQE3sPNqpmodDcVIAlzWsQ1VtVTrSMgnwsOuQB88%2BU7P9wOsfs5cQXRQnTF8kf9ZTyPGsSB9brl2u0VRsQyXDchEWES4pC02VYEexoXeNwkGOpNgpKU%2BptKDwG1mwpySyfZFAHit0HsbP1p6sm4TsRebFVziq4lnj0xNsEVibWBa1vlLFs9bImF%2BRBppZuB%2F%2FgLgAPu%2BMk8nT%2B4%2FuHz4FZ5HYG3Fr2Ccp9aAYDDegXNV43edNTwKGiL77gw0dWlP8L1c%2Fd66VD1bCGU5UEGNA6NKUX2Lt9fLxyu8nOSMdcj%2Fg6ZOcybJoAtyg9sI18X7PHFy1ak5UtOMw2EPFWthuLBhfY5OSuhaAXYMFryKKsNiIazxTAnrzt%2Fd3aSAxi8EIUwmqOYpwY6mgE0kH7UZqu5pK9CG4OWdl05YEc1Pz10eDpczrcmpwZZqMsjDTXub1yftmy1fS8Tq7x9Kbw6iyLi8%2FFAKbuNOrnasfSiobUgMNNzchsbeLZUN0O6eXkxtYdciu6eoWaNCSEPhHBuh9m68TpxQuOUwm7oJBJvb3Ea4ssRTLhd6vYWHhovmcmeBS%2Fn94qb1E%2BQ7G%2ByOXOxrRSNyNNA&X-Amz-Signature=e7cd14008387c22c0d55340ddc32dc8bda17a65f07e215d805894e855688ab27",
+      "parentDocument": null,
+      "childDocuments": [],
+      "pages": [
+        {
+          "id": 32247506,
+          "pageIndex": 0,
+          "image": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/pages/32247506_ckhQyTZ.png?versionId=3B4tRgldw_O7FCqx4SIS2oCz15qiqaqt&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNA5AQNLW4%2F20230823%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230823T144404Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEE4aDmFwLXNvdXRoZWFzdC0yIkcwRQIhAMg%2FTQ%2BKxo%2BJDTZ4EWqmBkw0rXJlxhwd6nOhZXo9TcGHAiBQGhu%2F%2Br4ZOp4KcQncEf5QzW0yPyxOgu0Cfptuoob1OyqJBQgXEAIaDDMzNTU5NDU3MTE2MiIMDGpN75oblmfPyQ6iKuYEr2kATdv%2BQgUEg%2BRb0OGUFmZm7kH8XsS9Zs3YAeMcUR4S93ReTXUghLtxLOhupLunDHNeUkoXC1sFDByAQNi5yhDKRfLK3j1Es5xULtUM8FE%2FcvQ8qk3I1ZHdEKmoh%2FGahkKpzONQzcRahfk%2B1zvLpnlrue95fsu843si9ig%2F6IoG%2FgA40HvGfWFzkdYTojz9tgq9qOJxE2wpYBY%2FohWd0akFoFjg4vqogx42xU7c8wQZbM3%2FRGPuOKxnVNq%2BIYKe5jEsrY2Ul00dNfjadCkkwxB%2BaKQGg%2FNyaYD8XLm0DR%2FvX5Ccq5%2F4DVxDBTRt1Azf7ndNIQOaqPhAFyfUJXU2LVwIghfcUSZp8vgdj5T0e0%2BOu2Wjr6AYrck9nwJTWOH9hB0lDFVrazcFhy1nTOMvDGI6FUQwmcC1XVjhLhMOVaKTEEGr1rQE3sPNqpmodDcVIAlzWsQ1VtVTrSMgnwsOuQB88%2BU7P9wOsfs5cQXRQnTF8kf9ZTyPGsSB9brl2u0VRsQyXDchEWES4pC02VYEexoXeNwkGOpNgpKU%2BptKDwG1mwpySyfZFAHit0HsbP1p6sm4TsRebFVziq4lnj0xNsEVibWBa1vlLFs9bImF%2BRBppZuB%2F%2FgLgAPu%2BMk8nT%2B4%2FuHz4FZ5HYG3Fr2Ccp9aAYDDegXNV43edNTwKGiL77gw0dWlP8L1c%2Fd66VD1bCGU5UEGNA6NKUX2Lt9fLxyu8nOSMdcj%2Fg6ZOcybJoAtyg9sI18X7PHFy1ak5UtOMw2EPFWthuLBhfY5OSuhaAXYMFryKKsNiIazxTAnrzt%2Fd3aSAxi8EIUwmqOYpwY6mgE0kH7UZqu5pK9CG4OWdl05YEc1Pz10eDpczrcmpwZZqMsjDTXub1yftmy1fS8Tq7x9Kbw6iyLi8%2FFAKbuNOrnasfSiobUgMNNzchsbeLZUN0O6eXkxtYdciu6eoWaNCSEPhHBuh9m68TpxQuOUwm7oJBJvb3Ea4ssRTLhd6vYWHhovmcmeBS%2Fn94qb1E%2BQ7G%2ByOXOxrRSNyNNA&X-Amz-Signature=b449108a9fec3129bd1f133143a6c5beed48416bd2f55d19be5144aff5c93d70",
+          "height": 1504.1058879257594,
+          "width": 316.64282084738,
+          "rotation": 0
+        }
+      ],
+      "ocrConfidence": 0.913672,
+      "reviewUrl": "https://app.affinda.com/review/RgzKJTxP?signature=eyJ1c2VyX2lkIjoyNDIzfQ:1qYp5Y:A6MLGH1qJUwkDQThIdc-ddwZVMFc6xgPdJKxqYhdibY:1qYp5Y:miJn8ZiM_HJhkxqR1gGHeeOW_PdbzKlAhyPF_T3ado4",
+      "createdDt": "2023-08-23T14:43:53.034092Z",
+      "errorDetail": null,
+      "file": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/receipt_vcJh3Nl.jpg?versionId=uimE_obiQhby7ezA9veMM2geN3Lhgyfd&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNA5AQNLW4%2F20230823%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230823T144404Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEE4aDmFwLXNvdXRoZWFzdC0yIkcwRQIhAMg%2FTQ%2BKxo%2BJDTZ4EWqmBkw0rXJlxhwd6nOhZXo9TcGHAiBQGhu%2F%2Br4ZOp4KcQncEf5QzW0yPyxOgu0Cfptuoob1OyqJBQgXEAIaDDMzNTU5NDU3MTE2MiIMDGpN75oblmfPyQ6iKuYEr2kATdv%2BQgUEg%2BRb0OGUFmZm7kH8XsS9Zs3YAeMcUR4S93ReTXUghLtxLOhupLunDHNeUkoXC1sFDByAQNi5yhDKRfLK3j1Es5xULtUM8FE%2FcvQ8qk3I1ZHdEKmoh%2FGahkKpzONQzcRahfk%2B1zvLpnlrue95fsu843si9ig%2F6IoG%2FgA40HvGfWFzkdYTojz9tgq9qOJxE2wpYBY%2FohWd0akFoFjg4vqogx42xU7c8wQZbM3%2FRGPuOKxnVNq%2BIYKe5jEsrY2Ul00dNfjadCkkwxB%2BaKQGg%2FNyaYD8XLm0DR%2FvX5Ccq5%2F4DVxDBTRt1Azf7ndNIQOaqPhAFyfUJXU2LVwIghfcUSZp8vgdj5T0e0%2BOu2Wjr6AYrck9nwJTWOH9hB0lDFVrazcFhy1nTOMvDGI6FUQwmcC1XVjhLhMOVaKTEEGr1rQE3sPNqpmodDcVIAlzWsQ1VtVTrSMgnwsOuQB88%2BU7P9wOsfs5cQXRQnTF8kf9ZTyPGsSB9brl2u0VRsQyXDchEWES4pC02VYEexoXeNwkGOpNgpKU%2BptKDwG1mwpySyfZFAHit0HsbP1p6sm4TsRebFVziq4lnj0xNsEVibWBa1vlLFs9bImF%2BRBppZuB%2F%2FgLgAPu%2BMk8nT%2B4%2FuHz4FZ5HYG3Fr2Ccp9aAYDDegXNV43edNTwKGiL77gw0dWlP8L1c%2Fd66VD1bCGU5UEGNA6NKUX2Lt9fLxyu8nOSMdcj%2Fg6ZOcybJoAtyg9sI18X7PHFy1ak5UtOMw2EPFWthuLBhfY5OSuhaAXYMFryKKsNiIazxTAnrzt%2Fd3aSAxi8EIUwmqOYpwY6mgE0kH7UZqu5pK9CG4OWdl05YEc1Pz10eDpczrcmpwZZqMsjDTXub1yftmy1fS8Tq7x9Kbw6iyLi8%2FFAKbuNOrnasfSiobUgMNNzchsbeLZUN0O6eXkxtYdciu6eoWaNCSEPhHBuh9m68TpxQuOUwm7oJBJvb3Ea4ssRTLhd6vYWHhovmcmeBS%2Fn94qb1E%2BQ7G%2ByOXOxrRSNyNNA&X-Amz-Signature=e383c047320cea4c484ba5c8b4be17f99b3c3a8e6513e8d9adfd141ac65947ab",
+      "collection": {
+        "identifier": "QOGOVFdo",
+        "name": "receipt-parser",
+        "extractor": {
+          "id": 9,
+          "identifier": "receipt",
+          "name": "Receipt",
+          "baseExtractor": null,
+          "validatable": true
+        }
+      },
+      "workspace": {
+        "identifier": "LAyjqkLa",
+        "name": "Receipt"
+      },
+      "tags": [],
+      "isOcrd": true,
+      "isConfirmed": false,
+      "confirmedDt": null,
+      "isRejected": false,
+      "rejectedDt": null,
+      "isArchived": false,
+      "archivedDt": null,
+      "errorCode": null,
+      "confirmedBy": null,
+      "sourceEmail": null,
+      "createdBy": {
+        "id": 2423,
+        "name": "Eden AI",
+        "username": "contact",
+        "email": "contact@edenai.co",
+        "avatar": null,
+        "master": null
+      },
+      "regionBias": {
+        "country": null,
+        "countries": null,
+        "squareCoordinates": null
+      }
+    },
+    "error": {
+      "errorCode": null,
+      "errorDetail": null
+    },
+    "warnings": [],
+    "extractor": "receipt"
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "invoice_number": null,
+        "invoice_total": 168.95,
+        "invoice_subtotal": null,
+        "barcodes": [],
+        "category": null,
+        "date": "02.04.2022",
+        "due_date": null,
+        "time": "12:29:53",
+        "customer_information": {
+          "customer_name": null
+        },
+        "merchant_information": {
+          "merchant_name": "SC AUCHAN ROMANIA SA",
+          "merchant_address": "HYPERMARCHE AUCHAN STR. ZAHARIA STANCU, NR. 1 BRASOV, JUD. BRASOV",
+          "merchant_phone": "R017233051",
+          "merchant_url": null,
+          "merchant_siret": null,
+          "merchant_siren": null
+        },
+        "payment_information": {
+          "card_type": null,
+          "card_number": null,
+          "cash": null,
+          "tip": null,
+          "discount": null,
+          "change": null
+        },
+        "locale": {
+          "currency": "USD",
+          "language": null,
+          "country": null
+        },
+        "taxes": [],
+        "receipt_infos": {},
+        "item_lines": [
+          {
+            "description": "STICKERE PUISOR OUA",
+            "quantity": null,
+            "amount": null,
+            "unit_price": null
+          },
+          {
+            "description": null,
+            "quantity": 1.0,
+            "amount": null,
+            "unit_price": 16.0
+          },
+          {
+            "description": "SELECLINE FIERBATOR",
+            "quantity": 1.0,
+            "amount": 44.01,
+            "unit_price": 44.01
+          },
+          {
+            "description": "TAXA VERDE",
+            "quantity": 1.0,
+            "amount": 0.89,
+            "unit_price": 0.89
+          },
+          {
+            "description": "COS DREPTUNG CARLIGE",
+            "quantity": 1.0,
+            "amount": 5.55,
+            "unit_price": 5.55
+          },
+          {
+            "description": "CROISSANT 7 DAYS SPU",
+            "quantity": 1.0,
+            "amount": null,
+            "unit_price": 1.75
+          },
+          {
+            "description": "PAINE CU MAIA SI MAS",
+            "quantity": 1.0,
+            "amount": null,
+            "unit_price": 3.6
+          },
+          {
+            "description": "PATE DE PORC 20% 120",
+            "quantity": 2.0,
+            "amount": null,
+            "unit_price": 3.55
+          },
+          {
+            "description": "NUTELLA 700G",
+            "quantity": 1.0,
+            "amount": 19.4,
+            "unit_price": 19.4
+          },
+          {
+            "description": "RADIERA GALET",
+            "quantity": 1.0,
+            "amount": null,
+            "unit_price": 4.55
+          },
+          {
+            "description": "GP SUPER ALKALINE LR",
+            "quantity": 1.0,
+            "amount": 18.7,
+            "unit_price": 18.7
+          },
+          {
+            "description": "NIVEA BALS DUPA RAS",
+            "quantity": 1.0,
+            "amount": 30.5,
+            "unit_price": 30.5
+          },
+          {
+            "description": "AUC VV LICHID PARBRC",
+            "quantity": 1.0,
+            "amount": 16.9,
+            "unit_price": 16.9
+          }
+        ]
+      }
+    ]
+  }
+}

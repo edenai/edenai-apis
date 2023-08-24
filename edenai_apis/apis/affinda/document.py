@@ -101,10 +101,10 @@ class FileParameter:
     __type: Literal['file', 'url']
 
     def __init__(self, file: Optional[str], url: Optional[str]) -> None:
-        if url is not None:
+        if url:
             self.__file = url
             self.__type = 'url'
-        elif file is not None:
+        elif file:
             self.__file = file
             self.__type = 'file'
         else:
