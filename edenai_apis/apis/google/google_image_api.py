@@ -1,8 +1,26 @@
 from io import BufferedReader
-from typing import Optional, Sequence
-
+import json
+import os
+from pathlib import Path
+from typing import List, Optional, Sequence, Tuple, Union
+from time import time, sleep
+import uuid
 import numpy as np
-from edenai_apis.apis.google.google_helpers import handle_google_call, score_to_content
+import requests
+from edenai_apis.apis.google.google_helpers import (
+    get_access_token,
+    get_long_operation_status,
+    handle_google_call,
+    score_to_content,
+)
+from edenai_apis.features.image.automl_classification import (
+    AutomlClassificationCreateDataset,
+    AutomlClassificationTraining,
+    TrainingModelMetrics,
+    AutomlClassificationCreateEndpoint,
+    AutomlClassificationDeployModel,
+    AutomlClassificationPrediction,
+)
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
     ExplicitItem,
@@ -41,10 +59,16 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
     ObjectItem,
 )
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.types import (
+    AsyncBaseResponseType,
+    AsyncLaunchJobResponseType,
+    AsyncPendingResponseType,
+    AsyncResponseType,
+    ResponseType,
+)
 from PIL import Image as Img
 
-from google.cloud import vision
+from google.cloud import vision, storage
 from google.cloud.vision_v1.types.image_annotator import AnnotateImageResponse
 from google.protobuf.json_format import MessageToDict
 
@@ -57,8 +81,10 @@ class GoogleImageApi(ImageInterface):
             content = file_.read()
         image = vision.Image(content=content)
 
-        payload = { "image": image }
-        response = handle_google_call(self.clients["image"].safe_search_detection, **payload)
+        payload = {"image": image}
+        response = handle_google_call(
+            self.clients["image"].safe_search_detection, **payload
+        )
 
         # Convert response to dict
         data = AnnotateImageResponse.to_dict(response)
@@ -91,8 +117,10 @@ class GoogleImageApi(ImageInterface):
         file_ = open(file, "rb")
         image = vision.Image(content=file_.read())
 
-        payload = { "image": image }
-        response = handle_google_call(self.clients["image"].object_localization, **payload)
+        payload = {"image": image}
+        response = handle_google_call(
+            self.clients["image"].object_localization, **payload
+        )
         response = MessageToDict(response._pb)
 
         file_.close()
@@ -133,11 +161,8 @@ class GoogleImageApi(ImageInterface):
             file_content = file_.read()
         img_size = Img.open(file).size
         image = vision.Image(content=file_content)
-        
-        payload = {
-            "image": image,
-            "max_results": 100
-        }
+
+        payload = {"image": image, "max_results": 100}
         response = handle_google_call(self.clients["image"].face_detection, **payload)
         original_result = MessageToDict(response._pb)
 
@@ -273,8 +298,10 @@ class GoogleImageApi(ImageInterface):
         with open(file, "rb") as file_:
             content = file_.read()
         image = vision.Image(content=content)
-        payload = { "image": image }
-        response = handle_google_call(self.clients["image"].landmark_detection, **payload)
+        payload = {"image": image}
+        response = handle_google_call(
+            self.clients["image"].landmark_detection, **payload
+        )
         dict_response = vision.AnnotateImageResponse.to_dict(response)
         landmarks = dict_response.get("landmark_annotations", [])
 
@@ -321,9 +348,9 @@ class GoogleImageApi(ImageInterface):
             content = file_.read()
         image = vision.Image(content=content)
 
-        payload = { "image": image }
+        payload = {"image": image}
         response = handle_google_call(self.clients["image"].logo_detection, **payload)
-        
+
         response = MessageToDict(response._pb)
 
         float_or_none = lambda val: float(val) if val else None
@@ -352,4 +379,482 @@ class GoogleImageApi(ImageInterface):
         return ResponseType[LogoDetectionDataClass](
             original_response=response,
             standardized_response=LogoDetectionDataClass(items=items),
+        )
+
+    def image__automl_classification__create_dataset_async__launch_job(
+        self,
+        file: str,
+        file_url: str = "",
+    ) -> AsyncLaunchJobResponseType:
+        url_subdomain = "us-central1-aiplatform"
+        project_id = self.project_id
+        token = get_access_token(self.location)
+        bucket_region = self.api_settings["bucket_region"]
+        bucket_name = "automl-vision-classification"
+        storage_client: storage.Client = self.clients["storage"]
+        bucket = storage_client.get_bucket(bucket_name)
+
+        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{project_id}/locations/{bucket_region}/datasets"
+
+        file_name = Path(file).stem
+        display_name = f"{file_name}_{str(int(time()))}"
+
+        # upload csv file into a bucket
+        destination_blob_name = f"training/{display_name}.csv"
+        blob = bucket.blob(destination_blob_name)
+        blob.upload_from_filename(file)
+
+        payload = {
+            "display_name": display_name,
+            "metadata_schema_uri": "gs://google-cloud-aiplatform/schema/dataset/metadata/image_1.0.0.yaml",
+        }
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        }
+
+        # create a dataset
+        request = requests.post(url=url, headers=headers, json=payload)
+        if request.status_code > 201:
+            raise ProviderException(
+                "Something went wrong when creating the dataset",
+                code=requests.status_codes,
+            )
+        response = request.json()
+        operation_name = response["name"]
+        print("The dataset is being created...")
+        operation_status = False
+        while not operation_status:
+            sleep(0.5)
+            response = get_long_operation_status(
+                bucket_region, operation_name, self.location, token
+            )
+            operation_status = response.get("done") or False
+        print("Dataset created...")
+
+        # import data into the dataset
+        dataset_id = operation_name.split("/")[5]
+
+        # uris
+        input_uris = f"gs://{bucket_name}/{destination_blob_name}"
+        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{bucket_region}/datasets/{dataset_id}:import"
+        payload = {
+            "import_configs": [
+                {
+                    "gcs_source": {"uris": input_uris},
+                    "import_schema_uri": "gs://google-cloud-aiplatform/schema/dataset/ioformat/image_classification_single_label_io_format_1.0.0.yaml",
+                }
+            ]
+        }
+
+        request = requests.post(url=url, headers=headers, json=payload)
+        if request.status_code > 201:
+            raise ProviderException(
+                "Something went wrong when creating the dataset",
+                code=requests.status_codes,
+            )
+        response = request.json()
+        operation_name = response["name"]
+        dataset_job_id = f"{operation_name.split('/')[-1]}EdenAI{dataset_id}"
+
+        return AsyncLaunchJobResponseType(provider_job_id=dataset_job_id)
+
+    def image__automl_classification__create_dataset_async__get_job_result(
+        self, dataset_job_id: str
+    ) -> AsyncBaseResponseType[AutomlClassificationCreateDataset]:
+        opreration_id, dataset_id = dataset_job_id.split("EdenAI")
+        location = self.api_settings["bucket_region"]
+        project_id = self.project_id
+        token = get_access_token(self.location)
+        operation_name = f"projects/{project_id}/locations/{location}/datasets/{dataset_id}/operations/{opreration_id}"
+
+        response = get_long_operation_status(
+            location, operation_name, self.location, token
+        )
+
+        operation_status = response.get("done") or False
+        operation_response = response.get("response")
+
+        if not operation_status:
+            return AsyncPendingResponseType[AutomlClassificationCreateDataset](
+                provider_job_id=dataset_job_id
+            )
+        if operation_status and not operation_response:
+            raise ProviderException(response.get("error"))
+
+        standardized_response = AutomlClassificationCreateDataset(dataset_id=dataset_id)
+        return AsyncResponseType[AutomlClassificationCreateDataset](
+            original_response=dataset_id,
+            standardized_response=standardized_response,
+            provider_job_id=dataset_job_id,
+        )
+
+    def image__automl_classification__training_async__launch_job(
+        self,
+        dataset_id: str,
+        model_name: str = "",
+        model_description: str = "",
+        fraction_split: Tuple[float] = (),
+    ) -> AsyncLaunchJobResponseType:
+        url_subdomain = "us-central1-aiplatform"
+        project_id = self.project_id
+        token = get_access_token(self.location)
+        bucket_region = self.api_settings["bucket_region"]
+
+        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{project_id}/locations/{bucket_region}/trainingPipelines"
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        }
+
+        payload_fraction_split = {}
+        if fraction_split:
+            if len(fraction_split) != 3:
+                raise ProviderException(
+                    "Should provide all of training, validation and test fractions"
+                )
+            train, valid, test = fraction_split
+            if train + valid + test != 1:
+                raise ProviderException("Some of all fractions should be equal to 1.0")
+            payload_fraction_split = {
+                "trainingFraction": train,
+                "validationFraction": valid,
+                "testFraction": test,
+            }
+
+        payload = {
+            "displayName": str(uuid.uuid4()),
+            "inputDataConfig": {
+                "datasetId": dataset_id,
+                "fractionSplit": payload_fraction_split,
+            },
+            "modelToUpload": {
+                "displayName": model_name,
+                "description": model_description,
+            },
+            "trainingTaskDefinition": "gs://google-cloud-aiplatform/schema/trainingjob/definition/automl_image_classification_1.0.0.yaml",
+            "trainingTaskInputs": {
+                "multiLabel": "false",
+                "modelType": ["CLOUD"],
+                "budgetMilliNodeHours": 400000,
+            },
+        }
+
+        request = requests.post(url=url, headers=headers, json=payload)
+        if request.status_code > 201:
+            raise ProviderException(
+                "Something went wrong when creating the dataset",
+                code=requests.status_codes,
+            )
+        response = request.json()
+        operation_name = response["name"]
+
+        return AsyncLaunchJobResponseType(provider_job_id=operation_name.split("/")[-1])
+
+    def image__automl_classification__training_async__get_job_result(
+        self, training_job_id: str
+    ) -> AsyncBaseResponseType[AutomlClassificationTraining]:
+        url_subdomain = "us-central1-aiplatform"
+        pipeline_training_id = training_job_id
+        location = self.api_settings["bucket_region"]
+        project_id = self.project_id
+        bucket_region = self.api_settings["bucket_region"]
+        token = get_access_token(self.location)
+
+        operation_name = f"projects/{project_id}/locations/{location}/trainingPipelines/{pipeline_training_id}"
+
+        response = get_long_operation_status(
+            location, operation_name, self.location, token
+        )
+
+        training_status = response.get("state")
+        if training_status == "PIPELINE_STATE_RUNNING":
+            return AsyncPendingResponseType(provider_job_id=training_job_id)
+        if training_status != "PIPELINE_STATE_SUCCEEDED":
+            error_msg = response.get("error") or "training failed!!"
+            raise ProviderException(error_msg)
+
+        # get model id
+        model_to_upload = response.get("modelToUpload", {}) or {}
+        model_complete_name = model_to_upload.get("name", "") or ""
+        try:
+            model_id = model_complete_name.split("/")[-1]
+        except:
+            raise ProviderException("Model was not created !!")
+
+        standardized_response = AutomlClassificationTraining(model_id=model_id)
+        # get metrics
+        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{project_id}/locations/{bucket_region}/models/{model_id}/evaluations"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        }
+        request = requests.get(url, headers=headers)
+        response = request.json()
+        if request.status_code >= 400:
+            pass  # should remove metrics from response
+        model_evaluation = response.get("modelEvaluations", []) or []
+        if len(model_evaluation) == 0:  # no metrics
+            return AsyncResponseType[AutomlClassificationTraining](
+                original_response=model_id,
+                standardized_response=standardized_response,
+                provider_job_id=training_job_id,
+            )
+        model_evaluation = model_evaluation[0]
+        model_evaluation_name = model_evaluation.get("name", "") or ""
+        try:
+            evaluation_id = model_evaluation_name.split("/")[-1]
+        except:  # the is no evaluation, should remove metrics from response
+            return AsyncResponseType[AutomlClassificationTraining](
+                original_response=model_id,
+                standardized_response=standardized_response,
+                provider_job_id=training_job_id,
+            )
+        metrics = model_evaluation.get("metrics", {}) or {}
+        au_prc = metrics.get("auPrc")
+        log_loss = metrics.get("logLoss")
+        recall = metrics.get("confidenceMetrics")[1]["recall"]
+        precision = metrics.get("confidenceMetrics")[1]["precision"]
+
+        metric_instance = TrainingModelMetrics(
+            au_prc=au_prc, log_loss=log_loss, recall=recall, precision=precision
+        )
+        standardized_response.metrics = metric_instance
+        return AsyncResponseType[AutomlClassificationTraining](
+            original_response={"model_id": model_id, "metrics": metrics},
+            standardized_response=standardized_response,
+            provider_job_id=training_job_id,
+        )
+
+    def image__automl_classification__create_endpoint_async__launch_job(
+        self, model_id: str
+    ) -> AsyncLaunchJobResponseType:
+        url_subdomain = "us-central1-aiplatform"
+        location = self.api_settings["bucket_region"]
+        project_id = self.project_id
+        token = get_access_token(self.location)
+
+        # create an endpoint for the deployement
+        endpoint_name = f"{model_id}-{str(int(time()))}"
+        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{project_id}/locations/{location}/endpoints"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        }
+        payload = {"display_name": endpoint_name}
+        request = requests.post(url, headers=headers, json=payload)
+        response = request.json()
+        if request.status_code >= 400:
+            raise ProviderException("Can't deploy model !!", code=request.status_code)
+        operation_name = response["name"]
+        endpoint_id = operation_name.split("/")[5]
+
+        return AsyncLaunchJobResponseType(
+            provider_job_id=f"{operation_name.split('/')[-1]}EdenAI{endpoint_id}"
+        )
+
+    def image__automl_classification__create_endpoint_async__get_job_result(
+        self, endpoint_job_id: str
+    ) -> AsyncBaseResponseType[AutomlClassificationCreateEndpoint]:
+        operation_id, endpoint_id = endpoint_job_id.split("EdenAI")
+        location = self.api_settings["bucket_region"]
+        project_id = self.project_id
+        token = get_access_token(self.location)
+
+        operation_name = f"projects/{project_id}/locations/{location}/endpoints/{endpoint_id}/operations/{operation_id}"
+
+        response = get_long_operation_status(
+            location, operation_name, self.location, token
+        )
+
+        operation_status = response.get("done") or False
+        operation_response = response.get("response")
+
+        if not operation_status:
+            return AsyncPendingResponseType(provider_job_id=endpoint_job_id)
+        if operation_status and not operation_response:
+            raise ProviderException(response.get("error"))
+
+        return AsyncResponseType[AutomlClassificationCreateEndpoint](
+            original_response=endpoint_id,
+            standardized_response=AutomlClassificationCreateEndpoint(
+                endpoint_id=endpoint_id
+            ),
+            provider_job_id=endpoint_job_id,
+        )
+
+    def image__automl_classification__deploy_model_async__launch_job(
+        self, model_id: str, endpoint_id: str, deploy_model_name: str
+    ) -> AsyncLaunchJobResponseType:
+        url_subdomain = "us-central1-aiplatform"
+        location = self.api_settings["bucket_region"]
+        project_id = self.project_id
+        bucket_region = self.api_settings["bucket_region"]
+        token = get_access_token(self.location)
+
+        # deploy the model
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        }
+        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{project_id}/locations/{bucket_region}/endpoints/{endpoint_id}:deployModel"
+        payload = {
+            "deployedModel": {
+                "model": f"projects/{project_id}/locations/{bucket_region}/models/{model_id}",
+                "displayName": deploy_model_name,
+                "automaticResources": {"minReplicaCount": 1, "maxReplicaCount": 1},
+            }
+        }
+        request = requests.post(url, headers=headers, json=payload)
+        response = request.json()
+        if request.status_code >= 400:
+            error = (response.get("error", {}) or {}).get(
+                "message", ""
+            ) or "Could not deploy model !!"
+            raise ProviderException(error, code=request.status_code)
+        operation_name = response["name"]
+
+        return AsyncLaunchJobResponseType(
+            provider_job_id=f"{operation_name.split('/')[-1]}EdenAI{endpoint_id}"
+        )
+
+    def image__automl_classification__deploy_model_async__get_job_result(
+        self, deployement_job_id: str
+    ) -> AsyncBaseResponseType[AutomlClassificationDeployModel]:
+        operation_id, endpoint_id = deployement_job_id.split("EdenAI")
+        location = self.api_settings["bucket_region"]
+        project_id = self.project_id
+        token = get_access_token(self.location)
+
+        operation_name = f"projects/{project_id}/locations/{location}/endpoints/{endpoint_id}/operations/{operation_id}"
+
+        response = get_long_operation_status(
+            location, operation_name, self.location, token
+        )
+
+        operation_status = response.get("done") or False
+        operation_response = response.get("response")
+
+        if not operation_status:
+            return AsyncPendingResponseType(provider_job_id=deployement_job_id)
+        if operation_status and not operation_response:
+            raise ProviderException(response.get("error"))
+
+        return AsyncResponseType[AutomlClassificationDeployModel](
+            original_response=True,
+            standardized_response=AutomlClassificationDeployModel(deployed=True),
+            provider_job_id=deployement_job_id,
+        )
+
+    def image__automl_classification__prediction_async__launch_job(
+        self,
+        file: str,
+        mime_type: str,
+        model_id: str,
+        job_name: str,
+        file_url: str = "",
+    ) -> AsyncLaunchJobResponseType:
+        bucket_result = "automl-vision-classification-predictions"
+        url_subdomain = "us-central1-aiplatform"
+        project_id = self.project_id
+        token = get_access_token(self.location)
+        bucket_region = self.api_settings["bucket_region"]
+        bucket_name = "automl-vision-classification"
+        storage_client: storage.Client = self.clients["storage"]
+        bucket = storage_client.get_bucket(bucket_name)
+
+        # upload file to bucket
+        _, ext = os.path.splitext(file)
+        file_name = Path(file).stem
+        display_name = f"{file_name}_{str(int(time()))}"
+
+        destination_blob_name = f"prediction/{display_name}{ext}"
+        blob = bucket.blob(destination_blob_name)
+        blob.upload_from_filename(file)
+
+        # create a json file pointing to the file ressource
+        ressource = {
+            "content": f"gs://{bucket_name}/{destination_blob_name}",
+            "mimeType": mime_type,
+        }
+        json_destination_blob_name = f"prediction/{display_name}.json"
+        blob = bucket.blob(json_destination_blob_name)
+        blob.upload_from_string(json.dumps(ressource))
+
+        payload = {
+            "displayName": job_name,
+            "model": f"projects/{project_id}/locations/{bucket_region}/models/{model_id}",
+            "modelParameters": {},
+            "inputConfig": {
+                "instancesFormat": "jsonl",
+                "gcsSource": {
+                    "uris": [f"gs://{bucket_name}/{json_destination_blob_name}"]
+                },
+            },
+            "outputConfig": {
+                "predictionsFormat": "jsonl",
+                "gcsDestination": {"outputUriPrefix": f"gs://{bucket_result}"},
+            },
+        }
+        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{project_id}/locations/{bucket_region}/batchPredictionJobs"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        }
+
+        request = requests.post(url, headers=headers, json=payload)
+        response = request.json()
+        if request.status_code >= 400:
+            error = (
+                response.get("error")
+                or "Something went wrong when doing the prediction !!"
+            )
+            raise ProviderException(error, code=request.status_code)
+        operation_name = response["name"]
+        prediction_job_id = operation_name.split("/")[-1]
+
+        return AsyncLaunchJobResponseType(provider_job_id=prediction_job_id)
+
+    def image__automl_classification__prediction_async__get_job_result(
+        self, prediction_job_id: str
+    ) -> AsyncBaseResponseType[AutomlClassificationPrediction]:
+        location = self.api_settings["bucket_region"]
+        project_id = self.project_id
+        token = get_access_token(self.location)
+        storage_client: storage.Client = self.clients["storage"]
+
+        operation_name = f"projects/{project_id}/locations/{location}/batchPredictionJobs/{prediction_job_id}"
+
+        response = get_long_operation_status(
+            location, operation_name, self.location, token
+        )
+        job_status = response.get("state", "")
+        if job_status == "JOB_STATE_PENDING" or job_status == "JOB_STATE_RUNNING":
+            return AsyncPendingResponseType(provider_job_id=prediction_job_id)
+        if job_status != "JOB_STATE_SUCCEEDED":
+            error = (
+                response.get("error", "")
+                or "Something went wrong when getting prediction results!!"
+            )
+            raise ProviderException(error)
+        output_dir = response.get("outputInfo", {}).get("gcsOutputDirectory", "")
+        path_dir = output_dir.split("gs://")[1]
+        bucket_result_dir, output_dir = path_dir.split("/")
+        bucket_result = storage_client.get_bucket(bucket_result_dir)
+        blobs = list(bucket_result.list_blobs(prefix=f"{output_dir}/predictions"))
+        if len(blobs) == 0:
+            raise ProviderException("No result found !!")
+        blob_result = blobs[0]
+        result = json.loads(blob_result.download_as_string())
+
+        standardized_response = AutomlClassificationPrediction(
+            classes=result["prediction"]["displayNames"],
+            confidences=result["prediction"]["confidences"],
+        )
+        return AsyncResponseType[AutomlClassificationPrediction](
+            original_response=result["prediction"],
+            standardized_response=standardized_response,
+            provider_job_id=prediction_job_id,
         )

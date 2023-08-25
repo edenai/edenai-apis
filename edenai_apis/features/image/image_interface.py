@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from io import BufferedReader
-from typing import List, Literal
+from typing import List, Literal, Union
 
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
@@ -60,7 +60,11 @@ from edenai_apis.features.image.generation.generation_dataclass import (
 from edenai_apis.features.image.face_compare.face_compare_dataclass import (
     FaceCompareDataClass,
 )
-from edenai_apis.utils.types import ResponseSuccess, ResponseType
+from edenai_apis.utils.types import (
+    AsyncLaunchJobResponseType,
+    ResponseSuccess,
+    ResponseType,
+)
 
 
 class ImageInterface:
@@ -332,4 +336,63 @@ class ImageInterface:
             file1_url (str): _description_
             file2_url (str): _description_
         """
+        raise NotImplementedError
+
+    def image__automl_classification__create_dataset_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
+        raise NotImplementedError
+
+    def image__automl_classification__create_dataset_async__get_job_result(
+        self, dataset_job_id: str
+    ):
+        raise NotImplementedError
+
+    def image__automl_classification__training_async__launch_job(
+        self,
+        dataset_id: str,
+        model_name: str = "",
+        model_description: str = "",
+        fraction_split: Tuple[float] = (),
+    ):
+        raise NotImplementedError
+
+    def image__automl_classification__training_async__get_job_result(
+        self, training_job_id: str
+    ):
+        raise NotImplementedError
+
+    def image__automl_classification__create_endpoint_async__launch_job(
+        self, model_id: str
+    ):
+        raise NotImplementedError
+
+    def image__automl_classification__create_endpoint_async__get_job_result(
+        self, endpoint_job_id: str
+    ):
+        raise NotImplementedError
+
+    def image__automl_classification__deploy_model_async__launch_job(
+        self, model_id: str, endpoint_id: str, deploy_model_name: str
+    ):
+        raise NotImplementedError
+
+    def image__automl_classification__deploy_model_async__get_job_result(
+        self, deployement_job_id: str
+    ):
+        raise NotImplementedError
+
+    def image__automl_classification__prediction_async__launch_job(
+        self,
+        file: str,
+        mime_type: str,
+        model_id: str,
+        job_name: str,
+        file_url: str = "",
+    ):
+        raise NotImplementedError
+
+    def image__automl_classification__prediction_async__get_job_result(
+        self, prediction_job_id: str
+    ):
         raise NotImplementedError

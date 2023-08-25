@@ -8,6 +8,7 @@ import enum
 import google.auth
 import google
 import googleapiclient.discovery
+import requests
 from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
     BoundingBox,
     Line,
@@ -37,7 +38,7 @@ from edenai_apis.utils.types import AsyncResponseType
 from google.oauth2 import service_account
 import google.auth
 
-from google.api_core.exceptions import GoogleAPIError 
+from google.api_core.exceptions import GoogleAPIError
 
 
 class GoogleVideoFeatures(enum.Enum):
@@ -50,12 +51,15 @@ class GoogleVideoFeatures(enum.Enum):
     EXPLICIT = "EXPLICIT"
 
 
-
 def handle_google_call(function_to_call, **kwargs):
-    error_encoding_str  = "bad encoding"
+    error_encoding_str = "bad encoding"
     msg_exception_encoding = "Could not decode audio file, bad file encoding"
 
-    wrong_job_id_strs = ["Unrecognized long running operation name", "Operation not found", "Invalid operation id"]
+    wrong_job_id_strs = [
+        "Unrecognized long running operation name",
+        "Operation not found",
+        "Invalid operation id",
+    ]
 
     try:
         response = function_to_call(**kwargs)
@@ -79,21 +83,19 @@ def handle_google_call(function_to_call, **kwargs):
             message = msg_exception_encoding
         if any(str_error in str(exc) for str_error in wrong_job_id_strs):
             raise AsyncJobException(
-                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
-                code = status_code
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, code=status_code
             )
-        raise ProviderException(message, code = status_code)
+        raise ProviderException(message, code=status_code)
     except Exception as exc:
         message = str(exc)
         if any(str_error in str(exc) for str_error in message):
-            raise AsyncJobException(
-                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
-            )
+            raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
         if error_encoding_str in message:
             message = msg_exception_encoding
         raise ProviderException(message)
 
     return response
+
 
 def score_to_rate(score):
     return abs(score)
@@ -110,11 +112,13 @@ def google_video_get_job(provider_job_id: str):
             "api_endpoint": "https://videointelligence.googleapis.com/",
         },
     )
-    payload_request = { "name": provider_job_id }
-    request = handle_google_call(service.projects().locations().operations().get, **payload_request)
+    payload_request = {"name": provider_job_id}
+    request = handle_google_call(
+        service.projects().locations().operations().get, **payload_request
+    )
 
     result = handle_google_call(request.execute)
-    
+
     return result
 
 
@@ -426,3 +430,16 @@ def get_access_token(location: str):
     auth_req = google.auth.transport.requests.Request()
     credentials.refresh(auth_req)
     return credentials.token
+
+
+def get_long_operation_status(
+    location: str, operation_name: str, config_location: str, token: str
+):
+    url = f"https://{location}-aiplatform.googleapis.com/v1/{operation_name}"
+    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {token}"}
+    request = requests.get(url, headers=headers)
+    response = request.json()
+    if request.status_code >= 400:
+        error = response.get("error") or "Could not get operation status"
+        raise ProviderException(error, code=request.status_code)
+    return response
