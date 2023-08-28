@@ -1,9 +1,14 @@
+import os
 import pytest
 from edenai_apis.apis.affinda.client import Client, ExtractorType
 from edenai_apis.apis.affinda.models import Collection, Organization, Workspace 
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
 
+@pytest.mark.skipif(
+    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
+    reason="Skip in opensource package cicd workflow",
+)
 @pytest.mark.affinda
 class TestClient:
     def setup_class(self) -> None:
