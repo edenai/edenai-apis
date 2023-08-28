@@ -1,0 +1,491 @@
+{
+  "original_response": {
+    "api_request": {
+      "error": {},
+      "resources": [
+        "document"
+      ],
+      "status": "success",
+      "status_code": 201,
+      "url": "https://api.mindee.net/v1/products/mindee/bank_check/v1/predict"
+    },
+    "document": {
+      "annotations": {
+        "labels": []
+      },
+      "id": "1bf43691-10e5-4215-b669-f8ec6fdcaf70",
+      "inference": {
+        "extras": {},
+        "finished_at": "2023-08-24T05:36:54+00:00",
+        "pages": [
+          {
+            "extras": {},
+            "id": 0,
+            "prediction": {
+              "account_number": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.3148,
+                    0.7024
+                  ],
+                  [
+                    0.0652,
+                    0.9515
+                  ],
+                  [
+                    0.5272,
+                    0.0706
+                  ],
+                  [
+                    0.0613,
+                    0.2128
+                  ]
+                ],
+                "value": "string"
+              },
+              "amount": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.8025,
+                    0.0352
+                  ],
+                  [
+                    0.0437,
+                    0.9913
+                  ],
+                  [
+                    0.7251,
+                    0.0317
+                  ],
+                  [
+                    0.789,
+                    0.5123
+                  ]
+                ],
+                "value": 111258.56
+              },
+              "check_number": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.0118,
+                    0.7967
+                  ],
+                  [
+                    0.5788,
+                    0.0144
+                  ],
+                  [
+                    0.6312,
+                    0.2907
+                  ],
+                  [
+                    0.563,
+                    0.9066
+                  ]
+                ],
+                "value": "string"
+              },
+              "check_position": {
+                "bounding_box": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    1,
+                    1
+                  ],
+                  [
+                    0,
+                    1
+                  ]
+                ],
+                "polygon": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    0.5,
+                    0.5
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    1,
+                    1
+                  ],
+                  [
+                    0,
+                    1
+                  ]
+                ],
+                "quadrangle": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    1,
+                    1
+                  ],
+                  [
+                    0,
+                    1
+                  ]
+                ],
+                "rectangle": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    1,
+                    1
+                  ],
+                  [
+                    0,
+                    1
+                  ]
+                ]
+              },
+              "date": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.3201,
+                    0.7159
+                  ],
+                  [
+                    0.8758,
+                    0.4845
+                  ],
+                  [
+                    0.7612,
+                    0.7703
+                  ],
+                  [
+                    0.6399,
+                    0.8934
+                  ]
+                ],
+                "raw": "12-Apr-2017",
+                "value": "2017-04-12"
+              },
+              "orientation": {
+                "confidence": 0.99,
+                "degrees": 0
+              },
+              "payees": [
+                {
+                  "confidence": 0.99,
+                  "polygon": [
+                    [
+                      0.3755,
+                      0.5905
+                    ],
+                    [
+                      0.599,
+                      0.357
+                    ],
+                    [
+                      0.5667,
+                      0.3663
+                    ],
+                    [
+                      0.3441,
+                      0.0322
+                    ]
+                  ],
+                  "value": "Jane Doe"
+                }
+              ],
+              "routing_number": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.4233,
+                    0.0319
+                  ],
+                  [
+                    0.7863,
+                    0.0613
+                  ],
+                  [
+                    0.617,
+                    0.0614
+                  ],
+                  [
+                    0.1457,
+                    0.0113
+                  ]
+                ],
+                "value": "string"
+              },
+              "signatures_positions": [
+                {
+                  "bounding_box": [
+                    [
+                      0,
+                      0
+                    ],
+                    [
+                      1,
+                      0
+                    ],
+                    [
+                      1,
+                      1
+                    ],
+                    [
+                      0,
+                      1
+                    ]
+                  ],
+                  "polygon": [
+                    [
+                      0,
+                      0
+                    ],
+                    [
+                      0.5,
+                      0.5
+                    ],
+                    [
+                      1,
+                      0
+                    ],
+                    [
+                      1,
+                      1
+                    ],
+                    [
+                      0,
+                      1
+                    ]
+                  ],
+                  "quadrangle": [
+                    [
+                      0,
+                      0
+                    ],
+                    [
+                      1,
+                      0
+                    ],
+                    [
+                      1,
+                      1
+                    ],
+                    [
+                      0,
+                      1
+                    ]
+                  ],
+                  "rectangle": [
+                    [
+                      0,
+                      0
+                    ],
+                    [
+                      1,
+                      0
+                    ],
+                    [
+                      1,
+                      1
+                    ],
+                    [
+                      0,
+                      1
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "prediction": {
+          "account_number": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.4784,
+                0.2627
+              ],
+              [
+                0.5649,
+                0.7589
+              ],
+              [
+                0.0616,
+                0.5666
+              ],
+              [
+                0.2261,
+                0.0403
+              ]
+            ],
+            "value": "string"
+          },
+          "amount": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.0542,
+                0.2171
+              ],
+              [
+                0.6786,
+                0.714
+              ],
+              [
+                0.95,
+                0.6772
+              ],
+              [
+                0.4589,
+                0.1407
+              ]
+            ],
+            "value": 111258.56
+          },
+          "check_number": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.2284,
+                0.8427
+              ],
+              [
+                0.9829,
+                0.9769
+              ],
+              [
+                0.0001,
+                0.5017
+              ],
+              [
+                0.8339,
+                0.4104
+              ]
+            ],
+            "value": "string"
+          },
+          "date": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.4081,
+                0.9706
+              ],
+              [
+                0.8975,
+                0.7287
+              ],
+              [
+                0.1928,
+                0.9888
+              ],
+              [
+                0.1974,
+                0.1974
+              ]
+            ],
+            "raw": "12-Apr-2017",
+            "value": "2017-04-12"
+          },
+          "payees": [
+            {
+              "confidence": 0.99,
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.1418,
+                  0.7043
+                ],
+                [
+                  0.7904,
+                  0.2035
+                ],
+                [
+                  0.895,
+                  0.1222
+                ],
+                [
+                  0.3862,
+                  0.3959
+                ]
+              ],
+              "value": "Jane Doe"
+            }
+          ],
+          "routing_number": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.022,
+                0.2935
+              ],
+              [
+                0.0506,
+                0.3066
+              ],
+              [
+                0.3618,
+                0.8391
+              ],
+              [
+                0.7414,
+                0.6755
+              ]
+            ],
+            "value": "string"
+          }
+        },
+        "processing_time": 1.767,
+        "product": {
+          "features": [
+            "check_position",
+            "signatures_positions",
+            "date",
+            "amount",
+            "payees",
+            "routing_number",
+            "account_number",
+            "check_number",
+            "orientation"
+          ],
+          "name": "mindee/Bank Checks (beta)",
+          "version": "1.0"
+        },
+        "started_at": "2023-08-24T05:36:52+00:00"
+      },
+      "n_pages": 1,
+      "name": "myfile.jpg",
+      "ocr": {}
+    }
+  }
+}

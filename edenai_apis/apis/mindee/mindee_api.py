@@ -17,6 +17,11 @@ from edenai_apis.features.ocr import (
     get_info_country,
     ItemIdentityParserDataClass,
 )
+from edenai_apis.features.ocr.bank_check_parsing import (
+    BankCheckParsingDataClass,
+    MicrModel,
+    ItemBankCheckParsingDataClass,
+)
 from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import (
     DataExtractionDataClass,
 )
@@ -66,6 +71,9 @@ class MindeeApi(ProviderInterface, OcrInterface):
         )
         self.url_financial = (
             "https://api.mindee.net/v1/products/mindee/financial_document/v1/predict"
+        )
+        self.url_bank_check = (
+            "https://api.mindee.net/v1/products/mindee/bank_check/v1/predict"
         )
 
     def _get_api_attributes(
@@ -375,4 +383,67 @@ class MindeeApi(ProviderInterface, OcrInterface):
         return ResponseType[IdentityParserDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
+        )
+
+    def ocr__bank_check_parsing(
+        self,
+        file: str,
+        file_url: str = "",
+    ) -> ResponseType[BankCheckParsingDataClass]:
+        file_ = open(file, "rb")
+        headers = {
+            "Authorization": self.api_key,
+        }
+        files = {"document": file_}
+        response = requests.post(
+            self.url_bank_check, headers=headers, files=files
+        )
+        original_response = response.json()
+        file_.close()
+        if "document" not in original_response:
+            raise ProviderException(
+                message=original_response["api_request"]["error"]["message"],
+                code=response.status_code
+            )
+        bank_check_data = original_response["document"]["inference"]["prediction"]
+        default_dict = defaultdict(lambda: None)
+
+        payees = bank_check_data.get("payees", default_dict).get("value", None)
+        payees_list = []
+
+        if payees:
+            for p in payees:
+                payees_list.append(p["value"])
+        else:
+            payees_list = None
+        payees_str = ",".join(payees_list) | None
+
+        extracted_data = [
+            ItemBankCheckParsingDataClass(amount=bank_check_data.get("amount", default_dict).get("value", None),
+                                      amount_text=None,
+                                      bank_address=None,
+                                      bank_name=None,
+                                      date=bank_check_data.get("date", default_dict).get("value", None),
+                                      memo=None,
+                                      payer_address=None,
+                                      payer_name=payees_str,
+                                      receiver_address=None,
+                                      receiver_name=None,
+                                      currency=None,
+                                      micr=MicrModel(raw=None,
+                                                     account_number=bank_check_data.get("account_number",
+                                                                                        default_dict).get("value",
+                                                                                                          None),
+                                                     routing_number=bank_check_data.get("routing_number",
+                                                                                        default_dict).get("value",
+                                                                                                          None),
+                                                     serial_number=None,
+                                                     check_number=bank_check_data.get("check_number", default_dict).get(
+                                                         "value",
+                                                         None
+                                                         )))
+        ]
+        return ResponseType[BankCheckParsingDataClass](
+            original_response=original_response,
+            standardized_response=BankCheckParsingDataClass(extracted_data=extracted_data),
         )
