@@ -93,6 +93,8 @@ folder should contain:
 -   \<subfeature>_dataclass.py class for output
 -   \<subfeature>_response.json: validated standardized response to compare with your own standarization
 
+Here are two concrete examples of two features: [`sentiment_analysis`](edenai_apis/features/text/sentiment_analysis/) and [`object_detectionn`](edenai_apis/features/image/object_detection/).
+
 
 <a id="org8h7as8i"></a>
 
