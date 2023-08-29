@@ -1,0 +1,4 @@
+from .create_project import AutomlClassificationCreateProject
+from .upload_image import AutomlClassificationUploadImage
+from .remove_image import AutomlClassificationRemoveImage
+from .prediction import AutomlClassificationPrediction

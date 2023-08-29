@@ -5,6 +5,18 @@ from typing import List, Literal
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
 )
+from edenai_apis.features.image.automl_classification.create_project.automl_classification_create_project_dataclass import (
+    AutomlClassificationCreateProject,
+)
+from edenai_apis.features.image.automl_classification.prediction.automl_classification_prediction_dataclass import (
+    AutomlClassificationPrediction,
+)
+from edenai_apis.features.image.automl_classification.remove_image.automl_classification_remove_image_dataclass import (
+    AutomlClassificationRemoveImage,
+)
+from edenai_apis.features.image.automl_classification.upload_image.automl_classification_upload_image_dataclass import (
+    AutomlClassificationUploadImage,
+)
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
 )
@@ -332,4 +344,25 @@ class ImageInterface:
             file1_url (str): _description_
             file2_url (str): _description_
         """
+        raise NotImplementedError
+
+    def image__automl_classification__create_project(
+        self,
+        name: str = "",
+    ) -> ResponseType[AutomlClassificationCreateProject]:
+        raise NotImplementedError
+
+    def image__automl_classification__upload_image(
+        self, file: str, project_id: str, label: str, file_url: str = ""
+    ) -> ResponseType[AutomlClassificationUploadImage]:
+        raise NotImplementedError
+
+    def image__automl_classification__remove_image(
+        self, project_id: str, picture_id: str
+    ) -> ResponseType[AutomlClassificationRemoveImage]:
+        raise NotImplementedError
+
+    def image__automl_classification__prediction(
+        self, file: str, project_id: str, file_url: str
+    ) -> ResponseType[AutomlClassificationPrediction]:
         raise NotImplementedError

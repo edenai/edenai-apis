@@ -64,4 +64,10 @@ from .face_compare import (
     FaceMatch,
     face_compare_arguments,
 )
+from .automl_classification import (
+    AutomlClassificationCreateProject,
+    AutomlClassificationUploadImage,
+    AutomlClassificationRemoveImage,
+    AutomlClassificationPrediction,
+)
 from .image_interface import ImageInterface
