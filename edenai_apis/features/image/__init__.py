@@ -69,5 +69,6 @@ from .automl_classification import (
     AutomlClassificationUploadImage,
     AutomlClassificationRemoveImage,
     AutomlClassificationPrediction,
+    automl_classification_create_project,
 )
 from .image_interface import ImageInterface
