@@ -1,0 +1,8 @@
+{
+  "original_response": {
+    "generated_code": "def is_leap(year):\n    leap = False\n    \n    # Write your logic here\n    if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0): \n        leap = True\n        \n    return leap"
+  },
+  "standardized_response": {
+    "generated_text": "def is_leap(year):\n    leap = False\n    \n    # Write your logic here\n    if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0): \n        leap = True\n        \n    return leap"
+  }
+}

@@ -4,7 +4,7 @@ from edenai_apis.features import ProviderInterface, TextInterface
 from typing import Dict, Sequence
 
 from edenai_apis.features.text import KeywordExtractionDataClass, InfosKeywordExtractionDataClass, \
-    SentimentAnalysisDataClass, SegmentSentimentAnalysisDataClass
+    SentimentAnalysisDataClass, SegmentSentimentAnalysisDataClass, CodeGenerationDataClass
 from edenai_apis.features.text.spell_check import SpellCheckDataClass, SpellCheckItem, SuggestionItem
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -23,7 +23,9 @@ class NlpCloudApi(ProviderInterface, TextInterface):
         self.api_key = self.api_settings["subscription_key"]
         self.url_spell_check = ("https://api.nlpcloud.io/v1/gpu/finetuned-llama-2-70b/gs-correction")
         self.url_keyword_extraction = ("https://api.nlpcloud.io/v1/gpu/finetuned-llama-2-70b/kw-kp-extraction")
-        self.url_sentiment_analysis = ("https://api.nlpcloud.io/v1/distilbert-base-uncased-finetuned-sst-2-english/sentiment" )
+        self.url_sentiment_analysis = (
+            "https://api.nlpcloud.io/v1/distilbert-base-uncased-finetuned-sst-2-english/sentiment")
+        self.url_code_generation = ("https://api.nlpcloud.io/v1/gpu/finetuned-llama-2-70b/code-generation")
 
     # ATTENTION: items corriger
     def text__spell_check(
@@ -69,8 +71,9 @@ class NlpCloudApi(ProviderInterface, TextInterface):
             original_response=original_response,
             standardized_response=KeywordExtractionDataClass(items=items)
         )
+
     def text__sentiment_analysis(
-        self, language: str, text: str
+            self, language: str, text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
         response = requests.post(url=self.url_sentiment_analysis, json={"text": text},
                                  headers={"Content-Type": "application/json", "authorization": f"Token {self.api_key}"})
@@ -85,4 +88,20 @@ class NlpCloudApi(ProviderInterface, TextInterface):
         )
         return ResponseType[SentimentAnalysisDataClass](
             original_response=original_response, standardized_response=standardized_response
+        )
+
+    def text__code_generation(
+            self, instruction: str, temperature: float, max_tokens: int, prompt: str = ""
+    ) -> ResponseType[CodeGenerationDataClass]:
+        response = requests.post(url=self.url_code_generation, json={"instruction": instruction},
+                                 headers={"Content-Type": "application/json", "authorization": f"Token {self.api_key}"})
+        original_response = response.json()
+        if not response.ok:
+            raise ProviderException(original_response, code=response.status_code)
+        standardized_response = CodeGenerationDataClass(
+            generated_text=original_response["generated_code"]
+        )
+        return ResponseType[CodeGenerationDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
         )
