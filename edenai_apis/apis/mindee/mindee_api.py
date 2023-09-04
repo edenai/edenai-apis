@@ -111,7 +111,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         if "document" not in original_response:
             raise ProviderException(
                 original_response["api_request"]["error"]["message"],
-                code = response.status_code
+                code=response.status_code,
             )
 
         receipt_data = original_response["document"]["inference"]["prediction"]
@@ -183,17 +183,14 @@ class MindeeApi(ProviderInterface, OcrInterface):
         file_ = open(file, "rb")
         files = {"document": file_}
         params = {"locale": {"language": language}}
-        response = requests.post(
-            self.url, headers=headers, files=files, params=params
-        )
+        response = requests.post(self.url, headers=headers, files=files, params=params)
         original_response = response.json()
 
         file_.close()
 
         if "document" not in original_response:
             raise ProviderException(
-                original_response["api_request"]["error"]["message"],
-                code = response
+                original_response["api_request"]["error"]["message"], code=response
             )
         # Invoice std :
         invoice_data = original_response["document"]["inference"]["prediction"]
@@ -395,20 +392,27 @@ class MindeeApi(ProviderInterface, OcrInterface):
             "Authorization": self.api_key,
         }
         files = {"document": file_}
-        response = requests.post(
-            self.url_bank_check, headers=headers, files=files
-        )
-        original_response = response.json()
-        file_.close()
-        if "document" not in original_response:
+
+        try:
+            response = requests.post(self.url_bank_check, headers=headers, files=files)
+        except:
             raise ProviderException(
-                message=original_response["api_request"]["error"]["message"],
-                code=response.status_code
+                "Something went wrong when calling this feautre!!", code=500
             )
+        original_response = response.json()
+        if response.status_code >= 400 or "document" not in original_response:
+            api_response = original_response.get("api_request", {}) or {}
+            error = api_response.get("error", {}) or {}
+            error_message = (
+                error.get("message", "")
+                or "A provider error occurred while calling this feature"
+            )
+            raise ProviderException(error_message, code=response.status_code)
+        file_.close()
         bank_check_data = original_response["document"]["inference"]["prediction"]
         default_dict = defaultdict(lambda: None)
 
-        payees_list = bank_check_data.get("payees", default_dict)
+        payees_list = bank_check_data.get("payees", []) or []
         payees_list_value = []
         for p in payees_list:
             payees_list_value.append(p.get("value", default_dict))
@@ -417,31 +421,36 @@ class MindeeApi(ProviderInterface, OcrInterface):
             payees_str = ",".join(payees_list_value)
 
         extracted_data = [
-            ItemBankCheckParsingDataClass(amount=bank_check_data.get("amount", default_dict).get("value", None),
-                                      amount_text=None,
-                                      bank_address=None,
-                                      bank_name=None,
-                                      date=bank_check_data.get("date", default_dict).get("value", None),
-                                      memo=None,
-                                      payer_address=None,
-                                      payer_name=payees_str,
-                                      receiver_address=None,
-                                      receiver_name=None,
-                                      currency=None,
-                                      micr=MicrModel(raw=None,
-                                                     account_number=bank_check_data.get("account_number",
-                                                                                        default_dict).get("value",
-                                                                                                          None),
-                                                     routing_number=bank_check_data.get("routing_number",
-                                                                                        default_dict).get("value",
-                                                                                                          None),
-                                                     serial_number=None,
-                                                     check_number=bank_check_data.get("check_number", default_dict).get(
-                                                         "value",
-                                                         None
-                                                         )))
+            ItemBankCheckParsingDataClass(
+                amount=bank_check_data.get("amount", default_dict).get("value", None),
+                amount_text=None,
+                bank_address=None,
+                bank_name=None,
+                date=bank_check_data.get("date", default_dict).get("value", None),
+                memo=None,
+                payer_address=None,
+                payer_name=payees_str,
+                receiver_address=None,
+                receiver_name=None,
+                currency=None,
+                micr=MicrModel(
+                    raw=None,
+                    account_number=bank_check_data.get(
+                        "account_number", default_dict
+                    ).get("value", None),
+                    routing_number=bank_check_data.get(
+                        "routing_number", default_dict
+                    ).get("value", None),
+                    serial_number=None,
+                    check_number=bank_check_data.get("check_number", default_dict).get(
+                        "value", None
+                    ),
+                ),
+            )
         ]
         return ResponseType[BankCheckParsingDataClass](
             original_response=original_response,
-            standardized_response=BankCheckParsingDataClass(extracted_data=extracted_data),
+            standardized_response=BankCheckParsingDataClass(
+                extracted_data=extracted_data
+            ),
         )
