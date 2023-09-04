@@ -48,6 +48,7 @@
 | | google |
 | | microsoft |
 | **bank_check_parsing** | base64 |
+| | mindee |
 | | veryfi |
 
 </details>
@@ -583,7 +584,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | identity_parser |
+| **ocr** | bank_check_parsing |
+| | identity_parser |
 | | invoice_parser |
 | | receipt_parser |
 
