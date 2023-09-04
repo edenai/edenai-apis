@@ -408,15 +408,13 @@ class MindeeApi(ProviderInterface, OcrInterface):
         bank_check_data = original_response["document"]["inference"]["prediction"]
         default_dict = defaultdict(lambda: None)
 
-        payees = bank_check_data.get("payees", default_dict).get("value", None)
-        payees_list = []
-
-        if payees:
-            for p in payees:
-                payees_list.append(p["value"])
-        else:
-            payees_list = None
-        payees_str = ",".join(payees_list) | None
+        payees_list = bank_check_data.get("payees", default_dict)
+        payees_list_value = []
+        for p in payees_list:
+            payees_list_value.append(p.get("value", default_dict))
+        payees_str = None
+        if len(payees_list_value) > 0:
+            payees_str = ",".join(payees_list_value)
 
         extracted_data = [
             ItemBankCheckParsingDataClass(amount=bank_check_data.get("amount", default_dict).get("value", None),
