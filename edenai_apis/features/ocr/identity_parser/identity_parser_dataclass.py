@@ -34,7 +34,7 @@ class Country(BaseModel):
     name: Optional[StrictStr]
     alpha2: Optional[StrictStr]
     alpha3: Optional[StrictStr]
-    confidence: Optional[float]
+    confidence: Optional[float] = None
 
     @staticmethod
     def default():

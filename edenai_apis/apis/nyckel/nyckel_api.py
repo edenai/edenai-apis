@@ -91,15 +91,13 @@ class NyckelApi(ProviderInterface, ImageInterface):
 
     def image__search__upload_image(
         self, file: str, image_name: str, project_id: str, file_url: str = ""
-    ) -> ResponseSuccess:
+    ) -> ResponseType[SearchUploadImageDataClass]:
         self._refresh_session_auth_headers_if_needed()
 
         url = f"https://www.nyckel.com/v1/functions/{project_id}/samples"
 
         if file == "" or file is None:
-            assert (
-                file_url and file_url != ""
-            ), "Either file or file_url must be provided"
+            assert file_url and file_url != "", "Either file or file_url must be provided"
             data = {"data": file_url, "externalId": image_name}
             response = self._session.post(url, json=data)
         else:
@@ -111,7 +109,10 @@ class NyckelApi(ProviderInterface, ImageInterface):
         if not response.status_code == 200:
             self._raise_provider_exception(url, data, response)
 
-        return ResponseSuccess()
+        return ResponseType[SearchUploadImageDataClass](
+            standardized_response=SearchUploadImageDataClass(status="success"),
+            original_response=response.json(),
+        )
 
     def image__search__get_image(
         self, image_name: str, project_id: str
@@ -163,7 +164,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
 
     def image__search__delete_image(
         self, image_name: str, project_id: str
-    ) -> ResponseSuccess:
+    ) -> ResponseType[SearchDeleteImageDataClass]:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{project_id}/samples?externalId={image_name}"
 
@@ -172,7 +173,10 @@ class NyckelApi(ProviderInterface, ImageInterface):
         if response.status_code != 200:
             self._raise_provider_exception(url, {}, response)
 
-        return ResponseSuccess()
+        return ResponseType[SearchDeleteImageDataClass](
+            original_response=None,
+            standardized_response=SearchDeleteImageDataClass(status="success"),
+        )
 
     def image__search__launch_similarity(
         self, project_id: str, file: Optional[str] = None, file_url: str = ""
