@@ -1,34 +1,841 @@
 {
   "original_response": {
-    "extractor": "invoice",
+    "data": {
+      "bankAccountNumber": null,
+      "bankBsb": null,
+      "bankIban": null,
+      "bankSortCode": null,
+      "bankSwift": null,
+      "bpayBillerCode": null,
+      "bpayReference": null,
+      "currencyCode": {
+        "id": 78628490,
+        "rectangle": null,
+        "rectangles": [],
+        "document": "VdSZmoFc",
+        "pageIndex": 0,
+        "raw": "USD",
+        "parsed": {
+          "id": 1,
+          "label": "USD",
+          "value": "USD",
+          "synonyms": null,
+          "description": null,
+          "collection": null,
+          "organization": null
+        },
+        "confidence": null,
+        "classificationConfidence": null,
+        "textExtractionConfidence": 1.0,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "JZguvEaB",
+        "contentType": "enum"
+      },
+      "customerBillingAddress": {
+        "id": 78628469,
+        "rectangle": {
+          "x0": 61.8515625,
+          "y0": 218.1796875,
+          "x1": 203.90625,
+          "y1": 246.7265625
+        },
+        "rectangles": [
+          {
+            "x0": 61.8515625,
+            "y0": 218.1796875,
+            "x1": 145.453125,
+            "y1": 231.7734375
+          },
+          {
+            "x0": 61.8515625,
+            "y0": 231.09375,
+            "x1": 203.90625,
+            "y1": 246.7265625
+          }
+        ],
+        "document": "VdSZmoFc",
+        "pageIndex": 0,
+        "raw": "201 Stan Fey Dr Upper Marlboro , MD 20774",
+        "parsed": {
+          "formatted": "Upper Marlboro, MD, USA",
+          "streetNumber": null,
+          "street": null,
+          "apartmentNumber": null,
+          "city": "Upper Marlboro",
+          "postalCode": null,
+          "state": "Maryland",
+          "country": "United States",
+          "rawInput": "201 Stan Fey Dr Upper Marlboro , MD 20774",
+          "countryCode": "US",
+          "latitude": 38.817282,
+          "longitude": -76.754358
+        },
+        "confidence": 0.87,
+        "classificationConfidence": 0.979,
+        "textExtractionConfidence": 0.888,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "IIrmUFpr",
+        "contentType": "location"
+      },
+      "customerBusinessNumber": null,
+      "customerCompanyName": {
+        "id": 78628472,
+        "rectangle": {
+          "x0": 61.8515625,
+          "y0": 203.90625,
+          "x1": 162.4453125,
+          "y1": 217.5
+        },
+        "rectangles": [
+          {
+            "x0": 61.8515625,
+            "y0": 203.90625,
+            "x1": 162.4453125,
+            "y1": 217.5
+          }
+        ],
+        "document": "VdSZmoFc",
+        "pageIndex": 0,
+        "raw": "Damita J Goldsmith",
+        "parsed": "Damita J Goldsmith",
+        "confidence": 0.69,
+        "classificationConfidence": 0.7,
+        "textExtractionConfidence": 0.985,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "YCquITSP",
+        "contentType": "text"
+      },
+      "customerContactName": null,
+      "customerDeliveryAddress": {
+        "id": 78628470,
+        "rectangle": {
+          "x0": 405.7734375,
+          "y0": 231.7734375,
+          "x1": 485.9765625,
+          "y1": 246.046875
+        },
+        "rectangles": [
+          {
+            "x0": 405.7734375,
+            "y0": 231.7734375,
+            "x1": 485.9765625,
+            "y1": 246.046875
+          }
+        ],
+        "document": "VdSZmoFc",
+        "pageIndex": 0,
+        "raw": "Upper Marlboro",
+        "parsed": {
+          "formatted": "Upper Marlboro, MD 20772, USA",
+          "streetNumber": null,
+          "street": null,
+          "apartmentNumber": null,
+          "city": "Upper Marlboro",
+          "postalCode": "20772",
+          "state": "Maryland",
+          "country": "United States",
+          "rawInput": "Upper Marlboro",
+          "countryCode": "US",
+          "latitude": 38.8159473,
+          "longitude": -76.74969089999999
+        },
+        "confidence": 0.919,
+        "classificationConfidence": 0.957,
+        "textExtractionConfidence": 0.96,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "FOpzXtlw",
+        "contentType": "location"
+      },
+      "customerEmail": null,
+      "customerNumber": null,
+      "customerPhoneNumber": null,
+      "customerVat": null,
+      "invoiceDate": {
+        "id": 78628478,
+        "rectangle": {
+          "x0": 560.0625,
+          "y0": 120.984375,
+          "x1": 648.421875,
+          "y1": 134.578125
+        },
+        "rectangles": [
+          {
+            "x0": 560.0625,
+            "y0": 120.984375,
+            "x1": 648.421875,
+            "y1": 134.578125
+          }
+        ],
+        "document": "VdSZmoFc",
+        "pageIndex": 0,
+        "raw": "January20, 2003",
+        "parsed": "2003-01-20",
+        "confidence": 0.957,
+        "classificationConfidence": 0.975,
+        "textExtractionConfidence": 0.981,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "sRakysMP",
+        "contentType": "date"
+      },
+      "invoiceNumber": {
+        "id": 78628473,
+        "rectangle": {
+          "x0": 608.3203125,
+          "y0": 107.390625,
+          "x1": 649.1015625,
+          "y1": 120.984375
+        },
+        "rectangles": [
+          {
+            "x0": 608.3203125,
+            "y0": 107.390625,
+            "x1": 649.1015625,
+            "y1": 120.984375
+          }
+        ],
+        "document": "VdSZmoFc",
+        "pageIndex": 0,
+        "raw": "014- 03",
+        "parsed": "014- 03",
+        "confidence": 0.958,
+        "classificationConfidence": 0.972,
+        "textExtractionConfidence": 0.985,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "bWFyBeNU",
+        "contentType": "text"
+      },
+      "invoiceOrderDate": null,
+      "invoicePurchaseOrderNumber": null,
+      "paymentAmountBase": {
+        "id": 78628479,
+        "rectangle": {
+          "x0": 610.359375,
+          "y0": 581.8125,
+          "x1": 647.0625,
+          "y1": 597.4453125
+        },
+        "rectangles": [
+          {
+            "x0": 610.359375,
+            "y0": 581.8125,
+            "x1": 647.0625,
+            "y1": 597.4453125
+          }
+        ],
+        "document": "VdSZmoFc",
+        "pageIndex": 0,
+        "raw": "750.00",
+        "parsed": "750.00",
+        "confidence": 0.684,
+        "classificationConfidence": 0.688,
+        "textExtractionConfidence": 0.994,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "ahbnOQdE",
+        "contentType": "decimal"
+      },
+      "paymentAmountDue": {
+        "id": 78628480,
+        "rectangle": {
+          "x0": 610.359375,
+          "y0": 666.7734375,
+          "x1": 645.0234375,
+          "y1": 679.0078125
+        },
+        "rectangles": [
+          {
+            "x0": 610.359375,
+            "y0": 666.7734375,
+            "x1": 645.0234375,
+            "y1": 679.0078125
+          }
+        ],
+        "document": "VdSZmoFc",
+        "pageIndex": 0,
+        "raw": "750.00",
+        "parsed": "750.00",
+        "confidence": 0.955,
+        "classificationConfidence": 0.958,
+        "textExtractionConfidence": 0.997,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "hTyimjpc",
+        "contentType": "decimal"
+      },
+      "paymentAmountPaid": null,
+      "paymentAmountTax": null,
+      "paymentAmountTotal": null,
+      "paymentDateDue": null,
+      "paymentReference": null,
+      "supplierAddress": {
+        "id": 78628471,
+        "rectangle": {
+          "x0": 186.9140625,
+          "y0": 78.1640625,
+          "x1": 322.171875,
+          "y1": 105.3515625
+        },
+        "rectangles": [
+          {
+            "x0": 186.9140625,
+            "y0": 78.1640625,
+            "x1": 322.171875,
+            "y1": 91.7578125
+          },
+          {
+            "x0": 186.9140625,
+            "y0": 91.078125,
+            "x1": 312.65625,
+            "y1": 105.3515625
+          }
+        ],
+        "document": "VdSZmoFc",
+        "pageIndex": 0,
+        "raw": "344 Main Street Suite 200 Gaithersburg, MD 20878",
+        "parsed": {
+          "formatted": "Gaithersburg, MD, USA",
+          "streetNumber": null,
+          "street": null,
+          "apartmentNumber": null,
+          "city": "Gaithersburg",
+          "postalCode": null,
+          "state": "Maryland",
+          "country": "United States",
+          "rawInput": "344 Main Street Suite 200 Gaithersburg, MD 20878",
+          "countryCode": "US",
+          "latitude": 39.152206,
+          "longitude": -77.217536
+        },
+        "confidence": 0.928,
+        "classificationConfidence": 0.969,
+        "textExtractionConfidence": 0.958,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "HRTaEvcW",
+        "contentType": "location"
+      },
+      "supplierBusinessNumber": null,
+      "supplierCompanyName": {
+        "id": 78628474,
+        "rectangle": {
+          "x0": 186.9140625,
+          "y0": 42.8203125,
+          "x1": 403.734375,
+          "y1": 66.609375
+        },
+        "rectangles": [
+          {
+            "x0": 186.9140625,
+            "y0": 42.8203125,
+            "x1": 403.734375,
+            "y1": 66.609375
+          }
+        ],
+        "document": "VdSZmoFc",
+        "pageIndex": 0,
+        "raw": "SNG Engineering, Inc.",
+        "parsed": "SNG Engineering, Inc.",
+        "confidence": 0.931,
+        "classificationConfidence": 0.972,
+        "textExtractionConfidence": 0.958,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "rFeFJcwy",
+        "contentType": "text"
+      },
+      "supplierEmail": {
+        "id": 78628475,
+        "rectangle": {
+          "x0": 224.9765625,
+          "y0": 131.1796875,
+          "x1": 364.3125,
+          "y1": 144.7734375
+        },
+        "rectangles": [
+          {
+            "x0": 224.9765625,
+            "y0": 131.1796875,
+            "x1": 364.3125,
+            "y1": 144.7734375
+          }
+        ],
+        "document": "VdSZmoFc",
+        "pageIndex": 0,
+        "raw": "sng.engineering@erols.com",
+        "parsed": "sng.engineering@erols.com",
+        "confidence": 0.927,
+        "classificationConfidence": 0.976,
+        "textExtractionConfidence": 0.949,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "HulOoEaC",
+        "contentType": "text"
+      },
+      "supplierFax": {
+        "id": 78628476,
+        "rectangle": {
+          "x0": 323.53125,
+          "y0": 117.5859375,
+          "x1": 394.21875,
+          "y1": 130.5
+        },
+        "rectangles": [
+          {
+            "x0": 323.53125,
+            "y0": 117.5859375,
+            "x1": 394.21875,
+            "y1": 130.5
+          }
+        ],
+        "document": "VdSZmoFc",
+        "pageIndex": 0,
+        "raw": "301.548.1840",
+        "parsed": "301.548.1840",
+        "confidence": 0.969,
+        "classificationConfidence": 0.978,
+        "textExtractionConfidence": 0.991,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "eunYZkKM",
+        "contentType": "text"
+      },
+      "supplierPhoneNumber": {
+        "id": 78628477,
+        "rectangle": {
+          "x0": 224.9765625,
+          "y0": 117.5859375,
+          "x1": 295.6640625,
+          "y1": 130.5
+        },
+        "rectangles": [
+          {
+            "x0": 224.9765625,
+            "y0": 117.5859375,
+            "x1": 295.6640625,
+            "y1": 130.5
+          }
+        ],
+        "document": "VdSZmoFc",
+        "pageIndex": 0,
+        "raw": "301.548.0055",
+        "parsed": "301.548.0055",
+        "confidence": 0.969,
+        "classificationConfidence": 0.978,
+        "textExtractionConfidence": 0.991,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "gCGTnHfC",
+        "contentType": "text"
+      },
+      "supplierVat": null,
+      "supplierWebsite": null,
+      "tables": [
+        {
+          "id": 78628481,
+          "rectangle": {
+            "x0": 45.963038582004,
+            "y0": 366.77553858200406,
+            "x1": 653.435398917996,
+            "y1": 465.16196141799605
+          },
+          "rectangles": [
+            {
+              "x0": 45.963038582004,
+              "y0": 366.77553858200406,
+              "x1": 653.435398917996,
+              "y1": 465.16196141799605
+            }
+          ],
+          "document": "VdSZmoFc",
+          "pageIndex": 0,
+          "raw": null,
+          "parsed": {
+            "rows": [
+              {
+                "id": 11272764,
+                "rectangle": {
+                  "x0": 45.963038582004,
+                  "y0": 388.78125000000006,
+                  "x1": 653.435398917996,
+                  "y1": 440.43750000000006
+                },
+                "rectangles": [],
+                "pageIndex": 0,
+                "raw": null,
+                "parsed": {
+                  "itemQuantity": {
+                    "id": 78628482,
+                    "rectangle": {
+                      "x0": 45.963038582004,
+                      "y0": 388.78125000000006,
+                      "x1": 110.963038582004,
+                      "y1": 440.43750000000006
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 45.963038582004,
+                        "y0": 388.78125000000006,
+                        "x1": 110.963038582004,
+                        "y1": 440.43750000000006
+                      }
+                    ],
+                    "document": "VdSZmoFc",
+                    "pageIndex": 0,
+                    "raw": "1",
+                    "parsed": 1.0,
+                    "confidence": null,
+                    "classificationConfidence": null,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "cqAyfKpI",
+                    "contentType": "float"
+                  },
+                  "itemDescription": {
+                    "id": 78628483,
+                    "rectangle": {
+                      "x0": 110.963038582004,
+                      "y0": 388.78125000000006,
+                      "x1": 485.963038582004,
+                      "y1": 440.43750000000006
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 110.963038582004,
+                        "y0": 388.78125000000006,
+                        "x1": 485.963038582004,
+                        "y1": 440.43750000000006
+                      }
+                    ],
+                    "document": "VdSZmoFc",
+                    "pageIndex": 0,
+                    "raw": "Field inspection of construction on 1/19/2003 deficiencies in house construction, Garage drive way & legal support to Attorney to",
+                    "parsed": "Field inspection of construction on 1/19/2003 deficiencies in house construction, Garage drive way & legal support to Attorney to",
+                    "confidence": null,
+                    "classificationConfidence": null,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "VTmFSnJB",
+                    "contentType": "text"
+                  },
+                  "itemUnitPrice": {
+                    "id": 78628484,
+                    "rectangle": {
+                      "x0": 485.963038582004,
+                      "y0": 388.78125000000006,
+                      "x1": 588.463038582004,
+                      "y1": 440.43750000000006
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 485.963038582004,
+                        "y0": 388.78125000000006,
+                        "x1": 588.463038582004,
+                        "y1": 440.43750000000006
+                      }
+                    ],
+                    "document": "VdSZmoFc",
+                    "pageIndex": 0,
+                    "raw": "750.00",
+                    "parsed": "750.00",
+                    "confidence": null,
+                    "classificationConfidence": null,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "bfnkPeRr",
+                    "contentType": "decimal"
+                  },
+                  "itemTotal": {
+                    "id": 78628485,
+                    "rectangle": {
+                      "x0": 588.463038582004,
+                      "y0": 388.78125000000006,
+                      "x1": 653.435398917996,
+                      "y1": 440.43750000000006
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 588.463038582004,
+                        "y0": 388.78125000000006,
+                        "x1": 653.435398917996,
+                        "y1": 440.43750000000006
+                      }
+                    ],
+                    "document": "VdSZmoFc",
+                    "pageIndex": 0,
+                    "raw": "750 .. 00",
+                    "parsed": null,
+                    "confidence": null,
+                    "classificationConfidence": null,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "gKgucMQe",
+                    "contentType": "decimal"
+                  }
+                },
+                "confidence": null,
+                "classificationConfidence": null,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": null,
+                "contentType": null
+              },
+              {
+                "id": 11272765,
+                "rectangle": {
+                  "x0": 45.963038582004,
+                  "y0": 440.43750000000006,
+                  "x1": 653.435398917996,
+                  "y1": 465.16196141799605
+                },
+                "rectangles": [],
+                "pageIndex": 0,
+                "raw": null,
+                "parsed": {
+                  "itemQuantity": {
+                    "id": 78628486,
+                    "rectangle": {
+                      "x0": 45.963038582004,
+                      "y0": 440.43750000000006,
+                      "x1": 110.963038582004,
+                      "y1": 465.16196141799605
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 45.963038582004,
+                        "y0": 440.43750000000006,
+                        "x1": 110.963038582004,
+                        "y1": 465.16196141799605
+                      }
+                    ],
+                    "document": "VdSZmoFc",
+                    "pageIndex": 0,
+                    "raw": "",
+                    "parsed": null,
+                    "confidence": null,
+                    "classificationConfidence": null,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "cqAyfKpI",
+                    "contentType": "float"
+                  },
+                  "itemDescription": {
+                    "id": 78628487,
+                    "rectangle": {
+                      "x0": 110.963038582004,
+                      "y0": 440.43750000000006,
+                      "x1": 485.963038582004,
+                      "y1": 465.16196141799605
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 110.963038582004,
+                        "y0": 440.43750000000006,
+                        "x1": 485.963038582004,
+                        "y1": 465.16196141799605
+                      }
+                    ],
+                    "document": "VdSZmoFc",
+                    "pageIndex": 0,
+                    "raw": "1/19/2003",
+                    "parsed": "1/19/2003",
+                    "confidence": null,
+                    "classificationConfidence": null,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "VTmFSnJB",
+                    "contentType": "text"
+                  },
+                  "itemUnitPrice": {
+                    "id": 78628488,
+                    "rectangle": {
+                      "x0": 485.963038582004,
+                      "y0": 440.43750000000006,
+                      "x1": 588.463038582004,
+                      "y1": 465.16196141799605
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 485.963038582004,
+                        "y0": 440.43750000000006,
+                        "x1": 588.463038582004,
+                        "y1": 465.16196141799605
+                      }
+                    ],
+                    "document": "VdSZmoFc",
+                    "pageIndex": 0,
+                    "raw": "",
+                    "parsed": null,
+                    "confidence": null,
+                    "classificationConfidence": null,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "bfnkPeRr",
+                    "contentType": "decimal"
+                  },
+                  "itemTotal": {
+                    "id": 78628489,
+                    "rectangle": {
+                      "x0": 588.463038582004,
+                      "y0": 440.43750000000006,
+                      "x1": 653.435398917996,
+                      "y1": 465.16196141799605
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 588.463038582004,
+                        "y0": 440.43750000000006,
+                        "x1": 653.435398917996,
+                        "y1": 465.16196141799605
+                      }
+                    ],
+                    "document": "VdSZmoFc",
+                    "pageIndex": 0,
+                    "raw": "",
+                    "parsed": null,
+                    "confidence": null,
+                    "classificationConfidence": null,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "gKgucMQe",
+                    "contentType": "decimal"
+                  }
+                },
+                "confidence": null,
+                "classificationConfidence": null,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "dataPoint": null,
+                "contentType": null
+              }
+            ]
+          },
+          "confidence": null,
+          "classificationConfidence": null,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "dataPoint": "WXSfFurY",
+          "contentType": "table_deprecated",
+          "structure": {
+            "id": 1445976,
+            "rows": [
+              {
+                "id": 11272761,
+                "lower": 366.77553858200406,
+                "include": false
+              },
+              {
+                "id": 11272762,
+                "lower": 388.78125000000006,
+                "include": true
+              },
+              {
+                "id": 11272763,
+                "lower": 440.43750000000006,
+                "include": true
+              }
+            ],
+            "columns": [
+              {
+                "id": 8534243,
+                "lower": 45.963038582004,
+                "classification": "cqAyfKpI"
+              },
+              {
+                "id": 8534244,
+                "lower": 110.963038582004,
+                "classification": "VTmFSnJB"
+              },
+              {
+                "id": 8534245,
+                "lower": 485.963038582004,
+                "classification": "bfnkPeRr"
+              },
+              {
+                "id": 8534246,
+                "lower": 588.463038582004,
+                "classification": "gKgucMQe"
+              }
+            ]
+          }
+        }
+      ],
+      "rawText": "SIG SNG Engineering, Inc. Consulting Engineers 344 Main Street Suite 200 Gaithersburg, MD 20878 Phone: 301.548.0055 Fax: 301.548.1840 E-mail: sng.engineering@erols.com INVOICE INVOICE NO: 014- 03 DATE: January20, 2003 \nTO, Damita J Goldsmith 201 Stan Fey Dr Upper Marlboro , MD 20774 Ship To: Same Reference: 201 Stan Fey Drive Upper Marlboro \nSALESPERSON P.O. NUMBER DATE SHIPPED SHIPPED VIA F.O.B. POINT TERMS on receipt of service QUANTITY DESCRIPTION UNIT PRICE AMOUNT 750.00 750 .. 00 1 Field inspection of construction on 1/19/2003 deficiencies in house construction, Garage drive way & legal support to Attorney to 1/19/2003 \nSUBTOTAL 750.00 SHIPPING & HANDELING \nTOTAL DUE 750.00 Make all checks payable to SNG Engineering, Inc. If you have any questions concerning this invoice, call: Sach Gupta, 301.548.0055 The payment will be due within fifteen days after receipt of invoice by the owner/contractor. Please note that 1-1/2 percent interest will accrue on the unpaid balance after this date. \nTHANK YOU FOR YOUR BUSINESS!"
+    },
     "meta": {
-      "identifier": "JlKgJieC",
-      "file_name": "invoice.png",
+      "identifier": "VdSZmoFc",
       "ready": true,
-      "ready_dt": "2023-08-04T10:08:36.956549Z",
       "failed": false,
+      "readyDt": "2023-08-23T12:14:33.308411Z",
+      "fileName": "invoice.png",
+      "expiryTime": null,
       "language": "en",
-      "pdf": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/dmVyc2lvbl9pZABkb2N1bWVudHMvaW52b2ljZV80YlhyT2FQLnBuZw_8YZ0Bsx.pdf?versionId=pBUEKkkdfzi42uBBshNrJIYhGK9vyY.E&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNDAJDMKP6%2F20230804%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230804T100838Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEIL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkcwRQIhALNNL62vqUClR9Kz2kd1iu%2BPtlJV4folpXpbsccVWnDtAiBkuxORLOCj%2FaQp1nkUkOHUkJgZ4mRENdHEZEy8fuGUvCqJBQgrEAIaDDMzNTU5NDU3MTE2MiIMdI2RQ91rgxbdd5WaKuYEb8TDaHdN1%2Bl3nRPvpxhnD6yU4UOUnuWj9traxlQpiAsS9XlXRcSSTGoU99i%2FoS3%2Fae86AZ1Jd4hF6jz0tGXNIObhhEShnCuFUGonMMZBj0yiFyrIMaMUukchbAw8K3H3m1rJ23RjiapYi4vp0YUDpzSNCjlqo3M%2Bm7XH701hhsyibhee6jLQ486HJ3c60l5cB2vmiwpmzxHmyt7lPq160SzcFmIEAntoy1mA1P6nZdS45RiGum48pWu%2Fy3gkOY1yIVOsCobvmVdCBQwlTX5BopILSjJ7Mul1S66CLODvwazp1gZ5ogt6tGHINZCFJ9lUplWiFiUiy%2BDKUKSiWggW95RzoJOd2W4VWsSGg8nh2jvCO0tjOpcIInYq6J%2BPhaQa%2FkbLsofKmuhaG2bjfSAJA%2BSeYGM7X5BWaw%2FHcSRD2k2%2FOjHoqd1ESHIntEpOxRSrNA0sePlk7qY3GpaO8ohw8Iwt5xzz%2Bt7Udq0TQUhXN%2BisFGUK4ca6Jrmxz2fzRL2%2BsXhxdWFbEgExIyJyyk0QA%2B74fYfFvrPD2hhdIJVQu9Z2m5UK8%2FY9%2FepEAe6Tc9%2BWP5n4BXbmhzePHoah%2F6qIW90INuGWhEln1sb6GsN7izMGbqFZAMjYKeDHzHcNN%2BHUPGn2IjUmyB%2B3%2BrxhrJ8331PgTeMp%2BFGLQA7vqW18mJq%2B92fMMzDGXLtS%2FM%2B45gl%2FhVA%2Bbnni7u3rF8kyBlvu63z4ppyj4uV9x8wv%2FPSaw2O7Xi947%2FHZJxgC6rDvwwpQWx%2B1rO5ErvkXiIf1x2hvM9g8ZapC1wI4c0E8CCVRBHpTAjb4qrMw7pezpgY6mgF1OMboLivMV2IloVXd8SpehzAXGMesDAj9yspoJQ8DYIogf3V7IDVK87SAHzB5w18SOcCMBRADjiWN7ExYCJcXB4QhXdLxjlI2tS3ViUEgUdCwxhLnbOIeJbOGq%2F0QG7igPyPIf4Z7q%2BULtX4mVBgLbSeJ6bxpsA9aOoiLPoZfr1MsFXGyGz%2BfxjIyzJIDUQ10O37ptEBdC5DK&X-Amz-Signature=a599c50f92d6c27baa3d84ce9ea2790e39ec86268bf3b5fdb75d780afdef992c",
-      "child_documents": [],
+      "pdf": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/dmVyc2lvbl9pZABkb2N1bWVudHMvaW52b2ljZV9qSjltOWNmLnBuZw_q4kruwp.pdf?versionId=JJnVlWJHzbVzkok_ozTF3O2RekWIZUgt&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNEE5NMUC2%2F20230823%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230823T121435Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEwaDmFwLXNvdXRoZWFzdC0yIkYwRAIgNrKHg1K6HlGJKYKT%2FoDGWtEFLAGg3XwTMe4IEhe2zgkCIAxFrAL40KJpsedW25fkWaBYi10W5eSksTWa5kTbRHzxKokFCBUQAhoMMzM1NTk0NTcxMTYyIgxutcB76LdGvewZaUYq5gT519K%2FbAQxAi4%2BuleZpiirJ8loQeoi3aNzXMMnDWFchiIZJohg0JrF0yVTjbCd1gd9MO%2FI5maPpgWh0e74hZfS29yxJlhoMua3ZTpJpzkLVTHZZBKuM4Ri0MUZbm87m0Uw6O9p23iEFU7T4fyatgEAP8FjaF5pDwXApqj7anNS5OmewH6kSkGSPu9xD6EZ3LdKC4NW0BDiO3JDzQoQOksbrkNumnOF7G4YAo81fohcK6Y9Mnk%2FuVzzNvYi%2BALnQJq68qYV9IGIys2x2XjvPjWWRC0TSsJoQfO2rkped04nelWwqnoTZHyGIqzXmr8%2FvhsqkkCS03IvraQmXtUn8Jg0WU1ZiHHnt0fZusA8V2V8Amogk0gCm4F8J1Fu%2BZ3J3H6WDruM%2FbFlnRo4IozphUDHTV0k9eSnFACE7KXgqqvWLNKKpk8PVq5KqaF%2BknlGfxFt1mo3PIkpMETFbSZFhp3K1dc41UMi2GDHICWzLLVxp29miuf%2FRzWAbRKRdFVA2kuAyuSS0DOmxGORZSIiOy2uzMf%2BGVvX4tyOPsz18bLNntjY1SQk02Yq7T%2FHc%2FcYwzSNimUsac1KK8nPhmaOq6HFprzX8m8ygHRdZOYVn%2FkYAYBgNCOTLJvkts6D%2BbCjUMd0ojI9Eh%2FgXT%2F1nrFI2YUKiHzJvOCSYkq8d9VO7hZjdXMkhy%2FVtlpqIjU50LO9QdVT8RmoTKapMzTgqdT%2Fq30EzuGzsSaBc7k4F6r%2FMWd3%2FpfdCAFmpZuZRrDwzRrGle72r7s2BIPUbXgqt2WUJCiEdqEpKZ%2FqKao4TNQ3Mv2UeW%2BxaLaaJDCj5JenBjqbAczk1DA9K8%2FkO69n%2Ft45K%2FmWvBpOprqC38EYbGLA1%2FgMc7%2BAzoEf5bTdsqlLDJWGsEoT6B14kXkdHPXjGZ1TOclNmshYQmmurCtMuv%2F5RKSOqepf%2FMO7J72RGwNqlhqsMdEXzLeJtFAMgwtO6GhhPWmkEyaQiuQuUOh8%2BqvQteEWRe0%2BtVUYjr6iqpYrE5QW2CALewOXdbcGWX%2BR&X-Amz-Signature=5ca9e0a77daef78949d3d0971dacaf419ff5560fcba702219265d2dd286050f1",
+      "parentDocument": null,
+      "childDocuments": [],
       "pages": [
         {
-          "id": 30451491,
-          "page_index": 0,
-          "image": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/pages/30451491_VvAmpPQ.png?versionId=kicQGJc8onAupLcl7LFgIdGqi8PRjuG.&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNDAJDMKP6%2F20230804%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230804T100838Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEIL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkcwRQIhALNNL62vqUClR9Kz2kd1iu%2BPtlJV4folpXpbsccVWnDtAiBkuxORLOCj%2FaQp1nkUkOHUkJgZ4mRENdHEZEy8fuGUvCqJBQgrEAIaDDMzNTU5NDU3MTE2MiIMdI2RQ91rgxbdd5WaKuYEb8TDaHdN1%2Bl3nRPvpxhnD6yU4UOUnuWj9traxlQpiAsS9XlXRcSSTGoU99i%2FoS3%2Fae86AZ1Jd4hF6jz0tGXNIObhhEShnCuFUGonMMZBj0yiFyrIMaMUukchbAw8K3H3m1rJ23RjiapYi4vp0YUDpzSNCjlqo3M%2Bm7XH701hhsyibhee6jLQ486HJ3c60l5cB2vmiwpmzxHmyt7lPq160SzcFmIEAntoy1mA1P6nZdS45RiGum48pWu%2Fy3gkOY1yIVOsCobvmVdCBQwlTX5BopILSjJ7Mul1S66CLODvwazp1gZ5ogt6tGHINZCFJ9lUplWiFiUiy%2BDKUKSiWggW95RzoJOd2W4VWsSGg8nh2jvCO0tjOpcIInYq6J%2BPhaQa%2FkbLsofKmuhaG2bjfSAJA%2BSeYGM7X5BWaw%2FHcSRD2k2%2FOjHoqd1ESHIntEpOxRSrNA0sePlk7qY3GpaO8ohw8Iwt5xzz%2Bt7Udq0TQUhXN%2BisFGUK4ca6Jrmxz2fzRL2%2BsXhxdWFbEgExIyJyyk0QA%2B74fYfFvrPD2hhdIJVQu9Z2m5UK8%2FY9%2FepEAe6Tc9%2BWP5n4BXbmhzePHoah%2F6qIW90INuGWhEln1sb6GsN7izMGbqFZAMjYKeDHzHcNN%2BHUPGn2IjUmyB%2B3%2BrxhrJ8331PgTeMp%2BFGLQA7vqW18mJq%2B92fMMzDGXLtS%2FM%2B45gl%2FhVA%2Bbnni7u3rF8kyBlvu63z4ppyj4uV9x8wv%2FPSaw2O7Xi947%2FHZJxgC6rDvwwpQWx%2B1rO5ErvkXiIf1x2hvM9g8ZapC1wI4c0E8CCVRBHpTAjb4qrMw7pezpgY6mgF1OMboLivMV2IloVXd8SpehzAXGMesDAj9yspoJQ8DYIogf3V7IDVK87SAHzB5w18SOcCMBRADjiWN7ExYCJcXB4QhXdLxjlI2tS3ViUEgUdCwxhLnbOIeJbOGq%2F0QG7igPyPIf4Z7q%2BULtX4mVBgLbSeJ6bxpsA9aOoiLPoZfr1MsFXGyGz%2BfxjIyzJIDUQ10O37ptEBdC5DK&X-Amz-Signature=bd1b372e74b044ff41194cee9ba6f795b802dc465564b4b8459ad92d4b56be30",
+          "id": 32235993,
+          "pageIndex": 0,
+          "image": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/pages/32235993_CygYFzU.png?versionId=j2Po1BH7Yxa17m3.9rwdnsaLaz_QAHGu&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNEE5NMUC2%2F20230823%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230823T121435Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEwaDmFwLXNvdXRoZWFzdC0yIkYwRAIgNrKHg1K6HlGJKYKT%2FoDGWtEFLAGg3XwTMe4IEhe2zgkCIAxFrAL40KJpsedW25fkWaBYi10W5eSksTWa5kTbRHzxKokFCBUQAhoMMzM1NTk0NTcxMTYyIgxutcB76LdGvewZaUYq5gT519K%2FbAQxAi4%2BuleZpiirJ8loQeoi3aNzXMMnDWFchiIZJohg0JrF0yVTjbCd1gd9MO%2FI5maPpgWh0e74hZfS29yxJlhoMua3ZTpJpzkLVTHZZBKuM4Ri0MUZbm87m0Uw6O9p23iEFU7T4fyatgEAP8FjaF5pDwXApqj7anNS5OmewH6kSkGSPu9xD6EZ3LdKC4NW0BDiO3JDzQoQOksbrkNumnOF7G4YAo81fohcK6Y9Mnk%2FuVzzNvYi%2BALnQJq68qYV9IGIys2x2XjvPjWWRC0TSsJoQfO2rkped04nelWwqnoTZHyGIqzXmr8%2FvhsqkkCS03IvraQmXtUn8Jg0WU1ZiHHnt0fZusA8V2V8Amogk0gCm4F8J1Fu%2BZ3J3H6WDruM%2FbFlnRo4IozphUDHTV0k9eSnFACE7KXgqqvWLNKKpk8PVq5KqaF%2BknlGfxFt1mo3PIkpMETFbSZFhp3K1dc41UMi2GDHICWzLLVxp29miuf%2FRzWAbRKRdFVA2kuAyuSS0DOmxGORZSIiOy2uzMf%2BGVvX4tyOPsz18bLNntjY1SQk02Yq7T%2FHc%2FcYwzSNimUsac1KK8nPhmaOq6HFprzX8m8ygHRdZOYVn%2FkYAYBgNCOTLJvkts6D%2BbCjUMd0ojI9Eh%2FgXT%2F1nrFI2YUKiHzJvOCSYkq8d9VO7hZjdXMkhy%2FVtlpqIjU50LO9QdVT8RmoTKapMzTgqdT%2Fq30EzuGzsSaBc7k4F6r%2FMWd3%2FpfdCAFmpZuZRrDwzRrGle72r7s2BIPUbXgqt2WUJCiEdqEpKZ%2FqKao4TNQ3Mv2UeW%2BxaLaaJDCj5JenBjqbAczk1DA9K8%2FkO69n%2Ft45K%2FmWvBpOprqC38EYbGLA1%2FgMc7%2BAzoEf5bTdsqlLDJWGsEoT6B14kXkdHPXjGZ1TOclNmshYQmmurCtMuv%2F5RKSOqepf%2FMO7J72RGwNqlhqsMdEXzLeJtFAMgwtO6GhhPWmkEyaQiuQuUOh8%2BqvQteEWRe0%2BtVUYjr6iqpYrE5QW2CALewOXdbcGWX%2BR&X-Amz-Signature=328aa3618439d8d29595c263ba7283b15341e665e8a7fe758dd8c4995233a9ae",
           "height": 900.0,
           "width": 696.0,
           "rotation": 0
         }
       ],
-      "is_ocrd": true,
-      "ocr_confidence": 0.9858291139240506,
-      "review_url": "https://app.affinda.com/review/JlKgJieC?signature=eyJ1c2VyX2lkIjoyNDIzfQ:1qRrja:DUoVrR7i3xoBy3CqMldF0ZmJJl8Lk68ROskCX-y4Rk4:1qRrja:pvKDwTQ3nQsDMosuhCriY2LmPxpqa1RrKIqdQZLwyJs",
+      "ocrConfidence": 0.9848101265822785,
+      "reviewUrl": "https://app.affinda.com/review/VdSZmoFc?signature=eyJ1c2VyX2lkIjoyNDIzfQ:1qYmkt:cQfOQ0BjFhWDhBtLM8rf_ymOIOXvByCE55AInTI4IZs:1qYmkt:awW6CRuBV6XZOwqTSFoVBDIb3wFcAe3VwZuGLYTvuSk",
+      "createdDt": "2023-08-23T12:14:29.618656Z",
+      "errorDetail": null,
+      "file": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/invoice_jJ9m9cf.png?versionId=uBAYu7bpCaFyZ5WbjsK7.YqbkfcidzeS&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNEE5NMUC2%2F20230823%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230823T121435Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEwaDmFwLXNvdXRoZWFzdC0yIkYwRAIgNrKHg1K6HlGJKYKT%2FoDGWtEFLAGg3XwTMe4IEhe2zgkCIAxFrAL40KJpsedW25fkWaBYi10W5eSksTWa5kTbRHzxKokFCBUQAhoMMzM1NTk0NTcxMTYyIgxutcB76LdGvewZaUYq5gT519K%2FbAQxAi4%2BuleZpiirJ8loQeoi3aNzXMMnDWFchiIZJohg0JrF0yVTjbCd1gd9MO%2FI5maPpgWh0e74hZfS29yxJlhoMua3ZTpJpzkLVTHZZBKuM4Ri0MUZbm87m0Uw6O9p23iEFU7T4fyatgEAP8FjaF5pDwXApqj7anNS5OmewH6kSkGSPu9xD6EZ3LdKC4NW0BDiO3JDzQoQOksbrkNumnOF7G4YAo81fohcK6Y9Mnk%2FuVzzNvYi%2BALnQJq68qYV9IGIys2x2XjvPjWWRC0TSsJoQfO2rkped04nelWwqnoTZHyGIqzXmr8%2FvhsqkkCS03IvraQmXtUn8Jg0WU1ZiHHnt0fZusA8V2V8Amogk0gCm4F8J1Fu%2BZ3J3H6WDruM%2FbFlnRo4IozphUDHTV0k9eSnFACE7KXgqqvWLNKKpk8PVq5KqaF%2BknlGfxFt1mo3PIkpMETFbSZFhp3K1dc41UMi2GDHICWzLLVxp29miuf%2FRzWAbRKRdFVA2kuAyuSS0DOmxGORZSIiOy2uzMf%2BGVvX4tyOPsz18bLNntjY1SQk02Yq7T%2FHc%2FcYwzSNimUsac1KK8nPhmaOq6HFprzX8m8ygHRdZOYVn%2FkYAYBgNCOTLJvkts6D%2BbCjUMd0ojI9Eh%2FgXT%2F1nrFI2YUKiHzJvOCSYkq8d9VO7hZjdXMkhy%2FVtlpqIjU50LO9QdVT8RmoTKapMzTgqdT%2Fq30EzuGzsSaBc7k4F6r%2FMWd3%2FpfdCAFmpZuZRrDwzRrGle72r7s2BIPUbXgqt2WUJCiEdqEpKZ%2FqKao4TNQ3Mv2UeW%2BxaLaaJDCj5JenBjqbAczk1DA9K8%2FkO69n%2Ft45K%2FmWvBpOprqC38EYbGLA1%2FgMc7%2BAzoEf5bTdsqlLDJWGsEoT6B14kXkdHPXjGZ1TOclNmshYQmmurCtMuv%2F5RKSOqepf%2FMO7J72RGwNqlhqsMdEXzLeJtFAMgwtO6GhhPWmkEyaQiuQuUOh8%2BqvQteEWRe0%2BtVUYjr6iqpYrE5QW2CALewOXdbcGWX%2BR&X-Amz-Signature=90384ce0e2b221344994178d8b8bdc19f2d27747c8a5de35b2f1649e2db25b8e",
       "collection": {
         "identifier": "ZymiQVPU",
         "name": "Invoice Parses",
         "extractor": {
+          "id": 22,
           "identifier": "invoice",
           "name": "Invoice",
+          "baseExtractor": null,
           "validatable": true
         }
       },
@@ -36,431 +843,37 @@
         "identifier": "PfCwwgJc",
         "name": "Accounts Payable"
       },
-      "is_archived": false,
-      "is_confirmed": false,
-      "is_rejected": false,
-      "created_dt": "2023-08-04T10:08:33.72853Z",
-      "file": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/invoice_4bXrOaP.png?versionId=frunDNPSSbzOvQjNpLtE9F3zfy_lQQBX&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNDAJDMKP6%2F20230804%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230804T100838Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEIL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkcwRQIhALNNL62vqUClR9Kz2kd1iu%2BPtlJV4folpXpbsccVWnDtAiBkuxORLOCj%2FaQp1nkUkOHUkJgZ4mRENdHEZEy8fuGUvCqJBQgrEAIaDDMzNTU5NDU3MTE2MiIMdI2RQ91rgxbdd5WaKuYEb8TDaHdN1%2Bl3nRPvpxhnD6yU4UOUnuWj9traxlQpiAsS9XlXRcSSTGoU99i%2FoS3%2Fae86AZ1Jd4hF6jz0tGXNIObhhEShnCuFUGonMMZBj0yiFyrIMaMUukchbAw8K3H3m1rJ23RjiapYi4vp0YUDpzSNCjlqo3M%2Bm7XH701hhsyibhee6jLQ486HJ3c60l5cB2vmiwpmzxHmyt7lPq160SzcFmIEAntoy1mA1P6nZdS45RiGum48pWu%2Fy3gkOY1yIVOsCobvmVdCBQwlTX5BopILSjJ7Mul1S66CLODvwazp1gZ5ogt6tGHINZCFJ9lUplWiFiUiy%2BDKUKSiWggW95RzoJOd2W4VWsSGg8nh2jvCO0tjOpcIInYq6J%2BPhaQa%2FkbLsofKmuhaG2bjfSAJA%2BSeYGM7X5BWaw%2FHcSRD2k2%2FOjHoqd1ESHIntEpOxRSrNA0sePlk7qY3GpaO8ohw8Iwt5xzz%2Bt7Udq0TQUhXN%2BisFGUK4ca6Jrmxz2fzRL2%2BsXhxdWFbEgExIyJyyk0QA%2B74fYfFvrPD2hhdIJVQu9Z2m5UK8%2FY9%2FepEAe6Tc9%2BWP5n4BXbmhzePHoah%2F6qIW90INuGWhEln1sb6GsN7izMGbqFZAMjYKeDHzHcNN%2BHUPGn2IjUmyB%2B3%2BrxhrJ8331PgTeMp%2BFGLQA7vqW18mJq%2B92fMMzDGXLtS%2FM%2B45gl%2FhVA%2Bbnni7u3rF8kyBlvu63z4ppyj4uV9x8wv%2FPSaw2O7Xi947%2FHZJxgC6rDvwwpQWx%2B1rO5ErvkXiIf1x2hvM9g8ZapC1wI4c0E8CCVRBHpTAjb4qrMw7pezpgY6mgF1OMboLivMV2IloVXd8SpehzAXGMesDAj9yspoJQ8DYIogf3V7IDVK87SAHzB5w18SOcCMBRADjiWN7ExYCJcXB4QhXdLxjlI2tS3ViUEgUdCwxhLnbOIeJbOGq%2F0QG7igPyPIf4Z7q%2BULtX4mVBgLbSeJ6bxpsA9aOoiLPoZfr1MsFXGyGz%2BfxjIyzJIDUQ10O37ptEBdC5DK&X-Amz-Signature=28b5a948171d91d2e2cb72e6061a7fb3c0abd1dd614f8c8bc4d65aef73b5ae68",
       "tags": [],
-      "created_by": {
+      "isOcrd": true,
+      "isConfirmed": false,
+      "confirmedDt": null,
+      "isRejected": false,
+      "rejectedDt": null,
+      "isArchived": false,
+      "archivedDt": null,
+      "errorCode": null,
+      "confirmedBy": null,
+      "sourceEmail": null,
+      "createdBy": {
         "id": 2423,
         "name": "Eden AI",
         "username": "contact",
-        "email": "contact@edenai.co"
+        "email": "contact@edenai.co",
+        "avatar": null,
+        "master": null
       },
-      "region_bias": {}
+      "regionBias": {
+        "country": null,
+        "countries": null,
+        "squareCoordinates": null
+      }
     },
-    "error": {},
+    "error": {
+      "errorCode": null,
+      "errorDetail": null
+    },
     "warnings": [],
-    "data": {
-      "invoice_date": {
-        "id": 76380072,
-        "rectangle": {
-          "x0": 559.5840000000001,
-          "y0": 121.10400000000001,
-          "x1": 648.672,
-          "y1": 134.328
-        },
-        "rectangles": [
-          {
-            "x0": 559.5840000000001,
-            "y0": 121.10400000000001,
-            "x1": 648.672,
-            "y1": 134.328
-          }
-        ],
-        "document": "JlKgJieC",
-        "page_index": 0,
-        "raw": "January20, 2003",
-        "confidence": 0.958,
-        "classification_confidence": 0.975,
-        "text_extraction_confidence": 0.982,
-        "is_verified": true,
-        "is_client_verified": false,
-        "is_auto_verified": true,
-        "data_point": "sRakysMP",
-        "content_type": "date",
-        "parsed": "2003-01-20"
-      },
-      "payment_amount_base": {
-        "id": 76380073,
-        "rectangle": {
-          "x0": 610.392,
-          "y0": 581.856,
-          "x1": 647.2800000000001,
-          "y1": 597.864
-        },
-        "rectangles": [
-          {
-            "x0": 610.392,
-            "y0": 581.856,
-            "x1": 647.2800000000001,
-            "y1": 597.864
-          }
-        ],
-        "document": "JlKgJieC",
-        "page_index": 0,
-        "raw": "750.00",
-        "confidence": 0.654,
-        "classification_confidence": 0.655,
-        "text_extraction_confidence": 0.997,
-        "is_verified": false,
-        "is_client_verified": false,
-        "is_auto_verified": false,
-        "data_point": "ahbnOQdE",
-        "content_type": "decimal",
-        "parsed": "750.00"
-      },
-      "payment_amount_due": {
-        "id": 76380074,
-        "rectangle": {
-          "x0": 609.696,
-          "y0": 663.984,
-          "x1": 646.5840000000001,
-          "y1": 679.9920000000001
-        },
-        "rectangles": [
-          {
-            "x0": 609.696,
-            "y0": 663.984,
-            "x1": 646.5840000000001,
-            "y1": 679.9920000000001
-          }
-        ],
-        "document": "JlKgJieC",
-        "page_index": 0,
-        "raw": "750.00",
-        "confidence": 0.953,
-        "classification_confidence": 0.96,
-        "text_extraction_confidence": 0.993,
-        "is_verified": true,
-        "is_client_verified": false,
-        "is_auto_verified": true,
-        "data_point": "hTyimjpc",
-        "content_type": "decimal",
-        "parsed": "750.00"
-      },
-      "invoice_number": {
-        "id": 76380067,
-        "rectangle": {
-          "x0": 608.3040000000001,
-          "y0": 105.792,
-          "x1": 649.368,
-          "y1": 121.80000000000001
-        },
-        "rectangles": [
-          {
-            "x0": 608.3040000000001,
-            "y0": 105.792,
-            "x1": 649.368,
-            "y1": 121.80000000000001
-          }
-        ],
-        "document": "JlKgJieC",
-        "page_index": 0,
-        "raw": "014- 03",
-        "confidence": 0.956,
-        "classification_confidence": 0.972,
-        "text_extraction_confidence": 0.983,
-        "is_verified": true,
-        "is_client_verified": false,
-        "is_auto_verified": true,
-        "data_point": "bWFyBeNU",
-        "content_type": "text",
-        "parsed": "014- 03"
-      },
-      "customer_company_name": {
-        "id": 76380066,
-        "rectangle": {
-          "x0": 61.944,
-          "y0": 203.92800000000003,
-          "x1": 162.168,
-          "y1": 217.848
-        },
-        "rectangles": [
-          {
-            "x0": 61.944,
-            "y0": 203.92800000000003,
-            "x1": 162.168,
-            "y1": 217.848
-          }
-        ],
-        "document": "JlKgJieC",
-        "page_index": 0,
-        "raw": "Damita J Goldsmith",
-        "confidence": 0.661,
-        "classification_confidence": 0.669,
-        "text_extraction_confidence": 0.986,
-        "is_verified": false,
-        "is_client_verified": false,
-        "is_auto_verified": false,
-        "data_point": "YCquITSP",
-        "content_type": "text",
-        "parsed": "Damita J Goldsmith"
-      },
-      "supplier_company_name": {
-        "id": 76380068,
-        "rectangle": {
-          "x0": 187.22400000000002,
-          "y0": 43.152,
-          "x1": 403.68,
-          "y1": 66.816
-        },
-        "rectangles": [
-          {
-            "x0": 187.22400000000002,
-            "y0": 43.152,
-            "x1": 403.68,
-            "y1": 66.816
-          }
-        ],
-        "document": "JlKgJieC",
-        "page_index": 0,
-        "raw": "SNG Engineering, Inc.",
-        "confidence": 0.922,
-        "classification_confidence": 0.972,
-        "text_extraction_confidence": 0.948,
-        "is_verified": true,
-        "is_client_verified": false,
-        "is_auto_verified": true,
-        "data_point": "rFeFJcwy",
-        "content_type": "text",
-        "parsed": "SNG Engineering, Inc."
-      },
-      "customer_billing_address": {
-        "id": 76380063,
-        "rectangle": {
-          "x0": 61.944,
-          "y0": 216.45600000000002,
-          "x1": 203.232,
-          "y1": 244.99200000000002
-        },
-        "rectangles": [
-          {
-            "x0": 61.944,
-            "y0": 216.45600000000002,
-            "x1": 146.85600000000002,
-            "y1": 232.46400000000003
-          },
-          {
-            "x0": 61.944,
-            "y0": 231.072,
-            "x1": 203.232,
-            "y1": 244.99200000000002
-          }
-        ],
-        "document": "JlKgJieC",
-        "page_index": 0,
-        "raw": "201 Stan Fey Dr Upper Marlboro , MD 20774",
-        "confidence": 0.874,
-        "classification_confidence": 0.979,
-        "text_extraction_confidence": 0.892,
-        "is_verified": true,
-        "is_client_verified": false,
-        "is_auto_verified": true,
-        "data_point": "IIrmUFpr",
-        "content_type": "location",
-        "parsed": {
-          "formatted": "Upper Marlboro, MD, USA",
-          "state": "Maryland",
-          "country": "United States",
-          "country_code": "US",
-          "raw_input": "201 Stan Fey Dr Upper Marlboro , MD 20774",
-          "city": "Upper Marlboro",
-          "latitude": 38.817282,
-          "longitude": -76.754358
-        }
-      },
-      "customer_delivery_address": {
-        "id": 76380064,
-        "rectangle": {
-          "x0": 406.464,
-          "y0": 231.768,
-          "x1": 486.504,
-          "y1": 244.99200000000002
-        },
-        "rectangles": [
-          {
-            "x0": 406.464,
-            "y0": 231.768,
-            "x1": 486.504,
-            "y1": 244.99200000000002
-          }
-        ],
-        "document": "JlKgJieC",
-        "page_index": 0,
-        "raw": "Upper Marlboro",
-        "confidence": 0.923,
-        "classification_confidence": 0.96,
-        "text_extraction_confidence": 0.961,
-        "is_verified": true,
-        "is_client_verified": false,
-        "is_auto_verified": true,
-        "data_point": "FOpzXtlw",
-        "content_type": "location",
-        "parsed": {
-          "formatted": "Upper Marlboro, MD 20772, USA",
-          "postal_code": "20772",
-          "state": "Maryland",
-          "country": "United States",
-          "country_code": "US",
-          "raw_input": "Upper Marlboro",
-          "city": "Upper Marlboro",
-          "latitude": 38.8159473,
-          "longitude": -76.74969089999999
-        }
-      },
-      "supplier_address": {
-        "id": 76380065,
-        "rectangle": {
-          "x0": 187.22400000000002,
-          "y0": 77.952,
-          "x1": 322.24800000000005,
-          "y1": 104.4
-        },
-        "rectangles": [
-          {
-            "x0": 187.22400000000002,
-            "y0": 77.952,
-            "x1": 322.24800000000005,
-            "y1": 91.176
-          },
-          {
-            "x0": 188.616,
-            "y0": 91.872,
-            "x1": 311.808,
-            "y1": 104.4
-          }
-        ],
-        "document": "JlKgJieC",
-        "page_index": 0,
-        "raw": "344 Main Street Suite 200 Gaithersburg, MD 20878",
-        "confidence": 0.939,
-        "classification_confidence": 0.97,
-        "text_extraction_confidence": 0.968,
-        "is_verified": true,
-        "is_client_verified": false,
-        "is_auto_verified": true,
-        "data_point": "HRTaEvcW",
-        "content_type": "location",
-        "parsed": {
-          "formatted": "Gaithersburg, MD, USA",
-          "state": "Maryland",
-          "country": "United States",
-          "country_code": "US",
-          "raw_input": "344 Main Street Suite 200 Gaithersburg, MD 20878",
-          "city": "Gaithersburg",
-          "latitude": 39.152206,
-          "longitude": -77.217536
-        }
-      },
-      "supplier_phone_number": {
-        "id": 76380071,
-        "rectangle": {
-          "x0": 225.50400000000002,
-          "y0": 117.62400000000001,
-          "x1": 295.8,
-          "y1": 130.848
-        },
-        "rectangles": [
-          {
-            "x0": 225.50400000000002,
-            "y0": 117.62400000000001,
-            "x1": 295.8,
-            "y1": 130.848
-          }
-        ],
-        "document": "JlKgJieC",
-        "page_index": 0,
-        "raw": "301.548.0055",
-        "confidence": 0.969,
-        "classification_confidence": 0.978,
-        "text_extraction_confidence": 0.991,
-        "is_verified": true,
-        "is_client_verified": false,
-        "is_auto_verified": true,
-        "data_point": "gCGTnHfC",
-        "content_type": "text",
-        "parsed": "301.548.0055"
-      },
-      "supplier_fax": {
-        "id": 76380070,
-        "rectangle": {
-          "x0": 323.64000000000004,
-          "y0": 117.62400000000001,
-          "x1": 393.93600000000004,
-          "y1": 130.848
-        },
-        "rectangles": [
-          {
-            "x0": 323.64000000000004,
-            "y0": 117.62400000000001,
-            "x1": 393.93600000000004,
-            "y1": 130.848
-          }
-        ],
-        "document": "JlKgJieC",
-        "page_index": 0,
-        "raw": "301.548.1840",
-        "confidence": 0.969,
-        "classification_confidence": 0.978,
-        "text_extraction_confidence": 0.991,
-        "is_verified": true,
-        "is_client_verified": false,
-        "is_auto_verified": true,
-        "data_point": "eunYZkKM",
-        "content_type": "text",
-        "parsed": "301.548.1840"
-      },
-      "supplier_email": {
-        "id": 76380069,
-        "rectangle": {
-          "x0": 224.80800000000002,
-          "y0": 131.544,
-          "x1": 365.40000000000003,
-          "y1": 144.768
-        },
-        "rectangles": [
-          {
-            "x0": 224.80800000000002,
-            "y0": 131.544,
-            "x1": 365.40000000000003,
-            "y1": 144.768
-          }
-        ],
-        "document": "JlKgJieC",
-        "page_index": 0,
-        "raw": "sng.engineering@erols.com",
-        "confidence": 0.958,
-        "classification_confidence": 0.977,
-        "text_extraction_confidence": 0.98,
-        "is_verified": true,
-        "is_client_verified": false,
-        "is_auto_verified": true,
-        "data_point": "HulOoEaC",
-        "content_type": "text",
-        "parsed": "sng.engineering@erols.com"
-      },
-      "currency_code": {
-        "id": 76380080,
-        "rectangles": [],
-        "document": "JlKgJieC",
-        "page_index": 0,
-        "raw": "USD",
-        "text_extraction_confidence": 1.0,
-        "is_verified": false,
-        "is_client_verified": false,
-        "is_auto_verified": false,
-        "data_point": "JZguvEaB",
-        "content_type": "enum",
-        "parsed": {
-          "id": 1,
-          "label": "USD",
-          "value": "USD"
-        }
-      },
-      "raw_text": "SVG SNG Engineering, Inc. Consulting Engineers 344 Main Street Suite 200 Gaithersburg, MD 20878 Phone: 301.548.0055 Fax: 301.548.1840 E-mail: sng.engineering@erols.com INVOICE \nINVOICE NO: 014- 03 DATE: January20, 2003 \nTO, Damita J Goldsmith 201 Stan Fey Dr Upper Marlboro , MD 20774 Ship To: Same Reference: 201 Stan Fey Drive Upper Marlboro \nSALESPERSON P.O. NUMBER DATE SHIPPED SHIPPED VIA F.O.B. POINT TERMS on receipt of service QUANTITY DESCRIPTION UNIT PRICE AMOUNT 750.00 750 .. 00 1 Field inspection of construction on 1/19/2003 deficiencies in house construction, Garage drive way & legal support to Attorney to 1/19/2003 \nSUBTOTAL 750.00 SHIPPING & HANDELING \nTOTAL DUE 750.00 Make all checks payable to SNG Engineering, Inc. If you have any questions concerning this invoice, call: Sach Gupta, 301.548.0055 The payment will be due within fifteen days after receipt of invoice by the owner/contractor. Please note that 1-1/2 percent interest will accrue on the unpaid balance after this date. \nTHANK YOU FOR YOUR BUSINESS!"
-    }
+    "extractor": "invoice"
   },
   "standardized_response": {
     "extracted_data": [
@@ -530,7 +943,30 @@
           "rooting_number": null,
           "swift": null
         },
-        "item_lines": []
+        "item_lines": [
+          {
+            "description": "Field inspection of construction on 1/19/2003 deficiencies in house construction, Garage drive way & legal support to Attorney to",
+            "quantity": 1.0,
+            "amount": 75000.0,
+            "unit_price": 750.0,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null,
+            "tax_rate": null
+          },
+          {
+            "description": "1/19/2003",
+            "quantity": null,
+            "amount": null,
+            "unit_price": null,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null,
+            "tax_rate": null
+          }
+        ]
       }
     ]
   }

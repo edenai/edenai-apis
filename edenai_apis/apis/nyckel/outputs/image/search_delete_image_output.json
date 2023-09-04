@@ -1,3 +1,6 @@
 {
-  "status": "success"
+  "original_response": null,
+  "standardized_response": {
+    "status": "success"
+  }
 }

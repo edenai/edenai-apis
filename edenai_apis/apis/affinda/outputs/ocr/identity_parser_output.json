@@ -1,0 +1,633 @@
+{
+  "original_response": {
+    "data": {
+      "authority": {
+        "id": 78770182,
+        "rectangle": {
+          "x0": 265.25596906676117,
+          "y0": 464.1952562341456,
+          "x1": 580.2224946189141,
+          "y1": 481.41385186536746
+        },
+        "rectangles": [
+          {
+            "x0": 265.25596906676117,
+            "y0": 464.86688590486335,
+            "x1": 319.64327533429946,
+            "y1": 480.405940139068
+          },
+          {
+            "x0": 326.79911887594653,
+            "y0": 464.2001878167211,
+            "x1": 386.5640956366041,
+            "y1": 480.93517036291735
+          },
+          {
+            "x0": 391.3453430932825,
+            "y0": 464.1952562341456,
+            "x1": 501.33191158372114,
+            "y1": 481.41385186536746
+          },
+          {
+            "x0": 505.4982425693003,
+            "y0": 464.6535949584717,
+            "x1": 526.4334607312825,
+            "y1": 481.40953673061387
+          },
+          {
+            "x0": 532.3927595131161,
+            "y0": 464.59811465449695,
+            "x1": 580.2224946189141,
+            "y1": 481.38179657862656
+          }
+        ],
+        "document": "kzoABajk",
+        "pageIndex": 0,
+        "raw": "UNITED STATES DEPARTMENT OF STATE",
+        "parsed": "UNITED STATES DEPARTMENT OF STATE",
+        "confidence": 0.922,
+        "classificationConfidence": 0.943,
+        "textExtractionConfidence": 0.978,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "ZDDuAQOT",
+        "contentType": "text"
+      },
+      "birthDate": {
+        "id": 78770177,
+        "rectangle": {
+          "x0": 269.8448848029939,
+          "y0": 292.7721834077174,
+          "x1": 354.1334811094302,
+          "y1": 311.91813246037685
+        },
+        "rectangles": [
+          {
+            "x0": 269.8448848029939,
+            "y0": 292.7721834077174,
+            "x1": 290.1842963763571,
+            "y1": 311.91813246037685
+          },
+          {
+            "x0": 296.7394017468097,
+            "y0": 293.3630584137609,
+            "x1": 335.00849128271676,
+            "y1": 311.8903923083895
+          },
+          {
+            "x0": 346.9443493853983,
+            "y0": 295.1042445929722,
+            "x1": 354.1334811094302,
+            "y1": 311.83861069134645
+          }
+        ],
+        "document": "kzoABajk",
+        "pageIndex": 0,
+        "raw": "05 FEB 1",
+        "parsed": null,
+        "confidence": 0.967,
+        "classificationConfidence": 0.982,
+        "textExtractionConfidence": 0.986,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "fRvlmaqg",
+        "contentType": "date"
+      },
+      "birthPlace": {
+        "id": 78770179,
+        "rectangle": {
+          "x0": 269.3353809094467,
+          "y0": 358.85308378391437,
+          "x1": 541.2700629036724,
+          "y1": 379.89433097127045
+        },
+        "rectangles": [
+          {
+            "x0": 269.3353809094467,
+            "y0": 358.97514045265876,
+            "x1": 422.91261267711496,
+            "y1": 379.89433097127045
+          },
+          {
+            "x0": 426.5201239433917,
+            "y0": 358.9215094921499,
+            "x1": 474.90867876849217,
+            "y1": 379.8893993886949
+          },
+          {
+            "x0": 478.5161900347689,
+            "y0": 358.85308378391437,
+            "x1": 541.2700629036724,
+            "y1": 379.83576842818604
+          }
+        ],
+        "document": "kzoABajk",
+        "pageIndex": 0,
+        "raw": "WASHINGTON, D.C., U.S.A.",
+        "parsed": "WASHINGTON, D.C., U.S.A.",
+        "confidence": 0.746,
+        "classificationConfidence": 0.942,
+        "textExtractionConfidence": 0.789,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "SsfQZhGV",
+        "contentType": "text"
+      },
+      "documentNumber": {
+        "id": 78770174,
+        "rectangle": {
+          "x0": 525.4770321668279,
+          "y0": 132.81461899582968,
+          "x1": 661.7703248341486,
+          "y1": 160.30679187173024
+        },
+        "rectangles": [
+          {
+            "x0": 525.4770321668279,
+            "y0": 132.81461899582968,
+            "x1": 661.7703248341486,
+            "y1": 160.30679187173024
+          }
+        ],
+        "document": "kzoABajk",
+        "pageIndex": 0,
+        "raw": "E00007730",
+        "parsed": "E00007730",
+        "confidence": 0.956,
+        "classificationConfidence": 0.962,
+        "textExtractionConfidence": 0.994,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "IwwEmDSP",
+        "contentType": "text"
+      },
+      "expiryDate": {
+        "id": 78770181,
+        "rectangle": {
+          "x0": 269.38654607866783,
+          "y0": 428.3371332047018,
+          "x1": 390.1352364813863,
+          "y1": 449.8527467597544
+        },
+        "rectangles": [
+          {
+            "x0": 269.38654607866783,
+            "y0": 428.4406964387879,
+            "x1": 290.3248464797597,
+            "y1": 448.1836849757102
+          },
+          {
+            "x0": 294.4880952262292,
+            "y0": 428.3913806130326,
+            "x1": 337.5402815622805,
+            "y1": 448.7116823039156
+          },
+          {
+            "x0": 343.4958816571824,
+            "y0": 428.3371332047018,
+            "x1": 390.1352364813863,
+            "y1": 449.8527467597544
+          }
+        ],
+        "document": "kzoABajk",
+        "pageIndex": 0,
+        "raw": "14 OCT 2030",
+        "parsed": "2030-10-14",
+        "confidence": 0.729,
+        "classificationConfidence": 0.982,
+        "textExtractionConfidence": 0.741,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "MiucnfXB",
+        "contentType": "date"
+      },
+      "familyName": null,
+      "givenName": {
+        "id": 78770175,
+        "rectangle": {
+          "x0": 228.533268198332,
+          "y0": 221.64866169833903,
+          "x1": 292.48183648358315,
+          "y1": 239.64368313000864
+        },
+        "rectangles": [
+          {
+            "x0": 228.533268198332,
+            "y0": 221.64866169833903,
+            "x1": 292.48183648358315,
+            "y1": 239.64368313000864
+          }
+        ],
+        "document": "kzoABajk",
+        "pageIndex": 0,
+        "raw": "HAPPY",
+        "parsed": "HAPPY",
+        "confidence": 0.929,
+        "classificationConfidence": 0.935,
+        "textExtractionConfidence": 0.994,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "UGKRlGRJ",
+        "contentType": "text"
+      },
+      "issueDate": {
+        "id": 78770180,
+        "rectangle": {
+          "x0": 269.37051843529736,
+          "y0": 394.3182115581579,
+          "x1": 389.4808673496829,
+          "y1": 413.99462373031054
+        },
+        "rectangles": [
+          {
+            "x0": 269.37051843529736,
+            "y0": 394.37554120559844,
+            "x1": 288.4763983795306,
+            "y1": 412.9226014305292
+          },
+          {
+            "x0": 295.0697235149435,
+            "y0": 394.32622537984315,
+            "x1": 336.2888729463142,
+            "y1": 412.89609417418575
+          },
+          {
+            "x0": 343.4798540138119,
+            "y0": 394.3182115581579,
+            "x1": 389.4808673496829,
+            "y1": 413.99462373031054
+          }
+        ],
+        "document": "kzoABajk",
+        "pageIndex": 0,
+        "raw": "15 OCT 2020",
+        "parsed": "2020-10-15",
+        "confidence": 0.864,
+        "classificationConfidence": 0.98,
+        "textExtractionConfidence": 0.882,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "nvJqXPzQ",
+        "contentType": "date"
+      },
+      "issuingCode": {
+        "id": 78770173,
+        "rectangle": {
+          "x0": 383.252180869661,
+          "y0": 136.08954689345632,
+          "x1": 412.53793798963795,
+          "y1": 151.001355700123
+        },
+        "rectangles": [
+          {
+            "x0": 383.252180869661,
+            "y0": 136.08954689345632,
+            "x1": 412.53793798963795,
+            "y1": 151.001355700123
+          }
+        ],
+        "document": "kzoABajk",
+        "pageIndex": 0,
+        "raw": "USA",
+        "parsed": "USA",
+        "confidence": 0.948,
+        "classificationConfidence": 0.954,
+        "textExtractionConfidence": 0.994,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "ozgHyECO",
+        "contentType": "text"
+      },
+      "machineReadableZone": {
+        "id": 78770183,
+        "rectangle": {
+          "x0": 22.687798857186692,
+          "y0": 485.9324925498988,
+          "x1": 758.9777150640646,
+          "y1": 559.4417064050409
+        },
+        "rectangles": [
+          {
+            "x0": 23.835027791244897,
+            "y0": 488.2642357425299,
+            "x1": 233.5888349357742,
+            "y1": 511.1915343472535
+          },
+          {
+            "x0": 238.39350740968632,
+            "y0": 488.23094756014507,
+            "x1": 265.8622552683531,
+            "y1": 510.9702295791766
+          },
+          {
+            "x0": 270.0692718101805,
+            "y0": 487.5445231417007,
+            "x1": 351.9240930407417,
+            "y1": 510.9375578446137
+          },
+          {
+            "x0": 356.131726030391,
+            "y0": 485.9324925498988,
+            "x1": 755.9382702344194,
+            "y1": 511.632314077367
+          },
+          {
+            "x0": 22.687798857186692,
+            "y0": 535.5348526738271,
+            "x1": 758.9777150640646,
+            "y1": 559.4417064050409
+          }
+        ],
+        "document": "kzoABajk",
+        "pageIndex": 0,
+        "raw": "P<USATRAVELER << HAPPY <<<<<<<<<<<<<<<<<<<<<<<< E000077303USA6502056F3010149500101920<091824",
+        "parsed": {
+          "sex": "F",
+          "type": "P",
+          "names": "HAPPY",
+          "number": "E00007730",
+          "country": "USA",
+          "surname": "TRAVELER",
+          "nationality": "USA",
+          "validScore": 100,
+          "dateOfBirth": "650205",
+          "expirationDate": "301014",
+          "extraParameters": {
+            "longName": false,
+            "mrzLines": [
+              "P<USATRAVELER<<HAPPY<<<<<<<<<<<<<<<<<<<<<<<<",
+              "E000077303USA6502056F3010149500101920<091824"
+            ]
+          }
+        },
+        "confidence": 0.853,
+        "classificationConfidence": 0.987,
+        "textExtractionConfidence": 0.864,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "nMwVnhwk",
+        "contentType": "json"
+      },
+      "middleNames": [],
+      "nationality": {
+        "id": 78770176,
+        "rectangle": {
+          "x0": 266.24045577582683,
+          "y0": 259.6964464661692,
+          "x1": 490.9627849266415,
+          "y1": 278.8189705015949
+        },
+        "rectangles": [
+          {
+            "x0": 266.24045577582683,
+            "y0": 259.9251486081094,
+            "x1": 321.224801527628,
+            "y1": 275.464819290136
+          },
+          {
+            "x0": 327.7842220328342,
+            "y0": 261.057582794441,
+            "x1": 386.9681869525994,
+            "y1": 276.5356086942735
+          },
+          {
+            "x0": 392.92871863007684,
+            "y0": 260.9694307559034,
+            "x1": 414.4609762763219,
+            "y1": 277.10490802654897
+          },
+          {
+            "x0": 418.03026777763824,
+            "y0": 259.6964464661692,
+            "x1": 490.9627849266415,
+            "y1": 278.8189705015949
+          }
+        ],
+        "document": "kzoABajk",
+        "pageIndex": 0,
+        "raw": "UNITED STATES OF AMERICA",
+        "parsed": "UNITED STATES OF AMERICA",
+        "confidence": 0.433,
+        "classificationConfidence": 0.962,
+        "textExtractionConfidence": 0.445,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "dNbuQjeK",
+        "contentType": "text"
+      },
+      "sex": {
+        "id": 78770178,
+        "rectangle": {
+          "x0": 266.9102361030788,
+          "y0": 316.1041897762582,
+          "x1": 280.6267330455759,
+          "y1": 345.9740409762372
+        },
+        "rectangles": [
+          {
+            "x0": 266.9102361030788,
+            "y0": 316.1041897762582,
+            "x1": 280.6267330455759,
+            "y1": 345.9740409762372
+          }
+        ],
+        "document": "kzoABajk",
+        "pageIndex": 0,
+        "raw": "F",
+        "parsed": "F",
+        "confidence": 0.854,
+        "classificationConfidence": 0.947,
+        "textExtractionConfidence": 0.9,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "uVqGbdVM",
+        "contentType": "text"
+      },
+      "type": {
+        "id": 78770172,
+        "rectangle": {
+          "x0": 283.4436402115002,
+          "y0": 136.1924936797205,
+          "x1": 291.7966449607827,
+          "y1": 151.12649460797707
+        },
+        "rectangles": [
+          {
+            "x0": 283.4436402115002,
+            "y0": 136.1924936797205,
+            "x1": 291.7966449607827,
+            "y1": 151.12649460797707
+          }
+        ],
+        "document": "kzoABajk",
+        "pageIndex": 0,
+        "raw": "P",
+        "parsed": "P",
+        "confidence": 0.945,
+        "classificationConfidence": 0.95,
+        "textExtractionConfidence": 0.995,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "UfxVoBbj",
+        "contentType": "text"
+      },
+      "rawText": "PASSPORT PASSEPORT | PASAPORTE THE UNITED STATES OF AMERICA \nUSA Type/Type/Tipo Code/Code/C\u00f3digo P USA Surname/Nom/Apellidos TRAVELER Passport No./No. du Passeport/No. de Pasaporte E00007730 Given names/Pr\u00e9noms/Nombres HAPPY Nationality/Nationalit\u00e9/Nacionalidad UNITED STATES OF AMERICA \nBECIMEN 05 FEB 1 \nE00001120 : . \nSex/Sexe/Saxo F Place of birth/Ligu de naissance/Lugar de nacimiento WASHINGTON, D.C., U.S.A. Date of issue/Date de d\u00e9livrance/Fecha de expedici\u00f3n 15 OCT 2020 Date of expiration/Date d'expiration/Fecha de caducidad 14 OCT 2030 Authority/Autorit\u00e9/Autoridad UNITED STATES DEPARTMENT OF STATE 05. 02.65 P<USATRAVELER << HAPPY <<<<<<<<<<<<<<<<<<<<<<<< E000077303USA6502056F3010149500101920<091824"
+    },
+    "meta": {
+      "identifier": "kzoABajk",
+      "ready": true,
+      "failed": false,
+      "readyDt": "2023-08-24T08:43:19.571258Z",
+      "fileName": "passport-US.pdf",
+      "expiryTime": null,
+      "language": "fr",
+      "pdf": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/passport-US_kAwaaro_C90Cgum.pdf?versionId=xn8lGjlzopFA6KmUroPNcowJ4Hsfs13c&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNDEPEZITW%2F20230824%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230824T084320Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGAaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAKh8N4NwxC2ZxiSmXwuEvOE%2FngBngADpA3IUMK15gLDeAiEAzMNhipyfAi%2Bh93CzAFPvJqtiHFcj2Fuqnhb1U2ZhyGUqiQUIKRACGgwzMzU1OTQ1NzExNjIiDPT%2BEHe6dk1PVhFSmirmBEiIIEOscHaMp97oLxX9a32D41jt6nSez7g816i%2BsPIGK0jUISTV3LHaGZrt15%2BYB6UZP2wJHNgIwuDY5OiW1rbKyfQ6KsetPwrkVeyTWEIMBddrPMExNxJaTkMswWlWITcl6BUm6be8KfKbyk%2FEj7ETnAzcmN4FQ1wrStBd4bKrJ9EGnesas7j5%2Fuf6N8Hf42pwUZQvb5dRvMgubo1fmOZLO4eRMeVcKQynCrWQqPhtnY%2B34mFFRSiPQU6BVu%2FnP5gh1kf%2FZgVL19pp0cLzfO2WnHJi3KPcsthWF3mWoPCXyOlYbVRtWrTB4Tob2gH26QNdmfQ3kt9HjOgGiSrnBYlNM5g1w9eSwcteSPq%2FIv%2B8sL%2ByA8XvYs%2BR5y7KS%2FRO7AGiNekrE5aiI13LDofUEZEf0WhAvqrXDt0Q3j5RSb72xvPTqVf5C4B2zhaqiENBDm0zErc6lO8SgYbu3yw2e9P2xPSTNZhywCkO%2Bgy5xh%2FrE%2FEv0Op6r6Uzaw4%2BnrP5m%2FF6K9ITm7ASbWFnNhkG5C2s7%2F6J%2FWmGfImKTlC%2F%2BtoFn0drcLNtIkJCTquCqbq9v2WxHcipfDnrk0tfALT15igoWCq9Yz3u%2BCn1P14BG9w7dcuHEBNAAL3f4oXJzzT3l9bXrHO3WqGuXWGucz8gLHKNmk2xSF66Qyx4l7wTOHTL3EzpBW364mvOw3oqcYpvApplPrSvWMqK2EDpARuLzGaN1BOij2P0hrXeV4Z7%2F20v1NMLxMFZtPO86tj1Pu8YnLNh136cCQyPsapsshhNJlbZh74Yxj2aLVUv02KGRe3tlINBSG0IMMSdnKcGOpkB6WC1CMuEXgh8UbWQovk6%2B01WY7fQJ%2FQkULLjH%2B9dZH%2FMAEOZqdtWgTxtjUoUP7z03w2AxoqpC57YlC44iahXgXqS1O9fHinaGZUyLloAFX7uPQsMzWjfsmCeSwc5%2Ffdvieb1P7iXwPQlPKF1griQV%2Bd%2FOeXXcge8lujKUclbXPiOPDzFxOauyLL7GRTcQoNfXMCg3skOu6%2Bu&X-Amz-Signature=0753c7072a3bfb7fd98bf16ff40f7125a6ac2dde95e9cc48e9875c29d141be3b",
+      "parentDocument": null,
+      "childDocuments": [],
+      "pages": [
+        {
+          "id": 32317901,
+          "pageIndex": 0,
+          "image": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/pages/32317901_0LXT8Ld.png?versionId=XE1yzmRCOpcV.8wFMmiFoB_w_GlG4S8b&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNDEPEZITW%2F20230824%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230824T084320Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGAaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAKh8N4NwxC2ZxiSmXwuEvOE%2FngBngADpA3IUMK15gLDeAiEAzMNhipyfAi%2Bh93CzAFPvJqtiHFcj2Fuqnhb1U2ZhyGUqiQUIKRACGgwzMzU1OTQ1NzExNjIiDPT%2BEHe6dk1PVhFSmirmBEiIIEOscHaMp97oLxX9a32D41jt6nSez7g816i%2BsPIGK0jUISTV3LHaGZrt15%2BYB6UZP2wJHNgIwuDY5OiW1rbKyfQ6KsetPwrkVeyTWEIMBddrPMExNxJaTkMswWlWITcl6BUm6be8KfKbyk%2FEj7ETnAzcmN4FQ1wrStBd4bKrJ9EGnesas7j5%2Fuf6N8Hf42pwUZQvb5dRvMgubo1fmOZLO4eRMeVcKQynCrWQqPhtnY%2B34mFFRSiPQU6BVu%2FnP5gh1kf%2FZgVL19pp0cLzfO2WnHJi3KPcsthWF3mWoPCXyOlYbVRtWrTB4Tob2gH26QNdmfQ3kt9HjOgGiSrnBYlNM5g1w9eSwcteSPq%2FIv%2B8sL%2ByA8XvYs%2BR5y7KS%2FRO7AGiNekrE5aiI13LDofUEZEf0WhAvqrXDt0Q3j5RSb72xvPTqVf5C4B2zhaqiENBDm0zErc6lO8SgYbu3yw2e9P2xPSTNZhywCkO%2Bgy5xh%2FrE%2FEv0Op6r6Uzaw4%2BnrP5m%2FF6K9ITm7ASbWFnNhkG5C2s7%2F6J%2FWmGfImKTlC%2F%2BtoFn0drcLNtIkJCTquCqbq9v2WxHcipfDnrk0tfALT15igoWCq9Yz3u%2BCn1P14BG9w7dcuHEBNAAL3f4oXJzzT3l9bXrHO3WqGuXWGucz8gLHKNmk2xSF66Qyx4l7wTOHTL3EzpBW364mvOw3oqcYpvApplPrSvWMqK2EDpARuLzGaN1BOij2P0hrXeV4Z7%2F20v1NMLxMFZtPO86tj1Pu8YnLNh136cCQyPsapsshhNJlbZh74Yxj2aLVUv02KGRe3tlINBSG0IMMSdnKcGOpkB6WC1CMuEXgh8UbWQovk6%2B01WY7fQJ%2FQkULLjH%2B9dZH%2FMAEOZqdtWgTxtjUoUP7z03w2AxoqpC57YlC44iahXgXqS1O9fHinaGZUyLloAFX7uPQsMzWjfsmCeSwc5%2Ffdvieb1P7iXwPQlPKF1griQV%2Bd%2FOeXXcge8lujKUclbXPiOPDzFxOauyLL7GRTcQoNfXMCg3skOu6%2Bu&X-Amz-Signature=2922ea1269b7e77bc7cac4b0f26f370788bccaad6ea15bfd82bed7278002654a",
+          "height": 612.8165766038121,
+          "width": 792.6308212759188,
+          "rotation": 0
+        }
+      ],
+      "ocrConfidence": 0.8867804878048781,
+      "reviewUrl": "https://app.affinda.com/review/kzoABajk?signature=eyJ1c2VyX2lkIjoyNDIzfQ:1qZ5w0:rfczP3GmyR_MswEBcM00zCkJ6Sb03hc7Wae4J40qLTs:1qZ5w0:0zc88bhh-29eE53kria2iKN4AdWFH1aD_RPCU9skUKw",
+      "createdDt": "2023-08-24T08:43:14.178121Z",
+      "errorDetail": null,
+      "file": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/passport-US_kAwaaro.pdf?versionId=CtaglyK69hgsLcaJi787DicBFNr6UZxU&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNDEPEZITW%2F20230824%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230824T084320Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGAaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAKh8N4NwxC2ZxiSmXwuEvOE%2FngBngADpA3IUMK15gLDeAiEAzMNhipyfAi%2Bh93CzAFPvJqtiHFcj2Fuqnhb1U2ZhyGUqiQUIKRACGgwzMzU1OTQ1NzExNjIiDPT%2BEHe6dk1PVhFSmirmBEiIIEOscHaMp97oLxX9a32D41jt6nSez7g816i%2BsPIGK0jUISTV3LHaGZrt15%2BYB6UZP2wJHNgIwuDY5OiW1rbKyfQ6KsetPwrkVeyTWEIMBddrPMExNxJaTkMswWlWITcl6BUm6be8KfKbyk%2FEj7ETnAzcmN4FQ1wrStBd4bKrJ9EGnesas7j5%2Fuf6N8Hf42pwUZQvb5dRvMgubo1fmOZLO4eRMeVcKQynCrWQqPhtnY%2B34mFFRSiPQU6BVu%2FnP5gh1kf%2FZgVL19pp0cLzfO2WnHJi3KPcsthWF3mWoPCXyOlYbVRtWrTB4Tob2gH26QNdmfQ3kt9HjOgGiSrnBYlNM5g1w9eSwcteSPq%2FIv%2B8sL%2ByA8XvYs%2BR5y7KS%2FRO7AGiNekrE5aiI13LDofUEZEf0WhAvqrXDt0Q3j5RSb72xvPTqVf5C4B2zhaqiENBDm0zErc6lO8SgYbu3yw2e9P2xPSTNZhywCkO%2Bgy5xh%2FrE%2FEv0Op6r6Uzaw4%2BnrP5m%2FF6K9ITm7ASbWFnNhkG5C2s7%2F6J%2FWmGfImKTlC%2F%2BtoFn0drcLNtIkJCTquCqbq9v2WxHcipfDnrk0tfALT15igoWCq9Yz3u%2BCn1P14BG9w7dcuHEBNAAL3f4oXJzzT3l9bXrHO3WqGuXWGucz8gLHKNmk2xSF66Qyx4l7wTOHTL3EzpBW364mvOw3oqcYpvApplPrSvWMqK2EDpARuLzGaN1BOij2P0hrXeV4Z7%2F20v1NMLxMFZtPO86tj1Pu8YnLNh136cCQyPsapsshhNJlbZh74Yxj2aLVUv02KGRe3tlINBSG0IMMSdnKcGOpkB6WC1CMuEXgh8UbWQovk6%2B01WY7fQJ%2FQkULLjH%2B9dZH%2FMAEOZqdtWgTxtjUoUP7z03w2AxoqpC57YlC44iahXgXqS1O9fHinaGZUyLloAFX7uPQsMzWjfsmCeSwc5%2Ffdvieb1P7iXwPQlPKF1griQV%2Bd%2FOeXXcge8lujKUclbXPiOPDzFxOauyLL7GRTcQoNfXMCg3skOu6%2Bu&X-Amz-Signature=1cab98ecffc77dc9759ff1f18f45c81c742b58ee90ee43d83b626fb3eed43ddc",
+      "collection": {
+        "identifier": "CjNENGQS",
+        "name": "identity-parser",
+        "extractor": {
+          "id": 1,
+          "identifier": "passport",
+          "name": "Passport",
+          "baseExtractor": null,
+          "validatable": true
+        }
+      },
+      "workspace": {
+        "identifier": "xQcuvjOg",
+        "name": "Identity"
+      },
+      "tags": [],
+      "isOcrd": true,
+      "isConfirmed": false,
+      "confirmedDt": null,
+      "isRejected": false,
+      "rejectedDt": null,
+      "isArchived": false,
+      "archivedDt": null,
+      "errorCode": null,
+      "confirmedBy": null,
+      "sourceEmail": null,
+      "createdBy": {
+        "id": 2423,
+        "name": "Eden AI",
+        "username": "contact",
+        "email": "contact@edenai.co",
+        "avatar": null,
+        "master": null
+      },
+      "regionBias": {
+        "country": null,
+        "countries": null,
+        "squareCoordinates": null
+      }
+    },
+    "error": {
+      "errorCode": null,
+      "errorDetail": null
+    },
+    "warnings": [],
+    "extractor": "passport"
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "last_name": {
+          "value": null,
+          "confidence": null
+        },
+        "given_names": [
+          {
+            "value": "Happy",
+            "confidence": 0.929
+          }
+        ],
+        "birth_place": {
+          "value": "Washington, D.C., U.S.A.",
+          "confidence": 0.746
+        },
+        "birth_date": {
+          "value": "2001-02-05",
+          "confidence": 0.967
+        },
+        "issuance_date": {
+          "value": "2020-10-15",
+          "confidence": 0.864
+        },
+        "expire_date": {
+          "value": "2030-10-14",
+          "confidence": 0.729
+        },
+        "document_id": {
+          "value": "E00007730",
+          "confidence": 0.956
+        },
+        "issuing_state": {
+          "value": "United States Department Of State",
+          "confidence": 0.922
+        },
+        "address": {
+          "value": null,
+          "confidence": null
+        },
+        "age": {
+          "value": null,
+          "confidence": null
+        },
+        "country": {
+          "name": "United States of America",
+          "alpha2": "us",
+          "alpha3": "usa",
+          "confidence": null
+        },
+        "document_type": {
+          "value": "P",
+          "confidence": 0.945
+        },
+        "gender": {
+          "value": "F",
+          "confidence": 0.854
+        },
+        "image_id": [],
+        "image_signature": [],
+        "mrz": {
+          "value": "P<USATRAVELER << HAPPY <<<<<<<<<<<<<<<<<<<<<<<< E000077303USA6502056F3010149500101920<091824",
+          "confidence": 0.853
+        },
+        "nationality": {
+          "value": "United States Of America",
+          "confidence": 0.433
+        }
+      }
+    ]
+  }
+}

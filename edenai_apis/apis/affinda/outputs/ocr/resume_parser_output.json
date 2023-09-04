@@ -1,32 +1,327 @@
 {
   "original_response": {
-    "extractor": "resume",
+    "data": {
+      "certifications": [],
+      "dateOfBirth": null,
+      "education": [
+        {
+          "id": 30987823,
+          "organization": "University of Arkansas at Little Rock",
+          "accreditation": {
+            "education": "BS in Early Childhood Development",
+            "educationLevel": null,
+            "inputStr": "BS in Early Childhood Development",
+            "matchStr": ""
+          },
+          "grade": null,
+          "location": {
+            "formatted": "Little Rock, AR, USA",
+            "streetNumber": null,
+            "street": null,
+            "apartmentNumber": null,
+            "city": "Little Rock",
+            "postalCode": null,
+            "state": "Arkansas",
+            "country": "United States",
+            "rawInput": "Little Rock, AR",
+            "countryCode": "US",
+            "latitude": 34.7464809,
+            "longitude": -92.28959479999999
+          },
+          "dates": {
+            "startDate": null,
+            "completionDate": "1999-01-01",
+            "isCurrent": false,
+            "rawText": "(1999)"
+          }
+        },
+        {
+          "id": 30987824,
+          "organization": null,
+          "accreditation": {
+            "education": "Bachelor of Arts",
+            "educationLevel": "bachelors",
+            "inputStr": "BA in Elementary Education",
+            "matchStr": ""
+          },
+          "grade": {
+            "raw": "3.8,",
+            "value": "3.8",
+            "metric": null
+          },
+          "location": null,
+          "dates": {
+            "startDate": null,
+            "completionDate": "1998-01-01",
+            "isCurrent": false,
+            "rawText": "(1998)"
+          }
+        }
+      ],
+      "emails": [
+        "jwsmith@colostate.edu"
+      ],
+      "location": {
+        "formatted": "2002 Caribou Dr Suite 101, Fort Collins, CO 80525, USA",
+        "streetNumber": "2002",
+        "street": "Caribou Drive",
+        "apartmentNumber": "Suite 101",
+        "city": "Fort Collins",
+        "postalCode": "80525",
+        "state": "Colorado",
+        "country": "United States",
+        "rawInput": "2002 Front Range Way Fort Collins, CO 80525",
+        "countryCode": "US",
+        "latitude": 40.531067,
+        "longitude": -105.0409688
+      },
+      "name": {
+        "raw": "John W. Smith",
+        "last": "Smith",
+        "first": "John",
+        "title": "",
+        "middle": "W."
+      },
+      "objective": "",
+      "phoneNumbers": [],
+      "phoneNumberDetails": [],
+      "publications": [],
+      "referees": [],
+      "sections": [
+        {
+          "bbox": [
+            72.35244,
+            40.018433,
+            419.4492,
+            116.34003
+          ],
+          "text": "Functional Resume Sample John W. Smith 2002 Front Range Way Fort Collins, CO 80525 jwsmith@colostate.edu",
+          "pageIndex": 0,
+          "sectionType": "PersonalDetails"
+        },
+        {
+          "bbox": [
+            72.11184,
+            133.93555,
+            530.53204,
+            276.18
+          ],
+          "text": "Career Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.",
+          "pageIndex": 0,
+          "sectionType": "Summary"
+        },
+        {
+          "bbox": [
+            72.2796,
+            293.70157,
+            514.05115,
+            487.43997
+          ],
+          "text": "Childcare Experience \u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \u2022 Oversaw daily activity and outing planning for 100 clients. \u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \u2022 Assisted teachers with managing daily classroom activities. \u2022 Oversaw daily and special student activities. Employment History 1999-2002 Counseling Supervisor, The Wesley Center, Little Rock, Arkansas. 1997-1999 Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas 1996-1997 Teacher's Assistant, Cowell Elementary, Conway, Arkansas",
+          "pageIndex": 0,
+          "sectionType": "WorkExperience"
+        },
+        {
+          "bbox": [
+            72.2796,
+            505.02145,
+            512.90643,
+            625.992
+          ],
+          "text": "Education University of Arkansas at Little Rock, Little Rock, AR \u2022 BS in Early Childhood Development (1999) \u2022 BA in Elementary Education (1998) \u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \u2022 Dean's List, Chancellor's List",
+          "pageIndex": 0,
+          "sectionType": "Education"
+        }
+      ],
+      "skills": [
+        {
+          "id": 324708112,
+          "emsiId": "ESEB1D4619E6E83A061D",
+          "name": "Planning",
+          "lastUsed": null,
+          "numberOfMonths": null,
+          "type": "soft_skill",
+          "sources": [
+            {
+              "section": "WorkExperience",
+              "position": null,
+              "workExperienceId": null
+            }
+          ]
+        },
+        {
+          "id": 324708113,
+          "emsiId": "KSAC5KBXJNGIKQFE4AQ7",
+          "name": "Supervisord",
+          "lastUsed": null,
+          "numberOfMonths": null,
+          "type": "hard_skill",
+          "sources": [
+            {
+              "section": "WorkExperience",
+              "position": null,
+              "workExperienceId": null
+            }
+          ]
+        }
+      ],
+      "languages": [
+        "English"
+      ],
+      "summary": "Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.",
+      "websites": [],
+      "linkedin": null,
+      "totalYearsExperience": 6,
+      "profession": "Specialist",
+      "workExperience": [
+        {
+          "id": 55617418,
+          "jobTitle": "Counseling Supervisor",
+          "organization": "The Wesley Center",
+          "location": {
+            "formatted": "Little Rock, AR, USA",
+            "streetNumber": null,
+            "street": null,
+            "apartmentNumber": null,
+            "city": "Little Rock",
+            "postalCode": null,
+            "state": "Arkansas",
+            "country": "United States",
+            "rawInput": "Little Rock, Arkansas.",
+            "countryCode": "US",
+            "latitude": 34.7464809,
+            "longitude": -92.28959479999999
+          },
+          "dates": {
+            "startDate": "1999-01-01",
+            "endDate": "2002-01-01",
+            "monthsInPosition": 36,
+            "isCurrent": false,
+            "rawText": "1999-2002"
+          },
+          "jobDescription": "",
+          "occupation": {
+            "jobTitle": "Counseling Supervisor",
+            "jobTitleNormalized": "Counseling Supervisor",
+            "classification": null,
+            "managementLevel": "Low",
+            "emsiId": "ETAA2F9BC62B38B593"
+          }
+        },
+        {
+          "id": 55617419,
+          "jobTitle": "Client Specialist",
+          "organization": "Rainbow Special Care Center",
+          "location": {
+            "formatted": "Little Rock, AR, USA",
+            "streetNumber": null,
+            "street": null,
+            "apartmentNumber": null,
+            "city": "Little Rock",
+            "postalCode": null,
+            "state": "Arkansas",
+            "country": "United States",
+            "rawInput": "Little Rock, Arkansas",
+            "countryCode": "US",
+            "latitude": 34.7464809,
+            "longitude": -92.28959479999999
+          },
+          "dates": {
+            "startDate": "1997-01-01",
+            "endDate": "1999-01-01",
+            "monthsInPosition": 24,
+            "isCurrent": false,
+            "rawText": "1997-1999"
+          },
+          "jobDescription": "",
+          "occupation": {
+            "jobTitle": "Client Specialist",
+            "jobTitleNormalized": "Client Specialist",
+            "classification": {
+              "socCode": 7219,
+              "title": "Customer service occupations n.e.c.",
+              "minorGroup": "Customer Service Occupations",
+              "subMajorGroup": "CUSTOMER SERVICE OCCUPATIONS",
+              "majorGroup": "SALES AND CUSTOMER SERVICE OCCUPATIONS"
+            },
+            "managementLevel": null,
+            "emsiId": "ET9E0AD794669C2164"
+          }
+        },
+        {
+          "id": 55617420,
+          "jobTitle": "Teacher's Assistant",
+          "organization": "Cowell Elementary",
+          "location": {
+            "formatted": "Conway, AR, USA",
+            "streetNumber": null,
+            "street": null,
+            "apartmentNumber": null,
+            "city": "Conway",
+            "postalCode": null,
+            "state": "Arkansas",
+            "country": "United States",
+            "rawInput": "Conway, Arkansas",
+            "countryCode": "US",
+            "latitude": 35.0886963,
+            "longitude": -92.4421011
+          },
+          "dates": {
+            "startDate": "1996-01-01",
+            "endDate": "1997-01-01",
+            "monthsInPosition": 12,
+            "isCurrent": false,
+            "rawText": "1996-1997"
+          },
+          "jobDescription": "",
+          "occupation": {
+            "jobTitle": "Teacher's Assistant",
+            "jobTitleNormalized": "Research Assistant/Teacher's Assistant",
+            "classification": null,
+            "managementLevel": null,
+            "emsiId": "ET2E88E1F70E85FBAA"
+          }
+        }
+      ],
+      "headShot": null,
+      "isResumeProbability": 99,
+      "rawText": "Functional Resume Sample John W. Smith 2002 Front Range Way Fort Collins, CO 80525 jwsmith@colostate.edu\nCareer Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.\nChildcare Experience \u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \u2022 Oversaw daily activity and outing planning for 100 clients. \u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \u2022 Assisted teachers with managing daily classroom activities. \u2022 Oversaw daily and special student activities. Employment History 1999-2002 Counseling Supervisor, The Wesley Center, Little Rock, Arkansas. 1997-1999 Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas 1996-1997 Teacher's Assistant, Cowell Elementary, Conway, Arkansas\nEducation University of Arkansas at Little Rock, Little Rock, AR \u2022 BS in Early Childhood Development (1999) \u2022 BA in Elementary Education (1998) \u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \u2022 Dean's List, Chancellor's List",
+      "redactedText": "Functional Resume Sample **** ** ***** **** ***** ***** *** **** ******** ** ***** *********************\nCareer Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.\nChildcare Experience \u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \u2022 Oversaw daily activity and outing planning for 100 clients. \u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \u2022 Assisted teachers with managing daily classroom activities. \u2022 Oversaw daily and special student activities. Employment History ********* Counseling Supervisor, The Wesley Center, ****** ***** ********* ********* Client Specialist, Rainbow Special Care Center, ****** ***** ******** ********* Teacher's Assistant, Cowell Elementary, ******* ********\nEducation University of Arkansas at Little Rock, ****** ***** ** \u2022 BS in Early Childhood Development ****** \u2022 BA in Elementary Education ****** \u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \u2022 Dean's List, Chancellor's List"
+    },
     "meta": {
-      "identifier": "mteZlALA",
-      "file_name": "resume.pdf",
+      "identifier": "MvIhJrjj",
       "ready": true,
-      "ready_dt": "2023-08-03T08:55:10.391067Z",
       "failed": false,
+      "readyDt": "2023-08-23T10:43:26.060127Z",
+      "fileName": "resume.pdf",
+      "expiryTime": null,
       "language": "en",
-      "pdf": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/resume_kk0aEfF.pdf?versionId=q6yYy8N7lWrJ37.heuiYkZD7hLYR1jOV&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNAMGLSQ5K%2F20230803%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230803T085510Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaDmFwLXNvdXRoZWFzdC0yIkcwRQIhANKqxIrxB3g3p4sMGwCOrrmVY%2F6%2BJvs6QhZVLl9HiKj9AiAb6DwmlTZukWdTmpMjp7IoxP%2F0N0MXAphXTpzcX56fLCqJBQgSEAIaDDMzNTU5NDU3MTE2MiIMSw95UsTiADhC3KATKuYENxPidja1tAeOzxtOPJ9D6YG93ZaJ4lNTJMyZ0XOqRvu%2BJV1bkEDphjBW%2Bcm%2Fo9Pt6EFs7jlNvV1H1eCZGCFLOGsp9jEp3qSzgxIE6MhZ6sjODAlfEYLvZYhAgKzuisdghDtn1AvhI8fmYLvzDNxhQep%2FWNgKbOajthw2jeBUzwl9TpBIfPSWm57jDiejI3hwyIJOFpVAeHoX04vc8mLBo8excpgfDa5M77MhheeqGhhYC%2Bzzg5ikNAl%2Fg55N3zB7mvFHKRfqRWC6l9RnLg7AHdYVAZeQKm65nq7ttsjo2IFopKcITY%2BaWcqKqnV2wZ%2FCm%2BC4%2FZCt3FTen7EBhuvRULyc9DQEWmPUfyJOKKgR136D1GWxALEglsCauX00NqW00H6AO6YycygAPDFU7k%2BFrR%2Fdz9W7ZggJ3bFOoPuq6C5uiitk%2FU%2FbM%2FqfpArh6gh%2BOo71%2FReVN7Zj2Rhwj6loF9iK%2BJ25u%2FWZVkGGSIk%2BXr4oLWKfLKMYo9Q0EC040f%2BX4xwZX2zR97lgx53ExRVHgFSjIxEtqzJxsYufx1LR51SNf81B9P1ZIFFt6i5RulZJ8ToYXW0QFzgGpGQbNoOu2aDSvA5zOLJHKljW5E1qs2HMXOtmmmSrHv1I4XeYFzVob3CSkmkqQ1tcB7K7rIlg2FKpaFX%2Fpilk%2FtjXlrVcetDA34hgGNl04iZ0XmGN9h4%2B6O5d92UCUncvzr%2Bopv%2BreGCBAn2GA3Ar2NE0NIdbEghrYs5t5o%2FmS314ymehFTn1Wz3u7Ayd4nltfIJa9M8pqRLvF%2FZqOznuZiHHWa8y3qeYWhPa1SQwxMmtpgY6mgHbMgXTJ3bByzLMbAmVywiGu3AM32d1f29IVkSRb9Dt0a0F9StKUvCWhdD9HRpeeMUq%2B6FSpDF8qRHJo4Vollftl2wo7SjVa8RCKxenA93YU883H9%2B%2BBGSfM%2BHNrN8S8QNx%2BeGRUZitv3YhOBJFSVSOhpBWm3VQ1cGH4sivwf4GifoxeT%2BX3LPH3gqDFypuHQpY3xIES05jvptE&X-Amz-Signature=9831d85409a0b535137f69132e195f5df2779930707b641961f4db9095dd772a",
-      "child_documents": [],
+      "pdf": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/resume_DfRCgO9.pdf?versionId=ghcRH1rNMYNKctQJI2lIVyrM64Y5KgBF&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNCQ4S455J%2F20230823%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230823T104326Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEoaDmFwLXNvdXRoZWFzdC0yIkcwRQIhAKrTfe4ii7ZIWhGXxVbANEzmnTrrB9gCipU%2FsniqVK5hAiBRBMLPF9JE3g9%2B1IqIA%2FwfLlUzzs8%2BvYscMWIuQ%2BzF4SqJBQgTEAIaDDMzNTU5NDU3MTE2MiIMEBiAfKzBmzYXx9GuKuYEBeAoO7dW8I%2Fh9tAIYymbZ9janQziteXM%2F7hpelPgA1z8woHVuZ0Dtx47kzAc9S3Ap27F%2BZJvAVmEwjZ5pSsJzEPkuyXlvO%2BAsQoUcebmImeIpWmbDUUHX0kVUBVMorPBaod03okueJyvz31pG5W69CZ5f2njjDhQFgjW%2Bs6IMyQbY1aeQyBD%2BxtAGUcyiVVS0TxTub8SBhA64PyBoOEDf1JBdHTn0J8AYToQMiXeHX1ERuMuVxWMMI7RUTAaEsqugq%2F3uJAI6zjGgNFoJ9QIEsWenDTuf06VVLcGQQO7KYzE3lNZalnKx%2FAggc0ufoDeLxEuh%2Brsr0oKwIQbo%2FYFJK6DzdV%2F%2FIRPwnZG3BJz5qrsK2ugwjjWOcl58LpfIN1v%2B8RPmNcjVoekpdYxYPNvEYrunJ8xIeIGasFsrRn8xCACKmaWo2BUkGXwAcn3f036zZoIfxEPOUSR3tHdRaxk%2BD%2BMn5fV1douqF9Taw7jhSsk0TtvEAHqgf6hupA03UISR5ZHr1%2FHl0WcriTgy0DK6uqrro4w%2FVXF46amSQBubiBfRrTnKx%2BXKNeqveuxAUBkO338Bk0YxCmh%2BdHRLrPL3rGBgfF26tTUlrsITWtN966uHjnHh4cjsl8IK7HMSocKI9JRdnLbrI3nJ91pzCCGS5K%2BXaqFXFP3gHIbUj8%2BPG0y18JlTpRx9K5Qsi3sbzcBqBp0g47xo6pFDkdEpd48sTriZLTX%2BCCTedJFZP6uOZsukm5QLwoKk%2FBqNKFM5MYyz64bsvzgF4bBOLxxjTOHf6ESA9zxRHJy8n8BVe3yGh0QZx7uiTkwhLqXpwY6mgEQug%2FavpHwTud8fDEW1SU8P6sHXfNvlJaXlaKxwknpuQy%2FT7VjqcLsDPg7a4L71dXdV0wO9tXKqJ4KaBefT0r%2FsKRSSAR%2BXvE7J32pd%2FbG7B2%2BsIS6IOLCSBJ2VpF0olrjFBf2DI7BnaNkvaHctAFhRs5bA%2FU6P1vsRUFQF03GRkHcaHqtVaiURRPELf3uT802xyZJey3UJUhk&X-Amz-Signature=e0e7b1894e01639465beb64777b74464d88811edc2c2d9701c3efcef3c386ed6",
+      "parentDocument": null,
+      "childDocuments": [],
       "pages": [
         {
-          "id": 30349865,
-          "page_index": 0,
+          "id": 32229014,
+          "pageIndex": 0,
+          "image": null,
           "height": 792.0,
           "width": 612.0,
           "rotation": 0
         }
       ],
-      "is_ocrd": false,
-      "review_url": "https://app.affinda.com/review/mteZlALA?signature=eyJ1c2VyX2lkIjoyNDIzfQ:1qRU6w:2gc2RN4MCY8iDq3FomY7BNi5ioXjqGR_-2PDTVmE-y8:1qRU6w:W4QU-ppZOYkCJcH7iqVfZmIN6rAgGeaIHUdlipaSZxY",
+      "ocrConfidence": null,
+      "reviewUrl": "https://app.affinda.com/review/MvIhJrjj?signature=eyJ1c2VyX2lkIjoyNDIzfQ:1qYlKg:WBv2g0Na0goPzEfh7iZNzVlkXEx_10W4xHfWRya207g:1qYlKg:uoOrIHs8sqr20q96pYRN4yB4S94quRscoyv2Kh8LgVA",
+      "createdDt": "2023-08-23T10:43:25.184150Z",
+      "errorDetail": null,
+      "file": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/resume_DfRCgO9.pdf?versionId=ghcRH1rNMYNKctQJI2lIVyrM64Y5KgBF&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNCQ4S455J%2F20230823%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230823T104326Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEoaDmFwLXNvdXRoZWFzdC0yIkcwRQIhAKrTfe4ii7ZIWhGXxVbANEzmnTrrB9gCipU%2FsniqVK5hAiBRBMLPF9JE3g9%2B1IqIA%2FwfLlUzzs8%2BvYscMWIuQ%2BzF4SqJBQgTEAIaDDMzNTU5NDU3MTE2MiIMEBiAfKzBmzYXx9GuKuYEBeAoO7dW8I%2Fh9tAIYymbZ9janQziteXM%2F7hpelPgA1z8woHVuZ0Dtx47kzAc9S3Ap27F%2BZJvAVmEwjZ5pSsJzEPkuyXlvO%2BAsQoUcebmImeIpWmbDUUHX0kVUBVMorPBaod03okueJyvz31pG5W69CZ5f2njjDhQFgjW%2Bs6IMyQbY1aeQyBD%2BxtAGUcyiVVS0TxTub8SBhA64PyBoOEDf1JBdHTn0J8AYToQMiXeHX1ERuMuVxWMMI7RUTAaEsqugq%2F3uJAI6zjGgNFoJ9QIEsWenDTuf06VVLcGQQO7KYzE3lNZalnKx%2FAggc0ufoDeLxEuh%2Brsr0oKwIQbo%2FYFJK6DzdV%2F%2FIRPwnZG3BJz5qrsK2ugwjjWOcl58LpfIN1v%2B8RPmNcjVoekpdYxYPNvEYrunJ8xIeIGasFsrRn8xCACKmaWo2BUkGXwAcn3f036zZoIfxEPOUSR3tHdRaxk%2BD%2BMn5fV1douqF9Taw7jhSsk0TtvEAHqgf6hupA03UISR5ZHr1%2FHl0WcriTgy0DK6uqrro4w%2FVXF46amSQBubiBfRrTnKx%2BXKNeqveuxAUBkO338Bk0YxCmh%2BdHRLrPL3rGBgfF26tTUlrsITWtN966uHjnHh4cjsl8IK7HMSocKI9JRdnLbrI3nJ91pzCCGS5K%2BXaqFXFP3gHIbUj8%2BPG0y18JlTpRx9K5Qsi3sbzcBqBp0g47xo6pFDkdEpd48sTriZLTX%2BCCTedJFZP6uOZsukm5QLwoKk%2FBqNKFM5MYyz64bsvzgF4bBOLxxjTOHf6ESA9zxRHJy8n8BVe3yGh0QZx7uiTkwhLqXpwY6mgEQug%2FavpHwTud8fDEW1SU8P6sHXfNvlJaXlaKxwknpuQy%2FT7VjqcLsDPg7a4L71dXdV0wO9tXKqJ4KaBefT0r%2FsKRSSAR%2BXvE7J32pd%2FbG7B2%2BsIS6IOLCSBJ2VpF0olrjFBf2DI7BnaNkvaHctAFhRs5bA%2FU6P1vsRUFQF03GRkHcaHqtVaiURRPELf3uT802xyZJey3UJUhk&X-Amz-Signature=e0e7b1894e01639465beb64777b74464d88811edc2c2d9701c3efcef3c386ed6",
       "collection": {
         "identifier": "GmkTYqqC",
         "name": "Resume Parses",
         "extractor": {
+          "id": 6,
           "identifier": "resume",
           "name": "Resume Parse",
+          "baseExtractor": null,
           "validatable": true
         }
       },
@@ -34,272 +329,37 @@
         "identifier": "fghJjxHz",
         "name": "Recruitment"
       },
-      "is_archived": false,
-      "is_confirmed": false,
-      "is_rejected": false,
-      "created_dt": "2023-08-03T08:55:06.754712Z",
-      "file": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/resume_kk0aEfF.pdf?versionId=q6yYy8N7lWrJ37.heuiYkZD7hLYR1jOV&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNAMGLSQ5K%2F20230803%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230803T085510Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaDmFwLXNvdXRoZWFzdC0yIkcwRQIhANKqxIrxB3g3p4sMGwCOrrmVY%2F6%2BJvs6QhZVLl9HiKj9AiAb6DwmlTZukWdTmpMjp7IoxP%2F0N0MXAphXTpzcX56fLCqJBQgSEAIaDDMzNTU5NDU3MTE2MiIMSw95UsTiADhC3KATKuYENxPidja1tAeOzxtOPJ9D6YG93ZaJ4lNTJMyZ0XOqRvu%2BJV1bkEDphjBW%2Bcm%2Fo9Pt6EFs7jlNvV1H1eCZGCFLOGsp9jEp3qSzgxIE6MhZ6sjODAlfEYLvZYhAgKzuisdghDtn1AvhI8fmYLvzDNxhQep%2FWNgKbOajthw2jeBUzwl9TpBIfPSWm57jDiejI3hwyIJOFpVAeHoX04vc8mLBo8excpgfDa5M77MhheeqGhhYC%2Bzzg5ikNAl%2Fg55N3zB7mvFHKRfqRWC6l9RnLg7AHdYVAZeQKm65nq7ttsjo2IFopKcITY%2BaWcqKqnV2wZ%2FCm%2BC4%2FZCt3FTen7EBhuvRULyc9DQEWmPUfyJOKKgR136D1GWxALEglsCauX00NqW00H6AO6YycygAPDFU7k%2BFrR%2Fdz9W7ZggJ3bFOoPuq6C5uiitk%2FU%2FbM%2FqfpArh6gh%2BOo71%2FReVN7Zj2Rhwj6loF9iK%2BJ25u%2FWZVkGGSIk%2BXr4oLWKfLKMYo9Q0EC040f%2BX4xwZX2zR97lgx53ExRVHgFSjIxEtqzJxsYufx1LR51SNf81B9P1ZIFFt6i5RulZJ8ToYXW0QFzgGpGQbNoOu2aDSvA5zOLJHKljW5E1qs2HMXOtmmmSrHv1I4XeYFzVob3CSkmkqQ1tcB7K7rIlg2FKpaFX%2Fpilk%2FtjXlrVcetDA34hgGNl04iZ0XmGN9h4%2B6O5d92UCUncvzr%2Bopv%2BreGCBAn2GA3Ar2NE0NIdbEghrYs5t5o%2FmS314ymehFTn1Wz3u7Ayd4nltfIJa9M8pqRLvF%2FZqOznuZiHHWa8y3qeYWhPa1SQwxMmtpgY6mgHbMgXTJ3bByzLMbAmVywiGu3AM32d1f29IVkSRb9Dt0a0F9StKUvCWhdD9HRpeeMUq%2B6FSpDF8qRHJo4Vollftl2wo7SjVa8RCKxenA93YU883H9%2B%2BBGSfM%2BHNrN8S8QNx%2BeGRUZitv3YhOBJFSVSOhpBWm3VQ1cGH4sivwf4GifoxeT%2BX3LPH3gqDFypuHQpY3xIES05jvptE&X-Amz-Signature=9831d85409a0b535137f69132e195f5df2779930707b641961f4db9095dd772a",
       "tags": [],
-      "created_by": {
+      "isOcrd": false,
+      "isConfirmed": false,
+      "confirmedDt": null,
+      "isRejected": false,
+      "rejectedDt": null,
+      "isArchived": false,
+      "archivedDt": null,
+      "errorCode": null,
+      "confirmedBy": null,
+      "sourceEmail": null,
+      "createdBy": {
         "id": 2423,
         "name": "Eden AI",
         "username": "contact",
-        "email": "contact@edenai.co"
+        "email": "contact@edenai.co",
+        "avatar": null,
+        "master": null
       },
-      "region_bias": {}
+      "regionBias": {
+        "country": null,
+        "countries": null,
+        "squareCoordinates": null
+      }
     },
-    "error": {},
+    "error": {
+      "errorCode": null,
+      "errorDetail": null
+    },
     "warnings": [],
-    "data": {
-      "name": {
-        "raw": "John W. Smith",
-        "first": "John",
-        "last": "Smith",
-        "middle": "W.",
-        "title": ""
-      },
-      "phone_numbers": [],
-      "phone_number_details": [],
-      "websites": [],
-      "emails": [
-        "jwsmith@colostate.edu"
-      ],
-      "location": {
-        "formatted": "2002 Caribou Dr Suite 101, Fort Collins, CO 80525, USA",
-        "postal_code": "80525",
-        "state": "Colorado",
-        "country": "United States",
-        "country_code": "US",
-        "raw_input": "2002 Front Range Way Fort Collins, CO 80525",
-        "street_number": "2002",
-        "street": "Caribou Drive",
-        "apartment_number": "Suite 101",
-        "city": "Fort Collins",
-        "latitude": 40.531067,
-        "longitude": -105.0409688
-      },
-      "objective": "",
-      "languages": [
-        "English"
-      ],
-      "summary": "Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.",
-      "total_years_experience": 6,
-      "education": [
-        {
-          "id": 29328272,
-          "organization": "University of Arkansas at Little Rock",
-          "accreditation": {
-            "education": "BS in Early Childhood Development",
-            "input_str": "BS in Early Childhood Development",
-            "match_str": ""
-          },
-          "location": {
-            "formatted": "Little Rock, AR, USA",
-            "state": "Arkansas",
-            "country": "United States",
-            "country_code": "US",
-            "raw_input": "Little Rock, AR",
-            "city": "Little Rock",
-            "latitude": 34.7464809,
-            "longitude": -92.28959479999999
-          },
-          "dates": {
-            "completion_date": "1999-01-01",
-            "is_current": false,
-            "raw_text": "(1999)"
-          }
-        },
-        {
-          "id": 29328273,
-          "accreditation": {
-            "education": "Bachelor of Arts",
-            "input_str": "BA in Elementary Education",
-            "match_str": "",
-            "education_level": "bachelors"
-          },
-          "grade": {
-            "raw": "3.8,",
-            "value": "3.8"
-          },
-          "dates": {
-            "completion_date": "1998-01-01",
-            "is_current": false,
-            "raw_text": "(1998)"
-          }
-        }
-      ],
-      "profession": "Specialist",
-      "work_experience": [
-        {
-          "id": 52344175,
-          "job_title": "Counseling Supervisor",
-          "organization": "The Wesley Center",
-          "location": {
-            "formatted": "Little Rock, AR, USA",
-            "state": "Arkansas",
-            "country": "United States",
-            "country_code": "US",
-            "raw_input": "Little Rock, Arkansas.",
-            "city": "Little Rock",
-            "latitude": 34.7464809,
-            "longitude": -92.28959479999999
-          },
-          "job_description": "",
-          "dates": {
-            "start_date": "1999-01-01",
-            "end_date": "2002-01-01",
-            "months_in_position": 36,
-            "is_current": false,
-            "raw_text": "1999-2002"
-          },
-          "occupation": {
-            "job_title": "Counseling Supervisor",
-            "job_title_normalized": "Counseling Supervisor",
-            "emsi_id": "ETAA2F9BC62B38B593",
-            "management_level": "Low"
-          }
-        },
-        {
-          "id": 52344176,
-          "job_title": "Client Specialist",
-          "organization": "Rainbow Special Care Center",
-          "location": {
-            "formatted": "Little Rock, AR, USA",
-            "state": "Arkansas",
-            "country": "United States",
-            "country_code": "US",
-            "raw_input": "Little Rock, Arkansas",
-            "city": "Little Rock",
-            "latitude": 34.7464809,
-            "longitude": -92.28959479999999
-          },
-          "job_description": "",
-          "dates": {
-            "start_date": "1997-01-01",
-            "end_date": "1999-01-01",
-            "months_in_position": 24,
-            "is_current": false,
-            "raw_text": "1997-1999"
-          },
-          "occupation": {
-            "job_title": "Client Specialist",
-            "job_title_normalized": "Client Specialist",
-            "emsi_id": "ET9E0AD794669C2164",
-            "classification": {
-              "title": "Customer service occupations n.e.c.",
-              "minor_group": "Customer Service Occupations",
-              "sub_major_group": "CUSTOMER SERVICE OCCUPATIONS",
-              "major_group": "SALES AND CUSTOMER SERVICE OCCUPATIONS",
-              "soc_code": 7219
-            }
-          }
-        },
-        {
-          "id": 52344177,
-          "job_title": "Teacher's Assistant",
-          "organization": "Cowell Elementary",
-          "location": {
-            "formatted": "Conway, AR, USA",
-            "state": "Arkansas",
-            "country": "United States",
-            "country_code": "US",
-            "raw_input": "Conway, Arkansas",
-            "city": "Conway",
-            "latitude": 35.0886963,
-            "longitude": -92.4421011
-          },
-          "job_description": "",
-          "dates": {
-            "start_date": "1996-01-01",
-            "end_date": "1997-01-01",
-            "months_in_position": 12,
-            "is_current": false,
-            "raw_text": "1996-1997"
-          },
-          "occupation": {
-            "job_title": "Teacher's Assistant",
-            "job_title_normalized": "Research Assistant/Teacher's Assistant",
-            "emsi_id": "ET2E88E1F70E85FBAA"
-          }
-        }
-      ],
-      "skills": [
-        {
-          "id": 306432369,
-          "emsi_id": "KSAC5KBXJNGIKQFE4AQ7",
-          "name": "Supervisord",
-          "type": "hard_skill",
-          "sources": [
-            {
-              "section": "WorkExperience"
-            }
-          ]
-        },
-        {
-          "id": 306432370,
-          "emsi_id": "ESEB1D4619E6E83A061D",
-          "name": "Planning",
-          "type": "soft_skill",
-          "sources": [
-            {
-              "section": "WorkExperience"
-            }
-          ]
-        }
-      ],
-      "certifications": [],
-      "publications": [],
-      "referees": [],
-      "sections": [
-        {
-          "section_type": "PersonalDetails",
-          "bbox": [
-            72.35244,
-            40.018433,
-            419.4492,
-            116.34003
-          ],
-          "page_index": 0,
-          "text": "Functional Resume Sample John W. Smith 2002 Front Range Way Fort Collins, CO 80525 jwsmith@colostate.edu"
-        },
-        {
-          "section_type": "Summary",
-          "bbox": [
-            72.11184,
-            133.93555,
-            530.53204,
-            276.18
-          ],
-          "page_index": 0,
-          "text": "Career Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers."
-        },
-        {
-          "section_type": "WorkExperience",
-          "bbox": [
-            72.2796,
-            293.70157,
-            514.05115,
-            487.43997
-          ],
-          "page_index": 0,
-          "text": "Childcare Experience \u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \u2022 Oversaw daily activity and outing planning for 100 clients. \u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \u2022 Assisted teachers with managing daily classroom activities. \u2022 Oversaw daily and special student activities. Employment History 1999-2002 Counseling Supervisor, The Wesley Center, Little Rock, Arkansas. 1997-1999 Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas 1996-1997 Teacher's Assistant, Cowell Elementary, Conway, Arkansas"
-        },
-        {
-          "section_type": "Education",
-          "bbox": [
-            72.2796,
-            505.02145,
-            512.90643,
-            625.992
-          ],
-          "page_index": 0,
-          "text": "Education University of Arkansas at Little Rock, Little Rock, AR \u2022 BS in Early Childhood Development (1999) \u2022 BA in Elementary Education (1998) \u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \u2022 Dean's List, Chancellor's List"
-        }
-      ],
-      "is_resume_probability": 99,
-      "raw_text": "Functional Resume Sample John W. Smith 2002 Front Range Way Fort Collins, CO 80525 jwsmith@colostate.edu\nCareer Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.\nChildcare Experience \u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \u2022 Oversaw daily activity and outing planning for 100 clients. \u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \u2022 Assisted teachers with managing daily classroom activities. \u2022 Oversaw daily and special student activities. Employment History 1999-2002 Counseling Supervisor, The Wesley Center, Little Rock, Arkansas. 1997-1999 Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas 1996-1997 Teacher's Assistant, Cowell Elementary, Conway, Arkansas\nEducation University of Arkansas at Little Rock, Little Rock, AR \u2022 BS in Early Childhood Development (1999) \u2022 BA in Elementary Education (1998) \u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \u2022 Dean's List, Chancellor's List",
-      "redacted_text": "Functional Resume Sample **** ** ***** **** ***** ***** *** **** ******** ** ***** *********************\nCareer Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.\nChildcare Experience \u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \u2022 Oversaw daily activity and outing planning for 100 clients. \u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \u2022 Assisted teachers with managing daily classroom activities. \u2022 Oversaw daily and special student activities. Employment History ********* Counseling Supervisor, The Wesley Center, ****** ***** ********* ********* Client Specialist, Rainbow Special Care Center, ****** ***** ******** ********* Teacher's Assistant, Cowell Elementary, ******* ********\nEducation University of Arkansas at Little Rock, ****** ***** ** \u2022 BS in Early Childhood Development ****** \u2022 BA in Elementary Education ****** \u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \u2022 Dean's List, Chancellor's List"
-    }
+    "extractor": "resume"
   },
   "standardized_response": {
     "extracted_data": {
@@ -319,7 +379,7 @@
           "region": "Colorado",
           "country": "United States",
           "country_code": "US",
-          "raw_input_location": null,
+          "raw_input_location": "2002 Front Range Way Fort Collins, CO 80525",
           "street": "Caribou Drive",
           "street_number": "2002",
           "appartment_number": "Suite 101",
@@ -354,7 +414,7 @@
               "region": "Arkansas",
               "country": "United States",
               "country_code": "US",
-              "raw_input_location": null,
+              "raw_input_location": "Little Rock, AR",
               "street": null,
               "street_number": null,
               "appartment_number": null,
@@ -379,7 +439,7 @@
               "street": null,
               "street_number": null,
               "appartment_number": null,
-              "city": ""
+              "city": null
             },
             "establishment": null,
             "description": null,
@@ -389,7 +449,7 @@
         ]
       },
       "work_experience": {
-        "total_years_experience": "6",
+        "total_years_experience": null,
         "entries": [
           {
             "title": "Counseling Supervisor",
@@ -402,13 +462,13 @@
               "region": "Arkansas",
               "country": "United States",
               "country_code": "US",
-              "raw_input_location": null,
+              "raw_input_location": "Little Rock, Arkansas.",
               "street": null,
               "street_number": null,
               "appartment_number": null,
               "city": "Little Rock"
             },
-            "description": "",
+            "description": null,
             "industry": null
           },
           {
@@ -422,13 +482,13 @@
               "region": "Arkansas",
               "country": "United States",
               "country_code": "US",
-              "raw_input_location": null,
+              "raw_input_location": "Little Rock, Arkansas",
               "street": null,
               "street_number": null,
               "appartment_number": null,
               "city": "Little Rock"
             },
-            "description": "",
+            "description": null,
             "industry": null
           },
           {
@@ -442,13 +502,13 @@
               "region": "Arkansas",
               "country": "United States",
               "country_code": "US",
-              "raw_input_location": null,
+              "raw_input_location": "Conway, Arkansas",
               "street": null,
               "street_number": null,
               "appartment_number": null,
               "city": "Conway"
             },
-            "description": "",
+            "description": null,
             "industry": null
           }
         ]
@@ -461,12 +521,12 @@
       ],
       "skills": [
         {
-          "name": "Supervisord",
-          "type": "hard"
-        },
-        {
           "name": "Planning",
           "type": "soft"
+        },
+        {
+          "name": "Supervisord",
+          "type": "hard"
         }
       ],
       "certifications": [],
