@@ -1,0 +1,17 @@
+{
+  "text": {
+    "spell_check": {
+      "constraints": {
+        "version": "v1"
+      }
+    },
+    "sentiment_analysis": {
+      "constraints": {
+        "version": "v1",
+        "languages": [
+          "en"
+        ]
+      }
+    }
+  }
+}
