@@ -4,7 +4,7 @@ from edenai_apis.features import ProviderInterface, TextInterface
 from typing import Dict, Sequence
 
 from edenai_apis.features.text import KeywordExtractionDataClass, InfosKeywordExtractionDataClass, \
-    SentimentAnalysisDataClass
+    SentimentAnalysisDataClass, SegmentSentimentAnalysisDataClass
 from edenai_apis.features.text.spell_check import SpellCheckDataClass, SpellCheckItem, SuggestionItem
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -77,6 +77,12 @@ class NlpCloudApi(ProviderInterface, TextInterface):
         original_response = response.json()
         if not response.ok:
             raise ProviderException(original_response, code=response.status_code)
+        items: Sequence[SegmentSentimentAnalysisDataClass] = []
         standardized_response = SentimentAnalysisDataClass(
-
+            general_sentiment=original_response["scored_labels"][0]["label"],
+            general_sentiment_rate=float(abs(original_response["scored_labels"][0]["score"])),
+            items=items
+        )
+        return ResponseType[SentimentAnalysisDataClass](
+            original_response=original_response, standardized_response=standardized_response
         )
