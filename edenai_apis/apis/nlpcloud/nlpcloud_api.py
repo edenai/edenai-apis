@@ -10,7 +10,6 @@ from edenai_apis.features.text import KeywordExtractionDataClass, InfosKeywordEx
 from edenai_apis.features.text.spell_check import SpellCheckDataClass, SpellCheckItem, SuggestionItem
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.conversion import construct_word_list
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
@@ -39,9 +38,9 @@ class NlpCloudApi(ProviderInterface, TextInterface):
             url = self.url_basic + f"gpu/{Iso_to_code.get(language)}/finetuned-llama-2-70b/gs-correction"
         response = requests.post(url=url, json={"text": text},
                                  headers={"Content-Type": "application/json", "authorization": f"Token {self.api_key}"})
+        if response.status_code != 200:
+            raise ProviderException(response.text, code=response.status_code)
         original_response = response.json()
-        if not response.ok:
-            raise ProviderException(original_response, code=response.status_code)
         data = original_response["correction"]
         items: Sequence[SpellCheckItem] = [SpellCheckItem(
             text=text,
@@ -64,9 +63,9 @@ class NlpCloudApi(ProviderInterface, TextInterface):
             url = self.url_basic + f"gpu/{Iso_to_code.get(language)}/finetuned-llama-2-70b/kw-kp-extraction"
         response = requests.post(url=url, json={"text": text},
                                  headers={"Content-Type": "application/json", "authorization": f"Token {self.api_key}"})
+        if response.status_code != 200:
+            raise ProviderException(response.text, code=response.status_code)
         original_response = response.json()
-        if not response.ok:
-            raise ProviderException(original_response, code=response.status_code)
         items: Sequence[InfosKeywordExtractionDataClass] = []
         for keyword in original_response["keywords_and_keyphrases"]:
             items.append(
@@ -84,9 +83,9 @@ class NlpCloudApi(ProviderInterface, TextInterface):
     ) -> ResponseType[SentimentAnalysisDataClass]:
         response = requests.post(url=self.url_sentiment_analysis, json={"text": text},
                                  headers={"Content-Type": "application/json", "authorization": f"Token {self.api_key}"})
+        if response.status_code != 200:
+            raise ProviderException(response.text, code=response.status_code)
         original_response = response.json()
-        if not response.ok:
-            raise ProviderException(original_response, code=response.status_code)
         items: Sequence[SegmentSentimentAnalysisDataClass] = []
         standardized_response = SentimentAnalysisDataClass(
             general_sentiment=original_response["scored_labels"][0]["label"],
@@ -103,9 +102,9 @@ class NlpCloudApi(ProviderInterface, TextInterface):
 
         response = requests.post(url=self.url_code_generation, json={"instruction": instruction},
                                  headers={"Content-Type": "application/json", "authorization": f"Token {self.api_key}"})
+        if response.status_code != 200:
+            raise ProviderException(response.text, code=response.status_code)
         original_response = response.json()
-        if not response.ok:
-            raise ProviderException(original_response, code=response.status_code)
         standardized_response = CodeGenerationDataClass(
             generated_text=original_response["generated_code"]
         )
@@ -123,13 +122,9 @@ class NlpCloudApi(ProviderInterface, TextInterface):
         url = self.url_basic + f"{language}_core_{url_model}_lg/entities"
         response = requests.post(url=url, json={"text": text},
                                  headers={"Content-Type": "application/json", "authorization": f"Token {self.api_key}"})
-        try:
-            original_response = response.json()
-        except:
+        if response.status_code != 200:
             raise ProviderException(response.text, code=response.status_code)
-
-        if not response.ok:
-            raise ProviderException(original_response, code=response.status_code)
+        original_response = response.json()
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
         for entity in original_response["entities"]:
             items.append(
