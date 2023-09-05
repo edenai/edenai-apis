@@ -9,6 +9,7 @@
       "U.S. senator",
       "Illinois",
       "2005-2008",
+      "Illinois state senator",
       "1997-2004."
     ]
   },
@@ -44,6 +45,10 @@
       },
       {
         "keyword": "2005-2008",
+        "importance": null
+      },
+      {
+        "keyword": "Illinois state senator",
         "importance": null
       },
       {
