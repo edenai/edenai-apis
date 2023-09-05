@@ -72,6 +72,7 @@
 | | emvista |
 | | ibm |
 | | microsoft |
+| | nlpcloud |
 | | oneai |
 | | openai |
 | | tenstorrent |
@@ -81,6 +82,7 @@
 | | lettria |
 | | microsoft |
 | | neuralspace |
+| | nlpcloud |
 | | oneai |
 | | openai |
 | | tenstorrent |
@@ -91,6 +93,7 @@
 | | ibm |
 | | lettria |
 | | microsoft |
+| | nlpcloud |
 | | oneai |
 | | openai |
 | | sapling |
@@ -113,6 +116,7 @@
 | | openai |
 | **spell_check** | cohere |
 | | microsoft |
+| | nlpcloud |
 | | openai |
 | | prowritingaid |
 | | sapling |
@@ -129,6 +133,7 @@
 | | openai |
 | | replicate |
 | **code_generation** | google |
+| | nlpcloud |
 | | openai |
 | **topic_extraction** | google |
 | | ibm |
@@ -606,6 +611,17 @@
 | **text** | named_entity_recognition |
 | **translation** | automatic_translation |
 | | language_detection |
+
+</details>
+<details><summary>nlpcloud</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | code_generation |
+| | keyword_extraction |
+| | named_entity_recognition |
+| | sentiment_analysis |
+| | spell_check |
 
 </details>
 <details><summary>nyckel</summary>
