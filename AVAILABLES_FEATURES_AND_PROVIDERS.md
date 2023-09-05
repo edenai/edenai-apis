@@ -3,6 +3,12 @@
 
 | Subfeatures | Providers |
 |----------|-------------|
+| **identity_parser** | affinda |
+| | amazon |
+| | base64 |
+| | klippa |
+| | microsoft |
+| | mindee |
 | **invoice_parser** | affinda |
 | | amazon |
 | | base64 |
@@ -13,16 +19,21 @@
 | | mindee |
 | | rossum |
 | | veryfi |
+| **receipt_parser** | affinda |
+| | amazon |
+| | base64 |
+| | dataleon |
+| | google |
+| | klippa |
+| | microsoft |
+| | mindee |
+| | tabscanner |
+| | veryfi |
 | **resume_parser** | affinda |
 | | hireability |
 | **custom_document_parsing_async** | amazon |
 | **data_extraction** | amazon |
 | | base64 |
-| **identity_parser** | amazon |
-| | base64 |
-| | klippa |
-| | microsoft |
-| | mindee |
 | **ocr** | amazon |
 | | api4ai |
 | | base64 |
@@ -36,16 +47,8 @@
 | **ocr_tables_async** | amazon |
 | | google |
 | | microsoft |
-| **receipt_parser** | amazon |
-| | base64 |
-| | dataleon |
-| | google |
-| | klippa |
-| | microsoft |
-| | mindee |
-| | tabscanner |
-| | veryfi |
 | **bank_check_parsing** | base64 |
+| | mindee |
 | | veryfi |
 
 </details>
@@ -266,7 +269,9 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | invoice_parser |
+| **ocr** | identity_parser |
+| | invoice_parser |
+| | receipt_parser |
 | | resume_parser |
 
 </details>
@@ -579,7 +584,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | identity_parser |
+| **ocr** | bank_check_parsing |
+| | identity_parser |
 | | invoice_parser |
 | | receipt_parser |
 
