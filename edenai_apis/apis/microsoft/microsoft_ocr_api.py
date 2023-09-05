@@ -122,9 +122,15 @@ class MicrosoftOcrApi(OcrInterface):
         except AzureError as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
 
-        if invoices is None or not hasattr(invoices, "to_dict"):
+        try:
+            if invoices is None or not hasattr(invoices, "to_dict"):
+                raise AttributeError
+            # AttributeError sometimes happens in the lib when calling to dict
+            # and a DocumentField has a None value
+            original_response = invoices.to_dict()
+        except AttributeError:
             raise ProviderException("Provider return an empty response")
-        original_response = invoices.to_dict()
+
         file_.close()
 
         return ResponseType[InvoiceParserDataClass](
