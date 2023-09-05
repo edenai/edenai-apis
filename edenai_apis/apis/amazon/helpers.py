@@ -319,7 +319,7 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
             raise ProviderException(
                 page.get("StatusMessage", "Amazon returned a job status: FAILED")
             )
-        for invoice in page["ExpenseDocuments"]:
+        for invoice in page.get("ExpenseDocuments") or []:
             # format response to be more easily parsable
             summary = {}
             currencies = {}

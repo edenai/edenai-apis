@@ -249,14 +249,21 @@ Answer:"""
             raise ProviderException(response.text, response.status_code)
 
         original_response = response.json()
+        data = original_response.get("generations")[0]["text"]
         try:
-            data = original_response.get("generations")[0]["text"]
             items = json.loads(data)
         except (IndexError, KeyError, json.JSONDecodeError) as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
-
+        if isinstance(items, str):
+            try:
+                items = json.loads(items)
+            except (IndexError, KeyError, json.JSONDecodeError) as exc:
+                raise ProviderException(
+                    "An error occurred while parsing the response."
+                ) from exc
+            
         standardized_response = CustomNamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[CustomNamedEntityRecognitionDataClass](
