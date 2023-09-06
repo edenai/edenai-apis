@@ -70,7 +70,7 @@ class Workspace(BaseModel):
     visibility: Literal["organization", "private"]
     reject_invalid_documents: bool = Field(..., alias="rejectInvalidDocuments")
     reject_duplicates: bool = Field(..., alias="rejectDuplicates")
-    split_documents: bool = Field(..., alias="splitDocuments")
+    split_documents: bool = False
 
 class DocumentError(BaseModel):
     """This model are use to represent the error during the upload or the parsing of a document.

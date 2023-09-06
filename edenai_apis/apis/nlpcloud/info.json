@@ -1,8 +1,8 @@
 {
   "text": {
     "spell_check": {
+      "version": "v1",
       "constraints": {
-        "version": "v1",
         "languages": [
           "en",
           "ace",
@@ -208,8 +208,8 @@
       }
     },
     "keyword_extraction": {
+      "version": "v1",
       "constraints": {
-        "version": "v1",
         "languages": [
           "en",
           "ace",
@@ -415,16 +415,16 @@
       }
     },
     "sentiment_analysis": {
+      "version": "v1",
       "constraints": {
-        "version": "v1",
         "languages": [
           "en"
         ]
       }
     },
     "code_generation": {
+      "version": "v1",
       "constraints": {
-        "version": "v1",
         "languages": [
           "en",
           "ace",
@@ -630,8 +630,8 @@
       }
     },
     "named_entity_recognition": {
+      "version": "v1",
       "constraints": {
-        "version": "v1",
         "languages": [
           "en",
           "ja",
