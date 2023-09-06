@@ -23,6 +23,7 @@ from edenai_apis.features.ocr import (
     OcrDataClass,
     OcrTablesAsyncDataClass,
 )
+from google.protobuf.json_format import MessageToDict
 from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
     BoundingBox,
     Line,
@@ -91,14 +92,11 @@ class GoogleOcrApi(OcrInterface):
                 "File type not supported by Google OCR API. Supported types are: image/* and application/pdf"
             )
 
-        messages_list = []
         boxes: Sequence[Bounding_box] = []
         final_text = ""
-        image_response: AnnotateImageResponse = response
-        # TO DO better original_response
-        messages_list.append(image_response)
+        original_response = MessageToDict(response._pb)
 
-        text_annotations: Sequence[EntityAnnotation] = image_response.text_annotations
+        text_annotations: Sequence[EntityAnnotation] = response.text_annotations
         if text_annotations and isinstance(text_annotations[0], EntityAnnotation):
             final_text += text_annotations[0].description.replace("\n", " ")
         for text in text_annotations[1:]:
@@ -119,7 +117,7 @@ class GoogleOcrApi(OcrInterface):
             text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
         )
         return ResponseType[OcrDataClass](
-            original_response=messages_list, standardized_response=standardized
+            original_response=original_response, standardized_response=standardized
         )
 
     def ocr__receipt_parser(
