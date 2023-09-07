@@ -80,7 +80,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         resource_url = upload_file_bytes_to_s3(audio_content, ".wav", USER_PROCESS)
 
         return ResponseType[TextToSpeechDataClass](
-            original_response=response.content,
+            original_response=audio,
             standardized_response=TextToSpeechDataClass(
                 audio=audio, voice_type=1, audio_resource_url=resource_url
             ),
