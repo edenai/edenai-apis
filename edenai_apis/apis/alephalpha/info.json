@@ -1,0 +1,25 @@
+{
+  "text": {
+    "summarize": {
+      "constraints": {
+        "languages": [
+          "en",
+          "de",
+          "fr",
+          "es",
+          "it"
+        ],
+        "models": [
+          "luminous-extended",
+          "luminous-base-control",
+          "luminous-base",
+          "luminous-supreme-control",
+          "luminous-supreme",
+          "luminous-extended-control"
+        ],
+        "default_model":"luminous-extended"
+      },
+      "version":"1.12.0"
+    }
+  }
+}
