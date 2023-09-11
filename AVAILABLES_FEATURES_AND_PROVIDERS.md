@@ -61,6 +61,16 @@
 | | cohere |
 | | google |
 | | openai |
+| **summarize** | alephalpha |
+| | cohere |
+| | connexun |
+| | emvista |
+| | huggingface |
+| | meaningcloud |
+| | microsoft |
+| | oneai |
+| | openai |
+| | writesonic |
 | **anonymization** | amazon |
 | | emvista |
 | | microsoft |
@@ -120,15 +130,6 @@
 | | openai |
 | | prowritingaid |
 | | sapling |
-| **summarize** | cohere |
-| | connexun |
-| | emvista |
-| | huggingface |
-| | meaningcloud |
-| | microsoft |
-| | oneai |
-| | openai |
-| | writesonic |
 | **chat** | google |
 | | openai |
 | | replicate |
@@ -285,6 +286,13 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | generation |
+
+</details>
+<details><summary>alephalpha</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | summarize |
 
 </details>
 <details><summary>amazon</summary>
