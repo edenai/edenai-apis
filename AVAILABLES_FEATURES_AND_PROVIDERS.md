@@ -150,38 +150,13 @@
 | **plagia_detection** | originalityai |
 
 </details>
-<details><summary>audio</summary>
-
-| Subfeatures | Providers |
-|----------|-------------|
-| **speech_to_text_async** | amazon |
-| | assembly |
-| | deepgram |
-| | gladia |
-| | google |
-| | ibm |
-| | microsoft |
-| | neuralspace |
-| | oneai |
-| | openai |
-| | revai |
-| | speechmatics |
-| | symbl |
-| | voci |
-| | voxist |
-| **text_to_speech** | amazon |
-| | elevenlabs |
-| | google |
-| | ibm |
-| | lovoai |
-| | microsoft |
-| **text_to_speech_async** | lovoai |
-
-</details>
 <details><summary>image</summary>
 
 | Subfeatures | Providers |
 |----------|-------------|
+| **completion** | alephalpha |
+| **embeddings** | alephalpha |
+| **question_answer** | alephalpha |
 | **explicit_content** | amazon |
 | | api4ai |
 | | clarifai |
@@ -222,6 +197,34 @@
 | | microsoft |
 | **search** | nyckel |
 | | sentisight |
+
+</details>
+<details><summary>audio</summary>
+
+| Subfeatures | Providers |
+|----------|-------------|
+| **speech_to_text_async** | amazon |
+| | assembly |
+| | deepgram |
+| | gladia |
+| | google |
+| | ibm |
+| | microsoft |
+| | neuralspace |
+| | oneai |
+| | openai |
+| | revai |
+| | speechmatics |
+| | symbl |
+| | voci |
+| | voxist |
+| **text_to_speech** | amazon |
+| | elevenlabs |
+| | google |
+| | ibm |
+| | lovoai |
+| | microsoft |
+| **text_to_speech_async** | lovoai |
 
 </details>
 <details><summary>translation</summary>
@@ -292,6 +295,9 @@
 
 | Features | Subfeatures |
 |----------|-------------|
+| **image** | completion |
+| | embeddings |
+| | question_answer |
 | **text** | summarize |
 
 </details>
