@@ -5,6 +5,7 @@ from typing import List, Literal, Optional
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
 )
+from edenai_apis.features.image.completion import CompletionDataClass
 from edenai_apis.features.image.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
 )
@@ -44,6 +45,7 @@ from edenai_apis.features.image.logo_detection.logo_detection_dataclass import (
 from edenai_apis.features.image.object_detection.object_detection_dataclass import (
     ObjectDetectionDataClass,
 )
+from edenai_apis.features.image.question_answer import QuestionAnswerDataClass
 from edenai_apis.features.image.search.delete_image.search_delete_image_dataclass import (
     SearchDeleteImageDataClass,
 )
@@ -79,6 +81,24 @@ class ImageInterface:
         """
         raise NotImplementedError
     @abstractmethod
+    def image__completion(
+        self,
+        file: str,
+        temperature: float,
+        max_tokens: int,
+        file_url: str = "",
+        model: Optional[str] = None,
+    ) -> ResponseType[CompletionDataClass]:
+        """
+        Complete an image
+
+        Args:
+            file (BufferedReader): image to analyse
+            model (str): which ai model to use, default to 'None'
+            max_tokens (int): maximum number of tokens to be generated
+        """
+        raise NotImplementedError
+    @abstractmethod
     def image__embeddings(
             self, file: str, representation: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[EmbeddingsDataClass]:
@@ -87,7 +107,7 @@ class ImageInterface:
 
         Args:
             file (BufferedReader): image to analyze
-            model (str): which openai model to use, default to `None`
+            model (str): which ai model to use, default to `None`
             representation (str): type of embedding representation
         """
         raise NotImplementedError
@@ -155,7 +175,26 @@ class ImageInterface:
             file (BufferedReader): image to analyze
         """
         raise NotImplementedError
+    @abstractmethod
+    def image__question_answer(
+            self,
+            question: str,
+            file: str,
+            temperature: float,
+            max_tokens: int,
+            file_url: str = "",
+            model: Optional[str] = None
+    ) -> ResponseType[QuestionAnswerDataClass]:
+        """
+        Ask question related to given image and get an answer
 
+        Args:
+            file (BufferedReader): image to analyze
+            question (str): your query
+            maximum_tokens (int): maximum number of tokens to be generated
+            model (str): which ai model to use, default to 'None'
+        """
+        raise NotImplementedError
     @abstractmethod
     def image__search__create_project(self, project_name: str) -> str:
         """

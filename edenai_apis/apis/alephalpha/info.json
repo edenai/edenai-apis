@@ -4,7 +4,7 @@
       "constraints": {
         "languages": [
           "en",
-          "de",[],
+          "de",
           "fr",
           "es",
           "it"
@@ -26,8 +26,48 @@
     "embeddings": {
       "version": "1.12.0",
       "constraints": {
+        "languages": [
+          "en",
+          "de",
+          "fr",
+          "es",
+          "it"
+        ],
         "models": [
           "luminous-base"
+        ],
+        "default_model": "luminous-base"
+      }
+    },
+    "question_answer": {
+      "version": "1.12.0",
+      "constraints": {
+        "languages": [
+          "en",
+          "de",
+          "fr",
+          "es",
+          "it"
+        ],
+        "models": [
+          "luminous-base"
+        ],
+        "default_model": "luminous-base"
+      }
+    },
+    "completion": {
+      "version": "1.12.0",
+      "constraints": {
+        "languages": [
+          "en",
+          "de",
+          "fr",
+          "es",
+          "it"
+        ],
+        "models": [
+          "luminous-base",
+          "luminous-extended"
         ],
         "default_model": "luminous-base"
       }

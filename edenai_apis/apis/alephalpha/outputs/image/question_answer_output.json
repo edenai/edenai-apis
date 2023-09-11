@@ -1,0 +1,20 @@
+{
+  "original_response": {
+    "model_version": "2023-05",
+    "completions": [
+      [
+        null,
+        " Logo - Amazon, Apple, and No Logo",
+        null,
+        "end_of_text",
+        null
+      ]
+    ],
+    "optimized_prompt": null
+  },
+  "standardized_response": {
+    "answers": [
+      " Logo - Amazon, Apple, and No Logo"
+    ]
+  }
+}
