@@ -1,9 +1,12 @@
 from abc import abstractmethod
 from io import BufferedReader
-from typing import List, Literal
+from typing import List, Literal, Optional
 
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
+)
+from edenai_apis.features.image.embeddings.embeddings_dataclass import (
+    EmbeddingsDataClass,
 )
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
@@ -73,6 +76,19 @@ class ImageInterface:
 
         Args:
             file (BufferedReader): image to anonymize
+        """
+        raise NotImplementedError
+    @abstractmethod
+    def image__embeddings(
+            self, file: str, representation: str, file_url: str = "", model: Optional[str] = None
+    ) -> ResponseType[EmbeddingsDataClass]:
+        """
+        Embeds an image
+
+        Args:
+            file (BufferedReader): image to analyze
+            model (str): which openai model to use, default to `None`
+            representation (str): type of embedding representation
         """
         raise NotImplementedError
 

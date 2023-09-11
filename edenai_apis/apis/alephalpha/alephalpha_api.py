@@ -1,16 +1,20 @@
-from typing import Dict
+from typing import Dict, Sequence
 
 import requests
 
-from edenai_apis.features import ProviderInterface, TextInterface
+from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
+from edenai_apis.features.image.embeddings import EmbeddingsDataClass, EmbeddingDataClass
 from edenai_apis.features.text import SummarizeDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
+from aleph_alpha_client import Client, Prompt, SemanticEmbeddingRequest, Image, SemanticRepresentation
 
-class AlephAlphaApi(ProviderInterface, TextInterface):
+
+
+class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
     provider_name = "alephalpha"
 
     def __init__(self, api_keys: Dict = {}):
@@ -49,5 +53,32 @@ class AlephAlphaApi(ProviderInterface, TextInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
+    def image__embeddings(
+            self, file: str, model: str, representation: str, file_url: str = "",
+    ) -> ResponseType[EmbeddingsDataClass]:
+        if representation == "symmetric":
+            representation_client = SemanticRepresentation.Symmetric
+        elif representation == "document":
+            representation_client = SemanticRepresentation.Document
+        else:
+            representation_client = SemanticRepresentation.Query
+        client = Client(self.api_key)
+        prompt = Prompt.from_image(Image.from_file(file))
+        request = SemanticEmbeddingRequest(prompt=prompt, representation=representation_client)
+        response = client.semantic_embed(request=request, model=model)
+        if response.message:
+            raise ProviderException(response.message)
+        original_response = response._asdict()
+        items: Sequence[EmbeddingDataClass] = [EmbeddingDataClass(embedding=response.embedding)]
+        standardized_response = EmbeddingsDataClass(items=items)
+        return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response
+        )
+
+
+
+
+
 
 
