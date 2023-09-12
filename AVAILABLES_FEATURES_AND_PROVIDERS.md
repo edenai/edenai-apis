@@ -154,7 +154,6 @@
 
 | Subfeatures | Providers |
 |----------|-------------|
-| **completion** | alephalpha |
 | **embeddings** | alephalpha |
 | **question_answer** | alephalpha |
 | **explicit_content** | amazon |
@@ -295,8 +294,7 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **image** | completion |
-| | embeddings |
+| **image** | embeddings |
 | | question_answer |
 | **text** | summarize |
 
