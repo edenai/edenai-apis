@@ -5,7 +5,6 @@ from typing import List, Literal, Optional
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
 )
-from edenai_apis.features.image.completion import CompletionDataClass
 from edenai_apis.features.image.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
 )
@@ -78,24 +77,6 @@ class ImageInterface:
 
         Args:
             file (BufferedReader): image to anonymize
-        """
-        raise NotImplementedError
-    @abstractmethod
-    def image__completion(
-        self,
-        file: str,
-        temperature: float,
-        max_tokens: int,
-        file_url: str = "",
-        model: Optional[str] = None,
-    ) -> ResponseType[CompletionDataClass]:
-        """
-        Complete an image
-
-        Args:
-            file (BufferedReader): image to analyse
-            model (str): which ai model to use, default to 'None'
-            max_tokens (int): maximum number of tokens to be generated
         """
         raise NotImplementedError
     @abstractmethod
@@ -178,12 +159,12 @@ class ImageInterface:
     @abstractmethod
     def image__question_answer(
             self,
-            question: str,
             file: str,
             temperature: float,
             max_tokens: int,
             file_url: str = "",
-            model: Optional[str] = None
+            model: Optional[str] = None,
+            question: Optional[str] = None
     ) -> ResponseType[QuestionAnswerDataClass]:
         """
         Ask question related to given image and get an answer

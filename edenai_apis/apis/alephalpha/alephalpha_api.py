@@ -3,7 +3,6 @@ from typing import Dict, Sequence, Optional
 import requests
 
 from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
-from edenai_apis.features.image.completion import CompletionDataClass
 from edenai_apis.features.image.embeddings import EmbeddingsDataClass, EmbeddingDataClass
 from edenai_apis.features.image.question_answer import QuestionAnswerDataClass
 from edenai_apis.features.text import SummarizeDataClass
@@ -85,15 +84,18 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
 
     def image__question_answer(
             self,
-            question: str,
             file: str,
             temperature: float,
             max_tokens: int,
             file_url: str = "",
-            model: Optional[str] = None
+            model: Optional[str] = None,
+            question: Optional[str] = None
     ) -> ResponseType[QuestionAnswerDataClass]:
         client = Client(self.api_key)
-        prompts = Prompt([Text.from_text(question), Image.from_file(file)])
+        if question:
+            prompts = Prompt([Text.from_text(question), Image.from_file(file)])
+        else:
+            prompts = Prompt([Image.from_file(file)])
         request = CompletionRequest(prompt=prompts, maximum_tokens=max_tokens, temperature=temperature)
         try:
             response = client.complete(request=request, model=model)
@@ -105,30 +107,6 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
             answers.append(answer.completion)
         standardized_response = QuestionAnswerDataClass(answers=answers)
         return ResponseType[QuestionAnswerDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response
-        )
-    def image__completion(
-        self,
-        file: str,
-        temperature: float,
-        max_tokens: int,
-        file_url: str = "",
-        model: Optional[str] = None
-    ) -> ResponseType[CompletionDataClass]:
-        client = Client(self.api_key)
-        prompt = Prompt.from_image(Image.from_file(file))
-        requests = CompletionRequest(prompt=prompt, maximum_tokens=max_tokens, temperature=temperature)
-        try:
-            response = client.complete(request=requests, model=model)
-        except Exception as error:
-            raise ProviderException(error)
-        original_response = response._asdict()
-        completions = []
-        for completion in response.completions:
-            completions.append(completion.completion)
-        standardized_response = CompletionDataClass(completion=completions)
-        return ResponseType[CompletionDataClass](
             original_response=original_response,
             standardized_response=standardized_response
         )
