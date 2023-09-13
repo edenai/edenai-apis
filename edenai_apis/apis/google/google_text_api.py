@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Sequence
+from typing import Dict, List, Optional, Sequence, Literal
 
 import requests
 from edenai_apis.apis.google.google_helpers import (
@@ -43,6 +43,7 @@ from edenai_apis.features.text.moderation.moderation_dataclass import (
     ModerationDataClass,
     TextModerationItem
 )
+from edenai_apis.features.text.search import SearchDataClass, InfosSearchDataClass
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
@@ -51,6 +52,7 @@ from google.cloud import language_v1
 from google.cloud.language import Document as GoogleDocument
 from google.protobuf.json_format import MessageToDict
 from edenai_apis.utils.conversion import standardized_confidence_score
+from edenai_apis.utils.metrics import METRICS
 
 
 class GoogleTextApi(TextInterface):
@@ -499,3 +501,52 @@ class GoogleTextApi(TextInterface):
         return ResponseType[ModerationDataClass](
             original_response=original_response, standardized_response=standardized_response
         )
+
+    def text__search(
+        self,
+        texts: List[str],
+        query: str,
+        similarity_metric: Literal["cosine", "hamming",
+                                 "manhattan", "euclidean"] = "cosine",
+        model: str = None
+    ) -> ResponseType[SearchDataClass]:
+        if len(texts) > 5:
+            raise ProviderException('Google does not support search in more than 5 items.')
+        if model is None:
+            model = '768__textembedding-gecko'
+        # Import the function
+        function_score = METRICS[similarity_metric]
+        
+        # Embed the texts & query
+        texts_embed_response = GoogleTextApi.text__embeddings(
+            self, texts=texts, model=model).original_response
+        query_embed_response = GoogleTextApi.text__embeddings(
+            self, texts=[query], model=model).original_response
+        
+        # Extracts embeddings from texts & query
+        texts_embed = [item["embeddings"]['values']
+                       for item in texts_embed_response['predictions']]
+        query_embed = query_embed_response['predictions'][0]['embeddings']['values']
+
+        items = []
+        # Calculate score for each text index
+        for index, text in enumerate(texts_embed):
+            score = function_score(query_embed, text)
+            items.append(
+                InfosSearchDataClass(object='search_result',
+                                     document=index, score=score)
+            )
+            
+        # Sort items by score in descending order
+        sorted_items = sorted(items, key=lambda x: x.score, reverse=True)
+        
+        # Build the original response
+        original_response = {
+            "texts_embeddings": texts_embed_response,
+            "embeddings_query": query_embed_response,
+        }
+        result = ResponseType[SearchDataClass](
+            original_response=original_response,
+            standardized_response=SearchDataClass(items=sorted_items),
+        )
+        return result

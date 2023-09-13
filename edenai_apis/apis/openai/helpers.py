@@ -2,24 +2,6 @@ from typing import List, Optional, Dict
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 
-SCORE_MULTIPLIER = 100.0
-
-
-def get_score(context, query, log_probs, text_offsets) -> float:
-    log_prob = 0
-    count = 0
-    cutoff = len(context) - len(query)
-
-    for i in range(len(text_offsets) - 1, 0, -1):
-        log_prob += log_probs[i]
-        count += 1
-
-        if text_offsets[i] <= cutoff and text_offsets[i] != text_offsets[i - 1]:
-            break
-
-    return log_prob / float(count) * SCORE_MULTIPLIER
-
-
 def format_example_fn(x: List[List[str]]) -> str:
     examples_formated = ""
     for example in x:
@@ -37,16 +19,6 @@ def format_texts_fn(x: List[str]) -> str:
             text=text.replace("\n", " ").strip()
         )
     return texts_formated
-
-
-def construct_search_context(query, document) -> str:
-    """
-    Given a query and a document, construct a string that serves as a search context.
-    The returned string will contain the document followed by a separator line and a statement
-    indicating the relevance of the document to the query.
-
-    """
-    return f"<|endoftext|>{document}\n\n---\n\nThe above passage is related to: {query}"
 
 
 def construct_classification_instruction(

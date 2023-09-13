@@ -917,6 +917,9 @@
             },
             "version" : "v1"
         },
+        "search" : {
+            "version" : "v1"
+        },
         "code_generation": {
             "version": "v1"
         },

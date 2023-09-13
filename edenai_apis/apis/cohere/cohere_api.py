@@ -1,26 +1,39 @@
-from typing import Optional, List, Dict, Sequence
+from typing import Optional, List, Dict, Sequence, Literal
 import requests
+import json
 from edenai_apis.features import ProviderInterface, TextInterface
-from edenai_apis.features.text import (
-    GenerationDataClass,
+from edenai_apis.features.text.generation import (
+    GenerationDataClass
+)
+from edenai_apis.features.text.custom_classification import(
     ItemCustomClassificationDataClass,
-    CustomClassificationDataClass,
-    SummarizeDataClass,
-    CustomNamedEntityRecognitionDataClass,
+    CustomClassificationDataClass
+)
+from edenai_apis.features.text.summarize import (
+    SummarizeDataClass
+)
+from edenai_apis.features.text.embeddings import (
     EmbeddingsDataClass,
     EmbeddingDataClass
+)
+from edenai_apis.features.text.custom_named_entity_recognition import (
+    CustomNamedEntityRecognitionDataClass
 )
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
     SpellCheckItem,
     SuggestionItem
 )
+from edenai_apis.features.text.search import(
+    SearchDataClass,
+    InfosSearchDataClass
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.conversion import construct_word_list
-import json
+from edenai_apis.utils.metrics import METRICS
 
 
 class CohereApi(ProviderInterface, TextInterface):
@@ -348,3 +361,52 @@ Answer:"""
             original_response=original_response,
             standardized_response=standardized_response,
         )
+    
+    def text__search(
+        self,
+        texts: List[str],
+        query: str,
+        similarity_metric: Literal["cosine", "hamming",
+                                 "manhattan", "euclidean"] = "cosine",
+        model: str = None
+    ) -> ResponseType[SearchDataClass]:
+        if len(texts) > 5:
+            raise ProviderException('Google does not support search in more than 5 items.')
+        if model is None:
+            model = '768__embed-multilingual-v2.0'
+        # Import the function
+        function_score = METRICS[similarity_metric]
+        
+        # Embed the texts & query
+        texts_embed_response = CohereApi.text__embeddings(
+            self, texts=texts, model=model).original_response
+        query_embed_response = CohereApi.text__embeddings(
+            self, texts=[query], model=model).original_response
+        
+        # Extracts embeddings from texts & query
+        texts_embed = [item
+                       for item in texts_embed_response['embeddings']]
+        query_embed = query_embed_response['embeddings'][0]
+
+        items = []
+        # Calculate score for each text index
+        for index, text in enumerate(texts_embed):
+            score = function_score(query_embed, text)
+            items.append(
+                InfosSearchDataClass(object='search_result',
+                                     document=index, score=score)
+            )
+            
+        # Sort items by score in descending order
+        sorted_items = sorted(items, key=lambda x: x.score, reverse=True)
+        
+        # Build the original response
+        original_response = {
+            "texts_embeddings": texts_embed_response,
+            "embeddings_query": query_embed_response,
+        }
+        result = ResponseType[SearchDataClass](
+            original_response=original_response,
+            standardized_response=SearchDataClass(items=sorted_items),
+        )
+        return result
