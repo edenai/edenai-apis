@@ -31,6 +31,7 @@
 | | veryfi |
 | **resume_parser** | affinda |
 | | hireability |
+| | klippa |
 | **custom_document_parsing_async** | amazon |
 | **data_extraction** | amazon |
 | | base64 |
@@ -543,6 +544,7 @@
 | **ocr** | identity_parser |
 | | invoice_parser |
 | | receipt_parser |
+| | resume_parser |
 
 </details>
 <details><summary>lettria</summary>
