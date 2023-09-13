@@ -125,6 +125,9 @@
 | **embeddings** | cohere |
 | | google |
 | | openai |
+| **search** | cohere |
+| | google |
+| | openai |
 | **spell_check** | cohere |
 | | microsoft |
 | | nlpcloud |
@@ -145,7 +148,6 @@
 | | openai |
 | | tenstorrent |
 | **prompt_optimization** | openai |
-| **search** | openai |
 | **ai_detection** | originalityai |
 | | sapling |
 | **plagia_detection** | originalityai |
@@ -393,6 +395,7 @@
 | | custom_named_entity_recognition |
 | | embeddings |
 | | generation |
+| | search |
 | | spell_check |
 | | summarize |
 
@@ -491,6 +494,7 @@
 | | generation |
 | | moderation |
 | | named_entity_recognition |
+| | search |
 | | sentiment_analysis |
 | | syntax_analysis |
 | | topic_extraction |
