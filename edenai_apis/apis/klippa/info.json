@@ -14,6 +14,9 @@
         },
         "identity_parser": {
             "version": "v1"
+        },
+        "resume_parser": {
+            "version": "v1"
         }
     }
 }

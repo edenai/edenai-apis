@@ -1,0 +1,199 @@
+{
+  "original_response": {
+    "result": "success",
+    "data": {
+      "parsed": {
+        "applicant": {
+          "name": {
+            "value": "John W. Smith"
+          },
+          "phone_number": {
+            "value": ""
+          },
+          "email_address": {
+            "value": "jwsmith@colostate.edu"
+          },
+          "address": {
+            "city": {
+              "value": "Fort Collins"
+            },
+            "country": {
+              "value": "CO"
+            }
+          },
+          "websites": []
+        },
+        "education": [
+          {
+            "program": {
+              "value": "BS in Early Childhood Development"
+            },
+            "start": {
+              "value": "1998-01-01"
+            },
+            "end": {
+              "value": "1999-12-31"
+            },
+            "institution": {
+              "value": "University of Arkansas at Little Rock"
+            },
+            "address": {
+              "city": {
+                "value": "Little Rock"
+              },
+              "country": {
+                "value": "AR"
+              }
+            }
+          },
+          {
+            "program": {
+              "value": "BA in Elementary Education"
+            },
+            "start": {
+              "value": "1997-01-01"
+            },
+            "end": {
+              "value": "1998-12-31"
+            },
+            "institution": {
+              "value": "University of Arkansas at Little Rock"
+            },
+            "address": {
+              "city": {
+                "value": "Little Rock"
+              },
+              "country": {
+                "value": "AR"
+              }
+            }
+          }
+        ],
+        "work_experience": [
+          {
+            "job_title": {
+              "value": "Counseling Supervisor"
+            },
+            "company_name": {
+              "value": "The Wesley Center"
+            },
+            "start": {
+              "value": "1999-01-01"
+            },
+            "end": {
+              "value": "2002-12-31"
+            },
+            "address": {
+              "city": {
+                "value": "Little Rock"
+              },
+              "country": {
+                "value": "AR"
+              }
+            }
+          },
+          {
+            "job_title": {
+              "value": "Client Specialist"
+            },
+            "company_name": {
+              "value": "Rainbow Special Care Center"
+            },
+            "start": {
+              "value": "1997-01-01"
+            },
+            "end": {
+              "value": "1999-12-31"
+            },
+            "address": {
+              "city": {
+                "value": "Little Rock"
+              },
+              "country": {
+                "value": "AR"
+              }
+            }
+          },
+          {
+            "job_title": {
+              "value": "Teacher's Assistant"
+            },
+            "company_name": {
+              "value": "Cowell Elementary"
+            },
+            "start": {
+              "value": "1996-01-01"
+            },
+            "end": {
+              "value": "1997-12-31"
+            },
+            "address": {
+              "city": {
+                "value": "Conway"
+              },
+              "country": {
+                "value": "AR"
+              }
+            }
+          }
+        ],
+        "other_interests": []
+      }
+    },
+    "request_id": "P4E4HjiIdmXqOFYqp87g4KWYLlnTEbUR"
+  },
+  "standardized_response": {
+    "extracted_data": {
+      "personal_infos": {
+        "name": {
+          "first_name": null,
+          "last_name": null,
+          "raw_name": null,
+          "middle": null,
+          "title": null,
+          "prefix": null,
+          "sufix": null
+        },
+        "address": {
+          "formatted_location": null,
+          "postal_code": null,
+          "region": null,
+          "country": null,
+          "country_code": null,
+          "raw_input_location": null,
+          "street": null,
+          "street_number": null,
+          "appartment_number": null,
+          "city": null
+        },
+        "self_summary": null,
+        "objective": null,
+        "date_of_birth": null,
+        "place_of_birth": null,
+        "phones": [],
+        "mails": [],
+        "urls": [],
+        "fax": [],
+        "current_profession": null,
+        "gender": null,
+        "nationality": null,
+        "martial_status": null,
+        "current_salary": null
+      },
+      "education": {
+        "total_years_education": null,
+        "entries": []
+      },
+      "work_experience": {
+        "total_years_experience": null,
+        "entries": []
+      },
+      "languages": [],
+      "skills": [],
+      "certifications": [],
+      "courses": [],
+      "publications": [],
+      "interests": []
+    }
+  }
+}
