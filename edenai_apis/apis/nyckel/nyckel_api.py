@@ -74,8 +74,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
     def _raise_provider_exception(
         self, url: str, data: dict, response: requests.Response
     ) -> None:
-        error_message = f"Call to {url=} with payload={data} failed with {response.status_code}: {response.text}."
-        raise ProviderException(error_message)
+        raise ProviderException(response.text)
 
     def image__search__create_project(self, project_name: str) -> str:
         """
