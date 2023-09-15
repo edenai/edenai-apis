@@ -52,5 +52,6 @@ from .ai21labs import Ai21labsApi
 from .replicate import ReplicateApi
 from .nyckel import NyckelApi
 from .nlpcloud import NlpCloudApi
+from .alephalpha import AlephAlphaApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

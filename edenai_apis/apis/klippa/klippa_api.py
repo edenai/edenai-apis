@@ -4,6 +4,7 @@ from typing import Dict, List, Sequence
 
 import requests
 from edenai_apis.features import ProviderInterface, OcrInterface
+from edenai_apis.features.ocr import ResumeParserDataClass
 from edenai_apis.features.ocr.invoice_parser import InvoiceParserDataClass
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     BankInvoice,
@@ -28,7 +29,9 @@ from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
 
-# from edenai_apis.features.ocr.resume_parser import ResumeParserDataClass, ResumeLocation, ResumeSkill, ResumeLang, ResumeWorkExpEntry, ResumeWorkExp, ResumeEducationEntry, ResumeEducation, ResumePersonalName, ResumePersonalInfo, ResumeExtractedData
+from edenai_apis.features.ocr.resume_parser import ResumeParserDataClass, ResumeLocation, ResumeSkill, ResumeLang, \
+    ResumeWorkExpEntry, ResumeWorkExp, ResumeEducationEntry, ResumeEducation, ResumePersonalName, ResumePersonalInfo, \
+    ResumeExtractedData
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     Country,
     InfoCountry,
@@ -61,11 +64,12 @@ class KlippaApi(ProviderInterface, OcrInterface):
     def _make_post_request(self, file: BufferedReader, endpoint: str = ""):
         files = {
             "document": file,
-            "pdf_text_extraction": "full",
         }
-
+        data = {
+            "pdf_text_extraction": "full"
+        }
         response = requests.post(
-            url=self.url + endpoint, headers=self.headers, files=files
+            url=self.url + endpoint, headers=self.headers, files=files, data=data
         )
 
         try:
@@ -81,7 +85,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         return original_response
 
     def ocr__invoice_parser(
-        self, file: str, language: str, file_url: str = ""
+            self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
         file_ = open(file, "rb")
         original_response = self._make_post_request(file_)
@@ -182,7 +186,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__receipt_parser(
-        self, file: str, language: str, file_url: str = ""
+            self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
         file_ = open(file, "rb")
         original_response = self._make_post_request(file_)
@@ -252,7 +256,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__identity_parser(
-        self, file: str, file_url: str = ""
+            self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
         file_ = open(file, "rb")
         original_response = self._make_post_request(file_, endpoint="/identity")
@@ -391,4 +395,136 @@ class KlippaApi(ProviderInterface, OcrInterface):
         return ResponseType[IdentityParserDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
+        )
+    def ocr__resume_parser(
+            self, file: str, file_url: str = ""
+    ) -> ResponseType[ResumeParserDataClass]:
+        file_ = open(file, "rb")
+        original_response = self._make_post_request(file_, endpoint="/resume")
+        file_.close()
+        response_data = original_response.get("data", {})
+        applicant = response_data.get("applicant", {})
+        name = ResumePersonalName(
+            raw_name=applicant.get("name"),
+            first_name=None,
+            last_name=None,
+            middle=None,
+            title=None,
+            prefix=None,
+            sufix=None
+        )
+        address = ResumeLocation(
+            formatted_location=None,
+            postal_code=None,
+            region=None,
+            country=applicant.get("address", {}).get("country", None),
+            country_code=None,
+            raw_input_location=None,
+            street=None,
+            street_number=None,
+            appartment_number=None,
+            city=applicant.get("address", {}).get("city", None)
+        )
+        phones = applicant.get("phone_number", None)
+        mails = applicant.get("email_address", None)
+        urls = applicant.get("websites", None)
+        personal_infos = ResumePersonalInfo(
+            name=name,
+            address=address,
+            self_summary=None,
+            objective=None,
+            date_of_birth=None,
+            place_of_birth=None,
+            phones=[phones] if phones else [],
+            mails=[mails] if mails else [],
+            urls=[urls] if urls else [],
+            fax=[],
+            current_profession=None,
+            gender=None,
+            nationality=None,
+            martial_status=None,
+            current_salary=None
+        )
+        education_entries = []
+        for edu in response_data.get("education", []):
+            education_address = ResumeLocation(
+                formatted_location=None,
+                postal_code=None,
+                region=None,
+                country=edu.get("address", {}).get("country", None),
+                country_code=None,
+                raw_input_location=None,
+                street=None,
+                street_number=None,
+                appartment_number=None,
+                city=edu.get("address", {}).get("city", None)
+            )
+            education_entries.append(
+                ResumeEducationEntry(
+                    title=None,
+                    start_date=edu.get("start", None),
+                    end_date=edu.get("end", None),
+                    location=education_address,
+                    establishment=edu.get("institution", None),
+                    description=edu.get("program", None),
+                    gpa=None,
+                    accreditation=None
+                )
+            )
+        education = ResumeEducation(
+            total_years_education=None,
+            entries=education_entries if len(education_entries) > 0 else [],
+        )
+        work_experience_entries = []
+        for work in response_data.get("work_experience", []):
+            work_address = ResumeLocation(
+                formatted_location=None,
+                postal_code=None,
+                region=None,
+                country=work.get("address", {}).get("country", None),
+                country_code=None,
+                raw_input_location=None,
+                street=None,
+                street_number=None,
+                appartment_number=None,
+                city=work.get("address", {}).get("city", None)
+            )
+            work_experience_entries.append(
+                ResumeWorkExpEntry(
+                    title=work.get("job_title", None),
+                    start_date=work.get("start", None),
+                    end_date=work.get("end", None),
+                    company=work.get("company_name", None),
+                    location=work_address,
+                    description=None,
+                    industry=None
+                )
+            )
+        work_experience = ResumeWorkExp(
+            total_years_experience=None,
+            entries=work_experience_entries if len(work_experience_entries) > 0 else [],
+        )
+        interests = []
+        for interest in response_data.get("other_interests", []):
+            interests.append(
+                ResumeSkill(
+                    name=interest,
+                    type=None
+                )
+            )
+        extracted_data = ResumeExtractedData(
+            personal_infos=personal_infos,
+            education=education,
+            work_experience=work_experience,
+            languages=[],
+            skills=[],
+            certifications=[],
+            courses=[],
+            publications=[],
+            interests=interests
+        )
+        standardized_response = ResumeParserDataClass(extracted_data=extracted_data)
+        return ResponseType[ResumeParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response
         )

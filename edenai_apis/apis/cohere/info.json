@@ -52,6 +52,9 @@
         "default_model" : "4096__embed-english-v2.0"
       },
       "version" : "v1"
+    },
+    "search" : {
+      "version" : "v1"
     }
   }
 }

@@ -31,6 +31,7 @@
 | | veryfi |
 | **resume_parser** | affinda |
 | | hireability |
+| | klippa |
 | **custom_document_parsing_async** | amazon |
 | **data_extraction** | amazon |
 | | base64 |
@@ -61,6 +62,16 @@
 | | cohere |
 | | google |
 | | openai |
+| **summarize** | alephalpha |
+| | cohere |
+| | connexun |
+| | emvista |
+| | huggingface |
+| | meaningcloud |
+| | microsoft |
+| | oneai |
+| | openai |
+| | writesonic |
 | **anonymization** | amazon |
 | | emvista |
 | | microsoft |
@@ -114,21 +125,15 @@
 | **embeddings** | cohere |
 | | google |
 | | openai |
+| **search** | cohere |
+| | google |
+| | openai |
 | **spell_check** | cohere |
 | | microsoft |
 | | nlpcloud |
 | | openai |
 | | prowritingaid |
 | | sapling |
-| **summarize** | cohere |
-| | connexun |
-| | emvista |
-| | huggingface |
-| | meaningcloud |
-| | microsoft |
-| | oneai |
-| | openai |
-| | writesonic |
 | **chat** | google |
 | | openai |
 | | replicate |
@@ -143,44 +148,17 @@
 | | openai |
 | | tenstorrent |
 | **prompt_optimization** | openai |
-| **search** | openai |
 | **ai_detection** | originalityai |
 | | sapling |
 | **plagia_detection** | originalityai |
-
-</details>
-<details><summary>audio</summary>
-
-| Subfeatures | Providers |
-|----------|-------------|
-| **speech_to_text_async** | amazon |
-| | assembly |
-| | deepgram |
-| | gladia |
-| | google |
-| | ibm |
-| | microsoft |
-| | neuralspace |
-| | oneai |
-| | openai |
-| | revai |
-| | speechmatics |
-| | symbl |
-| | voci |
-| | voxist |
-| **text_to_speech** | amazon |
-| | elevenlabs |
-| | google |
-| | ibm |
-| | lovoai |
-| | microsoft |
-| **text_to_speech_async** | lovoai |
 
 </details>
 <details><summary>image</summary>
 
 | Subfeatures | Providers |
 |----------|-------------|
+| **embeddings** | alephalpha |
+| **question_answer** | alephalpha |
 | **explicit_content** | amazon |
 | | api4ai |
 | | clarifai |
@@ -221,6 +199,34 @@
 | | microsoft |
 | **search** | nyckel |
 | | sentisight |
+
+</details>
+<details><summary>audio</summary>
+
+| Subfeatures | Providers |
+|----------|-------------|
+| **speech_to_text_async** | amazon |
+| | assembly |
+| | deepgram |
+| | gladia |
+| | google |
+| | ibm |
+| | microsoft |
+| | neuralspace |
+| | oneai |
+| | openai |
+| | revai |
+| | speechmatics |
+| | symbl |
+| | voci |
+| | voxist |
+| **text_to_speech** | amazon |
+| | elevenlabs |
+| | google |
+| | ibm |
+| | lovoai |
+| | microsoft |
+| **text_to_speech_async** | lovoai |
 
 </details>
 <details><summary>translation</summary>
@@ -285,6 +291,15 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | generation |
+
+</details>
+<details><summary>alephalpha</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | embeddings |
+| | question_answer |
+| **text** | summarize |
 
 </details>
 <details><summary>amazon</summary>
@@ -380,6 +395,7 @@
 | | custom_named_entity_recognition |
 | | embeddings |
 | | generation |
+| | search |
 | | spell_check |
 | | summarize |
 
@@ -478,6 +494,7 @@
 | | generation |
 | | moderation |
 | | named_entity_recognition |
+| | search |
 | | sentiment_analysis |
 | | syntax_analysis |
 | | topic_extraction |
@@ -531,6 +548,7 @@
 | **ocr** | identity_parser |
 | | invoice_parser |
 | | receipt_parser |
+| | resume_parser |
 
 </details>
 <details><summary>lettria</summary>

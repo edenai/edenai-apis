@@ -141,7 +141,7 @@
       "hash_duplicate": true,
       "raw_text": "                          SNG Engineering, Inc.\n                         Consulting Engineers\n                                                                              INVOICE\n                         344 Main Street Suite 200\n                         Gaithersburg, MD 20878\n                                                                                      INVOICE NO: 014-03\nSAG\n                         Phone: 301.548.0055 Fax: 301.548.1840\n                                                                                    DATE: January20, 2003\n                         E-mail: sng.engineering@erols.com\nTO,                                                  Ship To:   Same\n   Damita J Goldsmith\n   201 Stan Fey Dr                                   Reference: 201 Stan Fey Drive\n   Upper Marlboro, MD 20774                                    Upper Marlboro\n SALESPERSON        P.O. NUMBER      DATE SHIPPED       SHIPPED VIA      F.O.B. POINT         TERMS\n                                                                                          on receipt of service\n  QUANTITY                             DESCRIPTION                             UNIT PRICE      AMOUNT\n      1        Field inspection of construction on 1/19/2003 deficiencies in house   750.00        750..00\n              construction, Garage drive way & legal support to Attorney to\n               1/19/2003\n                                                                                 SUBTOTAL          750.00\n                                                                    SHIPPING & HANDELING\n                                                                                TOTAL DUE          750.00\nMake all checks payable to SNG Engineering, Inc.\nf you have any questions concerning this invoice, call: Sach Gupta, 301.548.0055\nThe payment will be due within fifteen days after receipt of invoice by the owner/contractor.\nPlease note that 1-1/2 percent interest will accrue on the unpaid balance after this date.\n                                    THANK YOU FOR YOUR BUSINESS!"
     },
-    "request_id": "18SQfQTYC5XuPLzRIU2fBiv2fbEwBCPU"
+    "request_id": "eA9943k6FxtkhwGVPR6JRzyJ32e45hvC"
   },
   "standardized_response": {
     "extracted_data": [
@@ -214,7 +214,7 @@
         "item_lines": [
           {
             "description": "",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 75000.0,
             "unit_price": 75000.0,
             "discount": 0,

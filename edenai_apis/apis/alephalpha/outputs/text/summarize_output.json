@@ -1,0 +1,9 @@
+{
+  "original_response": {
+    "model_version": "2023-05",
+    "summary": "Barack Obama was the 44th president of the United States."
+  },
+  "standardized_response": {
+    "result": "Barack Obama was the 44th president of the United States."
+  }
+}

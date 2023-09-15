@@ -114,7 +114,11 @@ class TextInterface:
 
     @abstractmethod
     def text__search(
-        self, texts: List[str], query: str, model: Optional[str] = None
+        self, 
+        texts: List[str], 
+        query: str, 
+        similarity_metric: Literal["cosine", "hamming", "manhattan", "euclidean"] = "cosine",
+        model: Optional[str] = None
     ) -> ResponseType[SearchDataClass]:
         """
         Do sementic search over a set of texts
@@ -122,6 +126,7 @@ class TextInterface:
         Args:
             texts (List[str]): texts to analyze
             query (str): your query
+            distance_metric(str): what similarity metric to use
             model (str, optional): which openai model to use, Default to `None`.
         """
         raise NotImplementedError
@@ -277,7 +282,7 @@ class TextInterface:
         self,
         texts: List[str],
         model : Optional[str] = None) -> ResponseType[EmbeddingsDataClass]:
-        """Spell check
+        """Text embeddings
 
         Args:
             texts (list): texts input
