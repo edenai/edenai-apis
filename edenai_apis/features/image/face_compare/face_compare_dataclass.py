@@ -11,7 +11,7 @@ class FaceCompareBoundingBox(BaseModel):
 
 
 class FaceMatch(BaseModel):
-    confidence: float
+    confidence: Optional[float]
     bounding_box: FaceCompareBoundingBox
 
 
