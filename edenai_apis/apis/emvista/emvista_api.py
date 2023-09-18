@@ -282,7 +282,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
 
         # Standardize response
         items: Sequence[InfosKeywordExtractionDataClass] = []
-        for keyword in original_response["result"]["keywords"]:
+        for keyword in original_response["result"].get("keywords") or []:
             items.append(
                 InfosKeywordExtractionDataClass(
                     keyword=keyword["value"], importance=float(keyword["score"]) * 0.25
