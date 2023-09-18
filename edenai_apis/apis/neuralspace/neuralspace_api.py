@@ -108,7 +108,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         data = original_resoonse["data"]
 
         if original_resoonse["success"] is False:
-            raise ProviderException(data["error"], code = response.status_code)
+            raise ProviderException(data.get("error"), code = response.status_code)
 
         standardized_response = AutomaticTranslationDataClass(
             text=data["translatedText"]
