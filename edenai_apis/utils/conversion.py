@@ -53,18 +53,24 @@ def convert_string_to_number(
 
 
 def closest_above_value(input_list, input_value):
-    above = min(
-        [i for i in input_list if i >= input_value] or input_list,
-        key=lambda x: abs(x - input_value),
-    )
+    try:
+        above = min(
+            [i for i in input_list if i >= input_value] or input_list,
+            key=lambda x: abs(x - input_value),
+        )
+    except ValueError:
+        above = -1
     return above
 
 
 def closest_below_value(input_list, input_value):
-    below = min(
-        [i for i in input_list if i <= input_value] or input_list,
-        key=lambda x: abs(x - input_value),
-    )
+    try:
+        below = min(
+            [i for i in input_list if i <= input_value] or input_list,
+            key=lambda x: abs(x - input_value),
+        )
+    except ValueError:
+        below = -1
     return below
 
 
@@ -263,11 +269,12 @@ def standardized_confidence_score_picpurify(confidence_score: float, nsfw: bool)
     else:
         return 1
 
+
 def construct_word_list(original_text, corrected_words):
     word_list = []
     for correction in corrected_words:
-        word_with_mistake = correction['word']
-        corrected_word = correction['correction']
+        word_with_mistake = correction["word"]
+        corrected_word = correction["correction"]
 
         # Find the index of the word with the mistake in the original text
         offset = original_text.find(word_with_mistake)
@@ -278,10 +285,10 @@ def construct_word_list(original_text, corrected_words):
 
         # Create a new dictionary with the extracted information
         word_info = {
-            'word': word_with_mistake,
-            'offset': real_offset,
-            'length': length,
-            'suggestion': corrected_word
+            "word": word_with_mistake,
+            "offset": real_offset,
+            "length": length,
+            "suggestion": corrected_word,
         }
 
         # Append to the final list
