@@ -1,6 +1,7 @@
 from pathlib import Path
 from time import time
 from io import BufferedReader
+from typing import List
 from edenai_apis.apis.google.google_helpers import GoogleVideoFeatures
 from edenai_apis.features.video.video_interface import VideoInterface
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
@@ -199,8 +200,8 @@ class GoogleVideoApi(VideoInterface):
         
         if result.get("done"):
             annotations = result["response"]["annotationResults"][0]
-            label = annotations.get("segmentLabelAnnotations", "") + annotations.get(
-                "shotLabelAnnotations", ""
+            label: List[dict] = annotations.get("segmentLabelAnnotations", []) + annotations.get(
+                "shotLabelAnnotations", []
             )
             label_list = []
 
