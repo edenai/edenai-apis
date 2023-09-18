@@ -29,9 +29,19 @@ from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
 
-from edenai_apis.features.ocr.resume_parser import ResumeParserDataClass, ResumeLocation, ResumeSkill, ResumeLang, \
-    ResumeWorkExpEntry, ResumeWorkExp, ResumeEducationEntry, ResumeEducation, ResumePersonalName, ResumePersonalInfo, \
-    ResumeExtractedData
+from edenai_apis.features.ocr.resume_parser import (
+    ResumeParserDataClass,
+    ResumeLocation,
+    ResumeSkill,
+    ResumeLang,
+    ResumeWorkExpEntry,
+    ResumeWorkExp,
+    ResumeEducationEntry,
+    ResumeEducation,
+    ResumePersonalName,
+    ResumePersonalInfo,
+    ResumeExtractedData,
+)
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     Country,
     InfoCountry,
@@ -65,9 +75,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         files = {
             "document": file,
         }
-        data = {
-            "pdf_text_extraction": "full"
-        }
+        data = {"pdf_text_extraction": "full"}
         response = requests.post(
             url=self.url + endpoint, headers=self.headers, files=files, data=data
         )
@@ -85,7 +93,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         return original_response
 
     def ocr__invoice_parser(
-            self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
         file_ = open(file, "rb")
         original_response = self._make_post_request(file_)
@@ -186,7 +194,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__receipt_parser(
-            self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
         file_ = open(file, "rb")
         original_response = self._make_post_request(file_)
@@ -256,7 +264,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__identity_parser(
-            self, file: str, file_url: str = ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
         file_ = open(file, "rb")
         original_response = self._make_post_request(file_, endpoint="/identity")
@@ -268,7 +276,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
 
         country = get_info_country(
             key=InfoCountry.ALPHA3,
-            value=parsed_data.get("issuing_country", {}).get("value", ""),
+            value=(parsed_data.get("issuing_country") or {}).get("value", ""),
         )
         country["confidence"] = None
 
@@ -396,8 +404,9 @@ class KlippaApi(ProviderInterface, OcrInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
+
     def ocr__resume_parser(
-            self, file: str, file_url: str = ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ResumeParserDataClass]:
         file_ = open(file, "rb")
         original_response = self._make_post_request(file_, endpoint="/resume")
@@ -411,7 +420,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
             middle=None,
             title=None,
             prefix=None,
-            sufix=None
+            sufix=None,
         )
         address = ResumeLocation(
             formatted_location=None,
@@ -423,7 +432,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
             street=None,
             street_number=None,
             appartment_number=None,
-            city=applicant.get("address", {}).get("city", None)
+            city=applicant.get("address", {}).get("city", None),
         )
         phones = applicant.get("phone_number", None)
         mails = applicant.get("email_address", None)
@@ -443,7 +452,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
             gender=None,
             nationality=None,
             martial_status=None,
-            current_salary=None
+            current_salary=None,
         )
         education_entries = []
         for edu in response_data.get("education", []):
@@ -457,7 +466,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
                 street=None,
                 street_number=None,
                 appartment_number=None,
-                city=edu.get("address", {}).get("city", None)
+                city=edu.get("address", {}).get("city", None),
             )
             education_entries.append(
                 ResumeEducationEntry(
@@ -468,7 +477,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
                     establishment=edu.get("institution", None),
                     description=edu.get("program", None),
                     gpa=None,
-                    accreditation=None
+                    accreditation=None,
                 )
             )
         education = ResumeEducation(
@@ -487,7 +496,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
                 street=None,
                 street_number=None,
                 appartment_number=None,
-                city=work.get("address", {}).get("city", None)
+                city=work.get("address", {}).get("city", None),
             )
             work_experience_entries.append(
                 ResumeWorkExpEntry(
@@ -497,7 +506,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
                     company=work.get("company_name", None),
                     location=work_address,
                     description=None,
-                    industry=None
+                    industry=None,
                 )
             )
         work_experience = ResumeWorkExp(
@@ -506,12 +515,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
         interests = []
         for interest in response_data.get("other_interests", []):
-            interests.append(
-                ResumeSkill(
-                    name=interest,
-                    type=None
-                )
-            )
+            interests.append(ResumeSkill(name=interest, type=None))
         extracted_data = ResumeExtractedData(
             personal_infos=personal_infos,
             education=education,
@@ -521,10 +525,10 @@ class KlippaApi(ProviderInterface, OcrInterface):
             certifications=[],
             courses=[],
             publications=[],
-            interests=interests
+            interests=interests,
         )
         standardized_response = ResumeParserDataClass(extracted_data=extracted_data)
         return ResponseType[ResumeParserDataClass](
             original_response=original_response,
-            standardized_response=standardized_response
+            standardized_response=standardized_response,
         )
