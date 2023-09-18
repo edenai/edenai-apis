@@ -157,7 +157,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         if status_code == 201:
             raise ProviderException("Input text is too long", code = status_code)
         if status_code != 200:
-            raise ProviderException(original_response["message"], cpde = status_code)
+            raise ProviderException(original_response["message"], code = status_code)
 
         entities: Sequence[AnonymizationEntity] = []
         new_text = text
