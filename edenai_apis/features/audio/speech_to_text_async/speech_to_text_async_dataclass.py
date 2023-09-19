@@ -4,8 +4,8 @@ from typing import Sequence, Optional, Any
 
 class SpeechDiarizationEntry(BaseModel):
     segment: StrictStr
-    start_time: StrictStr
-    end_time: StrictStr
+    start_time: Optional[StrictStr]
+    end_time: Optional[StrictStr]
     speaker: int
     confidence: Optional[float]
 

@@ -442,11 +442,11 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
 def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass:
     extracted_data = []
     for page in pages:
-        for receipt in page["ExpenseDocuments"]:
+        for receipt in page.get("ExpenseDocuments") or []:
             # format response to be more easily parsable
             summary = {}
             currencies = {}
-            for field in receipt["SummaryFields"]:
+            for field in receipt.get("SummaryFields") or []:
                 field_type = field["Type"]["Text"]
                 summary[field_type] = field["ValueDetection"]["Text"]
                 field_currency = field.get("Currency", {}).get("Code")
@@ -457,8 +457,8 @@ def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass
                         currencies[field_currency] += 1
 
             item_lines = []
-            for line_item_group in receipt["LineItemGroups"]:
-                for fields in line_item_group["LineItems"]:
+            for line_item_group in receipt.get("LineItemGroups") or []:
+                for fields in line_item_group.get("LineItems") or []:
                     parsed_items = {
                         item["Type"]["Text"]: item["ValueDetection"]["Text"]
                         for item in fields["LineItemExpenseFields"]
@@ -498,7 +498,7 @@ def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass
             elif len(currencies) > 1:
                 invoice_currency = max(currencies, key=currencies.get)
             locale = Locale(
-                currency=invoice_currency, invoice_language=None, country=None
+                currency=invoice_currency, language=None, country=None
             )
 
             taxes = [
@@ -611,7 +611,7 @@ def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
             continue
 
         lines: Sequence[Line] = []
-        for block_id in block["Relationships"][0]["Ids"]:
+        for block_id in block('Relationships', [{}])[0].get("Ids", []):
             if blocks[block_id]["BlockType"] != "LINE":
                 continue
 

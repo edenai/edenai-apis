@@ -53,7 +53,7 @@ class LettriaApi(ProviderInterface, TextInterface):
                     InfosNamedEntityRecognitionDataClass(
                         entity=entity["source"],
                         importance=None,
-                        category=entity["type"],
+                        category=entity.get("type"),
                     )
                 )
 

@@ -146,42 +146,40 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         default_dict = defaultdict(lambda: None)
         # ----------------------Merchant & customer informations----------------------#
-        merchant_name = fields.get("companyName", default_dict)["value"]
-        merchant_address = fields.get("from", default_dict)["value"]
-        customer_name = fields.get("billTo", default_dict)["value"]
-        customer_address = fields.get("address", default_dict)[
-            "value"
-        ]  # Deprecated need to be removed
-        customer_mailing_address = fields.get("address", default_dict)["value"]
-        customer_billing_address = fields.get("billTo", default_dict)["value"]
-        customer_shipping_address = fields.get("shipTo", default_dict)["value"]
-        customer_remittance_address = fields.get("soldTo", default_dict)["value"]
+        merchant_name = fields.get("companyName", default_dict).get("value")
+        merchant_address = fields.get("from", default_dict).get("value")
+        customer_name = fields.get("billTo", default_dict).get("value")
+        customer_address = fields.get("address", default_dict).get("value")  # DEPRECATED need to be removed
+        customer_mailing_address = fields.get("address", default_dict).get("value")
+        customer_billing_address = fields.get("billTo", default_dict).get("value")
+        customer_shipping_address = fields.get("shipTo", default_dict).get("value")
+        customer_remittance_address = fields.get("soldTo", default_dict).get("value")
         # ---------------------- invoice  informations----------------------#
-        invoice_number = fields.get("invoiceNumber", default_dict)["value"]
-        invoice_total = fields.get("total", default_dict)["value"]
+        invoice_number = fields.get("invoiceNumber", default_dict).get("value")
+        invoice_total = fields.get("total", default_dict).get("value")
         invoice_total = convert_string_to_number(invoice_total, float)
-        invoice_subtotal = fields.get("subtotal", default_dict)["value"]
+        invoice_subtotal = fields.get("subtotal", default_dict).get("value")
         invoice_subtotal = convert_string_to_number(invoice_subtotal, float)
-        amount_due = fields.get("balanceDue", default_dict)["value"]
+        amount_due = fields.get("balanceDue", default_dict).get("value")
         amount_due = convert_string_to_number(amount_due, float)
-        discount = fields.get("discount", default_dict)["value"]
+        discount = fields.get("discount", default_dict).get("value")
         discount = convert_string_to_number(discount, float)
-        taxe = fields.get("tax", default_dict)["value"]
+        taxe = fields.get("tax", default_dict).get("value")
         taxe = convert_string_to_number(taxe, float)
         taxes: Sequence[TaxesInvoice] = [(TaxesInvoice(value=taxe, rate=None))]
         # ---------------------- payment informations----------------------#
-        payment_term = fields.get("paymentTerms", default_dict)["value"]
-        purchase_order = fields.get("purchaseOrder", default_dict)["value"]
-        date = fields.get("invoiceDate", default_dict)["value"]
-        time = fields.get("invoiceTime", default_dict)["value"]
+        payment_term = fields.get("paymentTerms", default_dict).get("value")
+        purchase_order = fields.get("purchaseOrder", default_dict).get("value")
+        date = fields.get("invoiceDate", default_dict).get("value")
+        time = fields.get("invoiceTime", default_dict).get("value")
         date = combine_date_with_time(date, time)
-        due_date = fields.get("dueDate", default_dict)["value"]
-        due_time = fields.get("dueTime", default_dict)["value"]
+        due_date = fields.get("dueDate", default_dict).get("value")
+        due_time = fields.get("dueTime", default_dict).get("value")
         due_date = combine_date_with_time(due_date, due_time)
         # ---------------------- bank and local informations----------------------#
-        iban = fields.get("iban", default_dict)["value"]
-        account_number = fields.get("accountNumber", default_dict)["value"]
-        currency = fields.get("currency", default_dict)["value"]
+        iban = fields.get("iban", default_dict).get("value")
+        account_number = fields.get("accountNumber", default_dict).get("value")
+        currency = fields.get("currency", default_dict).get("value")
 
         invoice_parser = InfosInvoiceParserDataClass(
             merchant_information=MerchantInformationInvoice(

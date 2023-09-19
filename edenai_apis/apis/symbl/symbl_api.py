@@ -162,14 +162,19 @@ class SymblApi(ProviderInterface, AudioInterface):
                 words_info = text_info["words"]
                 for word_info in words_info:
                     speakers.add(word_info.get("speakerTag", 1))
+                    time_offset = word_info.get("timeOffset")
+                    duration = word_info.get("duration")
+                    end_time = (
+                        time_offset + duration
+                        if all(x is not None for x in (time_offset, duration))
+                        else None
+                    )
                     diarization_entries.append(
                         SpeechDiarizationEntry(
                             segment=word_info["word"],
                             speaker=word_info.get("speakerTag", 1),
-                            start_time=str(word_info["timeOffset"]),
-                            end_time=str(
-                                word_info["timeOffset"] + word_info["duration"]
-                            ),
+                            start_time=str(time_offset) if time_offset is not None else None,
+                            end_time=str(end_time) if end_time is not None else None,
                             confidence=word_info.get("score"),
                         )
                     )
