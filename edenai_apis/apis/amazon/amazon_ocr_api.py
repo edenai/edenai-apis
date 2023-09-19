@@ -210,17 +210,21 @@ class AmazonOcrApi(OcrInterface):
             Key=file, Body=file_content
         )
 
-        response = self.clients["textract"].start_document_analysis(
-            DocumentLocation={
+        payload = {
+            "DocumentLocation": {
                 "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
             },
-            FeatureTypes=[
+            "FeatureTypes": [
                 "TABLES",
             ],
-            NotificationChannel={
+            "NotificationChannel": {
                 "SNSTopicArn": self.api_settings["topic"],
                 "RoleArn": self.api_settings["role"],
             },
+        }
+
+        response = handle_amazon_call(
+            self.clients["textract"].start_document_analysis, **payload
         )
 
         return AsyncLaunchJobResponseType(provider_job_id=response["JobId"])
