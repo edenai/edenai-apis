@@ -37,20 +37,26 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         url_get_response = launch_job_response_dict["urls"]["get"]
         
         # Get job response
-        get_response = requests.get(url_get_response, headers=self.headers)
-        get_response_dict = get_response.json()
-        if get_response.status_code != 200:
-            raise ProviderException(get_response_dict.get("detail"), code=get_response.status_code)
+        response = requests.get(url_get_response, headers=self.headers)
+        response_dict = response.json()
+        if response.status_code != 200:
+            raise ProviderException(response_dict.get("detail"), code=response.status_code)
         
-        status = get_response_dict["status"]
+        status = response_dict["status"]
         while status != "succeeded": 
-            get_response = requests.get(url_get_response, headers=self.headers)
-            get_response_dict = get_response.json()
-            if get_response.status_code != 200:
-                raise ProviderException(get_response_dict["error"], code=get_response.status_code)
-            status = get_response_dict["status"]
+            response = requests.get(url_get_response, headers=self.headers)
+
+            try:
+                response_dict = response.json()
+            except requests.JSONDecodeError:
+                raise ProviderException(response.text, code=response.status_code)
+
+            if response.status_code != 200:
+                raise ProviderException(response_dict.get("error", response_dict), code=response.status_code)
+
+            status = response_dict["status"]
             
-        return get_response_dict
+        return response_dict
             
     def image__generation(
         self, 
@@ -68,12 +74,12 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
             "version": "c0259010b93e7a4102a4ba946d70e06d7d0c7dc007201af443cfc8f943ab1d3c"
         }
         
-        get_response_dict= ReplicateApi.__get_response(self, url, payload)
-        image_url = get_response_dict.get("output")
+        response_dict= ReplicateApi.__get_response(self, url, payload)
+        image_url = response_dict.get("output")
         image_bytes = base64.b64encode(requests.get(image_url).content)
         
         return ResponseType[GenerationDataClass](
-            original_response=get_response_dict,
+            original_response=response_dict,
             standardized_response=GenerationDataClass(
                 items=[
                     GeneratedImageDataClass(

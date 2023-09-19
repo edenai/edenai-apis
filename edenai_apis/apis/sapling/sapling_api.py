@@ -129,7 +129,7 @@ class SaplingApi(ProviderInterface, TextInterface):
             "items": [],
         }
 
-        for i in range(len(response_json["sents"])):
+        for i in range(len(response_json.get("sents") or [])):
             sentence = response_json["sents"][i]
             sentiment = response_json["results"][i][0][1]
             sentiment_rate = response_json["results"][i][0][0]

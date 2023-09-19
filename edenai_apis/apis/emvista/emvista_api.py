@@ -106,7 +106,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         original_response = response.json()
 
         items: Sequence[InfosSyntaxAnalysisDataClass] = []
-        for sentence in original_response["result"].get("sentences", []):
+        for sentence in original_response.get("result", {}).get("sentences", []):
             for word in sentence["tokens"]:
                 if word["pos"] in tags:
                     gender = word.get("gender")
