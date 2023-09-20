@@ -225,6 +225,12 @@ class EmvistaApi(ProviderInterface, TextInterface):
 
         if response.status_code == 201:
             raise ProviderException("Input text is too long", code = response.status_code)
+        elif response.status_code != 200:
+            try:
+                msg = response.json()['message']
+                raise ProviderException(msg, code=response.status_code)
+            except:
+                raise ProviderException(response.text, code=response.status_code)
 
         original_response = response.json()
 
