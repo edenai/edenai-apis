@@ -300,7 +300,7 @@ class OneaiApi(
         original_response = response.json()
 
         if response.status_code == 200:
-            if original_response["status"] == OneAIAsyncStatus.SUCCESS.value:
+            if original_response["status"] == OneAIAsyncStatus.COMPLETED.value:
                 final_text = ""
                 phrase = original_response["result"]["input_text"].split("\n\n")
                 for item in phrase:
