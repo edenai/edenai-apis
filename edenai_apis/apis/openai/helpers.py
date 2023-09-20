@@ -1,4 +1,6 @@
 from typing import List, Optional, Dict
+
+from requests import JSONDecodeError, Response
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 
@@ -113,16 +115,19 @@ def construct_topic_extraction_context(text: str) -> str:
     return prompt
 
 
-def check_openai_errors(response: dict, status_code: Optional[int] = None):
+def get_openapi_response(response: Response):
     """
-    This function takes a response from OpenAI API as input and raises a ProviderException if the response contains an error.
+    This function takes a requests.Response as input and return it's response.json()
+    raises a ProviderException if the response contains an error.
     """
-    message_error = "Provider returned an error"
-    if "error" in response:
-        message_error = response["error"]["message"]
-        raise ProviderException(message_error, code=status_code)
-    if status_code and status_code >= 400:
-        raise ProviderException(message_error, code=status_code)
+    try:
+        original_response = response.json()
+        if "error" in original_response or response.status_code >= 400:
+            message_error = original_response["error"]["message"]
+            raise ProviderException(message_error, code=response.status_code)
+        return original_response
+    except Exception:
+        raise ProviderException(response.text, code=response.status_code)
 
 
 # def construct_spell_check_instruction(text: str, language: str) -> str:
