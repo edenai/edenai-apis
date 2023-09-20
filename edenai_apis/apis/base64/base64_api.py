@@ -92,6 +92,18 @@ class Base64Api(ProviderInterface, OcrInterface):
         def __getitem__(self, key) -> Any:
             return self.document.get("fields", {}).get(key, {}).get("value")
 
+
+    def _get_response(self, response: requests.Response) -> Any:
+        try:
+            original_response = response.json()
+            if response.status_code >= 400:
+                message_error = original_response["message"]
+                raise ProviderException(message_error, code=response.status_code)
+            return original_response
+        except Exception:
+            raise ProviderException(response.text, code=response.status_code)
+
+
     def _extract_item_lignes(
         self, data, item_lines_type: Union[Type[ItemLines], Type[ItemLinesInvoice]]
     ) -> list:
@@ -380,12 +392,7 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         file_.close()
 
-        original_response = response.json()
-        if response.status_code != 200:
-            raise ProviderException(
-                message=original_response["message"],
-                code = response.status_code
-                )
+        original_response = self._get_response(response)
 
         items = []
 
@@ -547,13 +554,7 @@ class Base64Api(ProviderInterface, OcrInterface):
             )
 
         response = requests.request("POST", url, headers=headers, data=payload)
-        original_response = response.json()
-
-        if response.status_code != 200:
-            raise ProviderException(
-                message=original_response["message"],
-                code = response.status_code
-                )
+        original_response = self._get_response(response)
 
         faces = []
         for matching_face in original_response.get("matches", []):
@@ -592,12 +593,7 @@ class Base64Api(ProviderInterface, OcrInterface):
 
             response = requests.post(url=self.url, headers=headers, data=payload)
 
-        original_response = response.json()
-        if response.status_code != 200:
-            raise ProviderException(
-                message=original_response["message"],
-                code = response.status_code
-                )
+        original_response = self._get_response(response)
 
         items: Sequence[ItemDataExtraction] = []
 
@@ -642,20 +638,7 @@ class Base64Api(ProviderInterface, OcrInterface):
             }
 
             response = requests.post(url=self.url, headers=headers, data=payload)
-
-            try:
-                original_response = response.json()
-                if response.status_code != 200:
-                    raise ProviderException(
-                        message=original_response["message"],
-                        code = response.status_code
-                        )
-
-            except json.JSONDecodeError:
-                raise ProviderException(
-                    message="Internal Server Error",
-                    code = response.status_code
-                    )
+            original_response = self._get_response(response)
 
             items: Sequence[ItemBankCheckParsingDataClass] = []
             for fields_not_formated in original_response:
