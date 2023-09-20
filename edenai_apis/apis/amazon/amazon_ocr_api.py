@@ -68,13 +68,12 @@ class AmazonOcrApi(OcrInterface):
         payload = {
             "Document": {
                 "Bytes": file_content,
-                "S3Object": {
-                    "Bucket": self.api_settings["bucket"],
-                    "Name": file
-                }
+                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
             }
         }
-        response = handle_amazon_call(self.clients["textract"].detect_document_text, **payload)
+        response = handle_amazon_call(
+            self.clients["textract"].detect_document_text, **payload
+        )
 
         final_text = ""
         output_value = json.dumps(response, ensure_ascii=False)
@@ -110,13 +109,18 @@ class AmazonOcrApi(OcrInterface):
         self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
         file_ = open(file, "rb")
-        original_response = self.clients["textract"].analyze_id(
-            DocumentPages=[
+
+        payload = {
+            "DocumentPages": [
                 {
                     "Bytes": file_.read(),
                     "S3Object": {"Bucket": self.api_settings["bucket"], "Name": "test"},
                 }
             ]
+        }
+
+        original_response = handle_amazon_call(
+            self.clients["textract"].analyze_id, **payload
         )
 
         file_.close()
@@ -177,7 +181,9 @@ class AmazonOcrApi(OcrInterface):
                         value=value, confidence=confidence
                     )
                 elif field_type == "COUNTY" and value:
-                    infos.country = get_info_country(InfoCountry.NAME, value) or Country.default()
+                    infos.country = (
+                        get_info_country(InfoCountry.NAME, value) or Country.default()
+                    )
                     infos.country.confidence = confidence
                 elif field_type == "MRZ_CODE":
                     infos.mrz = ItemIdentityParserDataClass(
@@ -204,17 +210,21 @@ class AmazonOcrApi(OcrInterface):
             Key=file, Body=file_content
         )
 
-        response = self.clients["textract"].start_document_analysis(
-            DocumentLocation={
+        payload = {
+            "DocumentLocation": {
                 "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
             },
-            FeatureTypes=[
+            "FeatureTypes": [
                 "TABLES",
             ],
-            NotificationChannel={
+            "NotificationChannel": {
                 "SNSTopicArn": self.api_settings["topic"],
                 "RoleArn": self.api_settings["role"],
             },
+        }
+
+        response = handle_amazon_call(
+            self.clients["textract"].start_document_analysis, **payload
         )
 
         return AsyncLaunchJobResponseType(provider_job_id=response["JobId"])
@@ -222,10 +232,10 @@ class AmazonOcrApi(OcrInterface):
     def ocr__ocr_tables_async__get_job_result(
         self, job_id: str
     ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
-        payload = {
-            "JobId" : job_id
-        }
-        response = handle_amazon_call(self.clients["textract"].get_document_analysis, **payload)
+        payload = {"JobId": job_id}
+        response = handle_amazon_call(
+            self.clients["textract"].get_document_analysis, **payload
+        )
 
         if response.get("JobStatus") == "IN_PROGRESS":
             return AsyncPendingResponseType[OcrTablesAsyncDataClass](
@@ -280,15 +290,14 @@ class AmazonOcrApi(OcrInterface):
 
         payload = {
             "DocumentLocation": {
-                "S3Object": {
-                    "Bucket": self.api_settings["bucket"],
-                    "Name": file
-                }
+                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file}
             },
             "FeatureTypes": ["QUERIES"],
-            "QueriesConfig": {"Queries": formatted_queries}
+            "QueriesConfig": {"Queries": formatted_queries},
         }
-        response = handle_amazon_call(self.clients["textract"].start_document_analysis, **payload)
+        response = handle_amazon_call(
+            self.clients["textract"].start_document_analysis, **payload
+        )
 
         return AsyncLaunchJobResponseType(provider_job_id=response["JobId"])
 
@@ -306,10 +315,9 @@ class AmazonOcrApi(OcrInterface):
             status_code = response_meta.get("HTTPStatusCode", None)
             if "Request has invalid Job Id" in str(excp):
                 raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
-                    code = status_code
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, code=status_code
                 )
-            raise ProviderException(str(excp), code= status_code)
+            raise ProviderException(str(excp), code=status_code)
 
         if response.get("JobStatus") == "IN_PROGRESS":
             return AsyncPendingResponseType[CustomDocumentParsingAsyncDataClass](
@@ -360,11 +368,13 @@ class AmazonOcrApi(OcrInterface):
 
         # Launch invoice job
         payload = {
-            "DocumentLocation" : {
-                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
-                }
+            "DocumentLocation": {
+                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
+            }
         }
-        launch_job_response = handle_amazon_call(self.clients["textract"].start_expense_analysis, **payload)
+        launch_job_response = handle_amazon_call(
+            self.clients["textract"].start_expense_analysis, **payload
+        )
 
         # Get job result
         job_id = launch_job_response.get("JobId")
@@ -426,8 +436,10 @@ class AmazonOcrApi(OcrInterface):
                 "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file}
             }
         }
-        launch_job_response = handle_amazon_call(self.clients["textract"].start_expense_analysis, **payload)
-        
+        launch_job_response = handle_amazon_call(
+            self.clients["textract"].start_expense_analysis, **payload
+        )
+
         # Get job result
         job_id = launch_job_response.get("JobId")
         get_response = self.clients["textract"].get_expense_analysis(JobId=job_id)
@@ -487,17 +499,19 @@ class AmazonOcrApi(OcrInterface):
                 "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file}
             }
         }
-        launch_job_response = handle_amazon_call(self.clients["textract"].start_document_text_detection, **payload)
+        launch_job_response = handle_amazon_call(
+            self.clients["textract"].start_document_text_detection, **payload
+        )
 
         return AsyncLaunchJobResponseType(provider_job_id=launch_job_response["JobId"])
 
     def ocr__ocr_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[OcrAsyncDataClass]:
-        payload = {
-            "JobId" : provider_job_id
-        }
-        response = handle_amazon_call(self.clients["textract"].get_document_text_detection, **payload)
+        payload = {"JobId": provider_job_id}
+        response = handle_amazon_call(
+            self.clients["textract"].get_document_text_detection, **payload
+        )
 
         if response["JobStatus"] == "FAILED":
             error: str = response.get(
@@ -512,10 +526,12 @@ class AmazonOcrApi(OcrInterface):
             while pagination_token:
                 payload = {
                     "JobId": provider_job_id,
-                    "NextToken" : pagination_token,
+                    "NextToken": pagination_token,
                 }
-                response = handle_amazon_call(self.clients["textract"].get_document_text_detection, **payload)
-                
+                response = handle_amazon_call(
+                    self.clients["textract"].get_document_text_detection, **payload
+                )
+
                 if response["JobStatus"] == "FAILED":
                     error: str = response.get(
                         "StatusMessage", "Amazon returned a job status: FAILED"
@@ -550,15 +566,17 @@ class AmazonOcrApi(OcrInterface):
                         "Name": file,
                     }
                 },
-                "FeatureTypes": ["FORMS"]
+                "FeatureTypes": ["FORMS"],
             }
-            launch_job_response = handle_amazon_call(self.clients["textract"].start_document_analysis, **payload)
+            launch_job_response = handle_amazon_call(
+                self.clients["textract"].start_document_analysis, **payload
+            )
 
             while True:
-                payload = {
-                    "JobId": launch_job_response["JobId"]
-                }
-                response = handle_amazon_call(self.clients["textract"].get_document_analysis, **payload)
+                payload = {"JobId": launch_job_response["JobId"]}
+                response = handle_amazon_call(
+                    self.clients["textract"].get_document_analysis, **payload
+                )
 
                 if response["JobStatus"] != "IN_PROGRESS":
                     break
@@ -578,10 +596,12 @@ class AmazonOcrApi(OcrInterface):
             while pagination_token := response.get("NextToken"):
                 payload = {
                     "JobId": launch_job_response["JobId"],
-                    "NextToken": pagination_token
+                    "NextToken": pagination_token,
                 }
-                response = handle_amazon_call(self.clients["textract"].get_document_analysis, **payload)
-                
+                response = handle_amazon_call(
+                    self.clients["textract"].get_document_analysis, **payload
+                )
+
                 if response["JobStatus"] == "FAILED":
                     error: str = response.get(
                         "StatusMessage", "Amazon returned a job status: FAILED"

@@ -57,7 +57,9 @@ class VeryfiApi(ProviderInterface, OcrInterface):
 
         # settings for veryfi partners, upload documents to veryfi's bucket for processing
         self.partner_iam_api_key_id = self.api_settings.get("optional_iam_api_key_id")
-        self.partner_iam_api_key_secret = self.api_settings.get("optional_iam_api_key_secret")
+        self.partner_iam_api_key_secret = self.api_settings.get(
+            "optional_iam_api_key_secret"
+        )
         self.partner_bucket_name = self.api_settings.get("optional_bucket_name")
         self.partner_upload_folder = self.api_settings.get("optional_upload_folder")
 
@@ -70,12 +72,14 @@ class VeryfiApi(ProviderInterface, OcrInterface):
     def _process_document(
         self, file: str, document_type: Literal["documents", "checks"] = "documents"
     ):
-        is_partner = all([
-            self.partner_iam_api_key_id,
-            self.partner_iam_api_key_secret,
-            self.partner_bucket_name,
-            self.partner_upload_folder,
-        ])
+        is_partner = all(
+            [
+                self.partner_iam_api_key_id,
+                self.partner_iam_api_key_secret,
+                self.partner_bucket_name,
+                self.partner_upload_folder,
+            ]
+        )
         if is_partner:
             response = self._process_document_through_bucket(file, document_type)
         else:
@@ -94,7 +98,9 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             aws_secret_access_key=self.partner_iam_api_key_secret,
         )
 
-        random_filename = f"{document_type}_{uuid.uuid4()}{pathlib.Path(filename).suffix}"
+        random_filename = (
+            f"{document_type}_{uuid.uuid4()}{pathlib.Path(filename).suffix}"
+        )
 
         client.upload_file(
             filename,
@@ -126,7 +132,6 @@ class VeryfiApi(ProviderInterface, OcrInterface):
                 data=payload,
                 files=files,
             )
-
 
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = ""

@@ -2,6 +2,7 @@ from typing import List, Optional, Dict
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 
+
 def format_example_fn(x: List[List[str]]) -> str:
     examples_formated = ""
     for example in x:
@@ -116,8 +117,12 @@ def check_openai_errors(response: dict, status_code: Optional[int] = None):
     """
     This function takes a response from OpenAI API as input and raises a ProviderException if the response contains an error.
     """
+    message_error = "Provider returned an error"
     if "error" in response:
-        raise ProviderException(response["error"]["message"], code = status_code)
+        message_error = response["error"]["message"]
+        raise ProviderException(message_error, code=status_code)
+    if status_code and status_code >= 400:
+        raise ProviderException(message_error, code=status_code)
 
 
 # def construct_spell_check_instruction(text: str, language: str) -> str:
@@ -141,6 +146,7 @@ def check_openai_errors(response: dict, status_code: Optional[int] = None):
 
 # Text:
 # ###{text}###
+
 
 # Output:
 #     """
@@ -338,7 +344,8 @@ User Description : {description}
 Prompt :
 """
 )
-prompt_optimization_missing_information = lambda user_description : f"""
+prompt_optimization_missing_information = (
+    lambda user_description: f"""
 You are a Prompt Optimizer for LLMs, you take a description in input and generate a prompt from it.
 
 The user's project description is delimited by triple back-ticks.
@@ -353,10 +360,10 @@ The User's description :
 
 missing information : 
 """
-def construct_prompt_optimization_instruction(
-    text: str,
-    target_provider: str
-    ):
+)
+
+
+def construct_prompt_optimization_instruction(text: str, target_provider: str):
     prompt = {
         "google": google_prompt_guidelines(text),
         "cohere": cohere_prompt_guideines(text),
