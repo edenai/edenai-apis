@@ -285,7 +285,12 @@ class TestClient:
         collection = self.client.get_collections()[0]
         self.client.current_collection = collection.identifier
 
-        document = self.client.get_documents()[0]
+        all_documents = self.client.get_documents()
+        
+        if len(all_documents):
+            document = self.client.get_documents()[0]
+        else:
+            pytest.skip("No document exists")
 
         specific_document = self.client.get_document(identifier=document['meta']['identifier'])
 

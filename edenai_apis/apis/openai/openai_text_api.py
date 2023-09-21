@@ -2,6 +2,8 @@ from typing import List, Literal, Optional, Sequence, Dict
 import requests
 import numpy as np
 import json
+
+from requests.exceptions import JSONDecodeError
 from edenai_apis.features.text import PromptOptimizationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
