@@ -87,7 +87,7 @@ class ItemLinesInvoice(BaseModel):
     quantity: Optional[float] = None
     amount: Optional[float] = None
     unit_price: Optional[float] = None
-    discount: Optional[int] = None  # New
+    discount: Optional[float] = None  # New
     product_code: Optional[StrictStr] = None  # New
     date_item: Optional[str] = None  # New
     tax_item: Optional[float] = None  # New

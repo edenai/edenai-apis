@@ -9,7 +9,7 @@ from edenai_apis.features.image.generation import (
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features import ImageInterface
 from .helpers import (
-    check_openai_errors,
+    get_openapi_response,
 )
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
@@ -31,10 +31,7 @@ class OpenaiImageApi(ImageInterface):
         response = requests.post(
             url, json=payload, headers=self.headers
         )
-        original_response = response.json()
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        original_response = get_openapi_response(response)
 
         generations: Sequence[GeneratedImageDataClass] = []
         for generated_image in original_response.get("data"):

@@ -12,7 +12,7 @@ from edenai_apis.features.translation.language_detection import (
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
 from .helpers import (
-    check_openai_errors,
+    get_openapi_response,
     construct_language_detection_context,
     construct_translation_context,
 )
@@ -34,10 +34,8 @@ class OpenaiTranslationApi(TranslationInterface):
         response = requests.post(
             url, json=payload, headers=self.headers
         )
-        original_response = response.json()
+        original_response = get_openapi_response(response)
 
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
         items: Sequence[InfosLanguageDetectionDataClass] = []
 
         score = np.exp(original_response["choices"][0]["logprobs"]["token_logprobs"][0])
@@ -69,10 +67,7 @@ class OpenaiTranslationApi(TranslationInterface):
         response = requests.post(
             url, json=payload, headers=self.headers
         )
-        original_response = response.json()
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        original_response = get_openapi_response(response)
 
         standardized = AutomaticTranslationDataClass(
             text=original_response["choices"][0]["text"]

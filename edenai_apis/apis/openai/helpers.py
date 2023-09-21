@@ -1,6 +1,9 @@
 from typing import List, Optional, Dict
+
+from requests import JSONDecodeError, Response
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
+
 
 def format_example_fn(x: List[List[str]]) -> str:
     examples_formated = ""
@@ -112,12 +115,19 @@ def construct_topic_extraction_context(text: str) -> str:
     return prompt
 
 
-def check_openai_errors(response: dict, status_code: Optional[int] = None):
+def get_openapi_response(response: Response):
     """
-    This function takes a response from OpenAI API as input and raises a ProviderException if the response contains an error.
+    This function takes a requests.Response as input and return it's response.json()
+    raises a ProviderException if the response contains an error.
     """
-    if "error" in response:
-        raise ProviderException(response["error"]["message"], code = status_code)
+    try:
+        original_response = response.json()
+        if "error" in original_response or response.status_code >= 400:
+            message_error = original_response["error"]["message"]
+            raise ProviderException(message_error, code=response.status_code)
+        return original_response
+    except Exception:
+        raise ProviderException(response.text, code=response.status_code)
 
 
 # def construct_spell_check_instruction(text: str, language: str) -> str:
@@ -141,6 +151,7 @@ def check_openai_errors(response: dict, status_code: Optional[int] = None):
 
 # Text:
 # ###{text}###
+
 
 # Output:
 #     """
@@ -338,7 +349,8 @@ User Description : {description}
 Prompt :
 """
 )
-prompt_optimization_missing_information = lambda user_description : f"""
+prompt_optimization_missing_information = (
+    lambda user_description: f"""
 You are a Prompt Optimizer for LLMs, you take a description in input and generate a prompt from it.
 
 The user's project description is delimited by triple back-ticks.
@@ -353,10 +365,10 @@ The User's description :
 
 missing information : 
 """
-def construct_prompt_optimization_instruction(
-    text: str,
-    target_provider: str
-    ):
+)
+
+
+def construct_prompt_optimization_instruction(text: str, target_provider: str):
     prompt = {
         "google": google_prompt_guidelines(text),
         "cohere": cohere_prompt_guideines(text),

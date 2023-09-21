@@ -65,13 +65,10 @@ class AmazonImageApi(ImageInterface):
         with open(file, "rb") as file_:
             file_content = file_.read()
         # Getting API response
-        payload= {
-            "Image": {
-                "Bytes": file_content
-            },
-            "MinConfidence": 70
-        }
-        original_response = handle_amazon_call(self.clients["image"].detect_labels, **payload)
+        payload = {"Image": {"Bytes": file_content}, "MinConfidence": 70}
+        original_response = handle_amazon_call(
+            self.clients["image"].detect_labels, **payload
+        )
 
         # Standarization
         items = []
@@ -112,14 +109,11 @@ class AmazonImageApi(ImageInterface):
             file_content = file_.read()
 
         # Getting Response
-        payload = {
-            "Image": {
-                "Bytes": file_content
-            },
-            "Attributes" : ["ALL"]
-        }
-        original_response = handle_amazon_call(self.clients["image"].detect_faces, **payload)
-        
+        payload = {"Image": {"Bytes": file_content}, "Attributes": ["ALL"]}
+        original_response = handle_amazon_call(
+            self.clients["image"].detect_faces, **payload
+        )
+
         # Standarize Response
         faces_list = []
         for face in original_response.get("FaceDetails", []):
@@ -270,14 +264,11 @@ class AmazonImageApi(ImageInterface):
         with open(file, "rb") as file_:
             file_content = file_.read()
 
-        payload = {
-            "Image" : {
-                "Bytes": file_content
-            },
-            "MinConfidence" : 20
-        }
-        response = handle_amazon_call(self.clients["image"].detect_moderation_labels, **payload)
-        
+        payload = {"Image": {"Bytes": file_content}, "MinConfidence": 20}
+        response = handle_amazon_call(
+            self.clients["image"].detect_moderation_labels, **payload
+        )
+
         items = []
         for label in response.get("ModerationLabels", []):
             items.append(
@@ -301,18 +292,16 @@ class AmazonImageApi(ImageInterface):
     def image__face_recognition__create_collection(
         self, collection_id: str
     ) -> FaceRecognitionCreateCollectionDataClass:
-        payload = {
-            "CollectionId" : collection_id
-        }
+        payload = {"CollectionId": collection_id}
         handle_amazon_call(self.clients["image"].create_collection, **payload)
-        
+
         return FaceRecognitionCreateCollectionDataClass(collection_id=collection_id)
 
     def image__face_recognition__list_collections(
         self,
     ) -> ResponseType[FaceRecognitionListCollectionsDataClass]:
         response = handle_amazon_call(self.clients["image"].list_collections)
-        
+
         return ResponseType[FaceRecognitionListCollectionsDataClass](
             original_response=response,
             standardized_response=FaceRecognitionListCollectionsDataClass(
@@ -323,11 +312,9 @@ class AmazonImageApi(ImageInterface):
     def image__face_recognition__list_faces(
         self, collection_id: str
     ) -> ResponseType[FaceRecognitionListFacesDataClass]:
-        payload = {
-            "CollectionId": collection_id
-        }
+        payload = {"CollectionId": collection_id}
         response = handle_amazon_call(self.clients["image"].list_faces, **payload)
-        
+
         face_ids = [face["FaceId"] for face in response["Faces"]]
         # TODO handle NextToken if response is paginated
         return ResponseType(
@@ -338,11 +325,11 @@ class AmazonImageApi(ImageInterface):
     def image__face_recognition__delete_collection(
         self, collection_id: str
     ) -> ResponseType[FaceRecognitionDeleteCollectionDataClass]:
-        payload = {
-            "CollectionId": collection_id
-        }
-        response = handle_amazon_call(self.clients["image"].delete_collection, **payload)
-        
+        payload = {"CollectionId": collection_id}
+        response = handle_amazon_call(
+            self.clients["image"].delete_collection, **payload
+        )
+
         return ResponseType(
             original_response=response,
             standardized_response=FaceRecognitionDeleteCollectionDataClass(
@@ -355,14 +342,9 @@ class AmazonImageApi(ImageInterface):
     ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
-        payload = {
-            "CollectionId": collection_id,
-            "Image": {
-                "Bytes": file_content
-            }
-        }
+        payload = {"CollectionId": collection_id, "Image": {"Bytes": file_content}}
         response = handle_amazon_call(self.clients["image"].index_faces, **payload)
-        
+
         face_ids = [face["Face"]["FaceId"] for face in response["FaceRecords"]]
         if len(face_ids) == 0:
             raise ProviderException("No face detected in the image")
@@ -375,12 +357,9 @@ class AmazonImageApi(ImageInterface):
     def image__face_recognition__delete_face(
         self, collection_id, face_id
     ) -> ResponseType[FaceRecognitionDeleteFaceDataClass]:
-        payload = {
-            "CollectionId": collection_id,
-            "FaceIds": [face_id]
-        }
+        payload = {"CollectionId": collection_id, "FaceIds": [face_id]}
         response = handle_amazon_call(self.clients["image"].delete_faces, **payload)
-        
+
         return ResponseType(
             original_response=response,
             standardized_response=FaceRecognitionDeleteFaceDataClass(deleted=True),
@@ -398,13 +377,10 @@ class AmazonImageApi(ImageInterface):
         if len(list_faces.standardized_response.face_ids) == 0:
             raise ProviderException("Face Collection is empty.")
 
-        payload = {
-            "CollectionId": collection_id,
-            "Image": {
-                "Bytes": file_content
-            }
-        }
-        response = handle_amazon_call(self.clients["image"].search_faces_by_image, **payload)
+        payload = {"CollectionId": collection_id, "Image": {"Bytes": file_content}}
+        response = handle_amazon_call(
+            self.clients["image"].search_faces_by_image, **payload
+        )
 
         faces = [
             FaceRecognitionRecognizedFaceDataClass(
@@ -438,10 +414,13 @@ class AmazonImageApi(ImageInterface):
             file2_content = file2_.read()
             image_tar["Bytes"] = file2_content
 
-        response = client.compare_faces(
-            SourceImage=image_source,
-            TargetImage=image_tar,
-        )
+        try:
+            response = client.compare_faces(
+                SourceImage=image_source,
+                TargetImage=image_tar,
+            )
+        except Exception as excp:
+            raise ProviderException(str(excp), code=400)
 
         face_match_list = []
         for face_match in response.get("FaceMatches", []):

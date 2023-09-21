@@ -18,7 +18,7 @@ from edenai_apis.features.text.named_entity_recognition.named_entity_recognition
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
     SpellCheckItem,
-    SuggestionItem
+    SuggestionItem,
 )
 from edenai_apis.utils.conversion import (
     closest_above_value,
@@ -59,7 +59,7 @@ from .helpers import (
     construct_spell_check_instruction,
     construct_anonymization_context,
     construct_classification_instruction,
-    check_openai_errors,
+    get_openapi_response,
     construct_keyword_extraction_context,
     construct_sentiment_analysis_context,
     construct_topic_extraction_context,
@@ -69,6 +69,7 @@ from .helpers import (
 )
 from edenai_apis.utils.conversion import construct_word_list
 from edenai_apis.utils.metrics import METRICS
+
 
 class OpenaiTextApi(TextInterface):
     def text__summarize(
@@ -86,13 +87,8 @@ class OpenaiTextApi(TextInterface):
             "presence_penalty": 0.0,
         }
 
-        response = requests.post(
-            url, json=payload, headers=self.headers
-        )
-        original_response = response.json()
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
         standardized_response = SummarizeDataClass(
             result=original_response["choices"][0]["text"]
@@ -113,18 +109,14 @@ class OpenaiTextApi(TextInterface):
             )
         except Exception as exc:
             raise ProviderException(str(exc), code=500)
-        original_response = response.json()
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        original_response = get_openapi_response(response)
 
         classification: Sequence[TextModerationItem] = []
         if result := original_response.get("results", None):
             for key, value in result[0].get("category_scores", {}).items():
                 classification.append(
                     TextModerationItem(
-                        label=key, likelihood=standardized_confidence_score(
-                            value)
+                        label=key, likelihood=standardized_confidence_score(value)
                     )
                 )
         standardized_response: ModerationDataClass = ModerationDataClass(
@@ -143,50 +135,51 @@ class OpenaiTextApi(TextInterface):
         self,
         texts: List[str],
         query: str,
-        similarity_metric: Literal["cosine", "hamming",
-                                 "manhattan", "euclidean"] = "cosine",
-        model: str = None
+        similarity_metric: Literal[
+            "cosine", "hamming", "manhattan", "euclidean"
+        ] = "cosine",
+        model: str = None,
     ) -> ResponseType[SearchDataClass]:
         if model is None:
-            model = '1536__text-embedding-ada-002'
-            
+            model = "1536__text-embedding-ada-002"
+
         # Import the function
         function_score = METRICS[similarity_metric]
 
         # Embed the texts & query
         texts_embed_response = OpenaiTextApi.text__embeddings(
-            self, texts=texts, model=model).original_response
+            self, texts=texts, model=model
+        ).original_response
         query_embed_response = OpenaiTextApi.text__embeddings(
-            self, texts=[query], model=model).original_response
+            self, texts=[query], model=model
+        ).original_response
 
         # Extract Tokens consumed
-        texts_usage = texts_embed_response.get('usage').get('total_tokens')
-        query_usage = query_embed_response.get('usage').get('total_tokens')
+        texts_usage = texts_embed_response.get("usage").get("total_tokens")
+        query_usage = query_embed_response.get("usage").get("total_tokens")
 
         # Extracts embeddings from texts & query
-        texts_embed = [item["embedding"]
-                       for item in texts_embed_response.get('data')]
-        query_embed = query_embed_response['data'][0]['embedding']
+        texts_embed = [item["embedding"] for item in texts_embed_response.get("data")]
+        query_embed = query_embed_response["data"][0]["embedding"]
 
         items = []
         # Calculate score for each text index
         for index, text in enumerate(texts_embed):
             score = function_score(query_embed, text)
             items.append(
-                InfosSearchDataClass(object='search_result',
-                                     document=index, score=score)
+                InfosSearchDataClass(
+                    object="search_result", document=index, score=score
+                )
             )
-            
+
         # Sort items by score in descending order
         sorted_items = sorted(items, key=lambda x: x.score, reverse=True)
-        
+
         # Build the original response
         original_response = {
             "texts_embeddings": texts_embed_response,
             "embeddings_query": query_embed_response,
-            "usage": {
-                "total_tokens": texts_usage + query_usage
-            }
+            "usage": {"total_tokens": texts_usage + query_usage},
         }
 
         result = ResponseType[SearchDataClass](
@@ -234,13 +227,8 @@ class OpenaiTextApi(TextInterface):
             "frequency_penalty": 0,
             "presence_penalty": 0,
         }
-        response = requests.post(
-            url, json=payload, headers=self.headers
-        )
-        original_response = response.json()
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
         answer = original_response["choices"][0]["text"].split("\n")
         answer = answer[0]
@@ -265,17 +253,8 @@ class OpenaiTextApi(TextInterface):
             "frequency_penalty": 0.0,
             "presence_penalty": 0.0,
         }
-        try:
-            response = requests.post(
-                url, json=payload, headers=self.headers
-            )
-            original_response = response.json()
-        except json.JSONDecodeError:
-            raise ProviderException(
-                "An error occurred while parsing the response.", code=500)
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
         data = (
             original_response["choices"][0]["text"]
@@ -286,8 +265,7 @@ class OpenaiTextApi(TextInterface):
         try:
             data_dict = json.loads(rf"{data}")
         except json.JSONDecodeError:
-            raise ProviderException(
-                "An error occurred while parsing the response.")
+            raise ProviderException("An error occurred while parsing the response.")
         new_text = text
         entities: Sequence[AnonymizationEntity] = []
         for entity in data_dict.get("entities", []):
@@ -311,7 +289,7 @@ class OpenaiTextApi(TextInterface):
                 )
             )
             tmp_new_text = new_text[0:offset] + "*" * length
-            tmp_new_text += new_text[offset + length:]
+            tmp_new_text += new_text[offset + length :]
             new_text = tmp_new_text
 
         standardized_response = AnonymizationDataClass(
@@ -332,17 +310,8 @@ class OpenaiTextApi(TextInterface):
             "max_tokens": self.max_tokens,
             "model": self.model,
         }
-        try:
-            response = requests.post(
-                url, json=payload, headers=self.headers
-            )
-            original_response = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response.", 500)
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
         try:
             keywords = json.loads(original_response["choices"][0]["text"])
@@ -351,8 +320,7 @@ class OpenaiTextApi(TextInterface):
                 "An error occurred while parsing the response."
             ) from exc
 
-        standardized_response = KeywordExtractionDataClass(
-            items=keywords["items"])
+        standardized_response = KeywordExtractionDataClass(items=keywords["items"])
         return ResponseType[KeywordExtractionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
@@ -369,18 +337,12 @@ class OpenaiTextApi(TextInterface):
             "temperature": 0,
             "logprobs": 1,
         }
-        response = requests.post(
-            url, json=payload, headers=self.headers
-        )
-        original_response = response.json()
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
         # Create output response
         # Get score
-        score = np.exp(original_response["choices"]
-                       [0]["logprobs"]["token_logprobs"][0])
+        score = np.exp(original_response["choices"][0]["logprobs"]["token_logprobs"][0])
         standarize = SentimentAnalysisDataClass(
             general_sentiment=original_response["choices"][0]["text"][1:],
             general_sentiment_rate=float(score),
@@ -403,18 +365,12 @@ class OpenaiTextApi(TextInterface):
             "logprobs": 1,
             "temperature": 0,
         }
-        response = requests.post(
-            url, json=payload, headers=self.headers
-        )
-        original_response = response.json()
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
         # Create output response
         # Get score
-        score = np.exp(original_response["choices"]
-                       [0]["logprobs"]["token_logprobs"][0])
+        score = np.exp(original_response["choices"][0]["logprobs"]["token_logprobs"][0])
         categories: Sequence[ExtractedTopic] = []
         categories.append(
             ExtractedTopic(
@@ -452,17 +408,8 @@ class OpenaiTextApi(TextInterface):
             "max_tokens": max_tokens,
         }
 
-        try:
-            response = requests.post(
-                url, json=payload, headers=self.headers
-            )
-            original_response = response.json()
-        except json.JSONDecodeError:
-            raise ProviderException(
-                "An error occurred while parsing the response.", code=500)
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
         standardized_response = CodeGenerationDataClass(
             generated_text=original_response["choices"][0]["message"]["content"]
@@ -489,13 +436,8 @@ class OpenaiTextApi(TextInterface):
         if max_tokens != 0:
             payload["max_tokens"] = max_tokens
 
-        response = requests.post(
-            url, json=payload, headers=self.headers
-        )
-        original_response = response.json()
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
         standardized_response = GenerationDataClass(
             generated_text=original_response["choices"][0]["text"]
@@ -510,8 +452,7 @@ class OpenaiTextApi(TextInterface):
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         url = f"{self.url}/completions"
         built_entities = ",".join(entities)
-        prompt = construct_custom_ner_instruction(
-            text, built_entities, examples)
+        prompt = construct_custom_ner_instruction(text, built_entities, examples)
         payload = {
             "prompt": prompt,
             "model": self.model,
@@ -532,8 +473,7 @@ class OpenaiTextApi(TextInterface):
             items = json.loads(original_response["choices"][0]["text"])
         except (KeyError, json.JSONDecodeError) as exc:
             raise ProviderException(
-                "An error occurred while parsing the response.",
-                code=500
+                "An error occurred while parsing the response.", code=500
             ) from exc
 
         standardized_response = CustomNamedEntityRecognitionDataClass(
@@ -563,19 +503,8 @@ class OpenaiTextApi(TextInterface):
             "frequency_penalty": 0,
             "presence_penalty": 0,
         }
-        try:
-            response = requests.post(
-                url, json=payload, headers=self.headers
-            )
-            original_response = response.json()
-        except json.JSONDecodeError:
-            raise ProviderException(
-                "An error occurred while parsing the response.",
-                code=500
-            )
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
         # Getting labels
         detected_labels = original_response["choices"][0]["text"]
@@ -583,8 +512,7 @@ class OpenaiTextApi(TextInterface):
         try:
             json_detected_labels = json.loads(detected_labels)
         except json.JSONDecodeError:
-            raise ProviderException(
-                "An error occurred while parsing the response.")
+            raise ProviderException("An error occurred while parsing the response.")
 
         return ResponseType[CustomClassificationDataClass](
             original_response=original_response,
@@ -611,20 +539,13 @@ class OpenaiTextApi(TextInterface):
             "messages": messages,
             "temperature": 0.0,
         }
-        response = requests.post(
-            url, json=payload, headers=self.headers
-        )
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
-        try:
-            original_response = response.json()
-        except JSONDecodeError:
-            raise ProviderException("Error during parsing")
-
-        check_openai_errors(original_response, response.status_code)
         try:
             data = original_response["choices"][0]["message"]["content"]
             corrected_items = json.loads(data)
-        except (json.JSONDecodeError) as exc:
+        except json.JSONDecodeError as exc:
             raise exc
 
         corrections = construct_word_list(text, corrected_items)
@@ -637,8 +558,9 @@ class OpenaiTextApi(TextInterface):
                     offset=item["offset"],
                     length=item["length"],
                     type=None,
-                    suggestions=[SuggestionItem(
-                        suggestion=item["suggestion"], score=1.0)],
+                    suggestions=[
+                        SuggestionItem(suggestion=item["suggestion"], score=1.0)
+                    ],
                 )
             )
 
@@ -661,22 +583,11 @@ class OpenaiTextApi(TextInterface):
             "temperature": 0.0,
             "prompt": prompt,
         }
-        try:
-            response = requests.post(
-                url, json=payload, headers=self.headers
-            )
-            original_response = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response.",
-                code=500
-            ) from exc
-
-        check_openai_errors(original_response, response.status_code)
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
         try:
-            original_items = json.loads(
-                original_response["choices"][0]["text"])
+            original_items = json.loads(original_response["choices"][0]["text"])
         except (KeyError, json.JSONDecodeError) as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."
@@ -690,9 +601,8 @@ class OpenaiTextApi(TextInterface):
         )
 
     def text__embeddings(
-            self,
-            texts: List[str],
-            model: str) -> ResponseType[EmbeddingsDataClass]:
+        self, texts: List[str], model: str
+    ) -> ResponseType[EmbeddingsDataClass]:
         url = "https://api.openai.com/v1/embeddings"
         model = model.split("__")
         if len(texts) == 1:
@@ -702,18 +612,8 @@ class OpenaiTextApi(TextInterface):
             "model": model[1],
         }
 
-        try:
-            response = requests.post(
-                url, json=payload, headers=self.headers
-            )
-            original_response = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response.",
-                code=500
-            ) from exc
-
-        check_openai_errors(original_response, response.status_code)
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
         items: Sequence[EmbeddingsDataClass] = []
         embeddings = original_response["data"]
@@ -745,13 +645,11 @@ class OpenaiTextApi(TextInterface):
             for idx, message in enumerate(previous_history):
                 messages.insert(
                     idx,
-                    {"role": message.get(
-                        "role"), "content": message.get("message")},
+                    {"role": message.get("role"), "content": message.get("message")},
                 )
 
         if chatbot_global_action:
-            messages.insert(
-                0, {"role": "system", "content": chatbot_global_action})
+            messages.insert(0, {"role": "system", "content": chatbot_global_action})
 
         payload = {
             "model": model,
@@ -760,19 +658,8 @@ class OpenaiTextApi(TextInterface):
             "max_tokens": max_tokens,
         }
 
-        try:
-            response = requests.post(
-                url, json=payload, headers=self.headers
-            )
-            original_response = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response.",
-                code=500
-            ) from exc
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
         # Standardize the response
         generated_text = original_response["choices"][0]["message"]["content"]
@@ -791,12 +678,10 @@ class OpenaiTextApi(TextInterface):
         )
 
     def text__prompt_optimization(
-            self,
-            text: str,
-            target_provider: Literal['openai', 'google', 'cohere']) -> ResponseType[PromptOptimizationDataClass]:
+        self, text: str, target_provider: Literal["openai", "google", "cohere"]
+    ) -> ResponseType[PromptOptimizationDataClass]:
         url = f"{self.url}/chat/completions"
-        prompt = construct_prompt_optimization_instruction(
-            text, target_provider)
+        prompt = construct_prompt_optimization_instruction(text, target_provider)
         messages = [{"role": "user", "content": prompt}]
         messages.insert(
             0,
@@ -812,42 +697,47 @@ class OpenaiTextApi(TextInterface):
             "n": 3,
         }
 
-        response = requests.post(
-            url, json=payload, headers=self.headers
-        )
-        original_response = response.json()
-
-        # Handle errors
-        check_openai_errors(original_response, response.status_code)
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
 
         missing_information_call = requests.post(
             url,
             json={
                 "model": "gpt-4",
-                "messages": [{"role": "user", "content": prompt_optimization_missing_information(text)}],
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": prompt_optimization_missing_information(text),
+                    }
+                ],
             },
-            headers=self.headers
+            headers=self.headers,
         )
-        missing_information_response = missing_information_call.json()
-
-        check_openai_errors(missing_information_response,
-                            missing_information_call.status_code)
+        missing_information_response = get_openapi_response(missing_information_call)
 
         # Calculate total tokens consumed
-        total_tokens_missing_information = missing_information_response["usage"]["total_tokens"]
-        original_response["usage"]["missing_information_tokens"] = total_tokens_missing_information
+        total_tokens_missing_information = missing_information_response["usage"][
+            "total_tokens"
+        ]
+        original_response["usage"][
+            "missing_information_tokens"
+        ] = total_tokens_missing_information
         original_response["usage"]["total_tokens"] += total_tokens_missing_information
 
         # Standardize the response
         prompts: Sequence[PromptDataClass] = []
 
         for generated_prompt in original_response["choices"]:
-            prompts.append(PromptDataClass(
-                text=generated_prompt["message"]["content"].strip('\"')))
+            prompts.append(
+                PromptDataClass(text=generated_prompt["message"]["content"].strip('"'))
+            )
 
         standardized_response = PromptOptimizationDataClass(
-            missing_information=missing_information_response["choices"][0]["message"]["content"],
-            items=prompts)
+            missing_information=missing_information_response["choices"][0]["message"][
+                "content"
+            ],
+            items=prompts,
+        )
 
         return ResponseType[PromptOptimizationDataClass](
             original_response=original_response,

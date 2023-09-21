@@ -30,7 +30,10 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         payload: dict) -> dict:
         # Launch job 
         launch_job_response = requests.post(url, headers=self.headers, json = payload)
-        launch_job_response_dict = launch_job_response.json()
+        try:
+            launch_job_response_dict = launch_job_response.json()
+        except requests.JSONDecodeError:
+            raise ProviderException(launch_job_response.text, code=launch_job_response.status_code)
         if launch_job_response.status_code != 201:
             raise ProviderException(launch_job_response_dict.get("detail"), code=launch_job_response.status_code)
         
