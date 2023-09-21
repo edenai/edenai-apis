@@ -10,10 +10,10 @@
       "url": "https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict?local=langage&local=country"
     },
     "document": {
-      "id": "297e15b9-399c-4a06-8f5c-5d4899beebe7",
+      "id": "3ae63368-c886-4d4c-8d65-bebae07a37dd",
       "inference": {
         "extras": {},
-        "finished_at": "2023-09-21T10:24:14.188060",
+        "finished_at": "2023-09-21T13:40:10.664488",
         "is_rotation_applied": true,
         "pages": [
           {
@@ -929,7 +929,7 @@
             "value": 21.89
           }
         },
-        "processing_time": 2.176,
+        "processing_time": 1.499,
         "product": {
           "features": [
             "locale",
@@ -954,7 +954,7 @@
           "type": "standard",
           "version": "5.0"
         },
-        "started_at": "2023-09-21T10:24:12.012183"
+        "started_at": "2023-09-21T13:40:09.165378"
       },
       "n_pages": 1,
       "name": "receipt.jpg"
