@@ -2,6 +2,8 @@ from typing import List, Literal, Optional, Sequence, Dict
 import requests
 import numpy as np
 import json
+
+from requests.exceptions import JSONDecodeError
 from edenai_apis.features.text import PromptOptimizationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
@@ -612,7 +614,11 @@ class OpenaiTextApi(TextInterface):
         response = requests.post(
             url, json=payload, headers=self.headers
         )
-        original_response = response.json()
+
+        try:
+            original_response = response.json()
+        except JSONDecodeError:
+            raise ProviderException("Error during parsing")
 
         check_openai_errors(original_response, response.status_code)
         try:
