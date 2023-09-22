@@ -9,11 +9,7 @@ from edenai_apis.loaders.loaders import load_provider
 import requests
 import json
 from edenai_apis.utils.exception import ProviderException
-
-TOKEN_BEARER = ('Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
-                '.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkZ3NzdXRyaHpya2xsc3RnbGRiIiwicm9sZS'
-                'I6ImFub24iLCJpYXQiOjE2ODY2ODc5MjM'
-                'sImV4cCI6MjAwMjI2MzkyM30.bwSe1TrFMhcosgqFSlGIhMIv9fxohzLG0eyBEs7wUo8')
+from edenai_apis.apis.winstonai.config import TOKEN_BEARER, WINSTON_AI_API_URL
 
 
 class WinstonaiApi(ProviderInterface, TextInterface):
@@ -25,7 +21,11 @@ class WinstonaiApi(ProviderInterface, TextInterface):
         )
         self.api_key = self.api_settings["api_key"]
         self.bearer_token = TOKEN_BEARER
-        self.api_url = 'https://api.gowinston.ai/functions/v1'
+        self.api_url = WINSTON_AI_API_URL
+        self.headers = {
+            'Content-Type': 'application/json',
+            'Authorization': self.bearer_token
+        }
 
     def text__ai_detection(self, text: str) -> ResponseType[AiDetectionDataClass]:
         payload = json.dumps({
@@ -34,16 +34,11 @@ class WinstonaiApi(ProviderInterface, TextInterface):
             "sentences": True
         })
 
-        headers = {
-            'Content-Type': 'application/json',
-            'Authorization': self.bearer_token
-        }
-
         response = requests.request(
-            "POST", '{}/predict'.format(self.api_url), headers=headers, data=payload)
+            "POST", '{}/predict'.format(self.api_url), headers=self.headers, data=payload)
 
         if response.status_code != 200:
-            raise ProviderException(response.json())
+            raise ProviderException(response.json(), code=response.status_code)
 
         original_response = response.json()
         score = original_response.get('score')
