@@ -36,7 +36,7 @@ class WinstonaiApi(ProviderInterface, TextInterface):
         })
 
         response = requests.request(
-            "POST", '{}/predict'.format(self.api_url), headers=self.headers, data=payload)
+            "POST", f'{self.api_url}/predict', headers=self.headers, data=payload)
 
         if response.status_code != 200:
             raise ProviderException(response.json(), code=response.status_code)
@@ -74,7 +74,7 @@ class WinstonaiApi(ProviderInterface, TextInterface):
         })
 
         response = requests.request(
-            "POST", "{}/plagiarism".format(self.api_url), headers=self.headers, data=payload)
+            "POST", f'{self.api_url}/plagiarism', headers=self.headers, data=payload)
 
         if response.status_code != 200:
             raise ProviderException(response.json(), code=response.status_code)
@@ -89,14 +89,14 @@ class WinstonaiApi(ProviderInterface, TextInterface):
             plagia_score=original_response["results_count"],
             items=[
                 PlagiaDetectionItem(
-                    text=result["excerpts"][0],
+                    text=''.join(result["excerpts"]),
                     candidates=[
                         PlagiaDetectionCandidate(
                             url=result["url"],
                             plagia_score=1,
                             prediction="plagiarized",
-                            plagiarized_text=result["excerpts"][0]
-                        )
+                            plagiarized_text=excerpt
+                        ) for excerpt in result["excerpts"]
                     ]
                 ) for result in results
             ]

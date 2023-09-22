@@ -14,6 +14,15 @@
         ]
       },
       {
+        "title": "The Biggest Rumored Samsung Gadgets to Expect in 2023 - YouTube",
+        "url": "https://www.youtube.com/watch?v=7DXADBWKlgA",
+        "excerpts": [
+          "... Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in where its mobile ...",
+          "... influence than most other tech companies on the devices we carry in our pockets each day. Wearables have also become a large part of how Samsung intends to ...",
+          "... It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices. Here are the rumored Samsung products I'm most ..."
+        ]
+      },
+      {
         "title": "Rumored Samsung Gadgets For 2023: Galaxy Z Flip 5, Z Fold 5 and More - CNET",
         "url": "https://www.cnet.com/tech/mobile/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
         "excerpts": [
@@ -23,11 +32,10 @@
         "date": "Jul 20, 2023"
       },
       {
-        "title": "The Biggest Rumored Samsung Gadgets to Expect in 2023 - YouTube",
-        "url": "https://www.youtube.com/watch?v=7DXADBWKlgA",
+        "title": "Samsung products website",
+        "url": "https://jaxbl.bgbulbs.com/samsung-products-website/67820286",
         "excerpts": [
-          "... influence than most other tech companies on the devices we carry in our pockets each day. Wearables have also become a large part of how Samsung intends to ...",
-          "... It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices. Here are the rumored Samsung products I'm most ..."
+          "... influence than most other tech companies on the devices we carry in our pockets each day. recession breathing children unleashed rescue WebSamsung helps you ..."
         ]
       },
       {
@@ -44,55 +52,100 @@
           "... the company may be planning to expand beyond the Z Fold and Z Flip in the near future. Although Samsung regularly releases new products in ..."
         ],
         "date": "Jan 24, 2023"
-      },
-      {
-        "title": "The Biggest Rumored Samsung Gadgets to Expect in 2023 - YouTube",
-        "url": "https://youtube.com/watch?v=7DXADBWKlgA",
-        "excerpts": [
-          "... Though Samsung regularly releases new products ..."
-        ],
-        "date": "Jun 18, 2023"
       }
     ],
     "results_count": 6,
     "errors": [],
     "errors_count": 0,
     "credits_used": 176,
-    "credits_remaining": 9986716
+    "credits_remaining": 9984703
   },
   "standardized_response": {
     "plagia_score": 6.0,
     "items": [
       {
-        "text": "Should Samsung stick to its annual routine, we can expect to see new foldable phones and wearable devices in August. The company also previewed new designs for ...",
+        "text": "Should Samsung stick to its annual routine, we can expect to see new foldable phones and wearable devices in August. The company also previewed new designs for ...... The company also previewed new designs for bendable phones and tablets earlier this year, hinting that the company may be planning to expand beyond the Z ...Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in where its mobile ...Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers. It's a strategy to create ...... It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices.\", \"matches\": [ { \"website\": \"https://www.cnet.com ...",
         "candidates": [
           {
             "url": "https://docs.originality.ai/api-v1-0-reference",
             "plagia_score": 1.0,
             "prediction": "plagiarized",
             "plagiarized_text": "Should Samsung stick to its annual routine, we can expect to see new foldable phones and wearable devices in August. The company also previewed new designs for ..."
+          },
+          {
+            "url": "https://docs.originality.ai/api-v1-0-reference",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "... The company also previewed new designs for bendable phones and tablets earlier this year, hinting that the company may be planning to expand beyond the Z ..."
+          },
+          {
+            "url": "https://docs.originality.ai/api-v1-0-reference",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in where its mobile ..."
+          },
+          {
+            "url": "https://docs.originality.ai/api-v1-0-reference",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers. It's a strategy to create ..."
+          },
+          {
+            "url": "https://docs.originality.ai/api-v1-0-reference",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "... It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices.\", \"matches\": [ { \"website\": \"https://www.cnet.com ..."
           }
         ]
       },
       {
-        "text": "... Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in ...",
+        "text": "... Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in where its mobile ...... influence than most other tech companies on the devices we carry in our pockets each day. Wearables have also become a large part of how Samsung intends to ...... It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices. Here are the rumored Samsung products I'm most ...",
+        "candidates": [
+          {
+            "url": "https://www.youtube.com/watch?v=7DXADBWKlgA",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "... Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in where its mobile ..."
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=7DXADBWKlgA",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "... influence than most other tech companies on the devices we carry in our pockets each day. Wearables have also become a large part of how Samsung intends to ..."
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=7DXADBWKlgA",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "... It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices. Here are the rumored Samsung products I'm most ..."
+          }
+        ]
+      },
+      {
+        "text": "... Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in ...Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers. It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices.",
         "candidates": [
           {
             "url": "https://www.cnet.com/tech/mobile/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
             "plagia_score": 1.0,
             "prediction": "plagiarized",
             "plagiarized_text": "... Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in ..."
+          },
+          {
+            "url": "https://www.cnet.com/tech/mobile/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers. It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices."
           }
         ]
       },
       {
-        "text": "... influence than most other tech companies on the devices we carry in our pockets each day. Wearables have also become a large part of how Samsung intends to ...",
+        "text": "... influence than most other tech companies on the devices we carry in our pockets each day. recession breathing children unleashed rescue WebSamsung helps you ...",
         "candidates": [
           {
-            "url": "https://www.youtube.com/watch?v=7DXADBWKlgA",
+            "url": "https://jaxbl.bgbulbs.com/samsung-products-website/67820286",
             "plagia_score": 1.0,
             "prediction": "plagiarized",
-            "plagiarized_text": "... influence than most other tech companies on the devices we carry in our pockets each day. Wearables have also become a large part of how Samsung intends to ..."
+            "plagiarized_text": "... influence than most other tech companies on the devices we carry in our pockets each day. recession breathing children unleashed rescue WebSamsung helps you ..."
           }
         ]
       },
@@ -115,17 +168,6 @@
             "plagia_score": 1.0,
             "prediction": "plagiarized",
             "plagiarized_text": "... the company may be planning to expand beyond the Z Fold and Z Flip in the near future. Although Samsung regularly releases new products in ..."
-          }
-        ]
-      },
-      {
-        "text": "... Though Samsung regularly releases new products ...",
-        "candidates": [
-          {
-            "url": "https://youtube.com/watch?v=7DXADBWKlgA",
-            "plagia_score": 1.0,
-            "prediction": "plagiarized",
-            "plagiarized_text": "... Though Samsung regularly releases new products ..."
           }
         ]
       }
