@@ -87,6 +87,7 @@ class IbmAudioApi(AudioInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
+        provider_params = dict,
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -104,6 +105,7 @@ class IbmAudioApi(AudioInterface):
             audio_config.update({"model": f"{language_audio}_Telephony"})
             if language_audio == "ja-JP":
                 audio_config["model"] = f"{language_audio}_Multimedia"
+        audio_config.update(provider_params)
         response = handle_ibm_call(self.clients["speech"].create_job, **audio_config)
         if response.status_code == 201:
             return AsyncLaunchJobResponseType(provider_job_id=response.result["id"])

@@ -48,6 +48,7 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
+        provider_params = dict()
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -74,6 +75,7 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         if not language:
             del data["language_code"]
             data.update({"language_detection": True})
+        data.update(provider_params)
 
         # if an option is not available for a language like 'speaker_labels' with french, we remove it
         launch_transcription = False

@@ -45,6 +45,7 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
         audio_attributes: tuple,
         model: str,
         file_url: str = "",
+        provider_params = dict()
     ) -> AsyncLaunchJobResponseType:
         file_ = open(file, "rb")
         config = {
@@ -58,7 +59,8 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
         payload = {
             "config": json.dumps(
                 {"type": "transcription", "transcription_config": config}
-            )
+            ),
+            **provider_params
         }
         # Send request
         response = requests.post(

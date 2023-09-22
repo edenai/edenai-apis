@@ -160,6 +160,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
+        provider_params = dict()
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -169,6 +170,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         headers = {"Authorization": f"{self.api_key}"}
         file_ = open(file, "rb")
         files = {"files": file_}
+
         response = requests.post(url=url_file_upload, headers=headers, files=files)
 
         file_.close()
@@ -191,6 +193,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
                     "domain": language_domain.get("domain"),
                 }
             )
+        payload.update(provider_params)
 
         response = requests.post(url=url_file_transcribe, headers=headers, data=payload)
         original_response = response.json()

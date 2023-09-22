@@ -71,6 +71,7 @@ class SymblApi(ProviderInterface, AudioInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
+        provider_params = dict()
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -92,6 +93,7 @@ class SymblApi(ProviderInterface, AudioInterface):
                 vocabulary.append(vocabulary[0])
             params.update({"customVocabulary": vocabulary})
 
+        params.update(provider_params)
         file_ = open(file, "rb")
         response = requests.post(
             url="https://api.symbl.ai/v1/process/audio",
