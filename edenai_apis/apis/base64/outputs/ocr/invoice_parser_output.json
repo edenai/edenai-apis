@@ -11,24 +11,24 @@
       "fields": {
         "companyName": {
           "key": "Company name",
-          "value": "SNG Engineering, Inc",
-          "confidence": 0.99,
+          "value": "SIG SNG Engineering, Inc",
+          "confidence": 0.5,
           "location": {
             "topLeft": {
-              "x": 188,
+              "x": 47,
               "y": 42
             },
             "topRight": {
-              "x": 405,
+              "x": 406,
               "y": 42
             },
             "bottomLeft": {
-              "x": 188,
-              "y": 66
+              "x": 47,
+              "y": 121
             },
             "bottomRight": {
-              "x": 405,
-              "y": 66
+              "x": 406,
+              "y": 121
             },
             "pageNumber": 0
           }
@@ -443,6 +443,30 @@
             "pageNumber": 0
           }
         },
+        "balanceDue": {
+          "key": "Balance due",
+          "value": "750.00",
+          "confidence": 0.99,
+          "location": {
+            "topLeft": {
+              "x": 529,
+              "y": 393
+            },
+            "topRight": {
+              "x": 563,
+              "y": 393
+            },
+            "bottomLeft": {
+              "x": 529,
+              "y": 405
+            },
+            "bottomRight": {
+              "x": 563,
+              "y": 405
+            },
+            "pageNumber": 0
+          }
+        },
         "unitPrice": {
           "key": "UNIT PRICE",
           "value": "750.00",
@@ -614,30 +638,6 @@
             "pageNumber": 0
           }
         },
-        "balanceDue": {
-          "key": "Balance due",
-          "value": "750.00",
-          "confidence": 0.92,
-          "location": {
-            "topLeft": {
-              "x": 611,
-              "y": 666
-            },
-            "topRight": {
-              "x": 645,
-              "y": 666
-            },
-            "bottomLeft": {
-              "x": 611,
-              "y": 677
-            },
-            "bottomRight": {
-              "x": 645,
-              "y": 677
-            },
-            "pageNumber": 0
-          }
-        },
         "remittanceRecipient": {
           "key": "Remittance recipient",
           "value": "SNG Engineering, Inc.",
@@ -757,11 +757,13 @@
           "height": 900,
           "pageCount": 1,
           "startPage": 0,
+          "flowID": "d51a8f00-d9a2-4710-ab18-75cdc6537366",
+          "createdAt": 1695376085383,
           "isSelectable": false,
           "isEditable": false,
           "isInFocus": true,
           "isGlareFree": true,
-          "originalFileName": "1f7f5573-a300-4cd6-b28f-600fa0d7955b.png"
+          "originalFileName": "e1e74a7a-5c70-4ae4-8d4c-5c1c20aa3859.png"
         },
         "tables": [
           [
@@ -8886,7 +8888,7 @@
         }
       },
       "ocr": "SNG Engineering, Inc.\nConsulting Engineers\n344 Main Street Suite 200\nGaithersburg, MD 20878\nINVOICE\nSVG\nPhone: 301.548.0055 Fax: 301.548.1840\nE-mail: sng.engineering@erols.com\nINVOICE NO: 014- 03\nDATE: January20, 2003\nTO.\nShip To: Same\nDamita J Goldsmith\n201 Stan Fey Dr\nUpper Marlboro , MD 20774\nReference: 201 Stan Fey Drive\nUpper Marlboro\nSALESPERSON\nP.O. NUMBER\nDATE SHIPPED\nSHIPPED VIA\nF.O.B. POINT\nTERMS\non receipt of service\nQUANTITY\nDESCRIPTION\nUNIT PRICE\nAMOUNT\n1 Field inspection of construction on 1/19/2003 deficiencies in house\n750.00\n750 .. 00\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003\nSUBTOTAL\n750.00\nSHIPPING & HANDELING\nTOTAL DUE\n750.00\nMake all checks payable to SNG Engineering, Inc.\nIf you have any questions concerning this invoice, call: Sach Gupta, 301.548.0055\nThe payment will be due within fifteen days after receipt of invoice by the owner/contractor.\nPlease note that 1-1/2 percent interest will accrue on the unpaid balance after this date.\nTHANK YOU FOR YOUR BUSINESS!",
-      "uuid": "dfb8de8c-bd0e-4801-93c4-d6b96a986e65",
+      "uuid": "98acaafa-1e67-4f01-8a7f-ac0c35d7b8b1",
       "status": "needsReview"
     }
   ],
@@ -8907,10 +8909,12 @@
           "abn_number": null,
           "gst_number": null,
           "pan_number": null,
-          "vat_number": null
+          "vat_number": null,
+          "siret_number": null,
+          "siren_number": null
         },
         "merchant_information": {
-          "merchant_name": "SNG Engineering, Inc",
+          "merchant_name": "SIG SNG Engineering, Inc",
           "merchant_address": null,
           "merchant_phone": null,
           "merchant_email": null,
@@ -8961,7 +8965,7 @@
         "item_lines": [
           {
             "description": "Field inspection of construction on 1/19/2003 deficiencies in house construction, Garage drive way & legal support to Attorney to 1/19/2003",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 750.0,
             "unit_price": 750.0,
             "discount": null,

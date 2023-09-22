@@ -18,6 +18,8 @@ class CustomerInformationInvoice(BaseModel):
     gst_number: Optional[StrictStr]  # New
     pan_number: Optional[StrictStr]  # New
     vat_number: Optional[StrictStr]  # New
+    siret_number: Optional[StrictStr] = None # New
+    siren_number: Optional[StrictStr] = None # New
 
     @staticmethod
     def default() -> "CustomerInformationInvoice":

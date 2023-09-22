@@ -65,27 +65,27 @@
         "detected_languages": [
           {
             "language_code": "en",
-            "confidence": 0.0
+            "confidence": 0.8608051
           },
           {
             "language_code": "und",
-            "confidence": 0.0
+            "confidence": 0.04921618
           },
           {
             "language_code": "it",
-            "confidence": 0.0
+            "confidence": 0.03686777
           },
           {
             "language_code": "nl",
-            "confidence": 0.0
+            "confidence": 0.02082633
           },
           {
             "language_code": "fil",
-            "confidence": 0.0
+            "confidence": 0.018418267
           },
           {
             "language_code": "om",
-            "confidence": 0.0
+            "confidence": 0.013866327
           }
         ],
         "blocks": [
@@ -910,7 +910,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9708751,
+              "confidence": 0.97087514,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -2262,7 +2262,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9708751,
+              "confidence": 0.97087514,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -3571,7 +3571,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.97504705,
+              "confidence": 0.975047,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -4456,7 +4456,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9928429,
+              "confidence": 0.99284285,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -4633,7 +4633,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9587178,
+              "confidence": 0.9587179,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -5105,7 +5105,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.98142576,
+              "confidence": 0.9814258,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -6131,7 +6131,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9740409,
+              "confidence": 0.97404104,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -8244,7 +8244,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9851252,
+              "confidence": 0.9851251,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -8303,7 +8303,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.7486347,
+              "confidence": 0.74863464,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -9817,7 +9817,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.97508585,
+              "confidence": 0.9750859,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -9941,7 +9941,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9224337,
+              "confidence": 0.922434,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -10484,7 +10484,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.98599726,
+              "confidence": 0.9859972,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -11532,7 +11532,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.98158014,
+              "confidence": 0.9815802,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -11650,7 +11650,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9587178,
+              "confidence": 0.9587179,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -12370,7 +12370,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.976593,
+              "confidence": 0.9765931,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -12680,7 +12680,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.98977166,
+              "confidence": 0.9897717,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -12801,7 +12801,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.94548285,
+              "confidence": 0.945483,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -15068,7 +15068,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.952261,
+              "confidence": 0.9522609,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -15127,7 +15127,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.92666936,
+              "confidence": 0.9266693,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -15248,7 +15248,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.9954687,
+              "confidence": 0.99546874,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -15682,7 +15682,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.99559784,
+              "confidence": 0.9955978,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -16293,7 +16293,7 @@
                 ],
                 "content": ""
               },
-              "confidence": 0.8990954,
+              "confidence": 0.8990955,
               "bounding_poly": {
                 "vertices": [
                   {
@@ -17295,7 +17295,9 @@
           "abn_number": null,
           "gst_number": null,
           "pan_number": null,
-          "vat_number": null
+          "vat_number": null,
+          "siret_number": null,
+          "siren_number": null
         },
         "merchant_information": {
           "merchant_name": "SNG Engineering Inc",
@@ -17349,7 +17351,7 @@
         "item_lines": [
           {
             "description": "Field inspection of construction on 1/19/2003 deficiencies in house\nconstruction, Garage drive way & legal support to Attorney to",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 750.0,
             "unit_price": 750.0,
             "discount": null,

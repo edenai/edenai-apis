@@ -8,14 +8,14 @@
     },
     "results": [
       {
-        "url": "https://elis.rossum.ai/api/v1/annotations/32437611",
+        "url": "https://elis.rossum.ai/api/v1/annotations/39784897",
         "status": "to_review",
-        "arrived_at": "2023-05-17T09:57:49.497901Z",
+        "arrived_at": "2023-09-22T09:50:09.083202Z",
         "exported_at": null,
         "document": {
-          "url": "https://elis.rossum.ai/api/v1/documents/34707778",
+          "url": "https://elis.rossum.ai/api/v1/documents/42783888",
           "file_name": "invoice.png",
-          "file": "https://elis.rossum.ai/api/v1/documents/34707778/content"
+          "file": "https://elis.rossum.ai/api/v1/documents/42783888/content"
         },
         "modifier": null,
         "schema": {
@@ -30,43 +30,43 @@
               {
                 "category": "datapoint",
                 "schema_id": "document_type",
-                "rir_confidence": 0.9606021483535508,
+                "rir_confidence": 0.9609074509204851,
                 "value": "tax_invoice",
                 "type": "enum"
               },
               {
                 "category": "datapoint",
                 "schema_id": "language",
-                "rir_confidence": 0.9686048975116014,
+                "rir_confidence": 0.968559857779576,
                 "value": "eng",
                 "type": "enum"
               },
               {
                 "category": "datapoint",
                 "schema_id": "document_id",
-                "rir_confidence": 0.9195488069523884,
-                "value": "000000",
+                "rir_confidence": 0.9140934457517862,
+                "value": "014- 03",
                 "type": "string"
               },
               {
                 "category": "datapoint",
                 "schema_id": "order_id",
-                "rir_confidence": 0.9663755939343275,
-                "value": "",
+                "rir_confidence": 0.4910476673982458,
+                "value": "201StanFeyDrive",
                 "type": "string"
               },
               {
                 "category": "datapoint",
                 "schema_id": "customer_id",
-                "rir_confidence": 0.9366328197898091,
+                "rir_confidence": 0.9713391093643888,
                 "value": "",
                 "type": "string"
               },
               {
                 "category": "datapoint",
                 "schema_id": "date_issue",
-                "rir_confidence": 0.959228879219581,
-                "value": "2014-07-10",
+                "rir_confidence": 0.9606532673416399,
+                "value": "2003-01-20",
                 "type": "date"
               },
               {
@@ -100,7 +100,7 @@
               {
                 "category": "datapoint",
                 "schema_id": "supply_place",
-                "rir_confidence": 0.9980457090403682,
+                "rir_confidence": 0.9979938616787164,
                 "value": "",
                 "type": "string"
               }
@@ -141,8 +141,8 @@
               {
                 "category": "datapoint",
                 "schema_id": "terms",
-                "rir_confidence": 0.9629066710126312,
-                "value": "",
+                "rir_confidence": 0.7586248816470612,
+                "value": "on receipt of service",
                 "type": "string"
               },
               {
@@ -182,29 +182,29 @@
               {
                 "category": "datapoint",
                 "schema_id": "amount_total",
-                "rir_confidence": 0.9663768559313637,
-                "value": "4520.00",
+                "rir_confidence": 0.9661285897125208,
+                "value": "750.00",
                 "type": "number"
               },
               {
                 "category": "datapoint",
                 "schema_id": "amount_due",
-                "rir_confidence": 0.9626340719853146,
-                "value": "4520.00",
+                "rir_confidence": 0.9594201512264116,
+                "value": "750.00",
                 "type": "number"
               },
               {
                 "category": "datapoint",
                 "schema_id": "amount_total_base",
-                "rir_confidence": 0.9487458827472726,
-                "value": "4000.00",
+                "rir_confidence": 0.9134733532156121,
+                "value": "750.00",
                 "type": "number"
               },
               {
                 "category": "datapoint",
                 "schema_id": "amount_total_tax",
-                "rir_confidence": 0.970477293057346,
-                "value": "520.00",
+                "rir_confidence": 0.9681369932345559,
+                "value": "",
                 "type": "number"
               },
               {
@@ -224,42 +224,14 @@
               {
                 "category": "datapoint",
                 "schema_id": "currency",
-                "rir_confidence": 0.9417849772078292,
-                "value": "usd",
+                "rir_confidence": 0.9285597473119827,
+                "value": "other",
                 "type": "enum"
               },
               {
                 "category": "multivalue",
                 "schema_id": "tax_details",
-                "children": [
-                  {
-                    "category": "tuple",
-                    "schema_id": "tax_detail",
-                    "children": [
-                      {
-                        "category": "datapoint",
-                        "schema_id": "tax_detail_rate",
-                        "rir_confidence": null,
-                        "value": "",
-                        "type": "number"
-                      },
-                      {
-                        "category": "datapoint",
-                        "schema_id": "tax_detail_base",
-                        "rir_confidence": 0.8919372489533708,
-                        "value": "4000.00",
-                        "type": "number"
-                      },
-                      {
-                        "category": "datapoint",
-                        "schema_id": "tax_detail_tax",
-                        "rir_confidence": 0.8866409463575907,
-                        "value": "520.00",
-                        "type": "number"
-                      }
-                    ]
-                  }
-                ]
+                "children": []
               }
             ]
           },
@@ -270,15 +242,15 @@
               {
                 "category": "datapoint",
                 "schema_id": "sender_name",
-                "rir_confidence": 0.49070655992987006,
-                "value": "",
+                "rir_confidence": 0.5220805237301605,
+                "value": "SNG Engineering, Inc.\nConsulting Engineers",
                 "type": "string"
               },
               {
                 "category": "datapoint",
                 "schema_id": "sender_address",
-                "rir_confidence": 0.22993252436000244,
-                "value": "City, State, Country\nZIP CODE",
+                "rir_confidence": 0.661601368559684,
+                "value": "Consulting Engineers\n344 Main Street Suite 200\nGaithersburg, MD 20878",
                 "type": "string"
               },
               {
@@ -298,22 +270,22 @@
               {
                 "category": "datapoint",
                 "schema_id": "sender_email",
-                "rir_confidence": 0.9583596442951109,
-                "value": "",
+                "rir_confidence": 0.9499530198290698,
+                "value": "sng.engineering@erols.com",
                 "type": "string"
               },
               {
                 "category": "datapoint",
                 "schema_id": "recipient_name",
-                "rir_confidence": 0.8261277989376803,
-                "value": "Client Name",
+                "rir_confidence": 0.8797782937280318,
+                "value": "Damita J Goldsmith",
                 "type": "string"
               },
               {
                 "category": "datapoint",
                 "schema_id": "recipient_address",
-                "rir_confidence": 0.5058587961908663,
-                "value": "1 Client Address\nCity, State, Country\nZIP CODE",
+                "rir_confidence": 0.6805885281653341,
+                "value": "201 Stan Fey Dr\nUpper Marlboro , MD 20774",
                 "type": "string"
               },
               {
@@ -340,7 +312,7 @@
               {
                 "category": "datapoint",
                 "schema_id": "recipient_delivery_address",
-                "rir_confidence": 0.9270084829974929,
+                "rir_confidence": 0.855308235755563,
                 "value": "",
                 "type": "string"
               }
@@ -374,14 +346,14 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_description",
-                        "rir_confidence": 0.7938488077428888,
-                        "value": "Your item Name\nitem descnption goes here",
+                        "rir_confidence": 0.8156734554609002,
+                        "value": "Field inspection of construction on 1/19/2003 deficiencies in house",
                         "type": "string"
                       },
                       {
                         "category": "datapoint",
                         "schema_id": "item_quantity",
-                        "rir_confidence": 0.8757271091635748,
+                        "rir_confidence": 0.9592101773119609,
                         "value": "1",
                         "type": "number"
                       },
@@ -395,8 +367,8 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_amount",
-                        "rir_confidence": 0.8173972973045032,
-                        "value": "1000",
+                        "rir_confidence": 0.9864724104478404,
+                        "value": "750.00",
                         "type": "number"
                       },
                       {
@@ -409,8 +381,8 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_amount_total",
-                        "rir_confidence": 0.942589111290418,
-                        "value": "1000",
+                        "rir_confidence": null,
+                        "value": "",
                         "type": "number"
                       }
                     ]
@@ -422,15 +394,15 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_description",
-                        "rir_confidence": 0.8140170239383924,
-                        "value": "Your item Name\nItem description goes here",
+                        "rir_confidence": 0.8517367994884641,
+                        "value": "1/19/2003",
                         "type": "string"
                       },
                       {
                         "category": "datapoint",
                         "schema_id": "item_quantity",
-                        "rir_confidence": 0.8728136972025617,
-                        "value": "1",
+                        "rir_confidence": null,
+                        "value": "",
                         "type": "number"
                       },
                       {
@@ -443,8 +415,8 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_amount",
-                        "rir_confidence": 0.9595457638906766,
-                        "value": "1000",
+                        "rir_confidence": null,
+                        "value": "",
                         "type": "number"
                       },
                       {
@@ -457,104 +429,8 @@
                       {
                         "category": "datapoint",
                         "schema_id": "item_amount_total",
-                        "rir_confidence": 0.9287418964194601,
-                        "value": "1000",
-                        "type": "number"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "tuple",
-                    "schema_id": "line_item",
-                    "children": [
-                      {
-                        "category": "datapoint",
-                        "schema_id": "item_description",
-                        "rir_confidence": 0.7995313865899153,
-                        "value": "Your item Name\nItem description goes here",
-                        "type": "string"
-                      },
-                      {
-                        "category": "datapoint",
-                        "schema_id": "item_quantity",
-                        "rir_confidence": 0.8704975421022635,
-                        "value": "1",
-                        "type": "number"
-                      },
-                      {
-                        "category": "datapoint",
-                        "schema_id": "item_amount_base",
                         "rir_confidence": null,
                         "value": "",
-                        "type": "number"
-                      },
-                      {
-                        "category": "datapoint",
-                        "schema_id": "item_amount",
-                        "rir_confidence": 0.9590328946886754,
-                        "value": "1000",
-                        "type": "number"
-                      },
-                      {
-                        "category": "datapoint",
-                        "schema_id": "item_total_base",
-                        "rir_confidence": null,
-                        "value": "",
-                        "type": "number"
-                      },
-                      {
-                        "category": "datapoint",
-                        "schema_id": "item_amount_total",
-                        "rir_confidence": 0.9202178732634786,
-                        "value": "1000",
-                        "type": "number"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "tuple",
-                    "schema_id": "line_item",
-                    "children": [
-                      {
-                        "category": "datapoint",
-                        "schema_id": "item_description",
-                        "rir_confidence": 0.8446536591064635,
-                        "value": "Your item Name\nItem description goes here",
-                        "type": "string"
-                      },
-                      {
-                        "category": "datapoint",
-                        "schema_id": "item_quantity",
-                        "rir_confidence": 0.8728136989153803,
-                        "value": "1",
-                        "type": "number"
-                      },
-                      {
-                        "category": "datapoint",
-                        "schema_id": "item_amount_base",
-                        "rir_confidence": null,
-                        "value": "",
-                        "type": "number"
-                      },
-                      {
-                        "category": "datapoint",
-                        "schema_id": "item_amount",
-                        "rir_confidence": 0.9255384504833265,
-                        "value": "1000",
-                        "type": "number"
-                      },
-                      {
-                        "category": "datapoint",
-                        "schema_id": "item_total_base",
-                        "rir_confidence": null,
-                        "value": "",
-                        "type": "number"
-                      },
-                      {
-                        "category": "datapoint",
-                        "schema_id": "item_amount_total",
-                        "rir_confidence": 0.9166917236872631,
-                        "value": "1000",
                         "type": "number"
                       }
                     ]
@@ -574,11 +450,11 @@
     "extracted_data": [
       {
         "customer_information": {
-          "customer_name": "Client Name",
-          "customer_address": "1 Client Address\nCity, State, Country\nZIP CODE",
+          "customer_name": "Damita J Goldsmith",
+          "customer_address": "201 Stan Fey Dr\nUpper Marlboro , MD 20774",
           "customer_email": null,
           "customer_id": "",
-          "customer_tax_id": null,
+          "customer_tax_id": "",
           "customer_mailing_address": null,
           "customer_billing_address": null,
           "customer_shipping_address": "",
@@ -587,13 +463,15 @@
           "abn_number": null,
           "gst_number": null,
           "pan_number": null,
-          "vat_number": null
+          "vat_number": null,
+          "siret_number": null,
+          "siren_number": null
         },
         "merchant_information": {
-          "merchant_name": "",
-          "merchant_address": "City, State, Country\nZIP CODE",
+          "merchant_name": "SNG Engineering, Inc.\nConsulting Engineers",
+          "merchant_address": "Consulting Engineers\n344 Main Street Suite 200\nGaithersburg, MD 20878",
           "merchant_phone": null,
-          "merchant_email": "",
+          "merchant_email": "sng.engineering@erols.com",
           "merchant_fax": null,
           "merchant_website": null,
           "merchant_tax_id": "",
@@ -605,18 +483,13 @@
           "vat_number": null
         },
         "invoice_number": "",
-        "invoice_total": 4520.0,
+        "invoice_total": 750.0,
         "invoice_subtotal": null,
         "gratuity": null,
-        "amount_due": 4520.0,
+        "amount_due": 750.0,
         "previous_unpaid_balance": null,
         "discount": null,
-        "taxes": [
-          {
-            "value": 520.0,
-            "rate": null
-          }
-        ],
+        "taxes": [],
         "service_charge": null,
         "payment_term": null,
         "purchase_order": null,
@@ -626,7 +499,7 @@
         "service_due_date": null,
         "po_number": null,
         "locale": {
-          "currency": "usd",
+          "currency": "other",
           "language": "eng"
         },
         "bank_informations": {
@@ -640,9 +513,9 @@
         },
         "item_lines": [
           {
-            "description": "Your item Name\nitem descnption goes here",
-            "quantity": 1,
-            "amount": 1000.0,
+            "description": "Field inspection of construction on 1/19/2003 deficiencies in house",
+            "quantity": 1.0,
+            "amount": 750.0,
             "unit_price": null,
             "discount": null,
             "product_code": null,
@@ -651,31 +524,9 @@
             "tax_rate": null
           },
           {
-            "description": "Your item Name\nItem description goes here",
-            "quantity": 1,
-            "amount": 1000.0,
-            "unit_price": null,
-            "discount": null,
-            "product_code": null,
-            "date_item": null,
-            "tax_item": null,
-            "tax_rate": null
-          },
-          {
-            "description": "Your item Name\nItem description goes here",
-            "quantity": 1,
-            "amount": 1000.0,
-            "unit_price": null,
-            "discount": null,
-            "product_code": null,
-            "date_item": null,
-            "tax_item": null,
-            "tax_rate": null
-          },
-          {
-            "description": "Your item Name\nItem description goes here",
-            "quantity": 1,
-            "amount": 1000.0,
+            "description": "1/19/2003",
+            "quantity": null,
+            "amount": null,
             "unit_price": null,
             "discount": null,
             "product_code": null,

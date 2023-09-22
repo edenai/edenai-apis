@@ -40,23 +40,24 @@
               0,
               20
             ],
+            "len": 1,
             "lemmatizer": {},
             "lemma": "Barack Hussein Obama",
+            "index": 0,
             "meaning": [
               {
-                "sub": "PERSON",
-                "super": null,
-                "extra": null,
-                "derivates": null,
+                "sub": "person",
+                "super": "concrete_thing|natural_thing",
                 "intensity": 1,
-                "is_perso": false
+                "origin": [
+                  "ml_ner"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "nsubj",
             "ref": 1,
-            "index": 0,
+            "transform": {},
             "coreference": [
               0
             ]
@@ -69,74 +70,80 @@
               23
             ],
             "tag": "V",
-            "lemmatizer": [
-              {
-                "infinit": "be",
-                "conjugate": [
-                  {
-                    "mode": "indicative",
-                    "temps": "present",
-                    "pronom": 3
-                  }
-                ]
-              }
-            ],
+            "len": 1,
+            "lemmatizer": {
+              "infinit": "be",
+              "conjugate": [
+                {
+                  "mode": "indicative",
+                  "temps": "present",
+                  "pronom": 3
+                }
+              ],
+              "transitif": true
+            },
             "lemma": "be",
+            "index": 1,
             "meaning": [
               {
                 "sub": "be_identified",
                 "super": "root|act|being|identification/qualification",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
-                "sub": "exist",
-                "super": "root|act|existing",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
                 "sub": "be_characterized",
                 "super": "root|act|being|identification/qualification|characteristic",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
                 "sub": "be_in_(situation)",
                 "super": "root|act|being|be_related",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
-                "sub": "be_located",
-                "super": "root|act|being|be_related",
-                "extra": null,
+                "sub": "exist",
+                "super": "root|act|existing",
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
                 "sub": "be_measured",
                 "super": "root|act|being|identification/qualification|characteristic",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "be_located",
+                "super": "root|act|being|be_related",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
             "infinit": [
               "be"
             ],
-            "len": 1,
             "verb_meaning": {
               "be": [
                 "root|act|being|identification/qualification|be_identified",
@@ -149,7 +156,7 @@
             },
             "dep": "root",
             "ref": -1,
-            "index": 1,
+            "transform": {},
             "coreference": []
           },
           {
@@ -160,6 +167,7 @@
               26
             ],
             "tag": "D",
+            "len": 1,
             "lemmatizer": {
               "possessing": -1,
               "mode": "undefine",
@@ -169,12 +177,12 @@
               }
             },
             "lemma": "a",
+            "index": 2,
             "meaning": [],
             "value": null,
-            "len": 1,
             "dep": "det",
             "ref": 4,
-            "index": 2,
+            "transform": {},
             "coreference": [
               1
             ]
@@ -187,6 +195,7 @@
               35
             ],
             "tag": "JJ",
+            "len": 1,
             "lemmatizer": {
               "gender": {
                 "female": false,
@@ -194,22 +203,37 @@
               }
             },
             "lemma": "american",
+            "index": 3,
             "meaning": [
               {
-                "sub": "person_by_official_demonym",
-                "super": "concret|natural_thing|person|person_by_characteristics|person_by_demonym",
-                "derivates": "N",
-                "extra": null,
-                "intensity": 1,
-                "is_perso": false
+                "sub": "relational",
+                "super": null,
+                "intensity": 0,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
-            "transform": {},
+            "transform": {
+              "lemma": "america",
+              "tag": "N",
+              "meaning": [
+                {
+                  "sub": "continent",
+                  "super": "concrete_thing|fabricated_thing|created_location|territory",
+                  "intensity": 1,
+                  "negation": false,
+                  "origin": [
+                    "transform"
+                  ]
+                }
+              ],
+              "extra": {}
+            },
             "dep": "amod",
             "ref": 4,
-            "index": 3,
             "coreference": [
               1
             ]
@@ -222,6 +246,7 @@
               46
             ],
             "tag": "N",
+            "len": 1,
             "lemmatizer": {
               "gender": {
                 "female": false,
@@ -229,21 +254,22 @@
               }
             },
             "lemma": "politician",
+            "index": 4,
             "meaning": [
               {
                 "sub": "professional",
-                "super": "concret|natural_thing|person|person_by_activity",
-                "extra": null,
+                "super": "concrete_thing|natural_thing|person|[person_by_activity]",
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "obj",
             "ref": 1,
-            "index": 4,
+            "transform": {},
             "coreference": [
               1
             ]
@@ -256,14 +282,15 @@
               50
             ],
             "tag": "PROREL",
+            "len": 1,
             "lemmatizer": {},
             "lemma": "who",
+            "index": 5,
             "meaning": [],
             "value": null,
-            "len": 1,
             "dep": "nsubj",
             "ref": 6,
-            "index": 5,
+            "transform": {},
             "coreference": [
               2
             ]
@@ -276,86 +303,98 @@
               57
             ],
             "tag": "V",
-            "lemmatizer": [
-              {
-                "infinit": "serve",
-                "conjugate": [
-                  {
-                    "mode": "indicative",
-                    "temps": "past",
-                    "pronom": 5
-                  },
-                  {
-                    "mode": "indicative",
-                    "temps": "past",
-                    "pronom": 1
-                  },
-                  {
-                    "mode": "indicative",
-                    "temps": "past",
-                    "pronom": 4
-                  },
-                  {
-                    "mode": "indicative",
-                    "temps": "past",
-                    "pronom": 3
-                  },
-                  {
-                    "mode": "indicative",
-                    "temps": "past",
-                    "pronom": 6
-                  },
-                  {
-                    "mode": "indicative",
-                    "temps": "past",
-                    "pronom": 2
-                  }
-                ]
-              }
-            ],
+            "len": 1,
+            "lemmatizer": {
+              "infinit": "serve",
+              "conjugate": [
+                {
+                  "mode": "indicative",
+                  "temps": "past",
+                  "pronom": 5
+                },
+                {
+                  "mode": "indicative",
+                  "temps": "past",
+                  "pronom": 1
+                },
+                {
+                  "mode": "indicative",
+                  "temps": "past",
+                  "pronom": 4
+                },
+                {
+                  "mode": "indicative",
+                  "temps": "past",
+                  "pronom": 3
+                },
+                {
+                  "mode": "indicative",
+                  "temps": "past",
+                  "pronom": 6
+                },
+                {
+                  "mode": "indicative",
+                  "temps": "past",
+                  "pronom": 2
+                }
+              ],
+              "transitif": true
+            },
             "lemma": "serve",
+            "index": 6,
             "meaning": [
               {
                 "sub": "favour",
                 "super": "root|interact|interactions|positive",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
                 "sub": "give_(sthg)",
                 "super": "root|interact|make_possess|transmitting",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
                 "sub": "provide_(sbody)",
                 "super": "root|interact|make_possess|providing",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "take_place_of",
+                "super": "root|act|being|be_related",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
             "infinit": [
               "serve"
             ],
-            "len": 1,
             "verb_meaning": {
               "serve": [
-                "root|interact|make_possess|transmitting|give_(sthg)",
                 "root|interact|interactions|positive|favour",
+                "root|interact|make_possess|transmitting|give_(sthg)",
                 "root|interact|make_possess|providing|provide_(sbody)",
                 "root|act|being|be_related|take_place_of"
               ]
             },
             "dep": "acl:relcl",
             "ref": 4,
-            "index": 6,
+            "transform": {},
             "coreference": []
           },
           {
@@ -366,44 +405,59 @@
               60
             ],
             "tag": "P",
+            "len": 1,
             "lemmatizer": {
               "sens": [
-                {
-                  "sens": "AS",
-                  "next": "NULL",
-                  "category": "Manner"
-                },
-                {
-                  "sens": "ALIKE",
-                  "next": "NULL",
-                  "category": "Comparison"
-                }
+                "Way|Manner|AS",
+                "Way|Manner|ACCORDING",
+                "Duration|DURING",
+                "Comparison|LIKE"
               ]
             },
             "lemma": "as",
+            "index": 7,
             "meaning": [
               {
-                "sub": "Manner",
-                "super": "AS",
-                "extra": null,
-                "derivates": null,
+                "sub": "AS",
+                "super": "Way|Manner",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
-                "sub": "Comparison",
-                "super": "ALIKE",
-                "extra": null,
-                "derivates": null,
+                "sub": "ACCORDING",
+                "super": "Way|Manner",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "DURING",
+                "super": "Duration",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "LIKE",
+                "super": "Comparison",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "case",
             "ref": 10,
-            "index": 7,
+            "transform": {},
             "coreference": []
           },
           {
@@ -414,6 +468,7 @@
               64
             ],
             "tag": "D",
+            "len": 1,
             "lemmatizer": {
               "possessing": -1,
               "mode": "define",
@@ -423,12 +478,12 @@
               }
             },
             "lemma": "the",
+            "index": 8,
             "meaning": [],
             "value": null,
-            "len": 1,
             "dep": "det",
             "ref": 10,
-            "index": 8,
+            "transform": {},
             "coreference": [
               3
             ]
@@ -441,28 +496,32 @@
               65,
               69
             ],
+            "len": 2,
             "lemmatizer": {
               "number": 44
             },
-            "lemma": "44",
+            "lemma": "44 th",
+            "index": 9,
             "meaning": [
               {
                 "sub": "ordinal",
                 "super": "ENTITY",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "link_entity"
+                ]
               }
             ],
             "value": {
+              "entity": "ordinal",
               "rank": "44",
+              "unit": "eme",
               "confidence": 0.99
             },
-            "len": 2,
             "dep": "amod",
             "ref": 10,
-            "index": 9,
+            "transform": {},
             "coreference": [
               3
             ]
@@ -475,6 +534,7 @@
               79
             ],
             "tag": "N",
+            "len": 1,
             "lemmatizer": {
               "gender": {
                 "female": false,
@@ -482,21 +542,22 @@
               }
             },
             "lemma": "president",
+            "index": 10,
             "meaning": [
               {
                 "sub": "card_game",
-                "super": "abstract|entity|activities_(n)|activity_field|game_(abstr.)",
-                "extra": null,
+                "super": "abstract_thing|entity|[activities_(n)]|activity_field|game_(abstr.)",
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "obl",
             "ref": 6,
-            "index": 10,
+            "transform": {},
             "coreference": [
               3
             ]
@@ -509,31 +570,39 @@
               82
             ],
             "tag": "P",
+            "len": 1,
             "lemmatizer": {
               "sens": [
-                {
-                  "sens": "RELATIVE_TO",
-                  "next": "NULL",
-                  "category": "Relation"
-                }
+                "Subject|Relation|OF",
+                "Duration|OF"
               ]
             },
             "lemma": "of",
+            "index": 11,
             "meaning": [
               {
-                "sub": "Relation",
-                "super": "RELATIVE_TO",
-                "extra": null,
-                "derivates": null,
+                "sub": "OF",
+                "super": "Subject|Relation",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "OF",
+                "super": "Duration",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "case",
             "ref": 13,
-            "index": 11,
+            "transform": {},
             "coreference": [
               3
             ]
@@ -546,6 +615,7 @@
               86
             ],
             "tag": "D",
+            "len": 1,
             "lemmatizer": {
               "possessing": -1,
               "mode": "define",
@@ -555,12 +625,12 @@
               }
             },
             "lemma": "the",
+            "index": 12,
             "meaning": [],
             "value": null,
-            "len": 1,
             "dep": "det",
             "ref": 13,
-            "index": 12,
+            "transform": {},
             "coreference": [
               3
             ]
@@ -573,23 +643,24 @@
               87,
               100
             ],
+            "len": 1,
             "lemmatizer": {},
             "lemma": "United States",
+            "index": 13,
             "meaning": [
               {
-                "sub": "LOCATION",
-                "super": null,
-                "extra": null,
-                "derivates": null,
+                "sub": "created_location",
+                "super": "concrete_thing|fabricated_thing|object",
                 "intensity": 1,
-                "is_perso": false
+                "origin": [
+                  "ml_ner"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "amod",
             "ref": 15,
-            "index": 13,
+            "transform": {},
             "coreference": [
               3
             ]
@@ -602,57 +673,49 @@
               105
             ],
             "tag": "P",
+            "len": 1,
             "lemmatizer": {
               "sens": [
-                {
-                  "sens": "FROM",
-                  "next": "NULL",
-                  "category": "Source"
-                },
-                {
-                  "sens": "FROM",
-                  "next": "NULL",
-                  "category": "Temporal Approximation"
-                },
-                {
-                  "sens": "BECAUSE",
-                  "next": "NULL",
-                  "category": "Cause"
-                }
+                "Causality|Cause|BECAUSE",
+                "Localization|Temporal|FROM",
+                "Localization|Source|FROM"
               ]
             },
             "lemma": "from",
+            "index": 14,
             "meaning": [
               {
-                "sub": "Source",
-                "super": "FROM",
-                "extra": null,
-                "derivates": null,
+                "sub": "BECAUSE",
+                "super": "Causality|Cause",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
-                "sub": "Temporal Approximation",
-                "super": "FROM",
-                "extra": null,
-                "derivates": null,
+                "sub": "FROM",
+                "super": "Localization|Temporal",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
-                "sub": "Cause",
-                "super": "BECAUSE",
-                "extra": null,
-                "derivates": null,
+                "sub": "FROM",
+                "super": "Localization|Source",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "case",
             "ref": 15,
-            "index": 14,
+            "transform": {},
             "coreference": [
               4
             ]
@@ -660,26 +723,30 @@
           {
             "source": "2009to",
             "tag": "ENTITY",
-            "source_pure": "2009to",
+            "source_pure": "2009 to",
             "indexes": [
               106,
               113
             ],
+            "len": 2,
             "lemmatizer": {
               "number": 2009
             },
-            "lemma": "2009",
+            "lemma": "2009 to",
+            "index": 15,
             "meaning": [
               {
                 "sub": "data_storage",
                 "super": "ENTITY",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "link_entity"
+                ]
               }
             ],
             "value": {
+              "entity": "data_storage",
               "unit": "to",
               "scalar": 2009,
               "Mo": 2009000000,
@@ -689,10 +756,9 @@
               "To": 2009,
               "confidence": 0.99
             },
-            "len": 2,
             "dep": "obl",
             "ref": 16,
-            "index": 15,
+            "transform": {},
             "coreference": [
               4,
               5,
@@ -707,27 +773,29 @@
               114,
               118
             ],
+            "len": 1,
             "lemmatizer": {
               "number": 2017
             },
             "lemma": "2017",
+            "index": 16,
             "meaning": [
               {
                 "sub": "number",
                 "super": null,
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": {
               "scalar": 2017
             },
-            "len": 1,
             "dep": "obl",
             "ref": 6,
-            "index": 16,
+            "transform": {},
             "coreference": [
               4,
               6,
@@ -742,32 +810,35 @@
               119
             ],
             "tag": "PUNCT",
+            "len": 1,
             "lemmatizer": {},
             "lemma": ".",
+            "index": 17,
             "meaning": [],
             "value": null,
-            "len": 1,
+            "transform": {},
             "dep": "punct",
             "ref": 1,
-            "index": 17,
             "coreference": []
           }
         ],
         "subsentences": [
           {
             "start_id": 0,
-            "end_id": 17
+            "end_id": 17,
+            "start_indexes": 0,
+            "end_indexes": 119
           }
         ],
         "ml_ner": [
           {
-            "type": "PERSON",
+            "entity": "person",
             "source": "Barack Hussein Obama",
             "value": null,
             "index": 0
           },
           {
-            "type": "LOCATION",
+            "entity": "created_location",
             "source": "United States",
             "value": null,
             "index": 13
@@ -775,23 +846,31 @@
         ],
         "ml_sentiment": {
           "sentence": {
-            "value": 0
+            "value": 0.617
           },
           "subsentence": [
-            0
+            0.617
           ]
         },
         "ml_emotion": {
           "sentence": [
             {
-              "type": "realization",
+              "type": "pride",
+              "value": 1
+            },
+            {
+              "type": "neutral",
               "value": 1
             }
           ],
           "subsentence": [
             [
               {
-                "type": "realization",
+                "type": "pride",
+                "value": 1
+              },
+              {
+                "type": "neutral",
                 "value": 1
               }
             ]
@@ -812,68 +891,132 @@
             {
               "start_id": 0,
               "end_id": 17,
-              "elements": [],
+              "start_indexes": 0,
+              "end_indexes": 119,
+              "elements": [
+                {
+                  "target": {
+                    "lemma": "politician",
+                    "source": "politician",
+                    "index": 4
+                  },
+                  "subject": {
+                    "lemma": "Barack Hussein Obama",
+                    "source": "Barack Hussein Obama",
+                    "index": 0
+                  },
+                  "source": {
+                    "index": 1,
+                    "lemma": "be",
+                    "source": "is"
+                  },
+                  "value": 0.617
+                }
+              ],
               "sentence": "Barack Hussein Obama is an american politician who served as the 44th president of the United States from 2009to 2017 .",
               "values": {
-                "positive": 0,
+                "positive": 0.617,
                 "negative": 0,
-                "total": 0
+                "total": 0.617
               }
             }
           ],
-          "elements": [],
           "values": {
-            "positive": 0,
+            "positive": 0.617,
             "negative": 0,
-            "total": 0
-          }
+            "total": 0.617
+          },
+          "elements": [
+            {
+              "target": {
+                "lemma": "politician",
+                "source": "politician",
+                "index": 4
+              },
+              "subject": {
+                "lemma": "Barack Hussein Obama",
+                "source": "Barack Hussein Obama",
+                "index": 0
+              },
+              "source": {
+                "index": 1,
+                "lemma": "be",
+                "source": "is"
+              },
+              "value": 0.617
+            }
+          ]
         },
         "emotion": {
           "subsentences": [
             {
-              "values": {
-                "happiness": 0,
-                "sadness": 0,
-                "anger": 0,
-                "disgust": 0,
-                "fear": 0,
-                "surprise": 0,
-                "realization": 1,
-                "admiration": 0,
-                "amusement": 0,
-                "annoyance": 0,
-                "caring": 0,
-                "confusion": 0,
-                "curiosity": 0,
-                "desire": 0,
-                "disappointment": 0,
-                "disapproval": 0,
-                "embarrassment": 0,
-                "excitement": 0,
-                "gratitude": 0,
-                "grief": 0,
-                "love": 0,
-                "nervousness": 0,
-                "optimism": 0,
-                "pride": 0,
-                "relief": 0,
-                "remorse": 0
-              },
-              "elements": [],
               "start_id": 0,
               "end_id": 17,
-              "sentence": "Barack Hussein Obama is an american politician who served as the 44th president of the United States from 2009to 2017 ."
+              "start_indexes": 0,
+              "end_indexes": 119,
+              "elements": [
+                {
+                  "target": {
+                    "lemma": "politician",
+                    "source": "politician",
+                    "index": 4
+                  },
+                  "subject": {
+                    "lemma": "Barack Hussein Obama",
+                    "source": "Barack Hussein Obama",
+                    "index": 0
+                  },
+                  "source": {
+                    "index": 1,
+                    "lemma": "be",
+                    "source": "is"
+                  },
+                  "value": {
+                    "pride": 1,
+                    "neutral": 1
+                  }
+                }
+              ],
+              "sentence": "Barack Hussein Obama is an american politician who served as the 44th president of the United States from 2009to 2017 .",
+              "values": {
+                "pride": 1,
+                "neutral": 1
+              }
             }
           ],
-          "elements": [],
-          "values": {
-            "happiness": 0,
-            "sadness": 0,
-            "anger": 0,
-            "fear": 0,
-            "disgust": 0,
-            "surprise": 0
-          }
+          "values": [
+            {
+              "type": "pride",
+              "value": 1
+            },
+            {
+              "type": "neutral",
+              "value": 1
+            }
+          ],
+          "elements": [
+            {
+              "target": {
+                "lemma": "politician",
+                "source": "politician",
+                "index": 4
+              },
+              "subject": {
+                "lemma": "Barack Hussein Obama",
+                "source": "Barack Hussein Obama",
+                "index": 0
+              },
+              "source": {
+                "index": 1,
+                "lemma": "be",
+                "source": "is"
+              },
+              "value": {
+                "pride": 1,
+                "neutral": 1
+              }
+            }
+          ]
         },
         "sentence_type": "assert"
       },
@@ -893,6 +1036,7 @@
               121
             ],
             "tag": "D",
+            "len": 1,
             "lemmatizer": {
               "possessing": -1,
               "mode": "undefine",
@@ -902,12 +1046,12 @@
               }
             },
             "lemma": "a",
+            "index": 0,
             "meaning": [],
             "value": null,
-            "len": 1,
             "dep": "det",
             "ref": 1,
-            "index": 0,
+            "transform": {},
             "coreference": [
               8
             ]
@@ -920,6 +1064,7 @@
               128
             ],
             "tag": "N",
+            "len": 1,
             "lemmatizer": {
               "gender": {
                 "female": false,
@@ -927,21 +1072,22 @@
               }
             },
             "lemma": "member",
+            "index": 1,
             "meaning": [
               {
                 "sub": "person_by_other_characteristic",
-                "super": "concret|natural_thing|person|person_by_characteristics",
-                "extra": null,
+                "super": "concrete_thing|natural_thing|person|[person_by_characteristics]",
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "obl",
             "ref": 7,
-            "index": 1,
+            "transform": {},
             "coreference": [
               8
             ]
@@ -954,31 +1100,39 @@
               131
             ],
             "tag": "P",
+            "len": 1,
             "lemmatizer": {
               "sens": [
-                {
-                  "sens": "RELATIVE_TO",
-                  "next": "NULL",
-                  "category": "Relation"
-                }
+                "Subject|Relation|OF",
+                "Duration|OF"
               ]
             },
             "lemma": "of",
+            "index": 2,
             "meaning": [
               {
-                "sub": "Relation",
-                "super": "RELATIVE_TO",
-                "extra": null,
-                "derivates": null,
+                "sub": "OF",
+                "super": "Subject|Relation",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "OF",
+                "super": "Duration",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "case",
             "ref": 4,
-            "index": 2,
+            "transform": {},
             "coreference": [
               8
             ]
@@ -991,6 +1145,7 @@
               135
             ],
             "tag": "D",
+            "len": 1,
             "lemmatizer": {
               "possessing": -1,
               "mode": "define",
@@ -1000,12 +1155,12 @@
               }
             },
             "lemma": "the",
+            "index": 3,
             "meaning": [],
             "value": null,
-            "len": 1,
             "dep": "det",
             "ref": 4,
-            "index": 3,
+            "transform": {},
             "coreference": [
               8,
               9
@@ -1019,23 +1174,24 @@
               136,
               152
             ],
+            "len": 1,
             "lemmatizer": {},
             "lemma": "Democratic Party",
+            "index": 4,
             "meaning": [
               {
-                "sub": "ORGANIZATION",
-                "super": null,
-                "extra": null,
-                "derivates": null,
+                "sub": "company",
+                "super": "concrete_thing|natural_thing|person|human_group",
                 "intensity": 1,
-                "is_perso": false
+                "origin": [
+                  "ml_ner"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "amod",
             "ref": 1,
-            "index": 4,
+            "transform": {},
             "coreference": [
               8,
               9
@@ -1049,14 +1205,15 @@
               153
             ],
             "tag": "PUNCT",
+            "len": 1,
             "lemmatizer": {},
             "lemma": ",",
+            "index": 5,
             "meaning": [],
             "value": null,
-            "len": 1,
             "dep": "punct",
             "ref": 1,
-            "index": 5,
+            "transform": {},
             "coreference": []
           },
           {
@@ -1067,23 +1224,24 @@
               154,
               159
             ],
+            "len": 1,
             "lemmatizer": {},
             "lemma": "Obama",
+            "index": 6,
             "meaning": [
               {
-                "sub": "PERSON",
-                "super": null,
-                "extra": null,
-                "derivates": null,
+                "sub": "person",
+                "super": "concrete_thing|natural_thing",
                 "intensity": 1,
-                "is_perso": false
+                "origin": [
+                  "ml_ner"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "nsubj",
             "ref": 7,
-            "index": 6,
+            "transform": {},
             "coreference": [
               10
             ]
@@ -1096,79 +1254,85 @@
               163
             ],
             "tag": "V",
-            "lemmatizer": [
-              {
-                "infinit": "be",
-                "conjugate": [
-                  {
-                    "mode": "subjonctive",
-                    "temps": "past",
-                    "pronom": 1
-                  },
-                  {
-                    "mode": "indicative",
-                    "temps": "past",
-                    "pronom": 1
-                  }
-                ]
-              }
-            ],
+            "len": 1,
+            "lemmatizer": {
+              "infinit": "be",
+              "conjugate": [
+                {
+                  "mode": "subjonctive",
+                  "temps": "past",
+                  "pronom": 1
+                },
+                {
+                  "mode": "indicative",
+                  "temps": "past",
+                  "pronom": 1
+                }
+              ],
+              "transitif": true
+            },
             "lemma": "be",
+            "index": 7,
             "meaning": [
               {
                 "sub": "be_identified",
                 "super": "root|act|being|identification/qualification",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
-                "sub": "be_located",
-                "super": "root|act|being|be_related",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
                 "sub": "be_characterized",
                 "super": "root|act|being|identification/qualification|characteristic",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
-              },
-              {
-                "sub": "exist",
-                "super": "root|act|existing",
-                "extra": null,
-                "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
                 "sub": "be_in_(situation)",
                 "super": "root|act|being|be_related",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "exist",
+                "super": "root|act|existing",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
                 "sub": "be_measured",
                 "super": "root|act|being|identification/qualification|characteristic",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "be_located",
+                "super": "root|act|being|be_related",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
             "infinit": [
               "be"
             ],
-            "len": 1,
             "verb_meaning": {
               "be": [
                 "root|act|being|identification/qualification|be_identified",
@@ -1181,7 +1345,7 @@
             },
             "dep": "root",
             "ref": -1,
-            "index": 7,
+            "transform": {},
             "coreference": []
           },
           {
@@ -1192,6 +1356,7 @@
               167
             ],
             "tag": "D",
+            "len": 1,
             "lemmatizer": {
               "possessing": -1,
               "mode": "define",
@@ -1201,12 +1366,12 @@
               }
             },
             "lemma": "the",
+            "index": 8,
             "meaning": [],
             "value": null,
-            "len": 1,
             "dep": "det",
             "ref": 11,
-            "index": 8,
+            "transform": {},
             "coreference": [
               11
             ]
@@ -1219,6 +1384,7 @@
               173
             ],
             "tag": "JJ",
+            "len": 1,
             "lemmatizer": {
               "gender": {
                 "female": false,
@@ -1226,22 +1392,22 @@
               }
             },
             "lemma": "first",
+            "index": 9,
             "meaning": [
               {
                 "sub": "ordinal",
-                "super": "abstract|features|quantities|numerals",
-                "derivates": "N",
-                "extra": null,
-                "intensity": 1,
-                "is_perso": false
+                "super": "quantity_jj",
+                "intensity": 0,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
-            "transform": {},
             "dep": "amod",
             "ref": 11,
-            "index": 9,
+            "transform": {},
             "coreference": [
               11
             ]
@@ -1254,6 +1420,7 @@
               190
             ],
             "tag": "JJ",
+            "len": 1,
             "lemmatizer": {
               "gender": {
                 "female": false,
@@ -1261,13 +1428,12 @@
               }
             },
             "lemma": "african-american",
+            "index": 10,
             "meaning": [],
             "value": null,
-            "len": 1,
-            "transform": {},
             "dep": "amod",
             "ref": 11,
-            "index": 10,
+            "transform": {},
             "coreference": [
               11
             ]
@@ -1280,6 +1446,7 @@
               200
             ],
             "tag": "N",
+            "len": 1,
             "lemmatizer": {
               "gender": {
                 "female": false,
@@ -1287,21 +1454,22 @@
               }
             },
             "lemma": "president",
+            "index": 11,
             "meaning": [
               {
                 "sub": "card_game",
-                "super": "abstract|entity|activities_(n)|activity_field|game_(abstr.)",
-                "extra": null,
+                "super": "abstract_thing|entity|[activities_(n)]|activity_field|game_(abstr.)",
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "obj",
             "ref": 7,
-            "index": 11,
+            "transform": {},
             "coreference": [
               11
             ]
@@ -1314,31 +1482,39 @@
               203
             ],
             "tag": "P",
+            "len": 1,
             "lemmatizer": {
               "sens": [
-                {
-                  "sens": "RELATIVE_TO",
-                  "next": "NULL",
-                  "category": "Relation"
-                }
+                "Subject|Relation|OF",
+                "Duration|OF"
               ]
             },
             "lemma": "of",
+            "index": 12,
             "meaning": [
               {
-                "sub": "Relation",
-                "super": "RELATIVE_TO",
-                "extra": null,
-                "derivates": null,
+                "sub": "OF",
+                "super": "Subject|Relation",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "OF",
+                "super": "Duration",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "case",
             "ref": 14,
-            "index": 12,
+            "transform": {},
             "coreference": [
               11
             ]
@@ -1351,6 +1527,7 @@
               207
             ],
             "tag": "D",
+            "len": 1,
             "lemmatizer": {
               "possessing": -1,
               "mode": "define",
@@ -1360,12 +1537,12 @@
               }
             },
             "lemma": "the",
+            "index": 13,
             "meaning": [],
             "value": null,
-            "len": 1,
             "dep": "det",
             "ref": 14,
-            "index": 13,
+            "transform": {},
             "coreference": [
               11,
               12
@@ -1379,23 +1556,24 @@
               208,
               221
             ],
+            "len": 1,
             "lemmatizer": {},
             "lemma": "United States",
+            "index": 14,
             "meaning": [
               {
-                "sub": "LOCATION",
-                "super": null,
-                "extra": null,
-                "derivates": null,
+                "sub": "created_location",
+                "super": "concrete_thing|fabricated_thing|object",
                 "intensity": 1,
-                "is_perso": false
+                "origin": [
+                  "ml_ner"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "obl",
             "ref": 7,
-            "index": 14,
+            "transform": {},
             "coreference": [
               11,
               12
@@ -1409,38 +1587,41 @@
               222
             ],
             "tag": "PUNCT",
+            "len": 1,
             "lemmatizer": {},
             "lemma": ".",
+            "index": 15,
             "meaning": [],
             "value": null,
-            "len": 1,
             "dep": "punct",
             "ref": 7,
-            "index": 15,
+            "transform": {},
             "coreference": []
           }
         ],
         "subsentences": [
           {
             "start_id": 0,
-            "end_id": 15
+            "end_id": 15,
+            "start_indexes": 120,
+            "end_indexes": 222
           }
         ],
         "ml_ner": [
           {
-            "type": "ORGANIZATION",
+            "entity": "company",
             "source": "Democratic Party",
             "value": null,
             "index": 4
           },
           {
-            "type": "PERSON",
+            "entity": "person",
             "source": "Obama",
             "value": null,
             "index": 6
           },
           {
-            "type": "LOCATION",
+            "entity": "created_location",
             "source": "United States",
             "value": null,
             "index": 14
@@ -1448,31 +1629,31 @@
         ],
         "ml_sentiment": {
           "sentence": {
-            "value": 0
+            "value": 0.598
           },
           "subsentence": [
-            0
+            0.598
           ]
         },
         "ml_emotion": {
           "sentence": [
             {
-              "type": "admiration",
+              "type": "pride",
               "value": 1
             },
             {
-              "type": "realization",
+              "type": "neutral",
               "value": 1
             }
           ],
           "subsentence": [
             [
               {
-                "type": "admiration",
+                "type": "pride",
                 "value": 1
               },
               {
-                "type": "realization",
+                "type": "neutral",
                 "value": 1
               }
             ]
@@ -1490,68 +1671,132 @@
             {
               "start_id": 0,
               "end_id": 15,
-              "elements": [],
+              "start_indexes": 120,
+              "end_indexes": 222,
+              "elements": [
+                {
+                  "target": {
+                    "lemma": "president",
+                    "source": "president",
+                    "index": 11
+                  },
+                  "subject": {
+                    "lemma": "Obama",
+                    "source": "Obama",
+                    "index": 6
+                  },
+                  "source": {
+                    "index": 7,
+                    "lemma": "be",
+                    "source": "was"
+                  },
+                  "value": 0.598
+                }
+              ],
               "sentence": "a member of the Democratic Party , Obama was the first african-american president of the United States .",
               "values": {
-                "positive": 0,
+                "positive": 0.598,
                 "negative": 0,
-                "total": 0
+                "total": 0.598
               }
             }
           ],
-          "elements": [],
           "values": {
-            "positive": 0,
+            "positive": 0.598,
             "negative": 0,
-            "total": 0
-          }
+            "total": 0.598
+          },
+          "elements": [
+            {
+              "target": {
+                "lemma": "president",
+                "source": "president",
+                "index": 11
+              },
+              "subject": {
+                "lemma": "Obama",
+                "source": "Obama",
+                "index": 6
+              },
+              "source": {
+                "index": 7,
+                "lemma": "be",
+                "source": "was"
+              },
+              "value": 0.598
+            }
+          ]
         },
         "emotion": {
           "subsentences": [
             {
-              "values": {
-                "happiness": 0,
-                "sadness": 0,
-                "anger": 0,
-                "disgust": 0,
-                "fear": 0,
-                "surprise": 0,
-                "admiration": 1,
-                "realization": 1,
-                "amusement": 0,
-                "annoyance": 0,
-                "caring": 0,
-                "confusion": 0,
-                "curiosity": 0,
-                "desire": 0,
-                "disappointment": 0,
-                "disapproval": 0,
-                "embarrassment": 0,
-                "excitement": 0,
-                "gratitude": 0,
-                "grief": 0,
-                "love": 0,
-                "nervousness": 0,
-                "optimism": 0,
-                "pride": 0,
-                "relief": 0,
-                "remorse": 0
-              },
-              "elements": [],
               "start_id": 0,
               "end_id": 15,
-              "sentence": "a member of the Democratic Party , Obama was the first african-american president of the United States ."
+              "start_indexes": 120,
+              "end_indexes": 222,
+              "elements": [
+                {
+                  "target": {
+                    "lemma": "president",
+                    "source": "president",
+                    "index": 11
+                  },
+                  "subject": {
+                    "lemma": "Obama",
+                    "source": "Obama",
+                    "index": 6
+                  },
+                  "source": {
+                    "index": 7,
+                    "lemma": "be",
+                    "source": "was"
+                  },
+                  "value": {
+                    "pride": 1,
+                    "neutral": 1
+                  }
+                }
+              ],
+              "sentence": "a member of the Democratic Party , Obama was the first african-american president of the United States .",
+              "values": {
+                "pride": 1,
+                "neutral": 1
+              }
             }
           ],
-          "elements": [],
-          "values": {
-            "happiness": 0,
-            "sadness": 0,
-            "anger": 0,
-            "fear": 0,
-            "disgust": 0,
-            "surprise": 0
-          }
+          "values": [
+            {
+              "type": "pride",
+              "value": 1
+            },
+            {
+              "type": "neutral",
+              "value": 1
+            }
+          ],
+          "elements": [
+            {
+              "target": {
+                "lemma": "president",
+                "source": "president",
+                "index": 11
+              },
+              "subject": {
+                "lemma": "Obama",
+                "source": "Obama",
+                "index": 6
+              },
+              "source": {
+                "index": 7,
+                "lemma": "be",
+                "source": "was"
+              },
+              "value": {
+                "pride": 1,
+                "neutral": 1
+              }
+            }
+          ]
         },
         "sentence_type": "assert"
       },
@@ -1571,27 +1816,29 @@
               225
             ],
             "tag": "CLS",
+            "len": 1,
             "lemmatizer": {
               "pronom": 3
             },
             "lemma": "it",
+            "index": 0,
             "meaning": [
               {
                 "sub": "coreference",
                 "super": null,
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": {
               "scalar": 3
             },
-            "len": 1,
             "dep": "nsubj",
             "ref": 2,
-            "index": 0,
+            "transform": {},
             "coreference": [
               13
             ]
@@ -1604,43 +1851,29 @@
               236
             ],
             "tag": "RB",
+            "len": 1,
             "lemmatizer": {
               "category": [
-                "manner"
+                "time and aspect"
               ]
             },
-            "lemma": "previous",
+            "lemma": "previously",
+            "index": 1,
             "meaning": [
               {
-                "sub": "manner",
+                "sub": "time and aspect",
                 "super": null,
-                "derivates": "JJ",
-                "extra": "manner",
                 "intensity": 1,
-                "is_perso": false
-              },
-              {
-                "sub": "Anterior",
-                "super": null,
-                "derivates": "JJ",
-                "extra": "manner",
-                "intensity": 0,
-                "is_perso": false
-              },
-              {
-                "sub": "Temporality",
-                "super": null,
-                "derivates": "JJ",
-                "extra": "manner",
-                "intensity": 0,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "advmod",
             "ref": 2,
-            "index": 1,
+            "transform": {},
             "coreference": []
           },
           {
@@ -1651,61 +1884,73 @@
               243
             ],
             "tag": "V",
-            "lemmatizer": [
-              {
-                "infinit": "serve",
-                "conjugate": [
-                  {
-                    "mode": "indicative",
-                    "temps": "past",
-                    "pronom": 3
-                  }
-                ]
-              }
-            ],
+            "len": 1,
+            "lemmatizer": {
+              "infinit": "serve",
+              "conjugate": [
+                {
+                  "mode": "indicative",
+                  "temps": "past",
+                  "pronom": 3
+                }
+              ],
+              "transitif": true
+            },
             "lemma": "serve",
+            "index": 2,
             "meaning": [
               {
                 "sub": "favour",
                 "super": "root|interact|interactions|positive",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
                 "sub": "give_(sthg)",
                 "super": "root|interact|make_possess|transmitting",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
                 "sub": "provide_(sbody)",
                 "super": "root|interact|make_possess|providing",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "take_place_of",
+                "super": "root|act|being|be_related",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
             "infinit": [
               "serve"
             ],
-            "len": 1,
             "verb_meaning": {
               "serve": [
-                "root|interact|make_possess|transmitting|give_(sthg)",
                 "root|interact|interactions|positive|favour",
+                "root|interact|make_possess|transmitting|give_(sthg)",
                 "root|interact|make_possess|providing|provide_(sbody)",
                 "root|act|being|be_related|take_place_of"
               ]
             },
             "dep": "root",
             "ref": -1,
-            "index": 2,
+            "transform": {},
             "coreference": []
           },
           {
@@ -1716,44 +1961,59 @@
               246
             ],
             "tag": "P",
+            "len": 1,
             "lemmatizer": {
               "sens": [
-                {
-                  "sens": "AS",
-                  "next": "NULL",
-                  "category": "Manner"
-                },
-                {
-                  "sens": "ALIKE",
-                  "next": "NULL",
-                  "category": "Comparison"
-                }
+                "Way|Manner|AS",
+                "Way|Manner|ACCORDING",
+                "Duration|DURING",
+                "Comparison|LIKE"
               ]
             },
             "lemma": "as",
+            "index": 3,
             "meaning": [
               {
-                "sub": "Manner",
-                "super": "AS",
-                "extra": null,
-                "derivates": null,
+                "sub": "AS",
+                "super": "Way|Manner",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
-                "sub": "Comparison",
-                "super": "ALIKE",
-                "extra": null,
-                "derivates": null,
+                "sub": "ACCORDING",
+                "super": "Way|Manner",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "DURING",
+                "super": "Duration",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "LIKE",
+                "super": "Comparison",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "case",
             "ref": 6,
-            "index": 3,
+            "transform": {},
             "coreference": []
           },
           {
@@ -1764,6 +2024,7 @@
               248
             ],
             "tag": "D",
+            "len": 1,
             "lemmatizer": {
               "possessing": -1,
               "mode": "undefine",
@@ -1773,12 +2034,12 @@
               }
             },
             "lemma": "a",
+            "index": 4,
             "meaning": [],
             "value": null,
-            "len": 1,
             "dep": "det",
             "ref": 6,
-            "index": 4,
+            "transform": {},
             "coreference": []
           },
           {
@@ -1789,23 +2050,24 @@
               249,
               253
             ],
+            "len": 1,
             "lemmatizer": {},
             "lemma": "U.S.",
+            "index": 5,
             "meaning": [
               {
-                "sub": "LOCATION",
-                "super": null,
-                "extra": null,
-                "derivates": null,
+                "sub": "created_location",
+                "super": "concrete_thing|fabricated_thing|object",
                 "intensity": 1,
-                "is_perso": false
+                "origin": [
+                  "ml_ner"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "compound",
             "ref": 6,
-            "index": 5,
+            "transform": {},
             "coreference": []
           },
           {
@@ -1816,6 +2078,7 @@
               261
             ],
             "tag": "N",
+            "len": 1,
             "lemmatizer": {
               "gender": {
                 "female": false,
@@ -1823,21 +2086,22 @@
               }
             },
             "lemma": "senator",
+            "index": 6,
             "meaning": [
               {
                 "sub": "person_by_other_activity",
-                "super": "concret|natural_thing|person|person_by_activity",
-                "extra": null,
+                "super": "concrete_thing|natural_thing|person|[person_by_activity]",
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "obl",
             "ref": 2,
-            "index": 6,
+            "transform": {},
             "coreference": []
           },
           {
@@ -1848,57 +2112,49 @@
               266
             ],
             "tag": "P",
+            "len": 1,
             "lemmatizer": {
               "sens": [
-                {
-                  "sens": "FROM",
-                  "next": "NULL",
-                  "category": "Source"
-                },
-                {
-                  "sens": "FROM",
-                  "next": "NULL",
-                  "category": "Temporal Approximation"
-                },
-                {
-                  "sens": "BECAUSE",
-                  "next": "NULL",
-                  "category": "Cause"
-                }
+                "Causality|Cause|BECAUSE",
+                "Localization|Temporal|FROM",
+                "Localization|Source|FROM"
               ]
             },
             "lemma": "from",
+            "index": 7,
             "meaning": [
               {
-                "sub": "Source",
-                "super": "FROM",
-                "extra": null,
-                "derivates": null,
+                "sub": "BECAUSE",
+                "super": "Causality|Cause",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
-                "sub": "Temporal Approximation",
-                "super": "FROM",
-                "extra": null,
-                "derivates": null,
+                "sub": "FROM",
+                "super": "Localization|Temporal",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
-                "sub": "Cause",
-                "super": "BECAUSE",
-                "extra": null,
-                "derivates": null,
+                "sub": "FROM",
+                "super": "Localization|Source",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "case",
             "ref": 8,
-            "index": 7,
+            "transform": {},
             "coreference": []
           },
           {
@@ -1909,23 +2165,24 @@
               267,
               275
             ],
+            "len": 1,
             "lemmatizer": {},
             "lemma": "Illinois",
+            "index": 8,
             "meaning": [
               {
-                "sub": "LOCATION",
-                "super": null,
-                "extra": null,
-                "derivates": null,
+                "sub": "created_location",
+                "super": "concrete_thing|fabricated_thing|object",
                 "intensity": 1,
-                "is_perso": false
+                "origin": [
+                  "ml_ner"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "nmod",
             "ref": 6,
-            "index": 8,
+            "transform": {},
             "coreference": [
               14
             ]
@@ -1938,57 +2195,49 @@
               280
             ],
             "tag": "P",
+            "len": 1,
             "lemmatizer": {
               "sens": [
-                {
-                  "sens": "FROM",
-                  "next": "NULL",
-                  "category": "Source"
-                },
-                {
-                  "sens": "FROM",
-                  "next": "NULL",
-                  "category": "Temporal Approximation"
-                },
-                {
-                  "sens": "BECAUSE",
-                  "next": "NULL",
-                  "category": "Cause"
-                }
+                "Causality|Cause|BECAUSE",
+                "Localization|Temporal|FROM",
+                "Localization|Source|FROM"
               ]
             },
             "lemma": "from",
+            "index": 9,
             "meaning": [
               {
-                "sub": "Source",
-                "super": "FROM",
-                "extra": null,
-                "derivates": null,
+                "sub": "BECAUSE",
+                "super": "Causality|Cause",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
-                "sub": "Temporal Approximation",
-                "super": "FROM",
-                "extra": null,
-                "derivates": null,
+                "sub": "FROM",
+                "super": "Localization|Temporal",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
-                "sub": "Cause",
-                "super": "BECAUSE",
-                "extra": null,
-                "derivates": null,
+                "sub": "FROM",
+                "super": "Localization|Source",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "case",
             "ref": 10,
-            "index": 9,
+            "transform": {},
             "coreference": [
               15
             ]
@@ -1996,26 +2245,30 @@
           {
             "source": "2005to",
             "tag": "ENTITY",
-            "source_pure": "2005to",
+            "source_pure": "2005 to",
             "indexes": [
               281,
               288
             ],
+            "len": 2,
             "lemmatizer": {
               "number": 2005
             },
-            "lemma": "2005",
+            "lemma": "2005 to",
+            "index": 10,
             "meaning": [
               {
                 "sub": "data_storage",
                 "super": "ENTITY",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "link_entity"
+                ]
               }
             ],
             "value": {
+              "entity": "data_storage",
               "unit": "to",
               "scalar": 2005,
               "Mo": 2005000000,
@@ -2025,10 +2278,9 @@
               "To": 2005,
               "confidence": 0.99
             },
-            "len": 2,
             "dep": "obl",
             "ref": 2,
-            "index": 10,
+            "transform": {},
             "coreference": [
               15,
               16
@@ -2042,27 +2294,29 @@
               289,
               293
             ],
+            "len": 1,
             "lemmatizer": {
               "number": 2008
             },
             "lemma": "2008",
+            "index": 11,
             "meaning": [
               {
                 "sub": "number",
                 "super": null,
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": {
               "scalar": 2008
             },
-            "len": 1,
             "dep": "nmod",
             "ref": 10,
-            "index": 11,
+            "transform": {},
             "coreference": [
               15,
               16
@@ -2076,23 +2330,34 @@
               297
             ],
             "tag": "CC",
+            "len": 1,
             "lemmatizer": {},
             "lemma": "and",
+            "index": 12,
             "meaning": [
               {
                 "sub": "&",
                 "super": null,
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "WITH",
+                "super": null,
+                "Inclusion_Exclusion|Addition": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "cc",
             "ref": 16,
-            "index": 12,
+            "transform": {},
             "coreference": []
           },
           {
@@ -2103,44 +2368,59 @@
               300
             ],
             "tag": "P",
+            "len": 1,
             "lemmatizer": {
               "sens": [
-                {
-                  "sens": "AS",
-                  "next": "NULL",
-                  "category": "Manner"
-                },
-                {
-                  "sens": "ALIKE",
-                  "next": "NULL",
-                  "category": "Comparison"
-                }
+                "Way|Manner|AS",
+                "Way|Manner|ACCORDING",
+                "Duration|DURING",
+                "Comparison|LIKE"
               ]
             },
             "lemma": "as",
+            "index": 13,
             "meaning": [
               {
-                "sub": "Manner",
-                "super": "AS",
-                "extra": null,
-                "derivates": null,
+                "sub": "AS",
+                "super": "Way|Manner",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
-                "sub": "Comparison",
-                "super": "ALIKE",
-                "extra": null,
-                "derivates": null,
+                "sub": "ACCORDING",
+                "super": "Way|Manner",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "DURING",
+                "super": "Duration",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
+              },
+              {
+                "sub": "LIKE",
+                "super": "Comparison",
+                "intensity": 1,
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "case",
             "ref": 16,
-            "index": 13,
+            "transform": {},
             "coreference": []
           },
           {
@@ -2151,6 +2431,7 @@
               303
             ],
             "tag": "D",
+            "len": 1,
             "lemmatizer": {
               "possessing": -1,
               "mode": "undefine",
@@ -2160,12 +2441,12 @@
               }
             },
             "lemma": "a",
+            "index": 14,
             "meaning": [],
             "value": null,
-            "len": 1,
             "dep": "det",
             "ref": 16,
-            "index": 14,
+            "transform": {},
             "coreference": [
               17
             ]
@@ -2178,23 +2459,24 @@
               304,
               318
             ],
+            "len": 1,
             "lemmatizer": {},
             "lemma": "Illinois state",
+            "index": 15,
             "meaning": [
               {
-                "sub": "LOCATION",
-                "super": null,
-                "extra": null,
-                "derivates": null,
+                "sub": "created_location",
+                "super": "concrete_thing|fabricated_thing|object",
                 "intensity": 1,
-                "is_perso": false
+                "origin": [
+                  "ml_ner"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "compound",
             "ref": 16,
-            "index": 15,
+            "transform": {},
             "coreference": [
               17
             ]
@@ -2207,6 +2489,7 @@
               326
             ],
             "tag": "N",
+            "len": 1,
             "lemmatizer": {
               "gender": {
                 "female": false,
@@ -2214,21 +2497,22 @@
               }
             },
             "lemma": "senator",
+            "index": 16,
             "meaning": [
               {
                 "sub": "person_by_other_activity",
-                "super": "concret|natural_thing|person|person_by_activity",
-                "extra": null,
+                "super": "concrete_thing|natural_thing|person|[person_by_activity]",
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
-            "dep": "conj",
+            "dep": "nmod",
             "ref": 6,
-            "index": 16,
+            "transform": {},
             "coreference": [
               17
             ]
@@ -2241,57 +2525,49 @@
               331
             ],
             "tag": "P",
+            "len": 1,
             "lemmatizer": {
               "sens": [
-                {
-                  "sens": "FROM",
-                  "next": "NULL",
-                  "category": "Source"
-                },
-                {
-                  "sens": "FROM",
-                  "next": "NULL",
-                  "category": "Temporal Approximation"
-                },
-                {
-                  "sens": "BECAUSE",
-                  "next": "NULL",
-                  "category": "Cause"
-                }
+                "Causality|Cause|BECAUSE",
+                "Localization|Temporal|FROM",
+                "Localization|Source|FROM"
               ]
             },
             "lemma": "from",
+            "index": 17,
             "meaning": [
               {
-                "sub": "Source",
-                "super": "FROM",
-                "extra": null,
-                "derivates": null,
+                "sub": "BECAUSE",
+                "super": "Causality|Cause",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
-                "sub": "Temporal Approximation",
-                "super": "FROM",
-                "extra": null,
-                "derivates": null,
+                "sub": "FROM",
+                "super": "Localization|Temporal",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               },
               {
-                "sub": "Cause",
-                "super": "BECAUSE",
-                "extra": null,
-                "derivates": null,
+                "sub": "FROM",
+                "super": "Localization|Source",
                 "intensity": 1,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": null,
-            "len": 1,
             "dep": "case",
             "ref": 18,
-            "index": 17,
+            "transform": {},
             "coreference": [
               18
             ]
@@ -2299,26 +2575,30 @@
           {
             "source": "1997to",
             "tag": "ENTITY",
-            "source_pure": "1997to",
+            "source_pure": "1997 to",
             "indexes": [
               332,
               339
             ],
+            "len": 2,
             "lemmatizer": {
               "number": 1997
             },
-            "lemma": "1997",
+            "lemma": "1997 to",
+            "index": 18,
             "meaning": [
               {
                 "sub": "data_storage",
                 "super": "ENTITY",
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "link_entity"
+                ]
               }
             ],
             "value": {
+              "entity": "data_storage",
               "unit": "to",
               "scalar": 1997,
               "Mo": 1997000000,
@@ -2328,10 +2608,9 @@
               "To": 1997,
               "confidence": 0.99
             },
-            "len": 2,
             "dep": "nmod",
             "ref": 16,
-            "index": 18,
+            "transform": {},
             "coreference": [
               18,
               19,
@@ -2346,27 +2625,29 @@
               340,
               344
             ],
+            "len": 1,
             "lemmatizer": {
               "number": 2004
             },
             "lemma": "2004",
+            "index": 19,
             "meaning": [
               {
                 "sub": "number",
                 "super": null,
-                "extra": null,
                 "intensity": 1,
-                "derivates": null,
-                "is_perso": false
+                "negation": false,
+                "origin": [
+                  "lettria"
+                ]
               }
             ],
             "value": {
               "scalar": 2004
             },
-            "len": 1,
             "dep": "nmod",
             "ref": 16,
-            "index": 19,
+            "transform": {},
             "coreference": [
               18,
               20,
@@ -2381,38 +2662,41 @@
               345
             ],
             "tag": "PUNCT",
+            "len": 1,
             "lemmatizer": {},
             "lemma": ".",
+            "index": 20,
             "meaning": [],
             "value": null,
-            "len": 1,
             "dep": "punct",
             "ref": 2,
-            "index": 20,
+            "transform": {},
             "coreference": []
           }
         ],
         "subsentences": [
           {
             "start_id": 0,
-            "end_id": 20
+            "end_id": 20,
+            "start_indexes": 223,
+            "end_indexes": 345
           }
         ],
         "ml_ner": [
           {
-            "type": "LOCATION",
+            "entity": "created_location",
             "source": "U.S.",
             "value": null,
             "index": 5
           },
           {
-            "type": "LOCATION",
+            "entity": "created_location",
             "source": "Illinois",
             "value": null,
             "index": 8
           },
           {
-            "type": "LOCATION",
+            "entity": "created_location",
             "source": "Illinois state",
             "value": null,
             "index": 15
@@ -2420,10 +2704,10 @@
         ],
         "ml_sentiment": {
           "sentence": {
-            "value": 0
+            "value": 0.612
           },
           "subsentence": [
-            0
+            0.612
           ]
         },
         "ml_emotion": {
@@ -2458,68 +2742,109 @@
             {
               "start_id": 0,
               "end_id": 20,
-              "elements": [],
+              "start_indexes": 223,
+              "end_indexes": 345,
+              "elements": [
+                {
+                  "target": null,
+                  "subject": {
+                    "lemma": "it",
+                    "source": "he",
+                    "index": 0
+                  },
+                  "source": {
+                    "index": 2,
+                    "lemma": "serve",
+                    "source": "served"
+                  },
+                  "value": 0.612
+                }
+              ],
               "sentence": "he previously served as a U.S. senator from Illinois from 2005to 2008 and as an Illinois state senator from 1997to 2004 .",
               "values": {
-                "positive": 0,
+                "positive": 0.612,
                 "negative": 0,
-                "total": 0
+                "total": 0.612
               }
             }
           ],
-          "elements": [],
           "values": {
-            "positive": 0,
+            "positive": 0.612,
             "negative": 0,
-            "total": 0
-          }
+            "total": 0.612
+          },
+          "elements": [
+            {
+              "target": null,
+              "subject": {
+                "lemma": "it",
+                "source": "he",
+                "index": 0
+              },
+              "source": {
+                "index": 2,
+                "lemma": "serve",
+                "source": "served"
+              },
+              "value": 0.612
+            }
+          ]
         },
         "emotion": {
           "subsentences": [
             {
-              "values": {
-                "happiness": 0,
-                "sadness": 0,
-                "anger": 0,
-                "disgust": 0,
-                "fear": 0,
-                "surprise": 0,
-                "admiration": 0,
-                "amusement": 0,
-                "annoyance": 0,
-                "caring": 0,
-                "confusion": 0,
-                "curiosity": 0,
-                "desire": 0,
-                "disappointment": 0,
-                "disapproval": 0,
-                "embarrassment": 0,
-                "excitement": 0,
-                "gratitude": 0,
-                "grief": 0,
-                "love": 0,
-                "nervousness": 0,
-                "optimism": 0,
-                "pride": 0,
-                "realization": 0,
-                "relief": 0,
-                "remorse": 0
-              },
-              "elements": [],
               "start_id": 0,
               "end_id": 20,
-              "sentence": "he previously served as a U.S. senator from Illinois from 2005to 2008 and as an Illinois state senator from 1997to 2004 ."
+              "start_indexes": 223,
+              "end_indexes": 345,
+              "elements": [
+                {
+                  "target": null,
+                  "subject": {
+                    "lemma": "it",
+                    "source": "he",
+                    "index": 0
+                  },
+                  "source": {
+                    "index": 2,
+                    "lemma": "serve",
+                    "source": "served"
+                  },
+                  "value": {
+                    "neutral": 1
+                  }
+                }
+              ],
+              "sentence": "he previously served as a U.S. senator from Illinois from 2005to 2008 and as an Illinois state senator from 1997to 2004 .",
+              "values": {
+                "neutral": 1
+              }
             }
           ],
-          "elements": [],
-          "values": {
-            "happiness": 0,
-            "sadness": 0,
-            "anger": 0,
-            "fear": 0,
-            "disgust": 0,
-            "surprise": 0
-          }
+          "values": [
+            {
+              "type": "neutral",
+              "value": 1
+            }
+          ],
+          "elements": [
+            {
+              "target": null,
+              "subject": {
+                "lemma": "it",
+                "source": "he",
+                "index": 0
+              },
+              "source": {
+                "index": 2,
+                "lemma": "serve",
+                "source": "served"
+              },
+              "value": {
+                "neutral": 1
+              }
+            }
+          ]
         },
         "sentence_type": "assert"
       }
@@ -2797,8 +3122,12 @@
         ]
       ]
     },
-    "sentiment": 0.04,
+    "sentiment": 0.666,
     "emotion": [
+      {
+        "type": "pride",
+        "value": 1
+      },
       {
         "type": "neutral",
         "value": 1
@@ -2810,42 +3139,42 @@
     "items": [
       {
         "entity": "Barack Hussein Obama",
-        "category": "PERSON",
+        "category": null,
         "importance": null
       },
       {
         "entity": "United States",
-        "category": "LOCATION",
+        "category": null,
         "importance": null
       },
       {
         "entity": "Democratic Party",
-        "category": "ORGANIZATION",
+        "category": null,
         "importance": null
       },
       {
         "entity": "Obama",
-        "category": "PERSON",
+        "category": null,
         "importance": null
       },
       {
         "entity": "United States",
-        "category": "LOCATION",
+        "category": null,
         "importance": null
       },
       {
         "entity": "U.S.",
-        "category": "LOCATION",
+        "category": null,
         "importance": null
       },
       {
         "entity": "Illinois",
-        "category": "LOCATION",
+        "category": null,
         "importance": null
       },
       {
         "entity": "Illinois state",
-        "category": "LOCATION",
+        "category": null,
         "importance": null
       }
     ]

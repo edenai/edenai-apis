@@ -583,21 +583,6 @@
         },
         {
           "qty": 0,
-          "desc": "RRN : 209207265765 NT.AUTORIZ",
-          "unit": "",
-          "price": 0,
-          "symbols": [
-            ":"
-          ],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "RRN : NT.AUTORIZ",
-          "lineTotal": 0.291808,
-          "productCode": "209207265765",
-          "customFields": {}
-        },
-        {
-          "qty": 0,
           "desc": "TOTAL",
           "unit": "",
           "price": 0,
@@ -724,7 +709,10 @@
           "merchant_phone": "",
           "merchant_url": "",
           "merchant_siret": null,
-          "merchant_siren": null
+          "merchant_siren": null,
+          "merchant_vat_number": null,
+          "merchant_gst_number": null,
+          "merchant_abn_number": null
         },
         "payment_information": {
           "card_type": "Mastercard",
@@ -755,73 +743,73 @@
         "item_lines": [
           {
             "description": "BUC X 16,00",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 16.0,
             "unit_price": null
           },
           {
             "description": "BUC X 44,01",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 44.01,
             "unit_price": null
           },
           {
             "description": "TAXA VERDE BUC X 0,89",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 0.89,
             "unit_price": null
           },
           {
             "description": "BUC X 5,55",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 5.55,
             "unit_price": null
           },
           {
             "description": "BUC X 1,75",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 1.75,
             "unit_price": null
           },
           {
             "description": "BUC X 3,60",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 3.6,
             "unit_price": null
           },
           {
             "description": "BUC X 3,55",
-            "quantity": 2,
+            "quantity": 2.0,
             "amount": 7.1,
             "unit_price": null
           },
           {
             "description": "BUC X 19,40",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 19.4,
             "unit_price": null
           },
           {
             "description": "BUC X 4,55",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 4.55,
             "unit_price": null
           },
           {
             "description": "BUC X 18,70",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 18.7,
             "unit_price": null
           },
           {
             "description": "BUC X 30,50",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 30.5,
             "unit_price": null
           },
           {
             "description": "BUC X 16,90",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 16.9,
             "unit_price": null
           }
