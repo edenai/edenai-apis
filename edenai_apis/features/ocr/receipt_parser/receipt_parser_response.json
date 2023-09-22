@@ -2,127 +2,113 @@
   "extracted_data": [
     {
       "invoice_number": null,
-      "invoice_total": 168.95,
-      "invoice_subtotal": 168.95,
-      "barcodes": [
-        {
-          "value": "9138579073918",
-          "type": "EAN13"
-        }
-      ],
+      "invoice_total": 137.1,
+      "invoice_subtotal": null,
+      "barcodes": [],
       "category": null,
-      "date": "2022-04-02",
+      "date": null,
       "due_date": null,
-      "time": "12:29:23",
+      "time": null,
       "customer_information": {
         "customer_name": null
       },
       "merchant_information": {
-        "merchant_name": "SC AUCHAN ROMANIA SA",
-        "merchant_address": "",
-        "merchant_phone": "",
-        "merchant_url": "",
+        "merchant_name": "BON FISCAL",
+        "merchant_address": "hypermarche auchan str zaharia stancu nr 1 brasov jud brasov",
+        "merchant_phone": null,
+        "merchant_url": null,
         "merchant_siret": null,
-        "merchant_siren": null
+        "merchant_siren": null,
+        "merchant_vat_number": null,
+        "merchant_gst_number": null,
+        "merchant_abn_number": null
       },
       "payment_information": {
-        "card_type": "Mastercard",
+        "card_type": null,
         "card_number": null,
-        "cash": "0",
-        "tip": "0",
-        "discount": "0",
-        "change": "0"
+        "cash": null,
+        "tip": null,
+        "discount": null,
+        "change": null
       },
       "locale": {
-        "currency": null,
+        "currency": "RON",
         "language": null,
         "country": null
       },
-      "taxes": [],
-      "receipt_infos": {
-        "address": "",
-        "barcodes": [
-          {
-          "value": "9138579073918",
-          "type": "EAN13"
-          }
-        ],
-        "Etablishment": "",
-        "payment": "",
-        "phone_number": ""
-      },
+      "taxes": [
+        {
+          "taxes": 21.89,
+          "rate": 19.0
+        }
+      ],
+      "receipt_infos": {},
       "item_lines": [
         {
-          "description": "BUC X 16,00",
-          "quantity": 1,
+          "description": "335 PETR STICKERE PUISOR SELECLINE OUA",
+          "quantity": 1.0,
           "amount": 16.0,
-          "unit_price": null
+          "unit_price": 16.0
         },
         {
-          "description": "BUC X 44,01",
-          "quantity": 1,
-          "amount": 44.01,
-          "unit_price": null
-        },
-        {
-          "description": "TAXA VERDE BUC X 0,89",
-          "quantity": 1,
+          "description": "TAXA VERDE 1 COS DREPTUNG BUC",
+          "quantity": null,
           "amount": 0.89,
           "unit_price": null
         },
         {
-          "description": "BUC X 5,55",
-          "quantity": 1,
+          "description": "1 CROISSANT 7 DAYS BUC x SPU",
+          "quantity": null,
           "amount": 5.55,
           "unit_price": null
         },
         {
-          "description": "BUC X 1,75",
-          "quantity": 1,
+          "description": "1 PAINE CU MAIA BUC x SI MAS",
+          "quantity": null,
           "amount": 1.75,
           "unit_price": null
         },
         {
-          "description": "BUC X 3,60",
-          "quantity": 1,
+          "description": "1 PATE DE PORC 20% BUC x 120",
+          "quantity": null,
           "amount": 3.6,
           "unit_price": null
         },
         {
-          "description": "BUC X 3,55",
-          "quantity": 2,
+          "description": "2 BUC",
+          "quantity": null,
           "amount": 7.1,
-          "unit_price": null
+          "unit_price": 3.55
         },
         {
-          "description": "BUC X 19,40",
-          "quantity": 1,
+          "description": "NUTELLA 700G",
+          "quantity": 1.0,
           "amount": 19.4,
-          "unit_price": null
+          "unit_price": 19.4
         },
         {
-          "description": "BUC X 4,55",
-          "quantity": 1,
+          "description": "RADIERA GALET",
+          "quantity": 1.0,
           "amount": 4.55,
-          "unit_price": null
+          "unit_price": 4.55
         },
         {
-          "description": "BUC X 18,70",
-          "quantity": 1,
+          "description": "GP SUPER ALKALINE LR",
+          "quantity": 1.0,
           "amount": 18.7,
-          "unit_price": null
+          "unit_price": 18.7
         },
         {
-          "description": "BUC X 30,50",
-          "quantity": 1,
+          "description": "NIVEA BALS DUPA RAS",
+          "quantity": 1.0,
           "amount": 30.5,
-          "unit_price": null
+          "unit_price": 30.5
         },
         {
-          "description": "BUC X 16,90",
-          "quantity": 1,
+          "description": "AUC VV LICHID END ELEMENTE PARBRC",
+          "quantity": 1.0,
           "amount": 16.9,
-          "unit_price": null
+          "unit_price": 16.9
         }
       ]
     }

@@ -115,17 +115,25 @@ class MindeeApi(ProviderInterface, OcrInterface):
             )
 
         receipt_data = original_response["document"]["inference"]["prediction"]
-        supplier_company_registrations = receipt_data.get("supplier_company_registrations", None)
+        supplier_company_registrations = receipt_data.get("supplier_company_registrations", {})
         merchant_siret = None
         merchant_siren = None
-        if supplier_company_registrations:
-            for supplier_info in supplier_company_registrations:
-                supplier_type = supplier_info.get("type", None)
-                if supplier_type:
-                    if supplier_type == "SIRET":
-                        merchant_siret = supplier_info.get("value", None)
-                    if supplier_type == "SIREN":
-                        merchant_siren = supplier_info.get("value", None)
+        merchant_vat_number = None
+        merchant_gst_number = None
+        merchant_abn_number = None
+        for supplier_info in supplier_company_registrations:
+            supplier_type = supplier_info.get("type", "")
+            if supplier_type == "SIRET":
+                merchant_siret = supplier_info.get("value", None)
+            elif supplier_type == "SIREN":
+                merchant_siren = supplier_info.get("value", None)
+            elif supplier_type == "VAT NUMBER":
+                merchant_vat_number = supplier_info.get("value", None)
+            elif supplier_type == "GSTIN":
+                merchant_gst_number = supplier_info.get("value", None)
+            elif supplier_type == "ABN":
+                merchant_abn_number = supplier_info.get("value", None)
+
         extracted_data = [
             InfosReceiptParserDataClass(
                 invoice_number=None,
@@ -144,6 +152,9 @@ class MindeeApi(ProviderInterface, OcrInterface):
                     merchant_url=None,
                     merchant_siret=merchant_siret,
                     merchant_siren=merchant_siren,
+                    merchant_gst_number=merchant_gst_number,
+                    merchant_vat_number=merchant_vat_number,
+                    merchant_abn_number=merchant_abn_number,
                 ),
                 payment_information=PaymentInformation(
                     card_number=None,
@@ -216,6 +227,8 @@ class MindeeApi(ProviderInterface, OcrInterface):
         customer_vat_number = None
         customer_abn_number = None
         customer_gst_number = None
+        customer_siret_number = None
+        customer_siren_number = None
         for customer_info in customer_company_registrations:
             customer_type = customer_info.get("type", "")
             customer_registration_value = customer_info.get("value", "")
@@ -225,6 +238,10 @@ class MindeeApi(ProviderInterface, OcrInterface):
                 customer_abn_number = customer_registration_value
             elif customer_type == "GSTIN":
                 customer_gst_number = customer_registration_value
+            elif customer_type == "SIREN":
+                customer_siren_number = customer_registration_value
+            elif customer_type == "SIRET":
+                customer_siret_number = customer_registration_value
 
         # Merchant information
         merchant_name = invoice_data.get("supplier", default_dict).get("value", None)
@@ -307,6 +324,8 @@ class MindeeApi(ProviderInterface, OcrInterface):
                 gst_number=customer_gst_number,
                 pan_number=None,
                 vat_number=customer_vat_number,
+                siren_number=customer_siren_number,
+                siret_number=customer_siret_number,
             ),
             invoice_number=invoice_number,
             invoice_total=invoice_total,

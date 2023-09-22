@@ -10,10 +10,10 @@
       "url": "https://api.mindee.net/v1/products/mindee/invoices/v3/predict?locale=language"
     },
     "document": {
-      "id": "80abcb24-e6f1-4b73-8d38-e8510d1ee711",
+      "id": "2cc97f92-8b01-4ce9-9e79-77cb284c899b",
       "inference": {
         "extras": {},
-        "finished_at": "2023-09-21T13:40:58.819684",
+        "finished_at": "2023-09-22T08:13:08.901740",
         "is_rotation_applied": true,
         "pages": [
           {
@@ -463,7 +463,7 @@
             "value": 750.0
           }
         },
-        "processing_time": 1.246,
+        "processing_time": 1.075,
         "product": {
           "features": [
             "locale",
@@ -487,7 +487,7 @@
           "type": "standard",
           "version": "3.3"
         },
-        "started_at": "2023-09-21T13:40:57.573961"
+        "started_at": "2023-09-22T08:13:07.826954"
       },
       "n_pages": 1,
       "name": "invoice.png"
@@ -510,7 +510,9 @@
           "abn_number": null,
           "gst_number": null,
           "pan_number": null,
-          "vat_number": null
+          "vat_number": null,
+          "siret_number": null,
+          "siren_number": null
         },
         "merchant_information": {
           "merchant_name": "SNG ENGINEERING, INC.",

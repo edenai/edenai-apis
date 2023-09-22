@@ -10,10 +10,10 @@
       "url": "https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict?local=langage&local=country"
     },
     "document": {
-      "id": "3ae63368-c886-4d4c-8d65-bebae07a37dd",
+      "id": "fad80e68-98dd-4f4d-a9e6-52f4ebdf4796",
       "inference": {
         "extras": {},
-        "finished_at": "2023-09-21T13:40:10.664488",
+        "finished_at": "2023-09-22T08:13:30.301207",
         "is_rotation_applied": true,
         "pages": [
           {
@@ -929,7 +929,7 @@
             "value": 21.89
           }
         },
-        "processing_time": 1.499,
+        "processing_time": 1.699,
         "product": {
           "features": [
             "locale",
@@ -954,7 +954,7 @@
           "type": "standard",
           "version": "5.0"
         },
-        "started_at": "2023-09-21T13:40:09.165378"
+        "started_at": "2023-09-22T08:13:28.601777"
       },
       "n_pages": 1,
       "name": "receipt.jpg"
@@ -980,7 +980,10 @@
           "merchant_phone": null,
           "merchant_url": null,
           "merchant_siret": null,
-          "merchant_siren": null
+          "merchant_siren": null,
+          "merchant_vat_number": null,
+          "merchant_gst_number": null,
+          "merchant_abn_number": null
         },
         "payment_information": {
           "card_type": null,

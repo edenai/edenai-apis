@@ -14,6 +14,9 @@ class MerchantInformation(BaseModel):
     merchant_url: Optional[StrictStr] = None
     merchant_siret: Optional[StrictStr] = None
     merchant_siren: Optional[StrictStr] = None
+    merchant_vat_number: Optional[StrictStr] = None
+    merchant_gst_number: Optional[StrictStr] = None
+    merchant_abn_number: Optional[StrictStr] = None
 
 
 class PaymentInformation(BaseModel):
