@@ -9902,7 +9902,9 @@
           "abn_number": null,
           "gst_number": null,
           "pan_number": null,
-          "vat_number": null
+          "vat_number": null,
+          "siret_number": null,
+          "siren_number": null
         },
         "merchant_information": {
           "merchant_name": "SNG Engineering, Inc.\nSNG",
@@ -9956,7 +9958,7 @@
         "item_lines": [
           {
             "description": "Field inspection of construction on 1/19/2003 deficiencies in house\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 750.0,
             "unit_price": 750.0,
             "discount": null,
