@@ -47,8 +47,11 @@ class WinstonaiApi(ProviderInterface, TextInterface):
         if score is None or sentences is None:
             raise ProviderException(response.json())
 
-        items: Sequence[AiDetectionItem] = [AiDetectionItem(text=sentence['text'], ai_score=sentence['score'],
-                                                            prediction="") for sentence in sentences]
+        items: Sequence[AiDetectionItem] = [AiDetectionItem(text=sentence['text'],
+                                                            ai_score=sentence['score'],
+                                                            prediction=AiDetectionItem.set_label_based_on_score(
+                                                                sentence['score']))
+                                            for sentence in sentences]
 
         standardized_response = AiDetectionDataClass(
             ai_score=score,
