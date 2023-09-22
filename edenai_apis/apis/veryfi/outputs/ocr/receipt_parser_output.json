@@ -1,31 +1,21 @@
 {
   "original_response": {
-    "account_number": "291808",
+    "account_number": "2AUCHQ08",
     "barcodes": [
       {
-        "bounding_region": [
-          0.1873,
-          0.5638,
-          0.1937,
-          0.6031,
-          0.7841,
-          0.6,
-          0.7778,
-          0.5606
-        ],
         "data": "9138579073918",
         "type": "EAN13"
       }
     ],
     "bill_to": {
-      "address": null,
+      "address": "BRASOV, JUD. BRASOV",
       "name": null,
       "parsed_address": null,
       "vat_number": null
     },
     "cashback": null,
-    "category": "Meals & Entertainment",
-    "created_date": "2023-05-03 09:37:31",
+    "category": "Grocery",
+    "created_date": "2023-09-22 09:57:55",
     "currency_code": "RON",
     "date": "2022-04-02 12:29:23",
     "delivery_date": null,
@@ -36,10 +26,10 @@
     "due_date": null,
     "duplicate_of": 120340792,
     "external_id": null,
-    "id": 134094436,
-    "img_file_name": "134094436.jpg",
-    "img_thumbnail_url": "https://scdn.veryfi.com/receipts/f87fc88812a7e493/f62de70c-941b-4e95-aaef-8b0542a16214/thumbnail.jpg?Expires=1683107551&Signature=GPpIYsq8d5f9S2w-bG9o-DnL8CBk3Zy8JV78NPopIlQZ2yBaP--WDGsCJ~15Ibw3WAGACOJhEUvNnVL9vfPeH9t~GJ90JsPXhfqnIJJCVeEAbKaC4rOFB4fKvNEf8RF0tFKYmlpRfXFShhYBub0EsVcMuBRNfa0Zu3TS91ScC1OEpjcsqbwHaoULE7CQ5eOQmbQODMqp3jluuRwfdUEl~8o9or~avYz3jNmBKdUg-nNYW0v77XwQOR7OJEKdoakMnBRFPNcY8d-wGnkT6r484n~eEzzfvIludzIjmy60z-lnB~lqTve6PqqfGgPxk3tFut4kDPj-QhGz8~1CgCqhEA__&Key-Pair-Id=APKAJCILBXEJFZF4DCHQ",
-    "img_url": "https://scdn.veryfi.com/receipts/f87fc88812a7e493/f62de70c-941b-4e95-aaef-8b0542a16214/d23f38a0-86c0-4b6b-834a-ff9bf63e0f2a.jpg?Expires=1683107551&Signature=LzCtUwm1wWI47sj5p8g2MPsHEMeTuHc2XiRBrEmWIbqcGhuno5qVBfK3m6j37LL1vUn7-O2Ot71Co6Hv9EqCHjs2iN6hp0HgQoVJZUozx7MSwZYAhsDiUj0fZK07UWSIbgH2dpPO-4YpPFFEf9xS~O~lXPowADt-uEy8b06ClGDfUXA5f~6uMxM8tzWlxW4YNJPqDrqbfKuVysQ0B3frQYBVuvO6dCc8UJau0Hid8KX2MjLQKv0ds6if9b-lbuAvoeMoceeD7I6AKdSkurN~228uL10o~iDRVthyKoREA5-KthJBA8dax-Q2VcYn7y1y~lwbvUH3ElH4rLRrtYJG2A__&Key-Pair-Id=APKAJCILBXEJFZF4DCHQ",
+    "id": 157533436,
+    "img_file_name": "157533436.jpg",
+    "img_thumbnail_url": "https://scdn.veryfi.com/eu-west-1/receipts/f87fc88812a7e493/c82c2629-5d33-4cf8-b13c-b331250725f9/thumbnail.jpg?Expires=1695377577&Signature=ZwFCjiLVeW3-wKt2e9YVqfK0qbVmH5vVdoFDReixkEeqjbRpxU2JuUhJDedKUQWbgtSwwjBirhmYvkLvz0PnWsqNddXK8ufo6LYJrAoxrZM~Hq~QAZD0IgSzmtppDDzNIXychxCx9HNwh4pRXCc~nZdcdA5hVeFO~VRI5wpIyeHKFeOlpF~5mNfYOeTAVyAyXO21ivfHgKZnkVjoDnYHELhvVk3Gz9JXgViA3QoB0MMFtn~f6qvGc5tyaqFB6RbnUg7nBU38rTiWEgQ5GykUX3XGUTkU0BJJh1c~6vqRYwzb0Ve5A-8LWV1EPQVM1j5hvKWyJ~sGDZgYQEbRryyXIg__&Key-Pair-Id=APKAJCILBXEJFZF4DCHQ",
+    "img_url": "https://scdn.veryfi.com/eu-west-1/receipts/f87fc88812a7e493/c82c2629-5d33-4cf8-b13c-b331250725f9/89b9d76b-1706-4f42-a041-f57c7a53a42d.jpg?Expires=1695377577&Signature=fY10hWbOYDuwFX-4xIu-cM0sxn3nsDO91tLkWOfNOc1rrqW9mEeBLYjsCBpFab5T~MKG~0~8owe3BdDx6WddXRGUaSOlTXNKYK0hZGNBAGP-EZECM2QMDXysMHJGVdY8V8sgsAUZO8oBI92-CcBBrFHAupqWWkZoQfu9makPbFhkE4kdISWn2qQwVlot39VEKA~VUxATUJsaEgTf1XMBwkQcCWSsAXSEHXJxYQ98S~J5kqHHSoE9uELLyoVaE-6F~007yH5MsxyeTpOU~-FlSohcYQXNMAjp1-KqeBtQk213d~HKdwFqwpDD~Yz1RNhkZDLOfFxsVugs7PtE2TrQsA__&Key-Pair-Id=APKAJCILBXEJFZF4DCHQ",
     "insurance": null,
     "invoice_number": "023673",
     "is_duplicate": true,
@@ -50,18 +40,18 @@
         "description": "PETR 30724BAZ.AUTO",
         "discount": null,
         "discount_rate": null,
-        "id": 561542494,
+        "id": 684756803,
         "order": 0,
         "price": null,
         "quantity": 1.0,
         "reference": null,
         "section": null,
-        "sku": null,
+        "sku": "335",
         "tax": null,
         "tax_rate": null,
-        "text": "PETR 30724BAZ.AUTO",
+        "text": "335\tPETR 30724BAZ.AUTO",
         "total": null,
-        "type": "food",
+        "type": "product",
         "unit_of_measure": null
       },
       {
@@ -69,7 +59,7 @@
         "description": "STICKERE PUISOR QUA",
         "discount": null,
         "discount_rate": null,
-        "id": 561542495,
+        "id": 684756804,
         "order": 1,
         "price": 16.0,
         "quantity": 1.0,
@@ -80,7 +70,7 @@
         "tax_rate": null,
         "text": "STICKERE PUISOR QUA\n1 BUC X 16,00\t16,00 D",
         "total": 16.0,
-        "type": "food",
+        "type": "product",
         "unit_of_measure": "BUC"
       },
       {
@@ -88,7 +78,7 @@
         "description": "SELECLINE FIERBATOR",
         "discount": null,
         "discount_rate": null,
-        "id": 561542496,
+        "id": 684756805,
         "order": 2,
         "price": 44.01,
         "quantity": 1.0,
@@ -99,7 +89,7 @@
         "tax_rate": null,
         "text": "SELECLINE FIERBATOR\n1 BUC X 44,01\t44,01 D",
         "total": 44.01,
-        "type": "food",
+        "type": "product",
         "unit_of_measure": "BUC"
       },
       {
@@ -107,7 +97,7 @@
         "description": "TAXA VERDE",
         "discount": null,
         "discount_rate": null,
-        "id": 561542497,
+        "id": 684756806,
         "order": 3,
         "price": 0.89,
         "quantity": 1.0,
@@ -126,7 +116,7 @@
         "description": "COS DREPTUNG CARLIGE",
         "discount": null,
         "discount_rate": null,
-        "id": 561542498,
+        "id": 684756807,
         "order": 4,
         "price": 5.55,
         "quantity": 1.0,
@@ -137,7 +127,7 @@
         "tax_rate": null,
         "text": "COS DREPTUNG CARLIGE\n1 BUC X 5,55\t5,55 D",
         "total": 5.55,
-        "type": "food",
+        "type": "product",
         "unit_of_measure": "BUC"
       },
       {
@@ -145,7 +135,7 @@
         "description": "CROISSANT 7 DAYS SPU",
         "discount": null,
         "discount_rate": null,
-        "id": 561542499,
+        "id": 684756808,
         "order": 5,
         "price": 1.75,
         "quantity": 1.0,
@@ -164,7 +154,7 @@
         "description": "PAINE CU MAIA SI MAS",
         "discount": null,
         "discount_rate": null,
-        "id": 561542500,
+        "id": 684756809,
         "order": 6,
         "price": 3.6,
         "quantity": 1.0,
@@ -175,7 +165,7 @@
         "tax_rate": null,
         "text": "PAINE CU MAIA SI MAS\n1 BUC X 3,60\t3,60 B",
         "total": 3.6,
-        "type": "food",
+        "type": "product",
         "unit_of_measure": "BUC"
       },
       {
@@ -183,7 +173,7 @@
         "description": "PATE DE PORC 20% 120",
         "discount": null,
         "discount_rate": null,
-        "id": 561542501,
+        "id": 684756810,
         "order": 7,
         "price": 3.55,
         "quantity": 2.0,
@@ -202,7 +192,7 @@
         "description": "NUTELLA 700G",
         "discount": null,
         "discount_rate": null,
-        "id": 561542502,
+        "id": 684756811,
         "order": 8,
         "price": 19.4,
         "quantity": 1.0,
@@ -221,7 +211,7 @@
         "description": "RADIERA GALET",
         "discount": null,
         "discount_rate": null,
-        "id": 561542503,
+        "id": 684756812,
         "order": 9,
         "price": 4.55,
         "quantity": 1.0,
@@ -232,7 +222,7 @@
         "tax_rate": null,
         "text": "RADIERA GALET\n1 BUC X 4,55\t4,55 D",
         "total": 4.55,
-        "type": "food",
+        "type": "product",
         "unit_of_measure": "BUC"
       },
       {
@@ -240,7 +230,7 @@
         "description": "GP SUPER ALKALINE LR",
         "discount": null,
         "discount_rate": null,
-        "id": 561542504,
+        "id": 684756813,
         "order": 10,
         "price": 18.7,
         "quantity": 1.0,
@@ -251,7 +241,7 @@
         "tax_rate": null,
         "text": "GP SUPER ALKALINE LR\n1 BUC X 18,70\t18,70 D",
         "total": 18.7,
-        "type": "food",
+        "type": "product",
         "unit_of_measure": "BUC"
       },
       {
@@ -259,7 +249,7 @@
         "description": "NIVEA BALS DUPA RAS",
         "discount": null,
         "discount_rate": null,
-        "id": 561542505,
+        "id": 684756814,
         "order": 11,
         "price": 30.5,
         "quantity": 1.0,
@@ -270,15 +260,15 @@
         "tax_rate": null,
         "text": "NIVEA BALS DUPA RAS\n1 BUC X 30,50\t30,50 D",
         "total": 30.5,
-        "type": "food",
+        "type": "product",
         "unit_of_measure": "BUC"
       },
       {
         "date": null,
-        "description": "AUC VV LICHID PARBRC\nEND ELEMENTE",
+        "description": "AUC VV LICHID PARBRC",
         "discount": null,
         "discount_rate": null,
-        "id": 561542506,
+        "id": 684756815,
         "order": 12,
         "price": 16.9,
         "quantity": 1.0,
@@ -287,9 +277,9 @@
         "sku": null,
         "tax": null,
         "tax_rate": null,
-        "text": "AUC VV LICHID PARBRC\n1 BUC X 16,90\t16,90 D\nEND ELEMENTE",
+        "text": "AUC VV LICHID PARBRC\n1 BUC X 16,90\t16,90 D",
         "total": 16.9,
-        "type": "food",
+        "type": "product",
         "unit_of_measure": "BUC"
       }
     ],
@@ -308,9 +298,9 @@
       "terms": null,
       "type": "master_card"
     },
-    "pdf_url": "https://scdn.veryfi.com/receipts/f87fc88812a7e493/f62de70c-941b-4e95-aaef-8b0542a16214/a4190b3d-3d7a-4923-a273-0f101e072adb.pdf?Expires=1683107551&Signature=daU1toCT5sdfTTbExrRoVzlsZE388QmKY0Snq8ngbRr2u1Ijv70GOAXVvMr1SqpkVdMD5K-5DJZ0VAXwFcv-MPBuISZyBa22ZiBqc7x-oN2dhiLFpdmdcFHpdQZC2pbvMll4~UzJaXrZh4rYHoJILhSyydZYQXoA6ieGfyjrRG6ny60u8be8nFXZAbx0hMxxRUXyBttIzAFQrJsC9YITyEiooznc1A6SUqDm4mKZ9w6S7Rye~5Vi0RtgpPDVwFECzQc7KvCfTUw9I7ZWN6VhahYKWZXM~XMhtDeHS2qELXo7ewPVRa-Czw38jggUwvwBJB-UNpqRxgDX0VLW5NyG2w__&Key-Pair-Id=APKAJCILBXEJFZF4DCHQ",
+    "pdf_url": "https://scdn.veryfi.com/eu-west-1/receipts/f87fc88812a7e493/c82c2629-5d33-4cf8-b13c-b331250725f9/28f4f632-b5a8-479e-aeb2-1068b63dbba0.pdf?Expires=1695377577&Signature=Xc5U8ShBHXRrlAVnv6ecfa5TB6I7dk~YT2mrfYl51ICvDqAZCe7zI5gfgm-FKqWNQ-cvsvqd3ni8ppw8Amtk9wDusRl~wahRflnn3v143vtuiRdc-vNMbVZTGIvNTVHeWg6vLSKG2hYqmakQnMwywOkax6sc9-0ly7Nfpwlgpwa5mAhz2Q0u7Ud12e4Jmz9WmPnDkUIcsUJ7oRt3uGaMWzboW-p0OcFRfwwSt1IEXybhVByIsqFf53Xk8AptO70HLeL9ABrcZB8J6-Oe9gEyWk~~1iLQAimodoxLrUj3JS2Xc~kRVwG9Z9mYbbDEy1AxHIvA83k5Kv~LxuIf4f-gbA__&Key-Pair-Id=APKAJCILBXEJFZF4DCHQ",
     "purchase_order_number": null,
-    "reference_number": "VBBGA-94436",
+    "reference_number": "VBDJF-33436",
     "rounding": null,
     "service_end_date": null,
     "service_start_date": null,
@@ -326,15 +316,15 @@
     "tax": 24.52,
     "tax_lines": [
       {
-        "base": 31.85,
-        "name": null,
+        "base": null,
+        "name": "B-TVA",
         "order": 0,
         "rate": 9.0,
         "total": 2.63
       },
       {
-        "base": 137.1,
-        "name": "D-TVA",
+        "base": null,
+        "name": null,
         "order": 1,
         "rate": 19.0,
         "total": 21.89
@@ -344,7 +334,7 @@
     "total": 168.95,
     "total_weight": null,
     "tracking_number": null,
-    "updated_date": "2023-05-03 09:37:32",
+    "updated_date": "2023-09-22 09:57:57",
     "vendor": {
       "abn_number": null,
       "account_number": null,
@@ -361,7 +351,7 @@
       "logo": "https://cdn.veryfi.com/logos/us/774910295.jpg",
       "name": "Auchan",
       "phone_number": "021-9141",
-      "raw_address": "STR. ZAHARIA STANCU, NR. 1\nBRASOV, JUD. BRASOV\nC.I.F",
+      "raw_address": "STR. ZAHARIA STANCU, NR. 1",
       "raw_name": "Auchan",
       "reg_number": null,
       "type": "department store",
@@ -381,7 +371,7 @@
             "type": "EAN13"
           }
         ],
-        "category": "Meals & Entertainment",
+        "category": "Grocery",
         "date": "2022-04-02 12:29:23",
         "due_date": null,
         "time": null,
@@ -394,7 +384,10 @@
           "merchant_phone": "021-9141",
           "merchant_url": null,
           "merchant_siret": null,
-          "merchant_siren": null
+          "merchant_siren": null,
+          "merchant_vat_number": null,
+          "merchant_gst_number": null,
+          "merchant_abn_number": null
         },
         "payment_information": {
           "card_type": "master_card",
@@ -419,79 +412,79 @@
         "item_lines": [
           {
             "description": "PETR 30724BAZ.AUTO",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": null,
             "unit_price": null
           },
           {
             "description": "STICKERE PUISOR QUA",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 16.0,
             "unit_price": 16.0
           },
           {
             "description": "SELECLINE FIERBATOR",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 44.01,
             "unit_price": 44.01
           },
           {
             "description": "TAXA VERDE",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 0.89,
             "unit_price": 0.89
           },
           {
             "description": "COS DREPTUNG CARLIGE",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 5.55,
             "unit_price": 5.55
           },
           {
             "description": "CROISSANT 7 DAYS SPU",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 1.75,
             "unit_price": 1.75
           },
           {
             "description": "PAINE CU MAIA SI MAS",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 3.6,
             "unit_price": 3.6
           },
           {
             "description": "PATE DE PORC 20% 120",
-            "quantity": 2,
+            "quantity": 2.0,
             "amount": 7.1,
             "unit_price": 3.55
           },
           {
             "description": "NUTELLA 700G",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 19.4,
             "unit_price": 19.4
           },
           {
             "description": "RADIERA GALET",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 4.55,
             "unit_price": 4.55
           },
           {
             "description": "GP SUPER ALKALINE LR",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 18.7,
             "unit_price": 18.7
           },
           {
             "description": "NIVEA BALS DUPA RAS",
-            "quantity": 1,
+            "quantity": 1.0,
             "amount": 30.5,
             "unit_price": 30.5
           },
           {
-            "description": "AUC VV LICHID PARBRC\nEND ELEMENTE",
-            "quantity": 1,
+            "description": "AUC VV LICHID PARBRC",
+            "quantity": 1.0,
             "amount": 16.9,
             "unit_price": 16.9
           }
