@@ -10,6 +10,7 @@ import requests
 import json
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.apis.winstonai.config import TOKEN_BEARER, WINSTON_AI_API_URL
+from edenai_apis.features.text.plagia_detection.plagia_detection_dataclass import PlagiaDetectionCandidate, PlagiaDetectionDataClass, PlagiaDetectionItem
 
 
 class WinstonaiApi(ProviderInterface, TextInterface):
@@ -59,6 +60,49 @@ class WinstonaiApi(ProviderInterface, TextInterface):
         )
 
         return ResponseType[AiDetectionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    def text__plagia_detection(
+        self, text: str, title: str = ""
+    ) -> ResponseType[PlagiaDetectionDataClass]:
+
+        payload = json.dumps({
+            "api_key": self.api_key,
+            "text": text
+        })
+
+        response = requests.request(
+            "POST", "{}/plagiarism".format(self.api_url), headers=self.headers, data=payload)
+
+        if response.status_code != 200:
+            raise ProviderException(response.json(), code=response.status_code)
+
+        original_response = response.json()
+        results = original_response.get('results')
+
+        if results is None:
+            raise ProviderException(response.json())
+
+        standardized_response = PlagiaDetectionDataClass(
+            plagia_score=original_response["results_count"],
+            items=[
+                PlagiaDetectionItem(
+                    text=result["excerpts"][0],
+                    candidates=[
+                        PlagiaDetectionCandidate(
+                            url=result["url"],
+                            plagia_score=1,
+                            prediction="plagiarized",
+                            plagiarized_text=result["excerpts"][0]
+                        )
+                    ]
+                ) for result in results
+            ]
+        )
+
+        return ResponseType[PlagiaDetectionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
         )

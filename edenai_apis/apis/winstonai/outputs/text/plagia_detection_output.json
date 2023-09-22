@@ -1,0 +1,134 @@
+{
+  "original_response": {
+    "status": 200,
+    "results": [
+      {
+        "title": "Originality.ai API Documentation |",
+        "url": "https://docs.originality.ai/api-v1-0-reference",
+        "excerpts": [
+          "Should Samsung stick to its annual routine, we can expect to see new foldable phones and wearable devices in August. The company also previewed new designs for ...",
+          "... The company also previewed new designs for bendable phones and tablets earlier this year, hinting that the company may be planning to expand beyond the Z ...",
+          "Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in where its mobile ...",
+          "Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers. It's a strategy to create ...",
+          "... It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices.\", \"matches\": [ { \"website\": \"https://www.cnet.com ..."
+        ]
+      },
+      {
+        "title": "Rumored Samsung Gadgets For 2023: Galaxy Z Flip 5, Z Fold 5 and More - CNET",
+        "url": "https://www.cnet.com/tech/mobile/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
+        "excerpts": [
+          "... Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in ...",
+          "Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers. It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices."
+        ],
+        "date": "Jul 20, 2023"
+      },
+      {
+        "title": "The Biggest Rumored Samsung Gadgets to Expect in 2023 - YouTube",
+        "url": "https://www.youtube.com/watch?v=7DXADBWKlgA",
+        "excerpts": [
+          "... influence than most other tech companies on the devices we carry in our pockets each day. Wearables have also become a large part of how Samsung intends to ...",
+          "... It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices. Here are the rumored Samsung products I'm most ..."
+        ]
+      },
+      {
+        "title": "Rumored Samsung Gadgets I Want to See in 2023 - Knowledia News",
+        "url": "https://news.knowledia.com/US/en/articles/rumored-samsung-gadgets-i-want-to-see-in-2023-2e8a69ee70b65eaf1f08135770d3d7e21367c8ba",
+        "excerpts": [
+          "Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers, as it seeks to create a ..."
+        ]
+      },
+      {
+        "title": "Galaxy S23, Z Fold 5 and more Samsung gadgets rumored for 2023 - US Today News",
+        "url": "https://ustoday.news/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
+        "excerpts": [
+          "... the company may be planning to expand beyond the Z Fold and Z Flip in the near future. Although Samsung regularly releases new products in ..."
+        ],
+        "date": "Jan 24, 2023"
+      },
+      {
+        "title": "The Biggest Rumored Samsung Gadgets to Expect in 2023 - YouTube",
+        "url": "https://youtube.com/watch?v=7DXADBWKlgA",
+        "excerpts": [
+          "... Though Samsung regularly releases new products ..."
+        ],
+        "date": "Jun 18, 2023"
+      }
+    ],
+    "results_count": 6,
+    "errors": [],
+    "errors_count": 0,
+    "credits_used": 176,
+    "credits_remaining": 9986716
+  },
+  "standardized_response": {
+    "plagia_score": 6.0,
+    "items": [
+      {
+        "text": "Should Samsung stick to its annual routine, we can expect to see new foldable phones and wearable devices in August. The company also previewed new designs for ...",
+        "candidates": [
+          {
+            "url": "https://docs.originality.ai/api-v1-0-reference",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "Should Samsung stick to its annual routine, we can expect to see new foldable phones and wearable devices in August. The company also previewed new designs for ..."
+          }
+        ]
+      },
+      {
+        "text": "... Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in ...",
+        "candidates": [
+          {
+            "url": "https://www.cnet.com/tech/mobile/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "... Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in ..."
+          }
+        ]
+      },
+      {
+        "text": "... influence than most other tech companies on the devices we carry in our pockets each day. Wearables have also become a large part of how Samsung intends to ...",
+        "candidates": [
+          {
+            "url": "https://www.youtube.com/watch?v=7DXADBWKlgA",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "... influence than most other tech companies on the devices we carry in our pockets each day. Wearables have also become a large part of how Samsung intends to ..."
+          }
+        ]
+      },
+      {
+        "text": "Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers, as it seeks to create a ...",
+        "candidates": [
+          {
+            "url": "https://news.knowledia.com/US/en/articles/rumored-samsung-gadgets-i-want-to-see-in-2023-2e8a69ee70b65eaf1f08135770d3d7e21367c8ba",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers, as it seeks to create a ..."
+          }
+        ]
+      },
+      {
+        "text": "... the company may be planning to expand beyond the Z Fold and Z Flip in the near future. Although Samsung regularly releases new products in ...",
+        "candidates": [
+          {
+            "url": "https://ustoday.news/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "... the company may be planning to expand beyond the Z Fold and Z Flip in the near future. Although Samsung regularly releases new products in ..."
+          }
+        ]
+      },
+      {
+        "text": "... Though Samsung regularly releases new products ...",
+        "candidates": [
+          {
+            "url": "https://youtube.com/watch?v=7DXADBWKlgA",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "... Though Samsung regularly releases new products ..."
+          }
+        ]
+      }
+    ]
+  }
+}
