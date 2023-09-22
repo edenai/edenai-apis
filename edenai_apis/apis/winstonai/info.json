@@ -12,15 +12,7 @@
       }
     },
       "plagia_detection":{
-        "version" : "v1",
-        "constraints": {
-          "languages": [
-              "en",
-              "fr",
-              "es",
-              "de"
-          ]
-      }
+        "version" : "v1"
     }
   }
 }

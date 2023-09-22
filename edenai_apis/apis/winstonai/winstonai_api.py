@@ -89,7 +89,7 @@ class WinstonaiApi(ProviderInterface, TextInterface):
             plagia_score=original_response["results_count"],
             items=[
                 PlagiaDetectionItem(
-                    text=''.join(result["excerpts"]),
+                    text=result["title"],
                     candidates=[
                         PlagiaDetectionCandidate(
                             url=result["url"],
