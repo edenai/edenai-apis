@@ -96,11 +96,11 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
             prompts = Prompt([Text.from_text(question), Image.from_file(file)])
         else:
             prompts = Prompt([Image.from_file(file)])
-        request = CompletionRequest(prompt=prompts, maximum_tokens=max_tokens, temperature=temperature)
+        request = CompletionRequest(prompt=prompts, maximum_tokens=max_tokens, temperature=temperature, tokens=True, echo=True)
         try:
             response = client.complete(request=request, model=model)
         except Exception as error:
-            raise ProviderException(error)
+            raise ProviderException(str(error))
         original_response = response._asdict()
         answers = []
         for answer in response.completions:
