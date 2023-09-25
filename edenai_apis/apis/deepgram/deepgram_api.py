@@ -85,6 +85,11 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             data_config.update({"detect_language": "true"})
 
         data_config.update(provider_params)
+        # deepgram doesn't accept boolean with python like syntax
+        # as requests doesn't change the value (eg ?bool=True instead of ?bool=true)
+        for key, value in data_config.items():
+            if isinstance(value, bool):
+                data_config[key] = str(value).lower()
 
         response = requests.post(self.url, headers=headers, json=data, params=data_config)
         result = response.json()
