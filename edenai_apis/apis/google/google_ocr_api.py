@@ -263,7 +263,7 @@ class GoogleOcrApi(OcrInterface):
         invoice_infos = []
         entites: Sequence[Document.Entity] = document.entities
 
-        for idx in range(0, document.pages.page_number):
+        for idx in range(0, len(Document.to_dict(document).get("pages"))):
             invoice_infos.append(InfosInvoiceParserDataClass()
 )
             merchant_infos: MerchantInformationInvoice = (
@@ -278,7 +278,7 @@ class GoogleOcrApi(OcrInterface):
             invoice_taxe: TaxesInvoice = TaxesInvoice.default()
             for entity in entites:
                 entity_dict = Document.Entity.to_dict(entity)
-                if entity_dict.get("page_anchor").get("page_refs").get("page") != str(idx):
+                if entity_dict.get("page_anchor").get("page_refs", [{}])[0].get("page") != str(idx):
                     continue
 
                 entity_type = entity_dict.get("type_", "")

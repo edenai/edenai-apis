@@ -63,7 +63,7 @@ class DataleonApi(ProviderInterface, OcrInterface):
 
         entities = original_result["entities"]
 
-        for idx in range(0, original_result["documents"]["pages"]):
+        for idx in range(0, original_result["metadata"]["documents"][0]["pages"]):
             for entity in entities:
                 if entity["page"] != idx + 1:
                     continue
