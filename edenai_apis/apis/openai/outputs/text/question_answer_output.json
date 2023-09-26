@@ -1,26 +1,26 @@
 {
   "original_response": {
-    "id": "cmpl-60Tew9M74VoeY4ifVw6zW6gJLvcRU",
+    "id": "cmpl-834GwSh13ys7P7Sa5Z2ubUkWKFxTl",
     "object": "text_completion",
-    "created": 1665572030,
-    "model": "text-davinci-002",
+    "created": 1695742098,
+    "model": "gpt-3.5-turbo-instruct",
     "choices": [
       {
-        "text": "Geopelia humeralis",
+        "text": "The scientific name of bar-shouldered dove is Geopelia humeralis.",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 154,
-      "completion_tokens": 6,
-      "total_tokens": 160
+      "prompt_tokens": 151,
+      "completion_tokens": 17,
+      "total_tokens": 168
     }
   },
   "standardized_response": {
     "answers": [
-      "Geopelia humeralis"
+      "The scientific name of bar-shouldered dove is Geopelia humeralis."
     ]
   }
 }

@@ -1,54 +1,89 @@
 {
   "original_response": {
-    "id": "cmpl-6pei56xCs6qnlti8fDcKcPeMRkO0S",
+    "id": "cmpl-834JQRc4TvAuTEpzNSg3VEX1hy3T7",
     "object": "text_completion",
-    "created": 1677769237,
-    "model": "text-davinci-003",
+    "created": 1695742252,
+    "model": "gpt-3.5-turbo-instruct",
     "choices": [
       {
-        "text": " {\"items\": [{\"entity\": \"Barack Hussein Obama\",\"category\": \"Person\",\"importance\": 1.0},\n                {\"entity\": \"Democratic Party\",\"category\": \"Organisation\",\"importance\": 0.9},\n                {\"entity\": \"United States\",\"category\": \"Location\",\"importance\": 0.9},\n                {\"entity\": \"U.S. senator\",\"category\": \"Job title\",\"importance\": 0.8},\n                {\"entity\": \"Illinois\",\"category\": \"Location\",\"importance\": 0.8},\n                {\"entity\": \"state senator\",\"category\": \"Job title\",\"importance\": 0.7}]}",
+        "text": "\n{\"items\":[{\"entity\":\"Barack Hussein Obama\",\"category\":\"person\",\"importance\":1},{\"entity\":\"American\",\"category\":\"nationality\",\"importance\":0.9},{\"entity\":\"politician\",\"category\":\"occupation\",\"importance\":0.8},{\"entity\":\"44th\",\"category\":\"ordinal number\",\"importance\":0.7},{\"entity\":\"United States\",\"category\":\"country\",\"importance\":1},{\"entity\":\"2009\",\"category\":\"year\",\"importance\":0.6},{\"entity\":\"2017\",\"category\":\"year\",\"importance\":0.6},{\"entity\":\"Democratic Party\",\"category\":\"political party\",\"importance\":0.9},{\"entity\":\"African-American\",\"category\":\"ethnicity\",\"importance\":0.9},{\"entity\":\"U.S. senator\",\"category\":\"occupation\",\"importance\":0.8},{\"entity\":\"Illinois\",\"category\":\"state\",\"importance\":0.9},{\"entity\":\"1997\",\"category\":\"year\",\"importance\":0.6},{\"entity\":\"2004\",\"category\":\"year\",\"importance\":0.6}]}",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 144,
-      "completion_tokens": 137,
-      "total_tokens": 281
+      "prompt_tokens": 158,
+      "completion_tokens": 217,
+      "total_tokens": 375
     }
   },
   "standardized_response": {
     "items": [
       {
         "entity": "Barack Hussein Obama",
-        "category": "Person",
+        "category": "person",
         "importance": 1.0
       },
       {
-        "entity": "Democratic Party",
-        "category": "Organisation",
+        "entity": "American",
+        "category": "nationality",
         "importance": 0.9
       },
       {
+        "entity": "politician",
+        "category": "occupation",
+        "importance": 0.8
+      },
+      {
+        "entity": "44th",
+        "category": "ordinal number",
+        "importance": 0.7
+      },
+      {
         "entity": "United States",
-        "category": "Location",
+        "category": "country",
+        "importance": 1.0
+      },
+      {
+        "entity": "2009",
+        "category": "year",
+        "importance": 0.6
+      },
+      {
+        "entity": "2017",
+        "category": "year",
+        "importance": 0.6
+      },
+      {
+        "entity": "Democratic Party",
+        "category": "political party",
+        "importance": 0.9
+      },
+      {
+        "entity": "African-American",
+        "category": "ethnicity",
         "importance": 0.9
       },
       {
         "entity": "U.S. senator",
-        "category": "Job title",
+        "category": "occupation",
         "importance": 0.8
       },
       {
         "entity": "Illinois",
-        "category": "Location",
-        "importance": 0.8
+        "category": "state",
+        "importance": 0.9
       },
       {
-        "entity": "state senator",
-        "category": "Job title",
-        "importance": 0.7
+        "entity": "1997",
+        "category": "year",
+        "importance": 0.6
+      },
+      {
+        "entity": "2004",
+        "category": "year",
+        "importance": 0.6
       }
     ]
   }
