@@ -198,7 +198,7 @@ class OpenaiTextApi(TextInterface):
         model: Optional[str],
     ) -> ResponseType[QuestionAnswerDataClass]:
         if not model:
-            model = "text-davinci-003"
+            model = self.model
 
         url = f"{self.url}/completions"
 
@@ -578,7 +578,7 @@ class OpenaiTextApi(TextInterface):
 
         payload = {
             "n": 1,
-            "model": "text-davinci-003",
+            "model": self.model,
             "max_tokens": 500,
             "temperature": 0.0,
             "prompt": prompt,
