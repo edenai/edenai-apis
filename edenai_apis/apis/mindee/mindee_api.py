@@ -114,79 +114,69 @@ class MindeeApi(ProviderInterface, OcrInterface):
                 code=response.status_code,
             )
 
-        receipt_data = original_response["document"]["inference"]["prediction"]
-        supplier_company_registrations = receipt_data.get("supplier_company_registrations", {})
-        merchant_siret = None
-        merchant_siren = None
-        merchant_vat_number = None
-        merchant_gst_number = None
-        merchant_abn_number = None
-        for supplier_info in supplier_company_registrations:
-            supplier_type = supplier_info.get("type", "")
-            if supplier_type == "SIRET":
-                merchant_siret = supplier_info.get("value", None)
-            elif supplier_type == "SIREN":
-                merchant_siren = supplier_info.get("value", None)
-            elif supplier_type == "VAT NUMBER":
-                merchant_vat_number = supplier_info.get("value", None)
-            elif supplier_type == "GSTIN":
-                merchant_gst_number = supplier_info.get("value", None)
-            elif supplier_type == "ABN":
-                merchant_abn_number = supplier_info.get("value", None)
-
-        extracted_data = [
-            InfosReceiptParserDataClass(
-                invoice_number=None,
-                invoice_total=receipt_data["total_amount"]["value"],
-                invoice_subtotal=None,
-                barcodes=[],
-                date=combine_date_with_time(
-                    receipt_data["date"]["value"], receipt_data["time"]["value"]
-                ),
-                due_date=None,
-                customer_information=CustomerInformation(customer_name=None),
-                merchant_information=MerchantInformation(
-                    merchant_name=receipt_data["supplier_name"]["value"],
-                    merchant_address=receipt_data["supplier_address"]["value"],
-                    merchant_phone=receipt_data["supplier_phone_number"]["value"],
-                    merchant_url=None,
-                    merchant_siret=merchant_siret,
-                    merchant_siren=merchant_siren,
-                    merchant_gst_number=merchant_gst_number,
-                    merchant_vat_number=merchant_vat_number,
-                    merchant_abn_number=merchant_abn_number,
-                ),
-                payment_information=PaymentInformation(
-                    card_number=None,
-                    card_type=None,
-                    cash=None,
-                    tip=None,
-                    change=None,
-                    discount=None,
-                ),
-                locale=Locale(
-                    currency=receipt_data["locale"]["currency"],
-                    language=receipt_data["locale"]["language"],
-                    country=receipt_data["locale"]["country"],
-                ),
-                taxes=[
-                    Taxes(
-                        taxes=tax["value"],
-                        rate=tax["rate"],
-                    )
-                    for tax in receipt_data["taxes"]
-                ],
-                item_lines=[
-                    ItemLines(
-                        description=item["description"],
-                        quantity=item["quantity"],
-                        unit_price=item["unit_price"],
-                        amount=item["total_amount"],
-                    )
-                    for item in receipt_data["line_items"]
-                ],
+        extracted_data = []
+        for page in original_response["document"]["inference"]:
+            receipt_data = page["prediction"]
+            supplier_company_registrations = receipt_data.get("supplier_company_registrations", None)
+            merchant_siret = None
+            merchant_siren = None
+            if supplier_company_registrations:
+                for supplier_info in supplier_company_registrations:
+                    supplier_type = supplier_info.get("type", None)
+                    if supplier_type:
+                        if supplier_type == "SIRET":
+                            merchant_siret = supplier_info.get("value", None)
+                        if supplier_type == "SIREN":
+                            merchant_siren = supplier_info.get("value", None)
+            extracted_data.append(InfosReceiptParserDataClass(
+                    invoice_number=None,
+                    invoice_total=receipt_data["total_amount"]["value"],
+                    invoice_subtotal=None,
+                    barcodes=[],
+                    date=combine_date_with_time(
+                        receipt_data["date"]["value"], receipt_data["time"]["value"]
+                    ),
+                    due_date=None,
+                    customer_information=CustomerInformation(customer_name=None),
+                    merchant_information=MerchantInformation(
+                        merchant_name=receipt_data["supplier_name"]["value"],
+                        merchant_address=receipt_data["supplier_address"]["value"],
+                        merchant_phone=receipt_data["supplier_phone_number"]["value"],
+                        merchant_url=None,
+                        merchant_siret=merchant_siret,
+                        merchant_siren=merchant_siren,
+                    ),
+                    payment_information=PaymentInformation(
+                        card_number=None,
+                        card_type=None,
+                        cash=None,
+                        tip=None,
+                        change=None,
+                        discount=None,
+                    ),
+                    locale=Locale(
+                        currency=receipt_data["locale"]["currency"],
+                        language=receipt_data["locale"]["language"],
+                        country=receipt_data["locale"]["country"],
+                    ),
+                    taxes=[
+                        Taxes(
+                            taxes=tax["value"],
+                            rate=tax["rate"],
+                        )
+                        for tax in receipt_data["taxes"]
+                    ],
+                    item_lines=[
+                        ItemLines(
+                            description=item["description"],
+                            quantity=item["quantity"],
+                            unit_price=item["unit_price"],
+                            amount=item["total_amount"],
+                        )
+                        for item in receipt_data["line_items"]
+                    ],
+                )
             )
-        ]
 
         standardized_response = ReceiptParserDataClass(extracted_data=extracted_data)
 

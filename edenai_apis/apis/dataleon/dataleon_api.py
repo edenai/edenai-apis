@@ -62,19 +62,23 @@ class DataleonApi(ProviderInterface, OcrInterface):
         }
 
         entities = original_result["entities"]
-        for entity in entities:
-            field_name = fields.get(entity.get("name", None), entity["name"].lower())
-            if field_name == "logo":
-                continue
-            field_value = entity.get("text", None)
 
-            if field_name in ["customer_name", "customer_address"]:
-                normalized_response["customer_information"][field_name] = field_value
+        for idx in range(0, original_result["metadata"]["documents"][0]["pages"]):
+            for entity in entities:
+                if entity["page"] != idx + 1:
+                    continue
+                field_name = fields.get(entity.get("name", None), entity["name"].lower())
+                if field_name == "logo":
+                    continue
+                field_value = entity.get("text", None)
 
-            elif field_name in ["merchant_address", "merchant_name", "siret", "siren"]:
-                normalized_response["merchant_information"][field_name] = field_value
-            else:
-                normalized_response[field_name] = field_value
+                if field_name in ["customer_name", "customer_address"]:
+                    normalized_response["customer_information"][field_name] = field_value
+
+                elif field_name in ["merchant_address", "merchant_name", "siret", "siren"]:
+                    normalized_response["merchant_information"][field_name] = field_value
+                else:
+                    normalized_response[field_name] = field_value
 
         return normalized_response
 
@@ -93,84 +97,84 @@ class DataleonApi(ProviderInterface, OcrInterface):
         original_response = response.json()
         normalized_response = self._normalize_invoice_result(original_response)
 
-        taxes: Sequence[TaxesInvoice] = [
-            TaxesInvoice(
-                value=convert_string_to_number(normalized_response.get("taxes"), float),
-                rate=None,
-            )
-        ]
+        invoice_parser = []
+        for page in normalized_response:
+            taxes: Sequence[TaxesInvoice] = [
+                TaxesInvoice(
+                    value=convert_string_to_number(normalized_response.get("taxes"), float),
+                    rate=None,
+                )
+            ]
 
-        invoice_parser = InfosInvoiceParserDataClass(
-            merchant_information=MerchantInformationInvoice(
-                merchant_name=normalized_response["merchant_information"].get(
-                    "merchant_name"
+            invoice_parser.append(InfosInvoiceParserDataClass(
+                merchant_information=MerchantInformationInvoice(
+                    merchant_name=normalized_response["merchant_information"].get(
+                        "merchant_name"
+                    ),
+                    merchant_siret=normalized_response["merchant_information"].get("siret"),
+                    merchant_siren=normalized_response["merchant_information"].get("siren"),
+                    merchant_address=normalized_response["merchant_information"].get(
+                        "merchant_address"
+                    ),
+                    merchant_email=None,
+                    merchant_phone=None,
+                    merchant_website=None,
+                    merchant_fax=None,
+                    merchant_tax_id=None,
+                    abn_number=None,
+                    gst_number=None,
+                    pan_number=None,
+                    vat_number=None,
                 ),
-                merchant_siret=normalized_response["merchant_information"].get("siret"),
-                merchant_siren=normalized_response["merchant_information"].get("siren"),
-                merchant_address=normalized_response["merchant_information"].get(
-                    "merchant_address"
+                customer_information=CustomerInformationInvoice(
+                    customer_name=normalized_response["customer_information"].get(
+                        "customer_name"
+                    ),
+                    customer_address=None,
+                    customer_email=None,
+                    customer_billing_address=None,
+                    customer_id=None,
+                    customer_mailing_address=None,
+                    customer_remittance_address=None,
+                    customer_service_address=None,
+                    customer_shipping_address=None,
+                    customer_tax_id=None,
+                    abn_number=None,
+                    gst_number=None,
+                    pan_number=None,
+                    vat_number=None,
                 ),
-                merchant_email=None,
-                merchant_phone=None,
-                merchant_website=None,
-                merchant_fax=None,
-                merchant_tax_id=None,
-                abn_number=None,
-                gst_number=None,
-                pan_number=None,
-                vat_number=None,
-            ),
-            customer_information=CustomerInformationInvoice(
-                customer_name=normalized_response["customer_information"].get(
-                    "customer_name"
+                invoice_number=normalized_response.get("invoice_number"),
+                invoice_total=convert_string_to_number(
+                    normalized_response.get("invoice_total"), float
                 ),
-                customer_address=None,
-                customer_email=None,
-                customer_billing_address=None,
-                customer_id=None,
-                customer_mailing_address=None,
-                customer_remittance_address=None,
-                customer_service_address=None,
-                customer_shipping_address=None,
-                customer_phone=None,
-                customer_fax=None,
-                customer_tax_id=None,
-                abn_number=None,
-                gst_number=None,
-                pan_number=None,
-                vat_number=None,
-            ),
-            invoice_number=normalized_response.get("invoice_number"),
-            invoice_total=convert_string_to_number(
-                normalized_response.get("invoice_total"), float
-            ),
-            invoice_subtotal=convert_string_to_number(
-                normalized_response.get("subtotal"), float
-            ),
-            date=normalized_response.get("date"),
-            due_date=normalized_response.get("due_date"),
-            taxes=taxes,
-            locale=LocaleInvoice(
-                currency=normalized_response.get("currency"),
-                language=None,
-            ),
-            gratuity=None,
-            amount_due=None,
-            previous_unpaid_balance=None,
-            discount=None,
-            service_charge=None,
-            payment_term=None,
-            po_number=None,
-            purchase_order=None,
-            service_date=None,
-            service_due_date=None,
-            bank_informations=BankInvoice.default(),
-        )
+                invoice_subtotal=convert_string_to_number(
+                    normalized_response.get("subtotal"), float
+                ),
+                date=normalized_response.get("date"),
+                due_date=normalized_response.get("due_date"),
+                taxes=taxes,
+                locale=LocaleInvoice(
+                    currency=normalized_response.get("currency"),
+                    language=None,
+                ),
+                gratuity=None,
+                amount_due=None,
+                previous_unpaid_balance=None,
+                discount=None,
+                service_charge=None,
+                payment_term=None,
+                po_number=None,
+                purchase_order=None,
+                service_date=None,
+                service_due_date=None,
+                bank_informations=BankInvoice.default(),
+            ))
 
         result = ResponseType[InvoiceParserDataClass](
             original_response=original_response,
             standardized_response=InvoiceParserDataClass(
-                extracted_data=[invoice_parser]
+                extracted_data=invoice_parser
             ),
         )
         return result
