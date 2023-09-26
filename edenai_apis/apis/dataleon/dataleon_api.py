@@ -62,19 +62,23 @@ class DataleonApi(ProviderInterface, OcrInterface):
         }
 
         entities = original_result["entities"]
-        for entity in entities:
-            field_name = fields.get(entity.get("name", None), entity["name"].lower())
-            if field_name == "logo":
-                continue
-            field_value = entity.get("text", None)
 
-            if field_name in ["customer_name", "customer_address"]:
-                normalized_response["customer_information"][field_name] = field_value
+        for idx in range(0, original_result["documents"]["pages"]):
+            for entity in entities:
+                if entity["page"] != idx + 1:
+                    continue
+                field_name = fields.get(entity.get("name", None), entity["name"].lower())
+                if field_name == "logo":
+                    continue
+                field_value = entity.get("text", None)
 
-            elif field_name in ["merchant_address", "merchant_name", "siret", "siren"]:
-                normalized_response["merchant_information"][field_name] = field_value
-            else:
-                normalized_response[field_name] = field_value
+                if field_name in ["customer_name", "customer_address"]:
+                    normalized_response["customer_information"][field_name] = field_value
+
+                elif field_name in ["merchant_address", "merchant_name", "siret", "siren"]:
+                    normalized_response["merchant_information"][field_name] = field_value
+                else:
+                    normalized_response[field_name] = field_value
 
         return normalized_response
 
@@ -91,27 +95,27 @@ class DataleonApi(ProviderInterface, OcrInterface):
             raise ProviderException(response.content, code = response.status_code)
 
         original_response = response.json()
-
         normalized_response = self._normalize_invoice_result(original_response)
 
         invoice_parser = []
-
-        for idx in range(0, original_response['metadata']['documents']['pages']):
+        for page in normalized_response:
             taxes: Sequence[TaxesInvoice] = [
                 TaxesInvoice(
-                    value=convert_string_to_number(normalized_response.get("taxes") if normalized_response["page"] == idx + 1 else None, float),
+                    value=convert_string_to_number(normalized_response.get("taxes"), float),
                     rate=None,
                 )
             ]
 
             invoice_parser.append(InfosInvoiceParserDataClass(
                 merchant_information=MerchantInformationInvoice(
-                    merchant_name=normalized_response["merchant_information"].get("merchant_name") if normalized_response["page"] == idx + 1 else None,
-                    merchant_siret=normalized_response["merchant_information"].get("siret") if normalized_response["page"] == idx + 1 else None,
-                    merchant_siren=normalized_response["merchant_information"].get("siren") if normalized_response["page"] == idx + 1 else None,
+                    merchant_name=normalized_response["merchant_information"].get(
+                        "merchant_name"
+                    ),
+                    merchant_siret=normalized_response["merchant_information"].get("siret"),
+                    merchant_siren=normalized_response["merchant_information"].get("siren"),
                     merchant_address=normalized_response["merchant_information"].get(
                         "merchant_address"
-                    ) if normalized_response["page"] == idx + 1 else None,
+                    ),
                     merchant_email=None,
                     merchant_phone=None,
                     merchant_website=None,
@@ -125,7 +129,7 @@ class DataleonApi(ProviderInterface, OcrInterface):
                 customer_information=CustomerInformationInvoice(
                     customer_name=normalized_response["customer_information"].get(
                         "customer_name"
-                    ) if normalized_response["page"] == idx + 1 else None,
+                    ),
                     customer_address=None,
                     customer_email=None,
                     customer_billing_address=None,
@@ -134,26 +138,24 @@ class DataleonApi(ProviderInterface, OcrInterface):
                     customer_remittance_address=None,
                     customer_service_address=None,
                     customer_shipping_address=None,
-                    customer_phone=None,
-                    customer_fax=None,
                     customer_tax_id=None,
                     abn_number=None,
                     gst_number=None,
                     pan_number=None,
                     vat_number=None,
                 ),
-                invoice_number=normalized_response.get("invoice_number") if normalized_response["page"] == idx + 1 else None,
+                invoice_number=normalized_response.get("invoice_number"),
                 invoice_total=convert_string_to_number(
-                    normalized_response.get("invoice_total") if normalized_response["page"] == idx + 1 else None, float
+                    normalized_response.get("invoice_total"), float
                 ),
                 invoice_subtotal=convert_string_to_number(
-                    normalized_response.get("subtotal") if normalized_response["page"] == idx + 1 else None, float
+                    normalized_response.get("subtotal"), float
                 ),
-                date=normalized_response.get("date") if normalized_response["page"] == idx + 1 else None,
-                due_date=normalized_response.get("due_date") if normalized_response["page"] == idx + 1 else None,
+                date=normalized_response.get("date"),
+                due_date=normalized_response.get("due_date"),
                 taxes=taxes,
                 locale=LocaleInvoice(
-                    currency=normalized_response.get("currency") if normalized_response["page"] == idx + 1 else None,
+                    currency=normalized_response.get("currency"),
                     language=None,
                 ),
                 gratuity=None,
@@ -193,7 +195,6 @@ class DataleonApi(ProviderInterface, OcrInterface):
 
         original_response = response.json()
         normalized_response = self._normalize_invoice_result(original_response)
-
 
         taxes: Sequence[Taxes] = [
             Taxes(
