@@ -260,121 +260,124 @@ class GoogleOcrApi(OcrInterface):
         
         document = result.document
 
-        invoice_infos: InfosInvoiceParserDataClass = InfosInvoiceParserDataClass()
-        merchant_infos: MerchantInformationInvoice = (
-            MerchantInformationInvoice.default()
-        )
-        customer_infos: CustomerInformationInvoice = (
-            CustomerInformationInvoice.default()
-        )
-        local_invoice: LocaleInvoice = LocaleInvoice.default()
-        item_lines: Sequence[ItemLinesInvoice] = []
-        bank_invoice: BankInvoice = BankInvoice.default()
-        invoice_taxe: TaxesInvoice = TaxesInvoice.default()
-
+        invoice_infos = []
         entites: Sequence[Document.Entity] = document.entities
 
-        item_lines_index = 0
-        for entity in entites:
-            entity_dict = Document.Entity.to_dict(entity)
-            entity_type = entity_dict.get("type_", "")
-            entity_value = entity_dict.get("normalized_value", {}).get(
-                "text"
-            ) or entity_dict.get("mention_text")
-            if entity_type == "total_amount":
-                string_amount = entity_value
-                amount = convert_string_to_number(string_amount, float)
-                invoice_infos.invoice_total = amount
-            if entity_type == "net_amount":
-                string_amount = entity_value
-                amount = convert_string_to_number(string_amount, float)
-                invoice_infos.invoice_subtotal = amount
-            if entity_type == "total_tax_amount":
-                string_amount = entity_value
-                amount = convert_string_to_number(string_amount, float)
-                invoice_taxe.value = amount
-            if entity_type == "currency_exchange_rate":
-                string_amount = entity_value
-                amount = convert_string_to_number(string_amount, float)
-                invoice_taxe.rate = amount
-            if entity_type == "payment_terms":
-                invoice_infos.payment_term = entity_value
-            if entity_type == "supplier_iban":
-                bank_invoice.iban = entity_value
-            if entity_type == "currency":
-                local_invoice.currency = entity_value
-            if entity_type == "invoice_id":
-                invoice_infos.invoice_number = entity_value
-            if entity_type == "purchase_order":
-                invoice_infos.purchase_order = entity_value
-            if entity_type == "invoice_date":
-                invoice_infos.date = entity_value
-            if entity_type == "due_date":
-                invoice_infos.due_date = entity_value
-            if entity_type == "delivery_date":
-                invoice_infos.service_date = entity_value
-            if entity_type == "supplier_name":
-                merchant_infos.merchant_name = entity_value
-            if entity_type == "supplier_email":
-                merchant_infos.merchant_address = entity_value
-            if entity_type == "supplier_phone":
-                merchant_infos.merchant_phone = entity_value
-            if entity_type == "supplier_address":
-                merchant_infos.merchant_address = entity_value
-            if entity_type == "supplier_tax_id":
-                merchant_infos.merchant_tax_id = entity_value
-            if entity_type == "supplier_website":
-                merchant_infos.merchant_website = entity_value
-            if entity_type == "receiver_name":
-                customer_infos.customer_name = entity_value
-            if entity_type == "receiver_address":
-                customer_infos.customer_address = entity_value
-            if entity_type == "receiver_tax_id":
-                customer_infos.customer_tax_id = entity_value
-            if entity_type == "receiver_email":
-                customer_infos.customer_email = entity_value
-            if entity_type == "remit_to_address":
-                customer_infos.customer_remittance_address = entity_value
-            if entity_type == "ship_to_address":
-                customer_infos.customer_shipping_address = entity_value
+        for idx in range(0, document.pages.page_number):
+            invoice_infos.append(InfosInvoiceParserDataClass()
+)
+            merchant_infos: MerchantInformationInvoice = (
+                MerchantInformationInvoice.default()
+            )
+            customer_infos: CustomerInformationInvoice = (
+                CustomerInformationInvoice.default()
+            )
+            local_invoice: LocaleInvoice = LocaleInvoice.default()
+            item_lines: Sequence[ItemLinesInvoice] = []
+            bank_invoice: BankInvoice = BankInvoice.default()
+            invoice_taxe: TaxesInvoice = TaxesInvoice.default()
+            for entity in entites:
+                entity_dict = Document.Entity.to_dict(entity)
+                if entity_dict.get("page_anchor").get("page_refs").get("page") != str(idx):
+                    continue
 
-            if entity_type == "line_item":
-                item = ItemLinesInvoice()
-                for property in entity_dict.get("properties", []) or []:
-                    property_type = property.get("type_", "")
-                    property_value = property.get("normalized_value", {}).get(
-                        "text"
-                    ) or property.get("mention_text")
-                    if property_type == "line_item/amount":
-                        string_amount = property_value
-                        amount = convert_string_to_number(string_amount, float)
-                        item.amount = amount
-                    if property_type == "line_item/quantity":
-                        string_quantity = property_value
-                        quantity = convert_string_to_number(string_quantity, float)
-                        item.quantity = quantity
-                    if property_type == "line_item/unit_price":
-                        string_unit_price = property_value
-                        unit_price = convert_string_to_number(string_unit_price, float)
-                        item.unit_price = unit_price
-                    if property_type == "line_item/description":
-                        item.description = property_value
-                    if property_type == "line_item/product_code":
-                        item.product_code = property_value
-                item_lines.append(item)
+                entity_type = entity_dict.get("type_", "")
+                entity_value = entity_dict.get("normalized_value", {}).get(
+                    "text"
+                ) or entity_dict.get("mention_text")
+                if entity_type == "total_amount":
+                    string_amount = entity_value
+                    amount = convert_string_to_number(string_amount, float)
+                    invoice_infos[idx].invoice_total = amount
+                if entity_type == "net_amount":
+                    string_amount = entity_value
+                    amount = convert_string_to_number(string_amount, float)
+                    invoice_infos[idx].invoice_subtotal = amount
+                if entity_type == "total_tax_amount":
+                    string_amount = entity_value
+                    amount = convert_string_to_number(string_amount, float)
+                    invoice_taxe.value = amount
+                if entity_type == "currency_exchange_rate":
+                    string_amount = entity_value
+                    amount = convert_string_to_number(string_amount, float)
+                    invoice_taxe.rate = amount
+                if entity_type == "payment_terms":
+                    invoice_infos[idx].payment_term = entity_value
+                if entity_type == "supplier_iban":
+                    bank_invoice.iban = entity_value
+                if entity_type == "currency":
+                    local_invoice.currency = entity_value
+                if entity_type == "invoice_id":
+                    invoice_infos[idx].invoice_number = entity_value
+                if entity_type == "purchase_order":
+                    invoice_infos[idx].purchase_order = entity_value
+                if entity_type == "invoice_date":
+                    invoice_infos[idx].date = entity_value
+                if entity_type == "due_date":
+                    invoice_infos[idx].due_date = entity_value
+                if entity_type == "delivery_date":
+                    invoice_infos[idx].service_date = entity_value
+                if entity_type == "supplier_name":
+                    merchant_infos.merchant_name = entity_value
+                if entity_type == "supplier_email":
+                    merchant_infos.merchant_address = entity_value
+                if entity_type == "supplier_phone":
+                    merchant_infos.merchant_phone = entity_value
+                if entity_type == "supplier_address":
+                    merchant_infos.merchant_address = entity_value
+                if entity_type == "supplier_tax_id":
+                    merchant_infos.merchant_tax_id = entity_value
+                if entity_type == "supplier_website":
+                    merchant_infos.merchant_website = entity_value
+                if entity_type == "receiver_name":
+                    customer_infos.customer_name = entity_value
+                if entity_type == "receiver_address":
+                    customer_infos.customer_address = entity_value
+                if entity_type == "receiver_tax_id":
+                    customer_infos.customer_tax_id = entity_value
+                if entity_type == "receiver_email":
+                    customer_infos.customer_email = entity_value
+                if entity_type == "remit_to_address":
+                    customer_infos.customer_remittance_address = entity_value
+                if entity_type == "ship_to_address":
+                    customer_infos.customer_shipping_address = entity_value
 
-            item_lines_index += 1
-        invoice_infos.merchant_information = merchant_infos
-        invoice_infos.customer_information = customer_infos
-        invoice_infos.locale = local_invoice
-        invoice_infos.bank_informations = bank_invoice
-        invoice_infos.item_lines = item_lines
-        invoice_infos.taxes = [invoice_taxe]
+                if entity_type == "line_item":
+                    item = ItemLinesInvoice()
+                    for property in entity_dict.get("properties", []) or []:
+                        property_type = property.get("type_", "")
+                        property_value = property.get("normalized_value", {}).get(
+                            "text"
+                        ) or property.get("mention_text")
+                        if property_type == "line_item/amount":
+                            string_amount = property_value
+                            amount = convert_string_to_number(string_amount, float)
+                            item.amount = amount
+                        if property_type == "line_item/quantity":
+                            string_quantity = property_value
+                            quantity = convert_string_to_number(string_quantity, float)
+                            item.quantity = quantity
+                        if property_type == "line_item/unit_price":
+                            string_unit_price = property_value
+                            unit_price = convert_string_to_number(string_unit_price, float)
+                            item.unit_price = unit_price
+                        if property_type == "line_item/description":
+                            item.description = property_value
+                        if property_type == "line_item/product_code":
+                            item.product_code = property_value
+                    item_lines.append(item)
+
+            invoice_infos[idx].merchant_information = merchant_infos
+            invoice_infos[idx].customer_information = customer_infos
+            invoice_infos[idx].locale = local_invoice
+            invoice_infos[idx].bank_informations = bank_invoice
+            invoice_infos[idx].item_lines = item_lines
+            invoice_infos[idx].taxes = [invoice_taxe]
 
         return ResponseType[InvoiceParserDataClass](
             original_response=Document.to_dict(document),
             standardized_response=InvoiceParserDataClass(
-                extracted_data=[invoice_infos]
+                extracted_data=invoice_infos
             ),
         )
 

@@ -96,7 +96,7 @@ class DataleonApi(ProviderInterface, OcrInterface):
 
         invoice_parser = []
 
-        for idx in original_response['metadata']['documents']['pages']:
+        for idx in range(0, original_response['metadata']['documents']['pages']):
             taxes: Sequence[TaxesInvoice] = [
                 TaxesInvoice(
                     value=convert_string_to_number(normalized_response.get("taxes") if normalized_response["page"] == idx + 1 else None, float),
