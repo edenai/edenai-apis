@@ -71,6 +71,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
         profanity_filter: bool,
         vocab_name: str = None,
         initiate_vocab: bool = False,
+        provider_params = dict()
     ):
         config = {
             "filter_profanity": profanity_filter,
@@ -94,7 +95,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
                 )
                 return
 
-        data_config = {**config, "source_config": source_config}
+        data_config = {**config, "source_config": source_config, **provider_params}
         response = requests.post(
             url="https://ec1.api.rev.ai/speechtotext/v1/jobs",
             headers={
@@ -136,6 +137,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
+        provider_params = dict()
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -160,7 +162,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
             )
 
         provider_job_id = self._launch_transcribe(
-            file_name, content_url, language, profanity_filter
+            file_name, content_url, language, profanity_filter, provider_params=provider_params
         )
         provider_job_id = (
             f"{provider_job_id}EdenAI{file_name}"  # file_name to delete file

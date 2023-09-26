@@ -6,62 +6,62 @@
         "document_type": {
           "value": "P",
           "source": "MRZ",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "document_subtype": null,
         "nationality": {
           "value": "USA",
           "source": "MRZ",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "document_number": {
           "value": "E00007730",
           "source": "MRZ",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "surname": {
           "value": "Traveler",
           "source": "VIZ",
-          "confidence": 0.9562300443649292
+          "confidence": 0.96
         },
         "given_names": {
           "value": "Happy",
           "source": "VIZ",
-          "confidence": 0.9653261303901672
+          "confidence": 0.97
         },
         "maiden_name": null,
         "date_of_birth": {
           "value": "1965-02-05T00:00:00",
           "source": "MRZ",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "partner_name": null,
         "personal_number": {
           "value": "5001019200918",
           "source": "MRZ",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "place_of_birth": null,
         "gender": {
           "value": "F",
           "source": "MRZ",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "height": null,
         "date_of_issue": {
           "value": "2020-10-15T00:00:00",
           "source": "VIZ",
-          "confidence": 0.9462291598320007
+          "confidence": 0.95
         },
         "date_of_expiry": {
           "value": "2030-10-14T00:00:00",
           "source": "MRZ",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "issuing_country": {
           "value": "USA",
           "source": "MRZ",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "issuing_institution": null,
         "residency": null,
@@ -70,7 +70,7 @@
         "mrz": {
           "value": "P<USATRAVELER<<HAPPY<<<<<<<<<<<<<<<<<<<<<<<<\nE000077303USA6502056F3010149500101920<091824",
           "source": "VIZ",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "weight": null,
         "signature": null,
@@ -108,16 +108,16 @@
         "nfc_authentication_validations": [],
         "mrz_checksum_validations": [
           {
-            "field": "document_number",
-            "passed": true,
-            "value": "3",
-            "expected_value": "3"
-          },
-          {
             "field": "date_of_birth",
             "passed": true,
             "value": "6",
             "expected_value": "6"
+          },
+          {
+            "field": "document_number",
+            "passed": true,
+            "value": "3",
+            "expected_value": "3"
           },
           {
             "field": "date_of_expiry",
@@ -129,19 +129,19 @@
       },
       "raw_text": "     PASSPORT                     THE UNITED STATES OF AMERICA\n PASSEPORT / PASAPORTE\n                                Type/Type/Tipo  Code/Code/C\u00f3digo  Passport No./No. du Passeport/No. de Pasaporte\n                              Surname/Nom/Apellidos\n    USA                                P             USA                  E00007730\n                              TRAVELER\n                              Given names/Pr\u00e9noms/Nombres\n                              HAPPY\n                                    Nationality/Nationalit\u00e9/Nacionalidad\n                                    Date of birth/Date de naissan\n                                    05 FEB 1965\n                                    F\n                                    Place of birthto naissance/Lugar de nacimiento\n                                          SPECIMEN\n                                    WASHINGTON, D.C ., U.S.A.\n                                    Date of issue/Date de d\u00e9livrance Fecha de expedici\u00f3n\n                                    15 OCT 2020\n                                    Date of expiration/Date d'expiration/Fecha de caducidad\n                                                                                                           E00001120\n                                    14 OCT 2030\n                                    Authority/Autorit\u00e9/Autoridad                             05.02.65\n                                    UNITED STATES DEPARTMENT OF STATE\nP<USATRAVELER << HAPPY <<<<<<<<<<<<<<<<<<<<<<<<\nE000077303USA6502056F3010149500101920<091824"
     },
-    "request_id": "vH0f4mSgcDtDaQdFD5JAAPdhzUXc5Jv9"
+    "request_id": "1VewOyJ90LGaoSMPZi97bkJY6JcRK8F1"
   },
   "standardized_response": {
     "extracted_data": [
       {
         "last_name": {
           "value": "TRAVELER",
-          "confidence": 0.9562300443649292
+          "confidence": 0.96
         },
         "given_names": [
           {
             "value": "Happy",
-            "confidence": 0.9653261303901672
+            "confidence": 0.97
           }
         ],
         "birth_place": {
@@ -150,19 +150,19 @@
         },
         "birth_date": {
           "value": "1965-02-05",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "issuance_date": {
           "value": "2020-10-15",
-          "confidence": 0.9462291598320007
+          "confidence": 0.95
         },
         "expire_date": {
           "value": "2030-10-14",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "document_id": {
           "value": "E00007730",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "issuing_state": {
           "value": null,
@@ -184,11 +184,11 @@
         },
         "document_type": {
           "value": "P",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "gender": {
           "value": "F",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "image_id": [
           {
@@ -203,11 +203,11 @@
         "image_signature": [],
         "mrz": {
           "value": "P<USATRAVELER<<HAPPY<<<<<<<<<<<<<<<<<<<<<<<<\nE000077303USA6502056F3010149500101920<091824",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         },
         "nationality": {
           "value": "Usa",
-          "confidence": 0.961401641368866
+          "confidence": 0.96
         }
       }
     ]

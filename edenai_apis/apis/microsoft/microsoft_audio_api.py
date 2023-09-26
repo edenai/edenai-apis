@@ -112,6 +112,7 @@ class MicrosoftAudioApi(AudioInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
+        provider_params = dict()
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -146,6 +147,7 @@ class MicrosoftAudioApi(AudioInterface):
         # if not profanity_filter:
         #     config["properties"]["profanityFilterMode"] = "Removed"
 
+        config.update(provider_params)
         response = requests.post(
             url=self.url["speech"], headers=headers, data=json.dumps(config)
         )

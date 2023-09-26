@@ -59,6 +59,7 @@ class VoxistApi(ProviderInterface, AudioInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
+        provider_params = dict()
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -71,7 +72,7 @@ class VoxistApi(ProviderInterface, AudioInterface):
             "sample_rate": 16000,
         }
 
-        data = {"config": json.dumps(config)}
+        data = {"config": json.dumps(config), **provider_params}
 
         file_ = open(file, "rb")
         files = [("file_channel1", file_)]

@@ -132,6 +132,7 @@ class AmazonAudioApi(AudioInterface):
         vocab_name: Optional[str] = None,
         initiate_vocab: bool = False,
         format: str = "wav",
+        provider_params: dict = dict()
     ):
         if speakers < 2:
             speakers = 2
@@ -160,6 +161,7 @@ class AmazonAudioApi(AudioInterface):
                     Key=filename,
                 )
                 return
+        params.update(provider_params)
         try:
             self.clients["speech"].start_transcription_job(**params)
         except KeyError as exc:
@@ -182,6 +184,7 @@ class AmazonAudioApi(AudioInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
+        provider_params = dict()
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -203,6 +206,7 @@ class AmazonAudioApi(AudioInterface):
                 vocab_name,
                 True,
                 format=export_format,
+                provider_params=provider_params
             )
             return AsyncLaunchJobResponseType(
                 provider_job_id=f"{filename}EdenAI{vocab_name}"

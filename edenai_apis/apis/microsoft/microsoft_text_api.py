@@ -43,7 +43,7 @@ class MicrosoftTextApi(TextInterface):
                 json={"text": text},
             )
         except Exception as exc:
-            raise ProviderException(str(exc), code = 500)
+            raise ProviderException(str(exc), code=500)
 
         data = response.json()
         if response.status_code != 200:
@@ -52,7 +52,7 @@ class MicrosoftTextApi(TextInterface):
                 if error:
                     raise ProviderException(
                         error[0].get("Message", "Provider could not process request"),
-                        code = response.status_code
+                        code=response.status_code,
                     )
             else:
                 raise ProviderException(data)
@@ -88,11 +88,10 @@ class MicrosoftTextApi(TextInterface):
             try:
                 data = response.json()
                 raise ProviderException(
-                    data["error"]["innererror"]["message"], 
-                    code = response.status_code
+                    data["error"]["innererror"]["message"], code=response.status_code
                 )
             except:
-                raise ProviderException(response.text, code = response.status_code)
+                raise ProviderException(response.text, code=response.status_code)
 
         data = response.json()
         self._check_microsoft_error(data)
@@ -154,7 +153,7 @@ class MicrosoftTextApi(TextInterface):
             err = response.json().get("error", {})
             details = err.get("details", [defaultdict])[0] or {}
             error_msg = details.get("message", "Microsoft Azure couldn't create job")
-            raise ProviderException(error_msg, code = response.status_code)
+            raise ProviderException(error_msg, code=response.status_code)
 
         get_url = response.headers.get("operation-location")
         if get_url is None:
@@ -164,7 +163,7 @@ class MicrosoftTextApi(TextInterface):
         if get_response.status_code != 200:
             err = get_response.json().get("error", {})
             error_msg = err.get("message", "Microsoft Azure couldn't fetch job")
-            raise ProviderException(error_msg, code= get_response.status_code)
+            raise ProviderException(error_msg, code=get_response.status_code)
 
         data = get_response.json()
         wait_time = 0
@@ -205,7 +204,9 @@ class MicrosoftTextApi(TextInterface):
                 },
             )
         except Exception as exc:
-            raise ProviderException(f"Unexpected error! {sys.exc_info()[0]}", code= 500) from exc
+            raise ProviderException(
+                f"Unexpected error! {sys.exc_info()[0]}", code=500
+            ) from exc
 
         original_response = response.json()
         if response.status_code != 200:
@@ -213,6 +214,23 @@ class MicrosoftTextApi(TextInterface):
 
         entities: Sequence[AnonymizationEntity] = []
 
+        results = original_response["results"]
+        if errors := results.get("errors"):  # we found an error
+            if isinstance(errors, list):
+                error = errors[0].get("error", "Provider returned an error")
+            else:
+                error = errors.get("error", "Provider returned an error")
+            raise ProviderException(error, code=400)
+
+        if (
+            not results.get("documents")
+            or not isinstance(results.get("documents"), list)
+            or (
+                isinstance(results.get("documents"), list)
+                and len(results.get("documents")) == 0
+            )
+        ):
+            raise ProviderException("Provider returned an empty response")
         for entity in original_response["results"]["documents"][0]["entities"]:
             classificator = CategoryType.choose_category_subcategory(entity["category"])
             entities.append(
@@ -259,7 +277,9 @@ class MicrosoftTextApi(TextInterface):
                 },
             )
         except Exception as exc:
-            raise ProviderException(f"Unexpected error! {sys.exc_info()[0]}", code=500) from exc
+            raise ProviderException(
+                f"Unexpected error! {sys.exc_info()[0]}", code=500
+            ) from exc
 
         data = response.json()
         self._check_microsoft_error(data, response.status_code)
@@ -310,7 +330,7 @@ class MicrosoftTextApi(TextInterface):
             original_response=data, standardized_response=standarize
         )
 
-    def _check_microsoft_error(self, data: Dict, status_code= None):
+    def _check_microsoft_error(self, data: Dict, status_code=None):
         if not data:
             raise ProviderException("Provider returned an empty response")
         data = data.get("results") or {}
@@ -318,10 +338,12 @@ class MicrosoftTextApi(TextInterface):
         if not error:
             return
         if isinstance(error, dict) and error.get("message"):
-            raise ProviderException(data["error"]["message"], code= status_code)
+            raise ProviderException(data["error"]["message"], code=status_code)
         if isinstance(error, list):
             errors = error[0]
-            raise ProviderException(errors.get("error").get("message"), code= status_code)
+            raise ProviderException(
+                errors.get("error").get("message"), code=status_code
+            )
 
     def text__keyword_extraction(
         self, language: str, text: str
@@ -345,7 +367,9 @@ class MicrosoftTextApi(TextInterface):
                 },
             )
         except Exception as exc:
-            raise ProviderException(f"Unexpected error! {sys.exc_info()[0]}", code=500) from exc
+            raise ProviderException(
+                f"Unexpected error! {sys.exc_info()[0]}", code=500
+            ) from exc
         data = response.json()
         self._check_microsoft_error(data, response.status_code)
 

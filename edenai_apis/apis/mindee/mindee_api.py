@@ -214,21 +214,24 @@ class MindeeApi(ProviderInterface, OcrInterface):
             "value", None
         )
         customer_company_registrations = invoice_data.get("customer_company_registrations", {})
-        customer_siret = None
-        customer_siren = None
         customer_vat_number = None
         customer_abn_number = None
         customer_gst_number = None
+        customer_siret_number = None
+        customer_siren_number = None
         for customer_info in customer_company_registrations:
             customer_type = customer_info.get("type", "")
             customer_registration_value = customer_info.get("value", "")
-            match customer_type:
-                case "VAT NUMBER":
-                    merchant_vat_number = customer_registration_value
-                case "ABN":
-                    merchant_abn_number = customer_registration_value
-                case "GSTIN":
-                    merchant_gst_number = customer_registration_value
+            if customer_type == "VAT NUMBER":
+                customer_vat_number = customer_registration_value
+            elif customer_type == "ABN":
+                customer_abn_number = customer_registration_value
+            elif customer_type == "GSTIN":
+                customer_gst_number = customer_registration_value
+            elif customer_type == "SIREN":
+                customer_siren_number = customer_registration_value
+            elif customer_type == "SIRET":
+                customer_siret_number = customer_registration_value
 
         # Merchant information
         merchant_name = invoice_data.get("supplier", default_dict).get("value", None)
@@ -244,17 +247,16 @@ class MindeeApi(ProviderInterface, OcrInterface):
         for supplier_info in supplier_company_registrations:
             supplier_type = supplier_info.get("type", "")
             supplier_registration_value = supplier_info.get("value", None)
-            match supplier_type:
-                case "SIRET":
-                    merchant_siret = supplier_registration_value
-                case "SIREN":
-                    merchant_siren = supplier_registration_value
-                case "VAT NUMBER":
-                    merchant_vat_number = supplier_registration_value
-                case "ABN":
-                    merchant_abn_number = supplier_registration_value
-                case "GSTIN":
-                    merchant_gst_number = supplier_registration_value
+            if supplier_type == "SIRET":
+                merchant_siret = supplier_registration_value
+            elif supplier_type =="SIREN":
+                merchant_siren = supplier_registration_value
+            elif supplier_type == "VAT NUMBER":
+                merchant_vat_number = supplier_registration_value
+            elif supplier_type == "ABN":
+                merchant_abn_number = supplier_registration_value
+            elif supplier_type == "GSTIN":
+                merchant_gst_number = supplier_registration_value
         # Others
         date = invoice_data.get("date", default_dict).get("value", None)
         time = invoice_data.get("time", default_dict).get("value", None)
@@ -312,6 +314,8 @@ class MindeeApi(ProviderInterface, OcrInterface):
                 gst_number=customer_gst_number,
                 pan_number=None,
                 vat_number=customer_vat_number,
+                siren_number=customer_siren_number,
+                siret_number=customer_siret_number,
             ),
             invoice_number=invoice_number,
             invoice_total=invoice_total,

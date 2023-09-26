@@ -2,21 +2,19 @@
   "original_response": {
     "metadata": {
       "dashboard": {},
-      "task": "detection",
-      "height": 1600,
-      "width": 315,
-      "time_processing": 5.517392635345459,
+      "time_processing": 6.306924819946289,
+      "task": "receipt_extraction",
       "documents": [
         {
           "filename": "receipt.jpg",
           "extension": "jpg",
           "pages": 1,
-          "key": "c55715bf-11c8-403a-957b-bb093359db13.jpg",
-          "id": "af5b8f55-c3fe-42f1-b845-513efcd7cb89",
+          "key": "8dfa5bac-fbba-415f-a1ca-f4b3f86b66cc.jpg",
+          "id": "d3cf9b5f-200f-4614-81d9-8fb8d075b647",
           "dimensions": [
             {
-              "keyname": "c55715bf-11c8-403a-957b-bb093359db13.jpg",
-              "kc": "anno-image-cf8a6197-a599-4c39-b459-12b782afe823.jpg",
+              "keyname": "8dfa5bac-fbba-415f-a1ca-f4b3f86b66cc.jpg",
+              "kc": "anno-image-949cc9f7-0ae4-4c98-9032-20b7ab5fec38.jpg",
               "page": 1,
               "width": 315,
               "height": 1600
@@ -25,16 +23,16 @@
         }
       ],
       "status": "PROCESSED",
-      "task_id": "5eedd47d-6a0c-4a06-bfc6-75b095b41c97",
+      "task_id": "64312243-102e-4942-ac76-6ab35d565c6d",
       "api_version": "09-06-2022"
     },
     "entities": [
       {
-        "id": "29fe1b9a-20c7-4f2d-8df2-de3ef331436c",
+        "id": "dcac56f5-6a63-4326-bae0-787665b36ee4",
         "text": "02.04.2022",
         "name": "IssueDate",
-        "confidence": 0.9971078038215637,
-        "color": "#bdc3c7",
+        "confidence": 0.9969256520271301,
+        "color": "#FF0000",
         "bounding_box": [
           [
             16,
@@ -54,18 +52,81 @@
           ]
         ],
         "value": "02/04/2022",
+        "type": "date",
         "page": 1,
         "document_number": 1,
-        "document_name": "receipt.jpg",
-        "document_id": "af5b8f55-c3fe-42f1-b845-513efcd7cb89",
-        "type": "date"
+        "document_id": "d3cf9b5f-200f-4614-81d9-8fb8d075b647",
+        "document_name": "receipt.jpg"
       },
       {
-        "id": "d56e715d-84a1-4a14-bf78-c457ff0b03db",
+        "id": "4313b452-e7ea-4803-97d3-bacd2b56022f",
+        "text": "SC AUCHAN ROMANIA SA",
+        "name": "VendorName",
+        "confidence": 0.9945776462554932,
+        "color": "#0000FF",
+        "bounding_box": [
+          [
+            84,
+            92
+          ],
+          [
+            219,
+            92
+          ],
+          [
+            219,
+            104
+          ],
+          [
+            84,
+            104
+          ]
+        ],
+        "type": "text",
+        "value": "SC AUCHAN ROMANIA SA",
+        "page": 1,
+        "document_number": 1,
+        "document_id": "d3cf9b5f-200f-4614-81d9-8fb8d075b647",
+        "document_name": "receipt.jpg"
+      },
+      {
+        "id": "75ac2d87-d193-4b7b-851b-f072e3b76927",
+        "text": "21,89",
+        "name": "Tax",
+        "confidence": 0.9941998720169067,
+        "color": "#00FF00",
+        "bounding_box": [
+          [
+            122,
+            1258
+          ],
+          [
+            158,
+            1257
+          ],
+          [
+            158,
+            1271
+          ],
+          [
+            122,
+            1272
+          ]
+        ],
+        "value": 21.89,
+        "type": "number",
+        "percent": 0.149,
+        "page": 1,
+        "document_number": 1,
+        "document_id": "d3cf9b5f-200f-4614-81d9-8fb8d075b647",
+        "document_name": "receipt.jpg"
+      },
+      {
+        "id": "813c9cb3-b5cb-4d6d-84ad-9d97bfab72c7",
         "text": "168,95",
         "name": "Total",
-        "confidence": 0.9945021867752075,
-        "color": "#d35400",
+        "confidence": 0.9905980229377747,
+        "color": "#00FF00",
         "bounding_box": [
           [
             240,
@@ -85,42 +146,11 @@
           ]
         ],
         "value": 168.95,
+        "type": "number",
         "page": 1,
         "document_number": 1,
-        "document_name": "receipt.jpg",
-        "document_id": "af5b8f55-c3fe-42f1-b845-513efcd7cb89",
-        "type": "number"
-      },
-      {
-        "id": "426850fc-175c-452f-bc74-2ad6badac19a",
-        "text": "SC AUCHAN ROMANIA SA",
-        "name": "VendorName",
-        "confidence": 0.9986270879898466,
-        "color": "#1abc9c",
-        "bounding_box": [
-          [
-            84,
-            92
-          ],
-          [
-            219,
-            92
-          ],
-          [
-            219,
-            104
-          ],
-          [
-            84,
-            104
-          ]
-        ],
-        "value": "SC AUCHAN ROMANIA SA",
-        "page": 1,
-        "document_number": 1,
-        "document_name": "receipt.jpg",
-        "document_id": "af5b8f55-c3fe-42f1-b845-513efcd7cb89",
-        "type": "text"
+        "document_id": "d3cf9b5f-200f-4614-81d9-8fb8d075b647",
+        "document_name": "receipt.jpg"
       }
     ],
     "documents": [],
@@ -128,24 +158,25 @@
     "alerts": [],
     "class": [
       {
-        "id": "38f2f202-cf3d-4a7b-9fea-e6535dc5a078",
+        "id": "9a167644-0527-4f1c-9396-e6c184b4f735",
         "color": "#dddddd",
         "confidence": 1,
         "page": 1,
         "name": "FR",
         "document_number": 1,
-        "document_name": "receipt.jpg",
-        "document_id": "af5b8f55-c3fe-42f1-b845-513efcd7cb89"
+        "document_id": "d3cf9b5f-200f-4614-81d9-8fb8d075b647",
+        "document_name": "receipt.jpg"
       }
     ],
     "tables": [],
+    "form": {},
     "explenations": []
   },
   "standardized_response": {
     "extracted_data": [
       {
         "invoice_number": null,
-        "invoice_total": 16895.0,
+        "invoice_total": 168.95,
         "invoice_subtotal": null,
         "barcodes": [],
         "category": null,
@@ -161,7 +192,10 @@
           "merchant_phone": null,
           "merchant_url": null,
           "merchant_siret": null,
-          "merchant_siren": null
+          "merchant_siren": null,
+          "merchant_vat_number": null,
+          "merchant_gst_number": null,
+          "merchant_abn_number": null
         },
         "payment_information": {
           "card_type": null,
@@ -178,7 +212,7 @@
         },
         "taxes": [
           {
-            "taxes": null,
+            "taxes": 21.89,
             "rate": null
           }
         ],
