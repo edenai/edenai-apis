@@ -260,6 +260,7 @@ class OneaiApi(
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
+        provider_params: dict = dict()
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -273,6 +274,7 @@ class OneaiApi(
                 }
             ],
             "multilingual": True,
+            **provider_params
         }
 
         file_ = open(file, "rb")
