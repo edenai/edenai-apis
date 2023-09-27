@@ -9,6 +9,7 @@ from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
 )
 from edenai_apis.features.text.anonymization.category import CategoryType
+from edenai_apis.features.text.moderation.category import CategoryType as CategoryTypeModeration
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
     CodeGenerationDataClass,
 )
@@ -114,9 +115,13 @@ class OpenaiTextApi(TextInterface):
         classification: Sequence[TextModerationItem] = []
         if result := original_response.get("results", None):
             for key, value in result[0].get("category_scores", {}).items():
+                classificator = CategoryTypeModeration.choose_category_subcategory(key)
                 classification.append(
                     TextModerationItem(
-                        label=key, likelihood=standardized_confidence_score(value)
+                        label=key,
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        likelihood=value
                     )
                 )
         standardized_response: ModerationDataClass = ModerationDataClass(

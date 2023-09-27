@@ -67,71 +67,103 @@
     ]
   },
   "standardized_response": {
-    "nsfw_likelihood": 2,
+    "nsfw_likelihood": 0.28705063,
     "items": [
       {
         "label": "Toxic",
-        "likelihood": 2
+        "likelihood": 0.2391817,
+        "category": "Toxic",
+        "subcategory": "Toxic"
       },
       {
         "label": "Insult",
-        "likelihood": 1
+        "likelihood": 0.052930057,
+        "category": "Toxic",
+        "subcategory": "Insult"
       },
       {
         "label": "Profanity",
-        "likelihood": 2
+        "likelihood": 0.28705063,
+        "category": "Toxic",
+        "subcategory": "Profanity"
       },
       {
         "label": "Derogatory",
-        "likelihood": 1
+        "likelihood": 0.0047925273,
+        "category": "Toxic",
+        "subcategory": "Derogatory"
       },
       {
         "label": "Sexual",
-        "likelihood": 1
+        "likelihood": 0.0024352302,
+        "category": "Sexual",
+        "subcategory": "SexualActivity"
       },
       {
         "label": "Death, Harm & Tragedy",
-        "likelihood": 1
+        "likelihood": 0.0005420054,
+        "category": "Violence",
+        "subcategory": "GraphicViolenceOrGore"
       },
       {
         "label": "Violent",
-        "likelihood": 1
+        "likelihood": 0.0025138261,
+        "category": "Violence",
+        "subcategory": "Violence"
       },
       {
         "label": "Firearms & Weapons",
-        "likelihood": 1
+        "likelihood": 0.0,
+        "category": "Violence",
+        "subcategory": "WeaponViolence"
       },
       {
         "label": "Public Safety",
-        "likelihood": 1
+        "likelihood": 0.010695187,
+        "category": "Content",
+        "subcategory": "PublicSafety"
       },
       {
         "label": "Health",
-        "likelihood": 1
+        "likelihood": 0.004199916,
+        "category": "Content",
+        "subcategory": "Health"
       },
       {
         "label": "Religion & Belief",
-        "likelihood": 1
+        "likelihood": 0.012507818,
+        "category": "Other",
+        "subcategory": "Religion"
       },
       {
         "label": "Illicit Drugs",
-        "likelihood": 1
+        "likelihood": 0.0023364485,
+        "category": "DrugAndAlcohol",
+        "subcategory": "DrugProducts"
       },
       {
         "label": "War & Conflict",
-        "likelihood": 1
+        "likelihood": 0.00047664443,
+        "category": "Violence",
+        "subcategory": "WeaponViolence"
       },
       {
         "label": "Politics",
-        "likelihood": 1
+        "likelihood": 0.0028191702,
+        "category": "Content",
+        "subcategory": "Politics"
       },
       {
         "label": "Finance",
-        "likelihood": 1
+        "likelihood": 0.01904762,
+        "category": "Finance",
+        "subcategory": "Finance"
       },
       {
         "label": "Legal",
-        "likelihood": 1
+        "likelihood": 0.0029382957,
+        "category": "Content",
+        "subcategory": "Legal"
       }
     ]
   }

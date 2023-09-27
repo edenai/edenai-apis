@@ -43,6 +43,8 @@ from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.types import ResponseType
 
 from .clarifai_helpers import explicit_content_likelihood, get_formatted_language
+from edenai_apis.features.text.moderation.category import CategoryType
+from edenai_apis.features.image.explicit_content.category import CategoryType as CategoryTypeExplicitContent
 
 
 class ClarifaiApi(
@@ -111,12 +113,14 @@ class ClarifaiApi(
         
         classification: Sequence[TextModerationItem] = []
         for concept in original_response.get("concepts", []) or []:
+            classificator = CategoryType.choose_category_subcategory(concept["name"])
             classification.append(
                 TextModerationItem(
                     label= concept["name"],
-                    likelihood= standardized_confidence_score(concept["value"])
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood=concept["value"])
                 )
-            )
         
         standardized_response: ModerationDataClass = ModerationDataClass(
             nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
@@ -243,10 +247,13 @@ class ClarifaiApi(
         original_response = response.get("outputs", [])[0]["data"]
         items = []
         for concept in original_response["concepts"]:
+            classificator = CategoryTypeExplicitContent.choose_category_subcategory(concept["name"])
             items.append(
                 ExplicitItem(
                     label=concept["name"],
-                    likelihood=explicit_content_likelihood(concept["value"]),
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood=concept["value"],
                 )
             )
 

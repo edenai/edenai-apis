@@ -51,6 +51,8 @@ from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
 from io import BytesIO
 import base64
 
+from edenai_apis.features.image.explicit_content.category import CategoryType
+
 
 class Api4aiApi(
     ProviderInterface,
@@ -309,10 +311,13 @@ class Api4aiApi(
         nsfw_items = []
         nsfw_response = original_response["results"][0]["entities"][0]["classes"]
         for classe in nsfw_response:
+            classificator = CategoryType.choose_category_subcategory(classe)
             nsfw_items.append(
                 ExplicitItem(
                     label=classe,
-                    likelihood=standardized_confidence_score(nsfw_response[classe]),
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood=nsfw_response[classe],
                 )
             )
 

@@ -1,27 +1,27 @@
 {
   "original_response": {
     "suggestive_nudity_moderation": {
-      "compute_time": 0.2071,
+      "compute_time": 0.1687,
       "confidence_score": 0.9999997615814209,
       "suggestive_nudity_content": false
     },
     "gore_moderation": {
-      "compute_time": 0.1961,
+      "compute_time": 0.2193,
       "confidence_score": 0.990346372127533,
       "gore_content": true
     },
     "weapon_moderation": {
-      "compute_time": 0.2036,
+      "compute_time": 0.2211,
       "confidence_score": 0.9999998807907104,
       "weapon_content": false
     },
     "drug_moderation": {
-      "compute_time": 0.2051,
+      "compute_time": 0.2204,
       "confidence_score": 0.9862111806869507,
       "drug_content": false
     },
     "hate_sign_moderation": {
-      "compute_time": 0.187,
+      "compute_time": 0.2218,
       "confidence_score": 0.9999889135360718,
       "hate_sign_content": false
     },
@@ -49,33 +49,43 @@
     "media": {
       "url_image": "",
       "file_image": "explicit_content.jpeg",
-      "media_id": "4e128104e416d85dfcbf9e4f53ca1239"
+      "media_id": "0aab8a4599bcc2dfb9dfc04334d68b6a"
     },
     "units_consumed": 5,
-    "total_compute_time": 0.5062961578369141
+    "total_compute_time": 0.4364900588989258
   },
   "standardized_response": {
-    "nsfw_likelihood": 5,
+    "nsfw_likelihood": 0.990346372127533,
     "items": [
       {
         "label": "suggestive_nudity_content",
-        "likelihood": 1
+        "likelihood": 0.2,
+        "category": "Sexual",
+        "subcategory": "Suggestive"
       },
       {
         "label": "gore_content",
-        "likelihood": 5
+        "likelihood": 0.990346372127533,
+        "category": "Violence",
+        "subcategory": "GraphicViolenceOrGore"
       },
       {
         "label": "weapon_content",
-        "likelihood": 1
+        "likelihood": 0.2,
+        "category": "Violence",
+        "subcategory": "WeaponViolence"
       },
       {
         "label": "drug_content",
-        "likelihood": 1
+        "likelihood": 0.2,
+        "category": "DrugAndAlcohol",
+        "subcategory": "DrugProducts"
       },
       {
         "label": "hate_sign_content",
-        "likelihood": 1
+        "likelihood": 0.2,
+        "category": "HateAndExtremism",
+        "subcategory": "Hate"
       }
     ]
   }

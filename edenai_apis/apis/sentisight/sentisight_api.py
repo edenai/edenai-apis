@@ -33,6 +33,7 @@ from .sentisight_helpers import (
     get_formatted_language,
     handle_error_image_search,
 )
+from edenai_apis.features.image.explicit_content.category import CategoryType
 
 
 class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
@@ -162,13 +163,15 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
 
         original_response = response.json()
         items: Sequence[ObjectItem] = []
-        items.append(
-            ExplicitItem(
-                label="nudity",
-                likelihood=round(
-                    [x for x in original_response if x["label"] == "unsafe"][0]["score"]
-                    / 20
-                ),
+        for content in original_response:
+            classificator = CategoryType.choose_category_subcategory(content["label"])
+            items.append(
+                ExplicitItem(
+                    label=content["label"],
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood=content["score"] / 100
+                    ,
             )
         )
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)

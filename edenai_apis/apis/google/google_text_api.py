@@ -22,6 +22,7 @@ from edenai_apis.features.text.entity_sentiment.entity_sentiment_dataclass impor
     Entity,
     EntitySentimentDataClass,
 )
+from edenai_apis.features.text.moderation.category import CategoryType
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
     InfosNamedEntityRecognitionDataClass,
     NamedEntityRecognitionDataClass,
@@ -485,10 +486,13 @@ class GoogleTextApi(TextInterface):
         # Create output response
         items: Sequence[TextModerationItem] = []
         for moderation in original_response.get("moderationCategories", []) or []:
+            classificator = CategoryType.choose_category_subcategory(moderation.get("name"))
             items.append(
                 TextModerationItem(
-                    label= moderation.get("name"),
-                    likelihood= standardized_confidence_score(moderation.get("confidence", 0))
+                    label=moderation.get("name"),
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood=moderation.get("confidence", 0)
                 )
             )
         standardized_response: ModerationDataClass = ModerationDataClass(

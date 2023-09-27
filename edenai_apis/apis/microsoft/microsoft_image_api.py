@@ -18,6 +18,7 @@ from edenai_apis.features.image import (
     ObjectDetectionDataClass,
     ObjectItem,
 )
+from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.face_recognition.add_face.face_recognition_add_face_dataclass import (
     FaceRecognitionAddFaceDataClass,
 )
@@ -76,12 +77,15 @@ class MicrosoftImageApi(ImageInterface):
         items = []
         for explicit_type in ["gore", "adult", "racy"]:
             if moderation_content.get(f"{explicit_type}Score"):
+                classificator = CategoryType.choose_category_subcategory(explicit_type.capitalize())
                 items.append(
                     ExplicitItem(
                         label=explicit_type.capitalize(),
-                        likelihood=standardized_confidence_score(
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        likelihood=
                             moderation_content[f"{explicit_type}Score"]
-                        ),
+                        ,
                     )
                 )
         nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)

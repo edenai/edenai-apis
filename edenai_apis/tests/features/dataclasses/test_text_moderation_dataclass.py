@@ -17,11 +17,11 @@ class TestTextModeration:
                 marks=[getattr(pytest.mark, FEATURE), getattr(pytest.mark, SUBFEATURE)],
             ),
             pytest.param(
-                5,
+                0.5,
                 marks=[getattr(pytest.mark, FEATURE), getattr(pytest.mark, SUBFEATURE)],
             ),
             pytest.param(
-                2,
+                0.2,
                 marks=[getattr(pytest.mark, FEATURE), getattr(pytest.mark, SUBFEATURE)],
             ),
         ],

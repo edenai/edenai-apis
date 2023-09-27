@@ -3,6 +3,7 @@ from typing import Optional, Sequence
 
 import numpy as np
 from edenai_apis.apis.google.google_helpers import handle_google_call, score_to_content
+from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
     ExplicitItem,
@@ -50,6 +51,9 @@ from google.protobuf.json_format import MessageToDict
 
 
 class GoogleImageApi(ImageInterface):
+    def _convert_likelihood(self, value: int) -> float:
+        values = [0, 0.2, 0.4, 0.6, 0.8, 1]
+        return values[value]
     def image__explicit_content(
         self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
@@ -70,9 +74,13 @@ class GoogleImageApi(ImageInterface):
 
         items = []
         for safe_search_annotation, likelihood in original_response.items():
+            classificator = CategoryType.choose_category_subcategory(safe_search_annotation.capitalize())
             items.append(
                 ExplicitItem(
-                    label=safe_search_annotation.capitalize(), likelihood=likelihood
+                    label=safe_search_annotation.capitalize(),
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood=self._convert_likelihood(likelihood)
                 )
             )
 
