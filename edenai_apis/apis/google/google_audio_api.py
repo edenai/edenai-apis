@@ -132,6 +132,7 @@ class GoogleAudioApi(AudioInterface):
         audio_attributes: tuple,
         model: Optional[str] = None,
         file_url: str = "",
+        provider_params = dict()
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, _ = audio_attributes
 
@@ -166,6 +167,7 @@ class GoogleAudioApi(AudioInterface):
             "enable_word_confidence": True,
             "enable_automatic_punctuation": True,
             "enable_spoken_punctuation": True,
+            **provider_params
         }
 
         encoding, sampling = get_encoding_and_sample_rate(

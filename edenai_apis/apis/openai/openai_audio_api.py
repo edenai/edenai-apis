@@ -29,6 +29,7 @@ class OpenaiAudioApi(AudioInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
+        provider_params = dict()
     ) -> AsyncLaunchJobResponseType:
         data_job_id = {}
         headers = {
@@ -38,7 +39,7 @@ class OpenaiAudioApi(AudioInterface):
         url = "https://api.openai.com/v1/audio/transcriptions"
         file_ = open(file, "rb")
         files = {"file": file_}
-        payload = {"model": "whisper-1", "language": language}
+        payload = {"model": "whisper-1", "language": language, **provider_params}
         response = requests.post(url, data=payload, files=files, headers=headers)
         if response.status_code != 200:
             raise ProviderException(response.text, response.status_code)

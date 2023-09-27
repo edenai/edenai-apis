@@ -32,6 +32,7 @@ class AudioInterface:
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
+        provider_params: dict = dict()
     ) -> AsyncLaunchJobResponseType:
         """Launch an asynchronous job to convert an audio file to text
         Args:
@@ -40,6 +41,7 @@ class AudioInterface:
             speakers (int): number of speakers present in the audio
             profanity_filter (bool): whether or not to filter profanity and replace inappropriate words.
             vocabulary (list[str]): List of words or composed words to be detected by the speech to text engine
+            provider_params (dict): default to {}, provider specific parameters
         """
         raise NotImplementedError
 

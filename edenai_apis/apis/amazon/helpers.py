@@ -611,7 +611,7 @@ def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
             continue
 
         lines: Sequence[Line] = []
-        for block_id in block('Relationships', [{}])[0].get("Ids", []):
+        for block_id in block.get('Relationships', [{}])[0].get("Ids", []):
             if blocks[block_id]["BlockType"] != "LINE":
                 continue
 

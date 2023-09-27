@@ -198,9 +198,12 @@ class MicrosoftOcrApi(OcrInterface):
 
             # 6. Receipt infos / payment informations
             receipt_infos = {"doc_type": fields.get("doc_type")}
-            payment_infos = PaymentInformation(
-                tip=fields.get("Tip", default_dict).get("value")
-            )
+            try:
+                tip_float = fields.get("Tip", default_dict).get("value")
+                tip = str(tip_float) if tip_float else None
+            except:
+                tip = None
+            payment_infos = PaymentInformation(tip=tip)
 
             # 7. Items
             items = []
@@ -339,7 +342,7 @@ class MicrosoftOcrApi(OcrInterface):
                     address=ItemIdentityParserDataClass(),
                     age=ItemIdentityParserDataClass(),
                     image_id=[],
-                    image_signature=[]
+                    image_signature=[],
                 )
             )
 
@@ -374,7 +377,7 @@ class MicrosoftOcrApi(OcrInterface):
 
         if response.status_code != 202:
             error = response.json()["error"]["innererror"]["message"]
-            raise ProviderException(error, code = response.status_code)
+            raise ProviderException(error, code=response.status_code)
 
         return AsyncLaunchJobResponseType(
             provider_job_id=response.headers.get("apim-request-id")
@@ -401,14 +404,14 @@ class MicrosoftOcrApi(OcrInterface):
             error = response.json()["error"]["message"]
             if "Resource not found" in error:
                 raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, 
-                    code = response.status_code
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                    code=response.status_code,
                 )
-            raise ProviderException(error, code= response.status_code)
+            raise ProviderException(error, code=response.status_code)
 
         data = response.json()
         if data.get("error"):
-            raise ProviderException(data.get("error"), code= response.status_code)
+            raise ProviderException(data.get("error"), code=response.status_code)
         if data["status"] == "succeeded":
             original_result = data["analyzeResult"]
             standardized_response = microsoft_ocr_tables_standardize_response(

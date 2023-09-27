@@ -180,13 +180,14 @@
     "generation": {
       "constraints": {
         "models": [
+          "gpt-3.5-turbo-instruct",
           "text-davinci-003",
           "text-davinci-002",
           "text-curie-001",
           "text-babbage-001",
           "text-ada-001"
         ],
-        "default_model": "text-davinci-003"
+        "default_model": "gpt-3.5-turbo-instruct"
       },
       "version": "v1"
     },

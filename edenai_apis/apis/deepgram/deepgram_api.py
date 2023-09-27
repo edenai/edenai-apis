@@ -49,6 +49,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         audio_attributes: tuple,
         model: str,
         file_url: str = "",
+        provider_params: dict = dict(),
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -67,6 +68,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
 
         data = {"url": content_url}
 
+
         data_config = {
             "language": language,
             "callback": self.webhook_url,
@@ -81,14 +83,15 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         if not language:
             del data_config["language"]
             data_config.update({"detect_language": "true"})
-        for key, value in data_config.items():
-            self.url = (
-                f"{self.url}&{key}={value}"
-                if "?" in self.url
-                else f"{self.url}?{key}={value}"
-            )
 
-        response = requests.post(self.url, headers=headers, json=data)
+        data_config.update(provider_params)
+        # deepgram doesn't accept boolean with python like syntax
+        # as requests doesn't change the value (eg ?bool=True instead of ?bool=true)
+        for key, value in data_config.items():
+            if isinstance(value, bool):
+                data_config[key] = str(value).lower()
+
+        response = requests.post(self.url, headers=headers, json=data, params=data_config)
         result = response.json()
         if response.status_code != 200:
             raise ProviderException(

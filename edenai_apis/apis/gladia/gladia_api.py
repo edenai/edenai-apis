@@ -49,6 +49,7 @@ class GladiaApi(ProviderInterface, AudioInterface):
         audio_attributes: tuple,
         model : str = None,
         file_url: str = "",
+        provider_params: dict = dict(),
         ) -> AsyncLaunchJobResponseType:
         data_job_id = {}
         export_format, channels, frame_rate = audio_attributes
@@ -68,19 +69,21 @@ class GladiaApi(ProviderInterface, AudioInterface):
 
         files = {
             'audio_url': content_url,
+        }
+        data = {
             'language_behaviour': 'automatic multiple language',
             'toggle_diarization': 'true',
         }
 
         if language:
-            files.update({
+            data.update({
                 'language': language_matches[language],
                 'language_behaviour': 'manual',
             })
+        data.update(provider_params)
 
 
-
-        response = requests.post('https://api.gladia.io/audio/text/audio-transcription/', headers=headers, files=files)
+        response = requests.post('https://api.gladia.io/audio/text/audio-transcription/', headers=headers, files=files, data=data)
 
         original_response = response.json()
         if response.status_code != 200:

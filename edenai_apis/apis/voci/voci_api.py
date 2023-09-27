@@ -44,6 +44,7 @@ class VociApi(ProviderInterface, AudioInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
+        provider_params = dict()
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -66,6 +67,7 @@ class VociApi(ProviderInterface, AudioInterface):
         #         })
         #     })
 
+        data_config.update(provider_params)
         file_ = open(file, "rb")
         response = requests.post(
             url="https://vcloud.vocitec.com/transcribe",
