@@ -115,7 +115,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
             )
 
         extracted_data = []
-        for page in original_response["document"]["inference"]:
+        for page in original_response["document"]["inference"]["pages"]:
             receipt_data = page["prediction"]
             supplier_company_registrations = receipt_data.get("supplier_company_registrations", None)
             merchant_siret = None
@@ -205,128 +205,131 @@ class MindeeApi(ProviderInterface, OcrInterface):
                 original_response["api_request"]["error"]["message"], code=response
             )
         # Invoice std :
-        invoice_data = original_response["document"]["inference"]["prediction"]
-        default_dict = defaultdict(lambda: None)
+        extracted_data = []
+        for page in original_response["document"]["inference"]["pages"]:
+            invoice_data = page["prediction"]
 
-        # Customer informations
-        customer_name = invoice_data.get("customer", default_dict).get("value", None)
-        customer_address = invoice_data.get("customer_address", default_dict).get(
-            "value", None
-        )
-        customer_company_registrations = invoice_data.get("customer_company_registrations", {})
-        customer_vat_number = None
-        customer_abn_number = None
-        customer_gst_number = None
-        customer_siret_number = None
-        customer_siren_number = None
-        for customer_info in customer_company_registrations:
-            customer_type = customer_info.get("type", "")
-            customer_registration_value = customer_info.get("value", "")
-            if customer_type == "VAT NUMBER":
-                customer_vat_number = customer_registration_value
-            elif customer_type == "ABN":
-                customer_abn_number = customer_registration_value
-            elif customer_type == "GSTIN":
-                customer_gst_number = customer_registration_value
-            elif customer_type == "SIREN":
-                customer_siren_number = customer_registration_value
-            elif customer_type == "SIRET":
-                customer_siret_number = customer_registration_value
+            default_dict = defaultdict(lambda: None)
 
-        # Merchant information
-        merchant_name = invoice_data.get("supplier", default_dict).get("value", None)
-        merchant_address = invoice_data.get("supplier_address", default_dict).get(
-            "value", None
-        )
-        supplier_company_registrations = invoice_data.get("supplier_company_registrations", {})
-        merchant_siret = None
-        merchant_siren = None
-        merchant_vat_number = None
-        merchant_abn_number = None
-        merchant_gst_number = None
-        for supplier_info in supplier_company_registrations:
-            supplier_type = supplier_info.get("type", "")
-            supplier_registration_value = supplier_info.get("value", None)
-            if supplier_type == "SIRET":
-                merchant_siret = supplier_registration_value
-            elif supplier_type =="SIREN":
-                merchant_siren = supplier_registration_value
-            elif supplier_type == "VAT NUMBER":
-                merchant_vat_number = supplier_registration_value
-            elif supplier_type == "ABN":
-                merchant_abn_number = supplier_registration_value
-            elif supplier_type == "GSTIN":
-                merchant_gst_number = supplier_registration_value
-        # Others
-        date = invoice_data.get("date", default_dict).get("value", None)
-        time = invoice_data.get("time", default_dict).get("value", None)
-        date = combine_date_with_time(date, time)
-        invoice_total = convert_string_to_number(
-            invoice_data.get("total_incl", default_dict).get("value", None), float
-        )
-        invoice_subtotal = convert_string_to_number(
-            invoice_data.get("total_excl", default_dict).get("value", None), float
-        )
-        due_date = invoice_data.get("due_date", default_dict).get("value", None)
-        due_time = invoice_data.get("due_time", default_dict).get("value", None)
-        due_date = combine_date_with_time(due_date, due_time)
-        invoice_number = invoice_data.get("invoice_number", default_dict).get(
-            "value", None
-        )
-        taxes: Sequence[TaxesInvoice] = [
-            TaxesInvoice(value=item.get("value", None), rate=item["rate"])
-            for item in invoice_data.get("taxes", [])
-        ]
-        currency = invoice_data.get("locale", default_dict)["currency"]
-        language = invoice_data.get("locale", default_dict)["language"]
+            # Customer informations
+            customer_name = invoice_data.get("customer", default_dict).get("value", None)
+            customer_address = invoice_data.get("customer_address", default_dict).get(
+                "value", None
+            )
+            customer_company_registrations = invoice_data.get("customer_company_registrations", {})
+            customer_vat_number = None
+            customer_abn_number = None
+            customer_gst_number = None
+            customer_siret_number = None
+            customer_siren_number = None
+            for customer_info in customer_company_registrations:
+                customer_type = customer_info.get("type", "")
+                customer_registration_value = customer_info.get("value", "")
+                if customer_type == "VAT NUMBER":
+                    customer_vat_number = customer_registration_value
+                elif customer_type == "ABN":
+                    customer_abn_number = customer_registration_value
+                elif customer_type == "GSTIN":
+                    customer_gst_number = customer_registration_value
+                elif customer_type == "SIREN":
+                    customer_siren_number = customer_registration_value
+                elif customer_type == "SIRET":
+                    customer_siret_number = customer_registration_value
 
-        invoice_parser = InfosInvoiceParserDataClass(
-            merchant_information=MerchantInformationInvoice(
-                merchant_name=merchant_name,
-                merchant_address=merchant_address,
-                # Not supported by the Mindee
-                # --------------------------------
-                merchant_phone=None,
-                merchant_email=None,
-                merchant_fax=None,
-                merchant_website=None,
-                merchant_siret=merchant_siret,
-                merchant_siren=merchant_siren,
-                merchant_tax_id=None,
-                abn_number=merchant_abn_number,
-                gst_number=merchant_gst_number,
-                vat_number=merchant_vat_number,
-                pan_number=None,
-                # --------------------------------
-            ),
-            customer_information=CustomerInformationInvoice(
-                customer_name=customer_name,
-                customer_address=customer_address,
-                customer_mailing_address=customer_address,
-                customer_email=None,
-                customer_id=None,
-                customer_tax_id=None,
-                customer_billing_address=None,
-                customer_remittance_address=None,
-                customer_service_address=None,
-                customer_shipping_address=None,
-                abn_number=customer_abn_number,
-                gst_number=customer_gst_number,
-                pan_number=None,
-                vat_number=customer_vat_number,
-                siren_number=customer_siren_number,
-                siret_number=customer_siret_number,
-            ),
-            invoice_number=invoice_number,
-            invoice_total=invoice_total,
-            invoice_subtotal=invoice_subtotal,
-            date=date,
-            due_date=due_date,
-            taxes=taxes,
-            locale=LocaleInvoice(currency=currency, language=language),
-        )
+            # Merchant information
+            merchant_name = invoice_data.get("supplier", default_dict).get("value", None)
+            merchant_address = invoice_data.get("supplier_address", default_dict).get(
+                "value", None
+            )
+            supplier_company_registrations = invoice_data.get("supplier_company_registrations", {})
+            merchant_siret = None
+            merchant_siren = None
+            merchant_vat_number = None
+            merchant_abn_number = None
+            merchant_gst_number = None
+            for supplier_info in supplier_company_registrations:
+                supplier_type = supplier_info.get("type", "")
+                supplier_registration_value = supplier_info.get("value", None)
+                if supplier_type == "SIRET":
+                    merchant_siret = supplier_registration_value
+                elif supplier_type =="SIREN":
+                    merchant_siren = supplier_registration_value
+                elif supplier_type == "VAT NUMBER":
+                    merchant_vat_number = supplier_registration_value
+                elif supplier_type == "ABN":
+                    merchant_abn_number = supplier_registration_value
+                elif supplier_type == "GSTIN":
+                    merchant_gst_number = supplier_registration_value
+            # Others
+            date = invoice_data.get("date", default_dict).get("value", None)
+            time = invoice_data.get("time", default_dict).get("value", None)
+            date = combine_date_with_time(date, time)
+            invoice_total = convert_string_to_number(
+                invoice_data.get("total_incl", default_dict).get("value", None), float
+            )
+            invoice_subtotal = convert_string_to_number(
+                invoice_data.get("total_excl", default_dict).get("value", None), float
+            )
+            due_date = invoice_data.get("due_date", default_dict).get("value", None)
+            due_time = invoice_data.get("due_time", default_dict).get("value", None)
+            due_date = combine_date_with_time(due_date, due_time)
+            invoice_number = invoice_data.get("invoice_number", default_dict).get(
+                "value", None
+            )
+            taxes: Sequence[TaxesInvoice] = [
+                TaxesInvoice(value=item.get("value", None), rate=item["rate"])
+                for item in invoice_data.get("taxes", [])
+            ]
+            currency = invoice_data.get("locale", default_dict)["currency"]
+            language = invoice_data.get("locale", default_dict)["language"]
 
-        standardized_response = InvoiceParserDataClass(extracted_data=[invoice_parser])
+            extracted_data.append(InfosInvoiceParserDataClass(
+                merchant_information=MerchantInformationInvoice(
+                    merchant_name=merchant_name,
+                    merchant_address=merchant_address,
+                    # Not supported by the Mindee
+                    # --------------------------------
+                    merchant_phone=None,
+                    merchant_email=None,
+                    merchant_fax=None,
+                    merchant_website=None,
+                    merchant_siret=merchant_siret,
+                    merchant_siren=merchant_siren,
+                    merchant_tax_id=None,
+                    abn_number=merchant_abn_number,
+                    gst_number=merchant_gst_number,
+                    vat_number=merchant_vat_number,
+                    pan_number=None,
+                    # --------------------------------
+                ),
+                customer_information=CustomerInformationInvoice(
+                    customer_name=customer_name,
+                    customer_address=customer_address,
+                    customer_mailing_address=customer_address,
+                    customer_email=None,
+                    customer_id=None,
+                    customer_tax_id=None,
+                    customer_billing_address=None,
+                    customer_remittance_address=None,
+                    customer_service_address=None,
+                    customer_shipping_address=None,
+                    abn_number=customer_abn_number,
+                    gst_number=customer_gst_number,
+                    pan_number=None,
+                    vat_number=customer_vat_number,
+                    siren_number=customer_siren_number,
+                    siret_number=customer_siret_number,
+                ),
+                invoice_number=invoice_number,
+                invoice_total=invoice_total,
+                invoice_subtotal=invoice_subtotal,
+                date=date,
+                due_date=due_date,
+                taxes=taxes,
+                locale=LocaleInvoice(currency=currency, language=language),
+            ))
+
+        standardized_response = InvoiceParserDataClass(extracted_data=extracted_data)
 
         result = ResponseType[InvoiceParserDataClass](
             original_response=original_response,
