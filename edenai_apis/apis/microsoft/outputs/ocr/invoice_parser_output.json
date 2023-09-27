@@ -9957,13 +9957,13 @@
         },
         "item_lines": [
           {
-            "description": "Field inspection of construction on 1/19/2003 deficiencies in house\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003",
-            "quantity": 1.0,
-            "amount": 750.0,
-            "unit_price": 750.0,
+            "description": null,
+            "quantity": null,
+            "amount": null,
+            "unit_price": null,
             "discount": null,
             "product_code": null,
-            "date_item": "",
+            "date_item": null,
             "tax_item": null,
             "tax_rate": null
           }
