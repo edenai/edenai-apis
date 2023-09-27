@@ -24,7 +24,7 @@ class OpenaiApi(
         self.api_key = self.api_settings["api_key"]
         self.org_key = self.api_settings["org_key"]
         self.url = "https://api.openai.com/v1"
-        self.model = "text-davinci-003"
+        self.model = "gpt-3.5-turbo-instruct"
         self.headers = {
             "Authorization": f"Bearer {self.api_key}",
             "OpenAI-Organization": self.org_key,
