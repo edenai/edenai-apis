@@ -315,12 +315,12 @@ class OpenaiTextApi(TextInterface):
 
         try:
             keywords = json.loads(original_response["choices"][0]["text"])
-        except (KeyError, json.JSONDecodeError) as exc:
+            standardized_response = KeywordExtractionDataClass(items=keywords["items"])
+        except (KeyError, json.JSONDecodeError, TypeError) as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
 
-        standardized_response = KeywordExtractionDataClass(items=keywords["items"])
         return ResponseType[KeywordExtractionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
