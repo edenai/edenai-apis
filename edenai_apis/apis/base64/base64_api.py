@@ -560,7 +560,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         for matching_face in original_response.get("matches", []):
             faces.append(
                 FaceMatch(
-                    confidence=matching_face.get("confidence"),
+                    confidence=matching_face.get("confidence") or 0,
                     bounding_box=FaceCompareBoundingBox(
                         top=matching_face.get("top"),
                         left=matching_face.get("left"),
