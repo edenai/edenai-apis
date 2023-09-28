@@ -150,7 +150,9 @@
 | **prompt_optimization** | openai |
 | **ai_detection** | originalityai |
 | | sapling |
+| | winstonai |
 | **plagia_detection** | originalityai |
+| | winstonai |
 
 </details>
 <details><summary>image</summary>
@@ -835,6 +837,14 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | speech_to_text_async |
+
+</details>
+<details><summary>winstonai</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | ai_detection |
+| | plagia_detection |
 
 </details>
 <details><summary>writesonic</summary>
