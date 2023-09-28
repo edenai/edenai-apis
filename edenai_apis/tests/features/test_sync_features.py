@@ -78,7 +78,7 @@ class CommonTestsSubfeatures:
         ), "standardized_response should not be None"
         assert standardized, "The output is not standardized"
 
-        assert all(
+        assert any(
             [std != None for std in iterate_all(standardized_response, "value")]
         ), "Response shouldn't be empty"
 

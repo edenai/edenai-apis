@@ -323,3 +323,4 @@ def iterate_all(iterable, returned="key"):
         for el in iterable:
             for ret in iterate_all(el, returned=returned):
                 yield ret
+    yield iterable

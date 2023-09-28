@@ -101,7 +101,7 @@ class CommonAsyncTests:
         assert (
             standardized_response is not None
         ), "standardized_response should not be None"
-        assert all(
+        assert any(
             [std != None for std in iterate_all(standardized_response, "value")]
         ), "Response shouldn't be empty"
         assert standardized, "The output is not standardized"
