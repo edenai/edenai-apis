@@ -235,10 +235,10 @@ class FaceppApi(ProviderInterface, ImageInterface):
         original_response = response.json()
         faces = []
         for matching_face in original_response.get("faces2"):
-            confidence = original_response.get("confidence")
+            confidence = original_response.get("confidence") or 0
             faces.append(
                 FaceMatch(
-                    confidence=confidence / 100 if confidence else None,
+                    confidence=confidence / 100,
                     bounding_box=FaceCompareBoundingBox(
                         top=matching_face.get("face_rectangle").get("top"),
                         left=matching_face.get("face_rectangle").get("left"),

@@ -278,7 +278,6 @@ class KlippaApi(ProviderInterface, OcrInterface):
             key=InfoCountry.ALPHA3,
             value=(parsed_data.get("issuing_country") or {}).get("value", ""),
         )
-        country["confidence"] = None
 
         given_names = parsed_data.get("given_names", {}).get("value", "").split(" ")
         final_given_names = []
