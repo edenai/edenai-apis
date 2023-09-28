@@ -1,4 +1,4 @@
-import PyPDF2
+import pypdf
 from io import BufferedReader
 from typing import Tuple
 
@@ -13,7 +13,7 @@ def get_pdf_width_height(pdf_file: BufferedReader) -> Tuple[float, float]:
     Returns:
         - width, height: a tuple(float, float) representing width & height
     """
-    reader = PyPDF2.PdfReader(pdf_file)
+    reader = pypdf.PdfReader(pdf_file)
     rectangle_box = reader.pages[0].mediabox
     width = float(rectangle_box.width)
     height = float(rectangle_box.height)
