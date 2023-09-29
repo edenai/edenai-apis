@@ -1,3 +1,5 @@
+from typing import Generator
+from numpy import iterable
 import pytest
 
 from edenai_apis.utils.conversion import (
@@ -8,6 +10,7 @@ from edenai_apis.utils.conversion import (
     concatenate_params_in_url,
     convert_pt_date_from_string,
     convert_string_to_number,
+    iterate_all,
     replace_sep,
     retreive_first_number_from_string,
 )
@@ -611,3 +614,100 @@ class TestClosestValue:
         v = closest_below_value([0.2, 0.4, 0.6, 0.8, 1], input_value)
 
         assert v == expected_value
+
+
+class TestIterateAll:
+    def test_iterate_all_should_return_an_generator(self):
+        assert isinstance(iterate_all({"1": 1}), Generator)
+
+    @pytest.mark.parametrize(
+        ("expected", "args", "assert_desc"),
+        [
+            ([1], {"iterable": {"1": 1}}, "should return [1] for dict {'1': 1}"),
+            ([2], {"iterable": {"2": 2}}, "should return [2] for dict {'2': 2}"),
+            ([3], {"iterable": {"3": 3}}, "should return [3] for dict {'3': 3}"),
+            (
+                [1, 2],
+                {"iterable": {"1": 1, "2": 2}},
+                "should return [1, 2] for dict {'1': 1, '2': 2}",
+            ),
+            (
+                [1, 2, 3],
+                {"iterable": {"1": 1, "2": 2, "3": 3}},
+                "should return [1, 2, 3] for dict {'1': 1, '2': 2, '3': 3}",
+            ),
+            (
+                [1],
+                {"iterable": {"1": {"1": 1}}},
+                'should return [1], for dict {"1": {"1": 1}}}',
+            ),
+            (
+                [1, 2],
+                {"iterable": {"1": {"1": 1}, "2": 2}},
+                'should return [1, 2], for dict {"1": {"1": 1}, "2": 2}}',
+            ),
+            (
+                [1, 2],
+                {"iterable": {"1": {"1": 1, "2": 2}}},
+                'should return [1, 2], for dict {"1": {"1": 1, "2": 2}}}',
+            ),
+            (
+                [1],
+                {"iterable": [1]},
+                "should return [1], for list [1]",
+            ),
+            (
+                [2],
+                {"iterable": [2]},
+                "should return [2], for list [2]",
+            ),
+            (
+                [1, 2],
+                {"iterable": [1, 2]},
+                "should return [1, 2], for list [1, 2]",
+            ),
+            (
+                [1, 2, 3],
+                {"iterable": [1, 2, 3]},
+                "should return [1, 2, 3], for list [1, 2, 3]",
+            ),
+            (
+                [1, 2, 3],
+                {"iterable": [1, [2, 3]]},
+                "should return [1, 2, 3], for list [1, [2, 3]]",
+            ),
+            (
+                [1, 2, 3],
+                {"iterable": {"1": 1, "2": [2, 3]}},
+                'should return [1, 2, 3], for dict {"1": 1, "2": [2, 3]}',
+            ),
+            (
+                [1, 2, 3],
+                {"iterable": [1, {"2": [2, 3]}]},
+                'should return [1, 2, 3], for dict [1, {"2": [2, 3]}]}',
+            ),
+            (
+                [1, 2, 3],
+                {"iterable": {"1": 1, "2": [{"2": 2}, {"3": 3}]}},
+                'should return [1, 2, 3], for dict {"1": 1, "2": [{"2": 2}, {"3": 3}]}',
+            ),
+            (
+                ["1"],
+                {"iterable": {"1": 1}, "returned": "key"},
+                "should return ['1'] for dict {'1': 1}",
+            ),
+            (
+                ["1", "2"],
+                {"iterable": {"1": 1, "2": [2, 3]}, "returned": "key"},
+                'should return [1, 2, 3], for dict {"1": 1, "2": [{"2": 2}, {"3": 3}]}',
+            ),
+        ],
+    )
+    def test_basicTest(self, expected, args, assert_desc):
+        output = [it for it in iterate_all(**args)]
+        assert expected == output, assert_desc
+
+    def test_bad_value_for_returned(self):
+        with pytest.raises(ValueError):
+            ret = [it for it in iterate_all(iterable={"1": 1}, returned="Bad")]
+            assert [1] == ret
