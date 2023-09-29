@@ -17,6 +17,7 @@ from edenai_apis.features.text import (
     CodeGenerationDataClass,
     ChatDataClass,
     PromptOptimizationDataClass,
+    EmotionDetectionDataClass,
 )
 from edenai_apis.features.text.plagia_detection.plagia_detection_dataclass import PlagiaDetectionDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
@@ -361,4 +362,17 @@ class TextInterface:
             title (str, optional): text's title
         """
 
+        raise NotImplementedError
+
+    @abstractmethod
+    def text__emotion_detection(
+            self, language: str, text: str
+    ) -> ResponseType[EmotionDetectionDataClass]:
+        """
+        Detect emotion of a given text
+
+        Args:
+            language (str): text to analyse
+            text (str): language of the text
+        """
         raise NotImplementedError

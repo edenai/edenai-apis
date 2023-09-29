@@ -1,0 +1,59 @@
+{
+  "original_response": {
+    "scored_labels": [
+      {
+        "label": "fear",
+        "score": 0.9974229335784912
+      },
+      {
+        "label": "anger",
+        "score": 0.0011927795130759478
+      },
+      {
+        "label": "surprise",
+        "score": 0.0005393747123889625
+      },
+      {
+        "label": "sadness",
+        "score": 0.00039018591633066535
+      },
+      {
+        "label": "joy",
+        "score": 0.00032625734456814826
+      },
+      {
+        "label": "love",
+        "score": 0.00012847629841417074
+      }
+    ]
+  },
+  "standardized_response": {
+    "text": "I'm scared",
+    "items": [
+      {
+        "emotion": "fear",
+        "emotion_score": 0.9974229335784912
+      },
+      {
+        "emotion": "anger",
+        "emotion_score": 0.0011927795130759478
+      },
+      {
+        "emotion": "surprise",
+        "emotion_score": 0.0005393747123889625
+      },
+      {
+        "emotion": "sadness",
+        "emotion_score": 0.00039018591633066535
+      },
+      {
+        "emotion": "joy",
+        "emotion_score": 0.00032625734456814826
+      },
+      {
+        "emotion": "love",
+        "emotion_score": 0.00012847629841417074
+      }
+    ]
+  }
+}
