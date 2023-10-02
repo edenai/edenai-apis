@@ -8,14 +8,14 @@
         "raw": 51
       },
       {
-        "name": "sadness",
-        "value": 51,
-        "raw": 51
-      },
-      {
         "name": "anger",
         "value": 0,
         "raw": 0
+      },
+      {
+        "name": "sadness",
+        "value": 51,
+        "raw": 51
       },
       {
         "name": "love",
@@ -28,19 +28,19 @@
     "text": "I'm scared",
     "items": [
       {
-        "emotion": "fear",
+        "emotion": "Fear",
         "emotion_score": 51.0
       },
       {
-        "emotion": "sadness",
-        "emotion_score": 51.0
-      },
-      {
-        "emotion": "anger",
+        "emotion": "Anger",
         "emotion_score": 0.0
       },
       {
-        "emotion": "love",
+        "emotion": "Sadness",
+        "emotion_score": 51.0
+      },
+      {
+        "emotion": "Love",
         "emotion_score": 0.0
       }
     ]

@@ -31,27 +31,27 @@
     "text": "I'm scared",
     "items": [
       {
-        "emotion": "fear",
+        "emotion": "Fear",
         "emotion_score": 0.9974229335784912
       },
       {
-        "emotion": "anger",
+        "emotion": "Anger",
         "emotion_score": 0.0011927795130759478
       },
       {
-        "emotion": "surprise",
+        "emotion": "Surprise",
         "emotion_score": 0.0005393747123889625
       },
       {
-        "emotion": "sadness",
+        "emotion": "Sadness",
         "emotion_score": 0.00039018591633066535
       },
       {
-        "emotion": "joy",
+        "emotion": "Joy",
         "emotion_score": 0.00032625734456814826
       },
       {
-        "emotion": "love",
+        "emotion": "Love",
         "emotion_score": 0.00012847629841417074
       }
     ]

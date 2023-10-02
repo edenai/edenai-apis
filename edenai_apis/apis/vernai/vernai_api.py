@@ -3,7 +3,7 @@ from typing import Dict, Sequence
 import requests
 
 from edenai_apis.features import ProviderInterface, TextInterface
-from edenai_apis.features.text import EmotionDetectionDataClass, EmotionDataClass
+from edenai_apis.features.text import EmotionDetectionDataClass, EmotionItem, EmotionEnum
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
@@ -21,7 +21,7 @@ class VernaiApi(ProviderInterface, TextInterface):
         self.url_emotion_detection = "https://vernapi.com/analyze"
 
     def text__emotion_detection(
-            self, language: str, text: str
+            self, text: str
     ) -> ResponseType[EmotionDetectionDataClass]:
         response = requests.post(
             url=self.url_emotion_detection,
@@ -31,11 +31,11 @@ class VernaiApi(ProviderInterface, TextInterface):
         if response.status_code != 200:
             raise ProviderException(message=response.text, code=response.status_code)
         original_response = response.json()
-        items: Sequence[EmotionDataClass] = []
+        items: Sequence[EmotionItem] = []
         for entity in original_response.get("scores", []):
             items.append(
-                EmotionDataClass(
-                    emotion=entity.get("name", ""),
+                EmotionItem(
+                    emotion=EmotionEnum.from_str(entity.get("name", "")),
                     emotion_score=entity.get("value", 0)
                 )
             )

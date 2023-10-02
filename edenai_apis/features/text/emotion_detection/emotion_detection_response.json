@@ -1,21 +1,21 @@
 {
-    "text": "I'm scared",
-    "items": [
-      {
-        "emotion": "fear",
-        "emotion_score": 51.0
-      },
-      {
-        "emotion": "sadness",
-        "emotion_score": 51.0
-      },
-      {
-        "emotion": "anger",
-        "emotion_score": 0.0
-      },
-      {
-        "emotion": "love",
-        "emotion_score": 0.0
-      }
-    ]
-  }
+  "text": "I'm scared",
+  "items": [
+    {
+      "emotion": "Fear",
+      "emotion_score": 51.0
+    },
+    {
+      "emotion": "Anger",
+      "emotion_score": 0.0
+    },
+    {
+      "emotion": "Sadness",
+      "emotion_score": 51.0
+    },
+    {
+      "emotion": "Love",
+      "emotion_score": 0.0
+    }
+  ]
+}
