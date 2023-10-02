@@ -147,6 +147,8 @@
 | **question_answer** | huggingface |
 | | openai |
 | | tenstorrent |
+| **emotion_detection** | nlpcloud |
+| | vernai |
 | **prompt_optimization** | openai |
 | **ai_detection** | originalityai |
 | | sapling |
@@ -638,6 +640,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | code_generation |
+| | emotion_detection |
 | | keyword_extraction |
 | | named_entity_recognition |
 | | sentiment_analysis |
@@ -814,6 +817,13 @@
 | | question_answer |
 | | sentiment_analysis |
 | | topic_extraction |
+
+</details>
+<details><summary>vernai</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | emotion_detection |
 
 </details>
 <details><summary>veryfi</summary>
