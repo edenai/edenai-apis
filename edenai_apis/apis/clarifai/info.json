@@ -1,5 +1,12 @@
 {
     "text": {
+        "generation": {
+            "constraints": {
+                "models":["mistral-7B-Instruct"],
+                "default_model": "mistral-7B-Instruct"
+            },
+            "version": "8.0.0"
+        },
         "moderation": {
             "constraints": {
                 "languages": [
