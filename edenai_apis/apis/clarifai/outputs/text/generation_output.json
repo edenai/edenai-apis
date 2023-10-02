@@ -1,0 +1,13 @@
+{
+  "original_response": {
+    "text": {
+      "raw": " AI: Hello! I'm an AI assistant. I'm here to help you with anything you need. What can I do for you today?",
+      "text_info": {
+        "encoding": "UnknownTextEnc"
+      }
+    }
+  },
+  "standardized_response": {
+    "generated_text": " AI: Hello! I'm an AI assistant. I'm here to help you with anything you need. What can I do for you today?"
+  }
+}
