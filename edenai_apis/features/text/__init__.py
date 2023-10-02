@@ -65,4 +65,4 @@ from .prompt_optimization import (
     PromptDataClass,
     prompt_optimization_arguments,
 )
-from .emotion_detection import EmotionDetectionDataClass, emotion_detection_arguments, EmotionDataClass
+from .emotion_detection import EmotionDetectionDataClass, emotion_detection_arguments, EmotionItem, EmotionEnum

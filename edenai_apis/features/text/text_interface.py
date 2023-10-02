@@ -366,7 +366,7 @@ class TextInterface:
 
     @abstractmethod
     def text__emotion_detection(
-            self, language: str, text: str
+            self, text: str
     ) -> ResponseType[EmotionDetectionDataClass]:
         """
         Detect emotion of a given text

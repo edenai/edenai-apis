@@ -7,7 +7,7 @@ from typing import Dict, Sequence
 from edenai_apis.features.text import KeywordExtractionDataClass, InfosKeywordExtractionDataClass, \
     SentimentAnalysisDataClass, SegmentSentimentAnalysisDataClass, CodeGenerationDataClass, \
     NamedEntityRecognitionDataClass, InfosNamedEntityRecognitionDataClass, EmotionDetectionDataClass, \
-    EmotionDataClass
+    EmotionItem, EmotionEnum
 from edenai_apis.features.text.spell_check import SpellCheckDataClass, SpellCheckItem, SuggestionItem
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -142,7 +142,7 @@ class NlpCloudApi(ProviderInterface, TextInterface):
         )
 
     def text__emotion_detection(
-            self, language: str, text: str
+            self, text: str
     ) -> ResponseType[EmotionDetectionDataClass]:
         response = requests.post(
             url=self.url_emotion_detection,
@@ -152,11 +152,11 @@ class NlpCloudApi(ProviderInterface, TextInterface):
         if response.status_code != 200:
             raise ProviderException(message=response.text, code=response.status_code)
         original_response = response.json()
-        items: Sequence[EmotionDataClass] = []
+        items: Sequence[EmotionItem] = []
         for entity in original_response.get("scored_labels", []):
             items.append(
-                EmotionDataClass(
-                    emotion=entity.get("label", ""),
+                EmotionItem(
+                    emotion=EmotionEnum.from_str(entity.get("label", "")),
                     emotion_score=entity.get("score", 0)
                 )
             )
