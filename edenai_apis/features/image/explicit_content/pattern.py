@@ -147,7 +147,7 @@ class SubCategoryPattern:
             NOT_SAFE (list): List all the patterns for the not safe subcategory.
             SAFE (list): List all the patterns for the safe subcategory.
         """
-        NOT_SAFE = ["nsfw"]
+        NOT_SAFE = ["nsfw", "unsafe"]
         SAFE = ["safe", "sfw"]
 
     class Other:

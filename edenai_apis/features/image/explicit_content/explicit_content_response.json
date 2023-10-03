@@ -1,33 +1,25 @@
   {
-    "nsfw_likelihood": 0.6,
+    "nsfw_likelihood": 3,
+    "nsfw_likelihood_score": 0.5288681387901306,
     "items": [
       {
-        "label": "Adult",
-        "likelihood": 0.2,
-        "category": "Sexual",
-        "subcategory": "AdultToys"
-      },
-      {
-        "label": "Spoof",
-        "likelihood": 0.2,
-        "category": "Other",
-        "subcategory": "Spoof"
-      },
-      {
-        "label": "Medical",
-        "likelihood": 0.6,
-        "category": "Content",
-        "subcategory": "Medical"
-      },
-      {
-        "label": "Violence",
-        "likelihood": 0.6,
+        "label": "Gore",
+        "likelihood": 3,
+        "likelihood_score": 0.5288681387901306,
         "category": "Violence",
         "subcategory": "GraphicViolenceOrGore"
       },
       {
+        "label": "Adult",
+        "likelihood": 1,
+        "likelihood_score": 0.00892699882388115,
+        "category": "Sexual",
+        "subcategory": "Sexual"
+      },
+      {
         "label": "Racy",
-        "likelihood": 0.2,
+        "likelihood": 1,
+        "likelihood_score": 0.011913839727640152,
         "category": "HateAndExtremism",
         "subcategory": "Racy"
       }

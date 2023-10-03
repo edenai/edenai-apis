@@ -121,7 +121,8 @@ class OpenaiTextApi(TextInterface):
                         label=key,
                         category=classificator["category"],
                         subcategory=classificator["subcategory"],
-                        likelihood=value
+                        likelihood_score=value,
+                        likelihood=standardized_confidence_score(value)
                     )
                 )
         standardized_response: ModerationDataClass = ModerationDataClass(
@@ -129,6 +130,9 @@ class OpenaiTextApi(TextInterface):
                 classification
             ),
             items=classification,
+            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(
+                classification
+            )
         )
 
         return ResponseType[ModerationDataClass](

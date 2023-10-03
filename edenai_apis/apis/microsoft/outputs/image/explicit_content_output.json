@@ -8,7 +8,7 @@
       "racyScore": 0.011913839727640152,
       "goreScore": 0.5288681387901306
     },
-    "requestId": "b9f2243d-8362-4850-b15b-fb30fa0baf77",
+    "requestId": "00e04334-8f64-424b-a3d0-af1c36c8b6d4",
     "metadata": {
       "height": 168,
       "width": 300,
@@ -17,23 +17,27 @@
     "modelVersion": "2021-05-01"
   },
   "standardized_response": {
-    "nsfw_likelihood": 0.5288681387901306,
+    "nsfw_likelihood": 3,
+    "nsfw_likelihood_score": 0.5288681387901306,
     "items": [
       {
         "label": "Gore",
-        "likelihood": 0.5288681387901306,
+        "likelihood": 3,
+        "likelihood_score": 0.5288681387901306,
         "category": "Violence",
         "subcategory": "GraphicViolenceOrGore"
       },
       {
         "label": "Adult",
-        "likelihood": 0.00892699882388115,
+        "likelihood": 1,
+        "likelihood_score": 0.00892699882388115,
         "category": "Sexual",
-        "subcategory": "AdultToys"
+        "subcategory": "Sexual"
       },
       {
         "label": "Racy",
-        "likelihood": 0.011913839727640152,
+        "likelihood": 1,
+        "likelihood_score": 0.011913839727640152,
         "category": "HateAndExtremism",
         "subcategory": "Racy"
       }

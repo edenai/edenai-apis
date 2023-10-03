@@ -278,15 +278,17 @@ class AmazonImageApi(ImageInterface):
                     label=label.get("Name"),
                     category=classificator["category"],
                     subcategory=classificator["subcategory"],
-                    likelihood=
+                    likelihood=standardized_confidence_score(label.get("Confidence")/100),
+                    likelihood_score=
                         label.get("Confidence") / 100
                     ,
                 )
             )
 
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+        nsfw_likelihood_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
         standardized_response = ExplicitContentDataClass(
-            items=items, nsfw_likelihood=nsfw_likelihood
+            items=items, nsfw_likelihood=nsfw_likelihood, nsfw_likelihood_score=nsfw_likelihood_score
         )
 
         return ResponseType[ExplicitContentDataClass](

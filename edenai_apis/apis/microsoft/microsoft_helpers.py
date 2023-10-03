@@ -118,7 +118,8 @@ def microsoft_text_moderation_personal_infos(data):
                         label=TextModerationCategoriesMicrosoftEnum[key].value,
                         category=classificator["category"],
                         subcategory=classificator["subcategory"],
-                        likelihood=value.get("Score", 0),
+                        likelihood_score=value.get("Score", 0),
+                        likelihood=standardized_confidence_score(value["Score"])
                     )
                 )
             except Exception as exc:
@@ -127,6 +128,7 @@ def microsoft_text_moderation_personal_infos(data):
     text_moderation = ModerationDataClass(
         nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(classification),
         items=classification,
+        nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(classification)
     )
 
     return text_moderation

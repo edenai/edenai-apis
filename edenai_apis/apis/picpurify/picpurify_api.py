@@ -147,18 +147,22 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
                     label=label.replace("moderation", "content"),
                     category=classificator["category"],
                     subcategory=classificator["subcategory"],
-                    likelihood=self._standardized_confidence(
+                    likelihood_score=self._standardized_confidence(
                         original_response_label.get("confidence_score", 0),
                         original_response_label.get(
                             label.replace("moderation", "content"), True)
+                    ),
+                    likelihood=standardized_confidence_score_picpurify(
+                        original_response[label]["confidence_score"],
+                        original_response[label][label.replace("moderation", "content")]
                     )
                 )
             )
 
         nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
-
+        nsfw_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
         standardized_response = ExplicitContentDataClass(
-            items=items, nsfw_likelihood=nsfw
+            items=items, nsfw_likelihood=nsfw, nsfw_likelihood_score=nsfw_score
         )
         res = ResponseType[ExplicitContentDataClass](
             original_response=original_response,

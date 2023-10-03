@@ -163,20 +163,23 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
 
         original_response = response.json()
         items: Sequence[ObjectItem] = []
-        for content in original_response:
-            classificator = CategoryType.choose_category_subcategory(content["label"])
-            items.append(
-                ExplicitItem(
-                    label=content["label"],
-                    category=classificator["category"],
-                    subcategory=classificator["subcategory"],
-                    likelihood=content["score"] / 100
-                    ,
+        items.append(
+            ExplicitItem(
+                label="nudity",
+                likelihood=round(
+                    [x for x in original_response if x["label"] == "unsafe"][0]["score"] / 20
+                ),
+                likelihood_score=[x for x in original_response if x["label"] == "unsafe"][0]["score"],
+                category=CategoryType.choose_category_subcategory("nudity")["category"],
+                subcategory=
+                CategoryType.choose_category_subcategory("nudity")[
+                    "subcategory"],
             )
         )
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+        nsfw_likelihood_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
         standardized_response = ExplicitContentDataClass(
-            items=items, nsfw_likelihood=nsfw_likelihood
+            items=items, nsfw_likelihood=nsfw_likelihood, nsfw_likelihood_score=nsfw_likelihood_score
         )
 
         result = ResponseType[ExplicitContentDataClass](

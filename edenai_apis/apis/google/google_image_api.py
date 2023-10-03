@@ -80,16 +80,17 @@ class GoogleImageApi(ImageInterface):
                     label=safe_search_annotation.capitalize(),
                     category=classificator["category"],
                     subcategory=classificator["subcategory"],
-                    likelihood=self._convert_likelihood(likelihood)
+                    likelihood_score=self._convert_likelihood(likelihood),
+                    likelihood=likelihood
                 )
             )
 
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
-
+        nsfw_likelihood_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
         return ResponseType(
             original_response=original_response,
             standardized_response=ExplicitContentDataClass(
-                items=items, nsfw_likelihood=nsfw_likelihood
+                items=items, nsfw_likelihood=nsfw_likelihood, nsfw_likelihood_score=nsfw_likelihood_score
             ),
         )
 

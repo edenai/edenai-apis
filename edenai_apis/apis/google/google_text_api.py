@@ -492,14 +492,16 @@ class GoogleTextApi(TextInterface):
                     label=moderation.get("name"),
                     category=classificator["category"],
                     subcategory=classificator["subcategory"],
-                    likelihood=moderation.get("confidence", 0)
+                    likelihood_score=moderation.get("confidence", 0),
+                    likelihood=standardized_confidence_score(moderation.get("confidence", 0))
                 )
             )
         standardized_response: ModerationDataClass = ModerationDataClass(
             nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
                 items
             ),
-            items=items
+            items=items,
+            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(items)
         ) 
 
         return ResponseType[ModerationDataClass](

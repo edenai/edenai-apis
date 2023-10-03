@@ -67,104 +67,121 @@
     ]
   },
   "standardized_response": {
-    "nsfw_likelihood": 0.28705063,
+    "nsfw_likelihood": 2,
     "items": [
       {
         "label": "Toxic",
-        "likelihood": 0.2391817,
+        "likelihood": 2,
         "category": "Toxic",
-        "subcategory": "Toxic"
+        "subcategory": "Toxic",
+        "likelihood_score": 0.2391817
       },
       {
         "label": "Insult",
-        "likelihood": 0.052930057,
+        "likelihood": 1,
         "category": "Toxic",
-        "subcategory": "Insult"
+        "subcategory": "Insult",
+        "likelihood_score": 0.052930057
       },
       {
         "label": "Profanity",
-        "likelihood": 0.28705063,
+        "likelihood": 2,
         "category": "Toxic",
-        "subcategory": "Profanity"
+        "subcategory": "Profanity",
+        "likelihood_score": 0.28705063
       },
       {
         "label": "Derogatory",
-        "likelihood": 0.0047925273,
+        "likelihood": 1,
         "category": "Toxic",
-        "subcategory": "Derogatory"
+        "subcategory": "Derogatory",
+        "likelihood_score": 0.0047925273
       },
       {
         "label": "Sexual",
-        "likelihood": 0.0024352302,
+        "likelihood": 1,
         "category": "Sexual",
-        "subcategory": "SexualActivity"
+        "subcategory": "Sexual",
+        "likelihood_score": 0.0024352302
       },
       {
         "label": "Death, Harm & Tragedy",
-        "likelihood": 0.0005420054,
+        "likelihood": 1,
         "category": "Violence",
-        "subcategory": "GraphicViolenceOrGore"
+        "subcategory": "GraphicViolenceOrGore",
+        "likelihood_score": 0.0005420054
       },
       {
         "label": "Violent",
-        "likelihood": 0.0025138261,
+        "likelihood": 1,
         "category": "Violence",
-        "subcategory": "Violence"
+        "subcategory": "Violence",
+        "likelihood_score": 0.0025138261
       },
       {
         "label": "Firearms & Weapons",
-        "likelihood": 0.0,
+        "likelihood": 1,
         "category": "Violence",
-        "subcategory": "WeaponViolence"
+        "subcategory": "WeaponViolence",
+        "likelihood_score": 0.0
       },
       {
         "label": "Public Safety",
-        "likelihood": 0.010695187,
+        "likelihood": 1,
         "category": "Content",
-        "subcategory": "PublicSafety"
+        "subcategory": "PublicSafety",
+        "likelihood_score": 0.010695187
       },
       {
         "label": "Health",
-        "likelihood": 0.004199916,
+        "likelihood": 1,
         "category": "Content",
-        "subcategory": "Health"
+        "subcategory": "Health",
+        "likelihood_score": 0.004199916
       },
       {
         "label": "Religion & Belief",
-        "likelihood": 0.012507818,
+        "likelihood": 1,
         "category": "Other",
-        "subcategory": "Religion"
+        "subcategory": "Religion",
+        "likelihood_score": 0.012507818
       },
       {
         "label": "Illicit Drugs",
-        "likelihood": 0.0023364485,
+        "likelihood": 1,
         "category": "DrugAndAlcohol",
-        "subcategory": "DrugProducts"
+        "subcategory": "DrugProducts",
+        "likelihood_score": 0.0023364485
       },
       {
         "label": "War & Conflict",
-        "likelihood": 0.00047664443,
+        "likelihood": 1,
         "category": "Violence",
-        "subcategory": "WeaponViolence"
+        "subcategory": "WeaponViolence",
+        "likelihood_score": 0.00047664443
       },
       {
         "label": "Politics",
-        "likelihood": 0.0028191702,
+        "likelihood": 1,
         "category": "Content",
-        "subcategory": "Politics"
+        "subcategory": "Politics",
+        "likelihood_score": 0.0028191702
       },
       {
         "label": "Finance",
-        "likelihood": 0.01904762,
+        "likelihood": 1,
         "category": "Finance",
-        "subcategory": "Finance"
+        "subcategory": "Finance",
+        "likelihood_score": 0.01904762
       },
       {
         "label": "Legal",
-        "likelihood": 0.0029382957,
+        "likelihood": 1,
         "category": "Content",
-        "subcategory": "Legal"
+        "subcategory": "Legal",
+        "likelihood_score": 0.0029382957
       }
-    ]
+    ],
+    "nsfw_likelihood_score": 0.28705063
   }
 }

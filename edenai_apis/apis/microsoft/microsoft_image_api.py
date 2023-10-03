@@ -83,17 +83,18 @@ class MicrosoftImageApi(ImageInterface):
                         label=explicit_type.capitalize(),
                         category=classificator["category"],
                         subcategory=classificator["subcategory"],
-                        likelihood=
+                        likelihood_score=
                             moderation_content[f"{explicit_type}Score"]
                         ,
+                        likelihood=standardized_confidence_score(moderation_content[f"{explicit_type}Score"])
                     )
                 )
         nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
-
+        nsfw_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
         res = ResponseType[ExplicitContentDataClass](
             original_response=data,
             standardized_response=ExplicitContentDataClass(
-                items=items, nsfw_likelihood=nsfw
+                items=items, nsfw_likelihood=nsfw, nsfw_likelihood_score=nsfw_score
             ),
         )
         return res

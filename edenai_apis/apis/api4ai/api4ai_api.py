@@ -317,13 +317,15 @@ class Api4aiApi(
                     label=classe,
                     category=classificator["category"],
                     subcategory=classificator["subcategory"],
-                    likelihood=nsfw_response[classe],
+                    likelihood=standardized_confidence_score(nsfw_response[classe]),
+                    likelihood_score=nsfw_response[classe]
                 )
             )
 
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(nsfw_items)
+        nsfw_likelihood_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(nsfw_items)
         standardized_response = ExplicitContentDataClass(
-            items=nsfw_items, nsfw_likelihood=nsfw_likelihood
+            items=nsfw_items, nsfw_likelihood=nsfw_likelihood, nsfw_likelihood_score=nsfw_likelihood_score
         )
 
         result = ResponseType[ExplicitContentDataClass](

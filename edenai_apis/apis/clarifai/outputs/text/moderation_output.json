@@ -40,44 +40,51 @@
     ]
   },
   "standardized_response": {
-    "nsfw_likelihood": 0.79653984,
+    "nsfw_likelihood": 4,
     "items": [
       {
         "label": "toxic",
-        "likelihood": 0.79653984,
+        "likelihood": 4,
         "category": "Toxic",
-        "subcategory": "Toxic"
+        "subcategory": "Toxic",
+        "likelihood_score": 0.79653984
       },
       {
         "label": "obscene",
-        "likelihood": 0.18101883,
+        "likelihood": 1,
         "category": "Toxic",
-        "subcategory": "Obscene"
+        "subcategory": "Obscene",
+        "likelihood_score": 0.18101883
       },
       {
         "label": "insult",
-        "likelihood": 0.009806201,
+        "likelihood": 1,
         "category": "Toxic",
-        "subcategory": "Insult"
+        "subcategory": "Insult",
+        "likelihood_score": 0.009806201
       },
       {
         "label": "severe_toxic",
-        "likelihood": 0.00045600787,
+        "likelihood": 1,
         "category": "Toxic",
-        "subcategory": "Toxic"
+        "subcategory": "Toxic",
+        "likelihood_score": 0.00045600787
       },
       {
         "label": "threat",
-        "likelihood": 7.207947e-05,
+        "likelihood": 1,
         "category": "Toxic",
-        "subcategory": "Threat"
+        "subcategory": "Threat",
+        "likelihood_score": 7.207947e-05
       },
       {
         "label": "identity_hate",
-        "likelihood": 6.1927596e-05,
+        "likelihood": 1,
         "category": "HateAndExtremism",
-        "subcategory": "Hate"
+        "subcategory": "Hate",
+        "likelihood_score": 6.1927596e-05
       }
-    ]
+    ],
+    "nsfw_likelihood_score": 0.79653984
   }
 }
