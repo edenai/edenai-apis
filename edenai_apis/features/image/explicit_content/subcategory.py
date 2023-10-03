@@ -28,7 +28,7 @@ class SubCategoryBase(str):
         for subcategory in cls.list_choices().keys():
             choices: list = list(
                 map(
-                    lambda label: normalized_label in label,
+                    lambda label: normalized_label == label,
                     cls.get_choices(subcategory),
                 )
             )
