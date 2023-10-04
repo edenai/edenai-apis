@@ -274,7 +274,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
 
         parsed_data = original_response.get("data", {}).get("parsed", {})
 
-        country = get_info_country(
+        issuing_country = get_info_country(
             key=InfoCountry.ALPHA3,
             value=(parsed_data.get("issuing_country") or {}).get("value", ""),
         )
@@ -309,7 +309,16 @@ class KlippaApi(ProviderInterface, OcrInterface):
         birth_place = parsed_data.get("place_of_birth", {}) or {}
         document_id = parsed_data.get("document_number", {}) or {}
         issuing_state = parsed_data.get("issuing_institution", {}) or {}
-        address = parsed_data.get("address", {}) or {}
+
+        addr = parsed_data.get("address", {}).get("value") or {}
+        street = addr.get("house_number", "")
+        street += f" {addr.get('street_name', '')}" if street else addr.get("street_name", "")
+        city = addr.get("post_code", "")
+        city += f" {addr.get('city', '')}" if city else addr.get("city", "")
+        province = addr.get("province", "")
+        country = addr.get("country", "")
+        formatted_address = ", ".join(filter(lambda x: x, [street, city, province, country]))
+
         age = parsed_data.get("age", {}) or {}
         document_type = parsed_data.get("document_type", {}) or {}
         gender = parsed_data.get("gender", {}) or {}
@@ -368,14 +377,13 @@ class KlippaApi(ProviderInterface, OcrInterface):
                     confidence=issuing_state.get("confidence"),
                 ),
                 address=ItemIdentityParserDataClass(
-                    value=address.get("value"),
-                    confidence=address.get("confidence"),
+                    value=formatted_address,
                 ),
                 age=ItemIdentityParserDataClass(
                     value=age.get("value"),
                     confidence=age.get("confidence"),
                 ),
-                country=country,
+                country=issuing_country,
                 document_type=ItemIdentityParserDataClass(
                     value=document_type.get("value"),
                     confidence=document_type.get("confidence"),
