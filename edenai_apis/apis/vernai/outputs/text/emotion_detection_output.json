@@ -1,0 +1,48 @@
+{
+  "original_response": {
+    "text": "I'm scared",
+    "scores": [
+      {
+        "name": "fear",
+        "value": 51,
+        "raw": 51
+      },
+      {
+        "name": "anger",
+        "value": 0,
+        "raw": 0
+      },
+      {
+        "name": "sadness",
+        "value": 51,
+        "raw": 51
+      },
+      {
+        "name": "love",
+        "value": 0,
+        "raw": 0
+      }
+    ]
+  },
+  "standardized_response": {
+    "text": "I'm scared",
+    "items": [
+      {
+        "emotion": "Fear",
+        "emotion_score": 51.0
+      },
+      {
+        "emotion": "Anger",
+        "emotion_score": 0.0
+      },
+      {
+        "emotion": "Sadness",
+        "emotion_score": 51.0
+      },
+      {
+        "emotion": "Love",
+        "emotion_score": 0.0
+      }
+    ]
+  }
+}

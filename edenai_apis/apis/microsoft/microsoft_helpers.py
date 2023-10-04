@@ -283,86 +283,229 @@ def normalize_invoice_result(response):
     """normalize the original response of the provider api"""
     invoices = []
     default_dict = defaultdict(lambda: None)
-    
+
     for idx in range(0, len(response.get("pages", []))):
         for document in response.get("documents", []):
             fields = document.get("fields")
             if not fields:
                 continue
-            customer_name = fields.get("CustomerName", default_dict).get("value") if fields.get("CustomerName", {}).get("bounding_regions", [{}])[0].get("page_number") == idx + 1  else None
+            customer_name = (
+                fields.get("CustomerName", default_dict).get("value")
+                if fields.get("CustomerName", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
             # Customer information
 
-            customer_id = fields.get("CustomerId", default_dict).get("value") if fields.get("CustomerId", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+            customer_id = (
+                fields.get("CustomerId", default_dict).get("value")
+                if fields.get("CustomerId", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
-            customer_tax_id = fields.get("CustomerTaxId", default_dict).get("value") if fields.get("CustomerTaxId", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+            customer_tax_id = (
+                fields.get("CustomerTaxId", default_dict).get("value")
+                if fields.get("CustomerTaxId", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
-            customer_address = fields.get("CustomerAddress", default_dict).get("content") if fields.get("CustomerAddress", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+            customer_address = (
+                fields.get("CustomerAddress", default_dict).get("content")
+                if fields.get("CustomerAddress", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
-            customer_mailing_address = fields.get("CustomerAddress", default_dict).get(
-                "content"
-            ) if fields.get("CustomerAddress", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+            customer_mailing_address = (
+                fields.get("CustomerAddress", default_dict).get("content")
+                if fields.get("CustomerAddress", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
-            customer_billing_address = fields.get("BillingAddress", default_dict).get(
-                "content"
-            ) if fields.get("BillingAddress", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+            customer_billing_address = (
+                fields.get("BillingAddress", default_dict).get("content")
+                if fields.get("BillingAddress", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
-            customer_shipping_address = fields.get("ShippingAddress", default_dict).get(
-                "content"
-            ) if fields.get("ShippingAddress", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+            customer_shipping_address = (
+                fields.get("ShippingAddress", default_dict).get("content")
+                if fields.get("ShippingAddress", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
-            customer_service_address = fields.get("ServiceAddress", default_dict).get(
-                "content"
-            ) if fields.get("ServiceAddress", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+            customer_service_address = (
+                fields.get("ServiceAddress", default_dict).get("content")
+                if fields.get("ServiceAddress", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
-            customer_remittance_address = fields.get("RemittanceAddress", default_dict).get(
-                "content"
-            ) if fields.get("RemittanceAddress", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
-
+            customer_remittance_address = (
+                fields.get("RemittanceAddress", default_dict).get("content")
+                if fields.get("RemittanceAddress", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
             # Merchant information
-            merchant_address = fields.get("VendorAddress", default_dict).get("content") if fields.get("VendorAddress", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+            merchant_address = (
+                fields.get("VendorAddress", default_dict).get("content")
+                if fields.get("VendorAddress", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
-            merchant_name = fields.get("VendorName", default_dict).get("value", None) if fields.get("VendorName", {}).get("bounding_regions", [{}])[0].get("page_number") == idx + 1  else None
+            merchant_name = (
+                fields.get("VendorName", default_dict).get("value", None)
+                if fields.get("VendorName", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
-            merchant_tax_id = fields.get("VendorTaxId", default_dict).get("value") if fields.get("VendorTaxId", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
-
+            merchant_tax_id = (
+                fields.get("VendorTaxId", default_dict).get("value")
+                if fields.get("VendorTaxId", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
             # Others
-            purchase_order = fields.get("PurchaseOrder", default_dict).get("value") if fields.get("PurchaseOrder", {}).get("bounding_regions", [{}])[0].get("page_number") == idx + 1  else None
+            purchase_order = (
+                fields.get("PurchaseOrder", default_dict).get("value")
+                if fields.get("PurchaseOrder", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
-            payment_term = fields.get("PaymentTerm", default_dict).get("value") if fields.get("PaymentTerm", {}).get("bounding_regions", [{}])[0].get("page_number") == idx + 1  else None
+            payment_term = (
+                fields.get("PaymentTerm", default_dict).get("value")
+                if fields.get("PaymentTerm", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
             invoice_total = (
-                fields.get("InvoiceTotal", default_dict)
-                .get("value", default_dict)
-                .get("amount")
-            ) if fields.get("InvoiceTotal", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+                (
+                    fields.get("InvoiceTotal", default_dict)
+                    .get("value", default_dict)
+                    .get("amount")
+                )
+                if fields.get("InvoiceTotal", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
             invoice_subtotal = (
-                fields.get("SubTotal", default_dict)
-                .get("value", default_dict)
-                .get("amount")
-            ) if fields.get("SubTotal", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+                (
+                    fields.get("SubTotal", default_dict)
+                    .get("value", default_dict)
+                    .get("amount")
+                )
+                if fields.get("SubTotal", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
-            invoice_number = fields.get("InvoiceId", default_dict).get("value") if fields.get("InvoiceId", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
-            date = format_date(fields.get("InvoiceDate", default_dict).get("value")) if fields.get("InvoiceDate", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
-            invoice_time = fields.get("InvoiceTime", default_dict).get("value") if fields.get("InvoiceTime", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+            invoice_number = (
+                fields.get("InvoiceId", default_dict).get("value")
+                if fields.get("InvoiceId", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
+            date = (
+                format_date(fields.get("InvoiceDate", default_dict).get("value"))
+                if fields.get("InvoiceDate", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
+            invoice_time = (
+                fields.get("InvoiceTime", default_dict).get("value")
+                if fields.get("InvoiceTime", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
             date = combine_date_with_time(date, invoice_time)
-            due_date = format_date(fields.get("DueDate", default_dict).get("value"))  if fields.get("DueDate", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+            due_date = (
+                format_date(fields.get("DueDate", default_dict).get("value"))
+                if fields.get("DueDate", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
             taxes = [
                 TaxesInvoice(
                     value=fields.get("TotalTax", default_dict)
                     .get("value", {})
-                    .get("amount")  if fields.get("TotalTax", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None,
+                    .get("amount")
+                    if fields.get("TotalTax", {})
+                    .get("bounding_regions", [{}])[0]
+                    .get("page_number")
+                    == idx + 1
+                    else None,
                     rate=None,
                 )
             ]
             amount_due = (
-                fields.get("AmountDue", default_dict).get("value", {}).get("amount") if fields.get("AmountDue", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+                fields.get("AmountDue", default_dict).get("value", {}).get("amount")
+                if fields.get("AmountDue", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
             )
-            previous_unpaid_balance = fields.get("PreviousUnpaidBalance", default_dict).get(
-                "amount"
-            ) if fields.get("PreviousUnpaidBalance", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None
+            previous_unpaid_balance = (
+                fields.get("PreviousUnpaidBalance", default_dict).get("amount")
+                if fields.get("PreviousUnpaidBalance", {})
+                .get("bounding_regions", [{}])[0]
+                .get("page_number")
+                == idx + 1
+                else None
+            )
 
             # Items line
             items = fields.get("Items", default_dict).get("value", [])
@@ -374,17 +517,63 @@ def normalize_invoice_result(response):
                         ItemLinesInvoice(
                             amount=line.get("Amount", default_dict)
                             .get("value", default_dict)
-                            .get("amount") if fields.get("Amount", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None,
-                            description=line.get("Description", default_dict).get("value") if fields.get("Description", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None,
-                            quantity=(float((line.get("Quantity", {}) or {}).get("value", 0) or 0) or None) if fields.get("Quantity", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None,
+                            .get("amount")
+                            if line.get("Amount", {})
+                            .get("bounding_regions", [{}])[0]
+                            .get("page_number")
+                            == idx + 1
+                            else None,
+                            description=line.get("Description", default_dict).get(
+                                "value"
+                            )
+                            if line.get("Description", {})
+                            .get("bounding_regions", [{}])[0]
+                            .get("page_number")
+                            == idx + 1
+                            else None,
+                            quantity=(
+                                float(
+                                    (line.get("Quantity", {}) or {}).get("value", 0)
+                                    or 0
+                                )
+                                or None
+                            )
+                            if line.get("Quantity", {})
+                            .get("bounding_regions", [{}])[0]
+                            .get("page_number")
+                            == idx + 1
+                            else None,
                             unit_price=line.get("UnitPrice", default_dict)
                             .get("value", default_dict)
-                            .get("amount") if fields.get("UnitPrice", {}).get("bounding_regions", [{}])[0].get("page_number") else None,
-                            product_code=line.get("ProductCode", default_dict).get("value") if fields.get("ProductCode", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None,
-                            date_item=str(line.get("Date", default_dict).get("value", "") or "") if fields.get("Date", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None,
+                            .get("amount")
+                            if line.get("UnitPrice", {})
+                            .get("bounding_regions", [{}])[0]
+                            .get("page_number")
+                            else None,
+                            product_code=line.get("ProductCode", default_dict).get(
+                                "value"
+                            )
+                            if line.get("ProductCode", {})
+                            .get("bounding_regions", [{}])[0]
+                            .get("page_number")
+                            == idx + 1
+                            else None,
+                            date_item=str(
+                                line.get("Date", default_dict).get("value", "") or ""
+                            )
+                            if line.get("Date", {})
+                            .get("bounding_regions", [{}])[0]
+                            .get("page_number")
+                            == idx + 1
+                            else None,
                             tax_item=line.get("Tax", default_dict)
                             .get("value", default_dict)
-                            .get("amount") if fields.get("Tax", {}).get("bounding_regions", [{}])[0].get("page_number")  == idx + 1 else None,
+                            .get("amount")
+                            if fields.get("Tax", {})
+                            .get("bounding_regions", [{}])[0]
+                            .get("page_number")
+                            == idx + 1
+                            else None,
                         )
                     )
 
@@ -463,8 +652,8 @@ def generate_right_ssml_text(
     return convert_audio_attr_in_prosody_tag(
         cleaned_attribs=cleaned_attribs_string,
         text=text,
-        voice_tag=f"<voice name=\"{voice_id}\">",
-        speak_attr="version=\"1.0\" xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'"
+        voice_tag=f'<voice name="{voice_id}">',
+        speak_attr="version=\"1.0\" xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'",
     )
 
 

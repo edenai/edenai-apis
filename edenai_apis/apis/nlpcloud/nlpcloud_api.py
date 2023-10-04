@@ -6,7 +6,8 @@ from typing import Dict, Sequence
 
 from edenai_apis.features.text import KeywordExtractionDataClass, InfosKeywordExtractionDataClass, \
     SentimentAnalysisDataClass, SegmentSentimentAnalysisDataClass, CodeGenerationDataClass, \
-    NamedEntityRecognitionDataClass, InfosNamedEntityRecognitionDataClass
+    NamedEntityRecognitionDataClass, InfosNamedEntityRecognitionDataClass, EmotionDetectionDataClass, \
+    EmotionItem, EmotionEnum
 from edenai_apis.features.text.spell_check import SpellCheckDataClass, SpellCheckItem, SuggestionItem
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -28,6 +29,7 @@ class NlpCloudApi(ProviderInterface, TextInterface):
             "https://api.nlpcloud.io/v1/distilbert-base-uncased-finetuned-sst-2-english/sentiment")
         self.url_code_generation = ("https://api.nlpcloud.io/v1/gpu/finetuned-llama-2-70b/code-generation")
         self.url_basic = ("https://api.nlpcloud.io/v1/")
+        self.url_emotion_detection = ("https://api.nlpcloud.io/v1/distilbert-base-uncased-emotion/sentiment")
 
     def text__spell_check(
             self, text: str, language: str
@@ -137,4 +139,28 @@ class NlpCloudApi(ProviderInterface, TextInterface):
         return ResponseType[NamedEntityRecognitionDataClass](
             original_response=original_response,
             standardized_response=NamedEntityRecognitionDataClass(items=items)
+        )
+
+    def text__emotion_detection(
+            self, text: str
+    ) -> ResponseType[EmotionDetectionDataClass]:
+        response = requests.post(
+            url=self.url_emotion_detection,
+            json={"text": text},
+            headers={"Content-Type": "application/json", "authorization": f"Token {self.api_key}"}
+        )
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
+        original_response = response.json()
+        items: Sequence[EmotionItem] = []
+        for entity in original_response.get("scored_labels", []):
+            items.append(
+                EmotionItem(
+                    emotion=EmotionEnum.from_str(entity.get("label", "")),
+                    emotion_score=entity.get("score", 0)
+                )
+            )
+        return ResponseType[EmotionDetectionDataClass](
+            original_response=original_response,
+            standardized_response=EmotionDetectionDataClass(items=items, text=text)
         )

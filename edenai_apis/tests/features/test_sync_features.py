@@ -13,6 +13,7 @@ from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.tests.conftest import global_features, without_async_and_phase
 from edenai_apis.utils.compare import compare_responses
 from edenai_apis.utils.constraints import validate_all_provider_constraints
+from edenai_apis.utils.conversion import iterate_all
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import ResponseType
@@ -76,6 +77,10 @@ class CommonTestsSubfeatures:
             standardized_response is not None
         ), "standardized_response should not be None"
         assert standardized, "The output is not standardized"
+
+        assert any(
+            [std != None for std in iterate_all(standardized_response, "value")]
+        ), "Response shouldn't be empty"
 
     def _test_feature_saved_output(self, provider, feature, subfeature):
         # Step 1 (Setup) :
