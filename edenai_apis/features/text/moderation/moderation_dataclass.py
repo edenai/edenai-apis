@@ -65,7 +65,7 @@ class ModerationDataClass(BaseModel):
 
     @field_validator("nsfw_likelihood_score")
     @classmethod
-    def check_min_max(cls, value):
+    def check_min_max_score(cls, value):
         if not 0 <= value <= 1:
             raise ValueError("Likelihood walue should be between 0 and 1")
         return value

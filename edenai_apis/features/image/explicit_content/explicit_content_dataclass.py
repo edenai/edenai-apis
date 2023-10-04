@@ -65,7 +65,7 @@ class ExplicitContentDataClass(BaseModel):
         return max([item.likelihood_score for item in items if item.label not in safe_labels])
 
     @field_validator("nsfw_likelihood_score")
-    def check_min_max(cls, v):
+    def check_min_max_score(cls, v):
         if not 0 <= v <= 1:
             raise ValueError("Value should be between 0 and 1")
         return v
