@@ -425,7 +425,7 @@ class GoogleTextApi(TextInterface):
         original_response = MessageToDict(response._pb)
 
         entity_items: List[Entity] = []
-        for entity in original_response['entities']:
+        for entity in original_response.get('entities', []):
             for mention in entity['mentions']:
 
                 sentiment = mention['sentiment'].get("score")
