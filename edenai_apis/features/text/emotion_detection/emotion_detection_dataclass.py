@@ -24,7 +24,9 @@ class EmotionItem(BaseModel):
         - emotion_score (float): score of the emotion
     """
     emotion: str
-    emotion_score: float
+    emotion_score: float = Field(ge=0, le=1)
+
+
 
 
 class EmotionDetectionDataClass(BaseModel):
