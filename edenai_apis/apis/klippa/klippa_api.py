@@ -279,7 +279,9 @@ class KlippaApi(ProviderInterface, OcrInterface):
             value=(parsed_data.get("issuing_country") or {}).get("value", ""),
         )
 
-        given_names = parsed_data.get("given_names", {}).get("value", "").split(" ")
+        given_names_dict = parsed_data.get("given_names", {}) or {}
+        given_names_string = given_names_dict.get("value", "") or ""
+        given_names = given_names_string.split(" ")
         final_given_names = []
         for given_name in given_names:
             final_given_names.append(
@@ -310,14 +312,19 @@ class KlippaApi(ProviderInterface, OcrInterface):
         document_id = parsed_data.get("document_number", {}) or {}
         issuing_state = parsed_data.get("issuing_institution", {}) or {}
 
-        addr = parsed_data.get("address", {}).get("value") or {}
-        street = addr.get("house_number", "")
-        street += f" {addr.get('street_name', '')}" if street else addr.get("street_name", "")
-        city = addr.get("post_code", "")
-        city += f" {addr.get('city', '')}" if city else addr.get("city", "")
-        province = addr.get("province", "")
-        country = addr.get("country", "")
-        formatted_address = ", ".join(filter(lambda x: x, [street, city, province, country]))
+        addr = (parsed_data.get("address", {}) or {}).get("value") or {}
+        street = addr.get("house_number", "") or ""
+        street += f" {addr.get('street_name', '') or ''}"
+        city = addr.get("post_code", "") or ""
+        city += f" {addr.get('city', '') or ''}"
+        province = addr.get("province", "") or ""
+        country = addr.get("country", "") or ""
+        formatted_address = ", ".join(
+            filter(
+                lambda x: x,
+                [street.strip(), city.strip(), province.strip(), country.strip()],
+            )
+        )
 
         age = parsed_data.get("age", {}) or {}
         document_type = parsed_data.get("document_type", {}) or {}

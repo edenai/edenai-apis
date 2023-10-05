@@ -406,9 +406,11 @@ class Base64Api(ProviderInterface, OcrInterface):
                 )
                 for doc in document["features"].get("signatures", {})
             ]
-            givenNames_dict = document["fields"].get("givenName", {}) or {}
-            givenNameString = givenNames_dict.get("value", "") or ""
-            given_names = givenNameString.split(" ") if givenNameString != "" else []
+            given_names_dict = document["fields"].get("givenName", {}) or {}
+            given_names_string = given_names_dict.get("value", "") or ""
+            given_names = (
+                given_names_string.split(" ") if given_names_string != "" else []
+            )
             given_names_final = []
             for given_name in given_names:
                 given_names_final.append(
