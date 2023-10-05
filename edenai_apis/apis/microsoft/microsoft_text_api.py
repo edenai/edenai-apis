@@ -374,7 +374,8 @@ class MicrosoftTextApi(TextInterface):
         self._check_microsoft_error(data, response.status_code)
 
         items: Sequence[InfosKeywordExtractionDataClass] = []
-        for key_phrase in data["results"]["documents"][0]["keyPhrases"]:
+        key_phrases = data.get("results", {}).get("documents", [{}])[0].get("keyPhrases") or []
+        for key_phrase in key_phrases:
             items.append(
                 InfosKeywordExtractionDataClass(keyword=key_phrase, importance=None)
             )

@@ -3,7 +3,6 @@ import requests
 import numpy as np
 import json
 
-from requests.exceptions import JSONDecodeError
 from edenai_apis.features.text import PromptOptimizationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
@@ -314,8 +313,9 @@ class OpenaiTextApi(TextInterface):
         original_response = get_openapi_response(response)
 
         try:
-            keywords = json.loads(original_response["choices"][0]["text"])
-            standardized_response = KeywordExtractionDataClass(items=keywords["items"])
+            keywords = json.loads(original_response["choices"][0]["text"]) or {}
+            items = keywords.get("items", [])
+            standardized_response = KeywordExtractionDataClass(items=items)
         except (KeyError, json.JSONDecodeError, TypeError) as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."

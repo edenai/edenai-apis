@@ -48,7 +48,7 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
-        provider_params = dict()
+        provider_params=dict(),
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -91,9 +91,8 @@ class AssemblyApi(ProviderInterface, AudioInterface):
                     del data[parameter]
                 else:
                     raise ProviderException(
-                        response.json().get("error"),
-                        code = response.status_code
-                        )
+                        response.json().get("error"), code=response.status_code
+                    )
             else:
                 launch_transcription = True
 
@@ -110,13 +109,15 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         )
 
         if response.status_code != 200:
-            error_message = response.json().get("error")
+            error_message = (
+                response.json().get("error") or "Error when transcribing audio file"
+            )
             if "transcript id not found" in error_message:
                 raise AsyncJobException(
                     reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
-                    code = response.status_code
+                    code=response.status_code,
                 )
-            raise ProviderException(error_message, code = response.status_code)
+            raise ProviderException(error_message, code=response.status_code)
 
         diarization_entries = []
         speakers = {}
@@ -125,7 +126,7 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         original_response = response.json()
         status = original_response["status"]
         if status == "error":
-            raise ProviderException(original_response, code = response.status_code)
+            raise ProviderException(original_response, code=response.status_code)
         if status != "completed":
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id

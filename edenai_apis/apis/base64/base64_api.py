@@ -92,7 +92,6 @@ class Base64Api(ProviderInterface, OcrInterface):
         def __getitem__(self, key) -> Any:
             return self.document.get("fields", {}).get(key, {}).get("value")
 
-
     def _get_response(self, response: requests.Response) -> Any:
         try:
             original_response = response.json()
@@ -102,7 +101,6 @@ class Base64Api(ProviderInterface, OcrInterface):
             return original_response
         except Exception:
             raise ProviderException(response.text, code=response.status_code)
-
 
     def _extract_item_lignes(
         self, data, item_lines_type: Union[Type[ItemLines], Type[ItemLinesInvoice]]
@@ -161,7 +159,9 @@ class Base64Api(ProviderInterface, OcrInterface):
         merchant_name = fields.get("companyName", default_dict).get("value")
         merchant_address = fields.get("from", default_dict).get("value")
         customer_name = fields.get("billTo", default_dict).get("value")
-        customer_address = fields.get("address", default_dict).get("value")  # DEPRECATED need to be removed
+        customer_address = fields.get("address", default_dict).get(
+            "value"
+        )  # DEPRECATED need to be removed
         customer_mailing_address = fields.get("address", default_dict).get("value")
         customer_billing_address = fields.get("billTo", default_dict).get("value")
         customer_shipping_address = fields.get("shipTo", default_dict).get("value")
@@ -325,10 +325,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         response = requests.post(url=self.url, headers=headers, json=data)
 
         if response.status_code != 200:
-            raise ProviderException(
-                response.text,
-                code = response.status_code
-                )
+            raise ProviderException(response.text, code=response.status_code)
 
         return response.json()
 
@@ -361,7 +358,7 @@ class Base64Api(ProviderInterface, OcrInterface):
     ):
         raise ProviderException(
             message="This provider is deprecated. You won't be charged for your call.",
-            code = 500
+            code=500,
         )
 
     def ocr__invoice_parser(
@@ -409,10 +406,10 @@ class Base64Api(ProviderInterface, OcrInterface):
                 )
                 for doc in document["features"].get("signatures", {})
             ]
+            given_names_dict = document["fields"].get("givenName", {}) or {}
+            given_names_string = given_names_dict.get("value", "") or ""
             given_names = (
-                document["fields"].get("givenName", {}).get("value", "").split(" ")
-                if document["fields"].get("givenName", {}).get("value", "") != ""
-                else []
+                given_names_string.split(" ") if given_names_string != "" else []
             )
             given_names_final = []
             for given_name in given_names:

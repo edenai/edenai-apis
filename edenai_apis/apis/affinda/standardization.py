@@ -436,7 +436,8 @@ class ReceiptStandardizer:
         self.__std_response["taxes"] = []
 
         for tax in self.__data.get("paymentAmountTax") or []:
-            self.__std_response["taxes"].append(Taxes(taxes=tax.get("raw"), rate=None))
+            taxes = convert_string_to_number(tax.get("parsed"), float)
+            self.__std_response["taxes"].append(Taxes(taxes=taxes, rate=None))
 
         return self.__std_response["taxes"]
 

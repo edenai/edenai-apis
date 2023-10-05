@@ -274,12 +274,14 @@ class KlippaApi(ProviderInterface, OcrInterface):
 
         parsed_data = original_response.get("data", {}).get("parsed", {})
 
-        country = get_info_country(
+        issuing_country = get_info_country(
             key=InfoCountry.ALPHA3,
             value=(parsed_data.get("issuing_country") or {}).get("value", ""),
         )
 
-        given_names = parsed_data.get("given_names", {}).get("value", "").split(" ")
+        given_names_dict = parsed_data.get("given_names", {}) or {}
+        given_names_string = given_names_dict.get("value", "") or ""
+        given_names = given_names_string.split(" ")
         final_given_names = []
         for given_name in given_names:
             final_given_names.append(
@@ -309,7 +311,21 @@ class KlippaApi(ProviderInterface, OcrInterface):
         birth_place = parsed_data.get("place_of_birth", {}) or {}
         document_id = parsed_data.get("document_number", {}) or {}
         issuing_state = parsed_data.get("issuing_institution", {}) or {}
-        address = parsed_data.get("address", {}) or {}
+
+        addr = (parsed_data.get("address", {}) or {}).get("value") or {}
+        street = addr.get("house_number", "") or ""
+        street += f" {addr.get('street_name', '') or ''}"
+        city = addr.get("post_code", "") or ""
+        city += f" {addr.get('city', '') or ''}"
+        province = addr.get("province", "") or ""
+        country = addr.get("country", "") or ""
+        formatted_address = ", ".join(
+            filter(
+                lambda x: x,
+                [street.strip(), city.strip(), province.strip(), country.strip()],
+            )
+        )
+
         age = parsed_data.get("age", {}) or {}
         document_type = parsed_data.get("document_type", {}) or {}
         gender = parsed_data.get("gender", {}) or {}
@@ -368,14 +384,13 @@ class KlippaApi(ProviderInterface, OcrInterface):
                     confidence=issuing_state.get("confidence"),
                 ),
                 address=ItemIdentityParserDataClass(
-                    value=address.get("value"),
-                    confidence=address.get("confidence"),
+                    value=formatted_address,
                 ),
                 age=ItemIdentityParserDataClass(
                     value=age.get("value"),
                     confidence=age.get("confidence"),
                 ),
-                country=country,
+                country=issuing_country,
                 document_type=ItemIdentityParserDataClass(
                     value=document_type.get("value"),
                     confidence=document_type.get("confidence"),
