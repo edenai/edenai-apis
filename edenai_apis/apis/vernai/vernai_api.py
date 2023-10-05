@@ -36,7 +36,7 @@ class VernaiApi(ProviderInterface, TextInterface):
             items.append(
                 EmotionItem(
                     emotion=EmotionEnum.from_str(entity.get("name", "")),
-                    emotion_score=entity.get("value", 0) / 100
+                    emotion_score=entity.get("value", 0)
                 )
             )
         return ResponseType[EmotionDetectionDataClass](

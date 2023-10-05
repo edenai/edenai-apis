@@ -157,7 +157,7 @@ class NlpCloudApi(ProviderInterface, TextInterface):
             items.append(
                 EmotionItem(
                     emotion=EmotionEnum.from_str(entity.get("label", "")),
-                    emotion_score=entity.get("score", 0)
+                    emotion_score=round(entity.get("score", 0) * 100, 2)
                 )
             )
         return ResponseType[EmotionDetectionDataClass](

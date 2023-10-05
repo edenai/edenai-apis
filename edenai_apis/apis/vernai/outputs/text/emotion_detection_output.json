@@ -29,11 +29,11 @@
     "items": [
       {
         "emotion": "Fear",
-        "emotion_score": 0.51
+        "emotion_score": 51.0
       },
       {
         "emotion": "Sadness",
-        "emotion_score": 0.51
+        "emotion_score": 51.0
       },
       {
         "emotion": "Anger",
