@@ -351,8 +351,10 @@ class MindeeApi(ProviderInterface, OcrInterface):
 
         original_response = response.json()
         if response.status_code != 201:
+            err_title = original_response['api_request']['error']['message']
+            err_msg = original_response['api_request']['error']['details']
             raise ProviderException(
-                message=original_response["api_request"]["error"]["message"],
+                message=f"{err_title}: {err_msg}",
                 code=response.status_code,
             )
 
