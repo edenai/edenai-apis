@@ -546,7 +546,10 @@ class OpenaiTextApi(TextInterface):
             data = original_response["choices"][0]["message"]["content"]
             corrected_items = json.loads(data)
         except json.JSONDecodeError as exc:
-            raise exc
+            raise ProviderException(
+                "An error occurred while parsing the response.",
+                code=response.status_code,
+            )
 
         corrections = construct_word_list(text, corrected_items)
 

@@ -281,6 +281,8 @@ def construct_word_list(original_text, corrected_words):
         real_offset = closest_above_value(
             find_all_occurrence(original_text, word_with_mistake), offset
         )
+        if real_offset < 0:
+            continue
         length = len(word_with_mistake)
 
         # Create a new dictionary with the extracted information
