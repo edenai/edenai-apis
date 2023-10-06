@@ -73,6 +73,7 @@ from edenai_apis.utils.bounding_box import BoundingBox as BBox
 
 from botocore.exceptions import ClientError, ParamValidationError
 
+
 def check_webhook_result(job_id: str, api_settings: dict) -> Dict:
     """Try get result on webhook.site with job id
 
@@ -306,9 +307,9 @@ def query_answer_result(page: List[dict], identifier: str):
     for query in queries:
         relationships = query.get("Relationships")
         if relationships:
-            first_relation_id = relationships[0]["Ids"][0]
-            if first_relation_id == identifier:
-                return query["Query"]["Text"]
+            for relationship in relationships:
+                if identifier in relationship["Ids"]:
+                    return query["Query"]["Text"]
     return None
 
 
@@ -497,9 +498,7 @@ def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass
             # we get the one who appeared the most
             elif len(currencies) > 1:
                 invoice_currency = max(currencies, key=currencies.get)
-            locale = Locale(
-                currency=invoice_currency, language=None, country=None
-            )
+            locale = Locale(currency=invoice_currency, language=None, country=None)
 
             taxes = [
                 Taxes(
@@ -543,7 +542,9 @@ def amazon_speaking_volume_adapter(speaking_volume: int):
     return speaking_volume * 6 / 100
 
 
-def generate_right_ssml_text(text, speaking_rate, speaking_pitch, speaking_volume) -> str:
+def generate_right_ssml_text(
+    text, speaking_rate, speaking_pitch, speaking_volume
+) -> str:
     attribs = {
         "rate": (speaking_rate, f"{amazon_speaking_rate_converter(speaking_rate)}%"),
         "pitch": (speaking_pitch, f"{speaking_pitch}%"),
@@ -611,7 +612,7 @@ def amazon_ocr_async_formatter(responses: list) -> OcrAsyncDataClass:
             continue
 
         lines: Sequence[Line] = []
-        for block_id in block.get('Relationships', [{}])[0].get("Ids", []):
+        for block_id in block.get("Relationships", [{}])[0].get("Ids", []):
             if blocks[block_id]["BlockType"] != "LINE":
                 continue
 
@@ -699,12 +700,12 @@ def amazon_data_extraction_formatter(
     return DataExtractionDataClass(fields=items)
 
 
-def handle_amazon_call(func : Callable, **kwargs):
+def handle_amazon_call(func: Callable, **kwargs):
     job_id_strings_errors = [
-        "InvalidJobIdException", 
-        "Request has invalid Job Id", 
-        "Could not find JobId", 
-        "job couldn't be found"
+        "InvalidJobIdException",
+        "Request has invalid Job Id",
+        "Could not find JobId",
+        "job couldn't be found",
     ]
     try:
         response = func(**kwargs)
@@ -713,16 +714,13 @@ def handle_amazon_call(func : Callable, **kwargs):
         status_code = response_meta.get("HTTPStatusCode", None)
         if any(str_error in str(exc) for str_error in job_id_strings_errors):
             raise AsyncJobException(
-                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
-                code = status_code
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, code=status_code
             )
         raise ProviderException(str(exc), code=status_code)
-    except ParamValidationError as exc:    
-        raise ProviderException(str(exc), code= 400) from exc
+    except ParamValidationError as exc:
+        raise ProviderException(str(exc), code=400) from exc
     except Exception as exc:
         if any(str_error in str(exc) for str_error in job_id_strings_errors):
-            raise AsyncJobException(
-                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
-            )
+            raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
         raise ProviderException(str(exc))
     return response
