@@ -59,6 +59,7 @@
 |----------|-------------|
 | **generation** | ai21labs |
 | | anthropic |
+| | clarifai |
 | | cohere |
 | | google |
 | | openai |
@@ -388,7 +389,8 @@
 | | logo_detection |
 | | object_detection |
 | **ocr** | ocr |
-| **text** | moderation |
+| **text** | generation |
+| | moderation |
 
 </details>
 <details><summary>cohere</summary>
