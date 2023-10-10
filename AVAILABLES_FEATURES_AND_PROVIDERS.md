@@ -70,6 +70,7 @@
 | | huggingface |
 | | meaningcloud |
 | | microsoft |
+| | nlpcloud |
 | | oneai |
 | | openai |
 | | writesonic |
@@ -647,6 +648,7 @@
 | | named_entity_recognition |
 | | sentiment_analysis |
 | | spell_check |
+| | summarize |
 
 </details>
 <details><summary>nyckel</summary>
