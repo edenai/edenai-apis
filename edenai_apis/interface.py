@@ -350,7 +350,8 @@ def get_async_job_result(
     async_job_id: AsyncLaunchJobResponseType,
     phase: str = "",
     fake: bool = False,
-    user_email=None,
+    user_email = None,
+    api_keys = dict(),
 ) -> Dict:
     """Get async result from job id
 
@@ -387,7 +388,7 @@ def get_async_job_result(
     subfeature_class = getattr(feature_class, subfeature_method_name)
 
     try:
-        subfeature_result = subfeature_class(provider_name)(async_job_id).model_dump()
+        subfeature_result = subfeature_class(provider_name, api_keys)(async_job_id).model_dump()
     except ProviderException as exc:
         raise get_appropriate_error(provider_name, exc)
 
