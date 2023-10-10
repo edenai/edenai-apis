@@ -18,4 +18,4 @@ class SpeechDiarization(BaseModel):
 
 class SpeechToTextAsyncDataClass(BaseModel):
     text: StrictStr
-    diarization: SpeechDiarization
+    diarization: Optional[SpeechDiarization]
