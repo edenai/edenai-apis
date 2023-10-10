@@ -7,7 +7,7 @@ from typing import Dict, Sequence
 from edenai_apis.features.text import KeywordExtractionDataClass, InfosKeywordExtractionDataClass, \
     SentimentAnalysisDataClass, SegmentSentimentAnalysisDataClass, CodeGenerationDataClass, \
     NamedEntityRecognitionDataClass, InfosNamedEntityRecognitionDataClass, EmotionDetectionDataClass, \
-    EmotionItem, EmotionEnum
+    EmotionItem, EmotionEnum, SummarizeDataClass
 from edenai_apis.features.text.spell_check import SpellCheckDataClass, SpellCheckItem, SuggestionItem
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -163,4 +163,26 @@ class NlpCloudApi(ProviderInterface, TextInterface):
         return ResponseType[EmotionDetectionDataClass](
             original_response=original_response,
             standardized_response=EmotionDetectionDataClass(items=items, text=text)
+        )
+
+    def text__summarize(
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: str = None,
+    ) -> ResponseType[SummarizeDataClass]:
+        # Check none model
+        url = self.url_basic +"gpu/" + model + "/summarization"
+        response = requests.post(
+            url=url,
+            json={"text": text},
+            headers={"Content-Type": "application/json", "authorization": f"Token {self.api_key}"}
+        )
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
+        original_response = response.json()
+        return ResponseType[SummarizeDataClass](
+            original_response=original_response,
+            standardized_response=SummarizeDataClass(result=original_response.get("summary_text", ""))
         )
