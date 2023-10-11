@@ -3,23 +3,24 @@ from typing import Any, List, Optional, TypeVar, Union
 
 T = TypeVar("T")
 
+
 def extract(
     obj: Union[dict, list],
     path: List[Union[str, int]],
-    fallback: Optional[T] = None,
+    fallback: T = None,
     type_validator: Optional[type] = None,
-) -> Union[Any, T, None]:
+) -> Union[Any, T]:
     """
     Extract a value from a dict given a path & optional fallback + type validator
 
     Args:
         obj (dict): object to extract value from
         path (List[str | int]): list of keys/indexed representing the path of the value to extract (eg: obj['result'][0] will be ['result', 0])
-        fallback (Any), optional: fallback value if something goes wrong while trying to get extract value
+        fallback (T), optional: fallback value if something goes wrong while trying to get extract value
         type_validator (type), optional: expected type of extracted value, if they are different, we return the fallback
 
     Returns:
-        Any: extracted value of Any type or fallback type
+        Any | T: extracted value of Any type or fallback type
 
     Example:
       Extract a value from an object
@@ -32,7 +33,7 @@ def extract(
       >>> extract(obj, ["one", "two", 3], fallback="FALLBACK_VALUE")
       "FALLBACK_VALUE"
 
-      Simple type Validation, return fallback if validation fail
+      Simple type validation, return fallback if validation fails
       >>> obj = {"one": {"two": [0, "result", 0]}}
       >>> extract(obj, ["one", "two", 3], fallback="FALLBACK_VALUE", type_validator=int)
       "FALLBACK_VALUE"
