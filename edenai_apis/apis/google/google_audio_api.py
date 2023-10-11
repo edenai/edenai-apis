@@ -16,6 +16,7 @@ from google.cloud.speech_v2.types import cloud_speech
 
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
+    SpeechDiarization,
     SpeechToTextAsyncDataClass,
 )
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
@@ -171,7 +172,7 @@ class GoogleAudioApi(AudioInterface):
                 text += (", " if text else "") + alternative.strip()
 
             standardized_response = SpeechToTextAsyncDataClass(
-                text=text, diarization=None
+                text=text, diarization=SpeechDiarization(total_speakers=0)
             )
 
             return AsyncResponseType[SpeechToTextAsyncDataClass](

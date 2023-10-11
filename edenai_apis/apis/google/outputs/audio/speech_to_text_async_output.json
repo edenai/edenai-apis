@@ -1,19 +1,19 @@
 {
   "status": "succeeded",
-  "provider_job_id": "projects/148983085864/locations/global/operations/v2-651cbbc7-0000-2000-ab8f-582429a72b00",
+  "provider_job_id": "projects/148983085864/locations/global/operations/v2-65238403-0000-2742-9c64-582429abadb0",
   "original_response": {
-    "name": "projects/148983085864/locations/global/operations/v2-651cbbc7-0000-2000-ab8f-582429a72b00",
+    "name": "projects/148983085864/locations/global/operations/v2-65238403-0000-2742-9c64-582429abadb0",
     "metadata": {
       "@type": "type.googleapis.com/google.cloud.speech.v2.OperationMetadata",
-      "createTime": "2023-10-10T16:01:20.425813Z",
-      "updateTime": "2023-10-10T16:01:28.035006Z",
+      "createTime": "2023-10-11T08:27:51.828603Z",
+      "updateTime": "2023-10-11T08:27:58.646672Z",
       "resource": "projects/subtle-reserve-222609/locations/global/recognizers/_",
       "method": "google.cloud.speech.v2.Speech.BatchRecognize",
       "batchRecognizeRequest": {
         "recognizer": "projects/subtle-reserve-222609/locations/global/recognizers/_",
         "files": [
           {
-            "uri": "gs://audios-speech2text/1696953678conversation.mp3"
+            "uri": "gs://audios-speech2text/1697012870conversation.mp3"
           }
         ],
         "config": {
@@ -34,7 +34,7 @@
     "response": {
       "@type": "type.googleapis.com/google.cloud.speech.v2.BatchRecognizeResponse",
       "results": {
-        "gs://audios-speech2text/1696953678conversation.mp3": {
+        "gs://audios-speech2text/1697012870conversation.mp3": {
           "transcript": {
             "results": [
               {
@@ -64,6 +64,10 @@
   },
   "standardized_response": {
     "text": "unit 1 page 14 real conversations, hello hi what's your name Claudia what's your name I'm Chihiro nice to meet you shehiro yeah that's right away from",
-    "diarization": null
+    "diarization": {
+      "total_speakers": 0,
+      "entries": [],
+      "error_message": null
+    }
   }
 }
