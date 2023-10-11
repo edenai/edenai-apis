@@ -26,6 +26,7 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     Taxes,
 )
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
+from edenai_apis.utils.parsing import extract
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
 
@@ -428,7 +429,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         response_data = original_response.get("data", {}).get("parsed", {})
         applicant = response_data["applicant"]
         name = ResumePersonalName(
-            raw_name=applicant["name"].get("value"),
+            raw_name=extract(applicant, ['name', 'value']),
             first_name=None,
             last_name=None,
             middle=None,
@@ -440,17 +441,17 @@ class KlippaApi(ProviderInterface, OcrInterface):
             formatted_location=None,
             postal_code=None,
             region=None,
-            country=applicant["address"]["country"].get("value"),
+            country=extract(applicant, ['address', 'country', 'value']),
             country_code=None,
             raw_input_location=None,
             street=None,
             street_number=None,
             appartment_number=None,
-            city=applicant["address"]["city"].get("value"),
+            city=extract(applicant, ['address', 'city', 'value']),
         )
-        phones = applicant["phone_number"].get("value")
-        mails = applicant["email_address"].get("value")
-        urls = [website.get("value") for website in applicant["websites"]]
+        phones = extract(applicant, ['phone_number', 'value'])
+        mails = extract(applicant, ['email_address', 'value'])
+        urls = [website["value"] for website in applicant["websites"] if website.get("value")]
         personal_infos = ResumePersonalInfo(
             name=name,
             address=address,
@@ -474,22 +475,22 @@ class KlippaApi(ProviderInterface, OcrInterface):
                 formatted_location=None,
                 postal_code=None,
                 region=None,
-                country=edu["address"]["country"].get("value"),
+                country=extract(edu, ['address', 'country', 'value']),
                 country_code=None,
                 raw_input_location=None,
                 street=None,
                 street_number=None,
                 appartment_number=None,
-                city=edu["address"]['city'].get("value")
+                city=extract(edu, ['address', 'city', 'value']),
             )
             education_entries.append(
                 ResumeEducationEntry(
-                    title=edu['program'].get("value"),
-                    start_date=edu["start"].get("value"),
-                    end_date=edu["end"].get("value"),
+                    title=extract(edu, ['program', 'value']),
+                    start_date=extract(edu, ['start', 'value']),
+                    end_date=extract(edu, ['end', 'value']),
                     location=education_address,
-                    establishment=edu["institution"].get("value"),
-                    description=edu["program"].get("value"),
+                    establishment=extract(edu, ['institution', 'value']),
+                    description=extract(edu, ['program', 'value']),
                     gpa=None,
                     accreditation=None,
                 )
@@ -504,20 +505,20 @@ class KlippaApi(ProviderInterface, OcrInterface):
                 formatted_location=None,
                 postal_code=None,
                 region=None,
-                country=work["address"]["country"].get("value"),
+                country=extract(work, ['address', 'country', 'value']),
                 country_code=None,
                 raw_input_location=None,
                 street=None,
                 street_number=None,
                 appartment_number=None,
-                city=work["address"]['city'].get("value")
+                city=extract(work, ['address', 'city', 'value']),
             )
             work_experience_entries.append(
                 ResumeWorkExpEntry(
-                    title=work["job_title"].get("value"),
-                    start_date=work["start"].get("value"),
-                    end_date=work["end"].get("value"),
-                    company=work["company_name"].get("value"),
+                    title=extract(work, ['job_title', 'value']),
+                    start_date=extract(work, ['start', 'value']),
+                    end_date=extract(work, ['end', 'value']),
+                    company=extract(work, ['company_name', 'value']),
                     location=work_address,
                     description=None,
                     industry=None,
