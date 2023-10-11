@@ -1,5 +1,4 @@
 import base64
-import uuid
 from io import BytesIO
 from pathlib import Path
 from time import time
@@ -8,25 +7,21 @@ from typing import List, Optional
 import googleapiclient.discovery
 from edenai_apis.apis.google.google_helpers import (
     generate_tts_params,
-    get_encoding_and_sample_rate,
     get_right_audio_support_and_sampling_rate,
     handle_google_call,
 )
+from google.cloud import storage, texttospeech
+from google.cloud.speech_v2 import SpeechClient
+from google.cloud.speech_v2.types import cloud_speech
+
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
-    SpeechDiarization,
-    SpeechDiarizationEntry,
     SpeechToTextAsyncDataClass,
 )
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
-from edenai_apis.utils.exception import (
-    AsyncJobException,
-    AsyncJobExceptionReason,
-    LanguageException,
-    ProviderException,
-)
+from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.ssml import is_ssml
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -35,19 +30,13 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
-
-from google.cloud import storage, texttospeech
-from google.cloud.speech_v2 import SpeechClient
-from google.cloud.speech_v2.types import cloud_speech
-
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 
 class GoogleAudioApi(AudioInterface):
     def audio__text_to_speech(
         self,
-        language: str
-        ,
+        language: str,
         text: str,
         option: str,
         voice_id: str,
@@ -120,7 +109,7 @@ class GoogleAudioApi(AudioInterface):
         audio_attributes: tuple,
         model: Optional[str] = None,
         file_url: str = "",
-        provider_params = dict()
+        provider_params=dict(),
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, _ = audio_attributes
 
@@ -143,8 +132,8 @@ class GoogleAudioApi(AudioInterface):
         config = cloud_speech.RecognitionConfig(
             auto_decoding_config=cloud_speech.AutoDetectDecodingConfig(),
             language_codes=[language],
-            model=model or 'long',
-            features=cloud_speech.RecognitionFeatures(**provider_params)
+            model=model or "long",
+            features=cloud_speech.RecognitionFeatures(**provider_params),
         )
 
         file_metadata = cloud_speech.BatchRecognizeFileMetadata(uri=gcs_uri)
@@ -175,13 +164,15 @@ class GoogleAudioApi(AudioInterface):
         text = ""
         if original_response.get("done"):
             result = list(original_response["response"]["results"].values())[0]
-            for entry in result['transcript'].get("results") or []:
+            for entry in result["transcript"].get("results") or []:
                 alternative = entry["alternatives"][0].get("transcript")
                 if not alternative:
                     continue
                 text += (", " if text else "") + alternative.strip()
 
-            standardized_response = SpeechToTextAsyncDataClass(text=text, diarization=None)
+            standardized_response = SpeechToTextAsyncDataClass(
+                text=text, diarization=None
+            )
 
             return AsyncResponseType[SpeechToTextAsyncDataClass](
                 original_response=original_response,
