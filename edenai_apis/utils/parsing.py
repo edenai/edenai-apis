@@ -43,13 +43,13 @@ def extract(
         for key in path:
             result = result[key]  # type: ignore
     except (KeyError, IndexError, TypeError) as exc:
-        logging.error(
+        logging.warning(
             f"{exc.__class__.__name__}: {exc} while trying to extract {path} of object {obj}, returning fallback: {fallback}"
         )
         return fallback
 
     if type_validator is not None and type(result) != type_validator:
-        logging.error(
+        logging.warning(
             f"Object {result} of type {type(result)} is not of expected type: {type_validator}, returning fallback: {fallback}"
         )
         return fallback
