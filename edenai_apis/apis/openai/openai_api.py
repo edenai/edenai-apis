@@ -24,7 +24,10 @@ class OpenaiApi(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
 
-        chosen_api_setting = random.choice(self.api_settings)
+        if isinstance(self.api_settings, list):
+            chosen_api_setting = random.choice(self.api_settings)
+        else:
+            chosen_api_setting = self.api_settings
 
         self.api_key = chosen_api_setting["api_key"]
         self.org_key = chosen_api_setting["org_key"]
