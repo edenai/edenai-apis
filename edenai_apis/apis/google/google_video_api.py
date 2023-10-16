@@ -302,19 +302,33 @@ class GoogleVideoApi(VideoInterface):
                         timestamp = float(
                             track["timestampedObjects"][0]["timeOffset"][:-1]
                         )
+                        
+                        top = float(
+                                track["timestampedObjects"][0][
+                                "normalizedBoundingBox"
+                            ].get("top", 0)
+                            )
+                        left = float(
+                                track["timestampedObjects"][0][
+                                "normalizedBoundingBox"
+                            ].get("left", 0)
+                            )
+                        right= float(
+                                track["timestampedObjects"][0][
+                                "normalizedBoundingBox"
+                            ].get("right", 0)
+                            )
+                        bottom = float(
+                                track["timestampedObjects"][0][
+                                "normalizedBoundingBox"
+                            ].get("bottom", 0)
+                            )
+                        # Bounding box
                         bounding_box = VideoBoundingBox(
-                            top=track["timestampedObjects"][0][
-                                "normalizedBoundingBox"
-                            ].get("top", 0),
-                            left=track["timestampedObjects"][0][
-                                "normalizedBoundingBox"
-                            ].get("left", 0),
-                            height=track["timestampedObjects"][0][
-                                "normalizedBoundingBox"
-                            ].get("bottom", 0),
-                            width=track["timestampedObjects"][0][
-                                "normalizedBoundingBox"
-                            ].get("right", 0),
+                            top=top,
+                            left=left,
+                            height = 1 - (top + (1 - bottom)),
+                            width= 1 - (left + (1 - right)),
                         )
                         attribute_dict = {}
                         for attr in track["timestampedObjects"][0].get(
@@ -364,20 +378,24 @@ class GoogleVideoApi(VideoInterface):
                 tracked_person = []
                 for track in person["tracks"]:
                     for time_stamped_object in track["timestampedObjects"]:
+                        top = float(
+                                time_stamped_object["normalizedBoundingBox"].get("top",0)
+                            )
+                        left = left=float(
+                                time_stamped_object["normalizedBoundingBox"].get("left",0)
+                            )
+                        right = left=float(
+                                time_stamped_object["normalizedBoundingBox"].get("right",0)
+                            )
+                        bottom = float(
+                                time_stamped_object["normalizedBoundingBox"].get("bottom",0)
+                            )
                         # Bounding box
                         bounding_box = VideoTrackingBoundingBox(
-                            top=float(
-                                time_stamped_object["normalizedBoundingBox"].get("top",0)
-                            ),
-                            left=float(
-                                time_stamped_object["normalizedBoundingBox"].get("left",0)
-                            ),
-                            height=float(
-                                time_stamped_object["normalizedBoundingBox"].get("bottom",0)
-                            ),
-                            width=float(
-                                time_stamped_object["normalizedBoundingBox"].get("right",0)
-                            ),
+                            top=top,
+                            left=left,
+                            height = 1 - (top + (1 - bottom)),
+                            width= 1 - (left + (1 - right)),
                         )
 
                         # Timeoffset
@@ -474,12 +492,26 @@ class GoogleVideoApi(VideoInterface):
                     for track in logo["tracks"]:
                         for time_stamped_object in track["timestampedObjects"]:
                             timestamp = float(time_stamped_object["timeOffset"][:-1])
+                            top = float(
+                                    time_stamped_object["normalizedBoundingBox"].get("top",0)
+                                )
+                            left = left=float(
+                                    time_stamped_object["normalizedBoundingBox"].get("left",0)
+                                )
+                            right = left=float(
+                                    time_stamped_object["normalizedBoundingBox"].get("right",0)
+                                )
+                            bottom = float(
+                                    time_stamped_object["normalizedBoundingBox"].get("bottom",0)
+                                )
+                            # Bounding box
                             bounding_box = VideoLogoBoundingBox(
-                                top=time_stamped_object["normalizedBoundingBox"].get("top", 0),
-                                left=time_stamped_object["normalizedBoundingBox"].get("left", 0),
-                                height=time_stamped_object["normalizedBoundingBox"].get("bottom", 0),
-                                width=time_stamped_object["normalizedBoundingBox"].get("right", 0),
+                                top=top,
+                                left=left,
+                                height = 1 - (top + (1 - bottom)),
+                                width= 1 - (left + (1 - right)),
                             )
+
                             objects.append(
                                 VideoLogo(
                                     timestamp=timestamp,
@@ -516,11 +548,24 @@ class GoogleVideoApi(VideoInterface):
                 description = detected_object["entity"]["description"]
                 for frame in detected_object["frames"]:
                     timestamp = float(frame["timeOffset"][:-1])
+                    top = float(
+                            frame["normalizedBoundingBox"].get("top",0)
+                        )
+                    left = left=float(
+                            frame["normalizedBoundingBox"].get("left",0)
+                        )
+                    right = left=float(
+                            frame["normalizedBoundingBox"].get("right",0)
+                        )
+                    bottom = float(
+                            frame["normalizedBoundingBox"].get("bottom",0)
+                        )
+                    # Bounding box
                     bounding_box = VideoObjectBoundingBox(
-                        top=float(frame["normalizedBoundingBox"].get("top", 0)),
-                        left=float(frame["normalizedBoundingBox"].get("left", 0)),
-                        width=float(frame["normalizedBoundingBox"].get("right", 0)),
-                        height=float(frame["normalizedBoundingBox"].get("bottom", 0)),
+                        top=top,
+                        left=left,
+                        height = 1 - (top + (1 - bottom)),
+                        width= 1 - (left + (1 - right)),
                     )
                     frames.append(
                         ObjectFrame(timestamp=timestamp, bounding_box=bounding_box)
