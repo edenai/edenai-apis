@@ -1,31 +1,44 @@
 {
   "status": "succeeded",
-  "provider_job_id": "f1ffca2fb2e601ce17615ed7830d094aefa5a61ef4cf1ee156c58a9f16855994",
-  "original_response": {
-    "JobStatus": "SUCCEEDED",
-    "VideoMetadata": {
-      "Codec": "h264",
-      "DurationMillis": 9233,
-      "Format": "QuickTime / MOV",
-      "FrameRate": 30.0,
-      "FrameHeight": 576,
-      "FrameWidth": 648,
-      "ColorRange": "LIMITED"
-    },
-    "ModerationLabels": [],
-    "ModerationModelVersion": "5.0",
-    "ResponseMetadata": {
-      "RequestId": "1d6863aa-1e76-4ecc-85ae-06dee1098339",
-      "HTTPStatusCode": 200,
-      "HTTPHeaders": {
-        "x-amzn-requestid": "1d6863aa-1e76-4ecc-85ae-06dee1098339",
-        "content-type": "application/x-amz-json-1.1",
-        "content-length": "235",
-        "date": "Fri, 16 Dec 2022 14:54:11 GMT"
+  "provider_job_id": "dcabe2d4aa8628ecd833733c84801d9223832c93db8252780bc7a6a9e4545443",
+  "original_response": [
+    {
+      "JobStatus": "SUCCEEDED",
+      "VideoMetadata": {
+        "Codec": "h264",
+        "DurationMillis": 9233,
+        "Format": "QuickTime / MOV",
+        "FrameRate": 30.0,
+        "FrameHeight": 576,
+        "FrameWidth": 648,
+        "ColorRange": "LIMITED"
       },
-      "RetryAttempts": 0
+      "ModerationLabels": [],
+      "ModerationModelVersion": "6.1",
+      "JobId": "dcabe2d4aa8628ecd833733c84801d9223832c93db8252780bc7a6a9e4545443",
+      "Video": {
+        "S3Object": {
+          "Bucket": "us-storage",
+          "Name": "1697468213explicit_video_.mp4"
+        }
+      },
+      "GetRequestMetadata": {
+        "SortBy": "TIMESTAMP",
+        "AggregateBy": "TIMESTAMPS"
+      },
+      "ResponseMetadata": {
+        "RequestId": "244b8803-2f6c-4ba6-a4cc-96dada40571a",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+          "x-amzn-requestid": "244b8803-2f6c-4ba6-a4cc-96dada40571a",
+          "content-type": "application/x-amz-json-1.1",
+          "content-length": "465",
+          "date": "Mon, 16 Oct 2023 14:57:12 GMT"
+        },
+        "RetryAttempts": 0
+      }
     }
-  },
+  ],
   "standardized_response": {
     "moderation": []
   }
