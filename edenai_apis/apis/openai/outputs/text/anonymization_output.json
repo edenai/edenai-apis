@@ -1,26 +1,35 @@
 {
   "original_response": {
-    "id": "cmpl-7KOfckfQZy7LSX5mTHGSJP8UGxxZP",
+    "id": "cmpl-8AdGWNiwBiXJjFfaAoafs1cWyCugW",
     "object": "text_completion",
-    "created": 1685095748,
-    "model": "text-davinci-003",
+    "created": 1697544908,
+    "model": "gpt-3.5-turbo-instruct",
     "choices": [
       {
-        "text": "\n    {\n        \"redactedText\": \"The phone number of Luc is the ** ** ** ** **.\",\n        \"entities\": [\n            {\n                \"content\": \"06 21 32 43 54\",\n                \"label\": \"phonenumber\",\n                \"confidence_score\": 1.0,\n                \"offset\": 22\n            }\n        ]\n    }",
+        "text": "\n{\n    \"redactedText\": \"The phone number of Luc is the ** ** ** ** ** **.\",\n    \"entities\": [\n        {\n            \"content\": \"Luc\",\n            \"label\": \"name\",\n            \"confidence_score\": 1.0,\n            \"offset\": 20\n        },\n        {\n            \"content\": \"06 21 32 43 54\",\n            \"label\": \"phonenumber\",\n            \"confidence_score\": 1.0,\n            \"offset\": 31\n        }\n    ]\n}",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 267,
-      "completion_tokens": 82,
-      "total_tokens": 349
+      "prompt_tokens": 259,
+      "completion_tokens": 110,
+      "total_tokens": 369
     }
   },
   "standardized_response": {
-    "result": "The phone number of Luc is the **************.",
+    "result": "The phone number of *** is the **************.",
     "entities": [
+      {
+        "offset": 20,
+        "length": 3,
+        "category": "PersonalInformation",
+        "subcategory": "Name",
+        "original_label": "name",
+        "content": "Luc",
+        "confidence_score": 1.0
+      },
       {
         "offset": 31,
         "length": 14,

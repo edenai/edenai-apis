@@ -278,17 +278,20 @@ class OpenaiTextApi(TextInterface):
                 entity.get("offset", 0),
             )
             length = len(entity.get("content", ""))
-            entities.append(
-                AnonymizationEntity(
-                    offset=offset,
-                    length=length,
-                    content=entity.get("content"),
-                    original_label=entity.get("label"),
-                    category=classificator["category"],
-                    subcategory=classificator["subcategory"],
-                    confidence_score=entity.get("confidence_score"),
+            try:
+                entities.append(
+                    AnonymizationEntity(
+                        offset=offset,
+                        length=length,
+                        content=entity.get("content"),
+                        original_label=entity.get("label"),
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        confidence_score=entity.get("confidence_score"),
+                    )
                 )
-            )
+            except (ValidationError) as exc:
+                raise ProviderException("An error occurred while parsing the response.") from exc
             tmp_new_text = new_text[0:offset] + "*" * length
             tmp_new_text += new_text[offset + length :]
             new_text = tmp_new_text
