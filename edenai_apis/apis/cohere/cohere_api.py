@@ -373,8 +373,7 @@ Answer:"""
                                  "manhattan", "euclidean"] = "cosine",
         model: str = None
     ) -> ResponseType[SearchDataClass]:
-        if len(texts) > 5:
-            raise ProviderException('Google does not support search in more than 5 items.')
+
         if model is None:
             model = '768__embed-multilingual-v2.0'
         # Import the function
