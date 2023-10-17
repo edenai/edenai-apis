@@ -13,6 +13,9 @@ from edenai_apis.features.text.anonymization.category import CategoryType
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
     CodeGenerationDataClass,
 )
+from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
+    InfosKeywordExtractionDataClass,
+)
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
     NamedEntityRecognitionDataClass,
 )
@@ -278,17 +281,22 @@ class OpenaiTextApi(TextInterface):
                 entity.get("offset", 0),
             )
             length = len(entity.get("content", ""))
-            entities.append(
-                AnonymizationEntity(
-                    offset=offset,
-                    length=length,
-                    content=entity.get("content"),
-                    original_label=entity.get("label"),
-                    category=classificator["category"],
-                    subcategory=classificator["subcategory"],
-                    confidence_score=entity.get("confidence_score"),
+            try:
+                entities.append(
+                    AnonymizationEntity(
+                        offset=offset,
+                        length=length,
+                        content=entity.get("content"),
+                        original_label=entity.get("label"),
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        confidence_score=entity.get("confidence_score"),
+                    )
                 )
-            )
+            except ValidationError as exc:
+                raise ProviderException(
+                    "An error occurred while parsing the response."
+                ) from exc
             tmp_new_text = new_text[0:offset] + "*" * length
             tmp_new_text += new_text[offset + length :]
             new_text = tmp_new_text
@@ -316,8 +324,23 @@ class OpenaiTextApi(TextInterface):
 
         try:
             keywords = json.loads(original_response["choices"][0]["text"]) or {}
-            items = keywords.get("items", [])
-            standardized_response = KeywordExtractionDataClass(items=items)
+            if isinstance(keywords, list) and len(keywords) > 0:
+                keywords = keywords[0]
+            items = keywords.get("items", []) or []
+            items_standardized = []
+            for item in items:
+                keyword = item.get("keyword")
+                try:
+                    importance = float(item.get("importance"))
+                except:
+                    importance = 0
+                if not keyword or not isinstance(keyword, str):
+                    continue
+                item_standardized = InfosKeywordExtractionDataClass(
+                    keyword=keyword, importance=importance
+                )
+                items_standardized.append(item_standardized)
+            standardized_response = KeywordExtractionDataClass(items=items_standardized)
         except (KeyError, json.JSONDecodeError, TypeError, ValidationError) as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."
