@@ -3,6 +3,8 @@ import requests
 import numpy as np
 import json
 
+from pydantic_core._pydantic_core import ValidationError
+
 from edenai_apis.features.text import PromptOptimizationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
@@ -316,7 +318,7 @@ class OpenaiTextApi(TextInterface):
             keywords = json.loads(original_response["choices"][0]["text"]) or {}
             items = keywords.get("items", [])
             standardized_response = KeywordExtractionDataClass(items=items)
-        except (KeyError, json.JSONDecodeError, TypeError) as exc:
+        except (KeyError, json.JSONDecodeError, TypeError, ValidationError) as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
