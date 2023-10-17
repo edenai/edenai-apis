@@ -120,6 +120,9 @@ List of corrected words :
         response = requests.post(
             url, json=payload, headers=self.headers
         )
+        if response.status_code >= 500:
+            ProviderException("Internal Server Error")
+            
         original_response = response.json()
 
         if "message" in original_response:
