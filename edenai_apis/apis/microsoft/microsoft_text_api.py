@@ -95,22 +95,22 @@ class MicrosoftTextApi(TextInterface):
 
         data = response.json()
         self._check_microsoft_error(data)
-
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
-        for ent in data["results"]["documents"][0]["entities"]:
-            entity = ent["text"]
-            importance = ent["confidenceScore"]
-            entity_type = ent["category"].upper()
-            if entity_type == "DATETIME":
-                entity_type = "DATE"
-
-            items.append(
-                InfosNamedEntityRecognitionDataClass(
-                    entity=entity,
-                    importance=importance,
-                    category=entity_type,
+        documents = data["results"]["documents"]
+        if len(documents) > 0:
+            for ent in data["results"]["documents"][0]["entities"]:
+                entity = ent["text"]
+                importance = ent["confidenceScore"]
+                entity_type = ent["category"].upper()
+                if entity_type == "DATETIME":
+                    entity_type = "DATE"
+                items.append(
+                    InfosNamedEntityRecognitionDataClass(
+                        entity=entity,
+                        importance=importance,
+                        category=entity_type,
+                    )
                 )
-            )
 
         standardized_response = NamedEntityRecognitionDataClass(items=items)
 

@@ -372,96 +372,97 @@ class GoogleVideoApi(VideoInterface):
 
         if result.get("done"):
             response = result["response"]["annotationResults"][0]
-            persons = response["personDetectionAnnotations"]
+            persons = response.get("personDetectionAnnotations")
             tracked_persons = []
-            for person in persons:
-                tracked_person = []
-                for track in person["tracks"]:
-                    for time_stamped_object in track["timestampedObjects"]:
-                        top = float(
-                                time_stamped_object["normalizedBoundingBox"].get("top",0)
-                            )
-                        left = left=float(
-                                time_stamped_object["normalizedBoundingBox"].get("left",0)
-                            )
-                        right = left=float(
-                                time_stamped_object["normalizedBoundingBox"].get("right",0)
-                            )
-                        bottom = float(
-                                time_stamped_object["normalizedBoundingBox"].get("bottom",0)
-                            )
-                        # Bounding box
-                        bounding_box = VideoTrackingBoundingBox(
-                            top=top,
-                            left=left,
-                            height = 1 - (top + (1 - bottom)),
-                            width= 1 - (left + (1 - right)),
-                        )
-
-                        # Timeoffset
-                        timeoffset = float(time_stamped_object["timeOffset"][:-1])
-
-                        # attributes
-                        upper_clothes = []
-                        lower_clothes = []
-                        for attr in time_stamped_object.get("attributes", []):
-                            if "Upper" in attr["name"]:
-                                upper_clothes.append(
-                                    UpperCloth(
-                                        value=attr["value"],
-                                        confidence=attr["confidence"],
-                                    )
+            if persons:
+                for person in persons:
+                    tracked_person = []
+                    for track in person["tracks"]:
+                        for time_stamped_object in track["timestampedObjects"]:
+                            top = float(
+                                    time_stamped_object["normalizedBoundingBox"].get("top",0)
                                 )
-                            if "Lower" in attr["name"]:
-                                lower_clothes.append(
-                                    LowerCloth(
-                                        value=attr["value"],
-                                        confidence=attr["confidence"],
-                                    )
+                            left = left=float(
+                                    time_stamped_object["normalizedBoundingBox"].get("left",0)
                                 )
-                        tracked_attributes = PersonAttributes(
-                            upper_cloths=upper_clothes, lower_cloths=lower_clothes
-                        )
-
-                        # Landmarks
-                        landmark_output = {}
-                        for land in time_stamped_object.get("landmarks", []):
-                            landmark_output[land["name"]] = [
-                                land["point"]["x"],
-                                land["point"]["y"],
-                            ]
-                        landmark_tracking = PersonLandmarks(
-                            nose=landmark_output.get("nose", []),
-                            eye_left=landmark_output.get("left_eye", []),
-                            eye_right=landmark_output.get("right_eye", []),
-                            shoulder_left=landmark_output.get("left_shoulder", []),
-                            shoulder_right=landmark_output.get("right_shoulder", []),
-                            elbow_left=landmark_output.get("left_elbow", []),
-                            elbow_right=landmark_output.get("right_elbow", []),
-                            wrist_left=landmark_output.get("left_wrist", []),
-                            wrist_right=landmark_output.get("right_wrist", []),
-                            hip_left=landmark_output.get("left_hip", []),
-                            hip_right=landmark_output.get("right_hip", []),
-                            knee_left=landmark_output.get("left_knee", []),
-                            knee_right=landmark_output.get("right_knee", []),
-                            ankle_left=landmark_output.get("left_ankle", []),
-                            ankle_right=landmark_output.get("right_ankle", []),
-                        )
-
-                        # Create tracked person
-                        tracked_person.append(
-                            PersonTracking(
-                                offset=timeoffset,
-                                attributes=tracked_attributes,
-                                landmarks=landmark_tracking,
-                                bounding_box=bounding_box,
-                                poses=VideoPersonPoses(pitch=None, roll=None, yaw=None),
-                                quality=VideoPersonQuality(
-                                    brightness=None, sharpness=None
-                                ),
+                            right = left=float(
+                                    time_stamped_object["normalizedBoundingBox"].get("right",0)
+                                )
+                            bottom = float(
+                                    time_stamped_object["normalizedBoundingBox"].get("bottom",0)
+                                )
+                            # Bounding box
+                            bounding_box = VideoTrackingBoundingBox(
+                                top=top,
+                                left=left,
+                                height = 1 - (top + (1 - bottom)),
+                                width= 1 - (left + (1 - right)),
                             )
-                        )
-                tracked_persons.append(VideoTrackingPerson(tracked=tracked_person))
+
+                            # Timeoffset
+                            timeoffset = float(time_stamped_object["timeOffset"][:-1])
+
+                            # attributes
+                            upper_clothes = []
+                            lower_clothes = []
+                            for attr in time_stamped_object.get("attributes", []):
+                                if "Upper" in attr["name"]:
+                                    upper_clothes.append(
+                                        UpperCloth(
+                                            value=attr["value"],
+                                            confidence=attr["confidence"],
+                                        )
+                                    )
+                                if "Lower" in attr["name"]:
+                                    lower_clothes.append(
+                                        LowerCloth(
+                                            value=attr["value"],
+                                            confidence=attr["confidence"],
+                                        )
+                                    )
+                            tracked_attributes = PersonAttributes(
+                                upper_cloths=upper_clothes, lower_cloths=lower_clothes
+                            )
+
+                            # Landmarks
+                            landmark_output = {}
+                            for land in time_stamped_object.get("landmarks", []):
+                                landmark_output[land["name"]] = [
+                                    land["point"]["x"],
+                                    land["point"]["y"],
+                                ]
+                            landmark_tracking = PersonLandmarks(
+                                nose=landmark_output.get("nose", []),
+                                eye_left=landmark_output.get("left_eye", []),
+                                eye_right=landmark_output.get("right_eye", []),
+                                shoulder_left=landmark_output.get("left_shoulder", []),
+                                shoulder_right=landmark_output.get("right_shoulder", []),
+                                elbow_left=landmark_output.get("left_elbow", []),
+                                elbow_right=landmark_output.get("right_elbow", []),
+                                wrist_left=landmark_output.get("left_wrist", []),
+                                wrist_right=landmark_output.get("right_wrist", []),
+                                hip_left=landmark_output.get("left_hip", []),
+                                hip_right=landmark_output.get("right_hip", []),
+                                knee_left=landmark_output.get("left_knee", []),
+                                knee_right=landmark_output.get("right_knee", []),
+                                ankle_left=landmark_output.get("left_ankle", []),
+                                ankle_right=landmark_output.get("right_ankle", []),
+                            )
+
+                            # Create tracked person
+                            tracked_person.append(
+                                PersonTracking(
+                                    offset=timeoffset,
+                                    attributes=tracked_attributes,
+                                    landmarks=landmark_tracking,
+                                    bounding_box=bounding_box,
+                                    poses=VideoPersonPoses(pitch=None, roll=None, yaw=None),
+                                    quality=VideoPersonQuality(
+                                        brightness=None, sharpness=None
+                                    ),
+                                )
+                            )
+                    tracked_persons.append(VideoTrackingPerson(tracked=tracked_person))
             standardized_response = PersonTrackingAsyncDataClass(
                 persons=tracked_persons
             )

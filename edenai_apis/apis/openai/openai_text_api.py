@@ -3,6 +3,8 @@ import requests
 import numpy as np
 import json
 
+from pydantic_core._pydantic_core import ValidationError
+
 from edenai_apis.features.text import PromptOptimizationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
@@ -279,17 +281,22 @@ class OpenaiTextApi(TextInterface):
                 entity.get("offset", 0),
             )
             length = len(entity.get("content", ""))
-            entities.append(
-                AnonymizationEntity(
-                    offset=offset,
-                    length=length,
-                    content=entity.get("content"),
-                    original_label=entity.get("label"),
-                    category=classificator["category"],
-                    subcategory=classificator["subcategory"],
-                    confidence_score=entity.get("confidence_score"),
+            try:
+                entities.append(
+                    AnonymizationEntity(
+                        offset=offset,
+                        length=length,
+                        content=entity.get("content"),
+                        original_label=entity.get("label"),
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        confidence_score=entity.get("confidence_score"),
+                    )
                 )
-            )
+            except ValidationError as exc:
+                raise ProviderException(
+                    "An error occurred while parsing the response."
+                ) from exc
             tmp_new_text = new_text[0:offset] + "*" * length
             tmp_new_text += new_text[offset + length :]
             new_text = tmp_new_text
@@ -334,7 +341,7 @@ class OpenaiTextApi(TextInterface):
                 )
                 items_standardized.append(item_standardized)
             standardized_response = KeywordExtractionDataClass(items=items_standardized)
-        except (KeyError, json.JSONDecodeError, TypeError) as exc:
+        except (KeyError, json.JSONDecodeError, TypeError, ValidationError) as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc

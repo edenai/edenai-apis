@@ -1,21 +1,21 @@
 {
   "original_response": {
-    "id": "cmpl-6ro1OaqX71f53s6ol9S66HIfIuX8C",
+    "id": "cmpl-8AbEC6JUElKVNFZvMMefF4NQzzPKU",
     "object": "text_completion",
-    "created": 1678281686,
-    "model": "text-davinci-003",
+    "created": 1697537076,
+    "model": "gpt-3.5-turbo-instruct",
     "choices": [
       {
-        "text": "\n    {\"items\":[{\"keyword\":\"Barack Hussein Obama\",\"importance\":1.0},{\"keyword\":\"44th president of the United States\",\"importance\":1.0},{\"keyword\":\"Democratic Party\",\"importance\":1.0},{\"keyword\":\"first African-American president\",\"importance\":1.0},{\"keyword\":\"U.S. senator from Illinois\",\"importance\":1.0},{\"keyword\":\"Illinois state senator\",\"importance\":1.0}]}",
+        "text": " {\"items\": \n    \t[\n    \t    {\"keyword\": \"Barack Hussein Obama\", \"importance\": 1.0}, \n    \t    {\"keyword\": \"American politician\", \"importance\": 0.7},\n    \t    {\"keyword\": \"44th president\", \"importance\": 0.6}, \n    \t    {\"keyword\": \"United States\", \"importance\": 0.8}, \n    \t    {\"keyword\": \"Democratic Party\", \"importance\": 0.6}, \n    \t    {\"keyword\": \"African-American\", \"importance\": 0.9}, \n    \t    {\"keyword\": \"U.S. senator\", \"importance\": 0.7}, \n    \t    {\"keyword\": \"Illinois\", \"importance\": 0.5}, \n    \t    {\"keyword\": \"state senator\", \"importance\": 0.6}\n    \t]\n     }",
         "index": 0,
         "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 165,
-      "completion_tokens": 101,
-      "total_tokens": 266
+      "prompt_tokens": 188,
+      "completion_tokens": 178,
+      "total_tokens": 366
     }
   },
   "standardized_response": {
@@ -25,24 +25,36 @@
         "importance": 1.0
       },
       {
-        "keyword": "44th president of the United States",
-        "importance": 1.0
+        "keyword": "American politician",
+        "importance": 0.7
+      },
+      {
+        "keyword": "44th president",
+        "importance": 0.6
+      },
+      {
+        "keyword": "United States",
+        "importance": 0.8
       },
       {
         "keyword": "Democratic Party",
-        "importance": 1.0
+        "importance": 0.6
       },
       {
-        "keyword": "first African-American president",
-        "importance": 1.0
+        "keyword": "African-American",
+        "importance": 0.9
       },
       {
-        "keyword": "U.S. senator from Illinois",
-        "importance": 1.0
+        "keyword": "U.S. senator",
+        "importance": 0.7
       },
       {
-        "keyword": "Illinois state senator",
-        "importance": 1.0
+        "keyword": "Illinois",
+        "importance": 0.5
+      },
+      {
+        "keyword": "state senator",
+        "importance": 0.6
       }
     ]
   }
