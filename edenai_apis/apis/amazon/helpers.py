@@ -928,16 +928,18 @@ def amazon_video_face_parser(response):
 
 def amazon_video_explicit_parser(response):
     moderated_content = []
-    for label in response.get("ModerationLabels", []):
-        confidence = label.get("ModerationLabel", {}).get("Confidence")
+    for label in response.get("ModerationLabels"):
+        confidence = label.get("ModerationLabel").get("Confidence")
         timestamp = float(label.get("Timestamp")) / 1000.0  # convert to seconds
-        if label.get("ParentName"):
-            category = label.get("ParentName", label.get("Name"))
-            moderated_content.append(
-                ContentNSFW(
-                    timestamp=timestamp,
-                    confidence=confidence,
-                    category=category,
-                )
+        if label.get("ModerationLabel").get("ParentName"):
+            category = label.get("ModerationLabel").get("ParentName")
+        else:
+            category = label.get("ModerationLabel").get("Name")
+        moderated_content.append(
+            ContentNSFW(
+                timestamp=timestamp,
+                confidence=confidence,
+                category=category,
             )
+        )
     return moderated_content

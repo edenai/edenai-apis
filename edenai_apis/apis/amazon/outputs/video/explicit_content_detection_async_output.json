@@ -1,25 +1,914 @@
 {
   "status": "succeeded",
-  "provider_job_id": "dcabe2d4aa8628ecd833733c84801d9223832c93db8252780bc7a6a9e4545443",
+  "provider_job_id": "15a344ee97ea04526acce8d8a8fcac05f63d6c7383d8307ff6ea4f62cd8ec2ca",
   "original_response": [
     {
       "JobStatus": "SUCCEEDED",
       "VideoMetadata": {
         "Codec": "h264",
-        "DurationMillis": 9233,
+        "DurationMillis": 19966,
         "Format": "QuickTime / MOV",
         "FrameRate": 30.0,
-        "FrameHeight": 576,
-        "FrameWidth": 648,
+        "FrameHeight": 1024,
+        "FrameWidth": 576,
         "ColorRange": "LIMITED"
       },
-      "ModerationLabels": [],
+      "ModerationLabels": [
+        {
+          "Timestamp": 1500,
+          "ModerationLabel": {
+            "Confidence": 83.73359680175781,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 1500,
+          "ModerationLabel": {
+            "Confidence": 83.33741760253906,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 1500,
+          "ModerationLabel": {
+            "Confidence": 87.09312438964844,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 2000,
+          "ModerationLabel": {
+            "Confidence": 92.69827270507812,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 2000,
+          "ModerationLabel": {
+            "Confidence": 95.10149383544922,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 2000,
+          "ModerationLabel": {
+            "Confidence": 96.95561981201172,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 2500,
+          "ModerationLabel": {
+            "Confidence": 96.74179077148438,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 2500,
+          "ModerationLabel": {
+            "Confidence": 99.6903076171875,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 2500,
+          "ModerationLabel": {
+            "Confidence": 99.6903076171875,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 3000,
+          "ModerationLabel": {
+            "Confidence": 94.14319610595703,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 3000,
+          "ModerationLabel": {
+            "Confidence": 99.88253784179688,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 3000,
+          "ModerationLabel": {
+            "Confidence": 99.88253784179688,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 3500,
+          "ModerationLabel": {
+            "Confidence": 94.3765869140625,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 3500,
+          "ModerationLabel": {
+            "Confidence": 99.86701965332031,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 3500,
+          "ModerationLabel": {
+            "Confidence": 99.86701965332031,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 4000,
+          "ModerationLabel": {
+            "Confidence": 93.95862579345703,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 4000,
+          "ModerationLabel": {
+            "Confidence": 99.88087463378906,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 4000,
+          "ModerationLabel": {
+            "Confidence": 99.88087463378906,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 4500,
+          "ModerationLabel": {
+            "Confidence": 96.59481811523438,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 4500,
+          "ModerationLabel": {
+            "Confidence": 99.89370727539062,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 4500,
+          "ModerationLabel": {
+            "Confidence": 99.89370727539062,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 5000,
+          "ModerationLabel": {
+            "Confidence": 95.95069122314453,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 5000,
+          "ModerationLabel": {
+            "Confidence": 99.90645599365234,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 5000,
+          "ModerationLabel": {
+            "Confidence": 99.90645599365234,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 5500,
+          "ModerationLabel": {
+            "Confidence": 95.40461730957031,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 5500,
+          "ModerationLabel": {
+            "Confidence": 99.915283203125,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 5500,
+          "ModerationLabel": {
+            "Confidence": 99.915283203125,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 6000,
+          "ModerationLabel": {
+            "Confidence": 97.7041015625,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 6000,
+          "ModerationLabel": {
+            "Confidence": 99.91437530517578,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 6000,
+          "ModerationLabel": {
+            "Confidence": 99.91437530517578,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 6500,
+          "ModerationLabel": {
+            "Confidence": 95.65144348144531,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 6500,
+          "ModerationLabel": {
+            "Confidence": 99.9165267944336,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 6500,
+          "ModerationLabel": {
+            "Confidence": 99.9165267944336,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 7000,
+          "ModerationLabel": {
+            "Confidence": 95.19328308105469,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 7000,
+          "ModerationLabel": {
+            "Confidence": 99.89256286621094,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 7000,
+          "ModerationLabel": {
+            "Confidence": 99.89256286621094,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 7500,
+          "ModerationLabel": {
+            "Confidence": 93.77266693115234,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 7500,
+          "ModerationLabel": {
+            "Confidence": 99.87643432617188,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 7500,
+          "ModerationLabel": {
+            "Confidence": 99.87643432617188,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 8000,
+          "ModerationLabel": {
+            "Confidence": 94.1944351196289,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 8000,
+          "ModerationLabel": {
+            "Confidence": 99.89852142333984,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 8000,
+          "ModerationLabel": {
+            "Confidence": 99.89852142333984,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 8500,
+          "ModerationLabel": {
+            "Confidence": 93.1624755859375,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 8500,
+          "ModerationLabel": {
+            "Confidence": 99.88929748535156,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 8500,
+          "ModerationLabel": {
+            "Confidence": 99.88929748535156,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 9000,
+          "ModerationLabel": {
+            "Confidence": 92.73184967041016,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 9000,
+          "ModerationLabel": {
+            "Confidence": 99.90873718261719,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 9000,
+          "ModerationLabel": {
+            "Confidence": 99.90873718261719,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 9500,
+          "ModerationLabel": {
+            "Confidence": 92.27255249023438,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 9500,
+          "ModerationLabel": {
+            "Confidence": 99.88858032226562,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 9500,
+          "ModerationLabel": {
+            "Confidence": 99.88858032226562,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 10000,
+          "ModerationLabel": {
+            "Confidence": 91.15278625488281,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 10000,
+          "ModerationLabel": {
+            "Confidence": 99.86214447021484,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 10000,
+          "ModerationLabel": {
+            "Confidence": 99.86214447021484,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 10500,
+          "ModerationLabel": {
+            "Confidence": 91.85436248779297,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 10500,
+          "ModerationLabel": {
+            "Confidence": 99.89830780029297,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 10500,
+          "ModerationLabel": {
+            "Confidence": 99.89830780029297,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 11000,
+          "ModerationLabel": {
+            "Confidence": 91.7314682006836,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 11000,
+          "ModerationLabel": {
+            "Confidence": 99.86576080322266,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 11000,
+          "ModerationLabel": {
+            "Confidence": 99.86576080322266,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 11500,
+          "ModerationLabel": {
+            "Confidence": 92.38634490966797,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 11500,
+          "ModerationLabel": {
+            "Confidence": 99.89309692382812,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 11500,
+          "ModerationLabel": {
+            "Confidence": 99.89309692382812,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 12000,
+          "ModerationLabel": {
+            "Confidence": 91.83573150634766,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 12000,
+          "ModerationLabel": {
+            "Confidence": 99.88577270507812,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 12000,
+          "ModerationLabel": {
+            "Confidence": 99.88577270507812,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 12500,
+          "ModerationLabel": {
+            "Confidence": 91.97298431396484,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 12500,
+          "ModerationLabel": {
+            "Confidence": 99.89290618896484,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 12500,
+          "ModerationLabel": {
+            "Confidence": 99.89290618896484,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 13000,
+          "ModerationLabel": {
+            "Confidence": 93.71726989746094,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 13000,
+          "ModerationLabel": {
+            "Confidence": 99.90536499023438,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 13000,
+          "ModerationLabel": {
+            "Confidence": 99.90536499023438,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 13500,
+          "ModerationLabel": {
+            "Confidence": 93.46395874023438,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 13500,
+          "ModerationLabel": {
+            "Confidence": 99.89830780029297,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 13500,
+          "ModerationLabel": {
+            "Confidence": 99.89830780029297,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 14000,
+          "ModerationLabel": {
+            "Confidence": 95.58849334716797,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 14000,
+          "ModerationLabel": {
+            "Confidence": 99.92097473144531,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 14000,
+          "ModerationLabel": {
+            "Confidence": 99.92097473144531,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 14500,
+          "ModerationLabel": {
+            "Confidence": 94.18795013427734,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 14500,
+          "ModerationLabel": {
+            "Confidence": 99.9085922241211,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 14500,
+          "ModerationLabel": {
+            "Confidence": 99.9085922241211,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 15000,
+          "ModerationLabel": {
+            "Confidence": 94.89665985107422,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 15000,
+          "ModerationLabel": {
+            "Confidence": 99.87569427490234,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 15000,
+          "ModerationLabel": {
+            "Confidence": 99.87569427490234,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 15500,
+          "ModerationLabel": {
+            "Confidence": 95.76138305664062,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 15500,
+          "ModerationLabel": {
+            "Confidence": 99.89128112792969,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 15500,
+          "ModerationLabel": {
+            "Confidence": 99.89128112792969,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 16000,
+          "ModerationLabel": {
+            "Confidence": 95.64188385009766,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 16000,
+          "ModerationLabel": {
+            "Confidence": 99.91383361816406,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 16000,
+          "ModerationLabel": {
+            "Confidence": 99.91383361816406,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 16500,
+          "ModerationLabel": {
+            "Confidence": 96.95024108886719,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 16500,
+          "ModerationLabel": {
+            "Confidence": 99.9207763671875,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 16500,
+          "ModerationLabel": {
+            "Confidence": 99.9207763671875,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 17000,
+          "ModerationLabel": {
+            "Confidence": 97.06770324707031,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 17000,
+          "ModerationLabel": {
+            "Confidence": 99.92668914794922,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 17000,
+          "ModerationLabel": {
+            "Confidence": 99.92668914794922,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 17500,
+          "ModerationLabel": {
+            "Confidence": 96.49564361572266,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 17500,
+          "ModerationLabel": {
+            "Confidence": 99.9189453125,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 17500,
+          "ModerationLabel": {
+            "Confidence": 99.9189453125,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 18000,
+          "ModerationLabel": {
+            "Confidence": 98.39677429199219,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 18000,
+          "ModerationLabel": {
+            "Confidence": 99.92993927001953,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 18000,
+          "ModerationLabel": {
+            "Confidence": 99.92993927001953,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 18500,
+          "ModerationLabel": {
+            "Confidence": 98.23118591308594,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 18500,
+          "ModerationLabel": {
+            "Confidence": 99.91651916503906,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 18500,
+          "ModerationLabel": {
+            "Confidence": 99.91651916503906,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 19000,
+          "ModerationLabel": {
+            "Confidence": 94.63855743408203,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 19000,
+          "ModerationLabel": {
+            "Confidence": 99.89356231689453,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 19000,
+          "ModerationLabel": {
+            "Confidence": 99.89356231689453,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        },
+        {
+          "Timestamp": 19500,
+          "ModerationLabel": {
+            "Confidence": 98.41044616699219,
+            "Name": "Female Swimwear Or Underwear",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 19500,
+          "ModerationLabel": {
+            "Confidence": 99.8997573852539,
+            "Name": "Revealing Clothes",
+            "ParentName": "Suggestive"
+          }
+        },
+        {
+          "Timestamp": 19500,
+          "ModerationLabel": {
+            "Confidence": 99.8997573852539,
+            "Name": "Suggestive",
+            "ParentName": ""
+          }
+        }
+      ],
       "ModerationModelVersion": "6.1",
-      "JobId": "dcabe2d4aa8628ecd833733c84801d9223832c93db8252780bc7a6a9e4545443",
+      "JobId": "15a344ee97ea04526acce8d8a8fcac05f63d6c7383d8307ff6ea4f62cd8ec2ca",
       "Video": {
         "S3Object": {
           "Bucket": "us-storage",
-          "Name": "1697468213explicit_video_.mp4"
+          "Name": "1697557764test_video_.mp4"
         }
       },
       "GetRequestMetadata": {
@@ -27,19 +916,575 @@
         "AggregateBy": "TIMESTAMPS"
       },
       "ResponseMetadata": {
-        "RequestId": "244b8803-2f6c-4ba6-a4cc-96dada40571a",
+        "RequestId": "4e01617a-944e-413d-93ed-e9f08e4ae284",
         "HTTPStatusCode": 200,
         "HTTPHeaders": {
-          "x-amzn-requestid": "244b8803-2f6c-4ba6-a4cc-96dada40571a",
+          "x-amzn-requestid": "4e01617a-944e-413d-93ed-e9f08e4ae284",
           "content-type": "application/x-amz-json-1.1",
-          "content-length": "465",
-          "date": "Mon, 16 Oct 2023 14:57:12 GMT"
+          "content-length": "13923",
+          "date": "Tue, 17 Oct 2023 15:49:55 GMT"
         },
         "RetryAttempts": 0
       }
     }
   ],
   "standardized_response": {
-    "moderation": []
+    "moderation": [
+      {
+        "timestamp": 1.5,
+        "confidence": 83.73359680175781,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 1.5,
+        "confidence": 83.33741760253906,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 1.5,
+        "confidence": 87.09312438964844,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 2.0,
+        "confidence": 92.69827270507812,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 2.0,
+        "confidence": 95.10149383544922,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 2.0,
+        "confidence": 96.95561981201172,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 2.5,
+        "confidence": 96.74179077148438,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 2.5,
+        "confidence": 99.6903076171875,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 2.5,
+        "confidence": 99.6903076171875,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 3.0,
+        "confidence": 94.14319610595703,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 3.0,
+        "confidence": 99.88253784179688,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 3.0,
+        "confidence": 99.88253784179688,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 3.5,
+        "confidence": 94.3765869140625,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 3.5,
+        "confidence": 99.86701965332031,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 3.5,
+        "confidence": 99.86701965332031,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 4.0,
+        "confidence": 93.95862579345703,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 4.0,
+        "confidence": 99.88087463378906,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 4.0,
+        "confidence": 99.88087463378906,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 4.5,
+        "confidence": 96.59481811523438,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 4.5,
+        "confidence": 99.89370727539062,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 4.5,
+        "confidence": 99.89370727539062,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 5.0,
+        "confidence": 95.95069122314453,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 5.0,
+        "confidence": 99.90645599365234,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 5.0,
+        "confidence": 99.90645599365234,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 5.5,
+        "confidence": 95.40461730957031,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 5.5,
+        "confidence": 99.915283203125,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 5.5,
+        "confidence": 99.915283203125,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 6.0,
+        "confidence": 97.7041015625,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 6.0,
+        "confidence": 99.91437530517578,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 6.0,
+        "confidence": 99.91437530517578,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 6.5,
+        "confidence": 95.65144348144531,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 6.5,
+        "confidence": 99.9165267944336,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 6.5,
+        "confidence": 99.9165267944336,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 7.0,
+        "confidence": 95.19328308105469,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 7.0,
+        "confidence": 99.89256286621094,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 7.0,
+        "confidence": 99.89256286621094,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 7.5,
+        "confidence": 93.77266693115234,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 7.5,
+        "confidence": 99.87643432617188,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 7.5,
+        "confidence": 99.87643432617188,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 8.0,
+        "confidence": 94.1944351196289,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 8.0,
+        "confidence": 99.89852142333984,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 8.0,
+        "confidence": 99.89852142333984,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 8.5,
+        "confidence": 93.1624755859375,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 8.5,
+        "confidence": 99.88929748535156,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 8.5,
+        "confidence": 99.88929748535156,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 9.0,
+        "confidence": 92.73184967041016,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 9.0,
+        "confidence": 99.90873718261719,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 9.0,
+        "confidence": 99.90873718261719,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 9.5,
+        "confidence": 92.27255249023438,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 9.5,
+        "confidence": 99.88858032226562,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 9.5,
+        "confidence": 99.88858032226562,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 10.0,
+        "confidence": 91.15278625488281,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 10.0,
+        "confidence": 99.86214447021484,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 10.0,
+        "confidence": 99.86214447021484,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 10.5,
+        "confidence": 91.85436248779297,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 10.5,
+        "confidence": 99.89830780029297,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 10.5,
+        "confidence": 99.89830780029297,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 11.0,
+        "confidence": 91.7314682006836,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 11.0,
+        "confidence": 99.86576080322266,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 11.0,
+        "confidence": 99.86576080322266,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 11.5,
+        "confidence": 92.38634490966797,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 11.5,
+        "confidence": 99.89309692382812,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 11.5,
+        "confidence": 99.89309692382812,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 12.0,
+        "confidence": 91.83573150634766,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 12.0,
+        "confidence": 99.88577270507812,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 12.0,
+        "confidence": 99.88577270507812,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 12.5,
+        "confidence": 91.97298431396484,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 12.5,
+        "confidence": 99.89290618896484,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 12.5,
+        "confidence": 99.89290618896484,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 13.0,
+        "confidence": 93.71726989746094,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 13.0,
+        "confidence": 99.90536499023438,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 13.0,
+        "confidence": 99.90536499023438,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 13.5,
+        "confidence": 93.46395874023438,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 13.5,
+        "confidence": 99.89830780029297,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 13.5,
+        "confidence": 99.89830780029297,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 14.0,
+        "confidence": 95.58849334716797,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 14.0,
+        "confidence": 99.92097473144531,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 14.0,
+        "confidence": 99.92097473144531,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 14.5,
+        "confidence": 94.18795013427734,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 14.5,
+        "confidence": 99.9085922241211,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 14.5,
+        "confidence": 99.9085922241211,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 15.0,
+        "confidence": 94.89665985107422,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 15.0,
+        "confidence": 99.87569427490234,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 15.0,
+        "confidence": 99.87569427490234,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 15.5,
+        "confidence": 95.76138305664062,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 15.5,
+        "confidence": 99.89128112792969,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 15.5,
+        "confidence": 99.89128112792969,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 16.0,
+        "confidence": 95.64188385009766,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 16.0,
+        "confidence": 99.91383361816406,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 16.0,
+        "confidence": 99.91383361816406,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 16.5,
+        "confidence": 96.95024108886719,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 16.5,
+        "confidence": 99.9207763671875,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 16.5,
+        "confidence": 99.9207763671875,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 17.0,
+        "confidence": 97.06770324707031,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 17.0,
+        "confidence": 99.92668914794922,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 17.0,
+        "confidence": 99.92668914794922,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 17.5,
+        "confidence": 96.49564361572266,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 17.5,
+        "confidence": 99.9189453125,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 17.5,
+        "confidence": 99.9189453125,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 18.0,
+        "confidence": 98.39677429199219,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 18.0,
+        "confidence": 99.92993927001953,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 18.0,
+        "confidence": 99.92993927001953,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 18.5,
+        "confidence": 98.23118591308594,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 18.5,
+        "confidence": 99.91651916503906,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 18.5,
+        "confidence": 99.91651916503906,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 19.0,
+        "confidence": 94.63855743408203,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 19.0,
+        "confidence": 99.89356231689453,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 19.0,
+        "confidence": 99.89356231689453,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 19.5,
+        "confidence": 98.41044616699219,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 19.5,
+        "confidence": 99.8997573852539,
+        "category": "Suggestive"
+      },
+      {
+        "timestamp": 19.5,
+        "confidence": 99.8997573852539,
+        "category": "Suggestive"
+      }
+    ]
   }
 }
