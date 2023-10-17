@@ -382,10 +382,10 @@ class GoogleVideoApi(VideoInterface):
                             top = float(
                                     time_stamped_object["normalizedBoundingBox"].get("top",0)
                                 )
-                            left = left=float(
+                            left = float(
                                     time_stamped_object["normalizedBoundingBox"].get("left",0)
                                 )
-                            right = left=float(
+                            right =float(
                                     time_stamped_object["normalizedBoundingBox"].get("right",0)
                                 )
                             bottom = float(
@@ -496,10 +496,10 @@ class GoogleVideoApi(VideoInterface):
                             top = float(
                                     time_stamped_object["normalizedBoundingBox"].get("top",0)
                                 )
-                            left = left=float(
+                            left =float(
                                     time_stamped_object["normalizedBoundingBox"].get("left",0)
                                 )
-                            right = left=float(
+                            right =float(
                                     time_stamped_object["normalizedBoundingBox"].get("right",0)
                                 )
                             bottom = float(
@@ -552,10 +552,10 @@ class GoogleVideoApi(VideoInterface):
                     top = float(
                             frame["normalizedBoundingBox"].get("top",0)
                         )
-                    left = left=float(
+                    left = float(
                             frame["normalizedBoundingBox"].get("left",0)
                         )
-                    right = left=float(
+                    right = float(
                             frame["normalizedBoundingBox"].get("right",0)
                         )
                     bottom = float(
