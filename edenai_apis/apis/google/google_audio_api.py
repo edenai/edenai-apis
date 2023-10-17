@@ -165,8 +165,11 @@ class GoogleAudioApi(AudioInterface):
         text = ""
         if original_response.get("done"):
             result = list(original_response["response"]["results"].values())[0]
-            for entry in result["transcript"].get("results") or []:
-                alternative = entry["alternatives"][0].get("transcript")
+            for entry in (result.get("transcript", {}) or {}).get("results", []) or []:
+                alternatives = entry.get("alternatives")
+                if not alternatives or not isinstance(alternatives, list):
+                    continue
+                alternative = alternatives[0].get("transcript")
                 if not alternative:
                     continue
                 text += (", " if text else "") + alternative.strip()
