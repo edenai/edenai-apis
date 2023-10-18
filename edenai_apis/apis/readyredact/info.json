@@ -1,0 +1,9 @@
+{
+  "ocr": {
+    "anonymization": {
+            "constraints": {
+            },
+            "version": "v1"
+        }
+  }
+}

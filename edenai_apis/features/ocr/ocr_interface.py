@@ -23,6 +23,9 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 from edenai_apis.features.ocr.resume_parser.resume_parser_dataclass import (
     ResumeParserDataClass,
 )
+from edenai_apis.features.ocr.anonymization.anonymization_dataclass import (
+    AnonymizationDataClass,
+)
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -195,5 +198,18 @@ class OcrInterface:
             file (str): Path of file
             language (str): Language of check
             file_url (optional | str): Url of file
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def ocr__anonymization(
+        self, file: str, file_url: str = ""
+    ) -> ResponseType[AnonymizationDataClass]:
+        """
+        Parse a document and returns anonymized document
+
+        Args:
+            file (str): Path of file
+            file_url (str) : Url of file
         """
         raise NotImplementedError
