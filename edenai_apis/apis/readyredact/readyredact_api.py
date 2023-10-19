@@ -31,4 +31,5 @@ class ReadyRedactApi(ProviderInterface, OcrInterface):
             "email": self.email
         }
         response = requests.post(self.url_put_file, header=header, data=payload, files=files)
-        
+        original_response = response.json()
+
