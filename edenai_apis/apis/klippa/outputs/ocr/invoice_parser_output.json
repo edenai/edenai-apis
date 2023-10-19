@@ -84,7 +84,14 @@
       "table_number": "",
       "table_group": "",
       "server": "",
+      "metadata": {
+        "word_count": 0,
+        "line_count": 0,
+        "page_count": 0,
+        "total_page_count": 0
+      },
       "merchant_name": "Sng Engineering",
+      "merchant_legal_name": "",
       "merchant_id": "",
       "merchant_coc_number": "",
       "merchant_vat_number": "",
@@ -110,6 +117,7 @@
       "merchant_main_activity_code": "",
       "customer_id": "",
       "customer_name": "",
+      "customer_legal_name": "",
       "customer_number": "",
       "customer_reference": "",
       "customer_address": "",
@@ -135,7 +143,7 @@
       "personal_income_tax_amount": 0,
       "personal_income_tax_rate": 0,
       "project_code": "",
-      "matched_keywords": null,
+      "matched_keywords": [],
       "matched_lineitems": null,
       "matched_purchase_order_id": "",
       "matched_purchase_orders": null,
@@ -146,7 +154,7 @@
       "hash_duplicate": true,
       "raw_text": "                          SNG Engineering, Inc.\n                         Consulting Engineers\n                                                                              INVOICE\n                         344 Main Street Suite 200\n                         Gaithersburg, MD 20878\n                                                                                      INVOICE NO: 014-03\nSAG\n                         Phone: 301.548.0055 Fax: 301.548.1840\n                                                                                    DATE: January20, 2003\n                         E-mail: sng.engineering@erols.com\nTO,                                                  Ship To:   Same\n   Damita J Goldsmith\n   201 Stan Fey Dr                                   Reference: 201 Stan Fey Drive\n   Upper Marlboro, MD 20774                                    Upper Marlboro\n SALESPERSON        P.O. NUMBER      DATE SHIPPED       SHIPPED VIA      F.O.B. POINT         TERMS\n                                                                                          on receipt of service\n  QUANTITY                             DESCRIPTION                             UNIT PRICE      AMOUNT\n      1        Field inspection of construction on 1/19/2003 deficiencies in house   750.00        750..00\n              construction, Garage drive way & legal support to Attorney to\n               1/19/2003\n                                                                                 SUBTOTAL          750.00\n                                                                    SHIPPING & HANDELING\n                                                                                TOTAL DUE          750.00\nMake all checks payable to SNG Engineering, Inc.\nf you have any questions concerning this invoice, call: Sach Gupta, 301.548.0055\nThe payment will be due within fifteen days after receipt of invoice by the owner/contractor.\nPlease note that 1-1/2 percent interest will accrue on the unpaid balance after this date.\n                                    THANK YOU FOR YOUR BUSINESS!"
     },
-    "request_id": "l2eN1Di4cVVDrM37haa634EiVEjXeN4Q"
+    "request_id": "cUD2rksWpvH3vGplI4Asfkjmq32zv7It"
   },
   "standardized_response": {
     "extracted_data": [

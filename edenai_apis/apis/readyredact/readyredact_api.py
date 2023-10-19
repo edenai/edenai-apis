@@ -18,6 +18,7 @@ class ReadyRedactApi(ProviderInterface, OcrInterface):
         self.api_key = api_settings["api_key"]
         self.email = api_settings["email"]
         self.url_put_file = "https://api.readyredact.com/v1/document/put-file"
+        self.url_get_file = "https://api.readyredact.com/v1/document/get-file"
 
     def ocr__anonymization(
         self, file: str, file_url: str = ""
@@ -30,6 +31,12 @@ class ReadyRedactApi(ProviderInterface, OcrInterface):
         payload = {
             "email": self.email
         }
-        response = requests.post(self.url_put_file, header=header, data=payload, files=files)
+        response_put = requests.post(self.url_put_file, header=header, data=payload, files=files)
+        payload = {
+            "email": self.email,
+            "document_id": response_put.get("document_id", ""),
+            "pdf_download": "true"
+        }
+        response = requests.get(self.url_get_file, header=header, data=payload)
         original_response = response.json()
 
