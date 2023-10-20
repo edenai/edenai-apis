@@ -1,78 +1,79 @@
-from typing import List, Literal, Optional, Sequence, Dict
-import requests
-import numpy as np
 import json
+from typing import Dict, List, Literal, Optional, Sequence, Union
 
-from pydantic_core._pydantic_core import ValidationError
-
+import numpy as np
+import requests
+from edenai_apis.features import TextInterface
 from edenai_apis.features.text import PromptOptimizationDataClass
+from edenai_apis.features.text.anonymization import AnonymizationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
 )
 from edenai_apis.features.text.anonymization.category import CategoryType
+from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
     CodeGenerationDataClass,
 )
+from edenai_apis.features.text.custom_classification import (
+    CustomClassificationDataClass,
+)
+from edenai_apis.features.text.custom_named_entity_recognition import (
+    CustomNamedEntityRecognitionDataClass,
+)
+from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
+from edenai_apis.features.text.generation import GenerationDataClass
+from edenai_apis.features.text.keyword_extraction import KeywordExtractionDataClass
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
     InfosKeywordExtractionDataClass,
 )
+from edenai_apis.features.text.moderation import ModerationDataClass, TextModerationItem
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
     NamedEntityRecognitionDataClass,
 )
+from edenai_apis.features.text.prompt_optimization import (
+    PromptDataClass,
+    PromptOptimizationDataClass,
+)
+from edenai_apis.features.text.question_answer import QuestionAnswerDataClass
+from edenai_apis.features.text.search import InfosSearchDataClass, SearchDataClass
+from edenai_apis.features.text.sentiment_analysis import SentimentAnalysisDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
     SpellCheckItem,
     SuggestionItem,
 )
+from edenai_apis.features.text.summarize import SummarizeDataClass
+from edenai_apis.features.text.topic_extraction import (
+    ExtractedTopic,
+    TopicExtractionDataClass,
+)
 from edenai_apis.utils.conversion import (
     closest_above_value,
+    construct_word_list,
     find_all_occurrence,
     standardized_confidence_score,
 )
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.features import TextInterface
-from edenai_apis.features.text.question_answer import QuestionAnswerDataClass
-from edenai_apis.features.text.summarize import SummarizeDataClass
-from edenai_apis.features.text.anonymization import AnonymizationDataClass
-from edenai_apis.features.text.sentiment_analysis import SentimentAnalysisDataClass
-from edenai_apis.features.text.generation import GenerationDataClass
-from edenai_apis.features.text.search import SearchDataClass, InfosSearchDataClass
-from edenai_apis.features.text.keyword_extraction import (
-    KeywordExtractionDataClass,
-)
-from edenai_apis.features.text.topic_extraction import (
-    TopicExtractionDataClass,
-    ExtractedTopic,
-)
-from edenai_apis.features.text.custom_named_entity_recognition import (
-    CustomNamedEntityRecognitionDataClass,
-)
-from edenai_apis.features.text.custom_classification import (
-    CustomClassificationDataClass,
-)
-from edenai_apis.features.text.prompt_optimization import (
-    PromptOptimizationDataClass,
-    PromptDataClass,
-)
-from edenai_apis.features.text.moderation import ModerationDataClass, TextModerationItem
-from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
-from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
+from pydantic_core._pydantic_core import ValidationError
+
+import openai
+
 from .helpers import (
-    construct_ner_instruction,
-    construct_spell_check_instruction,
     construct_anonymization_context,
     construct_classification_instruction,
-    get_openapi_response,
-    construct_keyword_extraction_context,
-    construct_sentiment_analysis_context,
-    construct_topic_extraction_context,
     construct_custom_ner_instruction,
+    construct_keyword_extraction_context,
+    construct_ner_instruction,
     construct_prompt_optimization_instruction,
+    construct_sentiment_analysis_context,
+    construct_spell_check_instruction,
+    construct_topic_extraction_context,
+    get_openapi_response,
     prompt_optimization_missing_information,
 )
-from edenai_apis.utils.conversion import construct_word_list
-from edenai_apis.utils.metrics import METRICS
 
 
 class OpenaiTextApi(TextInterface):
@@ -664,8 +665,8 @@ class OpenaiTextApi(TextInterface):
         temperature: float,
         max_tokens: int,
         model: str,
-    ) -> ResponseType[ChatDataClass]:
-        url = f"{self.url}/chat/completions"
+        stream = False,
+    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
 
         messages = [{"role": "user", "content": text}]
 
@@ -684,26 +685,34 @@ class OpenaiTextApi(TextInterface):
             "temperature": temperature,
             "messages": messages,
             "max_tokens": max_tokens,
+            "stream": stream
         }
-
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = get_openapi_response(response)
+        response = openai.ChatCompletion.create(
+            **payload
+        )
 
         # Standardize the response
-        generated_text = original_response["choices"][0]["message"]["content"]
-        message = [
-            ChatMessageDataClass(role="user", message=text),
-            ChatMessageDataClass(role="assistant", message=generated_text),
-        ]
+        if stream is False:
+            generated_text = response["choices"][0]["delta"]["content"]
+            message = [
+                ChatMessageDataClass(role="user", message=text),
+                ChatMessageDataClass(role="assistant", message=generated_text),
+            ]
 
-        standardized_response = ChatDataClass(
-            generated_text=generated_text, message=message
-        )
+            standardized_response = ChatDataClass(
+                generated_text=generated_text, message=message
+            )
 
-        return ResponseType[ChatDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+            return ResponseType[ChatDataClass](
+                original_response=response,
+                standardized_response=standardized_response,
+            )
+        else:
+            stream = self._iter_chat(response)
+            return ResponseType[StreamChat](
+                original_response=None,
+                standardized_response=StreamChat(stream=stream)
+            )
 
     def text__prompt_optimization(
         self, text: str, target_provider: Literal["openai", "google", "cohere"]
