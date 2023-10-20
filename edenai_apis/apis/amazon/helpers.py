@@ -56,8 +56,8 @@ from edenai_apis.features.video.label_detection_async.label_detection_async_data
     VideoLabelTimeStamp,
 )
 from edenai_apis.features.video.explicit_content_detection_async.explicit_content_detection_async_dataclass import (
-    ContentNSFW
-    )
+    ContentNSFW,
+)
 from trp import Document
 
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
@@ -260,6 +260,7 @@ def amazon_video_original_response(
     response = handle_amazon_call(function_to_call, **params)
     return response
 
+
 def amazon_custom_document_parsing_formatter(
     pages: List[dict],
 ) -> ResponseType[CustomDocumentParsingAsyncDataClass]:
@@ -285,6 +286,8 @@ def amazon_custom_document_parsing_formatter(
                     height=height,
                 )
                 query = query_answer_result(page["Blocks"], block["Id"])
+                if not query:
+                    continue
                 item = CustomDocumentParsingAsyncItem(
                     confidence=block["Confidence"],
                     value=block["Text"],
@@ -736,9 +739,7 @@ def amazon_video_person_tracking_parser(response):
     tracked_persons = []
     for index in persons_index:
         detected_persons = [
-            item
-            for item in response["Persons"]
-            if item["Person"]["Index"] == index
+            item for item in response["Persons"] if item["Person"]["Index"] == index
         ]
         tracked_person = []
         for detected_person in detected_persons:
@@ -748,7 +749,7 @@ def amazon_video_person_tracking_parser(response):
                 bounding_box = VideoTrackingBoundingBox(
                     top=bounding_box.get("Top", 0),
                     left=bounding_box.get("Left", 0),
-                    height=bounding_box.get("Height", 0) ,
+                    height=bounding_box.get("Height", 0),
                     width=bounding_box.get("Width", 0),
                 )
                 face = detected_person["Person"].get("Face")
@@ -786,7 +787,7 @@ def amazon_video_person_tracking_parser(response):
                         quality=quality,
                     )
                 )
-        if len(tracked_person) > 0 :
+        if len(tracked_person) > 0:
             tracked_persons.append(VideoTrackingPerson(tracked=tracked_person))
     return tracked_persons
 
@@ -813,9 +814,7 @@ def amazon_video_labels_parser(response):
 
         videolabel = VideoLabel(
             timestamp=[
-                VideoLabelTimeStamp(
-                    start=float(label["Timestamp"]) / 1000.0, end=None
-                )
+                VideoLabelTimeStamp(start=float(label["Timestamp"]) / 1000.0, end=None)
             ],
             confidence=label["Label"].get("Confidence", 0) / 100,
             name=label["Label"]["Name"],
@@ -830,8 +829,7 @@ def amazon_video_text_parser(response):
     text_video = []
     # Get unique values of detected text annotation
     detected_texts = {
-        text["TextDetection"]["DetectedText"]
-        for text in response["TextDetections"]
+        text["TextDetection"]["DetectedText"] for text in response["TextDetections"]
     }
 
     # For each unique value, get all the frames where it appears
@@ -844,9 +842,7 @@ def amazon_video_text_parser(response):
         frames = []
         for annotation in annotations:
             timestamp = float(annotation["Timestamp"]) / 1000.0
-            confidence = round(
-                annotation["TextDetection"]["Confidence"] / 100, 2
-            )
+            confidence = round(annotation["TextDetection"]["Confidence"] / 100, 2)
             geometry = annotation["TextDetection"]["Geometry"]["BoundingBox"]
             bounding_box = VideoTextBoundingBox(
                 top=geometry.get("Top", 0),
