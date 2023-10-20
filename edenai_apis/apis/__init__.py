@@ -53,5 +53,7 @@ from .replicate import ReplicateApi
 from .nyckel import NyckelApi
 from .nlpcloud import NlpCloudApi
 from .alephalpha import AlephAlphaApi
+from .winstonai import WinstonaiApi
+from .vernai import VernaiApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

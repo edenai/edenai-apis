@@ -3,7 +3,8 @@ import requests
 import numpy as np
 import json
 
-from requests.exceptions import JSONDecodeError
+from pydantic_core._pydantic_core import ValidationError
+
 from edenai_apis.features.text import PromptOptimizationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
@@ -12,6 +13,9 @@ from edenai_apis.features.text.anonymization.category import CategoryType
 from edenai_apis.features.text.moderation.category import CategoryType as CategoryTypeModeration
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
     CodeGenerationDataClass,
+)
+from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
+    InfosKeywordExtractionDataClass,
 )
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
     NamedEntityRecognitionDataClass,
@@ -286,17 +290,22 @@ class OpenaiTextApi(TextInterface):
                 entity.get("offset", 0),
             )
             length = len(entity.get("content", ""))
-            entities.append(
-                AnonymizationEntity(
-                    offset=offset,
-                    length=length,
-                    content=entity.get("content"),
-                    original_label=entity.get("label"),
-                    category=classificator["category"],
-                    subcategory=classificator["subcategory"],
-                    confidence_score=entity.get("confidence_score"),
+            try:
+                entities.append(
+                    AnonymizationEntity(
+                        offset=offset,
+                        length=length,
+                        content=entity.get("content"),
+                        original_label=entity.get("label"),
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        confidence_score=entity.get("confidence_score"),
+                    )
                 )
-            )
+            except ValidationError as exc:
+                raise ProviderException(
+                    "An error occurred while parsing the response."
+                ) from exc
             tmp_new_text = new_text[0:offset] + "*" * length
             tmp_new_text += new_text[offset + length :]
             new_text = tmp_new_text
@@ -323,13 +332,29 @@ class OpenaiTextApi(TextInterface):
         original_response = get_openapi_response(response)
 
         try:
-            keywords = json.loads(original_response["choices"][0]["text"])
-        except (KeyError, json.JSONDecodeError) as exc:
+            keywords = json.loads(original_response["choices"][0]["text"]) or {}
+            if isinstance(keywords, list) and len(keywords) > 0:
+                keywords = keywords[0]
+            items = keywords.get("items", []) or []
+            items_standardized = []
+            for item in items:
+                keyword = item.get("keyword")
+                try:
+                    importance = float(item.get("importance"))
+                except:
+                    importance = 0
+                if not keyword or not isinstance(keyword, str):
+                    continue
+                item_standardized = InfosKeywordExtractionDataClass(
+                    keyword=keyword, importance=importance
+                )
+                items_standardized.append(item_standardized)
+            standardized_response = KeywordExtractionDataClass(items=items_standardized)
+        except (KeyError, json.JSONDecodeError, TypeError, ValidationError) as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
 
-        standardized_response = KeywordExtractionDataClass(items=keywords["items"])
         return ResponseType[KeywordExtractionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
@@ -555,7 +580,10 @@ class OpenaiTextApi(TextInterface):
             data = original_response["choices"][0]["message"]["content"]
             corrected_items = json.loads(data)
         except json.JSONDecodeError as exc:
-            raise exc
+            raise ProviderException(
+                "An error occurred while parsing the response.",
+                code=response.status_code,
+            )
 
         corrections = construct_word_list(text, corrected_items)
 

@@ -140,7 +140,7 @@
         "other_interests": []
       }
     },
-    "request_id": "P4E4HjiIdmXqOFYqp87g4KWYLlnTEbUR"
+    "request_id": "YdPgNzyjUVU9I9fv5QlX3FKehfG81LLy"
   },
   "standardized_response": {
     "extracted_data": {
@@ -148,7 +148,7 @@
         "name": {
           "first_name": null,
           "last_name": null,
-          "raw_name": null,
+          "raw_name": "John W. Smith",
           "middle": null,
           "title": null,
           "prefix": null,
@@ -158,20 +158,22 @@
           "formatted_location": null,
           "postal_code": null,
           "region": null,
-          "country": null,
+          "country": "CO",
           "country_code": null,
           "raw_input_location": null,
           "street": null,
           "street_number": null,
           "appartment_number": null,
-          "city": null
+          "city": "Fort Collins"
         },
         "self_summary": null,
         "objective": null,
         "date_of_birth": null,
         "place_of_birth": null,
         "phones": [],
-        "mails": [],
+        "mails": [
+          "jwsmith@colostate.edu"
+        ],
         "urls": [],
         "fax": [],
         "current_profession": null,
@@ -182,11 +184,115 @@
       },
       "education": {
         "total_years_education": null,
-        "entries": []
+        "entries": [
+          {
+            "title": "BS in Early Childhood Development",
+            "start_date": "1998-01-01",
+            "end_date": "1999-12-31",
+            "location": {
+              "formatted_location": null,
+              "postal_code": null,
+              "region": null,
+              "country": "AR",
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": "Little Rock"
+            },
+            "establishment": "University of Arkansas at Little Rock",
+            "description": "BS in Early Childhood Development",
+            "gpa": null,
+            "accreditation": null
+          },
+          {
+            "title": "BA in Elementary Education",
+            "start_date": "1997-01-01",
+            "end_date": "1998-12-31",
+            "location": {
+              "formatted_location": null,
+              "postal_code": null,
+              "region": null,
+              "country": "AR",
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": "Little Rock"
+            },
+            "establishment": "University of Arkansas at Little Rock",
+            "description": "BA in Elementary Education",
+            "gpa": null,
+            "accreditation": null
+          }
+        ]
       },
       "work_experience": {
         "total_years_experience": null,
-        "entries": []
+        "entries": [
+          {
+            "title": "Counseling Supervisor",
+            "start_date": "1999-01-01",
+            "end_date": "2002-12-31",
+            "company": "The Wesley Center",
+            "location": {
+              "formatted_location": null,
+              "postal_code": null,
+              "region": null,
+              "country": "AR",
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": "Little Rock"
+            },
+            "description": null,
+            "industry": null
+          },
+          {
+            "title": "Client Specialist",
+            "start_date": "1997-01-01",
+            "end_date": "1999-12-31",
+            "company": "Rainbow Special Care Center",
+            "location": {
+              "formatted_location": null,
+              "postal_code": null,
+              "region": null,
+              "country": "AR",
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": "Little Rock"
+            },
+            "description": null,
+            "industry": null
+          },
+          {
+            "title": "Teacher's Assistant",
+            "start_date": "1996-01-01",
+            "end_date": "1997-12-31",
+            "company": "Cowell Elementary",
+            "location": {
+              "formatted_location": null,
+              "postal_code": null,
+              "region": null,
+              "country": "AR",
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": "Conway"
+            },
+            "description": null,
+            "industry": null
+          }
+        ]
       },
       "languages": [],
       "skills": [],

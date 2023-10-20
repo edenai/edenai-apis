@@ -9963,7 +9963,7 @@
             "unit_price": 750.0,
             "discount": null,
             "product_code": null,
-            "date_item": "",
+            "date_item": null,
             "tax_item": null,
             "tax_rate": null
           }

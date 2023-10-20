@@ -1,0 +1,9 @@
+{
+  "text": {
+    "emotion_detection": {
+      "version": "v1",
+      "constraints": {
+      }
+    }
+  }
+}

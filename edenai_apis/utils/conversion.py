@@ -1,7 +1,7 @@
 import re
 import locale
 import datetime as dt
-from typing import Any, Dict, List, Optional, Tuple, Type, Union
+from typing import Any, Dict, Generator, List, Literal, Optional, Tuple, Type, Union
 
 from edenai_apis.utils.public_enum import AutomlClassificationProviderName
 
@@ -281,6 +281,8 @@ def construct_word_list(original_text, corrected_words):
         real_offset = closest_above_value(
             find_all_occurrence(original_text, word_with_mistake), offset
         )
+        if real_offset < 0:
+            continue
         length = len(word_with_mistake)
 
         # Create a new dictionary with the extracted information
@@ -295,3 +297,28 @@ def construct_word_list(original_text, corrected_words):
         word_list.append(word_info)
 
     return word_list
+
+
+def _iterate_recursive(value, returned) -> Generator:
+    if isinstance(value, (dict, list)):
+        for v in iterate_all(value, returned):
+            yield v
+
+    else:
+        yield value
+
+
+def iterate_all(
+    iterable: Union[Dict, List], returned: Literal["key", "value"] = "value"
+) -> Generator:
+    if isinstance(iterable, dict):
+        for key, value in iterable.items():
+            if returned == "key":
+                yield key
+            elif returned == "value":
+                yield from _iterate_recursive(value, returned)
+            else:
+                raise ValueError("'returned' keyword only accepts 'key' or 'value'.")
+    elif isinstance(iterable, list):
+        for value in iterable:
+            yield from _iterate_recursive(value, returned)

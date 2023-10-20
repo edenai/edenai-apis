@@ -8,7 +8,7 @@ pycountry
 pydantic
 pylint
 pydub
-PyPDF2
+PyPDF
 sagemaker
 setuptools
 python-magic

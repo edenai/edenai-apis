@@ -16,7 +16,7 @@ from edenai_apis.utils.types import AsyncLaunchJobResponseType
 
 # TEXT_AUTOML_CLASSIFICATION = ["training_async", "prediction_async"]
 
-MAX_TIME = 120
+MAX_TIME = 220
 TIME_BETWEEN_CHECK = 10
 
 

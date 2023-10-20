@@ -10,13 +10,10 @@ from clarifai_grpc.grpc.api.status import status_code_pb2
 from edenai_apis.utils.exception import ProviderException
 from google.protobuf.json_format import MessageToDict
 
-class Ai21labsApi(
-    ProviderInterface,
-    TextInterface
 
-):
+class Ai21labsApi(ProviderInterface, TextInterface):
     provider_name = "ai21labs"
-    
+
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
@@ -24,39 +21,37 @@ class Ai21labsApi(
         self.user_id = "ai21"
         self.app_id = "complete"
         self.key = self.api_settings["api_key"]
-    
+
     def text__generation(
-        self, 
+        self,
         text: str,
-        temperature: float, 
+        temperature: float,
         max_tokens: int,
-        model: str,) -> ResponseType[GenerationDataClass]:
-        
+        model: str,
+    ) -> ResponseType[GenerationDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
         metadata = (("authorization", self.key),)
-        userDataObject = resources_pb2.UserAppIDSet(user_id=self.user_id, app_id=self.app_id)
+        userDataObject = resources_pb2.UserAppIDSet(
+            user_id=self.user_id, app_id=self.app_id
+        )
         post_model_outputs_response = stub.PostModelOutputs(
             service_pb2.PostModelOutputsRequest(
-                user_app_id=userDataObject, 
+                user_app_id=userDataObject,
                 model_id=model,
                 inputs=[
                     resources_pb2.Input(
-                        data=resources_pb2.Data(
-                             text=resources_pb2.Text(
-                                raw=text
-                            )
-                        )
+                        data=resources_pb2.Data(text=resources_pb2.Text(raw=text))
                     )
-                ]
+                ],
             ),
-            metadata=metadata
+            metadata=metadata,
         )
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
             raise ProviderException(
                 post_model_outputs_response.status.description,
-                code= post_model_outputs_response.status.code
-                )
+                code=post_model_outputs_response.status.code,
+            )
         response = MessageToDict(
             post_model_outputs_response, preserving_proto_field_name=True
         )
@@ -64,11 +59,13 @@ class Ai21labsApi(
         if len(output) == 0:
             raise ProviderException(
                 "Anthropic returned an empty response!",
-                code= post_model_outputs_response.status.code
-                )
+                code=post_model_outputs_response.status.code,
+            )
         original_response = output[0].get("data", {}) or {}
-        
+
         return ResponseType[GenerationDataClass](
             original_response=original_response,
-            standardized_response=GenerationDataClass(generated_text=original_response.get('text', {}).get('raw', '')),
+            standardized_response=GenerationDataClass(
+                generated_text=original_response.get("text", {}).get("raw", "")
+            ),
         )

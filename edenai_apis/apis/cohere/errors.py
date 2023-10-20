@@ -19,7 +19,8 @@ ERRORS: ProviderErrorLists = {
         r"An error occurred while parsing the response",
     ],
     ProviderInternalServerError: [
-        r"Error calling Clarifai API",
+        r"Error calling Cohere API",
+        r"Internal Server Error",
         r"Failure",
         r"internal server error, this has been reported to our developer",
     ],

@@ -2,9 +2,30 @@ from locale import currency
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from google_crc32c.python import value
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass, InfoCountry, InfosIdentityParserDataClass, ItemIdentityParserDataClass, format_date, get_info_country
-from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import BankInvoice, InfosInvoiceParserDataClass, InvoiceParserDataClass, ItemLinesInvoice, TaxesInvoice
-from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import InfosReceiptParserDataClass, ItemLines, Locale, MerchantInformation, PaymentInformation, ReceiptParserDataClass, Taxes
+from edenai_apis.features.ocr.identity_parser import (
+    IdentityParserDataClass,
+    InfoCountry,
+    InfosIdentityParserDataClass,
+    ItemIdentityParserDataClass,
+    format_date,
+    get_info_country,
+)
+from edenai_apis.features.ocr.invoice_parser import (
+    BankInvoice,
+    InfosInvoiceParserDataClass,
+    InvoiceParserDataClass,
+    ItemLinesInvoice,
+    TaxesInvoice,
+)
+from edenai_apis.features.ocr.receipt_parser import (
+    InfosReceiptParserDataClass,
+    ItemLines,
+    Locale,
+    MerchantInformation,
+    PaymentInformation,
+    ReceiptParserDataClass,
+    Taxes,
+)
 
 from edenai_apis.features.ocr.resume_parser import (
     ResumeEducation,
@@ -17,14 +38,18 @@ from edenai_apis.features.ocr.resume_parser import (
     ResumeParserDataClass,
     ResumeSkill,
     ResumeWorkExp,
-    ResumeWorkExpEntry
+    ResumeWorkExpEntry,
 )
 from edenai_apis.features.ocr.invoice_parser import (
     MerchantInformationInvoice,
-    CustomerInformationInvoice
+    CustomerInformationInvoice,
 )
-from edenai_apis.utils.conversion import combine_date_with_time, convert_string_to_number
+from edenai_apis.utils.conversion import (
+    combine_date_with_time,
+    convert_string_to_number,
+)
 from .models import Document, DocumentError, DocumentMeta
+
 
 class ResumeStandardizer:
     __document: Document
@@ -53,7 +78,7 @@ class ResumeStandardizer:
             prefix=None,
         )
 
-    def __std_location(self, which_location: Optional[dict] = None) -> ResumeLocation: 
+    def __std_location(self, which_location: Optional[dict] = None) -> ResumeLocation:
         if which_location is None:
             which_location = self.__data
         location = which_location.get("location") or {}
@@ -71,7 +96,7 @@ class ResumeStandardizer:
         )
 
     def std_personnal_information(self) -> ResumePersonalInfo:
-        self.__std_response['personal_infos'] = ResumePersonalInfo(
+        self.__std_response["personal_infos"] = ResumePersonalInfo(
             name=self.__std_names(),
             address=self.__std_location(),
             phones=self.__data.get("phoneNumbers") or [],
@@ -88,11 +113,11 @@ class ResumeStandardizer:
             current_salary=None,
         )
 
-        return self.__std_response['personal_infos']
+        return self.__std_response["personal_infos"]
 
     def std_education(self) -> ResumeEducation:
         edu_entries: List[ResumeEducationEntry] = []
-        for i in (self.__data.get("education") or []):
+        for i in self.__data.get("education") or []:
             dates = i.get("dates") or {}
             grade = i.get("grade") or {}
             edu_entries.append(
@@ -108,16 +133,15 @@ class ResumeStandardizer:
                 )
             )
 
-        self.__std_response['education'] = ResumeEducation(
-            entries=edu_entries,
-            total_years_education=None
+        self.__std_response["education"] = ResumeEducation(
+            entries=edu_entries, total_years_education=None
         )
 
-        return self.__std_response['education']
+        return self.__std_response["education"]
 
     def std_work_experience(self) -> ResumeWorkExp:
         work_entries: List[ResumeWorkExpEntry] = []
-        for i in (self.__data.get("workExperience") or []):
+        for i in self.__data.get("workExperience") or []:
             dates = i.get("dates") or {}
             work_entries.append(
                 ResumeWorkExpEntry(
@@ -130,31 +154,42 @@ class ResumeStandardizer:
                     industry=None,
                 )
             )
-        self.__std_response['work_experience'] = ResumeWorkExp(
+        self.__std_response["work_experience"] = ResumeWorkExp(
             total_years_experience=self.__data.get("total_years_experience"),
-            entries=work_entries
+            entries=work_entries,
         )
 
-        return self.__std_response['work_experience']
+        return self.__std_response["work_experience"]
 
     def std_skills(self) -> List[ResumeSkill]:
-        self.__std_response['skills'] = []
-        for i in (self.__data.get("skills", []) or []):
+        self.__std_response["skills"] = []
+        for i in self.__data.get("skills", []) or []:
             skill_name = i.get("name")
-            skill_type = i.get("type").replace('_skill', '')
-            self.__std_response['skills'].append(ResumeSkill(name=skill_name, type=skill_type))
+            skill_type = i.get("type").replace("_skill", "")
+            self.__std_response["skills"].append(
+                ResumeSkill(name=skill_name, type=skill_type)
+            )
 
-        return self.__std_response['skills']
+        return self.__std_response["skills"]
 
-    def std_miscellaneous(self) -> Tuple[List[ResumeLang], List[ResumeSkill], List[ResumeSkill]]:
-        self.__std_response['languages'] = [ResumeLang(name=i, code=None) for i in self.__data.get("languages", [])]
-        self.__std_response['certifications'] = [ResumeSkill(name=i, type=None) for i in self.__data.get("certifications", [])]
-        self.__std_response['publications'] = [ResumeSkill(name=i, type=None) for i in self.__data.get("publications", [])]
-    
+    def std_miscellaneous(
+        self,
+    ) -> Tuple[List[ResumeLang], List[ResumeSkill], List[ResumeSkill]]:
+        self.__std_response["languages"] = [
+            ResumeLang(name=i, code=None) for i in self.__data.get("languages", [])
+        ]
+        self.__std_response["certifications"] = [
+            ResumeSkill(name=i, type=None)
+            for i in self.__data.get("certifications", [])
+        ]
+        self.__std_response["publications"] = [
+            ResumeSkill(name=i, type=None) for i in self.__data.get("publications", [])
+        ]
+
         return (
-            self.__std_response['languages'],
-            self.__std_response['certifications'],
-            self.__std_response['publications']
+            self.__std_response["languages"],
+            self.__std_response["certifications"],
+            self.__std_response["publications"],
         )
 
     @property
@@ -162,7 +197,6 @@ class ResumeStandardizer:
         return ResumeParserDataClass(
             extracted_data=ResumeExtractedData(**self.__std_response)
         )
-
 
 
 class InvoiceStandardizer:
@@ -181,32 +215,32 @@ class InvoiceStandardizer:
         self.__std_response = {}
 
     def std_merchant_informations(self) -> MerchantInformationInvoice:
-        name = self.__data.get('supplierCompanyName') or {}
-        address = self.__data.get('supplierAddress') or {}
-        phone = self.__data.get('supplierPhoneNumber') or {}
-        tax_id = self.__data.get('supplierBusinessNumber') or {}
-        email = self.__data.get('supplierEmail') or {}
-        fax = self.__data.get('supplierFax') or {}
+        name = self.__data.get("supplierCompanyName") or {}
+        address = self.__data.get("supplierAddress") or {}
+        phone = self.__data.get("supplierPhoneNumber") or {}
+        tax_id = self.__data.get("supplierBusinessNumber") or {}
+        email = self.__data.get("supplierEmail") or {}
+        fax = self.__data.get("supplierFax") or {}
         website = self.__data.get("supplierWebsite") or {}
         vat = self.__data.get("supplierVat") or {}
 
-        self.__std_response['merchant_information'] = MerchantInformationInvoice(
-                merchant_name=name.get("raw"),
-                merchant_address=address.get("raw"),
-                merchant_phone=phone.get("raw"),
-                merchant_tax_id=tax_id.get("raw"),
-                merchant_email=email.get("raw"),
-                merchant_fax=fax.get("raw"),
-                merchant_website=website.get("raw"),
-                vat_number=vat.get("raw"),
-                merchant_siren=None,
-                merchant_siret=None,
-                abn_number=None,
-                gst_number=None,
-                pan_number=None,
+        self.__std_response["merchant_information"] = MerchantInformationInvoice(
+            merchant_name=name.get("raw"),
+            merchant_address=address.get("raw"),
+            merchant_phone=phone.get("raw"),
+            merchant_tax_id=tax_id.get("raw"),
+            merchant_email=email.get("raw"),
+            merchant_fax=fax.get("raw"),
+            merchant_website=website.get("raw"),
+            vat_number=vat.get("raw"),
+            merchant_siren=None,
+            merchant_siret=None,
+            abn_number=None,
+            gst_number=None,
+            pan_number=None,
         )
 
-        return self.__std_response['merchant_information']
+        return self.__std_response["merchant_information"]
 
     def std_customer_information(self) -> CustomerInformationInvoice:
         name = self.__data.get("customerCompanyName") or {}
@@ -217,24 +251,24 @@ class InvoiceStandardizer:
         shipping_address = self.__data.get("customerDeliveryAddress") or {}
         vat = self.__data.get("customerVat") or {}
 
-        self.__std_response['customer_information'] = CustomerInformationInvoice(
-                customer_name=name.get("raw"),
-                customer_address=billing_address.get("raw"),
-                customer_billing_address=billing_address.get("raw"),
-                customer_id=id.get("raw"),
-                customer_shipping_address=shipping_address.get("raw"),
-                customer_email=email.get("raw"),
-                vat_number=vat.get("raw"),
-                customer_tax_id=tax_id.get("raw"),
-                customer_mailing_address=None,
-                customer_remittance_address=None,
-                customer_service_address=None,
-                abn_number=None,
-                gst_number=None,
-                pan_number=None,
-            )
+        self.__std_response["customer_information"] = CustomerInformationInvoice(
+            customer_name=name.get("raw"),
+            customer_address=billing_address.get("raw"),
+            customer_billing_address=billing_address.get("raw"),
+            customer_id=id.get("raw"),
+            customer_shipping_address=shipping_address.get("raw"),
+            customer_email=email.get("raw"),
+            vat_number=vat.get("raw"),
+            customer_tax_id=tax_id.get("raw"),
+            customer_mailing_address=None,
+            customer_remittance_address=None,
+            customer_service_address=None,
+            abn_number=None,
+            gst_number=None,
+            pan_number=None,
+        )
 
-        return self.__std_response['customer_information']
+        return self.__std_response["customer_information"]
 
     def std_invoice_informations(self) -> None:
         number = self.__data.get("invoiceNumber") or {}
@@ -244,12 +278,18 @@ class InvoiceStandardizer:
         amount_due = self.__data.get("paymentAmountDue") or {}
         purchase_order = self.__data.get("invoicePurchaseOrderNumber") or {}
 
-        self.__std_response['invoice_number'] = number.get("raw")
-        self.__std_response['invoice_total'] = convert_string_to_number(total.get("raw"), float)
-        self.__std_response['invoice_subtotal'] = convert_string_to_number(subtotal.get("parsed"), float)
-        self.__std_response['payment_term'] = payment_term.get("raw")
-        self.__std_response['amount_due'] = convert_string_to_number(amount_due.get("raw"), float)
-        self.__std_response['purchase_order_number'] = purchase_order.get("raw")
+        self.__std_response["invoice_number"] = number.get("raw")
+        self.__std_response["invoice_total"] = convert_string_to_number(
+            total.get("raw"), float
+        )
+        self.__std_response["invoice_subtotal"] = convert_string_to_number(
+            subtotal.get("parsed"), float
+        )
+        self.__std_response["payment_term"] = payment_term.get("raw")
+        self.__std_response["amount_due"] = convert_string_to_number(
+            amount_due.get("raw"), float
+        )
+        self.__std_response["purchase_order_number"] = purchase_order.get("raw")
 
     def std_dates_informations(self) -> Tuple[Optional[str], Optional[str]]:
         date = self.__data.get("invoiceDate") or {}
@@ -257,11 +297,15 @@ class InvoiceStandardizer:
 
         due_date = self.__data.get("paymentDateDue") or {}
         due_time = self.__data.get("paymentTimeDue") or {}
-        
-        self.__std_response['due_date'] = combine_date_with_time(due_date.get("raw"), due_time.get("raw"))
-        self.__std_response['date'] = combine_date_with_time(date.get("raw"), time.get("raw"))
 
-        return (self.__std_response['due_date'], self.__std_response['date'])
+        self.__std_response["due_date"] = combine_date_with_time(
+            due_date.get("raw"), due_time.get("raw")
+        )
+        self.__std_response["date"] = combine_date_with_time(
+            date.get("raw"), time.get("raw")
+        )
+
+        return (self.__std_response["due_date"], self.__std_response["date"])
 
     def std_bank_information(self) -> BankInvoice:
         iban = self.__data.get("bankIban") or {}
@@ -270,7 +314,7 @@ class InvoiceStandardizer:
         sort_code = self.__data.get("bankSortCode") or {}
         account_number = self.__data.get("bankAccountNumber") or {}
 
-        self.__std_response['bank_informations'] = BankInvoice(
+        self.__std_response["bank_informations"] = BankInvoice(
             iban=iban.get("raw"),
             swift=swift.get("raw"),
             bsb=bsb.get("raw"),
@@ -280,23 +324,22 @@ class InvoiceStandardizer:
             rooting_number=None,
         )
 
-        return self.__std_response['bank_informations']
+        return self.__std_response["bank_informations"]
 
     def std_taxes_informations(self) -> List[TaxesInvoice]:
         taxe = self.__data.get("paymentAmountTax") or {}
 
-        self.__std_response['taxes'] = [
+        self.__std_response["taxes"] = [
             TaxesInvoice(
-                value=convert_string_to_number(taxe.get("parsed"), float),
-                rate=None
+                value=convert_string_to_number(taxe.get("parsed"), float), rate=None
             )
         ]
 
-        return self.__std_response['taxes']
+        return self.__std_response["taxes"]
 
     def std_items_lines_informations(self) -> Sequence[ItemLinesInvoice]:
         tables = self.__data.get("tables") or []
-        self.__std_response['item_lines'] = []
+        self.__std_response["item_lines"] = []
         for table in tables:
             parsed = table.get("parsed") or {}
             rows = parsed.get("rows") or []
@@ -307,28 +350,26 @@ class InvoiceStandardizer:
                 total = item_parsed.get("itemTotal") or {}
                 unit_price = item_parsed.get("itemUnitPrice") or {}
 
-                self.__std_response['item_lines'].append(
+                self.__std_response["item_lines"].append(
                     ItemLinesInvoice(
-                        unit_price=convert_string_to_number(unit_price.get("raw"), float),
+                        unit_price=convert_string_to_number(
+                            unit_price.get("raw"), float
+                        ),
                         quantity=quantity.get("parsed"),
                         amount=convert_string_to_number(total.get("raw"), float),
                         description=description.get("raw"),
                         date_item=None,
                         product_code=None,
-                        tax_item=None, 
+                        tax_item=None,
                     )
                 )
 
-        return self.__std_response['item_lines']
+        return self.__std_response["item_lines"]
 
     @property
     def standardized_response(self):
         return InvoiceParserDataClass(
-            extracted_data=[
-            InfosInvoiceParserDataClass(
-                **self.__std_response
-                )
-            ]
+            extracted_data=[InfosInvoiceParserDataClass(**self.__std_response)]
         )
 
 
@@ -349,11 +390,7 @@ class ReceiptStandardizer:
     @property
     def standardized_response(self):
         return ReceiptParserDataClass(
-            extracted_data=[
-                InfosReceiptParserDataClass(
-                    **self.__std_response
-                )
-            ]
+            extracted_data=[InfosReceiptParserDataClass(**self.__std_response)]
         )
 
     def std_merchant_informations(self) -> MerchantInformation:
@@ -361,59 +398,52 @@ class ReceiptStandardizer:
         email = self.__data.get("supplierAddress") or {}
         phone = self.__data.get("supplierPhoneNumber") or {}
         url = self.__data.get("supplierWebsite") or {}
-        self.__std_response['merchant_information'] = MerchantInformation(
+        self.__std_response["merchant_information"] = MerchantInformation(
             merchant_name=name.get("raw"),
             merchant_address=email.get("raw"),
             merchant_phone=phone.get("raw"),
             merchant_url=url.get("raw"),
             merchant_siret=None,
             merchant_siren=None,
-
         )
 
-        return self.__std_response['merchant_information']
+        return self.__std_response["merchant_information"]
 
     def std_payment_informations(self) -> PaymentInformation:
         card_number = self.__data.get("paymentCardInformation") or {}
         change = self.__data.get("paymentChange") or {}
 
-        self.__std_response['payment_information'] = PaymentInformation(
+        self.__std_response["payment_information"] = PaymentInformation(
             card_type=None,
             card_number=card_number.get("raw"),
             change=change.get("raw"),
             cash=None,
             tip=None,
-            discount=None
+            discount=None,
         )
 
-        return self.__std_response['payment_information']
+        return self.__std_response["payment_information"]
 
     def std_locale_information(self) -> Locale:
         currency_code = self.__data.get("receiptCurrencyCode") or {}
         currency_parsed = currency_code.get("parsed") or {}
 
-        self.__std_response['locale'] = Locale(
-            currency=currency_parsed.get("value")
-        )
+        self.__std_response["locale"] = Locale(currency=currency_parsed.get("value"))
 
-        return self.__std_response['locale']
+        return self.__std_response["locale"]
 
     def std__taxes_informations(self) -> Sequence[Taxes]:
-        self.__std_response['taxes'] = []
+        self.__std_response["taxes"] = []
 
-        for tax in self.__data.get("paymentAmountTax", []):
-            self.__std_response['taxes'].append(
-                Taxes(
-                    taxes=tax.get("raw"),
-                    rate=None
-                )
-            )
+        for tax in self.__data.get("paymentAmountTax") or []:
+            taxes = convert_string_to_number(tax.get("parsed"), float)
+            self.__std_response["taxes"].append(Taxes(taxes=taxes, rate=None))
 
-        return self.__std_response['taxes']
+        return self.__std_response["taxes"]
 
     def std_item_lines(self) -> List[ItemLines]:
         tables = self.__data.get("lineItemTable") or []
-        self.__std_response['item_lines'] = []
+        self.__std_response["item_lines"] = []
         for table in tables:
             parsed = table.get("parsed") or {}
             rows = parsed.get("rows") or []
@@ -424,16 +454,18 @@ class ReceiptStandardizer:
                 total = item_parsed.get("itemTotal") or {}
                 unit_price = item_parsed.get("itemUnitPrice") or {}
 
-                self.__std_response['item_lines'].append(
+                self.__std_response["item_lines"].append(
                     ItemLines(
-                        unit_price=convert_string_to_number(unit_price.get("raw"), float),
+                        unit_price=convert_string_to_number(
+                            unit_price.get("raw"), float
+                        ),
                         quantity=quantity.get("parsed"),
                         amount=convert_string_to_number(total.get("raw"), float),
                         description=description.get("raw"),
                     )
                 )
 
-        return self.__std_response['item_lines']
+        return self.__std_response["item_lines"]
 
     def std_miscellaneous(self) -> None:
         number = self.__data.get("receiptNumber") or {}
@@ -442,11 +474,15 @@ class ReceiptStandardizer:
         date = self.__data.get("date") or {}
         time = self.__data.get("time") or {}
 
-        self.__std_response['invoice_number'] = number.get("raw")
-        self.__std_response['invoice_total'] = convert_string_to_number(total.get("raw"), float)
-        self.__std_response['invoice_subtotal'] = convert_string_to_number(subtotal.get("raw"), float)
-        self.__std_response['date'] = date.get("raw")
-        self.__std_response['time'] = time.get("raw")
+        self.__std_response["invoice_number"] = number.get("raw")
+        self.__std_response["invoice_total"] = convert_string_to_number(
+            total.get("raw"), float
+        )
+        self.__std_response["invoice_subtotal"] = convert_string_to_number(
+            subtotal.get("raw"), float
+        )
+        self.__std_response["date"] = date.get("raw")
+        self.__std_response["time"] = time.get("raw")
 
 
 class IdentityStandardizer:
@@ -466,11 +502,7 @@ class IdentityStandardizer:
     @property
     def standardized_response(self):
         return IdentityParserDataClass(
-            extracted_data=[
-               InfosIdentityParserDataClass(
-                    **self.__std_response
-                ) 
-            ]
+            extracted_data=[InfosIdentityParserDataClass(**self.__std_response)]
         )
 
     def std_names_information(self) -> None:
@@ -478,23 +510,21 @@ class IdentityStandardizer:
         name = self.__data.get("givenName") or {}
         middle_names = self.__data.get("middle_names") or []
 
-        self.__std_response['last_name'] = ItemIdentityParserDataClass(
-            value=last_name.get("raw"),
-            confidence=last_name.get("confidence")
+        self.__std_response["last_name"] = ItemIdentityParserDataClass(
+            value=last_name.get("raw"), confidence=last_name.get("confidence")
         )
 
-        self.__std_response['given_names'] = [
+        self.__std_response["given_names"] = [
             ItemIdentityParserDataClass(
-                value=name.get("raw"),
-                confidence=name.get("confidence")
+                value=name.get("raw"), confidence=name.get("confidence")
             )
         ]
 
         for middle_name in middle_names:
-            self.__std_response['given_names'].append(
+            self.__std_response["given_names"].append(
                 ItemIdentityParserDataClass(
-                    value=middle_name.get("raw"), 
-                    confidence=middle_name.get("confidence")
+                    value=middle_name.get("raw"),
+                    confidence=middle_name.get("confidence"),
                 )
             )
 
@@ -506,68 +536,60 @@ class IdentityStandardizer:
         document_type = self.__data.get("type") or {}
         mrz = self.__data.get("machineReadableZone") or {}
 
-        self.__std_response['expire_date'] = ItemIdentityParserDataClass(
+        self.__std_response["expire_date"] = ItemIdentityParserDataClass(
             value=format_date(expiry_date.get("raw")),
-            confidence=expiry_date.get("confidence")
+            confidence=expiry_date.get("confidence"),
         )
 
         self.__std_response["issuance_date"] = ItemIdentityParserDataClass(
             value=format_date(issuance_date.get("raw")),
-            confidence=issuance_date.get("confidence")
+            confidence=issuance_date.get("confidence"),
         )
 
-        self.__std_response['document_id'] = ItemIdentityParserDataClass(
-            value=document_id.get("raw"),
-            confidence=document_id.get("confidence")
+        self.__std_response["document_id"] = ItemIdentityParserDataClass(
+            value=document_id.get("raw"), confidence=document_id.get("confidence")
         )
 
-        self.__std_response['issuing_state'] = ItemIdentityParserDataClass(
-            value=issuing_state.get("raw"),
-            confidence=issuing_state.get("confidence")
+        self.__std_response["issuing_state"] = ItemIdentityParserDataClass(
+            value=issuing_state.get("raw"), confidence=issuing_state.get("confidence")
         )
 
-        self.__std_response['document_type'] = ItemIdentityParserDataClass(
-            value=document_type.get("raw"),
-            confidence=document_type.get("confidence")
+        self.__std_response["document_type"] = ItemIdentityParserDataClass(
+            value=document_type.get("raw"), confidence=document_type.get("confidence")
         )
 
-        self.__std_response['mrz'] = ItemIdentityParserDataClass(
-            value=mrz.get("raw"),
-            confidence=mrz.get("confidence")
+        self.__std_response["mrz"] = ItemIdentityParserDataClass(
+            value=mrz.get("raw"), confidence=mrz.get("confidence")
         )
 
     def std_location_information(self):
-        birth_place  = self.__data.get("birthPlace") or {}
+        birth_place = self.__data.get("birthPlace") or {}
         birth_date = self.__data.get("birthDate") or {}
         country = self.__data.get("issuingCode") or {}
         gender = self.__data.get("sex") or {}
         nationality = self.__data.get("nationality") or {}
 
-        self.__std_response['birth_place'] = ItemIdentityParserDataClass(
-            value=birth_place.get("raw"),
-            confidence=birth_place.get("confidence")
+        self.__std_response["birth_place"] = ItemIdentityParserDataClass(
+            value=birth_place.get("raw"), confidence=birth_place.get("confidence")
         )
 
-        self.__std_response['birth_date'] = ItemIdentityParserDataClass(
+        self.__std_response["birth_date"] = ItemIdentityParserDataClass(
             value=format_date(birth_date.get("raw")),
-            confidence=birth_date.get("confidence")
+            confidence=birth_date.get("confidence"),
         )
 
-        self.__std_response['country'] = get_info_country(
+        self.__std_response["country"] = get_info_country(
             key=InfoCountry.ALPHA3,
             value=country.get("raw", ""),
         )
 
-        self.__std_response['gender'] = ItemIdentityParserDataClass(
-            value=gender.get("raw"),
-            confidence=gender.get("confidence")
+        self.__std_response["gender"] = ItemIdentityParserDataClass(
+            value=gender.get("raw"), confidence=gender.get("confidence")
         )
 
-        self.__std_response['nationality'] = ItemIdentityParserDataClass(
-            value=nationality.get("raw"),
-            confidence=nationality.get("confidence")
+        self.__std_response["nationality"] = ItemIdentityParserDataClass(
+            value=nationality.get("raw"), confidence=nationality.get("confidence")
         )
 
-        self.__std_response['address'] = ItemIdentityParserDataClass()
-        self.__std_response['age'] = ItemIdentityParserDataClass()
-
+        self.__std_response["address"] = ItemIdentityParserDataClass()
+        self.__std_response["age"] = ItemIdentityParserDataClass()

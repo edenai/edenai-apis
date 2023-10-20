@@ -87,7 +87,7 @@ class IbmAudioApi(AudioInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
-        provider_params = dict,
+        provider_params=dict(),
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -111,14 +111,13 @@ class IbmAudioApi(AudioInterface):
             return AsyncLaunchJobResponseType(provider_job_id=response.result["id"])
         else:
             raise ProviderException(
-                "An error occured during ibm api call", 
-                code = response.status_code
+                "An error occured during ibm api call", code=response.status_code
             )
 
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-        payload = { "id": provider_job_id }
+        payload = {"id": provider_job_id}
         response = handle_ibm_call(self.clients["speech"].check_job, **payload)
 
         status = response.result["status"]

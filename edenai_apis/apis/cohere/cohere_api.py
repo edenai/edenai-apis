@@ -120,6 +120,9 @@ List of corrected words :
         response = requests.post(
             url, json=payload, headers=self.headers
         )
+        if response.status_code >= 500:
+            ProviderException("Internal Server Error")
+            
         original_response = response.json()
 
         if "message" in original_response:
@@ -370,8 +373,7 @@ Answer:"""
                                  "manhattan", "euclidean"] = "cosine",
         model: str = None
     ) -> ResponseType[SearchDataClass]:
-        if len(texts) > 5:
-            raise ProviderException('Google does not support search in more than 5 items.')
+
         if model is None:
             model = '768__embed-multilingual-v2.0'
         # Import the function

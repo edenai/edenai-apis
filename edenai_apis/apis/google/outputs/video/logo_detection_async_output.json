@@ -1,11 +1,11 @@
 {
   "status": "succeeded",
-  "provider_job_id": "projects/148983085864/locations/europe-west1/operations/2809456873911236479",
+  "provider_job_id": "projects/148983085864/locations/europe-west1/operations/990165459853306320",
   "original_response": {
     "@type": "type.googleapis.com/google.cloud.videointelligence.v1.AnnotateVideoResponse",
     "annotationResults": [
       {
-        "inputUri": "/audios-speech2text/1670258679labels_video_.mp4",
+        "inputUri": "/audios-speech2text/1697448878labels_video_.mp4",
         "segment": {
           "startTimeOffset": "0s",
           "endTimeOffset": "11.803458s"
@@ -125,9 +125,9 @@
             "timestamp": 5.5055,
             "bounding_box": {
               "top": 0.9172453,
-              "left": 0.43818593,
-              "height": 0.9598406,
-              "width": 0.45948356
+              "left": 0.45948356,
+              "height": 0.0425953,
+              "width": 0.0
             },
             "confidence": 0.8775759
           },
@@ -135,9 +135,9 @@
             "timestamp": 5.630625,
             "bounding_box": {
               "top": 0.9357612,
-              "left": 0.44380248,
-              "height": 0.9783565,
-              "width": 0.4651001
+              "left": 0.4651001,
+              "height": 0.0425953,
+              "width": 0.0
             },
             "confidence": 0.8775759
           }
@@ -150,9 +150,9 @@
             "timestamp": 0.0,
             "bounding_box": {
               "top": 0.44206923,
-              "left": 0.5511915,
-              "height": 0.49424022,
-              "width": 0.5685801
+              "left": 0.5685801,
+              "height": 0.05217099000000003,
+              "width": 0.0
             },
             "confidence": 0.8602308
           },
@@ -160,9 +160,9 @@
             "timestamp": 0.125125,
             "bounding_box": {
               "top": 0.4430714,
-              "left": 0.5526141,
-              "height": 0.4952424,
-              "width": 0.5700027
+              "left": 0.5700027,
+              "height": 0.05217099999999997,
+              "width": 0.0
             },
             "confidence": 0.8602308
           },
@@ -170,9 +170,9 @@
             "timestamp": 0.25025,
             "bounding_box": {
               "top": 0.4451254,
-              "left": 0.5515299,
-              "height": 0.4972964,
-              "width": 0.56891847
+              "left": 0.56891847,
+              "height": 0.05217099999999997,
+              "width": 0.0
             },
             "confidence": 0.8602308
           },
@@ -180,9 +180,9 @@
             "timestamp": 0.375375,
             "bounding_box": {
               "top": 0.44717023,
-              "left": 0.5519637,
-              "height": 0.49934122,
-              "width": 0.56935227
+              "left": 0.56935227,
+              "height": 0.05217099000000003,
+              "width": 0.0
             },
             "confidence": 0.8602308
           }

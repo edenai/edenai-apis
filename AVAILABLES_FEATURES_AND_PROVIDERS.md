@@ -59,6 +59,7 @@
 |----------|-------------|
 | **generation** | ai21labs |
 | | anthropic |
+| | clarifai |
 | | cohere |
 | | google |
 | | openai |
@@ -69,6 +70,7 @@
 | | huggingface |
 | | meaningcloud |
 | | microsoft |
+| | nlpcloud |
 | | oneai |
 | | openai |
 | | writesonic |
@@ -147,10 +149,14 @@
 | **question_answer** | huggingface |
 | | openai |
 | | tenstorrent |
+| **emotion_detection** | nlpcloud |
+| | vernai |
 | **prompt_optimization** | openai |
 | **ai_detection** | originalityai |
 | | sapling |
+| | winstonai |
 | **plagia_detection** | originalityai |
+| | winstonai |
 
 </details>
 <details><summary>image</summary>
@@ -384,7 +390,8 @@
 | | logo_detection |
 | | object_detection |
 | **ocr** | ocr |
-| **text** | moderation |
+| **text** | generation |
+| | moderation |
 
 </details>
 <details><summary>cohere</summary>
@@ -636,10 +643,12 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | code_generation |
+| | emotion_detection |
 | | keyword_extraction |
 | | named_entity_recognition |
 | | sentiment_analysis |
 | | spell_check |
+| | summarize |
 
 </details>
 <details><summary>nyckel</summary>
@@ -814,6 +823,13 @@
 | | topic_extraction |
 
 </details>
+<details><summary>vernai</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | emotion_detection |
+
+</details>
 <details><summary>veryfi</summary>
 
 | Features | Subfeatures |
@@ -835,6 +851,14 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | speech_to_text_async |
+
+</details>
+<details><summary>winstonai</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | ai_detection |
+| | plagia_detection |
 
 </details>
 <details><summary>writesonic</summary>

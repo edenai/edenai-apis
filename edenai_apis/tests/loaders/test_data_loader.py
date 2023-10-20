@@ -49,7 +49,7 @@ class TestLoadKey:
         if provider == "faker":
             pytest.skip("unsupported provider")
         data = load_key(provider, False)
-        assert isinstance(data, dict), f"No settings.json file found for {provider}"
+        assert (isinstance(data, dict) or isinstance(data, list)), f"No settings.json file found for {provider}"
 
 
 class TestLoadClass:

@@ -79,7 +79,7 @@ class GoogleOcrApi(OcrInterface):
             file_content = file_.read()
 
         image = vision.Image(content=file_content)
-        payload = { "image": image }
+        payload = {"image": image}
         response = handle_google_call(self.clients["image"].text_detection, **payload)
 
         mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
@@ -144,7 +144,7 @@ class GoogleOcrApi(OcrInterface):
 
         payload_result = {"request": request}
         result = handle_google_call(receipt_client.process_document, **payload_result)
-        
+
         document = result.document
 
         file_.close()
@@ -257,15 +257,14 @@ class GoogleOcrApi(OcrInterface):
 
         payload_result = {"request": request}
         result = handle_google_call(invoice_client.process_document, **payload_result)
-        
+
         document = result.document
 
         invoice_infos = []
         entites: Sequence[Document.Entity] = document.entities
 
         for idx in range(0, len(Document.to_dict(document).get("pages"))):
-            invoice_infos.append(InfosInvoiceParserDataClass()
-)
+            invoice_infos.append(InfosInvoiceParserDataClass())
             merchant_infos: MerchantInformationInvoice = (
                 MerchantInformationInvoice.default()
             )
@@ -278,7 +277,9 @@ class GoogleOcrApi(OcrInterface):
             invoice_taxe: TaxesInvoice = TaxesInvoice.default()
             for entity in entites:
                 entity_dict = Document.Entity.to_dict(entity)
-                if entity_dict.get("page_anchor").get("page_refs", [{}])[0].get("page") != str(idx):
+                page_anchor = entity_dict.get("page_anchor", {}) or {}
+                page_refs = page_anchor.get("page_refs", [{}]) or [{}]
+                if page_refs[0].get("page") != str(idx):
                     continue
 
                 entity_type = entity_dict.get("type_", "")
@@ -359,7 +360,9 @@ class GoogleOcrApi(OcrInterface):
                             item.quantity = quantity
                         if property_type == "line_item/unit_price":
                             string_unit_price = property_value
-                            unit_price = convert_string_to_number(string_unit_price, float)
+                            unit_price = convert_string_to_number(
+                                string_unit_price, float
+                            )
                             item.unit_price = unit_price
                         if property_type == "line_item/description":
                             item.description = property_value
@@ -376,9 +379,7 @@ class GoogleOcrApi(OcrInterface):
 
         return ResponseType[InvoiceParserDataClass](
             original_response=Document.to_dict(document),
-            standardized_response=InvoiceParserDataClass(
-                extracted_data=invoice_infos
-            ),
+            standardized_response=InvoiceParserDataClass(extracted_data=invoice_infos),
         )
 
     def ocr__ocr_tables_async__launch_job(
@@ -447,7 +448,7 @@ class GoogleOcrApi(OcrInterface):
         request = service.projects().locations().operations().get(name=name)
 
         res = handle_google_call(request.execute)
-        
+
         if res["metadata"]["state"] == "SUCCEEDED":
             # get result from bucket
             bucket_client = self.clients["storage"]
@@ -532,7 +533,7 @@ class GoogleOcrApi(OcrInterface):
         request = service.projects().operations().get(name=name)
 
         res = handle_google_call(request.execute)
-        
+
         if res["metadata"]["state"] == "DONE":
             return handle_done_response_ocr_async(res, self.clients["storage"], job_id)
 

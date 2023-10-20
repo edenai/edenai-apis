@@ -431,7 +431,7 @@ class AmazonImageApi(ImageInterface):
         face_match_list = []
         for face_match in response.get("FaceMatches", []):
             position = face_match["Face"]["BoundingBox"]
-            similarity = face_match["Similarity"]
+            similarity = face_match.get("Similarity") or 0
             bounding_box = FaceCompareBoundingBox(
                 top=position["Top"],
                 left=position["Left"],

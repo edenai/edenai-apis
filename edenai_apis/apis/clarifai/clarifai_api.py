@@ -18,6 +18,7 @@ from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FacePoses,
     FaceQuality,
 )
+
 from edenai_apis.features.image.object_detection.object_detection_dataclass import (
     ObjectItem,
 )
@@ -35,7 +36,14 @@ from edenai_apis.features.image import (
     LogoVertice,
 )
 from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
-from edenai_apis.features.text.moderation.moderation_dataclass import ModerationDataClass, TextModerationItem
+from edenai_apis.features.text.generation.generation_dataclass import (
+    GenerationDataClass,
+)
+from edenai_apis.features.text.moderation.moderation_dataclass import (
+    ModerationDataClass,
+    TextModerationItem,
+)
+from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import standardized_confidence_score
@@ -47,11 +55,7 @@ from edenai_apis.features.text.moderation.category import CategoryType
 from edenai_apis.features.image.explicit_content.category import CategoryType as CategoryTypeExplicitContent
 
 
-class ClarifaiApi(
-    ProviderInterface,
-    OcrInterface,
-    ImageInterface,
-):
+class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface):
     provider_name = "clarifai"
 
     def __init__(self, api_keys: Dict = {}) -> None:
@@ -64,12 +68,63 @@ class ClarifaiApi(
         self.explicit_content_code = "moderation-recognition"
         self.face_detection_code = "face-detection"
         self.text_moderation_code = "moderation-multilingual-text-classification"
+        self.text_generation_code = "mistral-7B-Instruct"
 
+    def text__generation(
+        self, text: str, temperature: float, max_tokens: int, model: str
+    ) -> ResponseType[GenerationDataClass]:
+        text = f"[INST] {text} [/INST]"
+
+        channel = ClarifaiChannel.get_grpc_channel()
+        stub = service_pb2_grpc.V2Stub(channel)
+
+        metadata = (("authorization", self.key),)
+        user_data_object = resources_pb2.UserAppIDSet(
+            user_id="mistralai", app_id="completion"
+        )
+
+        post_model_outputs_response = stub.PostModelOutputs(
+            service_pb2.PostModelOutputsRequest(
+                user_app_id=user_data_object,
+                model_id=model,
+                inputs=[
+                    resources_pb2.Input(
+                        data=resources_pb2.Data(text=resources_pb2.Text(raw=text))
+                    )
+                ],
+            ),
+            metadata=metadata,
+        )
+
+        if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
+            raise ProviderException(
+                post_model_outputs_response.status.description,
+                code=post_model_outputs_response.status.code,
+            )
+
+        response = MessageToDict(
+            post_model_outputs_response, preserving_proto_field_name=True
+        )
+
+        output = response.get("outputs", [])
+        if len(output) == 0:
+            raise ProviderException(
+                "Clarifai returned an empty response!",
+                code=post_model_outputs_response.status.code,
+            )
+
+        original_response = output[0].get("data", {}) or {}
+
+        return ResponseType[GenerationDataClass](
+            original_response=original_response,
+            standardized_response=GenerationDataClass(
+                generated_text=(original_response.get("text", {}) or {}).get("raw", "")
+            ),
+        )
 
     def text__moderation(
         self, text: str, language: str
     ) -> ResponseType[ModerationDataClass]:
-        
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
 
@@ -79,26 +134,22 @@ class ClarifaiApi(
         post_model_outputs_response = stub.PostModelOutputs(
             service_pb2.PostModelOutputsRequest(
                 user_app_id=user_data_object,  # The userDataObject is created in the overview and is required when using a PAT
-                model_id= self.text_moderation_code,
+                model_id=self.text_moderation_code,
                 inputs=[
                     resources_pb2.Input(
-                        data=resources_pb2.Data(
-                            text=resources_pb2.Text(
-                                raw=text
-                            )
-                        )
+                        data=resources_pb2.Data(text=resources_pb2.Text(raw=text))
                     )
-                ]
+                ],
             ),
-            metadata=metadata
+            metadata=metadata,
         )
 
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
             raise ProviderException(
                 post_model_outputs_response.status.description,
-                code= post_model_outputs_response.status.code
-                )
-        
+                code=post_model_outputs_response.status.code,
+            )
+
         response = MessageToDict(
             post_model_outputs_response, preserving_proto_field_name=True
         )
@@ -106,11 +157,11 @@ class ClarifaiApi(
         if len(output) == 0:
             raise ProviderException(
                 "Clarifai returned an empty response!",
-                code= post_model_outputs_response.status.code
-                )
-        
+                code=post_model_outputs_response.status.code,
+            )
+
         original_response = output[0].get("data", {}) or {}
-        
+
         classification: Sequence[TextModerationItem] = []
         for concept in original_response.get("concepts", []) or []:
             classificator = CategoryType.choose_category_subcategory(concept["name"])
@@ -123,21 +174,16 @@ class ClarifaiApi(
                     likelihood=standardized_confidence_score(concept["value"])
                 )
             )
-
-        
         standardized_response: ModerationDataClass = ModerationDataClass(
             nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
                 classification
             ),
             items=classification,
-            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(classification)
         )
-        
         return ResponseType[ModerationDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
         )
-
 
     def ocr__ocr(
         self,
@@ -146,7 +192,7 @@ class ClarifaiApi(
         file_url: str = "",
     ) -> ResponseType[OcrDataClass]:
         if not language:
-            raise LanguageException("Language not provided", code= 400)
+            raise LanguageException("Language not provided", code=400)
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
         with open(file, "rb") as file_:
@@ -173,8 +219,8 @@ class ClarifaiApi(
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
             raise ProviderException(
                 "Error calling Clarifai API",
-                code= post_model_outputs_response.status.code
-                )
+                code=post_model_outputs_response.status.code,
+            )
 
         boxes: Sequence[Bounding_box] = []
         original_response = []
@@ -242,8 +288,8 @@ class ClarifaiApi(
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
             raise ProviderException(
                 post_model_outputs_response.status.description,
-                code= post_model_outputs_response.status.code
-                )
+                code=post_model_outputs_response.status.code,
+            )
 
         response = MessageToDict(
             post_model_outputs_response, preserving_proto_field_name=True
@@ -304,7 +350,7 @@ class ClarifaiApi(
             raise ProviderException(
                 "Error calling Clarifai API: "
                 + post_model_outputs_response.status.description,
-                code= post_model_outputs_response.status.code
+                code=post_model_outputs_response.status.code,
             )
         else:
             response = MessageToDict(
@@ -379,8 +425,8 @@ class ClarifaiApi(
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
             raise ProviderException(
                 "Error calling Clarifai API",
-                code= post_model_outputs_response.status.code
-                )
+                code=post_model_outputs_response.status.code,
+            )
 
         else:
             response = MessageToDict(
@@ -444,8 +490,8 @@ class ClarifaiApi(
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
             raise ProviderException(
                 "Error calling Clarifai API",
-                code= post_model_outputs_response.status.code
-                )
+                code=post_model_outputs_response.status.code,
+            )
 
         else:
             response = MessageToDict(

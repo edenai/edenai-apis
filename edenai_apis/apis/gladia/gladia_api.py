@@ -165,8 +165,8 @@ class GladiaApi(ProviderInterface, AudioInterface):
                 # calculate the average of the confidence of each word
                 for word in utterance.get("words", []):
                     confidence += word.get("confidence", 0)
-
-                confidence = confidence / len(utterance.get("words", []))
+                    
+                confidence = 0 if len(utterance.get("words", [])) == 0 else confidence / len(utterance.get("words", []))
 
                 diarization_entries.append(
                     SpeechDiarizationEntry(

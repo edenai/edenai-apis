@@ -1,15 +1,18 @@
-import requests
 import base64
+import json
 from typing import Dict, Literal
-from edenai_apis.utils.types import ResponseType
-from edenai_apis.features import ProviderInterface, ImageInterface
-from edenai_apis.utils.exception import ProviderException
-from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.loaders.data_loader import ProviderDataEnum
+
+import requests
+
+from edenai_apis.features import ImageInterface, ProviderInterface
 from edenai_apis.features.image.generation import (
-    GenerationDataClass,
     GeneratedImageDataClass,
+    GenerationDataClass,
 )
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.types import ResponseType
 
 
 class DeepAIApi(ProviderInterface, ImageInterface):
@@ -31,26 +34,30 @@ class DeepAIApi(ProviderInterface, ImageInterface):
         num_images: int = 1,
     ) -> ResponseType[GenerationDataClass]:
         url = "https://api.deepai.org/api/text2img"
+        size = resolution.split("x")
+        payload = {
+            "text": text,
+            "grid_size": "1",
+            "width": int(size[0]),
+            "height": int(size[1]),
+        }
+        response = requests.post(
+            url, data=payload, headers=self.headers
+        )
         try:
-            size = resolution.split("x")
-            payload = {
-                "text": text,
-                "grid_size": "1",
-                "width": int(size[0]),
-                "height": int(size[1]),
-            }
-            response = requests.post(
-                url, data=payload, headers=self.headers
-            )
             original_response = response.json()
-        except Exception as exc:
-            raise ProviderException(str(exc), code = response.status_code)
+        except requests.JSONDecodeError:
+            raise ProviderException(response.text, code = response.status_code)
 
-        if "err" in original_response:
-            raise ProviderException(original_response["err"])
+        if not response.ok:
+            err_msg = original_response.get('err') or json.dumps(original_response)
+            raise ProviderException(err_msg, response.status_code)
 
         image_url = original_response.get("output_url")
-        image_bytes = base64.b64encode(requests.get(image_url).content)
+        image_response = requests.get(image_url)
+        if not image_response.ok:
+            raise ProviderException(image_response.text, code=image_response.status_code)
+        image_bytes = base64.b64encode(image_response.content)
 
         return ResponseType[GenerationDataClass](
             original_response=original_response,

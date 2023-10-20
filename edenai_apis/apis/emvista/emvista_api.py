@@ -60,9 +60,9 @@ class EmvistaApi(ProviderInterface, TextInterface):
         status_code = response.status_code
         # Check errors from API
         if status_code == 201:
-            raise ProviderException("Input text is too long", code = status_code)
+            raise ProviderException("Input text is too long", code=status_code)
         if status_code != 200:
-            raise ProviderException(original_response["message"], code = status_code)
+            raise ProviderException(original_response["message"], code=status_code)
 
         # Return standardized response
         standardized_response_list = original_response.get("result", {}).get(
@@ -101,7 +101,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         response = requests.post(url, headers=headers, json=files)
 
         if response.status_code == 201:
-            raise ProviderException("Input text is too long", code = response.status_code)
+            raise ProviderException("Input text is too long", code=response.status_code)
 
         original_response = response.json()
 
@@ -155,9 +155,9 @@ class EmvistaApi(ProviderInterface, TextInterface):
         status_code = response.status_code
         # Check errors from API
         if status_code == 201:
-            raise ProviderException("Input text is too long", code = status_code)
+            raise ProviderException("Input text is too long", code=status_code)
         if status_code != 200:
-            raise ProviderException(original_response["message"], code = status_code)
+            raise ProviderException(original_response["message"], code=status_code)
 
         entities: Sequence[AnonymizationEntity] = []
         new_text = text
@@ -224,10 +224,10 @@ class EmvistaApi(ProviderInterface, TextInterface):
         response = requests.post(url, headers=headers, json=files)
 
         if response.status_code == 201:
-            raise ProviderException("Input text is too long", code = response.status_code)
+            raise ProviderException("Input text is too long", code=response.status_code)
         elif response.status_code != 200:
             try:
-                msg = response.json()['message']
+                msg = response.json()["message"]
                 raise ProviderException(msg, code=response.status_code)
             except:
                 raise ProviderException(response.text, code=response.status_code)
@@ -282,13 +282,14 @@ class EmvistaApi(ProviderInterface, TextInterface):
         status_code = response.status_code
         # Check error from API
         if status_code == 201:
-            raise ProviderException("Input text is too long", code = status_code)
+            raise ProviderException("Input text is too long", code=status_code)
         if status_code != 200:
-            raise ProviderException(original_response["message"], code = status_code)
+            raise ProviderException(original_response["message"], code=status_code)
 
         # Standardize response
         items: Sequence[InfosKeywordExtractionDataClass] = []
-        for keyword in original_response["result"].get("keywords") or []:
+        keywords = (original_response.get("result", {}) or {}).get("keywords", []) or []
+        for keyword in keywords:
             items.append(
                 InfosKeywordExtractionDataClass(
                     keyword=keyword["value"], importance=float(keyword["score"]) * 0.25

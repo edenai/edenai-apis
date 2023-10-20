@@ -158,13 +158,11 @@ class HireabilityApi(ProviderInterface, OcrInterface):
         work_entries = []
         for i in infos.get("PositionHistory", []):
             work_location = ResumeLocation(
-                country_code=i.get("ReferenceLocation", default_dict).get(
-                    "CountryCode"
-                ),
-                region=i.get("ReferenceLocation", default_dict).get(
+                country_code=(i.get("ReferenceLocation", {}) or {}).get("CountryCode"),
+                region=(i.get("ReferenceLocation", {}) or {}).get(
                     "CountrySubDivisionCode"
                 ),
-                city=i.get("ReferenceLocation", default_dict).get("CityName", ""),
+                city=(i.get("ReferenceLocation", {}) or {}).get("CityName", ""),
                 formatted_location=None,
                 postal_code=None,
                 country=None,
@@ -181,7 +179,7 @@ class HireabilityApi(ProviderInterface, OcrInterface):
                     end_date=i.get("EndDate"),
                     description=i.get("Description"),
                     location=work_location,
-                    industry=i.get("Industry", default_dict).get("Name"),
+                    industry=(i.get("Industry", {}) or {}).get("Name"),
                 )
             )
         duration = infos.get("TotalYearsOfExperience")
@@ -195,7 +193,8 @@ class HireabilityApi(ProviderInterface, OcrInterface):
             skills.append(ResumeSkill(name=skill, type=skill_type))
 
         languages = [
-            ResumeLang(name=i.get("LanguageCode"), code=None) for i in infos.get("Languages", [])
+            ResumeLang(name=i.get("LanguageCode"), code=None)
+            for i in infos.get("Languages", [])
         ]
         certifications = [
             ResumeSkill(name=i.get("CertificationName"), type=None)

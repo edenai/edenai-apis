@@ -14,6 +14,7 @@ from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.tests.conftest import global_features, only_async
 from edenai_apis.utils.constraints import validate_all_provider_constraints
+from edenai_apis.utils.conversion import iterate_all
 from edenai_apis.utils.exception import AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
 from edenai_apis.utils.compare import compare_responses
@@ -100,6 +101,9 @@ class CommonAsyncTests:
         assert (
             standardized_response is not None
         ), "standardized_response should not be None"
+        assert any(
+            [std != None for std in iterate_all(standardized_response, "value")]
+        ), "Response shouldn't be empty"
         assert standardized, "The output is not standardized"
 
     def _test_async_job(self, provider, feature, subfeature):

@@ -238,9 +238,10 @@ class MicrosoftAudioApi(AudioInterface):
                 )
         else:
             error = response.json().get("message")
-            if "entity cannot be found" in error:
-                raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
-                    code = response.status_code
-                )
-            raise ProviderException(error, code = response.status_code)
+            if error:
+                if "entity cannot be found" in error:
+                    raise AsyncJobException(
+                        reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, code=response.status_code
+                    )
+                raise ProviderException(error, code=response.status_code)
+            raise ProviderException(response.json(), code=response.status_code)

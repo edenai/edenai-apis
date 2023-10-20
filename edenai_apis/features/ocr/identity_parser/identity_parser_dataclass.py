@@ -86,7 +86,7 @@ class InfosIdentityParserDataClass(BaseModel):
     issuing_state: ItemIdentityParserDataClass
     address: ItemIdentityParserDataClass
     age: ItemIdentityParserDataClass
-    country: Country
+    country: Optional[Country]
     document_type: ItemIdentityParserDataClass
     gender: ItemIdentityParserDataClass
     image_id: Sequence[ItemIdentityParserDataClass] = Field(default_factory=list)
