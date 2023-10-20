@@ -178,6 +178,9 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface
             nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
                 classification
             ),
+            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(
+                classification
+            ),
             items=classification,
         )
         return ResponseType[ModerationDataClass](
