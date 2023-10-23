@@ -708,7 +708,7 @@ class OpenaiTextApi(TextInterface):
                 standardized_response=standardized_response,
             )
         else:
-            stream = self._iter_chat(response)
+            stream = (chunk["choices"][0]["delta"].get("content", "") for chunk in response)
             return ResponseType[StreamChat](
                 original_response=None,
                 standardized_response=StreamChat(stream=stream)
