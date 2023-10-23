@@ -44,28 +44,47 @@
     "items": [
       {
         "label": "toxic",
-        "likelihood": 4
+        "likelihood": 4,
+        "category": "Toxic",
+        "subcategory": "Toxic",
+        "likelihood_score": 0.79653984
       },
       {
         "label": "obscene",
-        "likelihood": 1
+        "likelihood": 1,
+        "category": "Toxic",
+        "subcategory": "Obscene",
+        "likelihood_score": 0.18101883
       },
       {
         "label": "insult",
-        "likelihood": 1
+        "likelihood": 1,
+        "category": "Toxic",
+        "subcategory": "Insult",
+        "likelihood_score": 0.009806201
       },
       {
         "label": "severe_toxic",
-        "likelihood": 1
+        "likelihood": 1,
+        "category": "Toxic",
+        "subcategory": "Toxic",
+        "likelihood_score": 0.00045600787
       },
       {
         "label": "threat",
-        "likelihood": 1
+        "likelihood": 1,
+        "category": "Toxic",
+        "subcategory": "Threat",
+        "likelihood_score": 7.207947e-05
       },
       {
         "label": "identity_hate",
-        "likelihood": 1
+        "likelihood": 1,
+        "category": "HateAndExtremism",
+        "subcategory": "Hate",
+        "likelihood_score": 6.1927596e-05
       }
-    ]
+    ],
+    "nsfw_likelihood_score": 0.79653984
   }
 }

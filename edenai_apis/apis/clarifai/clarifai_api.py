@@ -51,6 +51,8 @@ from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.types import ResponseType
 
 from .clarifai_helpers import explicit_content_likelihood, get_formatted_language
+from edenai_apis.features.text.moderation.category import CategoryType
+from edenai_apis.features.image.explicit_content.category import CategoryType as CategoryTypeExplicitContent
 
 
 class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface):
@@ -162,20 +164,25 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface
 
         classification: Sequence[TextModerationItem] = []
         for concept in original_response.get("concepts", []) or []:
+            classificator = CategoryType.choose_category_subcategory(concept["name"])
             classification.append(
                 TextModerationItem(
-                    label=concept["name"],
-                    likelihood=standardized_confidence_score(concept["value"]),
+                    label= concept["name"],
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood_score=concept["value"],
+                    likelihood=standardized_confidence_score(concept["value"])
                 )
             )
-
         standardized_response: ModerationDataClass = ModerationDataClass(
             nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
                 classification
             ),
+            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(
+                classification
+            ),
             items=classification,
         )
-
         return ResponseType[ModerationDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
@@ -293,18 +300,23 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface
         original_response = response.get("outputs", [])[0]["data"]
         items = []
         for concept in original_response["concepts"]:
+            classificator = CategoryTypeExplicitContent.choose_category_subcategory(concept["name"])
             items.append(
                 ExplicitItem(
                     label=concept["name"],
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
                     likelihood=explicit_content_likelihood(concept["value"]),
+                    likelihood_score=concept["value"],
                 )
             )
 
         nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+        nsfw_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
         return ResponseType[ExplicitContentDataClass](
             original_response=original_response,
             standardized_response=ExplicitContentDataClass(
-                items=items, nsfw_likelihood=nsfw
+                items=items, nsfw_likelihood=nsfw, nsfw_likelihood_score=nsfw_score
             ),
         )
 

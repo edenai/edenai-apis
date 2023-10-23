@@ -1,6 +1,7 @@
 from io import BufferedReader
 from typing import List
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
+from edenai_apis.features.image.explicit_content.category import CategoryType
 
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
@@ -271,18 +272,23 @@ class AmazonImageApi(ImageInterface):
 
         items = []
         for label in response.get("ModerationLabels", []):
+            classificator = CategoryType.choose_category_subcategory(label.get("Name"))
             items.append(
                 ExplicitItem(
                     label=label.get("Name"),
-                    likelihood=standardized_confidence_score(
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood=standardized_confidence_score(label.get("Confidence")/100),
+                    likelihood_score=
                         label.get("Confidence") / 100
-                    ),
+                    ,
                 )
             )
 
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+        nsfw_likelihood_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
         standardized_response = ExplicitContentDataClass(
-            items=items, nsfw_likelihood=nsfw_likelihood
+            items=items, nsfw_likelihood=nsfw_likelihood, nsfw_likelihood_score=nsfw_likelihood_score
         )
 
         return ResponseType[ExplicitContentDataClass](

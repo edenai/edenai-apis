@@ -11,10 +11,14 @@
   ],
   "standardized_response": {
     "nsfw_likelihood": 0,
+    "nsfw_likelihood_score": 0.0,
     "items": [
       {
         "label": "nudity",
-        "likelihood": 0
+        "likelihood": 0,
+        "likelihood_score": 0.0,
+        "category": "Sexual",
+        "subcategory": "Nudity"
       }
     ]
   }

@@ -42,6 +42,7 @@ from edenai_apis.features.text import (
     TextModerationCategoriesMicrosoftEnum,
     TextModerationItem,
 )
+from edenai_apis.features.text.moderation.category import CategoryType
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import (
@@ -112,10 +113,14 @@ def microsoft_text_moderation_personal_infos(data):
     if classif := data.get("Classification"):
         for key, value in classif.items():
             try:
+                classificator = CategoryType.choose_category_subcategory(TextModerationCategoriesMicrosoftEnum[key].value)
                 classification.append(
                     TextModerationItem(
                         label=TextModerationCategoriesMicrosoftEnum[key].value,
-                        likelihood=standardized_confidence_score(value["Score"]),
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        likelihood_score=value.get("Score", 0),
+                        likelihood=standardized_confidence_score(value["Score"])
                     )
                 )
             except Exception as exc:
@@ -124,6 +129,7 @@ def microsoft_text_moderation_personal_infos(data):
     text_moderation = ModerationDataClass(
         nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(classification),
         items=classification,
+        nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(classification)
     )
 
     return text_moderation
