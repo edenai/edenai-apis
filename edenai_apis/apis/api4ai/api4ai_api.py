@@ -89,9 +89,7 @@ class Api4aiApi(
 
         file_ = open(file, "rb")
         files = {"image": file_}
-        response = requests.post(
-            self.urls["object_detection"], files=files
-        )
+        response = requests.post(self.urls["object_detection"], files=files)
         original_response = response.json()
 
         file_.close()
@@ -99,7 +97,7 @@ class Api4aiApi(
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
                 original_response["results"][0]["status"]["message"],
-                code= response.status_code
+                code=response.status_code,
             )
 
         items = []
@@ -142,7 +140,7 @@ class Api4aiApi(
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
                 original_response["results"][0]["status"]["message"],
-                code= response.status_code
+                code=response.status_code,
             )
 
         # Face std
@@ -205,7 +203,7 @@ class Api4aiApi(
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
                 original_response["results"][0]["status"]["message"],
-                code= response.status_code
+                code=response.status_code,
             )
 
         img_b64 = original_response["results"][0]["entities"][0]["image"]
@@ -246,13 +244,24 @@ class Api4aiApi(
         }
         # Get response
         response = requests.post(self.urls["logo_detection"], files=payload)
+        if response.status_code >= 400:
+            error_message = ""
+            try:
+                error_message = response.json().get("message", "")
+            except:
+                pass
+            error_message = (
+                error_message or "Something went wrong when calling the provider"
+            )
+            raise ProviderException(error_message, code=response.status_code)
+
         original_response = response.json()
         file_.close()
         # Handle errors
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
                 original_response["results"][0]["status"]["message"],
-                code = response.status_code
+                code=response.status_code,
             )
 
         # Get result
@@ -302,8 +311,8 @@ class Api4aiApi(
         ):
             raise ProviderException(
                 response.json()["results"][0]["status"]["message"],
-                code = response.status_code              
-                )
+                code=response.status_code,
+            )
 
         # Get result
         nsfw_items = []
@@ -339,7 +348,7 @@ class Api4aiApi(
 
         error = get_errors_from_response(response)
         if error is not None:
-            raise ProviderException(error, code = response.status_code)
+            raise ProviderException(error, code=response.status_code)
 
         data = response.json()
 
