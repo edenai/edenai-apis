@@ -61,7 +61,7 @@ class ProWritingAidApi(ProviderInterface, TextInterface):
             )
 
         items: Sequence[SpellCheckItem] = []
-        for tag in original_response["Result"]["Tags"]:
+        for tag in (original_response.get("Result", {}) or {}).get("Tags", []) or []:
             suggestions: Sequence[SuggestionItem] = []
             for suggestion in tag["suggestions"]:
                 suggestions.append(SuggestionItem(suggestion=suggestion, score=None))
