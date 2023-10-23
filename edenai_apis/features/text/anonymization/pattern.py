@@ -1,5 +1,5 @@
 class SubCategoryPattern:
-    """This class contains all the patterns for the subcategories of the anonymization category.
+    """This class contains all the patterns for the subcategories of the anonymization_async category.
 
     Subclasses:
         * PersonalInformation: This class contains a constant for each subcategory of the personal information category.
@@ -13,7 +13,7 @@ class SubCategoryPattern:
     """
 
     class PersonnalInformation:
-        """This class contains all the patterns for the subcategories of the anonymization category.
+        """This class contains all the patterns for the subcategories of the anonymization_async category.
 
         Constants:
             NAME (list): List of all the patterns for the name subcategory.
@@ -30,7 +30,7 @@ class SubCategoryPattern:
         PERSON_TYPE = ["persontype"]
 
     class FinancialInformation:
-        """This class contains all the patterns for the subcategories of the anonymization category.
+        """This class contains all the patterns for the subcategories of the anonymization_async category.
 
         Constants:
             CREDIT_CARD (list): List of all the patterns for the credit card subcategory.
@@ -65,7 +65,7 @@ class SubCategoryPattern:
         ]
 
     class IdentificationNumbers:
-        """This class contains all the patterns for the subcategories of the anonymization category.
+        """This class contains all the patterns for the subcategories of the anonymization_async category.
 
         Constants:
             SOCIAL_SECURITY (list): List of all the patterns for the social security subcategory.
@@ -125,7 +125,7 @@ class SubCategoryPattern:
         PASSPORT_NUMBER = ["passport_number", "passport number"]
 
     class Miscellaneous:
-        """This class contains all the patterns for the subcategories of the anonymization category.
+        """This class contains all the patterns for the subcategories of the anonymization_async category.
 
         Constants:
             URL (list): List of all the patterns for the url subcategory.
@@ -150,7 +150,7 @@ class SubCategoryPattern:
         PASSWORD = ["password", "pin"]
 
     class Organization:
-        """This class contains all the patterns for the subcategories of the anonymization category.
+        """This class contains all the patterns for the subcategories of the anonymization_async category.
 
         Constants:
             COMPANY_NAME (list): List of all the patterns for the company name subcategory.
@@ -163,7 +163,7 @@ class SubCategoryPattern:
         BUSINESS_NUMBER = ["business_number"]
 
     class DateAndTime:
-        """This class contains all the patterns for the subcategories of the anonymization category.
+        """This class contains all the patterns for the subcategories of the anonymization_async category.
 
         Constants:
             DURATION (list): List of all the patterns for the duration subcategory.
@@ -178,7 +178,7 @@ class SubCategoryPattern:
         DATE = ["date"]
 
     class LocationInformation:
-        """This class contains all the patterns for the subcategories of the anonymization category.
+        """This class contains all the patterns for the subcategories of the anonymization_async category.
 
         Constants:
             LOCATION (list): List of all the patterns for the location subcategory.
@@ -189,7 +189,7 @@ class SubCategoryPattern:
         LOCATION = ["location"]
 
     class Other:
-        """This class contains all the patterns for the subcategories of the anonymization category.
+        """This class contains all the patterns for the subcategories of the anonymization_async category.
 
         Constants:
             OTHER (list): List of all the patterns for the other subcategory.

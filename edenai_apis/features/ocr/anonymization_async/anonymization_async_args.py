@@ -9,7 +9,7 @@ feature_path = os.path.dirname(os.path.dirname(__file__))
 
 data_path = os.path.join(feature_path, "data")
 
-image_path = f"{data_path}/face.jpeg"
+image_path = f"{data_path}/resume.pdf"
 
 mime_type = mimetypes.guess_type(image_path)[0]
 file_info = FileInfo(
@@ -22,5 +22,5 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(image_path, "", file_info)
 
 
-def anonymization_arguments(provider_name: str) -> Dict:
+def anonymization_async_arguments(provider_name: str) -> Dict:
     return {"file": file_wrapper}

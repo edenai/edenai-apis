@@ -54,7 +54,7 @@ from .identity_parser import (
     IdentityParserDataClass,
     ItemIdentityParserDataClass,
 )
-from .anonymization import (
-    anonymization_arguments,
-    AnonymizationDataClass
+from .anonymization_async import (
+    anonymization_async_arguments,
+    AnonymizationAsyncDataClass
 )

@@ -1,4 +1,4 @@
 from pydantic import BaseModel
 
-class AnonymizationDataClass(BaseModel):
+class AnonymizationAsyncDataClass(BaseModel):
     document: str

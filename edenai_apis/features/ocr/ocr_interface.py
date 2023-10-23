@@ -23,8 +23,8 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 from edenai_apis.features.ocr.resume_parser.resume_parser_dataclass import (
     ResumeParserDataClass,
 )
-from edenai_apis.features.ocr.anonymization.anonymization_dataclass import (
-    AnonymizationDataClass,
+from edenai_apis.features.ocr.anonymization_async.anonymization_async_dataclass import (
+    AnonymizationAsyncDataClass,
 )
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -202,9 +202,9 @@ class OcrInterface:
         raise NotImplementedError
 
     @abstractmethod
-    def ocr__anonymization(
+    def ocr__anonymization_async__launch_job(
         self, file: str, file_url: str = ""
-    ) -> ResponseType[AnonymizationDataClass]:
+    ) -> AsyncLaunchJobResponseType:
         """
         Parse a document and returns anonymized document
 
@@ -213,3 +213,13 @@ class OcrInterface:
             file_url (str) : Url of file
         """
         raise NotImplementedError
+
+    def ocr__anonymization_async__get_job_result(
+            self, provider_job_id: str
+    ) -> AsyncBaseResponseType[AnonymizationAsyncDataClass]:
+        """
+        Get the result of an asynchronous job by its ID
+
+        Args:
+            provider_job_id (str): id of async job
+        """
