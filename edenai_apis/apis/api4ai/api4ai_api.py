@@ -73,7 +73,7 @@ class Api4aiApi(
             + f"?api_key={self.api_key}",
             "face_detection": f"https://api4ai.cloud/face-analyzer/v1/results"
             + f"?api_key={self.api_key}",
-            "anonymization_async": "https://api4ai.cloud/img-anonymization/v1/results"
+            "anonymization": "https://api4ai.cloud/img-anonymization/v1/results"
             + f"?api_key={self.api_key}",
             "nsfw": f"https://api4ai.cloud/nsfw/v1/results?api_key={self.api_key}",
             "ocr": f"https://api4ai.cloud/ocr/v1/results?api_key={self.api_key}",
@@ -196,7 +196,7 @@ class Api4aiApi(
     ) -> ResponseType[AnonymizationDataClass]:
         file_ = open(file, "rb")
         files = {"image": file_}
-        response = requests.post(self.urls["anonymization_async"], files=files)
+        response = requests.post(self.urls["anonymization"], files=files)
 
         original_response = response.json()
 
