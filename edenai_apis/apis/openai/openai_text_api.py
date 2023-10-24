@@ -687,9 +687,12 @@ class OpenaiTextApi(TextInterface):
             "max_tokens": max_tokens,
             "stream": stream
         }
-        response = openai.ChatCompletion.create(
-            **payload
-        )
+        try:
+            response = openai.ChatCompletion.create(
+                **payload
+            )
+        except Exception as exc:
+            raise ProviderException(str(exc))
 
         # Standardize the response
         if stream is False:
