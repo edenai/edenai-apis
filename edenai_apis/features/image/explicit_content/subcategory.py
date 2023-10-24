@@ -138,7 +138,7 @@ class DrugAndAlcoholSubCategoryType(SubCategoryBase, Enum):
         }
 
 class FinanceSubCategoryType(SubCategoryBase, Enum):
-    Gambling = "Gambing"
+    Gambling = "Gambling"
     Finance = "Finance"
     MoneyContent = "MoneyContent"
 
