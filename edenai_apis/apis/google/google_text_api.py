@@ -337,29 +337,28 @@ class GoogleTextApi(TextInterface):
                 standardized_response=standardized_response,
             )
         else:
+            try:
+                vertexai.init(project=self.project_id, location=location)
+                chat_model = ChatModel.from_pretrained(model)
 
-            vertexai.init(project=self.project_id, location=location)
+                messages = []
+                if previous_history:
+                    for message in previous_history:
+                        role = message.get("role")
+                        if role == "assistant":
+                            role = "bot"
+                        messages.append(
+                            ChatMessage(author=role, content=message.get("message")),
+                        )
+                chat = chat_model.start_chat(context=context, message_history=messages)
 
-            chat_model = ChatModel.from_pretrained(model)
-
-
-            messages = []
-            if previous_history:
-                for message in previous_history:
-                    role = message.get("role")
-                    if role == "assistant":
-                        role = "bot"
-                    messages.append(
-                        ChatMessage(author=role, content=message.get("message")),
-                    )
-            print(messages)
-            chat = chat_model.start_chat(context=context, message_history=messages)
-
-            parameters = {
-                "temperature": temperature,
-                "max_output_tokens": max_tokens,
-            }
-            responses = chat.send_message_streaming(message=text, **parameters)
+                parameters = {
+                    "temperature": temperature,
+                    "max_output_tokens": max_tokens,
+                }
+                responses = chat.send_message_streaming(message=text, **parameters)
+            except Exception as exc:
+                raise ProviderException(str(exc))
 
             stream = (res.text for res in responses)
             return ResponseType[StreamChat](
