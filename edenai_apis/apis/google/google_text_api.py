@@ -1,6 +1,7 @@
-from typing import Dict, List, Optional, Sequence, Literal
+from typing import Dict, List, Literal, Optional, Sequence, Union
 
 import requests
+import vertexai
 from edenai_apis.apis.google.google_helpers import (
     get_access_token,
     get_tag_name,
@@ -13,6 +14,7 @@ from edenai_apis.features.text import (
     CodeGenerationDataClass,
     GenerationDataClass,
 )
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.embeddings.embeddings_dataclass import (
     EmbeddingDataClass,
     EmbeddingsDataClass,
@@ -22,10 +24,16 @@ from edenai_apis.features.text.entity_sentiment.entity_sentiment_dataclass impor
     Entity,
     EntitySentimentDataClass,
 )
+from edenai_apis.features.text.moderation.category import CategoryType
+from edenai_apis.features.text.moderation.moderation_dataclass import (
+    ModerationDataClass,
+    TextModerationItem,
+)
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
     InfosNamedEntityRecognitionDataClass,
     NamedEntityRecognitionDataClass,
 )
+from edenai_apis.features.text.search import InfosSearchDataClass, SearchDataClass
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SegmentSentimentAnalysisDataClass,
     SentimentAnalysisDataClass,
@@ -39,20 +47,15 @@ from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass impor
     ExtractedTopic,
     TopicExtractionDataClass,
 )
-from edenai_apis.features.text.moderation.moderation_dataclass import (
-    ModerationDataClass,
-    TextModerationItem
-)
-from edenai_apis.features.text.search import SearchDataClass, InfosSearchDataClass
+from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
+from vertexai.language_models import ChatMessage, ChatModel
 
-from google.api_core.exceptions import InvalidArgument
 from google.cloud import language_v1
 from google.cloud.language import Document as GoogleDocument
 from google.protobuf.json_format import MessageToDict
-from edenai_apis.utils.conversion import standardized_confidence_score
-from edenai_apis.utils.metrics import METRICS
 
 
 class GoogleTextApi(TextInterface):
@@ -287,11 +290,12 @@ class GoogleTextApi(TextInterface):
         temperature: float,
         max_tokens: int,
         model: str,
-    ) -> ResponseType[ChatDataClass]:
+        stream=False,
+    ) -> ResponseType[Union[StreamChat, ChatDataClass]]:
         url_subdomain = "us-central1-aiplatform"
         location = "us-central1"
         token = get_access_token(self.location)
-        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
+        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}"
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {token}",
@@ -307,32 +311,61 @@ class GoogleTextApi(TextInterface):
                     {"author": role, "content": message.get("message")},
                 )
         context = chatbot_global_action if chatbot_global_action else ""
-        payload = {
-            "instances": [{"context": context, "messages": messages}],
-            "parameters": {"temperature": temperature, "maxOutputTokens": max_tokens},
-        }
-        response = requests.post(url=url, headers=headers, json=payload)
-        original_response = response.json()
-        if "error" in original_response:
-            raise ProviderException(
-                message=original_response["error"]["message"],
-                code = response.status_code
+        if stream is False:
+            payload = {
+                "instances": [{"context": context, "messages": messages}],
+                "parameters": {"temperature": temperature, "maxOutputTokens": max_tokens},
+            }
+            response = requests.post(url=f"{url}:predict", headers=headers, json=payload)
+            original_response = response.json()
+            if "error" in original_response:
+                raise ProviderException(
+                    message=original_response["error"]["message"], code=response.status_code
+                )
+
+            # Standardize the response
+            generated_text = original_response["predictions"][0]["candidates"][0]["content"]
+            message = [
+                ChatMessageDataClass(role="user", message=text),
+                ChatMessageDataClass(role="assistant", message=generated_text),
+            ]
+
+            standardized_response = ChatDataClass(
+                generated_text=generated_text, message=message
             )
+            return ResponseType[ChatDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+        else:
+            try:
+                vertexai.init(project=self.project_id, location=location)
+                chat_model = ChatModel.from_pretrained(model)
 
-        # Standardize the response
-        generated_text = original_response["predictions"][0]["candidates"][0]["content"]
-        message = [
-            ChatMessageDataClass(role="user", message=text),
-            ChatMessageDataClass(role="assistant", message=generated_text),
-        ]
+                messages = []
+                if previous_history:
+                    for message in previous_history:
+                        role = message.get("role")
+                        if role == "assistant":
+                            role = "bot"
+                        messages.append(
+                            ChatMessage(author=role, content=message.get("message")),
+                        )
+                chat = chat_model.start_chat(context=context, message_history=messages)
 
-        standardized_response = ChatDataClass(
-            generated_text=generated_text, message=message
-        )
-        return ResponseType[ChatDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+                parameters = {
+                    "temperature": temperature,
+                    "max_output_tokens": max_tokens,
+                }
+                responses = chat.send_message_streaming(message=text, **parameters)
+            except Exception as exc:
+                raise ProviderException(str(exc))
+
+            stream = (res.text for res in responses)
+            return ResponseType[StreamChat](
+                original_response=None,
+                standardized_response=StreamChat(stream=stream)
+            )
 
     def text__embeddings(
         self, 
@@ -485,17 +518,22 @@ class GoogleTextApi(TextInterface):
         # Create output response
         items: Sequence[TextModerationItem] = []
         for moderation in original_response.get("moderationCategories", []) or []:
+            classificator = CategoryType.choose_category_subcategory(moderation.get("name"))
             items.append(
                 TextModerationItem(
-                    label= moderation.get("name"),
-                    likelihood= standardized_confidence_score(moderation.get("confidence", 0))
+                    label=moderation.get("name"),
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood_score=moderation.get("confidence", 0),
+                    likelihood=standardized_confidence_score(moderation.get("confidence", 0))
                 )
             )
         standardized_response: ModerationDataClass = ModerationDataClass(
             nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
                 items
             ),
-            items=items
+            items=items,
+            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(items)
         ) 
 
         return ResponseType[ModerationDataClass](

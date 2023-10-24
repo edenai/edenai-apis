@@ -48,6 +48,7 @@ google-cloud-translate==3.11.1
 google-cloud-vision==3.4.2
 google-cloud-videointelligence==2.11.2
 google-cloud-automl==2.11.1
+google-cloud-aiplatform==1.35.0
 
 #ibm
 ibm-watson>=6.0.0
@@ -64,3 +65,6 @@ azure-core
 #modernMT
 modernmt
 aleph_alpha_client
+
+# openai
+openai==0.28.1

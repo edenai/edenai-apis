@@ -2,39 +2,46 @@
   "original_response": {
     "ModerationLabels": [
       {
-        "Confidence": 99.8125991821289,
+        "Confidence": 92.82218933105469,
         "Name": "Graphic Violence Or Gore",
         "ParentName": "Violence"
       },
       {
-        "Confidence": 99.8125991821289,
+        "Confidence": 92.82218933105469,
         "Name": "Violence",
         "ParentName": ""
       }
     ],
-    "ModerationModelVersion": "5.0",
+    "ModerationModelVersion": "6.1",
     "ResponseMetadata": {
-      "RequestId": "83039231-5bb5-45b3-b4eb-8aca242e8506",
+      "RequestId": "25be5b92-9132-41a1-9cf8-cf49dedb7cd6",
       "HTTPStatusCode": 200,
       "HTTPHeaders": {
-        "x-amzn-requestid": "83039231-5bb5-45b3-b4eb-8aca242e8506",
+        "x-amzn-requestid": "25be5b92-9132-41a1-9cf8-cf49dedb7cd6",
         "content-type": "application/x-amz-json-1.1",
-        "content-length": "209",
-        "date": "Mon, 05 Dec 2022 10:07:32 GMT"
+        "content-length": "211",
+        "date": "Tue, 03 Oct 2023 09:29:28 GMT"
       },
       "RetryAttempts": 0
     }
   },
   "standardized_response": {
     "nsfw_likelihood": 5,
+    "nsfw_likelihood_score": 0.9282218933105468,
     "items": [
       {
         "label": "Graphic Violence Or Gore",
-        "likelihood": 5
+        "likelihood": 5,
+        "likelihood_score": 0.9282218933105468,
+        "category": "Violence",
+        "subcategory": "GraphicViolenceOrGore"
       },
       {
         "label": "Violence",
-        "likelihood": 5
+        "likelihood": 5,
+        "likelihood_score": 0.9282218933105468,
+        "category": "Violence",
+        "subcategory": "Violence"
       }
     ]
   }

@@ -1,17 +1,27 @@
 {
-  "nsfw_likelihood": 5,
-  "items": [
-    {
-      "label": "sexually explicit",
-      "likelihood": 1
-    },
-    {
-      "label": "sexually suggestive",
-      "likelihood": 2
-    },
-    {
-      "label": "offensive",
-      "likelihood": 5
-    }
-  ]
+    "nsfw_likelihood": 5,
+    "items": [
+      {
+        "label": "sexually explicit",
+        "likelihood": 1,
+        "category": "Sexual",
+        "subcategory": "Sexual",
+        "likelihood_score": 0.00020882912212982774
+      },
+      {
+        "label": "sexually suggestive",
+        "likelihood": 2,
+        "category": "Sexual",
+        "subcategory": "Suggestive",
+        "likelihood_score": 0.2234508991241455
+      },
+      {
+        "label": "offensive",
+        "likelihood": 5,
+        "category": "Other",
+        "subcategory": "Offensive",
+        "likelihood_score": 0.9879999756813049
+      }
+    ],
+    "nsfw_likelihood_score": 0.9879999756813049
 }

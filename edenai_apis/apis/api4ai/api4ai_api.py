@@ -51,6 +51,8 @@ from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
 from io import BytesIO
 import base64
 
+from edenai_apis.features.image.explicit_content.category import CategoryType
+
 
 class Api4aiApi(
     ProviderInterface,
@@ -89,9 +91,7 @@ class Api4aiApi(
 
         file_ = open(file, "rb")
         files = {"image": file_}
-        response = requests.post(
-            self.urls["object_detection"], files=files
-        )
+        response = requests.post(self.urls["object_detection"], files=files)
         original_response = response.json()
 
         file_.close()
@@ -99,7 +99,7 @@ class Api4aiApi(
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
                 original_response["results"][0]["status"]["message"],
-                code= response.status_code
+                code=response.status_code,
             )
 
         items = []
@@ -142,7 +142,7 @@ class Api4aiApi(
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
                 original_response["results"][0]["status"]["message"],
-                code= response.status_code
+                code=response.status_code,
             )
 
         # Face std
@@ -205,7 +205,7 @@ class Api4aiApi(
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
                 original_response["results"][0]["status"]["message"],
-                code= response.status_code
+                code=response.status_code,
             )
 
         img_b64 = original_response["results"][0]["entities"][0]["image"]
@@ -246,13 +246,24 @@ class Api4aiApi(
         }
         # Get response
         response = requests.post(self.urls["logo_detection"], files=payload)
+        if response.status_code >= 400:
+            error_message = ""
+            try:
+                error_message = response.json().get("message", "")
+            except:
+                pass
+            error_message = (
+                error_message or "Something went wrong when calling the provider"
+            )
+            raise ProviderException(error_message, code=response.status_code)
+
         original_response = response.json()
         file_.close()
         # Handle errors
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
                 original_response["results"][0]["status"]["message"],
-                code = response.status_code
+                code=response.status_code,
             )
 
         # Get result
@@ -302,23 +313,28 @@ class Api4aiApi(
         ):
             raise ProviderException(
                 response.json()["results"][0]["status"]["message"],
-                code = response.status_code              
-                )
+                code=response.status_code,
+            )
 
         # Get result
         nsfw_items = []
         nsfw_response = original_response["results"][0]["entities"][0]["classes"]
         for classe in nsfw_response:
+            classificator = CategoryType.choose_category_subcategory(classe)
             nsfw_items.append(
                 ExplicitItem(
                     label=classe,
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
                     likelihood=standardized_confidence_score(nsfw_response[classe]),
+                    likelihood_score=nsfw_response[classe]
                 )
             )
 
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(nsfw_items)
+        nsfw_likelihood_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(nsfw_items)
         standardized_response = ExplicitContentDataClass(
-            items=nsfw_items, nsfw_likelihood=nsfw_likelihood
+            items=nsfw_items, nsfw_likelihood=nsfw_likelihood, nsfw_likelihood_score=nsfw_likelihood_score
         )
 
         result = ResponseType[ExplicitContentDataClass](
@@ -339,7 +355,7 @@ class Api4aiApi(
 
         error = get_errors_from_response(response)
         if error is not None:
-            raise ProviderException(error, code = response.status_code)
+            raise ProviderException(error, code=response.status_code)
 
         data = response.json()
 

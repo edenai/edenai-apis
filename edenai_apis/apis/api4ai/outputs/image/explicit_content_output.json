@@ -8,6 +8,8 @@
         },
         "name": "explicit_content.jpeg",
         "md5": "06a9c420d3a206a0481c9288b6116416",
+        "width": 300,
+        "height": 168,
         "entities": [
           {
             "kind": "classes",
@@ -23,14 +25,21 @@
   },
   "standardized_response": {
     "nsfw_likelihood": 1,
+    "nsfw_likelihood_score": 0.00019603680175350746,
     "items": [
       {
         "label": "nsfw",
-        "likelihood": 1
+        "likelihood": 1,
+        "likelihood_score": 0.00019603680175350746,
+        "category": "Safe",
+        "subcategory": "NotSafe"
       },
       {
         "label": "sfw",
-        "likelihood": 5
+        "likelihood": 5,
+        "likelihood_score": 0.9998039528727531,
+        "category": "Safe",
+        "subcategory": "Safe"
       }
     ]
   }
