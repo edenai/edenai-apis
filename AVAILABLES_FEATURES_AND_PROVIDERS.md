@@ -51,6 +51,7 @@
 | **bank_check_parsing** | base64 |
 | | mindee |
 | | veryfi |
+| **anonymization_async** | readyredact |
 
 </details>
 <details><summary>text</summary>
@@ -727,6 +728,13 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | spell_check |
+
+</details>
+<details><summary>readyredact</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **ocr** | anonymization_async |
 
 </details>
 <details><summary>replicate</summary>
