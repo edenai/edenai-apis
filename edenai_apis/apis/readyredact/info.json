@@ -1,6 +1,6 @@
 {
   "ocr": {
-    "anonymization": {
+    "anonymization_async": {
             "constraints": {
             },
             "version": "v1"

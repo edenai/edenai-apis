@@ -213,13 +213,15 @@ class OcrInterface:
             file_url (str) : Url of file
         """
         raise NotImplementedError
-
+    
+    @abstractmethod
     def ocr__anonymization_async__get_job_result(
             self, provider_job_id: str
     ) -> AsyncBaseResponseType[AnonymizationAsyncDataClass]:
         """
-        Get the result of an asynchronous job by its ID
+               Get the result of an asynchronous job by its ID
 
-        Args:
-            provider_job_id (str): id of async job
-        """
+               Args:
+                   provider_job_id (str): id of async job
+               """
+        raise NotImplementedError
