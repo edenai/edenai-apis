@@ -15,4 +15,5 @@ def chat_arguments(provider_name: str):
         "temperature": 0.6,
         "max_tokens": 1024,
         "settings": {},
+        "stream": False
     }
