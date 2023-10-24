@@ -151,8 +151,8 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         temperature: float,
         max_tokens: int,
         model: str,
-        stream=False,
-    ) -> ResponseType[ChatDataClass]:
+        stream: bool = False,
+    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         # Construct the API URL
         url = f"{self.base_url}/predictions"
 
