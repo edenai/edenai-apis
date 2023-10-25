@@ -934,7 +934,7 @@ def amazon_video_explicit_parser(response):
         moderated_content.append(
             ContentNSFW(
                 timestamp=timestamp,
-                confidence=confidence,
+                confidence=confidence/100,
                 category=category,
             )
         )
