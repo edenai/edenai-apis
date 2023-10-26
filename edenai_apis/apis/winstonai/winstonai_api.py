@@ -10,7 +10,7 @@ from edenai_apis.loaders.loaders import load_provider
 import requests
 import json
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.apis.winstonai.config import TOKEN_BEARER, WINSTON_AI_API_URL
+from edenai_apis.apis.winstonai.config import WINSTON_AI_API_URL
 from edenai_apis.features.text.plagia_detection.plagia_detection_dataclass import (
     PlagiaDetectionCandidate,
     PlagiaDetectionDataClass,
@@ -25,16 +25,14 @@ class WinstonaiApi(ProviderInterface, TextInterface):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, provider_name=self.provider_name, api_keys=api_keys
         )
-        self.api_key = self.api_settings["api_key"]
-        self.bearer_token = TOKEN_BEARER
         self.api_url = WINSTON_AI_API_URL
         self.headers = {
             "Content-Type": "application/json",
-            "Authorization": self.bearer_token,
+            "Authorization": f'Bearer {self.api_settings["api_key"]}',
         }
 
     def text__ai_detection(self, text: str) -> ResponseType[AiDetectionDataClass]:
-        payload = json.dumps({"api_key": self.api_key, "text": text, "sentences": True})
+        payload = json.dumps({ "text": text, "sentences": True })
 
         response = requests.request(
             "POST", f"{self.api_url}/predict", headers=self.headers, data=payload
@@ -69,7 +67,7 @@ class WinstonaiApi(ProviderInterface, TextInterface):
     def text__plagia_detection(
         self, text: str, title: str = ""
     ) -> ResponseType[PlagiaDetectionDataClass]:
-        payload = json.dumps({"api_key": self.api_key, "text": text})
+        payload = json.dumps({ "text": text })
 
         response = requests.request(
             "POST", f"{self.api_url}/plagiarism", headers=self.headers, data=payload
@@ -85,7 +83,7 @@ class WinstonaiApi(ProviderInterface, TextInterface):
             raise ProviderException(response.json())
 
         standardized_response = PlagiaDetectionDataClass(
-            plagia_score=original_response["results_count"],
+            plagia_score=original_response["score"],
             items=[
                 PlagiaDetectionItem(
                     text=result["title"],
