@@ -705,7 +705,7 @@ class OpenaiTextApi(TextInterface):
 
         # Standardize the response
         if stream is False:
-            generated_text = response["choices"][0]["delta"]["content"]
+            generated_text = response["choices"][0]["message"]["content"]
             message = [
                 ChatMessageDataClass(role="user", message=text),
                 ChatMessageDataClass(role="assistant", message=generated_text),
