@@ -61,7 +61,7 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         ...
 
     def __get_response(
-        self, url: str, payload: dict, stream: bool
+        self, url: str, payload: dict, stream: bool = False
     ) -> Union[Generator, dict]:
         # Launch job
         if stream:
@@ -116,6 +116,7 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         text: str,
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
+        model: Optional[str] = None
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.base_url}/predictions"
         size = resolution.split("x")
