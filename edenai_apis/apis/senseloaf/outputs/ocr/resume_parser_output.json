@@ -1,0 +1,364 @@
+{
+  "original_response": {
+    "rawText": "Functional Resume Sample John W. Smith 2002 Front Range Way Fort Collins, CO 80525 jwsmith@colostate.edu Career Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers. Childcare Experience \u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \u2022 Oversaw daily activity and outing planning for 100 clients. \u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \u2022 Assisted teachers with managing daily classroom activities. \u2022 Oversaw daily and special student activities. Employment History 1999-2002 Counseling Supervisor, The Wesley Center, Little Rock, Arkansas. 1997-1999 Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas 1996-1997 Teacher\u2019s Assistant, Cowell Elementary, Conway, Arkansas Education University of Arkansas at Little Rock, Little Rock, AR \u2022 BS in Early Childhood Development (1999) \u2022 BA in Elementary Education (1998) \u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \u2022 Dean\u2019s List, Chancellor\u2019s List",
+    "skills": [
+      {
+        "SkillName": "Researching",
+        "SkillType": []
+      },
+      {
+        "SkillName": "Planning",
+        "SkillType": []
+      },
+      {
+        "SkillName": "Managing",
+        "SkillType": []
+      },
+      {
+        "SkillName": "Databases",
+        "SkillType": []
+      },
+      {
+        "SkillName": "Healthcare",
+        "SkillType": []
+      },
+      {
+        "SkillName": "Special Needs Children",
+        "SkillType": []
+      },
+      {
+        "SkillName": "Early Childhood Development",
+        "SkillType": []
+      },
+      {
+        "SkillName": "Financial",
+        "SkillType": []
+      }
+    ],
+    "education": {
+      "EducationSection": [
+        {
+          "Collegename": "University of Arkansas",
+          "Degree": "BS",
+          "EduEndDate": {
+            "month": 10,
+            "year": 1999
+          },
+          "EduStartDate": {
+            "month": 0,
+            "year": 0
+          },
+          "Location": "Little Rock  Little Rock  AR",
+          "Major": "Early Childhood Development",
+          "Grade": "4.03.83.5",
+          "DegreeType": "General Studies",
+          "MaxGrade": "",
+          "GradeType": ""
+        }
+      ],
+      "HighestEducation": "BS"
+    },
+    "experience": {
+      "ExperienceSection": [
+        {
+          "CompanyName": "The Wesley Center",
+          "ExpEndDate": {
+            "month": 10,
+            "year": 2002
+          },
+          "ExpLocation": "Little Rock , Arkansas",
+          "ExpStartDate": {
+            "month": 10,
+            "year": 1999
+          },
+          "JobTitle": "Counseling Supervisor",
+          "Description": ""
+        },
+        {
+          "CompanyName": "Rainbow Special Care Center",
+          "ExpEndDate": {
+            "month": 10,
+            "year": 1999
+          },
+          "ExpLocation": "Little Rock , Arkansas",
+          "ExpStartDate": {
+            "month": 10,
+            "year": 1997
+          },
+          "JobTitle": "Client Specialist",
+          "Description": ""
+        },
+        {
+          "CompanyName": "Cowell Elementary",
+          "ExpEndDate": {
+            "month": 10,
+            "year": 1997
+          },
+          "ExpLocation": "Conway , Arkansas",
+          "ExpStartDate": {
+            "month": 10,
+            "year": 1996
+          },
+          "JobTitle": "Teacher s Assistant",
+          "Description": ""
+        }
+      ],
+      "TotalExperience": 6.0,
+      "CurrentCompany": "The Wesley Center",
+      "CurrentJobRole": "Counseling Supervisor",
+      "AverageExperience": 2.0
+    },
+    "socialLinks": {
+      "urls": [],
+      "linkedin": "",
+      "facebook": "",
+      "github": "",
+      "stackoverflow": "",
+      "twitter": "",
+      "skypeid": "",
+      "angelList": ""
+    },
+    "contactInfo": {
+      "lastName": "Smith",
+      "firstName": "John",
+      "title": "",
+      "middleName": "W."
+    },
+    "contactMethod": {
+      "ContactEmailid": [
+        "jwsmith@colostate.edu"
+      ],
+      "PostalAddress": {
+        "Location": {
+          "Area": "2002 Front Range Way",
+          "City": "Fort Collins",
+          "Country": "",
+          "State": "CO",
+          "Zip": "80525",
+          "CountryCode": "",
+          "Latitude": "",
+          "Longitude": ""
+        }
+      },
+      "Telephone": []
+    },
+    "sections": [
+      {
+        "bbox": {
+          "h": 75,
+          "w": 348,
+          "x": 72,
+          "y": 38
+        },
+        "sectionName": "Personal_info",
+        "sectionText": "Functional Resume Sample John W. Smith 2002 Front Range Way Fort Collins , CO 80525 jwsmith@colostate.edu",
+        "pageNumber": 1
+      },
+      {
+        "bbox": {
+          "h": 143,
+          "w": 460,
+          "x": 71,
+          "y": 132
+        },
+        "sectionName": "Summary",
+        "sectionText": "Career Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults . Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients . Maintained client databases and records . Coordinated client contact with local health care professionals on a monthly basis . Managed 25 volunteer workers .",
+        "pageNumber": 1
+      },
+      {
+        "bbox": {
+          "h": 195,
+          "w": 444,
+          "x": 71,
+          "y": 292
+        },
+        "sectionName": "Experience",
+        "sectionText": "Childcare Experience Coordinated service assignments for 20 part - time counselors and 100 client families . Oversaw daily activity and outing planning for 100 clients . \u2022 Assisted families of special needs clients with researching financial assistance and healthcare . Assisted teachers with managing daily classroom activities . \u2022 Oversaw daily and special student activities . Employment History 1999-2002 Counseling Supervisor , The Wesley Center , Little Rock , Arkansas . 1997-1999 Client Specialist , Rainbow Special Care Center , Little Rock , Arkansas 1996-1997 Teacher's Assistant , Cowell Elementary , Conway , Arkansas",
+        "pageNumber": 1
+      },
+      {
+        "bbox": {
+          "h": 120,
+          "w": 441,
+          "x": 72,
+          "y": 504
+        },
+        "sectionName": "Education",
+        "sectionText": "Education University of Arkansas at Little Rock , Little Rock , AR \u2022 BS in Early Childhood Development ( 1999 ) \u2022 BA in Elementary Education ( 1998 ) \u2022 GPA ( 4.0 Scale ) : Early Childhood Development - 3.8 , Elementary Education - 3.5 , Overall 3.4 . \u2022 Dean's List , Chancellor's List",
+        "pageNumber": 1
+      }
+    ]
+  },
+  "standardized_response": {
+    "extracted_data": {
+      "personal_infos": {
+        "name": {
+          "first_name": "John",
+          "last_name": "Smith",
+          "raw_name": "John W. Smith",
+          "middle": "W.",
+          "title": "",
+          "prefix": null,
+          "sufix": null
+        },
+        "address": {
+          "formatted_location": "2002 Front Range Way Fort Collins CO 80525",
+          "postal_code": "80525",
+          "region": "CO",
+          "country": "",
+          "country_code": "",
+          "raw_input_location": null,
+          "street": "2002 Front Range Way",
+          "street_number": null,
+          "appartment_number": null,
+          "city": "Fort Collins"
+        },
+        "self_summary": "Career Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults . Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients . Maintained client databases and records . Coordinated client contact with local health care professionals on a monthly basis . Managed 25 volunteer workers .",
+        "objective": "",
+        "date_of_birth": null,
+        "place_of_birth": null,
+        "phones": [],
+        "mails": [
+          "jwsmith@colostate.edu"
+        ],
+        "urls": [],
+        "fax": [],
+        "current_profession": "Counseling Supervisor",
+        "gender": null,
+        "nationality": null,
+        "martial_status": null,
+        "current_salary": null
+      },
+      "education": {
+        "total_years_education": null,
+        "entries": [
+          {
+            "title": "BS",
+            "start_date": null,
+            "end_date": "01-10-1999",
+            "location": {
+              "formatted_location": "Little Rock  Little Rock  AR",
+              "postal_code": null,
+              "region": null,
+              "country": null,
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": null
+            },
+            "establishment": "University of Arkansas",
+            "description": null,
+            "gpa": "4.03.83.5",
+            "accreditation": "Early Childhood Development"
+          }
+        ]
+      },
+      "work_experience": {
+        "total_years_experience": "6.0",
+        "entries": [
+          {
+            "title": "Counseling Supervisor",
+            "start_date": "01-10-1999",
+            "end_date": "01-10-2002",
+            "company": "The Wesley Center",
+            "location": {
+              "formatted_location": "Little Rock , Arkansas",
+              "postal_code": null,
+              "region": null,
+              "country": null,
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": null
+            },
+            "description": "",
+            "industry": null
+          },
+          {
+            "title": "Client Specialist",
+            "start_date": "01-10-1997",
+            "end_date": "01-10-1999",
+            "company": "Rainbow Special Care Center",
+            "location": {
+              "formatted_location": "Little Rock , Arkansas",
+              "postal_code": null,
+              "region": null,
+              "country": null,
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": null
+            },
+            "description": "",
+            "industry": null
+          },
+          {
+            "title": "Teacher s Assistant",
+            "start_date": "01-10-1996",
+            "end_date": "01-10-1997",
+            "company": "Cowell Elementary",
+            "location": {
+              "formatted_location": "Conway , Arkansas",
+              "postal_code": null,
+              "region": null,
+              "country": null,
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": null
+            },
+            "description": "",
+            "industry": null
+          }
+        ]
+      },
+      "languages": [],
+      "skills": [
+        {
+          "name": "Researching",
+          "type": null
+        },
+        {
+          "name": "Planning",
+          "type": null
+        },
+        {
+          "name": "Managing",
+          "type": null
+        },
+        {
+          "name": "Databases",
+          "type": null
+        },
+        {
+          "name": "Healthcare",
+          "type": null
+        },
+        {
+          "name": "Special Needs Children",
+          "type": null
+        },
+        {
+          "name": "Early Childhood Development",
+          "type": null
+        },
+        {
+          "name": "Financial",
+          "type": null
+        }
+      ],
+      "certifications": [],
+      "courses": [],
+      "publications": [],
+      "interests": []
+    }
+  }
+}

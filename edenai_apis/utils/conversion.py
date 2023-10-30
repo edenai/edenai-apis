@@ -6,6 +6,19 @@ from typing import Any, Dict, Generator, List, Literal, Optional, Tuple, Type, U
 from edenai_apis.utils.public_enum import AutomlClassificationProviderName
 
 
+def _convert_dictionary_to_date_string(dictionary: Dict[str, Any]) -> Tuple[str, None]:
+    year = dictionary['year']
+    month = dictionary['month']
+    if year == -1:
+        year = dt.datetime.now().year
+    if month == -1:
+        month = dt.datetime.now().month
+    try:
+        ret = dt.datetime(year=dictionary["year"], month=dictionary["month"], day=1).strftime("%d-%m-%Y")
+    except:
+        ret = None
+    return ret
+
 def _format_string_for_conversion(string_number: str) -> str:
     commas_occurences = [match.start() for match in re.finditer("\,", string_number)]
     dot_occurences = [match.start() for match in re.finditer("\.", string_number)]

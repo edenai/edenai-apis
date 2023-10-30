@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import List, Optional, Dict, Literal, Union
+from typing import List, Optional, Dict, Literal
 from edenai_apis.features.text import (
     KeywordExtractionDataClass,
     NamedEntityRecognitionDataClass,
@@ -19,7 +19,6 @@ from edenai_apis.features.text import (
     PromptOptimizationDataClass,
     EmotionDetectionDataClass,
 )
-from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.plagia_detection.plagia_detection_dataclass import PlagiaDetectionDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
@@ -302,9 +301,8 @@ class TextInterface:
         previous_history : Optional[List[Dict[str, str]]],
         temperature : float = 0, 
         max_tokens : int = 25,
-        model : Optional[str] = None,
-        stream: bool = False
-        ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        model : Optional[str] = None
+        ) -> ResponseType[ChatDataClass]:
         """Text chat 
 
         Args:

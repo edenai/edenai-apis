@@ -1,4 +1,4 @@
-from typing import Dict, Generator, Optional, Sequence
+from typing import Dict, Optional, Sequence
 from pydantic import BaseModel, StrictStr, Field
 
 
@@ -14,7 +14,3 @@ class ChatDataClass(BaseModel):
     @staticmethod
     def direct_response(api_response: Dict):
         return api_response["generated_text"]
-
-
-class StreamChat(BaseModel):
-    stream: Generator[str, None, None]

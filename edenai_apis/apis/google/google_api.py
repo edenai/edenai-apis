@@ -11,7 +11,7 @@ from edenai_apis.features import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 
-from google.cloud import aiplatform, storage
+from google.cloud import storage
 from google.cloud import translate_v3 as translate
 from google.cloud import videointelligence, vision
 from google.cloud.language import LanguageServiceClient
@@ -45,7 +45,3 @@ class GoogleApi(
             "video": videointelligence.VideoIntelligenceServiceClient(),
             "translate": translate.TranslationServiceClient(),
         }
-
-        aiplatform.init(
-            project=self.project_id,
-        )

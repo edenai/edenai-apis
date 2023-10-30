@@ -1,9 +1,0 @@
-{
-  "ocr": {
-    "anonymization_async": {
-            "constraints": {
-            },
-            "version": "v1"
-        }
-  }
-}

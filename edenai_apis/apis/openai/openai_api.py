@@ -1,5 +1,4 @@
 import random
-import openai
 from typing import Dict
 
 from edenai_apis.apis.openai.openai_audio_api import OpenaiAudioApi
@@ -31,7 +30,6 @@ class OpenaiApi(
             chosen_api_setting = self.api_settings
 
         self.api_key = chosen_api_setting["api_key"]
-        openai.api_key = self.api_key
         self.org_key = chosen_api_setting["org_key"]
         self.url = "https://api.openai.com/v1"
         self.model = "gpt-3.5-turbo-instruct"
