@@ -16,7 +16,7 @@ from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 import base64
-from .config import get_model_id
+from .config import get_model_id, get_model_id_image
 
 
 class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
@@ -96,7 +96,6 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         status = response_dict["status"]
         while status != "succeeded":
             response = requests.get(url_get_response, headers=self.headers)
-
             try:
                 response_dict = response.json()
             except requests.JSONDecodeError:
@@ -120,17 +119,21 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.base_url}/predictions"
         size = resolution.split("x")
+        version = get_model_id_image[model]
+
         payload = {
             "input": {
                 "prompt": text,
                 "width": int(size[0]),
                 "height": int(size[1]),
             },
-            "version": "c0259010b93e7a4102a4ba946d70e06d7d0c7dc007201af443cfc8f943ab1d3c",
+            "version": version,
         }
 
         response_dict = ReplicateApi.__get_response(self, url, payload)
         image_url = response_dict.get("output")
+        if isinstance(image_url, list):
+            image_url = image_url[0]
         image_bytes = base64.b64encode(requests.get(image_url).content)
 
         return ResponseType[GenerationDataClass](
