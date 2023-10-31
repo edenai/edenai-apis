@@ -169,7 +169,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
                 likelihood=round(
                     [x for x in original_response if x["label"] == "unsafe"][0]["score"] / 20
                 ),
-                likelihood_score=[x for x in original_response if x["label"] == "unsafe"][0]["score"],
+                likelihood_score=[x for x in original_response if x["label"] == "unsafe"][0]["score"] / 100,
                 category=CategoryType.choose_category_subcategory("nudity")["category"],
                 subcategory=
                 CategoryType.choose_category_subcategory("nudity")[
