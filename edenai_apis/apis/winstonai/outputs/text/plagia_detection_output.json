@@ -15,7 +15,7 @@
         "url": "https://docs.originality.ai/api-v1-0-reference",
         "excerpts": [
           "Should Samsung stick to its annual routine, we can expect to see new foldable phones and wearable devices in August. The company also previewed new designs for ...",
-          "\", \"cleanPhrase\": \"The company also previewed new designs for bendable phones and tablets earlier this year hinting that the company may be planning to ...",
+          "... The company also previewed new designs for bendable phones and tablets earlier this year, hinting that the company may be planning to expand beyond the Z ...",
           "Though Samsung regularly releases new products across many categories, including TVs, home appliances and monitors, I'm most interested in where its mobile ...",
           "Wearables have also become a large part of how Samsung intends to differentiate its phones from those of other Android device makers. It's a strategy to create ...",
           "... It's a strategy to create a web of products that keep people hooked, much like Apple's range of devices.\", \"matches\": [ { \"website\": \"https://www.cnet.com ..."
@@ -48,20 +48,20 @@
         ]
       },
       {
-        "title": "Galaxy Z Fold 5 and Other Samsung Gadgets to Look for in 2023",
-        "url": "https://www.umaconferences.com/galaxy-z-fold-5-and-other-samsung-gadgets-to-look-for-in-2023/",
-        "excerpts": [
-          "... The Galaxy S23 launch may be far behind us, but Samsung likely has plenty more to announce in 2023. That's if history repeats itself. Should ..."
-        ],
-        "date": "May 24, 2023"
-      },
-      {
         "title": "Galaxy S23, Z Fold 5 and more Samsung gadgets rumored for 2023 - US Today News",
         "url": "https://ustoday.news/galaxy-s23-z-fold-5-and-more-samsung-gadgets-rumored-for-2023/",
         "excerpts": [
           "... the company may be planning to expand beyond the Z Fold and Z Flip in the near future. Although Samsung regularly releases new products in ..."
         ],
         "date": "Jan 24, 2023"
+      },
+      {
+        "title": "Galaxy Z Fold 5 and Other Samsung Gadgets to Look for in 2023",
+        "url": "https://www.umaconferences.com/galaxy-z-fold-5-and-other-samsung-gadgets-to-look-for-in-2023/",
+        "excerpts": [
+          "The Galaxy S23 launch may be far behind us, but Samsung likely has plenty more to announce in 2023. That's if history repeats itself."
+        ],
+        "date": "May 24, 2023"
       }
     ],
     "results_count": 7,
@@ -98,7 +98,7 @@
             "url": "https://docs.originality.ai/api-v1-0-reference",
             "plagia_score": 1.0,
             "prediction": "plagiarized",
-            "plagiarized_text": "\", \"cleanPhrase\": \"The company also previewed new designs for bendable phones and tablets earlier this year hinting that the company may be planning to ..."
+            "plagiarized_text": "... The company also previewed new designs for bendable phones and tablets earlier this year, hinting that the company may be planning to expand beyond the Z ..."
           },
           {
             "url": "https://docs.originality.ai/api-v1-0-reference",
@@ -178,17 +178,6 @@
         ]
       },
       {
-        "text": "Galaxy Z Fold 5 and Other Samsung Gadgets to Look for in 2023",
-        "candidates": [
-          {
-            "url": "https://www.umaconferences.com/galaxy-z-fold-5-and-other-samsung-gadgets-to-look-for-in-2023/",
-            "plagia_score": 1.0,
-            "prediction": "plagiarized",
-            "plagiarized_text": "... The Galaxy S23 launch may be far behind us, but Samsung likely has plenty more to announce in 2023. That's if history repeats itself. Should ..."
-          }
-        ]
-      },
-      {
         "text": "Galaxy S23, Z Fold 5 and more Samsung gadgets rumored for 2023 - US Today News",
         "candidates": [
           {
@@ -196,6 +185,17 @@
             "plagia_score": 1.0,
             "prediction": "plagiarized",
             "plagiarized_text": "... the company may be planning to expand beyond the Z Fold and Z Flip in the near future. Although Samsung regularly releases new products in ..."
+          }
+        ]
+      },
+      {
+        "text": "Galaxy Z Fold 5 and Other Samsung Gadgets to Look for in 2023",
+        "candidates": [
+          {
+            "url": "https://www.umaconferences.com/galaxy-z-fold-5-and-other-samsung-gadgets-to-look-for-in-2023/",
+            "plagia_score": 1.0,
+            "prediction": "plagiarized",
+            "plagiarized_text": "The Galaxy S23 launch may be far behind us, but Samsung likely has plenty more to announce in 2023. That's if history repeats itself."
           }
         ]
       }

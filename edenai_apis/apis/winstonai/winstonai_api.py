@@ -52,7 +52,7 @@ class WinstonaiApi(ProviderInterface, TextInterface):
             AiDetectionItem(
                 text=sentence["text"],
                 ai_score=sentence["score"],
-                prediction=AiDetectionItem.set_label_based_on_score(sentence["score"]),
+                prediction=AiDetectionItem.set_label_based_on_human_score(sentence["score"]),
             )
             for sentence in sentences
         ]
