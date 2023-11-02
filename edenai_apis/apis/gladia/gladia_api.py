@@ -71,7 +71,7 @@ class GladiaApi(ProviderInterface, AudioInterface):
             'audio_url': content_url,
         }
         data = {
-            'language_behaviour': 'automatic multiple language',
+            'language_behaviour': 'automatic multiple languages',
             'toggle_diarization': 'true',
         }
 
