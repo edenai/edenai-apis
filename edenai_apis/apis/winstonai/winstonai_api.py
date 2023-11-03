@@ -44,7 +44,7 @@ class WinstonaiApi(ProviderInterface, TextInterface):
             raise ProviderException(response.json(), code=response.status_code)
 
         original_response = response.json()
-        score = original_response.get("score")
+        score = original_response.get("score") / 100
         sentences = original_response.get("sentences")
 
         if score is None or sentences is None:
@@ -53,8 +53,8 @@ class WinstonaiApi(ProviderInterface, TextInterface):
         items: Sequence[AiDetectionItem] = [
             AiDetectionItem(
                 text=sentence["text"],
-                ai_score=sentence["score"],
-                prediction=AiDetectionItem.set_label_based_on_score(sentence["score"]),
+                ai_score=sentence["score"] / 100,
+                prediction=AiDetectionItem.set_label_based_on_score(sentence["score"] / 100),
             )
             for sentence in sentences
         ]
