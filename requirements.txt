@@ -93,7 +93,9 @@ constantly==15.1.0
 contextlib2==21.6.0
     # via schema
 coverage[toml]==7.2.7
-    # via pytest-cov
+    # via
+    #   coverage
+    #   pytest-cov
 cryptography==41.0.1
     # via
     #   autobahn
@@ -171,7 +173,7 @@ google-cloud-language==2.10.0
     # via -r requirements.in
 google-cloud-resource-manager==1.10.4
     # via google-cloud-aiplatform
-google-cloud-speech==2.21.0
+google-cloud-speech==2.20.0
     # via -r requirements.in
 google-cloud-storage==2.9.0
     # via
@@ -382,9 +384,9 @@ pycountry==22.3.5
     # via -r requirements.in
 pycparser==2.21
     # via cffi
-pydantic==2.0
+pydantic==2.4.2
     # via -r requirements.in
-pydantic-core==2.0.1
+pydantic-core==2.10.1
     # via pydantic
 pydub==0.25.1
     # via -r requirements.in
