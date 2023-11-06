@@ -44,8 +44,10 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
         try:
             original_response = response.json()
         except json.JSONDecodeError as exc:
+            print(response.status_code)
+            print(response.text)
             raise ProviderException(
-                message="Empty response", code=response.status_code
+                message="Internal Server Error", code=response.status_code
             ) from exc
 
         if response.status_code != HTTPStatus.OK:
@@ -100,7 +102,7 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
             original_response = response.json()
         except json.JSONDecodeError as exc:
             raise ProviderException(
-                message="Empty response", code=response.status_code
+                message="Internal Server Error", code=response.status_code
             ) from exc
 
         if response.status_code != 200:
