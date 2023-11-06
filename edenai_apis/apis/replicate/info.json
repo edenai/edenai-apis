@@ -6,7 +6,13 @@
                   "256x256",
                   "512x512",
                   "1024x1024"
-                ]
+                ],
+                "models": [
+                  "anime-style",
+                  "vintedois-diffusion",
+                  "classic"
+                ],
+                "default_model" :  "classic"
               },
             "version" : "v1"
         }

@@ -33,7 +33,7 @@
     "credits_remaining": 99999662
   },
   "standardized_response": {
-    "ai_score": 0.01,
+    "ai_score": 0.0001,
     "items": [
       {
         "text": "The panther, also known as the black panther, is a magnificent and enigmatic creature that captivates the imagination of many. It is not a distinct species itself, but rather a melanistic variant of leopards and jaguars. The mesmerizing black coat of the panther is a result of a genetic mutation that increases the production of dark pigment, melanin.",
@@ -64,6 +64,7 @@
         "text": "Habitat loss, poaching, and illegal wildlife trade pose significant threats to their existence. Various organizations and governments are working tirelessly to protect these magnificent creatures through initiatives such as establishing protected areas, promoting sustainable land use practices, and raising awareness about their importance in the natural world.",
         "prediction": "ai-generated",
         "ai_score": 0.01
+
       }
     ]
   }

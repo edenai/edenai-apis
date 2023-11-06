@@ -1,7 +1,7 @@
 import requests
 import base64
 from io import BytesIO
-from typing import Sequence, Literal
+from typing import Sequence, Literal, Optional
 from edenai_apis.features.image.generation import (
     GenerationDataClass as ImageGenerationDataClass,
     GeneratedImageDataClass,
@@ -20,6 +20,7 @@ class OpenaiImageApi(ImageInterface):
         text: str,
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
+        model: Optional[str] = None
     ) -> ResponseType[ImageGenerationDataClass]:
         url = f"{self.url}/images/generations"
         payload = {

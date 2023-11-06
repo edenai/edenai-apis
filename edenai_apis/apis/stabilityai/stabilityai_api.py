@@ -2,7 +2,7 @@ import base64
 from io import BytesIO
 import json
 import requests
-from typing import Dict, Sequence, Literal
+from typing import Dict, Sequence, Literal, Optional
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features import ProviderInterface, ImageInterface
 from edenai_apis.utils.exception import ProviderException
@@ -34,8 +34,9 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         text: str,
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
+        model: Optional[str] = None
     ) -> ResponseType[GenerationDataClass]:
-        url = "https://api.stability.ai/v1/generation/stable-diffusion-512-v2-1/text-to-image"
+        url = f"https://api.stability.ai/v1/generation/{model}/text-to-image"
         size = resolution.split("x")
         payload = {
             "text_prompts": [

@@ -343,6 +343,7 @@ class ImageInterface:
         text: str,
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
+        model: Optional[str] = None
     ) -> ResponseType[GenerationDataClass]:
         """
         Generate an image based on a text prompt.

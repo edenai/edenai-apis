@@ -1,6 +1,6 @@
 import base64
 import json
-from typing import Dict, Literal
+from typing import Dict, Literal, Optional
 
 import requests
 
@@ -32,6 +32,7 @@ class DeepAIApi(ProviderInterface, ImageInterface):
         text: str,
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
+        model: Optional[str] = None
     ) -> ResponseType[GenerationDataClass]:
         url = "https://api.deepai.org/api/text2img"
         size = resolution.split("x")

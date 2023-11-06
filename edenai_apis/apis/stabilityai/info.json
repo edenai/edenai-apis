@@ -1,13 +1,28 @@
 {
-    "image":{
-         "generation":{
-          "constraints": {
-            "resolutions":[
-              "512x512",
-              "1024x1024"
-            ]
-        },
-           "version": "v1Beta"
-        }
-       }
+  "image": {
+    "generation": {
+      "constraints": {
+        "resolutions": [
+          "512x512",
+          "1024x1024"
+        ],
+        "models": [
+          "stable-diffusion-512-v2-1",
+          "stable-diffusion-xl-1024-v1-0",
+          "stable-diffusion-xl-1024-v0-9",
+          "stable-diffusion-xl-beta-v2-2-2",
+          "stable-diffusion-768-v2-1",
+          "stable-diffusion-v1-5",
+          "stable-diffusion-v1",
+          "stable-diffusion-512-v2-0",
+          "stable-diffusion-768-v2-0",
+          "stable-diffusion-depth-v2-0",
+          "stable-diffusion-xl-beta-v2-2-2",
+          "stable-diffusion-x4-latent-upscaler"
+        ],
+        "default_model": "stable-diffusion-512-v2-1"
+      },
+      "version": "v1Beta"
+    }
+  }
 }
