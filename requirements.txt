@@ -93,7 +93,9 @@ constantly==15.1.0
 contextlib2==21.6.0
     # via schema
 coverage[toml]==7.2.7
-    # via pytest-cov
+    # via
+    #   coverage
+    #   pytest-cov
 cryptography==41.0.1
     # via
     #   autobahn
@@ -171,7 +173,7 @@ google-cloud-language==2.10.0
     # via -r requirements.in
 google-cloud-resource-manager==1.10.4
     # via google-cloud-aiplatform
-google-cloud-speech==2.21.0
+google-cloud-speech==2.20.0
     # via -r requirements.in
 google-cloud-storage==2.9.0
     # via
@@ -361,10 +363,7 @@ protobuf==3.20.3
     #   grpc-google-iam-v1
     #   grpcio-status
     #   proto-plus
-    #   protobuf3-to-dict
     #   sagemaker
-protobuf3-to-dict==0.1.5
-    # via sagemaker
 psycopg2==2.9.6
     # via -r requirements.in
 pyasn1==0.5.0
@@ -467,7 +466,7 @@ rsa==4.9
     # via google-auth
 s3transfer==0.6.1
     # via boto3
-sagemaker==2.169.0
+sagemaker==2.196.0
     # via -r requirements.in
 schema==0.7.5
     # via sagemaker
@@ -484,7 +483,6 @@ six==1.16.0
     #   google-auth-httplib2
     #   google-pasta
     #   isodate
-    #   protobuf3-to-dict
     #   python-dateutil
 smdebug-rulesconfig==1.0.1
     # via sagemaker
