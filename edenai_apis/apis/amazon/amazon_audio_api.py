@@ -148,7 +148,7 @@ class AmazonAudioApi(AudioInterface):
         }
         if not language:
             del params["LanguageCode"]
-            params.update({"IdentifyLanguage": True})
+            params.update({"IdentifyMultipleLanguages": True})
         if vocab_name:
             params["Settings"].update({"VocabularyName": vocab_name})
             if initiate_vocab:
