@@ -1,5 +1,6 @@
 from abc import abstractmethod
 from typing import List, Optional, Dict, Literal, Union
+
 from edenai_apis.features.text import (
     KeywordExtractionDataClass,
     NamedEntityRecognitionDataClass,
@@ -20,12 +21,14 @@ from edenai_apis.features.text import (
     EmotionDetectionDataClass,
 )
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat
-from edenai_apis.features.text.plagia_detection.plagia_detection_dataclass import PlagiaDetectionDataClass
-from edenai_apis.features.text.spell_check.spell_check_dataclass import (
-    SpellCheckDataClass,
-)
 from edenai_apis.features.text.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
+)
+from edenai_apis.features.text.plagia_detection.plagia_detection_dataclass import (
+    PlagiaDetectionDataClass,
+)
+from edenai_apis.features.text.spell_check.spell_check_dataclass import (
+    SpellCheckDataClass,
 )
 from edenai_apis.utils.types import ResponseType
 
@@ -116,11 +119,13 @@ class TextInterface:
 
     @abstractmethod
     def text__search(
-        self, 
-        texts: List[str], 
-        query: str, 
-        similarity_metric: Literal["cosine", "hamming", "manhattan", "euclidean"] = "cosine",
-        model: Optional[str] = None
+        self,
+        texts: List[str],
+        query: str,
+        similarity_metric: Literal[
+            "cosine", "hamming", "manhattan", "euclidean"
+        ] = "cosine",
+        model: Optional[str] = None,
     ) -> ResponseType[SearchDataClass]:
         """
         Do sementic search over a set of texts
@@ -281,9 +286,8 @@ class TextInterface:
 
     @abstractmethod
     def text__embeddings(
-        self,
-        texts: List[str],
-        model : Optional[str] = None) -> ResponseType[EmbeddingsDataClass]:
+        self, texts: List[str], model: Optional[str] = None
+    ) -> ResponseType[EmbeddingsDataClass]:
         """Text embeddings
 
         Args:
@@ -299,13 +303,13 @@ class TextInterface:
         self,
         text: str,
         chatbot_global_action: Optional[str],
-        previous_history : Optional[List[Dict[str, str]]],
-        temperature : float = 0, 
-        max_tokens : int = 25,
-        model : Optional[str] = None,
-        stream: bool = False
-        ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-        """Text chat 
+        previous_history: Optional[List[Dict[str, str]]],
+        temperature: float = 0,
+        max_tokens: int = 25,
+        model: Optional[str] = None,
+        stream: bool = False,
+    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        """Text chat
 
         Args:
             text (str):
@@ -344,14 +348,13 @@ class TextInterface:
         """
         raise NotImplementedError
 
-
     @abstractmethod
     def text__entity_sentiment(self, text: str, language: str) -> ResponseType:
         """
         Detect sentiment of entities foung through the given text
         """
         raise NotImplementedError
-    
+
     @abstractmethod
     def text__plagia_detection(
         self, text: str, title: str = ""
@@ -368,7 +371,7 @@ class TextInterface:
 
     @abstractmethod
     def text__emotion_detection(
-            self, text: str
+        self, text: str
     ) -> ResponseType[EmotionDetectionDataClass]:
         """
         Detect emotion of a given text
