@@ -19,6 +19,13 @@ class AiDetectionItem(BaseModel):
         if not 0 <= v <= 1:
             raise ValueError("Value should be between 0 and 1")
         return v
+    
+    @staticmethod
+    def set_label_based_on_human_score(human_score: float):
+        if human_score > 0.5:
+            return "original"
+        else:
+            return "ai-generated"
 
 
 class AiDetectionDataClass(BaseModel):

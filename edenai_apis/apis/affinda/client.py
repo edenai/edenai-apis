@@ -1,20 +1,20 @@
-#TODO: Add tests for this file
 from enum import Enum
+from http import HTTPStatus
 from io import BufferedReader
 from json import JSONDecodeError
 from typing import Any, Dict, List, Literal, Optional
 from warnings import warn
 
 import requests
-from http import HTTPStatus
 
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.http import HTTPMethod
-from .models import Document, Organization, Workspace, Collection
 from .document import DocumentState, FileParameter, QueryBuilder, UploadDocumentParams
+from .models import Document, Organization, Workspace, Collection
+
 
 class ExtractorType(Enum):
-    """This class are use to define the type of an extractor
+    """This class are used to define the type of extractor
 
     Actually the affinda api support 6 type of extractor:
         - resume
@@ -478,15 +478,15 @@ class Client:
                 .add_workspace(self.__current_workspace)
                 .add_collection(self.__current_collection)
                 .build()
-            )
+            ),
         }
 
         files: Optional[Dict[str, BufferedReader]] = None
 
-        if file.type == 'url':
-            payload['url'] = file.file
-        elif file.type == 'file':
-            files = { 'file': open(file.file, 'rb') }
+        if file.type == "url":
+            payload["url"] = file.file
+        elif file.type == "file":
+            files = {"file": open(file.file, "rb")}
 
         return Document(
             **self.__requests(
@@ -499,7 +499,7 @@ class Client:
         )
 
     def delete_document(self, identifier: str) -> None:
-        """ Delete the document with the given identifier.
+        """Delete the document with the given identifier.
 
         Args:
             identifier (str): The identifier of the document.
