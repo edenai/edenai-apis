@@ -1,18 +1,27 @@
 from typing import Dict, Sequence, Optional
 
 import requests
+from aleph_alpha_client import (
+    Client,
+    Prompt,
+    SemanticEmbeddingRequest,
+    Image,
+    SemanticRepresentation,
+    CompletionRequest,
+    Text,
+)
 
 from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
-from edenai_apis.features.image.embeddings import EmbeddingsDataClass, EmbeddingDataClass
+from edenai_apis.features.image.embeddings import (
+    EmbeddingsDataClass,
+    EmbeddingDataClass,
+)
 from edenai_apis.features.image.question_answer import QuestionAnswerDataClass
 from edenai_apis.features.text import SummarizeDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-
-from aleph_alpha_client import Client, Prompt, SemanticEmbeddingRequest, QaRequest, Image, SemanticRepresentation, \
-    Document, CompletionRequest, Text
 
 
 class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
@@ -27,23 +36,18 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
         self.url_summarise = "https://api.aleph-alpha.com/summarize"
 
     def text__summarize(
-            self,
-            text: str,
-            output_sentences: int,
-            language: str,
-            model: str,
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: str,
     ) -> ResponseType[SummarizeDataClass]:
         headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": f"Bearer {self.api_key}"
+            "Authorization": f"Bearer {self.api_key}",
         }
-        payload = {
-            "model": model,
-            "document": {
-                "text": text
-            }
-        }
+        payload = {"model": model, "document": {"text": text}}
         response = requests.post(url=self.url_summarise, headers=headers, json=payload)
         if response.status_code != 200:
             raise ProviderException(response.text, code=response.status_code)
@@ -57,7 +61,11 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
         )
 
     def image__embeddings(
-            self, file: str, model: str, representation: str, file_url: str = "",
+        self,
+        file: str,
+        model: str,
+        representation: str,
+        file_url: str = "",
     ) -> ResponseType[EmbeddingsDataClass]:
         if representation == "symmetric":
             representation_client = SemanticRepresentation.Symmetric
@@ -67,40 +75,48 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
             representation_client = SemanticRepresentation.Query
         client = Client(self.api_key)
         prompt = Prompt.from_image(Image.from_file(file))
-        request = SemanticEmbeddingRequest(prompt=prompt, representation=representation_client)
+        request = SemanticEmbeddingRequest(
+            prompt=prompt, representation=representation_client
+        )
         try:
             response = client.semantic_embed(request=request, model=model)
-        except:
-            raise ProviderException(response.message)
-        if response.message:
-            raise ProviderException(response.message)
+        except Exception as exc:
+            raise ProviderException(message=str(exc)) from exc
+
         original_response = response._asdict()
-        items: Sequence[EmbeddingDataClass] = [EmbeddingDataClass(embedding=response.embedding)]
+        items: Sequence[EmbeddingDataClass] = [
+            EmbeddingDataClass(embedding=response.embedding)
+        ]
         standardized_response = EmbeddingsDataClass(items=items)
         return ResponseType[EmbeddingsDataClass](
             original_response=original_response,
-            standardized_response=standardized_response
+            standardized_response=standardized_response,
         )
 
     def image__question_answer(
-            self,
-            file: str,
-            temperature: float,
-            max_tokens: int,
-            file_url: str = "",
-            model: Optional[str] = None,
-            question: Optional[str] = None
+        self,
+        file: str,
+        temperature: float,
+        max_tokens: int,
+        file_url: str = "",
+        model: Optional[str] = None,
+        question: Optional[str] = None,
     ) -> ResponseType[QuestionAnswerDataClass]:
         client = Client(self.api_key)
         if question:
             prompts = Prompt([Text.from_text(question), Image.from_file(file)])
         else:
             prompts = Prompt([Image.from_file(file)])
-        request = CompletionRequest(prompt=prompts, maximum_tokens=max_tokens, temperature=temperature, tokens=True)
+        request = CompletionRequest(
+            prompt=prompts,
+            maximum_tokens=max_tokens,
+            temperature=temperature,
+            tokens=True,
+        )
         try:
             response = client.complete(request=request, model=model)
         except Exception as error:
-            raise ProviderException(str(error))
+            raise ProviderException(str(error)) from error
         original_response = response._asdict()
         answers = []
         for answer in response.completions:
@@ -108,6 +124,5 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
         standardized_response = QuestionAnswerDataClass(answers=answers)
         return ResponseType[QuestionAnswerDataClass](
             original_response=original_response,
-            standardized_response=standardized_response
+            standardized_response=standardized_response,
         )
-
