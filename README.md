@@ -78,7 +78,7 @@ for item in ibm_res.standardized_response.items:
 
 ### Asynchronous features
 
-If you need to use features like _speech to text_, _object extraction_ from videos, etc. Then you will have to use asynchrounous operations. This means that you will first make a call to launch an asynchrounous job, it will then return a job ID allowing you to make other calls to get the job status or response if the job is finished
+If you need to use features like _speech to text_, _object extraction_ from videos, etc. Then you will have to use asynchronous operations. This means that you will first make a call to launch an asynchronous job, it will then return a job ID allowing you to make other calls to get the job status or response if the job is finished
 
 ```python
 from edenai_apis import Audio
