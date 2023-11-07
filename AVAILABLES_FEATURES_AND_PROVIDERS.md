@@ -32,6 +32,7 @@
 | **resume_parser** | affinda |
 | | hireability |
 | | klippa |
+| | senseloaf |
 | **custom_document_parsing_async** | amazon |
 | **data_extraction** | amazon |
 | | base64 |
@@ -766,6 +767,13 @@
 | **text** | ai_detection |
 | | sentiment_analysis |
 | | spell_check |
+
+</details>
+<details><summary>senseloaf</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **ocr** | resume_parser |
 
 </details>
 <details><summary>sentisight</summary>
