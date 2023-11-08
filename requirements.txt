@@ -566,6 +566,6 @@ zipp==3.15.0
     # via importlib-metadata
 zope-interface==6.0
     # via twisted
-
+python-dotenv
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
