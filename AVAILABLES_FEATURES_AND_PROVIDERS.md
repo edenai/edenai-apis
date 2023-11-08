@@ -64,6 +64,7 @@
 | | clarifai |
 | | cohere |
 | | google |
+| | mistral |
 | | openai |
 | **summarize** | alephalpha |
 | | cohere |
@@ -620,6 +621,13 @@
 | | identity_parser |
 | | invoice_parser |
 | | receipt_parser |
+
+</details>
+<details><summary>mistral</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | generation |
 
 </details>
 <details><summary>modernmt</summary>
