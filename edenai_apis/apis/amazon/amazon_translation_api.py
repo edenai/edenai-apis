@@ -1,6 +1,5 @@
 from typing import Sequence
 
-from botocore.exceptions import ParamValidationError
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
 from edenai_apis.features.translation.automatic_translation.automatic_translation_dataclass import (
     AutomaticTranslationDataClass,
@@ -10,7 +9,6 @@ from edenai_apis.features.translation.language_detection.language_detection_data
     LanguageDetectionDataClass,
 )
 from edenai_apis.features.translation.translation_interface import TranslationInterface
-from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
 

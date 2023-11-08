@@ -1,12 +1,15 @@
-from edenai_apis.utils.audio import validate_audio_attribute_against_ssml_tags_use
 from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.ssml import (
     convert_audio_attr_in_prosody_tag,
-    get_index_after_first_speak_tag,
-    get_index_before_last_speak_tag,
-    is_ssml,
 )
 from watson_developer_cloud.watson_service import WatsonApiException
+from watson_developer_cloud.watson_service import WatsonApiException
+
+from edenai_apis.utils.exception import AsyncJobException, AsyncJobExceptionReason, ProviderException
+from edenai_apis.utils.ssml import (
+    convert_audio_attr_in_prosody_tag,
+)
+
 
 def handle_ibm_call(function_call, **kwargs):
     provider_job_id_error = "job not found"

@@ -5,7 +5,7 @@ class ProviderInterface(ABC):
     provider_name: str
 
     @classmethod
-    def __init_subclass__(cls):
+    def __init_subclass__(cls) -> None:
         """
         check that provider_name has been implemented on class initialization
         """

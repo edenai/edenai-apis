@@ -1,5 +1,3 @@
-import io
-import mimetypes
 from typing import Dict, List, Optional
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum

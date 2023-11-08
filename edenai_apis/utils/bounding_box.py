@@ -1,7 +1,8 @@
 from enum import IntEnum
-from typing_extensions import overload
+from typing import Callable, Dict, List, Sequence
+
 from pydantic import BaseModel, Field, field_validator
-from typing import Callable, Dict, List, Sequence, Any
+from typing_extensions import overload
 
 
 class BoundingBoxEnum(IntEnum):

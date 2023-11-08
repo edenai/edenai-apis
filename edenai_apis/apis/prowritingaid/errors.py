@@ -1,7 +1,6 @@
 from edenai_apis.utils.exception import (
     ProviderErrorLists,
     ProviderInvalidInputError,
-    ProviderInvalidInputImageResolutionError,
 )
 
 # NOTE: error messages should be regex patterns

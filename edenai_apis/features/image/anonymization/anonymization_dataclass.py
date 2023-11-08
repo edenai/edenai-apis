@@ -1,5 +1,6 @@
-from pydantic import BaseModel, StrictStr, Field
 from typing import Sequence, Optional
+
+from pydantic import BaseModel, StrictStr, Field
 
 
 class AnonymizationBoundingBox(BaseModel):

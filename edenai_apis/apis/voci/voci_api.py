@@ -1,28 +1,27 @@
-from io import BufferedReader
 from typing import Dict, List, Optional
+
 import requests
+
+from edenai_apis.features import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
     SpeechDiarization,
 )
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.utils.exception import (
     AsyncJobException,
     AsyncJobExceptionReason,
     ProviderException,
 )
-from edenai_apis.features import AudioInterface
-from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
 )
-import json
 
 
 class VociApi(ProviderInterface, AudioInterface):

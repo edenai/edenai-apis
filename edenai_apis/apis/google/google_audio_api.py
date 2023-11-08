@@ -5,15 +5,15 @@ from time import time
 from typing import List, Optional
 
 import googleapiclient.discovery
+from google.cloud import storage, texttospeech
+from google.cloud.speech_v2 import SpeechClient
+from google.cloud.speech_v2.types import cloud_speech
+
 from edenai_apis.apis.google.google_helpers import (
     generate_tts_params,
     get_right_audio_support_and_sampling_rate,
     handle_google_call,
 )
-from google.cloud import storage, texttospeech
-from google.cloud.speech_v2 import SpeechClient
-from google.cloud.speech_v2.types import cloud_speech
-
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechDiarization,

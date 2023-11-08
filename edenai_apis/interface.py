@@ -9,7 +9,6 @@ from edenai_apis import interface_v2
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
-from edenai_apis.utils.compare import assert_equivalent_dict
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException, get_appropriate_error
 from edenai_apis.utils.monitoring import insert_api_call, monitor_call
@@ -209,13 +208,15 @@ def compute_output(
     )
 
     if fake:
-        time.sleep(random.uniform(0.5, 1.5))  # sleep to fake the response time from a provider
+        time.sleep(
+            random.uniform(0.5, 1.5)
+        )  # sleep to fake the response time from a provider
         sample_args = load_feature(
             FeatureDataEnum.SAMPLES_ARGS,
             feature=feature,
             subfeature=subfeature,
             phase=phase,
-            provider_name=provider_name
+            provider_name=provider_name,
         )
         # replace File Wrapper by file and file_url inputs and also transform input attributes as settings for tts
         sample_args = validate_all_provider_constraints(
@@ -350,8 +351,8 @@ def get_async_job_result(
     async_job_id: AsyncLaunchJobResponseType,
     phase: str = "",
     fake: bool = False,
-    user_email = None,
-    api_keys = dict(),
+    user_email=None,
+    api_keys=dict(),
 ) -> Dict:
     """Get async result from job id
 
@@ -368,7 +369,9 @@ def get_async_job_result(
     """
 
     if fake is True:
-        time.sleep(random.uniform(0.5, 1.5))  # sleep to fake the response time from a provider
+        time.sleep(
+            random.uniform(0.5, 1.5)
+        )  # sleep to fake the response time from a provider
         # Load fake data from edenai_apis' saved output
         fake_result = load_provider(
             ProviderDataEnum.OUTPUT,
@@ -388,7 +391,9 @@ def get_async_job_result(
     subfeature_class = getattr(feature_class, subfeature_method_name)
 
     try:
-        subfeature_result = subfeature_class(provider_name, api_keys)(async_job_id).model_dump()
+        subfeature_result = subfeature_class(provider_name, api_keys)(
+            async_job_id
+        ).model_dump()
     except ProviderException as exc:
         raise get_appropriate_error(provider_name, exc)
 

@@ -1,6 +1,8 @@
 from typing import Dict, Sequence
+
 import requests
 
+from edenai_apis.features import ProviderInterface, TranslationInterface
 from edenai_apis.features.translation import (
     InfosLanguageDetectionDataClass,
     LanguageDetectionDataClass,
@@ -8,7 +10,6 @@ from edenai_apis.features.translation import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features import ProviderInterface, TranslationInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType

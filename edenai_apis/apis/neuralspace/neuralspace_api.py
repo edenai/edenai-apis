@@ -1,8 +1,12 @@
-from io import BufferedReader
 from typing import Dict, List, Optional, Sequence
+
 import requests
 
 from edenai_apis.features import ProviderInterface, TextInterface, TranslationInterface
+from edenai_apis.features.audio.speech_to_text_async import (
+    SpeechToTextAsyncDataClass,
+    SpeechDiarization,
+)
 from edenai_apis.features.text import (
     InfosNamedEntityRecognitionDataClass,
     NamedEntityRecognitionDataClass,
@@ -12,12 +16,13 @@ from edenai_apis.features.translation import (
     LanguageDetectionDataClass,
     InfosLanguageDetectionDataClass,
 )
-from edenai_apis.features.audio.speech_to_text_async import (
-    SpeechToTextAsyncDataClass,
-    SpeechDiarization,
-)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
+)
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -25,11 +30,6 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     AsyncLaunchJobResponseType,
     ResponseType,
-)
-from edenai_apis.utils.exception import (
-    AsyncJobException,
-    AsyncJobExceptionReason,
-    ProviderException,
 )
 from .config import get_domain_language_from_code
 

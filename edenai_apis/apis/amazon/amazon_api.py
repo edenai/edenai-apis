@@ -1,4 +1,5 @@
 from typing import Dict
+
 from edenai_apis.apis.amazon.amazon_audio_api import AmazonAudioApi
 from edenai_apis.apis.amazon.amazon_image_api import AmazonImageApi
 from edenai_apis.apis.amazon.amazon_ocr_api import AmazonOcrApi
@@ -8,7 +9,6 @@ from edenai_apis.apis.amazon.amazon_video_api import AmazonVideoApi
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-
 from .config import clients, storage_clients
 
 

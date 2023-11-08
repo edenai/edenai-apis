@@ -1,6 +1,16 @@
 from typing import Sequence
-from edenai_apis.apis.ibm.ibm_helpers import handle_ibm_call
 
+from ibm_watson.natural_language_understanding_v1 import (
+    CategoriesOptions,
+    EntitiesOptions,
+    Features,
+    KeywordsOptions,
+    SentimentOptions,
+    SyntaxOptions,
+    SyntaxOptionsTokens,
+)
+
+from edenai_apis.apis.ibm.ibm_helpers import handle_ibm_call
 from edenai_apis.features.text import (
     ExtractedTopic,
     InfosKeywordExtractionDataClass,
@@ -14,19 +24,7 @@ from edenai_apis.features.text import (
     TopicExtractionDataClass,
 )
 from edenai_apis.features.text.text_interface import TextInterface
-from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import ResponseType
-from ibm_watson.natural_language_understanding_v1 import (
-    CategoriesOptions,
-    EntitiesOptions,
-    Features,
-    KeywordsOptions,
-    SentimentOptions,
-    SyntaxOptions,
-    SyntaxOptionsTokens,
-)
-from watson_developer_cloud.watson_service import WatsonApiException
-
 from .config import tags
 
 

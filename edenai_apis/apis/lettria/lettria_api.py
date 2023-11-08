@@ -1,6 +1,8 @@
 import json
 from typing import Dict, Sequence
+
 import requests
+
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import (
     InfosNamedEntityRecognitionDataClass,
@@ -17,7 +19,6 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-
 from .lettria_tags import tags
 
 

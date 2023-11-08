@@ -1,5 +1,5 @@
-from typing import Dict
 import os
+from typing import Dict
 
 feature_path = os.path.dirname(os.path.dirname(__file__))
 

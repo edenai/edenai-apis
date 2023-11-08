@@ -10,7 +10,6 @@ from edenai_apis.loaders.data_loader import FeatureDataEnum
 from edenai_apis.loaders.loaders import load_feature
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 
-
 chat_providers = sorted(list_providers(feature="text", subfeature="chat"))
 
 

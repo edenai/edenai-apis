@@ -2,11 +2,11 @@ import mimetypes
 import pathlib
 import uuid
 from http import HTTPStatus
-from io import BufferedReader
 from typing import Dict, Literal
 
 import boto3
 import requests
+
 from edenai_apis.features.ocr.bank_check_parsing import (
     BankCheckParsingDataClass,
     MicrModel,

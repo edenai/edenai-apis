@@ -1,13 +1,17 @@
-from http import HTTPStatus
+import enum
 import json
 import re
-from typing import List, Optional, Sequence
+from http import HTTPStatus
+from typing import List, Sequence
 from typing import Tuple
 
-import enum
-import google.auth
 import google
+import google.auth
+import google.auth
 import googleapiclient.discovery
+from google.api_core.exceptions import GoogleAPIError
+from google.oauth2 import service_account
+
 from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
     BoundingBox,
     Line,
@@ -15,7 +19,6 @@ from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
     Word,
     Page as OcrAsyncPage,
 )
-
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     BoundixBoxOCRTable,
     Cell,
@@ -34,10 +37,6 @@ from edenai_apis.utils.exception import (
     ProviderException,
 )
 from edenai_apis.utils.types import AsyncResponseType
-from google.oauth2 import service_account
-import google.auth
-
-from google.api_core.exceptions import GoogleAPIError 
 
 
 class GoogleVideoFeatures(enum.Enum):

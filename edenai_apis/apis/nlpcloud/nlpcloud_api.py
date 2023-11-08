@@ -1,9 +1,9 @@
+from typing import Dict, Sequence
+
 import requests
 
 from edenai_apis.apis.nlpcloud.utils import Iso_to_code
 from edenai_apis.features import ProviderInterface, TextInterface
-from typing import Dict, Sequence
-
 from edenai_apis.features.text import KeywordExtractionDataClass, InfosKeywordExtractionDataClass, \
     SentimentAnalysisDataClass, SegmentSentimentAnalysisDataClass, CodeGenerationDataClass, \
     NamedEntityRecognitionDataClass, InfosNamedEntityRecognitionDataClass, EmotionDetectionDataClass, \

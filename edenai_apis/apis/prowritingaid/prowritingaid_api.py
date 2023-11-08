@@ -1,13 +1,15 @@
 from http import HTTPStatus
 from typing import Dict, Sequence
+
 import requests
+
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
     SpellCheckItem,
     SuggestionItem,
 )
 from edenai_apis.features.text.text_interface import TextInterface
-from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType

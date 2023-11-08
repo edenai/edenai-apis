@@ -1,12 +1,19 @@
-from itertools import zip_longest
-import json
-from typing import Any, Dict, Sequence, Type, TypeVar, Union
-from collections import defaultdict
-import mimetypes
 import base64
+import json
+import mimetypes
+from collections import defaultdict
 from enum import Enum
-from proto import message
+from itertools import zip_longest
+from typing import Any, Dict, Sequence, Type, TypeVar, Union
+
 import requests
+
+from edenai_apis.features import ProviderInterface, OcrInterface
+from edenai_apis.features.image.face_compare import (
+    FaceCompareDataClass,
+    FaceMatch,
+    FaceCompareBoundingBox,
+)
 from edenai_apis.features.ocr.bank_check_parsing import (
     BankCheckParsingDataClass,
     MicrModel,
@@ -49,14 +56,8 @@ from edenai_apis.features.ocr.receipt_parser import (
     Taxes,
     PaymentInformation,
 )
-from edenai_apis.features.image.face_compare import (
-    FaceCompareDataClass,
-    FaceMatch,
-    FaceCompareBoundingBox,
-)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features import ProviderInterface, OcrInterface
 from edenai_apis.utils.bounding_box import BoundingBox
 from edenai_apis.utils.conversion import (
     combine_date_with_time,

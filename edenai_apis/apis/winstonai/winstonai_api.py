@@ -1,21 +1,23 @@
+import json
+from typing import Dict, Sequence
+
+import requests
+
+from edenai_apis.apis.winstonai.config import WINSTON_AI_API_URL
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text.ai_detection.ai_detection_dataclass import (
     AiDetectionDataClass,
     AiDetectionItem,
 )
-from edenai_apis.utils.types import ResponseType
-from typing import Dict, Sequence
-from edenai_apis.loaders.data_loader import ProviderDataEnum
-from edenai_apis.loaders.loaders import load_provider
-import requests
-import json
-from edenai_apis.utils.exception import ProviderException
-from edenai_apis.apis.winstonai.config import WINSTON_AI_API_URL
 from edenai_apis.features.text.plagia_detection.plagia_detection_dataclass import (
     PlagiaDetectionCandidate,
     PlagiaDetectionDataClass,
     PlagiaDetectionItem,
 )
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.types import ResponseType
 
 
 class WinstonaiApi(ProviderInterface, TextInterface):

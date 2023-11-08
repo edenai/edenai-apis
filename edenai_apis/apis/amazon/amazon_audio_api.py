@@ -1,18 +1,16 @@
+import base64
 import json
-from pathlib import Path
-from typing import Optional
 import urllib
 import uuid
-import base64
-from io import BufferedReader, BytesIO
-from botocore.exceptions import BotoCoreError, ClientError
+from io import BytesIO
+from pathlib import Path
+from typing import Optional
+
 from edenai_apis.apis.amazon.helpers import (
-    amazon_speaking_rate_converter,
     generate_right_ssml_text,
     get_right_audio_support_and_sampling_rate,
     handle_amazon_call,
 )
-
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechDiarization,
@@ -22,10 +20,7 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
-from edenai_apis.utils.audio import retreive_voice_id
 from edenai_apis.utils.exception import (
-    AsyncJobException,
-    AsyncJobExceptionReason,
     ProviderException,
 )
 from edenai_apis.utils.ssml import is_ssml
@@ -37,8 +32,6 @@ from edenai_apis.utils.types import (
     ResponseType,
 )
 from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
-
-from .config import audio_voices_ids
 
 
 class AmazonAudioApi(AudioInterface):

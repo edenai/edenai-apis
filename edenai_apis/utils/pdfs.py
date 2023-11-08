@@ -1,6 +1,7 @@
-import pypdf
 from io import BufferedReader
 from typing import Tuple
+
+import pypdf
 
 
 def get_pdf_width_height(pdf_file: BufferedReader) -> Tuple[float, float]:

@@ -1,14 +1,21 @@
-from http import HTTPStatus
 import json
-from typing import Dict, Sequence
 import uuid
+from http import HTTPStatus
+from typing import Dict
+from typing import Sequence
+from typing import cast
 
 import requests
+
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import ChatDataClass
 from edenai_apis.features.text.ai_detection.ai_detection_dataclass import (
     AiDetectionDataClass,
     AiDetectionItem,
+)
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
+    SentimentAnalysisDataClass,
+    SegmentSentimentAnalysisDataClass,
 )
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
@@ -19,15 +26,6 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-
-from typing import Dict
-from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
-    SentimentAnalysisDataClass,
-    SegmentSentimentAnalysisDataClass,
-)
-
-
-from typing import cast
 
 
 class SaplingApi(ProviderInterface, TextInterface):

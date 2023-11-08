@@ -1,9 +1,13 @@
-from io import BufferedReader, BytesIO
 import mimetypes
-from pytest_mock import MockerFixture
+import os
+from io import BytesIO
+
 import pytest
 from pydub import AudioSegment
 from pydub.exceptions import CouldntDecodeError
+from pydub.utils import mediainfo
+from pytest_mock import MockerFixture
+from settings import base_path
 
 from edenai_apis.utils.audio import (
     audio_converter,
@@ -14,9 +18,6 @@ from edenai_apis.utils.audio import (
 )
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.files import FileInfo, FileWrapper
-from settings import base_path
-import os
-from pydub.utils import mediainfo
 
 
 class TestAudioConverter:

@@ -1,5 +1,6 @@
 from enum import Enum
 from typing import Optional, Sequence, Literal
+
 from pydantic import BaseModel, Field, field_validator
 
 

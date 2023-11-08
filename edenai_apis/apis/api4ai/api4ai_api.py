@@ -1,17 +1,22 @@
-from io import BufferedReader
-from typing import Dict, Sequence
-import requests
-from pdf2image.pdf2image import convert_from_bytes
+import base64
+from io import BytesIO
+from typing import Dict, Sequence, Optional
 
+import requests
+
+from edenai_apis.features import ProviderInterface, ImageInterface, OcrInterface
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
     AnonymizationItem,
     AnonymizationBoundingBox,
 )
+from edenai_apis.features.image.background_removal import BackgroundRemovalDataClass
+from edenai_apis.features.image.background_removal.types import BackgroundRemovalParams
 from edenai_apis.features.image.explicit_content import (
     ExplicitContentDataClass,
     ExplicitItem,
 )
+from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.face_detection import (
     FaceBoundingBox,
     FaceDetectionDataClass,
@@ -42,16 +47,12 @@ from edenai_apis.features.image.object_detection import (
 from edenai_apis.features.ocr.ocr.ocr_dataclass import Bounding_box, OcrDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features import ProviderInterface, ImageInterface, OcrInterface
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from .helpers import get_errors_from_response
 from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
-from io import BytesIO
-import base64
-
-from edenai_apis.features.image.explicit_content.category import CategoryType
+from .helpers import get_errors_from_response
+from .types import Api4aiBackgroundRemovalParams
 
 
 class Api4aiApi(
@@ -61,23 +62,29 @@ class Api4aiApi(
 ):
     provider_name = "api4ai"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Optional[Dict] = None) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )
         self.api_key = self.api_settings["key"]
-        self.urls = {
-            "object_detection": f"https://api4ai.cloud/general-det/v1/results"
-            + f"?api_key={self.api_key}",
-            "logo_detection": f"https://api4ai.cloud/brand-det/v1/results"
-            + f"?api_key={self.api_key}",
-            "face_detection": f"https://api4ai.cloud/face-analyzer/v1/results"
-            + f"?api_key={self.api_key}",
-            "anonymization": "https://api4ai.cloud/img-anonymization/v1/results"
-            + f"?api_key={self.api_key}",
-            "nsfw": f"https://api4ai.cloud/nsfw/v1/results?api_key={self.api_key}",
-            "ocr": f"https://api4ai.cloud/ocr/v1/results?api_key={self.api_key}",
+        self.base_url = "https://api4ai.cloud"
+
+        self.endpoints = {
+            "object_detection": "/general-det/v1/results",
+            "logo_detection": "/brand-det/v1/results",
+            "face_detection": "/face-analyzer/v1/results",
+            "anonymization": "/img-anonymization/v1/results",
+            "nsfw": "/nsfw/v1/results",
+            "ocr": "/ocr/v1/results",
+            "bg_removal": "/img-bg-removal/v1/general/results",
         }
+
+        self.urls = {
+            k: self.base_url + v + f"?api_key={self.api_key}"
+            for k, v in self.endpoints.items()
+        }
+
+        print(self.urls)
 
     def image__object_detection(
         self,
@@ -88,7 +95,6 @@ class Api4aiApi(
         """
         This function is used to detect objects in an image.
         """
-
         file_ = open(file, "rb")
         files = {"image": file_}
         response = requests.post(self.urls["object_detection"], files=files)
@@ -327,14 +333,18 @@ class Api4aiApi(
                     category=classificator["category"],
                     subcategory=classificator["subcategory"],
                     likelihood=standardized_confidence_score(nsfw_response[classe]),
-                    likelihood_score=nsfw_response[classe]
+                    likelihood_score=nsfw_response[classe],
                 )
             )
 
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(nsfw_items)
-        nsfw_likelihood_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(nsfw_items)
+        nsfw_likelihood_score = (
+            ExplicitContentDataClass.calculate_nsfw_likelihood_score(nsfw_items)
+        )
         standardized_response = ExplicitContentDataClass(
-            items=nsfw_items, nsfw_likelihood=nsfw_likelihood, nsfw_likelihood_score=nsfw_likelihood_score
+            items=nsfw_items,
+            nsfw_likelihood=nsfw_likelihood,
+            nsfw_likelihood_score=nsfw_likelihood_score,
         )
 
         result = ResponseType[ExplicitContentDataClass](
@@ -383,3 +393,39 @@ class Api4aiApi(
             standardized_response=standardized_response,
         )
         return result
+
+    def image__background_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[BackgroundRemovalParams] = None,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        if provider_params is None or not isinstance(
+            provider_params, Api4aiBackgroundRemovalParams
+        ):
+            provider_params = Api4aiBackgroundRemovalParams()
+
+        url: str = self.urls["bg_removal"] + f"&mode={provider_params.mode}"
+        with open(file, "rb") as f:
+            response = requests.post(url, files={"image": f.read()})
+
+            error = get_errors_from_response(response)
+            if error is not None:
+                raise ProviderException(error, code=response.status_code)
+
+            original_response = response.json()
+            img_b64 = original_response["results"][0]["entities"][0]["image"]
+            img_fmt = original_response["results"][0]["entities"][0]["format"]
+
+            resource_url = BackgroundRemovalDataClass.generate_resource_url(
+                img_b64,
+                fmt=img_fmt,
+            )
+
+            return ResponseType[BackgroundRemovalDataClass](
+                original_response=original_response,
+                standardized_response=BackgroundRemovalDataClass(
+                    image_b64=img_b64,
+                    image_resource_url=resource_url,
+                ),
+            )

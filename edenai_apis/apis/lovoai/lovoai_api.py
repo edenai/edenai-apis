@@ -1,28 +1,30 @@
 import base64
-from io import BytesIO
 import json
+from io import BytesIO
 from typing import Dict
+
 import requests
-from edenai_apis.features.audio.text_to_speech_async.text_to_speech_async_dataclass import (
-    TextToSpeechAsyncDataClass,
-)
+
+from edenai_apis.features.audio import AudioInterface
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
+from edenai_apis.features.audio.text_to_speech_async.text_to_speech_async_dataclass import (
+    TextToSpeechAsyncDataClass,
+)
 from edenai_apis.features.provider.provider_interface import ProviderInterface
-from edenai_apis.features.audio import AudioInterface
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
+from edenai_apis.utils.exception import (
+    ProviderException,
+    AsyncJobException,
+    AsyncJobExceptionReason,
+)
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     ResponseType,
     AsyncResponseType,
     AsyncPendingResponseType,
-)
-from edenai_apis.utils.exception import (
-    ProviderException,
-    AsyncJobException,
-    AsyncJobExceptionReason,
 )
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 from .config import voice_ids

@@ -6,6 +6,9 @@
 #
 affinda==4.7.1
     # via -r requirements.in
+
+mypy==1.6.1
+mypy-extensions==1.0.0
 aiodns==3.0.0
     # via aleph-alpha-client
 aiohttp==3.8.5

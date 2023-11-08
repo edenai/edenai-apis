@@ -1,6 +1,7 @@
 import random
-import openai
 from typing import Dict
+
+import openai
 
 from edenai_apis.apis.openai.openai_audio_api import OpenaiAudioApi
 from edenai_apis.apis.openai.openai_image_api import OpenaiImageApi

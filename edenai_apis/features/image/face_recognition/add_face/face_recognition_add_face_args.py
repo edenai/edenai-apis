@@ -1,10 +1,10 @@
 import mimetypes
 import os
 from typing import Dict
+
 from pydub.utils import mediainfo
 
 from edenai_apis.utils.files import FileInfo, FileWrapper
-
 from ..common_args import COLLECTION_ID
 
 feature_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))

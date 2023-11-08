@@ -5,18 +5,16 @@
     - list_providers
     - check_provider_constraints
 """
-from typing import Dict
 import pytest
 from pytest_mock import MockerFixture
-from edenai_apis.tests.conftest import global_features, only_async
+
 from edenai_apis.interface import (
     check_provider_constraints,
     compute_output,
     list_features,
     list_providers,
 )
-from edenai_apis.utils.types import ResponseType
-
+from edenai_apis.tests.conftest import global_features, only_async
 
 VALID_PROVIDER = "amazon"
 VALID_FEATURE = "audio"

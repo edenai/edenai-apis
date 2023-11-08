@@ -1,6 +1,7 @@
 import os
 
 import pytest
+
 from edenai_apis import Image
 from edenai_apis.features.image.search import SearchDataClass
 from edenai_apis.features.image.search.get_image import SearchGetImageDataClass
@@ -12,7 +13,6 @@ from edenai_apis.utils.compare import compare_responses
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType, ResponseSuccess
-
 
 image_search_providers = sorted(list_providers(feature="image", subfeature="search"))
 

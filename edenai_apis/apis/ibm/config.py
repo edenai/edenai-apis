@@ -1,8 +1,8 @@
-from watson_developer_cloud import NaturalLanguageUnderstandingV1, LanguageTranslatorV3
-from watson_developer_cloud.text_to_speech_v1 import TextToSpeechV1
-from watson_developer_cloud.speech_to_text_v1 import SpeechToTextV1
-
 from typing import Dict
+
+from watson_developer_cloud import NaturalLanguageUnderstandingV1, LanguageTranslatorV3
+from watson_developer_cloud.speech_to_text_v1 import SpeechToTextV1
+from watson_developer_cloud.text_to_speech_v1 import TextToSpeechV1
 
 
 def ibm_clients(api_settings: Dict) -> Dict:

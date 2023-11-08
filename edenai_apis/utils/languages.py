@@ -4,10 +4,10 @@ from importlib import import_module
 from typing import List, Optional, Sequence
 
 import pycountry
+from langcodes import Language, closest_supported_match, tag_parser
+
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from langcodes import Language, closest_supported_match, tag_parser
-from langcodes.tag_parser import LanguageTagError
 
 AUTO_DETECT = "auto-detect"
 AUTO_DETECT_NAME = "Auto detection"

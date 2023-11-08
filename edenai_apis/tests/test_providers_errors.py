@@ -1,14 +1,20 @@
-from time import sleep
 import mimetypes
 import os
 import re
-from pydub.utils import mediainfo
+from time import sleep
 
 import pytest
+from apis.amazon.errors import ERRORS as amazon_errors
 from apis.google.errors import ERRORS as google_errors
 from apis.ibm.errors import ERRORS as ibm_errors
 from apis.microsoft.errors import ERRORS as microsoft_errors
-from apis.amazon.errors import ERRORS as amazon_errors
+from features.audio.speech_to_text_async.speech_to_text_async_args import (
+    data_path as audio_data_path,
+)
+from features.image.anonymization.anonymization_args import data_path as image_data_path
+from features.ocr.resume_parser.resume_parser_args import resume_parser_arguments
+from pydub.utils import mediainfo
+
 from edenai_apis.interface import compute_output, get_async_job_result
 from edenai_apis.loaders.data_loader import FeatureDataEnum
 from edenai_apis.loaders.loaders import load_feature
@@ -24,12 +30,6 @@ from edenai_apis.utils.exception import (
     ProviderParsingError,
 )
 from edenai_apis.utils.files import FileInfo, FileWrapper
-
-from features.image.anonymization.anonymization_args import data_path as image_data_path
-from features.audio.speech_to_text_async.speech_to_text_async_args import (
-    data_path as audio_data_path,
-)
-from features.ocr.resume_parser.resume_parser_args import resume_parser_arguments
 
 
 @pytest.mark.skipif(

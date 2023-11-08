@@ -1,4 +1,3 @@
-import pytest
 from edenai_apis.utils.exception import ProviderException, LanguageException
 
 

@@ -3,15 +3,15 @@ import os
 import pathlib
 import time
 from typing import Callable
-from edenai_apis.utils.constraints import (
-    validate_all_input_languages,
-    validate_all_provider_constraints,
-)
+
 import pytest
 
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.settings import outputs_path, features_path
+from edenai_apis.utils.constraints import (
+    validate_all_provider_constraints,
+)
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
 
 # TEXT_AUTOML_CLASSIFICATION = ["training_async", "prediction_async"]

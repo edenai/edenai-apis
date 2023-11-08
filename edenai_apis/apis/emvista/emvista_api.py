@@ -1,8 +1,9 @@
 from typing import Dict, Sequence
+
 import requests
 
 from edenai_apis.features import TextInterface
-
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.text import (
     SummarizeDataClass,
     SyntaxAnalysisDataClass,
@@ -12,7 +13,6 @@ from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
     SentimentAnalysisDataClass,
 )
-from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
 )

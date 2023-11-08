@@ -1,5 +1,6 @@
-import boto3
 from typing import Dict
+
+import boto3
 
 
 def clients(api_settings: Dict) -> Dict:

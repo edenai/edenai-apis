@@ -1,24 +1,26 @@
-from typing import Dict, Optional, List
 import json
+from typing import Dict, Optional, List
+
 import requests
+
 from edenai_apis.features import ProviderInterface, AudioInterface
+from edenai_apis.features.audio.speech_to_text_async import (
+    SpeechToTextAsyncDataClass,
+    SpeechDiarizationEntry,
+    SpeechDiarization,
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.types import (
-    AsyncResponseType,
-    AsyncPendingResponseType,
-    AsyncBaseResponseType,
-    AsyncLaunchJobResponseType,
-)
 from edenai_apis.utils.exception import (
     AsyncJobException,
     AsyncJobExceptionReason,
     ProviderException,
 )
-from edenai_apis.features.audio.speech_to_text_async import (
-    SpeechToTextAsyncDataClass,
-    SpeechDiarizationEntry,
-    SpeechDiarization,
+from edenai_apis.utils.types import (
+    AsyncResponseType,
+    AsyncPendingResponseType,
+    AsyncBaseResponseType,
+    AsyncLaunchJobResponseType,
 )
 
 

@@ -1,11 +1,13 @@
 from typing import List, Sequence
+
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
-from edenai_apis.features.text.entity_sentiment.entities import Entities
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
     AnonymizationEntity,
 )
 from edenai_apis.features.text.anonymization.category import CategoryType
+from edenai_apis.features.text.entity_sentiment.entities import Entities
+from edenai_apis.features.text.entity_sentiment.entity_sentiment_dataclass import Entity, EntitySentimentDataClass
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
     InfosKeywordExtractionDataClass,
     KeywordExtractionDataClass,
@@ -21,15 +23,9 @@ from edenai_apis.features.text.syntax_analysis.syntax_analysis_dataclass import 
     InfosSyntaxAnalysisDataClass,
     SyntaxAnalysisDataClass,
 )
-from edenai_apis.features.text.entity_sentiment.entity_sentiment_dataclass import Entity, EntitySentimentDataClass
 from edenai_apis.features.text.text_interface import TextInterface
-from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.types import ResponseType
-
-from botocore.exceptions import ClientError
-
 from .config import tags
-
 
 
 class AmazonTextApi(TextInterface):

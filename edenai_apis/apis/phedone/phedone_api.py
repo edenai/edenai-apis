@@ -1,13 +1,14 @@
 from typing import Dict
+
 import requests
 
+from edenai_apis.features import TranslationInterface
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
 )
-from edenai_apis.features import TranslationInterface
-from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 

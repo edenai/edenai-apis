@@ -1,10 +1,11 @@
-from io import BufferedReader
-from pathlib import Path
-from typing import Dict, List, Optional
-import requests
-import uuid
-from time import time
 import json
+import uuid
+from pathlib import Path
+from time import time
+from typing import Dict, List, Optional
+
+import requests
+from apis.amazon.config import storage_clients
 from botocore.errorfactory import ClientError
 
 from edenai_apis.features import ProviderInterface, AudioInterface
@@ -20,14 +21,12 @@ from edenai_apis.utils.exception import (
     AsyncJobExceptionReason,
     ProviderException,
 )
-from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
 )
-from apis.amazon.config import storage_clients
 from edenai_apis.utils.upload_s3 import upload_file_to_s3
 
 

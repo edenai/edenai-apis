@@ -1,5 +1,6 @@
-from pydantic import BaseModel, StrictStr
 from typing import Dict
+
+from pydantic import BaseModel, StrictStr
 
 
 class DocumentTranslationDataClass(BaseModel):

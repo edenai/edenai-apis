@@ -3,15 +3,16 @@ import json
 from io import BytesIO
 from typing import Dict
 
-import requests
 import magic
+import requests
 
 from edenai_apis.features import OcrInterface
 from edenai_apis.features.ocr import AnonymizationAsyncDataClass
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType, AsyncResponseType, AsyncPendingResponseType
+from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType, AsyncResponseType, \
+    AsyncPendingResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 

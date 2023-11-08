@@ -1,17 +1,19 @@
 import base64
-from io import BytesIO
 import json
-import requests
+from io import BytesIO
 from typing import Dict, Sequence, Literal, Optional
-from edenai_apis.utils.types import ResponseType
+
+import requests
+
 from edenai_apis.features import ProviderInterface, ImageInterface
-from edenai_apis.utils.exception import ProviderException
-from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.features.image.generation import (
     GenerationDataClass,
     GeneratedImageDataClass,
 )
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 

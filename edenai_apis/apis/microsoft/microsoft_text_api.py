@@ -1,11 +1,12 @@
-from http import HTTPStatus
 import sys
-import json
 from collections import defaultdict
+from http import HTTPStatus
 from time import sleep
-from typing import Dict, Optional, Sequence
+from typing import Dict, Sequence
 
 import requests
+
+from edenai_apis.features.text import AnonymizationDataClass, ModerationDataClass
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
     InfosNamedEntityRecognitionDataClass,
@@ -14,7 +15,6 @@ from edenai_apis.features.text import (
     SentimentAnalysisDataClass,
     SummarizeDataClass,
 )
-from edenai_apis.features.text import AnonymizationDataClass, ModerationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
 )
@@ -26,7 +26,6 @@ from edenai_apis.features.text.spell_check import SpellCheckItem, SpellCheckData
 from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-
 from .microsoft_helpers import microsoft_text_moderation_personal_infos
 
 

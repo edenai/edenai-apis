@@ -1,12 +1,12 @@
 import base64
-from io import BufferedReader, BytesIO
+from io import BytesIO
 from typing import List, Optional
+
 from edenai_apis.apis.ibm.ibm_helpers import (
     generate_right_ssml_text,
     get_right_audio_support_and_sampling_rate,
     handle_ibm_call,
 )
-
 from edenai_apis.features.audio import (
     SpeechDiarization,
     SpeechDiarizationEntry,
@@ -14,10 +14,7 @@ from edenai_apis.features.audio import (
     TextToSpeechDataClass,
 )
 from edenai_apis.features.audio.audio_interface import AudioInterface
-from edenai_apis.utils.audio import retreive_voice_id
 from edenai_apis.utils.exception import (
-    AsyncJobException,
-    AsyncJobExceptionReason,
     ProviderException,
 )
 from edenai_apis.utils.types import (
@@ -28,8 +25,6 @@ from edenai_apis.utils.types import (
     ResponseType,
 )
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
-
-from watson_developer_cloud.watson_service import WatsonApiException
 
 
 class IbmAudioApi(AudioInterface):

@@ -1,28 +1,13 @@
-from io import BufferedReader
-from typing import Dict, Sequence
-from google.protobuf.json_format import MessageToDict
-from clarifai_grpc.grpc.api import resources_pb2, service_pb2, service_pb2_grpc
-from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
-from clarifai_grpc.grpc.api.status import status_code_pb2
 from collections import defaultdict
-from PIL import Image as Img
-from edenai_apis.features.image.face_detection.face_detection_dataclass import (
-    FaceAccessories,
-    FaceEmotions,
-    FaceFacialHair,
-    FaceFeatures,
-    FaceHair,
-    FaceLandmarks,
-    FaceMakeup,
-    FaceOcclusions,
-    FacePoses,
-    FaceQuality,
-)
+from typing import Dict, Sequence
 
-from edenai_apis.features.image.object_detection.object_detection_dataclass import (
-    ObjectItem,
-)
-from edenai_apis.features.ocr import Bounding_box, OcrDataClass
+from PIL import Image as Img
+from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
+from clarifai_grpc.grpc.api import resources_pb2, service_pb2, service_pb2_grpc
+from clarifai_grpc.grpc.api.status import status_code_pb2
+from google.protobuf.json_format import MessageToDict
+
+from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
 from edenai_apis.features.image import (
     ExplicitContentDataClass,
     ExplicitItem,
@@ -35,10 +20,27 @@ from edenai_apis.features.image import (
     LogoBoundingPoly,
     LogoVertice,
 )
-from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
+from edenai_apis.features.image.explicit_content.category import CategoryType as CategoryTypeExplicitContent
+from edenai_apis.features.image.face_detection.face_detection_dataclass import (
+    FaceAccessories,
+    FaceEmotions,
+    FaceFacialHair,
+    FaceFeatures,
+    FaceHair,
+    FaceLandmarks,
+    FaceMakeup,
+    FaceOcclusions,
+    FacePoses,
+    FaceQuality,
+)
+from edenai_apis.features.image.object_detection.object_detection_dataclass import (
+    ObjectItem,
+)
+from edenai_apis.features.ocr import Bounding_box, OcrDataClass
 from edenai_apis.features.text.generation.generation_dataclass import (
     GenerationDataClass,
 )
+from edenai_apis.features.text.moderation.category import CategoryType
 from edenai_apis.features.text.moderation.moderation_dataclass import (
     ModerationDataClass,
     TextModerationItem,
@@ -49,10 +51,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.types import ResponseType
-
 from .clarifai_helpers import explicit_content_likelihood, get_formatted_language
-from edenai_apis.features.text.moderation.category import CategoryType
-from edenai_apis.features.image.explicit_content.category import CategoryType as CategoryTypeExplicitContent
 
 
 class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface):

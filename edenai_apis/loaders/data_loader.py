@@ -1,15 +1,14 @@
-from importlib import import_module
-import json
 import os
-import copy
 from enum import Enum
+from importlib import import_module
 from typing import Callable, Dict, List, Optional, Union, overload, Type
+
+from pydantic import BaseModel
 
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.utils import load_json, check_messsing_keys
 from edenai_apis.settings import info_path, keys_path, outputs_path
 from edenai_apis.utils.compare import is_valid
-from pydantic import BaseModel
 
 
 class FeatureDataEnum(Enum):
@@ -230,10 +229,7 @@ def load_subfeature(
 
 
 def load_samples(
-    feature: str,
-    subfeature: str,
-    phase: str = "",
-    provider_name: Optional[str] = None
+    feature: str, subfeature: str, phase: str = "", provider_name: Optional[str] = None
 ) -> Dict:
     """Get arguments for the pair (feature, subfeature)
     or for the triple (feature, subfeature, phase)

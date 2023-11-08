@@ -2,7 +2,9 @@ from enum import Enum
 from io import BufferedReader
 from time import sleep
 from typing import Dict
+
 import requests
+
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     BankInvoice,
     CustomerInformationInvoice,

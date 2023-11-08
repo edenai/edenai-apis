@@ -1,6 +1,5 @@
-import re
-from pydantic import ValidationError
 import pytest
+from pydantic import ValidationError
 
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SegmentSentimentAnalysisDataClass,

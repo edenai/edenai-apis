@@ -2,15 +2,16 @@ import json
 from typing import Dict, List, Literal, Optional, Sequence, Union
 
 import numpy as np
+import openai
 import requests
+from pydantic_core._pydantic_core import ValidationError
+
 from edenai_apis.features import TextInterface
-from edenai_apis.features.text import PromptOptimizationDataClass
 from edenai_apis.features.text.anonymization import AnonymizationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
 )
 from edenai_apis.features.text.anonymization.category import CategoryType
-from edenai_apis.features.text.moderation.category import CategoryType as CategoryTypeModeration
 from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
@@ -29,6 +30,7 @@ from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass i
     InfosKeywordExtractionDataClass,
 )
 from edenai_apis.features.text.moderation import ModerationDataClass, TextModerationItem
+from edenai_apis.features.text.moderation.category import CategoryType as CategoryTypeModeration
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
     NamedEntityRecognitionDataClass,
 )
@@ -58,10 +60,6 @@ from edenai_apis.utils.conversion import (
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
-from pydantic_core._pydantic_core import ValidationError
-
-import openai
-
 from .helpers import (
     construct_anonymization_context,
     construct_classification_instruction,

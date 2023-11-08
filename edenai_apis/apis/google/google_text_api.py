@@ -2,6 +2,11 @@ from typing import Dict, List, Literal, Optional, Sequence, Union
 
 import requests
 import vertexai
+from google.cloud import language_v1
+from google.cloud.language import Document as GoogleDocument
+from google.protobuf.json_format import MessageToDict
+from vertexai.language_models import ChatMessage, ChatModel
+
 from edenai_apis.apis.google.google_helpers import (
     get_access_token,
     get_tag_name,
@@ -51,11 +56,6 @@ from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
-from vertexai.language_models import ChatMessage, ChatModel
-
-from google.cloud import language_v1
-from google.cloud.language import Document as GoogleDocument
-from google.protobuf.json_format import MessageToDict
 
 
 class GoogleTextApi(TextInterface):

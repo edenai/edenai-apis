@@ -1,10 +1,10 @@
 import datetime
-from dateutil import parser
-from enum import Enum
 import json
 import os
+from enum import Enum
 from typing import Any, List, Optional, Sequence, Union
 
+from dateutil import parser
 from pydantic import (
     BaseModel,
     Field,

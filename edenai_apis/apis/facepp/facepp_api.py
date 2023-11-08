@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 import requests
+
 from edenai_apis.features import ImageInterface, ProviderInterface
 from edenai_apis.features.image.face_compare.face_compare_dataclass import (
     FaceCompareDataClass,

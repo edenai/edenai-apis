@@ -1,9 +1,8 @@
-from io import BufferedReader
 import json
-from typing import Dict
-import requests
-import re
 import os
+from typing import Dict
+
+import requests
 
 from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import (
@@ -18,7 +17,6 @@ from edenai_apis.utils.exception import (
     AsyncJobExceptionReason,
     ProviderException,
 )
-from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,

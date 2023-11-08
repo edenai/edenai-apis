@@ -1,6 +1,11 @@
 import os
 from typing import Dict
 
+from google.cloud import aiplatform, storage
+from google.cloud import translate_v3 as translate
+from google.cloud import videointelligence, vision
+from google.cloud.language import LanguageServiceClient
+
 from edenai_apis.apis.google.google_audio_api import GoogleAudioApi
 from edenai_apis.apis.google.google_image_api import GoogleImageApi
 from edenai_apis.apis.google.google_ocr_api import GoogleOcrApi
@@ -10,11 +15,6 @@ from edenai_apis.apis.google.google_video_api import GoogleVideoApi
 from edenai_apis.features import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-
-from google.cloud import aiplatform, storage
-from google.cloud import translate_v3 as translate
-from google.cloud import videointelligence, vision
-from google.cloud.language import LanguageServiceClient
 
 
 class GoogleApi(

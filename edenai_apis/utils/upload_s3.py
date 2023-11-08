@@ -1,9 +1,10 @@
-from io import BufferedReader, BytesIO
-import json
-from uuid import uuid4
-import os
 import datetime
+import json
+import os
+from io import BytesIO
 from typing import Callable, Tuple
+from uuid import uuid4
+
 import boto3
 from botocore.signers import CloudFrontSigner
 from cryptography.hazmat.backends import default_backend
@@ -12,7 +13,7 @@ from cryptography.hazmat.primitives.asymmetric import padding
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from settings import base_path, keys_path
+from edenai_apis.settings import keys_path
 
 BUCKET = ""
 BUCKET_RESSOURCE = ""
@@ -80,8 +81,8 @@ def upload_file_to_s3(file_path: str, file_name: str, process_type=PROVIDER_PROC
 
 
 def upload_file_bytes_to_s3(
-    file: BytesIO, file_name: str, process_type=PROVIDER_PROCESS
-):
+    file: BytesIO, file_name: str, process_type: str = PROVIDER_PROCESS
+) -> str:
     """Upload file byte to s3"""
     filename = str(uuid4()) + "_" + str(file_name)
     s3_client = s3_client_load()
@@ -90,7 +91,7 @@ def upload_file_bytes_to_s3(
     return func_call(filename, process_time)
 
 
-def get_cloud_front_file_url(filename: str, process_time: int):
+def get_cloud_front_file_url(filename: str, process_time: int) -> str:
     cloudfront_signer = CloudFrontSigner(CLOUDFRONT_KEY_ID, rsa_signer)
 
     signed_url = cloudfront_signer.generate_presigned_url(
@@ -101,7 +102,7 @@ def get_cloud_front_file_url(filename: str, process_time: int):
     return signed_url
 
 
-def get_s3_file_url(filename: str, process_time: int):
+def get_s3_file_url(filename: str, process_time: int) -> str:
     """Get url of a file hosted on s3"""
     s3_client = s3_client_load()
     response = s3_client.generate_presigned_url(

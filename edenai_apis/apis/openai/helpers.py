@@ -1,6 +1,7 @@
 from typing import List, Optional, Dict
 
-from requests import JSONDecodeError, Response
+from requests import Response
+
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 

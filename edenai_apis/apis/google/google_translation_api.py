@@ -1,7 +1,11 @@
 import base64
+import mimetypes
+from io import BytesIO
 from typing import Sequence
-from edenai_apis.apis.google.google_helpers import handle_google_call
 
+from google.protobuf.json_format import MessageToDict
+
+from edenai_apis.apis.google.google_helpers import handle_google_call
 from edenai_apis.features.translation.automatic_translation import (
     AutomaticTranslationDataClass,
 )
@@ -16,10 +20,7 @@ from edenai_apis.features.translation.translation_interface import TranslationIn
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
-import mimetypes
 from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
-from google.protobuf.json_format import MessageToDict
-from io import BytesIO
 
 
 class GoogleTranslationApi(TranslationInterface):

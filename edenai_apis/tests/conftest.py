@@ -1,4 +1,5 @@
 from typing import Callable, Any
+
 import pytest
 
 from edenai_apis.interface import list_features, list_providers

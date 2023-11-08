@@ -1,10 +1,10 @@
-from io import BufferedReader
 from typing import Dict, List
 
 import requests
+
 from edenai_apis.features import ProviderInterface
-from edenai_apis.features.image import ImageInterface
 from edenai_apis.features.image import FaceItem, FaceDetectionDataClass
+from edenai_apis.features.image import ImageInterface
 from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FaceAccessories,
     FaceEmotions,
@@ -18,9 +18,9 @@ from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FacePoses,
     FaceQuality,
 )
+from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 
 
 class SkybiometryApi(ProviderInterface, ImageInterface):

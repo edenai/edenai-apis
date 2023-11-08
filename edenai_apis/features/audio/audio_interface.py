@@ -9,9 +9,8 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
 from edenai_apis.features.audio.text_to_speech_async.text_to_speech_async_dataclass import (
-    TextToSpeechAsyncDataClass
+    TextToSpeechAsyncDataClass,
 )
-from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -32,7 +31,7 @@ class AudioInterface:
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
-        provider_params: dict = dict()
+        provider_params: dict = dict(),
     ) -> AsyncLaunchJobResponseType:
         """Launch an asynchronous job to convert an audio file to text
         Args:
@@ -83,10 +82,8 @@ class AudioInterface:
 
     @abstractmethod
     def audio__text_to_speech_async__launch_job(
-        self, 
-        language: str, 
-        text: str, 
-        option: Literal["MALE", "FEMALE"]) -> AsyncLaunchJobResponseType:
+        self, language: str, text: str, option: Literal["MALE", "FEMALE"]
+    ) -> AsyncLaunchJobResponseType:
         """Convert text into longer audio speech
         Args:
             language (str): language in ISO format
@@ -94,18 +91,17 @@ class AudioInterface:
             option (Literal["MALE", "FEMALE"]):
         """
         raise NotImplementedError
-    
+
     @abstractmethod
     def audio__text_to_speech_async__get_job_result(
-        self, 
-        provider_job_id: str) -> AsyncBaseResponseType[TextToSpeechAsyncDataClass]:
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[TextToSpeechAsyncDataClass]:
         """Get the result of an asynchronous job by its ID
         Args:
             - provider_job_id (str): id of async job
         """
         raise NotImplementedError
 
-    
     @abstractmethod
     def audio__text_to_speech_async__get_results_from_webhook(
         self, data: dict

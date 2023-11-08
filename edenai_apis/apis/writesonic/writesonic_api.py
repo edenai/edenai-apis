@@ -1,15 +1,16 @@
-from typing import Dict, Optional
+import json
+from typing import Dict
+
 import requests
+
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import (
-    ChatDataClass,
     SummarizeDataClass,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-import json
 
 
 class WritesonicApi(ProviderInterface, TextInterface):

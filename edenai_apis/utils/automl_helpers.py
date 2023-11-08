@@ -1,8 +1,10 @@
 import os
 from typing import Callable, Optional
+
 import pandas as pd
 
 from edenai_apis.utils.conversion import replace_sep
+
 
 # MODULE NOT TESTED
 

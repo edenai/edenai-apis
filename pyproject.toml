@@ -37,6 +37,26 @@ keywords = ["IA", "connectors","API", "AI engines"]
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
 
+[tool.mypy]
+plugins = [
+  "pydantic.mypy"
+]
+
+follow_imports = "silent"
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = true
+check_untyped_defs = true
+no_implicit_reexport = true
+
+# for strict mypy: (this is the tricky one :-))
+disallow_untyped_defs = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
 [project.urls]
 repository = "https://github.com/edenai/edenai-apis"
 homepage = "https://www.edenai.co/"

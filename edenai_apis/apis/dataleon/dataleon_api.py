@@ -1,5 +1,5 @@
-from io import BufferedReader
 from typing import Dict, Sequence
+
 import requests
 
 from edenai_apis.features import ProviderInterface, OcrInterface
@@ -21,8 +21,8 @@ from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import Ban
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import convert_string_to_number
-from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.types import ResponseType
 
 
 class DataleonApi(ProviderInterface, OcrInterface):

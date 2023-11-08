@@ -1,15 +1,16 @@
-from io import BufferedReader
 import json
 import re
 from typing import Dict, List, Optional
+
 import requests
-from edenai_apis.features.provider.provider_interface import ProviderInterface
+
 from edenai_apis.features import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
     SpeechDiarization,
 )
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import (
@@ -17,7 +18,6 @@ from edenai_apis.utils.exception import (
     AsyncJobExceptionReason,
     ProviderException,
 )
-from edenai_apis.utils.files import FileWrapper
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncPendingResponseType,

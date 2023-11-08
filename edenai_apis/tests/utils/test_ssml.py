@@ -1,10 +1,12 @@
 import pytest
+
 from edenai_apis.utils.ssml import (
     is_ssml,
     get_index_after_first_speak_tag,
     get_index_before_last_speak_tag,
     convert_audio_attr_in_prosody_tag
 )
+
 
 class TestIsSSML:
     @pytest.mark.parametrize('ssml_text', [

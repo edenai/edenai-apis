@@ -1,21 +1,22 @@
-import requests
+import json
 import uuid
 from typing import Optional, List
+
+import requests
+
 from edenai_apis.apis.amazon.helpers import check_webhook_result
+from edenai_apis.features import AudioInterface
+from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
+    SpeechDiarization,
+    SpeechToTextAsyncDataClass,
+)
+from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     AsyncResponseType,
     AsyncPendingResponseType,
 )
-from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
-    SpeechDiarization,
-    SpeechToTextAsyncDataClass,
-)
-from edenai_apis.features import AudioInterface
-from edenai_apis.utils.exception import ProviderException
-import json
-import urllib
 
 
 class OpenaiAudioApi(AudioInterface):

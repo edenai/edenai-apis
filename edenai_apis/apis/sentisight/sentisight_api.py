@@ -1,10 +1,8 @@
-from io import BufferedReader, BytesIO
-from typing import Dict, Sequence
-from PIL import Image as Img
 import base64
+from typing import Dict, Sequence
+
 import requests
-from pdf2image.pdf2image import convert_from_bytes
-import json
+from PIL import Image as Img
 
 from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
 from edenai_apis.features.image import (
@@ -15,12 +13,13 @@ from edenai_apis.features.image import (
     ExplicitContentDataClass,
     ExplicitItem,
 )
+from edenai_apis.features.image.explicit_content.category import CategoryType
+from edenai_apis.features.image.search.get_image import (
+    SearchGetImageDataClass,
+)
 from edenai_apis.features.image.search.get_images import (
     ImageSearchItem,
     SearchGetImagesDataClass,
-)
-from edenai_apis.features.image.search.get_image import (
-    SearchGetImageDataClass,
 )
 from edenai_apis.features.ocr import OcrDataClass, Bounding_box
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -33,7 +32,6 @@ from .sentisight_helpers import (
     get_formatted_language,
     handle_error_image_search,
 )
-from edenai_apis.features.image.explicit_content.category import CategoryType
 
 
 class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):

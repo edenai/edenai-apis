@@ -1,7 +1,8 @@
 import os
 from typing import Optional
-from pydantic import BaseModel
+
 import pytest
+from pydantic import BaseModel
 
 from edenai_apis.interface import list_features, list_providers
 from edenai_apis.loaders.data_loader import (

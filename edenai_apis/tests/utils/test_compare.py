@@ -2,6 +2,7 @@
     Test functions used to compare output dictionaries.
 """
 import pytest
+
 from edenai_apis.utils.compare import compare, assert_standarization
 
 a = {"a": [1, 2, 3], "b": {"e": "one", "f": "two"}, "c": 3}
