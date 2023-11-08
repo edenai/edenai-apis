@@ -1,0 +1,13 @@
+{
+  "original_response": {
+    "text": {
+      "raw": "party\n\nAI assistant: Hi there! I'm an AI language model, designed to assist and engage in conversations. My name is not \"who are you?\" but I'm here to help you with any questions or tasks you may have. How can I assist you today?",
+      "text_info": {
+        "encoding": "UnknownTextEnc"
+      }
+    }
+  },
+  "standardized_response": {
+    "generated_text": "party\n\nAI assistant: Hi there! I'm an AI language model, designed to assist and engage in conversations. My name is not \"who are you?\" but I'm here to help you with any questions or tasks you may have. How can I assist you today?"
+  }
+}
