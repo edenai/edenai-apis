@@ -47,6 +47,19 @@ def convert_string_to_number(
     except Exception as exc:
         print(exc)
         return None
+    
+def _convert_dictionary_to_date_string(dictionary: Dict[str, Any]) -> Tuple[str, None]:
+    year = dictionary['year']
+    month = dictionary['month']
+    if year == -1:
+        year = dt.datetime.now().year
+    if month == -1:
+        month = dt.datetime.now().month
+    try:
+        ret = dt.datetime(year=dictionary["year"], month=dictionary["month"], day=1).strftime("%d-%m-%Y")
+    except:
+        ret = None
+    return ret
 
 
 def closest_above_value(input_list, input_value):

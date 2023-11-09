@@ -32,6 +32,7 @@
 | **resume_parser** | affinda |
 | | hireability |
 | | klippa |
+| | senseloaf |
 | **custom_document_parsing_async** | amazon |
 | **data_extraction** | amazon |
 | | base64 |
@@ -63,6 +64,7 @@
 | | clarifai |
 | | cohere |
 | | google |
+| | mistral |
 | | openai |
 | **summarize** | alephalpha |
 | | cohere |
@@ -621,6 +623,13 @@
 | | receipt_parser |
 
 </details>
+<details><summary>mistral</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | generation |
+
+</details>
 <details><summary>modernmt</summary>
 
 | Features | Subfeatures |
@@ -766,6 +775,13 @@
 | **text** | ai_detection |
 | | sentiment_analysis |
 | | spell_check |
+
+</details>
+<details><summary>senseloaf</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **ocr** | resume_parser |
 
 </details>
 <details><summary>sentisight</summary>

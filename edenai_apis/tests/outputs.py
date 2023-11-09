@@ -3,6 +3,9 @@ import os
 import pathlib
 import time
 from typing import Callable
+from edenai_apis.utils.constraints import (
+    validate_all_provider_constraints,
+)
 
 import pytest
 
@@ -13,6 +16,8 @@ from edenai_apis.utils.constraints import (
     validate_all_provider_constraints,
 )
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
+from edenai_apis.interface import IS_MONITORING
+from edenai_apis.utils.monitoring import insert_api_call
 
 # TEXT_AUTOML_CLASSIFICATION = ["training_async", "prediction_async"]
 
@@ -123,4 +128,6 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
                         )
                     )
 
+    if IS_MONITORING:
+        insert_api_call(provider=provider,feature=feature,subfeature=subfeature,user_email=None, error=None)
     return api_output

@@ -19,6 +19,9 @@ from edenai_apis.utils.conversion import iterate_all
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
+from edenai_apis.interface import IS_MONITORING
+from edenai_apis.utils.monitoring import insert_api_call
+
 INTERFACE_MODULE = importlib.import_module("edenai_apis.interface_v2")
 
 
@@ -81,6 +84,9 @@ class CommonTestsSubfeatures:
         assert any(
             [std != None for std in iterate_all(standardized_response, "value")]
         ), "Response shouldn't be empty"
+
+        if IS_MONITORING:
+            insert_api_call(provider, feature, subfeature, None, None)
 
     def _test_feature_saved_output(self, provider, feature, subfeature):
         # Step 1 (Setup) :
