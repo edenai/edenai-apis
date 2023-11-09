@@ -35,6 +35,7 @@ from .oneai import OneaiApi
 from .openai import OpenaiApi
 from .originalityai import OriginalityaiApi
 from .phedone import PhedoneApi
+from .photoroom import PhotoroomApi
 from .picpurify import PicpurifyApi
 from .prowritingaid import ProWritingAidApi
 from .readyredact import ReadyRedactApi

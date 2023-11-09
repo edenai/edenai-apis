@@ -1,3 +1,5 @@
+import base64
+import json
 from typing import List, Sequence, Optional
 
 import requests
@@ -6,6 +8,7 @@ from PIL import Image as Img
 from edenai_apis.apis.microsoft.microsoft_helpers import (
     miscrosoft_normalize_face_detection_response,
 )
+from edenai_apis.apis.microsoft.types import MicrosoftBackgroundRemovalParams
 from edenai_apis.features.image import (
     ExplicitContentDataClass,
     ExplicitItem,
@@ -442,4 +445,48 @@ class MicrosoftImageApi(ImageInterface):
         file_url: str = "",
         provider_params: Optional[BackgroundRemovalParams] = None,
     ) -> ResponseType[BackgroundRemovalDataClass]:
-        pass
+        with open(file, "rb") as f:
+            if provider_params is None or not isinstance(
+                provider_params, MicrosoftBackgroundRemovalParams
+            ):
+                provider_params = MicrosoftBackgroundRemovalParams()
+
+            base_url = (
+                "https://francecentral.api.cognitive.microsoft.com/computervision/"
+            )
+            endpoint = "imageanalysis:segment?api-version=2023-02-01-preview"
+            url = base_url + endpoint + f"&mode={provider_params.mode}"
+
+            response = requests.post(
+                url,
+                headers=self.headers["vision"],
+                data=f.read(),
+            )
+
+            if response.status_code != 200:
+                try:
+                    original_response = response.json()
+                    print(original_response)
+                    error_message = (
+                        original_response["error"]["code"]
+                        + ": "
+                        + original_response["error"]["message"]
+                    )
+                except (KeyError, json.JSONDecodeError):
+                    error_message = "Provider has not returned an image"
+
+                raise ProviderException(
+                    message=error_message,
+                    code=response.status_code,
+                )
+
+            img_b64 = base64.b64encode(response.content).decode("utf-8")
+            resource_url = BackgroundRemovalDataClass.generate_resource_url(img_b64)
+
+            return ResponseType[BackgroundRemovalDataClass](
+                original_response=response.text,
+                standardized_response=BackgroundRemovalDataClass(
+                    image_b64=img_b64,
+                    image_resource_url=resource_url,
+                ),
+            )
