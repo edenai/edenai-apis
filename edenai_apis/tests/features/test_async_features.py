@@ -18,7 +18,8 @@ from edenai_apis.utils.conversion import iterate_all
 from edenai_apis.utils.exception import AsyncJobExceptionReason, ProviderException
 from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
 from edenai_apis.utils.compare import compare_responses
-
+from edenai_apis.interface import IS_MONITORING
+from edenai_apis.utils.monitoring import insert_api_call
 
 MAX_TIME = 180
 TIME_BETWEEN_CHECK = 10
@@ -106,6 +107,9 @@ class CommonAsyncTests:
         ), "Response shouldn't be empty"
         assert standardized, "The output is not standardized"
 
+        if IS_MONITORING:
+            insert_api_call(provider, feature, subfeature, None, None)
+            
     def _test_async_job(self, provider, feature, subfeature):
         self._test_launch_job_id(provider, feature, subfeature)
         self._test_api_get_job_result_real_output(provider, feature, subfeature)
