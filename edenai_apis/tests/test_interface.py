@@ -34,7 +34,6 @@ class TestComputeOutput:
         mocker.patch(
             "edenai_apis.interface.validate_all_provider_constraints", return_value={}
         )
-        mocker.patch("edenai_apis.interface.assert_equivalent_dict", return_value=True)
         final_result = compute_output(
             provider, feature, subfeature, {}, fake=True, phase=phase
         )
@@ -53,7 +52,6 @@ class TestGetAsyncJobResult:
         mocker.patch(
             "edenai_apis.interface.validate_all_provider_constraints", return_value={}
         )
-        mocker.patch("edenai_apis.interface.assert_equivalent_dict", return_value=True)
         final_result = compute_output(
             provider, feature, subfeature, {}, fake=True, phase=phase
         )
