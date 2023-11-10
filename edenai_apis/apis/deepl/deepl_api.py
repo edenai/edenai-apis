@@ -7,7 +7,6 @@ from typing import Dict
 import requests
 
 from edenai_apis.features.provider.provider_interface import ProviderInterface
-from edenai_apis.features.translation import LanguageDetectionDataClass
 from edenai_apis.features.translation.automatic_translation import (
     AutomaticTranslationDataClass,
 )
@@ -23,11 +22,6 @@ from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
 
 
 class DeeplApi(ProviderInterface, TranslationInterface):
-    def translation__language_detection(
-        self, text: str
-    ) -> ResponseType[LanguageDetectionDataClass]:
-        pass
-
     provider_name = "deepl"
 
     def __init__(self, api_keys: Dict = {}) -> None:
