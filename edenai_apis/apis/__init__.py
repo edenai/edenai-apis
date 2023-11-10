@@ -56,5 +56,7 @@ from .alephalpha import AlephAlphaApi
 from .winstonai import WinstonaiApi
 from .vernai import VernaiApi
 from .readyredact import ReadyRedactApi
+from .senseloaf import SenseloafApi
+from .mistral import MistralApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

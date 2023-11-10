@@ -14,7 +14,9 @@ from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException, get_appropriate_error
 from edenai_apis.utils.monitoring import insert_api_call, monitor_call
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
+from dotenv import load_dotenv
 
+load_dotenv()
 IS_MONITORING = os.environ.get("MONITORING") is not None  # see utils.monitoring
 
 ProviderDict = Dict[
