@@ -1,6 +1,6 @@
 import base64
 import json
-from typing import List, Sequence, Optional
+from typing import List, Sequence, Optional, Any, Dict
 
 import requests
 from PIL import Image as Img
@@ -23,7 +23,6 @@ from edenai_apis.features.image import (
     ObjectItem,
 )
 from edenai_apis.features.image.background_removal import BackgroundRemovalDataClass
-from edenai_apis.features.image.background_removal.types import BackgroundRemovalParams
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.face_recognition.add_face.face_recognition_add_face_dataclass import (
     FaceRecognitionAddFaceDataClass,
@@ -443,13 +442,13 @@ class MicrosoftImageApi(ImageInterface):
         self,
         file: str,
         file_url: str = "",
-        provider_params: Optional[BackgroundRemovalParams] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         with open(file, "rb") as f:
-            if provider_params is None or not isinstance(
-                provider_params, MicrosoftBackgroundRemovalParams
-            ):
+            if provider_params is None or not isinstance(provider_params, dict):
                 provider_params = MicrosoftBackgroundRemovalParams()
+            else:
+                provider_params = MicrosoftBackgroundRemovalParams(**provider_params)
 
             base_url = (
                 "https://francecentral.api.cognitive.microsoft.com/computervision/"

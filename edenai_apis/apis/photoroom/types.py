@@ -2,10 +2,8 @@ from typing import Literal, Optional
 
 from pydantic import Field
 
-from edenai_apis.features.image.background_removal.types import BackgroundRemovalParams
 
-
-class PhotoroomBackgroundRemovalParams(BackgroundRemovalParams):
+class PhotoroomBackgroundRemovalParams:
     format: Literal["jpg", "png"] = Field(
         "png", description="Output format of the image."
     )

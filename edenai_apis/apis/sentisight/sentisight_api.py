@@ -1,5 +1,5 @@
 import base64
-from typing import Dict, Sequence, Optional
+from typing import Dict, Sequence, Optional, Any
 
 import requests
 from PIL import Image as Img
@@ -14,7 +14,6 @@ from edenai_apis.features.image import (
     ExplicitItem,
     BackgroundRemovalDataClass,
 )
-from edenai_apis.features.image.background_removal.types import BackgroundRemovalParams
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.search.get_image import (
     SearchGetImageDataClass,
@@ -332,13 +331,13 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         self,
         file: str,
         file_url: str = "",
-        provider_params: Optional[BackgroundRemovalParams] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         with open(file, "rb") as fstream:
-            if provider_params is None or not isinstance(
-                provider_params, SentisightBackgroundRemovalParams
-            ):
+            if provider_params is None or not isinstance(provider_params, dict):
                 provider_params = SentisightBackgroundRemovalParams()
+            else:
+                provider_params = SentisightBackgroundRemovalParams(**provider_params)
 
             response = requests.post(
                 self.base_url + SentisightPreTrainModel.BACKGROUND_REMOVAL.value,

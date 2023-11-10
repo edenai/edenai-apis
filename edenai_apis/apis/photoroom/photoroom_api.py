@@ -1,12 +1,11 @@
 from http import HTTPStatus
-from typing import Optional, Dict
+from typing import Optional, Dict, Any
 
 import requests
 
 from edenai_apis.apis.photoroom.types import PhotoroomBackgroundRemovalParams
 from edenai_apis.features import ImageInterface, ProviderInterface
 from edenai_apis.features.image.background_removal import BackgroundRemovalDataClass
-from edenai_apis.features.image.background_removal.types import BackgroundRemovalParams
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
@@ -49,15 +48,15 @@ class PhotoroomApi(ImageInterface, ProviderInterface):
         self,
         file: str,
         file_url: str = "",
-        provider_params: Optional[BackgroundRemovalParams] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         with open(file, "rb") as f:
             files = {"image_file": f.read()}
 
-            if provider_params is None or not isinstance(
-                provider_params, PhotoroomBackgroundRemovalParams
-            ):
+            if provider_params is None or not isinstance(provider_params, dict):
                 provider_params = PhotoroomBackgroundRemovalParams()
+            else:
+                provider_params = PhotoroomBackgroundRemovalParams(**provider_params)
 
             response = requests.post(
                 f"{self.base_url}segment",

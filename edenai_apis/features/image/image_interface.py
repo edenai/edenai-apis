@@ -1,12 +1,11 @@
 from abc import abstractmethod
 from io import BufferedReader
-from typing import Literal, Optional
+from typing import Literal, Optional, Dict, Any
 
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
 )
 from edenai_apis.features.image.background_removal import BackgroundRemovalDataClass
-from edenai_apis.features.image.background_removal.types import BackgroundRemovalParams
 from edenai_apis.features.image.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
 )
@@ -379,16 +378,16 @@ class ImageInterface:
         self,
         file: str,
         file_url: str = "",
-        provider_params: Optional[BackgroundRemovalParams] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         """
         Remove background from an image.
-        Each provider has its own parameters inherited from BackgroundRemovalParams
+        Each provider has its own parameters
 
         Args:
             file (str): Image to analyze
             file_url (str): Url of the image to analyze
-            provider_params (BackgroundRemovalParams): Provider specific parameters for the request.
+            provider_params (dict): Provider specific parameters for the request.
 
         Returns:
             ResponseType[BackgroundRemovalDataClass]

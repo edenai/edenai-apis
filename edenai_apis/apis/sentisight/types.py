@@ -1,9 +1,7 @@
 import enum
 
-from edenai_apis.features.image.background_removal.types import BackgroundRemovalParams
 
-
-class SentisightBackgroundRemovalParams(BackgroundRemovalParams):
+class SentisightBackgroundRemovalParams:
     """Sentisight Background Removal API params
 
     Sentisight don't have any specific params for background removal

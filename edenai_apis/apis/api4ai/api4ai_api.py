@@ -1,6 +1,6 @@
 import base64
 from io import BytesIO
-from typing import Dict, Sequence, Optional
+from typing import Dict, Sequence, Optional, Any
 
 import requests
 
@@ -11,7 +11,6 @@ from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationBoundingBox,
 )
 from edenai_apis.features.image.background_removal import BackgroundRemovalDataClass
-from edenai_apis.features.image.background_removal.types import BackgroundRemovalParams
 from edenai_apis.features.image.explicit_content import (
     ExplicitContentDataClass,
     ExplicitItem,
@@ -398,12 +397,12 @@ class Api4aiApi(
         self,
         file: str,
         file_url: str = "",
-        provider_params: Optional[BackgroundRemovalParams] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
     ) -> ResponseType[BackgroundRemovalDataClass]:
-        if provider_params is None or not isinstance(
-            provider_params, Api4aiBackgroundRemovalParams
-        ):
+        if provider_params is None or not isinstance(provider_params, dict):
             provider_params = Api4aiBackgroundRemovalParams()
+        else:
+            provider_params = Api4aiBackgroundRemovalParams(**provider_params)
 
         url: str = self.urls["bg_removal"] + f"&mode={provider_params.mode}"
         with open(file, "rb") as f:
