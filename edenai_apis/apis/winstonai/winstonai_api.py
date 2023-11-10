@@ -51,8 +51,8 @@ class WinstonaiApi(ProviderInterface, TextInterface):
         items: Sequence[AiDetectionItem] = [
             AiDetectionItem(
                 text=sentence["text"],
-                ai_score=sentence["score"],
-                prediction=AiDetectionItem.set_label_based_on_human_score(sentence["score"]),
+                ai_score=sentence["score"] / 100,
+                prediction=AiDetectionItem.set_label_based_on_human_score(sentence["score"] / 100),
             )
             for sentence in sentences
         ]
