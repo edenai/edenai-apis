@@ -1,6 +1,79 @@
 {
   "original_response": {
     "rawText": "Functional Resume Sample John W. Smith 2002 Front Range Way Fort Collins, CO 80525 jwsmith@colostate.edu Career Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers. Childcare Experience \u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \u2022 Oversaw daily activity and outing planning for 100 clients. \u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \u2022 Assisted teachers with managing daily classroom activities. \u2022 Oversaw daily and special student activities. Employment History 1999-2002 Counseling Supervisor, The Wesley Center, Little Rock, Arkansas. 1997-1999 Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas 1996-1997 Teacher\u2019s Assistant, Cowell Elementary, Conway, Arkansas Education University of Arkansas at Little Rock, Little Rock, AR \u2022 BS in Early Childhood Development (1999) \u2022 BA in Elementary Education (1998) \u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \u2022 Dean\u2019s List, Chancellor\u2019s List",
+    "education": {
+      "EducationSection": [
+        {
+          "Collegename": "University of Arkansas",
+          "Degree": "BS",
+          "EduEndDate": {
+            "month": 11,
+            "year": 1999
+          },
+          "EduStartDate": {
+            "month": 0,
+            "year": 0
+          },
+          "Location": "Little Rock  Little Rock  AR",
+          "Major": "Early Childhood Development",
+          "Grade": "4.03.83.5",
+          "DegreeType": "General Studies",
+          "MaxGrade": "",
+          "GradeType": ""
+        }
+      ],
+      "HighestEducation": "BS"
+    },
+    "experience": {
+      "ExperienceSection": [
+        {
+          "CompanyName": "The Wesley Center",
+          "ExpEndDate": {
+            "month": 11,
+            "year": 2002
+          },
+          "ExpLocation": "Little Rock , Arkansas",
+          "ExpStartDate": {
+            "month": 11,
+            "year": 1999
+          },
+          "JobTitle": "Counseling Supervisor",
+          "Description": ""
+        },
+        {
+          "CompanyName": "Rainbow Special Care Center",
+          "ExpEndDate": {
+            "month": 11,
+            "year": 1999
+          },
+          "ExpLocation": "Little Rock , Arkansas",
+          "ExpStartDate": {
+            "month": 11,
+            "year": 1997
+          },
+          "JobTitle": "Client Specialist",
+          "Description": ""
+        },
+        {
+          "CompanyName": "Cowell Elementary",
+          "ExpEndDate": {
+            "month": 11,
+            "year": 1997
+          },
+          "ExpLocation": "Conway , Arkansas",
+          "ExpStartDate": {
+            "month": 11,
+            "year": 1996
+          },
+          "JobTitle": "Teacher s Assistant",
+          "Description": ""
+        }
+      ],
+      "TotalExperience": 6.0,
+      "CurrentCompany": "The Wesley Center",
+      "CurrentJobRole": "Counseling Supervisor",
+      "AverageExperience": 2.0
+    },
     "skills": [
       {
         "SkillName": "Developmental Psychology",
@@ -75,93 +148,20 @@
         "rawSkill": "managing"
       }
     ],
-    "education": {
-      "EducationSection": [
-        {
-          "Collegename": "University of Arkansas",
-          "Degree": "BS",
-          "EduEndDate": {
-            "month": 11,
-            "year": 1999
-          },
-          "EduStartDate": {
-            "month": 0,
-            "year": 0
-          },
-          "Location": "Little Rock  Little Rock  AR",
-          "Major": "Early Childhood Development",
-          "Grade": "4.03.83.5",
-          "DegreeType": "General Studies",
-          "MaxGrade": "",
-          "GradeType": ""
-        }
-      ],
-      "HighestEducation": "BS"
-    },
-    "experience": {
-      "ExperienceSection": [
-        {
-          "CompanyName": "The Wesley Center",
-          "ExpEndDate": {
-            "month": 11,
-            "year": 2002
-          },
-          "ExpLocation": "Little Rock , Arkansas",
-          "ExpStartDate": {
-            "month": 11,
-            "year": 1999
-          },
-          "JobTitle": "Counseling Supervisor",
-          "Description": ""
-        },
-        {
-          "CompanyName": "Rainbow Special Care Center",
-          "ExpEndDate": {
-            "month": 11,
-            "year": 1999
-          },
-          "ExpLocation": "Little Rock , Arkansas",
-          "ExpStartDate": {
-            "month": 11,
-            "year": 1997
-          },
-          "JobTitle": "Client Specialist",
-          "Description": ""
-        },
-        {
-          "CompanyName": "Cowell Elementary",
-          "ExpEndDate": {
-            "month": 11,
-            "year": 1997
-          },
-          "ExpLocation": "Conway , Arkansas",
-          "ExpStartDate": {
-            "month": 11,
-            "year": 1996
-          },
-          "JobTitle": "Teacher s Assistant",
-          "Description": ""
-        }
-      ],
-      "TotalExperience": 6.0,
-      "CurrentCompany": "The Wesley Center",
-      "CurrentJobRole": "Counseling Supervisor",
-      "AverageExperience": 2.0
-    },
     "socialLinks": {
-      "urls": [],
       "linkedin": "",
       "facebook": "",
       "github": "",
       "stackoverflow": "",
       "twitter": "",
       "skypeid": "",
-      "angelList": ""
+      "angelList": "",
+      "urls": []
     },
     "contactInfo": {
+      "title": "",
       "firstName": "John",
       "lastName": "Smith",
-      "title": "",
       "middleName": "W."
     },
     "contactMethod": {
