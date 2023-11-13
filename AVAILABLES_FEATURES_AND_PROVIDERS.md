@@ -49,10 +49,11 @@
 | **ocr_tables_async** | amazon |
 | | google |
 | | microsoft |
+| **anonymization_async** | base64 |
+| | readyredact |
 | **bank_check_parsing** | base64 |
 | | mindee |
 | | veryfi |
-| **anonymization_async** | readyredact |
 
 </details>
 <details><summary>text</summary>
@@ -235,6 +236,7 @@
 | | ibm |
 | | lovoai |
 | | microsoft |
+| | openai |
 | **text_to_speech_async** | lovoai |
 
 </details>
@@ -376,7 +378,8 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **image** | face_compare |
-| **ocr** | bank_check_parsing |
+| **ocr** | anonymization_async |
+| | bank_check_parsing |
 | | data_extraction |
 | | identity_parser |
 | | invoice_parser |
@@ -687,6 +690,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | speech_to_text_async |
+| | text_to_speech |
 | **image** | generation |
 | **text** | anonymization |
 | | chat |
