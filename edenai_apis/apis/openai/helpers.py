@@ -376,3 +376,19 @@ def construct_prompt_optimization_instruction(text: str, target_provider: str):
     }
 
     return prompt[target_provider]
+
+def convert_tts_audio_rate(audio_rate: int) -> float:
+    """
+    Convert TTS audio rate from the range [-100, 100] to [0.25, 4.0].
+
+    Parameters:
+    - audio_rate (int): The input audio rate in the range [-100, 100].
+
+    Returns:
+    - float: The audio rate in the range [0.25, 4.0].
+
+    """
+    if audio_rate >= -100 and audio_rate <= 0:
+        return ((audio_rate - (-100)) / (0 - (-100))) * (1 - 0.25) + 0.25
+    else:
+        return ((audio_rate - 0) / (100 - 0)) * (4 - 1) + 1
