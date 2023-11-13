@@ -1,27 +1,30 @@
 {
   "original_response": {
-    "id": "chatcmpl-7CTtfdCG0Vzf25x9H48QJMeDk73yi",
+    "id": "chatcmpl-8KS3Mz2wmYGqUcfncF0ymjAUxozUH",
     "object": "chat.completion",
-    "created": 1683209215,
-    "model": "gpt-4-0314",
+    "created": 1699885088,
+    "model": "gpt-4-1106-vision-preview",
     "usage": {
       "prompt_tokens": 222,
-      "completion_tokens": 30,
-      "total_tokens": 252
+      "completion_tokens": 25,
+      "total_tokens": 247
     },
     "choices": [
       {
         "message": {
           "role": "assistant",
-          "content": "barack hussein obama, american, politician, 44th president, united states, democratic party, african-american, senator, illinois"
+          "content": "Barack Hussein Obama, American, politician, president, United States, Democratic Party, African-American, senator, Illinois, state"
         },
-        "finish_reason": "stop",
+        "finish_details": {
+          "type": "stop",
+          "stop": "<|fim_suffix|>"
+        },
         "index": 0
       }
     ]
   },
   "standardized_response": {
-    "generated_text": "barack hussein obama, american, politician, 44th president, united states, democratic party, african-american, senator, illinois",
+    "generated_text": "Barack Hussein Obama, American, politician, president, United States, Democratic Party, African-American, senator, Illinois, state",
     "message": [
       {
         "role": "user",
@@ -29,7 +32,7 @@
       },
       {
         "role": "assistant",
-        "message": "barack hussein obama, american, politician, 44th president, united states, democratic party, african-american, senator, illinois"
+        "message": "Barack Hussein Obama, American, politician, president, United States, Democratic Party, African-American, senator, Illinois, state"
       }
     ]
   }
