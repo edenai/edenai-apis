@@ -9,7 +9,7 @@ feature_path = os.path.dirname(os.path.dirname(__file__))
 
 data_path = os.path.join(feature_path, "data")
 
-image_path = f"{data_path}/resume.pdf"
+image_path = f"{data_path}/receipt.jpg"
 
 mime_type = mimetypes.guess_type(image_path)[0]
 file_info = FileInfo(
