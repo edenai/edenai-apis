@@ -151,7 +151,6 @@ List of corrected words :
         payload = {
             "inputs": texts,
             "examples": example_dict,
-            "model": "large",
         }
 
         response = requests.post(
