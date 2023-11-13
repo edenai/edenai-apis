@@ -400,11 +400,11 @@ class Api4aiApi(
         provider_params: Optional[Dict[str, Any]] = None,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         if provider_params is None or not isinstance(provider_params, dict):
-            provider_params = Api4aiBackgroundRemovalParams()
+            api4ai_params = Api4aiBackgroundRemovalParams()
         else:
-            provider_params = Api4aiBackgroundRemovalParams(**provider_params)
+            api4ai_params = Api4aiBackgroundRemovalParams(**provider_params)
 
-        url: str = self.urls["bg_removal"] + f"&mode={provider_params.mode}"
+        url: str = self.urls["bg_removal"] + f"&mode={api4ai_params.mode}"
         with open(file, "rb") as f:
             response = requests.post(url, files={"image": f.read()})
 

@@ -1,9 +1,9 @@
 from typing import Literal, Optional
 
-from pydantic import Field
+from pydantic import Field, BaseModel
 
 
-class PhotoroomBackgroundRemovalParams:
+class PhotoroomBackgroundRemovalParams(BaseModel):
     format: Literal["jpg", "png"] = Field(
         "png", description="Output format of the image."
     )

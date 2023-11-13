@@ -446,15 +446,15 @@ class MicrosoftImageApi(ImageInterface):
     ) -> ResponseType[BackgroundRemovalDataClass]:
         with open(file, "rb") as f:
             if provider_params is None or not isinstance(provider_params, dict):
-                provider_params = MicrosoftBackgroundRemovalParams()
+                microsoft_params = MicrosoftBackgroundRemovalParams()
             else:
-                provider_params = MicrosoftBackgroundRemovalParams(**provider_params)
+                microsoft_params = MicrosoftBackgroundRemovalParams(**provider_params)
 
             base_url = (
                 "https://francecentral.api.cognitive.microsoft.com/computervision/"
             )
             endpoint = "imageanalysis:segment?api-version=2023-02-01-preview"
-            url = base_url + endpoint + f"&mode={provider_params.mode}"
+            url = base_url + endpoint + f"&mode={microsoft_params.mode}"
 
             response = requests.post(
                 url,

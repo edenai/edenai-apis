@@ -1,7 +1,9 @@
 import enum
 
+from pydantic import BaseModel
 
-class SentisightBackgroundRemovalParams:
+
+class SentisightBackgroundRemovalParams(BaseModel):
     """Sentisight Background Removal API params
 
     Sentisight don't have any specific params for background removal

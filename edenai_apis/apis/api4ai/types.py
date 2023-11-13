@@ -1,9 +1,9 @@
 from typing import Literal
 
-from pydantic import Field
+from pydantic import Field, BaseModel
 
 
-class Api4aiBackgroundRemovalParams:
+class Api4aiBackgroundRemovalParams(BaseModel):
     """Parameters for the background removal feature of the Api4ai API.
 
     Attributes:

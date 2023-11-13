@@ -335,9 +335,9 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
     ) -> ResponseType[BackgroundRemovalDataClass]:
         with open(file, "rb") as fstream:
             if provider_params is None or not isinstance(provider_params, dict):
-                provider_params = SentisightBackgroundRemovalParams()
+                sentisight_params = SentisightBackgroundRemovalParams()
             else:
-                provider_params = SentisightBackgroundRemovalParams(**provider_params)
+                sentisight_params = SentisightBackgroundRemovalParams(**provider_params)
 
             response = requests.post(
                 self.base_url + SentisightPreTrainModel.BACKGROUND_REMOVAL.value,

@@ -54,15 +54,15 @@ class PhotoroomApi(ImageInterface, ProviderInterface):
             files = {"image_file": f.read()}
 
             if provider_params is None or not isinstance(provider_params, dict):
-                provider_params = PhotoroomBackgroundRemovalParams()
+                photoroom_params = PhotoroomBackgroundRemovalParams()
             else:
-                provider_params = PhotoroomBackgroundRemovalParams(**provider_params)
+                photoroom_params = PhotoroomBackgroundRemovalParams(**provider_params)
 
             response = requests.post(
                 f"{self.base_url}segment",
                 headers=self.headers,
                 files=files,
-                data=provider_params.model_dump(),
+                data=photoroom_params.model_dump(),
             )
 
             PhotoroomApi._handle_error(response)
@@ -71,7 +71,7 @@ class PhotoroomApi(ImageInterface, ProviderInterface):
             img_b64 = original_response["result_b64"]
             resource_url = BackgroundRemovalDataClass.generate_resource_url(
                 img_b64,
-                fmt=provider_params.format,
+                fmt=photoroom_params.format,
             )
 
             return ResponseType[BackgroundRemovalDataClass](
