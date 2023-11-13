@@ -1,8 +1,13 @@
 {
   "ocr": {
     "anonymization_async": {
-            "constraints": {
-            },
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "application/pdf"
+        ]
+      },
             "version": "v1"
         }
   }

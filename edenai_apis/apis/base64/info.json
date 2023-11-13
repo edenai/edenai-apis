@@ -148,6 +148,20 @@
           "application/zip"
         ]
       }
+    },
+    "anonymization_async" : {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "image/webp",
+          "image/heic"
+        ]
+      },
+      "version" : "v1"
     }
   },
   "image": {
