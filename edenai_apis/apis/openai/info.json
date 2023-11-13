@@ -368,8 +368,15 @@
         "resolutions": [
           "256x256",
           "512x512",
-          "1024x1024"
-        ]
+          "1024x1024",
+          "1024x1792",
+          "1792x1024"
+        ],
+        "models": [
+          "dall-e-2",
+          "dall-e-3"
+        ],
+        "default_model": "dall-e-2"
       },
       "version": "v1Beta"
     }
