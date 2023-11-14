@@ -1,39 +1,31 @@
-from typing import Optional, List, Dict, Sequence, Literal
-import requests
 import json
+from typing import Optional, List, Dict, Sequence, Literal
+
+import requests
+
 from edenai_apis.features import ProviderInterface, TextInterface
-from edenai_apis.features.text.generation import (
-    GenerationDataClass
-)
-from edenai_apis.features.text.custom_classification import(
+from edenai_apis.features.text.custom_classification import (
     ItemCustomClassificationDataClass,
-    CustomClassificationDataClass
-)
-from edenai_apis.features.text.summarize import (
-    SummarizeDataClass
-)
-from edenai_apis.features.text.embeddings import (
-    EmbeddingsDataClass,
-    EmbeddingDataClass
+    CustomClassificationDataClass,
 )
 from edenai_apis.features.text.custom_named_entity_recognition import (
-    CustomNamedEntityRecognitionDataClass
+    CustomNamedEntityRecognitionDataClass,
 )
+from edenai_apis.features.text.embeddings import EmbeddingsDataClass, EmbeddingDataClass
+from edenai_apis.features.text.generation import GenerationDataClass
+from edenai_apis.features.text.search import SearchDataClass, InfosSearchDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
     SpellCheckItem,
-    SuggestionItem
+    SuggestionItem,
 )
-from edenai_apis.features.text.search import(
-    SearchDataClass,
-    InfosSearchDataClass
-)
+from edenai_apis.features.text.summarize import SummarizeDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.conversion import construct_word_list
+from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
+from edenai_apis.utils.types import ResponseType
 
 
 class CohereApi(ProviderInterface, TextInterface):
@@ -85,16 +77,18 @@ class CohereApi(ProviderInterface, TextInterface):
         ---
             """
 
-    def _format_spell_check_prompt(text: str, language: str) -> str:
+    @staticmethod
+    def _format_spell_check_prompt(text: str) -> str:
         return f"""
 Given a text with spelling errors, identify the misspelled words and correct them. 
-Return the results as a list of dictionaries, where each dictionary contains two keys: "word" and "correction". 
+Return the results as a list of dictionaries and only the json result, where each dictionary contains two keys: "word" and "correction". 
 The "word" key should contain the misspelled word, and the "correction" key should contain the corrected version of the word. 
 For example, if the misspelled word is 'halo', the corresponding dictionary should be: {{"word": "halo", "correction": "hello"}}.
-Text : {text}
-List of corrected words :
+Text: {text}
+Examples of entry Text with misspelling: "Hallo my friend hw are you"
+Examples of response: [{{"word": "Hallo", "correction": "hello"}}, {{"word": "hw", "correction": "how"}}]
+List of corrected words:
 """
-
 
     def text__generation(
         self,
@@ -117,18 +111,15 @@ List of corrected words :
         if max_tokens != 0:
             payload["max_tokens"] = max_tokens
 
-        response = requests.post(
-            url, json=payload, headers=self.headers
-        )
+        response = requests.post(url, json=payload, headers=self.headers)
         if response.status_code >= 500:
-            ProviderException("Internal Server Error")
-            
+            raise ProviderException("Internal Server Error")
+
         original_response = response.json()
 
         if "message" in original_response:
             raise ProviderException(
-                original_response["message"],
-                code = response.status_code
+                original_response["message"], code=response.status_code
             )
 
         generated_texts = original_response.get("generations")
@@ -153,16 +144,13 @@ List of corrected words :
             "examples": example_dict,
         }
 
-        response = requests.post(
-            url, json=payload, headers=self.headers
-        )
+        response = requests.post(url, json=payload, headers=self.headers)
         original_response = response.json()
 
         # Handle provider errors
         if "message" in original_response:
             raise ProviderException(
-                original_response["message"],
-                code = response.status_code
+                original_response["message"], code=response.status_code
             )
 
         # Standardization
@@ -201,15 +189,12 @@ List of corrected words :
             "text": text,
         }
 
-        response = requests.post(
-            url, json=payload, headers=self.headers
-        )
+        response = requests.post(url, json=payload, headers=self.headers)
         original_response = response.json()
 
         if "message" in original_response:
             raise ProviderException(
-                original_response["message"],
-                code = response.status_code
+                original_response["message"], code=response.status_code
             )
 
         standardized_response = SummarizeDataClass(
@@ -278,7 +263,7 @@ Answer:"""
                 raise ProviderException(
                     "An error occurred while parsing the response."
                 ) from exc
-            
+
         standardized_response = CustomNamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[CustomNamedEntityRecognitionDataClass](
@@ -289,46 +274,42 @@ Answer:"""
     def text__spell_check(
         self, text: str, language: str
     ) -> ResponseType[SpellCheckDataClass]:
-        url = f"{self.base_url}generate"
+        url = f"{self.base_url}chat"
 
         payload = {
-            "prompt": CohereApi._format_spell_check_prompt(text, language),
-            "model": "command-nightly",
-            "max_tokens": 1000,
+            "message": CohereApi._format_spell_check_prompt(text),
+            "model": "command",
             "temperature": 0,
-            "stop_sequences": ["--"],
-            "truncate": "END",
         }
 
-        response = requests.post(
-            url, json=payload, headers=self.headers
-        )
+        response = requests.post(url, json=payload, headers=self.headers)
         original_response = response.json()
 
         if "message" in original_response:
             raise ProviderException(
-                original_response["message"],
-                code = response.status_code
+                original_response["message"], code=response.status_code
             )
 
         try:
-            data = original_response.get("generations")[0]["text"]
+            data = original_response["text"]
             corrected_items = json.loads(data)
-        except (json.JSONDecodeError) as exc:
+        except json.JSONDecodeError as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
-            
+
         corrections = construct_word_list(text, corrected_items)
-        items: Sequence[SpellCheckItem] = []
+        items: List[SpellCheckItem] = []
         for item in corrections:
             items.append(
                 SpellCheckItem(
                     text=item["word"],
                     offset=item["offset"],
                     length=item["length"],
-                    type = None,
-                    suggestions=[SuggestionItem(suggestion=item["suggestion"], score = 1.0)],
+                    type=None,
+                    suggestions=[
+                        SuggestionItem(suggestion=item["suggestion"], score=1.0)
+                    ],
                 )
             )
         return ResponseType[SpellCheckDataClass](
@@ -337,23 +318,18 @@ Answer:"""
         )
 
     def text__embeddings(
-        self, 
-        texts: List[str],
-        model: str) -> ResponseType[EmbeddingsDataClass]:
+        self, texts: List[str], model: str
+    ) -> ResponseType[EmbeddingsDataClass]:
         url = f"{self.base_url}embed"
         model = model.split("__")
-        payload = {
-            "texts" : texts,
-            "model" : model[1]
-        }
-        response = requests.post(url, json = payload, headers=self.headers)
+        payload = {"texts": texts, "model": model[1]}
+        response = requests.post(url, json=payload, headers=self.headers)
         original_response = response.json()
         if "message" in original_response:
             raise ProviderException(
-                original_response["message"],
-                code = response.status_code
+                original_response["message"], code=response.status_code
             )
-        
+
         items: Sequence[EmbeddingsDataClass] = []
         for prediction in original_response["embeddings"]:
             items.append(EmbeddingDataClass(embedding=prediction))
@@ -363,44 +339,46 @@ Answer:"""
             original_response=original_response,
             standardized_response=standardized_response,
         )
-    
+
     def text__search(
         self,
         texts: List[str],
         query: str,
-        similarity_metric: Literal["cosine", "hamming",
-                                 "manhattan", "euclidean"] = "cosine",
-        model: str = None
+        similarity_metric: Literal[
+            "cosine", "hamming", "manhattan", "euclidean"
+        ] = "cosine",
+        model: str = None,
     ) -> ResponseType[SearchDataClass]:
-
         if model is None:
-            model = '768__embed-multilingual-v2.0'
+            model = "768__embed-multilingual-v2.0"
         # Import the function
         function_score = METRICS[similarity_metric]
-        
+
         # Embed the texts & query
         texts_embed_response = CohereApi.text__embeddings(
-            self, texts=texts, model=model).original_response
+            self, texts=texts, model=model
+        ).original_response
         query_embed_response = CohereApi.text__embeddings(
-            self, texts=[query], model=model).original_response
-        
+            self, texts=[query], model=model
+        ).original_response
+
         # Extracts embeddings from texts & query
-        texts_embed = [item
-                       for item in texts_embed_response['embeddings']]
-        query_embed = query_embed_response['embeddings'][0]
+        texts_embed = [item for item in texts_embed_response["embeddings"]]
+        query_embed = query_embed_response["embeddings"][0]
 
         items = []
         # Calculate score for each text index
         for index, text in enumerate(texts_embed):
             score = function_score(query_embed, text)
             items.append(
-                InfosSearchDataClass(object='search_result',
-                                     document=index, score=score)
+                InfosSearchDataClass(
+                    object="search_result", document=index, score=score
+                )
             )
-            
+
         # Sort items by score in descending order
         sorted_items = sorted(items, key=lambda x: x.score, reverse=True)
-        
+
         # Build the original response
         original_response = {
             "texts_embeddings": texts_embed_response,

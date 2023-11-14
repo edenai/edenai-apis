@@ -1,20 +1,18 @@
 {
   "original_response": {
-    "id": "cc161b6f-cfa0-4c49-9bc0-d0eecf52dcfc",
-    "generations": [
-      {
-        "id": "e653470e-f1f9-44d7-b53d-c6a428166e9e",
-        "text": "Hello, world! How are you?"
-      }
-    ],
-    "prompt": "\nFind the spelling and grammar mistakes in this text and correct it.\nDo not remove any word just correct it if you can.\nIf the text is correct return nothing.\nText: Hollo, wrld! How r yu?\nCorrected Text:",
+    "response_id": "7044f995-27f0-44b2-a27b-c64a7d31684a",
+    "text": "[{\"word\": \"Hollo\", \"correction\": \"hello\"}, {\"word\": \"wrld\", \"correction\": \"world\"}, {\"word\": \"yu\", \"correction\": \"you\"}]",
+    "generation_id": "a2e46520-1f79-46a6-a3ea-0097b032624a",
+    "token_count": {
+      "prompt_tokens": 250,
+      "response_tokens": 42,
+      "total_tokens": 292,
+      "billed_tokens": 283
+    },
     "meta": {
       "api_version": {
         "version": "2022-12-06"
-      },
-      "warnings": [
-        "Your text contains a trailing whitespace, which has been trimmed to ensure high quality generations."
-      ]
+      }
     }
   },
   "standardized_response": {
@@ -27,7 +25,7 @@
         "length": 5,
         "suggestions": [
           {
-            "suggestion": "Hello",
+            "suggestion": "hello",
             "score": 1.0
           }
         ]
@@ -40,18 +38,6 @@
         "suggestions": [
           {
             "suggestion": "world",
-            "score": 1.0
-          }
-        ]
-      },
-      {
-        "text": "r",
-        "type": null,
-        "offset": 17,
-        "length": 1,
-        "suggestions": [
-          {
-            "suggestion": "are",
             "score": 1.0
           }
         ]
