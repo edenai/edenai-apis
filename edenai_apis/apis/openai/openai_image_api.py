@@ -25,6 +25,7 @@ class OpenaiImageApi(ImageInterface):
         url = f"{self.url}/images/generations"
         payload = {
             "prompt": text,
+            "model": model,
             "n": num_images,
             "size": resolution,
             "response_format": "b64_json",

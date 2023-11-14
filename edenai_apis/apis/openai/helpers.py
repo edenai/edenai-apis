@@ -27,27 +27,38 @@ def format_texts_fn(x: List[str]) -> str:
 def construct_classification_instruction(
     texts: list, labels: list, examples: list
 ) -> str:
-    json_format = '{"classifications": [{"input": <text>, "label": <label>, "confidence": <confidence_score>}]}'
-    return f"""You should act as a text classifier.
-Classify the text below into one of the following categories: {", ".join(labels)}.
-The texts is delimited by triple hashtags and separate by -----.
+    formated_examples = formatted_examples_data(examples)
+    formated_texts = formatted_text_classification(texts)
+    return f"""
+        Given the following list of labels and corresponding text, classify each text according to the appropriate label. Here are some examples:
 
-The output should be a json. The format is as follows:
-{json_format}
+        Labels: {labels}
+        Text: {examples}
 
-If you cant classify the text into any of the categories, please use the category "other".
+        Example Classification:
+        {formated_examples}
 
-Examples:
-{format_example_fn(examples)}
+        Now, classify the sentiment of the following texts:
 
-Text:
-#####
-{format_texts_fn(texts)}
-#####
+        {formated_texts}
+    """
 
-Your output:
-"""
+# Function to format and print the examples in custom classification
+def formatted_examples_data(data):
+    formatted_output=""
+    for i, item in enumerate(data, start=1):
+        text = item[0]
+        label = item[1]
+        formatted_output += f"{i}. Text: \"{text}\" - Label: \"{label}\"\n"
+        
+    return formatted_output
 
+# Function to format and print the texts in custom classification
+def formatted_text_classification(data):
+    formated_texts=""
+    for i, item in enumerate(data, start=1):
+        formated_texts += f"""{i}. '{item}' """
+    return formated_texts
 
 def construct_anonymization_context(text: str) -> str:
     output_template = '{{"redactedText" : "...", "entities": [{{content: entity, label: category, confidence_score: confidence score, offset: start_offset}}]}}'
@@ -376,3 +387,19 @@ def construct_prompt_optimization_instruction(text: str, target_provider: str):
     }
 
     return prompt[target_provider]
+
+def convert_tts_audio_rate(audio_rate: int) -> float:
+    """
+    Convert TTS audio rate from the range [-100, 100] to [0.25, 4.0].
+
+    Parameters:
+    - audio_rate (int): The input audio rate in the range [-100, 100].
+
+    Returns:
+    - float: The audio rate in the range [0.25, 4.0].
+
+    """
+    if audio_rate >= -100 and audio_rate <= 0:
+        return ((audio_rate - (-100)) / (0 - (-100))) * (1 - 0.25) + 0.25
+    else:
+        return ((audio_rate - 0) / (100 - 0)) * (4 - 1) + 1

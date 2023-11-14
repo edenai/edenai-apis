@@ -523,26 +523,30 @@ class OpenaiTextApi(TextInterface):
     def text__custom_classification(
         self, texts: List[str], labels: List[str], examples: List[List[str]]
     ) -> ResponseType[CustomClassificationDataClass]:
-        url = f"{self.url}/completions"
+        url = f"{self.url}/chat/completions"
 
         prompt = construct_classification_instruction(texts, labels, examples)
-
+        messages = [{"role": "user", "content": prompt}]
+        messages.insert(
+            0,
+            {
+                "role": "system",
+                "content": """Act as a classification Model, 
+                you return a JSON object in this format : {"classifications": [{"input": <text>, "label": <label>, "confidence": <confidence_score>}]}""",
+            },
+        )
         # Build the request
         payload = {
-            "prompt": prompt,
-            "model": self.model,
-            "top_p": 1,
-            "max_tokens": 500,
-            "temperature": 0,
-            "logprobs": 1,
-            "frequency_penalty": 0,
-            "presence_penalty": 0,
+            "response_format" : { "type": "json_object" },
+            "model" : "gpt-3.5-turbo-1106",
+            "messages" : messages
+            
         }
         response = requests.post(url, json=payload, headers=self.headers)
         original_response = get_openapi_response(response)
 
         # Getting labels
-        detected_labels = original_response["choices"][0]["text"]
+        detected_labels = original_response["choices"][0]["message"]["content"]
 
         try:
             json_detected_labels = json.loads(detected_labels)
