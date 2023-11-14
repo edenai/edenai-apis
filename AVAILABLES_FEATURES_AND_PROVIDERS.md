@@ -237,7 +237,8 @@
 | | lovoai |
 | | microsoft |
 | | openai |
-| **text_to_speech_async** | lovoai |
+| **text_to_speech_async** | amazon |
+| | lovoai |
 
 </details>
 <details><summary>translation</summary>
@@ -319,6 +320,7 @@
 |----------|-------------|
 | **audio** | speech_to_text_async |
 | | text_to_speech |
+| | text_to_speech_async |
 | **image** | explicit_content |
 | | face_compare |
 | | face_detection |
