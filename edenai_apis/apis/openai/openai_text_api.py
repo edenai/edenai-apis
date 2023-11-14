@@ -72,6 +72,7 @@ from .helpers import (
     construct_sentiment_analysis_context,
     construct_spell_check_instruction,
     construct_topic_extraction_context,
+    finish_unterminated_json,
     get_openapi_response,
     prompt_optimization_missing_information,
 )
@@ -483,32 +484,38 @@ class OpenaiTextApi(TextInterface):
         )
 
     def text__custom_named_entity_recognition(
-        self, text: str, entities: List[str], examples: Optional[List[Dict]] = None
+            self, text: str, entities: List[str], examples: Optional[List[Dict]] = None
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
-        url = f"{self.url}/completions"
+
         built_entities = ",".join(entities)
         prompt = construct_custom_ner_instruction(text, built_entities, examples)
         payload = {
-            "prompt": prompt,
-            "model": self.model,
+            "messages": [{"role": "system", "content": prompt}],
+            "model": "gpt-3.5-turbo-1106",
+            "response_format": { "type": "json_object" },
             "temperature": 0.0,
+            "max_tokens": 4096,
             "top_p": 1,
-            "max_tokens": 250,
             "frequency_penalty": 0,
             "presence_penalty": 0,
         }
-        response = requests.post(url, json=payload, headers=self.headers)
-
-        # Handle errors
-        if response.status_code != 200:
-            raise ProviderException(response.text, response.status_code)
-
         try:
-            original_response = response.json()
-            items = json.loads(original_response["choices"][0]["text"])
-        except (KeyError, json.JSONDecodeError) as exc:
+            response = openai.ChatCompletion.create(
+                **payload
+            )
+        except Exception as exc:
+            raise ProviderException(str(exc))
+
+        raw_items = response["choices"][0]["message"]["content"]
+        try:
+            if response['choices'][0]['finish_reason'] == 'length':
+                items = json.loads(finish_unterminated_json(raw_items, end_brackets=']}'))
+            else:
+
+                items = json.loads(raw_items)
+        except json.JSONDecodeError as exc:
             raise ProviderException(
-                "An error occurred while parsing the response.", code=500
+                "OpenAI didn't return a valid JSON", code=500
             ) from exc
 
         standardized_response = CustomNamedEntityRecognitionDataClass(
@@ -516,7 +523,7 @@ class OpenaiTextApi(TextInterface):
         )
 
         return ResponseType[CustomNamedEntityRecognitionDataClass](
-            original_response=original_response,
+            original_response=response,
             standardized_response=standardized_response,
         )
 
