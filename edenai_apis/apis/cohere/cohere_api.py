@@ -80,10 +80,12 @@ class CohereApi(ProviderInterface, TextInterface):
 
         # Create the string with the extracted entities
         return f"""
-        Text: #{text}#
-        Answer: "[{', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]"
-        ---
-            """
+        Categories: {', '.join(set([entity['category'] for entity in extracted_entities]))}
+
+        Text: {text}
+
+        Answer: [{', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]
+        """
 
     def _format_spell_check_prompt(self, text: str, language: str) -> str:
         return f"""
@@ -225,7 +227,7 @@ List of corrected words :
     def text__custom_named_entity_recognition(
         self, text: str, entities: List[str], examples: Optional[List[Dict]] = None
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
-        url = f"{self.base_url}generate"
+        url = f"{self.base_url}chat"
 
         # Construct the prompt
         built_entities = ",".join(entities)
@@ -235,53 +237,55 @@ List of corrected words :
                 prompt_examples = (
                     prompt_examples + self._format_custom_ner_examples(example)
                 )
-        prompt = f"""You act as a named entities recognition model. Extract the specified entities ({built_entities}) from the text enclosed in hash symbols (#) and return a JSON List of dictionaries with two keys: "entity" and "category". The "entity" key represents the detected entity and the "category" key represents the category of the entity.
+        else:
+            prompt_examples = self._format_custom_ner_examples(
+                {
+                    "text": "Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia. Extracted these entities from the Text if they exist: drink, date",
+                    "entities": [
+                        {"entity": "Coca-Cola", "category": "drink"},
+                        {"entity": "coke", "category": "drink"},
+                        {"entity": "19th century", "category": "date"},
+                    ],
+                }
+            )
+        prompt = f"""You act as a named entities recognition model.
+Extract an exhaustive list of Entities from the given Text according to the specified Categories and return the list as a valid JSON.
 
-If no entities are found, return an empty list.
+ONLY return a valid JSON. DO NOT return any other form of text. The keys of each objects in the list are `entity` and `category`.
+`entity` value must be the extracted entity from the text, `category` value must be the category of the extracted entity.
+The JSON MUST be valid and conform to the given description.
+Be correct and concise. If no entities are found, return an empty list.
 
-Example :
+Categories: {built_entities}
 
+Text: {text}
+
+
+For Example:
 {prompt_examples}
-
-Text: 
-{text}
-
-Answer:"""
+"""
 
         # Construct request
         payload = {
             "model": "command",
-            "prompt": prompt,
-            "max_tokens": 650,
+            "message": prompt,
             "temperature": 0,
-            "k": 0,
-            "frequency_penalty": 0.3,
-            "truncate": "END",
-            "stop_sequences": [],
-            "return_likelihoods": "NONE",
         }
         response = requests.post(url, json=payload, headers=self.headers)
         if response.status_code != 200:
             raise ProviderException(response.text, response.status_code)
 
         original_response = response.json()
-        data = original_response.get("generations")[0]["text"]
+        data = original_response.get("text")
+
         try:
             items = json.loads(data)
-        except (IndexError, KeyError, json.JSONDecodeError) as exc:
+        except json.JSONDecodeError as exc:
             raise ProviderException(
-                "An error occurred while parsing the response."
+                "Cohere didn't return valid JSON object"
             ) from exc
-        if isinstance(items, str):
-            try:
-                items = json.loads(items)
-            except (IndexError, KeyError, json.JSONDecodeError) as exc:
-                raise ProviderException(
-                    "An error occurred while parsing the response."
-                ) from exc
-            
-        standardized_response = CustomNamedEntityRecognitionDataClass(items=items)
 
+        standardized_response = CustomNamedEntityRecognitionDataClass(items=items)
         return ResponseType[CustomNamedEntityRecognitionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
