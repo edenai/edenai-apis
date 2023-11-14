@@ -1,6 +1,7 @@
 from typing import List, Optional, Dict
 
-from requests import JSONDecodeError, Response
+from requests import Response
+
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 
@@ -43,22 +44,25 @@ def construct_classification_instruction(
         {formated_texts}
     """
 
+
 # Function to format and print the examples in custom classification
 def formatted_examples_data(data):
-    formatted_output=""
+    formatted_output = ""
     for i, item in enumerate(data, start=1):
         text = item[0]
         label = item[1]
-        formatted_output += f"{i}. Text: \"{text}\" - Label: \"{label}\"\n"
-        
+        formatted_output += f'{i}. Text: "{text}" - Label: "{label}"\n'
+
     return formatted_output
+
 
 # Function to format and print the texts in custom classification
 def formatted_text_classification(data):
-    formated_texts=""
+    formated_texts = ""
     for i, item in enumerate(data, start=1):
         formated_texts += f"""{i}. '{item}' """
     return formated_texts
+
 
 def construct_anonymization_context(text: str) -> str:
     output_template = '{{"redactedText" : "...", "entities": [{{content: entity, label: category, confidence_score: confidence score, offset: start_offset}}]}}'
@@ -168,7 +172,7 @@ def get_openapi_response(response: Response):
 #     """
 def construct_spell_check_instruction(text: str, language: str):
     return f"""
-Given the following text between written in {language} and delimited by triple hashtags, identify and correct any spelling mistakes. Return the results as a list of dictionaries, each containing the original incorrect word and the corrected word. The dictionaries should be structured as follows: {{"word": "incorrect spelling", "correction": "correct spelling"}}.
+Given the following text between written in {language} and delimited by triple hashtags, identify and correct any spelling mistakes. Return the results always as a list of dictionaries, each containing the original incorrect word and the corrected word. The dictionaries should be structured as follows: {{ "corrections": [{{"word": "incorrect spelling", "correction": "correct spelling"}}] }}.
 
 Text: ###{text}###
 """
@@ -387,6 +391,7 @@ def construct_prompt_optimization_instruction(text: str, target_provider: str):
     }
 
     return prompt[target_provider]
+
 
 def convert_tts_audio_rate(audio_rate: int) -> float:
     """

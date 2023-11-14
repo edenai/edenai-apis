@@ -1,9 +1,6 @@
-import re
-import locale
 import datetime as dt
-from typing import Any, Dict, Generator, List, Literal, Optional, Tuple, Type, Union
-
-from edenai_apis.utils.public_enum import AutomlClassificationProviderName
+import re
+from typing import Any, Dict, List, Optional, Tuple, Type, Union, Generator, Literal
 
 
 def _format_string_for_conversion(string_number: str) -> str:
@@ -50,16 +47,19 @@ def convert_string_to_number(
     except Exception as exc:
         print(exc)
         return None
-    
+
+
 def _convert_dictionary_to_date_string(dictionary: Dict[str, Any]) -> Tuple[str, None]:
-    year = dictionary['year']
-    month = dictionary['month']
+    year = dictionary["year"]
+    month = dictionary["month"]
     if year == -1:
         year = dt.datetime.now().year
     if month == -1:
         month = dt.datetime.now().month
     try:
-        ret = dt.datetime(year=dictionary["year"], month=dictionary["month"], day=1).strftime("%d-%m-%Y")
+        ret = dt.datetime(
+            year=dictionary["year"], month=dictionary["month"], day=1
+        ).strftime("%d-%m-%Y")
     except:
         ret = None
     return ret
@@ -285,7 +285,10 @@ def standardized_confidence_score_picpurify(confidence_score: float, nsfw: bool)
 
 def construct_word_list(original_text, corrected_words):
     word_list = []
-    for correction in corrected_words:
+    if isinstance(corrected_words, list):
+        corrected_words = {"corrections": corrected_words}
+
+    for correction in corrected_words.get("corrections", []):
         word_with_mistake = correction["word"]
         corrected_word = correction["correction"]
 

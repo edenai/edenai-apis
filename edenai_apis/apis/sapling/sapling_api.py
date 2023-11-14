@@ -1,14 +1,20 @@
-from http import HTTPStatus
 import json
-from typing import Dict, Sequence
 import uuid
+from http import HTTPStatus
+from typing import Dict, List, Optional, Any
+from typing import cast
 
 import requests
+
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import ChatDataClass
 from edenai_apis.features.text.ai_detection.ai_detection_dataclass import (
     AiDetectionDataClass,
     AiDetectionItem,
+)
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
+    SentimentAnalysisDataClass,
+    SegmentSentimentAnalysisDataClass,
 )
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
@@ -20,25 +26,31 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
-from typing import Dict
-from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
-    SentimentAnalysisDataClass,
-    SegmentSentimentAnalysisDataClass,
-)
-
-
-from typing import cast
-
 
 class SaplingApi(ProviderInterface, TextInterface):
     provider_name = "sapling"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Optional[Dict] = None) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )
         self.api_key = self.api_settings["key"]
         self.url = "https://api.sapling.ai/api/v1/"
+
+    @staticmethod
+    def _check_error(response: requests.Response) -> None:
+        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
+            raise ProviderException("Internal server error", code=response.status_code)
+
+        try:
+            response_json = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(response.text, code=response.status_code) from exc
+
+        if response.status_code > HTTPStatus.BAD_REQUEST:
+            raise ProviderException(
+                response_json.get("msg", response.text), code=response.status_code
+            )
 
     def text__spell_check(
         self, text: str, language: str
@@ -51,58 +63,43 @@ class SaplingApi(ProviderInterface, TextInterface):
             "multiple_edits": True,
         }
 
-        if language:
-            payload.update({"lang": language})
+        if language is not None:
+            payload["lang"] = language
 
-        try:
-            response = requests.post(f"{self.url}spellcheck", json=payload)
-        except Exception as excp:
-            raise ProviderException(str(excp), code=500)
+        response = requests.post(f"{self.url}spellcheck", json=payload)
+        SaplingApi._check_error(response)
+        original_response = response.json()
 
-        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
-            raise ProviderException("Internal server error", code=response.status_code)
-
-        try:
-            original_response = response.json()
-        except json.JSONDecodeError as excp:
-            raise ProviderException("Response malformatted", code=response.status_code)
-
-        if response.status_code > HTTPStatus.BAD_REQUEST:
-            raise ProviderException(original_response, code=response.status_code)
-
-        items: Sequence[SpellCheckItem] = []
+        items: List[SpellCheckItem] = []
         candidates = original_response.get("candidates", {})
-        for edit in original_response.get("edits"):
-            start = edit["start"]
-            end = edit["end"]
-            suggestions: Sequence[SuggestionItem] = []
-            checked_word = edit["sentence"][start:end].strip()
-            if checked_word in candidates:
-                word_candidates = candidates[checked_word]
-                for word_candidate in word_candidates:
-                    suggestions.append(
-                        SuggestionItem(suggestion=word_candidate, score=None)
-                    )
+        edits = original_response.get("edits", [])
 
-            if len(suggestions) == 0:
-                suggestions.append(
-                    SuggestionItem(suggestion=edit["replacement"], score=None)
-                )
-            items.append(
-                SpellCheckItem(
-                    text=checked_word,
-                    offset=edit["start"] + text.index(edit["sentence"]),
-                    length=end - start,
-                    suggestions=suggestions,
-                    type=None,
-                )
+        def extract_item(misspelled_word: Dict[str, Any]) -> SpellCheckItem:
+            end, _, replacement, __, sentence_start, start = misspelled_word.values()
+            offset = start + sentence_start
+            length = end - start
+            checked_word = text[offset : offset + length]
+            list_of_suggestions = candidates.get(checked_word, [replacement])
+
+            suggestions: List[SuggestionItem] = [
+                SuggestionItem(suggestion=suggestion, score=None)
+                for suggestion in list_of_suggestions
+            ]
+            return SpellCheckItem(
+                text=checked_word,
+                offset=offset,
+                length=length,
+                suggestions=suggestions,
+                type=None,
             )
 
-        standardized_response = SpellCheckDataClass(text=text, items=items)
+        for edit in edits:
+            extracted_item = extract_item(edit)
+            items.append(extracted_item)
 
         return ResponseType[SpellCheckDataClass](
             original_response=original_response,
-            standardized_response=standardized_response,
+            standardized_response=SpellCheckDataClass(text=text, items=items),
         )
 
     def text__sentiment_analysis(

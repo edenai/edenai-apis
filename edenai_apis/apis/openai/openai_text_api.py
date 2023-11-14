@@ -2,15 +2,16 @@ import json
 from typing import Dict, List, Literal, Optional, Sequence, Union
 
 import numpy as np
+import openai
 import requests
+from pydantic_core._pydantic_core import ValidationError
+
 from edenai_apis.features import TextInterface
-from edenai_apis.features.text import PromptOptimizationDataClass
 from edenai_apis.features.text.anonymization import AnonymizationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
 )
 from edenai_apis.features.text.anonymization.category import CategoryType
-from edenai_apis.features.text.moderation.category import CategoryType as CategoryTypeModeration
 from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
@@ -29,6 +30,9 @@ from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass i
     InfosKeywordExtractionDataClass,
 )
 from edenai_apis.features.text.moderation import ModerationDataClass, TextModerationItem
+from edenai_apis.features.text.moderation.category import (
+    CategoryType as CategoryTypeModeration,
+)
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
     NamedEntityRecognitionDataClass,
 )
@@ -58,10 +62,6 @@ from edenai_apis.utils.conversion import (
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
-from pydantic_core._pydantic_core import ValidationError
-
-import openai
-
 from .helpers import (
     construct_anonymization_context,
     construct_classification_instruction,
@@ -127,7 +127,7 @@ class OpenaiTextApi(TextInterface):
                         category=classificator["category"],
                         subcategory=classificator["subcategory"],
                         likelihood_score=value,
-                        likelihood=standardized_confidence_score(value)
+                        likelihood=standardized_confidence_score(value),
                     )
                 )
         standardized_response: ModerationDataClass = ModerationDataClass(
@@ -137,7 +137,7 @@ class OpenaiTextApi(TextInterface):
             items=classification,
             nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(
                 classification
-            )
+            ),
         )
 
         return ResponseType[ModerationDataClass](
@@ -537,10 +537,9 @@ class OpenaiTextApi(TextInterface):
         )
         # Build the request
         payload = {
-            "response_format" : { "type": "json_object" },
-            "model" : "gpt-3.5-turbo-1106",
-            "messages" : messages
-            
+            "response_format": {"type": "json_object"},
+            "model": "gpt-3.5-turbo-1106",
+            "messages": messages,
         }
         response = requests.post(url, json=payload, headers=self.headers)
         original_response = get_openapi_response(response)
@@ -570,13 +569,14 @@ class OpenaiTextApi(TextInterface):
             0,
             {
                 "role": "system",
-                "content": "Act As a spell checker, your role is to analyze the provided text and proficiently correct any spelling errors. Accept input texts and deliver precise and accurate corrections to enhance the overall writing quality.",
+                "content": "Act As a spell checker, your role is to analyze the provided text and proficiently correct any spelling errors. Accept input texts and deliver precise and accurate corrections to enhance the overall writing quality. json",
             },
         )
         payload = {
-            "model": "gpt-3.5-turbo",
+            "model": "gpt-3.5-turbo-1106",
             "messages": messages,
             "temperature": 0.0,
+            "response_format": {"type": "json_object"},
         }
         response = requests.post(url, json=payload, headers=self.headers)
         original_response = get_openapi_response(response)
@@ -588,11 +588,11 @@ class OpenaiTextApi(TextInterface):
             raise ProviderException(
                 "An error occurred while parsing the response.",
                 code=response.status_code,
-            )
+            ) from exc
 
         corrections = construct_word_list(text, corrected_items)
 
-        items: Sequence[SpellCheckItem] = []
+        items: List[SpellCheckItem] = []
         for item in corrections:
             items.append(
                 SpellCheckItem(
@@ -678,9 +678,8 @@ class OpenaiTextApi(TextInterface):
         temperature: float,
         max_tokens: int,
         model: str,
-        stream = False,
+        stream=False,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-
         messages = [{"role": "user", "content": text}]
 
         if previous_history:
@@ -698,12 +697,10 @@ class OpenaiTextApi(TextInterface):
             "temperature": temperature,
             "messages": messages,
             "max_tokens": max_tokens,
-            "stream": stream
+            "stream": stream,
         }
         try:
-            response = openai.ChatCompletion.create(
-                **payload
-            )
+            response = openai.ChatCompletion.create(**payload)
         except Exception as exc:
             raise ProviderException(str(exc))
 
@@ -724,10 +721,11 @@ class OpenaiTextApi(TextInterface):
                 standardized_response=standardized_response,
             )
         else:
-            stream = (chunk["choices"][0]["delta"].get("content", "") for chunk in response)
+            stream = (
+                chunk["choices"][0]["delta"].get("content", "") for chunk in response
+            )
             return ResponseType[StreamChat](
-                original_response=None,
-                standardized_response=StreamChat(stream=stream)
+                original_response=None, standardized_response=StreamChat(stream=stream)
             )
 
     def text__prompt_optimization(
