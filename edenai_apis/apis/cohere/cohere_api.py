@@ -52,7 +52,7 @@ class CohereApi(ProviderInterface, TextInterface):
             "Cohere-Version": "2022-12-06",
         }
 
-    def _calculate_summarize_length(output_sentences: int):
+    def _calculate_summarize_length(self, output_sentences: int):
         if output_sentences < 3:
             return "short"
         elif output_sentences < 6:
@@ -60,7 +60,7 @@ class CohereApi(ProviderInterface, TextInterface):
         elif output_sentences > 6:
             return "long"
 
-    def _format_custom_ner_examples(example: Dict):
+    def _format_custom_ner_examples(self, example: Dict):
         # Get the text
         text = example["text"]
 
@@ -85,7 +85,7 @@ class CohereApi(ProviderInterface, TextInterface):
         ---
             """
 
-    def _format_spell_check_prompt(text: str, language: str) -> str:
+    def _format_spell_check_prompt(self, text: str, language: str) -> str:
         return f"""
 Given a text with spelling errors, identify the misspelled words and correct them. 
 Return the results as a list of dictionaries, where each dictionary contains two keys: "word" and "correction". 
@@ -191,7 +191,7 @@ List of corrected words :
         length = "long"
 
         if output_sentences:
-            length = CohereApi._calculate_summarize_length(output_sentences)
+            length = self._calculate_summarize_length(output_sentences)
 
         payload = {
             "length": length,
@@ -233,7 +233,7 @@ List of corrected words :
         if examples is not None:
             for example in examples:
                 prompt_examples = (
-                    prompt_examples + CohereApi._format_custom_ner_examples(example)
+                    prompt_examples + self._format_custom_ner_examples(example)
                 )
         prompt = f"""You act as a named entities recognition model. Extract the specified entities ({built_entities}) from the text enclosed in hash symbols (#) and return a JSON List of dictionaries with two keys: "entity" and "category". The "entity" key represents the detected entity and the "category" key represents the category of the entity.
 
@@ -293,7 +293,7 @@ Answer:"""
         url = f"{self.base_url}generate"
 
         payload = {
-            "prompt": CohereApi._format_spell_check_prompt(text, language),
+            "prompt": self._format_spell_check_prompt(text, language),
             "model": "command-nightly",
             "max_tokens": 1000,
             "temperature": 0,
@@ -380,10 +380,10 @@ Answer:"""
         function_score = METRICS[similarity_metric]
         
         # Embed the texts & query
-        texts_embed_response = CohereApi.text__embeddings(
-            self, texts=texts, model=model).original_response
-        query_embed_response = CohereApi.text__embeddings(
-            self, texts=[query], model=model).original_response
+        texts_embed_response = self.text__embeddings(
+            texts=texts, model=model).original_response
+        query_embed_response = self.text__embeddings(
+            texts=[query], model=model).original_response
         
         # Extracts embeddings from texts & query
         texts_embed = [item
