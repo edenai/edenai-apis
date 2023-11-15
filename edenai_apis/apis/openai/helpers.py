@@ -1,3 +1,4 @@
+import json
 from typing import List, Optional, Dict
 
 from requests import JSONDecodeError, Response
@@ -210,9 +211,15 @@ def format_custom_ner_examples(example: Dict):
         extracted_entities.append({"entity": entity_name, "category": category})
 
     # Create the string with the extracted entities
-    result = f"""Text : {text}
-    Entities : {', '.join(set([entity['category'] for entity in extracted_entities]))}
-    Extracted Entities: 
+    result = f"""
+    Text:
+    {text}
+
+    Entities:
+    {', '.join(set([entity['category'] for entity in extracted_entities]))}
+
+
+    Output:
     {{
         "items":[
             {', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}
@@ -242,18 +249,27 @@ def construct_custom_ner_instruction(
                 ]
         }}
     """
-    instructions = """You need to act like a named entity recognition mode. The user will specify types entities that you need to extract from his text.
-    The text is included between three backticks."""
+    return f"""
+You need to act like a named entity recognition model.
+Given the following list of entity types and a text, extract all the entities from the text that correspond to the entity types. Ensure that the same entity/category pair is not extracted twice. The output should be in the following JSON format:
 
-    return (
-        instructions
-        + prompt_examples
-        + f"""
-    Text : \n```{text}```\n\n
-    Entities : \n{built_entities}\n\n
-    Your output:
-    """
-    )
+Entity Types: {built_entities}
+Text: {text}
+
+Expected JSON Output:
+{{
+  "items": [
+    {{"category": "<entity type from the entity list>", "entity": "<extracted entity from the text>"}},
+    ...
+  ]
+}}
+
+For Example:
+{examples}
+
+
+Please perform this task and provide the JSON output.
+"""
 
 
 cohere_prompt_guideines = (
@@ -403,3 +419,32 @@ def convert_tts_audio_rate(audio_rate: int) -> float:
         return ((audio_rate - (-100)) / (0 - (-100))) * (1 - 0.25) + 0.25
     else:
         return ((audio_rate - 0) / (100 - 0)) * (4 - 1) + 1
+
+def finish_unterminated_json(json_string: str, end_brackets: str) -> str:
+    """
+    take a cut json_string and try to terminate it
+
+    Arguments:
+      json_string(str): JSON string to terminate
+      end_brackets(str): string representing the ending brackets. eg: '}]'
+
+    Returns:
+      str: valid json string
+
+    Raise:
+      json.JSONDecodeERror: if couldn't terminate string
+
+    Example:
+      >>> finish_unterminated_json('{"data": {"place": "Italy"')
+      >>> '{"data": {"place": "Italy"}}
+    """
+    if not json_string:
+        raise json.JSONDecodeError("JSON string couldn't be parsed or finished")
+
+    try:
+        new_json_string = json_string + end_brackets
+        json.loads(new_json_string)
+        return new_json_string
+    except json.JSONDecodeError:
+        json_string = json_string[:-1]
+        return finish_unterminated_json(json_string, end_brackets)
