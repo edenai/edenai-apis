@@ -15,6 +15,10 @@ class ChatDataClass(BaseModel):
     def direct_response(api_response: Dict):
         return api_response["generated_text"]
 
-
+class ChatStreamResponse(BaseModel):
+    text: str
+    blocked: bool
+    provider: str
+    
 class StreamChat(BaseModel):
-    stream: Generator[str, None, None]
+    stream: Generator[ChatStreamResponse, None, None]
