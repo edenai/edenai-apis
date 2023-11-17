@@ -1,7 +1,7 @@
 import base64
 import json
 from io import BytesIO
-from typing import Dict, Sequence, Literal, Optional, Any
+from typing import Dict, Literal, Optional, Any, List
 
 import requests
 
@@ -21,9 +21,9 @@ from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 class StabilityAIApi(ProviderInterface, ImageInterface):
     provider_name = "stabilityai"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None):
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )
         self.api_key = self.api_settings["api_key"]
         self.headers = {
@@ -55,8 +55,8 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         try:
             response = requests.post(url, headers=self.headers, json=payload)
             original_response = response.json()
-        except json.JSONDecodeError:
-            raise ProviderException("Internal Server Error", code=500)
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal Server Error", code=500) from exc
 
         # Handle error
         if "message" in original_response:
@@ -64,7 +64,7 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
                 original_response["message"], code=response.status_code
             )
 
-        generations: Sequence[GeneratedImageDataClass] = []
+        generations: List[GeneratedImageDataClass] = []
         for generated_image in original_response.get("artifacts"):
             image_b64 = generated_image.get("base64")
 
@@ -89,10 +89,14 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         provider_params: Optional[Dict[str, Any]] = None,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         url = "https://clipdrop-api.co/remove-background/v1"
-        files = {"image_file": open(file, "rb")}
-        headers = {"Accept": "image/png"}
+        with open(file, "rb") as f:
+            files = {"image_file": f.read()}
+            headers = {
+                "x-api-key": self.api_settings["bg_removal_api_key"],
+                "Accept": "image/png",
+            }
 
-        response = requests.post(url, files=files, headers=headers)
+            response = requests.post(url, files=files, headers=headers)
 
         if response.status_code != 200:
             try:
