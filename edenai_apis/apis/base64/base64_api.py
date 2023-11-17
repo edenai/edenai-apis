@@ -1,6 +1,7 @@
 import base64
 import json
 import mimetypes
+import uuid
 from collections import defaultdict
 from enum import Enum
 from itertools import zip_longest
@@ -14,6 +15,7 @@ from edenai_apis.features.image.face_compare import (
     FaceMatch,
     FaceCompareBoundingBox,
 )
+from edenai_apis.features.ocr.anonymization_async.anonymization_async_dataclass import AnonymizationAsyncDataClass
 from edenai_apis.features.ocr.bank_check_parsing import (
     BankCheckParsingDataClass,
     MicrModel,
@@ -37,24 +39,14 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     format_date,
 )
 from edenai_apis.features.ocr.invoice_parser import (
-    CustomerInformationInvoice,
-    InfosInvoiceParserDataClass,
-    InvoiceParserDataClass,
-    ItemLinesInvoice,
-    LocaleInvoice,
-    MerchantInformationInvoice,
-    TaxesInvoice,
-    BankInvoice,
+    CustomerInformationInvoice, InfosInvoiceParserDataClass, InvoiceParserDataClass,
+    ItemLinesInvoice, LocaleInvoice, MerchantInformationInvoice,
+    TaxesInvoice, BankInvoice,
 )
 from edenai_apis.features.ocr.receipt_parser import (
-    CustomerInformation,
-    InfosReceiptParserDataClass,
-    ItemLines,
-    Locale,
-    MerchantInformation,
-    ReceiptParserDataClass,
-    Taxes,
-    PaymentInformation,
+    CustomerInformation, InfosReceiptParserDataClass, ItemLines,
+    Locale, MerchantInformation, ReceiptParserDataClass,
+    Taxes, PaymentInformation,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -64,9 +56,14 @@ from edenai_apis.utils.conversion import (
     convert_string_to_number,
     retreive_first_number_from_string,
 )
+from apis.amazon.helpers import check_webhook_result
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.types import ResponseType
-
+from edenai_apis.utils.types import (
+    AsyncBaseResponseType, AsyncLaunchJobResponseType,
+    ResponseType, AsyncPendingResponseType, AsyncResponseType
+    )
+from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
+from io import BytesIO
 
 class SubfeatureParser(Enum):
     RECEIPT = "receipt"
@@ -85,6 +82,8 @@ class Base64Api(ProviderInterface, OcrInterface):
         )
         self.api_key = self.api_settings["secret"]
         self.url = "https://base64.ai/api/scan"
+        self.webhook_settings = load_provider(ProviderDataEnum.KEY, "webhooksite")
+        self.webhook_token = self.webhook_settings.get("webhook_token")
 
     class Field:
         def __init__(self, document: dict) -> None:
@@ -667,3 +666,87 @@ class Base64Api(ProviderInterface, OcrInterface):
                 original_response=original_response,
                 standardized_response=BankCheckParsingDataClass(extracted_data=items),
             )
+
+    def ocr__anonymization_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
+        data_job_id = {}
+        file_ = open(file, "rb")
+        image_as_base64 = (
+            f"data:{mimetypes.guess_type(file)[0]};base64,"
+            + base64.b64encode(file_.read()).decode()
+        )
+        file_.close()
+        payload = json.dumps(
+            {
+                "image": image_as_base64,
+                "settings": {
+                    "redactions": {
+                        "fields": ["name", "givenName", "familyName", "organization", "documentNumber",
+                                   "address", "date", "dateOfBirth", "issueDate", "expirationDate", "vin"
+                                   "total", "tax"],
+                        "faces": True,
+                        "signatures": True,
+                    }
+                },
+            }
+        )
+
+        headers = {"Content-Type": "application/json", "Authorization": self.api_key}
+
+        response = requests.post(url=self.url, headers=headers, data=payload)
+
+        original_response = self._get_response(response)
+
+        job_id = "document_anonymization_base64" + str(uuid.uuid4())
+        data_job_id[job_id] = original_response
+        requests.post(
+            url=f"https://webhook.site/{self.webhook_token}",
+            data=json.dumps(data_job_id),
+            headers={"content-type": "application/json"},
+        )
+
+        return AsyncLaunchJobResponseType(provider_job_id=job_id)
+
+    def ocr__anonymization_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[AnonymizationAsyncDataClass]:
+        wehbook_result, response_status = check_webhook_result(provider_job_id, self.webhook_settings)
+
+        if response_status != 200:
+            raise ProviderException(wehbook_result, code = response_status)
+
+        result_object = next(filter(lambda response: provider_job_id in response["content"], wehbook_result), None) \
+            if wehbook_result else None
+
+        if not result_object or not result_object.get("content"):
+            raise ProviderException("Provider returned an empty response")
+
+        try:
+            original_response = json.loads(result_object["content"]).get(provider_job_id, None)
+        except json.JSONDecodeError:
+            raise ProviderException("An error occurred while parsing the response.")
+
+        if original_response is None:
+            return AsyncPendingResponseType[AnonymizationAsyncDataClass](
+                provider_job_id=provider_job_id
+            )
+        # Extract the B64 redacted document
+        redacted_document = original_response[0].get('redactedDocument')
+        # document_mimetype = original_response[0]['features']['properties']['mimeType']
+
+        # # Use the mimetypes module to guess the file extension based on the MIME type
+        # extension = mimetypes.guess_extension(document_mimetype)
+
+        # Extract the base64-encoded data from 'redacted_document'
+        base64_data = redacted_document.split(';base64,')[1]
+
+        content_bytes = base64.b64decode(base64_data)
+        resource_url = upload_file_bytes_to_s3(
+            BytesIO(content_bytes), ".png", USER_PROCESS
+        )
+        return AsyncResponseType[AnonymizationAsyncDataClass](
+            original_response=original_response,
+            standardized_response=AnonymizationAsyncDataClass(document=base64_data, document_url=resource_url),
+            provider_job_id=provider_job_id
+        )

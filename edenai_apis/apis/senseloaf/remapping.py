@@ -158,6 +158,8 @@ class ResumeMapper:
     def __map_skills(self) -> List[ResumeSkill]:
         self.__standard_response["skills"] = []
         for i in self.__original_response.get("skills", []) or []:
+            if 'Language' in i.get('SkillType', []):
+                continue
             skill_name = i.get("SkillName")
             skill_type = i.get("SkillType", [])
             skill_type = None if len(skill_type) == 0 else skill_type[0]
@@ -167,7 +169,9 @@ class ResumeMapper:
         return self.__standard_response["skills"]
     
     def __map_others(self) -> Tuple:
-        self.__standard_response['languages'] = []
+        skills = self.__original_response.get("skills", [])
+        languages = [ResumeLang(name=i.get("SkillName"), code=None) for i in skills if 'Language' in i.get('SkillType', [])]
+        self.__standard_response['languages'] = languages
         self.__standard_response['certifications'] = []
         self.__standard_response['publications'] = []
 

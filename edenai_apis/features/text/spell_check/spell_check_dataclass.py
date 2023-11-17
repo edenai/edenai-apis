@@ -1,4 +1,4 @@
-from typing import Optional, Sequence
+from typing import Optional, Sequence, List
 
 from pydantic import BaseModel, Field
 
@@ -23,8 +23,7 @@ class SuggestionItem(BaseModel):
 
 
 class SpellCheckItem(BaseModel):
-    """
-    Represents a spell check item with suggestions.
+    """Represents a spell check item with suggestions.
 
     Args:
         text (str): The text to spell check.
@@ -44,7 +43,7 @@ class SpellCheckItem(BaseModel):
     type: Optional[str]
     offset: int = Field(ge=0)
     length: int = Field(ge=0)
-    suggestions: Sequence[SuggestionItem] = Field(default_factory=list)
+    suggestions: List[SuggestionItem] = Field(default_factory=list)
 
 
 class SpellCheckDataClass(BaseModel):

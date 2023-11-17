@@ -13,7 +13,7 @@ def clients(api_settings: Dict) -> Dict:
         ),
         "texttospeech": boto3.client(
             "polly",
-            region_name=api_settings["region_name"],
+            region_name=api_settings["ressource_region"],
             aws_access_key_id=api_settings["aws_access_key_id"],
             aws_secret_access_key=api_settings["aws_secret_access_key"],
         ),
@@ -90,6 +90,12 @@ def storage_clients(api_settings: Dict) -> Dict:
             aws_access_key_id=api_settings["aws_access_key_id"],
             aws_secret_access_key=api_settings["aws_secret_access_key"],
         ),
+        "texttospeech": boto3.resource(
+            "s3",
+            region_name=api_settings["ressource_region"],
+            aws_access_key_id=api_settings["aws_access_key_id"],
+            aws_secret_access_key=api_settings["aws_secret_access_key"],
+        )
     }
 
 

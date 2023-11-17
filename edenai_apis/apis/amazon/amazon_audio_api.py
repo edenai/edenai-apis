@@ -1,8 +1,10 @@
-import base64
 import json
 import urllib
 import uuid
-from io import BytesIO
+import base64
+import requests
+from io import BufferedReader, BytesIO
+from botocore.exceptions import BotoCoreError, ClientError
 from pathlib import Path
 from typing import Optional
 
@@ -31,7 +33,13 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
-from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
+from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS, get_s3_file_url, URL_LONG_PERIOD, \
+    get_cloud_front_file_url, s3_client_load
+
+from .config import audio_voices_ids, storage_clients
+from edenai_apis.features.audio import TextToSpeechAsyncDataClass
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
 
 
 class AmazonAudioApi(AudioInterface):
@@ -331,3 +339,76 @@ class AmazonAudioApi(AudioInterface):
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
             provider_job_id=provider_job_id
         )
+    def audio__text_to_speech_async__launch_job(
+            self,
+            language: str,
+            text: str,
+            option: str,
+            voice_id: str,
+            audio_format: str,
+            speaking_rate: int,
+            speaking_pitch: int,
+            speaking_volume: int,
+            sampling_rate: int,
+            file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
+        _, voice_id_name, engine = voice_id.split("_")
+        engine = engine.lower()
+
+        params = {"Engine": engine, "VoiceId": voice_id_name, "OutputFormat": "mp3", "OutputS3BucketName": self.api_settings["users_resource_bucket"]}
+
+        text = generate_right_ssml_text(
+            text, speaking_rate, speaking_pitch, speaking_volume
+        )
+
+        ext, audio_format, sampling = get_right_audio_support_and_sampling_rate(
+            audio_format, sampling_rate
+        )
+
+        params_update = {"OutputFormat": audio_format, "Text": text}
+        if sampling:
+            params_update["SampleRate"] = str(sampling)
+
+        params.update({**params_update})
+
+        if is_ssml(text):
+            params["TextType"] = "ssml"
+
+        response = handle_amazon_call(self.clients["texttospeech"].start_speech_synthesis_task, **params)
+        synthesis_task = response["SynthesisTask"]
+        if synthesis_task["TaskStatus"] == "failed":
+            raise ProviderException(synthesis_task.get("TaskStatusReason", "Amazon returned a job status: failed"))
+        print(synthesis_task["TaskId"])
+        return AsyncLaunchJobResponseType(provider_job_id=synthesis_task["TaskId"])
+
+    def audio__text_to_speech_async__get_job_result(
+        self,
+        provider_job_id: str
+    ) -> AsyncBaseResponseType[TextToSpeechAsyncDataClass]:
+        params = {"TaskId": provider_job_id}
+        response = handle_amazon_call(self.clients["texttospeech"].get_speech_synthesis_task, **params)
+        synthesis_task = response["SynthesisTask"]
+        status = synthesis_task["TaskStatus"]
+        if status == "failed":
+            raise ProviderException(synthesis_task.get("TaskStatusReason", "Amazon returned a job status: failed"))
+        elif status == "inProgress" or status == "scheduled":
+            return AsyncPendingResponseType[TextToSpeechAsyncDataClass](
+                provider_job_id=provider_job_id
+            )
+        else:
+            output_uri = synthesis_task.get("OutputUri", "")
+            s3_client_load()
+            file_url = get_cloud_front_file_url(output_uri.split('/')[-1], URL_LONG_PERIOD)
+            synthesis_task["OutputUri"] = file_url
+            response_file = requests.get(file_url)
+            print(response_file.content)
+            audio_content = BytesIO(response_file.content)
+            audio = base64.b64encode(audio_content.read()).decode("utf-8")
+            standardized_response = TextToSpeechAsyncDataClass(
+                audio_resource_url=file_url, audio=audio, voice_type=1
+            )
+            return AsyncResponseType[TextToSpeechAsyncDataClass](
+                original_response=synthesis_task,
+                standardized_response=standardized_response,
+                provider_job_id=provider_job_id
+            )

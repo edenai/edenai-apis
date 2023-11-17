@@ -44,14 +44,16 @@ class CohereApi(ProviderInterface, TextInterface):
             "Cohere-Version": "2022-12-06",
         }
 
+    @staticmethod
     def _calculate_summarize_length(output_sentences: int):
         if output_sentences < 3:
             return "short"
         elif output_sentences < 6:
             return "medium"
-        elif output_sentences > 6:
+        else:
             return "long"
 
+    @staticmethod
     def _format_custom_ner_examples(example: Dict):
         # Get the text
         text = example["text"]
@@ -72,19 +74,24 @@ class CohereApi(ProviderInterface, TextInterface):
 
         # Create the string with the extracted entities
         return f"""
-        Text: #{text}#
-        Answer: "[{', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]"
-        ---
-            """
+        Categories: {', '.join(set([entity['category'] for entity in extracted_entities]))}
 
-    def _format_spell_check_prompt(text: str, language: str) -> str:
+        Text: {text}
+
+        Answer: [{', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]
+        """
+
+    @staticmethod
+    def _format_spell_check_prompt(text: str) -> str:
         return f"""
 Given a text with spelling errors, identify the misspelled words and correct them. 
-Return the results as a list of dictionaries, where each dictionary contains two keys: "word" and "correction". 
+Return the results as a list of dictionaries and only the json result, where each dictionary contains two keys: "word" and "correction". 
 The "word" key should contain the misspelled word, and the "correction" key should contain the corrected version of the word. 
 For example, if the misspelled word is 'halo', the corresponding dictionary should be: {{"word": "halo", "correction": "hello"}}.
-Text : {text}
-List of corrected words :
+Text: {text}
+Examples of entry Text with misspelling: "Hallo my friend hw are you"
+Examples of response: [{{"word": "Hallo", "correction": "hello"}}, {{"word": "hw", "correction": "how"}}]
+List of corrected words:
 """
 
     def text__generation(
@@ -110,7 +117,7 @@ List of corrected words :
 
         response = requests.post(url, json=payload, headers=self.headers)
         if response.status_code >= 500:
-            ProviderException("Internal Server Error")
+            raise ProviderException("Internal Server Error")
 
         original_response = response.json()
 
@@ -139,7 +146,6 @@ List of corrected words :
         payload = {
             "inputs": texts,
             "examples": example_dict,
-            "model": "large",
         }
 
         response = requests.post(url, json=payload, headers=self.headers)
@@ -207,7 +213,7 @@ List of corrected words :
     def text__custom_named_entity_recognition(
         self, text: str, entities: List[str], examples: Optional[List[Dict]] = None
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
-        url = f"{self.base_url}generate"
+        url = f"{self.base_url}chat"
 
         # Construct the prompt
         built_entities = ",".join(entities)
@@ -217,51 +223,55 @@ List of corrected words :
                 prompt_examples = (
                     prompt_examples + CohereApi._format_custom_ner_examples(example)
                 )
-        prompt = f"""You act as a named entities recognition model. Extract the specified entities ({built_entities}) from the text enclosed in hash symbols (#) and return a JSON List of dictionaries with two keys: "entity" and "category". The "entity" key represents the detected entity and the "category" key represents the category of the entity.
+        else:
+            prompt_examples = self._format_custom_ner_examples(
+                {
+                    "text": "Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia. Extracted these entities from the Text if they exist: drink, date",
+                    "entities": [
+                        {"entity": "Coca-Cola", "category": "drink"},
+                        {"entity": "coke", "category": "drink"},
+                        {"entity": "19th century", "category": "date"},
+                    ],
+                }
+            )
+        prompt = f"""You act as a named entities recognition model.
+Extract an exhaustive list of Entities from the given Text according to the specified Categories and return the list as a valid JSON.
 
-If no entities are found, return an empty list.
+ONLY return a valid JSON. DO NOT return any other form of text. The keys of each objects in the list are `entity` and `category`.
+`entity` value must be the extracted entity from the text, `category` value must be the category of the extracted entity.
+The JSON MUST be valid and conform to the given description.
+Be correct and concise. If no entities are found, return an empty list.
 
-Example :
+Categories: {built_entities}
 
+Text: {text}
+
+
+For Example:
 {prompt_examples}
-
-Text: 
-{text}
-
-Answer:"""
+"""
 
         # Construct request
         payload = {
             "model": "command",
-            "prompt": prompt,
-            "max_tokens": 650,
+            "message": prompt,
             "temperature": 0,
-            "k": 0,
-            "frequency_penalty": 0.3,
-            "truncate": "END",
-            "stop_sequences": [],
-            "return_likelihoods": "NONE",
         }
         response = requests.post(url, json=payload, headers=self.headers)
         if response.status_code != 200:
             raise ProviderException(response.text, response.status_code)
 
         original_response = response.json()
-        data = original_response.get("generations")[0]["text"]
-        if isinstance(data, str):
-            try:
-                data = json.loads(data)
-            except json.JSONDecodeError as exc:
-                try:
-                    data = data[: data.find('"')] + data[data.find('"') + 1 :]
-                    data = data[: data.rfind('"')] + data[data.rfind('"') + 1 :]
-                    data = json.loads(data)
-                except json.JSONDecodeError as exc2:
-                    raise ProviderException(
-                        "An error occurred while parsing the response."
-                    ) from exc2
+        data = original_response.get("text")
 
-        standardized_response = CustomNamedEntityRecognitionDataClass(items=data)
+        try:
+            items = json.loads(data)
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "Cohere didn't return valid JSON object"
+            ) from exc
+
+        standardized_response = CustomNamedEntityRecognitionDataClass(items=items)
 
         return ResponseType[CustomNamedEntityRecognitionDataClass](
             original_response=original_response,
@@ -271,12 +281,11 @@ Answer:"""
     def text__spell_check(
         self, text: str, language: str
     ) -> ResponseType[SpellCheckDataClass]:
-        url = f"{self.base_url}generate"
+        url = f"{self.base_url}chat"
 
         payload = {
-            "prompt": CohereApi._format_spell_check_prompt(text, language),
-            "model": "command-nightly",
-            "max_tokens": 1000,
+            "message": CohereApi._format_spell_check_prompt(text),
+            "model": "command",
             "temperature": 0,
             "stop_sequences": ["--"],
             "truncate": "END",
@@ -291,7 +300,7 @@ Answer:"""
             )
 
         try:
-            data = original_response.get("generations")[0]["text"]
+            data = original_response["text"]
             corrected_items = json.loads(data)
         except json.JSONDecodeError as exc:
             raise ProviderException(
@@ -299,7 +308,7 @@ Answer:"""
             ) from exc
 
         corrections = construct_word_list(text, corrected_items)
-        items: Sequence[SpellCheckItem] = []
+        items: List[SpellCheckItem] = []
         for item in corrections:
             items.append(
                 SpellCheckItem(
@@ -355,11 +364,11 @@ Answer:"""
         function_score = METRICS[similarity_metric]
 
         # Embed the texts & query
-        texts_embed_response = CohereApi.text__embeddings(
-            self, texts=texts, model=model
+        texts_embed_response = self.text__embeddings(
+           texts=texts, model=model
         ).original_response
-        query_embed_response = CohereApi.text__embeddings(
-            self, texts=[query], model=model
+        query_embed_response = self.text__embeddings(
+            texts=[query], model=model
         ).original_response
 
         # Extracts embeddings from texts & query

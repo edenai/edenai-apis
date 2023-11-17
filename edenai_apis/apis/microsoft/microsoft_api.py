@@ -33,3 +33,6 @@ class MicrosoftApi(
         self.headers = get_microsoft_headers()
         self.url = get_microsoft_urls()
         self.user = user
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass

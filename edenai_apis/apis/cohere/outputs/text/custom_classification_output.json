@@ -1,46 +1,353 @@
 {
   "original_response": {
-    "id": "acaa6696-89c6-43f4-9c7f-5cefb149de96",
+    "id": "5658ee95-9cce-480f-b22f-5f5d07feba4f",
     "classifications": [
       {
+        "classification_type": "single-label",
+        "confidence": 0.91768086,
+        "confidences": [
+          0.91768086
+        ],
+        "id": "043ebda8-1a7b-4f88-9af3-d02052518b51",
         "input": "Confirm your email address",
-        "prediction": "not spam",
-        "confidence": 0.91731167,
         "labels": {
           "not spam": {
-            "confidence": 0.91731167
+            "confidence": 0.91768086
           },
           "spam": {
-            "confidence": 0.082688354
+            "confidence": 0.082319155
           }
-        }
+        },
+        "prediction": "not spam",
+        "predictions": [
+          "not spam"
+        ]
       },
       {
+        "classification_type": "single-label",
+        "confidence": 0.9789305,
+        "confidences": [
+          0.9789305
+        ],
+        "id": "2918b4cb-c54e-46e2-9236-a7b3f1cf0134",
         "input": "hey i need u to send some $",
-        "prediction": "spam",
-        "confidence": 0.97913855,
         "labels": {
           "not spam": {
-            "confidence": 0.020861426
+            "confidence": 0.021069504
           },
           "spam": {
-            "confidence": 0.97913855
+            "confidence": 0.9789305
           }
-        }
+        },
+        "prediction": "spam",
+        "predictions": [
+          "spam"
+        ]
+      },
+      {
+        "classification_type": "single-label",
+        "confidence": 0.5345591,
+        "confidences": [
+          0.5345591
+        ],
+        "id": "2f5786c0-0fd6-484d-bf64-1eece294dddc",
+        "input": "Congratulations! You've won a free vacation! Click the link to claim your prize now!",
+        "labels": {
+          "not spam": {
+            "confidence": 0.5345591
+          },
+          "spam": {
+            "confidence": 0.46544096
+          }
+        },
+        "prediction": "not spam",
+        "predictions": [
+          "not spam"
+        ]
+      },
+      {
+        "classification_type": "single-label",
+        "confidence": 0.91536784,
+        "confidences": [
+          0.91536784
+        ],
+        "id": "38abd0fc-38b8-4fac-9e15-962be1d3c60e",
+        "input": "Make money fast! Join our exclusive program and start earning thousands in just a few days!",
+        "labels": {
+          "not spam": {
+            "confidence": 0.08463214
+          },
+          "spam": {
+            "confidence": 0.91536784
+          }
+        },
+        "prediction": "spam",
+        "predictions": [
+          "spam"
+        ]
+      },
+      {
+        "classification_type": "single-label",
+        "confidence": 0.789368,
+        "confidences": [
+          0.789368
+        ],
+        "id": "85a359a6-4eea-434f-9be2-9004d6e17a71",
+        "input": "Get rich quick with this amazing investment opportunity. Guaranteed returns!",
+        "labels": {
+          "not spam": {
+            "confidence": 0.21063201
+          },
+          "spam": {
+            "confidence": 0.789368
+          }
+        },
+        "prediction": "spam",
+        "predictions": [
+          "spam"
+        ]
+      },
+      {
+        "classification_type": "single-label",
+        "confidence": 0.5363132,
+        "confidences": [
+          0.5363132
+        ],
+        "id": "68e1f4f7-c90d-4eef-9ffc-98d76bf0fad5",
+        "input": "Unlock special discounts on luxury goods. Limited-time offer! Click here to shop now!",
+        "labels": {
+          "not spam": {
+            "confidence": 0.5363132
+          },
+          "spam": {
+            "confidence": 0.46368682
+          }
+        },
+        "prediction": "not spam",
+        "predictions": [
+          "not spam"
+        ]
+      },
+      {
+        "classification_type": "single-label",
+        "confidence": 0.69171065,
+        "confidences": [
+          0.69171065
+        ],
+        "id": "9eadf40d-ef4c-43c8-966a-5b80bcc9e55b",
+        "input": "You've been selected for a special promotion. Act now to secure your spot!",
+        "labels": {
+          "not spam": {
+            "confidence": 0.69171065
+          },
+          "spam": {
+            "confidence": 0.30828932
+          }
+        },
+        "prediction": "not spam",
+        "predictions": [
+          "not spam"
+        ]
+      },
+      {
+        "classification_type": "single-label",
+        "confidence": 0.7748757,
+        "confidences": [
+          0.7748757
+        ],
+        "id": "5863396c-34b7-4adc-83b8-740e8f00ca46",
+        "input": "Meet hot singles in your area! Chat now and find your perfect match!",
+        "labels": {
+          "not spam": {
+            "confidence": 0.22512431
+          },
+          "spam": {
+            "confidence": 0.7748757
+          }
+        },
+        "prediction": "spam",
+        "predictions": [
+          "spam"
+        ]
+      },
+      {
+        "classification_type": "single-label",
+        "confidence": 0.8801634,
+        "confidences": [
+          0.8801634
+        ],
+        "id": "a090f557-7e7b-4b65-ba32-fbfd89a22999",
+        "input": "Eliminate debt effortlessly! Our program can erase your financial worries.",
+        "labels": {
+          "not spam": {
+            "confidence": 0.11983663
+          },
+          "spam": {
+            "confidence": 0.8801634
+          }
+        },
+        "prediction": "spam",
+        "predictions": [
+          "spam"
+        ]
+      },
+      {
+        "classification_type": "single-label",
+        "confidence": 0.6725608,
+        "confidences": [
+          0.6725608
+        ],
+        "id": "0361d63d-bf08-46a4-9f1f-6292a01a25d7",
+        "input": "Claim your inheritance! Just provide your bank details for a seamless transfer.",
+        "labels": {
+          "not spam": {
+            "confidence": 0.3274392
+          },
+          "spam": {
+            "confidence": 0.6725608
+          }
+        },
+        "prediction": "spam",
+        "predictions": [
+          "spam"
+        ]
+      },
+      {
+        "classification_type": "single-label",
+        "confidence": 0.9181565,
+        "confidences": [
+          0.9181565
+        ],
+        "id": "bcd48746-79cb-4282-8724-b67a97dc251a",
+        "input": "Reminder: Your appointment with Dr. Smith is scheduled for tomorrow at 2:00 PM.",
+        "labels": {
+          "not spam": {
+            "confidence": 0.9181565
+          },
+          "spam": {
+            "confidence": 0.08184348
+          }
+        },
+        "prediction": "not spam",
+        "predictions": [
+          "not spam"
+        ]
+      },
+      {
+        "classification_type": "single-label",
+        "confidence": 0.95477283,
+        "confidences": [
+          0.95477283
+        ],
+        "id": "8c79394c-9647-4ef3-9b36-50e22b162161",
+        "input": "Update: The event you registered for has been rescheduled to [New Date].",
+        "labels": {
+          "not spam": {
+            "confidence": 0.95477283
+          },
+          "spam": {
+            "confidence": 0.045227155
+          }
+        },
+        "prediction": "not spam",
+        "predictions": [
+          "not spam"
+        ]
+      },
+      {
+        "classification_type": "single-label",
+        "confidence": 0.9547433,
+        "confidences": [
+          0.9547433
+        ],
+        "id": "c7c08642-5365-454d-ab9b-a6893c7f4a9c",
+        "input": "Welcome to our newsletter! Stay tuned for updates on our latest products and promotions.",
+        "labels": {
+          "not spam": {
+            "confidence": 0.9547433
+          },
+          "spam": {
+            "confidence": 0.04525669
+          }
+        },
+        "prediction": "not spam",
+        "predictions": [
+          "not spam"
+        ]
       }
-    ]
+    ],
+    "meta": {
+      "api_version": {
+        "version": "2022-12-06"
+      }
+    }
   },
   "standardized_response": {
     "classifications": [
       {
         "input": "Confirm your email address",
         "label": "not spam",
-        "confidence": 0.91731167
+        "confidence": 0.91768086
       },
       {
         "input": "hey i need u to send some $",
         "label": "spam",
-        "confidence": 0.97913855
+        "confidence": 0.9789305
+      },
+      {
+        "input": "Congratulations! You've won a free vacation! Click the link to claim your prize now!",
+        "label": "not spam",
+        "confidence": 0.5345591
+      },
+      {
+        "input": "Make money fast! Join our exclusive program and start earning thousands in just a few days!",
+        "label": "spam",
+        "confidence": 0.91536784
+      },
+      {
+        "input": "Get rich quick with this amazing investment opportunity. Guaranteed returns!",
+        "label": "spam",
+        "confidence": 0.789368
+      },
+      {
+        "input": "Unlock special discounts on luxury goods. Limited-time offer! Click here to shop now!",
+        "label": "not spam",
+        "confidence": 0.5363132
+      },
+      {
+        "input": "You've been selected for a special promotion. Act now to secure your spot!",
+        "label": "not spam",
+        "confidence": 0.69171065
+      },
+      {
+        "input": "Meet hot singles in your area! Chat now and find your perfect match!",
+        "label": "spam",
+        "confidence": 0.7748757
+      },
+      {
+        "input": "Eliminate debt effortlessly! Our program can erase your financial worries.",
+        "label": "spam",
+        "confidence": 0.8801634
+      },
+      {
+        "input": "Claim your inheritance! Just provide your bank details for a seamless transfer.",
+        "label": "spam",
+        "confidence": 0.6725608
+      },
+      {
+        "input": "Reminder: Your appointment with Dr. Smith is scheduled for tomorrow at 2:00 PM.",
+        "label": "not spam",
+        "confidence": 0.9181565
+      },
+      {
+        "input": "Update: The event you registered for has been rescheduled to [New Date].",
+        "label": "not spam",
+        "confidence": 0.95477283
+      },
+      {
+        "input": "Welcome to our newsletter! Stay tuned for updates on our latest products and promotions.",
+        "label": "not spam",
+        "confidence": 0.9547433
       }
     ]
   }

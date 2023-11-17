@@ -1,3 +1,4 @@
+import json
 from typing import List, Optional, Dict
 
 from requests import Response
@@ -28,26 +29,40 @@ def format_texts_fn(x: List[str]) -> str:
 def construct_classification_instruction(
     texts: list, labels: list, examples: list
 ) -> str:
-    json_format = '{"classifications": [{"input": <text>, "label": <label>, "confidence": <confidence_score>}]}'
-    return f"""You should act as a text classifier.
-Classify the text below into one of the following categories: {", ".join(labels)}.
-The texts is delimited by triple hashtags and separate by -----.
+    formated_examples = formatted_examples_data(examples)
+    formated_texts = formatted_text_classification(texts)
+    return f"""
+        Given the following list of labels and corresponding text, classify each text according to the appropriate label. Here are some examples:
 
-The output should be a json. The format is as follows:
-{json_format}
+        Labels: {labels}
+        Text: {examples}
 
-If you cant classify the text into any of the categories, please use the category "other".
+        Example Classification:
+        {formated_examples}
 
-Examples:
-{format_example_fn(examples)}
+        Now, classify the sentiment of the following texts:
 
-Text:
-#####
-{format_texts_fn(texts)}
-#####
+        {formated_texts}
+    """
 
-Your output:
-"""
+
+# Function to format and print the examples in custom classification
+def formatted_examples_data(data):
+    formatted_output = ""
+    for i, item in enumerate(data, start=1):
+        text = item[0]
+        label = item[1]
+        formatted_output += f'{i}. Text: "{text}" - Label: "{label}"\n'
+
+    return formatted_output
+
+
+# Function to format and print the texts in custom classification
+def formatted_text_classification(data):
+    formated_texts = ""
+    for i, item in enumerate(data, start=1):
+        formated_texts += f"""{i}. '{item}' """
+    return formated_texts
 
 
 def construct_anonymization_context(text: str) -> str:
@@ -158,7 +173,7 @@ def get_openapi_response(response: Response):
 #     """
 def construct_spell_check_instruction(text: str, language: str):
     return f"""
-Given the following text between written in {language} and delimited by triple hashtags, identify and correct any spelling mistakes. Return the results as a list of dictionaries, each containing the original incorrect word and the corrected word. The dictionaries should be structured as follows: {{"word": "incorrect spelling", "correction": "correct spelling"}}.
+Given the following text between written in {language} and delimited by triple hashtags, identify and correct any spelling mistakes. Return the results always as a list of dictionaries, each containing the original incorrect word and the corrected word. The dictionaries should be structured as follows: {{ "corrections": [{{"word": "incorrect spelling", "correction": "correct spelling"}}] }}.
 
 Text: ###{text}###
 """
@@ -200,9 +215,15 @@ def format_custom_ner_examples(example: Dict):
         extracted_entities.append({"entity": entity_name, "category": category})
 
     # Create the string with the extracted entities
-    result = f"""Text : {text}
-    Entities : {', '.join(set([entity['category'] for entity in extracted_entities]))}
-    Extracted Entities: 
+    result = f"""
+    Text:
+    {text}
+
+    Entities:
+    {', '.join(set([entity['category'] for entity in extracted_entities]))}
+
+
+    Output:
     {{
         "items":[
             {', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}
@@ -232,18 +253,27 @@ def construct_custom_ner_instruction(
                 ]
         }}
     """
-    instructions = """You need to act like a named entity recognition mode. The user will specify types entities that you need to extract from his text.
-    The text is included between three backticks."""
+    return f"""
+You need to act like a named entity recognition model.
+Given the following list of entity types and a text, extract all the entities from the text that correspond to the entity types. Ensure that the same entity/category pair is not extracted twice. The output should be in the following JSON format:
 
-    return (
-        instructions
-        + prompt_examples
-        + f"""
-    Text : \n```{text}```\n\n
-    Entities : \n{built_entities}\n\n
-    Your output:
-    """
-    )
+Entity Types: {built_entities}
+Text: {text}
+
+Expected JSON Output:
+{{
+  "items": [
+    {{"category": "<entity type from the entity list>", "entity": "<extracted entity from the text>"}},
+    ...
+  ]
+}}
+
+For Example:
+{examples}
+
+
+Please perform this task and provide the JSON output.
+"""
 
 
 cohere_prompt_guideines = (
@@ -377,3 +407,49 @@ def construct_prompt_optimization_instruction(text: str, target_provider: str):
     }
 
     return prompt[target_provider]
+
+
+def convert_tts_audio_rate(audio_rate: int) -> float:
+    """
+    Convert TTS audio rate from the range [-100, 100] to [0.25, 4.0].
+
+    Parameters:
+    - audio_rate (int): The input audio rate in the range [-100, 100].
+
+    Returns:
+    - float: The audio rate in the range [0.25, 4.0].
+
+    """
+    if audio_rate >= -100 and audio_rate <= 0:
+        return ((audio_rate - (-100)) / (0 - (-100))) * (1 - 0.25) + 0.25
+    else:
+        return ((audio_rate - 0) / (100 - 0)) * (4 - 1) + 1
+
+def finish_unterminated_json(json_string: str, end_brackets: str) -> str:
+    """
+    take a cut json_string and try to terminate it
+
+    Arguments:
+      json_string(str): JSON string to terminate
+      end_brackets(str): string representing the ending brackets. eg: '}]'
+
+    Returns:
+      str: valid json string
+
+    Raise:
+      json.JSONDecodeERror: if couldn't terminate string
+
+    Example:
+      >>> finish_unterminated_json('{"data": {"place": "Italy"')
+      >>> '{"data": {"place": "Italy"}}
+    """
+    if not json_string:
+        raise json.JSONDecodeError("JSON string couldn't be parsed or finished")
+
+    try:
+        new_json_string = json_string + end_brackets
+        json.loads(new_json_string)
+        return new_json_string
+    except json.JSONDecodeError:
+        json_string = json_string[:-1]
+        return finish_unterminated_json(json_string, end_brackets)
