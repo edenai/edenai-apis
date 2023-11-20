@@ -196,6 +196,11 @@
 | | microsoft |
 | | sentisight |
 | **anonymization** | api4ai |
+| **background_removal** | api4ai |
+| | microsoft |
+| | photoroom |
+| | sentisight |
+| | stabilityai |
 | **logo_detection** | api4ai |
 | | clarifai |
 | | google |
@@ -361,6 +366,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **image** | anonymization |
+| | background_removal |
 | | explicit_content |
 | | face_detection |
 | | logo_detection |
@@ -596,7 +602,8 @@
 |----------|-------------|
 | **audio** | speech_to_text_async |
 | | text_to_speech |
-| **image** | explicit_content |
+| **image** | background_removal |
+| | explicit_content |
 | | face_detection |
 | | face_recognition |
 | | landmark_detection |
@@ -730,6 +737,13 @@
 | **translation** | automatic_translation |
 
 </details>
+<details><summary>photoroom</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | background_removal |
+
+</details>
 <details><summary>picpurify</summary>
 
 | Features | Subfeatures |
@@ -794,7 +808,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **image** | explicit_content |
+| **image** | background_removal |
+| | explicit_content |
 | | object_detection |
 | | search |
 | **ocr** | ocr |
@@ -825,7 +840,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **image** | generation |
+| **image** | background_removal |
+| | generation |
 
 </details>
 <details><summary>symbl</summary>
