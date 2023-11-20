@@ -27,11 +27,17 @@ def calculate_bounding_box(points: Sequence[Dict], max_width, max_height):
     }
 
 
-def handle_error_image_search(response: requests.Response):
-    message: str = "Unknown error"
+def handle_error_image_search(response: requests.Response) -> None:
+    """Handle error from image search API
+
+    Args:
+        response (requests.Response): Response from image search API
+    Raises:
+        ProviderException: Error from image search API
+    """
     try:
         response_json = response.json()
         message = response_json["error"]
     except json.JSONDecodeError:
-        response_json = {"error": "Unknown error"}
+        message = "Internal Server Error"
     raise ProviderException(message=message, code=response.status_code)

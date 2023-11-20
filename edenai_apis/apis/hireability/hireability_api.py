@@ -1,7 +1,8 @@
-from io import BufferedReader
-from typing import Dict, List
-import requests
 from collections import defaultdict
+from typing import Dict, List
+
+import requests
+
 from edenai_apis.features import OcrInterface
 from edenai_apis.features.ocr import (
     ResumeEducationEntry,
@@ -18,10 +19,9 @@ from edenai_apis.features.ocr import (
 from edenai_apis.features.ocr.resume_parser.resume_parser_dataclass import (
     ResumeEducation,
 )
-
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 

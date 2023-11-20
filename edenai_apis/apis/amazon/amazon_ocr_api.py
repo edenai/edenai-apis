@@ -2,7 +2,8 @@ import json
 from time import sleep
 from typing import List, Sequence, Dict, Union
 
-from pydantic import Extra
+from botocore.exceptions import ClientError
+
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
     CustomDocumentParsingAsyncDataClass,
 )
@@ -21,14 +22,14 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     InvoiceParserDataClass,
 )
-from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import OcrAsyncDataClass
-from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
-    ReceiptParserDataClass,
-)
 from edenai_apis.features.ocr.ocr.ocr_dataclass import Bounding_box, OcrDataClass
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import OcrAsyncDataClass
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     OcrTablesAsyncDataClass,
+)
+from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
+    ReceiptParserDataClass,
 )
 from edenai_apis.utils.exception import (
     AsyncJobException,
@@ -42,9 +43,6 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
-
-from botocore.exceptions import ClientError
-
 from .helpers import (
     amazon_data_extraction_formatter,
     amazon_ocr_async_formatter,

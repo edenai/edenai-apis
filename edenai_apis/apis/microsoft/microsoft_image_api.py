@@ -1,10 +1,14 @@
-from io import BufferedReader
-from typing import List, Sequence
+import base64
+import json
+from typing import List, Sequence, Optional, Any, Dict
 
 import requests
+from PIL import Image as Img
+
 from edenai_apis.apis.microsoft.microsoft_helpers import (
     miscrosoft_normalize_face_detection_response,
 )
+from edenai_apis.apis.microsoft.types import MicrosoftBackgroundRemovalParams
 from edenai_apis.features.image import (
     ExplicitContentDataClass,
     ExplicitItem,
@@ -18,6 +22,7 @@ from edenai_apis.features.image import (
     ObjectDetectionDataClass,
     ObjectItem,
 )
+from edenai_apis.features.image.background_removal import BackgroundRemovalDataClass
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.face_recognition.add_face.face_recognition_add_face_dataclass import (
     FaceRecognitionAddFaceDataClass,
@@ -31,21 +36,20 @@ from edenai_apis.features.image.face_recognition.delete_collection.face_recognit
 from edenai_apis.features.image.face_recognition.delete_face.face_recognition_delete_face_dataclass import (
     FaceRecognitionDeleteFaceDataClass,
 )
-from edenai_apis.features.image.face_recognition.recognize.face_recognition_recognize_dataclass import (
-    FaceRecognitionRecognizeDataClass,
-    FaceRecognitionRecognizedFaceDataClass,
-)
 from edenai_apis.features.image.face_recognition.list_collections.face_recognition_list_collections_dataclass import (
     FaceRecognitionListCollectionsDataClass,
 )
 from edenai_apis.features.image.face_recognition.list_faces.face_recognition_list_faces_dataclass import (
     FaceRecognitionListFacesDataClass,
 )
+from edenai_apis.features.image.face_recognition.recognize.face_recognition_recognize_dataclass import (
+    FaceRecognitionRecognizeDataClass,
+    FaceRecognitionRecognizedFaceDataClass,
+)
 from edenai_apis.features.image.image_interface import ImageInterface
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from PIL import Image as Img
 
 
 class MicrosoftImageApi(ImageInterface):
@@ -66,9 +70,11 @@ class MicrosoftImageApi(ImageInterface):
         if response.status_code != 200:
             if response.status_code == 415:
                 # 415 response doesn't have 'error' key
-                raise ProviderException(data["message"], code = response.status_code)
+                raise ProviderException(data["message"], code=response.status_code)
             else:
-                raise ProviderException(data["error"]["message"], code = response.status_code)
+                raise ProviderException(
+                    data["error"]["message"], code=response.status_code
+                )
 
         # key is adult but contains all categories (gore, racy, adult)
         moderation_content = data["adult"]
@@ -77,16 +83,18 @@ class MicrosoftImageApi(ImageInterface):
         items = []
         for explicit_type in ["gore", "adult", "racy"]:
             if moderation_content.get(f"{explicit_type}Score"):
-                classificator = CategoryType.choose_category_subcategory(explicit_type.capitalize())
+                classificator = CategoryType.choose_category_subcategory(
+                    explicit_type.capitalize()
+                )
                 items.append(
                     ExplicitItem(
                         label=explicit_type.capitalize(),
                         category=classificator["category"],
                         subcategory=classificator["subcategory"],
-                        likelihood_score=
+                        likelihood_score=moderation_content[f"{explicit_type}Score"],
+                        likelihood=standardized_confidence_score(
                             moderation_content[f"{explicit_type}Score"]
-                        ,
-                        likelihood=standardized_confidence_score(moderation_content[f"{explicit_type}Score"])
+                        ),
                     )
                 )
         nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
@@ -118,7 +126,7 @@ class MicrosoftImageApi(ImageInterface):
                 if "innererror" in error
                 else error["message"]
             )
-            raise ProviderException(err_msg, code = response.status_code)
+            raise ProviderException(err_msg, code=response.status_code)
 
         items = []
 
@@ -182,7 +190,7 @@ class MicrosoftImageApi(ImageInterface):
         if not isinstance(response, list) and response.get("error") is not None:
             raise ProviderException(
                 f'Error calling Microsoft Api: {response["error"].get("message", "error 500")}',
-                code= request.status_code
+                code=request.status_code,
             )
         # Create response VisionFaceDetection object
 
@@ -211,7 +219,7 @@ class MicrosoftImageApi(ImageInterface):
             # sometimes no "error" key in repsonse
             # ref: https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-2/operations/56f91f2e778daf14a499f21b
             error_msg = data.get("message", data.get("error", "message"))
-            raise ProviderException(error_msg, code = response.status_code)
+            raise ProviderException(error_msg, code=response.status_code)
 
         items: Sequence[LogoItem] = []
         for key in data.get("brands"):
@@ -280,8 +288,7 @@ class MicrosoftImageApi(ImageInterface):
         response = requests.put(url=url, headers=headers, json=payload)
         if response.status_code != 200:
             raise ProviderException(
-                response.json()["error"]["message"],
-                code = response.status_code
+                response.json()["error"]["message"], code=response.status_code
             )
         return FaceRecognitionCreateCollectionDataClass(collection_id=collection_id)
 
@@ -297,8 +304,7 @@ class MicrosoftImageApi(ImageInterface):
         response = requests.get(url=url, headers=headers)
         if response.status_code != 200:
             raise ProviderException(
-                response.json()["error"]["message"],
-                code = response.status_code
+                response.json()["error"]["message"], code=response.status_code
             )
 
         original_response = response.json()
@@ -321,8 +327,7 @@ class MicrosoftImageApi(ImageInterface):
         response = requests.get(url=url, headers=headers)
         if response.status_code != 200:
             raise ProviderException(
-                response.json()["error"]["message"],
-                code = response.status_code
+                response.json()["error"]["message"], code=response.status_code
             )
         original_response = response.json()
         face_ids = [
@@ -345,8 +350,7 @@ class MicrosoftImageApi(ImageInterface):
         response = requests.delete(url=url, headers=headers)
         if response.status_code != 200:
             raise ProviderException(
-                response.json()["error"]["message"],
-                code = response.status_code
+                response.json()["error"]["message"], code=response.status_code
             )
         return ResponseType(
             original_response=response.text,
@@ -365,8 +369,7 @@ class MicrosoftImageApi(ImageInterface):
         file_.close()
         if response.status_code != 200:
             raise ProviderException(
-                response.json()["error"]["message"],
-                code = response.status_code
+                response.json()["error"]["message"], code=response.status_code
             )
         original_response = response.json()
         return ResponseType(
@@ -388,8 +391,7 @@ class MicrosoftImageApi(ImageInterface):
         response = requests.delete(url=url, headers=headers)
         if response.status_code != 200:
             raise ProviderException(
-                response.json()["error"]["message"],
-                code = response.status_code
+                response.json()["error"]["message"], code=response.status_code
             )
         return ResponseType(
             original_response=response.text,
@@ -420,8 +422,7 @@ class MicrosoftImageApi(ImageInterface):
         response = requests.post(url=url, headers=headers, json=payload)
         if response.status_code != 200:
             raise ProviderException(
-                response.json()["error"]["message"],
-                code = response.status_code
+                response.json()["error"]["message"], code=response.status_code
             )
         original_response = response.json()
         recognized_faces = [
@@ -436,3 +437,55 @@ class MicrosoftImageApi(ImageInterface):
                 items=recognized_faces
             ),
         )
+
+    def image__background_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        with open(file, "rb") as f:
+            if provider_params is None or not isinstance(provider_params, dict):
+                microsoft_params = MicrosoftBackgroundRemovalParams()
+            else:
+                microsoft_params = MicrosoftBackgroundRemovalParams(**provider_params)
+
+            base_url = (
+                "https://francecentral.api.cognitive.microsoft.com/computervision/"
+            )
+            endpoint = "imageanalysis:segment?api-version=2023-02-01-preview"
+            url = base_url + endpoint + f"&mode={microsoft_params.mode}"
+
+            response = requests.post(
+                url,
+                headers=self.headers["vision"],
+                data=f.read(),
+            )
+
+            if response.status_code != 200:
+                try:
+                    original_response = response.json()
+                    print(original_response)
+                    error_message = (
+                        original_response["error"]["code"]
+                        + ": "
+                        + original_response["error"]["message"]
+                    )
+                except (KeyError, json.JSONDecodeError):
+                    error_message = "Provider has not returned an image"
+
+                raise ProviderException(
+                    message=error_message,
+                    code=response.status_code,
+                )
+
+            img_b64 = base64.b64encode(response.content).decode("utf-8")
+            resource_url = BackgroundRemovalDataClass.generate_resource_url(img_b64)
+
+            return ResponseType[BackgroundRemovalDataClass](
+                original_response=response.text,
+                standardized_response=BackgroundRemovalDataClass(
+                    image_b64=img_b64,
+                    image_resource_url=resource_url,
+                ),
+            )

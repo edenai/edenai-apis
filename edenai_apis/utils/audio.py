@@ -1,9 +1,10 @@
-import mimetypes
-import random
 from io import BufferedReader
-from typing import Union, List, Tuple, Dict
+from io import BufferedReader
+from typing import Union, List, Dict
+
 from pydub import AudioSegment
 from pydub.utils import mediainfo
+
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException

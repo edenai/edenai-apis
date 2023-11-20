@@ -1,23 +1,23 @@
-from logging import exception
-import requests
 from typing import List, Optional
+
+import requests
 
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
     KeywordExtractionDataClass,
 )
-from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
-    SentimentAnalysisDataClass,
+from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
+    NamedEntityRecognitionDataClass,
 )
 from edenai_apis.features.text.question_answer.question_answer_dataclass import (
     QuestionAnswerDataClass,
 )
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
+    SentimentAnalysisDataClass,
+)
+from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass import (
     TopicExtractionDataClass,
 )
-from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
-    NamedEntityRecognitionDataClass,
-)
-from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 

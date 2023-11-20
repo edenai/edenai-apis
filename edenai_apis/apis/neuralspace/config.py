@@ -1,7 +1,5 @@
-from langcodes import closest_supported_match
 from edenai_apis.utils.languages import (
     get_language_name_from_code,
-    load_language_constraints,
 )
 
 supported_domains = [

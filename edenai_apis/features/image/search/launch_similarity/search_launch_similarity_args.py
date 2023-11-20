@@ -1,6 +1,7 @@
 import mimetypes
 import os
 from typing import Dict
+
 from pydub.utils import mediainfo
 
 from edenai_apis.utils.files import FileInfo, FileWrapper
@@ -23,12 +24,13 @@ file_wrapper = FileWrapper(image_path, "", file_info)
 
 
 def search_launch_similarity_arguments(provider_name: str) -> Dict:
-
-    if provider_name == 'sentisight':
-        project_id = '42874'
-    elif provider_name == 'nyckel':
-        project_id = 'yiilyy1cm0sxiw7n'
+    if provider_name == "sentisight":
+        project_id = "42874"
+    elif provider_name == "nyckel":
+        project_id = "yiilyy1cm0sxiw7n"
     else:
-        raise NotImplementedError(f"Please add a project id for test arguments of provider: {provider_name}")
+        raise NotImplementedError(
+            f"Please add a project id for test arguments of provider: {provider_name}"
+        )
 
     return {"file": file_wrapper, "project_id": project_id}

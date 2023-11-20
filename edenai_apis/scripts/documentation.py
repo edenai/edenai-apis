@@ -4,9 +4,10 @@ Generate feature/subfeature list as well as list of all available providers
 to be added to the README.md file
 """
 import os
-from typing import List
-from edenai_apis.interface import ProviderDict, ProviderList, list_features
+
 from settings import base_path
+
+from edenai_apis.interface import ProviderDict, ProviderList, list_features
 
 
 def format_feature_list_to_feature_dict(feature_list: ProviderList):

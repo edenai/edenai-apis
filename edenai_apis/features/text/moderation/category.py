@@ -14,6 +14,7 @@ from edenai_apis.features.text.moderation.subcategory import (
     OtherSubCategoryType,
 )
 
+
 class ACategoryType(str):
     pass
 

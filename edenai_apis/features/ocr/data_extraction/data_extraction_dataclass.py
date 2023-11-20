@@ -1,5 +1,7 @@
 from typing import Any, Sequence, Optional
+
 from pydantic import BaseModel, Field, field_validator
+
 from edenai_apis.utils.bounding_box import BoundingBox
 
 

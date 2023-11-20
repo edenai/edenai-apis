@@ -1,8 +1,12 @@
 import urllib
+from pathlib import Path
 from time import time
 from typing import Callable, Dict, List, Optional, Tuple, TypeVar, Sequence
-from pathlib import Path
+
 import requests
+from botocore.exceptions import ClientError, ParamValidationError
+from trp import Document
+
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
     CustomDocumentParsingAsyncBoundingBox,
     CustomDocumentParsingAsyncDataClass,
@@ -28,6 +32,14 @@ from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
     Word,
     Page as OcrAsyncPage,
 )
+from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
+    BoundixBoxOCRTable,
+    Cell,
+    OcrTablesAsyncDataClass,
+    Page as OcrTablesPage,
+    Row,
+    Table,
+)
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     ReceiptParserDataClass,
     InfosReceiptParserDataClass,
@@ -36,6 +48,21 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     Taxes,
     ItemLines,
     Locale,
+)
+from edenai_apis.features.video.explicit_content_detection_async.explicit_content_detection_async_dataclass import (
+    ContentNSFW,
+)
+from edenai_apis.features.video.face_detection_async.face_detection_async_dataclass import (
+    FaceAttributes,
+    LandmarksVideo,
+    VideoBoundingBox,
+    VideoFace,
+    VideoFacePoses,
+)
+from edenai_apis.features.video.label_detection_async.label_detection_async_dataclass import (
+    VideoLabel,
+    VideoLabelBoundingBox,
+    VideoLabelTimeStamp,
 )
 from edenai_apis.features.video.person_tracking_async.person_tracking_async_dataclass import (
     PersonLandmarks,
@@ -50,50 +77,20 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
     VideoTextBoundingBox,
     VideoTextFrames,
 )
-from edenai_apis.features.video.label_detection_async.label_detection_async_dataclass import (
-    VideoLabel,
-    VideoLabelBoundingBox,
-    VideoLabelTimeStamp,
-)
-from edenai_apis.features.video.explicit_content_detection_async.explicit_content_detection_async_dataclass import (
-    ContentNSFW,
-)
-from trp import Document
-
-from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
-    BoundixBoxOCRTable,
-    Cell,
-    OcrTablesAsyncDataClass,
-    Page as OcrTablesPage,
-    Row,
-    Table,
-)
-from edenai_apis.features.video.face_detection_async.face_detection_async_dataclass import (
-    FaceAttributes,
-    FaceDetectionAsyncDataClass,
-    LandmarksVideo,
-    VideoBoundingBox,
-    VideoFace,
-    VideoFacePoses,
-)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.bounding_box import BoundingBox as BBox
+from edenai_apis.utils.conversion import convert_string_to_number
 from edenai_apis.utils.exception import (
     AsyncJobException,
     AsyncJobExceptionReason,
     ProviderException,
 )
 from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
-
 from edenai_apis.utils.types import (
     ResponseType,
 )
-
 from .config import clients, storage_clients
-from edenai_apis.utils.conversion import convert_string_to_number
-from edenai_apis.utils.bounding_box import BoundingBox as BBox
-
-from botocore.exceptions import ClientError, ParamValidationError
 
 
 def check_webhook_result(job_id: str, api_settings: dict) -> Dict:

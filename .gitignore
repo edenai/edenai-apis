@@ -22,6 +22,7 @@ media
 
 .vscode
 .idea
+.env
 
 pyrightconfig.json
 

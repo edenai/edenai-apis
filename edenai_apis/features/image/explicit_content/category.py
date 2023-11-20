@@ -14,6 +14,7 @@ from edenai_apis.features.image.explicit_content.subcategory import (
     OtherSubCategoryType,
 )
 
+
 class ACategoryType(str):
     pass
 

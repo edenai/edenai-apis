@@ -1,15 +1,19 @@
 from abc import abstractmethod
 from io import BufferedReader
-from typing import List, Literal, Optional
+from typing import Literal, Optional, Dict, Any
 
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
 )
+from edenai_apis.features.image.background_removal import BackgroundRemovalDataClass
 from edenai_apis.features.image.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
 )
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
+)
+from edenai_apis.features.image.face_compare.face_compare_dataclass import (
+    FaceCompareDataClass,
 )
 from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FaceDetectionDataClass,
@@ -26,14 +30,17 @@ from edenai_apis.features.image.face_recognition.delete_collection.face_recognit
 from edenai_apis.features.image.face_recognition.delete_face.face_recognition_delete_face_dataclass import (
     FaceRecognitionDeleteFaceDataClass,
 )
-from edenai_apis.features.image.face_recognition.recognize.face_recognition_recognize_dataclass import (
-    FaceRecognitionRecognizeDataClass,
-)
 from edenai_apis.features.image.face_recognition.list_collections.face_recognition_list_collections_dataclass import (
     FaceRecognitionListCollectionsDataClass,
 )
 from edenai_apis.features.image.face_recognition.list_faces.face_recognition_list_faces_dataclass import (
     FaceRecognitionListFacesDataClass,
+)
+from edenai_apis.features.image.face_recognition.recognize.face_recognition_recognize_dataclass import (
+    FaceRecognitionRecognizeDataClass,
+)
+from edenai_apis.features.image.generation.generation_dataclass import (
+    GenerationDataClass,
 )
 from edenai_apis.features.image.landmark_detection.landmark_detection_dataclass import (
     LandmarkDetectionDataClass,
@@ -45,9 +52,6 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
     ObjectDetectionDataClass,
 )
 from edenai_apis.features.image.question_answer import QuestionAnswerDataClass
-from edenai_apis.features.image.search.delete_image.search_delete_image_dataclass import (
-    SearchDeleteImageDataClass,
-)
 from edenai_apis.features.image.search.get_image.search_get_image_dataclass import (
     SearchGetImageDataClass,
 )
@@ -55,15 +59,6 @@ from edenai_apis.features.image.search.get_images.search_get_images_dataclass im
     SearchGetImagesDataClass,
 )
 from edenai_apis.features.image.search.search_dataclass import SearchDataClass
-from edenai_apis.features.image.search.upload_image.search_upload_image_dataclass import (
-    SearchUploadImageDataClass,
-)
-from edenai_apis.features.image.generation.generation_dataclass import (
-    GenerationDataClass,
-)
-from edenai_apis.features.image.face_compare.face_compare_dataclass import (
-    FaceCompareDataClass,
-)
 from edenai_apis.utils.types import ResponseSuccess, ResponseType
 
 
@@ -73,15 +68,20 @@ class ImageInterface:
         self, file: BufferedReader
     ) -> ResponseType[AnonymizationDataClass]:
         """
-        Anonymize face, names, car plates etc from an image
+        Anonymize face, names, car plates etc. from an image
 
         Args:
             file (BufferedReader): image to anonymize
         """
         raise NotImplementedError
+
     @abstractmethod
     def image__embeddings(
-            self, file: str, representation: str, file_url: str = "", model: Optional[str] = None
+        self,
+        file: str,
+        representation: str,
+        file_url: str = "",
+        model: Optional[str] = None,
     ) -> ResponseType[EmbeddingsDataClass]:
         """
         Embeds an image
@@ -156,15 +156,16 @@ class ImageInterface:
             file (BufferedReader): image to analyze
         """
         raise NotImplementedError
+
     @abstractmethod
     def image__question_answer(
-            self,
-            file: str,
-            temperature: float,
-            max_tokens: int,
-            file_url: str = "",
-            model: Optional[str] = None,
-            question: Optional[str] = None
+        self,
+        file: str,
+        temperature: float,
+        max_tokens: int,
+        file_url: str = "",
+        model: Optional[str] = None,
+        question: Optional[str] = None,
     ) -> ResponseType[QuestionAnswerDataClass]:
         """
         Ask question related to given image and get an answer
@@ -176,6 +177,7 @@ class ImageInterface:
             model (str): which ai model to use, default to 'None'
         """
         raise NotImplementedError
+
     @abstractmethod
     def image__search__create_project(self, project_name: str) -> str:
         """
@@ -343,7 +345,7 @@ class ImageInterface:
         text: str,
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
-        model: Optional[str] = None
+        model: Optional[str] = None,
     ) -> ResponseType[GenerationDataClass]:
         """
         Generate an image based on a text prompt.
@@ -368,5 +370,26 @@ class ImageInterface:
             file2 (str): _description_
             file1_url (str): _description_
             file2_url (str): _description_
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__background_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        """
+        Remove background from an image.
+        Each provider has its own parameters
+
+        Args:
+            file (str): Image to analyze
+            file_url (str): Url of the image to analyze
+            provider_params (dict): Provider specific parameters for the request.
+
+        Returns:
+            ResponseType[BackgroundRemovalDataClass]
         """
         raise NotImplementedError

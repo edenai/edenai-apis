@@ -1,5 +1,7 @@
 from typing import List, Literal, Optional
+
 from pydantic import BaseModel, Field, StrictInt, StrictStr
+
 
 class Entity(BaseModel):
     type: StrictStr = Field(description="Recognized Entity type")

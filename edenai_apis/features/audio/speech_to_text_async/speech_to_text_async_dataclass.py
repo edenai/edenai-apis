@@ -1,5 +1,6 @@
-from pydantic import BaseModel, StrictStr, Field, validator
-from typing import Sequence, Optional, Any
+from typing import Sequence, Optional
+
+from pydantic import BaseModel, StrictStr, Field
 
 
 class SpeechDiarizationEntry(BaseModel):

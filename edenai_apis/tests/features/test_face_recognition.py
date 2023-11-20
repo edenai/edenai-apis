@@ -3,6 +3,7 @@ from datetime import datetime
 from time import sleep
 
 import pytest
+
 from edenai_apis import Image
 from edenai_apis.features.image.face_detection.face_detection_args import (
     face_detection_arguments,

@@ -1,6 +1,7 @@
 from io import BufferedReader
-from typing import Any, Dict, Sequence
 from time import sleep
+from typing import Any, Dict, Sequence
+
 import requests
 
 from edenai_apis.features import ProviderInterface, OcrInterface

@@ -1,4 +1,5 @@
 from typing import Dict
+
 from edenai_apis.apis.microsoft.microsoft_audio_api import MicrosoftAudioApi
 from edenai_apis.apis.microsoft.microsoft_helpers import (
     get_microsoft_headers,
@@ -32,3 +33,6 @@ class MicrosoftApi(
         self.headers = get_microsoft_headers()
         self.url = get_microsoft_urls()
         self.user = user
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass

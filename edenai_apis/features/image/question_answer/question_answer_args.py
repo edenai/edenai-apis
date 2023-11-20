@@ -2,6 +2,7 @@
 import mimetypes
 import os
 from typing import Dict
+
 from pydub.utils import mediainfo
 
 from edenai_apis.utils.files import FileInfo, FileWrapper

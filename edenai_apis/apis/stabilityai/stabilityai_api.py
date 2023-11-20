@@ -1,26 +1,29 @@
 import base64
-from io import BytesIO
 import json
+from io import BytesIO
+from typing import Dict, Literal, Optional, Any, List
+
 import requests
-from typing import Dict, Sequence, Literal, Optional
-from edenai_apis.utils.types import ResponseType
+
 from edenai_apis.features import ProviderInterface, ImageInterface
-from edenai_apis.utils.exception import ProviderException
-from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.features.image import BackgroundRemovalDataClass
 from edenai_apis.features.image.generation import (
     GenerationDataClass,
     GeneratedImageDataClass,
 )
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 
 class StabilityAIApi(ProviderInterface, ImageInterface):
     provider_name = "stabilityai"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None):
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )
         self.api_key = self.api_settings["api_key"]
         self.headers = {
@@ -34,7 +37,7 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         text: str,
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
-        model: Optional[str] = None
+        model: Optional[str] = None,
     ) -> ResponseType[GenerationDataClass]:
         url = f"https://api.stability.ai/v1/generation/{model}/text-to-image"
         size = resolution.split("x")
@@ -50,21 +53,18 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         }
 
         try:
-            response = requests.post(
-                url, headers=self.headers, json=payload
-            )
+            response = requests.post(url, headers=self.headers, json=payload)
             original_response = response.json()
-        except json.JSONDecodeError:
-            raise ProviderException("Internal Server Error", code=500)
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal Server Error", code=500) from exc
 
         # Handle error
         if "message" in original_response:
             raise ProviderException(
-                original_response["message"],
-                code = response.status_code
+                original_response["message"], code=response.status_code
             )
 
-        generations: Sequence[GeneratedImageDataClass] = []
+        generations: List[GeneratedImageDataClass] = []
         for generated_image in original_response.get("artifacts"):
             image_b64 = generated_image.get("base64")
 
@@ -80,4 +80,38 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         return ResponseType[GenerationDataClass](
             original_response=original_response,
             standardized_response=GenerationDataClass(items=generations),
+        )
+
+    def image__background_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        url = "https://clipdrop-api.co/remove-background/v1"
+        with open(file, "rb") as f:
+            files = {"image_file": f.read()}
+            headers = {
+                "x-api-key": self.api_settings["bg_removal_api_key"],
+                "Accept": "image/png",
+            }
+
+            response = requests.post(url, files=files, headers=headers)
+
+        if response.status_code != 200:
+            try:
+                error_message = response.json()["error"]
+            except (KeyError, json.JSONDecodeError):
+                error_message = "Internal Server Error"
+            raise ProviderException(error_message, code=response.status_code)
+
+        image_b64 = base64.b64encode(response.content).decode("utf-8")
+        resource_url = BackgroundRemovalDataClass.generate_resource_url(image_b64)
+
+        return ResponseType[BackgroundRemovalDataClass](
+            original_response=response.text,
+            standardized_response=BackgroundRemovalDataClass(
+                image_b64=image_b64,
+                image_resource_url=resource_url,
+            ),
         )

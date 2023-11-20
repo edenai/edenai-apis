@@ -1,7 +1,10 @@
 import mimetypes
+import os
 from typing import Optional
+
 import pytest
 from pytest_mock import MockerFixture
+from settings import base_path
 
 from edenai_apis.utils import constraints
 from edenai_apis.utils.constraints import (
@@ -12,8 +15,6 @@ from edenai_apis.utils.constraints import (
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.files import FileInfo, FileWrapper
 from edenai_apis.utils.languages import LanguageErrorMessage
-from settings import base_path
-import os
 
 PROVIDER = "test_provider"
 FEATURE = "test_feature"

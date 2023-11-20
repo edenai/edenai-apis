@@ -1,6 +1,14 @@
 from typing import Sequence, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator, field_serializer, FieldSerializationInfo
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictStr,
+    field_validator,
+    field_serializer,
+    FieldSerializationInfo,
+)
 
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.explicit_content.subcategory import (
@@ -14,6 +22,7 @@ from edenai_apis.features.image.explicit_content.subcategory import (
     SafeSubCategoryType,
     OtherSubCategoryType,
 )
+
 SubCategoryType = Union[
     ToxicSubCategoryType,
     ContentSubCategoryType,
@@ -26,6 +35,7 @@ SubCategoryType = Union[
     OtherSubCategoryType,
 ]
 
+
 class ExplicitItem(BaseModel):
     label: StrictStr
     likelihood: int
@@ -35,9 +45,10 @@ class ExplicitItem(BaseModel):
 
     model_config = ConfigDict(use_enum_values=True)
 
-    @field_serializer('subcategory', mode="plain", when_used="always")
+    @field_serializer("subcategory", mode="plain", when_used="always")
     def serialize_subcategory(self, value: SubCategoryType, _: FieldSerializationInfo):
         return value.value
+
 
 class ExplicitContentDataClass(BaseModel):
     nsfw_likelihood: int
@@ -62,7 +73,9 @@ class ExplicitContentDataClass(BaseModel):
         if len(items) == 0:
             return 0
         safe_labels = ("safe", "sfw")
-        return max([item.likelihood_score for item in items if item.label not in safe_labels])
+        return max(
+            [item.likelihood_score for item in items if item.label not in safe_labels]
+        )
 
     @field_validator("nsfw_likelihood_score")
     def check_min_max_score(cls, v):

@@ -1,25 +1,23 @@
 import base64
 import json
-from io import BufferedReader, BytesIO
+from io import BytesIO
 from pathlib import Path
 from typing import List, Optional
 
 import azure.cognitiveservices.speech as speechsdk
 import requests
+
 from edenai_apis.apis.microsoft.microsoft_helpers import (
-    format_text_for_ssml_tags,
     generate_right_ssml_text,
     get_right_audio_support_and_sampling_rate,
 )
 from edenai_apis.features.audio import (
-    AudioInterface,
     SpeechDiarization,
     SpeechDiarizationEntry,
     SpeechToTextAsyncDataClass,
     TextToSpeechDataClass,
 )
 from edenai_apis.features.audio.audio_interface import AudioInterface
-from edenai_apis.utils.audio import retreive_voice_id
 from edenai_apis.utils.conversion import convert_pt_date_from_string
 from edenai_apis.utils.exception import (
     AsyncJobException,
@@ -40,8 +38,6 @@ from edenai_apis.utils.upload_s3 import (
     upload_file_bytes_to_s3,
     upload_file_to_s3,
 )
-
-from .config import audio_voice_ids
 
 
 class MicrosoftAudioApi(AudioInterface):

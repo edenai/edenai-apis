@@ -4,10 +4,12 @@
     - Saved output for each provider exists and is well standardized
     - providers APIs work and their outputs are well standardized
 """
-import os
-import pytest
 import importlib
+import os
 import traceback
+
+import pytest
+
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.tests.conftest import global_features, without_async_and_phase
@@ -16,6 +18,7 @@ from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.conversion import iterate_all
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+
 from edenai_apis.interface import IS_MONITORING
 from edenai_apis.utils.monitoring import insert_api_call
 
@@ -81,10 +84,10 @@ class CommonTestsSubfeatures:
         assert any(
             [std != None for std in iterate_all(standardized_response, "value")]
         ), "Response shouldn't be empty"
-        
+
         if IS_MONITORING:
             insert_api_call(provider, feature, subfeature, None, None)
-            
+
     def _test_feature_saved_output(self, provider, feature, subfeature):
         # Step 1 (Setup) :
         saved_output = load_provider(

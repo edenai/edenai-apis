@@ -1,7 +1,7 @@
-from io import BufferedReader
 from collections import defaultdict
-from typing import Dict, List, Optional, Sequence, TypeVar, Union
-from pydantic import StrictStr
+from io import BufferedReader
+from typing import Dict, Optional, Sequence, TypeVar
+
 import requests
 
 from edenai_apis.features import ProviderInterface, OcrInterface
@@ -13,7 +13,6 @@ from edenai_apis.features.ocr import (
     IdentityParserDataClass,
     InfosIdentityParserDataClass,
     InfoCountry,
-    format_date,
     get_info_country,
     ItemIdentityParserDataClass,
 )
@@ -22,15 +21,11 @@ from edenai_apis.features.ocr.bank_check_parsing import (
     MicrModel,
     ItemBankCheckParsingDataClass,
 )
-from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import (
-    DataExtractionDataClass,
-)
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import Country
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     CustomerInformationInvoice,
     LocaleInvoice,
     MerchantInformationInvoice,
-    BankInvoice,
     TaxesInvoice,
 )
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
@@ -46,7 +41,6 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import (
     combine_date_with_time,
     convert_string_to_number,
-    from_jsonarray_to_list,
 )
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType

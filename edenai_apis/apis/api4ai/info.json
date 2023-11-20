@@ -16,6 +16,9 @@
         },
         "explicit_content": {
             "version": "v1.0.0"
+        },
+        "background_removal": {
+            "version": "v1.0.0"
         }
     },
     "ocr": {

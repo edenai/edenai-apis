@@ -2,7 +2,6 @@ from edenai_apis.utils.exception import (
     ProviderErrorLists,
     ProviderInternalServerError,
     ProviderInvalidPromptError,
-    ProviderInvalidInputTextLengthError,
     ProviderLimitationError,
     ProviderParsingError,
     ProviderInvalidInputError,

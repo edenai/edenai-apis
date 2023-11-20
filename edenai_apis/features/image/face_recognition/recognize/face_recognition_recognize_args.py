@@ -1,11 +1,11 @@
-from io import BufferedReader
 import mimetypes
 import os
+from io import BufferedReader
 from typing import Dict, List
+
 from pydub.utils import mediainfo
 
 from edenai_apis.utils.files import FileInfo, FileWrapper
-
 from ..common_args import COLLECTION_ID
 
 feature_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))

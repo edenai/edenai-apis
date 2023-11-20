@@ -1708,6 +1708,9 @@
       "recognize": {
         "version": "Face API - v1.0"
       }
+    },
+    "background_removal": {
+      "version": "v3.2"
     }
   }
 }

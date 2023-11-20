@@ -1,41 +1,18 @@
-from pprint import pprint
-from typing import Dict, List, Sequence
-from collections import defaultdict
+from typing import Dict
 
 from edenai_apis.features import OcrInterface
+from edenai_apis.features.ocr import (
+    ResumeParserDataClass,
+    InvoiceParserDataClass,
+)
 from edenai_apis.features.ocr.identity_parser import IdentityParserDataClass
 from edenai_apis.features.ocr.receipt_parser import ReceiptParserDataClass
-from edenai_apis.features.ocr import (
-    ResumeEducationEntry,
-    ResumeExtractedData,
-    ResumeLang,
-    ResumeParserDataClass,
-    ResumePersonalInfo,
-    ResumePersonalName,
-    ResumeLocation,
-    ResumeSkill,
-    ResumeWorkExp,
-    ResumeWorkExpEntry,
-    InfosInvoiceParserDataClass,
-    CustomerInformationInvoice,
-    InvoiceParserDataClass,
-    MerchantInformationInvoice,
-    TaxesInvoice,
-    BankInvoice,
-    ItemLinesInvoice,
-)
-from edenai_apis.features.ocr.resume_parser import ResumeEducation
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features.provider.provider_interface import ProviderInterface
-from edenai_apis.utils.conversion import (
-    combine_date_with_time,
-    convert_string_to_number,
-)
 from edenai_apis.utils.types import ResponseType
-
-from .document import FileParameter, UploadDocumentParams
 from .client import Client
+from .document import FileParameter, UploadDocumentParams
 from .standardization import IdentityStandardizer, InvoiceStandardizer, ReceiptStandardizer, ResumeStandardizer
 
 

@@ -1,4 +1,4 @@
-from typing import Optional, Sequence
+from typing import Sequence
 
 from pydantic import BaseModel, Field, StrictStr
 

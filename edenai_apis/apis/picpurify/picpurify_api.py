@@ -1,8 +1,7 @@
-from io import BufferedReader
-import json
 from typing import Dict
-from PIL import Image as Img
+
 import requests
+from PIL import Image as Img
 
 from edenai_apis.features import ProviderInterface, ImageInterface
 from edenai_apis.features.image import (

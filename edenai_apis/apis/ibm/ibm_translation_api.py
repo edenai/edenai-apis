@@ -1,7 +1,6 @@
 from typing import Sequence
-import re
-from edenai_apis.apis.ibm.ibm_helpers import handle_ibm_call
 
+from edenai_apis.apis.ibm.ibm_helpers import handle_ibm_call
 from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
     InfosLanguageDetectionDataClass,
@@ -10,7 +9,6 @@ from edenai_apis.features.translation import (
 from edenai_apis.features.translation.translation_interface import TranslationInterface
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.exception import ProviderException
 
 
 class IbmTranslationApi(TranslationInterface):

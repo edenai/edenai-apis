@@ -1,8 +1,11 @@
-from io import BufferedReader
+import base64
+import mimetypes
+from io import BytesIO
 from time import sleep
 from typing import Dict
+
 import requests
-import base64
+
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.translation.automatic_translation import (
     AutomaticTranslationDataClass,
@@ -12,12 +15,10 @@ from edenai_apis.features.translation.document_translation.document_translation_
 )
 from edenai_apis.features.translation.translation_interface import TranslationInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
-from edenai_apis.utils.exception import ProviderException
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-import mimetypes
 from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
-from io import BytesIO
 
 
 class DeeplApi(ProviderInterface, TranslationInterface):
@@ -49,8 +50,7 @@ class DeeplApi(ProviderInterface, TranslationInterface):
 
         if response.status_code != 200:
             raise ProviderException(
-                message=original_response["message"], 
-                code=response.status_code
+                message=original_response["message"], code=response.status_code
             )
 
         standardized_response = AutomaticTranslationDataClass(
@@ -90,8 +90,7 @@ class DeeplApi(ProviderInterface, TranslationInterface):
 
         if response.status_code != 200:
             raise ProviderException(
-                message=original_response["message"], 
-                code=response.status_code
+                message=original_response["message"], code=response.status_code
             )
 
         document_id, document_key = response.json().values()

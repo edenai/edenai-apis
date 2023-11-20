@@ -1,12 +1,11 @@
 import importlib
 import os
-import random
 
 import pytest
+
 from edenai_apis.interface import list_features
 from edenai_apis.interface_v2 import abstract, return_provider_method
-from edenai_apis.loaders.data_loader import FeatureDataEnum, load_subfeature
-from edenai_apis.loaders.loaders import load_feature
+from edenai_apis.loaders.data_loader import load_subfeature
 
 # Unify tuples so they all have a length of 4
 _correct_list_feature = lambda: map(

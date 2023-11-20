@@ -1,11 +1,13 @@
-from io import BufferedReader
-from typing import List
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
 from edenai_apis.features.image.explicit_content.category import CategoryType
-
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
     ExplicitItem,
+)
+from edenai_apis.features.image.face_compare.face_compare_dataclass import (
+    FaceCompareDataClass,
+    FaceMatch,
+    FaceCompareBoundingBox,
 )
 from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FaceAccessories,
@@ -34,15 +36,15 @@ from edenai_apis.features.image.face_recognition.delete_collection.face_recognit
 from edenai_apis.features.image.face_recognition.delete_face.face_recognition_delete_face_dataclass import (
     FaceRecognitionDeleteFaceDataClass,
 )
-from edenai_apis.features.image.face_recognition.recognize.face_recognition_recognize_dataclass import (
-    FaceRecognitionRecognizeDataClass,
-    FaceRecognitionRecognizedFaceDataClass,
-)
 from edenai_apis.features.image.face_recognition.list_collections.face_recognition_list_collections_dataclass import (
     FaceRecognitionListCollectionsDataClass,
 )
 from edenai_apis.features.image.face_recognition.list_faces.face_recognition_list_faces_dataclass import (
     FaceRecognitionListFacesDataClass,
+)
+from edenai_apis.features.image.face_recognition.recognize.face_recognition_recognize_dataclass import (
+    FaceRecognitionRecognizeDataClass,
+    FaceRecognitionRecognizedFaceDataClass,
 )
 from edenai_apis.features.image.image_interface import ImageInterface
 from edenai_apis.features.image.object_detection.object_detection_dataclass import (
@@ -52,11 +54,6 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.features.image.face_compare.face_compare_dataclass import (
-    FaceCompareDataClass,
-    FaceMatch,
-    FaceCompareBoundingBox,
-)
 
 
 class AmazonImageApi(ImageInterface):

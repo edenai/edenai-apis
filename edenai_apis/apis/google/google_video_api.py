@@ -1,23 +1,14 @@
 from pathlib import Path
 from time import time
-from io import BufferedReader
 from typing import List
-from edenai_apis.apis.google.google_helpers import GoogleVideoFeatures
-from edenai_apis.features.video.video_interface import VideoInterface
-from edenai_apis.utils.types import AsyncLaunchJobResponseType
 
-from edenai_apis.utils.types import (
-    AsyncBaseResponseType,
-    AsyncLaunchJobResponseType,
-    AsyncPendingResponseType,
-    AsyncResponseType,
-)
+from google.cloud import videointelligence
+
 from edenai_apis.apis.google.google_helpers import (
     GoogleVideoFeatures,
     google_video_get_job,
     score_to_content,
 )
-from edenai_apis.utils.exception import ProviderException
 from edenai_apis.features.video import (
     ContentNSFW,
     ExplicitContentDetectionAsyncDataClass,
@@ -65,8 +56,14 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
     VideoTextBoundingBox,
     VideoTextFrames,
 )
-
-from google.cloud import videointelligence
+from edenai_apis.features.video.video_interface import VideoInterface
+from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.types import (
+    AsyncBaseResponseType,
+    AsyncLaunchJobResponseType,
+    AsyncPendingResponseType,
+    AsyncResponseType,
+)
 
 
 class GoogleVideoApi(VideoInterface):

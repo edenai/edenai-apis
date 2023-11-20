@@ -1,7 +1,23 @@
-from enum import Enum
-from typing import Any, Dict, Optional, Sequence, Type, Union
+from typing import Dict, Optional, Sequence, Union
 from pydantic import BaseModel, ConfigDict, Field, FieldSerializationInfo, field_serializer, field_validator, model_validator
-from pydantic.fields import FieldInfo
+
+from edenai_apis.features.text.anonymization.category import (
+    CategoryType,
+)
+from edenai_apis.features.text.anonymization.subcategory import (
+    FinancialInformationSubCategoryType,
+    PersonalInformationSubCategoryType,
+    IdentificationNumbersSubCategoryType,
+    MiscellaneousSubCategoryType,
+    OrganizationSubCategoryType,
+    DateAndTimeSubCategoryType,
+    LocationInformationSubCategoryType,
+    OtherSubCategoryType,
+)
+from typing import Dict, Optional, Sequence, Union
+
+from pydantic import BaseModel, ConfigDict, Field, FieldSerializationInfo, field_serializer, field_validator, \
+    model_validator
 
 from edenai_apis.features.text.anonymization.category import (
     CategoryType,

@@ -4,14 +4,14 @@ from edenai_apis.features.video.explicit_content_detection_async.explicit_conten
 from edenai_apis.features.video.face_detection_async.face_detection_async_dataclass import (
     FaceDetectionAsyncDataClass,
 )
-from edenai_apis.features.video.text_detection_async.text_detection_async_dataclass import (
-    TextDetectionAsyncDataClass
+from edenai_apis.features.video.label_detection_async.label_detection_async_dataclass import (
+    LabelDetectionAsyncDataClass
 )
 from edenai_apis.features.video.person_tracking_async.person_tracking_async_dataclass import (
     PersonTrackingAsyncDataClass
-    )
-from edenai_apis.features.video.label_detection_async.label_detection_async_dataclass import (
-    LabelDetectionAsyncDataClass
+)
+from edenai_apis.features.video.text_detection_async.text_detection_async_dataclass import (
+    TextDetectionAsyncDataClass
 )
 from edenai_apis.features.video.video_interface import VideoInterface
 from edenai_apis.utils.exception import (
@@ -23,10 +23,8 @@ from edenai_apis.utils.types import (
     AsyncPendingResponseType,
     AsyncResponseType,
 )
-
 from .helpers import (
     amazon_launch_video_job,
-    amazon_video_original_response,
     handle_amazon_call,
     amazon_video_person_tracking_parser,
     amazon_video_labels_parser,

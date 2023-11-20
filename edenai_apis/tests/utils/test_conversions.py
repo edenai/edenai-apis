@@ -1,5 +1,5 @@
 from typing import Generator
-from numpy import iterable
+
 import pytest
 
 from edenai_apis.utils.conversion import (

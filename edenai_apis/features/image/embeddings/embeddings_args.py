@@ -2,6 +2,7 @@
 import mimetypes
 import os
 from typing import Dict
+
 from pydub.utils import mediainfo
 
 from edenai_apis.utils.files import FileInfo, FileWrapper
@@ -21,9 +22,7 @@ file_info = FileInfo(
     mediainfo(image_path).get("channels", "1"),
 )
 file_wrapper = FileWrapper(image_path, "", file_info)
+
+
 def embeddings_arguments(provider_name: str) -> Dict:
-    return {
-        "file": file_wrapper,
-        "representation": "document",
-        "settings": {}
-        }
+    return {"file": file_wrapper, "representation": "document", "settings": {}}

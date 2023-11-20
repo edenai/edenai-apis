@@ -1,7 +1,5 @@
-from locale import currency
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
-from google_crc32c.python import value
 from edenai_apis.features.ocr.identity_parser import (
     IdentityParserDataClass,
     InfoCountry,
@@ -17,6 +15,10 @@ from edenai_apis.features.ocr.invoice_parser import (
     ItemLinesInvoice,
     TaxesInvoice,
 )
+from edenai_apis.features.ocr.invoice_parser import (
+    MerchantInformationInvoice,
+    CustomerInformationInvoice,
+)
 from edenai_apis.features.ocr.receipt_parser import (
     InfosReceiptParserDataClass,
     ItemLines,
@@ -26,7 +28,6 @@ from edenai_apis.features.ocr.receipt_parser import (
     ReceiptParserDataClass,
     Taxes,
 )
-
 from edenai_apis.features.ocr.resume_parser import (
     ResumeEducation,
     ResumeEducationEntry,
@@ -39,10 +40,6 @@ from edenai_apis.features.ocr.resume_parser import (
     ResumeSkill,
     ResumeWorkExp,
     ResumeWorkExpEntry,
-)
-from edenai_apis.features.ocr.invoice_parser import (
-    MerchantInformationInvoice,
-    CustomerInformationInvoice,
 )
 from edenai_apis.utils.conversion import (
     combine_date_with_time,

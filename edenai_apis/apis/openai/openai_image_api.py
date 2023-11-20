@@ -1,17 +1,19 @@
-import requests
 import base64
 from io import BytesIO
 from typing import Sequence, Literal, Optional
+
+import requests
+
+from edenai_apis.features import ImageInterface
 from edenai_apis.features.image.generation import (
     GenerationDataClass as ImageGenerationDataClass,
     GeneratedImageDataClass,
 )
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.features import ImageInterface
+from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 from .helpers import (
     get_openapi_response,
 )
-from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 
 class OpenaiImageApi(ImageInterface):

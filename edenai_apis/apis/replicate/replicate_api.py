@@ -1,21 +1,23 @@
+import base64
 from typing import Dict, Generator, List, Literal, Optional, Union, overload
+
 import requests
+
+from edenai_apis.features import TextInterface, ImageInterface
 from edenai_apis.features.image.generation.generation_dataclass import (
     GenerationDataClass,
     GeneratedImageDataClass,
 )
-from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
+from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.text import (
     ChatDataClass,
     ChatMessageDataClass,
-    GenerationDataClass as TextGenerationDataClass,
 )
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-import base64
 from .config import get_model_id, get_model_id_image
 
 

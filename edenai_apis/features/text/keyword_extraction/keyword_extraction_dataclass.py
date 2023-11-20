@@ -1,6 +1,6 @@
 from typing import Optional, Sequence
 
-from pydantic import BaseModel, Field, StrictStr, field_validator
+from pydantic import BaseModel, Field, field_validator
 
 
 class InfosKeywordExtractionDataClass(BaseModel):

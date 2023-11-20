@@ -1,6 +1,8 @@
-import requests
 from typing import Sequence
+
 import numpy as np
+import requests
+
 from edenai_apis.features import TranslationInterface
 from edenai_apis.features.translation.automatic_translation import (
     AutomaticTranslationDataClass,

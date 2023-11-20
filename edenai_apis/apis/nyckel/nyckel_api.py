@@ -3,6 +3,7 @@ import time
 from typing import Dict, Optional
 
 import requests
+
 from edenai_apis.features import ImageInterface, ProviderInterface
 from edenai_apis.features.image.search.delete_image.search_delete_image_dataclass import (
     SearchDeleteImageDataClass,
@@ -24,7 +25,7 @@ from edenai_apis.features.image.search.upload_image.search_upload_image_dataclas
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.types import ResponseSuccess, ResponseType
+from edenai_apis.utils.types import ResponseType
 
 
 def strip_nyckel_prefix(prefixed_id: str) -> str:

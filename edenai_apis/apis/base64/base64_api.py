@@ -1,12 +1,20 @@
-from itertools import zip_longest
-import json
-import uuid
-from typing import Any, Dict, Sequence, Type, TypeVar, Union
-from collections import defaultdict
-import mimetypes
 import base64
+import json
+import mimetypes
+import uuid
+from collections import defaultdict
 from enum import Enum
+from itertools import zip_longest
+from typing import Any, Dict, Sequence, Type, TypeVar, Union
+
 import requests
+
+from edenai_apis.features import ProviderInterface, OcrInterface
+from edenai_apis.features.image.face_compare import (
+    FaceCompareDataClass,
+    FaceMatch,
+    FaceCompareBoundingBox,
+)
 from edenai_apis.features.ocr.anonymization_async.anonymization_async_dataclass import AnonymizationAsyncDataClass
 from edenai_apis.features.ocr.bank_check_parsing import (
     BankCheckParsingDataClass,
@@ -40,14 +48,8 @@ from edenai_apis.features.ocr.receipt_parser import (
     Locale, MerchantInformation, ReceiptParserDataClass,
     Taxes, PaymentInformation,
 )
-from edenai_apis.features.image.face_compare import (
-    FaceCompareDataClass,
-    FaceMatch,
-    FaceCompareBoundingBox,
-)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features import ProviderInterface, OcrInterface
 from edenai_apis.utils.bounding_box import BoundingBox
 from edenai_apis.utils.conversion import (
     combine_date_with_time,
@@ -57,9 +59,9 @@ from edenai_apis.utils.conversion import (
 from apis.amazon.helpers import check_webhook_result
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
-    AsyncBaseResponseType, AsyncLaunchJobResponseType, 
+    AsyncBaseResponseType, AsyncLaunchJobResponseType,
     ResponseType, AsyncPendingResponseType, AsyncResponseType
-    ) 
+    )
 from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
 from io import BytesIO
 
@@ -713,7 +715,7 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         if response_status != 200:
             raise ProviderException(wehbook_result, code = response_status)
-        
+
         result_object = next(filter(lambda response: provider_job_id in response["content"], wehbook_result), None) \
             if wehbook_result else None
 
@@ -738,7 +740,7 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         # Extract the base64-encoded data from 'redacted_document'
         base64_data = redacted_document.split(';base64,')[1]
-        
+
         content_bytes = base64.b64decode(base64_data)
         resource_url = upload_file_bytes_to_s3(
             BytesIO(content_bytes), ".png", USER_PROCESS

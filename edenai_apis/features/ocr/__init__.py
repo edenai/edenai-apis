@@ -1,4 +1,16 @@
-from .ocr import OcrDataClass, Bounding_box, ocr_arguments
+from .anonymization_async import (
+    anonymization_async_arguments,
+    AnonymizationAsyncDataClass
+)
+from .identity_parser import (
+    identity_parser_arguments,
+    get_info_country,
+    format_date,
+    InfoCountry,
+    InfosIdentityParserDataClass,
+    IdentityParserDataClass,
+    ItemIdentityParserDataClass,
+)
 from .invoice_parser import (
     InfosInvoiceParserDataClass,
     InvoiceParserDataClass,
@@ -9,6 +21,13 @@ from .invoice_parser import (
     CustomerInformationInvoice,
     BankInvoice,
     invoice_parser_arguments,
+)
+from .ocr import OcrDataClass, Bounding_box, ocr_arguments
+from .ocr_async import (
+    ocr_async_arguments,
+    OcrAsyncDataClass,
+    BoundingBox,
+    Page,
 )
 from .ocr_tables_async import (
     OcrTablesAsyncDataClass,
@@ -43,24 +62,4 @@ from .resume_parser import (
     ResumeWorkExpEntry,
     ResumeLocation,
     resume_parser_arguments,
-)
-
-from .identity_parser import (
-    identity_parser_arguments,
-    get_info_country,
-    format_date,
-    InfoCountry,
-    InfosIdentityParserDataClass,
-    IdentityParserDataClass,
-    ItemIdentityParserDataClass,
-)
-from .ocr_async import (
-    ocr_async_arguments,
-    OcrAsyncDataClass,
-    BoundingBox,
-    Page,
-)
-from .anonymization_async import (
-    anonymization_async_arguments,
-    AnonymizationAsyncDataClass
 )

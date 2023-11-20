@@ -1,12 +1,13 @@
 from asyncio import sleep
 from typing import Dict, List, Optional
+
 import requests
 
 from edenai_apis.features import ProviderInterface, TextInterface, TranslationInterface
 from edenai_apis.features.text import SummarizeDataClass, QuestionAnswerDataClass
 from edenai_apis.features.translation import AutomaticTranslationDataClass
-from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import concatenate_params_in_url
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType

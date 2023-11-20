@@ -3,8 +3,20 @@ from json import JSONDecodeError
 from typing import Dict, List, Sequence
 
 import requests
+
 from edenai_apis.features import ProviderInterface, OcrInterface
-from edenai_apis.features.ocr import ResumeParserDataClass
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    IdentityParserDataClass,
+)
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    InfoCountry,
+    ItemIdentityParserDataClass,
+    format_date,
+    get_info_country,
+)
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    InfosIdentityParserDataClass,
+)
 from edenai_apis.features.ocr.invoice_parser import InvoiceParserDataClass
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     BankInvoice,
@@ -25,16 +37,10 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     PaymentInformation,
     Taxes,
 )
-from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
-from edenai_apis.utils.parsing import extract
-from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.exception import ProviderException
-
 from edenai_apis.features.ocr.resume_parser import (
     ResumeParserDataClass,
     ResumeLocation,
     ResumeSkill,
-    ResumeLang,
     ResumeWorkExpEntry,
     ResumeWorkExp,
     ResumeEducationEntry,
@@ -43,19 +49,10 @@ from edenai_apis.features.ocr.resume_parser import (
     ResumePersonalInfo,
     ResumeExtractedData,
 )
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
-    Country,
-    InfoCountry,
-    ItemIdentityParserDataClass,
-    format_date,
-    get_info_country,
-)
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
-    IdentityParserDataClass,
-)
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
-    InfosIdentityParserDataClass,
-)
+from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
+from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.parsing import extract
+from edenai_apis.utils.types import ResponseType
 
 
 class KlippaApi(ProviderInterface, OcrInterface):

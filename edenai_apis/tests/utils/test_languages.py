@@ -4,7 +4,8 @@
     We implement language utils to handle the standardisation.
 """
 import pytest
-from pytest_mock import MockerFixture, mocker
+from pytest_mock import MockerFixture
+
 from edenai_apis.utils.languages import (
     AUTO_DETECT,
     AUTO_DETECT_NAME,

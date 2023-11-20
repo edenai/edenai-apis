@@ -49,7 +49,6 @@ from edenai_apis.utils.conversion import (
     combine_date_with_time,
     standardized_confidence_score,
 )
-from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
 
 

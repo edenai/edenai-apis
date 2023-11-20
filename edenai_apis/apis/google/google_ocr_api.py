@@ -1,10 +1,20 @@
 import json
 import mimetypes
-import re
-from typing import Sequence
 import uuid
+from typing import Sequence
 
+import google.auth
 import googleapiclient.discovery
+from PIL import Image as Img
+from google.api_core.client_options import ClientOptions
+from google.cloud import documentai_v1beta3 as documentai
+from google.cloud import vision
+from google.cloud.documentai_v1beta3 import Document
+from google.cloud.vision_v1.types.image_annotator import (
+    EntityAnnotation,
+)
+from google.protobuf.json_format import MessageToDict
+
 from edenai_apis.apis.google.google_helpers import (
     google_ocr_tables_standardize_response,
     handle_done_response_ocr_async,
@@ -23,13 +33,8 @@ from edenai_apis.features.ocr import (
     OcrDataClass,
     OcrTablesAsyncDataClass,
 )
-from google.protobuf.json_format import MessageToDict
 from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
-    BoundingBox,
-    Line,
     OcrAsyncDataClass,
-    Page,
-    Word,
 )
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
@@ -43,8 +48,6 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 )
 from edenai_apis.utils.conversion import convert_string_to_number
 from edenai_apis.utils.exception import (
-    AsyncJobException,
-    AsyncJobExceptionReason,
     ProviderException,
 )
 from edenai_apis.utils.pdfs import get_pdf_width_height
@@ -53,18 +56,6 @@ from edenai_apis.utils.types import (
     AsyncPendingResponseType,
     AsyncResponseType,
     ResponseType,
-)
-from PIL import Image as Img
-
-import google.auth
-
-from google.api_core.client_options import ClientOptions
-from google.cloud import documentai_v1beta3 as documentai
-from google.cloud import vision, storage
-from google.cloud.documentai_v1beta3 import Document
-from google.cloud.vision_v1.types.image_annotator import (
-    AnnotateImageResponse,
-    EntityAnnotation,
 )
 
 

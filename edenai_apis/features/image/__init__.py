@@ -1,7 +1,18 @@
+from .anonymization import (
+    AnonymizationDataClass,
+    anonymization_arguments,
+)
+from .background_removal import BackgroundRemovalDataClass
 from .explicit_content import (
     ExplicitContentDataClass,
     ExplicitItem,
     explicit_content_arguments,
+)
+from .face_compare import (
+    FaceCompareDataClass,
+    FaceCompareBoundingBox,
+    FaceMatch,
+    face_compare_arguments,
 )
 from .face_detection import (
     FaceAccessories,
@@ -20,6 +31,12 @@ from .face_detection import (
     FaceQuality,
     face_detection_arguments,
 )
+from .generation import (
+    GenerationDataClass,
+    GeneratedImageDataClass,
+    generation_arguments,
+)
+from .image_interface import ImageInterface
 from .landmark_detection import (
     LandmarkVertice,
     LandmarkLocation,
@@ -40,10 +57,6 @@ from .object_detection import (
     ObjectItem,
     object_detection_arguments,
 )
-from .anonymization import (
-    AnonymizationDataClass,
-    anonymization_arguments,
-)
 from .search import (
     SearchDataClass,
     ImageItem,
@@ -53,15 +66,3 @@ from .search import (
     search_launch_similarity_arguments,
     search_upload_image_arguments,
 )
-from .generation import (
-    GenerationDataClass,
-    GeneratedImageDataClass,
-    generation_arguments,
-)
-from .face_compare import (
-    FaceCompareDataClass,
-    FaceCompareBoundingBox,
-    FaceMatch,
-    face_compare_arguments,
-)
-from .image_interface import ImageInterface

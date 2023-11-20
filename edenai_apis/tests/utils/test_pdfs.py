@@ -1,6 +1,6 @@
-import pytest
-from settings import base_path
 import os
+
+from settings import base_path
 
 from edenai_apis.utils.pdfs import get_pdf_width_height
 

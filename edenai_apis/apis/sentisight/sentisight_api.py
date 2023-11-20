@@ -1,10 +1,8 @@
-from io import BufferedReader, BytesIO
-from typing import Dict, Sequence
-from PIL import Image as Img
 import base64
+from typing import Dict, Sequence, Optional, Any
+
 import requests
-from pdf2image.pdf2image import convert_from_bytes
-import json
+from PIL import Image as Img
 
 from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
 from edenai_apis.features.image import (
@@ -14,13 +12,15 @@ from edenai_apis.features.image import (
     ObjectItem,
     ExplicitContentDataClass,
     ExplicitItem,
+    BackgroundRemovalDataClass,
+)
+from edenai_apis.features.image.explicit_content.category import CategoryType
+from edenai_apis.features.image.search.get_image import (
+    SearchGetImageDataClass,
 )
 from edenai_apis.features.image.search.get_images import (
     ImageSearchItem,
     SearchGetImagesDataClass,
-)
-from edenai_apis.features.image.search.get_image import (
-    SearchGetImageDataClass,
 )
 from edenai_apis.features.ocr import OcrDataClass, Bounding_box
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -33,27 +33,24 @@ from .sentisight_helpers import (
     get_formatted_language,
     handle_error_image_search,
 )
-from edenai_apis.features.image.explicit_content.category import CategoryType
+from .types import SentisightBackgroundRemovalParams, SentisightPreTrainModel
 
 
 class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
     provider_name: str = "sentisight"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Optional[Dict[str, str]] = None) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )
         self.key = self.api_settings["auth-token"]
         self.base_url = "https://platform.sentisight.ai/api/pm-predict/"
         self.headers = {"X-Auth-token": self.key, "Content-Type": "application/json"}
 
     def ocr__ocr(
-        self,
-        file: str,
-        language: str,
-        file_url: str = "",
+        self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[OcrDataClass]:
-        url = f"{self.base_url}Text-recognition"
+        url = f"{self.base_url}{SentisightPreTrainModel.TEXT_RECOGNITION.value}"
 
         if not language:
             raise LanguageException("Language not provided")
@@ -70,7 +67,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
         file_.close()
         if response.status_code != 200:
-            raise ProviderException(response.text, code= response.status_code)
+            raise ProviderException(response.text, code=response.status_code)
         response = response.json()
         width, height = Img.open(file).size
         # response["width"], response["height"] = Img.open(file).size
@@ -104,11 +101,11 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         return result
 
     def image__object_detection(
-        self, file: str, model: str = None, file_url: str = ""
+        self, file: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[ObjectDetectionDataClass]:
         file_ = open(file, "rb")
         response = requests.post(
-            self.base_url + "Object-detection",
+            self.base_url + SentisightPreTrainModel.OBJECT_DETECTION.value,
             headers={
                 "accept": "*/*",
                 "X-Auth-token": self.key,
@@ -118,7 +115,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
         file_.close()
         if response.status_code != 200:
-            raise ProviderException(response.text, code= response.status_code)
+            raise ProviderException(response.text, code=response.status_code)
 
         img = Img.open(file)
         width = img.width
@@ -149,7 +146,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
     ) -> ResponseType[ExplicitContentDataClass]:
         file_ = open(file, "rb")
         response = requests.post(
-            self.base_url + "NSFW-classification",
+            self.base_url + SentisightPreTrainModel.NSFW_CLASSIFICATION.value,
             headers={
                 "accept": "*/*",
                 "X-Auth-token": self.key,
@@ -159,7 +156,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
         file_.close()
         if response.status_code != 200:
-            raise ProviderException(response.text, code = response.status_code)
+            raise ProviderException(response.text, code=response.status_code)
 
         original_response = response.json()
         items: Sequence[ObjectItem] = []
@@ -167,19 +164,27 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             ExplicitItem(
                 label="nudity",
                 likelihood=round(
-                    [x for x in original_response if x["label"] == "unsafe"][0]["score"] / 20
+                    [x for x in original_response if x["label"] == "unsafe"][0]["score"]
+                    / 20
                 ),
-                likelihood_score=[x for x in original_response if x["label"] == "unsafe"][0]["score"] / 100,
+                likelihood_score=[
+                    x for x in original_response if x["label"] == "unsafe"
+                ][0]["score"]
+                / 100,
                 category=CategoryType.choose_category_subcategory("nudity")["category"],
-                subcategory=
-                CategoryType.choose_category_subcategory("nudity")[
-                    "subcategory"],
+                subcategory=CategoryType.choose_category_subcategory("nudity")[
+                    "subcategory"
+                ],
             )
         )
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
-        nsfw_likelihood_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+        nsfw_likelihood_score = (
+            ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+        )
         standardized_response = ExplicitContentDataClass(
-            items=items, nsfw_likelihood=nsfw_likelihood, nsfw_likelihood_score=nsfw_likelihood_score
+            items=items,
+            nsfw_likelihood=nsfw_likelihood,
+            nsfw_likelihood_score=nsfw_likelihood_score,
         )
 
         result = ResponseType[ExplicitContentDataClass](
@@ -312,7 +317,6 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         # Handle the error
         if response.status_code != 200:
             handle_error_image_search(response)
-
         items = []
         for image in response.json():
             items.append(ImageItem(image_name=image["image"], score=image["score"]))
@@ -322,3 +326,39 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             standardized_response=standardized_response,
         )
         return result
+
+    def image__background_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        with open(file, "rb") as fstream:
+            if provider_params is None or not isinstance(provider_params, dict):
+                sentisight_params = SentisightBackgroundRemovalParams()
+            else:
+                sentisight_params = SentisightBackgroundRemovalParams(**provider_params)
+
+            response = requests.post(
+                self.base_url + SentisightPreTrainModel.BACKGROUND_REMOVAL.value,
+                headers={
+                    "X-Auth-token": self.key,
+                    "Content-Type": "application/octet-stream",
+                },
+                data=fstream.read(),
+            )
+
+            if response.status_code != 200:
+                raise ProviderException(response.text, code=response.status_code)
+
+            original_response = response.json()
+            img_b64 = original_response[0]["image"]
+            resource_url = BackgroundRemovalDataClass.generate_resource_url(img_b64)
+
+            return ResponseType[BackgroundRemovalDataClass](
+                original_response=original_response,
+                standardized_response=BackgroundRemovalDataClass(
+                    image_b64=img_b64,
+                    image_resource_url=resource_url,
+                ),
+            )

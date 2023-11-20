@@ -2,6 +2,7 @@ import json
 from typing import Dict, List, Optional
 
 import requests
+
 from edenai_apis.features import (
     AudioInterface,
     OcrInterface,
@@ -47,7 +48,6 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
-
 from .helpers import OneAIAsyncStatus
 
 

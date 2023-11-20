@@ -1,5 +1,9 @@
 from abc import abstractmethod
 from typing import List, Dict, Union
+
+from edenai_apis.features.ocr.anonymization_async.anonymization_async_dataclass import (
+    AnonymizationAsyncDataClass,
+)
 from edenai_apis.features.ocr.custom_document_parsing_async import (
     CustomDocumentParsingAsyncDataClass,
 )
@@ -9,7 +13,6 @@ from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import (
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     IdentityParserDataClass,
 )
-
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     InvoiceParserDataClass,
 )
@@ -22,9 +25,6 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 )
 from edenai_apis.features.ocr.resume_parser.resume_parser_dataclass import (
     ResumeParserDataClass,
-)
-from edenai_apis.features.ocr.anonymization_async.anonymization_async_dataclass import (
-    AnonymizationAsyncDataClass,
 )
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -42,6 +42,7 @@ class OcrInterface:
 
         Args:
             file (BufferedReader): document to analyze
+            file_url (str, optional): url of file
             language (str): language code in ISO format
         """
         raise NotImplementedError
@@ -54,6 +55,7 @@ class OcrInterface:
 
         Args:
             file (BufferedReader): invoice to analyze
+            file_url (str, optional): url of file
             language (str): language code in ISO format
         """
         raise NotImplementedError
@@ -67,6 +69,7 @@ class OcrInterface:
             file (BufferedReader): document file to analyze
             file_type (file_type): document file to analyze
             language (str): language code in ISO format
+            file_url (str, optional): url of file
         """
         raise NotImplementedError
 
@@ -85,7 +88,7 @@ class OcrInterface:
         self, data: dict
     ) -> ResponseType[OcrTablesAsyncDataClass]:
         """
-        Get the result of an asynchrous job from webhook
+        Get the result of an asynchronous job from webhook
 
         Args:
             - data (dict): result data given by the provider
@@ -101,6 +104,7 @@ class OcrInterface:
 
         Args:
             file (BufferedReader): receipt to analyze
+            file_url (str, optional): url of file
             language (str): language code in ISO format
         """
         raise NotImplementedError
@@ -113,7 +117,7 @@ class OcrInterface:
 
         Args:
             file (BufferedReader): resume to analyze
-            language (str): language code in ISO format
+            file_url (str, optional): url of file
         """
         raise NotImplementedError
 
@@ -121,10 +125,11 @@ class OcrInterface:
     def ocr__identity_parser(
         self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
-        """Parse a identity document and returned structured data
+        """Parse an identity document and returned structured data
 
         Args:
             file (BufferedReader): resume to analyze
+            file_url (str, optional): url of file
         """
         raise NotImplementedError
 
@@ -136,7 +141,8 @@ class OcrInterface:
         Parse a document and extract data according to queries
 
         Args:
-            file (BufferedReader): document to analyze
+            file (str): document to analyze
+            file_url (str): url of file
             queries (list[str]): list of queries describing what to extract from the document.
         """
         raise NotImplementedError
@@ -161,6 +167,7 @@ class OcrInterface:
 
         Args:
             file (BufferedReader): document to analyze
+            file_url (str, optional): url of file
         """
         raise NotImplementedError
 
@@ -181,7 +188,7 @@ class OcrInterface:
         self, file: str, file_url: str = ""
     ) -> ResponseType[DataExtractionDataClass]:
         """
-        Parse a document and extract all informations
+        Parse a document and extract all information
         """
         raise NotImplementedError
 
@@ -192,12 +199,11 @@ class OcrInterface:
         file_url: str = "",
     ) -> ResponseType[DataExtractionDataClass]:
         """
-        Parse a bank check and extract all informations
+        Parse a bank check and extract all information
 
         Args:
             file (str): Path of file
-            language (str): Language of check
-            file_url (optional | str): Url of file
+            file_url (str, optional): Url of file
         """
         raise NotImplementedError
 
@@ -213,15 +219,15 @@ class OcrInterface:
             file_url (str) : Url of file
         """
         raise NotImplementedError
-    
+
     @abstractmethod
     def ocr__anonymization_async__get_job_result(
-            self, provider_job_id: str
+        self, provider_job_id: str
     ) -> AsyncBaseResponseType[AnonymizationAsyncDataClass]:
         """
-               Get the result of an asynchronous job by its ID
+        Get the result of an asynchronous job by its ID
 
-               Args:
-                   provider_job_id (str): id of async job
-               """
+        Args:
+            provider_job_id (str): id of async job
+        """
         raise NotImplementedError

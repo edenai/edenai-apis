@@ -1,6 +1,7 @@
 from typing import Sequence
 
 import requests
+
 from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
     InfosLanguageDetectionDataClass,

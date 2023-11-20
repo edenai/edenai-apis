@@ -1,7 +1,11 @@
-from io import BufferedReader
-from typing import Optional, Sequence
+from typing import Sequence
 
 import numpy as np
+from PIL import Image as Img
+from google.cloud import vision
+from google.cloud.vision_v1.types.image_annotator import AnnotateImageResponse
+from google.protobuf.json_format import MessageToDict
+
 from edenai_apis.apis.google.google_helpers import handle_google_call, score_to_content
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
@@ -43,11 +47,6 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 )
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from PIL import Image as Img
-
-from google.cloud import vision
-from google.cloud.vision_v1.types.image_annotator import AnnotateImageResponse
-from google.protobuf.json_format import MessageToDict
 
 
 class GoogleImageApi(ImageInterface):

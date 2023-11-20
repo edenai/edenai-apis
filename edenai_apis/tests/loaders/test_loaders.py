@@ -1,7 +1,6 @@
 import pytest
 from pytest_mock import MockerFixture
 
-from edenai_apis.loaders import data_loader
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 

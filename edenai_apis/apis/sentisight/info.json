@@ -27,7 +27,10 @@
         "launch_similarity":{
           "version": "v3.3.1"
         }
-      }  
+      },
+    "background_removal": {
+      "version": "v3.3.1"
+    }
   },
   "ocr": {
     "ocr": {

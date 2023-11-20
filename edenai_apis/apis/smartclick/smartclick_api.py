@@ -1,5 +1,5 @@
-from io import BufferedReader
 from typing import Dict, Sequence
+
 import requests
 
 from edenai_apis.features import ProviderInterface, ImageInterface
@@ -11,9 +11,9 @@ from edenai_apis.features.image import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.upload_s3 import upload_file_to_s3
-from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.upload_s3 import upload_file_to_s3
 
 
 class SmartClickApi(ProviderInterface, ImageInterface):

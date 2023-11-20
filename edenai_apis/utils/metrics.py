@@ -1,5 +1,7 @@
 from typing import List
+
 import numpy as np
+
 SCORE_MULTIPLIER = 100.0
 
 def cosine_similarity(embedding1: List[float], embedding2: List[float]):

@@ -1,12 +1,21 @@
 from pathlib import Path
-from typing import Dict, List, Optional
-import requests
 from time import time
+from typing import Dict, List, Optional
+
+import requests
+
 from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     SpeechDiarizationEntry,
     SpeechDiarization,
+)
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.utils.exception import (
+    AsyncJobException,
+    AsyncJobExceptionReason,
+    ProviderException,
 )
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -14,14 +23,6 @@ from edenai_apis.utils.types import (
     AsyncPendingResponseType,
     AsyncResponseType,
 )
-from edenai_apis.utils.exception import (
-    AsyncJobException,
-    AsyncJobExceptionReason,
-    ProviderException,
-)
-from edenai_apis.loaders.data_loader import ProviderDataEnum
-from edenai_apis.loaders.loaders import load_provider
-
 from edenai_apis.utils.upload_s3 import upload_file_to_s3
 from .helper import language_matches
 

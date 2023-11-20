@@ -1,5 +1,6 @@
 from enum import Enum
 from typing import Sequence
+
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -23,13 +24,16 @@ class EmotionItem(BaseModel):
         - emotion (EmotionEnum): emotion of the text
         - emotion_score (float): score of the emotion
     """
+
     emotion: str
     emotion_score: float = Field(ge=0, le=100)
+
     @field_validator("emotion_score")
     def check_score(cls, v):
         if not 0 <= v <= 100:
             raise ValueError("Value should be between 0 and 100")
         return v
+
 
 class EmotionDetectionDataClass(BaseModel):
     """This class is used to standardize the responses from emotion_detection.
@@ -38,5 +42,6 @@ class EmotionDetectionDataClass(BaseModel):
         - items (Sequence[EmotionItem]): Lists of the different emotion analysed.
 
     """
+
     text: str
     items: Sequence[EmotionItem] = Field(default_factory=list)

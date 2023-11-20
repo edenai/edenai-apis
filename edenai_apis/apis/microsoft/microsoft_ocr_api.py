@@ -1,11 +1,12 @@
 from collections import defaultdict
-from io import BufferedReader
 from typing import Sequence
 
 import requests
+from PIL import Image as Img
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.core.credentials import AzureKeyCredential
 from azure.core.exceptions import AzureError
+
 from edenai_apis.apis.microsoft.microsoft_helpers import (
     microsoft_ocr_tables_standardize_response,
     normalize_invoice_result,
@@ -50,7 +51,6 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
-from PIL import Image as Img
 
 
 class MicrosoftOcrApi(OcrInterface):

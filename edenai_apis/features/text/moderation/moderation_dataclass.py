@@ -1,6 +1,8 @@
-from typing import Sequence, Union
 from enum import Enum
+from typing import Sequence, Union
+
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator, FieldSerializationInfo, field_serializer
+
 from edenai_apis.features.text.moderation.category import (
     CategoryType,
 )
@@ -15,6 +17,7 @@ from edenai_apis.features.text.moderation.subcategory import (
     SafeSubCategoryType,
     OtherSubCategoryType,
 )
+
 SubCategoryType = Union[
     ToxicSubCategoryType,
     ContentSubCategoryType,

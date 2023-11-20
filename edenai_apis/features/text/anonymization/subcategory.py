@@ -1,5 +1,6 @@
 from enum import Enum
-from typing import Dict, List, NewType, Union
+from typing import Dict, List
+
 from edenai_apis.features.text.anonymization.pattern import SubCategoryPattern
 
 

@@ -1,6 +1,8 @@
 
 from typing import Sequence
-from pydantic import AnyUrl, BaseModel, Field, root_validator, field_validator
+
+from pydantic import BaseModel, Field, root_validator, field_validator
+
 
 class PlagiaDetectionCandidate(BaseModel):
     url: str

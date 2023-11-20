@@ -1,7 +1,9 @@
-from typing import Dict
-from io import BytesIO
 import base64
+from io import BytesIO
+from typing import Dict
+
 import requests
+
 from edenai_apis.features import AudioInterface
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import TextToSpeechDataClass
 from edenai_apis.features.provider.provider_interface import ProviderInterface
@@ -9,8 +11,8 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from .config import voice_ids
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
+from .config import voice_ids
 
 
 class ElevenlabsApi(ProviderInterface, AudioInterface):

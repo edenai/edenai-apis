@@ -1,7 +1,7 @@
 import importlib
 import re
-from typing import Dict, List, Optional, Type
 from enum import Enum
+from typing import Dict, List, Optional, Type
 
 
 class AsyncJobExceptionReason(Enum):
