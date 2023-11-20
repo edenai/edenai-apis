@@ -13,7 +13,8 @@ from edenai_apis.features.text import (
     ChatDataClass,
     ChatMessageDataClass,
 )
-from edenai_apis.features.text.chat.chat_dataclass import StreamChat
+from edenai_apis.features.provider.provider_interface import ProviderInterface
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
@@ -33,7 +34,7 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
             "Authorization": f"Token {api_settings['api_key']}",
         }
         self.base_url = "https://api.replicate.com/v1"
-
+        
     def __get_stream_response(self, url: str) -> Generator:
         headers = {**self.headers, "Accept": "text/event-stream"}
         response = requests.get(url, headers=headers, stream=True)
@@ -43,12 +44,16 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
                 response.close()
                 break
             elif last_chunk == b"event: error" and chunk.startswith(b"data: "):
-                raise ProviderException("ERROR WHILE STREAMING")
+                yield ChatStreamResponse(text = "[ERROR]",
+                                             blocked = True, 
+                                             provider = self.provider_name)
             elif chunk.startswith(b"data: "):
                 if last_chunk == b"data: " and chunk == b"data: ":
-                    yield "\n"
+                    yield ChatStreamResponse(text = "\n", blocked = False, provider = self.provider_name)
                 else:
-                    yield chunk.decode("utf-8").replace("data: ", "")
+                    yield ChatStreamResponse(text = chunk.decode("utf-8").replace("data: ", ""),
+                                             blocked = False, 
+                                             provider = self.provider_name)
             last_chunk = chunk
 
     @overload

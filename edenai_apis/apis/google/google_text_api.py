@@ -19,7 +19,7 @@ from edenai_apis.features.text import (
     CodeGenerationDataClass,
     GenerationDataClass,
 )
-from edenai_apis.features.text.chat.chat_dataclass import StreamChat
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
 from edenai_apis.features.text.embeddings.embeddings_dataclass import (
     EmbeddingDataClass,
     EmbeddingsDataClass,
@@ -361,7 +361,9 @@ class GoogleTextApi(TextInterface):
             except Exception as exc:
                 raise ProviderException(str(exc))
 
-            stream = (res.text for res in responses)
+            stream = (ChatStreamResponse(text=res.text, blocked = res.is_blocked, provider="google")
+                      for res in responses)
+        
             return ResponseType[StreamChat](
                 original_response=None,
                 standardized_response=StreamChat(stream=stream)

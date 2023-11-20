@@ -13,7 +13,7 @@ from edenai_apis.features.text.anonymization.anonymization_dataclass import (
 )
 from edenai_apis.features.text.anonymization.category import CategoryType
 from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
-from edenai_apis.features.text.chat.chat_dataclass import StreamChat
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
     CodeGenerationDataClass,
 )
@@ -736,9 +736,12 @@ class OpenaiTextApi(TextInterface):
                 standardized_response=standardized_response,
             )
         else:
-            stream = (
-                chunk["choices"][0]["delta"].get("content", "") for chunk in response
-            )
+            stream = (ChatStreamResponse(
+                text = chunk["choices"][0]["delta"].get("content", ""),
+                blocked = not chunk["choices"][0].get("finish_reason") in (None, "stop"),
+                provider = "openai"
+            ) for chunk in response)
+            
             return ResponseType[StreamChat](
                 original_response=None, standardized_response=StreamChat(stream=stream)
             )
