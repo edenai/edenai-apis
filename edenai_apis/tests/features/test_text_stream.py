@@ -4,7 +4,7 @@ from typing import Iterator
 import pytest
 
 from edenai_apis import Text
-from edenai_apis.features.text.chat import StreamChat
+from edenai_apis.features.text.chat import StreamChat, ChatStreamResponse
 from edenai_apis.interface import list_providers
 from edenai_apis.loaders.data_loader import FeatureDataEnum
 from edenai_apis.loaders.loaders import load_feature
@@ -38,4 +38,4 @@ class TestImageSearch:
         assert isinstance(chat_output.standardized_response.stream, Iterator)
 
         for chunk in chat_output.standardized_response.stream:
-            assert isinstance(chunk, str)
+            assert isinstance(chunk, ChatStreamResponse)
