@@ -323,18 +323,26 @@ class OpenaiTextApi(TextInterface):
     def text__keyword_extraction(
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
-        url = f"{self.url}/completions"
         prompt = construct_keyword_extraction_context(text)
         payload = {
-            "prompt": prompt,
+            "messages": [{"role": "system", "content": prompt}],
             "max_tokens": self.max_tokens,
-            "model": self.model,
+            "model": "gpt-3.5-turbo-1106",
+            "response_format": { "type": "json_object" },
         }
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = get_openapi_response(response)
-
         try:
-            keywords = json.loads(original_response["choices"][0]["text"]) or {}
+            response = openai.ChatCompletion.create(
+                **payload
+            )
+        except Exception as exc:
+            raise ProviderException(str(exc)) from exc
+
+        raw_keywords = response["choices"][0]["message"]["content"]
+        try:
+            if response['choices'][0]['finish_reason'] == 'length':
+                keywords = json.loads(finish_unterminated_json(raw_keywords, end_brackets=']}'))
+            else:
+                keywords = json.loads(raw_keywords)
             if isinstance(keywords, list) and len(keywords) > 0:
                 keywords = keywords[0]
             items = keywords.get("items", []) or []
@@ -358,7 +366,7 @@ class OpenaiTextApi(TextInterface):
             ) from exc
 
         return ResponseType[KeywordExtractionDataClass](
-            original_response=original_response,
+            original_response=response,
             standardized_response=standardized_response,
         )
 

@@ -1,36 +1,39 @@
 {
   "original_response": {
-    "id": "cmpl-8AbEC6JUElKVNFZvMMefF4NQzzPKU",
-    "object": "text_completion",
-    "created": 1697537076,
-    "model": "gpt-3.5-turbo-instruct",
+    "id": "chatcmpl-8N0yroiT2F9Une7A74gH4oBVjyj5z",
+    "object": "chat.completion",
+    "created": 1700496005,
+    "model": "gpt-3.5-turbo-1106",
     "choices": [
       {
-        "text": " {\"items\": \n    \t[\n    \t    {\"keyword\": \"Barack Hussein Obama\", \"importance\": 1.0}, \n    \t    {\"keyword\": \"American politician\", \"importance\": 0.7},\n    \t    {\"keyword\": \"44th president\", \"importance\": 0.6}, \n    \t    {\"keyword\": \"United States\", \"importance\": 0.8}, \n    \t    {\"keyword\": \"Democratic Party\", \"importance\": 0.6}, \n    \t    {\"keyword\": \"African-American\", \"importance\": 0.9}, \n    \t    {\"keyword\": \"U.S. senator\", \"importance\": 0.7}, \n    \t    {\"keyword\": \"Illinois\", \"importance\": 0.5}, \n    \t    {\"keyword\": \"state senator\", \"importance\": 0.6}\n    \t]\n     }",
         "index": 0,
-        "logprobs": null,
+        "message": {
+          "role": "assistant",
+          "content": "{\"items\":[{\"keyword\":\"Barack Hussein Obama\",\"importance\":0.9},{\"keyword\":\"American politician\",\"importance\":0.8},{\"keyword\":\"44th president\",\"importance\":0.7},{\"keyword\":\"United States\",\"importance\":0.8},{\"keyword\":\"Democratic Party\",\"importance\":0.6},{\"keyword\":\"African-American president\",\"importance\":0.9},{\"keyword\":\"U.S. senator\",\"importance\":0.7},{\"keyword\":\"Illinois state senator\",\"importance\":0.6}]}\n\n"
+        },
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 188,
-      "completion_tokens": 178,
-      "total_tokens": 366
-    }
+      "prompt_tokens": 191,
+      "completion_tokens": 109,
+      "total_tokens": 300
+    },
+    "system_fingerprint": "fp_eeff13170a"
   },
   "standardized_response": {
     "items": [
       {
         "keyword": "Barack Hussein Obama",
-        "importance": 1.0
+        "importance": 0.9
       },
       {
         "keyword": "American politician",
-        "importance": 0.7
+        "importance": 0.8
       },
       {
         "keyword": "44th president",
-        "importance": 0.6
+        "importance": 0.7
       },
       {
         "keyword": "United States",
@@ -41,7 +44,7 @@
         "importance": 0.6
       },
       {
-        "keyword": "African-American",
+        "keyword": "African-American president",
         "importance": 0.9
       },
       {
@@ -49,11 +52,7 @@
         "importance": 0.7
       },
       {
-        "keyword": "Illinois",
-        "importance": 0.5
-      },
-      {
-        "keyword": "state senator",
+        "keyword": "Illinois state senator",
         "importance": 0.6
       }
     ]

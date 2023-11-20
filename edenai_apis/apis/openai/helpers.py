@@ -85,7 +85,7 @@ def construct_anonymization_context(text: str) -> str:
 
 
 def construct_keyword_extraction_context(text: str) -> str:
-    output_template = '{{"items":[{{"keyword": ... , "importance":...}}]}}'
+    output_template = '{"items":[{"keyword": ... , "importance": ...}]}'
     prompt = f"""
     You are a highly intelligent and accurate Keyword Extraction system.
     You take text as input and your task is to returns the key phrases or talking points and a confidence score between 0.0-1.0 to support that this is a key phrase.
