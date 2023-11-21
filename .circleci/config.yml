@@ -11,7 +11,7 @@ jobs:
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
-      - checkout
+      # - checkout
       - run:
           name: Setup config files and folders
           command: |
