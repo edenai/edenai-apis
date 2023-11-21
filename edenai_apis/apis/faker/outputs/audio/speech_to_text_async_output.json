@@ -1,0 +1,13 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "SomeFakeID",
+  "original_response": {},
+  "standardized_response": {
+    "text": "empty",
+    "diarization": {
+      "total_speakers": 1,
+      "entries": [],
+      "error_message": null
+    }
+  }
+}
