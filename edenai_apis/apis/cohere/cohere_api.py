@@ -2,6 +2,7 @@ import json
 from typing import Optional, List, Dict, Sequence, Literal
 
 import requests
+from edenai_apis.apis.cohere.helpers import extract_json_text
 
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text.custom_classification import (
@@ -78,19 +79,21 @@ class CohereApi(ProviderInterface, TextInterface):
 
         Text: {text}
 
-        Answer: [{', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]
+        Answer: ```json[{', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]```
         """
 
     @staticmethod
     def _format_spell_check_prompt(text: str) -> str:
         return f"""
-Given a text with spelling errors, identify the misspelled words and correct them. 
-Return the results as a list of dictionaries and only the json result, where each dictionary contains two keys: "word" and "correction". 
-The "word" key should contain the misspelled word, and the "correction" key should contain the corrected version of the word. 
+Given a text with spelling errors, identify the misspelled words and correct them.
+Return the results as a json list of objects, where each object contains two keys: "word" and "correction".
+The "word" key should contain the misspelled word, and the "correction" key should contain the corrected version of the word.
+Return the json response between ```json and ```.
+
 For example, if the misspelled word is 'halo', the corresponding dictionary should be: {{"word": "halo", "correction": "hello"}}.
 Text: {text}
 Examples of entry Text with misspelling: "Hallo my friend hw are you"
-Examples of response: [{{"word": "Hallo", "correction": "hello"}}, {{"word": "hw", "correction": "how"}}]
+Examples of response: ```json[{{"word": "Hallo", "correction": "hello"}}, {{"word": "hw", "correction": "how"}}]```
 List of corrected words:
 """
 
@@ -237,7 +240,7 @@ List of corrected words:
         prompt = f"""You act as a named entities recognition model.
 Extract an exhaustive list of Entities from the given Text according to the specified Categories and return the list as a valid JSON.
 
-ONLY return a valid JSON. DO NOT return any other form of text. The keys of each objects in the list are `entity` and `category`.
+return the json response between ```json and ```. The keys of each objects in the list are `entity` and `category`.
 `entity` value must be the extracted entity from the text, `category` value must be the category of the extracted entity.
 The JSON MUST be valid and conform to the given description.
 Be correct and concise. If no entities are found, return an empty list.
@@ -265,11 +268,9 @@ For Example:
         data = original_response.get("text")
 
         try:
-            items = json.loads(data)
+            items = extract_json_text(data)
         except json.JSONDecodeError as exc:
-            raise ProviderException(
-                "Cohere didn't return valid JSON object"
-            ) from exc
+            raise ProviderException("Cohere didn't return valid JSON object") from exc
 
         standardized_response = CustomNamedEntityRecognitionDataClass(items=items)
 
@@ -300,14 +301,13 @@ For Example:
             )
 
         try:
-            data = original_response["text"]
-            corrected_items = json.loads(data)
+            data = extract_json_text(original_response["text"])
         except json.JSONDecodeError as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
 
-        corrections = construct_word_list(text, corrected_items)
+        corrections = construct_word_list(text, data)
         items: List[SpellCheckItem] = []
         for item in corrections:
             items.append(
@@ -330,8 +330,8 @@ For Example:
         self, texts: List[str], model: str
     ) -> ResponseType[EmbeddingsDataClass]:
         url = f"{self.base_url}embed"
-        model = model.split("__")
-        payload = {"texts": texts, "model": model[1]}
+        model = model.split("__")[1]
+        payload = {"texts": texts, "model": model}
         response = requests.post(url, json=payload, headers=self.headers)
         original_response = response.json()
         if "message" in original_response:
@@ -339,7 +339,7 @@ For Example:
                 original_response["message"], code=response.status_code
             )
 
-        items: Sequence[EmbeddingsDataClass] = []
+        items: Sequence[EmbeddingDataClass] = []
         for prediction in original_response["embeddings"]:
             items.append(EmbeddingDataClass(embedding=prediction))
 
@@ -356,7 +356,7 @@ For Example:
         similarity_metric: Literal[
             "cosine", "hamming", "manhattan", "euclidean"
         ] = "cosine",
-        model: str = None,
+        model: Optional[str] = None,
     ) -> ResponseType[SearchDataClass]:
         if model is None:
             model = "768__embed-multilingual-v2.0"
@@ -365,14 +365,14 @@ For Example:
 
         # Embed the texts & query
         texts_embed_response = self.text__embeddings(
-           texts=texts, model=model
+            texts=texts, model=model
         ).original_response
         query_embed_response = self.text__embeddings(
             texts=[query], model=model
         ).original_response
 
         # Extracts embeddings from texts & query
-        texts_embed = [item for item in texts_embed_response["embeddings"]]
+        texts_embed = list(texts_embed_response["embeddings"])
         query_embed = query_embed_response["embeddings"][0]
 
         items = []

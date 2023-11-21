@@ -1,17 +1,21 @@
 {
   "original_response": {
-    "response_id": "7044f995-27f0-44b2-a27b-c64a7d31684a",
-    "text": "[{\"word\": \"Hollo\", \"correction\": \"hello\"}, {\"word\": \"wrld\", \"correction\": \"world\"}, {\"word\": \"yu\", \"correction\": \"you\"}]",
-    "generation_id": "a2e46520-1f79-46a6-a3ea-0097b032624a",
+    "response_id": "72554fe7-7f63-4649-8aaf-886ea82aa0e7",
+    "text": "```json\n[\n {\n  \"word\": \"Hollo\",\n  \"correction\": \"Hello\"\n },\n {\n  \"word\": \"wrld\",\n  \"correction\": \"world\"\n },\n {\n  \"word\": \"yu\",\n  \"correction\": \"you\"\n }\n]\n```",
+    "generation_id": "efbfcdac-8915-4bda-875a-38992cf4875d",
     "token_count": {
-      "prompt_tokens": 250,
-      "response_tokens": 42,
-      "total_tokens": 292,
-      "billed_tokens": 283
+      "prompt_tokens": 257,
+      "response_tokens": 67,
+      "total_tokens": 324,
+      "billed_tokens": 315
     },
     "meta": {
       "api_version": {
         "version": "2022-12-06"
+      },
+      "billed_units": {
+        "input_tokens": 248,
+        "output_tokens": 67
       }
     }
   },
@@ -25,7 +29,7 @@
         "length": 5,
         "suggestions": [
           {
-            "suggestion": "hello",
+            "suggestion": "Hello",
             "score": 1.0
           }
         ]

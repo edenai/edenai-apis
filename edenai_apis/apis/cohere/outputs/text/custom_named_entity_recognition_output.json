@@ -1,20 +1,22 @@
 {
   "original_response": {
-    "id": "6325db70-ebb6-4b67-be39-b1f5b1f91631",
-    "generations": [
-      {
-        "id": "7d26632a-a5fd-4f6b-bc81-f1d0df6702f1",
-        "text": "[\n{\n  \"entity\": \"John Smith\",\n  \"category\": \"person\"\n},\n{\n  \"entity\": \"Starbucks\",\n  \"category\": \"location\"\n},\n{\n  \"entity\": \"New York City\",\n  \"category\": \"location\"\n},\n{\n  \"entity\": \"IBM\",\n  \"category\": \"organization\"\n}\n]"
-      }
-    ],
-    "prompt": "        Extract the specified entities (person,location,organization) from the text enclosed in hash symbols (#) and return a JSON List of dictionaries with two keys: \"entity\" and \"category\". The \"entity\" key represents the detected entity and the \"category\" key represents the category of the entity.\n\n        If no entities are found, return an empty list.\n        \n        Text: #Yesterday, I met John Smith at Starbucks in New York City. He works for IBM.#\n        Answer:\n",
+    "response_id": "1413f4b4-0dfc-4fd1-af7d-722cc1575643",
+    "text": "Sure, here is a JSON object that contains the extracted entities along with their categories from the given text:\n\n```json\n[\n    {\n        \"entity\": \"John Smith\",\n        \"category\": \"person\"\n    },\n    {\n        \"entity\": \"Starbucks\",\n        \"category\": \"location\"\n    },\n    {\n        \"entity\": \"New York City\",\n        \"category\": \"location\"\n    },\n    {\n        \"entity\": \"IBM\",\n        \"category\": \"organization\"\n    }\n]\n```\n\nWould you like me to extract entities from another text?",
+    "generation_id": "4fac970e-5a40-409a-8f9c-89d1676aad91",
+    "token_count": {
+      "prompt_tokens": 342,
+      "response_tokens": 120,
+      "total_tokens": 462,
+      "billed_tokens": 453
+    },
     "meta": {
       "api_version": {
         "version": "2022-12-06"
       },
-      "warnings": [
-        "Your text contains a trailing whitespace, which has been trimmed to ensure high quality generations."
-      ]
+      "billed_units": {
+        "input_tokens": 333,
+        "output_tokens": 120
+      }
     }
   },
   "standardized_response": {
