@@ -39,6 +39,44 @@ jobs:
       - store_artifacts:
           path: edenai_apis/htmlcov
 
+  check_providers:
+    docker:
+      - image: cimg/python:3.8
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    parameters:
+      interval:
+        type: string
+        default: nightly
+
+    steps:
+      - checkout
+      - run:
+          name: Setup config files and folders
+          command: |
+            sudo apt-get update
+            sudo apt-get install build-essential libssl-dev libasound2 wget
+            
+            wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.0g-2ubuntu4_amd64.deb
+            sudo dpkg -i libssl1.1_1.1.0g-2ubuntu4_amd64.deb
+
+            # Insall aws cli
+            pip install awscli --upgrade
+            # Copy settings file
+            aws s3 cp $S3PATH edenai_apis/api_keys --recursive
+      - run:
+          name: Install dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install ffmpeg -y
+            pip install -e .
+            
+      - run:
+          name: check working providers
+          command: |
+            python edenai_apis/scripts/check_not_working_providers.py << parameters.interval >>
+
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -52,3 +90,14 @@ workflows:
               only:
                 - master
                 - circleci
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 6 * * 1-5"
+          filters:
+            branches:
+              only:
+                - master
+                - release
+    jobs:
+     - check_providers
