@@ -223,6 +223,7 @@
 | **speech_to_text_async** | amazon |
 | | assembly |
 | | deepgram |
+| | faker |
 | | gladia |
 | | google |
 | | ibm |
@@ -483,6 +484,13 @@
 |----------|-------------|
 | **image** | face_compare |
 | | face_recognition |
+
+</details>
+<details><summary>faker</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **audio** | speech_to_text_async |
 
 </details>
 <details><summary>gladia</summary>
