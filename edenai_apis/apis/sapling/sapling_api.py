@@ -47,7 +47,7 @@ class SaplingApi(ProviderInterface, TextInterface):
         except json.JSONDecodeError as exc:
             raise ProviderException(response.text, code=response.status_code) from exc
 
-        if response.status_code > HTTPStatus.BAD_REQUEST:
+        if response.status_code >= HTTPStatus.BAD_REQUEST:
             raise ProviderException(
                 response_json.get("msg", response.text), code=response.status_code
             )
@@ -120,7 +120,7 @@ class SaplingApi(ProviderInterface, TextInterface):
 
         response_json = response.json()
 
-        if response.status_code > HTTPStatus.BAD_REQUEST:
+        if response.status_code >= HTTPStatus.BAD_REQUEST:
             raise ProviderException(response_json, code=response.status_code)
 
         best_sentiment = {
@@ -176,7 +176,7 @@ class SaplingApi(ProviderInterface, TextInterface):
 
         original_response = response.json()
 
-        if response.status_code > HTTPStatus.BAD_REQUEST:
+        if response.status_code >= HTTPStatus.BAD_REQUEST:
             raise ProviderException(original_response, code=response.status_code)
 
         items = []
