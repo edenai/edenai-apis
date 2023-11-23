@@ -1,6 +1,7 @@
 import base64
 from typing import Dict, Generator, List, Literal, Optional, Union, overload
 
+import http.client
 import requests
 
 from edenai_apis.features import TextInterface, ImageInterface
@@ -93,6 +94,10 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
 
         # Get job response
         response = requests.get(url_get_response, headers=self.headers)
+
+        if response.status_code >= 500:
+            raise ProviderException(
+                message=http.client.responses[response.status_code], code=response.status_code)
         response_dict = response.json()
         if response.status_code != 200:
             raise ProviderException(
