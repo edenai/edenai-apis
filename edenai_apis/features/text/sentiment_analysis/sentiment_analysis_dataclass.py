@@ -28,14 +28,14 @@ class SegmentSentimentAnalysisDataClass(NoRaiseBaseModel):
     @classmethod
     def valid_segment(cls, value):
         if not isinstance(value, str):
-            raise TypeError(f"Segment must be a string, not {type(value)}")
+            raise ValueError(f"Segment must be a string, not {type(value)}")
         return value
 
     @field_validator("sentiment", mode="before")
     @classmethod
     def valid_sentiment(cls, value):
         if not isinstance(value, str):
-            raise TypeError(f"Sentiment must be a string, not {type(value)}")
+            raise ValueError(f"Sentiment must be a string, not {type(value)}")
         value = value.title()
         if not value in ["Positive", "Negative", "Neutral"]:
             raise ValueError(
@@ -49,7 +49,7 @@ class SegmentSentimentAnalysisDataClass(NoRaiseBaseModel):
         if value is None:
             return value
         if not isinstance(value, (float, int)):
-            raise TypeError(f"Sentiment rate must be a float, not {type(value)}")
+            raise ValueError(f"Sentiment rate must be a float, not {type(value)}")
         return round(value, 2)
 
 
@@ -70,7 +70,7 @@ class SentimentAnalysisDataClass(NoRaiseBaseModel):
     @classmethod
     def valid_general_sentiment(cls, value):
         if not isinstance(value, str):
-            raise TypeError(f"General sentiment must be a string, not {type(value)}")
+            raise ValueError(f"General sentiment must be a string, not {type(value)}")
         value = value.title()
         if not value in ["Positive", "Negative", "Neutral"]:
             raise ValueError(
@@ -84,7 +84,7 @@ class SentimentAnalysisDataClass(NoRaiseBaseModel):
         if value is None:
             return value
         if not isinstance(value, (float, int)):
-            raise TypeError(
+            raise ValueError(
                 f"General sentiment rate must be a float, not {type(value)}"
             )
         return round(value, 2)
