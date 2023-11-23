@@ -45,6 +45,7 @@
 | | sentisight |
 | **ocr_async** | amazon |
 | | google |
+| | microsoft |
 | | oneai |
 | **ocr_tables_async** | amazon |
 | | google |
@@ -620,6 +621,7 @@
 | **ocr** | identity_parser |
 | | invoice_parser |
 | | ocr |
+| | ocr_async |
 | | ocr_tables_async |
 | | receipt_parser |
 | **text** | anonymization |
