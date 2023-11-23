@@ -1,4 +1,5 @@
 import base64
+import http.client
 import mimetypes
 from io import BytesIO
 from time import sleep
@@ -48,6 +49,10 @@ class DeeplApi(ProviderInterface, TranslationInterface):
         response = requests.request("POST", url, headers=self.header, data=data)
         original_response = response.json()
 
+        if response.status_code >= 500:
+            raise ProviderException(
+                message=http.client.responses[response.status_code], code=response.status_code
+            )
         if response.status_code != 200:
             raise ProviderException(
                 message=original_response["message"], code=response.status_code
@@ -88,6 +93,10 @@ class DeeplApi(ProviderInterface, TranslationInterface):
 
         file_.close()
 
+        if response.status_code >= 500:
+            raise ProviderException(
+                message=http.client.responses[response.status_code], code=response.status_code
+            )
         if response.status_code != 200:
             raise ProviderException(
                 message=original_response["message"], code=response.status_code
