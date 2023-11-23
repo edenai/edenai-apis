@@ -7,25 +7,6 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 
 
-def format_example_fn(x: List[List[str]]) -> str:
-    examples_formated = ""
-    for example in x:
-        examples_formated += "Text: {text}\nText Classification: {label}\n\n".format(
-            text=example[0].replace("\n", " ").strip(),
-            label=example[1].replace("\n", " ").strip(),
-        )
-    return examples_formated
-
-
-def format_texts_fn(x: List[str]) -> str:
-    texts_formated = ""
-    for text in x:
-        texts_formated += "Text: {text}\n-----\n".format(
-            text=text.replace("\n", " ").strip()
-        )
-    return texts_formated
-
-
 def construct_classification_instruction(
     texts: list, labels: list, examples: list
 ) -> str:
