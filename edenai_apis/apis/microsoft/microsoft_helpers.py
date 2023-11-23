@@ -50,6 +50,13 @@ from edenai_apis.utils.conversion import (
     standardized_confidence_score,
 )
 from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
+    BoundingBox,
+    Line,
+    OcrAsyncDataClass,
+    Word,
+    Page as OcrAsyncPage,
+)
 
 
 def get_microsoft_headers() -> Dict:
@@ -102,6 +109,7 @@ def get_microsoft_urls() -> Dict:
         "translator": api_settings["translator"]["url"],
         "speech": api_settings["speech"]["url"],
         "spell_check": api_settings["spell_check"]["url"],
+        "form_recognizer": api_settings["form_recognizer"]["url"],
     }
 
 
@@ -112,14 +120,16 @@ def microsoft_text_moderation_personal_infos(data):
     if classif := data.get("Classification"):
         for key, value in classif.items():
             try:
-                classificator = CategoryType.choose_category_subcategory(TextModerationCategoriesMicrosoftEnum[key].value)
+                classificator = CategoryType.choose_category_subcategory(
+                    TextModerationCategoriesMicrosoftEnum[key].value
+                )
                 classification.append(
                     TextModerationItem(
                         label=TextModerationCategoriesMicrosoftEnum[key].value,
                         category=classificator["category"],
                         subcategory=classificator["subcategory"],
                         likelihood_score=value.get("Score", 0),
-                        likelihood=standardized_confidence_score(value["Score"])
+                        likelihood=standardized_confidence_score(value["Score"]),
                     )
                 )
             except Exception as exc:
@@ -128,7 +138,9 @@ def microsoft_text_moderation_personal_infos(data):
     text_moderation = ModerationDataClass(
         nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(classification),
         items=classification,
-        nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(classification)
+        nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(
+            classification
+        ),
     )
 
     return text_moderation
@@ -762,4 +774,58 @@ def _ocr_tables_standardize_cell(cell: dict, original_response: dict) -> Cell:
             top=bounding_box[0] / height,
         ),
         confidence=None,
+    )
+
+
+def _create_ocr_async_bounding_box(polygon, height, width):
+    return BoundingBox(
+        height=(polygon[7] - polygon[3]) / height,
+        width=(polygon[2] - polygon[0]) / width,
+        left=polygon[1] / width,
+        top=polygon[0] / height,
+    )
+
+
+def _create_word(page_word, height, width):
+    return Word(
+        text=page_word["content"],
+        bounding_box=_create_ocr_async_bounding_box(
+            page_word["polygon"], height, width
+        ),
+        confidence=page_word["confidence"] * 100,
+    )
+
+
+def microsoft_ocr_async_standardize_response(
+    original_response: dict,
+) -> OcrAsyncDataClass:
+    raw_text = original_response.get("content", "")
+    pages = []
+
+    for page in original_response.get("pages", []):
+        lines = []
+        height = page.get("height", 1)
+        width = page.get("width", 1)
+        page_words = page.get("words", [])
+        i = 0
+        for line in page.get("lines", []):
+            text = line.get("content")
+            bounding_box = _create_ocr_async_bounding_box(
+                line["polygon"], height, width
+            )
+            words = []
+            while (
+                i < len(page_words)
+                and page_words[i]["span"]["offset"]
+                <= line["spans"][0]["offset"] + line["spans"][0]["length"]
+            ):
+                words.append(_create_word(page_words[i], height, width))
+                i += 1
+            lines.append(
+                Line(text=text, words=words, bounding_box=bounding_box, confidence=None)
+            )
+        pages.append(OcrAsyncPage(lines=lines))
+    number_of_pages = len(pages)
+    return OcrAsyncDataClass(
+        raw_text=raw_text, pages=pages, number_of_pages=number_of_pages
     )
