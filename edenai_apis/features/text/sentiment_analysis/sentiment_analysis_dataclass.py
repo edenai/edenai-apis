@@ -1,3 +1,4 @@
+from utils.parsing import NoRaiseBaseModel
 from enum import Enum
 from typing import Optional, Sequence, Literal
 
@@ -10,7 +11,7 @@ class SentimentEnum(Enum):
     NEUTRAL = "Neutral"
 
 
-class SegmentSentimentAnalysisDataClass(BaseModel):
+class SegmentSentimentAnalysisDataClass(NoRaiseBaseModel):
     """This class is used in SentimentAnalysisDataClass to describe each segment analyzed.
 
     Args:
@@ -52,7 +53,7 @@ class SegmentSentimentAnalysisDataClass(BaseModel):
         return round(value, 2)
 
 
-class SentimentAnalysisDataClass(BaseModel):
+class SentimentAnalysisDataClass(NoRaiseBaseModel):
     """This class is used to standardize responses from sentiment_analysis.
     Args:
         - text (str): The text whose has been analyzed

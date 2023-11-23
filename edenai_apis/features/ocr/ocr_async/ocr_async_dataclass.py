@@ -1,3 +1,6 @@
+from utils.parsing import NoRaiseBaseModel
+from utils.parsing import NoRaiseBaseModel<ESC> | update
+from utils.parsing import NoRaiseBaseModel<ESC> | update
 import enum
 from typing import List, Optional, Sequence, Callable
 
@@ -48,7 +51,7 @@ class CoordinateEnum(enum.Enum):
     Y = 1
 
 
-class BoundingBox(BaseModel):
+class BoundingBox(NoRaiseBaseModel):
     """Bounding box of a word in the image
 
 
@@ -152,7 +155,7 @@ class BoundingBox(BaseModel):
         return cls.from_json(boxes)
 
 
-class Word(BaseModel):
+class Word(NoRaiseBaseModel):
     """Word of a document
 
     Attributes:
@@ -175,7 +178,7 @@ class Word(BaseModel):
         return v
 
 
-class Line(BaseModel):
+class Line(NoRaiseBaseModel):
     """Line of a document
 
     Attributes:
@@ -189,8 +192,6 @@ class Line(BaseModel):
     words: Sequence[Word] = Field(default_factory=list, description="List of words")
     bounding_box: BoundingBox = Field(
         description="Bounding boxes of the words in the line"
-    )
-    confidence: Optional[float] = Field(..., description="Confidence of the line")
 
     @field_validator("confidence")
     @classmethod
@@ -201,7 +202,7 @@ class Line(BaseModel):
         return v
 
 
-class Page(BaseModel):
+class Page(NoRaiseBaseModel):
     """Page of a document
 
     Attributes:
@@ -211,7 +212,7 @@ class Page(BaseModel):
     lines: Sequence[Line] = Field(default_factory=list, description="List of lines")
 
 
-class OcrAsyncDataClass(BaseModel):
+class OcrAsyncDataClass(NoRaiseBaseModel):
     """OCR Async Data Class
 
     Attributes:
