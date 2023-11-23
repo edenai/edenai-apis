@@ -123,7 +123,7 @@ class HireabilityApi(ProviderInterface, OcrInterface):
 
         # 2 Education
         edu_entries: List[ResumeEducationEntry] = []
-        for i in infos.get("EducationOrganizationAttendance", {}):
+        for i in infos.get("EducationOrganizationAttendance") or []:
             title = i.get("EducationLevel", [{}])[0].get(
                 "Name"
             )  # value of MajorProgramName can be None
@@ -158,11 +158,11 @@ class HireabilityApi(ProviderInterface, OcrInterface):
         work_entries = []
         for i in infos.get("PositionHistory", []):
             work_location = ResumeLocation(
-                country_code=(i.get("ReferenceLocation", {}) or {}).get("CountryCode"),
-                region=(i.get("ReferenceLocation", {}) or {}).get(
+                country_code=(i.get("ReferenceLocation") or {}).get("CountryCode"),
+                region=(i.get("ReferenceLocation") or {}).get(
                     "CountrySubDivisionCode"
                 ),
-                city=(i.get("ReferenceLocation", {}) or {}).get("CityName", ""),
+                city=(i.get("ReferenceLocation") or {}).get("CityName", ""),
                 formatted_location=None,
                 postal_code=None,
                 country=None,
