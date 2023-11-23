@@ -1,10 +1,8 @@
-from utils.parsing import NoRaiseBaseModel
-from utils.parsing import NoRaiseBaseModel<ESC> | update
-from utils.parsing import NoRaiseBaseModel<ESC> | update
 import enum
-from typing import List, Optional, Sequence, Callable
+from typing import Callable, Optional, Sequence, List
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import Field, field_validator
+from utils.parsing import NoRaiseBaseModel
 
 
 class BoundingBoxEnum(enum.Enum):
@@ -192,6 +190,8 @@ class Line(NoRaiseBaseModel):
     words: Sequence[Word] = Field(default_factory=list, description="List of words")
     bounding_box: BoundingBox = Field(
         description="Bounding boxes of the words in the line"
+    )
+    confidence: Optional[float] = Field(..., description="Confidence of the line")
 
     @field_validator("confidence")
     @classmethod
