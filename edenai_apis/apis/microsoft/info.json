@@ -1207,6 +1207,19 @@
         ]
       },
       "version": "rest API 3.0"
+    },
+    "ocr_async": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "application/pdf"
+        ]
+      },
+      "version": "rest API 3.0"
     }
   },
   "text": {

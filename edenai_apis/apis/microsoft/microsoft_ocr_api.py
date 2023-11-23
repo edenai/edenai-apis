@@ -10,6 +10,8 @@ from azure.core.exceptions import AzureError
 from edenai_apis.apis.microsoft.microsoft_helpers import (
     microsoft_ocr_tables_standardize_response,
     normalize_invoice_result,
+    get_microsoft_urls,
+    microsoft_ocr_async_standardize_response,
 )
 from edenai_apis.features.ocr import (
     Bounding_box,
@@ -24,6 +26,7 @@ from edenai_apis.features.ocr import (
     ReceiptParserDataClass,
     Taxes,
     get_info_country,
+    OcrAsyncDataClass,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     Country,
@@ -424,3 +427,72 @@ class MicrosoftOcrApi(OcrInterface):
             )
 
         return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)
+
+    def ocr__ocr_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
+        with open(file, "rb") as file_:
+            file_content = file_.read()
+        url = (
+            f"{get_microsoft_urls()['form_recognizer']}formrecognizer/documentModels/"
+            f"prebuilt-layout:analyze?api-version=2023-07-31"
+        )
+        response = requests.post(
+            url,
+            headers={
+                "Content-Type": "application/octet-stream",
+                "Ocp-Apim-Subscription-Key": self.api_settings["form_recognizer"][
+                    "subscription_key"
+                ],
+            },
+            data=file_content,
+        )
+        if response.status_code != 202:
+            error = response.json()["error"]["innererror"]["message"]
+            raise ProviderException(error, code=response.status_code)
+        return AsyncLaunchJobResponseType(
+            provider_job_id=response.headers.get("apim-request-id")
+        )
+
+    def ocr__ocr_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrDataClass]:
+        headers = {
+            "Ocp-Apim-Subscription-Key": self.api_settings["form_recognizer"][
+                "subscription_key"
+            ],
+        }
+
+        url = (
+            get_microsoft_urls()["form_recognizer"]
+            + f"formrecognizer/documentModels/prebuilt-layout/"
+            f"analyzeResults/{provider_job_id}?api-version=2023-07-31"
+        )
+        response = requests.get(url, headers=headers)
+
+        if response.status_code >= 400:
+            error = response.json()["error"]["message"]
+            if "Resource not found" in error:
+                raise AsyncJobException(
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                    code=response.status_code,
+                )
+            raise ProviderException(error, code=response.status_code)
+
+        data = response.json()
+        if data.get("error"):
+            raise ProviderException(data.get("error"), code=response.status_code)
+        if data["status"] == "succeeded":
+            original_result = data["analyzeResult"]
+            standardized_response = microsoft_ocr_async_standardize_response(
+                original_result
+            )
+            return AsyncResponseType[OcrAsyncDataClass](
+                original_response=data,
+                standardized_response=standardized_response,
+                provider_job_id=provider_job_id,
+            )
+
+        return AsyncPendingResponseType[OcrAsyncDataClass](
+            provider_job_id=provider_job_id
+        )
