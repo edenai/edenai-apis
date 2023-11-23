@@ -1,50 +1,32 @@
 {
   "original_response": {
-    "id": "cmpl-6gx87aQ4tfJs2lIbKcyVJCJifees5",
-    "object": "text_completion",
-    "created": 1675695091,
-    "model": "text-davinci-003",
+    "id": "chatcmpl-8O20GGzcSGTmwRzGodPa59wq31JCe",
+    "object": "chat.completion",
+    "created": 1700738264,
+    "model": "gpt-3.5-turbo-1106",
     "choices": [
       {
-        "text": " it",
         "index": 0,
-        "logprobs": {
-          "tokens": [
-            " it",
-            "<|endoftext|>"
-          ],
-          "token_logprobs": [
-            -0.07574644,
-            -0.00047410018
-          ],
-          "top_logprobs": [
-            {
-              " it": -0.07574644
-            },
-            {
-              "<|endoftext|>": -0.00047410018
-            }
-          ],
-          "text_offset": [
-            898,
-            901
-          ]
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"items\": [\n    {\n      \"language\": \"it\",\n      \"display_name\": \"Italian\",\n      \"confidence\": 1.0\n    }\n  ]\n}"
         },
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 325,
-      "completion_tokens": 1,
-      "total_tokens": 326
-    }
+      "prompt_tokens": 332,
+      "completion_tokens": 37,
+      "total_tokens": 369
+    },
+    "system_fingerprint": "fp_eeff13170a"
   },
   "standardized_response": {
     "items": [
       {
         "language": "it",
         "display_name": "Italian",
-        "confidence": 0.93
+        "confidence": 1.0
       }
     ]
   }

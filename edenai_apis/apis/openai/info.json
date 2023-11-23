@@ -128,13 +128,12 @@
         ],
         "allow_null_language": true,
         "models": [
-          "text-davinci-003",
-          "text-davinci-002",
-          "text-curie-001",
-          "text-babbage-001",
-          "text-ada-001"
+          "gpt-4",
+          "gpt-3.5-turbo-1106",
+          "gpt-3.5-turbo",
+          "gpt-3.5-turbo-16k"
         ],
-        "default_model": "text-davinci-003"
+        "default_model": "gpt-3.5-turbo-1106"
       },
       "version": "v3.0.0"
     },

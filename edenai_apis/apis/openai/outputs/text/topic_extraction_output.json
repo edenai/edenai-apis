@@ -1,67 +1,39 @@
 {
   "original_response": {
-    "id": "cmpl-6gxkaG86y8XvjK1yt5mfFwnj3xoBZ",
-    "object": "text_completion",
-    "created": 1675697476,
-    "model": "text-davinci-003",
+    "id": "chatcmpl-8NkjsJ2cb7KGBXzcc8KQIuBaJCfeL",
+    "object": "chat.completion",
+    "created": 1700671900,
+    "model": "gpt-3.5-turbo-1106",
     "choices": [
       {
-        "text": "Entertainment",
         "index": 0,
-        "logprobs": {
-          "tokens": [
-            "Enter",
-            "tainment",
-            "<|endoftext|>",
-            "PR",
-            "ODUCT"
-          ],
-          "token_logprobs": [
-            -0.19650418,
-            -0.00012143587,
-            -0.0875351,
-            -9.552297,
-            -0.9571661
-          ],
-          "top_logprobs": [
-            {
-              "Enter": -0.19650418
-            },
-            {
-              "tainment": -0.00012143587
-            },
-            {
-              "<|endoftext|>": -0.0875351
-            },
-            {
-              " \u00a7\u00a7": -0.34399268
-            },
-            {
-              "ODUCT": -0.9571661
-            }
-          ],
-          "text_offset": [
-            181,
-            186,
-            194,
-            194,
-            194
-          ]
+        "message": {
+          "role": "assistant",
+          "content": "\n{\n  \"items\": [\n    {\n      \"category\": \"Entertainment\",\n      \"importance\": 0.9\n    },\n    {\n      \"category\": \"Film Industry\",\n      \"importance\": 0.8\n    },\n    {\n      \"category\": \"Television\",\n      \"importance\": 0.7\n    }\n  ]\n}"
         },
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 43,
-      "completion_tokens": 2,
-      "total_tokens": 45
-    }
+      "prompt_tokens": 112,
+      "completion_tokens": 76,
+      "total_tokens": 188
+    },
+    "system_fingerprint": "fp_eeff13170a"
   },
   "standardized_response": {
     "items": [
       {
         "category": "Entertainment",
-        "importance": 0.82
+        "importance": 0.9
+      },
+      {
+        "category": "Film Industry",
+        "importance": 0.8
+      },
+      {
+        "category": "Television",
+        "importance": 0.7
       }
     ]
   }

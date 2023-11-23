@@ -1,22 +1,25 @@
 {
   "original_response": {
-    "id": "cmpl-8AdGWNiwBiXJjFfaAoafs1cWyCugW",
-    "object": "text_completion",
-    "created": 1697544908,
-    "model": "gpt-3.5-turbo-instruct",
+    "id": "chatcmpl-8NjwRrJrVd7t3mdcuICmpBeH05bDF",
+    "object": "chat.completion",
+    "created": 1700668835,
+    "model": "gpt-3.5-turbo-1106",
     "choices": [
       {
-        "text": "\n{\n    \"redactedText\": \"The phone number of Luc is the ** ** ** ** ** **.\",\n    \"entities\": [\n        {\n            \"content\": \"Luc\",\n            \"label\": \"name\",\n            \"confidence_score\": 1.0,\n            \"offset\": 20\n        },\n        {\n            \"content\": \"06 21 32 43 54\",\n            \"label\": \"phonenumber\",\n            \"confidence_score\": 1.0,\n            \"offset\": 31\n        }\n    ]\n}",
         "index": 0,
-        "logprobs": null,
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"redactedText\": \"The phone number of *** is the ** ** ** ** ** ** ** **.\",\n  \"entities\": [\n    {\n      \"content\": \"Luc\",\n      \"label\": \"name\",\n      \"confidence_score\": 0.9,\n      \"offset\": 20\n    },\n    {\n      \"content\": \"06 21 32 43 54\",\n      \"label\": \"phonenumber\",\n      \"confidence_score\": 0.95,\n      \"offset\": 32\n    }\n  ]\n}"
+        },
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 259,
-      "completion_tokens": 110,
-      "total_tokens": 369
-    }
+      "prompt_tokens": 298,
+      "completion_tokens": 111,
+      "total_tokens": 409
+    },
+    "system_fingerprint": "fp_eeff13170a"
   },
   "standardized_response": {
     "result": "The phone number of *** is the **************.",
@@ -28,7 +31,7 @@
         "subcategory": "Name",
         "original_label": "name",
         "content": "Luc",
-        "confidence_score": 1.0
+        "confidence_score": 0.9
       },
       {
         "offset": 31,
@@ -37,7 +40,7 @@
         "subcategory": "Phone",
         "original_label": "phonenumber",
         "content": "06 21 32 43 54",
-        "confidence_score": 1.0
+        "confidence_score": 0.95
       }
     ]
   }
