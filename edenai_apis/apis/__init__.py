@@ -16,6 +16,7 @@ from .deepl import DeeplApi
 from .elevenlabs import ElevenlabsApi
 from .emvista import EmvistaApi
 from .facepp import FaceppApi
+from .faker import FakerApi
 from .gladia import GladiaApi
 from .google import GoogleApi
 from .hireability import HireabilityApi
