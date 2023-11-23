@@ -7,25 +7,6 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 
 
-def format_example_fn(x: List[List[str]]) -> str:
-    examples_formated = ""
-    for example in x:
-        examples_formated += "Text: {text}\nText Classification: {label}\n\n".format(
-            text=example[0].replace("\n", " ").strip(),
-            label=example[1].replace("\n", " ").strip(),
-        )
-    return examples_formated
-
-
-def format_texts_fn(x: List[str]) -> str:
-    texts_formated = ""
-    for text in x:
-        texts_formated += "Text: {text}\n-----\n".format(
-            text=text.replace("\n", " ").strip()
-        )
-    return texts_formated
-
-
 def construct_classification_instruction(
     texts: list, labels: list, examples: list
 ) -> str:
@@ -66,7 +47,6 @@ def formatted_text_classification(data):
 
 
 def construct_anonymization_context(text: str) -> str:
-    output_template = '{{"redactedText" : "...", "entities": [{{content: entity, label: category, confidence_score: confidence score, offset: start_offset}}]}}'
     prompt = f"""Please analyze the following text and identify any personal and sensitive information contained within it. For each instance of personal information, please provide a category and a confidence score. Categories could include, but should not be limited to, names, addresses, phone numbers, email addresses, social security numbers, enterprise name, any private information and credit card numbers. Use a confidence score between 0 and 1 to indicate how certain you are that the identified information is actually personal information.
     The text is included between three backticks.
 
@@ -74,15 +54,12 @@ def construct_anonymization_context(text: str) -> str:
 
     The category must be one of the following: "name", "address", "phonenumber", "email", "social security number", "organization", "credit card number", "other".
     
-    Your output should be a json that looks like this : {output_template}
-
     The text:
     ```{text}```
 
     Your output:'
     """
     return prompt
-
 
 def construct_keyword_extraction_context(text: str) -> str:
     output_template = '{"items":[{"keyword": ... , "importance": ...}]}'
@@ -104,31 +81,39 @@ def construct_keyword_extraction_context(text: str) -> str:
 def construct_translation_context(
     text: str, source_language: str, target_language: str
 ) -> str:
-    prompt = f"Translate the following text from {get_language_name_from_code(source_language)} to {get_language_name_from_code(target_language)}:. text:\n###{text}###\ntranslation:"
-    return prompt
+    return f"""
+    Translate the following text from {get_language_name_from_code(source_language)} to {get_language_name_from_code(target_language)} 
+    The text is written between three backticks.
+    Text:
+    ```{text}```
 
+    Your Output:
+"""
 
 def construct_language_detection_context(text: str) -> str:
-    prompt = "Detect the ISO 639-1 language (only the code) of this text.\n\n Text: ###{data}###\ISO 639-1:".format(
-        data=text
-    )
-    return prompt
+    return f"""
+Analyze the following text and determine the ISO 639-1 language code: 
+Please provide only the ISO 639-1 code as the output.
+The text is written between three backticks.
+```{text}```
+"""
 
 
 def construct_sentiment_analysis_context(text: str) -> str:
-    prompt = (
-        f"Label the text below with one of these sentiments 'Positive','Negative','Neutral'.\n\nThe text is delimited by triple backticks text:\n ```"
-        + text
-        + "```\n\nYour label:"
-    )
-    return prompt
+    return f"""
+    Analyze the following text and label it with one of these sentiments 'Postive', 'Negative', 'Neutral'.
+    The text is written between three backticks.
+    ```{text}```
+"""
 
 
 def construct_topic_extraction_context(text: str) -> str:
-    prompt = "What is the main taxonomy of the text below. text:###{data}###put the result in this line:\n\n".format(
-        data=text
-    )
-    return prompt
+    return f"""
+    Analyze the following text and identify its main taxonomy.
+    The text is written between three backticks.
+    
+    ```{text}```
+    """
 
 
 def get_openapi_response(response: Response):
@@ -183,16 +168,23 @@ def construct_ner_instruction(text: str) -> str:
     """
     This function takes a text as input and returns a string that contains the instruction.
     """
-    return f"""Please extract named entities, their types and a confidence score from the text below. The confidence score between 0 and 1.
+    example_output = [
+        {"Entity": "Barack Obama", "Type": "Person", "Confidence": 0.98},
+        {"Entity": "44th President", "Type": "Position", "Confidence": 0.95},
+        {"Entity": "United States", "Type": "Country", "Confidence": 0.99},
+    ]
+    return f"""Please extract named entities, their types, and assign a confidence score between 0 and 1 from the following text. The text is enclosed within triple backticks.
 
-The text is delimited by triple backticks text.
-
-The output should be a json formatted like follows : {{"items":[{{"entity":"entity","category":"categrory","importance":score}}]}}\n
-
-The input text:
+Input Text:
 ```{text}```
 
-Your output:"
+For example, if the input text is: 
+```Barack Obama was the 44th President of the United States.```
+
+Your output should be in the following format:
+```
+    {example_output}
+```
     """
 
 
@@ -424,6 +416,7 @@ def convert_tts_audio_rate(audio_rate: int) -> float:
         return ((audio_rate - (-100)) / (0 - (-100))) * (1 - 0.25) + 0.25
     else:
         return ((audio_rate - 0) / (100 - 0)) * (4 - 1) + 1
+
 
 def finish_unterminated_json(json_string: str, end_brackets: str) -> str:
     """

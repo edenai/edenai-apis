@@ -1,25 +1,27 @@
 {
   "original_response": {
-    "warning": "This model version is deprecated. Migrate before January 4, 2024 to avoid disruption of service. Learn more https://platform.openai.com/docs/deprecations",
-    "id": "cmpl-834N5nr5EmRqFNESdR1LKC8tVWvRb",
-    "object": "text_completion",
-    "created": 1695742479,
-    "model": "text-davinci-003",
+    "id": "chatcmpl-8O2HUflyeTJc0V8gqfdhxnPFiAqGA",
+    "object": "chat.completion",
+    "created": 1700739332,
+    "model": "gpt-3.5-turbo-1106",
     "choices": [
       {
-        "text": ": Barack Obama was the 44th president of the United States, the first African-American president, and a member of the Democratic Party. He previously served as a U.S. senator from Illinois and an Illinois state senator.",
         "index": 0,
-        "logprobs": null,
+        "message": {
+          "role": "assistant",
+          "content": "Castle is an American series produced by ABC Studios and first released in 2009. It has a total of four seasons and 63 episodes, with the fourth season set to be released soon. The show stars Nathan Fillion and has been a popular success."
+        },
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 77,
-      "completion_tokens": 46,
-      "total_tokens": 123
-    }
+      "prompt_tokens": 109,
+      "completion_tokens": 52,
+      "total_tokens": 161
+    },
+    "system_fingerprint": "fp_eeff13170a"
   },
   "standardized_response": {
-    "result": ": Barack Obama was the 44th president of the United States, the first African-American president, and a member of the Democratic Party. He previously served as a U.S. senator from Illinois and an Illinois state senator."
+    "result": "Castle is an American series produced by ABC Studios and first released in 2009. It has a total of four seasons and 63 episodes, with the fourth season set to be released soon. The show stars Nathan Fillion and has been a popular success."
   }
 }

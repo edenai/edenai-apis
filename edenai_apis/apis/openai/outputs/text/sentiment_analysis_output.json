@@ -1,65 +1,29 @@
 {
   "original_response": {
-    "id": "cmpl-6gxZYNBxcodhbnirO0aNqgImAYhCn",
-    "object": "text_completion",
-    "created": 1675696792,
-    "model": "text-davinci-003",
+    "id": "chatcmpl-8Nzz5JLVfwVd9kHUfamhLja0TEwrC",
+    "object": "chat.completion",
+    "created": 1700730503,
+    "model": "gpt-3.5-turbo-1106",
     "choices": [
       {
-        "text": " Neutral",
         "index": 0,
-        "logprobs": {
-          "tokens": [
-            " Neutral",
-            "<|endoftext|>",
-            " \u00a7\u00a7",
-            " FILE",
-            " READ"
-          ],
-          "token_logprobs": [
-            -0.00073687645,
-            -1.6282536e-05,
-            -0.06840639,
-            -0.0008294575,
-            -1.2257966
-          ],
-          "top_logprobs": [
-            {
-              " Neutral": -0.00073687645
-            },
-            {
-              "<|endoftext|>": -1.6282536e-05
-            },
-            {
-              " \u00a7\u00a7": -0.06840639
-            },
-            {
-              " FILE": -0.0008294575
-            },
-            {
-              " READ": -1.2257966
-            }
-          ],
-          "text_offset": [
-            669,
-            677,
-            677,
-            677,
-            677
-          ]
+        "message": {
+          "role": "assistant",
+          "content": "{\n    \"general_sentiment\": \"Negative\",\n    \"general_sentiment_rate\": 0.3\n}"
         },
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 139,
-      "completion_tokens": 1,
-      "total_tokens": 140
-    }
+      "prompt_tokens": 208,
+      "completion_tokens": 23,
+      "total_tokens": 231
+    },
+    "system_fingerprint": "fp_eeff13170a"
   },
   "standardized_response": {
-    "general_sentiment": "Neutral",
-    "general_sentiment_rate": 1.0,
+    "general_sentiment": "Negative",
+    "general_sentiment_rate": 0.3,
     "items": []
   }
 }

@@ -82,23 +82,28 @@ class OpenaiTextApi(TextInterface):
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str
     ) -> ResponseType[SummarizeDataClass]:
-        if not model:
-            model = self.model
-
-        url = f"{self.url}/engines/{model}/completions"
+        url = f"{self.url}/chat/completions"
+        prompt = f"{text}\n\nTl;dr"
+        messages = [{"role": "user", "content": prompt}]
+        messages.insert(
+            0,
+            {
+                "role": "system",
+                "content": f"""Act as a PII system that takes a text input containing personally identifiable information (PII) and generates an anonymized version of the text, 
+                """,
+            },
+        )
+        # Build the request
         payload = {
-            "prompt": text + "\n\nTl;dr",
-            "max_tokens": self.max_tokens,
-            "temperature": 0.0,
-            "frequency_penalty": 0.0,
-            "presence_penalty": 0.0,
+            "model": model,
+            "messages": messages,
         }
 
         response = requests.post(url, json=payload, headers=self.headers)
         original_response = get_openapi_response(response)
 
         standardized_response = SummarizeDataClass(
-            result=original_response["choices"][0]["text"]
+            result=original_response["choices"][0]["message"]["content"]
         )
 
         result = ResponseType[SummarizeDataClass](
@@ -212,11 +217,7 @@ class OpenaiTextApi(TextInterface):
         examples: List[List[str]],
         model: Optional[str],
     ) -> ResponseType[QuestionAnswerDataClass]:
-        if not model:
-            model = self.model
-
         url = f"{self.url}/completions"
-
         # With search get the top document with the question & construct the context
         document = self.text__search(texts, question).model_dump()
         context = document["standardized_response"]["items"][0]["document"]
@@ -234,7 +235,7 @@ class OpenaiTextApi(TextInterface):
             + "\nA:"
         ]
         payload = {
-            "model": model,
+            "model": self.model,
             "prompt": prompts,
             "max_tokens": 100,
             "temperature": temperature,
@@ -258,27 +259,29 @@ class OpenaiTextApi(TextInterface):
     def text__anonymization(
         self, text: str, language: str
     ) -> ResponseType[AnonymizationDataClass]:
-        url = f"{self.url}/completions"
         prompt = construct_anonymization_context(text)
+        json_output = '{{"redactedText" : "...", "entities": [{{content: entity, label: category, confidence_score: confidence score, offset: start_offset}}]}}'
+        messages = [{"role": "user", "content": prompt}]
+        messages.insert(
+            0,
+            {
+                "role": "system",
+                "content": f"""Act as a PII system that takes a text input containing personally identifiable information (PII) and generates an anonymized version of the text, 
+                you return a JSON object in this format : {json_output}""",
+            },
+        )
+        # Build the request
         payload = {
-            "prompt": prompt,
-            "model": self.model,
-            "max_tokens": 2048,
-            "temperature": 0.0,
-            "frequency_penalty": 0.0,
-            "presence_penalty": 0.0,
+            "response_format": {"type": "json_object"},
+            "model": "gpt-3.5-turbo-1106",
+            "messages": messages,
         }
+        url = f"{self.url}/chat/completions"
         response = requests.post(url, json=payload, headers=self.headers)
         original_response = get_openapi_response(response)
-
-        data = (
-            original_response["choices"][0]["text"]
-            .replace("\n\n", " ")
-            .replace("\n", "")
-            .strip()
-        )
+        pii_data = original_response["choices"][0]["message"]["content"]
         try:
-            data_dict = json.loads(rf"{data}")
+            data_dict = json.loads(rf"{pii_data}")
         except json.JSONDecodeError:
             raise ProviderException("An error occurred while parsing the response.")
         new_text = text
@@ -373,23 +376,37 @@ class OpenaiTextApi(TextInterface):
     def text__sentiment_analysis(
         self, language: str, text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
-        url = f"{self.url}/completions"
+        url = f"{self.url}/chat/completions"
         prompt = construct_sentiment_analysis_context(text)
+        json_output = {"general_sentiment":"Positive", "general_sentiment_rate": 0.8}
+        messages = [{"role": "user", "content": prompt}]
+        messages.insert(
+            0,
+            {
+                "role": "system",
+                "content": f"""Act as sentiment analysis model capable of analyzing text data and providing a generalized sentiment label.
+                you return a JSON object in this format : {json_output}""",
+            },
+        )
+        # Build the request
         payload = {
-            "prompt": prompt,
-            "model": self.model,
-            "temperature": 0,
-            "logprobs": 1,
+            "response_format": {"type": "json_object"},
+            "model": "gpt-3.5-turbo-1106",
+            "messages": messages,
         }
         response = requests.post(url, json=payload, headers=self.headers)
         original_response = get_openapi_response(response)
+        sentiments_content = original_response["choices"][0]["message"]["content"]
+        try:
+            sentiments = json.loads(sentiments_content)
+        except (KeyError, json.JSONDecodeError) as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
 
-        # Create output response
-        # Get score
-        score = np.exp(original_response["choices"][0]["logprobs"]["token_logprobs"][0])
         standarize = SentimentAnalysisDataClass(
-            general_sentiment=original_response["choices"][0]["text"][1:],
-            general_sentiment_rate=float(score),
+            general_sentiment=sentiments['general_sentiment'],
+            general_sentiment_rate=sentiments['general_sentiment_rate'],
         )
 
         return ResponseType[SentimentAnalysisDataClass](
@@ -399,29 +416,35 @@ class OpenaiTextApi(TextInterface):
     def text__topic_extraction(
         self, language: str, text: str
     ) -> ResponseType[TopicExtractionDataClass]:
-        url = f"{self.url}/completions"
-
+        url = f"{self.url}/chat/completions"
         prompt = construct_topic_extraction_context(text)
+        json_output = {"items":[{"category":"categrory","importance": 0.9}]}
+        messages = [{"role": "user", "content": prompt}]
+        messages.insert(
+            0,
+            {
+                "role": "system",
+                "content": f"""Act as a taxonomy extractor model to automatically identify and categorize hierarchical relationships within a given body of text.
+                you return a JSON object in this format : {json_output}""",
+            },
+        )
+        # Build the request
         payload = {
-            "prompt": prompt,
-            "max_tokens": self.max_tokens,
-            "model": self.model,
-            "logprobs": 1,
-            "temperature": 0,
+            "response_format": {"type": "json_object"},
+            "model": "gpt-3.5-turbo-1106",
+            "messages": messages,
         }
         response = requests.post(url, json=payload, headers=self.headers)
         original_response = get_openapi_response(response)
-
-        # Create output response
-        # Get score
-        score = np.exp(original_response["choices"][0]["logprobs"]["token_logprobs"][0])
-        categories: Sequence[ExtractedTopic] = []
-        categories.append(
-            ExtractedTopic(
-                category=original_response["choices"][0]["text"],
-                importance=float(score),
-            )
-        )
+        topics_data = original_response["choices"][0]["message"]["content"]
+        try:
+            categories_data = json.loads(topics_data)
+        except (KeyError, json.JSONDecodeError) as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+        categories = categories_data.get('items', [])
+            
         standarized_response = TopicExtractionDataClass(items=categories)
 
         return ResponseType[TopicExtractionDataClass](
@@ -629,27 +652,34 @@ class OpenaiTextApi(TextInterface):
     def text__named_entity_recognition(
         self, language: str, text: str
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
-        url = f"{self.url}/completions"
-
+        url = f"{self.url}/chat/completions"
         prompt = construct_ner_instruction(text)
-
+        json_output = {"items":[{"entity":"entity","category":"categrory","importance":"score"}]}
+        messages = [{"role": "user", "content": prompt}]
+        messages.insert(
+            0,
+            {
+                "role": "system",
+                "content": f"""Act as a Named Entity Recognition model that indentify and classify named entities within a given text.
+                you return a JSON object in this format : {json_output}""",
+            },
+        )
+        # Build the request
         payload = {
-            "n": 1,
-            "model": self.model,
-            "max_tokens": 500,
-            "temperature": 0.0,
-            "prompt": prompt,
+            "response_format": {"type": "json_object"},
+            "model": "gpt-3.5-turbo-1106",
+            "messages": messages,
         }
         response = requests.post(url, json=payload, headers=self.headers)
         original_response = get_openapi_response(response)
-
+        entities_data = original_response["choices"][0]["message"]["content"]
         try:
-            original_items = json.loads(original_response["choices"][0]["text"])
+            original_items = json.loads(entities_data)
         except (KeyError, json.JSONDecodeError) as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
-
+        
         return ResponseType[NamedEntityRecognitionDataClass](
             original_response=original_response,
             standardized_response=NamedEntityRecognitionDataClass(
