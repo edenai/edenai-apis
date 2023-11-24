@@ -64,7 +64,7 @@ babel==2.12.1
     # via sphinx
 beautifulsoup4==4.12.2
     # via furo
-boto3==1.27.0
+boto3==1.29.6
     # via
     #   -r requirements.in
     #   amazon-textract-response-parser
