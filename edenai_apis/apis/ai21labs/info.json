@@ -3,10 +3,12 @@
         "generation" : {
             "constraints": {
               "models": [
-                "Jurassic2-Jumbo",
-                "Jurassic2-Jumbo-Instruct"
+                "j2-grande-instruct",
+                "j2-jumbo-instruct",
+                "j2-mid",
+                "j2-ultra"
               ],
-              "default_model" : "Jurassic2-Jumbo"
+              "default_model" : "j2-ultra"
             },
             "version": "v1"
           }

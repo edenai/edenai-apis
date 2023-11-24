@@ -1,13 +1,556 @@
 {
   "original_response": {
-    "text": {
-      "raw": "\nI am an AI assistant. I am here to help and assist you.",
-      "text_info": {
-        "encoding": "UnknownTextEnc"
+    "id": 1234,
+    "prompt": {
+      "text": "The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: Hello, who are you?",
+      "tokens": [
+        {
+          "generatedToken": {
+            "token": "\u2581The\u2581following\u2581is\u2581a",
+            "logprob": -10.648910522460938,
+            "raw_logprob": -10.648910522460938
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 0,
+            "end": 18
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581conversation\u2581with",
+            "logprob": -6.250139236450195,
+            "raw_logprob": -6.250139236450195
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 18,
+            "end": 36
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581an\u2581AI",
+            "logprob": -6.41215705871582,
+            "raw_logprob": -6.41215705871582
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 36,
+            "end": 42
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581assistant",
+            "logprob": -6.198203086853027,
+            "raw_logprob": -6.198203086853027
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 42,
+            "end": 52
+          }
+        },
+        {
+          "generatedToken": {
+            "token": ".",
+            "logprob": -4.840481758117676,
+            "raw_logprob": -4.840481758117676
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 52,
+            "end": 53
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581The",
+            "logprob": -9.031672477722168,
+            "raw_logprob": -9.031672477722168
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 53,
+            "end": 57
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581assistant",
+            "logprob": -0.6692387461662292,
+            "raw_logprob": -0.6692387461662292
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 57,
+            "end": 67
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581is\u2581helpful",
+            "logprob": -9.802420616149902,
+            "raw_logprob": -9.802420616149902
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 67,
+            "end": 78
+          }
+        },
+        {
+          "generatedToken": {
+            "token": ",",
+            "logprob": -4.3366475105285645,
+            "raw_logprob": -4.3366475105285645
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 78,
+            "end": 79
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581creative",
+            "logprob": -13.108555793762207,
+            "raw_logprob": -13.108555793762207
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 79,
+            "end": 88
+          }
+        },
+        {
+          "generatedToken": {
+            "token": ",",
+            "logprob": -0.632051944732666,
+            "raw_logprob": -0.632051944732666
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 88,
+            "end": 89
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581clever",
+            "logprob": -16.624929428100586,
+            "raw_logprob": -16.624929428100586
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 89,
+            "end": 96
+          }
+        },
+        {
+          "generatedToken": {
+            "token": ",",
+            "logprob": -4.932255268096924,
+            "raw_logprob": -4.932255268096924
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 96,
+            "end": 97
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581and",
+            "logprob": -2.859304904937744,
+            "raw_logprob": -2.859304904937744
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 97,
+            "end": 101
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581very\u2581friendly",
+            "logprob": -8.219439506530762,
+            "raw_logprob": -8.219439506530762
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 101,
+            "end": 115
+          }
+        },
+        {
+          "generatedToken": {
+            "token": ".",
+            "logprob": -6.876119613647461,
+            "raw_logprob": -6.876119613647461
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 115,
+            "end": 116
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "<|newline|>",
+            "logprob": -0.0004894727608188987,
+            "raw_logprob": -0.0004894727608188987
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 116,
+            "end": 117
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "<|newline|>",
+            "logprob": -10.62260627746582,
+            "raw_logprob": -10.62260627746582
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 117,
+            "end": 118
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581Human",
+            "logprob": -9.417126655578613,
+            "raw_logprob": -9.417126655578613
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 118,
+            "end": 123
+          }
+        },
+        {
+          "generatedToken": {
+            "token": ":",
+            "logprob": -0.0006003961316309869,
+            "raw_logprob": -0.0006003961316309869
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 123,
+            "end": 124
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581Hello",
+            "logprob": -1.904529094696045,
+            "raw_logprob": -1.904529094696045
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 124,
+            "end": 130
+          }
+        },
+        {
+          "generatedToken": {
+            "token": ",",
+            "logprob": -0.6381505727767944,
+            "raw_logprob": -0.6381505727767944
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 130,
+            "end": 131
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581who\u2581are",
+            "logprob": -11.190038681030273,
+            "raw_logprob": -11.190038681030273
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 131,
+            "end": 139
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "\u2581you",
+            "logprob": -0.004237126559019089,
+            "raw_logprob": -0.004237126559019089
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 139,
+            "end": 143
+          }
+        },
+        {
+          "generatedToken": {
+            "token": "?",
+            "logprob": -2.3932600021362305,
+            "raw_logprob": -2.3932600021362305
+          },
+          "topTokens": null,
+          "textRange": {
+            "start": 143,
+            "end": 144
+          }
+        }
+      ]
+    },
+    "completions": [
+      {
+        "data": {
+          "text": "\nI am an AI assistant. I am here to help with a variety of tasks, such as answering questions, playing music, and providing general information.",
+          "tokens": [
+            {
+              "generatedToken": {
+                "token": "<|newline|>",
+                "logprob": -9.035655966727063e-05,
+                "raw_logprob": -0.0006859333370812237
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 0,
+                "end": 1
+              }
+            },
+            {
+              "generatedToken": {
+                "token": "\u2581I\u2581am",
+                "logprob": -0.012086487375199795,
+                "raw_logprob": -0.03880438953638077
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 1,
+                "end": 5
+              }
+            },
+            {
+              "generatedToken": {
+                "token": "\u2581an\u2581AI",
+                "logprob": -0.1899029016494751,
+                "raw_logprob": -0.35264691710472107
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 5,
+                "end": 11
+              }
+            },
+            {
+              "generatedToken": {
+                "token": "\u2581assistant",
+                "logprob": -0.06086065620183945,
+                "raw_logprob": -0.11012385040521622
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 11,
+                "end": 21
+              }
+            },
+            {
+              "generatedToken": {
+                "token": ".",
+                "logprob": -0.3038828372955322,
+                "raw_logprob": -0.46532776951789856
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 21,
+                "end": 22
+              }
+            },
+            {
+              "generatedToken": {
+                "token": "\u2581I\u2581am\u2581here",
+                "logprob": -0.0015795861836522818,
+                "raw_logprob": -0.007164501119405031
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 22,
+                "end": 32
+              }
+            },
+            {
+              "generatedToken": {
+                "token": "\u2581to\u2581help\u2581with",
+                "logprob": -3.7437808513641357,
+                "raw_logprob": -3.298854112625122
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 32,
+                "end": 45
+              }
+            },
+            {
+              "generatedToken": {
+                "token": "\u2581a\u2581variety\u2581of",
+                "logprob": -1.455723524093628,
+                "raw_logprob": -1.6371917724609375
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 45,
+                "end": 58
+              }
+            },
+            {
+              "generatedToken": {
+                "token": "\u2581tasks",
+                "logprob": -0.02259160205721855,
+                "raw_logprob": -0.050781313329935074
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 58,
+                "end": 64
+              }
+            },
+            {
+              "generatedToken": {
+                "token": ",",
+                "logprob": -0.019502786919474602,
+                "raw_logprob": -0.04966484382748604
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 64,
+                "end": 65
+              }
+            },
+            {
+              "generatedToken": {
+                "token": "\u2581such\u2581as",
+                "logprob": -0.12546980381011963,
+                "raw_logprob": -0.23498116433620453
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 65,
+                "end": 73
+              }
+            },
+            {
+              "generatedToken": {
+                "token": "\u2581answering\u2581questions",
+                "logprob": -0.7697499990463257,
+                "raw_logprob": -0.8201853036880493
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 73,
+                "end": 93
+              }
+            },
+            {
+              "generatedToken": {
+                "token": ",",
+                "logprob": -0.0003912875254172832,
+                "raw_logprob": -0.0021891456563025713
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 93,
+                "end": 94
+              }
+            },
+            {
+              "generatedToken": {
+                "token": "\u2581playing\u2581music",
+                "logprob": -3.1831729412078857,
+                "raw_logprob": -2.9939537048339844
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 94,
+                "end": 108
+              }
+            },
+            {
+              "generatedToken": {
+                "token": ",",
+                "logprob": -0.0002733095607254654,
+                "raw_logprob": -0.0016733704833313823
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 108,
+                "end": 109
+              }
+            },
+            {
+              "generatedToken": {
+                "token": "\u2581and\u2581providing",
+                "logprob": -1.011730670928955,
+                "raw_logprob": -1.1373698711395264
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 109,
+                "end": 123
+              }
+            },
+            {
+              "generatedToken": {
+                "token": "\u2581general\u2581information",
+                "logprob": -1.3574981689453125,
+                "raw_logprob": -1.4859306812286377
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 123,
+                "end": 143
+              }
+            },
+            {
+              "generatedToken": {
+                "token": ".",
+                "logprob": -6.079655122448457e-06,
+                "raw_logprob": -7.390703103737906e-05
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 143,
+                "end": 144
+              }
+            },
+            {
+              "generatedToken": {
+                "token": "<|endoftext|>",
+                "logprob": -0.04057713598012924,
+                "raw_logprob": -0.10519886761903763
+              },
+              "topTokens": null,
+              "textRange": {
+                "start": 144,
+                "end": 144
+              }
+            }
+          ]
+        },
+        "finishReason": {
+          "reason": "endoftext"
+        }
       }
+    ],
+    "usage": {
+      "total_tokens": 44
     }
   },
   "standardized_response": {
-    "generated_text": "\nI am an AI assistant. I am here to help and assist you."
+    "generated_text": "\nI am an AI assistant. I am here to help with a variety of tasks, such as answering questions, playing music, and providing general information."
   }
 }
