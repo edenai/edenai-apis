@@ -3,9 +3,9 @@
         "generation" : {
             "constraints": {
               "models": [
-                "claude-v2",
+                "claude-instant-v1",
                 "claude-v1",
-                "claude-instant"
+                "claude-v2"
               ],
               "default_model" : "claude-v2"
             },
