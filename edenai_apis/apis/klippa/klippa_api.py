@@ -4,18 +4,14 @@ from typing import Dict, List, Sequence
 
 import requests
 
-from edenai_apis.features import ProviderInterface, OcrInterface
+from edenai_apis.features import OcrInterface, ProviderInterface
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     IdentityParserDataClass,
-)
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     InfoCountry,
+    InfosIdentityParserDataClass,
     ItemIdentityParserDataClass,
     format_date,
     get_info_country,
-)
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
-    InfosIdentityParserDataClass,
 )
 from edenai_apis.features.ocr.invoice_parser import InvoiceParserDataClass
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
@@ -38,18 +34,18 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     Taxes,
 )
 from edenai_apis.features.ocr.resume_parser import (
-    ResumeParserDataClass,
-    ResumeLocation,
-    ResumeSkill,
-    ResumeWorkExpEntry,
-    ResumeWorkExp,
-    ResumeEducationEntry,
     ResumeEducation,
-    ResumePersonalName,
-    ResumePersonalInfo,
+    ResumeEducationEntry,
     ResumeExtractedData,
+    ResumeLocation,
+    ResumeParserDataClass,
+    ResumePersonalInfo,
+    ResumePersonalName,
+    ResumeSkill,
+    ResumeWorkExp,
+    ResumeWorkExpEntry,
 )
-from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
+from edenai_apis.loaders.loaders import ProviderDataEnum, load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.parsing import extract
 from edenai_apis.utils.types import ResponseType
@@ -426,7 +422,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         response_data = original_response.get("data", {}).get("parsed", {})
         applicant = response_data["applicant"]
         name = ResumePersonalName(
-            raw_name=extract(applicant, ['name', 'value']),
+            raw_name=extract(applicant, ["name", "value"]),
             first_name=None,
             last_name=None,
             middle=None,
@@ -438,17 +434,21 @@ class KlippaApi(ProviderInterface, OcrInterface):
             formatted_location=None,
             postal_code=None,
             region=None,
-            country=extract(applicant, ['address', 'country', 'value']),
+            country=extract(applicant, ["address", "country", "value"]),
             country_code=None,
             raw_input_location=None,
             street=None,
             street_number=None,
             appartment_number=None,
-            city=extract(applicant, ['address', 'city', 'value']),
+            city=extract(applicant, ["address", "city", "value"]),
         )
-        phones = extract(applicant, ['phone_number', 'value'])
-        mails = extract(applicant, ['email_address', 'value'])
-        urls = [website["value"] for website in extract(applicant, ["websites"], []) if website.get("value")]
+        phones = extract(applicant, ["phone_number", "value"])
+        mails = extract(applicant, ["email_address", "value"])
+        urls = [
+            website["value"]
+            for website in extract(applicant, ["websites"], [])
+            if website.get("value")
+        ]
         personal_infos = ResumePersonalInfo(
             name=name,
             address=address,
@@ -472,22 +472,22 @@ class KlippaApi(ProviderInterface, OcrInterface):
                 formatted_location=None,
                 postal_code=None,
                 region=None,
-                country=extract(edu, ['address', 'country', 'value']),
+                country=extract(edu, ["address", "country", "value"]),
                 country_code=None,
                 raw_input_location=None,
                 street=None,
                 street_number=None,
                 appartment_number=None,
-                city=extract(edu, ['address', 'city', 'value']),
+                city=extract(edu, ["address", "city", "value"]),
             )
             education_entries.append(
                 ResumeEducationEntry(
-                    title=extract(edu, ['program', 'value']),
-                    start_date=extract(edu, ['start', 'value']),
-                    end_date=extract(edu, ['end', 'value']),
+                    title=extract(edu, ["program", "value"]),
+                    start_date=extract(edu, ["start", "value"]),
+                    end_date=extract(edu, ["end", "value"]),
                     location=education_address,
-                    establishment=extract(edu, ['institution', 'value']),
-                    description=extract(edu, ['program', 'value']),
+                    establishment=extract(edu, ["institution", "value"]),
+                    description=extract(edu, ["program", "value"]),
                     gpa=None,
                     accreditation=None,
                 )
@@ -502,20 +502,20 @@ class KlippaApi(ProviderInterface, OcrInterface):
                 formatted_location=None,
                 postal_code=None,
                 region=None,
-                country=extract(work, ['address', 'country', 'value']),
+                country=extract(work, ["address", "country", "value"]),
                 country_code=None,
                 raw_input_location=None,
                 street=None,
                 street_number=None,
                 appartment_number=None,
-                city=extract(work, ['address', 'city', 'value']),
+                city=extract(work, ["address", "city", "value"]),
             )
             work_experience_entries.append(
                 ResumeWorkExpEntry(
-                    title=extract(work, ['job_title', 'value']),
-                    start_date=extract(work, ['start', 'value']),
-                    end_date=extract(work, ['end', 'value']),
-                    company=extract(work, ['company_name', 'value']),
+                    title=extract(work, ["job_title", "value"]),
+                    start_date=extract(work, ["start", "value"]),
+                    end_date=extract(work, ["end", "value"]),
+                    company=extract(work, ["company_name", "value"]),
                     location=work_address,
                     description=None,
                     industry=None,
@@ -527,7 +527,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
         interests = []
         for interest in response_data.get("other_interests", []):
-            interests.append(ResumeSkill(name=interest.get('value'), type=None))
+            interests.append(ResumeSkill(name=interest.get("value"), type=None))
         extracted_data = ResumeExtractedData(
             personal_infos=personal_infos,
             education=education,
