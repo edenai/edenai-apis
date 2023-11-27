@@ -448,7 +448,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
         phones = extract(applicant, ['phone_number', 'value'])
         mails = extract(applicant, ['email_address', 'value'])
-        urls = [website["value"] for website in applicant["websites"] if website.get("value")]
+        urls = [website["value"] for website in extract(applicant, ["websites"], []) if website.get("value")]
         personal_infos = ResumePersonalInfo(
             name=name,
             address=address,
