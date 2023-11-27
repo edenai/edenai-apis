@@ -68,6 +68,6 @@ modernmt
 aleph_alpha_client
 
 # openai
-openai==0.28
+openai==0.28.1
 
 python-dotenv
