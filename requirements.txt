@@ -6,9 +6,6 @@
 #
 affinda==4.7.1
     # via -r requirements.in
-
-mypy==1.6.1
-mypy-extensions==1.0.0
 aiodns==3.0.0
     # via aleph-alpha-client
 aiohttp==3.8.5
@@ -96,7 +93,9 @@ constantly==15.1.0
 contextlib2==21.6.0
     # via schema
 coverage[toml]==7.2.7
-    # via pytest-cov
+    # via
+    #   coverage
+    #   pytest-cov
 cryptography==41.0.1
     # via
     #   autobahn
@@ -174,7 +173,7 @@ google-cloud-language==2.10.0
     # via -r requirements.in
 google-cloud-resource-manager==1.10.4
     # via google-cloud-aiplatform
-google-cloud-speech==2.21.0
+google-cloud-speech==2.20.0
     # via -r requirements.in
 google-cloud-storage==2.9.0
     # via
@@ -289,6 +288,10 @@ multidict==6.0.4
     #   yarl
 multiprocess==0.70.14
     # via pathos
+mypy==1.6.1
+    # via -r requirements.in
+mypy-extensions==1.0.0
+    # via mypy
 numpy==1.23.4
     # via
     #   pandas
@@ -364,10 +367,7 @@ protobuf==3.20.3
     #   grpc-google-iam-v1
     #   grpcio-status
     #   proto-plus
-    #   protobuf3-to-dict
     #   sagemaker
-protobuf3-to-dict==0.1.5
-    # via sagemaker
 psycopg2==2.9.6
     # via -r requirements.in
 pyasn1==0.5.0
@@ -434,6 +434,8 @@ python-dateutil==2.8.2
     #   pandas
     #   python-liquid
     #   watson-developer-cloud
+python-dotenv==1.0.0
+    # via -r requirements.in
 python-liquid==1.10.0
     # via aleph-alpha-client
 python-magic==0.4.27
@@ -470,7 +472,7 @@ rsa==4.9
     # via google-auth
 s3transfer==0.7.0
     # via boto3
-sagemaker==2.169.0
+sagemaker==2.197.0
     # via -r requirements.in
 schema==0.7.5
     # via sagemaker
@@ -487,7 +489,6 @@ six==1.16.0
     #   google-auth-httplib2
     #   google-pasta
     #   isodate
-    #   protobuf3-to-dict
     #   python-dateutil
 smdebug-rulesconfig==1.0.1
     # via sagemaker
@@ -521,6 +522,7 @@ tokenizers==0.14.0
 tomli==2.0.1
     # via
     #   coverage
+    #   mypy
     #   pylint
     #   pytest
 tomlkit==0.11.8
@@ -542,6 +544,7 @@ typing-extensions==4.7.1
     #   azure-core
     #   filelock
     #   huggingface-hub
+    #   mypy
     #   pydantic
     #   pydantic-core
     #   python-liquid
@@ -569,6 +572,6 @@ zipp==3.15.0
     # via importlib-metadata
 zope-interface==6.0
     # via twisted
-python-dotenv
+
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
