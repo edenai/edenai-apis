@@ -36,31 +36,31 @@ amazon-textract-response-parser
 boto3
 
 #clarifai
-clarifai-grpc==9.5.0
+clarifai-grpc
 
 #google
-google-api-python-client==2.88.0
-google-cloud-documentai==2.15.0
-google-cloud-language==2.10.0
-google-cloud-speech==2.20.0
-google-cloud-storage==2.9.0
-google-cloud-texttospeech==2.14.1
-google-cloud-translate==3.11.1
-google-cloud-vision==3.4.2
-google-cloud-videointelligence==2.11.2
-google-cloud-automl==2.11.1
-google-cloud-aiplatform==1.35.0
+google-api-python-client==2.108.0
+google-cloud-documentai==2.20.2
+google-cloud-language==2.11.1
+google-cloud-speech==2.22.0
+google-cloud-storage==2.13.0
+google-cloud-texttospeech==2.14.2
+google-cloud-translate==3.12.1
+google-cloud-vision==3.4.5
+google-cloud-videointelligence==2.11.4
+google-cloud-automl==2.11.4
+google-cloud-aiplatform==1.36.4
 
 #ibm
-ibm-watson>=6.0.0
+ibm-watson==7.0.1
 watson-developer-cloud
 
 #lettria
-lettria==6.0.0
+lettria==6.0.2
 
 #microsoft
-azure-ai-formrecognizer==3.2.0
-azure-cognitiveservices-speech
+azure-ai-formrecognizer==3.3.2
+azure-cognitiveservices-speech==1.33.0
 azure-core
 
 #modernMT
@@ -68,6 +68,6 @@ modernmt
 aleph_alpha_client
 
 # openai
-openai==0.28.1
+openai==0.28
 
 python-dotenv
