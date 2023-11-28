@@ -5,6 +5,21 @@ from typing import Literal, Optional, Dict, Any
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
 )
+from edenai_apis.features.image.automl_classification.create_project_async.automl_classification_create_project_async_dataclass import (
+    AutomlClassificationCreateProjectDataClass,
+)
+from edenai_apis.features.image.automl_classification.delete_project_async.automl_classification_delete_project_async_dataclass import (
+    AutomlClassificationDeleteProjectDataClass,
+)
+from edenai_apis.features.image.automl_classification.predict_async.automl_classification_predict_async_dataclass import (
+    AutomlClassificationPredictDataClass,
+)
+from edenai_apis.features.image.automl_classification.train_async.automl_classification_train_async_dataclass import (
+    AutomlClassificationTrainDataClass,
+)
+from edenai_apis.features.image.automl_classification.upload_data_async.automl_classification_upload_data_async_dataclass import (
+    AutomlClassificationUploadDataDataClass,
+)
 from edenai_apis.features.image.background_removal import BackgroundRemovalDataClass
 from edenai_apis.features.image.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
@@ -59,7 +74,13 @@ from edenai_apis.features.image.search.get_images.search_get_images_dataclass im
     SearchGetImagesDataClass,
 )
 from edenai_apis.features.image.search.search_dataclass import SearchDataClass
-from edenai_apis.utils.types import ResponseSuccess, ResponseType
+from edenai_apis.utils.types import (
+    ResponseSuccess,
+    ResponseType,
+    AsyncLaunchJobResponseType,
+    AsyncBaseResponseType,
+    AsyncResponseType,
+)
 
 
 class ImageInterface:
@@ -391,5 +412,139 @@ class ImageInterface:
 
         Returns:
             ResponseType[BackgroundRemovalDataClass]
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__automl_classification__create_project_async__launch_job(
+        self, name: Optional[str] = None
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Create an automl classification project/dataset.
+
+        Args:
+            name (str): Name of the project/dataset
+
+        Returns:
+            AsyncLaunchJobResponseType
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__automl_classification__create_project_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[AutomlClassificationCreateProjectDataClass]:
+        """
+        Get the result of an asynchronous job by its ID
+
+        Args:
+            provider_job_id (str): id of async job
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__automl_classification__upload_data_async__launch_job(
+        self,
+        project_id: str,
+        label: str,
+        type_of_data: str,
+        file: str,
+        file_url: str = "",
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Upload image to dataset
+
+        Args:
+            project_id (str): id of project
+            label (str): label of the data
+            type_of_data (str): type of data (train, test)
+            file (str): image to upload
+            file_url (str): url of the image to upload
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__automl_classification__upload_data_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[AutomlClassificationUploadDataDataClass]:
+        """
+        Get the result of an asynchronous job by its ID
+
+        Args:
+            provider_job_id (str): id of async job
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__automl_classification__train_async__launch_job(
+        self, project_id: str
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Start training of automl classification model
+
+        Args:
+            project_id (str): id of project
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__automl_classification__train_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[AutomlClassificationTrainDataClass]:
+        """
+        Get the result of an asynchronous job by its ID
+
+        Args:
+            provider_job_id (str): id of async job
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__automl_classification__predict_async__launch_job(
+        self, project_id: str, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Get the prediction of the model
+
+        Args:
+            project_id (str): id of the project
+            file (str): image to get prediction from
+            file_url (str): url of the image to get the prediction from
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__automl_classification__predict_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[AutomlClassificationPredictDataClass]:
+        """
+        Get the result of an asynchronous job by its ID
+
+        Args:
+            provider_job_id (str): id of async job
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__automl_classification__delete_project_async__launch_job(
+        self, project_id: str
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Delete an automl classification project
+
+        Args:
+            project_id (str): id of the project
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__automl_classification__delete_project_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[AutomlClassificationDeleteProjectDataClass]:
+        """
+        Get the result of an asynchronous job by its ID
+
+        Args:
+            provider_job_id (str): id of async job
         """
         raise NotImplementedError
