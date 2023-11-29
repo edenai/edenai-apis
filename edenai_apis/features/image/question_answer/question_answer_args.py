@@ -1,7 +1,7 @@
 # pylint: disable=locally-disabled, line-too-long
 import mimetypes
 import os
-from typing import Dict
+from typing import Dict, Any
 
 from pydub.utils import mediainfo
 
@@ -24,7 +24,7 @@ file_info = FileInfo(
 file_wrapper = FileWrapper(image_path, "", file_info)
 
 
-def question_answer_arguments(provider_name: str) -> Dict:
+def question_answer_arguments(provider_name: str) -> Dict[str, Any]:
     return {
         "file": file_wrapper,
         "question": "What are the logos on the image ?",

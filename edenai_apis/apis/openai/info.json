@@ -380,6 +380,15 @@
         "default_model": "dall-e-2"
       },
       "version": "v1Beta"
+    },
+    "question_answer": {
+      "constraints": {
+        "models": [
+          "gpt-4-vision-preview"
+        ],
+        "default_model": "gpt-4-vision-preview"
+      },
+      "version": "v1"
     }
   },
   "audio": {
