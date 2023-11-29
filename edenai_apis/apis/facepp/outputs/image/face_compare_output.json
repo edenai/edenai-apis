@@ -1,8 +1,8 @@
 {
   "original_response": {
-    "request_id": "1685610684,d1f93838-93eb-4bdf-805d-ebbbffc2eb47",
-    "time_used": 307,
-    "confidence": 69.427,
+    "request_id": "1701265448,83cc4a0b-ec11-44fd-b892-46816f250c55",
+    "time_used": 580,
+    "confidence": 97.283,
     "thresholds": {
       "1e-3": 62.327,
       "1e-4": 69.101,
@@ -10,56 +10,47 @@
     },
     "faces1": [
       {
-        "face_token": "787abe1ed38c282c3439abc19e1a3d19",
+        "face_token": "0c9cb1e363043b9db13225a6f4f5faf5",
         "face_rectangle": {
-          "top": 336,
-          "left": 907,
-          "width": 142,
-          "height": 142
+          "top": 270,
+          "left": 1267,
+          "width": 348,
+          "height": 348
         }
       },
       {
-        "face_token": "5258d2276472ff123c9d80b4dc83f2b3",
+        "face_token": "8e515e17ce3aedc934ebdf1b69acb685",
         "face_rectangle": {
-          "top": 363,
-          "left": 587,
-          "width": 140,
-          "height": 140
-        }
-      },
-      {
-        "face_token": "e8852bf787304bc15eb3c8713861f9ec",
-        "face_rectangle": {
-          "top": 403,
-          "left": 292,
-          "width": 136,
-          "height": 136
+          "top": 619,
+          "left": 584,
+          "width": 324,
+          "height": 324
         }
       }
     ],
     "faces2": [
       {
-        "face_token": "3d99d1b30a539ebffbd7c08c6d0eaf9e",
+        "face_token": "3e03b51ea638b05c4f06eeeaf23bd702",
         "face_rectangle": {
-          "top": 201,
-          "left": 229,
-          "width": 137,
-          "height": 137
+          "top": 189,
+          "left": 340,
+          "width": 348,
+          "height": 348
         }
       }
     ],
-    "image_id1": "Q3nIQKpsYEdvMYf49Bbigg==",
-    "image_id2": "W4FRvWJLSw/rBik6NJczqQ=="
+    "image_id1": "nAP9RWRizVzH6Cv9ET9urQ==",
+    "image_id2": "msMcTIJyf1RHk85S5oJN7g=="
   },
   "standardized_response": {
     "items": [
       {
-        "confidence": 0.69427,
+        "confidence": 0.97283,
         "bounding_box": {
-          "top": 201.0,
-          "left": 229.0,
-          "height": 137.0,
-          "width": 137.0
+          "top": 189.0,
+          "left": 340.0,
+          "height": 348.0,
+          "width": 348.0
         }
       }
     ]

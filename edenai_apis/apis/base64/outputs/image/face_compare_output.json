@@ -2,11 +2,11 @@
   "original_response": {
     "matches": [
       {
-        "confidence": 0.9,
-        "left": 234,
-        "top": 157,
-        "width": 136,
-        "height": 184,
+        "confidence": 0.7,
+        "left": 317,
+        "top": 95,
+        "width": 364,
+        "height": 432,
         "label": "face"
       }
     ]
@@ -14,12 +14,12 @@
   "standardized_response": {
     "items": [
       {
-        "confidence": 0.9,
+        "confidence": 0.7,
         "bounding_box": {
-          "top": 157.0,
-          "left": 234.0,
-          "height": 184.0,
-          "width": 136.0
+          "top": 95.0,
+          "left": 317.0,
+          "height": 432.0,
+          "width": 364.0
         }
       }
     ]

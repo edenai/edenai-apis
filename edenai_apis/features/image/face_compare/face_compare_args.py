@@ -11,7 +11,7 @@ feature_path = os.path.dirname(os.path.dirname(__file__))
 data_path = os.path.join(feature_path, "data")
 
 image1_path = f"{data_path}/face1.jpg"
-image2_path = f"{data_path}/face2.png"
+image2_path = f"{data_path}/face2.jpg"
 
 mime_type_1 = mimetypes.guess_type(image1_path)[0]
 mime_type_2 = mimetypes.guess_type(image2_path)[0]

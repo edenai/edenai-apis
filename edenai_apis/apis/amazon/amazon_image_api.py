@@ -275,17 +275,21 @@ class AmazonImageApi(ImageInterface):
                     label=label.get("Name"),
                     category=classificator["category"],
                     subcategory=classificator["subcategory"],
-                    likelihood=standardized_confidence_score(label.get("Confidence")/100),
-                    likelihood_score=
+                    likelihood=standardized_confidence_score(
                         label.get("Confidence") / 100
-                    ,
+                    ),
+                    likelihood_score=label.get("Confidence") / 100,
                 )
             )
 
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
-        nsfw_likelihood_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+        nsfw_likelihood_score = (
+            ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+        )
         standardized_response = ExplicitContentDataClass(
-            items=items, nsfw_likelihood=nsfw_likelihood, nsfw_likelihood_score=nsfw_likelihood_score
+            items=items,
+            nsfw_likelihood=nsfw_likelihood,
+            nsfw_likelihood_score=nsfw_likelihood_score,
         )
 
         return ResponseType[ExplicitContentDataClass](
@@ -401,8 +405,8 @@ class AmazonImageApi(ImageInterface):
         self,
         file1: str,
         file2: str,
-        file1_url: str,
-        file2_url: str,
+        file1_url: str = "",
+        file2_url: str = "",
     ) -> ResponseType[FaceCompareDataClass]:
         client = self.clients.get("image")
 

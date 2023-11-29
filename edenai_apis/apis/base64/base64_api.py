@@ -15,7 +15,9 @@ from edenai_apis.features.image.face_compare import (
     FaceMatch,
     FaceCompareBoundingBox,
 )
-from edenai_apis.features.ocr.anonymization_async.anonymization_async_dataclass import AnonymizationAsyncDataClass
+from edenai_apis.features.ocr.anonymization_async.anonymization_async_dataclass import (
+    AnonymizationAsyncDataClass,
+)
 from edenai_apis.features.ocr.bank_check_parsing import (
     BankCheckParsingDataClass,
     MicrModel,
@@ -39,14 +41,24 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     format_date,
 )
 from edenai_apis.features.ocr.invoice_parser import (
-    CustomerInformationInvoice, InfosInvoiceParserDataClass, InvoiceParserDataClass,
-    ItemLinesInvoice, LocaleInvoice, MerchantInformationInvoice,
-    TaxesInvoice, BankInvoice,
+    CustomerInformationInvoice,
+    InfosInvoiceParserDataClass,
+    InvoiceParserDataClass,
+    ItemLinesInvoice,
+    LocaleInvoice,
+    MerchantInformationInvoice,
+    TaxesInvoice,
+    BankInvoice,
 )
 from edenai_apis.features.ocr.receipt_parser import (
-    CustomerInformation, InfosReceiptParserDataClass, ItemLines,
-    Locale, MerchantInformation, ReceiptParserDataClass,
-    Taxes, PaymentInformation,
+    CustomerInformation,
+    InfosReceiptParserDataClass,
+    ItemLines,
+    Locale,
+    MerchantInformation,
+    ReceiptParserDataClass,
+    Taxes,
+    PaymentInformation,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -59,11 +71,15 @@ from edenai_apis.utils.conversion import (
 from apis.amazon.helpers import check_webhook_result
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
-    AsyncBaseResponseType, AsyncLaunchJobResponseType,
-    ResponseType, AsyncPendingResponseType, AsyncResponseType
-    )
+    AsyncBaseResponseType,
+    AsyncLaunchJobResponseType,
+    ResponseType,
+    AsyncPendingResponseType,
+    AsyncResponseType,
+)
 from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
 from io import BytesIO
+
 
 class SubfeatureParser(Enum):
     RECEIPT = "receipt"
@@ -93,6 +109,8 @@ class Base64Api(ProviderInterface, OcrInterface):
             return self.document.get("fields", {}).get(key, {}).get("value")
 
     def _get_response(self, response: requests.Response) -> Any:
+        print(response.text)
+        print(response.status_code)
         try:
             original_response = response.json()
             if response.status_code >= 400:
@@ -531,7 +549,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         headers = {"Authorization": self.api_key, "Content-Type": "application/json"}
 
         if file1_url and file2_url:
-            payload = json.dumps({"referenceUrl": file1_url, "queryUrl": file2_url})
+            payload = json.dumps({"url": file1_url, "queryUrl": file2_url})
         else:
             file_reference_ = open(file1, "rb")
             file_query_ = open(file2, "rb")
@@ -545,8 +563,8 @@ class Base64Api(ProviderInterface, OcrInterface):
             )
             payload = json.dumps(
                 {
-                    "referenceImage": image_reference_as_base64,
-                    "queryImage": image_query_as_base64,
+                    "document": image_reference_as_base64,
+                    "query": image_query_as_base64,
                 }
             )
 
@@ -682,9 +700,20 @@ class Base64Api(ProviderInterface, OcrInterface):
                 "image": image_as_base64,
                 "settings": {
                     "redactions": {
-                        "fields": ["name", "givenName", "familyName", "organization", "documentNumber",
-                                   "address", "date", "dateOfBirth", "issueDate", "expirationDate", "vin"
-                                   "total", "tax"],
+                        "fields": [
+                            "name",
+                            "givenName",
+                            "familyName",
+                            "organization",
+                            "documentNumber",
+                            "address",
+                            "date",
+                            "dateOfBirth",
+                            "issueDate",
+                            "expirationDate",
+                            "vin" "total",
+                            "tax",
+                        ],
                         "faces": True,
                         "signatures": True,
                     }
@@ -711,19 +740,32 @@ class Base64Api(ProviderInterface, OcrInterface):
     def ocr__anonymization_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[AnonymizationAsyncDataClass]:
-        wehbook_result, response_status = check_webhook_result(provider_job_id, self.webhook_settings)
+        wehbook_result, response_status = check_webhook_result(
+            provider_job_id, self.webhook_settings
+        )
 
         if response_status != 200:
-            raise ProviderException(wehbook_result, code = response_status)
+            raise ProviderException(wehbook_result, code=response_status)
 
-        result_object = next(filter(lambda response: provider_job_id in response["content"], wehbook_result), None) \
-            if wehbook_result else None
+        result_object = (
+            next(
+                filter(
+                    lambda response: provider_job_id in response["content"],
+                    wehbook_result,
+                ),
+                None,
+            )
+            if wehbook_result
+            else None
+        )
 
         if not result_object or not result_object.get("content"):
             raise ProviderException("Provider returned an empty response")
 
         try:
-            original_response = json.loads(result_object["content"]).get(provider_job_id, None)
+            original_response = json.loads(result_object["content"]).get(
+                provider_job_id, None
+            )
         except json.JSONDecodeError:
             raise ProviderException("An error occurred while parsing the response.")
 
@@ -732,14 +774,14 @@ class Base64Api(ProviderInterface, OcrInterface):
                 provider_job_id=provider_job_id
             )
         # Extract the B64 redacted document
-        redacted_document = original_response[0].get('redactedDocument')
+        redacted_document = original_response[0].get("redactedDocument")
         # document_mimetype = original_response[0]['features']['properties']['mimeType']
 
         # # Use the mimetypes module to guess the file extension based on the MIME type
         # extension = mimetypes.guess_extension(document_mimetype)
 
         # Extract the base64-encoded data from 'redacted_document'
-        base64_data = redacted_document.split(';base64,')[1]
+        base64_data = redacted_document.split(";base64,")[1]
 
         content_bytes = base64.b64decode(base64_data)
         resource_url = upload_file_bytes_to_s3(
@@ -747,6 +789,8 @@ class Base64Api(ProviderInterface, OcrInterface):
         )
         return AsyncResponseType[AnonymizationAsyncDataClass](
             original_response=original_response,
-            standardized_response=AnonymizationAsyncDataClass(document=base64_data, document_url=resource_url),
-            provider_job_id=provider_job_id
+            standardized_response=AnonymizationAsyncDataClass(
+                document=base64_data, document_url=resource_url
+            ),
+            provider_job_id=provider_job_id,
         )
