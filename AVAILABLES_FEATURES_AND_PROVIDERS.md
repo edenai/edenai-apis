@@ -170,6 +170,7 @@
 |----------|-------------|
 | **embeddings** | alephalpha |
 | **question_answer** | alephalpha |
+| | openai |
 | **explicit_content** | amazon |
 | | api4ai |
 | | clarifai |
@@ -711,6 +712,7 @@
 | **audio** | speech_to_text_async |
 | | text_to_speech |
 | **image** | generation |
+| | question_answer |
 | **text** | anonymization |
 | | chat |
 | | code_generation |
