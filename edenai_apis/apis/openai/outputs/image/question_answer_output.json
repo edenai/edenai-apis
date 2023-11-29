@@ -1,0 +1,30 @@
+{
+  "original_response": {
+    "id": "chatcmpl-8QBuI35InuUHU0ZWIxncpk6auVn8v",
+    "object": "chat.completion",
+    "created": 1701252990,
+    "model": "gpt-4-1106-vision-preview",
+    "usage": {
+      "prompt_tokens": 1120,
+      "completion_tokens": 64,
+      "total_tokens": 1184
+    },
+    "choices": [
+      {
+        "message": {
+          "role": "assistant",
+          "content": "The image contains a combination of logos from four major technology companies, often referred to collectively as \"FAANG\" (Facebook, Apple, Amazon, Netflix, Google), but without the Netflix logo. From left to right, the logos are:\n\n1. Facebook: The blue square with a lowercase 'f' is the logo"
+        },
+        "finish_details": {
+          "type": "max_tokens"
+        },
+        "index": 0
+      }
+    ]
+  },
+  "standardized_response": {
+    "answers": [
+      "The image contains a combination of logos from four major technology companies, often referred to collectively as \"FAANG\" (Facebook, Apple, Amazon, Netflix, Google), but without the Netflix logo. From left to right, the logos are:\n\n1. Facebook: The blue square with a lowercase 'f' is the logo"
+    ]
+  }
+}

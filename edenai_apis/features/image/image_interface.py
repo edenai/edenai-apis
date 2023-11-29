@@ -172,9 +172,11 @@ class ImageInterface:
 
         Args:
             file (BufferedReader): image to analyze
-            question (str): your query
-            maximum_tokens (int): maximum number of tokens to be generated
-            model (str): which ai model to use, default to 'None'
+            file_url (str, optional): url of the image to analyze
+            temperature: (float): temperature of the answer
+            max_tokens (int): maximum number of tokens to be generated
+            question (str, optional): question to ask, if default to `None` a description of the image will be asked
+            model (str, optional): which AI model to use, default to 'None'
         """
         raise NotImplementedError
 
