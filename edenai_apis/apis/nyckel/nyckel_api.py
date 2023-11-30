@@ -244,9 +244,9 @@ class NyckelApi(ProviderInterface, ImageInterface):
             ),
         )
 
-    def image__automl_classification__create_project_async__launch_job(
+    def image__automl_classification__create_project(
         self, name: Optional[str] = None
-    ) -> AsyncLaunchJobResponseType:
+    ) -> ResponseType[AutomlClassificationCreateProjectDataClass]:
         self._refresh_session_auth_headers_if_needed()
         url = "https://www.nyckel.com/v1/functions"
         data = {"input": "Image", "output": "Classification", "name": name}
@@ -254,25 +254,12 @@ class NyckelApi(ProviderInterface, ImageInterface):
         if response.status_code != 200:
             raise ProviderException(message=response.text, code=response.status_code)
         original_response = response.json()
-        return AsyncLaunchJobResponseType(provider_job_id=original_response["id"])
-
-    def image__automl_classification__create_project_async__get_job_result(
-        self, provider_job_id: str
-    ) -> AsyncBaseResponseType[AutomlClassificationCreateProjectDataClass]:
-        self._refresh_session_auth_headers_if_needed()
-        url = f"https://www.nyckel.com/v1/functions/{provider_job_id}"
-        response = self._session.get(url)
-        if response.status_code != 200:
-            raise ProviderException(message=response.text, code=response.status_code)
-        original_response = response.json()
-        return AsyncResponseType[AutomlClassificationCreateProjectDataClass](
+        standardized_response = AutomlClassificationCreateProjectDataClass(
+            project_id=original_response.get("id"), name=original_response.get("name")
+        )
+        return ResponseType[AutomlClassificationCreateProjectDataClass](
             original_response=original_response,
-            standardized_response=AutomlClassificationCreateProjectDataClass(
-                status="created",
-                name=original_response.get("name", None),
-                project_id=provider_job_id,
-            ),
-            provider_job_id=provider_job_id,
+            standardized_response=standardized_response,
         )
 
     def image__automl_classification__upload_data_async__launch_job(

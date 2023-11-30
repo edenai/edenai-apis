@@ -416,9 +416,9 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
-    def image__automl_classification__create_project_async__launch_job(
+    def image__automl_classification__create_project(
         self, name: Optional[str] = None
-    ) -> AsyncLaunchJobResponseType:
+    ) -> ResponseType[AutomlClassificationCreateProjectDataClass]:
         """
         Create an automl classification project/dataset.
 
@@ -427,18 +427,6 @@ class ImageInterface:
 
         Returns:
             AsyncLaunchJobResponseType
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    def image__automl_classification__create_project_async__get_job_result(
-        self, provider_job_id: str
-    ) -> AsyncBaseResponseType[AutomlClassificationCreateProjectDataClass]:
-        """
-        Get the result of an asynchronous job by its ID
-
-        Args:
-            provider_job_id (str): id of async job
         """
         raise NotImplementedError
 

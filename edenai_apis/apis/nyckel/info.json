@@ -21,7 +21,7 @@
             }
         },
         "automl_classification": {
-            "create_project_async": {
+            "create_project": {
                 "version": "v1.0.0"
             },
             "upload_data_async": {
