@@ -1,0 +1,22 @@
+name: circleCI
+
+on:
+  pull_request:
+    types: [opened,reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Tickle CircleCI
+      env:
+        CIRCLE_BRANCH: ${{ github.head_ref }}
+        CIRCLE_TOKEN: ${{ secrets.CIRCLE_TOKEN }}
+      run: |
+        curl -X POST \
+        -H "Circle-Token: ${CIRCLE_TOKEN}" \
+        -H 'Content-Type: application/json' \
+        -H 'Accept: application/json' \
+        -d "{\"branch\":\"${CIRCLE_BRANCH}\"}" \
+        https://circleci.com/api/v2/project/<project_slug>/pipeline
