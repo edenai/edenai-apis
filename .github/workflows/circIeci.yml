@@ -19,4 +19,4 @@ jobs:
         -H 'Content-Type: application/json' \
         -H 'Accept: application/json' \
         -d "{\"branch\":\"${CIRCLE_BRANCH}\"}" \
-        https://circleci.com/api/v2/project/<project_slug>/pipeline
+        https://circleci.com/api/v2/project/edenai-apis/pipeline
