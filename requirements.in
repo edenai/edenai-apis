@@ -36,7 +36,7 @@ amazon-textract-response-parser
 boto3
 
 #clarifai
-clarifai-grpc==9.5.0
+clarifai-grpc==9.10.7
 
 #google
 google-api-python-client==2.88.0
