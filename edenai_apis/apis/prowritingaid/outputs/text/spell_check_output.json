@@ -8,10 +8,10 @@
           "categoryDisplayName": "Grammar (spelling)",
           "color": 1,
           "endPos": 10,
-          "helpArticleId": 1000042,
-          "helpId": "SIMPLE_SPELLING",
+          "helpArticleId": 1008127,
+          "helpId": "SSNE_6494BEF6CD7959A1EC50B930066AE3EA",
           "hint": "Unknown word: wrld",
-          "id": "c228bf39-6495-437a-b83e-e6f7e0ea0b3c",
+          "id": "c9e5265b-f090-43de-bfe5-a911987324f9",
           "invisible": false,
           "isSubTag": false,
           "realtimeCategory": "Spelling",
@@ -22,13 +22,15 @@
           "startPos": 7,
           "subcategory": "wrld",
           "suggestions": [
-            "world",
+            "WRLD",
             "wild",
-            "WRLD"
+            "weld"
           ],
           "suggestionsDiffs": null,
           "urls": null,
-          "hashId": "3644128978907544576"
+          "allowsOverlaps": false,
+          "hashId": "-5233648282546357248",
+          "premiumState": 0
         },
         {
           "category": "grammarspelling",
@@ -38,7 +40,7 @@
           "helpArticleId": 1000042,
           "helpId": "SIMPLE_SPELLING",
           "hint": "Unknown word: yu",
-          "id": "b7c5c8b5-f31e-4eb2-b49e-d6b1229c477c",
+          "id": "51cd7693-f22d-40c0-9b32-989045c1501f",
           "invisible": false,
           "isSubTag": false,
           "realtimeCategory": "Spelling",
@@ -50,11 +52,16 @@
           "subcategory": "yu",
           "suggestions": [
             "you",
-            "YU"
+            "ye",
+            "ya",
+            "mu",
+            "nu"
           ],
           "suggestionsDiffs": null,
           "urls": null,
-          "hashId": "2733048643129150032"
+          "allowsOverlaps": false,
+          "hashId": "2733048643129150032",
+          "premiumState": 0
         }
       ],
       "WordCount": 5,
@@ -266,26 +273,6 @@
           {
             "StatType": "WordCount",
             "StatTypeValue": 1,
-            "StatTypeString": "StyleGuideIssue",
-            "RealtimeTagsCategories": [],
-            "Values": [
-              0.0
-            ],
-            "Value": 0.0
-          },
-          {
-            "StatType": "WordCount",
-            "StatTypeValue": 1,
-            "StatTypeString": "StyleGuideSet",
-            "RealtimeTagsCategories": [],
-            "Values": [
-              0.0
-            ],
-            "Value": 0.0
-          },
-          {
-            "StatType": "WordCount",
-            "StatTypeValue": 1,
             "StatTypeString": "GrammarSpelling",
             "RealtimeTagsCategories": [
               "grammargrammar",
@@ -312,7 +299,7 @@
               "SubItems": [
                 {
                   "TagIds": [
-                    "c228bf39-6495-437a-b83e-e6f7e0ea0b3c"
+                    "c9e5265b-f090-43de-bfe5-a911987324f9"
                   ],
                   "Text": "wrld (1)",
                   "SuggestionCategory": "grammarspelling",
@@ -321,7 +308,7 @@
                 },
                 {
                   "TagIds": [
-                    "b7c5c8b5-f31e-4eb2-b49e-d6b1229c477c"
+                    "51cd7693-f22d-40c0-9b32-989045c1501f"
                   ],
                   "Text": "yu (1)",
                   "SuggestionCategory": "grammarspelling",
@@ -346,7 +333,7 @@
               "SubItems": [
                 {
                   "TagIds": [
-                    "c228bf39-6495-437a-b83e-e6f7e0ea0b3c"
+                    "c9e5265b-f090-43de-bfe5-a911987324f9"
                   ],
                   "Text": "wrld (1)",
                   "SuggestionCategory": null,
@@ -355,7 +342,7 @@
                 },
                 {
                   "TagIds": [
-                    "b7c5c8b5-f31e-4eb2-b49e-d6b1229c477c"
+                    "51cd7693-f22d-40c0-9b32-989045c1501f"
                   ],
                   "Text": "yu (1)",
                   "SuggestionCategory": null,
@@ -389,7 +376,7 @@
         "length": 4,
         "suggestions": [
           {
-            "suggestion": "world",
+            "suggestion": "WRLD",
             "score": null
           },
           {
@@ -397,7 +384,7 @@
             "score": null
           },
           {
-            "suggestion": "WRLD",
+            "suggestion": "weld",
             "score": null
           }
         ]
@@ -413,7 +400,19 @@
             "score": null
           },
           {
-            "suggestion": "YU",
+            "suggestion": "ye",
+            "score": null
+          },
+          {
+            "suggestion": "ya",
+            "score": null
+          },
+          {
+            "suggestion": "mu",
+            "score": null
+          },
+          {
+            "suggestion": "nu",
             "score": null
           }
         ]

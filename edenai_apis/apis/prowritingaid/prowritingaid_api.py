@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Dict, Sequence
+from typing import Dict, Optional, Any, List
 
 import requests
 
@@ -10,7 +10,8 @@ from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SuggestionItem,
 )
 from edenai_apis.features.text.text_interface import TextInterface
-from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
@@ -18,9 +19,11 @@ from edenai_apis.utils.types import ResponseType
 class ProWritingAidApi(ProviderInterface, TextInterface):
     provider_name = "prowritingaid"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None):
         api_settings = load_provider(
-            ProviderDataEnum.KEY, provider_name=self.provider_name, api_keys=api_keys
+            ProviderDataEnum.KEY,
+            provider_name=self.provider_name,
+            api_keys=api_keys or {},
         )
         self.api_key = api_settings["api_key"]
         self.api_url = "https://cloud.prowritingaid.com/analysis/api/async"
@@ -62,9 +65,9 @@ class ProWritingAidApi(ProviderInterface, TextInterface):
                 code=response.status_code,
             )
 
-        items: Sequence[SpellCheckItem] = []
+        items: List[SpellCheckItem] = []
         for tag in (original_response.get("Result", {}) or {}).get("Tags", []) or []:
-            suggestions: Sequence[SuggestionItem] = []
+            suggestions: List[SuggestionItem] = []
             for suggestion in tag["suggestions"]:
                 suggestions.append(SuggestionItem(suggestion=suggestion, score=None))
             items.append(
