@@ -55,14 +55,14 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
         feature=feature,
         subfeature=subfeature,
         phase=phase,
-        provider_name=provider
+        provider_name=provider,
     )
     print("------------------------------------------------------------")
     args = validate_all_provider_constraints(provider, feature, subfeature, phase, args)
 
     print(args)
 
-    if "async" in subfeature:
+    if "async" in subfeature or "async" in phase:
         # Subfeature is asyncronous
 
         launch_job_response: AsyncLaunchJobResponseType = load_provider(
@@ -129,5 +129,11 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
                     )
 
     if IS_MONITORING:
-        insert_api_call(provider=provider,feature=feature,subfeature=subfeature,user_email=None, error=None)
+        insert_api_call(
+            provider=provider,
+            feature=feature,
+            subfeature=subfeature,
+            user_email=None,
+            error=None,
+        )
     return api_output
