@@ -66,3 +66,9 @@ from .search import (
     search_launch_similarity_arguments,
     search_upload_image_arguments,
 )
+from .automl_classification import (
+    automl_classification_create_project_arguments,
+    automl_classification_upload_data_async_arguments,
+    automl_classification_train_async_arguments,
+    automl_classification_delete_project_arguments,
+)

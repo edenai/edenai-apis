@@ -4,7 +4,7 @@ from time import sleep
 import pytest
 
 from edenai_apis import Image
-from edenai_apis.features.image.automl_classification.create_project_async import (
+from edenai_apis.features.image.automl_classification.create_project import (
     AutomlClassificationCreateProjectDataClass,
 )
 from edenai_apis.interface import list_providers
@@ -32,14 +32,14 @@ class TestImageAutomlClassification:
             FeatureDataEnum.SAMPLES_ARGS,
             feature="image",
             subfeature="automl_classification",
-            phase="create_project_async",
+            phase="create_project",
             provider_name=provider,
         )
         feature_args = validate_all_provider_constraints(
             provider,
             "image",
             "automl_classification",
-            "create_project_async",
+            "create_project",
             feature_args,
         )
         try:

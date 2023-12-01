@@ -9,10 +9,10 @@ import requests
 
 from edenai_apis.apis.nyckel.nyckel_helpers import check_webhook_result
 from edenai_apis.features import ImageInterface, ProviderInterface
-from edenai_apis.features.image.automl_classification.create_project_async.automl_classification_create_project_async_dataclass import (
+from edenai_apis.features.image.automl_classification.create_project.automl_classification_create_project_dataclass import (
     AutomlClassificationCreateProjectDataClass,
 )
-from edenai_apis.features.image.automl_classification.delete_project_async.automl_classification_delete_project_async_dataclass import (
+from edenai_apis.features.image.automl_classification.delete_project.automl_classification_delete_project_dataclass import (
     AutomlClassificationDeleteProjectDataClass,
 )
 from edenai_apis.features.image.automl_classification.predict_async.automl_classification_predict_async_dataclass import (
