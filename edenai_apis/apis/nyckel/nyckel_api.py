@@ -419,9 +419,9 @@ class NyckelApi(ProviderInterface, ImageInterface):
             provider_job_id=provider_job_id,
         )
 
-    def image__automl_classification__delete_project_async__launch_job(
+    def image__automl_classification__delete_project(
         self, project_id: str
-    ) -> AsyncLaunchJobResponseType:
+    ) -> ResponseType[AutomlClassificationDeleteProjectDataClass]:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{project_id}"
         response = self._session.delete(url)
@@ -432,51 +432,10 @@ class NyckelApi(ProviderInterface, ImageInterface):
                 else "This function does not exist",
                 code=response.status_code,
             )
-        job_id = str(uuid.uuid4())
-        data_job_id = {job_id: response.text}
-        requests.post(
-            url=f"https://webhook.site/{self.webhook_token}",
-            data=json.dumps(data_job_id),
-            headers={"content-type": "application/json"},
-        )
-        return AsyncLaunchJobResponseType(provider_job_id=job_id)
-
-    def image__automl_classification__delete_project_async__get_job_result(
-        self, provider_job_id: str
-    ) -> AsyncBaseResponseType[AutomlClassificationDeleteProjectDataClass]:
-        if not provider_job_id:
-            raise ProviderException("Job id None or empty!")
-        webhook_result, response_status = check_webhook_result(
-            provider_job_id, self.webhook_settings
-        )
-        if response_status != 200:
-            raise ProviderException(webhook_result, code=response_status)
-        result_object = (
-            next(
-                filter(
-                    lambda response: provider_job_id in response["content"],
-                    webhook_result,
-                ),
-                None,
-            )
-            if webhook_result
-            else None
-        )
-        if not result_object or not result_object.get("content"):
-            raise ProviderException("Provider returned an empty response")
-        try:
-            original_response = json.loads(result_object["content"]).get(
-                provider_job_id, None
-            )
-        except json.JSONDecodeError:
-            raise ProviderException("An error occurred while parsing the response.")
-        if original_response is None:
-            return AsyncPendingResponseType[AutomlClassificationDeleteProjectDataClass](
-                provider_job_id=provider_job_id
-            )
-        standardized_response = AutomlClassificationDeleteProjectDataClass(deleted=True)
-        return AsyncResponseType[AutomlClassificationDeleteProjectDataClass](
+        original_response = response.json()
+        return ResponseType[AutomlClassificationDeleteProjectDataClass](
             original_response=original_response,
-            standardized_response=standardized_response,
-            provider_job_id=provider_job_id,
+            standardized_response=AutomlClassificationDeleteProjectDataClass(
+                deleted=True
+            ),
         )

@@ -514,25 +514,13 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
-    def image__automl_classification__delete_project_async__launch_job(
+    def image__automl_classification__delete_project(
         self, project_id: str
-    ) -> AsyncLaunchJobResponseType:
+    ) -> ResponseType[AutomlClassificationDeleteProjectDataClass]:
         """
         Delete an automl classification project
 
         Args:
             project_id (str): id of the project
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    def image__automl_classification__delete_project_async__get_job_result(
-        self, provider_job_id: str
-    ) -> AsyncBaseResponseType[AutomlClassificationDeleteProjectDataClass]:
-        """
-        Get the result of an asynchronous job by its ID
-
-        Args:
-            provider_job_id (str): id of async job
         """
         raise NotImplementedError
