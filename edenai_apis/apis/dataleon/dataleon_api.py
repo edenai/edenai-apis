@@ -1,4 +1,4 @@
-from typing import Dict, Sequence
+from typing import Dict, Sequence, Optional, Any, List
 
 import requests
 
@@ -28,7 +28,7 @@ from edenai_apis.utils.types import ResponseType
 class DataleonApi(ProviderInterface, OcrInterface):
     provider_name = "dataleon"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -39,7 +39,15 @@ class DataleonApi(ProviderInterface, OcrInterface):
             "Api-Key": self.api_key,
         }
 
-    def _normalize_invoice_result(self, original_result: Dict) -> Dict:
+    @staticmethod
+    def _normalize_invoice_result(original_result: Dict[str, Any]) -> Dict[str, Any]:
+        """Normalize the result of the invoice parser
+        Args:
+            original_result (Dict[str, Any]): Original result of the invoice parser
+
+        Returns:
+            Dict[str, Any]: Normalized result of the invoice parser
+        """
         fields = {
             "ID": "invoice_number",
             "CustomerName": "customer_name",
@@ -56,7 +64,7 @@ class DataleonApi(ProviderInterface, OcrInterface):
             "CustomerAddress": "customer_address",
         }
 
-        normalized_response = {
+        normalized_response: Dict[str, Any] = {
             "customer_information": {},
             "merchant_information": {},
         }
@@ -67,16 +75,27 @@ class DataleonApi(ProviderInterface, OcrInterface):
             for entity in entities:
                 if entity["page"] != idx + 1:
                     continue
-                field_name = fields.get(entity.get("name", None), entity["name"].lower())
+                field_name = fields.get(
+                    entity.get("name", None), entity["name"].lower()
+                )
                 if field_name == "logo":
                     continue
                 field_value = entity.get("text", None)
 
                 if field_name in ["customer_name", "customer_address"]:
-                    normalized_response["customer_information"][field_name] = field_value
+                    normalized_response["customer_information"][
+                        field_name
+                    ] = field_value
 
-                elif field_name in ["merchant_address", "merchant_name", "siret", "siren"]:
-                    normalized_response["merchant_information"][field_name] = field_value
+                elif field_name in [
+                    "merchant_address",
+                    "merchant_name",
+                    "siret",
+                    "siren",
+                ]:
+                    normalized_response["merchant_information"][
+                        field_name
+                    ] = field_value
                 else:
                     normalized_response[field_name] = field_value
 
@@ -85,34 +104,37 @@ class DataleonApi(ProviderInterface, OcrInterface):
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
-        file_ = open(file, "rb")
-        response = requests.post(
-            url=self.url_invoice, headers=self.headers, files={"file": file_}
-        )
-        file_.close()
+        with open(file, "rb") as file_:
+            response = requests.post(
+                url=self.url_invoice, headers=self.headers, files={"file": file_}
+            )
 
         if response.status_code != 200:
-            raise ProviderException(response.content, code = response.status_code)
+            raise ProviderException(response.text, code=response.status_code)
 
         original_response = response.json()
-        normalized_response = self._normalize_invoice_result(original_response)
+        normalized_response = DataleonApi._normalize_invoice_result(original_response)
 
         invoice_parser = []
-        for page in normalized_response:
-            taxes: Sequence[TaxesInvoice] = [
-                TaxesInvoice(
-                    value=convert_string_to_number(normalized_response.get("taxes"), float),
-                    rate=None,
-                )
-            ]
+        taxes: List[TaxesInvoice] = [
+            TaxesInvoice(
+                value=convert_string_to_number(normalized_response.get("taxes"), float),
+                rate=None,
+            )
+        ]
 
-            invoice_parser.append(InfosInvoiceParserDataClass(
+        invoice_parser.append(
+            InfosInvoiceParserDataClass(
                 merchant_information=MerchantInformationInvoice(
                     merchant_name=normalized_response["merchant_information"].get(
                         "merchant_name"
                     ),
-                    merchant_siret=normalized_response["merchant_information"].get("siret"),
-                    merchant_siren=normalized_response["merchant_information"].get("siren"),
+                    merchant_siret=normalized_response["merchant_information"].get(
+                        "siret"
+                    ),
+                    merchant_siren=normalized_response["merchant_information"].get(
+                        "siren"
+                    ),
                     merchant_address=normalized_response["merchant_information"].get(
                         "merchant_address"
                     ),
@@ -169,32 +191,32 @@ class DataleonApi(ProviderInterface, OcrInterface):
                 service_date=None,
                 service_due_date=None,
                 bank_informations=BankInvoice.default(),
-            ))
+            )
+        )
 
-        result = ResponseType[InvoiceParserDataClass](
+        result: ResponseType[InvoiceParserDataClass] = ResponseType[
+            InvoiceParserDataClass
+        ](
             original_response=original_response,
-            standardized_response=InvoiceParserDataClass(
-                extracted_data=invoice_parser
-            ),
+            standardized_response=InvoiceParserDataClass(extracted_data=invoice_parser),
         )
         return result
 
     def ocr__receipt_parser(
         self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
-        file_ = open(file, "rb")
-
-        response = requests.post(
-            url=self.url_receipt, headers=self.headers, files={"file": file_}
-        )
+        with open(file, "rb") as file_:
+            response = requests.post(
+                url=self.url_receipt, headers=self.headers, files={"file": file_}
+            )
 
         file_.close()
 
         if response.status_code != 200:
-            raise ProviderException(response.content, code = response.status_code)
+            raise ProviderException(response.text, code=response.status_code)
 
         original_response = response.json()
-        normalized_response = self._normalize_invoice_result(original_response)
+        normalized_response = DataleonApi._normalize_invoice_result(original_response)
 
         taxes: Sequence[Taxes] = [
             Taxes(

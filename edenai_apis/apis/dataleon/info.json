@@ -19,7 +19,7 @@
                 ],
                 "allow_null_language":true
             },
-            "version": "v3.1.0"
+            "version": "v4.0.0"
         },
         "receipt_parser": {
             "constraints": {
@@ -40,7 +40,7 @@
                 ],
                 "allow_null_language":true
             },
-            "version": "v3.1.0"
+            "version": "v4.0.0"
         }
     }
 }
