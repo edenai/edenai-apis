@@ -10,6 +10,9 @@
               "default_model" : "claude-v2"
             },
             "version": "v1"
+          },
+          "custom_named_entity_recongition": {
+            "version" : "v1"
           }
     }
 }

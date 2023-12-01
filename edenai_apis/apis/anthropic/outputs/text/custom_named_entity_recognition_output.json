@@ -1,0 +1,79 @@
+{
+  "original_response": {
+    "completion": " {\n  \"items\": [\n    {\"category\": \"person\", \"entity\": \"Princess Seraphina\"},\n    {\"category\": \"person\", \"entity\": \"Sir Reginald the Wise\"}, \n    {\"category\": \"animal\", \"entity\": \"the talking owl\"},\n    {\"category\": \"person\", \"entity\": \"Elara the Swift\"},\n    {\"category\": \"magical beings\", \"entity\": \"an agile elf archer\"},\n    {\"category\": \"person\", \"entity\": \"Gruff the Mighty\"},\n    {\"category\": \"magical beings\", \"entity\": \"a friendly giant\"}, \n    {\"category\": \"person\", \"entity\": \"Archmage Aurelius\"},\n    {\"category\": \"organization\", \"entity\": \"the Celestial Academy\"},\n    {\"category\": \"location\", \"entity\": \"the Crystal Peaks\"},\n    {\"category\": \"organization\", \"entity\": \"the Brotherhood of Shadows\"},\n    {\"category\": \"person\", \"entity\": \"Shadowmaster Zephyr\"},\n    {\"category\": \"magical beings\", \"entity\": \"the Elemental Guardians\"},\n    {\"category\": \"magical beings\", \"entity\": \"Ignis, the Fire Guardian\"},\n    {\"category\": \"magical beings\", \"entity\": \"Aquarius, the Water Guardian\"},\n    {\"category\": \"magical beings\", \"entity\": \"Terra, the Earth Guardian\"},\n    {\"category\": \"magical beings\", \"entity\": \"Zephyrus, the Air Guardian\"}\n  ]\n}",
+    "stop_reason": "stop_sequence",
+    "stop": "\n\nHuman:"
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "entity": "Princess Seraphina",
+        "category": "person"
+      },
+      {
+        "entity": "Sir Reginald the Wise",
+        "category": "person"
+      },
+      {
+        "entity": "the talking owl",
+        "category": "animal"
+      },
+      {
+        "entity": "Elara the Swift",
+        "category": "person"
+      },
+      {
+        "entity": "an agile elf archer",
+        "category": "magical beings"
+      },
+      {
+        "entity": "Gruff the Mighty",
+        "category": "person"
+      },
+      {
+        "entity": "a friendly giant",
+        "category": "magical beings"
+      },
+      {
+        "entity": "Archmage Aurelius",
+        "category": "person"
+      },
+      {
+        "entity": "the Celestial Academy",
+        "category": "organization"
+      },
+      {
+        "entity": "the Crystal Peaks",
+        "category": "location"
+      },
+      {
+        "entity": "the Brotherhood of Shadows",
+        "category": "organization"
+      },
+      {
+        "entity": "Shadowmaster Zephyr",
+        "category": "person"
+      },
+      {
+        "entity": "the Elemental Guardians",
+        "category": "magical beings"
+      },
+      {
+        "entity": "Ignis, the Fire Guardian",
+        "category": "magical beings"
+      },
+      {
+        "entity": "Aquarius, the Water Guardian",
+        "category": "magical beings"
+      },
+      {
+        "entity": "Terra, the Earth Guardian",
+        "category": "magical beings"
+      },
+      {
+        "entity": "Zephyrus, the Air Guardian",
+        "category": "magical beings"
+      }
+    ]
+  }
+}
