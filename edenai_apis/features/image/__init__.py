@@ -71,4 +71,9 @@ from .automl_classification import (
     automl_classification_upload_data_async_arguments,
     automl_classification_train_async_arguments,
     automl_classification_delete_project_arguments,
+    AutomlClassificationCreateProjectDataClass,
+    AutomlClassificationUploadDataAsyncDataClass,
+    AutomlClassificationTrainAsyncDataClass,
+    AutomlClassificationPredictAsyncDataClass,
+    AutomlClassificationDeleteProjectDataClass,
 )
