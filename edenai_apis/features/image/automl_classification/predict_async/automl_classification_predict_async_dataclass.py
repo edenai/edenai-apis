@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
 
-class AutomlClassificationPredictDataClass(BaseModel):
+class AutomlClassificationPredictAsyncDataClass(BaseModel):
     label: str
     confidence: float

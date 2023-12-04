@@ -16,13 +16,13 @@ from edenai_apis.features.image.automl_classification.delete_project.automl_clas
     AutomlClassificationDeleteProjectDataClass,
 )
 from edenai_apis.features.image.automl_classification.predict_async.automl_classification_predict_async_dataclass import (
-    AutomlClassificationPredictDataClass,
+    AutomlClassificationPredictAsyncDataClass,
 )
 from edenai_apis.features.image.automl_classification.train_async.automl_classification_train_async_dataclass import (
-    AutomlClassificationTrainDataClass,
+    AutomlClassificationTrainAsyncDataClass,
 )
 from edenai_apis.features.image.automl_classification.upload_data_async.automl_classification_upload_data_async_dataclass import (
-    AutomlClassificationUploadDataDataClass,
+    AutomlClassificationUploadDataAsyncDataClass,
 )
 from edenai_apis.features.image.search.delete_image.search_delete_image_dataclass import (
     SearchDeleteImageDataClass,
@@ -311,10 +311,10 @@ class NyckelApi(ProviderInterface, ImageInterface):
 
     def image__automl_classification__upload_data_async__get_job_result(
         self, provider_job_id: str
-    ) -> AsyncBaseResponseType[AutomlClassificationUploadDataDataClass]:
-        return AsyncResponseType[AutomlClassificationUploadDataDataClass](
+    ) -> AsyncBaseResponseType[AutomlClassificationUploadDataAsyncDataClass]:
+        return AsyncResponseType[AutomlClassificationUploadDataAsyncDataClass](
             original_response=None,
-            standardized_response=AutomlClassificationUploadDataDataClass(
+            standardized_response=AutomlClassificationUploadDataAsyncDataClass(
                 status="uploaded"
             ),
             provider_job_id=provider_job_id,
@@ -327,7 +327,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
 
     def image__automl_classification__train_async__get_job_result(
         self, provider_job_id: str
-    ) -> AsyncBaseResponseType[AutomlClassificationTrainDataClass]:
+    ) -> AsyncBaseResponseType[AutomlClassificationTrainAsyncDataClass]:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{provider_job_id}/samples"
         response = self._session.get(url)
@@ -345,9 +345,9 @@ class NyckelApi(ProviderInterface, ImageInterface):
                 raise ProviderException(
                     message="Each label must have at least 2 samples"
                 )
-        return AsyncResponseType[AutomlClassificationTrainDataClass](
+        return AsyncResponseType[AutomlClassificationTrainAsyncDataClass](
             original_response=None,
-            standardized_response=AutomlClassificationTrainDataClass(
+            standardized_response=AutomlClassificationTrainAsyncDataClass(
                 status="trained", project_id=provider_job_id, name=None
             ),
             provider_job_id=provider_job_id,
@@ -378,7 +378,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
 
     def image__automl_classification__predict_async__get_job_result(
         self, provider_job_id: str
-    ) -> AsyncBaseResponseType[AutomlClassificationPredictDataClass]:
+    ) -> AsyncBaseResponseType[AutomlClassificationPredictAsyncDataClass]:
         if not provider_job_id:
             raise ProviderException("Job id None or empty!")
         webhook_result, response_status = check_webhook_result(
@@ -406,14 +406,14 @@ class NyckelApi(ProviderInterface, ImageInterface):
         except json.JSONDecodeError:
             raise ProviderException("An error occurred while parsing the response.")
         if original_response is None:
-            return AsyncPendingResponseType[AutomlClassificationPredictDataClass](
+            return AsyncPendingResponseType[AutomlClassificationPredictAsyncDataClass](
                 provider_job_id=provider_job_id
             )
-        standardized_response = AutomlClassificationPredictDataClass(
+        standardized_response = AutomlClassificationPredictAsyncDataClass(
             label=original_response.get("labelName", ""),
             confidence=original_response.get("confidence", 0),
         )
-        return AsyncResponseType[AutomlClassificationPredictDataClass](
+        return AsyncResponseType[AutomlClassificationPredictAsyncDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
             provider_job_id=provider_job_id,

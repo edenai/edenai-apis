@@ -12,13 +12,13 @@ from edenai_apis.features.image.automl_classification.delete_project.automl_clas
     AutomlClassificationDeleteProjectDataClass,
 )
 from edenai_apis.features.image.automl_classification.predict_async.automl_classification_predict_async_dataclass import (
-    AutomlClassificationPredictDataClass,
+    AutomlClassificationPredictAsyncDataClass,
 )
 from edenai_apis.features.image.automl_classification.train_async.automl_classification_train_async_dataclass import (
-    AutomlClassificationTrainDataClass,
+    AutomlClassificationTrainAsyncDataClass,
 )
 from edenai_apis.features.image.automl_classification.upload_data_async.automl_classification_upload_data_async_dataclass import (
-    AutomlClassificationUploadDataDataClass,
+    AutomlClassificationUploadDataAsyncDataClass,
 )
 from edenai_apis.features.image.background_removal import BackgroundRemovalDataClass
 from edenai_apis.features.image.embeddings.embeddings_dataclass import (
@@ -454,7 +454,7 @@ class ImageInterface:
     @abstractmethod
     def image__automl_classification__upload_data_async__get_job_result(
         self, provider_job_id: str
-    ) -> AsyncBaseResponseType[AutomlClassificationUploadDataDataClass]:
+    ) -> AsyncBaseResponseType[AutomlClassificationUploadDataAsyncDataClass]:
         """
         Get the result of an asynchronous job by its ID
 
@@ -478,7 +478,7 @@ class ImageInterface:
     @abstractmethod
     def image__automl_classification__train_async__get_job_result(
         self, provider_job_id: str
-    ) -> AsyncBaseResponseType[AutomlClassificationTrainDataClass]:
+    ) -> AsyncBaseResponseType[AutomlClassificationTrainAsyncDataClass]:
         """
         Get the result of an asynchronous job by its ID
 
@@ -504,7 +504,7 @@ class ImageInterface:
     @abstractmethod
     def image__automl_classification__predict_async__get_job_result(
         self, provider_job_id: str
-    ) -> AsyncBaseResponseType[AutomlClassificationPredictDataClass]:
+    ) -> AsyncBaseResponseType[AutomlClassificationPredictAsyncDataClass]:
         """
         Get the result of an asynchronous job by its ID
 

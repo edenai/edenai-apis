@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
 
-class AutomlClassificationUploadDataDataClass(BaseModel):
+class AutomlClassificationUploadDataAsyncDataClass(BaseModel):
     status: str
