@@ -33,7 +33,7 @@
             "predict_async": {
                 "version": "v1.0.0"
             },
-            "delete_project_async": {
+            "delete_project": {
                 "version": "v1.0.0"
             }
         }

@@ -432,9 +432,8 @@ class NyckelApi(ProviderInterface, ImageInterface):
                 else "This function does not exist",
                 code=response.status_code,
             )
-        original_response = response.json()
         return ResponseType[AutomlClassificationDeleteProjectDataClass](
-            original_response=original_response,
+            original_response=None,
             standardized_response=AutomlClassificationDeleteProjectDataClass(
                 deleted=True
             ),

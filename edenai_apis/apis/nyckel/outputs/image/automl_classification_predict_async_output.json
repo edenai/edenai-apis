@@ -1,0 +1,13 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "c8ab2ecf-ec27-4e3f-807c-2de7dd168cfa",
+  "original_response": {
+    "labelName": "Cat",
+    "labelId": "label_02c91lh4rrpyp30u",
+    "confidence": 0.6333806839081106
+  },
+  "standardized_response": {
+    "label": "Cat",
+    "confidence": 0.6333806839081106
+  }
+}

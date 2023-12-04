@@ -1,0 +1,13 @@
+{
+  "original_response": {
+    "id": "function_nz3znfgd1nlr4417",
+    "projectId": "project_fdg9g7oe0rndbqio",
+    "name": "test_project",
+    "input": "Image",
+    "output": "Classification"
+  },
+  "standardized_response": {
+    "name": "test_project",
+    "project_id": "function_nz3znfgd1nlr4417"
+  }
+}

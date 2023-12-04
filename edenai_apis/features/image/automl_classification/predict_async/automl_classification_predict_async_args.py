@@ -9,7 +9,7 @@ from edenai_apis.utils.files import FileInfo, FileWrapper
 feature_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 data_path = os.path.join(feature_path, "data")
 
-image_path = f"{data_path}/objects.png"
+image_path = f"{data_path}/automl_classification.png"
 
 mime_type = mimetypes.guess_type(image_path)[0]
 file_info = FileInfo(
@@ -24,7 +24,7 @@ file_wrapper = FileWrapper(image_path, "", file_info)
 
 def automl_classification_predict_async_arguments(provider_name: str) -> Dict:
     if provider_name == "nyckel":
-        project_id = "function_dlsxq3ze6ht4480n"
+        project_id = "function_nz3znfgd1nlr4417"
     else:
         raise NotImplementedError(
             f"Please add a project id for test arguments of provider: {provider_name}"
