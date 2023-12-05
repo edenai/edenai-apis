@@ -3,10 +3,12 @@ import os
 import pytest
 
 from edenai_apis import Image
+from edenai_apis.features.image import AutomlClassificationCreateProjectDataClass
 from edenai_apis.interface import list_providers
 from edenai_apis.loaders.loaders import load_feature
 from edenai_apis.loaders.data_loader import FeatureDataEnum
 from edenai_apis.utils.constraints import validate_all_provider_constraints
+from edenai_apis.utils.types import ResponseType
 
 automl_image_providers = sorted(
     list_providers(feature="image", subfeature="automl_classification")
@@ -44,6 +46,14 @@ class TestImageAutomlClassification:
         except AttributeError:
             raise AttributeError("Could not create project phase.")
 
-        create_project_output = create_project_method(**feature_args).model_dump()
+        create_project_output = create_project_method(**feature_args)
+        original_response = create_project_output.original_response
+        standardized_response = create_project_output.standardized_response
 
-        assert create_project_output.get("status") == "success", "Create Project failed"
+        assert isinstance(
+            create_project_output, ResponseType
+        ), f"Expected ResponseType but got {type(create_project_output)}"
+        assert original_response is not None, "Original response should not be empty."
+        assert isinstance(
+            standardized_response, AutomlClassificationCreateProjectDataClass
+        ), f"Expected AutomlClassificationCreateProjectDataClass but got {type(standardized_response)}"
