@@ -307,13 +307,50 @@ class NyckelApi(ProviderInterface, ImageInterface):
                 raise ProviderException(
                     message=response.text, code=response.status_code
                 )
-        return AsyncLaunchJobResponseType(provider_job_id=project_id)
+        job_id = str(uuid.uuid4())
+        data_job_id = {job_id: response.json()}
+        requests.post(
+            url=f"https://webhook.site/{self.webhook_token}",
+            data=json.dumps(data_job_id),
+            headers={"content-type": "application/json"},
+        )
+        return AsyncLaunchJobResponseType(provider_job_id=job_id)
 
     def image__automl_classification__upload_data_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[AutomlClassificationUploadDataAsyncDataClass]:
+        if not provider_job_id:
+            raise ProviderException("Job id None or empty!")
+        webhook_result, response_status = check_webhook_result(
+            provider_job_id, self.webhook_settings
+        )
+        if response_status != 200:
+            raise ProviderException(webhook_result, code=response_status)
+        result_object = (
+            next(
+                filter(
+                    lambda response: provider_job_id in response["content"],
+                    webhook_result,
+                ),
+                None,
+            )
+            if webhook_result
+            else None
+        )
+        if not result_object or not result_object.get("content"):
+            raise ProviderException("Provider returned an empty response")
+        try:
+            original_response = json.loads(result_object["content"]).get(
+                provider_job_id, None
+            )
+        except json.JSONDecodeError:
+            raise ProviderException("An error occurred while parsing the response.")
+        if original_response is None:
+            return AsyncPendingResponseType[
+                AutomlClassificationUploadDataAsyncDataClass
+            ](provider_job_id=provider_job_id)
         return AsyncResponseType[AutomlClassificationUploadDataAsyncDataClass](
-            original_response=None,
+            original_response=original_response,
             standardized_response=AutomlClassificationUploadDataAsyncDataClass(
                 status="uploaded"
             ),

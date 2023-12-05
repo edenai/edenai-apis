@@ -1,14 +1,22 @@
 import os
+from time import sleep
 
 import pytest
 
 from edenai_apis import Image
-from edenai_apis.features.image import AutomlClassificationCreateProjectDataClass
+from edenai_apis.features.image import (
+    AutomlClassificationCreateProjectDataClass,
+    AutomlClassificationUploadDataAsyncDataClass,
+)
 from edenai_apis.interface import list_providers
 from edenai_apis.loaders.loaders import load_feature
 from edenai_apis.loaders.data_loader import FeatureDataEnum
 from edenai_apis.utils.constraints import validate_all_provider_constraints
-from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.types import (
+    ResponseType,
+    AsyncLaunchJobResponseType,
+    AsyncResponseType,
+)
 
 automl_image_providers = sorted(
     list_providers(feature="image", subfeature="automl_classification")
@@ -57,3 +65,69 @@ class TestImageAutomlClassification:
         assert isinstance(
             standardized_response, AutomlClassificationCreateProjectDataClass
         ), f"Expected AutomlClassificationCreateProjectDataClass but got {type(standardized_response)}"
+
+        pytest.project_id = standardized_response.project_id
+
+    def test_upload_data_launch(self, provider):
+        feature_args = load_feature(
+            FeatureDataEnum.SAMPLES_ARGS,
+            feature="image",
+            subfeature="automl_classification",
+            phase="upload_data_async",
+            provider_name=provider,
+        )
+        feature_args = validate_all_provider_constraints(
+            provider,
+            "image",
+            "automl_classification",
+            "upload_data_async",
+            feature_args,
+        )
+        try:
+            upload_data_method = (
+                Image.automl_classification__upload_data_async__launch_job(provider)
+            )
+        except AttributeError:
+            raise AttributeError("Could not import upload image launch phase.")
+
+        feature_args["project_id"] = pytest.project_id
+
+        upload_data_output = upload_data_method(**feature_args)
+
+        assert isinstance(
+            upload_data_output, AsyncLaunchJobResponseType
+        ), f"Expected AsyncLaunchJobResponseType but got {type(upload_data_output)}"
+        assert (
+            upload_data_output.provider_job_id is not None
+        ), "provider job is should not be null"
+        pytest.job_id = upload_data_output.provider_job_id
+
+    def test_upload_data_get_result(self, provider):
+        provider_job_id = pytest.job_id
+
+        try:
+            upload_data_method = (
+                Image.automl_classification__upload_data_async__get_job_result(provider)
+            )
+        except AttributeError:
+            raise AttributeError("Could not import upload data get job result phase.")
+        sleep(5)
+        current_time = MAX_TIME
+        while current_time > 0:
+            print(f"wait upload data job result {MAX_TIME- current_time}s")
+            upload_data_output = upload_data_method(provider_job_id)
+            upload_data_output_dict = upload_data_output.model_dump()
+            if upload_data_output_dict["status"] != "pending":
+                upload_data_output = upload_data_output
+                break
+            current_time = current_time - TIME_BETWEEN_CHECK
+            sleep(TIME_BETWEEN_CHECK)
+        original_response = upload_data_output.original_response
+        standardized_response = upload_data_output.standardized_response
+        assert isinstance(
+            upload_data_output, AsyncResponseType
+        ), f"Expected AsyncResponseType but got {type(upload_data_output)}"
+        assert original_response is not None, "Original response should not be empty."
+        assert isinstance(
+            standardized_response, AutomlClassificationUploadDataAsyncDataClass
+        ), f"Expected AutomlClassificationUploadDataAsyncClass but got {type(standardized_response)}"
