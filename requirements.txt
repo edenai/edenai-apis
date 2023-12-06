@@ -173,7 +173,7 @@ google-cloud-language==2.10.0
     # via -r requirements.in
 google-cloud-resource-manager==1.10.4
     # via google-cloud-aiplatform
-google-cloud-speech==2.20.0
+google-cloud-speech==2.21.0
     # via -r requirements.in
 google-cloud-storage==2.9.0
     # via
