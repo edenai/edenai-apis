@@ -383,7 +383,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
                     message="Each label must have at least 2 samples"
                 )
         return AsyncResponseType[AutomlClassificationTrainAsyncDataClass](
-            original_response=None,
+            original_response="",
             standardized_response=AutomlClassificationTrainAsyncDataClass(
                 status="trained", project_id=provider_job_id, name=None
             ),
@@ -470,7 +470,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
                 code=response.status_code,
             )
         return ResponseType[AutomlClassificationDeleteProjectDataClass](
-            original_response=None,
+            original_response="",
             standardized_response=AutomlClassificationDeleteProjectDataClass(
                 deleted=True
             ),

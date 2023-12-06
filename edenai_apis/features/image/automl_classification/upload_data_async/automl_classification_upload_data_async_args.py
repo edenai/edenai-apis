@@ -24,7 +24,7 @@ file_wrapper = FileWrapper(image_path, "", file_info)
 
 def automl_classification_upload_data_async_arguments(provider_name: str) -> Dict:
     if provider_name == "nyckel":
-        project_id = "function_nz3znfgd1nlr4417"
+        project_id = "function_v7nmvjzb7a7i80wg"
     else:
         raise NotImplementedError(
             f"Please add a project id for test arguments of provider: {provider_name}"
