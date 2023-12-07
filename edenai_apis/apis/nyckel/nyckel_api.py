@@ -2,7 +2,7 @@ import base64
 import time
 import uuid
 import json
-
+from requests.adapters import HTTPAdapter, Retry
 from typing import Dict, Optional
 
 import requests
@@ -103,7 +103,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
     def _raise_provider_exception(
         self, url: str, data: dict, response: requests.Response
     ) -> None:
-        raise ProviderException(response.text)
+        raise ProviderException(response.text, response.status_code)
 
     def image__search__create_project(self, project_name: str) -> str:
         """
@@ -250,8 +250,12 @@ class NyckelApi(ProviderInterface, ImageInterface):
         self._refresh_session_auth_headers_if_needed()
         url = "https://www.nyckel.com/v1/functions"
         data = {"input": "Image", "output": "Classification", "name": name}
-        response = self._session.post(url, json=data)
-        if response.status_code != 200:
+        try:
+            response = self._session.post(url, json=data)
+        except:
+            raise ProviderException("Something went wrong !!", 500)
+        if response.status_code >= 400:
+            self._raise_provider_exception(url, {}, response)
             raise ProviderException(message=response.text, code=response.status_code)
         original_response = response.json()
         standardized_response = AutomlClassificationCreateProjectDataClass(
@@ -261,6 +265,39 @@ class NyckelApi(ProviderInterface, ImageInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
+
+    def __image__automl_classification_delete_image(
+        self, project_id: str, picture_id: str
+    ):
+        self._refresh_session_auth_headers_if_needed()
+
+        url = f"https://www.nyckel.com/v1/functions/{project_id}/samples/{picture_id}"
+
+        try:
+            response = self._session.delete(url)
+        except:
+            raise ProviderException("Something went wrong !!", 500)
+
+        if response.status_code >= 400:
+            self._raise_provider_exception(url, {}, response)
+
+        return True
+
+    def __create_label_if_no_exists(
+        self, project_id: str, label_name: str, label_description: str = ""
+    ) -> bool:
+        self._refresh_session_auth_headers_if_needed()
+
+        url = f"https://www.nyckel.com/v1/functions/{project_id}/labels"
+        payload = {"name": label_name, "description": label_description}
+        try:
+            response = self._session.post(url, json=payload)
+        except:
+            raise ProviderException(
+                "Something went wrong when creating the label !!", 500
+            )
+        if response.status_code >= 400:
+            raise self._raise_provider_exception(url, payload, response)
 
     def image__automl_classification__upload_data_async__launch_job(
         self,
@@ -272,48 +309,67 @@ class NyckelApi(ProviderInterface, ImageInterface):
     ) -> AsyncLaunchJobResponseType:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{project_id}/samples"
-        labels_response = self._session.get(
-            f"https://www.nyckel.com/v1/functions/{project_id}/labels"
+        file_ = None
+
+        if not label:
+            raise ProviderException("Label needs to be specified !!")
+        payload = (
+            {"annotation": {"labelName": label}}
+            if file_url
+            else {"annotation.labelName": label}
         )
-        if labels_response.status_code != 200:
-            raise ProviderException(
-                message=labels_response.text, code=labels_response.status_code
-            )
-        labels = labels_response.json()
-        if label not in [l["name"] for l in labels]:
-            new_label = self._session.post(
-                f"https://www.nyckel.com/v1/functions/{project_id}/labels",
-                json={"name": label},
-            )
-            if new_label.status_code != 200:
-                raise ProviderException(
-                    message=new_label.text, code=new_label.status_code
-                )
-        if file_url != "":
-            data = {"data": file_url, "annotation": {"labelName": label}}
-            response = self._session.post(url, json=data)
-            if response.status_code != 200:
-                raise ProviderException(
-                    message=response.text, code=response.status_code
-                )
-            print(response.text)
-            return AsyncLaunchJobResponseType(provider_job_id=project_id)
-        with open(file, "rb") as f:
-            data = {"annotation.labelName": label}
-            files = {"data": f}
-            response = self._session.post(url, files=files, data=data)
-            print(response.text)
-            if response.status_code != 200:
-                raise ProviderException(
-                    message=response.text, code=response.status_code
-                )
+        post_parameters = {"url": url}
+
+        if file_url:
+            post_parameters["json"] = payload
+            payload["data"] = file_url
+
+        else:
+            file_ = open(file, "rb")
+            post_parameters["files"] = {"data": file_}
+            post_parameters["data"] = payload
+
+        try_again = True
+        error_message = f"A label with name '{label}' was not found"
+
+        while try_again:  # in case the label is not already created, it will be created
+            file_.seek(0)
+            try:
+                response = self._session.post(**post_parameters)
+            except:
+                raise ProviderException("Something went wrong !!", 500)
+
+            if response.status_code >= 400:
+                if (
+                    response.json().get("message") == error_message
+                ):  # label with the provided name does not exists
+                    self.__create_label_if_no_exists(project_id, label)
+                else:
+                    self._raise_provider_exception(url, post_parameters, response)
+            else:
+                try_again = False
+        data = response.json()
         job_id = str(uuid.uuid4())
-        data_job_id = {job_id: response.json()}
-        requests.post(
-            url=f"https://webhook.site/{self.webhook_token}",
-            data=json.dumps(data_job_id),
-            headers={"content-type": "application/json"},
-        )
+        data_job_id = {job_id: data}
+        s = requests.Session()
+        retries = Retry(
+            total=3,
+            backoff_factor=1,
+            status_forcelist=[400, 404, 408, 429, 500, 502, 503, 504],
+        )  # retry in case of failure. Because if it fails, the image will be loaded but for the user it's a fail
+        s.mount("http://", HTTPAdapter(max_retries=retries))
+        try:
+            webook_response = s.post(
+                url=f"https://webhook.site/{self.webhook_token}",
+                data=json.dumps(data_job_id),
+                headers={"content-type": "application/json"},
+            )
+        except Exception as exp:
+            self.__image__automl_classification_delete_image(project_id, data["id"])
+            raise ProviderException("Could not upload image data", 400)
+        if webook_response.status_code >= 400:
+            self.__image__automl_classification_delete_image(project_id, data["id"])
+            raise ProviderException("Could not upload image data", 400)
         return AsyncLaunchJobResponseType(provider_job_id=job_id)
 
     def image__automl_classification__upload_data_async__get_job_result(
@@ -352,7 +408,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         return AsyncResponseType[AutomlClassificationUploadDataAsyncDataClass](
             original_response=original_response,
             standardized_response=AutomlClassificationUploadDataAsyncDataClass(
-                status="uploaded"
+                message="Data uploaded successfully"
             ),
             provider_job_id=provider_job_id,
         )
@@ -367,21 +423,39 @@ class NyckelApi(ProviderInterface, ImageInterface):
     ) -> AsyncBaseResponseType[AutomlClassificationTrainAsyncDataClass]:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{provider_job_id}/samples"
-        response = self._session.get(url)
+        try:
+            response = self._session.get(url)
+        except:
+            return AsyncResponseType[AutomlClassificationTrainAsyncDataClass](
+                original_response="",
+                standardized_response=AutomlClassificationTrainAsyncDataClass(
+                    status="trained", project_id=provider_job_id, name=None
+                ),
+                provider_job_id=provider_job_id,
+            )
         response_json = response.json()
-        if response.status_code != 200:
-            raise ProviderException(message=response.text, code=response.status_code)
+        if response.status_code >= 400:
+            return AsyncResponseType[AutomlClassificationTrainAsyncDataClass](
+                original_response="",
+                standardized_response=AutomlClassificationTrainAsyncDataClass(
+                    status="trained", project_id=provider_job_id, name=None
+                ),
+                provider_job_id=provider_job_id,
+            )
         if len(response_json) < 4:
             raise ProviderException(
                 message="There must 2 images per labels and at least 2 labels in the project"
             )
         labels = [res["annotation"]["labelId"] for res in response_json]
         unique_labels = set(labels)
+        nb_two_labes = 0
         for x in unique_labels:
-            if labels.count(x) < 2:
-                raise ProviderException(
-                    message="Each label must have at least 2 samples"
-                )
+            if labels.count(x) >= 2:
+                nb_two_labes += 1
+                if nb_two_labes >= 2:
+                    break
+        if nb_two_labes < 2:
+            raise ProviderException(message="Each label must have at least 2 samples")
         return AsyncResponseType[AutomlClassificationTrainAsyncDataClass](
             original_response="",
             standardized_response=AutomlClassificationTrainAsyncDataClass(
@@ -397,20 +471,35 @@ class NyckelApi(ProviderInterface, ImageInterface):
         url = f"https://www.nyckel.com/v1/functions/{project_id}/invoke"
         if file_url != "":
             data = {"data": file_url}
-            response = self._session.post(url, json=data)
+            try:
+                response = self._session.post(url, json=data)
+            except:
+                raise ProviderException(
+                    "Something went wrong when running the prediction !!", 500
+                )
         else:
             with open(file, "rb") as f:
                 data = {"data": f}
-                response = self._session.post(url, files=data)
-        if response.status_code != 200:
-            raise ProviderException(message=response.text, code=response.status_code)
+                try:
+                    response = self._session.post(url, files=data)
+                except:
+                    raise ProviderException(
+                        "Something went wrong when running the prediction !!", 500
+                    )
+        if response.status_code >= 400:
+            self._raise_provider_exception(url, {}, response)
         job_id = str(uuid.uuid4())
         data_job_id = {job_id: response.json()}
-        requests.post(
-            url=f"https://webhook.site/{self.webhook_token}",
-            data=json.dumps(data_job_id),
-            headers={"content-type": "application/json"},
-        )
+        try:
+            requests.post(
+                url=f"https://webhook.site/{self.webhook_token}",
+                data=json.dumps(data_job_id),
+                headers={"content-type": "application/json"},
+            )
+        except:
+            raise ProviderException(
+                "Something went wrong when running the prediction !!", 500
+            )
         return AsyncLaunchJobResponseType(provider_job_id=job_id)
 
     def image__automl_classification__predict_async__get_job_result(
@@ -461,12 +550,15 @@ class NyckelApi(ProviderInterface, ImageInterface):
     ) -> ResponseType[AutomlClassificationDeleteProjectDataClass]:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{project_id}"
-        response = self._session.delete(url)
-        if response.status_code != 200:
+        try:
+            response = self._session.delete(url)
+        except:
+            ProviderException("Something went wrong when deleting the project")
+        if response.status_code >= 400:
             raise ProviderException(
                 message=response.text
                 if response.text != ""
-                else "This function does not exist",
+                else "This project does not exist",
                 code=response.status_code,
             )
         return ResponseType[AutomlClassificationDeleteProjectDataClass](

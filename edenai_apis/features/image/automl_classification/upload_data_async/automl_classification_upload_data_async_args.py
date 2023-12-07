@@ -33,6 +33,6 @@ def automl_classification_upload_data_async_arguments(provider_name: str) -> Dic
     return {
         "project_id": project_id,
         "label": "Cat",
-        "type_of_data": "TRAIN",
+        "type_of_data": "TRAINING",
         "file": file_wrapper,
     }
