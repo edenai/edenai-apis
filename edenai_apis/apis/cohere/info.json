@@ -6,9 +6,7 @@
             "command",
             "command-light",
             "command-nightly",
-            "command-light-nightly",
-            "base",
-            "base-light"
+            "command-light-nightly"
           ],
           "default_model" : "command-nightly"
         },
