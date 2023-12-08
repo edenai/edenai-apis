@@ -33,8 +33,14 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
-from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS, get_s3_file_url, URL_LONG_PERIOD, \
-    get_cloud_front_file_url, s3_client_load
+from edenai_apis.utils.upload_s3 import (
+    upload_file_bytes_to_s3,
+    USER_PROCESS,
+    get_s3_file_url,
+    URL_LONG_PERIOD,
+    get_cloud_front_file_url,
+    s3_client_load,
+)
 
 from .config import audio_voices_ids, storage_clients
 from edenai_apis.features.audio import TextToSpeechAsyncDataClass
@@ -77,8 +83,10 @@ class AmazonAudioApi(AudioInterface):
         if is_ssml(text):
             params["TextType"] = "ssml"
 
-        response = handle_amazon_call(self.clients["texttospeech"].synthesize_speech, **params)
-        
+        response = handle_amazon_call(
+            self.clients["texttospeech"].synthesize_speech, **params
+        )
+
         audio_content = BytesIO(response["AudioStream"].read())
 
         # convert 'StreamBody' to b64
@@ -116,11 +124,13 @@ class AmazonAudioApi(AudioInterface):
         list_vocabs = ["-".join(vocab.strip().split()) for vocab in list_vocabs]
         vocab_name = str(uuid.uuid4())
         payload = {
-            "LanguageCode" : language,
-            "VocabularyName" : vocab_name,
-            "Phrases": list_vocabs
+            "LanguageCode": language,
+            "VocabularyName": vocab_name,
+            "Phrases": list_vocabs,
         }
-        response = handle_amazon_call(self.clients["speech"].create_vocabulary, **payload)
+        response = handle_amazon_call(
+            self.clients["speech"].create_vocabulary, **payload
+        )
 
         return vocab_name
 
@@ -133,7 +143,7 @@ class AmazonAudioApi(AudioInterface):
         vocab_name: Optional[str] = None,
         initiate_vocab: bool = False,
         format: str = "wav",
-        provider_params: dict = dict()
+        provider_params: dict = dict(),
     ):
         if speakers < 2:
             speakers = 2
@@ -169,11 +179,8 @@ class AmazonAudioApi(AudioInterface):
             raise ProviderException(str(exc)) from exc
 
     def _delete_vocabularies(self, vocab_name):
-        payload = {
-            "VocabularyName" : vocab_name
-        }
+        payload = {"VocabularyName": vocab_name}
         handle_amazon_call(self.clients["speech"].delete_vocabulary, **payload)
-        
 
     def audio__speech_to_text_async__launch_job(
         self,
@@ -185,7 +192,7 @@ class AmazonAudioApi(AudioInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
-        provider_params = dict()
+        provider_params=dict(),
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -196,7 +203,7 @@ class AmazonAudioApi(AudioInterface):
             if language is None:
                 raise ProviderException(
                     "Cannot launch with vocabulary when language is auto-detect.",
-                    code = 400
+                    code=400,
                 )
             vocab_name = self._create_vocabulary(language, vocabulary)
             self._launch_transcribe(
@@ -207,7 +214,7 @@ class AmazonAudioApi(AudioInterface):
                 vocab_name,
                 True,
                 format=export_format,
-                provider_params=provider_params
+                provider_params=provider_params,
             )
             return AsyncLaunchJobResponseType(
                 provider_job_id=f"{filename}EdenAI{vocab_name}"
@@ -266,9 +273,11 @@ class AmazonAudioApi(AudioInterface):
                 )
 
         # check transcribe status
-        payload= {"TranscriptionJobName" : job_id}
-        job_details = handle_amazon_call(self.clients["speech"].get_transcription_job, **payload)
-        
+        payload = {"TranscriptionJobName": job_id}
+        job_details = handle_amazon_call(
+            self.clients["speech"].get_transcription_job, **payload
+        )
+
         job_status = job_details["TranscriptionJob"]["TranscriptionJobStatus"]
         if job_status == "COMPLETED":
             # delete vocabulary
@@ -286,10 +295,8 @@ class AmazonAudioApi(AudioInterface):
                 diarization_entries = []
                 words_info = original_response["results"]["items"]
                 speakers = (
-                    original_response["results"]
-                    .get("speaker_labels", {})
-                    .get("speakers", 0)
-                )
+                    original_response["results"].get("speaker_labels", {}) or {}
+                ).get("speakers", 0)
 
                 for word_info in words_info:
                     if word_info.get("speaker_label"):
@@ -339,23 +346,29 @@ class AmazonAudioApi(AudioInterface):
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
             provider_job_id=provider_job_id
         )
+
     def audio__text_to_speech_async__launch_job(
-            self,
-            language: str,
-            text: str,
-            option: str,
-            voice_id: str,
-            audio_format: str,
-            speaking_rate: int,
-            speaking_pitch: int,
-            speaking_volume: int,
-            sampling_rate: int,
-            file_url: str = ""
+        self,
+        language: str,
+        text: str,
+        option: str,
+        voice_id: str,
+        audio_format: str,
+        speaking_rate: int,
+        speaking_pitch: int,
+        speaking_volume: int,
+        sampling_rate: int,
+        file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
         _, voice_id_name, engine = voice_id.split("_")
         engine = engine.lower()
 
-        params = {"Engine": engine, "VoiceId": voice_id_name, "OutputFormat": "mp3", "OutputS3BucketName": self.api_settings["users_resource_bucket"]}
+        params = {
+            "Engine": engine,
+            "VoiceId": voice_id_name,
+            "OutputFormat": "mp3",
+            "OutputS3BucketName": self.api_settings["users_resource_bucket"],
+        }
 
         text = generate_right_ssml_text(
             text, speaking_rate, speaking_pitch, speaking_volume
@@ -374,23 +387,34 @@ class AmazonAudioApi(AudioInterface):
         if is_ssml(text):
             params["TextType"] = "ssml"
 
-        response = handle_amazon_call(self.clients["texttospeech"].start_speech_synthesis_task, **params)
+        response = handle_amazon_call(
+            self.clients["texttospeech"].start_speech_synthesis_task, **params
+        )
         synthesis_task = response["SynthesisTask"]
         if synthesis_task["TaskStatus"] == "failed":
-            raise ProviderException(synthesis_task.get("TaskStatusReason", "Amazon returned a job status: failed"))
+            raise ProviderException(
+                synthesis_task.get(
+                    "TaskStatusReason", "Amazon returned a job status: failed"
+                )
+            )
         print(synthesis_task["TaskId"])
         return AsyncLaunchJobResponseType(provider_job_id=synthesis_task["TaskId"])
 
     def audio__text_to_speech_async__get_job_result(
-        self,
-        provider_job_id: str
+        self, provider_job_id: str
     ) -> AsyncBaseResponseType[TextToSpeechAsyncDataClass]:
         params = {"TaskId": provider_job_id}
-        response = handle_amazon_call(self.clients["texttospeech"].get_speech_synthesis_task, **params)
+        response = handle_amazon_call(
+            self.clients["texttospeech"].get_speech_synthesis_task, **params
+        )
         synthesis_task = response["SynthesisTask"]
         status = synthesis_task["TaskStatus"]
         if status == "failed":
-            raise ProviderException(synthesis_task.get("TaskStatusReason", "Amazon returned a job status: failed"))
+            raise ProviderException(
+                synthesis_task.get(
+                    "TaskStatusReason", "Amazon returned a job status: failed"
+                )
+            )
         elif status == "inProgress" or status == "scheduled":
             return AsyncPendingResponseType[TextToSpeechAsyncDataClass](
                 provider_job_id=provider_job_id
@@ -398,7 +422,9 @@ class AmazonAudioApi(AudioInterface):
         else:
             output_uri = synthesis_task.get("OutputUri", "")
             s3_client_load()
-            file_url = get_cloud_front_file_url(output_uri.split('/')[-1], URL_LONG_PERIOD)
+            file_url = get_cloud_front_file_url(
+                output_uri.split("/")[-1], URL_LONG_PERIOD
+            )
             synthesis_task["OutputUri"] = file_url
             response_file = requests.get(file_url)
             print(response_file.content)
@@ -410,5 +436,5 @@ class AmazonAudioApi(AudioInterface):
             return AsyncResponseType[TextToSpeechAsyncDataClass](
                 original_response=synthesis_task,
                 standardized_response=standardized_response,
-                provider_job_id=provider_job_id
+                provider_job_id=provider_job_id,
             )
