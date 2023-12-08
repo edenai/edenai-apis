@@ -111,7 +111,9 @@ class MindeeApi(ProviderInterface, OcrInterface):
         extracted_data = []
         for page in original_response["document"]["inference"]["pages"]:
             receipt_data = page["prediction"]
-            supplier_company_registrations = receipt_data.get("supplier_company_registrations", None)
+            supplier_company_registrations = receipt_data.get(
+                "supplier_company_registrations", None
+            )
             merchant_siret = None
             merchant_siren = None
             if supplier_company_registrations:
@@ -122,7 +124,8 @@ class MindeeApi(ProviderInterface, OcrInterface):
                             merchant_siret = supplier_info.get("value", None)
                         if supplier_type == "SIREN":
                             merchant_siren = supplier_info.get("value", None)
-            extracted_data.append(InfosReceiptParserDataClass(
+            extracted_data.append(
+                InfosReceiptParserDataClass(
                     invoice_number=None,
                     invoice_total=receipt_data["total_amount"]["value"],
                     invoice_subtotal=None,
@@ -206,11 +209,15 @@ class MindeeApi(ProviderInterface, OcrInterface):
             default_dict = defaultdict(lambda: None)
 
             # Customer informations
-            customer_name = invoice_data.get("customer", default_dict).get("value", None)
+            customer_name = invoice_data.get("customer", default_dict).get(
+                "value", None
+            )
             customer_address = invoice_data.get("customer_address", default_dict).get(
                 "value", None
             )
-            customer_company_registrations = invoice_data.get("customer_company_registrations", {})
+            customer_company_registrations = invoice_data.get(
+                "customer_company_registrations", {}
+            )
             customer_vat_number = None
             customer_abn_number = None
             customer_gst_number = None
@@ -231,11 +238,15 @@ class MindeeApi(ProviderInterface, OcrInterface):
                     customer_siret_number = customer_registration_value
 
             # Merchant information
-            merchant_name = invoice_data.get("supplier", default_dict).get("value", None)
+            merchant_name = invoice_data.get("supplier", default_dict).get(
+                "value", None
+            )
             merchant_address = invoice_data.get("supplier_address", default_dict).get(
                 "value", None
             )
-            supplier_company_registrations = invoice_data.get("supplier_company_registrations", {})
+            supplier_company_registrations = invoice_data.get(
+                "supplier_company_registrations", {}
+            )
             merchant_siret = None
             merchant_siren = None
             merchant_vat_number = None
@@ -246,7 +257,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
                 supplier_registration_value = supplier_info.get("value", None)
                 if supplier_type == "SIRET":
                     merchant_siret = supplier_registration_value
-                elif supplier_type =="SIREN":
+                elif supplier_type == "SIREN":
                     merchant_siren = supplier_registration_value
                 elif supplier_type == "VAT NUMBER":
                     merchant_vat_number = supplier_registration_value
@@ -277,51 +288,53 @@ class MindeeApi(ProviderInterface, OcrInterface):
             currency = invoice_data.get("locale", default_dict)["currency"]
             language = invoice_data.get("locale", default_dict)["language"]
 
-            extracted_data.append(InfosInvoiceParserDataClass(
-                merchant_information=MerchantInformationInvoice(
-                    merchant_name=merchant_name,
-                    merchant_address=merchant_address,
-                    # Not supported by the Mindee
-                    # --------------------------------
-                    merchant_phone=None,
-                    merchant_email=None,
-                    merchant_fax=None,
-                    merchant_website=None,
-                    merchant_siret=merchant_siret,
-                    merchant_siren=merchant_siren,
-                    merchant_tax_id=None,
-                    abn_number=merchant_abn_number,
-                    gst_number=merchant_gst_number,
-                    vat_number=merchant_vat_number,
-                    pan_number=None,
-                    # --------------------------------
-                ),
-                customer_information=CustomerInformationInvoice(
-                    customer_name=customer_name,
-                    customer_address=customer_address,
-                    customer_mailing_address=customer_address,
-                    customer_email=None,
-                    customer_id=None,
-                    customer_tax_id=None,
-                    customer_billing_address=None,
-                    customer_remittance_address=None,
-                    customer_service_address=None,
-                    customer_shipping_address=None,
-                    abn_number=customer_abn_number,
-                    gst_number=customer_gst_number,
-                    pan_number=None,
-                    vat_number=customer_vat_number,
-                    siren_number=customer_siren_number,
-                    siret_number=customer_siret_number,
-                ),
-                invoice_number=invoice_number,
-                invoice_total=invoice_total,
-                invoice_subtotal=invoice_subtotal,
-                date=date,
-                due_date=due_date,
-                taxes=taxes,
-                locale=LocaleInvoice(currency=currency, language=language),
-            ))
+            extracted_data.append(
+                InfosInvoiceParserDataClass(
+                    merchant_information=MerchantInformationInvoice(
+                        merchant_name=merchant_name,
+                        merchant_address=merchant_address,
+                        # Not supported by the Mindee
+                        # --------------------------------
+                        merchant_phone=None,
+                        merchant_email=None,
+                        merchant_fax=None,
+                        merchant_website=None,
+                        merchant_siret=merchant_siret,
+                        merchant_siren=merchant_siren,
+                        merchant_tax_id=None,
+                        abn_number=merchant_abn_number,
+                        gst_number=merchant_gst_number,
+                        vat_number=merchant_vat_number,
+                        pan_number=None,
+                        # --------------------------------
+                    ),
+                    customer_information=CustomerInformationInvoice(
+                        customer_name=customer_name,
+                        customer_address=customer_address,
+                        customer_mailing_address=customer_address,
+                        customer_email=None,
+                        customer_id=None,
+                        customer_tax_id=None,
+                        customer_billing_address=None,
+                        customer_remittance_address=None,
+                        customer_service_address=None,
+                        customer_shipping_address=None,
+                        abn_number=customer_abn_number,
+                        gst_number=customer_gst_number,
+                        pan_number=None,
+                        vat_number=customer_vat_number,
+                        siren_number=customer_siren_number,
+                        siret_number=customer_siret_number,
+                    ),
+                    invoice_number=invoice_number,
+                    invoice_total=invoice_total,
+                    invoice_subtotal=invoice_subtotal,
+                    date=date,
+                    due_date=due_date,
+                    taxes=taxes,
+                    locale=LocaleInvoice(currency=currency, language=language),
+                )
+            )
 
         standardized_response = InvoiceParserDataClass(extracted_data=extracted_data)
 
@@ -345,8 +358,8 @@ class MindeeApi(ProviderInterface, OcrInterface):
 
         original_response = response.json()
         if response.status_code != 201:
-            err_title = original_response['api_request']['error']['message']
-            err_msg = original_response['api_request']['error']['details']
+            err_title = original_response["api_request"]["error"]["message"]
+            err_msg = original_response["api_request"]["error"]["details"]
             raise ProviderException(
                 message=f"{err_title}: {err_msg}",
                 code=response.status_code,
@@ -465,7 +478,8 @@ class MindeeApi(ProviderInterface, OcrInterface):
         payees_list = bank_check_data.get("payees", []) or []
         payees_list_value = []
         for p in payees_list:
-            payees_list_value.append(p.get("value", default_dict))
+            if p:
+                payees_list_value.append(p.get("value", default_dict))
         payees_str = None
         if len(payees_list_value) > 0:
             payees_str = ",".join(payees_list_value)
