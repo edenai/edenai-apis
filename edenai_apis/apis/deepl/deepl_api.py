@@ -1,5 +1,6 @@
 import base64
 import http.client
+import json
 import mimetypes
 from io import BytesIO
 from time import sleep
@@ -51,7 +52,8 @@ class DeeplApi(ProviderInterface, TranslationInterface):
 
         if response.status_code >= 500:
             raise ProviderException(
-                message=http.client.responses[response.status_code], code=response.status_code
+                message=http.client.responses[response.status_code],
+                code=response.status_code,
             )
         if response.status_code != 200:
             raise ProviderException(
@@ -86,17 +88,26 @@ class DeeplApi(ProviderInterface, TranslationInterface):
 
         data = {"target_lang": target_language, "source_lang": source_language}
 
-        response = requests.post(
-            f"{self.url}document", headers=self.header, data=data, files=files
-        )
-        original_response = response.json()
+        try:
+            response = requests.post(
+                f"{self.url}document", headers=self.header, data=data, files=files
+            )
+        except:
+            raise ProviderException(
+                "Something went wrong when performing document translation!!", 500
+            )
+        if response.status_code >= 400:
+            raise ProviderException(
+                message=http.client.responses[response.status_code],
+                code=response.status_code,
+            )
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError:
+            raise ProviderException("Internal server error", 500)
 
         file_.close()
 
-        if response.status_code >= 500:
-            raise ProviderException(
-                message=http.client.responses[response.status_code], code=response.status_code
-            )
         if response.status_code != 200:
             raise ProviderException(
                 message=original_response["message"], code=response.status_code
