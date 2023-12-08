@@ -64,9 +64,11 @@ class PhedoneApi(ProviderInterface, TranslationInterface):
 
         if response.status_code != 200:
             raise ProviderException(
-                original_response.get("message"),
-                code = response.status_code
+                original_response.get("message"), code=response.status_code
             )
+
+        if not original_response.get("translation")[0]:
+            raise ProviderException("Provider returned an empty response", 200)
 
         standardized_response = AutomaticTranslationDataClass(
             text=original_response.get("translation")[0]
