@@ -47,7 +47,7 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
         audio_attributes: tuple,
         model: str,
         file_url: str = "",
-        provider_params = dict()
+        provider_params=dict(),
     ) -> AsyncLaunchJobResponseType:
         file_ = open(file, "rb")
         config = {
@@ -62,7 +62,7 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
             "config": json.dumps(
                 {"type": "transcription", "transcription_config": config}
             ),
-            **provider_params
+            **provider_params,
         }
         # Send request
         response = requests.post(
@@ -87,7 +87,7 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
             if original_response.get("details") == "path not found":
                 raise AsyncJobException(
                     reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
-                    code = response.status_code
+                    code=response.status_code,
                 )
             raise ProviderException(
                 message=original_response,
@@ -97,7 +97,7 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
         job_details = original_response["job"]
         errors = job_details.get("errors")
         if errors:
-            raise ProviderException(errors, code = response.status_code)
+            raise ProviderException(errors, code=response.status_code)
 
         status = job_details["status"]
         if status == "running":
@@ -120,7 +120,9 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
             text = ""
             for entry in original_response.get("results"):
                 text = text + " " + entry["alternatives"][0]["content"]
-                speakers.add(entry["alternatives"][0]["speaker"])
+                speaker = entry["alternatives"][0].get("speaker") or None
+                if speaker:
+                    speakers.add(speaker)
 
                 diarization_entries.append(
                     SpeechDiarizationEntry(
@@ -128,9 +130,7 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
                         start_time=str(entry["start_time"]),
                         end_time=str(entry["end_time"]),
                         confidence=entry["alternatives"][0]["confidence"],
-                        speaker=list(speakers).index(
-                            entry["alternatives"][0]["speaker"]
-                        ),
+                        speaker=(list(speakers).index(speaker) + 1 if speaker else 0),
                     )
                 )
             diarization = SpeechDiarization(
@@ -144,4 +144,4 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
                 provider_job_id=provider_job_id,
             )
         else:
-            raise ProviderException(f"Unexpected job failed")
+            raise ProviderException("Unexpected job failed")
