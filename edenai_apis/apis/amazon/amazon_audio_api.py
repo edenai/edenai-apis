@@ -295,7 +295,7 @@ class AmazonAudioApi(AudioInterface):
                 diarization_entries = []
                 words_info = original_response["results"]["items"]
                 speakers = (
-                    original_response["results"].get("speaker_labels", {}) or {}
+                    original_response.get("results", {}).get("speaker_labels", {}) or {}
                 ).get("speakers", 0)
 
                 for word_info in words_info:
