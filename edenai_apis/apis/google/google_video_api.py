@@ -194,12 +194,12 @@ class GoogleVideoApi(VideoInterface):
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[LabelDetectionAsyncDataClass]:
         result = google_video_get_job(provider_job_id)
-        
+
         if result.get("done"):
             annotations = result["response"]["annotationResults"][0]
-            label: List[dict] = annotations.get("segmentLabelAnnotations", []) + annotations.get(
-                "shotLabelAnnotations", []
-            )
+            label: List[dict] = annotations.get(
+                "segmentLabelAnnotations", []
+            ) + annotations.get("shotLabelAnnotations", [])
             label_list = []
 
             for entity in label:
@@ -243,11 +243,11 @@ class GoogleVideoApi(VideoInterface):
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[TextDetectionAsyncDataClass]:
         result = google_video_get_job(provider_job_id)
-        
+
         if result.get("done"):
             annotations = result["response"]["annotationResults"][0]
             texts = []
-            for annotation in annotations["textAnnotations"]:
+            for annotation in annotations.get("textAnnotations", []):
                 frames = []
                 description = annotation["text"]
                 for segment in annotation["segments"]:
@@ -289,7 +289,7 @@ class GoogleVideoApi(VideoInterface):
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[FaceDetectionAsyncDataClass]:
         result = google_video_get_job(provider_job_id)
-        
+
         if result.get("done"):
             faces = []
             response = result["response"]["annotationResults"][0]
@@ -299,33 +299,33 @@ class GoogleVideoApi(VideoInterface):
                         timestamp = float(
                             track["timestampedObjects"][0]["timeOffset"][:-1]
                         )
-                        
+
                         top = float(
-                                track["timestampedObjects"][0][
-                                "normalizedBoundingBox"
-                            ].get("top", 0)
+                            track["timestampedObjects"][0]["normalizedBoundingBox"].get(
+                                "top", 0
                             )
+                        )
                         left = float(
-                                track["timestampedObjects"][0][
-                                "normalizedBoundingBox"
-                            ].get("left", 0)
+                            track["timestampedObjects"][0]["normalizedBoundingBox"].get(
+                                "left", 0
                             )
-                        right= float(
-                                track["timestampedObjects"][0][
-                                "normalizedBoundingBox"
-                            ].get("right", 0)
+                        )
+                        right = float(
+                            track["timestampedObjects"][0]["normalizedBoundingBox"].get(
+                                "right", 0
                             )
+                        )
                         bottom = float(
-                                track["timestampedObjects"][0][
-                                "normalizedBoundingBox"
-                            ].get("bottom", 0)
+                            track["timestampedObjects"][0]["normalizedBoundingBox"].get(
+                                "bottom", 0
                             )
+                        )
                         # Bounding box
                         bounding_box = VideoBoundingBox(
                             top=top,
                             left=left,
-                            height = 1 - (top + (1 - bottom)),
-                            width= 1 - (left + (1 - right)),
+                            height=1 - (top + (1 - bottom)),
+                            width=1 - (left + (1 - right)),
                         )
                         attribute_dict = {}
                         for attr in track["timestampedObjects"][0].get(
@@ -377,23 +377,31 @@ class GoogleVideoApi(VideoInterface):
                     for track in person["tracks"]:
                         for time_stamped_object in track["timestampedObjects"]:
                             top = float(
-                                    time_stamped_object["normalizedBoundingBox"].get("top",0)
+                                time_stamped_object["normalizedBoundingBox"].get(
+                                    "top", 0
                                 )
+                            )
                             left = float(
-                                    time_stamped_object["normalizedBoundingBox"].get("left",0)
+                                time_stamped_object["normalizedBoundingBox"].get(
+                                    "left", 0
                                 )
-                            right =float(
-                                    time_stamped_object["normalizedBoundingBox"].get("right",0)
+                            )
+                            right = float(
+                                time_stamped_object["normalizedBoundingBox"].get(
+                                    "right", 0
                                 )
+                            )
                             bottom = float(
-                                    time_stamped_object["normalizedBoundingBox"].get("bottom",0)
+                                time_stamped_object["normalizedBoundingBox"].get(
+                                    "bottom", 0
                                 )
+                            )
                             # Bounding box
                             bounding_box = VideoTrackingBoundingBox(
                                 top=top,
                                 left=left,
-                                height = 1 - (top + (1 - bottom)),
-                                width= 1 - (left + (1 - right)),
+                                height=1 - (top + (1 - bottom)),
+                                width=1 - (left + (1 - right)),
                             )
 
                             # Timeoffset
@@ -433,7 +441,9 @@ class GoogleVideoApi(VideoInterface):
                                 eye_left=landmark_output.get("left_eye", []),
                                 eye_right=landmark_output.get("right_eye", []),
                                 shoulder_left=landmark_output.get("left_shoulder", []),
-                                shoulder_right=landmark_output.get("right_shoulder", []),
+                                shoulder_right=landmark_output.get(
+                                    "right_shoulder", []
+                                ),
                                 elbow_left=landmark_output.get("left_elbow", []),
                                 elbow_right=landmark_output.get("right_elbow", []),
                                 wrist_left=landmark_output.get("left_wrist", []),
@@ -453,7 +463,9 @@ class GoogleVideoApi(VideoInterface):
                                     attributes=tracked_attributes,
                                     landmarks=landmark_tracking,
                                     bounding_box=bounding_box,
-                                    poses=VideoPersonPoses(pitch=None, roll=None, yaw=None),
+                                    poses=VideoPersonPoses(
+                                        pitch=None, roll=None, yaw=None
+                                    ),
                                     quality=VideoPersonQuality(
                                         brightness=None, sharpness=None
                                     ),
@@ -479,7 +491,7 @@ class GoogleVideoApi(VideoInterface):
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[LogoDetectionAsyncDataClass]:
         result = google_video_get_job(provider_job_id)
-        
+
         if result.get("done"):
             response = result["response"]["annotationResults"][0]
             tracks = []
@@ -491,23 +503,31 @@ class GoogleVideoApi(VideoInterface):
                         for time_stamped_object in track["timestampedObjects"]:
                             timestamp = float(time_stamped_object["timeOffset"][:-1])
                             top = float(
-                                    time_stamped_object["normalizedBoundingBox"].get("top",0)
+                                time_stamped_object["normalizedBoundingBox"].get(
+                                    "top", 0
                                 )
-                            left =float(
-                                    time_stamped_object["normalizedBoundingBox"].get("left",0)
+                            )
+                            left = float(
+                                time_stamped_object["normalizedBoundingBox"].get(
+                                    "left", 0
                                 )
-                            right =float(
-                                    time_stamped_object["normalizedBoundingBox"].get("right",0)
+                            )
+                            right = float(
+                                time_stamped_object["normalizedBoundingBox"].get(
+                                    "right", 0
                                 )
+                            )
                             bottom = float(
-                                    time_stamped_object["normalizedBoundingBox"].get("bottom",0)
+                                time_stamped_object["normalizedBoundingBox"].get(
+                                    "bottom", 0
                                 )
+                            )
                             # Bounding box
                             bounding_box = VideoLogoBoundingBox(
                                 top=top,
                                 left=left,
-                                height = 1 - (top + (1 - bottom)),
-                                width= 1 - (left + (1 - right)),
+                                height=1 - (top + (1 - bottom)),
+                                width=1 - (left + (1 - right)),
                             )
 
                             objects.append(
@@ -546,24 +566,16 @@ class GoogleVideoApi(VideoInterface):
                 description = detected_object["entity"]["description"]
                 for frame in detected_object["frames"]:
                     timestamp = float(frame["timeOffset"][:-1])
-                    top = float(
-                            frame["normalizedBoundingBox"].get("top",0)
-                        )
-                    left = float(
-                            frame["normalizedBoundingBox"].get("left",0)
-                        )
-                    right = float(
-                            frame["normalizedBoundingBox"].get("right",0)
-                        )
-                    bottom = float(
-                            frame["normalizedBoundingBox"].get("bottom",0)
-                        )
+                    top = float(frame["normalizedBoundingBox"].get("top", 0))
+                    left = float(frame["normalizedBoundingBox"].get("left", 0))
+                    right = float(frame["normalizedBoundingBox"].get("right", 0))
+                    bottom = float(frame["normalizedBoundingBox"].get("bottom", 0))
                     # Bounding box
                     bounding_box = VideoObjectBoundingBox(
                         top=top,
                         left=left,
-                        height = 1 - (top + (1 - bottom)),
-                        width= 1 - (left + (1 - right)),
+                        height=1 - (top + (1 - bottom)),
+                        width=1 - (left + (1 - right)),
                     )
                     frames.append(
                         ObjectFrame(timestamp=timestamp, bounding_box=bounding_box)
@@ -591,7 +603,7 @@ class GoogleVideoApi(VideoInterface):
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[ExplicitContentDetectionAsyncDataClass]:
         result = google_video_get_job(provider_job_id)
-        
+
         if result.get("error"):
             raise ProviderException(result["error"].get("message"))
 
