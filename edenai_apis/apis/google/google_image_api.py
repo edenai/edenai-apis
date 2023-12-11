@@ -1,7 +1,7 @@
 from typing import Sequence
 
 import numpy as np
-from PIL import Image as Img
+from PIL import Image as Img, UnidentifiedImageError
 from google.cloud import vision
 from google.cloud.vision_v1.types.image_annotator import AnnotateImageResponse
 from google.protobuf.json_format import MessageToDict
@@ -53,6 +53,7 @@ class GoogleImageApi(ImageInterface):
     def _convert_likelihood(self, value: int) -> float:
         values = [0, 0.2, 0.4, 0.6, 0.8, 1]
         return values[value]
+
     def image__explicit_content(
         self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
@@ -60,8 +61,10 @@ class GoogleImageApi(ImageInterface):
             content = file_.read()
         image = vision.Image(content=content)
 
-        payload = { "image": image }
-        response = handle_google_call(self.clients["image"].safe_search_detection, **payload)
+        payload = {"image": image}
+        response = handle_google_call(
+            self.clients["image"].safe_search_detection, **payload
+        )
 
         # Convert response to dict
         data = AnnotateImageResponse.to_dict(response)
@@ -73,23 +76,29 @@ class GoogleImageApi(ImageInterface):
 
         items = []
         for safe_search_annotation, likelihood in original_response.items():
-            classificator = CategoryType.choose_category_subcategory(safe_search_annotation.capitalize())
+            classificator = CategoryType.choose_category_subcategory(
+                safe_search_annotation.capitalize()
+            )
             items.append(
                 ExplicitItem(
                     label=safe_search_annotation.capitalize(),
                     category=classificator["category"],
                     subcategory=classificator["subcategory"],
                     likelihood_score=self._convert_likelihood(likelihood),
-                    likelihood=likelihood
+                    likelihood=likelihood,
                 )
             )
 
         nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
-        nsfw_likelihood_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+        nsfw_likelihood_score = (
+            ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+        )
         return ResponseType(
             original_response=original_response,
             standardized_response=ExplicitContentDataClass(
-                items=items, nsfw_likelihood=nsfw_likelihood, nsfw_likelihood_score=nsfw_likelihood_score
+                items=items,
+                nsfw_likelihood=nsfw_likelihood,
+                nsfw_likelihood_score=nsfw_likelihood_score,
             ),
         )
 
@@ -99,8 +108,10 @@ class GoogleImageApi(ImageInterface):
         file_ = open(file, "rb")
         image = vision.Image(content=file_.read())
 
-        payload = { "image": image }
-        response = handle_google_call(self.clients["image"].object_localization, **payload)
+        payload = {"image": image}
+        response = handle_google_call(
+            self.clients["image"].object_localization, **payload
+        )
         response = MessageToDict(response._pb)
 
         file_.close()
@@ -139,13 +150,13 @@ class GoogleImageApi(ImageInterface):
     ) -> ResponseType[FaceDetectionDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
-        img_size = Img.open(file).size
+        try:
+            img_size = Img.open(file).size
+        except UnidentifiedImageError:
+            raise ProviderException(message="Can not identify image file", code=400)
         image = vision.Image(content=file_content)
-        
-        payload = {
-            "image": image,
-            "max_results": 100
-        }
+
+        payload = {"image": image, "max_results": 100}
         response = handle_google_call(self.clients["image"].face_detection, **payload)
         original_result = MessageToDict(response._pb)
 
@@ -281,8 +292,10 @@ class GoogleImageApi(ImageInterface):
         with open(file, "rb") as file_:
             content = file_.read()
         image = vision.Image(content=content)
-        payload = { "image": image }
-        response = handle_google_call(self.clients["image"].landmark_detection, **payload)
+        payload = {"image": image}
+        response = handle_google_call(
+            self.clients["image"].landmark_detection, **payload
+        )
         dict_response = vision.AnnotateImageResponse.to_dict(response)
         landmarks = dict_response.get("landmark_annotations", [])
 
@@ -329,9 +342,9 @@ class GoogleImageApi(ImageInterface):
             content = file_.read()
         image = vision.Image(content=content)
 
-        payload = { "image": image }
+        payload = {"image": image}
         response = handle_google_call(self.clients["image"].logo_detection, **payload)
-        
+
         response = MessageToDict(response._pb)
 
         float_or_none = lambda val: float(val) if val else None
