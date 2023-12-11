@@ -174,7 +174,10 @@ class SaplingApi(ProviderInterface, TextInterface):
         if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
             raise ProviderException("Internal server error", code=response.status_code)
 
-        original_response = response.json()
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(response.text, code=response.status_code) from exc
 
         if response.status_code >= HTTPStatus.BAD_REQUEST:
             raise ProviderException(original_response, code=response.status_code)

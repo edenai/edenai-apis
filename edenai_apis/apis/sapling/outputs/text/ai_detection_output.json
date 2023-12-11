@@ -1,156 +1,156 @@
 {
   "original_response": {
-    "score": 0.4406824693027711,
+    "score": 0.9685623554624444,
     "sentence_scores": [
       {
-        "score": 0.9990816861037607,
+        "score": 0.9990817176020741,
         "sentence": "The panther, also known as the black panther, is a magnificent and enigmatic creature that captivates the imagination of many."
       },
       {
-        "score": 0.7623506429184961,
+        "score": 0.7623477056593153,
         "sentence": "It is not a distinct species itself, but rather a melanistic variant of leopards and jaguars."
       },
       {
-        "score": 0.012890635456970667,
+        "score": 0.012890975241315883,
         "sentence": "The mesmerizing black coat of the panther is a result of a genetic mutation that increases the production of dark pigment, melanin."
       },
       {
-        "score": 0.9241214263481737,
+        "score": 0.9241208913655489,
         "sentence": "Panthers are highly adaptable predators, found primarily in dense forests and jungles across Africa, Asia, and the Americas."
       },
       {
-        "score": 3.0646753979013397e-07,
+        "score": 3.0645117310434955e-07,
         "sentence": "Their stealthy nature and exceptional agility make them formidable hunters."
       },
       {
-        "score": 0.9835433053713841,
+        "score": 0.98354284228347,
         "sentence": "They are solitary creatures, preferring to roam alone in their vast territories, which can span over a hundred square miles."
       },
       {
-        "score": 0.2026929088689865,
+        "score": 0.2026922923822072,
         "sentence": "Equipped with incredible strength and sharp retractable claws, panthers are skilled climbers and swimmers."
       },
       {
-        "score": 0.21406805772626836,
+        "score": 0.2140626025123451,
         "sentence": "Their keen senses, including sharp vision and acute hearing, aid them in locating prey, often stalking their victims from the cover of trees or thick underbrush before launching a precise and powerful attack."
       },
       {
-        "score": 0.379220094131,
+        "score": 0.37921425697733424,
         "sentence": "The diet of a panther consists mainly of deer, wild boar, and smaller mammals."
       },
       {
-        "score": 0.5960961213808509,
+        "score": 0.5961050762132343,
         "sentence": "However, they are opportunistic hunters and can also target livestock and domestic animals in areas where their habitats overlap with human settlements."
       },
       {
-        "score": 0.24993446670149655,
+        "score": 0.24993929386497937,
         "sentence": "Unfortunately, this sometimes leads to conflicts with humans, resulting in the panther being perceived as a threat."
       },
       {
-        "score": 0.965080791889737,
+        "score": 0.9650813061050976,
         "sentence": "Despite their association with darkness and mystery, panthers play a vital role in maintaining the balance of ecosystems."
       },
       {
-        "score": 0.10246027414027148,
+        "score": 0.10245966022820763,
         "sentence": "As apex predators, they help control populations of herbivores, preventing overgrazing and maintaining healthy prey dynamics."
       },
       {
-        "score": 0.9855813142906905,
+        "score": 0.9855811787654352,
         "sentence": "Conservation efforts are crucial to the survival of panther populations worldwide."
       },
       {
-        "score": 0.6643219379890274,
+        "score": 0.6643251279978084,
         "sentence": "Habitat loss, poaching, and illegal wildlife trade pose significant threats to their existence."
       },
       {
-        "score": 6.643597121314126e-05,
-        "sentence": "Various organizations and governments are working tirelessly to protect these magnificent creatures through initiatives such as establishing protected areas, promoting sustainable land use p"
+        "score": 0.9928049859145851,
+        "sentence": "Various organizations and governments are working tirelessly to protect these magnificent creatures through initiatives such as establishing protected areas, promoting sustainable land use practices, and raising awareness about their importance in the natural world."
       }
     ],
-    "text": "The panther, also known as the black panther, is a magnificent and enigmatic creature that captivates the imagination of many. It is not a distinct species itself, but rather a melanistic variant of leopards and jaguars. The mesmerizing black coat of the panther is a result of a genetic mutation that increases the production of dark pigment, melanin.         Panthers are highly adaptable predators, found primarily in dense forests and jungles across Africa, Asia, and the Americas. Their stealthy nature and exceptional agility make them formidable hunters. They are solitary creatures, preferring to roam alone in their vast territories, which can span over a hundred square miles.         Equipped with incredible strength and sharp retractable claws, panthers are skilled climbers and swimmers. Their keen senses, including sharp vision and acute hearing, aid them in locating prey, often stalking their victims from the cover of trees or thick underbrush before launching a precise and powerful attack.         The diet of a panther consists mainly of deer, wild boar, and smaller mammals. However, they are opportunistic hunters and can also target livestock and domestic animals in areas where their habitats overlap with human settlements. Unfortunately, this sometimes leads to conflicts with humans, resulting in the panther being perceived as a threat.         Despite their association with darkness and mystery, panthers play a vital role in maintaining the balance of ecosystems. As apex predators, they help control populations of herbivores, preventing overgrazing and maintaining healthy prey dynamics.         Conservation efforts are crucial to the survival of panther populations worldwide. Habitat loss, poaching, and illegal wildlife trade pose significant threats to their existence. Various organizations and governments are working tirelessly to protect these magnificent creatures through initiatives such as establishing protected areas, promoting sustainable land use p"
+    "text": "The panther, also known as the black panther, is a magnificent and enigmatic creature that captivates the imagination of many. It is not a distinct species itself, but rather a melanistic variant of leopards and jaguars. The mesmerizing black coat of the panther is a result of a genetic mutation that increases the production of dark pigment, melanin.         Panthers are highly adaptable predators, found primarily in dense forests and jungles across Africa, Asia, and the Americas. Their stealthy nature and exceptional agility make them formidable hunters. They are solitary creatures, preferring to roam alone in their vast territories, which can span over a hundred square miles.         Equipped with incredible strength and sharp retractable claws, panthers are skilled climbers and swimmers. Their keen senses, including sharp vision and acute hearing, aid them in locating prey, often stalking their victims from the cover of trees or thick underbrush before launching a precise and powerful attack.         The diet of a panther consists mainly of deer, wild boar, and smaller mammals. However, they are opportunistic hunters and can also target livestock and domestic animals in areas where their habitats overlap with human settlements. Unfortunately, this sometimes leads to conflicts with humans, resulting in the panther being perceived as a threat.         Despite their association with darkness and mystery, panthers play a vital role in maintaining the balance of ecosystems. As apex predators, they help control populations of herbivores, preventing overgrazing and maintaining healthy prey dynamics.         Conservation efforts are crucial to the survival of panther populations worldwide. Habitat loss, poaching, and illegal wildlife trade pose significant threats to their existence. Various organizations and governments are working tirelessly to protect these magnificent creatures through initiatives such as establishing protected areas, promoting sustainable land use practices, and raising awareness about their importance in the natural world."
   },
   "standardized_response": {
-    "ai_score": 0.4406824693027711,
+    "ai_score": 0.9685623554624444,
     "items": [
       {
         "text": "The panther, also known as the black panther, is a magnificent and enigmatic creature that captivates the imagination of many.",
         "prediction": "ai-generated",
-        "ai_score": 0.9990816861037607
+        "ai_score": 0.9990817176020741
       },
       {
         "text": "It is not a distinct species itself, but rather a melanistic variant of leopards and jaguars.",
         "prediction": "ai-generated",
-        "ai_score": 0.7623506429184961
+        "ai_score": 0.7623477056593153
       },
       {
         "text": "The mesmerizing black coat of the panther is a result of a genetic mutation that increases the production of dark pigment, melanin.",
         "prediction": "original",
-        "ai_score": 0.012890635456970667
+        "ai_score": 0.012890975241315883
       },
       {
         "text": "Panthers are highly adaptable predators, found primarily in dense forests and jungles across Africa, Asia, and the Americas.",
         "prediction": "ai-generated",
-        "ai_score": 0.9241214263481737
+        "ai_score": 0.9241208913655489
       },
       {
         "text": "Their stealthy nature and exceptional agility make them formidable hunters.",
         "prediction": "original",
-        "ai_score": 3.0646753979013397e-07
+        "ai_score": 3.0645117310434955e-07
       },
       {
         "text": "They are solitary creatures, preferring to roam alone in their vast territories, which can span over a hundred square miles.",
         "prediction": "ai-generated",
-        "ai_score": 0.9835433053713841
+        "ai_score": 0.98354284228347
       },
       {
         "text": "Equipped with incredible strength and sharp retractable claws, panthers are skilled climbers and swimmers.",
         "prediction": "original",
-        "ai_score": 0.2026929088689865
+        "ai_score": 0.2026922923822072
       },
       {
         "text": "Their keen senses, including sharp vision and acute hearing, aid them in locating prey, often stalking their victims from the cover of trees or thick underbrush before launching a precise and powerful attack.",
         "prediction": "original",
-        "ai_score": 0.21406805772626836
+        "ai_score": 0.2140626025123451
       },
       {
         "text": "The diet of a panther consists mainly of deer, wild boar, and smaller mammals.",
         "prediction": "original",
-        "ai_score": 0.379220094131
+        "ai_score": 0.37921425697733424
       },
       {
         "text": "However, they are opportunistic hunters and can also target livestock and domestic animals in areas where their habitats overlap with human settlements.",
         "prediction": "ai-generated",
-        "ai_score": 0.5960961213808509
+        "ai_score": 0.5961050762132343
       },
       {
         "text": "Unfortunately, this sometimes leads to conflicts with humans, resulting in the panther being perceived as a threat.",
         "prediction": "original",
-        "ai_score": 0.24993446670149655
+        "ai_score": 0.24993929386497937
       },
       {
         "text": "Despite their association with darkness and mystery, panthers play a vital role in maintaining the balance of ecosystems.",
         "prediction": "ai-generated",
-        "ai_score": 0.965080791889737
+        "ai_score": 0.9650813061050976
       },
       {
         "text": "As apex predators, they help control populations of herbivores, preventing overgrazing and maintaining healthy prey dynamics.",
         "prediction": "original",
-        "ai_score": 0.10246027414027148
+        "ai_score": 0.10245966022820763
       },
       {
         "text": "Conservation efforts are crucial to the survival of panther populations worldwide.",
         "prediction": "ai-generated",
-        "ai_score": 0.9855813142906905
+        "ai_score": 0.9855811787654352
       },
       {
         "text": "Habitat loss, poaching, and illegal wildlife trade pose significant threats to their existence.",
         "prediction": "ai-generated",
-        "ai_score": 0.6643219379890274
+        "ai_score": 0.6643251279978084
       },
       {
-        "text": "Various organizations and governments are working tirelessly to protect these magnificent creatures through initiatives such as establishing protected areas, promoting sustainable land use p",
-        "prediction": "original",
-        "ai_score": 6.643597121314126e-05
+        "text": "Various organizations and governments are working tirelessly to protect these magnificent creatures through initiatives such as establishing protected areas, promoting sustainable land use practices, and raising awareness about their importance in the natural world.",
+        "prediction": "ai-generated",
+        "ai_score": 0.9928049859145851
       }
     ]
   }
