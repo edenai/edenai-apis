@@ -331,19 +331,19 @@ class OpenaiTextApi(TextInterface):
             "messages": [{"role": "system", "content": prompt}],
             "max_tokens": self.max_tokens,
             "model": "gpt-3.5-turbo-1106",
-            "response_format": { "type": "json_object" },
+            "response_format": {"type": "json_object"},
         }
         try:
-            response = openai.ChatCompletion.create(
-                **payload
-            )
+            response = openai.ChatCompletion.create(**payload)
         except Exception as exc:
             raise ProviderException(str(exc)) from exc
 
         raw_keywords = response["choices"][0]["message"]["content"]
         try:
-            if response['choices'][0]['finish_reason'] == 'length':
-                keywords = json.loads(finish_unterminated_json(raw_keywords, end_brackets=']}'))
+            if response["choices"][0]["finish_reason"] == "length":
+                keywords = json.loads(
+                    finish_unterminated_json(raw_keywords, end_brackets="]}")
+                )
             else:
                 keywords = json.loads(raw_keywords)
             if isinstance(keywords, list) and len(keywords) > 0:
@@ -378,7 +378,7 @@ class OpenaiTextApi(TextInterface):
     ) -> ResponseType[SentimentAnalysisDataClass]:
         url = f"{self.url}/chat/completions"
         prompt = construct_sentiment_analysis_context(text)
-        json_output = {"general_sentiment":"Positive", "general_sentiment_rate": 0.8}
+        json_output = {"general_sentiment": "Positive", "general_sentiment_rate": 0.8}
         messages = [{"role": "user", "content": prompt}]
         messages.insert(
             0,
@@ -399,15 +399,14 @@ class OpenaiTextApi(TextInterface):
         sentiments_content = original_response["choices"][0]["message"]["content"]
         try:
             sentiments = json.loads(sentiments_content)
-        except (KeyError, json.JSONDecodeError) as exc:
+            standarize = SentimentAnalysisDataClass(
+                general_sentiment=sentiments["general_sentiment"],
+                general_sentiment_rate=sentiments["general_sentiment_rate"],
+            )
+        except (KeyError, json.JSONDecodeError, ValidationError) as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
-
-        standarize = SentimentAnalysisDataClass(
-            general_sentiment=sentiments['general_sentiment'],
-            general_sentiment_rate=sentiments['general_sentiment_rate'],
-        )
 
         return ResponseType[SentimentAnalysisDataClass](
             original_response=original_response, standardized_response=standarize
@@ -418,7 +417,7 @@ class OpenaiTextApi(TextInterface):
     ) -> ResponseType[TopicExtractionDataClass]:
         url = f"{self.url}/chat/completions"
         prompt = construct_topic_extraction_context(text)
-        json_output = {"items":[{"category":"categrory","importance": 0.9}]}
+        json_output = {"items": [{"category": "categrory", "importance": 0.9}]}
         messages = [{"role": "user", "content": prompt}]
         messages.insert(
             0,
@@ -443,8 +442,8 @@ class OpenaiTextApi(TextInterface):
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
-        categories = categories_data.get('items', [])
-            
+        categories = categories_data.get("items", [])
+
         standarized_response = TopicExtractionDataClass(items=categories)
 
         return ResponseType[TopicExtractionDataClass](
@@ -515,15 +514,14 @@ class OpenaiTextApi(TextInterface):
         )
 
     def text__custom_named_entity_recognition(
-            self, text: str, entities: List[str], examples: Optional[List[Dict]] = None
+        self, text: str, entities: List[str], examples: Optional[List[Dict]] = None
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
-
         built_entities = ",".join(entities)
         prompt = construct_custom_ner_instruction(text, built_entities, examples)
         payload = {
             "messages": [{"role": "system", "content": prompt}],
             "model": "gpt-3.5-turbo-1106",
-            "response_format": { "type": "json_object" },
+            "response_format": {"type": "json_object"},
             "temperature": 0.0,
             "max_tokens": 4096,
             "top_p": 1,
@@ -531,18 +529,17 @@ class OpenaiTextApi(TextInterface):
             "presence_penalty": 0,
         }
         try:
-            response = openai.ChatCompletion.create(
-                **payload
-            )
+            response = openai.ChatCompletion.create(**payload)
         except Exception as exc:
             raise ProviderException(str(exc))
 
         raw_items = response["choices"][0]["message"]["content"]
         try:
-            if response['choices'][0]['finish_reason'] == 'length':
-                items = json.loads(finish_unterminated_json(raw_items, end_brackets=']}'))
+            if response["choices"][0]["finish_reason"] == "length":
+                items = json.loads(
+                    finish_unterminated_json(raw_items, end_brackets="]}")
+                )
             else:
-
                 items = json.loads(raw_items)
         except json.JSONDecodeError as exc:
             raise ProviderException(
@@ -654,7 +651,11 @@ class OpenaiTextApi(TextInterface):
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         url = f"{self.url}/chat/completions"
         prompt = construct_ner_instruction(text)
-        json_output = {"items":[{"entity":"entity","category":"categrory","importance":"score"}]}
+        json_output = {
+            "items": [
+                {"entity": "entity", "category": "categrory", "importance": "score"}
+            ]
+        }
         messages = [{"role": "user", "content": prompt}]
         messages.insert(
             0,
@@ -679,7 +680,7 @@ class OpenaiTextApi(TextInterface):
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
-        
+
         return ResponseType[NamedEntityRecognitionDataClass](
             original_response=original_response,
             standardized_response=NamedEntityRecognitionDataClass(
@@ -766,12 +767,16 @@ class OpenaiTextApi(TextInterface):
                 standardized_response=standardized_response,
             )
         else:
-            stream = (ChatStreamResponse(
-                text = chunk["choices"][0]["delta"].get("content", ""),
-                blocked = not chunk["choices"][0].get("finish_reason") in (None, "stop"),
-                provider = "openai"
-            ) for chunk in response)
-            
+            stream = (
+                ChatStreamResponse(
+                    text=chunk["choices"][0]["delta"].get("content", ""),
+                    blocked=not chunk["choices"][0].get("finish_reason")
+                    in (None, "stop"),
+                    provider="openai",
+                )
+                for chunk in response
+            )
+
             return ResponseType[StreamChat](
                 original_response=None, standardized_response=StreamChat(stream=stream)
             )
