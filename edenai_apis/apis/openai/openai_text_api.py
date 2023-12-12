@@ -774,7 +774,7 @@ class OpenaiTextApi(TextInterface):
                     in (None, "stop"),
                     provider="openai",
                 )
-                for chunk in response
+                for chunk in response if chunk
             )
 
             return ResponseType[StreamChat](
