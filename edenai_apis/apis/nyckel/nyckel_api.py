@@ -258,9 +258,12 @@ class NyckelApi(ProviderInterface, ImageInterface):
             self._raise_provider_exception(url, {}, response)
             raise ProviderException(message=response.text, code=response.status_code)
         original_response = response.json()
+
         standardized_response = AutomlClassificationCreateProjectDataClass(
             project_id=original_response.get("id"), name=original_response.get("name")
         )
+        del original_response["id"]
+        del original_response["projectId"]
         return ResponseType[AutomlClassificationCreateProjectDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
