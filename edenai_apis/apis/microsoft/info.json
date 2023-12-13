@@ -1220,6 +1220,29 @@
         ]
       },
       "version": "rest API 3.0"
+    },
+    "financial_parser": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "application/pdf"
+        ],
+        "languages": [
+          "en-US",
+          "es",
+          "de",
+          "fr",
+          "it",
+          "pt",
+          "nl"
+        ],
+        "allow_null_language": true
+      },
+      "version": "v2.1-preview.3"
     }
   },
   "text": {

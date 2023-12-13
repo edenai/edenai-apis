@@ -11,6 +11,7 @@ from edenai_apis.apis.microsoft.microsoft_helpers import (
     microsoft_ocr_tables_standardize_response,
     normalize_invoice_result,
     get_microsoft_urls,
+    microsoft_financial_parser_formatter,
     microsoft_ocr_async_standardize_response,
 )
 from edenai_apis.features.ocr import (
@@ -28,6 +29,7 @@ from edenai_apis.features.ocr import (
     get_info_country,
     OcrAsyncDataClass,
 )
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass, FinancialParserType
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     Country,
     InfoCountry,
@@ -495,4 +497,38 @@ class MicrosoftOcrApi(OcrInterface):
 
         return AsyncPendingResponseType[OcrAsyncDataClass](
             provider_job_id=provider_job_id
+        )
+
+    def ocr__financial_parser(
+            self, file: str, language: str, document_type: str, file_url: str = ""
+            ) -> ResponseType[FinancialParserDataClass]:
+        file_ = open(file, "rb")
+        try:
+            document_analysis_client = DocumentAnalysisClient(
+                endpoint=self.api_settings["form_recognizer"]["url"],
+                credential=AzureKeyCredential(
+                    self.api_settings["form_recognizer"]["subscription_key"]
+                ),
+            )
+            document_type_value = "prebuilt-receipt" if document_type == FinancialParserType.RECEIPT.value else "prebuilt-invoice"
+            poller = document_analysis_client.begin_analyze_document(document_type_value, file_)
+            form_pages = poller.result()
+        except AzureError as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
+        try:
+            if form_pages is None or not hasattr(form_pages, "to_dict"):
+                raise AttributeError
+            # AttributeError sometimes happens in the lib when calling to dict
+            # and a DocumentField has a None value
+            original_response = form_pages.to_dict()
+        except AttributeError:
+            raise ProviderException("Provider return an empty response")
+        file_.close()
+
+        standardized_response = microsoft_financial_parser_formatter(original_response)
+
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
         )
