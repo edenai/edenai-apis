@@ -26,6 +26,7 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 from edenai_apis.features.ocr.resume_parser.resume_parser_dataclass import (
     ResumeParserDataClass,
 )
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -106,6 +107,20 @@ class OcrInterface:
             file (BufferedReader): receipt to analyze
             file_url (str, optional): url of file
             language (str): language code in ISO format
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def ocr__financial_parser(
+        self, file: str, language: str, document_type: str, file_url: str = ""
+    ) -> ResponseType[ReceiptParserDataClass]:
+        """Parse a financial document (receipt or invoice) and returned structured data
+
+        Args:
+            file (BufferedReader): receipt to analyze
+            file_url (str, optional): url of file
+            language (str): language code in ISO format
+            document_type (str): type of the document (invoice or receipt) can be auto-detect for some providers
         """
         raise NotImplementedError
 

@@ -63,3 +63,17 @@ from .resume_parser import (
     ResumeLocation,
     resume_parser_arguments,
 )
+from .financial_parser import (
+    FinancialBankInformation,
+    FinancialBarcode,
+    FinancialCustomerInformation,
+    FinancialDocumentInformation,
+    FinancialDocumentMetadata,
+    FinancialLineItem,
+    FinancialLocalInformation,
+    FinancialMerchantInformation,
+    FinancialParserDataClass,
+    FinancialParserObjectDataClass,
+    FinancialPaymentInformation,
+    financial_parser_arguments
+)
