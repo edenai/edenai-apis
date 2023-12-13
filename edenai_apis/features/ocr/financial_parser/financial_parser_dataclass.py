@@ -1,7 +1,11 @@
 from typing import Optional, List
 
 from pydantic import BaseModel, Field, StrictStr
+from enum import Enum
 
+class FinancialParserType(Enum):
+    RECEIPT = "receipt"
+    INVOICE = "invoice"
 class FinancialCustomerInformation(BaseModel):
     name : Optional[StrictStr] = Field(default=None)
     id_reference: Optional[StrictStr] = Field(default=None)

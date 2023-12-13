@@ -113,7 +113,7 @@ class OcrInterface:
     @abstractmethod
     def ocr__financial_parser(
         self, file: str, language: str, document_type: str, file_url: str = ""
-    ) -> ResponseType[ReceiptParserDataClass]:
+    ) -> ResponseType[FinancialParserDataClass]:
         """Parse a financial document (receipt or invoice) and returned structured data
 
         Args:
