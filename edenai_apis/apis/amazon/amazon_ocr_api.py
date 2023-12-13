@@ -28,9 +28,8 @@ from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     OcrTablesAsyncDataClass,
 )
-from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
-    ReceiptParserDataClass,
-)
+from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import ReceiptParserDataClass
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass
 from edenai_apis.utils.exception import (
     AsyncJobException,
     AsyncJobExceptionReason,
@@ -50,6 +49,7 @@ from .helpers import (
     amazon_custom_document_parsing_formatter,
     amazon_invoice_parser_formatter,
     amazon_receipt_parser_formatter,
+    amazon_financial_parser_formatter,
     handle_amazon_call,
 )
 
@@ -612,3 +612,66 @@ class AmazonOcrApi(OcrInterface):
                 original_response=response,
                 standardized_response=standardized_response,
             )
+
+    def ocr__financial_parser(
+            self, file: str, language: str, document_type: str, file_url: str = ""
+            ) -> ResponseType[FinancialParserDataClass]:
+        with open(file, "rb") as file_:
+            file_content = file_.read()
+
+        self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
+            Key=file, Body=file_content
+        )
+
+        payload = {
+            "DocumentLocation": {
+                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
+            }
+        }
+        launch_job_response = handle_amazon_call(
+            self.clients["textract"].start_expense_analysis, **payload
+        )
+
+        # Get job result
+        job_id = launch_job_response.get("JobId")
+        get_response = self.clients["textract"].get_expense_analysis(JobId=job_id)
+
+        if get_response["JobStatus"] == "FAILED":
+            error: str = get_response.get(
+                "StatusMessage", "Amazon returned a job status: FAILED"
+            )
+            raise ProviderException(error)
+
+        wait_time = 0
+        while wait_time < 60:  # Wait for the answer from provider
+            if get_response["JobStatus"] == "SUCCEEDED":
+                break
+            sleep(3)
+            wait_time += 3
+            get_response = self.clients["textract"].get_expense_analysis(JobId=job_id)
+
+        # Check if NextToken exist
+        pagination_token = get_response.get("NextToken")
+        pages = [get_response]
+        if not pagination_token:
+            return ResponseType(
+                original_response=pages,
+                standardized_response=amazon_financial_parser_formatter(pages),
+            )
+
+        finished = False
+        while not finished:
+            get_response = self.clients["textract"].get_expense_analysis(
+                JobId=job_id,
+                NextToken=pagination_token,
+            )
+            pages.append(get_response)
+            if "NextToken" in get_response:
+                pagination_token = get_response["NextToken"]
+            else:
+                finished = True
+
+        return ResponseType(
+            original_response=pages,
+            standardized_response=amazon_financial_parser_formatter(pages),
+        )

@@ -49,6 +49,19 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     ItemLines,
     Locale,
 )
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialBankInformation,
+    FinancialBarcode,
+    FinancialCustomerInformation,
+    FinancialDocumentInformation,
+    FinancialDocumentMetadata,
+    FinancialLineItem,
+    FinancialLocalInformation,
+    FinancialMerchantInformation,
+    FinancialParserDataClass,
+    FinancialParserObjectDataClass,
+    FinancialPaymentInformation
+)
 from edenai_apis.features.video.explicit_content_detection_async.explicit_content_detection_async_dataclass import (
     ContentNSFW,
 )
@@ -443,7 +456,6 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
             extracted_data.append(invoice_infos)
     return InvoiceParserDataClass(extracted_data=extracted_data)
 
-
 def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass:
     extracted_data = []
     for page in pages:
@@ -529,6 +541,149 @@ def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass
             extracted_data.append(receipt_infos)
     return ReceiptParserDataClass(extracted_data=extracted_data)
 
+def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataClass:
+    """
+    Parse Amazon financial response into a data class response by organizing the response.
+
+    Args:
+    - pages (List[dict]): List of pages from the Amazon financial response.
+
+    Returns:
+    - FinancialParserDataClass: Parsed financial data organized into a data class.
+    """
+    extracted_data = []
+
+    for page in pages:
+        if page.get("JobStatus") == "FAILED":
+            raise ProviderException(page.get("StatusMessage", "Amazon returned a job status: FAILED"))
+
+        for invoice in page.get("ExpenseDocuments") or []:
+            summary = {}
+            currencies = {}
+            invoice_index = invoice['ExpenseIndex']
+
+            # Parse summary fields
+            for field in invoice["SummaryFields"]:
+                field_type = field["Type"]["Text"]
+                summary[field_type] = field["ValueDetection"]["Text"]
+                field_currency = field.get("Currency", {}).get("Code")
+                if field_currency is not None:
+                    if field_currency not in currencies:
+                        currencies[field_currency] = 1
+                    else:
+                        currencies[field_currency] += 1
+                page_number = field["PageNumber"]
+
+            item_lines = []
+
+            # Parse line item groups
+            for line_item_group in invoice["LineItemGroups"]:
+                for fields in line_item_group["LineItems"]:
+                    parsed_items = {
+                        item["Type"]["Text"]: item["ValueDetection"]["Text"]
+                        for item in fields["LineItemExpenseFields"]
+                    }
+                    item_lines.append(
+                        FinancialLineItem(
+                            amount_line=convert_string_to_number(parsed_items.get("PRICE"), float),
+                            description=parsed_items.get("ITEM"),
+                            quantity=convert_string_to_number(parsed_items.get("QUANTITY"), int),
+                            unit_price=convert_string_to_number(parsed_items.get("UNIT_PRICE"), float),
+                            product_code=parsed_items.get("PRODUCT_CODE"),
+                        )
+                    )
+
+            # Build FinancialCustomerInformation object
+            customer = FinancialCustomerInformation(
+                name=summary.get("RECEIVER_NAME") or summary.get("NAME"),
+                id_reference=summary.get("ID_REFERENCE"),
+                mailing_address=summary.get("RECEIVER_ADDRESS"),
+                remittance_address=summary.get("ADDRESS"),
+                phone=summary.get("RECEIVER_PHONE"),
+                vat_number=summary.get("RECEIVER_VAT_NUMBER"),
+                abn_number=summary.get("RECEIVER_ABN_NUMBER"),
+                gst_number=summary.get("RECEIVER_GST_NUMBER"),
+                pan_number=summary.get("RECEIVER_PAN_NUMBER"),
+                customer_number=summary.get("CUSTOMER_NUMBER"),
+                tax_id=summary.get("TAX_PAYER_ID")
+            )
+
+            # Build FinancialMerchantInformation object
+            merchant = FinancialMerchantInformation(
+                name=summary.get("VENDOR_NAME"),
+                address=summary.get("VENDOR_ADDRESS"),
+                phone=summary.get("VENDOR_PHONE"),
+                vat_number=summary.get("VENDOR_VAT_NUMBER"),
+                abn_number=summary.get("VENDOR_ABN_NUMBER"),
+                gst_number=summary.get("VENDOR_GST_NUMBER"),
+                pan_number=summary.get("VENDOR_PAN_NUMBER"),
+                website=summary.get("VENDOR_URL"),
+                city=summary.get("CITY"),
+                country=summary.get("COUNTRY"),
+                province=summary.get("STATE"),
+                zip_code=summary.get("ZIP_CODE"),
+            )
+
+            # Build FinancialPaymentInformation object
+            payment = FinancialPaymentInformation(
+                amount_due=convert_string_to_number(summary.get("AMOUNT_DUE"), float),
+                amount_paid=convert_string_to_number(summary.get("AMOUNT_PAID"), float),
+                invoice_total=convert_string_to_number(summary.get("TOTAL"), float),
+                subtotal=convert_string_to_number(summary.get("SUB_TOTAL"), float),
+                service_charge=convert_string_to_number(summary.get("SERVICE_CHARGE"), float),
+                payment_terms=summary.get("PAYMENT_TERMS"),
+                shipping_handling_charge=convert_string_to_number(summary.get("SHIPPING_HANDLING_CHARGE"), float),
+                prior_balance=convert_string_to_number(summary.get("PRIOR_BALANCE"), float),
+                gratuity=convert_string_to_number(summary.get("GRATUITY"), float),
+                discount=convert_string_to_number(summary.get("DISCOUNT"), float),
+                total_tax=convert_string_to_number(summary.get("TAX"), float),
+            )
+
+            # Build FinancialDocumentInformation object
+            financial_document_information = FinancialDocumentInformation(
+                invoice_id=summary.get("INVOICE_RECEIPT_ID"),
+                purchase_order=summary.get("PO_NUMBER"),
+                invoice_date=summary.get("INVOICE_RECEIPT_DATE"),
+                invoice_due_date=summary.get("DUE_DATE"),
+                order_date=summary.get("ORDER_DATE")
+            )
+
+            invoice_currency = None
+
+            # Determine invoice currency
+            if len(currencies) == 1:
+                invoice_currency = list(currencies.keys())[0]
+            elif len(currencies) > 1:
+                invoice_currency = max(currencies, key=currencies.get)
+
+            # Build FinancialLocalInformation object
+            local = FinancialLocalInformation(
+                currency=invoice_currency,
+            )
+
+            # Build FinancialBankInformation object
+            bank = FinancialBankInformation(
+                account_number=summary.get("ACCOUNT_NUMBER"),
+            )
+
+            # Build FinancialDocumentMetadata object
+            invoice_metadata = FinancialDocumentMetadata(
+                invoice_index=invoice_index, document_page_number=page_number)
+
+            # Build FinancialParserObjectDataClass object
+            financial_document = FinancialParserObjectDataClass(
+                customer_information=customer,
+                merchant_information=merchant,
+                payment_information=payment,
+                financial_document_information=financial_document_information,
+                local=local,
+                bank=bank,
+                item_lines=item_lines,
+                invoice_metadata=invoice_metadata
+            )
+            extracted_data.append(financial_document)
+
+    return FinancialParserDataClass(extracted_data=extracted_data)
 
 def amazon_speaking_rate_converter(speaking_rate: int):
     if speaking_rate < -80:
