@@ -131,12 +131,12 @@ class FinancialDocumentInformation(BaseModel):
     invoice_id: Optional[StrictStr] = Field(default=None)
     purchase_order: Optional[StrictStr] = Field(default=None)
     invoice_date: Optional[StrictStr] = Field(default=None)
+    time: Optional[StrictStr] = Field(default=None)
     invoice_due_date: Optional[StrictStr] = Field(default=None)
     service_start_date: Optional[StrictStr] = Field(default=None)
     service_end_date: Optional[StrictStr] = Field(default=None)
     reference: Optional[StrictStr] = Field(default=None)
     biller_code: Optional[StrictStr] = Field(default=None)
-    invoice_type: Optional[StrictStr] = Field(default=None)
     order_date: Optional[StrictStr] = Field(default=None)
     tracking_number: Optional[StrictStr] = Field(default=None)
     barcodes: List[FinancialBarcode] = Field(default_factory=list)
@@ -144,7 +144,7 @@ class FinancialDocumentInformation(BaseModel):
 class FinancialDocumentMetadata(BaseModel):
     document_index: Optional[int] = Field(default=None)
     document_page_number: Optional[int] = Field(default=None)
-    document_type: Optional[StrictStr]
+    document_type: Optional[StrictStr] = Field(default=None)
 
 class FinancialParserObjectDataClass(BaseModel):
     customer_information: FinancialCustomerInformation
