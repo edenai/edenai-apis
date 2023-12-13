@@ -432,7 +432,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
             return AsyncResponseType[AutomlClassificationTrainAsyncDataClass](
                 original_response="",
                 standardized_response=AutomlClassificationTrainAsyncDataClass(
-                    status="trained", project_id=provider_job_id, name=None
+                    message="Model is trained", project_id=provider_job_id, name=None
                 ),
                 provider_job_id=provider_job_id,
             )
@@ -441,7 +441,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
             return AsyncResponseType[AutomlClassificationTrainAsyncDataClass](
                 original_response="",
                 standardized_response=AutomlClassificationTrainAsyncDataClass(
-                    status="trained", project_id=provider_job_id, name=None
+                    message="Model is trained", project_id=provider_job_id, name=None
                 ),
                 provider_job_id=provider_job_id,
             )
@@ -462,7 +462,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         return AsyncResponseType[AutomlClassificationTrainAsyncDataClass](
             original_response="",
             standardized_response=AutomlClassificationTrainAsyncDataClass(
-                status="trained", project_id=provider_job_id, name=None
+                message="Model is trained", project_id=provider_job_id, name=None
             ),
             provider_job_id=provider_job_id,
         )

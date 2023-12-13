@@ -3,7 +3,7 @@
   "provider_job_id": "function_yfisrgk70k1iuroq",
   "original_response": "",
   "standardized_response": {
-    "status": "trained",
+    "message": "Model is trained",
     "name": null,
     "project_id": "function_yfisrgk70k1iuroq"
   }

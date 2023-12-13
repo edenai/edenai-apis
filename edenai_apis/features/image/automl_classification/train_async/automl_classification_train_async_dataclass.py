@@ -4,6 +4,6 @@ from pydantic import BaseModel
 
 
 class AutomlClassificationTrainAsyncDataClass(BaseModel):
-    status: str
+    message: str
     name: Optional[str]
     project_id: str
