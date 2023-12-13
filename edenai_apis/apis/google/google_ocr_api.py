@@ -19,6 +19,7 @@ from edenai_apis.apis.google.google_helpers import (
     google_ocr_tables_standardize_response,
     handle_done_response_ocr_async,
     handle_google_call,
+    google_financial_parser
 )
 from edenai_apis.features.ocr import (
     BankInvoice,
@@ -37,6 +38,7 @@ from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
     OcrAsyncDataClass,
 )
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass, FinancialParserType
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     InfosReceiptParserDataClass,
     ItemLines,
@@ -532,3 +534,37 @@ class GoogleOcrApi(OcrInterface):
             raise ProviderException(res.get("error"))
 
         return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)
+    
+    def ocr__financial_parser(
+            self, file: str, language: str, document_type: str, file_url: str = ""
+            ) -> ResponseType[FinancialParserDataClass]:
+        mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
+        financial_project_id = self.api_settings["documentai"]["project_id"]
+
+        document_type_key = "process_invoice_id" if document_type == FinancialParserType.INVOICE.value else "process_receipt_id"
+        financial_parser_process_id = self.api_settings["documentai"][document_type_key]
+
+        opts = ClientOptions(api_endpoint=f"eu-documentai.googleapis.com")
+        financial_parser_client = documentai.DocumentProcessorServiceClient(client_options=opts)
+
+        name = financial_parser_client.processor_path(
+            financial_project_id, "eu", financial_parser_process_id
+        )
+        file_ = open(file, "rb")
+        raw_document = documentai.RawDocument(content=file_.read(), mime_type=mimetype)
+
+        payload_request = {"name": name, "raw_document": raw_document}
+        request = handle_google_call(documentai.ProcessRequest, **payload_request)
+
+        payload_result = {"request": request}
+        result = handle_google_call(financial_parser_client.process_document, **payload_result)
+        document = result.document
+
+        file_.close()
+        file_ = open(file, "rb")
+        og, standardized_response = google_financial_parser(document)
+
+        return ResponseType[FinancialParserDataClass](
+            original_response=Document.to_dict(document),
+            standardized_response=standardized_response,
+        )

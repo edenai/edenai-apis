@@ -9,6 +9,7 @@ import google
 import google.auth
 import google.auth
 import googleapiclient.discovery
+from google.cloud.documentai_v1beta3 import Document
 from google.api_core.exceptions import GoogleAPIError
 from google.oauth2 import service_account
 
@@ -36,7 +37,20 @@ from edenai_apis.utils.exception import (
     AsyncJobExceptionReason,
     ProviderException,
 )
+from edenai_apis.utils.conversion import convert_string_to_number
 from edenai_apis.utils.types import AsyncResponseType
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialParserDataClass,
+    FinancialMerchantInformation,
+    FinancialCustomerInformation,
+    FinancialBankInformation,
+    FinancialLocalInformation,
+    FinancialPaymentInformation,
+    FinancialDocumentInformation,
+    FinancialDocumentMetadata,
+    FinancialLineItem,
+    FinancialParserObjectDataClass
+)
 
 
 class GoogleVideoFeatures(enum.Enum):
@@ -425,3 +439,131 @@ def get_access_token(location: str):
     auth_req = google.auth.transport.requests.Request()
     credentials.refresh(auth_req)
     return credentials.token
+
+# *****************************Financial Parser***************************************************
+def format_document_to_dict(document: Document) -> List[dict]:
+    """
+    Organize the response from a Google document parser into a more structured output.
+    Each element in the list represents a page of the document (e.g., invoice or receipt) with its fields.
+
+    Args:
+    - document (Document): The parsed Google document.
+
+    Returns:
+    - List[Dict]: A list of dictionaries, each containing organized information about a document page.
+    """
+    extracted_data = []
+
+    for idx, page_data in enumerate(Document.to_dict(document).get("pages", []), start=1):
+        summary = {"line_items": []}
+
+        for entity in document.entities:
+            entity_dict = Document.Entity.to_dict(entity)
+            page_anchor = entity_dict.get("page_anchor", {}) or {}
+            page_refs = page_anchor.get("page_refs", [{}]) or [{}]
+
+            if page_refs[0].get("page") != str(idx):
+                continue
+
+            entity_type = entity_dict.get("type_", "")
+            if entity_type == 'line_item':
+                line_dict = {property.get("type_", ""): property.get("normalized_value", {}).get("text", property.get("mention_text", "")) for property in entity_dict.get("properties", [])}
+                summary["line_items"].append(line_dict)
+            else:
+                summary[entity_type] = entity_dict.get('normalized_value', {}).get('text', entity_dict.get("mention_text", ""))
+
+        summary["metadata"] = {
+            "page_number": idx,
+            "invoice_number": None  # Google does not make the difference between the documents.
+        }
+
+        extracted_data.append(summary)
+
+    return extracted_data
+
+def google_financial_parser(document: Document) -> FinancialParserDataClass:
+    """
+    Parse a Google document using a financial parser and return organized financial data.
+
+    Args:
+    - document (Document): The Google document to be parsed.
+
+    Returns:
+    - FinancialParserDataClass: Parsed financial data organized into a data class.
+    """
+    formatted_response = format_document_to_dict(document=document)
+    extracted_data = []
+
+    for page_document in formatted_response:
+        extracted_data.append(
+            FinancialParserObjectDataClass(
+                # Customer Information
+                customer_information=FinancialCustomerInformation(
+                    name=page_document.get("receiver_name"),
+                    shipping_address=page_document.get("ship_to_address"),
+                    remittance_address=page_document.get("remit_to_address"),
+                    billing_address=page_document.get("receiver_address"),
+                    email=page_document.get("receiver_email"),
+                    tax_id=page_document.get("receiver_tax_id")
+                ),
+                # Merchant Information
+                merchant_information=FinancialMerchantInformation(
+                    website=page_document.get("supplier_website"),
+                    tax_id=page_document.get("supplier_tax_id"),
+                    address=page_document.get("supplier_address"),
+                    phone=page_document.get("supplier_phone"),
+                    email=page_document.get("supplier_email"),
+                    name=page_document.get("supplier_name"),
+                    business_number=page_document.get("supplier_registration")
+                ),
+                # Payment Information
+                payment_information=FinancialPaymentInformation(
+                    invoice_total=convert_string_to_number(page_document.get("total_amount"), float),
+                    amount_due=convert_string_to_number(page_document.get("net_amount"), float),
+                    total_tax=convert_string_to_number(page_document.get("total_tax_amount"), float),
+                    payment_terms=page_document.get("payment_terms"),
+                    prior_balance=convert_string_to_number(
+                        page_document.get("amount_paid_since_last_invoice"), float),
+                    amount_shipping=convert_string_to_number(page_document.get("freight_amount"), float),
+                    payment_method=page_document.get("payment_type"),
+                    payment_card_number=page_document.get("credit_card_last_four_digits")
+                ),
+                # Financial Document Information
+                financial_document_information=FinancialDocumentInformation(
+                    invoice_id=page_document.get("invoice_id"),
+                    invoice_number=page_document.get("invoice_number"),
+                    purchase_order=page_document.get("purchase_order"),
+                    time=page_document.get("purchase_time"),
+                    invoice_date=page_document.get("invoice_date") or page_document.get("receipt_date"),
+                    invoice_due_date=page_document.get("due_date"),
+                    service_end_date=page_document.get("delivery_date")
+                ),
+                # Bank Information
+                bank=FinancialBankInformation(
+                    iban=page_document.get("supplier_iban")
+                ),
+                # Local Information
+                local=FinancialLocalInformation(
+                    currency_exchange_rate=page_document.get("currency_exchange_rate"),
+                    currency=page_document.get("currency")
+                ),
+                # Item Lines
+                item_lines=[
+                    FinancialLineItem(
+                        description=item.get("line_item/description"),
+                        unit_price=convert_string_to_number(item.get("line_item/unit_price"), float),
+                        quantity=convert_string_to_number(item.get("line_item/quantity"), int),
+                        amount_line=convert_string_to_number(item.get("line_item/amount"), float)
+                    ) for item in page_document.get("line_items", [])
+                ],
+                # Invoice Metadata
+                invoice_metadata=FinancialDocumentMetadata(
+                    invoice_index=page_document["metadata"]["invoice"],
+                    document_page_number=page_document["metadata"]["page_number"],
+                    document_type=page_document.get("invoice_type")
+                )
+            )
+        )
+
+    return FinancialParserDataClass(extracted_data=extracted_data)
+
