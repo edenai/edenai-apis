@@ -17,6 +17,12 @@
         },
         "resume_parser": {
             "version": "v1"
+        },
+        "financial_parser": {
+            "constraints": {
+                "allow_null_language": true
+            },
+            "version": "v1"
         }
     }
 }
