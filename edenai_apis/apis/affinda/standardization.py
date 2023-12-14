@@ -41,6 +41,19 @@ from edenai_apis.features.ocr.resume_parser import (
     ResumeWorkExp,
     ResumeWorkExpEntry,
 )
+from edenai_apis.features.ocr.financial_parser import (
+    FinancialBankInformation,
+    FinancialBarcode,
+    FinancialCustomerInformation,
+    FinancialDocumentInformation,
+    FinancialDocumentMetadata,
+    FinancialLineItem,
+    FinancialLocalInformation,
+    FinancialMerchantInformation,
+    FinancialParserDataClass,
+    FinancialParserObjectDataClass,
+    FinancialPaymentInformation
+)
 from edenai_apis.utils.conversion import (
     combine_date_with_time,
     convert_string_to_number,
@@ -590,3 +603,159 @@ class IdentityStandardizer:
 
         self.__std_response["address"] = ItemIdentityParserDataClass()
         self.__std_response["age"] = ItemIdentityParserDataClass()
+
+
+class FinancialStandardizer:
+    __document: Document
+    __data: Dict[str, Any]
+    __meta: DocumentMeta
+    __error: DocumentError
+
+    __std_response: Dict[str, Any]
+
+    def __init__(self, document: Document, original_response: Dict) -> None:
+        self.__document = document
+        self.__data = self.__document.data
+        self.__error = self.__document.error
+        self.__meta = self.__document.meta
+        self.__std_response = {}
+        self.__formatted_data = self.format_data(original_response)
+
+    def format_data(self, original_response) ->Dict[str, Any]:
+        page_dict = {}
+        new_response = []
+
+        for page_index, page in enumerate(original_response.get("meta").get("pages")):
+            grouped_items = []
+
+            for key_name, key_value in original_response.get("data", {}).items():
+                if page_index not in page_dict:
+                    page_dict[page_index] = {}
+
+                if key_value:
+                    if key_name == "tables" or key_name == "lineItemTable":
+                        for item in key_value:
+                            if item.get("pageIndex") == page_index:
+                                grouped_items.append(item)
+                    elif isinstance(key_value, dict):
+                        if key_value.get("pageIndex") == page_index:
+                            page_dict[page_index][key_name] = key_value
+
+                page_dict[page_index]["items"] = grouped_items
+
+        # Convert the dictionary to a list, maintaining the order of pages
+        for page_index, page_elements in sorted(page_dict.items()):
+            new_response.append(page_elements)
+
+        return new_response
+
+    def std_response(self) -> List[FinancialParserObjectDataClass]:
+        extracted_data = []
+        for page_idx, invoice in enumerate(self.__formatted_data):
+            customer_information = FinancialCustomerInformation(
+                name=invoice.get("customerContactName", {}).get("raw"),
+                billing_address=invoice.get("customerBillingAddress", {}).get("raw"),
+                shipping_address=invoice.get("customerDeliveryAddress", {}).get("raw"),
+                country=invoice.get("customerBillingAddress", {}).get("parsed", {}).get("country"),
+                zip_code=invoice.get("customerBillingAddress", {}).get("parsed", {}).get("postalCode"),
+                city=invoice.get("customerBillingAddress", {}).get("parsed", {}).get("city"),
+                street_name=invoice.get("customerBillingAddress", {}).get("parsed", {}).get("street"),
+                house_number=invoice.get("customerBillingAddress", {}).get("parsed" , {}).get("apartmentNumber"),
+                province=invoice.get("customerBillingAddress", {}).get("parsed", {}).get("state"),
+                business_number=invoice.get("customerBusinessNumber", {}).get("raw"),
+                email=invoice.get("customerEmail", {}).get("raw"),
+                id_reference=invoice.get("customerNumber", {}).get("raw"),
+                phone=invoice.get("customerPhoneNumber", {}).get("raw"),
+                vat_number=invoice.get("customerVat", {}).get("raw")
+            )
+            merchant_information = FinancialMerchantInformation(
+                address=invoice.get("supplierAddress", {}).get("raw"),
+                country=invoice.get("supplierAddress", {}).get("parsed", {}).get("country"),
+                street_name=invoice.get("supplierAddress", {}).get("parsed", {}).get("street"),
+                house_number=invoice.get("supplierAddress",{}).get("parsed", {}).get("apartmentNumber"),
+                city=invoice.get("supplierAddress", {}).get("parsed", {}).get("city"),
+                zip_code=invoice.get("supplierAddress", {}).get("parsed", {}).get("postalCode"),
+                province=invoice.get("supplierAddress", {}).get("parsed", {}).get("state"),
+                business_number=invoice.get("supplierBusinessNumber", {}).get("raw"),
+                name=invoice.get("supplierCompanyName", {}).get("raw"),
+                email=invoice.get("supplierEmail", {}).get("raw"),
+                phone=invoice.get("supplierPhoneNumber", {}).get("raw"),
+                vat_number=invoice.get("supplierVat", {}).get("raw"),
+                website=invoice.get("supplierWebsite", {}).get("raw")
+            )
+            payment_information = FinancialPaymentInformation(
+                amount_paid=convert_string_to_number(invoice.get("paymentAmountPaid", {}).get("parsed"), float),
+                total_tax=convert_string_to_number(invoice.get("paymentAmountTax", {}).get("parsed"), float),
+                invoice_total=convert_string_to_number(invoice.get("paymentAmountTotal", {}).get("parsed"), float),
+                amount_due=convert_string_to_number(invoice.get("paymentAmountDue", {}).get("parsed"), float),
+                payment_terms=invoice.get("paymentTerms", {}).get("raw"),
+                transaction_reference=invoice.get("paymentReference", {}).get("raw"),
+                amount_shipping=convert_string_to_number(invoice.get("paymentDelivery", {}).get("parsed"), float),
+                subtotal=convert_string_to_number(invoice.get("paymentAmountBase", {}).get("parsed"), float),
+                previous_unpaid_balance=invoice.get("openingBalance", {}).get("parsed")
+            )
+            financial_document_information = FinancialDocumentInformation(
+                invoice_id=invoice.get("invoiceNumber", {}).get("raw") or invoice.get("receiptNumber", {}).get("raw"),
+                order_date=invoice.get("invoiceOrderDate", {}).get("raw"),
+                purchase_order=invoice.get("invoicePurchaseOrderNumber", {}).get("raw"),
+                invoice_due_date=invoice.get("paymentDateDue", {}).get("raw"),
+                invoice_date=invoice.get("invoiceDate", {}).get("raw") or invoice.get("date", {}).get("raw"),
+                biller_code=invoice.get("bpayBillerCode", {}).get("raw"),
+                time=invoice.get("time",{}).get("raw")
+
+            )
+            bank = FinancialBankInformation(
+                account_number=invoice.get("bankAccountNumber", {}).get("raw"),
+                bsb=invoice.get("bankBsb", {}).get("raw"),
+                iban=invoice.get("bankIban", {}).get("raw"),
+                swift=invoice.get("bankSwift", {}).get("raw"),
+                sort_code=invoice.get("bankSortCode", {}).get("raw")
+            )
+            local = FinancialLocalInformation(
+                currency_code=invoice.get("currencyCode", {}).get("parsed", {}).get("value") or invoice.get("receiptCurrencyCode", {}).get("parsed", {}).get("value")
+            )
+            document_metadata = FinancialDocumentMetadata(
+                document_page_number=page_idx+1
+            )
+            item_lines = []
+            tables = invoice.get("items") or []
+            for table in tables:
+                parsed = table.get("parsed") or {}
+                rows = parsed.get("rows") or []
+                for item in rows:
+                    item_parsed = item.get("parsed") or {}
+                    description = item_parsed.get("itemDescription") or {}
+                    quantity = item_parsed.get("itemQuantity") or {}
+                    total = item_parsed.get("itemTotal") or {}
+                    unit_price = item_parsed.get("itemUnitPrice") or {}
+
+                    item_lines.append(
+                        FinancialLineItem(
+                            unit_price=convert_string_to_number(unit_price.get("raw"), float),
+                            quantity=convert_string_to_number(quantity.get("parsed"), int),
+                            amount=convert_string_to_number(total.get("raw"), float),
+                            description=description.get("raw"),
+                            amount_line=convert_string_to_number(total.get("parsed"), float)
+                        )
+                    )
+
+            extracted_data.append(
+                FinancialParserObjectDataClass(
+                    customer_information=customer_information,
+                    merchant_information=merchant_information,
+                    payment_information=payment_information,
+                    financial_document_information=financial_document_information,
+                    bank=bank,
+                    local=local,
+                    document_metadata=document_metadata,
+                    item_lines=item_lines
+                )
+            )
+        self.__std_response["extracted_data"] = extracted_data
+        return self.__std_response["extracted_data"]
+    
+    @property
+    def standardized_response(self):
+        return FinancialParserDataClass(
+            extracted_data=[invoice for invoice in self.__std_response["extracted_data"]]
+        )

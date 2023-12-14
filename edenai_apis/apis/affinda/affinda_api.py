@@ -5,6 +5,7 @@ from edenai_apis.features.ocr import (
     ResumeParserDataClass,
     InvoiceParserDataClass,
 )
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass, FinancialParserType
 from edenai_apis.features.ocr.identity_parser import IdentityParserDataClass
 from edenai_apis.features.ocr.receipt_parser import ReceiptParserDataClass
 from edenai_apis.features.provider.provider_interface import ProviderInterface
@@ -13,7 +14,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
 from .client import Client
 from .document import FileParameter, UploadDocumentParams
-from .standardization import IdentityStandardizer, InvoiceStandardizer, ReceiptStandardizer, ResumeStandardizer
+from .standardization import IdentityStandardizer, InvoiceStandardizer, ReceiptStandardizer, ResumeStandardizer, FinancialStandardizer
 
 
 class AffindaApi(ProviderInterface, OcrInterface):
@@ -105,6 +106,25 @@ class AffindaApi(ProviderInterface, OcrInterface):
         standardizer.std_location_information()
 
         return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standardized_response=standardizer.standardized_response
+        )
+
+    def ocr__financial_parser(
+            self, file: str, language: str, document_type: str, file_url: str = ""
+            ) -> ResponseType[FinancialParserDataClass]:
+        workspace_key = (
+            "receipt_workspace"
+            if document_type == FinancialParserType.RECEIPT.value
+            else "invoice_workspace"
+        )
+        self.client.current_workspace = self.api_settings[workspace_key]
+        document = self.client.create_document(file=FileParameter(file=file, url=file_url))
+        original_response = self.client.last_api_response
+        standardizer = FinancialStandardizer(document=document, original_response=original_response)
+        standardizer.std_response()
+
+        return ResponseType[FinancialParserDataClass](
             original_response=original_response,
             standardized_response=standardizer.standardized_response
         )
