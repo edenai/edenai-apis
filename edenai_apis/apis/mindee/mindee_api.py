@@ -21,6 +21,7 @@ from edenai_apis.features.ocr.bank_check_parsing import (
     MicrModel,
     ItemBankCheckParsingDataClass,
 )
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import Country
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     CustomerInformationInvoice,
@@ -517,4 +518,27 @@ class MindeeApi(ProviderInterface, OcrInterface):
             standardized_response=BankCheckParsingDataClass(
                 extracted_data=extracted_data
             ),
+        )
+
+    def ocr__financial_parser(
+            self, file: str, language: str, document_type: str, file_url: str = ""
+            ) -> ResponseType[FinancialParserDataClass]:
+        headers = {
+            "Authorization": self.api_key,
+        }
+        file_ = open(file, "rb")
+        files = {"document": file_}
+        params = {"locale": {"language": language}}
+        response = requests.post(self.url_financial, headers=headers, files=files, params=params)
+        original_response = response.json()
+
+        file_.close()
+
+        if "document" not in original_response:
+            raise ProviderException(
+                original_response["api_request"]["error"]["message"], code=response
+            )
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=FinancialParserDataClass(extracted_data=[])
         )
