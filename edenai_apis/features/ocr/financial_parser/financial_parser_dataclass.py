@@ -154,7 +154,7 @@ class FinancialParserObjectDataClass(BaseModel):
     local: FinancialLocalInformation
     bank: FinancialBankInformation
     item_lines: List[FinancialLineItem] = Field(default_factory=list)
-    invoice_metadata: FinancialDocumentMetadata
+    document_metadata: FinancialDocumentMetadata
 
 class FinancialParserDataClass(BaseModel):
     extracted_data: List[FinancialParserObjectDataClass] = Field(default_factory=list)

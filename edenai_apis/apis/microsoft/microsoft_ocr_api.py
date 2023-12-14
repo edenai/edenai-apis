@@ -13,6 +13,7 @@ from edenai_apis.apis.microsoft.microsoft_helpers import (
     get_microsoft_urls,
     microsoft_financial_parser_formatter,
     microsoft_ocr_async_standardize_response,
+    
 )
 from edenai_apis.features.ocr import (
     Bounding_box,
@@ -525,9 +526,7 @@ class MicrosoftOcrApi(OcrInterface):
         except AttributeError:
             raise ProviderException("Provider return an empty response")
         file_.close()
-
         standardized_response = microsoft_financial_parser_formatter(original_response)
-
         return ResponseType[FinancialParserDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
