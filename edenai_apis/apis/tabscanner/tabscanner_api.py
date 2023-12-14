@@ -13,6 +13,19 @@ from edenai_apis.features.ocr import (
     MerchantInformation,
     PaymentInformation,
 )
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialParserDataClass,
+    FinancialCustomerInformation,
+    FinancialLocalInformation,
+    FinancialMerchantInformation,
+    FinancialPaymentInformation,
+    FinancialBarcode,
+    FinancialDocumentInformation,
+    FinancialParserObjectDataClass,
+    FinancialLineItem,
+    FinancialDocumentMetadata,
+    FinancialBankInformation
+    )
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import BarCode
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -135,3 +148,85 @@ class TabscannerApi(ProviderInterface, OcrInterface):
             standardized_response=standardized_response,
         )
         return result
+
+    def ocr__financial_parser(
+            self, file: str, language: str, document_type: str = "", file_url: str = ""
+            ) -> ResponseType[FinancialParserDataClass]:
+        file_ = open(file, "rb")
+        token = self._process(file_, document_type)
+        sleep(1)
+        original_response, status_code = self._get_response(token)
+        file_.close()
+
+        if "result" not in original_response:
+            raise ProviderException(original_response["message"], code = status_code)
+
+        financial_document = original_response.get("result")
+
+        # Merchant information
+        merchant_information = FinancialMerchantInformation(
+            name=financial_document.get("establishment"),
+            address=financial_document.get("address"),
+            phone=financial_document.get("phoneNumber"),
+            id_reference=financial_document.get("customFields", {}).get("StoreID"),
+            website=financial_document.get("url"),
+            city=financial_document.get("addressNorm", {}).get("city"),
+            house_number=financial_document.get("addressNorm", {}).get("number"),
+            province=financial_document.get("addressNorm", {}).get("state"),
+            country=financial_document.get("addressNorm", {}).get("country"),
+            street_name=financial_document.get("addressNorm", {}).get("street"),
+            zip_code=financial_document.get("addressNorm", {}).get("postcode"),
+        )
+        payment_information = FinancialPaymentInformation(
+            amount_due=financial_document.get("total"),
+            amount_tip=financial_document.get("tip"),
+            invoice_total=financial_document.get("total"),
+            total_tax=financial_document.get("tax"),
+            amount_change=financial_document.get("change"),
+            discount=financial_document.get("discount"),
+            payment_method=financial_document.get("paymentMethod"),
+            subtotal = financial_document.get("subTotal"),
+            barcodes = [
+            FinancialBarcode(type=code_type, value=code_value)
+            for code_value, code_type in financial_document.get("barcodes", [])
+        ]
+        )
+        financial_document_information = FinancialDocumentInformation(
+            date = financial_document.get("date")
+
+        )
+
+        local = FinancialLocalInformation(currecy=financial_document.get("currency"))
+
+        list_items = [
+            FinancialLineItem(
+                description=json_element.get("descClean"),
+                amount_line=convert_string_to_number(json_element.get("lineTotal"), float),
+                unit_price=convert_string_to_number(json_element.get("unit"), float),
+                quantity=json_element["qty"],
+                product_code=json_element.get("productCode"),
+                discount_amount=json_element.get("discount")
+            )
+            for json_element in financial_document["lineItems"]
+        ]
+
+        standardized_response = FinancialParserDataClass(
+            extracted_data=[
+                FinancialParserObjectDataClass(
+                    customer_information=FinancialCustomerInformation(),
+                    merchant_information=merchant_information,
+                    payment_information=payment_information,
+                    financial_document_information=financial_document_information,
+                    local=local,
+                    bank = FinancialBankInformation(),
+                    item_lines=list_items,
+                    document_metadata=FinancialDocumentMetadata(
+                        document_type=financial_document.get("documentType")
+                    )
+                )
+            ]
+        )
+        return ResponseType[FinancialParserDataClass](
+                    original_response=original_response,
+                    standardized_response=standardized_response,
+                )

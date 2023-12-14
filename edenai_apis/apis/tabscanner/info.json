@@ -12,6 +12,19 @@
                 "allow_null_language":true
             },
             "version": "latest"
+        },
+        "financial_parser": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png"
+                ],
+                "languages": [
+                    "en-US"
+                ],
+                "allow_null_language":true
+            },
+            "version": "latest"
         }
     }
 }
