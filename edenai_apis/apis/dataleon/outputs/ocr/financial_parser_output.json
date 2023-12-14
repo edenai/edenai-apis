@@ -1,0 +1,484 @@
+{
+  "original_response": {
+    "metadata": {
+      "dashboard": {},
+      "time_processing": 4.334738254547119,
+      "task": "receipt_extraction",
+      "documents": [
+        {
+          "filename": "receipt.jpg",
+          "extension": "jpg",
+          "pages": 1,
+          "key": "2f6c8af5-a3ff-4d76-b2bc-d690c18943b3.jpg",
+          "id": "92f48ef6-a425-44ff-ae53-f37a66c1866f",
+          "dimensions": [
+            {
+              "keyname": "2f6c8af5-a3ff-4d76-b2bc-d690c18943b3.jpg",
+              "kc": "anno-image-e53ea9f0-2fe7-469a-a1ab-4c00dedfd64e.jpg",
+              "page": 1,
+              "width": 315,
+              "height": 1600
+            }
+          ]
+        }
+      ],
+      "status": "PROCESSED",
+      "task_id": "7916ffeb-2d81-4658-b6dd-f1d5e8a6f6eb",
+      "api_version": "2023-12-05"
+    },
+    "entities": [
+      {
+        "id": "18d2ac24-f16c-404d-80b5-e1b3647d34c0",
+        "text": "02.04.2022",
+        "name": "IssueDate",
+        "confidence": 0.9981884360313416,
+        "color": "#bdc3c7",
+        "bounding_box": [
+          [
+            16,
+            1510
+          ],
+          [
+            83,
+            1509
+          ],
+          [
+            83,
+            1521
+          ],
+          [
+            16,
+            1522
+          ]
+        ],
+        "value": "02/04/2022",
+        "type": "date",
+        "page": 1,
+        "document_number": 1,
+        "document_id": "92f48ef6-a425-44ff-ae53-f37a66c1866f",
+        "document_name": "receipt.jpg"
+      },
+      {
+        "id": "4212adc9-6199-4a92-8aa8-9076b8b8a788",
+        "text": "9",
+        "name": "Taux",
+        "confidence": 0.9722259044647217,
+        "color": "#34495e",
+        "bounding_box": [
+          [
+            55,
+            1240
+          ],
+          [
+            62,
+            1240
+          ],
+          [
+            62,
+            1254
+          ],
+          [
+            55,
+            1254
+          ]
+        ],
+        "value": 9.0,
+        "type": "text",
+        "page": 1,
+        "document_number": 1,
+        "document_id": "92f48ef6-a425-44ff-ae53-f37a66c1866f",
+        "document_name": "receipt.jpg"
+      },
+      {
+        "id": "264b0a91-a636-4cb7-96ba-58b598555743",
+        "text": "19",
+        "name": "Taux",
+        "confidence": 0.9984322190284729,
+        "color": "#34495e",
+        "bounding_box": [
+          [
+            56,
+            1259
+          ],
+          [
+            69,
+            1259
+          ],
+          [
+            69,
+            1273
+          ],
+          [
+            56,
+            1273
+          ]
+        ],
+        "value": 19.0,
+        "type": "text",
+        "page": 1,
+        "document_number": 1,
+        "document_id": "92f48ef6-a425-44ff-ae53-f37a66c1866f",
+        "document_name": "receipt.jpg"
+      },
+      {
+        "id": "4df32987-b917-478d-ac5a-f5147b7eb447",
+        "text": "SC AUCHAN ROMANIA SA",
+        "name": "VendorName",
+        "confidence": 0.9911283254623413,
+        "color": "#1abc9c",
+        "bounding_box": [
+          [
+            84,
+            92
+          ],
+          [
+            219,
+            92
+          ],
+          [
+            219,
+            104
+          ],
+          [
+            84,
+            104
+          ]
+        ],
+        "type": "text",
+        "value": "SC AUCHAN ROMANIA SA",
+        "page": 1,
+        "document_number": 1,
+        "document_id": "92f48ef6-a425-44ff-ae53-f37a66c1866f",
+        "document_name": "receipt.jpg"
+      },
+      {
+        "id": "c0ae7e63-2f04-4eb8-a12c-d98c26fd98a1",
+        "text": "20",
+        "name": "Taux",
+        "confidence": 0.9882484674453735,
+        "color": "#34495e",
+        "bounding_box": [
+          [
+            99,
+            489
+          ],
+          [
+            112,
+            489
+          ],
+          [
+            112,
+            502
+          ],
+          [
+            99,
+            502
+          ]
+        ],
+        "value": 20.0,
+        "type": "text",
+        "page": 1,
+        "document_number": 1,
+        "document_id": "92f48ef6-a425-44ff-ae53-f37a66c1866f",
+        "document_name": "receipt.jpg"
+      },
+      {
+        "id": "fa81f3d2-e93f-4220-91c6-909980a25ae7",
+        "text": "21,89",
+        "name": "Tax",
+        "confidence": 0.9886431097984314,
+        "color": "#9b59b6",
+        "bounding_box": [
+          [
+            122,
+            1258
+          ],
+          [
+            158,
+            1257
+          ],
+          [
+            158,
+            1271
+          ],
+          [
+            122,
+            1272
+          ]
+        ],
+        "value": 21.89,
+        "type": "number",
+        "page": 1,
+        "document_number": 1,
+        "document_id": "92f48ef6-a425-44ff-ae53-f37a66c1866f",
+        "document_name": "receipt.jpg"
+      },
+      {
+        "id": "93adba38-2e24-45c7-bea4-404e092e7ead",
+        "text": "24,52",
+        "name": "Subtotal",
+        "confidence": 0.8431822061538696,
+        "color": "#e74c3c",
+        "bounding_box": [
+          [
+            123,
+            1297
+          ],
+          [
+            158,
+            1297
+          ],
+          [
+            158,
+            1311
+          ],
+          [
+            123,
+            1311
+          ]
+        ],
+        "value": 24.52,
+        "type": "text",
+        "page": 1,
+        "document_number": 1,
+        "document_id": "92f48ef6-a425-44ff-ae53-f37a66c1866f",
+        "document_name": "receipt.jpg"
+      },
+      {
+        "id": "7e2af79b-3337-435a-8135-2b53d9205db4",
+        "text": "2,63",
+        "name": "Tax",
+        "confidence": 0.9999983310699463,
+        "color": "#9b59b6",
+        "bounding_box": [
+          [
+            128,
+            1239
+          ],
+          [
+            158,
+            1239
+          ],
+          [
+            158,
+            1253
+          ],
+          [
+            128,
+            1253
+          ]
+        ],
+        "value": 2.63,
+        "type": "number",
+        "page": 1,
+        "document_number": 1,
+        "document_id": "92f48ef6-a425-44ff-ae53-f37a66c1866f",
+        "document_name": "receipt.jpg"
+      },
+      {
+        "id": "6fb1fc1c-bbb0-4b97-9a6e-64c97996c461",
+        "text": "168,95",
+        "name": "Total",
+        "confidence": 0.9942278861999512,
+        "color": "#d35400",
+        "bounding_box": [
+          [
+            240,
+            787
+          ],
+          [
+            285,
+            786
+          ],
+          [
+            286,
+            811
+          ],
+          [
+            241,
+            812
+          ]
+        ],
+        "value": 168.95,
+        "type": "number",
+        "page": 1,
+        "document_number": 1,
+        "document_id": "92f48ef6-a425-44ff-ae53-f37a66c1866f",
+        "document_name": "receipt.jpg"
+      },
+      {
+        "id": "07145c4e-e088-4c48-b4d9-d1ec0c3fba7d",
+        "text": "31,85",
+        "name": "Tax",
+        "confidence": 0.9428958892822266,
+        "color": "#9b59b6",
+        "bounding_box": [
+          [
+            255,
+            1239
+          ],
+          [
+            288,
+            1239
+          ],
+          [
+            288,
+            1251
+          ],
+          [
+            255,
+            1251
+          ]
+        ],
+        "value": 31.85,
+        "type": "number",
+        "page": 1,
+        "document_number": 1,
+        "document_id": "92f48ef6-a425-44ff-ae53-f37a66c1866f",
+        "document_name": "receipt.jpg"
+      }
+    ],
+    "documents": [],
+    "validations": [],
+    "alerts": [],
+    "class": [
+      {
+        "id": "db698c02-a97f-405f-aa27-d978556cd8ac",
+        "color": "#dddddd",
+        "confidence": 1,
+        "page": 1,
+        "name": "FR",
+        "document_number": 1,
+        "document_id": "92f48ef6-a425-44ff-ae53-f37a66c1866f",
+        "document_name": "receipt.jpg"
+      }
+    ],
+    "tables": [],
+    "form": {},
+    "explenations": []
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "customer_information": {
+          "name": null,
+          "id_reference": null,
+          "mailling_address": null,
+          "billing_address": null,
+          "shipping_address": null,
+          "service_address": null,
+          "remittance_address": null,
+          "email": null,
+          "phone": null,
+          "vat_number": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "business_number": null,
+          "siret_number": null,
+          "siren_number": null,
+          "customer_number": null,
+          "coc_number": null,
+          "fiscal_number": null,
+          "registration_number": null,
+          "tax_id": null,
+          "website": null,
+          "remit_to_name": null,
+          "city": null,
+          "country": null,
+          "house_number": null,
+          "province": null,
+          "street_name": null,
+          "zip_code": null,
+          "municipality": null
+        },
+        "merchant_information": {
+          "name": "SC AUCHAN ROMANIA SA",
+          "address": null,
+          "phone": null,
+          "tax_id": null,
+          "id_reference": null,
+          "vat_number": null,
+          "abn_number": null,
+          "gst_number": null,
+          "business_number": null,
+          "siret_number": null,
+          "siren_number": null,
+          "pan_number": null,
+          "coc_number": null,
+          "fiscal_number": null,
+          "email": null,
+          "fax": null,
+          "website": null,
+          "registration": null,
+          "city": null,
+          "country": null,
+          "house_number": null,
+          "province": null,
+          "street_name": null,
+          "zip_code": null,
+          "country_code": null
+        },
+        "payment_information": {
+          "amount_due": null,
+          "amount_tip": null,
+          "amount_shipping": null,
+          "amount_change": null,
+          "amount_paid": null,
+          "invoice_total": 168.95,
+          "subtotal": 24.52,
+          "total_tax": 31.85,
+          "tax_rate": 20.0,
+          "discount": null,
+          "gratuity": null,
+          "service_charge": null,
+          "previous_unpaid_balance": null,
+          "prior_balance": null,
+          "payment_terms": null,
+          "payment_method": null,
+          "payment_card_number": null,
+          "payment_auth_code": null,
+          "shipping_handling_charge": null,
+          "transaction_number": null,
+          "transaction_reference": null
+        },
+        "financial_document_information": {
+          "invoice_id": null,
+          "purchase_order": null,
+          "invoice_date": "02/04/2022",
+          "time": null,
+          "invoice_due_date": null,
+          "service_start_date": null,
+          "service_end_date": null,
+          "reference": null,
+          "biller_code": null,
+          "order_date": null,
+          "tracking_number": null,
+          "barcodes": []
+        },
+        "local": {
+          "currency": null,
+          "currency_code": null,
+          "currency_exchange_rate": null,
+          "country": null,
+          "language": null
+        },
+        "bank": {
+          "iban": null,
+          "swift": null,
+          "bsb": null,
+          "sort_code": null,
+          "account_number": null,
+          "routing_number": null,
+          "bic": null
+        },
+        "item_lines": [],
+        "document_metadata": {
+          "document_index": null,
+          "document_page_number": 1,
+          "document_type": null
+        }
+      }
+    ]
+  }
+}
