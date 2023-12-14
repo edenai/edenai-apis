@@ -667,7 +667,7 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
             )
 
             # Build FinancialDocumentMetadata object
-            invoice_metadata = FinancialDocumentMetadata(
+            document_metadata = FinancialDocumentMetadata(
                 invoice_index=invoice_index, document_page_number=page_number)
 
             # Build FinancialParserObjectDataClass object
@@ -679,7 +679,7 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
                 local=local,
                 bank=bank,
                 item_lines=item_lines,
-                invoice_metadata=invoice_metadata
+                document_metadata=document_metadata
             )
             extracted_data.append(financial_document)
 

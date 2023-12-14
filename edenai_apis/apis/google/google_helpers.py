@@ -557,7 +557,7 @@ def google_financial_parser(document: Document) -> FinancialParserDataClass:
                     ) for item in page_document.get("line_items", [])
                 ],
                 # Invoice Metadata
-                invoice_metadata=FinancialDocumentMetadata(
+                document_metadata=FinancialDocumentMetadata(
                     invoice_index=page_document["metadata"]["invoice"],
                     document_page_number=page_document["metadata"]["page_number"],
                     document_type=page_document.get("invoice_type")
