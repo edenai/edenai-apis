@@ -7,40 +7,21 @@ from typing import Dict, Literal
 import boto3
 import requests
 
-from edenai_apis.features.ocr.bank_check_parsing import (
-    BankCheckParsingDataClass,
-    MicrModel,
-)
-from edenai_apis.features.ocr.bank_check_parsing.bank_check_parsing_dataclass import (
-    ItemBankCheckParsingDataClass,
-)
-from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
-    BankInvoice,
-    CustomerInformationInvoice,
-    InfosInvoiceParserDataClass,
-    InvoiceParserDataClass,
-    ItemLinesInvoice,
-    LocaleInvoice,
-    MerchantInformationInvoice,
-    TaxesInvoice,
-)
+from edenai_apis.features.ocr.bank_check_parsing import BankCheckParsingDataClass
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass
+from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import InvoiceParserDataClass
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
-from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
-    BarCode,
-    CustomerInformation,
-    InfosReceiptParserDataClass,
-    ItemLines,
-    Locale,
-    MerchantInformation,
-    PaymentInformation,
-    ReceiptParserDataClass,
-    Taxes,
-)
+from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import ReceiptParserDataClass
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import load_key
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-
+from edenai_apis.apis.veryfi.veryfi_ocr_normalizer import (
+    veryfi_invoice_parser,
+    veryfi_receipt_parser,
+    veryfi_bank_check_parser,
+    veryfi_financial_parser
+)
 
 class VeryfiApi(ProviderInterface, OcrInterface):
     provider_name = "veryfi"
@@ -138,90 +119,7 @@ class VeryfiApi(ProviderInterface, OcrInterface):
     ) -> ResponseType[InvoiceParserDataClass]:
         original_response = self._process_document(file)
 
-        ship_name = original_response["ship_to"]["name"]
-        ship_address = original_response["ship_to"]["address"]
-        if ship_name is not None and ship_address is not None:
-            ship_address = ship_name + ship_address
-
-        customer_information = CustomerInformationInvoice(
-            customer_name=original_response["bill_to"]["name"],
-            customer_address=original_response["bill_to"]["address"],
-            customer_email=None,
-            customer_id=original_response["account_number"],
-            customer_tax_id=original_response["bill_to"]["vat_number"],
-            customer_mailing_address=None,
-            customer_billing_address=original_response["bill_to"]["address"],
-            customer_shipping_address=ship_address,
-            customer_service_address=None,
-            customer_remittance_address=None,
-            abn_number=None,
-            gst_number=None,
-            pan_number=None,
-            vat_number=None,
-        )
-
-        merchant_information = MerchantInformationInvoice(
-            merchant_name=original_response["vendor"]["name"],
-            merchant_address=original_response["vendor"]["address"],
-            merchant_phone=original_response["vendor"]["phone_number"],
-            merchant_email=original_response["vendor"]["email"],
-            merchant_tax_id=original_response["vendor"]["vat_number"],
-            merchant_website=original_response["vendor"]["web"],
-            merchant_fax=original_response["vendor"]["fax_number"],
-            merchant_siren=None,
-            merchant_siret=None,
-            abn_number=None,
-            gst_number=None,
-            pan_number=None,
-            vat_number=None,
-        )
-
-        bank_informations = BankInvoice(
-            account_number=original_response["vendor"]["account_number"],
-            iban=original_response["vendor"]["iban"],
-            swift=original_response["vendor"]["bank_swift"],
-            vat_number=original_response["vendor"]["vat_number"],
-            bsb=None,
-            sort_code=None,
-            rooting_number=None,
-        )
-
-        item_lines = []
-        for item in original_response["line_items"]:
-            item_lines.append(
-                ItemLinesInvoice(
-                    description=item["description"],
-                    quantity=item["quantity"],
-                    discount=item["discount"],
-                    unit_price=item["price"],
-                    tax_item=item["tax"],
-                    tax_rate=item["tax_rate"],
-                    amount=item["total"],
-                    date_item=item["date"],
-                    product_code=item["sku"],
-                )
-            )
-
-        info_invoice = [
-            InfosInvoiceParserDataClass(
-                customer_information=customer_information,
-                merchant_information=merchant_information,
-                taxes=[TaxesInvoice(value=original_response["tax"], rate=None)],
-                invoice_total=original_response["total"],
-                invoice_subtotal=original_response["subtotal"],
-                invoice_number=original_response["invoice_number"],
-                date=original_response["date"],
-                purchase_order=original_response["purchase_order_number"],
-                item_lines=item_lines,
-                locale=LocaleInvoice(
-                    currency=original_response["currency_code"], language=None
-                ),
-                bank_informations=bank_informations,
-            )
-        ]
-
-        standardized_response = InvoiceParserDataClass(extracted_data=info_invoice)
-
+        standardized_response = veryfi_invoice_parser(original_response)
         return ResponseType[InvoiceParserDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
@@ -232,56 +130,7 @@ class VeryfiApi(ProviderInterface, OcrInterface):
     ) -> ResponseType[ReceiptParserDataClass]:
         original_response = self._process_document(file)
 
-        customer_information = CustomerInformation(
-            customer_name=original_response["bill_to"]["name"],
-        )
-
-        merchant_information = MerchantInformation(
-            merchant_name=original_response["vendor"]["name"],
-            merchant_address=original_response["vendor"]["address"],
-            merchant_phone=original_response["vendor"]["phone_number"],
-            merchant_url=original_response["vendor"]["web"],
-        )
-
-        payment_information = PaymentInformation(
-            card_type=original_response["payment"]["type"],
-            card_number=original_response["payment"]["card_number"],
-        )
-
-        items_lines = []
-        for item in original_response["line_items"]:
-            items_lines.append(
-                ItemLines(
-                    description=item["description"],
-                    quantity=item["quantity"],
-                    unit_price=item["price"],
-                    amount=item["total"],
-                )
-            )
-
-        barcodes = [
-            BarCode(type=code["type"], value=code["data"])
-            for code in original_response.get("barcodes", [])
-            if code["data"] is not None and code["type"] is not None
-        ]
-        info_receipt = [
-            InfosReceiptParserDataClass(
-                customer_information=customer_information,
-                merchant_information=merchant_information,
-                payment_information=payment_information,
-                invoice_number=original_response["invoice_number"],
-                invoice_subtotal=original_response["subtotal"],
-                invoice_total=original_response["total"],
-                date=original_response["date"],
-                barcodes=barcodes,
-                item_lines=items_lines,
-                locale=Locale(currency=original_response["currency_code"]),
-                taxes=[Taxes(value=original_response["tax"])],
-                category=original_response["category"],
-            )
-        ]
-
-        standardized_response = ReceiptParserDataClass(extracted_data=info_receipt)
+        standardized_response = veryfi_receipt_parser(original_response)
 
         return ResponseType[ReceiptParserDataClass](
             original_response=original_response,
@@ -291,35 +140,22 @@ class VeryfiApi(ProviderInterface, OcrInterface):
     def ocr__bank_check_parsing(self, file: str, file_url: str = "") -> ResponseType:
         original_response = self._process_document(file, document_type="checks")
 
-        items = [
-            ItemBankCheckParsingDataClass(
-                amount=original_response["amount"],
-                amount_text=original_response["amount_text"],
-                bank_name=original_response["bank_name"],
-                bank_address=original_response["bank_address"],
-                date=original_response["date"],
-                memo=original_response["memo"],
-                payer_address=original_response["payer_address"],
-                payer_name=original_response["payer_name"],
-                receiver_name=original_response["receiver_name"],
-                receiver_address=original_response["receiver_address"],
-                currency=None,
-                micr=MicrModel(
-                    raw=original_response.get("micr", {}).get("raw"),
-                    account_number=original_response.get("micr", {}).get(
-                        "account_number"
-                    ),
-                    serial_number=original_response.get("micr", {}).get(
-                        "serial_number"
-                    ),
-                    check_number=original_response["check_number"],
-                    routing_number=original_response.get("micr", {}).get(
-                        "routing_number"
-                    ),
-                ),
-            )
-        ]
+        standardized_response = veryfi_bank_check_parser(original_response)
+
         return ResponseType[BankCheckParsingDataClass](
             original_response=original_response,
-            standardized_response=BankCheckParsingDataClass(extracted_data=items),
+            standardized_response=standardized_response,
+        )
+
+    def ocr__financial_parser(
+            self, file: str, language: str, document_type: str, file_url: str = ""
+            ) -> ResponseType[FinancialParserDataClass]:
+        
+        original_response = self._process_document(file)
+
+        standardized_response = veryfi_financial_parser(original_response)
+
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
         )

@@ -16,6 +16,13 @@
     },
     "bank_check_parsing": {
       "version": "v8"
+    },
+    "financial_parser": {
+      "constraints": {
+        "languages": [],
+        "allow_null_language": true
+      },
+      "version": "v8"
     }
   }
 }
