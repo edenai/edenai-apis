@@ -4,18 +4,18 @@
     "status": "done",
     "status_code": 3,
     "result": {
-      "establishment": "SC AUCHAN ROMANIA SA",
+      "establishment": "SAG",
       "validatedEstablishment": false,
-      "date": "2022-04-02 12:29:23",
-      "total": 168.95,
-      "url": "",
+      "date": "2003-01-19 00:00:00",
+      "total": 750,
+      "url": "erols.com",
       "phoneNumber": "",
-      "paymentMethod": "Mastercard",
-      "address": "",
+      "paymentMethod": "",
+      "address": "344 Main Street Suite 200 Gaithersburg, MD 20878",
       "cash": 0,
       "change": 0,
       "validatedTotal": false,
-      "subTotal": 168.95,
+      "subTotal": 750,
       "validatedSubTotal": true,
       "tax": 0,
       "tip": 0,
@@ -27,613 +27,42 @@
       "lineItems": [
         {
           "qty": 1,
-          "desc": "1 BUC X 16,00",
+          "desc": "1 Field inspection of construction on 1/19/2003 deficiencies in house",
           "unit": "",
           "price": 0,
-          "symbols": [
-            "D"
-          ],
+          "symbols": [],
           "discount": 0,
           "lineType": "",
-          "descClean": "BUC X 16,00",
-          "lineTotal": 16,
+          "descClean": "Field inspection of conruction on 1/19/2003 deficiencies in house conruction,Garage drive way legal support to Attorney to",
+          "lineTotal": 750,
           "productCode": "",
-          "customFields": {},
-          "supplementaryLineItems": {
-            "above": [],
-            "below": [
-              {
-                "qty": 0,
-                "desc": "SELECLINE FIERBATOR",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "SELECLINE FIERBATOR",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ]
-          }
-        },
-        {
-          "qty": 1,
-          "desc": "1 BUC X 44,01",
-          "unit": "",
-          "price": 0,
-          "symbols": [
-            "D"
-          ],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "BUC X 44,01",
-          "lineTotal": 44.01,
-          "productCode": "",
-          "customFields": {},
-          "supplementaryLineItems": {
-            "above": [
-              {
-                "qty": 0,
-                "desc": "SELECLINE FIERBATOR",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "SELECLINE FIERBATOR",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ],
-            "below": []
-          }
-        },
-        {
-          "qty": 1,
-          "desc": "TAXA VERDE 1 BUC X 0,89",
-          "unit": "",
-          "price": 0,
-          "symbols": [
-            "D"
-          ],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "TAXA VERDE BUC X 0,89",
-          "lineTotal": 0.89,
-          "productCode": "",
-          "customFields": {},
-          "supplementaryLineItems": {
-            "above": [],
-            "below": [
-              {
-                "qty": 0,
-                "desc": "COS DREPTUNG CARLIGE",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "COS DREPTUNG CARLIGE",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ]
-          }
-        },
-        {
-          "qty": 1,
-          "desc": "1 BUC X 5,55",
-          "unit": "",
-          "price": 0,
-          "symbols": [
-            "D"
-          ],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "BUC X 5,55",
-          "lineTotal": 5.55,
-          "productCode": "",
-          "customFields": {},
-          "supplementaryLineItems": {
-            "above": [
-              {
-                "qty": 0,
-                "desc": "COS DREPTUNG CARLIGE",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "COS DREPTUNG CARLIGE",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ],
-            "below": [
-              {
-                "qty": 7,
-                "desc": "CROISSANT 7 DAYS SPU",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "CROISSANT DAYS SPU",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ]
-          }
-        },
-        {
-          "qty": 1,
-          "desc": "1 BUC X 1,75",
-          "unit": "",
-          "price": 0,
-          "symbols": [
-            "B"
-          ],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "BUC X 1,75",
-          "lineTotal": 1.75,
-          "productCode": "",
-          "customFields": {},
-          "supplementaryLineItems": {
-            "above": [
-              {
-                "qty": 7,
-                "desc": "CROISSANT 7 DAYS SPU",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "CROISSANT DAYS SPU",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ],
-            "below": [
-              {
-                "qty": 0,
-                "desc": "PAINE CU MAIA SI MAS",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "PAINE CU MAIA SI MAS",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ]
-          }
-        },
-        {
-          "qty": 1,
-          "desc": "1 BUC X 3,60",
-          "unit": "",
-          "price": 0,
-          "symbols": [
-            "B"
-          ],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "BUC X 3,60",
-          "lineTotal": 3.6,
-          "productCode": "",
-          "customFields": {},
-          "supplementaryLineItems": {
-            "above": [
-              {
-                "qty": 0,
-                "desc": "PAINE CU MAIA SI MAS",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "PAINE CU MAIA SI MAS",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ],
-            "below": [
-              {
-                "qty": 0,
-                "desc": "PATE DE PORC 20% 120",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "PATE DE PORC 20%",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ]
-          }
-        },
-        {
-          "qty": 2,
-          "desc": "2 BUC X 3,55",
-          "unit": "",
-          "price": 0,
-          "symbols": [
-            "B"
-          ],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "BUC X 3,55",
-          "lineTotal": 7.1,
-          "productCode": "",
-          "customFields": {},
-          "supplementaryLineItems": {
-            "above": [
-              {
-                "qty": 0,
-                "desc": "PATE DE PORC 20% 120",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "PATE DE PORC 20%",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ],
-            "below": [
-              {
-                "qty": 0,
-                "desc": "NUTELLA 700G",
-                "unit": "700G",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "NUTELLA 700G",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ]
-          }
-        },
-        {
-          "qty": 1,
-          "desc": "1 BUC X 19,40",
-          "unit": "",
-          "price": 0,
-          "symbols": [
-            "B"
-          ],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "BUC X 19,40",
-          "lineTotal": 19.4,
-          "productCode": "",
-          "customFields": {},
-          "supplementaryLineItems": {
-            "above": [
-              {
-                "qty": 0,
-                "desc": "NUTELLA 700G",
-                "unit": "700G",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "NUTELLA 700G",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ],
-            "below": [
-              {
-                "qty": 0,
-                "desc": "RADIERA GALET",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "RADIERA GALET",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ]
-          }
-        },
-        {
-          "qty": 1,
-          "desc": "1 BUC X 4,55",
-          "unit": "",
-          "price": 0,
-          "symbols": [
-            "D"
-          ],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "BUC X 4,55",
-          "lineTotal": 4.55,
-          "productCode": "",
-          "customFields": {},
-          "supplementaryLineItems": {
-            "above": [
-              {
-                "qty": 0,
-                "desc": "RADIERA GALET",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "RADIERA GALET",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ],
-            "below": [
-              {
-                "qty": 0,
-                "desc": "GP SUPER ALKALINE LR",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "GP SUPER ALKALINE LR",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ]
-          }
-        },
-        {
-          "qty": 1,
-          "desc": "1 BUC X 18,70",
-          "unit": "",
-          "price": 0,
-          "symbols": [
-            "D"
-          ],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "BUC X 18,70",
-          "lineTotal": 18.7,
-          "productCode": "",
-          "customFields": {},
-          "supplementaryLineItems": {
-            "above": [
-              {
-                "qty": 0,
-                "desc": "GP SUPER ALKALINE LR",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "GP SUPER ALKALINE LR",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ],
-            "below": [
-              {
-                "qty": 0,
-                "desc": "NIVEA BALS DUPA RAS",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "NIVEA BALS DUPA RAS",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ]
-          }
-        },
-        {
-          "qty": 1,
-          "desc": "1 BUC X 30,50",
-          "unit": "",
-          "price": 0,
-          "symbols": [
-            "D"
-          ],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "BUC X 30,50",
-          "lineTotal": 30.5,
-          "productCode": "",
-          "customFields": {},
-          "supplementaryLineItems": {
-            "above": [
-              {
-                "qty": 0,
-                "desc": "NIVEA BALS DUPA RAS",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "NIVEA BALS DUPA RAS",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ],
-            "below": [
-              {
-                "qty": 0,
-                "desc": "AUC VV LICHID PARBRC",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "AUC VV LICHID PARBRC",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ]
-          }
-        },
-        {
-          "qty": 1,
-          "desc": "1 BUC X 16,90",
-          "unit": "",
-          "price": 0,
-          "symbols": [
-            "D"
-          ],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "BUC X 16,90",
-          "lineTotal": 16.9,
-          "productCode": "",
-          "customFields": {},
-          "supplementaryLineItems": {
-            "above": [
-              {
-                "qty": 0,
-                "desc": "AUC VV LICHID PARBRC",
-                "unit": "",
-                "price": 0,
-                "symbols": [],
-                "discount": 0,
-                "lineType": "",
-                "descClean": "AUC VV LICHID PARBRC",
-                "lineTotal": 0,
-                "confidence": 0.5,
-                "productCode": "",
-                "customFields": {}
-              }
-            ],
-            "below": []
-          }
+          "customFields": {}
         }
       ],
       "summaryItems": [
         {
           "qty": 0,
-          "desc": "TOTAL",
+          "desc": "SUBTOTAL",
           "unit": "",
           "price": 0,
           "symbols": [],
           "discount": 0,
           "lineType": "SubTotal",
-          "descClean": "TOTAL",
-          "lineTotal": 168.95,
+          "descClean": "SUBTOTAL",
+          "lineTotal": 750,
           "productCode": "",
           "customFields": {}
         },
         {
           "qty": 0,
-          "desc": "CARD",
+          "desc": "TOTAL DUE",
           "unit": "",
           "price": 0,
           "symbols": [],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "CARD",
-          "lineTotal": 168.95,
-          "productCode": "",
-          "customFields": {}
-        },
-        {
-          "qty": 0,
-          "desc": "TOTAL",
-          "unit": "",
-          "price": 0,
-          "symbols": [
-            "R",
-            "O",
-            "N"
-          ],
           "discount": 0,
           "lineType": "Total",
-          "descClean": "TOTAL",
-          "lineTotal": 168.95,
-          "productCode": "",
-          "customFields": {}
-        },
-        {
-          "qty": 0,
-          "desc": "B - TVA 9% 2,63",
-          "unit": "",
-          "price": 0,
-          "symbols": [],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "B - TVA 9% 2,63",
-          "lineTotal": 31.85,
-          "productCode": "",
-          "customFields": {}
-        },
-        {
-          "qty": 0,
-          "desc": "D - TVA 19%",
-          "unit": "",
-          "price": 0,
-          "symbols": [],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "D - TVA 19%",
-          "lineTotal": 137.1,
-          "productCode": "",
-          "customFields": {}
-        },
-        {
-          "qty": 0,
-          "desc": "TOTAL TAXE",
-          "unit": "",
-          "price": 0,
-          "symbols": [],
-          "discount": 0,
-          "lineType": "",
-          "descClean": "TOTAL TAXE",
-          "lineTotal": 24.52,
+          "descClean": "TOTAL DUE",
+          "lineTotal": 750,
           "productCode": "",
           "customFields": {}
         }
@@ -642,7 +71,7 @@
       "taxesConfidence": [],
       "serviceChargeConfidences": [],
       "discountConfidences": [],
-      "totalConfidence": 0.7,
+      "totalConfidence": 0.99,
       "dateConfidence": 0.7,
       "establishmentConfidence": 0.8,
       "tipConfidence": 0,
@@ -650,33 +79,28 @@
       "changeConfidence": 0,
       "roundingConfidence": 0,
       "customFields": {
-        "URL": "",
-        "Country": "",
+        "URL": "erols.com",
+        "Country": "USA",
         "StoreID": "",
-        "Currency": "",
+        "Currency": "USD",
         "VATNumber": "",
         "ExpenseType": "",
-        "PaymentMethod": "Mastercard",
-        "CardLast4Digits": "6855"
+        "PaymentMethod": "",
+        "CardLast4Digits": ""
       },
-      "documentType": "receipt",
-      "currency": "",
-      "barcodes": [
-        [
-          "9138579073918",
-          "EAN13"
-        ]
-      ],
-      "dateISO": "2022-04-02T12:29:23",
+      "documentType": "invoice",
+      "currency": "USD",
+      "barcodes": [],
+      "dateISO": "2003-01-19T00:00:00",
       "addressNorm": {
-        "city": "",
-        "state": "",
-        "number": "",
-        "street": "",
+        "city": "Gaithersburg",
+        "state": "MD",
+        "number": "344",
+        "street": "Main Street",
         "suburb": "",
-        "country": "",
+        "country": "USA",
         "building": "",
-        "postcode": ""
+        "postcode": "20878"
       },
       "expenseType": "None",
       "otherData": []
@@ -720,8 +144,8 @@
           "municipality": null
         },
         "merchant_information": {
-          "name": "SC AUCHAN ROMANIA SA",
-          "address": "",
+          "name": "SAG",
+          "address": "344 Main Street Suite 200 Gaithersburg, MD 20878",
           "phone": "",
           "tax_id": null,
           "id_reference": "",
@@ -736,24 +160,24 @@
           "fiscal_number": null,
           "email": null,
           "fax": null,
-          "website": "",
+          "website": "erols.com",
           "registration": null,
-          "city": "",
-          "country": "",
-          "house_number": "",
-          "province": "",
-          "street_name": "",
-          "zip_code": "",
+          "city": "Gaithersburg",
+          "country": "USA",
+          "house_number": "344",
+          "province": "MD",
+          "street_name": "Main Street",
+          "zip_code": "20878",
           "country_code": null
         },
         "payment_information": {
-          "amount_due": 168.95,
+          "amount_due": 750.0,
           "amount_tip": 0.0,
           "amount_shipping": null,
           "amount_change": 0.0,
           "amount_paid": null,
-          "invoice_total": 168.95,
-          "subtotal": 168.95,
+          "total": 750.0,
+          "subtotal": 750.0,
           "total_tax": 0.0,
           "tax_rate": null,
           "discount": 0.0,
@@ -762,7 +186,7 @@
           "previous_unpaid_balance": null,
           "prior_balance": null,
           "payment_terms": null,
-          "payment_method": "Mastercard",
+          "payment_method": "",
           "payment_card_number": null,
           "payment_auth_code": null,
           "shipping_handling_charge": null,
@@ -770,7 +194,7 @@
           "transaction_reference": null
         },
         "financial_document_information": {
-          "invoice_id": null,
+          "invoice_receipt_id": null,
           "purchase_order": null,
           "invoice_date": null,
           "time": null,
@@ -802,217 +226,8 @@
         "item_lines": [
           {
             "tax": null,
-            "amount_line": 16.0,
-            "description": "BUC X 16,00",
-            "quantity": 1.0,
-            "unit_price": null,
-            "unit_type": null,
-            "date": null,
-            "product_code": "",
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": 0.0,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 44.01,
-            "description": "BUC X 44,01",
-            "quantity": 1.0,
-            "unit_price": null,
-            "unit_type": null,
-            "date": null,
-            "product_code": "",
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": 0.0,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 0.89,
-            "description": "TAXA VERDE BUC X 0,89",
-            "quantity": 1.0,
-            "unit_price": null,
-            "unit_type": null,
-            "date": null,
-            "product_code": "",
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": 0.0,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 5.55,
-            "description": "BUC X 5,55",
-            "quantity": 1.0,
-            "unit_price": null,
-            "unit_type": null,
-            "date": null,
-            "product_code": "",
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": 0.0,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 1.75,
-            "description": "BUC X 1,75",
-            "quantity": 1.0,
-            "unit_price": null,
-            "unit_type": null,
-            "date": null,
-            "product_code": "",
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": 0.0,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 3.6,
-            "description": "BUC X 3,60",
-            "quantity": 1.0,
-            "unit_price": null,
-            "unit_type": null,
-            "date": null,
-            "product_code": "",
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": 0.0,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 7.1,
-            "description": "BUC X 3,55",
-            "quantity": 2.0,
-            "unit_price": null,
-            "unit_type": null,
-            "date": null,
-            "product_code": "",
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": 0.0,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 19.4,
-            "description": "BUC X 19,40",
-            "quantity": 1.0,
-            "unit_price": null,
-            "unit_type": null,
-            "date": null,
-            "product_code": "",
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": 0.0,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 4.55,
-            "description": "BUC X 4,55",
-            "quantity": 1.0,
-            "unit_price": null,
-            "unit_type": null,
-            "date": null,
-            "product_code": "",
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": 0.0,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 18.7,
-            "description": "BUC X 18,70",
-            "quantity": 1.0,
-            "unit_price": null,
-            "unit_type": null,
-            "date": null,
-            "product_code": "",
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": 0.0,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 30.5,
-            "description": "BUC X 30,50",
-            "quantity": 1.0,
-            "unit_price": null,
-            "unit_type": null,
-            "date": null,
-            "product_code": "",
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": 0.0,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 16.9,
-            "description": "BUC X 16,90",
+            "amount_line": 750.0,
+            "description": "Field inspection of conruction on 1/19/2003 deficiencies in house conruction,Garage drive way legal support to Attorney to",
             "quantity": 1.0,
             "unit_price": null,
             "unit_type": null,
@@ -1032,7 +247,7 @@
         "document_metadata": {
           "document_index": null,
           "document_page_number": null,
-          "document_type": "receipt"
+          "document_type": "invoice"
         }
       }
     ]

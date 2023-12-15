@@ -295,6 +295,15 @@ def format_receipt_document_data(self, data) -> ReceiptParserDataClass:
 
 # ***************************** Financial Documents Parser **************************
 def format_financial_document_data(original_response: Dict) -> FinancialParserDataClass:
+    """
+    Formats raw financial document data into a structured format.
+
+    Args:
+        original_response (Dict): Raw data extracted with base64.
+
+    Returns:
+        FinancialParserDataClass: Structured data object containing financial information.
+    """
     # Organize data by page
     formatted_response = organize_document_data_by_page(original_response)
     document_type = original_response[0]["model"]["name"]
@@ -327,7 +336,7 @@ def format_financial_document_data(original_response: Dict) -> FinancialParserDa
         )
 
         payment_information = FinancialPaymentInformation(
-            invoice_total=convert_string_to_number(page_data.get("total", {}).get("value"), float),
+            total=convert_string_to_number(page_data.get("total", {}).get("value"), float),
             subtotal=convert_string_to_number(page_data.get("subtotal", {}).get("value"), float),
             discount=convert_string_to_number(page_data.get("discount", {}).get("value"), float),
             total_tax=convert_string_to_number(page_data.get("tax", {}).get("value"), float),
@@ -338,7 +347,7 @@ def format_financial_document_data(original_response: Dict) -> FinancialParserDa
         )
 
         financial_document_information = FinancialDocumentInformation(
-            invoice_id=page_data.get("invoiceNumber", {}).get("value") or page_data.get("receiptNo", {}).get("value"),
+            invoice_receipt_id=page_data.get("invoiceNumber", {}).get("value") or page_data.get("receiptNo", {}).get("value"),
             invoice_date=page_data.get("invoiceDate", {}).get("value") or page_data.get("date", {}).get("value"),
             time=page_data.get("time", {}).get("value"),
             purchase_order=page_data.get("purchaseOrder", {}).get("value"),

@@ -229,20 +229,20 @@ def veryfi_financial_parser(original_response: dict) -> FinancialParserDataClass
         email=original_response["vendor"]["email"]
     )
     payment_information = FinancialPaymentInformation(
-        invoice_total=original_response["total"],
+        total=original_response["total"],
         amount_due=original_response["total"],
         discount=original_response["discount"],
         payment_card_number=original_response["payment"]["card_number"],
         subtotal=original_response["subtotal"],
         total_tax=original_response["tax"],
-        tax_rate=original_response.get("tax_lines", [{}])[0].get("rate"),
+        tax_rate=(original_response.get("tax_lines") or [{}])[0].get("rate"),
         amount_tip=original_response["tip"],
     )
     financial_document_information = FinancialDocumentInformation(
         tracking_number=original_response["tracking_number"],
         invoice_date=original_response["date"],
         invoice_due_date=original_response["due_date"],
-        invoice_id=original_response["invoice_number"],
+        invoice_receipt_id=original_response["invoice_number"],
         order_date=original_response["order_date"],
         purchase_order=original_response["purchase_order_number"],
         reference=original_response["reference_number"],

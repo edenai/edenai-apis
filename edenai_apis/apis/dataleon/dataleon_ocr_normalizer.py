@@ -86,9 +86,19 @@ def extract_tables_for_page(tables: List[Dict[str, Any]], page_index: int) -> Li
     return page_tables
 
 
-def dataleon_financial_parser(original_response: dict) -> FinancialParserDataClass:
+def dataleon_financial_parser(original_response: Dict) -> FinancialParserDataClass:
+    """
+    Parses data obtained from the Dataleon financial parser into a structured format.
+
+    Args:
+        original_response (dict): Raw data obtained from the Dataleon financial parser.
+
+    Returns:
+        FinancialParserDataClass: Structured data object containing financial information.
+    """
     extracted_data = []
     formatted_response = organize_response_per_pages(original_response)
+    
     for document_page in formatted_response:
         extracted_data.append(FinancialParserObjectDataClass(
             customer_information=FinancialCustomerInformation(
@@ -108,11 +118,11 @@ def dataleon_financial_parser(original_response: dict) -> FinancialParserDataCla
             payment_information=FinancialPaymentInformation(
                 subtotal=document_page.get("Subtotal"),
                 total_tax=document_page.get("Tax"),
-                invoice_total=document_page.get("Total"),
+                total=document_page.get("Total"),
                 tax_rate=document_page.get("Taux")
             ),
             financial_document_information=FinancialDocumentInformation(
-                invoice_id=document_page.get("ID"),
+                invoice_receipt_id=document_page.get("ID"),
                 invoice_due_date=document_page.get("DueDate"),
                 invoice_date=document_page.get("IssueDate")
             ),
@@ -126,4 +136,5 @@ def dataleon_financial_parser(original_response: dict) -> FinancialParserDataCla
                 unit_price=item.get("UnitPrice")
             ) for item in document_page.get("items", [])]
         ))
+
     return FinancialParserDataClass(extracted_data=extracted_data)

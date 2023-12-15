@@ -180,7 +180,7 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         payment_information = FinancialPaymentInformation(
             amount_due=financial_document.get("total"),
             amount_tip=financial_document.get("tip"),
-            invoice_total=financial_document.get("total"),
+            total=financial_document.get("total"),
             total_tax=financial_document.get("tax"),
             amount_change=financial_document.get("change"),
             discount=financial_document.get("discount"),

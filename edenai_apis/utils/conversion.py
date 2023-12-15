@@ -129,6 +129,16 @@ def combine_date_with_time(
                 continue
     return date
 
+def convert_time_to_string(time) -> str:
+    if time:
+        for fmt in ["%H:%M", "%H:%M:%S"]:
+            try:
+                time = str(dt.datetime.strptime(str(time), fmt).time())
+                break
+            except ValueError as exc:
+                continue
+    return time
+
 
 # TODO test it
 def from_jsonarray_to_list(

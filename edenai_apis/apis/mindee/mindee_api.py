@@ -45,6 +45,7 @@ from edenai_apis.utils.conversion import (
 )
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.apis.mindee.mindee_ocr_normalizer import mindee_financial_parser
 
 ParamsApi = TypeVar("ParamsApi")
 
@@ -538,7 +539,8 @@ class MindeeApi(ProviderInterface, OcrInterface):
             raise ProviderException(
                 original_response["api_request"]["error"]["message"], code=response
             )
+        standardized_response = mindee_financial_parser(original_response=original_response)
         return ResponseType[FinancialParserDataClass](
             original_response=original_response,
-            standardized_response=FinancialParserDataClass(extracted_data=[])
+            standardized_response=standardized_response
         )

@@ -1,394 +1,641 @@
 {
   "original_response": {
     "data": {
-      "date": {
-        "id": 101266097,
-        "rectangle": {
-          "x0": 16.290954487172627,
-          "y0": 1414.6473170745658,
-          "x1": 81.32830282809792,
-          "y1": 1429.914277826103,
-          "pageIndex": 0
-        },
-        "rectangles": [
-          {
-            "x0": 16.290954487172627,
-            "y0": 1414.6473170745658,
-            "x1": 81.32830282809792,
-            "y1": 1429.914277826103,
-            "pageIndex": 0
-          }
-        ],
-        "document": "tqXpzPJp",
+      "bankAccountNumber": null,
+      "bankBsb": null,
+      "bankIban": null,
+      "bankSortCode": null,
+      "bankSwift": null,
+      "bpayBillerCode": null,
+      "bpayReference": null,
+      "currencyCode": {
+        "id": 101396111,
+        "rectangle": null,
+        "rectangles": [],
+        "document": "FHVZVtBr",
         "pageIndex": 0,
-        "raw": "02.04.2022",
-        "parsed": "2022-04-02",
-        "confidence": 0.952,
-        "classificationConfidence": 0.952,
+        "raw": null,
+        "parsed": {
+          "id": 1,
+          "label": "USD",
+          "value": "USD"
+        },
+        "confidence": null,
+        "classificationConfidence": null,
         "textExtractionConfidence": 1.0,
         "isVerified": false,
         "isClientVerified": false,
         "isAutoVerified": false,
-        "dataPoint": "ZgWvyAxL",
+        "dataPoint": "JZguvEaB",
+        "contentType": "enum",
+        "parent": null
+      },
+      "customerBillingAddress": {
+        "id": 101396090,
+        "rectangle": {
+          "x0": 61.8515625,
+          "y0": 218.1796875,
+          "x1": 203.90625,
+          "y1": 246.7265625,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 61.8515625,
+            "y0": 218.1796875,
+            "x1": 203.90625,
+            "y1": 246.7265625,
+            "pageIndex": 0
+          }
+        ],
+        "document": "FHVZVtBr",
+        "pageIndex": 0,
+        "raw": "201 Stan Fey Dr Upper Marlboro , MD 20774",
+        "parsed": {
+          "formatted": "201 Stan Fey Drive, Upper Marlboro, MD, USA",
+          "streetNumber": "201",
+          "street": "Stan Fey Drive",
+          "apartmentNumber": null,
+          "city": "Upper Marlboro",
+          "postalCode": "20774",
+          "state": "Maryland",
+          "country": "United States",
+          "rawInput": "201 Stan Fey Dr Upper Marlboro , MD 20774",
+          "countryCode": "US",
+          "latitude": 38.893994,
+          "longitude": -76.700127
+        },
+        "confidence": 0.87,
+        "classificationConfidence": 0.979,
+        "textExtractionConfidence": 0.888,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "IIrmUFpr",
+        "contentType": "location",
+        "parent": null
+      },
+      "customerBusinessNumber": null,
+      "customerCompanyName": {
+        "id": 101396091,
+        "rectangle": {
+          "x0": 61.8515625,
+          "y0": 203.90625,
+          "x1": 162.4453125,
+          "y1": 217.5,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 61.8515625,
+            "y0": 203.90625,
+            "x1": 162.4453125,
+            "y1": 217.5,
+            "pageIndex": 0
+          }
+        ],
+        "document": "FHVZVtBr",
+        "pageIndex": 0,
+        "raw": "Damita J Goldsmith",
+        "parsed": "Damita J Goldsmith",
+        "confidence": 0.69,
+        "classificationConfidence": 0.7,
+        "textExtractionConfidence": 0.985,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "YCquITSP",
+        "contentType": "text",
+        "parent": null
+      },
+      "customerContactName": null,
+      "customerDeliveryAddress": {
+        "id": 101396092,
+        "rectangle": {
+          "x0": 405.7734375,
+          "y0": 231.7734375,
+          "x1": 485.9765625,
+          "y1": 246.046875,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 405.7734375,
+            "y0": 231.7734375,
+            "x1": 485.9765625,
+            "y1": 246.046875,
+            "pageIndex": 0
+          }
+        ],
+        "document": "FHVZVtBr",
+        "pageIndex": 0,
+        "raw": "Upper Marlboro",
+        "parsed": {
+          "formatted": "Upper Marlboro, MD 20772, USA",
+          "streetNumber": null,
+          "street": null,
+          "apartmentNumber": null,
+          "city": "Upper Marlboro",
+          "postalCode": "20772",
+          "state": "Maryland",
+          "country": "United States",
+          "rawInput": "Upper Marlboro",
+          "countryCode": "US",
+          "latitude": 38.8159473,
+          "longitude": -76.74969089999999
+        },
+        "confidence": 0.919,
+        "classificationConfidence": 0.958,
+        "textExtractionConfidence": 0.96,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "FOpzXtlw",
+        "contentType": "location",
+        "parent": null
+      },
+      "customerEmail": null,
+      "customerNumber": null,
+      "customerPhoneNumber": null,
+      "customerVat": null,
+      "invoiceDate": {
+        "id": 101396093,
+        "rectangle": {
+          "x0": 560.0625,
+          "y0": 120.984375,
+          "x1": 648.421875,
+          "y1": 134.578125,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 560.0625,
+            "y0": 120.984375,
+            "x1": 648.421875,
+            "y1": 134.578125,
+            "pageIndex": 0
+          }
+        ],
+        "document": "FHVZVtBr",
+        "pageIndex": 0,
+        "raw": "January20, 2003",
+        "parsed": "2003-01-20",
+        "confidence": 0.957,
+        "classificationConfidence": 0.975,
+        "textExtractionConfidence": 0.981,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "sRakysMP",
         "contentType": "date",
         "parent": null
       },
-      "lineItemTable": [
+      "invoiceNumber": {
+        "id": 101396094,
+        "rectangle": {
+          "x0": 608.3203125,
+          "y0": 107.390625,
+          "x1": 649.1015625,
+          "y1": 120.984375,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 608.3203125,
+            "y0": 107.390625,
+            "x1": 649.1015625,
+            "y1": 120.984375,
+            "pageIndex": 0
+          }
+        ],
+        "document": "FHVZVtBr",
+        "pageIndex": 0,
+        "raw": "014- 03",
+        "parsed": "014- 03",
+        "confidence": 0.958,
+        "classificationConfidence": 0.972,
+        "textExtractionConfidence": 0.985,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "bWFyBeNU",
+        "contentType": "text",
+        "parent": null
+      },
+      "invoiceOrderDate": null,
+      "invoicePurchaseOrderNumber": null,
+      "openingBalance": null,
+      "paymentAmountBase": {
+        "id": 101396095,
+        "rectangle": {
+          "x0": 610.359375,
+          "y0": 581.8125,
+          "x1": 647.0625,
+          "y1": 597.4453125,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 610.359375,
+            "y0": 581.8125,
+            "x1": 647.0625,
+            "y1": 597.4453125,
+            "pageIndex": 0
+          }
+        ],
+        "document": "FHVZVtBr",
+        "pageIndex": 0,
+        "raw": "750.00",
+        "parsed": "750.00",
+        "confidence": 0.684,
+        "classificationConfidence": 0.688,
+        "textExtractionConfidence": 0.994,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "ahbnOQdE",
+        "contentType": "decimal",
+        "parent": null
+      },
+      "paymentAmountDue": {
+        "id": 101396096,
+        "rectangle": {
+          "x0": 610.359375,
+          "y0": 666.7734375,
+          "x1": 645.0234375,
+          "y1": 679.0078125,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 610.359375,
+            "y0": 666.7734375,
+            "x1": 645.0234375,
+            "y1": 679.0078125,
+            "pageIndex": 0
+          }
+        ],
+        "document": "FHVZVtBr",
+        "pageIndex": 0,
+        "raw": "750.00",
+        "parsed": "750.00",
+        "confidence": 0.955,
+        "classificationConfidence": 0.958,
+        "textExtractionConfidence": 0.997,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "hTyimjpc",
+        "contentType": "decimal",
+        "parent": null
+      },
+      "paymentAmountPaid": null,
+      "paymentAmountTax": null,
+      "paymentAmountTotal": null,
+      "paymentDateDue": null,
+      "paymentDelivery": null,
+      "paymentOtherCharges": null,
+      "paymentReference": null,
+      "paymentTerms": null,
+      "supplierAddress": {
+        "id": 101396097,
+        "rectangle": {
+          "x0": 186.9140625,
+          "y0": 78.1640625,
+          "x1": 322.171875,
+          "y1": 105.3515625,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 186.9140625,
+            "y0": 78.1640625,
+            "x1": 322.171875,
+            "y1": 105.3515625,
+            "pageIndex": 0
+          }
+        ],
+        "document": "FHVZVtBr",
+        "pageIndex": 0,
+        "raw": "344 Main Street Suite 200 Gaithersburg, MD 20878",
+        "parsed": {
+          "formatted": "344 Main Street, Gaithersburg, MD, USA",
+          "streetNumber": "344",
+          "street": "Main Street",
+          "apartmentNumber": null,
+          "city": "Gaithersburg",
+          "postalCode": "20878",
+          "state": "Maryland",
+          "country": "United States",
+          "rawInput": "344 Main Street Suite 200 Gaithersburg, MD 20878",
+          "countryCode": "US",
+          "latitude": 39.121474,
+          "longitude": -77.237621
+        },
+        "confidence": 0.928,
+        "classificationConfidence": 0.969,
+        "textExtractionConfidence": 0.958,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "HRTaEvcW",
+        "contentType": "location",
+        "parent": null
+      },
+      "supplierBusinessNumber": null,
+      "supplierCompanyName": {
+        "id": 101396098,
+        "rectangle": {
+          "x0": 186.9140625,
+          "y0": 42.8203125,
+          "x1": 403.734375,
+          "y1": 66.609375,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 186.9140625,
+            "y0": 42.8203125,
+            "x1": 403.734375,
+            "y1": 66.609375,
+            "pageIndex": 0
+          }
+        ],
+        "document": "FHVZVtBr",
+        "pageIndex": 0,
+        "raw": "SNG Engineering, Inc.",
+        "parsed": "SNG Engineering, Inc.",
+        "confidence": 0.932,
+        "classificationConfidence": 0.972,
+        "textExtractionConfidence": 0.958,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "rFeFJcwy",
+        "contentType": "text",
+        "parent": null
+      },
+      "supplierEmail": {
+        "id": 101396099,
+        "rectangle": {
+          "x0": 224.9765625,
+          "y0": 131.1796875,
+          "x1": 364.3125,
+          "y1": 144.7734375,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 224.9765625,
+            "y0": 131.1796875,
+            "x1": 364.3125,
+            "y1": 144.7734375,
+            "pageIndex": 0
+          }
+        ],
+        "document": "FHVZVtBr",
+        "pageIndex": 0,
+        "raw": "sng.engineering@erols.com",
+        "parsed": "sng.engineering@erols.com",
+        "confidence": 0.928,
+        "classificationConfidence": 0.977,
+        "textExtractionConfidence": 0.949,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "dataPoint": "HulOoEaC",
+        "contentType": "text",
+        "parent": null
+      },
+      "supplierFax": {
+        "id": 101396100,
+        "rectangle": {
+          "x0": 323.53125,
+          "y0": 117.5859375,
+          "x1": 394.21875,
+          "y1": 130.5,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 323.53125,
+            "y0": 117.5859375,
+            "x1": 394.21875,
+            "y1": 130.5,
+            "pageIndex": 0
+          }
+        ],
+        "document": "FHVZVtBr",
+        "pageIndex": 0,
+        "raw": "301.548.1840",
+        "parsed": "301.548.1840",
+        "confidence": 0.969,
+        "classificationConfidence": 0.978,
+        "textExtractionConfidence": 0.991,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "eunYZkKM",
+        "contentType": "text",
+        "parent": null
+      },
+      "supplierPhoneNumber": {
+        "id": 101396101,
+        "rectangle": {
+          "x0": 224.9765625,
+          "y0": 117.5859375,
+          "x1": 295.6640625,
+          "y1": 130.5,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 224.9765625,
+            "y0": 117.5859375,
+            "x1": 295.6640625,
+            "y1": 130.5,
+            "pageIndex": 0
+          }
+        ],
+        "document": "FHVZVtBr",
+        "pageIndex": 0,
+        "raw": "301.548.0055",
+        "parsed": "301.548.0055",
+        "confidence": 0.969,
+        "classificationConfidence": 0.978,
+        "textExtractionConfidence": 0.991,
+        "isVerified": true,
+        "isClientVerified": false,
+        "isAutoVerified": true,
+        "dataPoint": "gCGTnHfC",
+        "contentType": "text",
+        "parent": null
+      },
+      "supplierVat": null,
+      "supplierWebsite": null,
+      "tables": [
         {
-          "id": 101266098,
+          "id": 101396102,
           "rectangle": {
-            "x0": 22.039360307935254,
-            "y0": 269.2231390734346,
-            "x1": 271.8419859069771,
-            "y1": 666.5579150969104,
+            "x0": 45.963038582004,
+            "y0": 366.77553858200406,
+            "x1": 653.435398917996,
+            "y1": 465.16196141799605,
             "pageIndex": 0
           },
           "rectangles": [
             {
-              "x0": 22.039360307935254,
-              "y0": 269.2231390734346,
-              "x1": 271.8419859069771,
-              "y1": 666.5579150969104,
+              "x0": 45.963038582004,
+              "y0": 366.77553858200406,
+              "x1": 653.435398917996,
+              "y1": 465.16196141799605,
               "pageIndex": 0
             }
           ],
-          "document": "tqXpzPJp",
+          "document": "FHVZVtBr",
           "pageIndex": 0,
-          "raw": "STICKERE PUISOR OUA 1 BUC \u00d7 16,00 SELECLINE FIERBATOR 1 BUC \u00d7 44,01 44,01 TAXA VERDE 1 BUC \u00d7 0,89 0,89 COS DREPTUNG CARLIGE 1 BUC X 5,55 5,55 CROISSANT 7 DAYS SPU 1 BUC \u00d7 1,75 PAINE CU MAIA SI MAS 1 BUC X 3,60 PATE DE PORC 20% 120 2 BUC X 3,55 NUTELLA 700G 1 BUC \u00d7 19,40 19,40 RADIERA GALET 1 BUC \u00d7 4,55 GP SUPER ALKALINE LR 1 BUC X 18,70 18,70 NIVEA BALS DUPA RAS 1 BUC X 30,50 30,50 AUC VV LICHID PARBRC 1 BUC \u00d7 16,90 16,90",
+          "raw": null,
           "parsed": {
             "rows": [
               {
-                "id": 101266099,
+                "id": 13558747,
                 "rectangle": {
-                  "x0": 22.039360307935254,
-                  "y0": 269.2231390734346,
-                  "x1": 271.8419859069771,
-                  "y1": 283.8607127165237,
-                  "pageIndex": 0
+                  "x0": 45.963038582004,
+                  "y0": 388.78125000000006,
+                  "x1": 653.435398917996,
+                  "y1": 440.43750000000006
                 },
-                "rectangles": [
-                  {
-                    "x0": 22.039360307935254,
-                    "y0": 269.2231390734346,
-                    "x1": 271.8419859069771,
-                    "y1": 283.8607127165237,
-                    "pageIndex": 0
-                  }
-                ],
-                "document": "tqXpzPJp",
+                "rectangles": [],
                 "pageIndex": 0,
-                "raw": "STICKERE PUISOR OUA",
+                "raw": null,
                 "parsed": {
-                  "itemDescription": {
-                    "id": 101266112,
-                    "rectangle": {
-                      "x0": 28.436429723891308,
-                      "y0": 269.2231390734346,
-                      "x1": 151.46958393518918,
-                      "y1": 284.18125904536555,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 28.436429723891308,
-                        "y0": 269.3879938680763,
-                        "x1": 81.45535886406188,
-                        "y1": 284.18125904536555,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 84.12778868837148,
-                        "y0": 269.42961962968747,
-                        "x1": 125.82428695481356,
-                        "y1": 283.8324127915152,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 129.37337209731618,
-                        "y0": 269.2231390734346,
-                        "x1": 151.46958393518918,
-                        "y1": 283.04565793262816,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "STICKERE PUISOR OUA",
-                    "parsed": "STICKERE PUISOR OUA",
-                    "confidence": 0.989,
-                    "classificationConfidence": 0.989,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "aIiiegGU",
-                    "contentType": "text",
-                    "parent": 101266099
-                  }
-                },
-                "confidence": null,
-                "classificationConfidence": null,
-                "textExtractionConfidence": 1.0,
-                "isVerified": false,
-                "isClientVerified": false,
-                "isAutoVerified": false,
-                "dataPoint": "cXqQaWDo",
-                "contentType": "group",
-                "parent": 101266098
-              },
-              {
-                "id": 101266100,
-                "rectangle": {
-                  "x0": 22.039360307935254,
-                  "y0": 283.8607127165237,
-                  "x1": 271.8419859069771,
-                  "y1": 300.20703785596993,
-                  "pageIndex": 0
-                },
-                "rectangles": [
-                  {
-                    "x0": 22.039360307935254,
-                    "y0": 283.8607127165237,
-                    "x1": 271.8419859069771,
-                    "y1": 300.20703785596993,
-                    "pageIndex": 0
-                  }
-                ],
-                "document": "tqXpzPJp",
-                "pageIndex": 0,
-                "raw": "1 BUC \u00d7 16,00",
-                "parsed": {
-                  "itemUnitPrice": {
-                    "id": 101266136,
-                    "rectangle": {
-                      "x0": 150.10923167418701,
-                      "y0": 283.5401663876819,
-                      "x1": 183.87920699956118,
-                      "y1": 299.484816909798,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 150.10923167418701,
-                        "y0": 283.5401663876819,
-                        "x1": 183.87920699956118,
-                        "y1": 299.484816909798,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "16,00",
-                    "parsed": "16.00",
-                    "confidence": 0.983,
-                    "classificationConfidence": 0.983,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "dVGdChNl",
-                    "contentType": "decimal",
-                    "parent": 101266100
-                  },
                   "itemQuantity": {
-                    "id": 101266124,
+                    "id": 101396103,
                     "rectangle": {
-                      "x0": 98.89023961629414,
-                      "y0": 285.29682945654537,
-                      "x1": 105.71532812646862,
-                      "y1": 299.12351089189997,
+                      "x0": 45.963038582004,
+                      "y0": 388.78125000000006,
+                      "x1": 110.963038582004,
+                      "y1": 440.43750000000006,
                       "pageIndex": 0
                     },
                     "rectangles": [
                       {
-                        "x0": 98.89023961629414,
-                        "y0": 285.29682945654537,
-                        "x1": 105.71532812646862,
-                        "y1": 299.12351089189997,
+                        "x0": 45.963038582004,
+                        "y0": 388.78125000000006,
+                        "x1": 110.963038582004,
+                        "y1": 440.43750000000006,
                         "pageIndex": 0
                       }
                     ],
-                    "document": "tqXpzPJp",
+                    "document": "FHVZVtBr",
                     "pageIndex": 0,
                     "raw": "1",
                     "parsed": 1.0,
-                    "confidence": 0.999,
-                    "classificationConfidence": 0.999,
+                    "confidence": null,
+                    "classificationConfidence": null,
                     "textExtractionConfidence": 1.0,
                     "isVerified": false,
                     "isClientVerified": false,
                     "isAutoVerified": false,
-                    "dataPoint": "EEOzlgxz",
+                    "dataPoint": "cqAyfKpI",
                     "contentType": "float",
-                    "parent": 101266100
-                  }
-                },
-                "confidence": null,
-                "classificationConfidence": null,
-                "textExtractionConfidence": 1.0,
-                "isVerified": false,
-                "isClientVerified": false,
-                "isAutoVerified": false,
-                "dataPoint": "cXqQaWDo",
-                "contentType": "group",
-                "parent": 101266098
-              },
-              {
-                "id": 101266101,
-                "rectangle": {
-                  "x0": 22.039360307935254,
-                  "y0": 300.20703785596993,
-                  "x1": 271.8419859069771,
-                  "y1": 333.61484109089116,
-                  "pageIndex": 0
-                },
-                "rectangles": [
-                  {
-                    "x0": 22.039360307935254,
-                    "y0": 300.20703785596993,
-                    "x1": 271.8419859069771,
-                    "y1": 333.61484109089116,
-                    "pageIndex": 0
-                  }
-                ],
-                "document": "tqXpzPJp",
-                "pageIndex": 0,
-                "raw": "SELECLINE FIERBATOR 1 BUC \u00d7 44,01 44,01",
-                "parsed": {
+                    "parent": null
+                  },
                   "itemDescription": {
-                    "id": 101266113,
+                    "id": 101396104,
                     "rectangle": {
-                      "x0": 27.97854634616823,
-                      "y0": 300.92925880214193,
-                      "x1": 150.72364469422953,
-                      "y1": 316.7357341672573,
+                      "x0": 110.963038582004,
+                      "y0": 388.78125000000006,
+                      "x1": 485.963038582004,
+                      "y1": 440.43750000000006,
                       "pageIndex": 0
                     },
                     "rectangles": [
                       {
-                        "x0": 27.97854634616823,
-                        "y0": 301.44960878671736,
-                        "x1": 87.12241309332593,
-                        "y1": 316.7357341672573,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 90.21110053374743,
-                        "y0": 300.92925880214193,
-                        "x1": 150.72364469422953,
-                        "y1": 315.90816369044273,
+                        "x0": 110.963038582004,
+                        "y0": 388.78125000000006,
+                        "x1": 485.963038582004,
+                        "y1": 440.43750000000006,
                         "pageIndex": 0
                       }
                     ],
-                    "document": "tqXpzPJp",
+                    "document": "FHVZVtBr",
                     "pageIndex": 0,
-                    "raw": "SELECLINE FIERBATOR",
-                    "parsed": "SELECLINE FIERBATOR",
-                    "confidence": 0.997,
-                    "classificationConfidence": 0.997,
+                    "raw": "Field inspection of construction on 1/19/2003 deficiencies in house construction, Garage drive way & legal support to Attorney to",
+                    "parsed": "Field inspection of construction on 1/19/2003 deficiencies in house construction, Garage drive way & legal support to Attorney to",
+                    "confidence": null,
+                    "classificationConfidence": null,
                     "textExtractionConfidence": 1.0,
                     "isVerified": false,
                     "isClientVerified": false,
                     "isAutoVerified": false,
-                    "dataPoint": "aIiiegGU",
+                    "dataPoint": "VTmFSnJB",
                     "contentType": "text",
-                    "parent": 101266101
+                    "parent": null
+                  },
+                  "itemUnitPrice": {
+                    "id": 101396105,
+                    "rectangle": {
+                      "x0": 485.963038582004,
+                      "y0": 388.78125000000006,
+                      "x1": 588.463038582004,
+                      "y1": 440.43750000000006,
+                      "pageIndex": 0
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 485.963038582004,
+                        "y0": 388.78125000000006,
+                        "x1": 588.463038582004,
+                        "y1": 440.43750000000006,
+                        "pageIndex": 0
+                      }
+                    ],
+                    "document": "FHVZVtBr",
+                    "pageIndex": 0,
+                    "raw": "750.00",
+                    "parsed": "750.00",
+                    "confidence": null,
+                    "classificationConfidence": null,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "bfnkPeRr",
+                    "contentType": "decimal",
+                    "parent": null
                   },
                   "itemTotal": {
-                    "id": 101266148,
+                    "id": 101396106,
                     "rectangle": {
-                      "x0": 237.8472314689025,
-                      "y0": 316.50838480132757,
-                      "x1": 271.8419859069771,
-                      "y1": 333.2197874452089,
+                      "x0": 588.463038582004,
+                      "y0": 388.78125000000006,
+                      "x1": 653.435398917996,
+                      "y1": 440.43750000000006,
                       "pageIndex": 0
                     },
                     "rectangles": [
                       {
-                        "x0": 237.8472314689025,
-                        "y0": 316.50838480132757,
-                        "x1": 271.8419859069771,
-                        "y1": 333.2197874452089,
+                        "x0": 588.463038582004,
+                        "y0": 388.78125000000006,
+                        "x1": 653.435398917996,
+                        "y1": 440.43750000000006,
                         "pageIndex": 0
                       }
                     ],
-                    "document": "tqXpzPJp",
+                    "document": "FHVZVtBr",
                     "pageIndex": 0,
-                    "raw": "44,01",
-                    "parsed": "44.01",
-                    "confidence": 0.876,
-                    "classificationConfidence": 0.876,
+                    "raw": "750 .. 00",
+                    "parsed": null,
+                    "confidence": null,
+                    "classificationConfidence": null,
                     "textExtractionConfidence": 1.0,
                     "isVerified": false,
                     "isClientVerified": false,
                     "isAutoVerified": false,
-                    "dataPoint": "pLbttUNY",
+                    "dataPoint": "gKgucMQe",
                     "contentType": "decimal",
-                    "parent": 101266101
-                  },
-                  "itemUnitPrice": {
-                    "id": 101266137,
-                    "rectangle": {
-                      "x0": 147.66077081889412,
-                      "y0": 317.599035684412,
-                      "x1": 181.65968783312982,
-                      "y1": 333.4421081624225,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 147.66077081889412,
-                        "y0": 317.599035684412,
-                        "x1": 181.65968783312982,
-                        "y1": 333.4421081624225,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "44,01",
-                    "parsed": "44.01",
-                    "confidence": 0.988,
-                    "classificationConfidence": 0.988,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "dVGdChNl",
-                    "contentType": "decimal",
-                    "parent": 101266101
-                  },
-                  "itemQuantity": {
-                    "id": 101266125,
-                    "rectangle": {
-                      "x0": 98.11099976604555,
-                      "y0": 318.1351978655126,
-                      "x1": 105.24079444410106,
-                      "y1": 333.1141027538134,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 98.11099976604555,
-                        "y0": 318.1351978655126,
-                        "x1": 105.24079444410106,
-                        "y1": 333.1141027538134,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "1",
-                    "parsed": 1.0,
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "EEOzlgxz",
-                    "contentType": "float",
-                    "parent": 101266101
+                    "parent": null
                   }
                 },
                 "confidence": null,
@@ -397,341 +644,148 @@
                 "isVerified": false,
                 "isClientVerified": false,
                 "isAutoVerified": false,
-                "dataPoint": "cXqQaWDo",
-                "contentType": "group",
-                "parent": 101266098
+                "dataPoint": null,
+                "contentType": null
               },
               {
-                "id": 101266102,
+                "id": 13558748,
                 "rectangle": {
-                  "x0": 22.039360307935254,
-                  "y0": 333.61484109089116,
-                  "x1": 271.8419859069771,
-                  "y1": 352.0825017317941,
-                  "pageIndex": 0
+                  "x0": 45.963038582004,
+                  "y0": 440.43750000000006,
+                  "x1": 653.435398917996,
+                  "y1": 465.16196141799605
                 },
-                "rectangles": [
-                  {
-                    "x0": 22.039360307935254,
-                    "y0": 333.61484109089116,
-                    "x1": 271.8419859069771,
-                    "y1": 352.0825017317941,
-                    "pageIndex": 0
-                  }
-                ],
-                "document": "tqXpzPJp",
+                "rectangles": [],
                 "pageIndex": 0,
-                "raw": "TAXA VERDE 1 BUC \u00d7 0,89 0,89",
+                "raw": null,
                 "parsed": {
-                  "itemTotal": {
-                    "id": 101266149,
+                  "itemQuantity": {
+                    "id": 101396107,
                     "rectangle": {
-                      "x0": 242.15558168896746,
-                      "y0": 333.7875740193598,
-                      "x1": 271.3291509310401,
-                      "y1": 348.9263330180218,
+                      "x0": 45.963038582004,
+                      "y0": 440.43750000000006,
+                      "x1": 110.963038582004,
+                      "y1": 465.16196141799605,
                       "pageIndex": 0
                     },
                     "rectangles": [
                       {
-                        "x0": 242.15558168896746,
-                        "y0": 333.7875740193598,
-                        "x1": 271.3291509310401,
-                        "y1": 348.9263330180218,
+                        "x0": 45.963038582004,
+                        "y0": 440.43750000000006,
+                        "x1": 110.963038582004,
+                        "y1": 465.16196141799605,
                         "pageIndex": 0
                       }
                     ],
-                    "document": "tqXpzPJp",
+                    "document": "FHVZVtBr",
                     "pageIndex": 0,
-                    "raw": "0,89",
-                    "parsed": "0.89",
-                    "confidence": 0.867,
-                    "classificationConfidence": 0.867,
+                    "raw": "",
+                    "parsed": null,
+                    "confidence": null,
+                    "classificationConfidence": null,
                     "textExtractionConfidence": 1.0,
                     "isVerified": false,
                     "isClientVerified": false,
                     "isAutoVerified": false,
-                    "dataPoint": "pLbttUNY",
-                    "contentType": "decimal",
-                    "parent": 101266102
+                    "dataPoint": "cqAyfKpI",
+                    "contentType": "float",
+                    "parent": null
+                  },
+                  "itemDescription": {
+                    "id": 101396108,
+                    "rectangle": {
+                      "x0": 110.963038582004,
+                      "y0": 440.43750000000006,
+                      "x1": 485.963038582004,
+                      "y1": 465.16196141799605,
+                      "pageIndex": 0
+                    },
+                    "rectangles": [
+                      {
+                        "x0": 110.963038582004,
+                        "y0": 440.43750000000006,
+                        "x1": 485.963038582004,
+                        "y1": 465.16196141799605,
+                        "pageIndex": 0
+                      }
+                    ],
+                    "document": "FHVZVtBr",
+                    "pageIndex": 0,
+                    "raw": "1/19/2003",
+                    "parsed": "1/19/2003",
+                    "confidence": null,
+                    "classificationConfidence": null,
+                    "textExtractionConfidence": 1.0,
+                    "isVerified": false,
+                    "isClientVerified": false,
+                    "isAutoVerified": false,
+                    "dataPoint": "VTmFSnJB",
+                    "contentType": "text",
+                    "parent": null
                   },
                   "itemUnitPrice": {
-                    "id": 101266138,
+                    "id": 101396109,
                     "rectangle": {
-                      "x0": 153.17213351395807,
-                      "y0": 335.0896781785419,
-                      "x1": 181.92276823939966,
-                      "y1": 350.9327506565524,
+                      "x0": 485.963038582004,
+                      "y0": 440.43750000000006,
+                      "x1": 588.463038582004,
+                      "y1": 465.16196141799605,
                       "pageIndex": 0
                     },
                     "rectangles": [
                       {
-                        "x0": 153.17213351395807,
-                        "y0": 335.0896781785419,
-                        "x1": 181.92276823939966,
-                        "y1": 350.9327506565524,
+                        "x0": 485.963038582004,
+                        "y0": 440.43750000000006,
+                        "x1": 588.463038582004,
+                        "y1": 465.16196141799605,
                         "pageIndex": 0
                       }
                     ],
-                    "document": "tqXpzPJp",
+                    "document": "FHVZVtBr",
                     "pageIndex": 0,
-                    "raw": "0,89",
-                    "parsed": "0.89",
-                    "confidence": 0.988,
-                    "classificationConfidence": 0.988,
+                    "raw": "",
+                    "parsed": null,
+                    "confidence": null,
+                    "classificationConfidence": null,
                     "textExtractionConfidence": 1.0,
                     "isVerified": false,
                     "isClientVerified": false,
                     "isAutoVerified": false,
-                    "dataPoint": "dVGdChNl",
+                    "dataPoint": "bfnkPeRr",
                     "contentType": "decimal",
-                    "parent": 101266102
-                  },
-                  "itemQuantity": {
-                    "id": 101266126,
-                    "rectangle": {
-                      "x0": 102.97464883177804,
-                      "y0": 335.38941162657807,
-                      "x1": 111.10765232909884,
-                      "y1": 350.9485908175132,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 102.97464883177804,
-                        "y0": 335.38941162657807,
-                        "x1": 111.10765232909884,
-                        "y1": 350.9485908175132,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "1",
-                    "parsed": 1.0,
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "EEOzlgxz",
-                    "contentType": "float",
-                    "parent": 101266102
-                  },
-                  "itemDescription": {
-                    "id": 101266114,
-                    "rectangle": {
-                      "x0": 26.31848860156549,
-                      "y0": 335.52761474801434,
-                      "x1": 92.6679145057982,
-                      "y1": 351.573843314236,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 26.31848860156549,
-                        "y0": 336.12621557153176,
-                        "x1": 54.627890253928484,
-                        "y1": 351.573843314236,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 57.72906542283333,
-                        "y0": 335.52761474801434,
-                        "x1": 92.6679145057982,
-                        "y1": 351.15923394992717,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "TAXA VERDE",
-                    "parsed": "TAXA VERDE",
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "aIiiegGU",
-                    "contentType": "text",
-                    "parent": 101266102
-                  }
-                },
-                "confidence": null,
-                "classificationConfidence": null,
-                "textExtractionConfidence": 1.0,
-                "isVerified": false,
-                "isClientVerified": false,
-                "isAutoVerified": false,
-                "dataPoint": "cXqQaWDo",
-                "contentType": "group",
-                "parent": 101266098
-              },
-              {
-                "id": 101266103,
-                "rectangle": {
-                  "x0": 22.039360307935254,
-                  "y0": 352.0825017317941,
-                  "x1": 271.8419859069771,
-                  "y1": 387.59370503691275,
-                  "pageIndex": 0
-                },
-                "rectangles": [
-                  {
-                    "x0": 22.039360307935254,
-                    "y0": 352.0825017317941,
-                    "x1": 271.8419859069771,
-                    "y1": 387.59370503691275,
-                    "pageIndex": 0
-                  }
-                ],
-                "document": "tqXpzPJp",
-                "pageIndex": 0,
-                "raw": "COS DREPTUNG CARLIGE 1 BUC X 5,55 5,55",
-                "parsed": {
-                  "itemDescription": {
-                    "id": 101266115,
-                    "rectangle": {
-                      "x0": 26.369277623618274,
-                      "y0": 352.5911601493521,
-                      "x1": 156.89188427906657,
-                      "y1": 369.4333068349024,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 26.369277623618274,
-                        "y0": 353.0091219461383,
-                        "x1": 46.30424636131558,
-                        "y1": 369.4333068349024,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 49.41790925870379,
-                        "y0": 352.9941198932969,
-                        "x1": 105.02517859184222,
-                        "y1": 368.9021453380823,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 107.96901397474392,
-                        "y0": 352.5911601493521,
-                        "x1": 156.89188427906657,
-                        "y1": 369.00201920151346,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "COS DREPTUNG CARLIGE",
-                    "parsed": "COS DREPTUNG CARLIGE",
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "aIiiegGU",
-                    "contentType": "text",
-                    "parent": 101266103
+                    "parent": null
                   },
                   "itemTotal": {
-                    "id": 101266150,
+                    "id": 101396110,
                     "rectangle": {
-                      "x0": 241.64358482114983,
-                      "y0": 369.2017948928115,
-                      "x1": 269.6482803056318,
-                      "y1": 385.50942764906426,
+                      "x0": 588.463038582004,
+                      "y0": 440.43750000000006,
+                      "x1": 653.435398917996,
+                      "y1": 465.16196141799605,
                       "pageIndex": 0
                     },
                     "rectangles": [
                       {
-                        "x0": 241.64358482114983,
-                        "y0": 369.2017948928115,
-                        "x1": 269.6482803056318,
-                        "y1": 385.50942764906426,
+                        "x0": 588.463038582004,
+                        "y0": 440.43750000000006,
+                        "x1": 653.435398917996,
+                        "y1": 465.16196141799605,
                         "pageIndex": 0
                       }
                     ],
-                    "document": "tqXpzPJp",
+                    "document": "FHVZVtBr",
                     "pageIndex": 0,
-                    "raw": "5,55",
-                    "parsed": "5.55",
-                    "confidence": 0.909,
-                    "classificationConfidence": 0.909,
+                    "raw": "",
+                    "parsed": null,
+                    "confidence": null,
+                    "classificationConfidence": null,
                     "textExtractionConfidence": 1.0,
                     "isVerified": false,
                     "isClientVerified": false,
                     "isAutoVerified": false,
-                    "dataPoint": "pLbttUNY",
+                    "dataPoint": "gKgucMQe",
                     "contentType": "decimal",
-                    "parent": 101266103
-                  },
-                  "itemUnitPrice": {
-                    "id": 101266139,
-                    "rectangle": {
-                      "x0": 151.8001316325919,
-                      "y0": 370.09596658820396,
-                      "x1": 181.6988272348186,
-                      "y1": 386.0797285475732,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 151.8001316325919,
-                        "y0": 370.09596658820396,
-                        "x1": 181.6988272348186,
-                        "y1": 386.0797285475732,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "5,55",
-                    "parsed": "5.55",
-                    "confidence": 0.985,
-                    "classificationConfidence": 0.985,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "dVGdChNl",
-                    "contentType": "decimal",
-                    "parent": 101266103
-                  },
-                  "itemQuantity": {
-                    "id": 101266127,
-                    "rectangle": {
-                      "x0": 103.61071284074552,
-                      "y0": 370.93683493718567,
-                      "x1": 110.59149288512009,
-                      "y1": 386.6841681634904,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 103.61071284074552,
-                        "y0": 370.93683493718567,
-                        "x1": 110.59149288512009,
-                        "y1": 386.6841681634904,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "1",
-                    "parsed": 1.0,
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "EEOzlgxz",
-                    "contentType": "float",
-                    "parent": 101266103
+                    "parent": null
                   }
                 },
                 "confidence": null,
@@ -740,1323 +794,8 @@
                 "isVerified": false,
                 "isClientVerified": false,
                 "isAutoVerified": false,
-                "dataPoint": "cXqQaWDo",
-                "contentType": "group",
-                "parent": 101266098
-              },
-              {
-                "id": 101266104,
-                "rectangle": {
-                  "x0": 22.039360307935254,
-                  "y0": 387.59370503691275,
-                  "x1": 271.8419859069771,
-                  "y1": 422.9471495019686,
-                  "pageIndex": 0
-                },
-                "rectangles": [
-                  {
-                    "x0": 22.039360307935254,
-                    "y0": 387.59370503691275,
-                    "x1": 271.8419859069771,
-                    "y1": 422.9471495019686,
-                    "pageIndex": 0
-                  }
-                ],
-                "document": "tqXpzPJp",
-                "pageIndex": 0,
-                "raw": "CROISSANT 7 DAYS SPU 1 BUC \u00d7 1,75",
-                "parsed": {
-                  "itemDescription": {
-                    "id": 101266116,
-                    "rectangle": {
-                      "x0": 25.560899740241837,
-                      "y0": 388.503241910335,
-                      "x1": 155.28677813267774,
-                      "y1": 404.86417801299865,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 25.560899740241837,
-                        "y0": 388.73053534739347,
-                        "x1": 86.132558075099,
-                        "y1": 404.86417801299865,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 88.9498399569284,
-                        "y0": 388.6048199544406,
-                        "x1": 97.37089931748574,
-                        "y1": 404.3355028761009,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 100.18818119931515,
-                        "y0": 388.503241910335,
-                        "x1": 129.92953701553867,
-                        "y1": 404.209787483148,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 133.03487476060465,
-                        "y0": 388.54903024810733,
-                        "x1": 155.28677813267774,
-                        "y1": 404.1082094390424,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "CROISSANT 7 DAYS SPU",
-                    "parsed": "CROISSANT 7 DAYS SPU",
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "aIiiegGU",
-                    "contentType": "text",
-                    "parent": 101266104
-                  },
-                  "itemUnitPrice": {
-                    "id": 101266140,
-                    "rectangle": {
-                      "x0": 152.43619564155938,
-                      "y0": 405.94309538241214,
-                      "x1": 180.3226627772913,
-                      "y1": 421.7820052842615,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 152.43619564155938,
-                        "y0": 405.94309538241214,
-                        "x1": 180.3226627772913,
-                        "y1": 421.7820052842615,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "1,75",
-                    "parsed": "1.75",
-                    "confidence": 0.98,
-                    "classificationConfidence": 0.98,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "dVGdChNl",
-                    "contentType": "decimal",
-                    "parent": 101266104
-                  },
-                  "itemQuantity": {
-                    "id": 101266128,
-                    "rectangle": {
-                      "x0": 102.59004357315203,
-                      "y0": 406.5516975744905,
-                      "x1": 109.72400082736866,
-                      "y1": 421.9143975777336,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 102.59004357315203,
-                        "y0": 406.5516975744905,
-                        "x1": 109.72400082736866,
-                        "y1": 421.9143975777336,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "1",
-                    "parsed": 1.0,
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "EEOzlgxz",
-                    "contentType": "float",
-                    "parent": 101266104
-                  }
-                },
-                "confidence": null,
-                "classificationConfidence": null,
-                "textExtractionConfidence": 1.0,
-                "isVerified": false,
-                "isClientVerified": false,
-                "isAutoVerified": false,
-                "dataPoint": "cXqQaWDo",
-                "contentType": "group",
-                "parent": 101266098
-              },
-              {
-                "id": 101266105,
-                "rectangle": {
-                  "x0": 22.039360307935254,
-                  "y0": 422.9471495019686,
-                  "x1": 271.8419859069771,
-                  "y1": 458.464596671329,
-                  "pageIndex": 0
-                },
-                "rectangles": [
-                  {
-                    "x0": 22.039360307935254,
-                    "y0": 422.9471495019686,
-                    "x1": 271.8419859069771,
-                    "y1": 458.464596671329,
-                    "pageIndex": 0
-                  }
-                ],
-                "document": "tqXpzPJp",
-                "pageIndex": 0,
-                "raw": "PAINE CU MAIA SI MAS 1 BUC X 3,60",
-                "parsed": {
-                  "itemDescription": {
-                    "id": 101266117,
-                    "rectangle": {
-                      "x0": 24.765009585348793,
-                      "y0": 423.9799014262036,
-                      "x1": 154.99539780139943,
-                      "y1": 440.871160917568,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 24.765009585348793,
-                        "y0": 424.15143312136445,
-                        "x1": 58.52665975840074,
-                        "y1": 440.871160917568,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 61.64032265578895,
-                        "y0": 424.3370728323761,
-                        "x1": 77.5466718843356,
-                        "y1": 440.5314779241593,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 80.65617220556268,
-                        "y0": 424.2313322121094,
-                        "x1": 110.04619540801352,
-                        "y1": 440.23009622432,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 113.27392407799063,
-                        "y0": 424.22216895166787,
-                        "x1": 129.3501008210238,
-                        "y1": 440.1243556040534,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 132.00171776452783,
-                        "y0": 423.9799014262036,
-                        "x1": 154.99539780139943,
-                        "y1": 440.14349226862026,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "PAINE CU MAIA SI MAS",
-                    "parsed": "PAINE CU MAIA SI MAS",
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "aIiiegGU",
-                    "contentType": "text",
-                    "parent": 101266105
-                  },
-                  "itemUnitPrice": {
-                    "id": 101266141,
-                    "rectangle": {
-                      "x0": 151.2806477205714,
-                      "y0": 441.8260391102673,
-                      "x1": 180.15783594708526,
-                      "y1": 457.6732741644389,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 151.2806477205714,
-                        "y0": 441.8260391102673,
-                        "x1": 180.15783594708526,
-                        "y1": 457.6732741644389,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "3,60",
-                    "parsed": "3.60",
-                    "confidence": 0.972,
-                    "classificationConfidence": 0.972,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "dVGdChNl",
-                    "contentType": "decimal",
-                    "parent": 101266105
-                  },
-                  "itemQuantity": {
-                    "id": 101266129,
-                    "rectangle": {
-                      "x0": 102.58255652894914,
-                      "y0": 442.2747871919844,
-                      "x1": 108.98722484685061,
-                      "y1": 457.63748719522755,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 102.58255652894914,
-                        "y0": 442.2747871919844,
-                        "x1": 108.98722484685061,
-                        "y1": 457.63748719522755,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "1",
-                    "parsed": 1.0,
-                    "confidence": 0.997,
-                    "classificationConfidence": 0.997,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "EEOzlgxz",
-                    "contentType": "float",
-                    "parent": 101266105
-                  }
-                },
-                "confidence": null,
-                "classificationConfidence": null,
-                "textExtractionConfidence": 1.0,
-                "isVerified": false,
-                "isClientVerified": false,
-                "isAutoVerified": false,
-                "dataPoint": "cXqQaWDo",
-                "contentType": "group",
-                "parent": 101266098
-              },
-              {
-                "id": 101266106,
-                "rectangle": {
-                  "x0": 22.039360307935254,
-                  "y0": 458.464596671329,
-                  "x1": 271.8419859069771,
-                  "y1": 494.32214588815776,
-                  "pageIndex": 0
-                },
-                "rectangles": [
-                  {
-                    "x0": 22.039360307935254,
-                    "y0": 458.464596671329,
-                    "x1": 271.8419859069771,
-                    "y1": 494.32214588815776,
-                    "pageIndex": 0
-                  }
-                ],
-                "document": "tqXpzPJp",
-                "pageIndex": 0,
-                "raw": "PATE DE PORC 20% 120 2 BUC X 3,55",
-                "parsed": {
-                  "itemDescription": {
-                    "id": 101266118,
-                    "rectangle": {
-                      "x0": 23.960794278133505,
-                      "y0": 459.15517924223286,
-                      "x1": 154.19950764650636,
-                      "y1": 476.57760023041743,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 23.960794278133505,
-                        "y0": 459.68969317153045,
-                        "x1": 51.67327132321779,
-                        "y1": 476.57760023041743,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 55.07915266000366,
-                        "y0": 459.66804218260546,
-                        "x1": 70.11717172267953,
-                        "y1": 476.1629908661086,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 73.23083462006774,
-                        "y0": 459.5747892908222,
-                        "x1": 103.48502541222823,
-                        "y1": 475.84912143778604,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 106.42053564280769,
-                        "y0": 459.3691468426886,
-                        "x1": 129.13032239260386,
-                        "y1": 475.7883310471723,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 132.34972591025874,
-                        "y0": 459.15517924223286,
-                        "x1": 154.19950764650636,
-                        "y1": 476.15047517318965,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "PATE DE PORC 20% 120",
-                    "parsed": "PATE DE PORC 20% 120",
-                    "confidence": 0.997,
-                    "classificationConfidence": 0.997,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "aIiiegGU",
-                    "contentType": "text",
-                    "parent": 101266106
-                  },
-                  "itemUnitPrice": {
-                    "id": 101266142,
-                    "rectangle": {
-                      "x0": 150.53970916389224,
-                      "y0": 477.0970561780023,
-                      "x1": 179.58256232873148,
-                      "y1": 493.5079152301637,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 150.53970916389224,
-                        "y0": 477.0970561780023,
-                        "x1": 179.58256232873148,
-                        "y1": 493.5079152301637,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "3,55",
-                    "parsed": "3.55",
-                    "confidence": 0.959,
-                    "classificationConfidence": 0.959,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "dVGdChNl",
-                    "contentType": "decimal",
-                    "parent": 101266106
-                  },
-                  "itemQuantity": {
-                    "id": 101266130,
-                    "rectangle": {
-                      "x0": 100.98577553488256,
-                      "y0": 477.2211233191522,
-                      "x1": 108.41611380465797,
-                      "y1": 493.06419579716265,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 100.98577553488256,
-                        "y0": 477.2211233191522,
-                        "x1": 108.41611380465797,
-                        "y1": 493.06419579716265,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "2",
-                    "parsed": 2.0,
-                    "confidence": 0.997,
-                    "classificationConfidence": 0.997,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "EEOzlgxz",
-                    "contentType": "float",
-                    "parent": 101266106
-                  }
-                },
-                "confidence": null,
-                "classificationConfidence": null,
-                "textExtractionConfidence": 1.0,
-                "isVerified": false,
-                "isClientVerified": false,
-                "isAutoVerified": false,
-                "dataPoint": "cXqQaWDo",
-                "contentType": "group",
-                "parent": 101266098
-              },
-              {
-                "id": 101266107,
-                "rectangle": {
-                  "x0": 22.039360307935254,
-                  "y0": 494.32214588815776,
-                  "x1": 271.8419859069771,
-                  "y1": 528.8721991718999,
-                  "pageIndex": 0
-                },
-                "rectangles": [
-                  {
-                    "x0": 22.039360307935254,
-                    "y0": 494.32214588815776,
-                    "x1": 271.8419859069771,
-                    "y1": 528.8721991718999,
-                    "pageIndex": 0
-                  }
-                ],
-                "document": "tqXpzPJp",
-                "pageIndex": 0,
-                "raw": "NUTELLA 700G 1 BUC \u00d7 19,40 19,40",
-                "parsed": {
-                  "itemDescription": {
-                    "id": 101266119,
-                    "rectangle": {
-                      "x0": 24.024909136788978,
-                      "y0": 495.13637654615184,
-                      "x1": 103.61657959758097,
-                      "y1": 511.15262897112626,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 24.024909136788978,
-                        "y0": 495.13637654615184,
-                        "x1": 72.20184020015202,
-                        "y1": 511.15262897112626,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 75.31134052137911,
-                        "y0": 495.18216488392414,
-                        "x1": 103.61657959758097,
-                        "y1": 511.0293999380957,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "NUTELLA 700G",
-                    "parsed": "NUTELLA 700G",
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "aIiiegGU",
-                    "contentType": "text",
-                    "parent": 101266107
-                  },
-                  "itemTotal": {
-                    "id": 101266151,
-                    "rectangle": {
-                      "x0": 232.96198734311633,
-                      "y0": 511.50139133166965,
-                      "x1": 267.53701608382516,
-                      "y1": 527.9205755361533,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 232.96198734311633,
-                        "y0": 511.50139133166965,
-                        "x1": 267.53701608382516,
-                        "y1": 527.9205755361533,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "19,40",
-                    "parsed": "19.40",
-                    "confidence": 0.866,
-                    "classificationConfidence": 0.866,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "pLbttUNY",
-                    "contentType": "decimal",
-                    "parent": 101266107
-                  },
-                  "itemUnitPrice": {
-                    "id": 101266143,
-                    "rectangle": {
-                      "x0": 144.84686933397774,
-                      "y0": 512.2315463405398,
-                      "x1": 178.49861631060188,
-                      "y1": 528.3543495294646,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 144.84686933397774,
-                        "y0": 512.2315463405398,
-                        "x1": 178.49861631060188,
-                        "y1": 528.3543495294646,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "19,40",
-                    "parsed": "19.40",
-                    "confidence": 0.988,
-                    "classificationConfidence": 0.988,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "dVGdChNl",
-                    "contentType": "decimal",
-                    "parent": 101266107
-                  },
-                  "itemQuantity": {
-                    "id": 101266131,
-                    "rectangle": {
-                      "x0": 95.22133380210968,
-                      "y0": 512.8401485326181,
-                      "x1": 101.35043398525795,
-                      "y1": 527.5393227100046,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 95.22133380210968,
-                        "y0": 512.8401485326181,
-                        "x1": 101.35043398525795,
-                        "y1": 527.5393227100046,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "1",
-                    "parsed": 1.0,
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "EEOzlgxz",
-                    "contentType": "float",
-                    "parent": 101266107
-                  }
-                },
-                "confidence": null,
-                "classificationConfidence": null,
-                "textExtractionConfidence": 1.0,
-                "isVerified": false,
-                "isClientVerified": false,
-                "isAutoVerified": false,
-                "dataPoint": "cXqQaWDo",
-                "contentType": "group",
-                "parent": 101266098
-              },
-              {
-                "id": 101266108,
-                "rectangle": {
-                  "x0": 22.039360307935254,
-                  "y0": 528.8721991718999,
-                  "x1": 271.8419859069771,
-                  "y1": 562.7441436310037,
-                  "pageIndex": 0
-                },
-                "rectangles": [
-                  {
-                    "x0": 22.039360307935254,
-                    "y0": 528.8721991718999,
-                    "x1": 271.8419859069771,
-                    "y1": 562.7441436310037,
-                    "pageIndex": 0
-                  }
-                ],
-                "document": "tqXpzPJp",
-                "pageIndex": 0,
-                "raw": "RADIERA GALET 1 BUC \u00d7 4,55",
-                "parsed": {
-                  "itemDescription": {
-                    "id": 101266120,
-                    "rectangle": {
-                      "x0": 22.720346582120072,
-                      "y0": 529.3900488143352,
-                      "x1": 109.08631653103376,
-                      "y1": 545.7068448310295,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 22.720346582120072,
-                        "y0": 529.3900488143352,
-                        "x1": 69.91904428318453,
-                        "y1": 545.7068448310295,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 72.2867679396131,
-                        "y0": 529.4358371521074,
-                        "x1": 109.08631653103376,
-                        "y1": 545.502850634699,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "RADIERA GALET",
-                    "parsed": "RADIERA GALET",
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "aIiiegGU",
-                    "contentType": "text",
-                    "parent": 101266108
-                  },
-                  "itemUnitPrice": {
-                    "id": 101266144,
-                    "rectangle": {
-                      "x0": 149.76963257408525,
-                      "y0": 546.2179756262922,
-                      "x1": 177.7784906347283,
-                      "y1": 562.0652106804638,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 149.76963257408525,
-                        "y0": 546.2179756262922,
-                        "x1": 177.7784906347283,
-                        "y1": 562.0652106804638,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "4,55",
-                    "parsed": "4.55",
-                    "confidence": 0.985,
-                    "classificationConfidence": 0.985,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "dVGdChNl",
-                    "contentType": "decimal",
-                    "parent": 101266108
-                  },
-                  "itemQuantity": {
-                    "id": 101266132,
-                    "rectangle": {
-                      "x0": 100.56703155884826,
-                      "y0": 546.918154493915,
-                      "x1": 106.54460278395754,
-                      "y1": 561.897059382216,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 100.56703155884826,
-                        "y0": 546.918154493915,
-                        "x1": 106.54460278395754,
-                        "y1": 561.897059382216,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "1",
-                    "parsed": 1.0,
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "EEOzlgxz",
-                    "contentType": "float",
-                    "parent": 101266108
-                  }
-                },
-                "confidence": null,
-                "classificationConfidence": null,
-                "textExtractionConfidence": 1.0,
-                "isVerified": false,
-                "isClientVerified": false,
-                "isAutoVerified": false,
-                "dataPoint": "cXqQaWDo",
-                "contentType": "group",
-                "parent": 101266098
-              },
-              {
-                "id": 101266109,
-                "rectangle": {
-                  "x0": 22.039360307935254,
-                  "y0": 562.7441436310037,
-                  "x1": 271.8419859069771,
-                  "y1": 596.0803589452843,
-                  "pageIndex": 0
-                },
-                "rectangles": [
-                  {
-                    "x0": 22.039360307935254,
-                    "y0": 562.7441436310037,
-                    "x1": 271.8419859069771,
-                    "y1": 596.0803589452843,
-                    "pageIndex": 0
-                  }
-                ],
-                "document": "tqXpzPJp",
-                "pageIndex": 0,
-                "raw": "GP SUPER ALKALINE LR 1 BUC X 18,70 18,70",
-                "parsed": {
-                  "itemDescription": {
-                    "id": 101266121,
-                    "rectangle": {
-                      "x0": 23.6061651607547,
-                      "y0": 563.4230765815435,
-                      "x1": 152.19647040488883,
-                      "y1": 579.430193710512,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 23.6061651607547,
-                        "y0": 564.0666555991495,
-                        "x1": 37.21639263573114,
-                        "y1": 579.430193710512,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 40.09695126809669,
-                        "y0": 563.4555670471487,
-                        "x1": 74.67614258496661,
-                        "y1": 579.3794046884592,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 78.93370378297881,
-                        "y0": 563.4364024181461,
-                        "x1": 133.46451414219052,
-                        "y1": 578.789129017264,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 136.26930829553658,
-                        "y0": 563.4230765815435,
-                        "x1": 152.19647040488883,
-                        "y1": 578.1813649333051,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "GP SUPER ALKALINE LR",
-                    "parsed": "GP SUPER ALKALINE LR",
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "aIiiegGU",
-                    "contentType": "text",
-                    "parent": 101266109
-                  },
-                  "itemTotal": {
-                    "id": 101266152,
-                    "rectangle": {
-                      "x0": 232.28016296081222,
-                      "y0": 578.6991726290869,
-                      "x1": 265.45737625506877,
-                      "y1": 595.7027937123659,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 232.28016296081222,
-                        "y0": 578.6991726290869,
-                        "x1": 265.45737625506877,
-                        "y1": 595.7027937123659,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "18,70",
-                    "parsed": "18.70",
-                    "confidence": 0.88,
-                    "classificationConfidence": 0.88,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "pLbttUNY",
-                    "contentType": "decimal",
-                    "parent": 101266109
-                  },
-                  "itemUnitPrice": {
-                    "id": 101266145,
-                    "rectangle": {
-                      "x0": 143.30920251428617,
-                      "y0": 579.619968033249,
-                      "x1": 176.37235003595384,
-                      "y1": 594.7004509656555,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 143.30920251428617,
-                        "y0": 579.619968033249,
-                        "x1": 176.37235003595384,
-                        "y1": 594.7004509656555,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "18,70",
-                    "parsed": "18.70",
-                    "confidence": 0.989,
-                    "classificationConfidence": 0.989,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "dVGdChNl",
-                    "contentType": "decimal",
-                    "parent": 101266109
-                  },
-                  "itemQuantity": {
-                    "id": 101266133,
-                    "rectangle": {
-                      "x0": 92.88277614324458,
-                      "y0": 580.5457641216918,
-                      "x1": 100.87257583484865,
-                      "y1": 595.232450570595,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 92.88277614324458,
-                        "y0": 580.5457641216918,
-                        "x1": 100.87257583484865,
-                        "y1": 595.232450570595,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "1",
-                    "parsed": 1.0,
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "EEOzlgxz",
-                    "contentType": "float",
-                    "parent": 101266109
-                  }
-                },
-                "confidence": null,
-                "classificationConfidence": null,
-                "textExtractionConfidence": 1.0,
-                "isVerified": false,
-                "isClientVerified": false,
-                "isAutoVerified": false,
-                "dataPoint": "cXqQaWDo",
-                "contentType": "group",
-                "parent": 101266098
-              },
-              {
-                "id": 101266110,
-                "rectangle": {
-                  "x0": 22.039360307935254,
-                  "y0": 596.0803589452843,
-                  "x1": 271.8419859069771,
-                  "y1": 630.7457351637943,
-                  "pageIndex": 0
-                },
-                "rectangles": [
-                  {
-                    "x0": 22.039360307935254,
-                    "y0": 596.0803589452843,
-                    "x1": 271.8419859069771,
-                    "y1": 630.7457351637943,
-                    "pageIndex": 0
-                  }
-                ],
-                "document": "tqXpzPJp",
-                "pageIndex": 0,
-                "raw": "NIVEA BALS DUPA RAS 1 BUC X 30,50 30,50",
-                "parsed": {
-                  "itemDescription": {
-                    "id": 101266122,
-                    "rectangle": {
-                      "x0": 22.526381718786183,
-                      "y0": 596.4579241782027,
-                      "x1": 145.36805742667258,
-                      "y1": 615.1407955995226,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 22.526381718786183,
-                        "y0": 598.3361400638579,
-                        "x1": 56.01662633324605,
-                        "y1": 615.1407955995226,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 59.12612665447314,
-                        "y0": 597.6376374124736,
-                        "x1": 87.43552830683612,
-                        "y1": 614.2291634558019,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 90.82892191513864,
-                        "y0": 596.9474599134116,
-                        "x1": 119.42637943073818,
-                        "y1": 613.2467675173422,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 122.53171717580415,
-                        "y0": 596.4579241782027,
-                        "x1": 145.36805742667258,
-                        "y1": 612.2643715788824,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "NIVEA BALS DUPA RAS",
-                    "parsed": "NIVEA BALS DUPA RAS",
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "aIiiegGU",
-                    "contentType": "text",
-                    "parent": 101266110
-                  },
-                  "itemTotal": {
-                    "id": 101266153,
-                    "rectangle": {
-                      "x0": 231.7973041261224,
-                      "y0": 611.7365065856685,
-                      "x1": 265.51232785328267,
-                      "y1": 627.8676349269156,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 231.7973041261224,
-                        "y0": 611.7365065856685,
-                        "x1": 265.51232785328267,
-                        "y1": 627.8676349269156,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "30,50",
-                    "parsed": "30.50",
-                    "confidence": 0.914,
-                    "classificationConfidence": 0.914,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "pLbttUNY",
-                    "contentType": "decimal",
-                    "parent": 101266110
-                  },
-                  "itemUnitPrice": {
-                    "id": 101266146,
-                    "rectangle": {
-                      "x0": 140.7891397561349,
-                      "y0": 613.9069409107213,
-                      "x1": 176.4531151992538,
-                      "y1": 629.7458508125708,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 140.7891397561349,
-                        "y0": 613.9069409107213,
-                        "x1": 176.4531151992538,
-                        "y1": 629.7458508125708,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "30,50",
-                    "parsed": "30.50",
-                    "confidence": 0.987,
-                    "classificationConfidence": 0.987,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "dVGdChNl",
-                    "contentType": "decimal",
-                    "parent": 101266110
-                  },
-                  "itemQuantity": {
-                    "id": 101266134,
-                    "rectangle": {
-                      "x0": 92.66299771482466,
-                      "y0": 615.3921984209927,
-                      "x1": 99.79279239288013,
-                      "y1": 630.3711033092936,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 92.66299771482466,
-                        "y0": 615.3921984209927,
-                        "x1": 99.79279239288013,
-                        "y1": 630.3711033092936,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "1",
-                    "parsed": 1.0,
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "EEOzlgxz",
-                    "contentType": "float",
-                    "parent": 101266110
-                  }
-                },
-                "confidence": null,
-                "classificationConfidence": null,
-                "textExtractionConfidence": 1.0,
-                "isVerified": false,
-                "isClientVerified": false,
-                "isAutoVerified": false,
-                "dataPoint": "cXqQaWDo",
-                "contentType": "group",
-                "parent": 101266098
-              },
-              {
-                "id": 101266111,
-                "rectangle": {
-                  "x0": 22.039360307935254,
-                  "y0": 630.7457351637943,
-                  "x1": 271.8419859069771,
-                  "y1": 666.5579150969104,
-                  "pageIndex": 0
-                },
-                "rectangles": [
-                  {
-                    "x0": 22.039360307935254,
-                    "y0": 630.7457351637943,
-                    "x1": 271.8419859069771,
-                    "y1": 666.5579150969104,
-                    "pageIndex": 0
-                  }
-                ],
-                "document": "tqXpzPJp",
-                "pageIndex": 0,
-                "raw": "AUC VV LICHID PARBRC 1 BUC \u00d7 16,90 16,90",
-                "parsed": {
-                  "itemDescription": {
-                    "id": 101266123,
-                    "rectangle": {
-                      "x0": 22.039360307935254,
-                      "y0": 631.120367018295,
-                      "x1": 151.42639381508184,
-                      "y1": 649.9997176273068,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 22.039360307935254,
-                        "y0": 632.7080406807913,
-                        "x1": 42.542115619783445,
-                        "y1": 649.9997176273068,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 45.6641036694939,
-                        "y0": 632.7063644645526,
-                        "x1": 61.854346185115986,
-                        "y1": 649.4727187066478,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 65.02296068071809,
-                        "y0": 632.1910151642576,
-                        "x1": 105.94770614111447,
-                        "y1": 648.887443719733,
-                        "pageIndex": 0
-                      },
-                      {
-                        "x0": 109.11632063671658,
-                        "y0": 631.120367018295,
-                        "x1": 151.42639381508184,
-                        "y1": 648.0840385562014,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "AUC VV LICHID PARBRC",
-                    "parsed": "AUC VV LICHID PARBRC",
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "aIiiegGU",
-                    "contentType": "text",
-                    "parent": 101266111
-                  },
-                  "itemTotal": {
-                    "id": 101266154,
-                    "rectangle": {
-                      "x0": 232.4333681350899,
-                      "y0": 647.4679213554846,
-                      "x1": 265.8603359990136,
-                      "y1": 663.6964651646762,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 232.4333681350899,
-                        "y0": 647.4679213554846,
-                        "x1": 265.8603359990136,
-                        "y1": 663.6964651646762,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "16,90",
-                    "parsed": "16.90",
-                    "confidence": 0.868,
-                    "classificationConfidence": 0.868,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "pLbttUNY",
-                    "contentType": "decimal",
-                    "parent": 101266111
-                  },
-                  "itemUnitPrice": {
-                    "id": 101266147,
-                    "rectangle": {
-                      "x0": 141.65830803012503,
-                      "y0": 649.0372684970977,
-                      "x1": 175.08111331788763,
-                      "y1": 665.8419240327623,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 141.65830803012503,
-                        "y0": 649.0372684970977,
-                        "x1": 175.08111331788763,
-                        "y1": 665.8419240327623,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "16,90",
-                    "parsed": "16.90",
-                    "confidence": 0.989,
-                    "classificationConfidence": 0.989,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "dVGdChNl",
-                    "contentType": "decimal",
-                    "parent": 101266111
-                  },
-                  "itemQuantity": {
-                    "id": 101266135,
-                    "rectangle": {
-                      "x0": 91.21106877827786,
-                      "y0": 650.5266885835302,
-                      "x1": 99.0560164123621,
-                      "y1": 666.5579150969104,
-                      "pageIndex": 0
-                    },
-                    "rectangles": [
-                      {
-                        "x0": 91.21106877827786,
-                        "y0": 650.5266885835302,
-                        "x1": 99.0560164123621,
-                        "y1": 666.5579150969104,
-                        "pageIndex": 0
-                      }
-                    ],
-                    "document": "tqXpzPJp",
-                    "pageIndex": 0,
-                    "raw": "1",
-                    "parsed": 1.0,
-                    "confidence": 0.998,
-                    "classificationConfidence": 0.998,
-                    "textExtractionConfidence": 1.0,
-                    "isVerified": false,
-                    "isClientVerified": false,
-                    "isAutoVerified": false,
-                    "dataPoint": "EEOzlgxz",
-                    "contentType": "float",
-                    "parent": 101266111
-                  }
-                },
-                "confidence": null,
-                "classificationConfidence": null,
-                "textExtractionConfidence": 1.0,
-                "isVerified": false,
-                "isClientVerified": false,
-                "isAutoVerified": false,
-                "dataPoint": "cXqQaWDo",
-                "contentType": "group",
-                "parent": 101266098
+                "dataPoint": null,
+                "contentType": null
               }
             ]
           },
@@ -2066,293 +805,56 @@
           "isVerified": false,
           "isClientVerified": false,
           "isAutoVerified": false,
-          "dataPoint": "EsjgEMID",
-          "contentType": "table",
+          "dataPoint": "WXSfFurY",
+          "contentType": "table_deprecated",
           "parent": null
         }
       ],
-      "lineItemTableOld": null,
-      "paymentAmountBase": null,
-      "paymentAmountOther": null,
-      "paymentAmountPaid": {
-        "id": 101266155,
-        "rectangle": {
-          "x0": 236.9066011142322,
-          "y0": 781.6028899039717,
-          "x1": 276.66247281703784,
-          "y1": 797.156230302507,
-          "pageIndex": 0
-        },
-        "rectangles": [
-          {
-            "x0": 236.9066011142322,
-            "y0": 781.6028899039717,
-            "x1": 276.66247281703784,
-            "y1": 797.156230302507,
-            "pageIndex": 0
-          }
-        ],
-        "document": "tqXpzPJp",
-        "pageIndex": 0,
-        "raw": "168,95",
-        "parsed": "168.95",
-        "confidence": 0.944,
-        "classificationConfidence": 0.944,
-        "textExtractionConfidence": 1.0,
-        "isVerified": false,
-        "isClientVerified": false,
-        "isAutoVerified": false,
-        "dataPoint": "pmsJvHuw",
-        "contentType": "decimal",
-        "parent": null
-      },
-      "paymentAmountTax": null,
-      "paymentAmountTotal": {
-        "id": 101266156,
-        "rectangle": {
-          "x0": 235.907554871128,
-          "y0": 736.9334182215001,
-          "x1": 277.52412608238944,
-          "y1": 766.9103646626687,
-          "pageIndex": 0
-        },
-        "rectangles": [
-          {
-            "x0": 235.907554871128,
-            "y0": 736.9334182215001,
-            "x1": 277.52412608238944,
-            "y1": 766.9103646626687,
-            "pageIndex": 0
-          }
-        ],
-        "document": "tqXpzPJp",
-        "pageIndex": 0,
-        "raw": "168,95",
-        "parsed": "168.95",
-        "confidence": 0.834,
-        "classificationConfidence": 0.834,
-        "textExtractionConfidence": 1.0,
-        "isVerified": false,
-        "isClientVerified": false,
-        "isAutoVerified": false,
-        "dataPoint": "fahQquAq",
-        "contentType": "decimal",
-        "parent": null
-      },
-      "paymentCardInformation": null,
-      "paymentChange": null,
-      "paymentSubtax": null,
-      "receiptCurrencyCode": {
-        "id": 101266157,
-        "rectangle": null,
-        "rectangles": [],
-        "document": "tqXpzPJp",
-        "pageIndex": 0,
-        "raw": null,
-        "parsed": {
-          "id": 1,
-          "label": "USD",
-          "value": "USD"
-        },
-        "confidence": 0.867,
-        "classificationConfidence": 0.867,
-        "textExtractionConfidence": 1.0,
-        "isVerified": false,
-        "isClientVerified": false,
-        "isAutoVerified": false,
-        "dataPoint": "yflKcMdj",
-        "contentType": "enum",
-        "parent": null
-      },
-      "receiptNumber": null,
-      "supplierAddress": {
-        "id": 101266158,
-        "rectangle": {
-          "x0": 77.57905049219828,
-          "y0": 101.71783047547638,
-          "x1": 244.33841984919684,
-          "y1": 156.1262219453414,
-          "pageIndex": 0
-        },
-        "rectangles": [
-          {
-            "x0": 77.57905049219828,
-            "y0": 101.71783047547638,
-            "x1": 244.33841984919684,
-            "y1": 156.1262219453414,
-            "pageIndex": 0
-          }
-        ],
-        "document": "tqXpzPJp",
-        "pageIndex": 0,
-        "raw": "HYPERMARCHE AUCHAN STR. ZAHARIA STANCU, NR. 1 BRASOV, JUD. BRASOV",
-        "parsed": {
-          "formatted": "Brasov, Romania",
-          "streetNumber": null,
-          "street": null,
-          "apartmentNumber": null,
-          "city": null,
-          "postalCode": null,
-          "state": "Brasov",
-          "country": "Romania",
-          "rawInput": "HYPERMARCHE AUCHAN STR. ZAHARIA STANCU, NR. 1 BRASOV, JUD. BRASOV",
-          "countryCode": "RO",
-          "latitude": 45.836583,
-          "longitude": 25.250644
-        },
-        "confidence": 0.97,
-        "classificationConfidence": 0.97,
-        "textExtractionConfidence": 1.0,
-        "isVerified": false,
-        "isClientVerified": false,
-        "isAutoVerified": false,
-        "dataPoint": "EcVdFrWi",
-        "contentType": "location",
-        "parent": null
-      },
-      "supplierBusinessNumber": null,
-      "supplierCompanyName": {
-        "id": 101266159,
-        "rectangle": {
-          "x0": 97.4290914904345,
-          "y0": 85.51593833949039,
-          "x1": 227.258196178779,
-          "y1": 104.38023096678955,
-          "pageIndex": 0
-        },
-        "rectangles": [
-          {
-            "x0": 97.4290914904345,
-            "y0": 85.51593833949039,
-            "x1": 227.258196178779,
-            "y1": 104.38023096678955,
-            "pageIndex": 0
-          }
-        ],
-        "document": "tqXpzPJp",
-        "pageIndex": 0,
-        "raw": "SC AUCHAN ROMANIA SA",
-        "parsed": "SC AUCHAN ROMANIA SA",
-        "confidence": 0.971,
-        "classificationConfidence": 0.971,
-        "textExtractionConfidence": 1.0,
-        "isVerified": false,
-        "isClientVerified": false,
-        "isAutoVerified": false,
-        "dataPoint": "kExkcFDp",
-        "contentType": "text",
-        "parent": null
-      },
-      "supplierEmail": null,
-      "supplierPhoneNumber": {
-        "id": 101266160,
-        "rectangle": {
-          "x0": 150.57625034791604,
-          "y0": 155.1480165474785,
-          "x1": 217.34193386826064,
-          "y1": 173.38043570640673,
-          "pageIndex": 0
-        },
-        "rectangles": [
-          {
-            "x0": 150.57625034791604,
-            "y0": 155.1480165474785,
-            "x1": 217.34193386826064,
-            "y1": 173.38043570640673,
-            "pageIndex": 0
-          }
-        ],
-        "document": "tqXpzPJp",
-        "pageIndex": 0,
-        "raw": "R017233051",
-        "parsed": "R017233051",
-        "confidence": 0.671,
-        "classificationConfidence": 0.671,
-        "textExtractionConfidence": 1.0,
-        "isVerified": false,
-        "isClientVerified": false,
-        "isAutoVerified": false,
-        "dataPoint": "ecXOUOfa",
-        "contentType": "text",
-        "parent": null
-      },
-      "supplierWebsite": null,
-      "time": {
-        "id": 101266161,
-        "rectangle": {
-          "x0": 225.0931540401055,
-          "y0": 1414.9961073995446,
-          "x1": 277.81570216471727,
-          "y1": 1431.3087128756424,
-          "pageIndex": 0
-        },
-        "rectangles": [
-          {
-            "x0": 225.0931540401055,
-            "y0": 1414.9961073995446,
-            "x1": 277.81570216471727,
-            "y1": 1431.3087128756424,
-            "pageIndex": 0
-          }
-        ],
-        "document": "tqXpzPJp",
-        "pageIndex": 0,
-        "raw": "12:29:53",
-        "parsed": "12:29:53",
-        "confidence": 0.971,
-        "classificationConfidence": 0.971,
-        "textExtractionConfidence": 1.0,
-        "isVerified": false,
-        "isClientVerified": false,
-        "isAutoVerified": false,
-        "dataPoint": "kaIipvfX",
-        "contentType": "text",
-        "parent": null
-      },
-      "rawText": "SC AUCHAN ROMANIA SA HYPERMARCHE AUCHAN STR. ZAHARIA STANCU, NR. 1 BRASOV, JUD. BRASOV C.I.F .: R017233051 BON FISCAL ZILNIC 07.00-21.00 PETR 30724BAZ.AUTO 335 STICKERE PUISOR OUA 1 BUC \u00d7 16,00 SELECLINE FIERBATOR 1 BUC \u00d7 44,01 44,01 D TAXA VERDE 1 BUC \u00d7 0,89 0,89 D COS DREPTUNG CARLIGE 1 BUC X 5,55 5,55 D CROISSANT 7 DAYS SPU 1 BUC \u00d7 1,75 PAINE CU MAIA SI MAS 1 BUC X 3,60 PATE DE PORC 20% 120 2 BUC X 3,55 NUTELLA 700G 1 BUC \u00d7 19,40 19,40 B RADIERA GALET 1 BUC \u00d7 4,55 GP SUPER ALKALINE LR 1 BUC X 18,70 18,70 D NIVEA BALS DUPA RAS 1 BUC X 30,50 30,50 0 AUC VV LICHID PARBRC 1 BUC \u00d7 16,90 16,90 D END ELEMENTE TOATE ARTICOLE SCANATE: 13 TOTAL : 168,95 CARD 168,95 16,00 D 1,75 B 3,60 B 7,10 B 4,55 D 00018 038 46150 0038 9138579073918 TERMINAL : 2AUCH008 TERMINAL ID .: 2AUCHQ08 COMERCIANT : 2AUCHQ08 ************ 6855 AID: A0000000041010 VANZARE BATCH: 000268 CHITANTA: 023673 ORA: 12:29:23 DATA: 02 APR 2022 RRN: 209207265765 NT. AUTORIZ .: 291808 EXP .: **** MASTERCARD TOTAL: PIN VERIFICAT SEMNATURA DUS. NU MAI ESTE NECESARA TVA RON 168,95 VALOARE TOTAL B-TVA 9% 2,63 TOTAL TAXE: 24,52 31,85 D-TVA 19% 21,89 137,10 ATI FOST MULTUMIT AZI DE AUCHAN? RASPUNDETI PE Q.AUCHAN.RO SERVICIUL CLIENTI 021-9141 VA MULTUMIM CA NE-ATI ALES! AUCHAN ... SI VIATA SE SCHIMBA CASIER: CASA: NUMAR BON: CASA RAPIDA 38 38 02.04.2022 1081-00024 12:29:53 FL 1000440358 BON FISCAL"
+      "tablesBeta": null,
+      "rawText": "SIG SNG Engineering, Inc. Consulting Engineers 344 Main Street Suite 200 Gaithersburg, MD 20878 Phone: 301.548.0055 Fax: 301.548.1840 E-mail: sng.engineering@erols.com INVOICE INVOICE NO: 014- 03 DATE: January20, 2003 \nTO, Damita J Goldsmith 201 Stan Fey Dr Upper Marlboro , MD 20774 Ship To: Same Reference: 201 Stan Fey Drive Upper Marlboro \nSALESPERSON P.O. NUMBER DATE SHIPPED SHIPPED VIA F.O.B. POINT TERMS on receipt of service QUANTITY DESCRIPTION UNIT PRICE AMOUNT 750.00 750 .. 00 1 Field inspection of construction on 1/19/2003 deficiencies in house construction, Garage drive way & legal support to Attorney to 1/19/2003 \nSUBTOTAL 750.00 SHIPPING & HANDELING \nTOTAL DUE 750.00 Make all checks payable to SNG Engineering, Inc. If you have any questions concerning this invoice, call: Sach Gupta, 301.548.0055 The payment will be due within fifteen days after receipt of invoice by the owner/contractor. Please note that 1-1/2 percent interest will accrue on the unpaid balance after this date. \nTHANK YOU FOR YOUR BUSINESS!"
     },
     "meta": {
-      "identifier": "tqXpzPJp",
+      "identifier": "FHVZVtBr",
       "customIdentifier": null,
       "ready": true,
       "failed": false,
-      "readyDt": "2023-12-14T13:54:24.863362Z",
-      "fileName": "receipt.jpg",
+      "readyDt": "2023-12-15T09:24:23.729980Z",
+      "fileName": "invoice.png",
       "expiryTime": null,
-      "language": "ro",
-      "pdf": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/receipt_ju2zoVU.jpg?versionId=.PB0FiUeYpJFJIKO.kOST6OirqpcUGpr&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNG4ZK4OSU%2F20231214%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20231214T135425Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkcwRQIgDK9njPYO0sps7vYNoQ7jD2%2B0VUaSLsvxkYdkvQgDhVICIQC2wmSNRzOURxys%2F8AV5VLyKFlCRf87GrcQjKl8MdoTjCqJBQheEAIaDDMzNTU5NDU3MTE2MiIMvHxp0SOBMcttg8HwKuYE8Gc%2FAHrNky099Q9u0z4SFokxiXWUwoTOjf6VaQiD9FjKVFO04umktIn4LTirRMNRH1G3FdJ1X0df%2F3mDtn3prAPquSYI45%2FYOyX3kI9W%2FUGWnz2H7RRJhYh%2BtaCtOHGh0dedwJnCTptg22nTEnjc%2FU6Jm2vB8lA72PHkBH5vCTI4nI4z2gNmfHzAWSkYb976Q%2FudcFTmKqKN4jLCKn2qAObOESJ%2BKgq6wh6ihTBfrdvoRIFWoYhzkPkNaPLPIw30h8itVwdFzBk8%2BD1PsH44lIkp8Vwh9eFS0GtTsmF6aY1D9BP6zh7xZ61MG4OQCGueRL%2FEktfZtl5qr7RUGbm4BSR7gutKoccHVPfsrAkZXQpGQlbrho9mMWINJmSsCVrG3bY3jTdvs9aGJG5OeHeykO424MiaIGS7EN5gkkoR8ficQm1ciXLBF3vIWXKkjfvHi21pjm3fiwQFeu8wo%2BD3GE0qlNmaSn0FovKg8Ww3sUbbzygRu56YZKPo2FvOleoX7eC9s6qwKSgZ0DVV15L3MF4kC%2FockMmq40tdlakD899NZPZzjVbP9B9VSiRjrfFW8PkrbA418wiq4EPF%2BAzhbN%2B87j%2BCwj2jeGWK8Gb4%2FceQ7S9OxQBqx57%2FoGxW%2BbRbIKItUQAqX4mwhKqWosRG3d8kVRSbREyLd4bayMZoYphr%2Fl8uJ5B%2BjmG5o6u%2FHQOMc3B2lNERJDyMpbVijLlRTWZQm64FZYPy0eI5%2BYWziybzDEpsqj67bqmkgoTCt3J02I2%2Bcb9lbJ2MKRL0phJHoEtCwYEktrSokShi0f7Mfj5xiuO9MFYwof3rqwY6mgHQvGV46FAqVfIWa1g3Sr1AAxXVZbbE9AI3C7xHqaZIrpJcRccIdL2HXeRmVUzvt3D7%2BSk7b6JXCIpkFqkzp1spN3lmmAHENTFEVicfzSdHeYBUw9eUh8KDV5UdiVqWII272prGO34HHwI6fF0KBJXKevrvGMXqVYocgULVXgHHFjZQvUb54nZ3l83eT8vb7nt4fHuUaCg8LNHP&X-Amz-Signature=46f1b0f791fc4cc0f9f3b5ee53af8f1979f32b423526a80b954da92ff9c08260",
+      "language": "en",
+      "pdf": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/invoice_ZzDd6xG.pdf?versionId=3TJfH3Ju9SjkmKKttbmfkRU01Bh318Py&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNJ5MATZHH%2F20231215%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20231215T092424Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEPn%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAIrpJsEyvJidJbAjPAsi5NtE%2BtDzwTDpdpDVOygIAPKbAiEApR61Q9YqzBcLOP5ieZfLFArInK2FTCXJFx0J%2FIGJj%2FEqiQUIchACGgwzMzU1OTQ1NzExNjIiDPyc%2BH8uLS1klQg8eirmBJQpoo78FG19DkDuJJTd7JWoOrdBpMMn1zaC%2Bfs9H%2BwlGt3%2BPfVRWDyw%2FfUimbvB5DNILk5dx6OPq59ywWJb7HQptencGzs3ORjOVnesr35QfovTxGf5PTOhinGaVhq7f9eNoZj67btzmz%2FYgDDFWgdae0cZiFCmu6%2FDTVufiKreYPti2GP6pK23JZh3LPGB%2F85agsRdwYI10Zvuy51nXluUnHCp4f41HcKFNpvMo8cTP%2FO80HZOqjdcX9fNS3UvWPaGZ8bR8PFuNic0y6jZ6pZNUEC%2BqGqkvA%2BkwzmZRAmb0g4gAD8vR5owpJbHwHbDdzqUGYK84OclROrAhvpq64Kb%2BtSIFJt25OA06fS71O4FwvyfFYAeIxjCvOqlPtC40kpP5eNQjwlp4eMai90LP%2BcjqfsfZhJNgQDUWL6%2BXmW78FTx0lulmJbHc%2FsqkKMteQiUPUcNBml4OI%2F2xqLWSwXsce5YkqNALYQwPl44X7QC0bh6d4Ae%2Fye6fmA%2FuGAatGpGoMTonjumkTylMw1lR%2B6Mgo%2B1locIr8ypqF6Oeh9ziXiZhR7y%2F5zzfCwB%2BZJLQ6eHhSyPKEYjPuUNgtex%2F%2F7CS3JDXr3YMeBiljtHcL1UTvIYelbaPVH8ca5cP%2FZ2%2BjewU1kPtcJS7ynFw%2Bu%2BahF7UQgcy5CT2P%2Fdqix53qXJ8egl%2BBzRkZ343CDoTI5BI6Bzj9G7czokNoP3t23sk1ro5v0TDKA1B%2FnYz6iI9KKxzEO4rOLA0JCTZc5QZascnaN2GjF1OIqgDsqyibiO5rBAj1THaJX0EoJdgaql17themwepfoRMPiu8KsGOpkBLCOHpWKdKgyXOExoZmRnuYihBHl9aiMIQ7f6xcyoPHcwzk8Va7f3PQ7920KlObZmVVCPtBTdhfGbn55eTfjw4WamnSHcLLTtE09VXg0IpZZ2LwBEwtjkVb7tFsN%2Br%2BEmn0hBSqwbPswAu8kJF0hCF0%2FqO6AycGKEC1LTiyU8Vxy7wUy6zOWa5A9JBoQ8ZzidWbIyOC3i3LJl&X-Amz-Signature=6bbf10b4f75b74b72bb41532e23e30fe2f58dce5d38c0d29bb0fc04f635683ca",
       "parentDocument": null,
       "childDocuments": [],
       "pages": [
         {
-          "id": 48793329,
+          "id": 48906444,
           "pageIndex": 0,
-          "image": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/pages/48793329_4cfjxBF.png?versionId=yvLbQbXWooUr1cmCpTApWEzfA5KX7Hu8&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNG4ZK4OSU%2F20231214%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20231214T135425Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkcwRQIgDK9njPYO0sps7vYNoQ7jD2%2B0VUaSLsvxkYdkvQgDhVICIQC2wmSNRzOURxys%2F8AV5VLyKFlCRf87GrcQjKl8MdoTjCqJBQheEAIaDDMzNTU5NDU3MTE2MiIMvHxp0SOBMcttg8HwKuYE8Gc%2FAHrNky099Q9u0z4SFokxiXWUwoTOjf6VaQiD9FjKVFO04umktIn4LTirRMNRH1G3FdJ1X0df%2F3mDtn3prAPquSYI45%2FYOyX3kI9W%2FUGWnz2H7RRJhYh%2BtaCtOHGh0dedwJnCTptg22nTEnjc%2FU6Jm2vB8lA72PHkBH5vCTI4nI4z2gNmfHzAWSkYb976Q%2FudcFTmKqKN4jLCKn2qAObOESJ%2BKgq6wh6ihTBfrdvoRIFWoYhzkPkNaPLPIw30h8itVwdFzBk8%2BD1PsH44lIkp8Vwh9eFS0GtTsmF6aY1D9BP6zh7xZ61MG4OQCGueRL%2FEktfZtl5qr7RUGbm4BSR7gutKoccHVPfsrAkZXQpGQlbrho9mMWINJmSsCVrG3bY3jTdvs9aGJG5OeHeykO424MiaIGS7EN5gkkoR8ficQm1ciXLBF3vIWXKkjfvHi21pjm3fiwQFeu8wo%2BD3GE0qlNmaSn0FovKg8Ww3sUbbzygRu56YZKPo2FvOleoX7eC9s6qwKSgZ0DVV15L3MF4kC%2FockMmq40tdlakD899NZPZzjVbP9B9VSiRjrfFW8PkrbA418wiq4EPF%2BAzhbN%2B87j%2BCwj2jeGWK8Gb4%2FceQ7S9OxQBqx57%2FoGxW%2BbRbIKItUQAqX4mwhKqWosRG3d8kVRSbREyLd4bayMZoYphr%2Fl8uJ5B%2BjmG5o6u%2FHQOMc3B2lNERJDyMpbVijLlRTWZQm64FZYPy0eI5%2BYWziybzDEpsqj67bqmkgoTCt3J02I2%2Bcb9lbJ2MKRL0phJHoEtCwYEktrSokShi0f7Mfj5xiuO9MFYwof3rqwY6mgHQvGV46FAqVfIWa1g3Sr1AAxXVZbbE9AI3C7xHqaZIrpJcRccIdL2HXeRmVUzvt3D7%2BSk7b6JXCIpkFqkzp1spN3lmmAHENTFEVicfzSdHeYBUw9eUh8KDV5UdiVqWII272prGO34HHwI6fF0KBJXKevrvGMXqVYocgULVXgHHFjZQvUb54nZ3l83eT8vb7nt4fHuUaCg8LNHP&X-Amz-Signature=11138bc124ab4af2ecb015472da67b165e73831bdebf8a7e65849ce040eec4e5",
-          "height": 1504.1058879257594,
-          "width": 316.64282084738,
+          "image": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/pages/48906444_npOaQFe.png?versionId=LBVSuX.g9lh_fcTlZEZLpoafJGWGJDxz&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNJ5MATZHH%2F20231215%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20231215T092424Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEPn%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAIrpJsEyvJidJbAjPAsi5NtE%2BtDzwTDpdpDVOygIAPKbAiEApR61Q9YqzBcLOP5ieZfLFArInK2FTCXJFx0J%2FIGJj%2FEqiQUIchACGgwzMzU1OTQ1NzExNjIiDPyc%2BH8uLS1klQg8eirmBJQpoo78FG19DkDuJJTd7JWoOrdBpMMn1zaC%2Bfs9H%2BwlGt3%2BPfVRWDyw%2FfUimbvB5DNILk5dx6OPq59ywWJb7HQptencGzs3ORjOVnesr35QfovTxGf5PTOhinGaVhq7f9eNoZj67btzmz%2FYgDDFWgdae0cZiFCmu6%2FDTVufiKreYPti2GP6pK23JZh3LPGB%2F85agsRdwYI10Zvuy51nXluUnHCp4f41HcKFNpvMo8cTP%2FO80HZOqjdcX9fNS3UvWPaGZ8bR8PFuNic0y6jZ6pZNUEC%2BqGqkvA%2BkwzmZRAmb0g4gAD8vR5owpJbHwHbDdzqUGYK84OclROrAhvpq64Kb%2BtSIFJt25OA06fS71O4FwvyfFYAeIxjCvOqlPtC40kpP5eNQjwlp4eMai90LP%2BcjqfsfZhJNgQDUWL6%2BXmW78FTx0lulmJbHc%2FsqkKMteQiUPUcNBml4OI%2F2xqLWSwXsce5YkqNALYQwPl44X7QC0bh6d4Ae%2Fye6fmA%2FuGAatGpGoMTonjumkTylMw1lR%2B6Mgo%2B1locIr8ypqF6Oeh9ziXiZhR7y%2F5zzfCwB%2BZJLQ6eHhSyPKEYjPuUNgtex%2F%2F7CS3JDXr3YMeBiljtHcL1UTvIYelbaPVH8ca5cP%2FZ2%2BjewU1kPtcJS7ynFw%2Bu%2BahF7UQgcy5CT2P%2Fdqix53qXJ8egl%2BBzRkZ343CDoTI5BI6Bzj9G7czokNoP3t23sk1ro5v0TDKA1B%2FnYz6iI9KKxzEO4rOLA0JCTZc5QZascnaN2GjF1OIqgDsqyibiO5rBAj1THaJX0EoJdgaql17themwepfoRMPiu8KsGOpkBLCOHpWKdKgyXOExoZmRnuYihBHl9aiMIQ7f6xcyoPHcwzk8Va7f3PQ7920KlObZmVVCPtBTdhfGbn55eTfjw4WamnSHcLLTtE09VXg0IpZZ2LwBEwtjkVb7tFsN%2Br%2BEmn0hBSqwbPswAu8kJF0hCF0%2FqO6AycGKEC1LTiyU8Vxy7wUy6zOWa5A9JBoQ8ZzidWbIyOC3i3LJl&X-Amz-Signature=ba0f26ec89726c63e1f8eb91ed312702c6fa70a5fae3b4d047ee56782573b9d3",
+          "height": 900.0,
+          "width": 696.0,
           "rotation": 0,
           "imageTranslated": null
         }
       ],
-      "ocrConfidence": 0.913672,
-      "reviewUrl": "https://app.affinda.com/review/tqXpzPJp?signature=eyJ1c2VyX2lkIjoyNDIzfQ:1rDmAT:io-pmgKvvs5IihMut5BS17k2uueHFwwmoSmjkHL8JkQ:1rDmAT:vgTCxVxH_GUzaaq0wBziqeNS3nAEf4oiLsQBTDfQH3M",
-      "createdDt": "2023-12-14T13:54:18.758672Z",
+      "ocrConfidence": 0.9848101265822785,
+      "reviewUrl": "https://app.affinda.com/review/FHVZVtBr?signature=eyJ1c2VyX2lkIjoyNDIzfQ:1rE4Qi:0-F95zGu4nSwyPC4OYx581J6M-LnGCavipzkl3gML3c:1rE4Qi:mrT__yQLnn2nxXP79UFSoMhUqv0CoeeZy4ctO0qNdvI",
+      "createdDt": "2023-12-15T09:24:19.816375Z",
       "errorDetail": null,
-      "file": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/receipt_bjWQAv6.jpg?versionId=X58mJtwfMPHA6067C3F4KEO.M7NgJHZ4&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNG4ZK4OSU%2F20231214%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20231214T135425Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEOX%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkcwRQIgDK9njPYO0sps7vYNoQ7jD2%2B0VUaSLsvxkYdkvQgDhVICIQC2wmSNRzOURxys%2F8AV5VLyKFlCRf87GrcQjKl8MdoTjCqJBQheEAIaDDMzNTU5NDU3MTE2MiIMvHxp0SOBMcttg8HwKuYE8Gc%2FAHrNky099Q9u0z4SFokxiXWUwoTOjf6VaQiD9FjKVFO04umktIn4LTirRMNRH1G3FdJ1X0df%2F3mDtn3prAPquSYI45%2FYOyX3kI9W%2FUGWnz2H7RRJhYh%2BtaCtOHGh0dedwJnCTptg22nTEnjc%2FU6Jm2vB8lA72PHkBH5vCTI4nI4z2gNmfHzAWSkYb976Q%2FudcFTmKqKN4jLCKn2qAObOESJ%2BKgq6wh6ihTBfrdvoRIFWoYhzkPkNaPLPIw30h8itVwdFzBk8%2BD1PsH44lIkp8Vwh9eFS0GtTsmF6aY1D9BP6zh7xZ61MG4OQCGueRL%2FEktfZtl5qr7RUGbm4BSR7gutKoccHVPfsrAkZXQpGQlbrho9mMWINJmSsCVrG3bY3jTdvs9aGJG5OeHeykO424MiaIGS7EN5gkkoR8ficQm1ciXLBF3vIWXKkjfvHi21pjm3fiwQFeu8wo%2BD3GE0qlNmaSn0FovKg8Ww3sUbbzygRu56YZKPo2FvOleoX7eC9s6qwKSgZ0DVV15L3MF4kC%2FockMmq40tdlakD899NZPZzjVbP9B9VSiRjrfFW8PkrbA418wiq4EPF%2BAzhbN%2B87j%2BCwj2jeGWK8Gb4%2FceQ7S9OxQBqx57%2FoGxW%2BbRbIKItUQAqX4mwhKqWosRG3d8kVRSbREyLd4bayMZoYphr%2Fl8uJ5B%2BjmG5o6u%2FHQOMc3B2lNERJDyMpbVijLlRTWZQm64FZYPy0eI5%2BYWziybzDEpsqj67bqmkgoTCt3J02I2%2Bcb9lbJ2MKRL0phJHoEtCwYEktrSokShi0f7Mfj5xiuO9MFYwof3rqwY6mgHQvGV46FAqVfIWa1g3Sr1AAxXVZbbE9AI3C7xHqaZIrpJcRccIdL2HXeRmVUzvt3D7%2BSk7b6JXCIpkFqkzp1spN3lmmAHENTFEVicfzSdHeYBUw9eUh8KDV5UdiVqWII272prGO34HHwI6fF0KBJXKevrvGMXqVYocgULVXgHHFjZQvUb54nZ3l83eT8vb7nt4fHuUaCg8LNHP&X-Amz-Signature=19cc0099700f84d74e3e26944985cc5afbb04f15ed35bebd78654cc65e36e926",
+      "file": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/invoice_equvROn.png?versionId=O4OsnnjOmv3dKagCjA7KsTujkPxdFtfK&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNJ5MATZHH%2F20231215%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20231215T092424Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEPn%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhAIrpJsEyvJidJbAjPAsi5NtE%2BtDzwTDpdpDVOygIAPKbAiEApR61Q9YqzBcLOP5ieZfLFArInK2FTCXJFx0J%2FIGJj%2FEqiQUIchACGgwzMzU1OTQ1NzExNjIiDPyc%2BH8uLS1klQg8eirmBJQpoo78FG19DkDuJJTd7JWoOrdBpMMn1zaC%2Bfs9H%2BwlGt3%2BPfVRWDyw%2FfUimbvB5DNILk5dx6OPq59ywWJb7HQptencGzs3ORjOVnesr35QfovTxGf5PTOhinGaVhq7f9eNoZj67btzmz%2FYgDDFWgdae0cZiFCmu6%2FDTVufiKreYPti2GP6pK23JZh3LPGB%2F85agsRdwYI10Zvuy51nXluUnHCp4f41HcKFNpvMo8cTP%2FO80HZOqjdcX9fNS3UvWPaGZ8bR8PFuNic0y6jZ6pZNUEC%2BqGqkvA%2BkwzmZRAmb0g4gAD8vR5owpJbHwHbDdzqUGYK84OclROrAhvpq64Kb%2BtSIFJt25OA06fS71O4FwvyfFYAeIxjCvOqlPtC40kpP5eNQjwlp4eMai90LP%2BcjqfsfZhJNgQDUWL6%2BXmW78FTx0lulmJbHc%2FsqkKMteQiUPUcNBml4OI%2F2xqLWSwXsce5YkqNALYQwPl44X7QC0bh6d4Ae%2Fye6fmA%2FuGAatGpGoMTonjumkTylMw1lR%2B6Mgo%2B1locIr8ypqF6Oeh9ziXiZhR7y%2F5zzfCwB%2BZJLQ6eHhSyPKEYjPuUNgtex%2F%2F7CS3JDXr3YMeBiljtHcL1UTvIYelbaPVH8ca5cP%2FZ2%2BjewU1kPtcJS7ynFw%2Bu%2BahF7UQgcy5CT2P%2Fdqix53qXJ8egl%2BBzRkZ343CDoTI5BI6Bzj9G7czokNoP3t23sk1ro5v0TDKA1B%2FnYz6iI9KKxzEO4rOLA0JCTZc5QZascnaN2GjF1OIqgDsqyibiO5rBAj1THaJX0EoJdgaql17themwepfoRMPiu8KsGOpkBLCOHpWKdKgyXOExoZmRnuYihBHl9aiMIQ7f6xcyoPHcwzk8Va7f3PQ7920KlObZmVVCPtBTdhfGbn55eTfjw4WamnSHcLLTtE09VXg0IpZZ2LwBEwtjkVb7tFsN%2Br%2BEmn0hBSqwbPswAu8kJF0hCF0%2FqO6AycGKEC1LTiyU8Vxy7wUy6zOWa5A9JBoQ8ZzidWbIyOC3i3LJl&X-Amz-Signature=48e27b4d046589ae1dab70b1cf3ea8cc706abe1eec4953c700759cac1564ee2c",
       "collection": {
-        "identifier": "QOGOVFdo",
-        "name": "receipt-parser",
+        "identifier": "ZymiQVPU",
+        "name": "Invoice Parses",
         "extractor": {
-          "id": 9,
-          "identifier": "receipt",
-          "name": "Receipt",
+          "id": 22,
+          "identifier": "invoice",
+          "name": "Invoice",
           "baseExtractor": null,
           "validatable": true
         }
       },
       "workspace": {
-        "identifier": "LAyjqkLa",
-        "name": "Receipt"
+        "identifier": "PfCwwgJc",
+        "name": "Accounts Payable"
       },
       "tags": [],
       "isOcrd": true,
@@ -2384,7 +886,7 @@
       "errorDetail": null
     },
     "warnings": [],
-    "extractor": "receipt"
+    "extractor": "invoice"
   },
   "standardized_response": {
     "extracted_data": [
@@ -2393,8 +895,8 @@
           "name": null,
           "id_reference": null,
           "mailling_address": null,
-          "billing_address": null,
-          "shipping_address": null,
+          "billing_address": "201 Stan Fey Dr Upper Marlboro , MD 20774",
+          "shipping_address": "Upper Marlboro",
           "service_address": null,
           "remittance_address": null,
           "email": null,
@@ -2413,18 +915,18 @@
           "tax_id": null,
           "website": null,
           "remit_to_name": null,
-          "city": null,
-          "country": null,
+          "city": "Upper Marlboro",
+          "country": "United States",
           "house_number": null,
-          "province": null,
-          "street_name": null,
-          "zip_code": null,
+          "province": "Maryland",
+          "street_name": "Stan Fey Drive",
+          "zip_code": "20774",
           "municipality": null
         },
         "merchant_information": {
-          "name": "SC AUCHAN ROMANIA SA",
-          "address": "HYPERMARCHE AUCHAN STR. ZAHARIA STANCU, NR. 1 BRASOV, JUD. BRASOV",
-          "phone": "R017233051",
+          "name": "SNG Engineering, Inc.",
+          "address": "344 Main Street Suite 200 Gaithersburg, MD 20878",
+          "phone": "301.548.0055",
           "tax_id": null,
           "id_reference": null,
           "vat_number": null,
@@ -2436,26 +938,26 @@
           "pan_number": null,
           "coc_number": null,
           "fiscal_number": null,
-          "email": null,
+          "email": "sng.engineering@erols.com",
           "fax": null,
           "website": null,
           "registration": null,
-          "city": null,
-          "country": "Romania",
+          "city": "Gaithersburg",
+          "country": "United States",
           "house_number": null,
-          "province": "Brasov",
-          "street_name": null,
-          "zip_code": null,
+          "province": "Maryland",
+          "street_name": "Main Street",
+          "zip_code": "20878",
           "country_code": null
         },
         "payment_information": {
-          "amount_due": null,
+          "amount_due": 750.0,
           "amount_tip": null,
           "amount_shipping": null,
           "amount_change": null,
-          "amount_paid": 168.95,
-          "invoice_total": 168.95,
-          "subtotal": null,
+          "amount_paid": null,
+          "total": null,
+          "subtotal": 750.0,
           "total_tax": null,
           "tax_rate": null,
           "discount": null,
@@ -2472,9 +974,9 @@
           "transaction_reference": null
         },
         "financial_document_information": {
-          "invoice_id": null,
+          "invoice_receipt_id": "014- 03",
           "purchase_order": null,
-          "invoice_date": null,
+          "invoice_date": "January20, 2003",
           "time": null,
           "invoice_due_date": null,
           "service_start_date": null,
@@ -2505,237 +1007,28 @@
           {
             "tax": null,
             "amount_line": null,
-            "description": "STICKERE PUISOR OUA",
+            "description": "Field inspection of construction on 1/19/2003 deficiencies in house construction, Garage drive way & legal support to Attorney to",
+            "quantity": 1.0,
+            "unit_price": 750.0,
+            "unit_type": null,
+            "date": null,
+            "product_code": null,
+            "purchase_order": null,
+            "tax_rate": null,
+            "base_total": null,
+            "sub_total": null,
+            "discount_amount": null,
+            "discount_rate": null,
+            "discount_code": null,
+            "order_number": null,
+            "title": null
+          },
+          {
+            "tax": null,
+            "amount_line": null,
+            "description": "1/19/2003",
             "quantity": null,
             "unit_price": null,
-            "unit_type": null,
-            "date": null,
-            "product_code": null,
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": null,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": null,
-            "description": null,
-            "quantity": 1.0,
-            "unit_price": 16.0,
-            "unit_type": null,
-            "date": null,
-            "product_code": null,
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": null,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 44.01,
-            "description": "SELECLINE FIERBATOR",
-            "quantity": 1.0,
-            "unit_price": 44.01,
-            "unit_type": null,
-            "date": null,
-            "product_code": null,
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": null,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 0.89,
-            "description": "TAXA VERDE",
-            "quantity": 1.0,
-            "unit_price": 0.89,
-            "unit_type": null,
-            "date": null,
-            "product_code": null,
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": null,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 5.55,
-            "description": "COS DREPTUNG CARLIGE",
-            "quantity": 1.0,
-            "unit_price": 5.55,
-            "unit_type": null,
-            "date": null,
-            "product_code": null,
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": null,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": null,
-            "description": "CROISSANT 7 DAYS SPU",
-            "quantity": 1.0,
-            "unit_price": 1.75,
-            "unit_type": null,
-            "date": null,
-            "product_code": null,
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": null,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": null,
-            "description": "PAINE CU MAIA SI MAS",
-            "quantity": 1.0,
-            "unit_price": 3.6,
-            "unit_type": null,
-            "date": null,
-            "product_code": null,
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": null,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": null,
-            "description": "PATE DE PORC 20% 120",
-            "quantity": 2.0,
-            "unit_price": 3.55,
-            "unit_type": null,
-            "date": null,
-            "product_code": null,
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": null,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 19.4,
-            "description": "NUTELLA 700G",
-            "quantity": 1.0,
-            "unit_price": 19.4,
-            "unit_type": null,
-            "date": null,
-            "product_code": null,
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": null,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": null,
-            "description": "RADIERA GALET",
-            "quantity": 1.0,
-            "unit_price": 4.55,
-            "unit_type": null,
-            "date": null,
-            "product_code": null,
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": null,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 18.7,
-            "description": "GP SUPER ALKALINE LR",
-            "quantity": 1.0,
-            "unit_price": 18.7,
-            "unit_type": null,
-            "date": null,
-            "product_code": null,
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": null,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 30.5,
-            "description": "NIVEA BALS DUPA RAS",
-            "quantity": 1.0,
-            "unit_price": 30.5,
-            "unit_type": null,
-            "date": null,
-            "product_code": null,
-            "purchase_order": null,
-            "tax_rate": null,
-            "base_total": null,
-            "sub_total": null,
-            "discount_amount": null,
-            "discount_rate": null,
-            "discount_code": null,
-            "order_number": null,
-            "title": null
-          },
-          {
-            "tax": null,
-            "amount_line": 16.9,
-            "description": "AUC VV LICHID PARBRC",
-            "quantity": 1.0,
-            "unit_price": 16.9,
             "unit_type": null,
             "date": null,
             "product_code": null,

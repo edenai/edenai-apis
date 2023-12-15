@@ -1,0 +1,820 @@
+{
+  "original_response": {
+    "api_request": {
+      "error": {},
+      "resources": [
+        "document"
+      ],
+      "status": "success",
+      "status_code": 201,
+      "url": "https://api.mindee.net/v1/products/mindee/financial_document/v1/predict?locale=language"
+    },
+    "document": {
+      "id": "f7db00f3-3b5c-4dc8-9a22-58499a4d145d",
+      "inference": {
+        "extras": {},
+        "finished_at": "2023-12-15T09:33:00.402961",
+        "is_rotation_applied": true,
+        "pages": [
+          {
+            "extras": {},
+            "id": 0,
+            "orientation": {
+              "value": 0
+            },
+            "prediction": {
+              "category": {
+                "confidence": 0.8,
+                "value": "miscellaneous"
+              },
+              "customer_address": {
+                "confidence": 0.38,
+                "polygon": [
+                  [
+                    0.091,
+                    0.242
+                  ],
+                  [
+                    0.292,
+                    0.242
+                  ],
+                  [
+                    0.292,
+                    0.271
+                  ],
+                  [
+                    0.091,
+                    0.271
+                  ]
+                ],
+                "value": "201 Stan Fey Dr Upper Marlboro MD 20774"
+              },
+              "customer_company_registrations": [],
+              "customer_name": {
+                "confidence": 0.4,
+                "polygon": [
+                  [
+                    0.091,
+                    0.228
+                  ],
+                  [
+                    0.234,
+                    0.228
+                  ],
+                  [
+                    0.234,
+                    0.239
+                  ],
+                  [
+                    0.091,
+                    0.239
+                  ]
+                ],
+                "raw_value": "Damita J Goldsmith",
+                "value": "DAMITA J GOLDSMITH"
+              },
+              "date": {
+                "confidence": 0.93,
+                "polygon": [
+                  [
+                    0.807,
+                    0.136
+                  ],
+                  [
+                    0.932,
+                    0.136
+                  ],
+                  [
+                    0.932,
+                    0.149
+                  ],
+                  [
+                    0.807,
+                    0.149
+                  ]
+                ],
+                "value": "2013-01-20"
+              },
+              "document_type": {
+                "value": "INVOICE"
+              },
+              "due_date": {
+                "confidence": 0.51,
+                "polygon": [
+                  [
+                    0.809,
+                    0.375
+                  ],
+                  [
+                    0.879,
+                    0.375
+                  ],
+                  [
+                    0.879,
+                    0.385
+                  ],
+                  [
+                    0.809,
+                    0.385
+                  ]
+                ],
+                "value": "2013-01-20"
+              },
+              "invoice_number": {
+                "confidence": 0.85,
+                "polygon": [
+                  [
+                    0.876,
+                    0.121
+                  ],
+                  [
+                    0.932,
+                    0.121
+                  ],
+                  [
+                    0.932,
+                    0.131
+                  ],
+                  [
+                    0.876,
+                    0.131
+                  ]
+                ],
+                "value": "014-03"
+              },
+              "line_items": [
+                {
+                  "confidence": 0.96,
+                  "description": "Field inspection of construction on 1/19/2003 deficiencies in house",
+                  "polygon": [
+                    [
+                      0.114,
+                      0.437
+                    ],
+                    [
+                      0.934,
+                      0.437
+                    ],
+                    [
+                      0.934,
+                      0.45
+                    ],
+                    [
+                      0.114,
+                      0.45
+                    ]
+                  ],
+                  "product_code": null,
+                  "quantity": 1.0,
+                  "tax_amount": null,
+                  "tax_rate": null,
+                  "total_amount": 750.0,
+                  "unit_price": 750.0
+                }
+              ],
+              "locale": {
+                "confidence": 0.71,
+                "currency": "USD",
+                "language": "en"
+              },
+              "orientation": {
+                "confidence": 0.99,
+                "degrees": 0
+              },
+              "reference_numbers": [
+                {
+                  "confidence": 0.81,
+                  "polygon": [
+                    [
+                      0.326,
+                      0.132
+                    ],
+                    [
+                      0.386,
+                      0.132
+                    ],
+                    [
+                      0.386,
+                      0.142
+                    ],
+                    [
+                      0.326,
+                      0.142
+                    ]
+                  ],
+                  "value": "301.548"
+                }
+              ],
+              "subcategory": {
+                "confidence": 0.0,
+                "value": null
+              },
+              "supplier_address": {
+                "confidence": 0.34,
+                "polygon": [
+                  [
+                    0.272,
+                    0.088
+                  ],
+                  [
+                    0.463,
+                    0.088
+                  ],
+                  [
+                    0.463,
+                    0.116
+                  ],
+                  [
+                    0.272,
+                    0.116
+                  ]
+                ],
+                "value": "344 Main Street Suite 200 Gaithersburg.MD 20878"
+              },
+              "supplier_company_registrations": [],
+              "supplier_name": {
+                "confidence": 0.7,
+                "polygon": [
+                  [
+                    0.272,
+                    0.05
+                  ],
+                  [
+                    0.579,
+                    0.05
+                  ],
+                  [
+                    0.579,
+                    0.071
+                  ],
+                  [
+                    0.272,
+                    0.071
+                  ]
+                ],
+                "raw_value": "SNG Engineering, Inc.",
+                "value": "SNG ENGINEERING, INC."
+              },
+              "supplier_payment_details": [],
+              "supplier_phone_number": {
+                "confidence": 0.0,
+                "polygon": [],
+                "value": null
+              },
+              "taxes": [],
+              "time": {
+                "confidence": 0.0,
+                "polygon": [],
+                "value": null
+              },
+              "tip": {
+                "confidence": 0.0,
+                "polygon": [],
+                "value": null
+              },
+              "total_amount": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.874,
+                    0.74
+                  ],
+                  [
+                    0.935,
+                    0.74
+                  ],
+                  [
+                    0.935,
+                    0.757
+                  ],
+                  [
+                    0.874,
+                    0.757
+                  ]
+                ],
+                "value": 750.0
+              },
+              "total_net": {
+                "confidence": 0.99,
+                "polygon": [
+                  [
+                    0.874,
+                    0.648
+                  ],
+                  [
+                    0.935,
+                    0.648
+                  ],
+                  [
+                    0.935,
+                    0.666
+                  ],
+                  [
+                    0.874,
+                    0.666
+                  ]
+                ],
+                "value": 750.0
+              },
+              "total_tax": {
+                "confidence": 0.0,
+                "polygon": [],
+                "value": null
+              }
+            }
+          }
+        ],
+        "prediction": {
+          "category": {
+            "confidence": 0.8,
+            "value": "miscellaneous"
+          },
+          "customer_address": {
+            "confidence": 0.38,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.091,
+                0.242
+              ],
+              [
+                0.292,
+                0.242
+              ],
+              [
+                0.292,
+                0.271
+              ],
+              [
+                0.091,
+                0.271
+              ]
+            ],
+            "value": "201 Stan Fey Dr Upper Marlboro MD 20774"
+          },
+          "customer_company_registrations": [],
+          "customer_name": {
+            "confidence": 0.4,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.091,
+                0.228
+              ],
+              [
+                0.234,
+                0.228
+              ],
+              [
+                0.234,
+                0.239
+              ],
+              [
+                0.091,
+                0.239
+              ]
+            ],
+            "raw_value": "Damita J Goldsmith",
+            "value": "DAMITA J GOLDSMITH"
+          },
+          "date": {
+            "confidence": 0.93,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.807,
+                0.136
+              ],
+              [
+                0.932,
+                0.136
+              ],
+              [
+                0.932,
+                0.149
+              ],
+              [
+                0.807,
+                0.149
+              ]
+            ],
+            "value": "2013-01-20"
+          },
+          "document_type": {
+            "value": "INVOICE"
+          },
+          "due_date": {
+            "confidence": 0.51,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.809,
+                0.375
+              ],
+              [
+                0.879,
+                0.375
+              ],
+              [
+                0.879,
+                0.385
+              ],
+              [
+                0.809,
+                0.385
+              ]
+            ],
+            "value": "2013-01-20"
+          },
+          "invoice_number": {
+            "confidence": 0.85,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.876,
+                0.121
+              ],
+              [
+                0.932,
+                0.121
+              ],
+              [
+                0.932,
+                0.131
+              ],
+              [
+                0.876,
+                0.131
+              ]
+            ],
+            "value": "014-03"
+          },
+          "line_items": [
+            {
+              "confidence": 0.96,
+              "description": "Field inspection of construction on 1/19/2003 deficiencies in house",
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.114,
+                  0.437
+                ],
+                [
+                  0.934,
+                  0.437
+                ],
+                [
+                  0.934,
+                  0.45
+                ],
+                [
+                  0.114,
+                  0.45
+                ]
+              ],
+              "product_code": null,
+              "quantity": 1.0,
+              "tax_amount": null,
+              "tax_rate": null,
+              "total_amount": 750.0,
+              "unit_price": 750.0
+            }
+          ],
+          "locale": {
+            "confidence": 0.71,
+            "currency": "USD",
+            "language": "en"
+          },
+          "reference_numbers": [
+            {
+              "confidence": 0.81,
+              "page_id": 0,
+              "polygon": [
+                [
+                  0.326,
+                  0.132
+                ],
+                [
+                  0.386,
+                  0.132
+                ],
+                [
+                  0.386,
+                  0.142
+                ],
+                [
+                  0.326,
+                  0.142
+                ]
+              ],
+              "value": "301.548"
+            }
+          ],
+          "subcategory": {
+            "confidence": 0.0,
+            "value": null
+          },
+          "supplier_address": {
+            "confidence": 0.34,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.272,
+                0.088
+              ],
+              [
+                0.463,
+                0.088
+              ],
+              [
+                0.463,
+                0.116
+              ],
+              [
+                0.272,
+                0.116
+              ]
+            ],
+            "value": "344 Main Street Suite 200 Gaithersburg.MD 20878"
+          },
+          "supplier_company_registrations": [],
+          "supplier_name": {
+            "confidence": 0.7,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.272,
+                0.05
+              ],
+              [
+                0.579,
+                0.05
+              ],
+              [
+                0.579,
+                0.071
+              ],
+              [
+                0.272,
+                0.071
+              ]
+            ],
+            "raw_value": "SNG Engineering, Inc.",
+            "value": "SNG ENGINEERING, INC."
+          },
+          "supplier_payment_details": [],
+          "supplier_phone_number": {
+            "confidence": 0.0,
+            "page_id": null,
+            "polygon": [],
+            "value": null
+          },
+          "taxes": [],
+          "time": {
+            "confidence": 0.0,
+            "page_id": null,
+            "polygon": [],
+            "value": null
+          },
+          "tip": {
+            "confidence": 0.0,
+            "page_id": null,
+            "polygon": [],
+            "value": null
+          },
+          "total_amount": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.874,
+                0.74
+              ],
+              [
+                0.935,
+                0.74
+              ],
+              [
+                0.935,
+                0.757
+              ],
+              [
+                0.874,
+                0.757
+              ]
+            ],
+            "value": 750.0
+          },
+          "total_net": {
+            "confidence": 0.99,
+            "page_id": 0,
+            "polygon": [
+              [
+                0.874,
+                0.648
+              ],
+              [
+                0.935,
+                0.648
+              ],
+              [
+                0.935,
+                0.666
+              ],
+              [
+                0.874,
+                0.666
+              ]
+            ],
+            "value": 750.0
+          },
+          "total_tax": {
+            "confidence": 0.0,
+            "page_id": null,
+            "polygon": [],
+            "value": null
+          }
+        },
+        "processing_time": 1.125,
+        "product": {
+          "features": [
+            "locale",
+            "invoice_number",
+            "reference_numbers",
+            "date",
+            "due_date",
+            "total_net",
+            "total_amount",
+            "taxes",
+            "supplier_payment_details",
+            "supplier_name",
+            "supplier_company_registrations",
+            "supplier_address",
+            "supplier_phone_number",
+            "customer_name",
+            "customer_company_registrations",
+            "customer_address",
+            "document_type",
+            "orientation",
+            "subcategory",
+            "category",
+            "total_tax",
+            "tip",
+            "time",
+            "line_items"
+          ],
+          "name": "mindee/financial_document",
+          "type": "standard",
+          "version": "1.2"
+        },
+        "started_at": "2023-12-15T09:32:59.278354"
+      },
+      "n_pages": 1,
+      "name": "invoice.png"
+    }
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "customer_information": {
+          "name": "DAMITA J GOLDSMITH",
+          "id_reference": null,
+          "mailling_address": null,
+          "billing_address": "201 Stan Fey Dr Upper Marlboro MD 20774",
+          "shipping_address": null,
+          "service_address": null,
+          "remittance_address": null,
+          "email": null,
+          "phone": null,
+          "vat_number": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "business_number": null,
+          "siret_number": null,
+          "siren_number": null,
+          "customer_number": null,
+          "coc_number": null,
+          "fiscal_number": null,
+          "registration_number": null,
+          "tax_id": null,
+          "website": null,
+          "remit_to_name": null,
+          "city": null,
+          "country": null,
+          "house_number": null,
+          "province": null,
+          "street_name": null,
+          "zip_code": null,
+          "municipality": null
+        },
+        "merchant_information": {
+          "name": "SNG ENGINEERING, INC.",
+          "address": "344 Main Street Suite 200 Gaithersburg.MD 20878",
+          "phone": null,
+          "tax_id": null,
+          "id_reference": null,
+          "vat_number": null,
+          "abn_number": null,
+          "gst_number": null,
+          "business_number": null,
+          "siret_number": null,
+          "siren_number": null,
+          "pan_number": null,
+          "coc_number": null,
+          "fiscal_number": null,
+          "email": null,
+          "fax": null,
+          "website": null,
+          "registration": null,
+          "city": null,
+          "country": null,
+          "house_number": null,
+          "province": null,
+          "street_name": null,
+          "zip_code": null,
+          "country_code": null
+        },
+        "payment_information": {
+          "amount_due": null,
+          "amount_tip": null,
+          "amount_shipping": null,
+          "amount_change": null,
+          "amount_paid": null,
+          "total": 750.0,
+          "subtotal": 750.0,
+          "total_tax": null,
+          "tax_rate": null,
+          "discount": null,
+          "gratuity": null,
+          "service_charge": null,
+          "previous_unpaid_balance": null,
+          "prior_balance": null,
+          "payment_terms": null,
+          "payment_method": null,
+          "payment_card_number": null,
+          "payment_auth_code": null,
+          "shipping_handling_charge": null,
+          "transaction_number": null,
+          "transaction_reference": null
+        },
+        "financial_document_information": {
+          "invoice_receipt_id": "014-03",
+          "purchase_order": null,
+          "invoice_date": "2013-01-20",
+          "time": null,
+          "invoice_due_date": "2013-01-20",
+          "service_start_date": null,
+          "service_end_date": null,
+          "reference": null,
+          "biller_code": null,
+          "order_date": null,
+          "tracking_number": null,
+          "barcodes": []
+        },
+        "local": {
+          "currency": null,
+          "currency_code": null,
+          "currency_exchange_rate": null,
+          "country": null,
+          "language": null
+        },
+        "bank": {
+          "iban": null,
+          "swift": null,
+          "bsb": null,
+          "sort_code": null,
+          "account_number": null,
+          "routing_number": null,
+          "bic": null
+        },
+        "item_lines": [
+          {
+            "tax": null,
+            "amount_line": 750.0,
+            "description": "Field inspection of construction on 1/19/2003 deficiencies in house",
+            "quantity": 1.0,
+            "unit_price": 750.0,
+            "unit_type": null,
+            "date": null,
+            "product_code": null,
+            "purchase_order": null,
+            "tax_rate": null,
+            "base_total": null,
+            "sub_total": null,
+            "discount_amount": null,
+            "discount_rate": null,
+            "discount_code": null,
+            "order_number": null,
+            "title": null
+          }
+        ],
+        "document_metadata": {
+          "document_index": null,
+          "document_page_number": 1,
+          "document_type": "INVOICE"
+        }
+      }
+    ]
+  }
+}

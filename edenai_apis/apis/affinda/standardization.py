@@ -621,7 +621,17 @@ class FinancialStandardizer:
         self.__std_response = {}
         self.__formatted_data = self.format_data(original_response)
 
-    def format_data(self, original_response) ->Dict[str, Any]:
+    def format_data(self, original_response) -> List[Dict]:
+        """
+        Organize affinda response into a more structured output.
+        Each element in the list represents a page of the document (e.g., invoice or receipt) with its fields.
+
+        Args:
+        - original_response (dict): The parsed Google document.
+
+        Returns:
+        - List[Dict]: A list of dictionaries, each containing organized information about a document page.
+        """
         page_dict = {}
         new_response = []
 
@@ -686,7 +696,7 @@ class FinancialStandardizer:
             payment_information = FinancialPaymentInformation(
                 amount_paid=convert_string_to_number(invoice.get("paymentAmountPaid", {}).get("parsed"), float),
                 total_tax=convert_string_to_number(invoice.get("paymentAmountTax", {}).get("parsed"), float),
-                invoice_total=convert_string_to_number(invoice.get("paymentAmountTotal", {}).get("parsed"), float),
+                total=convert_string_to_number(invoice.get("paymentAmountTotal", {}).get("parsed"), float),
                 amount_due=convert_string_to_number(invoice.get("paymentAmountDue", {}).get("parsed"), float),
                 payment_terms=invoice.get("paymentTerms", {}).get("raw"),
                 transaction_reference=invoice.get("paymentReference", {}).get("raw"),
@@ -695,7 +705,7 @@ class FinancialStandardizer:
                 previous_unpaid_balance=invoice.get("openingBalance", {}).get("parsed")
             )
             financial_document_information = FinancialDocumentInformation(
-                invoice_id=invoice.get("invoiceNumber", {}).get("raw") or invoice.get("receiptNumber", {}).get("raw"),
+                invoice_receipt_id=invoice.get("invoiceNumber", {}).get("raw") or invoice.get("receiptNumber", {}).get("raw"),
                 order_date=invoice.get("invoiceOrderDate", {}).get("raw"),
                 purchase_order=invoice.get("invoicePurchaseOrderNumber", {}).get("raw"),
                 invoice_due_date=invoice.get("paymentDateDue", {}).get("raw"),

@@ -1,504 +1,3759 @@
 {
-  "original_response": [
-    {
-      "CustomerAddress": {
-        "value_type": "address",
-        "value": {
-          "house_number": "201",
-          "po_box": null,
-          "road": "Stan Fey Dr",
-          "city": "Upper Marlboro",
-          "state": "MD",
-          "postal_code": "20774",
-          "country_region": null,
-          "street_address": "201 Stan Fey Dr",
-          "unit": null,
-          "city_district": null,
-          "state_district": null,
-          "suburb": null,
-          "house": null,
-          "level": null
-        },
-        "content": "201 Stan Fey Dr\nUpper Marlboro , MD 20774",
-        "bounding_regions": [
+  "original_response": {
+    "api_version": "2023-07-31",
+    "model_id": "prebuilt-invoice",
+    "content": "SNG Engineering, Inc.\nSNG\nINVOICE\nConsulting Engineers\n344 Main Street Suite 200\nGaithersburg, MD 20878\nPhone: 301.548.0055 Fax: 301.548.1840\nINVOICE NO: 014- 03\nE-mail: sng.engineering@erols.com\nDATE: January 20, 2003\nTO,\nShip To:\nSame\nDamita J Goldsmith\n201 Stan Fey Dr\nUpper Marlboro , MD 20774\nReference: 201 Stan Fey Drive\nUpper Marlboro\nSALESPERSON\nP.O. NUMBER\nDATE SHIPPED\nSHIPPED VIA\nF.O.B. POINT\nTERMS\non receipt of service\nQUANTITY\nDESCRIPTION\nUNIT PRICE\nAMOUNT\n1\n1\nField inspection of construction on 1/19/2003 deficiencies in house\n750.00\n750 .. 00\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003\nSUBTOTAL\n750.00\nSHIPPING & HANDELING\nTOTAL DUE\n750.00\nMake all checks payable to SNG Engineering, Inc.\nIf you have any questions concerning this invoice, call: Sach Gupta, 301.548.0055\nThe payment will be due within fifteen days after receipt of invoice by the owner/contractor.\nPlease note that 1-1/2 percent interest will accrue on the unpaid balance after this date.\nTHANK YOU FOR YOUR BUSINESS!",
+    "languages": [],
+    "pages": [
+      {
+        "page_number": 1,
+        "angle": null,
+        "width": 696.0,
+        "height": 900.0,
+        "unit": "pixel",
+        "lines": [
           {
-            "page_number": 1,
+            "content": "SNG Engineering, Inc.",
             "polygon": [
               {
-                "x": 62.0,
-                "y": 218.0
+                "x": 187.0,
+                "y": 41.0
               },
               {
-                "x": 204.0,
-                "y": 218.0
+                "x": 405.0,
+                "y": 42.0
               },
               {
-                "x": 204.0,
-                "y": 246.0
+                "x": 405.0,
+                "y": 66.0
               },
               {
-                "x": 62.0,
-                "y": 246.0
+                "x": 187.0,
+                "y": 64.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 0,
+                "length": 21
               }
             ]
-          }
-        ],
-        "spans": [
+          },
           {
-            "offset": 256,
-            "length": 41
-          }
-        ],
-        "confidence": 0.713
-      },
-      "document_index": 1,
-      "document_type": "invoice",
-      "CustomerAddressRecipient": {
-        "value_type": "string",
-        "value": "Damita J Goldsmith",
-        "content": "Damita J Goldsmith",
-        "bounding_regions": [
-          {
-            "page_number": 1,
+            "content": "SNG",
             "polygon": [
               {
-                "x": 62.0,
-                "y": 204.0
+                "x": 47.0,
+                "y": 75.0
               },
               {
-                "x": 161.0,
-                "y": 204.0
+                "x": 158.0,
+                "y": 75.0
               },
               {
-                "x": 161.0,
-                "y": 217.0
+                "x": 157.0,
+                "y": 119.0
               },
               {
-                "x": 62.0,
-                "y": 217.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 237,
-            "length": 18
-          }
-        ],
-        "confidence": 0.81
-      },
-      "CustomerName": {
-        "value_type": "string",
-        "value": "Damita J Goldsmith",
-        "content": "Damita J Goldsmith",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 62.0,
-                "y": 204.0
-              },
-              {
-                "x": 161.0,
-                "y": 204.0
-              },
-              {
-                "x": 161.0,
-                "y": 217.0
-              },
-              {
-                "x": 62.0,
-                "y": 217.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 237,
-            "length": 18
-          }
-        ],
-        "confidence": 0.81
-      },
-      "InvoiceDate": {
-        "value_type": "date",
-        "value": "2003-01-20",
-        "content": "January 20, 2003",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 561.0,
+                "x": 47.0,
                 "y": 121.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 22,
+                "length": 3
+              }
+            ]
+          },
+          {
+            "content": "INVOICE",
+            "polygon": [
+              {
+                "x": 491.0,
+                "y": 50.0
+              },
+              {
+                "x": 647.0,
+                "y": 50.0
+              },
+              {
+                "x": 647.0,
+                "y": 81.0
+              },
+              {
+                "x": 491.0,
+                "y": 82.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 26,
+                "length": 7
+              }
+            ]
+          },
+          {
+            "content": "Consulting Engineers",
+            "polygon": [
+              {
+                "x": 187.0,
+                "y": 65.0
+              },
+              {
+                "x": 307.0,
+                "y": 65.0
+              },
+              {
+                "x": 307.0,
+                "y": 79.0
+              },
+              {
+                "x": 187.0,
+                "y": 79.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 34,
+                "length": 20
+              }
+            ]
+          },
+          {
+            "content": "344 Main Street Suite 200",
+            "polygon": [
+              {
+                "x": 185.0,
+                "y": 77.0
+              },
+              {
+                "x": 323.0,
+                "y": 77.0
+              },
+              {
+                "x": 323.0,
+                "y": 91.0
+              },
+              {
+                "x": 185.0,
+                "y": 91.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 55,
+                "length": 25
+              }
+            ]
+          },
+          {
+            "content": "Gaithersburg, MD 20878",
+            "polygon": [
+              {
+                "x": 186.0,
+                "y": 91.0
+              },
+              {
+                "x": 313.0,
+                "y": 90.0
+              },
+              {
+                "x": 313.0,
+                "y": 104.0
+              },
+              {
+                "x": 186.0,
+                "y": 104.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 81,
+                "length": 22
+              }
+            ]
+          },
+          {
+            "content": "Phone: 301.548.0055 Fax: 301.548.1840",
+            "polygon": [
+              {
+                "x": 186.0,
+                "y": 116.0
+              },
+              {
+                "x": 395.0,
+                "y": 116.0
+              },
+              {
+                "x": 395.0,
+                "y": 131.0
+              },
+              {
+                "x": 186.0,
+                "y": 131.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 104,
+                "length": 37
+              }
+            ]
+          },
+          {
+            "content": "INVOICE NO: 014- 03",
+            "polygon": [
+              {
+                "x": 534.0,
+                "y": 107.0
+              },
+              {
+                "x": 650.0,
+                "y": 107.0
+              },
+              {
+                "x": 650.0,
+                "y": 120.0
+              },
+              {
+                "x": 534.0,
+                "y": 120.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 142,
+                "length": 19
+              }
+            ]
+          },
+          {
+            "content": "E-mail: sng.engineering@erols.com",
+            "polygon": [
+              {
+                "x": 187.0,
+                "y": 129.0
+              },
+              {
+                "x": 369.0,
+                "y": 129.0
+              },
+              {
+                "x": 369.0,
+                "y": 145.0
+              },
+              {
+                "x": 187.0,
+                "y": 144.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 162,
+                "length": 33
+              }
+            ]
+          },
+          {
+            "content": "DATE: January 20, 2003",
+            "polygon": [
+              {
+                "x": 521.0,
+                "y": 120.0
               },
               {
                 "x": 648.0,
-                "y": 121.0
+                "y": 120.0
               },
               {
                 "x": 648.0,
                 "y": 134.0
               },
               {
-                "x": 561.0,
+                "x": 521.0,
                 "y": 134.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 196,
+                "length": 22
+              }
+            ]
+          },
+          {
+            "content": "TO,",
+            "polygon": [
+              {
+                "x": 42.0,
+                "y": 190.0
+              },
+              {
+                "x": 63.0,
+                "y": 190.0
+              },
+              {
+                "x": 63.0,
+                "y": 203.0
+              },
+              {
+                "x": 43.0,
+                "y": 202.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 219,
+                "length": 3
+              }
+            ]
+          },
+          {
+            "content": "Ship To:",
+            "polygon": [
+              {
+                "x": 345.0,
+                "y": 190.0
+              },
+              {
+                "x": 400.0,
+                "y": 190.0
+              },
+              {
+                "x": 400.0,
+                "y": 204.0
+              },
+              {
+                "x": 345.0,
+                "y": 203.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 223,
+                "length": 8
+              }
+            ]
+          },
+          {
+            "content": "Same",
+            "polygon": [
+              {
+                "x": 409.0,
+                "y": 190.0
+              },
+              {
+                "x": 445.0,
+                "y": 190.0
+              },
+              {
+                "x": 445.0,
+                "y": 203.0
+              },
+              {
+                "x": 410.0,
+                "y": 203.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 232,
+                "length": 4
+              }
+            ]
+          },
+          {
+            "content": "Damita J Goldsmith",
+            "polygon": [
+              {
+                "x": 61.0,
+                "y": 204.0
+              },
+              {
+                "x": 163.0,
+                "y": 204.0
+              },
+              {
+                "x": 163.0,
+                "y": 216.0
+              },
+              {
+                "x": 61.0,
+                "y": 217.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 237,
+                "length": 18
+              }
+            ]
+          },
+          {
+            "content": "201 Stan Fey Dr",
+            "polygon": [
+              {
+                "x": 61.0,
+                "y": 218.0
+              },
+              {
+                "x": 146.0,
+                "y": 218.0
+              },
+              {
+                "x": 146.0,
+                "y": 230.0
+              },
+              {
+                "x": 61.0,
+                "y": 230.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 256,
+                "length": 15
+              }
+            ]
+          },
+          {
+            "content": "Upper Marlboro , MD 20774",
+            "polygon": [
+              {
+                "x": 61.0,
+                "y": 231.0
+              },
+              {
+                "x": 204.0,
+                "y": 231.0
+              },
+              {
+                "x": 204.0,
+                "y": 244.0
+              },
+              {
+                "x": 61.0,
+                "y": 245.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 272,
+                "length": 25
+              }
+            ]
+          },
+          {
+            "content": "Reference: 201 Stan Fey Drive",
+            "polygon": [
+              {
+                "x": 345.0,
+                "y": 217.0
+              },
+              {
+                "x": 505.0,
+                "y": 217.0
+              },
+              {
+                "x": 505.0,
+                "y": 232.0
+              },
+              {
+                "x": 345.0,
+                "y": 231.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 298,
+                "length": 29
+              }
+            ]
+          },
+          {
+            "content": "Upper Marlboro",
+            "polygon": [
+              {
+                "x": 405.0,
+                "y": 231.0
+              },
+              {
+                "x": 488.0,
+                "y": 231.0
+              },
+              {
+                "x": 488.0,
+                "y": 245.0
+              },
+              {
+                "x": 405.0,
+                "y": 244.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 328,
+                "length": 14
+              }
+            ]
+          },
+          {
+            "content": "SALESPERSON",
+            "polygon": [
+              {
+                "x": 48.0,
+                "y": 314.0
+              },
+              {
+                "x": 135.0,
+                "y": 314.0
+              },
+              {
+                "x": 135.0,
+                "y": 327.0
+              },
+              {
+                "x": 48.0,
+                "y": 327.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 343,
+                "length": 11
+              }
+            ]
+          },
+          {
+            "content": "P.O. NUMBER",
+            "polygon": [
+              {
+                "x": 154.0,
+                "y": 314.0
+              },
+              {
+                "x": 233.0,
+                "y": 315.0
+              },
+              {
+                "x": 233.0,
+                "y": 327.0
+              },
+              {
+                "x": 154.0,
+                "y": 327.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 355,
+                "length": 11
+              }
+            ]
+          },
+          {
+            "content": "DATE SHIPPED",
+            "polygon": [
+              {
+                "x": 253.0,
+                "y": 314.0
+              },
+              {
+                "x": 339.0,
+                "y": 314.0
+              },
+              {
+                "x": 339.0,
+                "y": 327.0
+              },
+              {
+                "x": 253.0,
+                "y": 327.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 367,
+                "length": 12
+              }
+            ]
+          },
+          {
+            "content": "SHIPPED VIA",
+            "polygon": [
+              {
+                "x": 361.0,
+                "y": 315.0
+              },
+              {
+                "x": 436.0,
+                "y": 315.0
+              },
+              {
+                "x": 436.0,
+                "y": 327.0
+              },
+              {
+                "x": 361.0,
+                "y": 327.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 380,
+                "length": 11
+              }
+            ]
+          },
+          {
+            "content": "F.O.B. POINT",
+            "polygon": [
+              {
+                "x": 464.0,
+                "y": 314.0
+              },
+              {
+                "x": 537.0,
+                "y": 314.0
+              },
+              {
+                "x": 537.0,
+                "y": 327.0
+              },
+              {
+                "x": 464.0,
+                "y": 326.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 392,
+                "length": 12
+              }
+            ]
+          },
+          {
+            "content": "TERMS",
+            "polygon": [
+              {
+                "x": 583.0,
+                "y": 315.0
+              },
+              {
+                "x": 624.0,
+                "y": 315.0
+              },
+              {
+                "x": 624.0,
+                "y": 327.0
+              },
+              {
+                "x": 583.0,
+                "y": 326.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 405,
+                "length": 5
+              }
+            ]
+          },
+          {
+            "content": "on receipt of service",
+            "polygon": [
+              {
+                "x": 561.0,
+                "y": 335.0
+              },
+              {
+                "x": 645.0,
+                "y": 335.0
+              },
+              {
+                "x": 645.0,
+                "y": 346.0
+              },
+              {
+                "x": 561.0,
+                "y": 347.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 411,
+                "length": 21
+              }
+            ]
+          },
+          {
+            "content": "QUANTITY",
+            "polygon": [
+              {
+                "x": 49.0,
+                "y": 371.0
+              },
+              {
+                "x": 111.0,
+                "y": 371.0
+              },
+              {
+                "x": 111.0,
+                "y": 384.0
+              },
+              {
+                "x": 49.0,
+                "y": 384.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 433,
+                "length": 8
+              }
+            ]
+          },
+          {
+            "content": "DESCRIPTION",
+            "polygon": [
+              {
+                "x": 266.0,
+                "y": 371.0
+              },
+              {
+                "x": 346.0,
+                "y": 371.0
+              },
+              {
+                "x": 346.0,
+                "y": 384.0
+              },
+              {
+                "x": 266.0,
+                "y": 384.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 442,
+                "length": 11
+              }
+            ]
+          },
+          {
+            "content": "UNIT PRICE",
+            "polygon": [
+              {
+                "x": 499.0,
+                "y": 371.0
+              },
+              {
+                "x": 565.0,
+                "y": 372.0
+              },
+              {
+                "x": 565.0,
+                "y": 384.0
+              },
+              {
+                "x": 499.0,
+                "y": 383.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 454,
+                "length": 10
+              }
+            ]
+          },
+          {
+            "content": "AMOUNT",
+            "polygon": [
+              {
+                "x": 588.0,
+                "y": 371.0
+              },
+              {
+                "x": 639.0,
+                "y": 371.0
+              },
+              {
+                "x": 639.0,
+                "y": 384.0
+              },
+              {
+                "x": 588.0,
+                "y": 384.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 465,
+                "length": 6
+              }
+            ]
+          },
+          {
+            "content": "1",
+            "polygon": [
+              {
+                "x": 86.0,
+                "y": 389.0
+              },
+              {
+                "x": 85.0,
+                "y": 404.0
+              },
+              {
+                "x": 77.0,
+                "y": 404.0
+              },
+              {
+                "x": 76.0,
+                "y": 389.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 472,
+                "length": 1
+              }
+            ]
+          },
+          {
+            "content": "1",
+            "polygon": [
+              {
+                "x": 79.0,
+                "y": 393.0
+              },
+              {
+                "x": 83.0,
+                "y": 392.0
+              },
+              {
+                "x": 84.0,
+                "y": 403.0
+              },
+              {
+                "x": 79.0,
+                "y": 403.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 474,
+                "length": 1
+              }
+            ]
+          },
+          {
+            "content": "Field inspection of construction on 1/19/2003 deficiencies in house",
+            "polygon": [
+              {
+                "x": 124.0,
+                "y": 391.0
+              },
+              {
+                "x": 464.0,
+                "y": 391.0
+              },
+              {
+                "x": 464.0,
+                "y": 405.0
+              },
+              {
+                "x": 124.0,
+                "y": 406.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 476,
+                "length": 67
+              }
+            ]
+          },
+          {
+            "content": "750.00",
+            "polygon": [
+              {
+                "x": 528.0,
+                "y": 392.0
+              },
+              {
+                "x": 565.0,
+                "y": 392.0
+              },
+              {
+                "x": 565.0,
+                "y": 404.0
+              },
+              {
+                "x": 528.0,
+                "y": 404.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 544,
+                "length": 6
+              }
+            ]
+          },
+          {
+            "content": "750 .. 00",
+            "polygon": [
+              {
+                "x": 609.0,
+                "y": 392.0
+              },
+              {
+                "x": 650.0,
+                "y": 392.0
+              },
+              {
+                "x": 650.0,
+                "y": 405.0
+              },
+              {
+                "x": 609.0,
+                "y": 404.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 551,
+                "length": 9
+              }
+            ]
+          },
+          {
+            "content": "construction, Garage drive way & legal support to Attorney to",
+            "polygon": [
+              {
+                "x": 124.0,
+                "y": 419.0
+              },
+              {
+                "x": 431.0,
+                "y": 419.0
+              },
+              {
+                "x": 431.0,
+                "y": 433.0
+              },
+              {
+                "x": 124.0,
+                "y": 433.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 561,
+                "length": 61
+              }
+            ]
+          },
+          {
+            "content": "1/19/2003",
+            "polygon": [
+              {
+                "x": 125.0,
+                "y": 446.0
+              },
+              {
+                "x": 178.0,
+                "y": 446.0
+              },
+              {
+                "x": 178.0,
+                "y": 459.0
+              },
+              {
+                "x": 125.0,
+                "y": 459.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 623,
+                "length": 9
+              }
+            ]
+          },
+          {
+            "content": "SUBTOTAL",
+            "polygon": [
+              {
+                "x": 506.0,
+                "y": 583.0
+              },
+              {
+                "x": 569.0,
+                "y": 583.0
+              },
+              {
+                "x": 569.0,
+                "y": 595.0
+              },
+              {
+                "x": 506.0,
+                "y": 595.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 633,
+                "length": 8
+              }
+            ]
+          },
+          {
+            "content": "750.00",
+            "polygon": [
+              {
+                "x": 609.0,
+                "y": 583.0
+              },
+              {
+                "x": 647.0,
+                "y": 583.0
+              },
+              {
+                "x": 647.0,
+                "y": 596.0
+              },
+              {
+                "x": 609.0,
+                "y": 595.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 642,
+                "length": 6
+              }
+            ]
+          },
+          {
+            "content": "SHIPPING & HANDELING",
+            "polygon": [
+              {
+                "x": 433.0,
+                "y": 609.0
+              },
+              {
+                "x": 569.0,
+                "y": 609.0
+              },
+              {
+                "x": 569.0,
+                "y": 623.0
+              },
+              {
+                "x": 433.0,
+                "y": 623.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 649,
+                "length": 20
+              }
+            ]
+          },
+          {
+            "content": "TOTAL DUE",
+            "polygon": [
+              {
+                "x": 501.0,
+                "y": 665.0
+              },
+              {
+                "x": 571.0,
+                "y": 665.0
+              },
+              {
+                "x": 571.0,
+                "y": 678.0
+              },
+              {
+                "x": 501.0,
+                "y": 678.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 670,
+                "length": 9
+              }
+            ]
+          },
+          {
+            "content": "750.00",
+            "polygon": [
+              {
+                "x": 609.0,
+                "y": 666.0
+              },
+              {
+                "x": 646.0,
+                "y": 666.0
+              },
+              {
+                "x": 646.0,
+                "y": 678.0
+              },
+              {
+                "x": 609.0,
+                "y": 678.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 680,
+                "length": 6
+              }
+            ]
+          },
+          {
+            "content": "Make all checks payable to SNG Engineering, Inc.",
+            "polygon": [
+              {
+                "x": 38.0,
+                "y": 698.0
+              },
+              {
+                "x": 291.0,
+                "y": 698.0
+              },
+              {
+                "x": 291.0,
+                "y": 713.0
+              },
+              {
+                "x": 38.0,
+                "y": 713.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 687,
+                "length": 48
+              }
+            ]
+          },
+          {
+            "content": "If you have any questions concerning this invoice, call: Sach Gupta, 301.548.0055",
+            "polygon": [
+              {
+                "x": 39.0,
+                "y": 711.0
+              },
+              {
+                "x": 451.0,
+                "y": 709.0
+              },
+              {
+                "x": 451.0,
+                "y": 725.0
+              },
+              {
+                "x": 39.0,
+                "y": 726.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 736,
+                "length": 81
+              }
+            ]
+          },
+          {
+            "content": "The payment will be due within fifteen days after receipt of invoice by the owner/contractor.",
+            "polygon": [
+              {
+                "x": 40.0,
+                "y": 724.0
+              },
+              {
+                "x": 494.0,
+                "y": 724.0
+              },
+              {
+                "x": 494.0,
+                "y": 738.0
+              },
+              {
+                "x": 40.0,
+                "y": 738.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 818,
+                "length": 93
+              }
+            ]
+          },
+          {
+            "content": "Please note that 1-1/2 percent interest will accrue on the unpaid balance after this date.",
+            "polygon": [
+              {
+                "x": 39.0,
+                "y": 737.0
+              },
+              {
+                "x": 477.0,
+                "y": 737.0
+              },
+              {
+                "x": 477.0,
+                "y": 752.0
+              },
+              {
+                "x": 39.0,
+                "y": 752.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 912,
+                "length": 90
+              }
+            ]
+          },
+          {
+            "content": "THANK YOU FOR YOUR BUSINESS!",
+            "polygon": [
+              {
+                "x": 248.0,
+                "y": 776.0
+              },
+              {
+                "x": 447.0,
+                "y": 776.0
+              },
+              {
+                "x": 447.0,
+                "y": 791.0
+              },
+              {
+                "x": 248.0,
+                "y": 792.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 1003,
+                "length": 28
               }
             ]
           }
         ],
-        "spans": [
+        "words": [
           {
-            "offset": 202,
-            "length": 16
-          }
-        ],
-        "confidence": 0.93
-      },
-      "InvoiceId": {
-        "value_type": "string",
-        "value": "014- 03",
-        "content": "014- 03",
-        "bounding_regions": [
+            "content": "SNG",
+            "polygon": [
+              {
+                "x": 189.0,
+                "y": 41.0
+              },
+              {
+                "x": 230.0,
+                "y": 41.0
+              },
+              {
+                "x": 230.0,
+                "y": 65.0
+              },
+              {
+                "x": 189.0,
+                "y": 65.0
+              }
+            ],
+            "span": {
+              "offset": 0,
+              "length": 3
+            },
+            "confidence": 0.996
+          },
           {
-            "page_number": 1,
+            "content": "Engineering,",
+            "polygon": [
+              {
+                "x": 238.0,
+                "y": 41.0
+              },
+              {
+                "x": 360.0,
+                "y": 42.0
+              },
+              {
+                "x": 360.0,
+                "y": 66.0
+              },
+              {
+                "x": 238.0,
+                "y": 66.0
+              }
+            ],
+            "span": {
+              "offset": 4,
+              "length": 12
+            },
+            "confidence": 0.992
+          },
+          {
+            "content": "Inc.",
+            "polygon": [
+              {
+                "x": 365.0,
+                "y": 42.0
+              },
+              {
+                "x": 405.0,
+                "y": 43.0
+              },
+              {
+                "x": 405.0,
+                "y": 66.0
+              },
+              {
+                "x": 365.0,
+                "y": 66.0
+              }
+            ],
+            "span": {
+              "offset": 17,
+              "length": 4
+            },
+            "confidence": 0.965
+          },
+          {
+            "content": "SNG",
+            "polygon": [
+              {
+                "x": 49.0,
+                "y": 75.0
+              },
+              {
+                "x": 144.0,
+                "y": 75.0
+              },
+              {
+                "x": 144.0,
+                "y": 120.0
+              },
+              {
+                "x": 49.0,
+                "y": 121.0
+              }
+            ],
+            "span": {
+              "offset": 22,
+              "length": 3
+            },
+            "confidence": 0.751
+          },
+          {
+            "content": "INVOICE",
+            "polygon": [
+              {
+                "x": 494.0,
+                "y": 50.0
+              },
+              {
+                "x": 639.0,
+                "y": 51.0
+              },
+              {
+                "x": 639.0,
+                "y": 82.0
+              },
+              {
+                "x": 493.0,
+                "y": 83.0
+              }
+            ],
+            "span": {
+              "offset": 26,
+              "length": 7
+            },
+            "confidence": 0.98
+          },
+          {
+            "content": "Consulting",
+            "polygon": [
+              {
+                "x": 189.0,
+                "y": 65.0
+              },
+              {
+                "x": 249.0,
+                "y": 66.0
+              },
+              {
+                "x": 249.0,
+                "y": 80.0
+              },
+              {
+                "x": 188.0,
+                "y": 79.0
+              }
+            ],
+            "span": {
+              "offset": 34,
+              "length": 10
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "Engineers",
+            "polygon": [
+              {
+                "x": 251.0,
+                "y": 66.0
+              },
+              {
+                "x": 307.0,
+                "y": 66.0
+              },
+              {
+                "x": 307.0,
+                "y": 79.0
+              },
+              {
+                "x": 251.0,
+                "y": 80.0
+              }
+            ],
+            "span": {
+              "offset": 45,
+              "length": 9
+            },
+            "confidence": 0.984
+          },
+          {
+            "content": "344",
+            "polygon": [
+              {
+                "x": 187.0,
+                "y": 78.0
+              },
+              {
+                "x": 206.0,
+                "y": 78.0
+              },
+              {
+                "x": 206.0,
+                "y": 92.0
+              },
+              {
+                "x": 187.0,
+                "y": 92.0
+              }
+            ],
+            "span": {
+              "offset": 55,
+              "length": 3
+            },
+            "confidence": 0.994
+          },
+          {
+            "content": "Main",
+            "polygon": [
+              {
+                "x": 209.0,
+                "y": 78.0
+              },
+              {
+                "x": 234.0,
+                "y": 78.0
+              },
+              {
+                "x": 234.0,
+                "y": 91.0
+              },
+              {
+                "x": 209.0,
+                "y": 92.0
+              }
+            ],
+            "span": {
+              "offset": 59,
+              "length": 4
+            },
+            "confidence": 0.992
+          },
+          {
+            "content": "Street",
+            "polygon": [
+              {
+                "x": 238.0,
+                "y": 78.0
+              },
+              {
+                "x": 271.0,
+                "y": 78.0
+              },
+              {
+                "x": 271.0,
+                "y": 92.0
+              },
+              {
+                "x": 238.0,
+                "y": 91.0
+              }
+            ],
+            "span": {
+              "offset": 64,
+              "length": 6
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "Suite",
+            "polygon": [
+              {
+                "x": 275.0,
+                "y": 78.0
+              },
+              {
+                "x": 300.0,
+                "y": 78.0
+              },
+              {
+                "x": 301.0,
+                "y": 92.0
+              },
+              {
+                "x": 275.0,
+                "y": 92.0
+              }
+            ],
+            "span": {
+              "offset": 71,
+              "length": 5
+            },
+            "confidence": 0.994
+          },
+          {
+            "content": "200",
+            "polygon": [
+              {
+                "x": 303.0,
+                "y": 78.0
+              },
+              {
+                "x": 322.0,
+                "y": 77.0
+              },
+              {
+                "x": 323.0,
+                "y": 92.0
+              },
+              {
+                "x": 303.0,
+                "y": 92.0
+              }
+            ],
+            "span": {
+              "offset": 77,
+              "length": 3
+            },
+            "confidence": 0.996
+          },
+          {
+            "content": "Gaithersburg,",
+            "polygon": [
+              {
+                "x": 188.0,
+                "y": 91.0
+              },
+              {
+                "x": 256.0,
+                "y": 91.0
+              },
+              {
+                "x": 256.0,
+                "y": 105.0
+              },
+              {
+                "x": 187.0,
+                "y": 105.0
+              }
+            ],
+            "span": {
+              "offset": 81,
+              "length": 13
+            },
+            "confidence": 0.991
+          },
+          {
+            "content": "MD",
+            "polygon": [
+              {
+                "x": 259.0,
+                "y": 91.0
+              },
+              {
+                "x": 276.0,
+                "y": 91.0
+              },
+              {
+                "x": 276.0,
+                "y": 105.0
+              },
+              {
+                "x": 259.0,
+                "y": 105.0
+              }
+            ],
+            "span": {
+              "offset": 95,
+              "length": 2
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "20878",
+            "polygon": [
+              {
+                "x": 282.0,
+                "y": 91.0
+              },
+              {
+                "x": 313.0,
+                "y": 91.0
+              },
+              {
+                "x": 313.0,
+                "y": 105.0
+              },
+              {
+                "x": 281.0,
+                "y": 105.0
+              }
+            ],
+            "span": {
+              "offset": 98,
+              "length": 5
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Phone:",
+            "polygon": [
+              {
+                "x": 187.0,
+                "y": 117.0
+              },
+              {
+                "x": 224.0,
+                "y": 117.0
+              },
+              {
+                "x": 224.0,
+                "y": 131.0
+              },
+              {
+                "x": 187.0,
+                "y": 131.0
+              }
+            ],
+            "span": {
+              "offset": 104,
+              "length": 6
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "301.548.0055",
+            "polygon": [
+              {
+                "x": 227.0,
+                "y": 117.0
+              },
+              {
+                "x": 296.0,
+                "y": 117.0
+              },
+              {
+                "x": 296.0,
+                "y": 131.0
+              },
+              {
+                "x": 227.0,
+                "y": 131.0
+              }
+            ],
+            "span": {
+              "offset": 111,
+              "length": 12
+            },
+            "confidence": 0.984
+          },
+          {
+            "content": "Fax:",
+            "polygon": [
+              {
+                "x": 299.0,
+                "y": 117.0
+              },
+              {
+                "x": 321.0,
+                "y": 117.0
+              },
+              {
+                "x": 321.0,
+                "y": 131.0
+              },
+              {
+                "x": 299.0,
+                "y": 131.0
+              }
+            ],
+            "span": {
+              "offset": 124,
+              "length": 4
+            },
+            "confidence": 0.98
+          },
+          {
+            "content": "301.548.1840",
+            "polygon": [
+              {
+                "x": 324.0,
+                "y": 117.0
+              },
+              {
+                "x": 394.0,
+                "y": 116.0
+              },
+              {
+                "x": 394.0,
+                "y": 131.0
+              },
+              {
+                "x": 324.0,
+                "y": 131.0
+              }
+            ],
+            "span": {
+              "offset": 129,
+              "length": 12
+            },
+            "confidence": 0.99
+          },
+          {
+            "content": "INVOICE",
+            "polygon": [
+              {
+                "x": 535.0,
+                "y": 107.0
+              },
+              {
+                "x": 582.0,
+                "y": 107.0
+              },
+              {
+                "x": 583.0,
+                "y": 120.0
+              },
+              {
+                "x": 535.0,
+                "y": 120.0
+              }
+            ],
+            "span": {
+              "offset": 142,
+              "length": 7
+            },
+            "confidence": 0.994
+          },
+          {
+            "content": "NO:",
+            "polygon": [
+              {
+                "x": 585.0,
+                "y": 107.0
+              },
+              {
+                "x": 607.0,
+                "y": 107.0
+              },
+              {
+                "x": 608.0,
+                "y": 120.0
+              },
+              {
+                "x": 585.0,
+                "y": 120.0
+              }
+            ],
+            "span": {
+              "offset": 150,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "014-",
             "polygon": [
               {
                 "x": 610.0,
-                "y": 106.0
+                "y": 107.0
               },
               {
-                "x": 651.0,
+                "x": 633.0,
+                "y": 108.0
+              },
+              {
+                "x": 633.0,
+                "y": 121.0
+              },
+              {
+                "x": 610.0,
+                "y": 120.0
+              }
+            ],
+            "span": {
+              "offset": 154,
+              "length": 4
+            },
+            "confidence": 0.99
+          },
+          {
+            "content": "03",
+            "polygon": [
+              {
+                "x": 636.0,
+                "y": 108.0
+              },
+              {
+                "x": 649.0,
                 "y": 108.0
               },
               {
                 "x": 650.0,
-                "y": 122.0
+                "y": 121.0
               },
               {
-                "x": 609.0,
-                "y": 120.0
+                "x": 636.0,
+                "y": 121.0
               }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 154,
-            "length": 7
-          }
-        ],
-        "confidence": 0.938
-      },
-      "InvoiceTotal": {
-        "value_type": "currency",
-        "value": {
-          "amount": 750.0,
-          "symbol": null,
-          "code": "USD"
-        },
-        "content": "750.00",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 611.0,
-                "y": 667.0
-              },
-              {
-                "x": 645.0,
-                "y": 666.0
-              },
-              {
-                "x": 645.0,
-                "y": 678.0
-              },
-              {
-                "x": 611.0,
-                "y": 678.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 680,
-            "length": 6
-          }
-        ],
-        "confidence": 0.79
-      },
-      "items": [
-        {
-          "value_type": "dictionary",
-          "value": {
-            "Amount": {
-              "value_type": "currency",
-              "value": {
-                "amount": 750.0,
-                "symbol": null,
-                "code": "USD"
-              },
-              "content": "750 .. 00",
-              "bounding_regions": [
-                {
-                  "page_number": 1,
-                  "polygon": [
-                    {
-                      "x": 611.0,
-                      "y": 393.0
-                    },
-                    {
-                      "x": 649.0,
-                      "y": 393.0
-                    },
-                    {
-                      "x": 649.0,
-                      "y": 405.0
-                    },
-                    {
-                      "x": 611.0,
-                      "y": 405.0
-                    }
-                  ]
-                }
-              ],
-              "spans": [
-                {
-                  "offset": 551,
-                  "length": 9
-                }
-              ],
-              "confidence": 0.766
+            ],
+            "span": {
+              "offset": 159,
+              "length": 2
             },
-            "Description": {
-              "value_type": "string",
-              "value": "Field inspection of construction on 1/19/2003 deficiencies in house\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003",
-              "content": "Field inspection of construction on 1/19/2003 deficiencies in house\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003",
-              "bounding_regions": [
-                {
-                  "page_number": 1,
-                  "polygon": [
-                    {
-                      "x": 125.0,
-                      "y": 392.0
-                    },
-                    {
-                      "x": 463.0,
-                      "y": 392.0
-                    },
-                    {
-                      "x": 463.0,
-                      "y": 459.0
-                    },
-                    {
-                      "x": 125.0,
-                      "y": 459.0
-                    }
-                  ]
-                }
-              ],
-              "spans": [
-                {
-                  "offset": 476,
-                  "length": 67
-                },
-                {
-                  "offset": 561,
-                  "length": 71
-                }
-              ],
-              "confidence": 0.715
-            },
-            "Quantity": {
-              "value_type": "float",
-              "value": 1.0,
-              "content": "1",
-              "bounding_regions": [
-                {
-                  "page_number": 1,
-                  "polygon": [
-                    {
-                      "x": 79.0,
-                      "y": 392.0
-                    },
-                    {
-                      "x": 82.0,
-                      "y": 392.0
-                    },
-                    {
-                      "x": 83.0,
-                      "y": 403.0
-                    },
-                    {
-                      "x": 79.0,
-                      "y": 403.0
-                    }
-                  ]
-                }
-              ],
-              "spans": [
-                {
-                  "offset": 474,
-                  "length": 1
-                }
-              ],
-              "confidence": 0.713
-            },
-            "UnitPrice": {
-              "value_type": "currency",
-              "value": {
-                "amount": 750.0,
-                "symbol": null,
-                "code": "USD"
-              },
-              "content": "750.00",
-              "bounding_regions": [
-                {
-                  "page_number": 1,
-                  "polygon": [
-                    {
-                      "x": 530.0,
-                      "y": 393.0
-                    },
-                    {
-                      "x": 564.0,
-                      "y": 393.0
-                    },
-                    {
-                      "x": 564.0,
-                      "y": 405.0
-                    },
-                    {
-                      "x": 530.0,
-                      "y": 404.0
-                    }
-                  ]
-                }
-              ],
-              "spans": [
-                {
-                  "offset": 544,
-                  "length": 6
-                }
-              ],
-              "confidence": 0.944
-            }
+            "confidence": 0.995
           },
-          "content": "1\n1\nField inspection of construction on 1/19/2003 deficiencies in house\n750.00\n750 .. 00\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 76.0,
-                  "y": 392.0
-                },
-                {
-                  "x": 649.0,
-                  "y": 392.0
-                },
-                {
-                  "x": 649.0,
-                  "y": 459.0
-                },
-                {
-                  "x": 76.0,
-                  "y": 459.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
+          {
+            "content": "E-mail:",
+            "polygon": [
+              {
+                "x": 187.0,
+                "y": 129.0
+              },
+              {
+                "x": 223.0,
+                "y": 130.0
+              },
+              {
+                "x": 223.0,
+                "y": 145.0
+              },
+              {
+                "x": 188.0,
+                "y": 145.0
+              }
+            ],
+            "span": {
+              "offset": 162,
+              "length": 7
+            },
+            "confidence": 0.99
+          },
+          {
+            "content": "sng.engineering@erols.com",
+            "polygon": [
+              {
+                "x": 226.0,
+                "y": 130.0
+              },
+              {
+                "x": 365.0,
+                "y": 131.0
+              },
+              {
+                "x": 366.0,
+                "y": 145.0
+              },
+              {
+                "x": 226.0,
+                "y": 145.0
+              }
+            ],
+            "span": {
+              "offset": 170,
+              "length": 25
+            },
+            "confidence": 0.935
+          },
+          {
+            "content": "DATE:",
+            "polygon": [
+              {
+                "x": 522.0,
+                "y": 120.0
+              },
+              {
+                "x": 558.0,
+                "y": 121.0
+              },
+              {
+                "x": 558.0,
+                "y": 134.0
+              },
+              {
+                "x": 522.0,
+                "y": 135.0
+              }
+            ],
+            "span": {
+              "offset": 196,
+              "length": 5
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "January",
+            "polygon": [
+              {
+                "x": 561.0,
+                "y": 121.0
+              },
+              {
+                "x": 601.0,
+                "y": 121.0
+              },
+              {
+                "x": 601.0,
+                "y": 134.0
+              },
+              {
+                "x": 561.0,
+                "y": 134.0
+              }
+            ],
+            "span": {
+              "offset": 202,
+              "length": 7
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "20,",
+            "polygon": [
+              {
+                "x": 604.0,
+                "y": 121.0
+              },
+              {
+                "x": 620.0,
+                "y": 121.0
+              },
+              {
+                "x": 620.0,
+                "y": 134.0
+              },
+              {
+                "x": 604.0,
+                "y": 134.0
+              }
+            ],
+            "span": {
+              "offset": 210,
+              "length": 3
+            },
+            "confidence": 0.983
+          },
+          {
+            "content": "2003",
+            "polygon": [
+              {
+                "x": 623.0,
+                "y": 121.0
+              },
+              {
+                "x": 648.0,
+                "y": 121.0
+              },
+              {
+                "x": 648.0,
+                "y": 134.0
+              },
+              {
+                "x": 623.0,
+                "y": 134.0
+              }
+            ],
+            "span": {
+              "offset": 214,
+              "length": 4
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "TO,",
+            "polygon": [
+              {
+                "x": 45.0,
+                "y": 190.0
+              },
+              {
+                "x": 63.0,
+                "y": 190.0
+              },
+              {
+                "x": 62.0,
+                "y": 203.0
+              },
+              {
+                "x": 45.0,
+                "y": 203.0
+              }
+            ],
+            "span": {
+              "offset": 219,
+              "length": 3
+            },
+            "confidence": 0.673
+          },
+          {
+            "content": "Ship",
+            "polygon": [
+              {
+                "x": 347.0,
+                "y": 191.0
+              },
+              {
+                "x": 372.0,
+                "y": 191.0
+              },
+              {
+                "x": 372.0,
+                "y": 204.0
+              },
+              {
+                "x": 348.0,
+                "y": 204.0
+              }
+            ],
+            "span": {
+              "offset": 223,
+              "length": 4
+            },
+            "confidence": 0.992
+          },
+          {
+            "content": "To:",
+            "polygon": [
+              {
+                "x": 376.0,
+                "y": 191.0
+              },
+              {
+                "x": 396.0,
+                "y": 191.0
+              },
+              {
+                "x": 396.0,
+                "y": 205.0
+              },
+              {
+                "x": 376.0,
+                "y": 204.0
+              }
+            ],
+            "span": {
+              "offset": 228,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Same",
+            "polygon": [
+              {
+                "x": 412.0,
+                "y": 190.0
+              },
+              {
+                "x": 443.0,
+                "y": 190.0
+              },
+              {
+                "x": 443.0,
+                "y": 203.0
+              },
+              {
+                "x": 412.0,
+                "y": 203.0
+              }
+            ],
+            "span": {
+              "offset": 232,
+              "length": 4
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "Damita",
+            "polygon": [
+              {
+                "x": 62.0,
+                "y": 205.0
+              },
+              {
+                "x": 98.0,
+                "y": 205.0
+              },
+              {
+                "x": 99.0,
+                "y": 217.0
+              },
+              {
+                "x": 63.0,
+                "y": 217.0
+              }
+            ],
+            "span": {
+              "offset": 237,
+              "length": 6
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "J",
+            "polygon": [
+              {
+                "x": 101.0,
+                "y": 205.0
+              },
+              {
+                "x": 108.0,
+                "y": 205.0
+              },
+              {
+                "x": 108.0,
+                "y": 217.0
+              },
+              {
+                "x": 102.0,
+                "y": 217.0
+              }
+            ],
+            "span": {
+              "offset": 244,
+              "length": 1
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Goldsmith",
+            "polygon": [
+              {
+                "x": 110.0,
+                "y": 205.0
+              },
+              {
+                "x": 161.0,
+                "y": 204.0
+              },
+              {
+                "x": 161.0,
+                "y": 217.0
+              },
+              {
+                "x": 111.0,
+                "y": 217.0
+              }
+            ],
+            "span": {
+              "offset": 246,
+              "length": 9
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "201",
+            "polygon": [
+              {
+                "x": 63.0,
+                "y": 218.0
+              },
+              {
+                "x": 82.0,
+                "y": 218.0
+              },
+              {
+                "x": 82.0,
+                "y": 231.0
+              },
+              {
+                "x": 63.0,
+                "y": 231.0
+              }
+            ],
+            "span": {
+              "offset": 256,
+              "length": 3
+            },
+            "confidence": 0.996
+          },
+          {
+            "content": "Stan",
+            "polygon": [
+              {
+                "x": 84.0,
+                "y": 218.0
+              },
+              {
+                "x": 108.0,
+                "y": 218.0
+              },
+              {
+                "x": 108.0,
+                "y": 231.0
+              },
+              {
+                "x": 84.0,
+                "y": 231.0
+              }
+            ],
+            "span": {
+              "offset": 260,
+              "length": 4
+            },
+            "confidence": 0.985
+          },
+          {
+            "content": "Fey",
+            "polygon": [
+              {
+                "x": 111.0,
+                "y": 218.0
+              },
+              {
+                "x": 130.0,
+                "y": 218.0
+              },
+              {
+                "x": 130.0,
+                "y": 231.0
+              },
+              {
+                "x": 111.0,
+                "y": 231.0
+              }
+            ],
+            "span": {
+              "offset": 265,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Dr",
+            "polygon": [
+              {
+                "x": 133.0,
+                "y": 218.0
+              },
+              {
+                "x": 146.0,
+                "y": 218.0
+              },
+              {
+                "x": 146.0,
+                "y": 231.0
+              },
+              {
+                "x": 133.0,
+                "y": 231.0
+              }
+            ],
+            "span": {
+              "offset": 269,
+              "length": 2
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Upper",
+            "polygon": [
+              {
+                "x": 62.0,
+                "y": 232.0
+              },
+              {
+                "x": 93.0,
+                "y": 232.0
+              },
+              {
+                "x": 93.0,
+                "y": 246.0
+              },
+              {
+                "x": 63.0,
+                "y": 246.0
+              }
+            ],
+            "span": {
+              "offset": 272,
+              "length": 5
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Marlboro",
+            "polygon": [
+              {
+                "x": 95.0,
+                "y": 232.0
+              },
+              {
+                "x": 139.0,
+                "y": 231.0
+              },
+              {
+                "x": 140.0,
+                "y": 245.0
+              },
+              {
+                "x": 96.0,
+                "y": 246.0
+              }
+            ],
+            "span": {
+              "offset": 278,
+              "length": 8
+            },
+            "confidence": 0.947
+          },
+          {
+            "content": ",",
+            "polygon": [
+              {
+                "x": 142.0,
+                "y": 231.0
+              },
+              {
+                "x": 147.0,
+                "y": 231.0
+              },
+              {
+                "x": 147.0,
+                "y": 245.0
+              },
+              {
+                "x": 143.0,
+                "y": 245.0
+              }
+            ],
+            "span": {
+              "offset": 287,
+              "length": 1
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "MD",
+            "polygon": [
+              {
+                "x": 150.0,
+                "y": 231.0
+              },
+              {
+                "x": 167.0,
+                "y": 231.0
+              },
+              {
+                "x": 167.0,
+                "y": 245.0
+              },
+              {
+                "x": 150.0,
+                "y": 245.0
+              }
+            ],
+            "span": {
+              "offset": 289,
+              "length": 2
+            },
+            "confidence": 0.997
+          },
+          {
+            "content": "20774",
+            "polygon": [
+              {
+                "x": 172.0,
+                "y": 231.0
+              },
+              {
+                "x": 204.0,
+                "y": 231.0
+              },
+              {
+                "x": 204.0,
+                "y": 245.0
+              },
+              {
+                "x": 172.0,
+                "y": 245.0
+              }
+            ],
+            "span": {
+              "offset": 292,
+              "length": 5
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Reference:",
+            "polygon": [
+              {
+                "x": 347.0,
+                "y": 218.0
+              },
+              {
+                "x": 404.0,
+                "y": 218.0
+              },
+              {
+                "x": 404.0,
+                "y": 232.0
+              },
+              {
+                "x": 347.0,
+                "y": 231.0
+              }
+            ],
+            "span": {
+              "offset": 298,
+              "length": 10
+            },
+            "confidence": 0.977
+          },
+          {
+            "content": "201",
+            "polygon": [
+              {
+                "x": 406.0,
+                "y": 218.0
+              },
+              {
+                "x": 426.0,
+                "y": 218.0
+              },
+              {
+                "x": 426.0,
+                "y": 232.0
+              },
+              {
+                "x": 407.0,
+                "y": 232.0
+              }
+            ],
+            "span": {
+              "offset": 309,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Stan",
+            "polygon": [
+              {
+                "x": 428.0,
+                "y": 218.0
+              },
+              {
+                "x": 451.0,
+                "y": 218.0
+              },
+              {
+                "x": 452.0,
+                "y": 232.0
+              },
+              {
+                "x": 429.0,
+                "y": 232.0
+              }
+            ],
+            "span": {
+              "offset": 313,
+              "length": 4
+            },
+            "confidence": 0.991
+          },
+          {
+            "content": "Fey",
+            "polygon": [
+              {
+                "x": 454.0,
+                "y": 218.0
+              },
+              {
+                "x": 473.0,
+                "y": 218.0
+              },
+              {
+                "x": 473.0,
+                "y": 232.0
+              },
+              {
+                "x": 454.0,
+                "y": 232.0
+              }
+            ],
+            "span": {
+              "offset": 318,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Drive",
+            "polygon": [
+              {
+                "x": 475.0,
+                "y": 218.0
+              },
+              {
+                "x": 503.0,
+                "y": 218.0
+              },
+              {
+                "x": 503.0,
+                "y": 233.0
+              },
+              {
+                "x": 475.0,
+                "y": 232.0
+              }
+            ],
+            "span": {
+              "offset": 322,
+              "length": 5
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "Upper",
+            "polygon": [
+              {
+                "x": 406.0,
+                "y": 232.0
+              },
+              {
+                "x": 437.0,
+                "y": 232.0
+              },
+              {
+                "x": 438.0,
+                "y": 245.0
+              },
+              {
+                "x": 407.0,
+                "y": 245.0
+              }
+            ],
+            "span": {
+              "offset": 328,
+              "length": 5
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Marlboro",
+            "polygon": [
+              {
+                "x": 440.0,
+                "y": 232.0
+              },
+              {
+                "x": 486.0,
+                "y": 232.0
+              },
+              {
+                "x": 486.0,
+                "y": 245.0
+              },
+              {
+                "x": 441.0,
+                "y": 245.0
+              }
+            ],
+            "span": {
+              "offset": 334,
+              "length": 8
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "SALESPERSON",
+            "polygon": [
+              {
+                "x": 49.0,
+                "y": 315.0
+              },
+              {
+                "x": 131.0,
+                "y": 315.0
+              },
+              {
+                "x": 131.0,
+                "y": 328.0
+              },
+              {
+                "x": 49.0,
+                "y": 327.0
+              }
+            ],
+            "span": {
+              "offset": 343,
+              "length": 11
+            },
+            "confidence": 0.992
+          },
+          {
+            "content": "P.O.",
+            "polygon": [
+              {
+                "x": 155.0,
+                "y": 315.0
+              },
+              {
+                "x": 178.0,
+                "y": 315.0
+              },
+              {
+                "x": 178.0,
+                "y": 327.0
+              },
+              {
+                "x": 155.0,
+                "y": 327.0
+              }
+            ],
+            "span": {
+              "offset": 355,
+              "length": 4
+            },
+            "confidence": 0.982
+          },
+          {
+            "content": "NUMBER",
+            "polygon": [
+              {
+                "x": 180.0,
+                "y": 315.0
+              },
+              {
+                "x": 230.0,
+                "y": 315.0
+              },
+              {
+                "x": 230.0,
+                "y": 328.0
+              },
+              {
+                "x": 181.0,
+                "y": 327.0
+              }
+            ],
+            "span": {
+              "offset": 360,
+              "length": 6
+            },
+            "confidence": 0.992
+          },
+          {
+            "content": "DATE",
+            "polygon": [
+              {
+                "x": 254.0,
+                "y": 315.0
+              },
+              {
+                "x": 285.0,
+                "y": 315.0
+              },
+              {
+                "x": 285.0,
+                "y": 327.0
+              },
+              {
+                "x": 254.0,
+                "y": 327.0
+              }
+            ],
+            "span": {
+              "offset": 367,
+              "length": 4
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "SHIPPED",
+            "polygon": [
+              {
+                "x": 289.0,
+                "y": 315.0
+              },
+              {
+                "x": 337.0,
+                "y": 315.0
+              },
+              {
+                "x": 337.0,
+                "y": 328.0
+              },
+              {
+                "x": 289.0,
+                "y": 327.0
+              }
+            ],
+            "span": {
+              "offset": 372,
+              "length": 7
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "SHIPPED",
+            "polygon": [
+              {
+                "x": 363.0,
+                "y": 315.0
+              },
+              {
+                "x": 411.0,
+                "y": 315.0
+              },
+              {
+                "x": 411.0,
+                "y": 327.0
+              },
+              {
+                "x": 364.0,
+                "y": 327.0
+              }
+            ],
+            "span": {
+              "offset": 380,
+              "length": 7
+            },
+            "confidence": 0.994
+          },
+          {
+            "content": "VIA",
+            "polygon": [
+              {
+                "x": 416.0,
+                "y": 315.0
+              },
+              {
+                "x": 433.0,
+                "y": 315.0
+              },
+              {
+                "x": 433.0,
+                "y": 328.0
+              },
+              {
+                "x": 417.0,
+                "y": 327.0
+              }
+            ],
+            "span": {
+              "offset": 388,
+              "length": 3
+            },
+            "confidence": 0.994
+          },
+          {
+            "content": "F.O.B.",
+            "polygon": [
+              {
+                "x": 465.0,
+                "y": 315.0
+              },
+              {
+                "x": 499.0,
+                "y": 315.0
+              },
+              {
+                "x": 499.0,
+                "y": 327.0
+              },
+              {
+                "x": 465.0,
+                "y": 327.0
+              }
+            ],
+            "span": {
+              "offset": 392,
+              "length": 6
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "POINT",
+            "polygon": [
+              {
+                "x": 501.0,
+                "y": 315.0
+              },
+              {
+                "x": 537.0,
+                "y": 315.0
+              },
+              {
+                "x": 538.0,
+                "y": 328.0
+              },
+              {
+                "x": 502.0,
+                "y": 327.0
+              }
+            ],
+            "span": {
+              "offset": 399,
+              "length": 5
+            },
+            "confidence": 0.994
+          },
+          {
+            "content": "TERMS",
+            "polygon": [
+              {
+                "x": 584.0,
+                "y": 316.0
+              },
+              {
+                "x": 623.0,
+                "y": 315.0
+              },
+              {
+                "x": 623.0,
+                "y": 327.0
+              },
+              {
+                "x": 584.0,
+                "y": 326.0
+              }
+            ],
+            "span": {
+              "offset": 405,
+              "length": 5
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "on",
+            "polygon": [
+              {
+                "x": 562.0,
+                "y": 336.0
+              },
+              {
+                "x": 572.0,
+                "y": 336.0
+              },
+              {
+                "x": 572.0,
+                "y": 346.0
+              },
+              {
+                "x": 562.0,
+                "y": 347.0
+              }
+            ],
+            "span": {
+              "offset": 411,
+              "length": 2
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "receipt",
+            "polygon": [
+              {
+                "x": 574.0,
+                "y": 336.0
+              },
+              {
+                "x": 602.0,
+                "y": 336.0
+              },
+              {
+                "x": 602.0,
+                "y": 346.0
+              },
+              {
+                "x": 574.0,
+                "y": 346.0
+              }
+            ],
+            "span": {
+              "offset": 414,
+              "length": 7
+            },
+            "confidence": 0.983
+          },
+          {
+            "content": "of",
+            "polygon": [
+              {
+                "x": 604.0,
+                "y": 336.0
+              },
+              {
+                "x": 612.0,
+                "y": 336.0
+              },
+              {
+                "x": 613.0,
+                "y": 347.0
+              },
+              {
+                "x": 604.0,
+                "y": 346.0
+              }
+            ],
+            "span": {
+              "offset": 422,
+              "length": 2
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "service",
+            "polygon": [
+              {
+                "x": 615.0,
+                "y": 336.0
+              },
+              {
+                "x": 644.0,
+                "y": 335.0
+              },
+              {
+                "x": 644.0,
+                "y": 347.0
+              },
+              {
+                "x": 615.0,
+                "y": 347.0
+              }
+            ],
+            "span": {
+              "offset": 425,
+              "length": 7
+            },
+            "confidence": 0.992
+          },
+          {
+            "content": "QUANTITY",
+            "polygon": [
+              {
+                "x": 52.0,
+                "y": 372.0
+              },
+              {
+                "x": 110.0,
+                "y": 372.0
+              },
+              {
+                "x": 110.0,
+                "y": 384.0
+              },
+              {
+                "x": 52.0,
+                "y": 384.0
+              }
+            ],
+            "span": {
+              "offset": 433,
+              "length": 8
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "DESCRIPTION",
+            "polygon": [
+              {
+                "x": 267.0,
+                "y": 372.0
+              },
+              {
+                "x": 343.0,
+                "y": 371.0
+              },
+              {
+                "x": 343.0,
+                "y": 385.0
+              },
+              {
+                "x": 267.0,
+                "y": 385.0
+              }
+            ],
+            "span": {
+              "offset": 442,
+              "length": 11
+            },
+            "confidence": 0.989
+          },
+          {
+            "content": "UNIT",
+            "polygon": [
+              {
+                "x": 499.0,
+                "y": 371.0
+              },
+              {
+                "x": 526.0,
+                "y": 372.0
+              },
+              {
+                "x": 526.0,
+                "y": 384.0
+              },
+              {
+                "x": 499.0,
+                "y": 383.0
+              }
+            ],
+            "span": {
+              "offset": 454,
+              "length": 4
+            },
+            "confidence": 0.989
+          },
+          {
+            "content": "PRICE",
+            "polygon": [
+              {
+                "x": 529.0,
+                "y": 372.0
+              },
+              {
+                "x": 563.0,
+                "y": 372.0
+              },
+              {
+                "x": 563.0,
+                "y": 384.0
+              },
+              {
+                "x": 529.0,
+                "y": 384.0
+              }
+            ],
+            "span": {
+              "offset": 459,
+              "length": 5
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "AMOUNT",
+            "polygon": [
+              {
+                "x": 589.0,
+                "y": 372.0
+              },
+              {
+                "x": 639.0,
+                "y": 372.0
+              },
+              {
+                "x": 639.0,
+                "y": 385.0
+              },
+              {
+                "x": 589.0,
+                "y": 384.0
+              }
+            ],
+            "span": {
+              "offset": 465,
+              "length": 6
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "1",
+            "polygon": [
+              {
+                "x": 86.0,
+                "y": 394.0
+              },
+              {
+                "x": 86.0,
+                "y": 400.0
+              },
+              {
+                "x": 76.0,
+                "y": 400.0
+              },
+              {
+                "x": 76.0,
+                "y": 394.0
+              }
+            ],
+            "span": {
               "offset": 472,
-              "length": 160
-            }
-          ],
-          "confidence": 0.781
-        }
-      ],
-      "PaymentTerm": {
-        "value_type": "string",
-        "value": "on receipt of service",
-        "content": "on receipt of service",
-        "bounding_regions": [
+              "length": 1
+            },
+            "confidence": 0.58
+          },
           {
-            "page_number": 1,
+            "content": "1",
             "polygon": [
               {
-                "x": 562.0,
-                "y": 335.0
+                "x": 79.0,
+                "y": 392.0
               },
               {
-                "x": 644.0,
-                "y": 335.0
+                "x": 82.0,
+                "y": 392.0
               },
               {
-                "x": 644.0,
-                "y": 347.0
+                "x": 83.0,
+                "y": 403.0
               },
               {
-                "x": 562.0,
-                "y": 347.0
+                "x": 79.0,
+                "y": 403.0
               }
-            ]
-          }
-        ],
-        "spans": [
+            ],
+            "span": {
+              "offset": 474,
+              "length": 1
+            },
+            "confidence": 0.699
+          },
           {
-            "offset": 411,
-            "length": 21
-          }
-        ],
-        "confidence": 0.653
-      },
-      "RemittanceAddressRecipient": {
-        "value_type": "string",
-        "value": "SNG Engineering, Inc.",
-        "content": "SNG Engineering, Inc.",
-        "bounding_regions": [
-          {
-            "page_number": 1,
+            "content": "Field",
             "polygon": [
               {
-                "x": 178.0,
-                "y": 699.0
+                "x": 125.0,
+                "y": 393.0
+              },
+              {
+                "x": 149.0,
+                "y": 393.0
+              },
+              {
+                "x": 149.0,
+                "y": 406.0
+              },
+              {
+                "x": 126.0,
+                "y": 406.0
+              }
+            ],
+            "span": {
+              "offset": 476,
+              "length": 5
+            },
+            "confidence": 0.994
+          },
+          {
+            "content": "inspection",
+            "polygon": [
+              {
+                "x": 152.0,
+                "y": 393.0
+              },
+              {
+                "x": 204.0,
+                "y": 392.0
+              },
+              {
+                "x": 205.0,
+                "y": 406.0
+              },
+              {
+                "x": 152.0,
+                "y": 406.0
+              }
+            ],
+            "span": {
+              "offset": 482,
+              "length": 10
+            },
+            "confidence": 0.989
+          },
+          {
+            "content": "of",
+            "polygon": [
+              {
+                "x": 210.0,
+                "y": 392.0
+              },
+              {
+                "x": 220.0,
+                "y": 392.0
+              },
+              {
+                "x": 221.0,
+                "y": 406.0
+              },
+              {
+                "x": 210.0,
+                "y": 406.0
+              }
+            ],
+            "span": {
+              "offset": 493,
+              "length": 2
+            },
+            "confidence": 0.996
+          },
+          {
+            "content": "construction",
+            "polygon": [
+              {
+                "x": 223.0,
+                "y": 392.0
+              },
+              {
+                "x": 285.0,
+                "y": 392.0
+              },
+              {
+                "x": 285.0,
+                "y": 406.0
+              },
+              {
+                "x": 223.0,
+                "y": 406.0
+              }
+            ],
+            "span": {
+              "offset": 496,
+              "length": 12
+            },
+            "confidence": 0.982
+          },
+          {
+            "content": "on",
+            "polygon": [
+              {
+                "x": 287.0,
+                "y": 392.0
+              },
+              {
+                "x": 300.0,
+                "y": 392.0
+              },
+              {
+                "x": 300.0,
+                "y": 406.0
+              },
+              {
+                "x": 288.0,
+                "y": 406.0
+              }
+            ],
+            "span": {
+              "offset": 509,
+              "length": 2
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "1/19/2003",
+            "polygon": [
+              {
+                "x": 304.0,
+                "y": 392.0
+              },
+              {
+                "x": 353.0,
+                "y": 392.0
+              },
+              {
+                "x": 354.0,
+                "y": 406.0
+              },
+              {
+                "x": 305.0,
+                "y": 406.0
+              }
+            ],
+            "span": {
+              "offset": 512,
+              "length": 9
+            },
+            "confidence": 0.983
+          },
+          {
+            "content": "deficiencies",
+            "polygon": [
+              {
+                "x": 356.0,
+                "y": 392.0
+              },
+              {
+                "x": 415.0,
+                "y": 392.0
+              },
+              {
+                "x": 415.0,
+                "y": 406.0
+              },
+              {
+                "x": 356.0,
+                "y": 406.0
+              }
+            ],
+            "span": {
+              "offset": 522,
+              "length": 12
+            },
+            "confidence": 0.974
+          },
+          {
+            "content": "in",
+            "polygon": [
+              {
+                "x": 417.0,
+                "y": 392.0
+              },
+              {
+                "x": 427.0,
+                "y": 393.0
+              },
+              {
+                "x": 428.0,
+                "y": 406.0
+              },
+              {
+                "x": 418.0,
+                "y": 406.0
+              }
+            ],
+            "span": {
+              "offset": 535,
+              "length": 2
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "house",
+            "polygon": [
+              {
+                "x": 430.0,
+                "y": 393.0
+              },
+              {
+                "x": 463.0,
+                "y": 393.0
+              },
+              {
+                "x": 463.0,
+                "y": 406.0
+              },
+              {
+                "x": 431.0,
+                "y": 406.0
+              }
+            ],
+            "span": {
+              "offset": 538,
+              "length": 5
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "750.00",
+            "polygon": [
+              {
+                "x": 530.0,
+                "y": 393.0
+              },
+              {
+                "x": 564.0,
+                "y": 393.0
+              },
+              {
+                "x": 564.0,
+                "y": 405.0
+              },
+              {
+                "x": 530.0,
+                "y": 404.0
+              }
+            ],
+            "span": {
+              "offset": 544,
+              "length": 6
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "750",
+            "polygon": [
+              {
+                "x": 611.0,
+                "y": 393.0
+              },
+              {
+                "x": 626.0,
+                "y": 393.0
+              },
+              {
+                "x": 626.0,
+                "y": 405.0
+              },
+              {
+                "x": 611.0,
+                "y": 404.0
+              }
+            ],
+            "span": {
+              "offset": 551,
+              "length": 3
+            },
+            "confidence": 0.997
+          },
+          {
+            "content": "..",
+            "polygon": [
+              {
+                "x": 629.0,
+                "y": 393.0
+              },
+              {
+                "x": 633.0,
+                "y": 393.0
+              },
+              {
+                "x": 634.0,
+                "y": 405.0
+              },
+              {
+                "x": 629.0,
+                "y": 405.0
+              }
+            ],
+            "span": {
+              "offset": 555,
+              "length": 2
+            },
+            "confidence": 0.93
+          },
+          {
+            "content": "00",
+            "polygon": [
+              {
+                "x": 636.0,
+                "y": 393.0
+              },
+              {
+                "x": 648.0,
+                "y": 393.0
+              },
+              {
+                "x": 649.0,
+                "y": 405.0
+              },
+              {
+                "x": 636.0,
+                "y": 405.0
+              }
+            ],
+            "span": {
+              "offset": 558,
+              "length": 2
+            },
+            "confidence": 0.998
+          },
+          {
+            "content": "construction,",
+            "polygon": [
+              {
+                "x": 125.0,
+                "y": 420.0
+              },
+              {
+                "x": 190.0,
+                "y": 419.0
+              },
+              {
+                "x": 191.0,
+                "y": 434.0
+              },
+              {
+                "x": 125.0,
+                "y": 433.0
+              }
+            ],
+            "span": {
+              "offset": 561,
+              "length": 13
+            },
+            "confidence": 0.961
+          },
+          {
+            "content": "Garage",
+            "polygon": [
+              {
+                "x": 193.0,
+                "y": 419.0
+              },
+              {
+                "x": 231.0,
+                "y": 419.0
+              },
+              {
+                "x": 231.0,
+                "y": 434.0
+              },
+              {
+                "x": 193.0,
+                "y": 434.0
+              }
+            ],
+            "span": {
+              "offset": 575,
+              "length": 6
+            },
+            "confidence": 0.994
+          },
+          {
+            "content": "drive",
+            "polygon": [
+              {
+                "x": 234.0,
+                "y": 419.0
+              },
+              {
+                "x": 257.0,
+                "y": 419.0
+              },
+              {
+                "x": 257.0,
+                "y": 434.0
+              },
+              {
+                "x": 234.0,
+                "y": 434.0
+              }
+            ],
+            "span": {
+              "offset": 582,
+              "length": 5
+            },
+            "confidence": 0.994
+          },
+          {
+            "content": "way",
+            "polygon": [
+              {
+                "x": 260.0,
+                "y": 419.0
+              },
+              {
+                "x": 281.0,
+                "y": 419.0
+              },
+              {
+                "x": 281.0,
+                "y": 434.0
+              },
+              {
+                "x": 260.0,
+                "y": 434.0
+              }
+            ],
+            "span": {
+              "offset": 588,
+              "length": 3
+            },
+            "confidence": 0.996
+          },
+          {
+            "content": "&",
+            "polygon": [
+              {
+                "x": 283.0,
+                "y": 419.0
               },
               {
                 "x": 291.0,
-                "y": 699.0
+                "y": 419.0
               },
               {
                 "x": 291.0,
-                "y": 713.0
+                "y": 434.0
               },
               {
-                "x": 178.0,
-                "y": 713.0
+                "x": 284.0,
+                "y": 434.0
               }
-            ]
-          }
-        ],
-        "spans": [
+            ],
+            "span": {
+              "offset": 592,
+              "length": 1
+            },
+            "confidence": 0.966
+          },
           {
-            "offset": 714,
-            "length": 21
-          }
-        ],
-        "confidence": 0.886
-      },
-      "ServiceEndDate": {
-        "value_type": "date",
-        "value": "2003-01-19",
-        "content": "1/19/2003",
-        "bounding_regions": [
+            "content": "legal",
+            "polygon": [
+              {
+                "x": 294.0,
+                "y": 419.0
+              },
+              {
+                "x": 318.0,
+                "y": 419.0
+              },
+              {
+                "x": 319.0,
+                "y": 434.0
+              },
+              {
+                "x": 294.0,
+                "y": 434.0
+              }
+            ],
+            "span": {
+              "offset": 594,
+              "length": 5
+            },
+            "confidence": 0.993
+          },
           {
-            "page_number": 1,
+            "content": "support",
+            "polygon": [
+              {
+                "x": 321.0,
+                "y": 419.0
+              },
+              {
+                "x": 359.0,
+                "y": 419.0
+              },
+              {
+                "x": 359.0,
+                "y": 434.0
+              },
+              {
+                "x": 322.0,
+                "y": 434.0
+              }
+            ],
+            "span": {
+              "offset": 600,
+              "length": 7
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "to",
+            "polygon": [
+              {
+                "x": 362.0,
+                "y": 419.0
+              },
+              {
+                "x": 372.0,
+                "y": 419.0
+              },
+              {
+                "x": 372.0,
+                "y": 434.0
+              },
+              {
+                "x": 362.0,
+                "y": 434.0
+              }
+            ],
+            "span": {
+              "offset": 608,
+              "length": 2
+            },
+            "confidence": 0.996
+          },
+          {
+            "content": "Attorney",
+            "polygon": [
+              {
+                "x": 375.0,
+                "y": 419.0
+              },
+              {
+                "x": 416.0,
+                "y": 419.0
+              },
+              {
+                "x": 417.0,
+                "y": 434.0
+              },
+              {
+                "x": 375.0,
+                "y": 434.0
+              }
+            ],
+            "span": {
+              "offset": 611,
+              "length": 8
+            },
+            "confidence": 0.981
+          },
+          {
+            "content": "to",
+            "polygon": [
+              {
+                "x": 419.0,
+                "y": 419.0
+              },
+              {
+                "x": 431.0,
+                "y": 419.0
+              },
+              {
+                "x": 431.0,
+                "y": 434.0
+              },
+              {
+                "x": 420.0,
+                "y": 434.0
+              }
+            ],
+            "span": {
+              "offset": 620,
+              "length": 2
+            },
+            "confidence": 0.996
+          },
+          {
+            "content": "1/19/2003",
             "polygon": [
               {
                 "x": 127.0,
@@ -516,113 +3771,41 @@
                 "x": 127.0,
                 "y": 459.0
               }
-            ]
-          }
-        ],
-        "spans": [
+            ],
+            "span": {
+              "offset": 623,
+              "length": 9
+            },
+            "confidence": 0.993
+          },
           {
-            "offset": 623,
-            "length": 9
-          }
-        ],
-        "confidence": 0.433
-      },
-      "ShippingAddress": {
-        "value_type": "address",
-        "value": {
-          "house_number": "201",
-          "po_box": null,
-          "road": "Stan Fey Drive",
-          "city": "Upper Marlboro",
-          "state": null,
-          "postal_code": null,
-          "country_region": null,
-          "street_address": "201 Stan Fey Drive",
-          "unit": null,
-          "city_district": null,
-          "state_district": null,
-          "suburb": null,
-          "house": null,
-          "level": null
-        },
-        "content": "201 Stan Fey Drive\nUpper Marlboro",
-        "bounding_regions": [
-          {
-            "page_number": 1,
+            "content": "SUBTOTAL",
             "polygon": [
               {
-                "x": 406.0,
-                "y": 218.0
+                "x": 508.0,
+                "y": 584.0
               },
               {
-                "x": 503.0,
-                "y": 218.0
+                "x": 568.0,
+                "y": 583.0
               },
               {
-                "x": 503.0,
-                "y": 245.0
+                "x": 568.0,
+                "y": 596.0
               },
               {
-                "x": 406.0,
-                "y": 245.0
+                "x": 508.0,
+                "y": 596.0
               }
-            ]
-          }
-        ],
-        "spans": [
+            ],
+            "span": {
+              "offset": 633,
+              "length": 8
+            },
+            "confidence": 0.995
+          },
           {
-            "offset": 309,
-            "length": 33
-          }
-        ],
-        "confidence": 0.509
-      },
-      "ShippingAddressRecipient": {
-        "value_type": "string",
-        "value": "Same",
-        "content": "Same",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 412.0,
-                "y": 190.0
-              },
-              {
-                "x": 443.0,
-                "y": 190.0
-              },
-              {
-                "x": 443.0,
-                "y": 203.0
-              },
-              {
-                "x": 412.0,
-                "y": 203.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 232,
-            "length": 4
-          }
-        ],
-        "confidence": 0.44
-      },
-      "SubTotal": {
-        "value_type": "currency",
-        "value": {
-          "amount": 750.0,
-          "symbol": null,
-          "code": "USD"
-        },
-        "content": "750.00",
-        "bounding_regions": [
-          {
-            "page_number": 1,
+            "content": "750.00",
             "polygon": [
               {
                 "x": 611.0,
@@ -640,125 +3823,2824 @@
                 "x": 611.0,
                 "y": 596.0
               }
+            ],
+            "span": {
+              "offset": 642,
+              "length": 6
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "SHIPPING",
+            "polygon": [
+              {
+                "x": 434.0,
+                "y": 609.0
+              },
+              {
+                "x": 486.0,
+                "y": 610.0
+              },
+              {
+                "x": 486.0,
+                "y": 623.0
+              },
+              {
+                "x": 434.0,
+                "y": 623.0
+              }
+            ],
+            "span": {
+              "offset": 649,
+              "length": 8
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "&",
+            "polygon": [
+              {
+                "x": 490.0,
+                "y": 610.0
+              },
+              {
+                "x": 498.0,
+                "y": 610.0
+              },
+              {
+                "x": 498.0,
+                "y": 623.0
+              },
+              {
+                "x": 490.0,
+                "y": 623.0
+              }
+            ],
+            "span": {
+              "offset": 658,
+              "length": 1
+            },
+            "confidence": 0.971
+          },
+          {
+            "content": "HANDELING",
+            "polygon": [
+              {
+                "x": 500.0,
+                "y": 610.0
+              },
+              {
+                "x": 566.0,
+                "y": 610.0
+              },
+              {
+                "x": 566.0,
+                "y": 623.0
+              },
+              {
+                "x": 500.0,
+                "y": 623.0
+              }
+            ],
+            "span": {
+              "offset": 660,
+              "length": 9
+            },
+            "confidence": 0.991
+          },
+          {
+            "content": "TOTAL",
+            "polygon": [
+              {
+                "x": 503.0,
+                "y": 666.0
+              },
+              {
+                "x": 540.0,
+                "y": 666.0
+              },
+              {
+                "x": 540.0,
+                "y": 679.0
+              },
+              {
+                "x": 504.0,
+                "y": 678.0
+              }
+            ],
+            "span": {
+              "offset": 670,
+              "length": 5
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "DUE",
+            "polygon": [
+              {
+                "x": 544.0,
+                "y": 666.0
+              },
+              {
+                "x": 568.0,
+                "y": 665.0
+              },
+              {
+                "x": 568.0,
+                "y": 679.0
+              },
+              {
+                "x": 544.0,
+                "y": 679.0
+              }
+            ],
+            "span": {
+              "offset": 676,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "750.00",
+            "polygon": [
+              {
+                "x": 611.0,
+                "y": 667.0
+              },
+              {
+                "x": 645.0,
+                "y": 666.0
+              },
+              {
+                "x": 645.0,
+                "y": 678.0
+              },
+              {
+                "x": 611.0,
+                "y": 678.0
+              }
+            ],
+            "span": {
+              "offset": 680,
+              "length": 6
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Make",
+            "polygon": [
+              {
+                "x": 39.0,
+                "y": 699.0
+              },
+              {
+                "x": 67.0,
+                "y": 699.0
+              },
+              {
+                "x": 67.0,
+                "y": 713.0
+              },
+              {
+                "x": 39.0,
+                "y": 713.0
+              }
+            ],
+            "span": {
+              "offset": 687,
+              "length": 4
+            },
+            "confidence": 0.992
+          },
+          {
+            "content": "all",
+            "polygon": [
+              {
+                "x": 70.0,
+                "y": 699.0
+              },
+              {
+                "x": 82.0,
+                "y": 699.0
+              },
+              {
+                "x": 82.0,
+                "y": 713.0
+              },
+              {
+                "x": 70.0,
+                "y": 713.0
+              }
+            ],
+            "span": {
+              "offset": 692,
+              "length": 3
+            },
+            "confidence": 0.973
+          },
+          {
+            "content": "checks",
+            "polygon": [
+              {
+                "x": 85.0,
+                "y": 699.0
+              },
+              {
+                "x": 120.0,
+                "y": 699.0
+              },
+              {
+                "x": 121.0,
+                "y": 713.0
+              },
+              {
+                "x": 85.0,
+                "y": 713.0
+              }
+            ],
+            "span": {
+              "offset": 696,
+              "length": 6
+            },
+            "confidence": 0.994
+          },
+          {
+            "content": "payable",
+            "polygon": [
+              {
+                "x": 123.0,
+                "y": 699.0
+              },
+              {
+                "x": 163.0,
+                "y": 699.0
+              },
+              {
+                "x": 163.0,
+                "y": 713.0
+              },
+              {
+                "x": 123.0,
+                "y": 713.0
+              }
+            ],
+            "span": {
+              "offset": 703,
+              "length": 7
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "to",
+            "polygon": [
+              {
+                "x": 165.0,
+                "y": 699.0
+              },
+              {
+                "x": 176.0,
+                "y": 699.0
+              },
+              {
+                "x": 176.0,
+                "y": 713.0
+              },
+              {
+                "x": 166.0,
+                "y": 713.0
+              }
+            ],
+            "span": {
+              "offset": 711,
+              "length": 2
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "SNG",
+            "polygon": [
+              {
+                "x": 178.0,
+                "y": 699.0
+              },
+              {
+                "x": 202.0,
+                "y": 699.0
+              },
+              {
+                "x": 202.0,
+                "y": 713.0
+              },
+              {
+                "x": 179.0,
+                "y": 713.0
+              }
+            ],
+            "span": {
+              "offset": 714,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Engineering,",
+            "polygon": [
+              {
+                "x": 207.0,
+                "y": 699.0
+              },
+              {
+                "x": 269.0,
+                "y": 699.0
+              },
+              {
+                "x": 269.0,
+                "y": 713.0
+              },
+              {
+                "x": 207.0,
+                "y": 713.0
+              }
+            ],
+            "span": {
+              "offset": 718,
+              "length": 12
+            },
+            "confidence": 0.93
+          },
+          {
+            "content": "Inc.",
+            "polygon": [
+              {
+                "x": 271.0,
+                "y": 699.0
+              },
+              {
+                "x": 291.0,
+                "y": 699.0
+              },
+              {
+                "x": 291.0,
+                "y": 713.0
+              },
+              {
+                "x": 271.0,
+                "y": 713.0
+              }
+            ],
+            "span": {
+              "offset": 731,
+              "length": 4
+            },
+            "confidence": 0.95
+          },
+          {
+            "content": "If",
+            "polygon": [
+              {
+                "x": 40.0,
+                "y": 712.0
+              },
+              {
+                "x": 45.0,
+                "y": 712.0
+              },
+              {
+                "x": 46.0,
+                "y": 726.0
+              },
+              {
+                "x": 40.0,
+                "y": 726.0
+              }
+            ],
+            "span": {
+              "offset": 736,
+              "length": 2
+            },
+            "confidence": 0.965
+          },
+          {
+            "content": "you",
+            "polygon": [
+              {
+                "x": 48.0,
+                "y": 712.0
+              },
+              {
+                "x": 66.0,
+                "y": 712.0
+              },
+              {
+                "x": 67.0,
+                "y": 726.0
+              },
+              {
+                "x": 48.0,
+                "y": 726.0
+              }
+            ],
+            "span": {
+              "offset": 739,
+              "length": 3
+            },
+            "confidence": 0.994
+          },
+          {
+            "content": "have",
+            "polygon": [
+              {
+                "x": 69.0,
+                "y": 712.0
+              },
+              {
+                "x": 94.0,
+                "y": 712.0
+              },
+              {
+                "x": 94.0,
+                "y": 726.0
+              },
+              {
+                "x": 70.0,
+                "y": 726.0
+              }
+            ],
+            "span": {
+              "offset": 743,
+              "length": 4
+            },
+            "confidence": 0.966
+          },
+          {
+            "content": "any",
+            "polygon": [
+              {
+                "x": 97.0,
+                "y": 712.0
+              },
+              {
+                "x": 115.0,
+                "y": 712.0
+              },
+              {
+                "x": 115.0,
+                "y": 726.0
+              },
+              {
+                "x": 97.0,
+                "y": 726.0
+              }
+            ],
+            "span": {
+              "offset": 748,
+              "length": 3
+            },
+            "confidence": 0.984
+          },
+          {
+            "content": "questions",
+            "polygon": [
+              {
+                "x": 118.0,
+                "y": 712.0
+              },
+              {
+                "x": 167.0,
+                "y": 712.0
+              },
+              {
+                "x": 167.0,
+                "y": 726.0
+              },
+              {
+                "x": 118.0,
+                "y": 726.0
+              }
+            ],
+            "span": {
+              "offset": 752,
+              "length": 9
+            },
+            "confidence": 0.962
+          },
+          {
+            "content": "concerning",
+            "polygon": [
+              {
+                "x": 170.0,
+                "y": 712.0
+              },
+              {
+                "x": 225.0,
+                "y": 712.0
+              },
+              {
+                "x": 226.0,
+                "y": 726.0
+              },
+              {
+                "x": 170.0,
+                "y": 726.0
+              }
+            ],
+            "span": {
+              "offset": 762,
+              "length": 10
+            },
+            "confidence": 0.99
+          },
+          {
+            "content": "this",
+            "polygon": [
+              {
+                "x": 228.0,
+                "y": 712.0
+              },
+              {
+                "x": 245.0,
+                "y": 712.0
+              },
+              {
+                "x": 246.0,
+                "y": 726.0
+              },
+              {
+                "x": 228.0,
+                "y": 726.0
+              }
+            ],
+            "span": {
+              "offset": 773,
+              "length": 4
+            },
+            "confidence": 0.963
+          },
+          {
+            "content": "invoice,",
+            "polygon": [
+              {
+                "x": 248.0,
+                "y": 712.0
+              },
+              {
+                "x": 288.0,
+                "y": 711.0
+              },
+              {
+                "x": 289.0,
+                "y": 726.0
+              },
+              {
+                "x": 249.0,
+                "y": 726.0
+              }
+            ],
+            "span": {
+              "offset": 778,
+              "length": 8
+            },
+            "confidence": 0.943
+          },
+          {
+            "content": "call:",
+            "polygon": [
+              {
+                "x": 291.0,
+                "y": 711.0
+              },
+              {
+                "x": 312.0,
+                "y": 711.0
+              },
+              {
+                "x": 313.0,
+                "y": 726.0
+              },
+              {
+                "x": 292.0,
+                "y": 726.0
+              }
+            ],
+            "span": {
+              "offset": 787,
+              "length": 5
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "Sach",
+            "polygon": [
+              {
+                "x": 315.0,
+                "y": 711.0
+              },
+              {
+                "x": 341.0,
+                "y": 711.0
+              },
+              {
+                "x": 341.0,
+                "y": 726.0
+              },
+              {
+                "x": 316.0,
+                "y": 726.0
+              }
+            ],
+            "span": {
+              "offset": 793,
+              "length": 4
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "Gupta,",
+            "polygon": [
+              {
+                "x": 344.0,
+                "y": 711.0
+              },
+              {
+                "x": 378.0,
+                "y": 711.0
+              },
+              {
+                "x": 379.0,
+                "y": 725.0
+              },
+              {
+                "x": 344.0,
+                "y": 726.0
+              }
+            ],
+            "span": {
+              "offset": 798,
+              "length": 6
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "301.548.0055",
+            "polygon": [
+              {
+                "x": 381.0,
+                "y": 711.0
+              },
+              {
+                "x": 451.0,
+                "y": 710.0
+              },
+              {
+                "x": 452.0,
+                "y": 725.0
+              },
+              {
+                "x": 382.0,
+                "y": 725.0
+              }
+            ],
+            "span": {
+              "offset": 805,
+              "length": 12
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "The",
+            "polygon": [
+              {
+                "x": 41.0,
+                "y": 725.0
+              },
+              {
+                "x": 59.0,
+                "y": 725.0
+              },
+              {
+                "x": 59.0,
+                "y": 739.0
+              },
+              {
+                "x": 41.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 818,
+              "length": 3
+            },
+            "confidence": 0.996
+          },
+          {
+            "content": "payment",
+            "polygon": [
+              {
+                "x": 62.0,
+                "y": 724.0
+              },
+              {
+                "x": 106.0,
+                "y": 724.0
+              },
+              {
+                "x": 106.0,
+                "y": 739.0
+              },
+              {
+                "x": 62.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 822,
+              "length": 7
+            },
+            "confidence": 0.992
+          },
+          {
+            "content": "will",
+            "polygon": [
+              {
+                "x": 108.0,
+                "y": 724.0
+              },
+              {
+                "x": 124.0,
+                "y": 724.0
+              },
+              {
+                "x": 124.0,
+                "y": 739.0
+              },
+              {
+                "x": 108.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 830,
+              "length": 4
+            },
+            "confidence": 0.991
+          },
+          {
+            "content": "be",
+            "polygon": [
+              {
+                "x": 127.0,
+                "y": 724.0
+              },
+              {
+                "x": 140.0,
+                "y": 724.0
+              },
+              {
+                "x": 140.0,
+                "y": 739.0
+              },
+              {
+                "x": 127.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 835,
+              "length": 2
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "due",
+            "polygon": [
+              {
+                "x": 143.0,
+                "y": 724.0
+              },
+              {
+                "x": 162.0,
+                "y": 724.0
+              },
+              {
+                "x": 162.0,
+                "y": 739.0
+              },
+              {
+                "x": 143.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 838,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "within",
+            "polygon": [
+              {
+                "x": 165.0,
+                "y": 724.0
+              },
+              {
+                "x": 194.0,
+                "y": 724.0
+              },
+              {
+                "x": 193.0,
+                "y": 739.0
+              },
+              {
+                "x": 165.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 842,
+              "length": 6
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "fifteen",
+            "polygon": [
+              {
+                "x": 196.0,
+                "y": 724.0
+              },
+              {
+                "x": 228.0,
+                "y": 724.0
+              },
+              {
+                "x": 228.0,
+                "y": 739.0
+              },
+              {
+                "x": 196.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 849,
+              "length": 7
+            },
+            "confidence": 0.988
+          },
+          {
+            "content": "days",
+            "polygon": [
+              {
+                "x": 231.0,
+                "y": 724.0
+              },
+              {
+                "x": 255.0,
+                "y": 724.0
+              },
+              {
+                "x": 255.0,
+                "y": 739.0
+              },
+              {
+                "x": 230.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 857,
+              "length": 4
+            },
+            "confidence": 0.991
+          },
+          {
+            "content": "after",
+            "polygon": [
+              {
+                "x": 258.0,
+                "y": 724.0
+              },
+              {
+                "x": 280.0,
+                "y": 724.0
+              },
+              {
+                "x": 280.0,
+                "y": 739.0
+              },
+              {
+                "x": 257.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 862,
+              "length": 5
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "receipt",
+            "polygon": [
+              {
+                "x": 283.0,
+                "y": 724.0
+              },
+              {
+                "x": 318.0,
+                "y": 724.0
+              },
+              {
+                "x": 317.0,
+                "y": 739.0
+              },
+              {
+                "x": 282.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 868,
+              "length": 7
+            },
+            "confidence": 0.962
+          },
+          {
+            "content": "of",
+            "polygon": [
+              {
+                "x": 321.0,
+                "y": 724.0
+              },
+              {
+                "x": 330.0,
+                "y": 724.0
+              },
+              {
+                "x": 330.0,
+                "y": 739.0
+              },
+              {
+                "x": 320.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 876,
+              "length": 2
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "invoice",
+            "polygon": [
+              {
+                "x": 333.0,
+                "y": 724.0
+              },
+              {
+                "x": 369.0,
+                "y": 724.0
+              },
+              {
+                "x": 368.0,
+                "y": 739.0
+              },
+              {
+                "x": 332.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 879,
+              "length": 7
+            },
+            "confidence": 0.99
+          },
+          {
+            "content": "by",
+            "polygon": [
+              {
+                "x": 371.0,
+                "y": 724.0
+              },
+              {
+                "x": 383.0,
+                "y": 725.0
+              },
+              {
+                "x": 383.0,
+                "y": 739.0
+              },
+              {
+                "x": 371.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 887,
+              "length": 2
+            },
+            "confidence": 0.994
+          },
+          {
+            "content": "the",
+            "polygon": [
+              {
+                "x": 386.0,
+                "y": 725.0
+              },
+              {
+                "x": 403.0,
+                "y": 725.0
+              },
+              {
+                "x": 403.0,
+                "y": 738.0
+              },
+              {
+                "x": 386.0,
+                "y": 739.0
+              }
+            ],
+            "span": {
+              "offset": 890,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "owner/contractor.",
+            "polygon": [
+              {
+                "x": 406.0,
+                "y": 725.0
+              },
+              {
+                "x": 495.0,
+                "y": 725.0
+              },
+              {
+                "x": 494.0,
+                "y": 738.0
+              },
+              {
+                "x": 405.0,
+                "y": 738.0
+              }
+            ],
+            "span": {
+              "offset": 894,
+              "length": 17
+            },
+            "confidence": 0.961
+          },
+          {
+            "content": "Please",
+            "polygon": [
+              {
+                "x": 40.0,
+                "y": 737.0
+              },
+              {
+                "x": 73.0,
+                "y": 737.0
+              },
+              {
+                "x": 73.0,
+                "y": 752.0
+              },
+              {
+                "x": 40.0,
+                "y": 751.0
+              }
+            ],
+            "span": {
+              "offset": 912,
+              "length": 6
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "note",
+            "polygon": [
+              {
+                "x": 76.0,
+                "y": 737.0
+              },
+              {
+                "x": 99.0,
+                "y": 737.0
+              },
+              {
+                "x": 99.0,
+                "y": 752.0
+              },
+              {
+                "x": 76.0,
+                "y": 752.0
+              }
+            ],
+            "span": {
+              "offset": 919,
+              "length": 4
+            },
+            "confidence": 0.99
+          },
+          {
+            "content": "that",
+            "polygon": [
+              {
+                "x": 102.0,
+                "y": 737.0
+              },
+              {
+                "x": 123.0,
+                "y": 737.0
+              },
+              {
+                "x": 123.0,
+                "y": 752.0
+              },
+              {
+                "x": 102.0,
+                "y": 752.0
+              }
+            ],
+            "span": {
+              "offset": 924,
+              "length": 4
+            },
+            "confidence": 0.991
+          },
+          {
+            "content": "1-1/2",
+            "polygon": [
+              {
+                "x": 126.0,
+                "y": 737.0
+              },
+              {
+                "x": 150.0,
+                "y": 737.0
+              },
+              {
+                "x": 150.0,
+                "y": 752.0
+              },
+              {
+                "x": 126.0,
+                "y": 752.0
+              }
+            ],
+            "span": {
+              "offset": 929,
+              "length": 5
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "percent",
+            "polygon": [
+              {
+                "x": 152.0,
+                "y": 737.0
+              },
+              {
+                "x": 190.0,
+                "y": 737.0
+              },
+              {
+                "x": 190.0,
+                "y": 752.0
+              },
+              {
+                "x": 152.0,
+                "y": 752.0
+              }
+            ],
+            "span": {
+              "offset": 935,
+              "length": 7
+            },
+            "confidence": 0.992
+          },
+          {
+            "content": "interest",
+            "polygon": [
+              {
+                "x": 193.0,
+                "y": 737.0
+              },
+              {
+                "x": 231.0,
+                "y": 737.0
+              },
+              {
+                "x": 231.0,
+                "y": 753.0
+              },
+              {
+                "x": 193.0,
+                "y": 752.0
+              }
+            ],
+            "span": {
+              "offset": 943,
+              "length": 8
+            },
+            "confidence": 0.99
+          },
+          {
+            "content": "will",
+            "polygon": [
+              {
+                "x": 234.0,
+                "y": 737.0
+              },
+              {
+                "x": 250.0,
+                "y": 737.0
+              },
+              {
+                "x": 250.0,
+                "y": 752.0
+              },
+              {
+                "x": 234.0,
+                "y": 753.0
+              }
+            ],
+            "span": {
+              "offset": 952,
+              "length": 4
+            },
+            "confidence": 0.989
+          },
+          {
+            "content": "accrue",
+            "polygon": [
+              {
+                "x": 253.0,
+                "y": 737.0
+              },
+              {
+                "x": 287.0,
+                "y": 737.0
+              },
+              {
+                "x": 287.0,
+                "y": 752.0
+              },
+              {
+                "x": 253.0,
+                "y": 752.0
+              }
+            ],
+            "span": {
+              "offset": 957,
+              "length": 6
+            },
+            "confidence": 0.992
+          },
+          {
+            "content": "on",
+            "polygon": [
+              {
+                "x": 290.0,
+                "y": 737.0
+              },
+              {
+                "x": 302.0,
+                "y": 737.0
+              },
+              {
+                "x": 302.0,
+                "y": 752.0
+              },
+              {
+                "x": 290.0,
+                "y": 752.0
+              }
+            ],
+            "span": {
+              "offset": 964,
+              "length": 2
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "the",
+            "polygon": [
+              {
+                "x": 305.0,
+                "y": 737.0
+              },
+              {
+                "x": 322.0,
+                "y": 737.0
+              },
+              {
+                "x": 322.0,
+                "y": 752.0
+              },
+              {
+                "x": 305.0,
+                "y": 752.0
+              }
+            ],
+            "span": {
+              "offset": 967,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "unpaid",
+            "polygon": [
+              {
+                "x": 325.0,
+                "y": 737.0
+              },
+              {
+                "x": 358.0,
+                "y": 737.0
+              },
+              {
+                "x": 358.0,
+                "y": 752.0
+              },
+              {
+                "x": 325.0,
+                "y": 752.0
+              }
+            ],
+            "span": {
+              "offset": 971,
+              "length": 6
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "balance",
+            "polygon": [
+              {
+                "x": 361.0,
+                "y": 737.0
+              },
+              {
+                "x": 401.0,
+                "y": 737.0
+              },
+              {
+                "x": 401.0,
+                "y": 752.0
+              },
+              {
+                "x": 361.0,
+                "y": 752.0
+              }
+            ],
+            "span": {
+              "offset": 978,
+              "length": 7
+            },
+            "confidence": 0.992
+          },
+          {
+            "content": "after",
+            "polygon": [
+              {
+                "x": 404.0,
+                "y": 737.0
+              },
+              {
+                "x": 426.0,
+                "y": 737.0
+              },
+              {
+                "x": 426.0,
+                "y": 752.0
+              },
+              {
+                "x": 404.0,
+                "y": 752.0
+              }
+            ],
+            "span": {
+              "offset": 986,
+              "length": 5
+            },
+            "confidence": 0.994
+          },
+          {
+            "content": "this",
+            "polygon": [
+              {
+                "x": 429.0,
+                "y": 737.0
+              },
+              {
+                "x": 448.0,
+                "y": 737.0
+              },
+              {
+                "x": 448.0,
+                "y": 751.0
+              },
+              {
+                "x": 429.0,
+                "y": 752.0
+              }
+            ],
+            "span": {
+              "offset": 992,
+              "length": 4
+            },
+            "confidence": 0.991
+          },
+          {
+            "content": "date.",
+            "polygon": [
+              {
+                "x": 451.0,
+                "y": 737.0
+              },
+              {
+                "x": 477.0,
+                "y": 737.0
+              },
+              {
+                "x": 477.0,
+                "y": 751.0
+              },
+              {
+                "x": 451.0,
+                "y": 751.0
+              }
+            ],
+            "span": {
+              "offset": 997,
+              "length": 5
+            },
+            "confidence": 0.973
+          },
+          {
+            "content": "THANK",
+            "polygon": [
+              {
+                "x": 250.0,
+                "y": 777.0
+              },
+              {
+                "x": 287.0,
+                "y": 777.0
+              },
+              {
+                "x": 288.0,
+                "y": 792.0
+              },
+              {
+                "x": 251.0,
+                "y": 792.0
+              }
+            ],
+            "span": {
+              "offset": 1003,
+              "length": 5
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "YOU",
+            "polygon": [
+              {
+                "x": 293.0,
+                "y": 777.0
+              },
+              {
+                "x": 316.0,
+                "y": 776.0
+              },
+              {
+                "x": 317.0,
+                "y": 792.0
+              },
+              {
+                "x": 293.0,
+                "y": 792.0
+              }
+            ],
+            "span": {
+              "offset": 1009,
+              "length": 3
+            },
+            "confidence": 0.997
+          },
+          {
+            "content": "FOR",
+            "polygon": [
+              {
+                "x": 320.0,
+                "y": 776.0
+              },
+              {
+                "x": 343.0,
+                "y": 776.0
+              },
+              {
+                "x": 343.0,
+                "y": 792.0
+              },
+              {
+                "x": 320.0,
+                "y": 792.0
+              }
+            ],
+            "span": {
+              "offset": 1013,
+              "length": 3
+            },
+            "confidence": 0.996
+          },
+          {
+            "content": "YOUR",
+            "polygon": [
+              {
+                "x": 348.0,
+                "y": 776.0
+              },
+              {
+                "x": 380.0,
+                "y": 776.0
+              },
+              {
+                "x": 380.0,
+                "y": 792.0
+              },
+              {
+                "x": 348.0,
+                "y": 792.0
+              }
+            ],
+            "span": {
+              "offset": 1017,
+              "length": 4
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "BUSINESS!",
+            "polygon": [
+              {
+                "x": 383.0,
+                "y": 776.0
+              },
+              {
+                "x": 447.0,
+                "y": 776.0
+              },
+              {
+                "x": 447.0,
+                "y": 792.0
+              },
+              {
+                "x": 383.0,
+                "y": 792.0
+              }
+            ],
+            "span": {
+              "offset": 1022,
+              "length": 9
+            },
+            "confidence": 0.984
+          }
+        ],
+        "selection_marks": [],
+        "spans": [
+          {
+            "offset": 0,
+            "length": 1031
+          }
+        ],
+        "barcodes": [],
+        "formulas": []
+      }
+    ],
+    "paragraphs": [],
+    "tables": [
+      {
+        "row_count": 2,
+        "column_count": 6,
+        "cells": [
+          {
+            "kind": "columnHeader",
+            "row_index": 0,
+            "column_index": 0,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "SALESPERSON",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 34.0,
+                    "y": 311.0
+                  },
+                  {
+                    "x": 144.0,
+                    "y": 311.0
+                  },
+                  {
+                    "x": 144.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 34.0,
+                    "y": 328.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 343,
+                "length": 11
+              }
+            ]
+          },
+          {
+            "kind": "columnHeader",
+            "row_index": 0,
+            "column_index": 1,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "P.O. NUMBER",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 144.0,
+                    "y": 311.0
+                  },
+                  {
+                    "x": 242.0,
+                    "y": 311.0
+                  },
+                  {
+                    "x": 242.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 144.0,
+                    "y": 327.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 355,
+                "length": 11
+              }
+            ]
+          },
+          {
+            "kind": "columnHeader",
+            "row_index": 0,
+            "column_index": 2,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "DATE SHIPPED",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 242.0,
+                    "y": 311.0
+                  },
+                  {
+                    "x": 349.0,
+                    "y": 311.0
+                  },
+                  {
+                    "x": 349.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 242.0,
+                    "y": 327.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 367,
+                "length": 12
+              }
+            ]
+          },
+          {
+            "kind": "columnHeader",
+            "row_index": 0,
+            "column_index": 3,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "SHIPPED VIA",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 349.0,
+                    "y": 311.0
+                  },
+                  {
+                    "x": 448.0,
+                    "y": 311.0
+                  },
+                  {
+                    "x": 448.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 349.0,
+                    "y": 327.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 380,
+                "length": 11
+              }
+            ]
+          },
+          {
+            "kind": "columnHeader",
+            "row_index": 0,
+            "column_index": 4,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "F.O.B. POINT",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 448.0,
+                    "y": 311.0
+                  },
+                  {
+                    "x": 548.0,
+                    "y": 311.0
+                  },
+                  {
+                    "x": 548.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 448.0,
+                    "y": 327.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 392,
+                "length": 12
+              }
+            ]
+          },
+          {
+            "kind": "columnHeader",
+            "row_index": 0,
+            "column_index": 5,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "TERMS",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 548.0,
+                    "y": 311.0
+                  },
+                  {
+                    "x": 657.0,
+                    "y": 311.0
+                  },
+                  {
+                    "x": 658.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 548.0,
+                    "y": 327.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 405,
+                "length": 5
+              }
+            ]
+          },
+          {
+            "kind": "content",
+            "row_index": 1,
+            "column_index": 0,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 34.0,
+                    "y": 328.0
+                  },
+                  {
+                    "x": 144.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 144.0,
+                    "y": 354.0
+                  },
+                  {
+                    "x": 34.0,
+                    "y": 354.0
+                  }
+                ]
+              }
+            ],
+            "spans": []
+          },
+          {
+            "kind": "content",
+            "row_index": 1,
+            "column_index": 1,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 144.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 242.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 242.0,
+                    "y": 354.0
+                  },
+                  {
+                    "x": 144.0,
+                    "y": 354.0
+                  }
+                ]
+              }
+            ],
+            "spans": []
+          },
+          {
+            "kind": "content",
+            "row_index": 1,
+            "column_index": 2,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 242.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 349.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 349.0,
+                    "y": 354.0
+                  },
+                  {
+                    "x": 242.0,
+                    "y": 354.0
+                  }
+                ]
+              }
+            ],
+            "spans": []
+          },
+          {
+            "kind": "content",
+            "row_index": 1,
+            "column_index": 3,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 349.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 448.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 448.0,
+                    "y": 354.0
+                  },
+                  {
+                    "x": 349.0,
+                    "y": 354.0
+                  }
+                ]
+              }
+            ],
+            "spans": []
+          },
+          {
+            "kind": "content",
+            "row_index": 1,
+            "column_index": 4,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 448.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 548.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 548.0,
+                    "y": 354.0
+                  },
+                  {
+                    "x": 448.0,
+                    "y": 354.0
+                  }
+                ]
+              }
+            ],
+            "spans": []
+          },
+          {
+            "kind": "content",
+            "row_index": 1,
+            "column_index": 5,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "on receipt of service",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 548.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 658.0,
+                    "y": 327.0
+                  },
+                  {
+                    "x": 658.0,
+                    "y": 354.0
+                  },
+                  {
+                    "x": 548.0,
+                    "y": 354.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 411,
+                "length": 21
+              }
             ]
           }
         ],
-        "spans": [
-          {
-            "offset": 642,
-            "length": 6
-          }
-        ],
-        "confidence": 0.942
-      },
-      "VendorAddress": {
-        "value_type": "address",
-        "value": {
-          "house_number": "344",
-          "po_box": null,
-          "road": "Main Street",
-          "city": "Gaithersburg",
-          "state": "MD",
-          "postal_code": "20878",
-          "country_region": null,
-          "street_address": "344 Main Street Suite 200",
-          "unit": "Suite 200",
-          "city_district": null,
-          "state_district": null,
-          "suburb": null,
-          "house": null,
-          "level": null
-        },
-        "content": "344 Main Street Suite 200\nGaithersburg, MD 20878",
         "bounding_regions": [
           {
             "page_number": 1,
             "polygon": [
               {
-                "x": 187.0,
-                "y": 77.0
+                "x": 39.0,
+                "y": 311.0
               },
               {
-                "x": 323.0,
-                "y": 77.0
+                "x": 656.0,
+                "y": 311.0
               },
               {
-                "x": 323.0,
-                "y": 105.0
+                "x": 656.0,
+                "y": 356.0
               },
               {
-                "x": 187.0,
-                "y": 105.0
+                "x": 39.0,
+                "y": 356.0
               }
             ]
           }
         ],
         "spans": [
           {
-            "offset": 55,
-            "length": 48
+            "offset": 343,
+            "length": 89
+          }
+        ]
+      },
+      {
+        "row_count": 3,
+        "column_count": 4,
+        "cells": [
+          {
+            "kind": "columnHeader",
+            "row_index": 0,
+            "column_index": 0,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "QUANTITY",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 41.0,
+                    "y": 369.0
+                  },
+                  {
+                    "x": 123.0,
+                    "y": 369.0
+                  },
+                  {
+                    "x": 123.0,
+                    "y": 383.0
+                  },
+                  {
+                    "x": 41.0,
+                    "y": 383.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 433,
+                "length": 8
+              }
+            ]
+          },
+          {
+            "kind": "columnHeader",
+            "row_index": 0,
+            "column_index": 1,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "DESCRIPTION",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 123.0,
+                    "y": 369.0
+                  },
+                  {
+                    "x": 491.0,
+                    "y": 369.0
+                  },
+                  {
+                    "x": 491.0,
+                    "y": 383.0
+                  },
+                  {
+                    "x": 123.0,
+                    "y": 383.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 442,
+                "length": 11
+              }
+            ]
+          },
+          {
+            "kind": "columnHeader",
+            "row_index": 0,
+            "column_index": 2,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "UNIT PRICE",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 491.0,
+                    "y": 369.0
+                  },
+                  {
+                    "x": 572.0,
+                    "y": 369.0
+                  },
+                  {
+                    "x": 572.0,
+                    "y": 383.0
+                  },
+                  {
+                    "x": 491.0,
+                    "y": 383.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 454,
+                "length": 10
+              }
+            ]
+          },
+          {
+            "kind": "columnHeader",
+            "row_index": 0,
+            "column_index": 3,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "AMOUNT",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 572.0,
+                    "y": 369.0
+                  },
+                  {
+                    "x": 654.0,
+                    "y": 369.0
+                  },
+                  {
+                    "x": 654.0,
+                    "y": 383.0
+                  },
+                  {
+                    "x": 572.0,
+                    "y": 383.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 465,
+                "length": 6
+              }
+            ]
+          },
+          {
+            "kind": "content",
+            "row_index": 1,
+            "column_index": 0,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "1\n1",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 41.0,
+                    "y": 383.0
+                  },
+                  {
+                    "x": 123.0,
+                    "y": 383.0
+                  },
+                  {
+                    "x": 123.0,
+                    "y": 413.0
+                  },
+                  {
+                    "x": 41.0,
+                    "y": 413.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 472,
+                "length": 3
+              }
+            ]
+          },
+          {
+            "kind": "content",
+            "row_index": 1,
+            "column_index": 1,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "Field inspection of construction on 1/19/2003 deficiencies in house",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 123.0,
+                    "y": 383.0
+                  },
+                  {
+                    "x": 491.0,
+                    "y": 383.0
+                  },
+                  {
+                    "x": 490.0,
+                    "y": 413.0
+                  },
+                  {
+                    "x": 123.0,
+                    "y": 413.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 476,
+                "length": 67
+              }
+            ]
+          },
+          {
+            "kind": "content",
+            "row_index": 1,
+            "column_index": 2,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "750.00",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 491.0,
+                    "y": 383.0
+                  },
+                  {
+                    "x": 572.0,
+                    "y": 383.0
+                  },
+                  {
+                    "x": 572.0,
+                    "y": 413.0
+                  },
+                  {
+                    "x": 490.0,
+                    "y": 413.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 544,
+                "length": 6
+              }
+            ]
+          },
+          {
+            "kind": "content",
+            "row_index": 1,
+            "column_index": 3,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "750 .. 00",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 572.0,
+                    "y": 383.0
+                  },
+                  {
+                    "x": 654.0,
+                    "y": 383.0
+                  },
+                  {
+                    "x": 654.0,
+                    "y": 413.0
+                  },
+                  {
+                    "x": 572.0,
+                    "y": 413.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 551,
+                "length": 9
+              }
+            ]
+          },
+          {
+            "kind": "content",
+            "row_index": 2,
+            "column_index": 0,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 41.0,
+                    "y": 413.0
+                  },
+                  {
+                    "x": 123.0,
+                    "y": 413.0
+                  },
+                  {
+                    "x": 123.0,
+                    "y": 466.0
+                  },
+                  {
+                    "x": 41.0,
+                    "y": 466.0
+                  }
+                ]
+              }
+            ],
+            "spans": []
+          },
+          {
+            "kind": "content",
+            "row_index": 2,
+            "column_index": 1,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "construction, Garage drive way & legal support to Attorney to\n1/19/2003",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 123.0,
+                    "y": 413.0
+                  },
+                  {
+                    "x": 490.0,
+                    "y": 413.0
+                  },
+                  {
+                    "x": 490.0,
+                    "y": 466.0
+                  },
+                  {
+                    "x": 123.0,
+                    "y": 466.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 561,
+                "length": 71
+              }
+            ]
+          },
+          {
+            "kind": "content",
+            "row_index": 2,
+            "column_index": 2,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 490.0,
+                    "y": 413.0
+                  },
+                  {
+                    "x": 572.0,
+                    "y": 413.0
+                  },
+                  {
+                    "x": 572.0,
+                    "y": 466.0
+                  },
+                  {
+                    "x": 490.0,
+                    "y": 466.0
+                  }
+                ]
+              }
+            ],
+            "spans": []
+          },
+          {
+            "kind": "content",
+            "row_index": 2,
+            "column_index": 3,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 572.0,
+                    "y": 413.0
+                  },
+                  {
+                    "x": 654.0,
+                    "y": 413.0
+                  },
+                  {
+                    "x": 654.0,
+                    "y": 466.0
+                  },
+                  {
+                    "x": 572.0,
+                    "y": 466.0
+                  }
+                ]
+              }
+            ],
+            "spans": []
           }
         ],
-        "confidence": 0.886
-      },
-      "VendorAddressRecipient": {
-        "value_type": "string",
-        "value": "Consulting Engineers",
-        "content": "Consulting Engineers",
         "bounding_regions": [
           {
             "page_number": 1,
             "polygon": [
               {
-                "x": 188.0,
-                "y": 64.0
+                "x": 40.0,
+                "y": 368.0
               },
               {
-                "x": 307.0,
-                "y": 66.0
+                "x": 655.0,
+                "y": 368.0
               },
               {
-                "x": 307.0,
-                "y": 81.0
+                "x": 655.0,
+                "y": 461.0
               },
               {
-                "x": 188.0,
-                "y": 79.0
+                "x": 40.0,
+                "y": 461.0
               }
             ]
           }
         ],
         "spans": [
           {
-            "offset": 34,
-            "length": 20
+            "offset": 433,
+            "length": 199
+          }
+        ]
+      },
+      {
+        "row_count": 3,
+        "column_count": 2,
+        "cells": [
+          {
+            "kind": "columnHeader",
+            "row_index": 0,
+            "column_index": 0,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "SUBTOTAL",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 423.0,
+                    "y": 574.0
+                  },
+                  {
+                    "x": 573.0,
+                    "y": 575.0
+                  },
+                  {
+                    "x": 573.0,
+                    "y": 602.0
+                  },
+                  {
+                    "x": 423.0,
+                    "y": 602.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 633,
+                "length": 8
+              }
+            ]
+          },
+          {
+            "kind": "columnHeader",
+            "row_index": 0,
+            "column_index": 1,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "750.00",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 573.0,
+                    "y": 575.0
+                  },
+                  {
+                    "x": 655.0,
+                    "y": 575.0
+                  },
+                  {
+                    "x": 655.0,
+                    "y": 602.0
+                  },
+                  {
+                    "x": 573.0,
+                    "y": 602.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 642,
+                "length": 6
+              }
+            ]
+          },
+          {
+            "kind": "content",
+            "row_index": 1,
+            "column_index": 0,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "SHIPPING & HANDELING",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 423.0,
+                    "y": 602.0
+                  },
+                  {
+                    "x": 573.0,
+                    "y": 602.0
+                  },
+                  {
+                    "x": 573.0,
+                    "y": 646.0
+                  },
+                  {
+                    "x": 423.0,
+                    "y": 645.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 649,
+                "length": 20
+              }
+            ]
+          },
+          {
+            "kind": "content",
+            "row_index": 1,
+            "column_index": 1,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 573.0,
+                    "y": 602.0
+                  },
+                  {
+                    "x": 655.0,
+                    "y": 602.0
+                  },
+                  {
+                    "x": 655.0,
+                    "y": 647.0
+                  },
+                  {
+                    "x": 573.0,
+                    "y": 646.0
+                  }
+                ]
+              }
+            ],
+            "spans": []
+          },
+          {
+            "kind": "content",
+            "row_index": 2,
+            "column_index": 0,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "TOTAL DUE",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 423.0,
+                    "y": 645.0
+                  },
+                  {
+                    "x": 573.0,
+                    "y": 646.0
+                  },
+                  {
+                    "x": 573.0,
+                    "y": 689.0
+                  },
+                  {
+                    "x": 422.0,
+                    "y": 689.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 670,
+                "length": 9
+              }
+            ]
+          },
+          {
+            "kind": "content",
+            "row_index": 2,
+            "column_index": 1,
+            "row_span": 1,
+            "column_span": 1,
+            "content": "750.00",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 573.0,
+                    "y": 646.0
+                  },
+                  {
+                    "x": 655.0,
+                    "y": 647.0
+                  },
+                  {
+                    "x": 655.0,
+                    "y": 689.0
+                  },
+                  {
+                    "x": 573.0,
+                    "y": 689.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 680,
+                "length": 6
+              }
+            ]
           }
         ],
-        "confidence": 0.503
-      },
-      "VendorName": {
-        "value_type": "string",
-        "value": "SNG Engineering, Inc.\nSNG",
-        "content": "SNG Engineering, Inc.\nSNG",
         "bounding_regions": [
           {
             "page_number": 1,
             "polygon": [
               {
-                "x": 49.0,
-                "y": 40.0
+                "x": 429.0,
+                "y": 575.0
               },
               {
-                "x": 405.0,
-                "y": 42.0
+                "x": 656.0,
+                "y": 575.0
               },
               {
-                "x": 405.0,
-                "y": 122.0
+                "x": 656.0,
+                "y": 687.0
               },
               {
-                "x": 49.0,
-                "y": 121.0
+                "x": 429.0,
+                "y": 687.0
+              }
+            ]
+          }
+        ],
+        "spans": [
+          {
+            "offset": 633,
+            "length": 53
+          }
+        ]
+      }
+    ],
+    "key_value_pairs": [],
+    "styles": [
+      {
+        "is_handwritten": true,
+        "similar_font_family": null,
+        "font_style": null,
+        "font_weight": null,
+        "color": null,
+        "background_color": null,
+        "spans": [
+          {
+            "offset": 474,
+            "length": 1
+          }
+        ],
+        "confidence": 1.0
+      }
+    ],
+    "documents": [
+      {
+        "doc_type": "invoice",
+        "bounding_regions": [
+          {
+            "page_number": 1,
+            "polygon": [
+              {
+                "x": 0.0,
+                "y": 0.0
+              },
+              {
+                "x": 696.0,
+                "y": 0.0
+              },
+              {
+                "x": 696.0,
+                "y": 900.0
+              },
+              {
+                "x": 0.0,
+                "y": 900.0
               }
             ]
           }
@@ -766,13 +6648,790 @@
         "spans": [
           {
             "offset": 0,
-            "length": 25
+            "length": 1031
           }
         ],
-        "confidence": 0.308
+        "fields": {
+          "CustomerAddress": {
+            "value_type": "address",
+            "value": {
+              "house_number": "201",
+              "po_box": null,
+              "road": "Stan Fey Dr",
+              "city": "Upper Marlboro",
+              "state": "MD",
+              "postal_code": "20774",
+              "country_region": null,
+              "street_address": "201 Stan Fey Dr",
+              "unit": null,
+              "city_district": null,
+              "state_district": null,
+              "suburb": null,
+              "house": null,
+              "level": null
+            },
+            "content": "201 Stan Fey Dr\nUpper Marlboro , MD 20774",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 62.0,
+                    "y": 218.0
+                  },
+                  {
+                    "x": 204.0,
+                    "y": 218.0
+                  },
+                  {
+                    "x": 204.0,
+                    "y": 246.0
+                  },
+                  {
+                    "x": 62.0,
+                    "y": 246.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 256,
+                "length": 41
+              }
+            ],
+            "confidence": 0.713
+          },
+          "CustomerAddressRecipient": {
+            "value_type": "string",
+            "value": "Damita J Goldsmith",
+            "content": "Damita J Goldsmith",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 62.0,
+                    "y": 204.0
+                  },
+                  {
+                    "x": 161.0,
+                    "y": 204.0
+                  },
+                  {
+                    "x": 161.0,
+                    "y": 217.0
+                  },
+                  {
+                    "x": 62.0,
+                    "y": 217.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 237,
+                "length": 18
+              }
+            ],
+            "confidence": 0.81
+          },
+          "CustomerName": {
+            "value_type": "string",
+            "value": "Damita J Goldsmith",
+            "content": "Damita J Goldsmith",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 62.0,
+                    "y": 204.0
+                  },
+                  {
+                    "x": 161.0,
+                    "y": 204.0
+                  },
+                  {
+                    "x": 161.0,
+                    "y": 217.0
+                  },
+                  {
+                    "x": 62.0,
+                    "y": 217.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 237,
+                "length": 18
+              }
+            ],
+            "confidence": 0.81
+          },
+          "InvoiceDate": {
+            "value_type": "date",
+            "value": "2003-01-20",
+            "content": "January 20, 2003",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 561.0,
+                    "y": 121.0
+                  },
+                  {
+                    "x": 648.0,
+                    "y": 121.0
+                  },
+                  {
+                    "x": 648.0,
+                    "y": 134.0
+                  },
+                  {
+                    "x": 561.0,
+                    "y": 134.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 202,
+                "length": 16
+              }
+            ],
+            "confidence": 0.93
+          },
+          "InvoiceId": {
+            "value_type": "string",
+            "value": "014- 03",
+            "content": "014- 03",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 610.0,
+                    "y": 106.0
+                  },
+                  {
+                    "x": 651.0,
+                    "y": 108.0
+                  },
+                  {
+                    "x": 650.0,
+                    "y": 122.0
+                  },
+                  {
+                    "x": 609.0,
+                    "y": 120.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 154,
+                "length": 7
+              }
+            ],
+            "confidence": 0.938
+          },
+          "InvoiceTotal": {
+            "value_type": "currency",
+            "value": {
+              "amount": 750.0,
+              "symbol": null,
+              "code": "USD"
+            },
+            "content": "750.00",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 611.0,
+                    "y": 667.0
+                  },
+                  {
+                    "x": 645.0,
+                    "y": 666.0
+                  },
+                  {
+                    "x": 645.0,
+                    "y": 678.0
+                  },
+                  {
+                    "x": 611.0,
+                    "y": 678.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 680,
+                "length": 6
+              }
+            ],
+            "confidence": 0.79
+          },
+          "Items": {
+            "value_type": "list",
+            "value": [
+              {
+                "value_type": "dictionary",
+                "value": {
+                  "Amount": {
+                    "value_type": "currency",
+                    "value": {
+                      "amount": 750.0,
+                      "symbol": null,
+                      "code": "USD"
+                    },
+                    "content": "750 .. 00",
+                    "bounding_regions": [
+                      {
+                        "page_number": 1,
+                        "polygon": [
+                          {
+                            "x": 611.0,
+                            "y": 393.0
+                          },
+                          {
+                            "x": 649.0,
+                            "y": 393.0
+                          },
+                          {
+                            "x": 649.0,
+                            "y": 405.0
+                          },
+                          {
+                            "x": 611.0,
+                            "y": 405.0
+                          }
+                        ]
+                      }
+                    ],
+                    "spans": [
+                      {
+                        "offset": 551,
+                        "length": 9
+                      }
+                    ],
+                    "confidence": 0.766
+                  },
+                  "Description": {
+                    "value_type": "string",
+                    "value": "Field inspection of construction on 1/19/2003 deficiencies in house\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003",
+                    "content": "Field inspection of construction on 1/19/2003 deficiencies in house\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003",
+                    "bounding_regions": [
+                      {
+                        "page_number": 1,
+                        "polygon": [
+                          {
+                            "x": 125.0,
+                            "y": 392.0
+                          },
+                          {
+                            "x": 463.0,
+                            "y": 392.0
+                          },
+                          {
+                            "x": 463.0,
+                            "y": 459.0
+                          },
+                          {
+                            "x": 125.0,
+                            "y": 459.0
+                          }
+                        ]
+                      }
+                    ],
+                    "spans": [
+                      {
+                        "offset": 476,
+                        "length": 67
+                      },
+                      {
+                        "offset": 561,
+                        "length": 71
+                      }
+                    ],
+                    "confidence": 0.715
+                  },
+                  "Quantity": {
+                    "value_type": "float",
+                    "value": 1.0,
+                    "content": "1",
+                    "bounding_regions": [
+                      {
+                        "page_number": 1,
+                        "polygon": [
+                          {
+                            "x": 79.0,
+                            "y": 392.0
+                          },
+                          {
+                            "x": 82.0,
+                            "y": 392.0
+                          },
+                          {
+                            "x": 83.0,
+                            "y": 403.0
+                          },
+                          {
+                            "x": 79.0,
+                            "y": 403.0
+                          }
+                        ]
+                      }
+                    ],
+                    "spans": [
+                      {
+                        "offset": 474,
+                        "length": 1
+                      }
+                    ],
+                    "confidence": 0.713
+                  },
+                  "UnitPrice": {
+                    "value_type": "currency",
+                    "value": {
+                      "amount": 750.0,
+                      "symbol": null,
+                      "code": "USD"
+                    },
+                    "content": "750.00",
+                    "bounding_regions": [
+                      {
+                        "page_number": 1,
+                        "polygon": [
+                          {
+                            "x": 530.0,
+                            "y": 393.0
+                          },
+                          {
+                            "x": 564.0,
+                            "y": 393.0
+                          },
+                          {
+                            "x": 564.0,
+                            "y": 405.0
+                          },
+                          {
+                            "x": 530.0,
+                            "y": 404.0
+                          }
+                        ]
+                      }
+                    ],
+                    "spans": [
+                      {
+                        "offset": 544,
+                        "length": 6
+                      }
+                    ],
+                    "confidence": 0.944
+                  }
+                },
+                "content": "1\n1\nField inspection of construction on 1/19/2003 deficiencies in house\n750.00\n750 .. 00\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003",
+                "bounding_regions": [
+                  {
+                    "page_number": 1,
+                    "polygon": [
+                      {
+                        "x": 76.0,
+                        "y": 392.0
+                      },
+                      {
+                        "x": 649.0,
+                        "y": 392.0
+                      },
+                      {
+                        "x": 649.0,
+                        "y": 459.0
+                      },
+                      {
+                        "x": 76.0,
+                        "y": 459.0
+                      }
+                    ]
+                  }
+                ],
+                "spans": [
+                  {
+                    "offset": 472,
+                    "length": 160
+                  }
+                ],
+                "confidence": 0.781
+              }
+            ],
+            "content": null,
+            "bounding_regions": [],
+            "spans": [],
+            "confidence": null
+          },
+          "PaymentTerm": {
+            "value_type": "string",
+            "value": "on receipt of service",
+            "content": "on receipt of service",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 562.0,
+                    "y": 335.0
+                  },
+                  {
+                    "x": 644.0,
+                    "y": 335.0
+                  },
+                  {
+                    "x": 644.0,
+                    "y": 347.0
+                  },
+                  {
+                    "x": 562.0,
+                    "y": 347.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 411,
+                "length": 21
+              }
+            ],
+            "confidence": 0.653
+          },
+          "RemittanceAddressRecipient": {
+            "value_type": "string",
+            "value": "SNG Engineering, Inc.",
+            "content": "SNG Engineering, Inc.",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 178.0,
+                    "y": 699.0
+                  },
+                  {
+                    "x": 291.0,
+                    "y": 699.0
+                  },
+                  {
+                    "x": 291.0,
+                    "y": 713.0
+                  },
+                  {
+                    "x": 178.0,
+                    "y": 713.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 714,
+                "length": 21
+              }
+            ],
+            "confidence": 0.886
+          },
+          "ServiceEndDate": {
+            "value_type": "date",
+            "value": "2003-01-19",
+            "content": "1/19/2003",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 127.0,
+                    "y": 446.0
+                  },
+                  {
+                    "x": 177.0,
+                    "y": 447.0
+                  },
+                  {
+                    "x": 178.0,
+                    "y": 459.0
+                  },
+                  {
+                    "x": 127.0,
+                    "y": 459.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 623,
+                "length": 9
+              }
+            ],
+            "confidence": 0.433
+          },
+          "ShippingAddress": {
+            "value_type": "address",
+            "value": {
+              "house_number": "201",
+              "po_box": null,
+              "road": "Stan Fey Drive",
+              "city": "Upper Marlboro",
+              "state": null,
+              "postal_code": null,
+              "country_region": null,
+              "street_address": "201 Stan Fey Drive",
+              "unit": null,
+              "city_district": null,
+              "state_district": null,
+              "suburb": null,
+              "house": null,
+              "level": null
+            },
+            "content": "201 Stan Fey Drive\nUpper Marlboro",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 406.0,
+                    "y": 218.0
+                  },
+                  {
+                    "x": 503.0,
+                    "y": 218.0
+                  },
+                  {
+                    "x": 503.0,
+                    "y": 245.0
+                  },
+                  {
+                    "x": 406.0,
+                    "y": 245.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 309,
+                "length": 33
+              }
+            ],
+            "confidence": 0.509
+          },
+          "ShippingAddressRecipient": {
+            "value_type": "string",
+            "value": "Same",
+            "content": "Same",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 412.0,
+                    "y": 190.0
+                  },
+                  {
+                    "x": 443.0,
+                    "y": 190.0
+                  },
+                  {
+                    "x": 443.0,
+                    "y": 203.0
+                  },
+                  {
+                    "x": 412.0,
+                    "y": 203.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 232,
+                "length": 4
+              }
+            ],
+            "confidence": 0.44
+          },
+          "SubTotal": {
+            "value_type": "currency",
+            "value": {
+              "amount": 750.0,
+              "symbol": null,
+              "code": "USD"
+            },
+            "content": "750.00",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 611.0,
+                    "y": 584.0
+                  },
+                  {
+                    "x": 646.0,
+                    "y": 584.0
+                  },
+                  {
+                    "x": 645.0,
+                    "y": 596.0
+                  },
+                  {
+                    "x": 611.0,
+                    "y": 596.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 642,
+                "length": 6
+              }
+            ],
+            "confidence": 0.942
+          },
+          "VendorAddress": {
+            "value_type": "address",
+            "value": {
+              "house_number": "344",
+              "po_box": null,
+              "road": "Main Street",
+              "city": "Gaithersburg",
+              "state": "MD",
+              "postal_code": "20878",
+              "country_region": null,
+              "street_address": "344 Main Street Suite 200",
+              "unit": "Suite 200",
+              "city_district": null,
+              "state_district": null,
+              "suburb": null,
+              "house": null,
+              "level": null
+            },
+            "content": "344 Main Street Suite 200\nGaithersburg, MD 20878",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 187.0,
+                    "y": 77.0
+                  },
+                  {
+                    "x": 323.0,
+                    "y": 77.0
+                  },
+                  {
+                    "x": 323.0,
+                    "y": 105.0
+                  },
+                  {
+                    "x": 187.0,
+                    "y": 105.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 55,
+                "length": 48
+              }
+            ],
+            "confidence": 0.886
+          },
+          "VendorAddressRecipient": {
+            "value_type": "string",
+            "value": "Consulting Engineers",
+            "content": "Consulting Engineers",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 188.0,
+                    "y": 64.0
+                  },
+                  {
+                    "x": 307.0,
+                    "y": 66.0
+                  },
+                  {
+                    "x": 307.0,
+                    "y": 81.0
+                  },
+                  {
+                    "x": 188.0,
+                    "y": 79.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 34,
+                "length": 20
+              }
+            ],
+            "confidence": 0.503
+          },
+          "VendorName": {
+            "value_type": "string",
+            "value": "SNG Engineering, Inc.\nSNG",
+            "content": "SNG Engineering, Inc.\nSNG",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 49.0,
+                    "y": 40.0
+                  },
+                  {
+                    "x": 405.0,
+                    "y": 42.0
+                  },
+                  {
+                    "x": 405.0,
+                    "y": 122.0
+                  },
+                  {
+                    "x": 49.0,
+                    "y": 121.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 0,
+                "length": 25
+              }
+            ],
+            "confidence": 0.308
+          }
+        },
+        "confidence": 1.0
       }
-    }
-  ],
+    ]
+  },
   "standardized_response": {
     "extracted_data": [
       {
@@ -841,7 +7500,7 @@
           "amount_shipping": null,
           "amount_change": null,
           "amount_paid": null,
-          "invoice_total": 750.0,
+          "total": 750.0,
           "subtotal": 750.0,
           "total_tax": null,
           "tax_rate": null,
@@ -859,7 +7518,7 @@
           "transaction_reference": null
         },
         "financial_document_information": {
-          "invoice_id": "014- 03",
+          "invoice_receipt_id": "014- 03",
           "purchase_order": null,
           "invoice_date": "2003-01-20",
           "time": null,
@@ -909,7 +7568,7 @@
             "title": null
           }
         ],
-        "invoice_metadata": {
+        "document_metadata": {
           "document_index": 1,
           "document_page_number": 1,
           "document_type": "invoice"

@@ -628,7 +628,7 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
             payment = FinancialPaymentInformation(
                 amount_due=convert_string_to_number(summary.get("AMOUNT_DUE"), float),
                 amount_paid=convert_string_to_number(summary.get("AMOUNT_PAID"), float),
-                invoice_total=convert_string_to_number(summary.get("TOTAL"), float),
+                total=convert_string_to_number(summary.get("TOTAL"), float),
                 subtotal=convert_string_to_number(summary.get("SUB_TOTAL"), float),
                 service_charge=convert_string_to_number(summary.get("SERVICE_CHARGE"), float),
                 payment_terms=summary.get("PAYMENT_TERMS"),
@@ -641,7 +641,7 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
 
             # Build FinancialDocumentInformation object
             financial_document_information = FinancialDocumentInformation(
-                invoice_id=summary.get("INVOICE_RECEIPT_ID"),
+                invoice_receipt_id=summary.get("INVOICE_RECEIPT_ID"),
                 purchase_order=summary.get("PO_NUMBER"),
                 invoice_date=summary.get("INVOICE_RECEIPT_DATE"),
                 invoice_due_date=summary.get("DUE_DATE"),
@@ -668,7 +668,7 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
 
             # Build FinancialDocumentMetadata object
             document_metadata = FinancialDocumentMetadata(
-                invoice_index=invoice_index, document_page_number=page_number)
+                document_index=invoice_index, document_page_number=page_number)
 
             # Build FinancialParserObjectDataClass object
             financial_document = FinancialParserObjectDataClass(

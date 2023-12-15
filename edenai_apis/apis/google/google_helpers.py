@@ -518,7 +518,7 @@ def google_financial_parser(document: Document) -> FinancialParserDataClass:
                 ),
                 # Payment Information
                 payment_information=FinancialPaymentInformation(
-                    invoice_total=convert_string_to_number(page_document.get("total_amount"), float),
+                    total=convert_string_to_number(page_document.get("total_amount"), float),
                     amount_due=convert_string_to_number(page_document.get("net_amount"), float),
                     total_tax=convert_string_to_number(page_document.get("total_tax_amount"), float),
                     payment_terms=page_document.get("payment_terms"),
@@ -530,7 +530,7 @@ def google_financial_parser(document: Document) -> FinancialParserDataClass:
                 ),
                 # Financial Document Information
                 financial_document_information=FinancialDocumentInformation(
-                    invoice_id=page_document.get("invoice_id"),
+                    invoice_receipt_id=page_document.get("invoice_id"),
                     invoice_number=page_document.get("invoice_number"),
                     purchase_order=page_document.get("purchase_order"),
                     time=page_document.get("purchase_time"),
@@ -558,7 +558,6 @@ def google_financial_parser(document: Document) -> FinancialParserDataClass:
                 ],
                 # Invoice Metadata
                 document_metadata=FinancialDocumentMetadata(
-                    invoice_index=page_document["metadata"]["invoice"],
                     document_page_number=page_document["metadata"]["page_number"],
                     document_type=page_document.get("invoice_type")
                 )

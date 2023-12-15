@@ -217,10 +217,20 @@ def klippa_receipt_parser(original_response: dict) -> ReceiptParserDataClass:
 
 # *****************************financial parser***************************************************
 def klippa_financial_parser(original_response: dict) -> FinancialParserDataClass:
+    """
+    Parses data obtained from the Klippa financial parser into a structured format.
+
+    Args:
+        original_response (dict): Raw data obtained from the Klippa financial parser.
+
+    Returns:
+        FinancialParserDataClass: Structured data object containing financial information.
+    """
     data_response = original_response["data"]
+
     customer_information = FinancialCustomerInformation(
-        name = data_response["customer_name"],
-        billing_address = data_response["customer_address"],
+        name=data_response["customer_name"],
+        billing_address=data_response["customer_address"],
         email=data_response["customer_email"],
         phone=data_response["customer_phone"],
         vat_number=data_response["customer_vat_number"],
@@ -233,8 +243,8 @@ def klippa_financial_parser(original_response: dict) -> FinancialParserDataClass
         municipality=data_response["customer_municipality"],
         country=data_response["customer_country"],
         coc_number=data_response["customer_coc_number"]
-        )
-    
+    )
+
     merchant_information = FinancialMerchantInformation(
         name=data_response["merchant_name"],
         address=data_response["merchant_address"],
@@ -253,21 +263,21 @@ def klippa_financial_parser(original_response: dict) -> FinancialParserDataClass
     )
 
     payment_information = FinancialPaymentInformation(
-         invoice_total=data_response["amount"],
-         subtotal=data_response["amountexvat"],
-         amount_due=data_response["amount"],
-         amount_change=data_response["amount_change"],
-         amount_shipping=data_response["amount_shipping"],
-         amount_tip=data_response["amount_tip"],
-         tax_rate=data_response["personal_income_tax_rate"],
-         total_tax=data_response["vatamount"],
-         payment_method=data_response["paymentmethod"],
-         payment_card_number=data_response["payment_card_bank"],
-         payment_auth_code=data_response["payment_auth_code"],
+        total=data_response["amount"],
+        subtotal=data_response["amountexvat"],
+        amount_due=data_response["amount"],
+        amount_change=data_response["amount_change"],
+        amount_shipping=data_response["amount_shipping"],
+        amount_tip=data_response["amount_tip"],
+        tax_rate=data_response["personal_income_tax_rate"],
+        total_tax=data_response["vatamount"],
+        payment_method=data_response["paymentmethod"],
+        payment_card_number=data_response["payment_card_bank"],
+        payment_auth_code=data_response["payment_auth_code"],
     )
 
     financial_document_information = FinancialDocumentInformation(
-        invoice_id=data_response["invoice_number"],
+        invoice_receipt_id=data_response["invoice_number"],
         invoice_date=data_response["date"],
         order_date=data_response["purchasedate"],
         invoice_due_date=data_response["payment_due_date"],
@@ -302,9 +312,11 @@ def klippa_financial_parser(original_response: dict) -> FinancialParserDataClass
                     product_code=item["sku"],
                 )
             )
+    
     document_metadata = FinancialDocumentMetadata(
         document_type=data_response["document_type"]
     )
+
     return FinancialParserDataClass(
         extracted_data=[FinancialParserObjectDataClass(
             customer_information=customer_information,
@@ -317,7 +329,6 @@ def klippa_financial_parser(original_response: dict) -> FinancialParserDataClass
             item_lines=item_lines
         )]
     )
-
 # *****************************identity parser***************************************************
 def klippa_id_parser(original_response: dict) -> IdentityParserDataClass:
     items: Sequence[InfosIdentityParserDataClass] = []

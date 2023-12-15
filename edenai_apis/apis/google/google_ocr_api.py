@@ -562,7 +562,7 @@ class GoogleOcrApi(OcrInterface):
 
         file_.close()
         file_ = open(file, "rb")
-        og, standardized_response = google_financial_parser(document)
+        standardized_response = google_financial_parser(document)
 
         return ResponseType[FinancialParserDataClass](
             original_response=Document.to_dict(document),

@@ -60,6 +60,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import (
     combine_date_with_time,
     standardized_confidence_score,
+    convert_time_to_string
 )
 from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
 from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
@@ -843,7 +844,7 @@ def microsoft_ocr_async_standardize_response(
 
 def microsoft_parser_normalizer(original_response: Dict) -> List[Dict]:
     """
-    Transforms the raw output from the Microsoft Invoice Parser into a structured and user-friendly format.
+    Transforms the raw output from the Microsoft Invoice/Receipt Parser into a structured and user-friendly format.
 
     Parameters:
         original_response (dict): The original response received from the Microsoft Invoice Parser.
@@ -853,26 +854,25 @@ def microsoft_parser_normalizer(original_response: Dict) -> List[Dict]:
     """
     new_response = []
     page_dict = {}
+    for page_idx in range(len(original_response.get("pages") or [])):
+        page_dict[page_idx] = {}
+    
     for idx, document in enumerate(original_response.get("documents") or [{}]):
         doc_type = document.get("doc_type")
         fields = document.get("fields")
         for key_name, key_value in fields.items():
+            page_index=None
+            if isinstance(key_value, dict):
+                page_index = (key_value.get("bounding_regions") or [{}])[0].get("page_number")
+            if page_index:
+                page_dict[page_index-1][key_name] = key_value
+                page_dict[page_index-1]["document_type"] = doc_type
+                page_dict[page_index-1]["document_index"] = idx + 1
 
             if key_name == "Items":
                 items = key_value.get("value", [])
-                page_dict[page_index]["items"] = items
-
-            if  not key_value.get("bounding_regions"):
-                continue
-
-            page_index = key_value.get("bounding_regions")[0].get("page_number",0)
-            if page_index not in page_dict:
-                page_dict[page_index] = {}
-            
-            page_dict[page_index][key_name] = key_value
-            page_dict[page_index]["document_index"] = idx + 1
-            page_dict[page_index]["document_type"] = doc_type
-
+                page_item_idx = page_index or 1
+                page_dict[page_item_idx-1]["items"] = items
 
     # Convert the dictionary to a list, maintaining the order of pages
     for page_index, page_elements in sorted(page_dict.items()):
@@ -880,6 +880,15 @@ def microsoft_parser_normalizer(original_response: Dict) -> List[Dict]:
     return new_response
 
 def microsoft_financial_parser_formatter(original_response : dict) -> FinancialParserDataClass:
+    """
+    Parse a document using Microsoft financial parser (receipt/invoice) and return organized financial data.
+
+    Args:
+    - original_response (dict):  microsoft response to be parsed.
+
+    Returns:
+    - FinancialParserDataClass: Parsed financial data organized into a data class.
+    """
     responses = microsoft_parser_normalizer(original_response=original_response)
     extracted_data = []
     for page_idx, page_document in enumerate(responses):
@@ -898,14 +907,21 @@ def microsoft_financial_parser_formatter(original_response : dict) -> FinancialP
         
         # Merchant information 
         merchant_information = FinancialMerchantInformation(
-                name=page_document.get("VendorName", {}).get("value"),
-                address=page_document.get("VendorAddress", {}).get("content"),
-                tax_id=page_document.get("VendorTaxId", {}).get("value")
+                name=page_document.get("VendorName", {}).get("value") or page_document.get("MerchantName", {}).get("value"),
+                address=page_document.get("VendorAddress", {}).get("content") or page_document.get("MerchantAddress", {}).get("content"),
+                phone=page_document.get("MerchantPhoneNumber", {}).get("value"),
+                tax_id=page_document.get("VendorTaxId", {}).get("value"),
+                house_number=page_document.get("MerchantAddress", {}).get("value", {}).get("house_number"),
+                street_name=page_document.get("MerchantAddress", {}).get("value" , {}).get("street_address"),
+                city=page_document.get("MerchantAddress", {}).get("value", {}).get("city_district"),
+                zip_code=page_document.get("MerchantAddress", {}).get("value", {}).get("postal_code"),
+                province=page_document.get("MerchantAddress", {}).get("value" , {}).get("state_district")
+
             )
         
         # Payment information
         payment_information = FinancialPaymentInformation(
-                        invoice_total=page_document.get("InvoiceTotal", {}).get("value", {}).get("amount"),
+                        total=page_document.get("InvoiceTotal", {}).get("value", {}).get("amount"),
                         subtotal=page_document.get("SubTotal", {}).get("value", {}).get("amount"),
                         payment_terms=page_document.get("PaymentTerm", {}).get("value"),
                         amount_due=page_document.get("AmountDue", {}).get("value", {}).get("amount"),
@@ -916,11 +932,11 @@ def microsoft_financial_parser_formatter(original_response : dict) -> FinancialP
         
         # Document information
         financial_document_information = FinancialDocumentInformation(
-                invoice_id=page_document.get("InvoiceId", {}).get("value"),
+                invoice_receipt_id=page_document.get("InvoiceId", {}).get("value"),
                 purchase_order=page_document.get("PurchaseOrder", {}).get("value"),
                 invoice_due_date=format_date(page_document.get("DueDate", {}).get("value")),
-                invoice_date=format_date(page_document.get("InvoiceDate", {}).get("value")),
-                time=page_document.get("InvoiceTime", {}).get("value")
+                invoice_date=format_date(page_document.get("InvoiceDate", {}).get("value") or page_document.get("TransactionDate", {}).get("value")),
+                time=convert_time_to_string(page_document.get("InvoiceTime", {}).get("value") or page_document.get("TransactionTime", {}).get("value")),
                 )
         
         # Bank information
@@ -959,7 +975,7 @@ def microsoft_financial_parser_formatter(original_response : dict) -> FinancialP
                 if page_item == page_idx+1 and line:
                     item_lines.append(
                         FinancialLineItem(
-                            amount_line=line.get("Amount", {}).get("value", {}).get("amount"),
+                            amount_line=line.get("Amount", {}).get("value", {}).get("amount") or line.get("TotalPrice", {}).get("value"),
                             description=line.get("Description", {}).get("value"),
                             quantity=line.get("Quantity", {}).get("value") or 0,
                             unit_price=line.get("UnitPrice", {}).get("value", {}).get("amount"),
