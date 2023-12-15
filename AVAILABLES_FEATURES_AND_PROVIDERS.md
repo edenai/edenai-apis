@@ -3,6 +3,16 @@
 
 | Subfeatures | Providers |
 |----------|-------------|
+| **financial_parser** | affinda |
+| | amazon |
+| | base64 |
+| | dataleon |
+| | google |
+| | klippa |
+| | microsoft |
+| | mindee |
+| | tabscanner |
+| | veryfi |
 | **identity_parser** | affinda |
 | | amazon |
 | | base64 |
@@ -300,7 +310,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | identity_parser |
+| **ocr** | financial_parser |
+| | identity_parser |
 | | invoice_parser |
 | | receipt_parser |
 | | resume_parser |
@@ -336,6 +347,7 @@
 | | object_detection |
 | **ocr** | custom_document_parsing_async |
 | | data_extraction |
+| | financial_parser |
 | | identity_parser |
 | | invoice_parser |
 | | ocr |
@@ -392,6 +404,7 @@
 | **ocr** | anonymization_async |
 | | bank_check_parsing |
 | | data_extraction |
+| | financial_parser |
 | | identity_parser |
 | | invoice_parser |
 | | ocr |
@@ -436,7 +449,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | invoice_parser |
+| **ocr** | financial_parser |
+| | invoice_parser |
 | | receipt_parser |
 
 </details>
@@ -513,7 +527,8 @@
 | | landmark_detection |
 | | logo_detection |
 | | object_detection |
-| **ocr** | invoice_parser |
+| **ocr** | financial_parser |
+| | invoice_parser |
 | | ocr |
 | | ocr_async |
 | | ocr_tables_async |
@@ -576,7 +591,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | identity_parser |
+| **ocr** | financial_parser |
+| | identity_parser |
 | | invoice_parser |
 | | receipt_parser |
 | | resume_parser |
@@ -619,7 +635,8 @@
 | | landmark_detection |
 | | logo_detection |
 | | object_detection |
-| **ocr** | identity_parser |
+| **ocr** | financial_parser |
+| | identity_parser |
 | | invoice_parser |
 | | ocr |
 | | ocr_async |
@@ -641,6 +658,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **ocr** | bank_check_parsing |
+| | financial_parser |
 | | identity_parser |
 | | invoice_parser |
 | | receipt_parser |
@@ -867,7 +885,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | receipt_parser |
+| **ocr** | financial_parser |
+| | receipt_parser |
 
 </details>
 <details><summary>tenstorrent</summary>
@@ -893,6 +912,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **ocr** | bank_check_parsing |
+| | financial_parser |
 | | invoice_parser |
 | | receipt_parser |
 
