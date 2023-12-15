@@ -48,7 +48,12 @@
           "application/zip"
         ],
         "languages": ["en-US"],
-        "allow_null_language": true
+        "allow_null_language": true,
+        "documents" : [
+          "receipt",
+          "invoice"
+        ],
+        "allow_null_document_type": true
       },
       "version": "latest"
     },

@@ -1240,7 +1240,11 @@
           "pt",
           "nl"
         ],
-        "allow_null_language": true
+        "allow_null_language": true,
+        "documents" : [
+          "receipt",
+          "invoice"
+        ]
       },
       "version": "v2.1-preview.3"
     }

@@ -270,6 +270,41 @@ def validate_models(provider: str, subfeature: str, constraints: dict, args: dic
     args.pop("settings", None) 
     return args
 
+def validate_document_type(subfeature: str, constraints: dict, args: dict) -> Dict:
+    """
+    Validate document type based on specified constraints.
+
+    Parameters:
+    - subfeature (str): The subfeature being validated.
+    - constraints (dict): Constraints for document validation.
+    - args (dict): Arguments containing document details.
+
+    Returns:
+    - Dict: Validated arguments.
+    """
+    if subfeature == "financial_parser":
+        documents = constraints.get("documents")
+
+        # If no documents are specified, return the arguments as is
+        if not documents:
+            return args
+
+        # Handle the case where null document type is allowed
+        if constraints.get("allow_null_document_type") and args.get("document_type") == "auto-detect":
+            args["document_type"] = ""
+            return args
+        
+
+        # Check if the document type is allowed or raise an exception
+        if not constraints.get("allow_null_document_type") and args["document_type"] == "auto-detect":
+            raise ProviderException("The provider does not accept auto-detect for this feature.")
+        
+        # Return the validated arguments
+        return args
+    else:
+        # If the subfeature is not financial_parser, return the arguments as is
+        return args
+
 
 def transform_file_args(args: dict) -> dict:
     """transform the file wrapper to file path and file url for subfeature functions
@@ -344,6 +379,9 @@ def validate_all_provider_constraints(
         #  Validate models
         validated_args = validate_models(provider, subfeature, provider_constraints, validated_args)
 
+        # Validate document_type
+        validated_args = validate_document_type(subfeature, provider_constraints, validated_args)
+        
         # ...
 
         validated_args = transform_file_args(validated_args)

@@ -106,7 +106,12 @@
           "nl-NL",
           "pt-PT"
         ],
-        "allow_null_language": true
+        "allow_null_language": true,
+        "documents" : [
+          "receipt",
+          "invoice"
+        ],
+      "allow_null_document_type": true
       },
       "version": "v1.2"
     }

@@ -520,7 +520,12 @@
           "pt",
           "fr",
           "de"
-        ]
+        ],
+        "documents" : [
+          "receipt",
+          "invoice"
+        ],
+        "allow_null_document_type": true
       },
       "version": "boto3 1.26.8"
     }

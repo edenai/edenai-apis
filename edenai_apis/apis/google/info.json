@@ -773,7 +773,11 @@
                         "ro",
                         "sv"
                     ],
-                    "allow_null_language": true
+                    "allow_null_language": true,
+                    "documents" : [
+                        "receipt",
+                        "invoice"
+                      ]
                 },
                 "version": "DocumentAI v1 beta3"
         },
