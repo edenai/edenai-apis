@@ -180,6 +180,7 @@
 |----------|-------------|
 | **embeddings** | alephalpha |
 | **question_answer** | alephalpha |
+| | google |
 | | openai |
 | **explicit_content** | amazon |
 | | api4ai |
@@ -527,6 +528,7 @@
 | | landmark_detection |
 | | logo_detection |
 | | object_detection |
+| | question_answer |
 | **ocr** | financial_parser |
 | | invoice_parser |
 | | ocr |
