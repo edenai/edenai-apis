@@ -1,6 +1,6 @@
 import base64
 import json
-from io import BytesIO
+from time import sleep
 from typing import Dict
 
 import requests
@@ -26,7 +26,6 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     AsyncPendingResponseType,
 )
-from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 from .config import voice_ids
 
 
@@ -37,10 +36,10 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
-        self.url = "https://api.lovo.ai/"
+        self.url = "https://api.genny.lovo.ai/api/"
 
         self.headers = {
-            "apiKey": self.api_settings["api_key"],
+            "X-API-KEY": self.api_settings["api_key_async"],
             "Content-Type": "application/json",
         }
 
@@ -65,37 +64,62 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         speaking_volume: int,
         sampling_rate: int,
     ) -> ResponseType[TextToSpeechDataClass]:
-        data = json.dumps(
+        payload = json.dumps(
             {
                 "text": text,
-                "speaker_id": voice_id.split("_")[-1],
+                "speaker": voice_ids[voice_id],
                 "speed": self.__adjust_speaking_rate(speaking_rate),
             }
         )
 
         response = requests.post(
-            f"{self.url}v1/conversion", headers=self.headers, data=data
+            f"{self.url}v1/tts/sync", headers=self.headers, data=payload
         )
 
-        if response.status_code != 200:
-            try:
-                raise ProviderException(
-                    response.json().get("error", "Something went wrong"),
-                    code=response.status_code,
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal Server Error", code=500) from exc
+
+        if response.status_code != 201:
+            raise ProviderException(
+                response.json().get("error", "Something went wrong"),
+                code=response.status_code,
+            )
+
+        if original_response.get("status") == "in_progress":
+            while True:
+                sleep(1)
+                response_status = requests.get(
+                    f"{self.url}v1/tts/{original_response['id']}",
+                    headers=self.headers,
                 )
-            except json.JSONDecodeError:
-                raise ProviderException("Internal Server Error", code=500)
+                if response_status.status_code != 200:
+                    raise ProviderException(
+                        response_status.json().get("error", "Something went wrong"),
+                        code=response_status.status_code,
+                    )
+                try:
+                    original_response = response_status.json()
+                except json.JSONDecodeError as exc:
+                    raise ProviderException("Internal Server Error", code=500) from exc
+                if original_response.get("status") == "done":
+                    break
 
-        audio_content = BytesIO(response.content)
-        audio = base64.b64encode(audio_content.read()).decode("utf-8")
+        data = original_response["data"][0]
+        if error := data.get("error"):
+            error_code = error.get("code", 400) or 400
+            error_message = error.get("message", "") or "Call to provider failed!"
+            raise ProviderException(error_message, error_code)
 
-        audio_content.seek(0)
-        resource_url = upload_file_bytes_to_s3(audio_content, ".wav", USER_PROCESS)
+        audio_url = original_response["data"][0]["urls"][0]
+        audio_content = base64.b64encode(requests.get(audio_url).content)
+        audio_content_string = audio_content.decode("utf-8")
 
         return ResponseType[TextToSpeechDataClass](
             original_response={},
             standardized_response=TextToSpeechDataClass(
-                audio=audio, voice_type=1, audio_resource_url=resource_url
+                audio=audio_content_string, voice_type=1, audio_resource_url=audio_url
             ),
         )
 
