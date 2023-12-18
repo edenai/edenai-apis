@@ -1,7 +1,7 @@
 import json
 from collections import defaultdict
 from http import HTTPStatus
-from typing import Dict
+from typing import Dict, Optional, Any
 
 import requests
 
@@ -33,7 +33,10 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
         self.base_url = "https://api.originality.ai/api/v1/scan"
 
     def text__plagia_detection(
-        self, text: str, title: str = ""
+        self,
+        text: str,
+        title: str = "",
+        providers_params: Optional[Dict[str, Any]] = None,
     ) -> ResponseType[PlagiaDetectionDataClass]:
         url = f"{self.base_url}/plag"
         payload = {"content": text, "title": title}
@@ -86,7 +89,9 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
 
         return result
 
-    def text__ai_detection(self, text: str) -> ResponseType[AiDetectionDataClass]:
+    def text__ai_detection(
+        self, text: str, providers_params: Optional[Dict[str, Any]] = None
+    ) -> ResponseType[AiDetectionDataClass]:
         url = f"{self.base_url}/ai"
         payload = {
             "title": "optional title",

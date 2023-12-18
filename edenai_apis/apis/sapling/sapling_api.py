@@ -160,7 +160,9 @@ class SaplingApi(ProviderInterface, TextInterface):
             ),
         )
 
-    def text__ai_detection(self, text: str) -> ResponseType[ChatDataClass]:
+    def text__ai_detection(
+        self, text: str, providers_params: Optional[Dict] = None
+    ) -> ResponseType[ChatDataClass]:
         payload = {
             "key": self.api_key,
             "text": text,

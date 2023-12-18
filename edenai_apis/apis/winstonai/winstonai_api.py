@@ -1,5 +1,5 @@
 import json
-from typing import Dict, Sequence
+from typing import Dict, Sequence, Any, Optional
 
 import requests
 
@@ -23,9 +23,11 @@ from edenai_apis.utils.types import ResponseType
 class WinstonaiApi(ProviderInterface, TextInterface):
     provider_name = "winstonai"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None):
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, provider_name=self.provider_name, api_keys=api_keys
+            ProviderDataEnum.KEY,
+            provider_name=self.provider_name,
+            api_keys=api_keys or {},
         )
         self.api_url = WINSTON_AI_API_URL
         self.headers = {
@@ -33,8 +35,19 @@ class WinstonaiApi(ProviderInterface, TextInterface):
             "Authorization": f'Bearer {self.api_settings["api_key"]}',
         }
 
-    def text__ai_detection(self, text: str) -> ResponseType[AiDetectionDataClass]:
-        payload = json.dumps({ "text": text, "sentences": True })
+    def text__ai_detection(
+        self, text: str, providers_params: Optional[Dict[str, Any]] = None
+    ) -> ResponseType[AiDetectionDataClass]:
+        if providers_params is None:
+            providers_params = {}
+        payload = json.dumps(
+            {
+                "text": text,
+                "sentences": True,
+                "language": providers_params.get("language", "en"),
+                "version": providers_params.get("version", "2.0"),
+            }
+        )
 
         response = requests.request(
             "POST", f"{self.api_url}/predict", headers=self.headers, data=payload
@@ -54,7 +67,9 @@ class WinstonaiApi(ProviderInterface, TextInterface):
             AiDetectionItem(
                 text=sentence["text"],
                 ai_score=sentence["score"] / 100,
-                prediction=AiDetectionItem.set_label_based_on_human_score(sentence["score"] / 100),
+                prediction=AiDetectionItem.set_label_based_on_human_score(
+                    sentence["score"] / 100
+                ),
             )
             for sentence in sentences
         ]
@@ -67,9 +82,20 @@ class WinstonaiApi(ProviderInterface, TextInterface):
         )
 
     def text__plagia_detection(
-        self, text: str, title: str = ""
+        self,
+        text: str,
+        title: str = "",
+        providers_params: Optional[Dict[str, Any]] = None,
     ) -> ResponseType[PlagiaDetectionDataClass]:
-        payload = json.dumps({ "text": text })
+        if providers_params is None:
+            providers_params = {}
+        payload = json.dumps(
+            {
+                "text": text,
+                "language": providers_params.get("language", "en"),
+                "version": providers_params.get("version", "2.0"),
+            }
+        )
 
         response = requests.request(
             "POST", f"{self.api_url}/plagiarism", headers=self.headers, data=payload
