@@ -85,15 +85,15 @@ class WinstonaiApi(ProviderInterface, TextInterface):
         self,
         text: str,
         title: str = "",
-        providers_params: Optional[Dict[str, Any]] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
     ) -> ResponseType[PlagiaDetectionDataClass]:
-        if providers_params is None:
-            providers_params = {}
+        if provider_params is None:
+            provider_params = {}
         payload = json.dumps(
             {
                 "text": text,
-                "language": providers_params.get("language", "en"),
-                "version": providers_params.get("version", "2.0"),
+                "language": provider_params.get("language", "en"),
+                "version": provider_params.get("version", "2.0"),
             }
         )
 

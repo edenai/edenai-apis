@@ -90,7 +90,7 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
         return result
 
     def text__ai_detection(
-        self, text: str, providers_params: Optional[Dict[str, Any]] = None
+        self, text: str, provider_params: Optional[Dict[str, Any]] = None
     ) -> ResponseType[AiDetectionDataClass]:
         url = f"{self.base_url}/ai"
         payload = {
