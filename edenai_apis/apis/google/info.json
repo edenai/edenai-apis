@@ -1318,6 +1318,9 @@
             "constraints":{
             },
             "version": "v1"
+        },
+        "question_answer": {
+            "version": "v1"
         }
     }
 }

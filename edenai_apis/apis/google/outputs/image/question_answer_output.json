@@ -1,0 +1,17 @@
+{
+  "original_response": {
+    "predictions": [
+      "facebook, apple, amazon, google",
+      "facebook, apple, amazon and google",
+      "facebook, apple, amazon, and google"
+    ],
+    "deployedModelId": "6747203681382301696"
+  },
+  "standardized_response": {
+    "answers": [
+      "facebook, apple, amazon, google",
+      "facebook, apple, amazon and google",
+      "facebook, apple, amazon, and google"
+    ]
+  }
+}

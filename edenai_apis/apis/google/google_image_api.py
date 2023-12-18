@@ -1,12 +1,19 @@
-from typing import Sequence
+import base64
+import json
+from typing import Sequence, Optional
 
 import numpy as np
+import requests
 from PIL import Image as Img, UnidentifiedImageError
 from google.cloud import vision
 from google.cloud.vision_v1.types.image_annotator import AnnotateImageResponse
 from google.protobuf.json_format import MessageToDict
 
-from edenai_apis.apis.google.google_helpers import handle_google_call, score_to_content
+from edenai_apis.apis.google.google_helpers import (
+    handle_google_call,
+    score_to_content,
+    get_access_token,
+)
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
@@ -45,6 +52,7 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
     ObjectDetectionDataClass,
     ObjectItem,
 )
+from edenai_apis.features.image.question_answer import QuestionAnswerDataClass
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
@@ -374,3 +382,65 @@ class GoogleImageApi(ImageInterface):
             original_response=response,
             standardized_response=LogoDetectionDataClass(items=items),
         )
+
+    def image__question_answer(
+        self,
+        file: str,
+        temperature: float,
+        max_tokens: int,
+        file_url: str = "",
+        model: Optional[str] = None,
+        question: Optional[str] = None,
+        settings: Optional[dict] = None,
+    ) -> ResponseType[QuestionAnswerDataClass]:
+        with open(file, "rb") as fstream:
+            url_subdomain = "us-central1-aiplatform"
+            location = "us-central1"
+            token = get_access_token(self.location)
+            url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/imagetext:predict"
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {token}",
+            }
+            payload = {
+                "instances": [
+                    {
+                        "prompt": question or "Describe the image",
+                        "image": {
+                            "bytesBase64Encoded": base64.b64encode(
+                                fstream.read()
+                            ).decode("utf-8")
+                        },
+                    }
+                ],
+                "parameters": {
+                    "sampleCount": 3,
+                },
+            }
+
+            response = requests.post(url, json=payload, headers=headers)
+
+            try:
+                original_response = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException(
+                    message="Internal Server Error",
+                    code=500,
+                ) from exc
+
+            if "error" in original_response:
+                raise ProviderException(
+                    message=original_response["error"]["message"], code=400
+                )
+
+            if not original_response.get("predictions"):
+                raise ProviderException(message="No predictions found", code=400)
+
+            standardized_response = QuestionAnswerDataClass(
+                answers=original_response["predictions"],
+            )
+
+            return ResponseType[QuestionAnswerDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
