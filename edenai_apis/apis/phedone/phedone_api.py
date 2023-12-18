@@ -1,4 +1,5 @@
-from typing import Dict
+import json
+from typing import Dict, Optional, Any
 
 import requests
 
@@ -21,9 +22,9 @@ class PhedoneApi(ProviderInterface, TranslationInterface):
 
     provider_name: str = "phedone"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Optional[Dict[str, Any]]) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )
         self.api_key = self.api_settings["api_key"]
         self.base_url = "https://execute.phedone.com/api/models/"
@@ -60,7 +61,10 @@ class PhedoneApi(ProviderInterface, TranslationInterface):
 
         response = requests.post(url=url, headers=headers, json=file)
 
-        original_response = response.json()
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal Server Error", code=500) from exc
 
         if response.status_code != 200:
             raise ProviderException(
