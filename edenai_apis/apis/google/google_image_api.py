@@ -1,6 +1,6 @@
 import base64
 import json
-from typing import Sequence, Optional
+from typing import Sequence, Optional, BinaryIO, Dict
 
 import numpy as np
 import requests
@@ -383,64 +383,157 @@ class GoogleImageApi(ImageInterface):
             standardized_response=LogoDetectionDataClass(items=items),
         )
 
+    def _imagegen_qa(
+        self,
+        fstream: BinaryIO,
+        question: str,
+        headers: Dict[str, str],
+        location: str = "us-central1",
+    ) -> ResponseType[QuestionAnswerDataClass]:
+        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/imagetext:predict"
+        payload = {
+            "instances": [
+                {
+                    "prompt": question or "Describe the image",
+                    "image": {
+                        "bytesBase64Encoded": base64.b64encode(fstream.read()).decode(
+                            "utf-8"
+                        )
+                    },
+                }
+            ],
+            "parameters": {
+                "sampleCount": 3,
+            },
+        }
+
+        response = requests.post(url, json=payload, headers=headers)
+
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message="Internal Server Error",
+                code=500,
+            ) from exc
+
+        if "error" in original_response:
+            raise ProviderException(
+                message=original_response["error"]["message"], code=400
+            )
+
+        if not original_response.get("predictions"):
+            raise ProviderException(message="No predictions found", code=400)
+
+        standardized_response = QuestionAnswerDataClass(
+            answers=original_response["predictions"],
+        )
+
+        return ResponseType[QuestionAnswerDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    def _gemini_pro_vision_qa(
+        self,
+        fstream: BinaryIO,
+        question: str,
+        temperature: float,
+        max_tokens: int,
+        header: Dict[str, str],
+        location: str = "us-central1",
+    ):
+        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/gemini-pro-vision:streamGenerateContent"
+
+        payload = {
+            "contents": {
+                "role": "USER",
+                "parts": [
+                    {
+                        "inlineData": {
+                            "data": base64.b64encode(fstream.read()).decode("utf-8"),
+                            "mimeType": "image/png",
+                        }
+                    },
+                    {
+                        "text": question,
+                    },
+                ],
+            },
+            "generationConfig": {
+                "candidateCount": 1,
+                "temperature": temperature,
+                "maxOutputTokens": max_tokens,
+            },
+        }
+
+        response = requests.post(url, json=payload, headers=header)
+
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message="Internal Server Error",
+                code=500,
+            ) from exc
+
+        try:
+            original_response = original_response[0]
+        except IndexError as exc:
+            raise ProviderException(
+                message="No predictions found",
+                code=400,
+            ) from exc
+
+        if original_response.get("error") is not None:
+            raise ProviderException(
+                message=original_response["error"]["message"], code=400
+            )
+
+        if (
+            not original_response.get("candidates")
+            or len(original_response.get("candidates", [])) < 1
+        ):
+            raise ProviderException(message="No predictions found", code=400)
+
+        standardized_response = QuestionAnswerDataClass(
+            answers=[
+                part["text"]
+                for part in original_response["candidates"][0]["content"]["parts"]
+            ]
+        )
+
+        return ResponseType[QuestionAnswerDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
     def image__question_answer(
         self,
         file: str,
         temperature: float,
         max_tokens: int,
         file_url: str = "",
-        model: Optional[str] = None,
+        model: Optional[str] = "gemini-pro-vision",
         question: Optional[str] = None,
         settings: Optional[dict] = None,
     ) -> ResponseType[QuestionAnswerDataClass]:
         with open(file, "rb") as fstream:
-            url_subdomain = "us-central1-aiplatform"
-            location = "us-central1"
             token = get_access_token(self.location)
-            url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/imagetext:predict"
             headers = {
                 "Content-Type": "application/json",
                 "Authorization": f"Bearer {token}",
             }
-            payload = {
-                "instances": [
-                    {
-                        "prompt": question or "Describe the image",
-                        "image": {
-                            "bytesBase64Encoded": base64.b64encode(
-                                fstream.read()
-                            ).decode("utf-8")
-                        },
-                    }
-                ],
-                "parameters": {
-                    "sampleCount": 3,
-                },
-            }
-
-            response = requests.post(url, json=payload, headers=headers)
-
-            try:
-                original_response = response.json()
-            except json.JSONDecodeError as exc:
-                raise ProviderException(
-                    message="Internal Server Error",
-                    code=500,
-                ) from exc
-
-            if "error" in original_response:
-                raise ProviderException(
-                    message=original_response["error"]["message"], code=400
+            if question is None:
+                question = "Describe the image"
+            if model == "imagegen":
+                return self._imagegen_qa(fstream, question, headers)
+            elif model == "gemini-pro-vision":
+                return self._gemini_pro_vision_qa(
+                    fstream, question, temperature, max_tokens, headers
                 )
-
-            if not original_response.get("predictions"):
-                raise ProviderException(message="No predictions found", code=400)
-
-            standardized_response = QuestionAnswerDataClass(
-                answers=original_response["predictions"],
-            )
-
-            return ResponseType[QuestionAnswerDataClass](
-                original_response=original_response,
-                standardized_response=standardized_response,
-            )
+            else:
+                raise ProviderException(
+                    message="Model not found",
+                    code=400,
+                )

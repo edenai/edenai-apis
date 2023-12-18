@@ -1,3 +1,4 @@
+import json
 from typing import Dict, List, Literal, Optional, Sequence, Union
 
 import requests
@@ -72,12 +73,9 @@ class GoogleTextApi(TextInterface):
             content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
         )
         # Getting response of API
-        payload = {
-            "document": document,
-            "encoding_type": "UTF8"
-        }
+        payload = {"document": document, "encoding_type": "UTF8"}
         response = handle_google_call(self.clients["text"].analyze_entities, **payload)
-        
+
         # Create output response
         # Convert response to dict
         response = MessageToDict(response._pb)
@@ -119,12 +117,12 @@ class GoogleTextApi(TextInterface):
         )
 
         # Getting response of API
-        payload= {
+        payload = {
             "document": document,
             "encoding_type": "UTF8",
         }
         response = handle_google_call(self.clients["text"].analyze_sentiment, **payload)
-        
+
         # Convert response to dict
         response = MessageToDict(response._pb)
         # Create output response
@@ -164,7 +162,7 @@ class GoogleTextApi(TextInterface):
             content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
         )
         # Getting response of API
-        payload= {
+        payload = {
             "document": document,
             "encoding_type": "UTF8",
         }
@@ -219,11 +217,11 @@ class GoogleTextApi(TextInterface):
             content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
         )
         # Get Api response
-        payload= {
+        payload = {
             "document": document,
         }
         response = handle_google_call(self.clients["text"].classify_text, **payload)
-    
+
         # Create output response
         # Convert response to dict
         original_response = MessageToDict(response._pb)
@@ -245,6 +243,59 @@ class GoogleTextApi(TextInterface):
 
         return result
 
+    def _gemini_pro_generation(
+        self,
+        text: str,
+        temperature: float,
+        max_tokens: int,
+        location: str,
+        headers: Dict[str, str],
+    ):
+        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/gemini-pro:streamGenerateContent"
+
+        payload = {
+            "contents": {
+                "role": "USER",
+                "parts": [
+                    {
+                        "text": text,
+                    },
+                ],
+            },
+            "generationConfig": {
+                "candidateCount": 1,
+                "temperature": temperature,
+                "maxOutputTokens": max_tokens,
+            },
+        }
+
+        response = requests.post(url=url, headers=headers, json=payload)
+
+        try:
+            original_response = response.json()[0]
+        except (json.JSONDecodeError, IndexError) as exc:
+            raise ProviderException(
+                message="Internal Server Error",
+                code=500,
+            ) from exc
+
+        if "error" in original_response:
+            raise ProviderException(
+                message=original_response["error"]["message"],
+                code=response.status_code,
+            )
+
+        standardized_response = GenerationDataClass(
+            generated_text=original_response["candidates"][0]["content"]["parts"][0][
+                "text"
+            ]
+        )
+
+        return ResponseType[GenerationDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
     def text__generation(
         self,
         text: str,
@@ -255,32 +306,40 @@ class GoogleTextApi(TextInterface):
         url_subdomain = "us-central1-aiplatform"
         location = "us-central1"
         token = get_access_token(self.location)
-        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {token}",
         }
+        if model == "gemini-pro":
+            return self._gemini_pro_generation(
+                text, temperature, max_tokens, location, headers
+            )
+        else:
+            url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
 
-        payload = {
-            "instances": [{"prompt": text}],
-            "parameters": {"temperature": temperature, "maxOutputTokens": max_tokens},
-        }
-        response = requests.post(url=url, headers=headers, json=payload)
-        original_response = response.json()
-        if "error" in original_response:
-            raise ProviderException(
-                message=original_response["error"]["message"],
-                code = response.status_code
+            payload = {
+                "instances": [{"prompt": text}],
+                "parameters": {
+                    "temperature": temperature,
+                    "maxOutputTokens": max_tokens,
+                },
+            }
+            response = requests.post(url=url, headers=headers, json=payload)
+            original_response = response.json()
+            if "error" in original_response:
+                raise ProviderException(
+                    message=original_response["error"]["message"],
+                    code=response.status_code,
+                )
+
+            standardized_response = GenerationDataClass(
+                generated_text=original_response["predictions"][0]["content"]
             )
 
-        standardized_response = GenerationDataClass(
-            generated_text=original_response["predictions"][0]["content"]
-        )
-
-        return ResponseType[GenerationDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+            return ResponseType[GenerationDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
 
     def text__chat(
         self,
@@ -314,17 +373,25 @@ class GoogleTextApi(TextInterface):
         if stream is False:
             payload = {
                 "instances": [{"context": context, "messages": messages}],
-                "parameters": {"temperature": temperature, "maxOutputTokens": max_tokens},
+                "parameters": {
+                    "temperature": temperature,
+                    "maxOutputTokens": max_tokens,
+                },
             }
-            response = requests.post(url=f"{url}:predict", headers=headers, json=payload)
+            response = requests.post(
+                url=f"{url}:predict", headers=headers, json=payload
+            )
             original_response = response.json()
             if "error" in original_response:
                 raise ProviderException(
-                    message=original_response["error"]["message"], code=response.status_code
+                    message=original_response["error"]["message"],
+                    code=response.status_code,
                 )
 
             # Standardize the response
-            generated_text = original_response["predictions"][0]["candidates"][0]["content"]
+            generated_text = original_response["predictions"][0]["candidates"][0][
+                "content"
+            ]
             message = [
                 ChatMessageDataClass(role="user", message=text),
                 ChatMessageDataClass(role="assistant", message=generated_text),
@@ -361,18 +428,20 @@ class GoogleTextApi(TextInterface):
             except Exception as exc:
                 raise ProviderException(str(exc))
 
-            stream = (ChatStreamResponse(text=res.text, blocked = res.is_blocked, provider="google")
-                      for res in responses)
-        
+            stream = (
+                ChatStreamResponse(
+                    text=res.text, blocked=res.is_blocked, provider="google"
+                )
+                for res in responses
+            )
+
             return ResponseType[StreamChat](
-                original_response=None,
-                standardized_response=StreamChat(stream=stream)
+                original_response=None, standardized_response=StreamChat(stream=stream)
             )
 
     def text__embeddings(
-        self, 
-        texts: List[str],
-        model: str) -> ResponseType[EmbeddingsDataClass]:
+        self, texts: List[str], model: str
+    ) -> ResponseType[EmbeddingsDataClass]:
         model = model.split("__")
         url_subdomain = "us-central1-aiplatform"
         location = "us-central1"
@@ -390,8 +459,7 @@ class GoogleTextApi(TextInterface):
         original_response = response.json()
         if "error" in original_response:
             raise ProviderException(
-                message=original_response["error"]["message"],
-                code = response.status_code
+                message=original_response["error"]["message"], code=response.status_code
             )
 
         items: Sequence[EmbeddingsDataClass] = []
@@ -429,15 +497,14 @@ class GoogleTextApi(TextInterface):
         }
         response = requests.post(url=url, headers=headers, json=payload)
         original_response = response.json()
-        print("THe original response is\n\n",original_response)
+        print("THe original response is\n\n", original_response)
         if "error" in original_response:
             raise ProviderException(
-                message=original_response["error"]["message"],
-                code = response.status_code
+                message=original_response["error"]["message"], code=response.status_code
             )
         if not original_response.get("predictions"):
-            raise ProviderException('Provider return an empty response')
-        
+            raise ProviderException("Provider return an empty response")
+
         standardized_response = CodeGenerationDataClass(
             generated_text=original_response["predictions"][0]["content"]
         )
@@ -452,38 +519,37 @@ class GoogleTextApi(TextInterface):
         document = {"content": text, "type_": type_, "language": language}
         encoding_type = language_v1.EncodingType.UTF8
 
-        payload = {
-            "request": {"document": document, "encoding_type": encoding_type}
-        }
+        payload = {"request": {"document": document, "encoding_type": encoding_type}}
         response = handle_google_call(client.analyze_entity_sentiment, **payload)
-        
+
         original_response = MessageToDict(response._pb)
 
         entity_items: List[Entity] = []
-        for entity in original_response.get('entities', []):
-            for mention in entity['mentions']:
-
-                sentiment = mention['sentiment'].get("score")
+        for entity in original_response.get("entities", []):
+            for mention in entity["mentions"]:
+                sentiment = mention["sentiment"].get("score")
                 if sentiment is None:
-                    sentiment_score = 'Neutral'
+                    sentiment_score = "Neutral"
                 elif sentiment > 0:
-                    sentiment_score = 'Positive'
+                    sentiment_score = "Positive"
                 elif sentiment < 0:
-                    sentiment_score = 'Negative'
+                    sentiment_score = "Negative"
                 else:
-                    sentiment_score = 'Neutral'
+                    sentiment_score = "Neutral"
 
-                begin_offset = mention['text'].get("beginOffset")
+                begin_offset = mention["text"].get("beginOffset")
                 end_offset = None
                 if begin_offset:
-                    end_offset = mention["text"]["beginOffset"] + len(mention["text"]["content"])
+                    end_offset = mention["text"]["beginOffset"] + len(
+                        mention["text"]["content"]
+                    )
 
                 std_entity = Entity(
-                    text=mention['text']['content'],
-                    type=Entities.get_entity(entity['type']),
+                    text=mention["text"]["content"],
+                    type=Entities.get_entity(entity["type"]),
                     sentiment=sentiment_score,
                     begin_offset=begin_offset,
-                    end_offset=end_offset
+                    end_offset=end_offset,
                 )
                 entity_items.append(std_entity)
 
@@ -509,77 +575,87 @@ class GoogleTextApi(TextInterface):
         )
 
         # Getting response of API
-        payload= {
-            "document": document
-        }
+        payload = {"document": document}
         response = handle_google_call(client.moderate_text, **payload)
-        
+
         # Convert response to dict
         original_response = MessageToDict(response._pb)
-        
+
         # Create output response
         items: Sequence[TextModerationItem] = []
         for moderation in original_response.get("moderationCategories", []) or []:
-            classificator = CategoryType.choose_category_subcategory(moderation.get("name"))
+            classificator = CategoryType.choose_category_subcategory(
+                moderation.get("name")
+            )
             items.append(
                 TextModerationItem(
                     label=moderation.get("name"),
                     category=classificator["category"],
                     subcategory=classificator["subcategory"],
                     likelihood_score=moderation.get("confidence", 0),
-                    likelihood=standardized_confidence_score(moderation.get("confidence", 0))
+                    likelihood=standardized_confidence_score(
+                        moderation.get("confidence", 0)
+                    ),
                 )
             )
         standardized_response: ModerationDataClass = ModerationDataClass(
-            nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
+            nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(items),
+            items=items,
+            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(
                 items
             ),
-            items=items,
-            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(items)
-        ) 
+        )
 
         return ResponseType[ModerationDataClass](
-            original_response=original_response, standardized_response=standardized_response
+            original_response=original_response,
+            standardized_response=standardized_response,
         )
 
     def text__search(
         self,
         texts: List[str],
         query: str,
-        similarity_metric: Literal["cosine", "hamming",
-                                 "manhattan", "euclidean"] = "cosine",
-        model: str = None
+        similarity_metric: Literal[
+            "cosine", "hamming", "manhattan", "euclidean"
+        ] = "cosine",
+        model: str = None,
     ) -> ResponseType[SearchDataClass]:
         if len(texts) > 5:
-            raise ProviderException('Google does not support search in more than 5 items.')
+            raise ProviderException(
+                "Google does not support search in more than 5 items."
+            )
         if model is None:
-            model = '768__textembedding-gecko'
+            model = "768__textembedding-gecko"
         # Import the function
         function_score = METRICS[similarity_metric]
-        
+
         # Embed the texts & query
         texts_embed_response = GoogleTextApi.text__embeddings(
-            self, texts=texts, model=model).original_response
+            self, texts=texts, model=model
+        ).original_response
         query_embed_response = GoogleTextApi.text__embeddings(
-            self, texts=[query], model=model).original_response
-        
+            self, texts=[query], model=model
+        ).original_response
+
         # Extracts embeddings from texts & query
-        texts_embed = [item["embeddings"]['values']
-                       for item in texts_embed_response['predictions']]
-        query_embed = query_embed_response['predictions'][0]['embeddings']['values']
+        texts_embed = [
+            item["embeddings"]["values"] for item in texts_embed_response["predictions"]
+        ]
+        query_embed = query_embed_response["predictions"][0]["embeddings"]["values"]
 
         items = []
         # Calculate score for each text index
         for index, text in enumerate(texts_embed):
             score = function_score(query_embed, text)
             items.append(
-                InfosSearchDataClass(object='search_result',
-                                     document=index, score=score)
+                InfosSearchDataClass(
+                    object="search_result", document=index, score=score
+                )
             )
-            
+
         # Sort items by score in descending order
         sorted_items = sorted(items, key=lambda x: x.score, reverse=True)
-        
+
         # Build the original response
         original_response = {
             "texts_embeddings": texts_embed_response,

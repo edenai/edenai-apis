@@ -1,17 +1,45 @@
 {
   "original_response": {
-    "predictions": [
-      "facebook, apple, amazon, google",
-      "facebook, apple, amazon and google",
-      "facebook, apple, amazon, and google"
+    "candidates": [
+      {
+        "content": {
+          "role": "model",
+          "parts": [
+            {
+              "text": " Facebook, Apple, Amazon, Netflix and Google"
+            }
+          ]
+        },
+        "finishReason": "STOP",
+        "safetyRatings": [
+          {
+            "category": "HARM_CATEGORY_HARASSMENT",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_HATE_SPEECH",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+            "probability": "NEGLIGIBLE"
+          }
+        ]
+      }
     ],
-    "deployedModelId": "6747203681382301696"
+    "usageMetadata": {
+      "promptTokenCount": 266,
+      "candidatesTokenCount": 9,
+      "totalTokenCount": 275
+    }
   },
   "standardized_response": {
     "answers": [
-      "facebook, apple, amazon, google",
-      "facebook, apple, amazon and google",
-      "facebook, apple, amazon, and google"
+      " Facebook, Apple, Amazon, Netflix and Google"
     ]
   }
 }

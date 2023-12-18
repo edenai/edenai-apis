@@ -1,26 +1,38 @@
 {
   "original_response": {
-    "predictions": [
+    "candidates": [
       {
-        "safetyAttributes": {
-          "categories": [
-            "Finance",
-            "Health"
-          ],
-          "blocked": false,
-          "scores": [
-            0.1,
-            0.1
+        "content": {
+          "role": "model",
+          "parts": [
+            {
+              "text": "Assistant: Greetings! I am your AI assistant, designed to be helpful, creative"
+            }
           ]
         },
-        "citationMetadata": {
-          "citations": []
-        },
-        "content": "I am glad to meet you! I am an AI assistant, and I am here to help you with your tasks."
+        "finishReason": "MAX_TOKENS",
+        "safetyRatings": [
+          {
+            "category": "HARM_CATEGORY_HARASSMENT",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_HATE_SPEECH",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+            "probability": "NEGLIGIBLE"
+          }
+        ]
       }
     ]
   },
   "standardized_response": {
-    "generated_text": "hello"
+    "generated_text": "Assistant: Greetings! I am your AI assistant, designed to be helpful, creative"
   }
 }
