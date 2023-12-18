@@ -1,211 +1,550 @@
 {
   "status": "succeeded",
-  "provider_job_id": "gladia_stt3cc0df15-3cf5-4904-94ae-f60e2d3cf824",
+  "provider_job_id": "50812c03-b4c1-4d55-9550-f06163325f99",
   "original_response": {
-    "prediction": [
-      {
-        "words": [
-          {
-            "word": "Unit",
-            "time_begin": 0.21813,
-            "time_end": 0.45838,
-            "confidence": 0.4
-          },
-          {
-            "word": " 1,",
-            "time_begin": 0.63857,
-            "time_end": 0.8788199999999999,
-            "confidence": 0.76
-          }
-        ],
-        "transcription": "Unit 1,",
-        "language": "en",
-        "time_begin": 0.21813,
-        "time_end": 0.8788199999999999,
-        "speaker": 0,
-        "channel": "channel_0"
-      },
-      {
-        "words": [
-          {
-            "word": "page",
-            "time_begin": 1.45943,
-            "time_end": 1.8198,
-            "confidence": 0.45
-          },
-          {
-            "word": " 14,",
-            "time_begin": 1.89989,
-            "time_end": 2.52054,
-            "confidence": 0.78
-          }
-        ],
-        "transcription": "page 14,",
-        "language": "en",
-        "time_begin": 1.45943,
-        "time_end": 2.52054,
-        "speaker": 0,
-        "channel": "channel_0"
-      },
-      {
-        "words": [
-          {
-            "word": "Real",
-            "time_begin": 3.4014599999999997,
-            "time_end": 3.66173,
-            "confidence": 0.18
-          },
-          {
-            "word": " Conversations.",
-            "time_begin": 3.74181,
-            "time_end": 12.951450000000001,
-            "confidence": 0.41
-          }
-        ],
-        "transcription": "Real Conversations.",
-        "language": "en",
-        "time_begin": 3.4014599999999997,
-        "time_end": 12.951450000000001,
-        "speaker": 2,
-        "channel": "channel_0"
-      }
-    ],
-    "prediction_raw": {
-      "transcription": [
-        {
-          "words": [
-            {
-              "word": "Unit",
-              "time_begin": 0.21813,
-              "time_end": 0.45838,
-              "confidence": 0.4
-            },
-            {
-              "word": " 1,",
-              "time_begin": 0.63857,
-              "time_end": 0.8788199999999999,
-              "confidence": 0.76
-            }
-          ],
-          "transcription": "Unit 1,",
-          "language": "en",
-          "time_begin": 0.21813,
-          "time_end": 0.8788199999999999,
-          "speaker": 0,
-          "channel": "channel_0"
-        },
-        {
-          "words": [
-            {
-              "word": "page",
-              "time_begin": 1.45943,
-              "time_end": 1.8198,
-              "confidence": 0.45
-            },
-            {
-              "word": " 14,",
-              "time_begin": 1.89989,
-              "time_end": 2.52054,
-              "confidence": 0.78
-            }
-          ],
-          "transcription": "page 14,",
-          "language": "en",
-          "time_begin": 1.45943,
-          "time_end": 2.52054,
-          "speaker": 0,
-          "channel": "channel_0"
-        },
-        {
-          "words": [
-            {
-              "word": "Real",
-              "time_begin": 3.4014599999999997,
-              "time_end": 3.66173,
-              "confidence": 0.18
-            },
-            {
-              "word": " Conversations.",
-              "time_begin": 3.74181,
-              "time_end": 12.951450000000001,
-              "confidence": 0.41
-            }
-          ],
-          "transcription": "Real Conversations.",
-          "language": "en",
-          "time_begin": 3.4014599999999997,
-          "time_end": 12.951450000000001,
-          "speaker": 2,
-          "channel": "channel_0"
-        }
-      ],
+    "id": "50812c03-b4c1-4d55-9550-f06163325f99",
+    "request_id": "G-50812c03",
+    "status": "done",
+    "created_at": "2023-12-18T14:18:50.222Z",
+    "completed_at": "2023-12-18T14:19:19.438Z",
+    "result": {
       "metadata": {
-        "provided_file_metadata": {
-          "nb_channels": 2,
-          "sample_rate": 44100,
-          "sample_width": 0,
-          "duration": 17.084082,
-          "original_file_type": "audio",
-          "number_similar_channels": 1
-        },
-        "nb_silent_channels": -1,
-        "total_speech_duration": 11.271790000000001,
-        "audio_conversion_time": 0.5279178619384766,
-        "vad_time": 0.12275004386901855,
-        "inference_time": 1.889753818511963,
-        "translation_time": 1.1920928955078125e-06,
-        "emotion_time": 4.76837158203125e-07,
-        "summarization_time": 2.384185791015625e-07,
-        "chapterization_time": 4.76837158203125e-07,
-        "total_transcription_time": 2.5509183406829834
+        "audio_duration": 17.055714,
+        "number_of_channels": 2,
+        "transcription_time": 29.216,
+        "billing_time": 34.111428
       },
-      "speaker_mapping": [
-        {
-          "speaker": 0,
-          "channel": "channel_0",
-          "time_begin": 0.21813,
-          "time_end": 0.8788199999999999
-        },
-        {
-          "speaker": 0,
-          "channel": "channel_0",
-          "time_begin": 1.45943,
-          "time_end": 2.52054
-        },
-        {
-          "speaker": 2,
-          "channel": "channel_0",
-          "time_begin": 3.4014599999999997,
-          "time_end": 12.951450000000001
-        }
-      ]
+      "transcription": {
+        "languages": [
+          "en"
+        ],
+        "full_transcript": "Unit 1, page 14, real conversations. Hello. Hi. What's your name? Claudia. What's your name? I'm Chihiro. Nice to meet you. Chihiro? Yeah, that's right. Where are you from?",
+        "utterances": [
+          {
+            "text": "Unit 1,",
+            "language": "en",
+            "start": 0.25004,
+            "end": 0.89026,
+            "channel": 0,
+            "speaker": 0,
+            "words": [
+              {
+                "word": "Unit",
+                "start": 0.25004,
+                "end": 0.47012,
+                "confidence": 0.7
+              },
+              {
+                "word": " 1,",
+                "start": 0.65018,
+                "end": 0.89026,
+                "confidence": 0.02
+              }
+            ]
+          },
+          {
+            "text": "page 14,",
+            "language": "en",
+            "start": 1.4904600000000001,
+            "end": 2.55082,
+            "channel": 0,
+            "speaker": 1,
+            "words": [
+              {
+                "word": " page",
+                "start": 1.4904600000000001,
+                "end": 1.85058,
+                "confidence": 0.21
+              },
+              {
+                "word": " 14,",
+                "start": 1.9306100000000002,
+                "end": 2.55082,
+                "confidence": 0.01
+              }
+            ]
+          },
+          {
+            "text": "real conversations.",
+            "language": "en",
+            "start": 3.43112,
+            "end": 4.7115599999999995,
+            "channel": 0,
+            "speaker": 1,
+            "words": [
+              {
+                "word": " real",
+                "start": 3.43112,
+                "end": 3.69121,
+                "confidence": 0.99
+              },
+              {
+                "word": " conversations.",
+                "start": 3.7712399999999997,
+                "end": 4.7115599999999995,
+                "confidence": 0.97
+              }
+            ]
+          },
+          {
+            "text": "Hello.",
+            "language": "en",
+            "start": 6.8923,
+            "end": 7.1323799999999995,
+            "channel": 0,
+            "speaker": 2,
+            "words": [
+              {
+                "word": " Hello.",
+                "start": 6.8923,
+                "end": 7.1323799999999995,
+                "confidence": 0.05
+              }
+            ]
+          },
+          {
+            "text": "Hi.",
+            "language": "en",
+            "start": 7.1924,
+            "end": 7.31244,
+            "channel": 0,
+            "speaker": 2,
+            "words": [
+              {
+                "word": " Hi.",
+                "start": 7.1924,
+                "end": 7.31244,
+                "confidence": 0
+              }
+            ]
+          },
+          {
+            "text": "What's your name?",
+            "language": "en",
+            "start": 7.31244,
+            "end": 8.87297,
+            "channel": 0,
+            "speaker": 2,
+            "words": [
+              {
+                "word": " What's",
+                "start": 7.31244,
+                "end": 8.39281,
+                "confidence": 0.01
+              },
+              {
+                "word": " your",
+                "start": 8.39281,
+                "end": 8.51285,
+                "confidence": 0.04
+              },
+              {
+                "word": " name?",
+                "start": 8.55286,
+                "end": 8.87297,
+                "confidence": 0.04
+              }
+            ]
+          },
+          {
+            "text": "Claudia.",
+            "language": "en",
+            "start": 9.373140000000001,
+            "end": 9.793280000000001,
+            "channel": 0,
+            "speaker": 3,
+            "words": [
+              {
+                "word": " Claudia.",
+                "start": 9.373140000000001,
+                "end": 9.793280000000001,
+                "confidence": 0.61
+              }
+            ]
+          },
+          {
+            "text": "What's your name?",
+            "language": "en",
+            "start": 10.613560000000001,
+            "end": 11.333810000000001,
+            "channel": 0,
+            "speaker": 3,
+            "words": [
+              {
+                "word": " What's",
+                "start": 10.613560000000001,
+                "end": 10.83364,
+                "confidence": 0.66
+              },
+              {
+                "word": " your",
+                "start": 10.873650000000001,
+                "end": 10.99369,
+                "confidence": 0.49
+              },
+              {
+                "word": " name?",
+                "start": 11.033700000000001,
+                "end": 11.333810000000001,
+                "confidence": 0.99
+              }
+            ]
+          },
+          {
+            "text": "I'm Chihiro.",
+            "language": "en",
+            "start": 11.53387,
+            "end": 12.09406,
+            "channel": 0,
+            "speaker": 4,
+            "words": [
+              {
+                "word": " I'm",
+                "start": 11.53387,
+                "end": 11.653910000000002,
+                "confidence": 0.3
+              },
+              {
+                "word": " Chihiro.",
+                "start": 11.713940000000001,
+                "end": 12.09406,
+                "confidence": 0.58
+              }
+            ]
+          },
+          {
+            "text": "Nice to meet you.",
+            "language": "en",
+            "start": 12.7743,
+            "end": 13.534550000000001,
+            "channel": 0,
+            "speaker": 4,
+            "words": [
+              {
+                "word": " Nice",
+                "start": 12.7743,
+                "end": 13.014380000000001,
+                "confidence": 0.59
+              },
+              {
+                "word": " to",
+                "start": 13.014380000000001,
+                "end": 13.0944,
+                "confidence": 0.24
+              },
+              {
+                "word": " meet",
+                "start": 13.114410000000001,
+                "end": 13.374500000000001,
+                "confidence": 0.81
+              },
+              {
+                "word": " you.",
+                "start": 13.41451,
+                "end": 13.534550000000001,
+                "confidence": 0.36
+              }
+            ]
+          },
+          {
+            "text": "Chihiro?",
+            "language": "en",
+            "start": 14.01472,
+            "end": 15.075080000000002,
+            "channel": 0,
+            "speaker": 5,
+            "words": [
+              {
+                "word": " Chihiro?",
+                "start": 14.01472,
+                "end": 15.075080000000002,
+                "confidence": 0.61
+              }
+            ]
+          },
+          {
+            "text": "Yeah,",
+            "language": "en",
+            "start": 15.37518,
+            "end": 15.495220000000002,
+            "channel": 0,
+            "speaker": 5,
+            "words": [
+              {
+                "word": " Yeah,",
+                "start": 15.37518,
+                "end": 15.495220000000002,
+                "confidence": 0.31
+              }
+            ]
+          },
+          {
+            "text": "that's right.",
+            "language": "en",
+            "start": 15.51523,
+            "end": 16.0154,
+            "channel": 0,
+            "speaker": 6,
+            "words": [
+              {
+                "word": " that's",
+                "start": 15.51523,
+                "end": 15.655270000000002,
+                "confidence": 0.3
+              },
+              {
+                "word": " right.",
+                "start": 15.7353,
+                "end": 16.0154,
+                "confidence": 0.27
+              }
+            ]
+          },
+          {
+            "text": "Where are you from?",
+            "language": "en",
+            "start": 16.375519999999998,
+            "end": 16.97572,
+            "channel": 0,
+            "speaker": 6,
+            "words": [
+              {
+                "word": " Where",
+                "start": 16.375519999999998,
+                "end": 16.595589999999998,
+                "confidence": 0.02
+              },
+              {
+                "word": " are",
+                "start": 16.595589999999998,
+                "end": 16.65561,
+                "confidence": 0.02
+              },
+              {
+                "word": " you",
+                "start": 16.65561,
+                "end": 16.75565,
+                "confidence": 0.01
+              },
+              {
+                "word": " from?",
+                "start": 16.795659999999998,
+                "end": 16.97572,
+                "confidence": 0.12
+              }
+            ]
+          }
+        ]
+      }
     }
   },
   "standardized_response": {
-    "text": "Unit 1, page 14, Real Conversations. ",
+    "text": "Unit 1, page 14, real conversations. Hello. Hi. What's your name? Claudia. What's your name? I'm Chihiro. Nice to meet you. Chihiro? Yeah, that's right. Where are you from?",
     "diarization": {
-      "total_speakers": 2,
+      "total_speakers": 6,
       "entries": [
         {
-          "segment": "Unit 1,",
-          "start_time": "0.21813",
-          "end_time": "0.8788199999999999",
-          "speaker": 1,
-          "confidence": 0.08000000000000002
+          "segment": "Unit",
+          "start_time": "0.25004",
+          "end_time": "0.47012",
+          "speaker": 0,
+          "confidence": 0.7
         },
         {
-          "segment": "page 14,",
-          "start_time": "1.45943",
-          "end_time": "2.52054",
-          "speaker": 1,
-          "confidence": 0.11499999999999999
+          "segment": " 1,",
+          "start_time": "0.65018",
+          "end_time": "0.89026",
+          "speaker": 0,
+          "confidence": 0.02
         },
         {
-          "segment": "Real Conversations.",
-          "start_time": "3.4014599999999997",
-          "end_time": "12.951450000000001",
+          "segment": " page",
+          "start_time": "1.4904600000000001",
+          "end_time": "1.85058",
+          "speaker": 1,
+          "confidence": 0.21
+        },
+        {
+          "segment": " 14,",
+          "start_time": "1.9306100000000002",
+          "end_time": "2.55082",
+          "speaker": 1,
+          "confidence": 0.01
+        },
+        {
+          "segment": " real",
+          "start_time": "3.43112",
+          "end_time": "3.69121",
+          "speaker": 1,
+          "confidence": 0.99
+        },
+        {
+          "segment": " conversations.",
+          "start_time": "3.7712399999999997",
+          "end_time": "4.7115599999999995",
+          "speaker": 1,
+          "confidence": 0.97
+        },
+        {
+          "segment": " Hello.",
+          "start_time": "6.8923",
+          "end_time": "7.1323799999999995",
           "speaker": 2,
-          "confidence": -0.20500000000000004
+          "confidence": 0.05
+        },
+        {
+          "segment": " Hi.",
+          "start_time": "7.1924",
+          "end_time": "7.31244",
+          "speaker": 2,
+          "confidence": 0.0
+        },
+        {
+          "segment": " What's",
+          "start_time": "7.31244",
+          "end_time": "8.39281",
+          "speaker": 2,
+          "confidence": 0.01
+        },
+        {
+          "segment": " your",
+          "start_time": "8.39281",
+          "end_time": "8.51285",
+          "speaker": 2,
+          "confidence": 0.04
+        },
+        {
+          "segment": " name?",
+          "start_time": "8.55286",
+          "end_time": "8.87297",
+          "speaker": 2,
+          "confidence": 0.04
+        },
+        {
+          "segment": " Claudia.",
+          "start_time": "9.373140000000001",
+          "end_time": "9.793280000000001",
+          "speaker": 3,
+          "confidence": 0.61
+        },
+        {
+          "segment": " What's",
+          "start_time": "10.613560000000001",
+          "end_time": "10.83364",
+          "speaker": 3,
+          "confidence": 0.66
+        },
+        {
+          "segment": " your",
+          "start_time": "10.873650000000001",
+          "end_time": "10.99369",
+          "speaker": 3,
+          "confidence": 0.49
+        },
+        {
+          "segment": " name?",
+          "start_time": "11.033700000000001",
+          "end_time": "11.333810000000001",
+          "speaker": 3,
+          "confidence": 0.99
+        },
+        {
+          "segment": " I'm",
+          "start_time": "11.53387",
+          "end_time": "11.653910000000002",
+          "speaker": 4,
+          "confidence": 0.3
+        },
+        {
+          "segment": " Chihiro.",
+          "start_time": "11.713940000000001",
+          "end_time": "12.09406",
+          "speaker": 4,
+          "confidence": 0.58
+        },
+        {
+          "segment": " Nice",
+          "start_time": "12.7743",
+          "end_time": "13.014380000000001",
+          "speaker": 4,
+          "confidence": 0.59
+        },
+        {
+          "segment": " to",
+          "start_time": "13.014380000000001",
+          "end_time": "13.0944",
+          "speaker": 4,
+          "confidence": 0.24
+        },
+        {
+          "segment": " meet",
+          "start_time": "13.114410000000001",
+          "end_time": "13.374500000000001",
+          "speaker": 4,
+          "confidence": 0.81
+        },
+        {
+          "segment": " you.",
+          "start_time": "13.41451",
+          "end_time": "13.534550000000001",
+          "speaker": 4,
+          "confidence": 0.36
+        },
+        {
+          "segment": " Chihiro?",
+          "start_time": "14.01472",
+          "end_time": "15.075080000000002",
+          "speaker": 5,
+          "confidence": 0.61
+        },
+        {
+          "segment": " Yeah,",
+          "start_time": "15.37518",
+          "end_time": "15.495220000000002",
+          "speaker": 5,
+          "confidence": 0.31
+        },
+        {
+          "segment": " that's",
+          "start_time": "15.51523",
+          "end_time": "15.655270000000002",
+          "speaker": 6,
+          "confidence": 0.3
+        },
+        {
+          "segment": " right.",
+          "start_time": "15.7353",
+          "end_time": "16.0154",
+          "speaker": 6,
+          "confidence": 0.27
+        },
+        {
+          "segment": " Where",
+          "start_time": "16.375519999999998",
+          "end_time": "16.595589999999998",
+          "speaker": 6,
+          "confidence": 0.02
+        },
+        {
+          "segment": " are",
+          "start_time": "16.595589999999998",
+          "end_time": "16.65561",
+          "speaker": 6,
+          "confidence": 0.02
+        },
+        {
+          "segment": " you",
+          "start_time": "16.65561",
+          "end_time": "16.75565",
+          "speaker": 6,
+          "confidence": 0.01
+        },
+        {
+          "segment": " from?",
+          "start_time": "16.795659999999998",
+          "end_time": "16.97572",
+          "speaker": 6,
+          "confidence": 0.12
         }
       ],
       "error_message": null
