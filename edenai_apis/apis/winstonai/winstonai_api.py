@@ -36,16 +36,16 @@ class WinstonaiApi(ProviderInterface, TextInterface):
         }
 
     def text__ai_detection(
-        self, text: str, providers_params: Optional[Dict[str, Any]] = None
+        self, text: str, provider_params: Optional[Dict[str, Any]] = None
     ) -> ResponseType[AiDetectionDataClass]:
-        if providers_params is None:
-            providers_params = {}
+        if provider_params is None:
+            provider_params = {}
         payload = json.dumps(
             {
                 "text": text,
                 "sentences": True,
-                "language": providers_params.get("language", "en"),
-                "version": providers_params.get("version", "2.0"),
+                "language": provider_params.get("language", "en"),
+                "version": provider_params.get("version", "2.0"),
             }
         )
 
