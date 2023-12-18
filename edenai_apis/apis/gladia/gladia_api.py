@@ -1,12 +1,9 @@
-import json
-import uuid
 from json import JSONDecodeError
 from pathlib import Path
 from time import time
 from typing import Dict
 
 import requests
-from apis.amazon.helpers import check_webhook_result
 
 from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import SpeechDiarizationEntry, SpeechDiarization
@@ -23,7 +20,6 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 from edenai_apis.utils.upload_s3 import upload_file_to_s3
-from .helper import language_matches
 
 
 class GladiaApi(ProviderInterface, AudioInterface):
@@ -35,8 +31,6 @@ class GladiaApi(ProviderInterface, AudioInterface):
         )
         self.api_key = self.api_settings["gladia_key"]
         self.url = "https://api.gladia.io/v2/transcription/"
-        self.webhook_settings = load_provider(ProviderDataEnum.KEY, "webhooksite")
-        self.webhook_token = self.webhook_settings["webhook_token"]
 
     def audio__speech_to_text_async__launch_job(
         self,
@@ -67,7 +61,6 @@ class GladiaApi(ProviderInterface, AudioInterface):
             "diarization": True,
             "diarization_config": {"number_of_speakers": speakers},
         }
-        # # Change languages in info
         if language:
             data.update({"detect_language": False, "language": language})
         data.update(provider_params)
