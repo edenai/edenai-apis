@@ -153,7 +153,16 @@
           "webm",
           "spx",
           "l16"
-        ]
+        ],
+        "model": [
+          "long",
+          "chirp",
+          "short",
+          "telephony",
+          "medical_conversation",
+          "medical_dictation"
+        ],
+        "default_model": "short"
       },
       "version": "v1p1beta1"
     },

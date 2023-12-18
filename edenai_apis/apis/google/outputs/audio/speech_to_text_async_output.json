@@ -1,19 +1,19 @@
 {
   "status": "succeeded",
-  "provider_job_id": "projects/148983085864/locations/global/operations/v2-65238403-0000-2742-9c64-582429abadb0",
+  "provider_job_id": "projects/148983085864/locations/global/operations/v2-657e642b-0000-2806-a0e5-f4030438f054",
   "original_response": {
-    "name": "projects/148983085864/locations/global/operations/v2-65238403-0000-2742-9c64-582429abadb0",
+    "name": "projects/148983085864/locations/global/operations/v2-657e642b-0000-2806-a0e5-f4030438f054",
     "metadata": {
       "@type": "type.googleapis.com/google.cloud.speech.v2.OperationMetadata",
-      "createTime": "2023-10-11T08:27:51.828603Z",
-      "updateTime": "2023-10-11T08:27:58.646672Z",
+      "createTime": "2023-12-18T14:00:31.390912Z",
+      "updateTime": "2023-12-18T14:00:36.660451Z",
       "resource": "projects/subtle-reserve-222609/locations/global/recognizers/_",
       "method": "google.cloud.speech.v2.Speech.BatchRecognize",
       "batchRecognizeRequest": {
         "recognizer": "projects/subtle-reserve-222609/locations/global/recognizers/_",
         "files": [
           {
-            "uri": "gs://audios-speech2text/1697012870conversation.mp3"
+            "uri": "gs://audios-speech2text/1702908029conversation.mp3"
           }
         ],
         "config": {
@@ -34,7 +34,10 @@
     "response": {
       "@type": "type.googleapis.com/google.cloud.speech.v2.BatchRecognizeResponse",
       "results": {
-        "gs://audios-speech2text/1697012870conversation.mp3": {
+        "gs://audios-speech2text/1702908029conversation.mp3": {
+          "metadata": {
+            "totalBilledDuration": "18s"
+          },
           "transcript": {
             "results": [
               {
@@ -44,6 +47,7 @@
                     "confidence": 0.9627545
                   }
                 ],
+                "resultEndOffset": "5.230s",
                 "languageCode": "en-us"
               },
               {
@@ -53,13 +57,40 @@
                     "confidence": 0.9485517
                   }
                 ],
+                "resultEndOffset": "17.020s",
                 "languageCode": "en-us"
               }
             ]
+          },
+          "inlineResult": {
+            "transcript": {
+              "results": [
+                {
+                  "alternatives": [
+                    {
+                      "transcript": "unit 1 page 14 real conversations",
+                      "confidence": 0.9627545
+                    }
+                  ],
+                  "resultEndOffset": "5.230s",
+                  "languageCode": "en-us"
+                },
+                {
+                  "alternatives": [
+                    {
+                      "transcript": " hello hi what's your name Claudia what's your name I'm Chihiro nice to meet you shehiro yeah that's right away from",
+                      "confidence": 0.9485517
+                    }
+                  ],
+                  "resultEndOffset": "17.020s",
+                  "languageCode": "en-us"
+                }
+              ]
+            }
           }
         }
       },
-      "totalBilledDuration": "9s"
+      "totalBilledDuration": "18s"
     }
   },
   "standardized_response": {
