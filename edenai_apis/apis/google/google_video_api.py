@@ -331,7 +331,7 @@ class GoogleVideoApi(VideoInterface):
                         for attr in track["timestampedObjects"][0].get(
                             "attributes", []
                         ):
-                            attribute_dict[attr["name"]] = attr["confidence"]
+                            attribute_dict[attr["name"]] = attr.get("confidence")
                         attributs = FaceAttributes(
                             headwear=attribute_dict.get("headwear"),
                             frontal_gaze=attribute_dict.get("looking_at_camera"),
