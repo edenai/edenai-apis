@@ -238,10 +238,10 @@ def format_invoice_document_data(original_response: Dict) -> InvoiceParserDataCl
     return standardized_response
 
 # ***************************** Receipt Parser **************************
-def format_receipt_document_data(self, data) -> ReceiptParserDataClass:
+def format_receipt_document_data(data) -> ReceiptParserDataClass:
     fields = data[0].get("fields", [])
 
-    items: Sequence[ItemLines] = self._extract_item_lignes(fields, ItemLines)
+    items: Sequence[ItemLines] = extract_item_lignes(fields, ItemLines)
 
     default_dict = defaultdict(lambda: None)
     invoice_number = fields.get("receiptNo", default_dict)["value"]
