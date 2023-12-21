@@ -9,6 +9,7 @@ from .base64 import Base64Api
 from .clarifai import ClarifaiApi
 from .cohere import CohereApi
 from .connexun import ConnexunApi
+from .corticalio import CorticalioApi
 from .dataleon import DataleonApi
 from .deepai import DeepAIApi
 from .deepgram import DeepgramApi
