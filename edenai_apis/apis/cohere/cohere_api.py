@@ -133,6 +133,13 @@ List of corrected words:
         standardized_response = GenerationDataClass(
             generated_text=generated_texts[0]["text"]
         )
+
+        # Calculate billed tokens
+        billed_units = original_response['meta']['billed_units']
+        original_response["usage"] = {
+            "total_tokens" : billed_units['input_tokens'] + billed_units['output_tokens']
+        }
+
         return ResponseType[GenerationDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
@@ -208,6 +215,12 @@ List of corrected words:
             result=original_response.get("summary", {})
         )
 
+        # Calculate billed tokens
+        billed_units = original_response['meta']['billed_units']
+        original_response["usage"] = {
+            "total_tokens" : billed_units['input_tokens'] + billed_units['output_tokens']
+        }
+
         return ResponseType[SummarizeDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
@@ -274,6 +287,12 @@ For Example:
 
         standardized_response = CustomNamedEntityRecognitionDataClass(items=items)
 
+        # Calculate billed tokens
+        billed_units = original_response['meta']['billed_units']
+        original_response["usage"] = {
+            "total_tokens" : billed_units['input_tokens'] + billed_units['output_tokens']
+        }
+
         return ResponseType[CustomNamedEntityRecognitionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
@@ -321,6 +340,12 @@ For Example:
                     ],
                 )
             )
+            
+        # Calculate billed tokens
+        billed_units = original_response['meta']['billed_units']
+        original_response["usage"] = {
+            "total_tokens" : billed_units['input_tokens'] + billed_units['output_tokens']
+        }
         return ResponseType[SpellCheckDataClass](
             original_response=original_response,
             standardized_response=SpellCheckDataClass(text=text, items=items),
