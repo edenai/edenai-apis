@@ -405,6 +405,7 @@ class GoogleTextApi(TextInterface):
                 standardized_response=standardized_response,
             )
         else:
+            raise Exception
             try:
                 vertexai.init(project=self.project_id, location=location)
                 chat_model = ChatModel.from_pretrained(model)
