@@ -26,6 +26,18 @@ class CorticalioApi(
     def text__keyword_extraction(
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
+        """
+        Extract Keywords from a given text
+
+        Args:
+            text (str): text to analyze, required and must not be empty or blank
+            language (str): text's language code in ISO format,
+                            will be auto-detected if not specified.
+
+        Raises:
+            ProviderException: if the specified or auto-detected language is not supported, or
+                               some error occurred while processing request.
+        """
         response = self.client.extract_keywords(
             text=text,
             language=language

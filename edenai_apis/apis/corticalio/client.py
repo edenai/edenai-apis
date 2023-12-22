@@ -18,6 +18,16 @@ class CorticalClient:
         self.base_url = self.api_settings.get("base_url").rstrip('/')
 
     def extract_keywords(self, text: str, language: str):
+        """
+        Extract keywords from the provided text.
+
+        Args:
+            text (str): text of interest, required
+            language (str): language of the specified text, optional
+
+        Returns:
+            List of keywords with corresponding scores and other metrics
+        """
         response = requests.post(
             url=f"{self.base_url}/keywords",
             headers=self.auth_headers,
@@ -26,9 +36,9 @@ class CorticalClient:
                 "language": language
             }
         )
-        return self.handle_response(response)
+        return self._handle_response(response)
 
-    def handle_response(self, response: Response):
+    def _handle_response(self, response: Response):
         """
         Extract response JSON body and raise ProviderException on a failed request
         """
