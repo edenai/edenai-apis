@@ -23,8 +23,8 @@ aleph-alpha-client==3.4.1
     # via -r requirements.in
 amazon-textract-response-parser==0.1.48
     # via -r requirements.in
-annotated-types==0.5.0
-    # via pydantic
+anyio==4.2.0
+    # via starlette
 astroid==2.15.5
     # via pylint
 async-timeout==4.0.3
@@ -61,12 +61,12 @@ babel==2.12.1
     # via sphinx
 beautifulsoup4==4.12.2
     # via furo
-boto3==1.29.6
+boto3==1.34.7
     # via
     #   -r requirements.in
     #   amazon-textract-response-parser
     #   sagemaker
-botocore==1.32.7
+botocore==1.34.7
     # via
     #   boto3
     #   s3transfer
@@ -86,6 +86,8 @@ charset-normalizer==3.1.0
     #   requests
 clarifai-grpc==9.10.7
     # via -r requirements.in
+click==8.1.7
+    # via uvicorn
 cloudpickle==2.2.1
     # via sagemaker
 constantly==15.1.0
@@ -109,12 +111,18 @@ dill==0.3.6
     #   multiprocess
     #   pathos
     #   pylint
+docker==7.0.0
+    # via sagemaker
 docutils==0.20.1
     # via sphinx
 exceptiongroup==1.1.2
-    # via pytest
+    # via
+    #   anyio
+    #   pytest
 execnet==1.9.0
     # via pytest-xdist
+fastapi==0.95.2
+    # via sagemaker
 ffmpeg-python==0.2.0
     # via -r requirements.in
 filelock==3.12.3
@@ -173,7 +181,7 @@ google-cloud-language==2.10.0
     # via -r requirements.in
 google-cloud-resource-manager==1.10.4
     # via google-cloud-aiplatform
-google-cloud-speech==2.21.0
+google-cloud-speech==2.20.0
     # via -r requirements.in
 google-cloud-storage==2.9.0
     # via
@@ -213,6 +221,8 @@ grpcio==1.56.0
     #   grpcio-status
 grpcio-status==1.48.2
     # via google-api-core
+h11==0.14.0
+    # via uvicorn
 httplib2==0.22.0
     # via
     #   google-api-python-client
@@ -229,6 +239,7 @@ ibm-watson==7.0.0
     # via -r requirements.in
 idna==3.4
     # via
+    #   anyio
     #   hyperlink
     #   requests
     #   yarl
@@ -307,6 +318,7 @@ openai==0.28.1
     # via -r requirements.in
 packaging==23.1
     # via
+    #   docker
     #   google-cloud-aiplatform
     #   google-cloud-bigquery
     #   huggingface-hub
@@ -373,9 +385,8 @@ protobuf==3.20.3
     #   grpc-google-iam-v1
     #   grpcio-status
     #   proto-plus
-    #   protobuf3-to-dict
     #   sagemaker
-protobuf3-to-dict==0.1.5
+psutil==5.9.7
     # via sagemaker
 psycopg2==2.9.6
     # via -r requirements.in
@@ -394,10 +405,10 @@ pycountry==22.3.5
     # via -r requirements.in
 pycparser==2.21
     # via cffi
-pydantic==2.0
-    # via -r requirements.in
-pydantic-core==2.0.1
-    # via pydantic
+pydantic==1.10.13
+    # via
+    #   -r requirements.in
+    #   fastapi
 pydub==0.25.1
     # via -r requirements.in
 pygments==2.15.1
@@ -463,6 +474,7 @@ requests==2.31.0
     #   aleph-alpha-client
     #   azure-core
     #   clarifai-grpc
+    #   docker
     #   google-api-core
     #   google-cloud-bigquery
     #   google-cloud-storage
@@ -475,15 +487,16 @@ requests==2.31.0
     #   msrest
     #   openai
     #   requests-oauthlib
+    #   sagemaker
     #   sphinx
     #   watson-developer-cloud
 requests-oauthlib==1.3.1
     # via msrest
 rsa==4.9
     # via google-auth
-s3transfer==0.7.0
+s3transfer==0.10.0
     # via boto3
-sagemaker==2.169.0
+sagemaker==2.202.1
     # via -r requirements.in
 schema==0.7.5
     # via sagemaker
@@ -500,10 +513,11 @@ six==1.16.0
     #   google-auth-httplib2
     #   google-pasta
     #   isodate
-    #   protobuf3-to-dict
     #   python-dateutil
 smdebug-rulesconfig==1.0.1
     # via sagemaker
+sniffio==1.3.0
+    # via anyio
 snowballstemmer==2.2.0
     # via sphinx
 soupsieve==2.4.1
@@ -527,6 +541,8 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
+starlette==0.27.0
+    # via fastapi
 tblib==1.7.0
     # via sagemaker
 tokenizers==0.14.0
@@ -544,6 +560,7 @@ tqdm==4.66.1
     #   aleph-alpha-client
     #   huggingface-hub
     #   openai
+    #   sagemaker
 twisted==22.10.0
     # via watson-developer-cloud
 txaio==23.1.1
@@ -551,7 +568,7 @@ txaio==23.1.1
 typing-extensions==4.7.1
     # via
     #   aleph-alpha-client
-    #   annotated-types
+    #   anyio
     #   astroid
     #   azure-ai-formrecognizer
     #   azure-core
@@ -559,10 +576,10 @@ typing-extensions==4.7.1
     #   huggingface-hub
     #   mypy
     #   pydantic
-    #   pydantic-core
     #   pylint
     #   pypdf
     #   python-liquid
+    #   starlette
     #   twisted
 tzdata==2023.3
     # via pandas
@@ -572,9 +589,13 @@ urllib3==1.26.16
     # via
     #   aleph-alpha-client
     #   botocore
+    #   docker
     #   google-auth
     #   ibm-cloud-sdk-core
     #   requests
+    #   sagemaker
+uvicorn==0.22.0
+    # via sagemaker
 watson-developer-cloud==2.0.0
     # via -r requirements.in
 websocket-client==1.1.0
