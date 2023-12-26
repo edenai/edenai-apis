@@ -299,7 +299,9 @@ class NyckelApi(ProviderInterface, ImageInterface):
             raise ProviderException(
                 "Something went wrong when creating the label !!", 500
             )
-        if response.status_code >= 400:
+        if response.status_code >= 400 and "already exists" not in response.json().get(
+            "message", ""
+        ):
             raise self._raise_provider_exception(url, payload, response)
 
     def image__automl_classification__upload_data_async__launch_job(
