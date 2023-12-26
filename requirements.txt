@@ -173,7 +173,7 @@ google-cloud-language==2.10.0
     # via -r requirements.in
 google-cloud-resource-manager==1.10.4
     # via google-cloud-aiplatform
-google-cloud-speech==2.21.0
+google-cloud-speech==2.20.0
     # via -r requirements.in
 google-cloud-storage==2.9.0
     # via
@@ -394,9 +394,9 @@ pycountry==22.3.5
     # via -r requirements.in
 pycparser==2.21
     # via cffi
-pydantic==2.0
+pydantic==2.5.3
     # via -r requirements.in
-pydantic-core==2.0.1
+pydantic-core==2.14.6
     # via pydantic
 pydub==0.25.1
     # via -r requirements.in
