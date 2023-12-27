@@ -382,38 +382,38 @@ class GoogleTextApi(TextInterface):
                 },
             }
             return payload
-        else:
-            messages = [
+
+        messages = [
+            {
+                "struct_val": {
+                    "author": {"string_val": "user"},
+                    "content": {"string_val": user_message},
+                }
+            }
+        ]
+        for idx, message in enumerate(history):
+            role = message.get("role")
+            if role == "assistant":
+                role = "bot"
+            messages.insert(
+                idx,
                 {
                     "struct_val": {
-                        "author": {"string_val": "user"},
-                        "content": {"string_val": user_message},
-                    }
-                }
-            ]
-            for idx, message in enumerate(history):
-                role = message.get("role")
-                if role == "assistant":
-                    role = "bot"
-                messages.insert(
-                    idx,
-                    {
-                        "struct_val": {
-                            "author": {"string_val": role},
-                            "content": {"string_val": message.get("message")},
-                        }
-                    },
-                )
-            payload = {
-                "inputs": [{"struct_val": {"messages": {"list_val": messages}}}],
-                "parameters": {
-                    "struct_val": {
-                        "temperature": {"float_val": temperature},
-                        "maxOutputTokens": {"int_val": max_tokens},
+                        "author": {"string_val": role},
+                        "content": {"string_val": message.get("message")},
                     }
                 },
-            }
-            return payload
+            )
+        payload = {
+            "inputs": [{"struct_val": {"messages": {"list_val": messages}}}],
+            "parameters": {
+                "struct_val": {
+                    "temperature": {"float_val": temperature},
+                    "maxOutputTokens": {"int_val": max_tokens},
+                }
+            },
+        }
+        return payload
 
     def __text_chat_stream_generator(self, response: requests.Response) -> Generator:
         """returns a generator of chat messages

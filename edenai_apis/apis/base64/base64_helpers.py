@@ -374,7 +374,7 @@ def format_financial_document_data(original_response: Dict) -> FinancialParserDa
                 document_type=document_type
             ),
             item_lines=[FinancialLineItem(
-                tax=item.get("Tax"),
+                tax=convert_string_to_number(item.get("Tax"), float),
                 amount_line=convert_string_to_number(item.get("LineTotal"), float),
                 description=item.get("Description"),
                 unit_price=convert_string_to_number(item.get("UnitPrice"), float),

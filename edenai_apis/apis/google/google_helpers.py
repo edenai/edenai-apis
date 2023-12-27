@@ -454,29 +454,31 @@ def format_document_to_dict(document: Document) -> List[dict]:
     """
     extracted_data = []
 
-    for idx, page_data in enumerate(Document.to_dict(document).get("pages", []), start=1):
+    for idx in range(0, len(Document.to_dict(document).get("pages"))):
         summary = {"line_items": []}
-
         for entity in document.entities:
             entity_dict = Document.Entity.to_dict(entity)
             page_anchor = entity_dict.get("page_anchor", {}) or {}
             page_refs = page_anchor.get("page_refs", [{}]) or [{}]
-
             if page_refs[0].get("page") != str(idx):
                 continue
-
-            entity_type = entity_dict.get("type_", "")
-            if entity_type == 'line_item':
-                line_dict = {property.get("type_", ""): property.get("normalized_value", {}).get("text", property.get("mention_text", "")) for property in entity_dict.get("properties", [])}
+            type = entity_dict["type_"]
+            if type == 'line_item':
+                line_dict = {}
+                for property in entity_dict.get("properties", []):
+                    property_type = property.get("type_", "")
+                    property_value = property.get("normalized_value", {}).get(
+                        "text"
+                    ) or property.get("mention_text")
+                    line_dict.update({property_type: property_value})
                 summary["line_items"].append(line_dict)
             else:
-                summary[entity_type] = entity_dict.get('normalized_value', {}).get('text', entity_dict.get("mention_text", ""))
-
+                summary[type] = entity_dict.get('normalized_value',{}
+                ).get('text') or entity_dict.get("mention_text")
         summary["metadata"] = {
-            "page_number": idx,
-            "invoice_number": None  # Google does not make the difference between the documents.
+            "page_number" : idx+1,
+            "invoice" : idx+1
         }
-
         extracted_data.append(summary)
 
     return extracted_data
