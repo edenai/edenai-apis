@@ -1,5 +1,5 @@
 import json
-from typing import Dict, List, Literal, Optional, Sequence, Union
+from typing import Dict, Generator, List, Literal, Optional, Sequence, Union
 
 import requests
 import vertexai
@@ -341,6 +341,132 @@ class GoogleTextApi(TextInterface):
                 standardized_response=standardized_response,
             )
 
+    def __text_chat_prepare_payload(
+        self,
+        user_message: str,
+        history: List[dict],
+        stream: bool,
+        temperature: float,
+        max_tokens: int,
+        context: str = "",
+    ) -> dict:
+        """returns the right payload for google chat
+
+        Args:
+            user_message (str): the user message
+            history (List[dict]): the history conversation
+            stream (bool): Indicate wether the chat is stream or not
+            temperature (float): the chat generation temperature
+            max_tokens (int): the chat generation max_tokens
+            context (str, optional): A message that helps set the behavior of the chat.
+            Defaults to "".
+
+        Returns:
+            dict: returns the right payload
+        """
+        if not stream:
+            messages = [{"author": "user", "content": user_message}]
+            for idx, message in enumerate(history):
+                role = message.get("role")
+                if role == "assistant":
+                    role = "bot"
+                messages.insert(
+                    idx,
+                    {"author": role, "content": message.get("message")},
+                )
+            payload = {
+                "instances": [{"context": context, "messages": messages}],
+                "parameters": {
+                    "temperature": temperature,
+                    "maxOutputTokens": max_tokens,
+                },
+            }
+            return payload
+        else:
+            messages = [
+                {
+                    "struct_val": {
+                        "author": {"string_val": "user"},
+                        "content": {"string_val": user_message},
+                    }
+                }
+            ]
+            for idx, message in enumerate(history):
+                role = message.get("role")
+                if role == "assistant":
+                    role = "bot"
+                messages.insert(
+                    idx,
+                    {
+                        "struct_val": {
+                            "author": {"string_val": role},
+                            "content": {"string_val": message.get("message")},
+                        }
+                    },
+                )
+            payload = {
+                "inputs": [{"struct_val": {"messages": {"list_val": messages}}}],
+                "parameters": {
+                    "struct_val": {
+                        "temperature": {"float_val": temperature},
+                        "maxOutputTokens": {"int_val": max_tokens},
+                    }
+                },
+            }
+            return payload
+
+    def __text_chat_stream_generator(self, response: requests.Response) -> Generator:
+        """returns a generator of chat messages
+
+        Args:
+            response (requests.Response): The post request
+
+        Yields:
+            Generator: generator of messages
+        """
+        bytes_data = b""
+        yield ChatStreamResponse(
+            text="",
+            blocked=False,
+            provider="google",
+        )
+        for raw in response.iter_lines():
+            if raw.decode() == ",":
+                try:
+                    res = json.loads(bytes_data.decode())
+                    yield ChatStreamResponse(
+                        text=res["outputs"][0]["structVal"]["candidates"]["listVal"][0][
+                            "structVal"
+                        ]["content"]["stringVal"][0],
+                        blocked=res["outputs"][0]["structVal"]["safetyAttributes"][
+                            "listVal"
+                        ][0]["structVal"]["blocked"]["boolVal"][0],
+                        provider="google",
+                    )
+                except:
+                    return
+                bytes_data = b""
+                continue
+            if raw.decode() == "[{":
+                bytes_data += b"{"
+            else:
+                bytes_data += raw
+        if bytes_data:
+            try:
+                res = json.loads(bytes_data.decode()[: len(bytes_data.decode()) - 1])
+                yield ChatStreamResponse(
+                    text=res["outputs"][0]["structVal"]["candidates"]["listVal"][0][
+                        "structVal"
+                    ]["content"]["stringVal"][0],
+                    blocked=res["outputs"][0]["structVal"]["safetyAttributes"][
+                        "listVal"
+                    ][0]["structVal"]["blocked"]["boolVal"][0],
+                    provider="google",
+                )
+            except:
+                return
+        response.close()
+
     def text__chat(
         self,
         text: str,
@@ -359,25 +485,17 @@ class GoogleTextApi(TextInterface):
             "Content-Type": "application/json",
             "Authorization": f"Bearer {token}",
         }
-        messages = [{"author": "user", "content": text}]
-        if previous_history:
-            for idx, message in enumerate(previous_history):
-                role = message.get("role")
-                if role == "assistant":
-                    role = "bot"
-                messages.insert(
-                    idx,
-                    {"author": role, "content": message.get("message")},
-                )
+
         context = chatbot_global_action if chatbot_global_action else ""
         if stream is False:
-            payload = {
-                "instances": [{"context": context, "messages": messages}],
-                "parameters": {
-                    "temperature": temperature,
-                    "maxOutputTokens": max_tokens,
-                },
-            }
+            payload = self.__text_chat_prepare_payload(
+                text,
+                previous_history if previous_history else [],
+                False,
+                temperature,
+                max_tokens,
+                context,
+            )
             response = requests.post(
                 url=f"{url}:predict", headers=headers, json=payload
             )
@@ -405,38 +523,27 @@ class GoogleTextApi(TextInterface):
                 standardized_response=standardized_response,
             )
         else:
-            try:
-                vertexai.init(project=self.project_id, location=location)
-                chat_model = ChatModel.from_pretrained(model)
-
-                messages = []
-                if previous_history:
-                    for message in previous_history:
-                        role = message.get("role")
-                        if role == "assistant":
-                            role = "bot"
-                        messages.append(
-                            ChatMessage(author=role, content=message.get("message")),
-                        )
-                chat = chat_model.start_chat(context=context, message_history=messages)
-
-                parameters = {
-                    "temperature": temperature,
-                    "max_output_tokens": max_tokens,
-                }
-                responses = chat.send_message_streaming(message=text, **parameters)
-            except Exception as exc:
-                raise ProviderException(str(exc))
-
-            stream = (
-                ChatStreamResponse(
-                    text=res.text, blocked=res.is_blocked, provider="google"
-                )
-                for res in responses
+            payload = self.__text_chat_prepare_payload(
+                text,
+                previous_history if previous_history else [],
+                True,
+                temperature,
+                max_tokens,
+                context,
             )
 
+            response = requests.post(
+                url=f"{url}:serverStreamingPredict",
+                headers=headers,
+                json=payload,
+                stream=True,
+            )
+
+            response = self.__text_chat_stream_generator(response)
+
             return ResponseType[StreamChat](
-                original_response=None, standardized_response=StreamChat(stream=stream)
+                original_response=None,
+                standardized_response=StreamChat(stream=response),
             )
 
     def text__embeddings(
