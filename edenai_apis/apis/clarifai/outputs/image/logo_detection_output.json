@@ -2,48 +2,136 @@
   "original_response": {
     "regions": [
       {
-        "id": "f81abd8a3af0a262b727c8e43c17acfa",
+        "id": "07c0ba3d3693c4635fa4eb95fb341dfe",
         "region_info": {
           "bounding_box": {
-            "top_row": 0.16638272,
-            "left_col": 0.23543556,
-            "bottom_row": 0.55358154,
-            "right_col": 0.42150378
+            "top_row": 0.20499195,
+            "left_col": 0.7540047,
+            "bottom_row": 0.57815295,
+            "right_col": 0.95478857
           }
         },
         "data": {
           "concepts": [
             {
-              "id": "ai_kQnRp8zK",
-              "name": "Apple",
-              "value": 0.86659974,
+              "id": "ai_ZS42Rmgl",
+              "name": "Gatorade",
+              "value": 0.36127707,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.86659974
+        "value": 0.36127707
       },
       {
-        "id": "97dd2568a3107684dab14ed508ab9dcf",
+        "id": "6816877c741b1e7aeb43ec862f01746e",
         "region_info": {
           "bounding_box": {
-            "top_row": 0.22703096,
-            "left_col": 0.08523726,
-            "bottom_row": 0.5559068,
-            "right_col": 0.2356551
+            "top_row": 0.24127519,
+            "left_col": 0.23712163,
+            "bottom_row": 0.5660574,
+            "right_col": 0.42402083
           }
         },
         "data": {
           "concepts": [
             {
-              "id": "ai_C3QX91q4",
-              "name": "facebook",
-              "value": 0.5745686,
+              "id": "ai_21q7W4Jv",
+              "name": "Pepsi",
+              "value": 0.29769984,
               "app_id": "main"
             }
           ]
         },
-        "value": 0.5745686
+        "value": 0.29769984
+      },
+      {
+        "id": "e7e0101af911be31c209b4a0988a8685",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.49062496,
+            "left_col": 0.41326603,
+            "bottom_row": 0.5712042,
+            "right_col": 0.6294383
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_21q7W4Jv",
+              "name": "Pepsi",
+              "value": 0.054978378,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.054978378
+      },
+      {
+        "id": "3a8698156eb84e44a3f0131339cf7fc9",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.27371266,
+            "left_col": 0.115874425,
+            "bottom_row": 0.51686794,
+            "right_col": 0.21462564
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_Zb2bvTFF",
+              "name": "Under-Armour",
+              "value": 0.026964108,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.026964108
+      },
+      {
+        "id": "cc443397a769afe43eab9da53b34e1a7",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.22251777,
+            "left_col": 0.43900174,
+            "bottom_row": 0.5460407,
+            "right_col": 0.604987
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_ZS42Rmgl",
+              "name": "Gatorade",
+              "value": 0.01654512,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.01654512
+      },
+      {
+        "id": "219baf2ec83f782b841ea7b73ca9afd8",
+        "region_info": {
+          "bounding_box": {
+            "top_row": 0.22755757,
+            "left_col": 0.5824475,
+            "bottom_row": 0.5805072,
+            "right_col": 0.73653495
+          }
+        },
+        "data": {
+          "concepts": [
+            {
+              "id": "ai_9LfkszCt",
+              "name": "Budweiser",
+              "value": 0.011105369,
+              "app_id": "main"
+            }
+          ]
+        },
+        "value": 0.011105369
       }
     ]
   },
@@ -53,49 +141,145 @@
         "bounding_poly": {
           "vertices": [
             {
-              "x": 301.3575168,
-              "y": 119.7955584
+              "x": 965.1260159999999,
+              "y": 147.594204
             },
             {
-              "x": 539.5248384,
-              "y": 119.7955584
+              "x": 1222.1293696,
+              "y": 147.594204
             },
             {
-              "x": 539.5248384,
-              "y": 398.5787088
+              "x": 1222.1293696,
+              "y": 416.270124
             },
             {
-              "x": 301.3575168,
-              "y": 398.5787088
+              "x": 965.1260159999999,
+              "y": 416.270124
             }
           ]
         },
-        "description": "Apple",
-        "score": 0.86659974
+        "description": "Gatorade",
+        "score": 0.36127707
       },
       {
         "bounding_poly": {
           "vertices": [
             {
-              "x": 109.10369279999999,
-              "y": 163.4622912
+              "x": 303.5156864,
+              "y": 173.7181368
             },
             {
-              "x": 301.638528,
-              "y": 163.4622912
+              "x": 542.7466624,
+              "y": 173.7181368
             },
             {
-              "x": 301.638528,
-              "y": 400.252896
+              "x": 542.7466624,
+              "y": 407.561328
             },
             {
-              "x": 109.10369279999999,
-              "y": 400.252896
+              "x": 303.5156864,
+              "y": 407.561328
             }
           ]
         },
-        "description": "facebook",
-        "score": 0.5745686
+        "description": "Pepsi",
+        "score": 0.29769984
+      },
+      {
+        "bounding_poly": {
+          "vertices": [
+            {
+              "x": 528.9805184,
+              "y": 353.2499712
+            },
+            {
+              "x": 805.681024,
+              "y": 353.2499712
+            },
+            {
+              "x": 805.681024,
+              "y": 411.26702400000005
+            },
+            {
+              "x": 528.9805184,
+              "y": 411.26702400000005
+            }
+          ]
+        },
+        "description": "Pepsi",
+        "score": 0.054978378
+      },
+      {
+        "bounding_poly": {
+          "vertices": [
+            {
+              "x": 148.319264,
+              "y": 197.0731152
+            },
+            {
+              "x": 274.7208192,
+              "y": 197.0731152
+            },
+            {
+              "x": 274.7208192,
+              "y": 372.14491680000003
+            },
+            {
+              "x": 148.319264,
+              "y": 372.14491680000003
+            }
+          ]
+        },
+        "description": "Under-Armour",
+        "score": 0.026964108
+      },
+      {
+        "bounding_poly": {
+          "vertices": [
+            {
+              "x": 561.9222272,
+              "y": 160.2127944
+            },
+            {
+              "x": 774.38336,
+              "y": 160.2127944
+            },
+            {
+              "x": 774.38336,
+              "y": 393.14930400000003
+            },
+            {
+              "x": 561.9222272,
+              "y": 393.14930400000003
+            }
+          ]
+        },
+        "description": "Gatorade",
+        "score": 0.01654512
+      },
+      {
+        "bounding_poly": {
+          "vertices": [
+            {
+              "x": 745.5328,
+              "y": 163.84145039999999
+            },
+            {
+              "x": 942.7647360000001,
+              "y": 163.84145039999999
+            },
+            {
+              "x": 942.7647360000001,
+              "y": 417.965184
+            },
+            {
+              "x": 745.5328,
+              "y": 417.965184
+            }
+          ]
+        },
+        "description": "Budweiser",
+        "score": 0.011105369
       }
     ]
   }
