@@ -5,7 +5,7 @@ from typing import Sequence
 
 import google.auth
 import googleapiclient.discovery
-from PIL import Image as Img
+from PIL import Image as Img, UnidentifiedImageError
 from google.api_core.client_options import ClientOptions
 from google.cloud import documentai_v1beta3 as documentai
 from google.cloud import vision
@@ -19,7 +19,7 @@ from edenai_apis.apis.google.google_helpers import (
     google_ocr_tables_standardize_response,
     handle_done_response_ocr_async,
     handle_google_call,
-    google_financial_parser
+    google_financial_parser,
 )
 from edenai_apis.features.ocr import (
     BankInvoice,
@@ -38,7 +38,10 @@ from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
     OcrAsyncDataClass,
 )
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
-from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass, FinancialParserType
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialParserDataClass,
+    FinancialParserType,
+)
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     InfosReceiptParserDataClass,
     ItemLines,
@@ -77,7 +80,13 @@ class GoogleOcrApi(OcrInterface):
 
         mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
         if mimetype.startswith("image"):
-            width, height = Img.open(file).size
+            try:
+                with Img.open(file) as img:
+                    width, height = img.size
+            except UnidentifiedImageError:
+                raise ProviderException(
+                    "Image could not be identified. Supported types are: image/* and application/pdf"
+                )
         elif mimetype == "application/pdf":
             width, height = get_pdf_width_height(file)
         else:
@@ -534,18 +543,24 @@ class GoogleOcrApi(OcrInterface):
             raise ProviderException(res.get("error"))
 
         return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)
-    
+
     def ocr__financial_parser(
-            self, file: str, language: str, document_type: str, file_url: str = ""
-            ) -> ResponseType[FinancialParserDataClass]:
+        self, file: str, language: str, document_type: str, file_url: str = ""
+    ) -> ResponseType[FinancialParserDataClass]:
         mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
         financial_project_id = self.api_settings["documentai"]["project_id"]
 
-        document_type_key = "process_invoice_id" if document_type == FinancialParserType.INVOICE.value else "process_receipt_id"
+        document_type_key = (
+            "process_invoice_id"
+            if document_type == FinancialParserType.INVOICE.value
+            else "process_receipt_id"
+        )
         financial_parser_process_id = self.api_settings["documentai"][document_type_key]
 
         opts = ClientOptions(api_endpoint=f"eu-documentai.googleapis.com")
-        financial_parser_client = documentai.DocumentProcessorServiceClient(client_options=opts)
+        financial_parser_client = documentai.DocumentProcessorServiceClient(
+            client_options=opts
+        )
 
         name = financial_parser_client.processor_path(
             financial_project_id, "eu", financial_parser_process_id
@@ -557,7 +572,9 @@ class GoogleOcrApi(OcrInterface):
         request = handle_google_call(documentai.ProcessRequest, **payload_request)
 
         payload_result = {"request": request}
-        result = handle_google_call(financial_parser_client.process_document, **payload_result)
+        result = handle_google_call(
+            financial_parser_client.process_document, **payload_result
+        )
         document = result.document
 
         file_.close()
