@@ -83,10 +83,10 @@ class GoogleOcrApi(OcrInterface):
             try:
                 with Img.open(file) as img:
                     width, height = img.size
-            except UnidentifiedImageError:
+            except UnidentifiedImageError as exc:
                 raise ProviderException(
                     "Image could not be identified. Supported types are: image/* and application/pdf"
-                )
+                ) from exc
         elif mimetype == "application/pdf":
             width, height = get_pdf_width_height(file)
         else:
