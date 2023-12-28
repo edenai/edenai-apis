@@ -433,7 +433,7 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface
         app_id = "main"
         metadata = (("authorization", self.key),)
         user_data_object = resources_pb2.UserAppIDSet(user_id=user_id, app_id=app_id)
-        model_id = "logos-yolov5"
+        model_id = "logo-detection-v2"
         post_model_outputs_response = stub.PostModelOutputs(
             service_pb2.PostModelOutputsRequest(
                 # The user_data_object is created in the overview and is required when using a PAT
