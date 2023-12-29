@@ -60,8 +60,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         if response.status_code != 200:
             if not response.json().get("success"):
                 raise ProviderException(
-                    response.json().get("message"),
-                    code = response.status_code
+                    response.json().get("message"), code=response.status_code
                 )
 
         response = response.json()
@@ -108,7 +107,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         data = original_resoonse["data"]
 
         if original_resoonse["success"] is False:
-            raise ProviderException(data.get("error"), code = response.status_code)
+            raise ProviderException(data.get("error"), code=response.status_code)
 
         standardized_response = AutomaticTranslationDataClass(
             text=data["translatedText"]
@@ -129,7 +128,8 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         original_response = response.json()
         if response.status_code != 200:
             raise ProviderException(
-                message=original_response["error"], code=response.status_code
+                message=original_response.get("data", {}).get("error"),
+                code=response.status_code,
             )
 
         items: Sequence[InfosLanguageDetectionDataClass] = []
@@ -160,7 +160,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         audio_attributes: tuple,
         model: str = None,
         file_url: str = "",
-        provider_params = dict()
+        provider_params=dict(),
     ) -> AsyncLaunchJobResponseType:
         export_format, channels, frame_rate = audio_attributes
 
@@ -199,8 +199,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         original_response = response.json()
         if response.status_code != 201:
             raise ProviderException(
-                original_response.get("data").get("error"),
-                code= response.status_code
+                original_response.get("data").get("error"), code=response.status_code
             )
 
         transcribeId = original_response.get("data").get("transcribeId")
@@ -223,10 +222,9 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
             error = response.json().get("message") or data.get("message")
             if "Invalid transcribeId" in error:
                 raise AsyncJobException(
-                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
-                    code = status_code
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, code=status_code
                 )
-            raise ProviderException(error, code = status_code)
+            raise ProviderException(error, code=status_code)
 
         diarization = SpeechDiarization(total_speakers=0, entries=[])
         original_response = response.json()
