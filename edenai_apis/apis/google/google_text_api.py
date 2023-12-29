@@ -284,11 +284,9 @@ class GoogleTextApi(TextInterface):
                 message=original_response["error"]["message"],
                 code=response.status_code,
             )
-
+        parts = original_response["candidates"][0]["content"].get("parts", [])
         standardized_response = GenerationDataClass(
-            generated_text=original_response["candidates"][0]["content"]["parts"][0][
-                "text"
-            ]
+            generated_text=parts[0].get("text", " ") if parts else " "
         )
 
         return ResponseType[GenerationDataClass](
