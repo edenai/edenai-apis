@@ -19,6 +19,23 @@
             "launch_similarity": {
                 "version": "v1.0.0"
             }
+        },
+        "automl_classification": {
+            "create_project": {
+                "version": "v1.0.0"
+            },
+            "upload_data_async": {
+                "version": "v1.0.0"
+            },
+            "train_async": {
+                "version": "v1.0.0"
+            },
+            "predict_async": {
+                "version": "v1.0.0"
+            },
+            "delete_project": {
+                "version": "v1.0.0"
+            }
         }
     }
 }

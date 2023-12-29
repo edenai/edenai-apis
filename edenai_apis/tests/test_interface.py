@@ -67,7 +67,11 @@ def test_list_features():
         assert method
         assert len(method) == 3 or len(method) == 4
         if len(method) == 4:
-            assert "face_recognition" in method[2] or "search" in method[2]
+            assert (
+                "face_recognition" in method[2]
+                or "search" in method[2]
+                or "automl_classification" in method[2]
+            )
         for elem in method:
             assert elem
 

@@ -50,7 +50,9 @@ class TestLoadKey:
         if provider == "faker":
             pytest.skip("unsupported provider")
         data = load_key(provider, False)
-        assert (isinstance(data, dict) or isinstance(data, list)), f"No settings.json file found for {provider}"
+        assert isinstance(data, dict) or isinstance(
+            data, list
+        ), f"No settings.json file found for {provider}"
 
 
 class TestLoadClass:
@@ -193,9 +195,11 @@ class TestLoadSamples:
         ("feature", "subfeature", "phase"), _get_feature_subfeature_phase()
     )
     def test_load_sample_valid_parameters(self, feature, subfeature, phase):
-        if feature == 'image' and subfeature == 'search':
+        if feature == "image" and (
+            subfeature == "search" or subfeature == "automl_classification"
+        ):
             pytest.skip(
-                "image-search need dynamic argument as each provider should have a different project_id"
+                "image-search and image-automl_classification need dynamic argument as each provider should have a different project_id"
             )
 
         args = load_samples(feature, subfeature, phase)

@@ -1,0 +1,11 @@
+{
+  "original_response": {
+    "name": "test_project",
+    "input": "Image",
+    "output": "Classification"
+  },
+  "standardized_response": {
+    "name": "test_project",
+    "project_id": "function_yl5gimjcjazlxsle"
+  }
+}
