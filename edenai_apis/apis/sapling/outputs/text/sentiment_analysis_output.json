@@ -2,62 +2,62 @@
   "original_response": {
     "overall": [
       [
-        0.5090816482581898,
+        0.5090111532158194,
         "NEGATIVE"
       ],
       [
-        0.3254070186412166,
+        0.3242414037094958,
         "POSITIVE"
       ],
       [
-        0.16551133310059352,
+        0.16674744307468478,
         "NEUTRAL"
       ]
     ],
     "results": [
       [
         [
-          0.9607561649754643,
+          0.9607619624584913,
           "POSITIVE"
         ]
       ],
       [
         [
-          0.9988981080241501,
+          0.9989031137956772,
           "NEUTRAL"
         ],
         [
-          0.00016684555157553405,
+          0.00016454463184345514,
           "POSITIVE"
         ]
       ],
       [
         [
-          0.6736086010932922,
+          0.6681322455406189,
           "POSITIVE"
         ],
         [
-          0.2735685557126999,
+          0.28065283969044685,
           "NEUTRAL"
         ]
       ],
       [
         [
-          0.6154678463935852,
+          0.6139531135559082,
           "NEUTRAL"
         ],
         [
-          0.2984175980091095,
+          0.30071301758289337,
           "POSITIVE"
         ]
       ],
       [
         [
-          0.9607282876968384,
+          0.9607479125261307,
           "NEGATIVE"
         ],
         [
-          0.017256956547498703,
+          0.016855532303452492,
           "NEUTRAL"
         ]
       ]
@@ -92,7 +92,7 @@
       {
         "segment": "There needs to be a way to only view products sold by Amazon directly, because many market sellers way overprice items that can be purchased cheaper elsewhere (like Walmart, Target, etc).",
         "sentiment": "Neutral",
-        "sentiment_rate": 0.62
+        "sentiment_rate": 0.61
       },
       {
         "segment": "The second issue is they make it too difficult to get help when there's an issue with an order.",
