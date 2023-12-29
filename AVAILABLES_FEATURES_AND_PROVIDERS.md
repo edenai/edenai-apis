@@ -225,6 +225,7 @@
 | | stabilityai |
 | **landmark_detection** | google |
 | | microsoft |
+| **automl_classification** | nyckel |
 | **search** | nyckel |
 | | sentisight |
 
@@ -708,7 +709,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **image** | search |
+| **image** | automl_classification |
+| | search |
 
 </details>
 <details><summary>oneai</summary>
