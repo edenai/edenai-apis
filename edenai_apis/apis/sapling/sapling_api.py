@@ -139,11 +139,11 @@ class SaplingApi(ProviderInterface, TextInterface):
                     segment=sentence, sentiment=sentiment, sentiment_rate=sentiment_rate
                 )
                 best_sentiment["items"].append(segment_sentiment)
-
+        overall = response_json.get("overall", [])
         best_sentiment.update(
             {
-                "general_sentiment": response_json["overall"][0][1],
-                "general_sentiment_rate": response_json["overall"][0][0],
+                "general_sentiment": overall[0][1] if overall else None,
+                "general_sentiment_rate": overall[0][0] if overall else 0,
             }
         )
 
