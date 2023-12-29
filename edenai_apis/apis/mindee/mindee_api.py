@@ -4,6 +4,7 @@ from typing import Dict, Optional, Sequence, TypeVar
 
 import requests
 
+from edenai_apis.apis.mindee.mindee_ocr_normalizer import mindee_financial_parser
 from edenai_apis.features import ProviderInterface, OcrInterface
 from edenai_apis.features.ocr import (
     ReceiptParserDataClass,
@@ -21,7 +22,9 @@ from edenai_apis.features.ocr.bank_check_parsing import (
     MicrModel,
     ItemBankCheckParsingDataClass,
 )
-from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialParserDataClass,
+)
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import Country
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     CustomerInformationInvoice,
@@ -45,7 +48,6 @@ from edenai_apis.utils.conversion import (
 )
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.apis.mindee.mindee_ocr_normalizer import mindee_financial_parser
 
 ParamsApi = TypeVar("ParamsApi")
 
@@ -481,7 +483,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         payees_list_value = []
         for p in payees_list:
             if p:
-                payees_list_value.append(p.get("value", default_dict))
+                payees_list_value.append(p.get("value", ""))
         payees_str = None
         if len(payees_list_value) > 0:
             payees_str = ",".join(payees_list_value)
@@ -522,15 +524,17 @@ class MindeeApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__financial_parser(
-            self, file: str, language: str, document_type: str, file_url: str = ""
-            ) -> ResponseType[FinancialParserDataClass]:
+        self, file: str, language: str, document_type: str, file_url: str = ""
+    ) -> ResponseType[FinancialParserDataClass]:
         headers = {
             "Authorization": self.api_key,
         }
         file_ = open(file, "rb")
         files = {"document": file_}
         params = {"locale": {"language": language}}
-        response = requests.post(self.url_financial, headers=headers, files=files, params=params)
+        response = requests.post(
+            self.url_financial, headers=headers, files=files, params=params
+        )
         original_response = response.json()
 
         file_.close()
@@ -539,8 +543,10 @@ class MindeeApi(ProviderInterface, OcrInterface):
             raise ProviderException(
                 original_response["api_request"]["error"]["message"], code=response
             )
-        standardized_response = mindee_financial_parser(original_response=original_response)
+        standardized_response = mindee_financial_parser(
+            original_response=original_response
+        )
         return ResponseType[FinancialParserDataClass](
             original_response=original_response,
-            standardized_response=standardized_response
+            standardized_response=standardized_response,
         )
