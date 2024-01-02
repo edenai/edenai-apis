@@ -982,7 +982,7 @@ def microsoft_financial_parser_formatter(original_response : dict) -> FinancialP
                             product_code=line.get("ProductCode", {}).get("value"),
                             date=line.get("Date", {}).get("value"),
                             tax=(line.get("Tax", {}).get("value") or {}).get("amount"),
-                            tax_rate=line.get("TaxRate", {}).get("value", {}).get("amount")
+                            tax_rate=line.get("TaxRate", {}).get("value")
                         ))
         extracted_data.append(FinancialParserObjectDataClass(
             customer_information=customer_information,
