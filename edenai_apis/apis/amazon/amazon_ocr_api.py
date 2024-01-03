@@ -34,6 +34,7 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
     FinancialParserDataClass,
 )
+from edenai_apis.utils.async_to_sync import fibonacci_waiting_call
 from edenai_apis.utils.exception import (
     AsyncJobException,
     AsyncJobExceptionReason,
@@ -388,21 +389,14 @@ class AmazonOcrApi(OcrInterface):
             )
             raise ProviderException(error)
 
-        first_occurence, second_occurence = (
-            1,
-            2,
+        waiting_args = {"JobId": job_id}
+        get_response = fibonacci_waiting_call(
+            max_time=60,
+            status="SUCCEEDED",
+            func=self.clients["textract"].get_expense_analysis,
+            provider_handel_call=handle_amazon_call,
+            **waiting_args,
         )  # waiting exponentially using fibonacci
-        wait_time = first_occurence + second_occurence
-        total_wait_time = wait_time
-        while total_wait_time < 60:  # Wait for the answer from provider
-            if get_response["JobStatus"] == "SUCCEEDED":
-                break
-            sleep(wait_time)
-            first_occurence = second_occurence
-            second_occurence = wait_time
-            wait_time = first_occurence + second_occurence
-            total_wait_time += wait_time
-            get_response = self.clients["textract"].get_expense_analysis(JobId=job_id)
 
         # Check if NextToken exist
         pagination_token = get_response.get("NextToken")
@@ -460,13 +454,14 @@ class AmazonOcrApi(OcrInterface):
             )
             raise ProviderException(error)
 
-        wait_time = 0
-        while wait_time < 60:  # Wait for the answer from provider
-            if get_response["JobStatus"] == "SUCCEEDED":
-                break
-            sleep(3)
-            wait_time += 3
-            get_response = self.clients["textract"].get_expense_analysis(JobId=job_id)
+        waiting_args = {"JobId": job_id}
+        get_response = fibonacci_waiting_call(
+            max_time=60,
+            status="SUCCEEDED",
+            func=self.clients["textract"].get_expense_analysis,
+            provider_handel_call=handle_amazon_call,
+            **waiting_args,
+        )
 
         # Check if NextToken exist
         pagination_token = get_response.get("NextToken")
@@ -582,16 +577,15 @@ class AmazonOcrApi(OcrInterface):
                 self.clients["textract"].start_document_analysis, **payload
             )
 
-            while True:
-                payload = {"JobId": launch_job_response["JobId"]}
-                response = handle_amazon_call(
-                    self.clients["textract"].get_document_analysis, **payload
-                )
-
-                if response["JobStatus"] != "IN_PROGRESS":
-                    break
-
-                sleep(1)
+            waiting_args = {"JobId": launch_job_response["JobId"]}
+            response = fibonacci_waiting_call(
+                max_time=100,
+                status="IN_PROGRESS",
+                func=self.clients["textract"].get_document_analysis,
+                provider_handel_call=handle_amazon_call,
+                status_positif=False,
+                **waiting_args,
+            )
 
             if response["JobStatus"] == "FAILED":
                 error: str = response.get(
@@ -654,13 +648,14 @@ class AmazonOcrApi(OcrInterface):
             )
             raise ProviderException(error)
 
-        wait_time = 0
-        while wait_time < 60:  # Wait for the answer from provider
-            if get_response["JobStatus"] == "SUCCEEDED":
-                break
-            sleep(3)
-            wait_time += 3
-            get_response = self.clients["textract"].get_expense_analysis(JobId=job_id)
+        waiting_args = {"JobId": job_id}
+        get_response = fibonacci_waiting_call(
+            max_time=60,
+            status="SUCCEEDED",
+            func=self.clients["textract"].get_expense_analysis,
+            provider_handel_call=handle_amazon_call,
+            **waiting_args,
+        )  # waiting exponentially using fibonacci
 
         # Check if NextToken exist
         pagination_token = get_response.get("NextToken")
