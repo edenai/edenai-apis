@@ -28,8 +28,12 @@ from edenai_apis.features.ocr.ocr_interface import OcrInterface
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     OcrTablesAsyncDataClass,
 )
-from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import ReceiptParserDataClass
-from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass
+from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
+    ReceiptParserDataClass,
+)
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialParserDataClass,
+)
 from edenai_apis.utils.exception import (
     AsyncJobException,
     AsyncJobExceptionReason,
@@ -384,12 +388,20 @@ class AmazonOcrApi(OcrInterface):
             )
             raise ProviderException(error)
 
-        wait_time = 0
-        while wait_time < 60:  # Wait for the answer from provider
+        first_occurence, second_occurence = (
+            1,
+            2,
+        )  # waiting exponentially using fibonacci
+        wait_time = first_occurence + second_occurence
+        total_wait_time = wait_time
+        while total_wait_time < 60:  # Wait for the answer from provider
             if get_response["JobStatus"] == "SUCCEEDED":
                 break
-            sleep(3)
-            wait_time += 3
+            sleep(wait_time)
+            first_occurence = second_occurence
+            second_occurence = wait_time
+            wait_time = first_occurence + second_occurence
+            total_wait_time += wait_time
             get_response = self.clients["textract"].get_expense_analysis(JobId=job_id)
 
         # Check if NextToken exist
@@ -614,8 +626,8 @@ class AmazonOcrApi(OcrInterface):
             )
 
     def ocr__financial_parser(
-            self, file: str, language: str, document_type: str, file_url: str = ""
-            ) -> ResponseType[FinancialParserDataClass]:
+        self, file: str, language: str, document_type: str, file_url: str = ""
+    ) -> ResponseType[FinancialParserDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
 
