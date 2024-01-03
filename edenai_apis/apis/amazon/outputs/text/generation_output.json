@@ -1,0 +1,18 @@
+{
+  "original_response": {
+    "inputTextTokenCount": 33,
+    "results": [
+      {
+        "tokenCount": 13,
+        "outputText": "Sorry - this model is unable to respond to this request.",
+        "completionReason": "CONTENT_FILTERED"
+      }
+    ],
+    "usage": {
+      "total_tokens": 46
+    }
+  },
+  "standardized_response": {
+    "generated_text": "Sorry - this model is unable to respond to this request."
+  }
+}
