@@ -42,7 +42,7 @@ autobahn==22.7.1
     # via watson-developer-cloud
 automat==22.10.0
     # via twisted
-azure-ai-formrecognizer==3.2.0
+azure-ai-formrecognizer==3.3.2
     # via -r requirements.in
 azure-cognitiveservices-speech==1.30.0
     # via -r requirements.in
