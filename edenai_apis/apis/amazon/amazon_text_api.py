@@ -1,13 +1,22 @@
-from typing import List, Sequence
+from typing import List, Optional, Sequence
+import json
 
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
+from edenai_apis.features.text import GenerationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
     AnonymizationEntity,
 )
 from edenai_apis.features.text.anonymization.category import CategoryType
+from edenai_apis.features.text.embeddings.embeddings_dataclass import (
+    EmbeddingsDataClass,
+    EmbeddingDataClass
+)
 from edenai_apis.features.text.entity_sentiment.entities import Entities
-from edenai_apis.features.text.entity_sentiment.entity_sentiment_dataclass import Entity, EntitySentimentDataClass
+from edenai_apis.features.text.entity_sentiment.entity_sentiment_dataclass import (
+    Entity,
+    EntitySentimentDataClass,
+)
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
     InfosKeywordExtractionDataClass,
     KeywordExtractionDataClass,
@@ -33,12 +42,9 @@ class AmazonTextApi(TextInterface):
         self, language: str, text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
         # Getting response
-        payload = {
-            "Text" : text,
-            "LanguageCode" : language
-        }
+        payload = {"Text": text, "LanguageCode": language}
         response = handle_amazon_call(self.clients["text"].detect_sentiment, **payload)
-        
+
         # Analysing response
 
         best_sentiment = {
@@ -74,11 +80,10 @@ class AmazonTextApi(TextInterface):
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
         # Getting response
-        payload = {
-            "Text" : text,
-            "LanguageCode" : language
-        }
-        response = handle_amazon_call(self.clients["text"].detect_key_phrases, **payload)
+        payload = {"Text": text, "LanguageCode": language}
+        response = handle_amazon_call(
+            self.clients["text"].detect_key_phrases, **payload
+        )
 
         # Analysing response
         items: Sequence[InfosKeywordExtractionDataClass] = []
@@ -99,10 +104,7 @@ class AmazonTextApi(TextInterface):
         self, language: str, text: str
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         # Getting response
-        payload = {
-            "Text" : text,
-            "LanguageCode" : language
-        }
+        payload = {"Text": text, "LanguageCode": language}
         response = handle_amazon_call(self.clients["text"].detect_entities, **payload)
 
         items: Sequence[InfosNamedEntityRecognitionDataClass] = []
@@ -125,10 +127,7 @@ class AmazonTextApi(TextInterface):
         self, language: str, text: str
     ) -> ResponseType[SyntaxAnalysisDataClass]:
         # Getting response
-        payload = {
-            "Text" : text,
-            "LanguageCode" : language
-        }
+        payload = {"Text": text, "LanguageCode": language}
         response = handle_amazon_call(self.clients["text"].detect_syntax, **payload)
 
         # Create output TextSyntaxAnalysis object
@@ -159,10 +158,7 @@ class AmazonTextApi(TextInterface):
     def text__anonymization(
         self, text: str, language: str
     ) -> ResponseType[AnonymizationDataClass]:
-        payload = {
-            "Text" : text,
-            "LanguageCode" : language
-        }
+        payload = {"Text": text, "LanguageCode": language}
         res = handle_amazon_call(self.clients["text"].detect_pii_entities, **payload)
 
         last_end = 0
@@ -194,24 +190,72 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__entity_sentiment(self, text: str, language: str) -> ResponseType:
-        payload = {
-            "Text" : text,
-            "LanguageCode" : language
-        }
-        original_response = handle_amazon_call(self.clients['text'].detect_targeted_sentiment, **payload)
+        payload = {"Text": text, "LanguageCode": language}
+        original_response = handle_amazon_call(
+            self.clients["text"].detect_targeted_sentiment, **payload
+        )
 
-        entity_items: List[Entity]  = []
-        for entity in original_response['Entities']:
-            for mention in entity['Mentions']:
+        entity_items: List[Entity] = []
+        for entity in original_response["Entities"]:
+            for mention in entity["Mentions"]:
                 std_entity = Entity(
-                    text=mention['Text'],
-                    type=Entities.get_entity(mention['Type']),
-                    sentiment=mention['MentionSentiment']['Sentiment'].lower().capitalize(),
-                    begin_offset=mention['BeginOffset'],
-                    end_offset=mention['EndOffset']
+                    text=mention["Text"],
+                    type=Entities.get_entity(mention["Type"]),
+                    sentiment=mention["MentionSentiment"]["Sentiment"]
+                    .lower()
+                    .capitalize(),
+                    begin_offset=mention["BeginOffset"],
+                    end_offset=mention["EndOffset"],
                 )
                 entity_items.append(std_entity)
         return ResponseType(
             original_response=original_response,
             standardized_response=EntitySentimentDataClass(items=entity_items),
+        )
+
+    def text__generation(
+        self,
+        text: str,
+        temperature: float,
+        max_tokens: int,
+        model: str,
+    ) -> ResponseType[GenerationDataClass]:
+        # Headers for the HTTP request
+        accept_header = "application/json"
+        content_type_header = "application/json"
+
+        # Body of the HTTP request, containing text, maxTokens, and temperature
+        request_body = json.dumps(
+            {
+                "inputText": text,
+                "textGenerationConfig": {
+                    "maxTokenCount": max_tokens,
+                    "stopSequences": [],
+                    "temperature": temperature,
+                },
+            }
+        )
+
+        # Parameters for the HTTP request
+        request_params = {
+            "body": request_body,
+            "modelId": f"amazon.{model}",
+            "accept": accept_header,
+            "contentType": content_type_header,
+        }
+        response = handle_amazon_call(
+            self.clients["bedrock"].invoke_model, **request_params
+        )
+        response_body = json.loads(response.get("body").read())
+        generated_text = response_body["results"][0]["outputText"]
+
+        # Calculate number of tokens :
+        prompt_tokens = response_body["inputTextTokenCount"]
+        completions_tokens = response_body["results"][0]["tokenCount"]
+        response_body["usage"] = {"total_tokens": prompt_tokens + completions_tokens}
+        standardized_response = GenerationDataClass(generated_text=generated_text)
+
+        return ResponseType[GenerationDataClass](
+            original_response=response_body,
+            standardized_response=standardized_response,
         )

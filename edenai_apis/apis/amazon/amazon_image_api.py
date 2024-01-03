@@ -1,3 +1,7 @@
+import json
+import base64
+from io import BytesIO
+from typing import Literal, Optional
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
@@ -46,6 +50,7 @@ from edenai_apis.features.image.face_recognition.recognize.face_recognition_reco
     FaceRecognitionRecognizeDataClass,
     FaceRecognitionRecognizedFaceDataClass,
 )
+from edenai_apis.features.image.generation.generation_dataclass import GenerationDataClass, GeneratedImageDataClass
 from edenai_apis.features.image.image_interface import ImageInterface
 from edenai_apis.features.image.object_detection.object_detection_dataclass import (
     ObjectDetectionDataClass,
@@ -54,6 +59,7 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 
 class AmazonImageApi(ImageInterface):
@@ -447,4 +453,59 @@ class AmazonImageApi(ImageInterface):
         return ResponseType(
             original_response=response,
             standardized_response=FaceCompareDataClass(items=face_match_list),
+        )
+
+    def image__generation(
+        self, 
+        text: str, 
+        resolution: Literal['256x256', '512x512', '1024x1024'], 
+        num_images: int = 1,
+        model: Optional[str] = None ) -> ResponseType[GenerationDataClass]:
+        # Headers for the HTTP request
+        accept_header = "application/json"
+        content_type_header = "application/json"
+
+        # Body of the HTTP request
+        height, width = resolution.split("x")
+        model_name, quality = model.split("_")
+        request_body = json.dumps(
+            {
+                "taskType": "TEXT_IMAGE",
+                "textToImageParams": {
+                    "text": text
+                },
+                "imageGenerationConfig": {
+                    "numberOfImages": num_images,
+                    "quality": quality,
+                    "height": int(height),
+                    "width": int(width),
+                    # "cfgScale": float,
+                    # "seed": int
+                }
+            }
+        )
+
+        # Parameters for the HTTP request
+        request_params = {
+            "body": request_body,
+            "modelId": f"amazon.{model_name}",
+            "accept": accept_header,
+            "contentType": content_type_header,
+        }
+        response = handle_amazon_call(
+            self.clients["bedrock"].invoke_model, **request_params
+        )
+        response_body = json.loads(response.get("body").read())
+        generated_images = []
+        for image in response_body["images"]:
+            base64_bytes = image.encode('ascii')
+            image_bytes = BytesIO(base64.b64decode(base64_bytes))
+            resource_url = upload_file_bytes_to_s3(image_bytes, ".png", USER_PROCESS)
+            generated_images.append(
+                GeneratedImageDataClass(image = image, image_resource_url=resource_url)
+            )
+
+        return ResponseType[GenerationDataClass](
+            original_response=response_body,
+            standardized_response=GenerationDataClass(items=generated_images),
         )

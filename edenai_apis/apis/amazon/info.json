@@ -622,6 +622,17 @@
         ]
       },
       "version": "boto3 (v1.15.18)"
+    },
+    "generation" : {
+      "constraints": {
+        "models": [
+          "titan-tg1-large",
+          "titan-text-lite-v1",
+          "titan-text-express-v1"
+        ],
+        "default_model" : "titan-tg1-large"
+      },
+      "version": "v1"
     }
   },
   "translation": {
@@ -748,7 +759,22 @@
     },
     "face_compare": {
       "version": "boto3 (v1.15.18)"
-    }
+    },
+    "generation":{
+      "constraints": {
+        "resolutions":[
+          "256x256",
+          "512x512",
+          "1024x1024"
+        ],
+        "models": [
+          "titan-image-generator-v1_premium",
+          "titan-image-generator-v1_standard"
+        ],
+        "default_model": "titan-image-generator-v1_premium"
+    },
+      "version": "boto3 (v1.29.6)"
+   }
   },
   "video": {
     "label_detection_async": {

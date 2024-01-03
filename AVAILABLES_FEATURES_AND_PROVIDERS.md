@@ -72,6 +72,7 @@
 | Subfeatures | Providers |
 |----------|-------------|
 | **generation** | ai21labs |
+| | amazon |
 | | anthropic |
 | | clarifai |
 | | cohere |
@@ -202,6 +203,11 @@
 | **face_recognition** | amazon |
 | | facepp |
 | | microsoft |
+| **generation** | amazon |
+| | deepai |
+| | openai |
+| | replicate |
+| | stabilityai |
 | **object_detection** | amazon |
 | | api4ai |
 | | clarifai |
@@ -219,10 +225,6 @@
 | | google |
 | | microsoft |
 | | smartclick |
-| **generation** | deepai |
-| | openai |
-| | replicate |
-| | stabilityai |
 | **landmark_detection** | google |
 | | microsoft |
 | **automl_classification** | nyckel |
@@ -346,6 +348,7 @@
 | | face_compare |
 | | face_detection |
 | | face_recognition |
+| | generation |
 | | object_detection |
 | **ocr** | custom_document_parsing_async |
 | | data_extraction |
@@ -358,6 +361,7 @@
 | | receipt_parser |
 | **text** | anonymization |
 | | entity_sentiment |
+| | generation |
 | | keyword_extraction |
 | | named_entity_recognition |
 | | sentiment_analysis |

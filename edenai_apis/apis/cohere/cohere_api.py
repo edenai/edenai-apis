@@ -368,6 +368,11 @@ For Example:
         for prediction in original_response["embeddings"]:
             items.append(EmbeddingDataClass(embedding=prediction))
 
+        # Calculate billed tokens
+        billed_units = original_response['meta']['billed_units']
+        original_response["usage"] = {
+            "total_tokens" : billed_units['input_tokens']
+        }
         standardized_response = EmbeddingsDataClass(items=items)
         return ResponseType[EmbeddingsDataClass](
             original_response=original_response,
@@ -413,10 +418,15 @@ For Example:
         # Sort items by score in descending order
         sorted_items = sorted(items, key=lambda x: x.score, reverse=True)
 
+        # Calculate total tokens
+        usage = {
+            "total_tokens" : texts_embed_response['meta']['billed_units']['input_tokens'] + query_embed_response['meta']['billed_units']['input_tokens']
+        }
         # Build the original response
         original_response = {
             "texts_embeddings": texts_embed_response,
             "embeddings_query": query_embed_response,
+            "usage" : usage
         }
         result = ResponseType[SearchDataClass](
             original_response=original_response,
