@@ -49,7 +49,7 @@ from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import
     FinancialDocumentInformation,
     FinancialDocumentMetadata,
     FinancialLineItem,
-    FinancialParserObjectDataClass
+    FinancialParserObjectDataClass,
 )
 
 
@@ -63,12 +63,15 @@ class GoogleVideoFeatures(enum.Enum):
     EXPLICIT = "EXPLICIT"
 
 
-
 def handle_google_call(function_to_call, **kwargs):
-    error_encoding_str  = "bad encoding"
+    error_encoding_str = "bad encoding"
     msg_exception_encoding = "Could not decode audio file, bad file encoding"
 
-    wrong_job_id_strs = ["Unrecognized long running operation name", "Operation not found", "Invalid operation id"]
+    wrong_job_id_strs = [
+        "Unrecognized long running operation name",
+        "Operation not found",
+        "Invalid operation id",
+    ]
 
     try:
         response = function_to_call(**kwargs)
@@ -92,21 +95,19 @@ def handle_google_call(function_to_call, **kwargs):
             message = msg_exception_encoding
         if any(str_error in str(exc) for str_error in wrong_job_id_strs):
             raise AsyncJobException(
-                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
-                code = status_code
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, code=status_code
             )
-        raise ProviderException(message, code = status_code)
+        raise ProviderException(message, code=status_code)
     except Exception as exc:
         message = str(exc)
         if any(str_error in str(exc) for str_error in message):
-            raise AsyncJobException(
-                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID
-            )
+            raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
         if error_encoding_str in message:
             message = msg_exception_encoding
         raise ProviderException(message)
 
     return response
+
 
 def score_to_rate(score):
     return abs(score)
@@ -123,11 +124,13 @@ def google_video_get_job(provider_job_id: str):
             "api_endpoint": "https://videointelligence.googleapis.com/",
         },
     )
-    payload_request = { "name": provider_job_id }
-    request = handle_google_call(service.projects().locations().operations().get, **payload_request)
+    payload_request = {"name": provider_job_id}
+    request = handle_google_call(
+        service.projects().locations().operations().get, **payload_request
+    )
 
     result = handle_google_call(request.execute)
-    
+
     return result
 
 
@@ -161,7 +164,10 @@ def google_ocr_tables_standardize_response(
     original_response: dict,
 ) -> OcrTablesAsyncDataClass:
     """Standardize ocr table with dataclass from given google response"""
-    raw_text: str = original_response["text"]
+    try:
+        raw_text: str = original_response["text"]
+    except KeyError:
+        raise ProviderException("Provider returned an empty response", 400)
     pages = [
         _ocr_tables_standardize_page(page, raw_text)
         for page in original_response.get("pages", [])
@@ -440,6 +446,7 @@ def get_access_token(location: str):
     credentials.refresh(auth_req)
     return credentials.token
 
+
 # *****************************Financial Parser***************************************************
 def format_document_to_dict(document: Document) -> List[dict]:
     """
@@ -463,7 +470,7 @@ def format_document_to_dict(document: Document) -> List[dict]:
             if page_refs[0].get("page") != str(idx):
                 continue
             type = entity_dict["type_"]
-            if type == 'line_item':
+            if type == "line_item":
                 line_dict = {}
                 for property in entity_dict.get("properties", []):
                     property_type = property.get("type_", "")
@@ -473,15 +480,14 @@ def format_document_to_dict(document: Document) -> List[dict]:
                     line_dict.update({property_type: property_value})
                 summary["line_items"].append(line_dict)
             else:
-                summary[type] = entity_dict.get('normalized_value',{}
-                ).get('text') or entity_dict.get("mention_text")
-        summary["metadata"] = {
-            "page_number" : idx+1,
-            "invoice" : idx+1
-        }
+                summary[type] = entity_dict.get("normalized_value", {}).get(
+                    "text"
+                ) or entity_dict.get("mention_text")
+        summary["metadata"] = {"page_number": idx + 1, "invoice": idx + 1}
         extracted_data.append(summary)
 
     return extracted_data
+
 
 def google_financial_parser(document: Document) -> FinancialParserDataClass:
     """
@@ -506,7 +512,7 @@ def google_financial_parser(document: Document) -> FinancialParserDataClass:
                     remittance_address=page_document.get("remit_to_address"),
                     billing_address=page_document.get("receiver_address"),
                     email=page_document.get("receiver_email"),
-                    tax_id=page_document.get("receiver_tax_id")
+                    tax_id=page_document.get("receiver_tax_id"),
                 ),
                 # Merchant Information
                 merchant_information=FinancialMerchantInformation(
@@ -516,19 +522,30 @@ def google_financial_parser(document: Document) -> FinancialParserDataClass:
                     phone=page_document.get("supplier_phone"),
                     email=page_document.get("supplier_email"),
                     name=page_document.get("supplier_name"),
-                    business_number=page_document.get("supplier_registration")
+                    business_number=page_document.get("supplier_registration"),
                 ),
                 # Payment Information
                 payment_information=FinancialPaymentInformation(
-                    total=convert_string_to_number(page_document.get("total_amount"), float),
-                    amount_due=convert_string_to_number(page_document.get("net_amount"), float),
-                    total_tax=convert_string_to_number(page_document.get("total_tax_amount"), float),
+                    total=convert_string_to_number(
+                        page_document.get("total_amount"), float
+                    ),
+                    amount_due=convert_string_to_number(
+                        page_document.get("net_amount"), float
+                    ),
+                    total_tax=convert_string_to_number(
+                        page_document.get("total_tax_amount"), float
+                    ),
                     payment_terms=page_document.get("payment_terms"),
                     prior_balance=convert_string_to_number(
-                        page_document.get("amount_paid_since_last_invoice"), float),
-                    amount_shipping=convert_string_to_number(page_document.get("freight_amount"), float),
+                        page_document.get("amount_paid_since_last_invoice"), float
+                    ),
+                    amount_shipping=convert_string_to_number(
+                        page_document.get("freight_amount"), float
+                    ),
                     payment_method=page_document.get("payment_type"),
-                    payment_card_number=page_document.get("credit_card_last_four_digits")
+                    payment_card_number=page_document.get(
+                        "credit_card_last_four_digits"
+                    ),
                 ),
                 # Financial Document Information
                 financial_document_information=FinancialDocumentInformation(
@@ -536,35 +553,40 @@ def google_financial_parser(document: Document) -> FinancialParserDataClass:
                     invoice_number=page_document.get("invoice_number"),
                     purchase_order=page_document.get("purchase_order"),
                     time=page_document.get("purchase_time"),
-                    invoice_date=page_document.get("invoice_date") or page_document.get("receipt_date"),
+                    invoice_date=page_document.get("invoice_date")
+                    or page_document.get("receipt_date"),
                     invoice_due_date=page_document.get("due_date"),
-                    service_end_date=page_document.get("delivery_date")
+                    service_end_date=page_document.get("delivery_date"),
                 ),
                 # Bank Information
-                bank=FinancialBankInformation(
-                    iban=page_document.get("supplier_iban")
-                ),
+                bank=FinancialBankInformation(iban=page_document.get("supplier_iban")),
                 # Local Information
                 local=FinancialLocalInformation(
                     currency_exchange_rate=page_document.get("currency_exchange_rate"),
-                    currency=page_document.get("currency")
+                    currency=page_document.get("currency"),
                 ),
                 # Item Lines
                 item_lines=[
                     FinancialLineItem(
                         description=item.get("line_item/description"),
-                        unit_price=convert_string_to_number(item.get("line_item/unit_price"), float),
-                        quantity=convert_string_to_number(item.get("line_item/quantity"), int),
-                        amount_line=convert_string_to_number(item.get("line_item/amount"), float)
-                    ) for item in page_document.get("line_items", [])
+                        unit_price=convert_string_to_number(
+                            item.get("line_item/unit_price"), float
+                        ),
+                        quantity=convert_string_to_number(
+                            item.get("line_item/quantity"), int
+                        ),
+                        amount_line=convert_string_to_number(
+                            item.get("line_item/amount"), float
+                        ),
+                    )
+                    for item in page_document.get("line_items", [])
                 ],
                 # Invoice Metadata
                 document_metadata=FinancialDocumentMetadata(
                     document_page_number=page_document["metadata"]["page_number"],
-                    document_type=page_document.get("invoice_type")
-                )
+                    document_type=page_document.get("invoice_type"),
+                ),
             )
         )
 
     return FinancialParserDataClass(extracted_data=extracted_data)
-

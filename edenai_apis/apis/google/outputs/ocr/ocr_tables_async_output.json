@@ -1,6 +1,6 @@
 {
   "status": "succeeded",
-  "provider_job_id": "7435843799642013553",
+  "provider_job_id": "11799569117258713593",
   "original_response": {
     "pages": [
       {
@@ -348,7 +348,7 @@
                   }
                 ]
               },
-              "confidence": 0.98242515,
+              "confidence": 0.98242509,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -452,7 +452,7 @@
                   }
                 ]
               },
-              "confidence": 0.98731577,
+              "confidence": 0.98731571,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -504,7 +504,7 @@
                   }
                 ]
               },
-              "confidence": 0.98511612,
+              "confidence": 0.98511606,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -608,7 +608,7 @@
                   }
                 ]
               },
-              "confidence": 0.99396932,
+              "confidence": 0.99396926,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -1024,7 +1024,7 @@
                   }
                 ]
               },
-              "confidence": 0.98860639,
+              "confidence": 0.98860645,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -1388,7 +1388,7 @@
                   }
                 ]
               },
-              "confidence": 0.99389297,
+              "confidence": 0.99389303,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -1440,7 +1440,7 @@
                   }
                 ]
               },
-              "confidence": 0.9666574,
+              "confidence": 0.96665734,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -1596,7 +1596,7 @@
                   }
                 ]
               },
-              "confidence": 0.99736822,
+              "confidence": 0.99736828,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -1800,7 +1800,7 @@
                   }
                 ]
               },
-              "confidence": 0.97837204,
+              "confidence": 0.9783721,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -2060,7 +2060,7 @@
                   }
                 ]
               },
-              "confidence": 0.92696059,
+              "confidence": 0.92696083,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -2112,7 +2112,7 @@
                   }
                 ]
               },
-              "confidence": 0.98496425,
+              "confidence": 0.98496372,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -2127,21 +2127,27 @@
         ],
         "detectedLanguages": [
           {
+            "confidence": 0.78189534,
             "languageCode": "und"
           },
           {
+            "confidence": 0.10954379,
             "languageCode": "en"
           },
           {
+            "confidence": 0.029148579,
             "languageCode": "ha"
           },
           {
+            "confidence": 0.029071132,
             "languageCode": "ceb"
           },
           {
+            "confidence": 0.028527562,
             "languageCode": "mi"
           },
           {
+            "confidence": 0.021813625,
             "languageCode": "hr"
           }
         ],
@@ -2156,24 +2162,24 @@
               "boundingPoly": {
                 "normalizedVertices": [
                   {
-                    "x": 0.023001026,
+                    "x": 0.023001034,
                     "y": 0.26303855
                   },
                   {
-                    "x": 0.12726498,
+                    "x": 0.12726499,
                     "y": 0.26303855
                   },
                   {
-                    "x": 0.12726498,
+                    "x": 0.12726499,
                     "y": 0.30877957
                   },
                   {
-                    "x": 0.023001026,
+                    "x": 0.023001034,
                     "y": 0.30877957
                   }
                 ]
               },
-              "confidence": 0.49021745,
+              "confidence": 0.4902176,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "content": "Bansur\n",
@@ -2206,7 +2212,7 @@
                   }
                 ]
               },
-              "confidence": 0.49021745,
+              "confidence": 0.4902176,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "content": "27.70\n",
@@ -2241,7 +2247,7 @@
                   }
                 ]
               },
-              "confidence": 0.45100749,
+              "confidence": 0.45100754,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "content": "Behror\n",
@@ -2274,7 +2280,7 @@
                   }
                 ]
               },
-              "confidence": 0.45100749,
+              "confidence": 0.45100754,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "content": "27.88\n",
@@ -2292,19 +2298,19 @@
               "boundingPoly": {
                 "normalizedVertices": [
                   {
-                    "x": 0.00087489188,
+                    "x": 0.00087489933,
                     "y": 0.68480724
                   },
                   {
-                    "x": 0.1492842,
+                    "x": 0.14928418,
                     "y": 0.68480724
                   },
                   {
-                    "x": 0.1492842,
+                    "x": 0.14928418,
                     "y": 0.73242629
                   },
                   {
-                    "x": 0.00087489188,
+                    "x": 0.00087489933,
                     "y": 0.73242629
                   }
                 ]
@@ -2363,11 +2369,11 @@
                     "y": 0.78911567
                   },
                   {
-                    "x": 0.15574299,
+                    "x": 0.15574297,
                     "y": 0.78911567
                   },
                   {
-                    "x": 0.15574299,
+                    "x": 0.15574297,
                     "y": 0.83844256
                   },
                   {
@@ -2375,7 +2381,7 @@
                   }
                 ]
               },
-              "confidence": 0.30038798,
+              "confidence": 0.30038795,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "content": "Mundawar\n",
@@ -2408,7 +2414,7 @@
                   }
                 ]
               },
-              "confidence": 0.30038798,
+              "confidence": 0.30038795,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "content": "27.87\n",
@@ -2443,7 +2449,7 @@
                   }
                 ]
               },
-              "confidence": 0.21739887,
+              "confidence": 0.21739921,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "content": "Tapukara\n",
@@ -2459,24 +2465,24 @@
               "boundingPoly": {
                 "normalizedVertices": [
                   {
-                    "x": 0.0076882467,
-                    "y": 0.47227335
+                    "x": 0.0076882485,
+                    "y": 0.47227344
                   },
                   {
                     "x": 0.032104321,
-                    "y": 0.47227335
+                    "y": 0.47227344
                   },
                   {
                     "x": 0.032104321,
                     "y": 0.51625252
                   },
                   {
-                    "x": 0.0076882467,
+                    "x": 0.0076882485,
                     "y": 0.51625252
                   }
                 ]
               },
-              "confidence": 0.21739887,
+              "confidence": 0.21739921,
               "orientation": "PAGE_UP"
             },
             "valueType": "filled_checkbox"
@@ -2489,11 +2495,11 @@
                     "y": 0.15646258
                   },
                   {
-                    "x": 0.14932379,
+                    "x": 0.14932378,
                     "y": 0.15646258
                   },
                   {
-                    "x": 0.14932379,
+                    "x": 0.14932378,
                     "y": 0.21732354
                   },
                   {
@@ -2501,7 +2507,7 @@
                   }
                 ]
               },
-              "confidence": 0.2161589,
+              "confidence": 0.21615918,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "content": "Kishngarh\n",
@@ -2534,7 +2540,7 @@
                   }
                 ]
               },
-              "confidence": 0.2161589,
+              "confidence": 0.21615918,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "content": "27.82\n",
@@ -2862,7 +2868,7 @@
                   }
                 ]
               },
-              "confidence": 0.9393298,
+              "confidence": 0.93932986,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -3086,7 +3092,7 @@
                   }
                 ]
               },
-              "confidence": 0.98242515,
+              "confidence": 0.98242509,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -3200,7 +3206,7 @@
                   }
                 ]
               },
-              "confidence": 0.98731577,
+              "confidence": 0.98731571,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -3257,7 +3263,7 @@
                   }
                 ]
               },
-              "confidence": 0.98511612,
+              "confidence": 0.98511606,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -3371,7 +3377,7 @@
                   }
                 ]
               },
-              "confidence": 0.99396932,
+              "confidence": 0.99396926,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -3827,7 +3833,7 @@
                   }
                 ]
               },
-              "confidence": 0.98860639,
+              "confidence": 0.98860645,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -4397,7 +4403,7 @@
                   }
                 ]
               },
-              "confidence": 0.99389297,
+              "confidence": 0.99389303,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -4454,7 +4460,7 @@
                   }
                 ]
               },
-              "confidence": 0.9666574,
+              "confidence": 0.96665734,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -4625,7 +4631,7 @@
                   }
                 ]
               },
-              "confidence": 0.99736822,
+              "confidence": 0.99736828,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -4849,7 +4855,7 @@
                   }
                 ]
               },
-              "confidence": 0.97837204,
+              "confidence": 0.9783721,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -5134,7 +5140,7 @@
                   }
                 ]
               },
-              "confidence": 0.92696059,
+              "confidence": 0.92696083,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -5191,7 +5197,7 @@
                   }
                 ]
               },
-              "confidence": 0.98496425,
+              "confidence": 0.98496372,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -5549,7 +5555,7 @@
                   }
                 ]
               },
-              "confidence": 0.98242515,
+              "confidence": 0.98242509,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -5653,7 +5659,7 @@
                   }
                 ]
               },
-              "confidence": 0.98731577,
+              "confidence": 0.98731571,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -5705,7 +5711,7 @@
                   }
                 ]
               },
-              "confidence": 0.98511612,
+              "confidence": 0.98511606,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -5809,7 +5815,7 @@
                   }
                 ]
               },
-              "confidence": 0.99396932,
+              "confidence": 0.99396926,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -6225,7 +6231,7 @@
                   }
                 ]
               },
-              "confidence": 0.98860639,
+              "confidence": 0.98860645,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -6589,7 +6595,7 @@
                   }
                 ]
               },
-              "confidence": 0.99389297,
+              "confidence": 0.99389303,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -6641,7 +6647,7 @@
                   }
                 ]
               },
-              "confidence": 0.9666574,
+              "confidence": 0.96665734,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -6797,7 +6803,7 @@
                   }
                 ]
               },
-              "confidence": 0.99736822,
+              "confidence": 0.99736828,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -7001,7 +7007,7 @@
                   }
                 ]
               },
-              "confidence": 0.97837204,
+              "confidence": 0.9783721,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -7261,7 +7267,7 @@
                   }
                 ]
               },
-              "confidence": 0.92696059,
+              "confidence": 0.92696083,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -7313,7 +7319,7 @@
                   }
                 ]
               },
-              "confidence": 0.98496425,
+              "confidence": 0.98496372,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -10685,7 +10691,7 @@
                   }
                 ]
               },
-              "confidence": 0.9393298,
+              "confidence": 0.93932986,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -10745,7 +10751,7 @@
                   }
                 ]
               },
-              "confidence": 0.99035466,
+              "confidence": 0.99035472,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -10922,7 +10928,7 @@
                   }
                 ]
               },
-              "confidence": 0.9918282,
+              "confidence": 0.99182814,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -10982,7 +10988,7 @@
                   }
                 ]
               },
-              "confidence": 0.99212575,
+              "confidence": 0.99212569,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -11149,7 +11155,7 @@
                   }
                 ]
               },
-              "confidence": 0.98242515,
+              "confidence": 0.98242509,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -11323,7 +11329,7 @@
                   }
                 ]
               },
-              "confidence": 0.98731577,
+              "confidence": 0.98731571,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -11380,7 +11386,7 @@
                   }
                 ]
               },
-              "confidence": 0.98511612,
+              "confidence": 0.98511606,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -11494,7 +11500,7 @@
                   }
                 ]
               },
-              "confidence": 0.99396932,
+              "confidence": 0.99396926,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -11950,7 +11956,7 @@
                   }
                 ]
               },
-              "confidence": 0.98860639,
+              "confidence": 0.98860645,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -13000,7 +13006,7 @@
                   }
                 ]
               },
-              "confidence": 0.99389297,
+              "confidence": 0.99389303,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -13057,7 +13063,7 @@
                   }
                 ]
               },
-              "confidence": 0.9666574,
+              "confidence": 0.96665734,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -13228,7 +13234,7 @@
                   }
                 ]
               },
-              "confidence": 0.99736822,
+              "confidence": 0.99736828,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -13452,7 +13458,7 @@
                   }
                 ]
               },
-              "confidence": 0.97837204,
+              "confidence": 0.9783721,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -13737,7 +13743,7 @@
                   }
                 ]
               },
-              "confidence": 0.92696059,
+              "confidence": 0.92696083,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -13797,7 +13803,7 @@
                   }
                 ]
               },
-              "confidence": 0.98646975,
+              "confidence": 0.98646879,
               "orientation": "PAGE_UP",
               "textAnchor": {
                 "textSegments": [
@@ -13945,8 +13951,8 @@
                 "cells": [
                   {
                     "text": "Station\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99963427,
@@ -13960,8 +13966,8 @@
                   },
                   {
                     "text": "Latitude\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99963331,
@@ -13975,8 +13981,8 @@
                   },
                   {
                     "text": "Longitude\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99962723,
@@ -13990,8 +13996,8 @@
                   },
                   {
                     "text": "1993\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99959695,
@@ -14005,8 +14011,8 @@
                   },
                   {
                     "text": "Year\n1994 ",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99963415,
@@ -14020,8 +14026,8 @@
                   },
                   {
                     "text": "2012 ",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99962926,
@@ -14035,8 +14041,8 @@
                   },
                   {
                     "text": "2013\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99961746,
@@ -14054,8 +14060,8 @@
                 "cells": [
                   {
                     "text": "Kishngarh\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999589,
@@ -14069,8 +14075,8 @@
                   },
                   {
                     "text": "27.82\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999493,
@@ -14084,8 +14090,8 @@
                   },
                   {
                     "text": "76.72 ",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99998879,
@@ -14099,8 +14105,8 @@
                   },
                   {
                     "text": "563.5\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99995857,
@@ -14114,8 +14120,8 @@
                   },
                   {
                     "text": "563.5 ",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999577,
@@ -14129,8 +14135,8 @@
                   },
                   {
                     "text": "490 ",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999088,
@@ -14144,8 +14150,8 @@
                   },
                   {
                     "text": "804\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99997902,
@@ -14163,8 +14169,8 @@
                 "cells": [
                   {
                     "text": "Bansur\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999642,
@@ -14178,8 +14184,8 @@
                   },
                   {
                     "text": "27.70\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999547,
@@ -14193,8 +14199,8 @@
                   },
                   {
                     "text": "76.35\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99998933,
@@ -14208,8 +14214,8 @@
                   },
                   {
                     "text": "780.7\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99995911,
@@ -14223,8 +14229,8 @@
                   },
                   {
                     "text": "580\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.9999963,
@@ -14238,8 +14244,8 @@
                   },
                   {
                     "text": "776\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999142,
@@ -14253,8 +14259,8 @@
                   },
                   {
                     "text": "720\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99997956,
@@ -14272,8 +14278,8 @@
                 "cells": [
                   {
                     "text": "Tijara\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999881,
@@ -14287,8 +14293,8 @@
                   },
                   {
                     "text": "27.95\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999785,
@@ -14302,8 +14308,8 @@
                   },
                   {
                     "text": "76.85\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999171,
@@ -14317,8 +14323,8 @@
                   },
                   {
                     "text": "590 ",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.9999615,
@@ -14332,8 +14338,8 @@
                   },
                   {
                     "text": "645 ",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999869,
@@ -14347,8 +14353,8 @@
                   },
                   {
                     "text": "633 ",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.9999938,
@@ -14362,8 +14368,8 @@
                   },
                   {
                     "text": "653\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99998194,
@@ -14381,8 +14387,8 @@
                 "cells": [
                   {
                     "text": "Tapukara\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999827,
@@ -14396,8 +14402,8 @@
                   },
                   {
                     "text": "28.05\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999732,
@@ -14411,8 +14417,8 @@
                   },
                   {
                     "text": "76.85\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999118,
@@ -14426,8 +14432,8 @@
                   },
                   {
                     "text": "658 ",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99996096,
@@ -14441,8 +14447,8 @@
                   },
                   {
                     "text": "570 ",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999815,
@@ -14456,8 +14462,8 @@
                   },
                   {
                     "text": "485\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999326,
@@ -14471,8 +14477,8 @@
                   },
                   {
                     "text": "342\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.9999814,
@@ -14490,8 +14496,8 @@
                 "cells": [
                   {
                     "text": "Behror\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999756,
@@ -14505,8 +14511,8 @@
                   },
                   {
                     "text": "27.88\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.9999966,
@@ -14520,8 +14526,8 @@
                   },
                   {
                     "text": "76.28\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999046,
@@ -14535,8 +14541,8 @@
                   },
                   {
                     "text": "555 ",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99996024,
@@ -14550,8 +14556,8 @@
                   },
                   {
                     "text": "401.3 ",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999744,
@@ -14565,8 +14571,8 @@
                   },
                   {
                     "text": "487\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999255,
@@ -14580,8 +14586,8 @@
                   },
                   {
                     "text": "746\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99998069,
@@ -14599,8 +14605,8 @@
                 "cells": [
                   {
                     "text": "Neemrana\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99994749,
@@ -14614,8 +14620,8 @@
                   },
                   {
                     "text": "28.00\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99994653,
@@ -14629,8 +14635,8 @@
                   },
                   {
                     "text": "76.38\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.9999404,
@@ -14644,8 +14650,8 @@
                   },
                   {
                     "text": "1008\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99991018,
@@ -14659,8 +14665,8 @@
                   },
                   {
                     "text": "795 ",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99994737,
@@ -14674,8 +14680,8 @@
                   },
                   {
                     "text": "566\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99994248,
@@ -14689,8 +14695,8 @@
                   },
                   {
                     "text": "456\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99993062,
@@ -14708,8 +14714,8 @@
                 "cells": [
                   {
                     "text": "Mundawar\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999958,
@@ -14723,8 +14729,8 @@
                   },
                   {
                     "text": "27.87\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999863,
@@ -14738,8 +14744,8 @@
                   },
                   {
                     "text": "76.55\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999249,
@@ -14753,8 +14759,8 @@
                   },
                   {
                     "text": "1010\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99996227,
@@ -14768,8 +14774,8 @@
                   },
                   {
                     "text": "931\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999946,
@@ -14783,8 +14789,8 @@
                   },
                   {
                     "text": "483\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99999458,
@@ -14798,8 +14804,8 @@
                   },
                   {
                     "text": "775\n",
-                    "row_index": 0,
-                    "col_index": 0,
+                    "row_index": null,
+                    "col_index": null,
                     "row_span": 1,
                     "col_span": 1,
                     "confidence": 0.99998271,
