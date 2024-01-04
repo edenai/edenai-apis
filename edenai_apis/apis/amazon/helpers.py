@@ -553,7 +553,7 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
     """
     extracted_data = []
 
-    for page in pages:
+    for page_idx, page in enumerate(pages):
         if page.get("JobStatus") == "FAILED":
             raise ProviderException(page.get("StatusMessage", "Amazon returned a job status: FAILED"))
 
@@ -572,7 +572,6 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
                         currencies[field_currency] = 1
                     else:
                         currencies[field_currency] += 1
-                page_number = field["PageNumber"]
 
             item_lines = []
 
@@ -668,7 +667,7 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
 
             # Build FinancialDocumentMetadata object
             document_metadata = FinancialDocumentMetadata(
-                document_index=invoice_index, document_page_number=page_number)
+                document_index=invoice_index, document_page_number=page_idx+1)
 
             # Build FinancialParserObjectDataClass object
             financial_document = FinancialParserObjectDataClass(
