@@ -585,12 +585,19 @@ class OpenaiTextApi(TextInterface):
         try:
             json_detected_labels = json.loads(detected_labels)
         except json.JSONDecodeError:
-            raise ProviderException("An error occurred while parsing the response.")
+            raise ProviderException(
+                "An error occurred while parsing the response.", 400
+            )
+
+        json_detected_labels_copy = []
+        for detected_label in json_detected_labels["classifications"]:
+            if detected_label.get("label") and detected_label.get("input"):
+                json_detected_labels_copy.append(detected_label)
 
         return ResponseType[CustomClassificationDataClass](
             original_response=original_response,
             standardized_response=CustomClassificationDataClass(
-                classifications=json_detected_labels["classifications"]
+                classifications=json_detected_labels_copy
             ),
         )
 
@@ -774,7 +781,8 @@ class OpenaiTextApi(TextInterface):
                     in (None, "stop"),
                     provider="openai",
                 )
-                for chunk in response if chunk
+                for chunk in response
+                if chunk
             )
 
             return ResponseType[StreamChat](
