@@ -42,7 +42,7 @@ autobahn==22.7.1
     # via watson-developer-cloud
 automat==22.10.0
     # via twisted
-azure-ai-formrecognizer==3.3.2
+azure-ai-formrecognizer==3.2.0
     # via -r requirements.in
 azure-cognitiveservices-speech==1.30.0
     # via -r requirements.in
@@ -173,7 +173,7 @@ google-cloud-language==2.10.0
     # via -r requirements.in
 google-cloud-resource-manager==1.10.4
     # via google-cloud-aiplatform
-google-cloud-speech==2.21.0
+google-cloud-speech==2.20.0
     # via -r requirements.in
 google-cloud-storage==2.9.0
     # via
@@ -181,7 +181,7 @@ google-cloud-storage==2.9.0
     #   google-cloud-aiplatform
 google-cloud-texttospeech==2.14.1
     # via -r requirements.in
-google-cloud-translate==3.11.1
+google-cloud-translate==3.14.0
     # via -r requirements.in
 google-cloud-videointelligence==2.11.2
     # via -r requirements.in
