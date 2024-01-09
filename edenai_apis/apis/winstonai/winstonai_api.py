@@ -66,15 +66,15 @@ class WinstonaiApi(ProviderInterface, TextInterface):
         items: Sequence[AiDetectionItem] = [
             AiDetectionItem(
                 text=sentence["text"],
-                ai_score=sentence["score"] / 100,
-                prediction=AiDetectionItem.set_label_based_on_human_score(
-                    sentence["score"] / 100
+                ai_score=1-(sentence["score"] / 100),
+                prediction=AiDetectionItem.set_label_based_on_score(
+                    1- (sentence["score"] / 100)
                 ),
             )
             for sentence in sentences
         ]
 
-        standardized_response = AiDetectionDataClass(ai_score=score, items=items)
+        standardized_response = AiDetectionDataClass(ai_score=1-score, items=items)
 
         return ResponseType[AiDetectionDataClass](
             original_response=original_response,
