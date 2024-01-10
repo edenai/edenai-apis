@@ -1,5 +1,5 @@
 import json
-from typing import Optional, List, Dict, Sequence, Literal
+from typing import Optional, List, Dict, Sequence, Union, Literal, Generator
 
 import requests
 from edenai_apis.apis.cohere.helpers import extract_json_text
@@ -27,6 +27,11 @@ from edenai_apis.utils.conversion import construct_word_list
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
+
+from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
+
+
 
 
 class CohereApi(ProviderInterface, TextInterface):
@@ -96,6 +101,20 @@ Examples of entry Text with misspelling: "Hallo my friend hw are you"
 Examples of response: ```json[{{"word": "Hallo", "correction": "hello"}}, {{"word": "hw", "correction": "how"}}]```
 List of corrected words:
 """
+    
+    def __text_to_json (self, lst_data : List[str])-> Generator[ChatStreamResponse, None, None] :
+        lst_json = []
+        for i in range (len(lst_data)) :
+            if(lst_data[i]!= '') :
+                lst_json.append(json.loads(lst_data[i]))
+        for j in range (len(lst_json)) :
+            if (lst_json[j]['event_type'] == 'text-generation') :
+                yield ChatStreamResponse(
+                    text = lst_json[j]['text'],
+                    blocked=False,
+                    provider="cohere"
+                )
+            
 
     def text__generation(
         self,
@@ -433,3 +452,74 @@ For Example:
             standardized_response=SearchDataClass(items=sorted_items),
         )
         return result
+    
+
+    def text__chat(self,
+                text: str,
+                chatbot_global_action: Optional[str] = None,
+                previous_history: Optional[List[Dict[str, str]]]= None,
+                temperature: float = 0.0,
+                max_tokens: int = 25,
+                model: Optional[str] = "command-light",
+                stream: bool = False) ->ResponseType[Union[ChatDataClass, StreamChat]]:
+
+
+        messages = [{"role": "USER", "message": text}]  
+        
+        if previous_history:
+            for id, message in enumerate(previous_history):
+                messages.insert(
+                    id,
+                    {"role": message.get("role"), "message": message.get("message")},
+                )
+
+        if chatbot_global_action:
+            messages.insert(0, {"role": "CHATBOT", "message": chatbot_global_action})
+
+        url = f"{self.base_url}chat"
+        payload = {
+            "message": text,
+            "temperature": temperature,            
+            "model" : model,
+            "chat_history" : messages,
+            "connectors" : [{"id" : "web-search"}],
+            "stream" : stream
+        }
+
+        response = requests.post(url, headers=self.headers, json=payload)
+
+        if (response.status_code != 200) :
+            raise ProviderException(response.text, response.status_code)
+            
+
+        elif (response.status_code == 200) :
+            if stream == False :
+                try:
+                    original_response = response.json()
+                except requests.JSONDecodeError:
+                    raise ProviderException(response.text, code = response.status_code)
+            
+                generated_text=original_response['text']
+            
+                message = [
+                    ChatMessageDataClass(role="USER", message=text),
+                    ChatMessageDataClass(role="CHATBOT", message=generated_text),
+                ]
+                standardized_response = ChatDataClass(generated_text=generated_text, message=message)
+
+                return ResponseType[ChatDataClass](
+                    original_response=original_response,
+                    standardized_response=standardized_response
+                )
+            elif stream == True :
+                data = response.text
+                lst_data = []
+                lst_data = data.split("\n")
+                return ResponseType[StreamChat] (
+                original_response=None, 
+                standardized_response=StreamChat(stream=self.__text_to_json(lst_data))
+                )
+            
+        
+
+

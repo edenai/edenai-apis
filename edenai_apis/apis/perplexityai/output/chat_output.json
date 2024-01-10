@@ -1,0 +1,10 @@
+{
+    "id": "1a189548-9d89-4a15-a8f3-75f2839834dd", 
+    "model": "pplx-7b-online",
+     "created": 1942099, 
+     "usage": {"prompt_tokens": 38, "completion_tokens": 64, "total_tokens": 102}, 
+     "object": "chat.completion", 
+     "choices": [{"index": 0, "finish_reason": "length", 
+     "message": {"role": "assistant", "content": "Eden AI is a company that focuses on making AI accessible and easy to use for developers and product builders. They provide a unique API connected to the best AI engines, combined with a powerful management platform. Some key features and accomplishments of Eden AI include:\n\n- **AI Work"}, 
+     "delta": {"role": "assistant", "content": ""}}]
+}

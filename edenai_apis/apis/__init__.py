@@ -37,6 +37,7 @@ from .oneai import OneaiApi
 from .openai import OpenaiApi
 from .originalityai import OriginalityaiApi
 from .phedone import PhedoneApi
+from .perplexityai import PerplexityApi
 from .photoroom import PhotoroomApi
 from .picpurify import PicpurifyApi
 from .prowritingaid import ProWritingAidApi
@@ -54,6 +55,7 @@ from .stabilityai import StabilityAIApi
 from .symbl import SymblApi
 from .tabscanner import TabscannerApi
 from .tenstorrent import TenstorrentApi
+from .textcortexai import TextCortexApi
 from .vernai import VernaiApi
 from .veryfi import VeryfiApi
 from .voci import VociApi
