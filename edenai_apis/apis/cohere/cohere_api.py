@@ -32,8 +32,6 @@ from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
 
 
-
-
 class CohereApi(ProviderInterface, TextInterface):
     provider_name = "cohere"
 
@@ -101,20 +99,20 @@ Examples of entry Text with misspelling: "Hallo my friend hw are you"
 Examples of response: ```json[{{"word": "Hallo", "correction": "hello"}}, {{"word": "hw", "correction": "how"}}]```
 List of corrected words:
 """
-    
-    def __text_to_json (self, lst_data : List[str])-> Generator[ChatStreamResponse, None, None] :
+
+    @staticmethod
+    def __text_to_json(
+        lst_data: List[str],
+    ) -> Generator[ChatStreamResponse, None, None]:
         lst_json = []
-        for i in range (len(lst_data)) :
-            if(lst_data[i]!= '') :
-                lst_json.append(json.loads(lst_data[i]))
-        for j in range (len(lst_json)) :
-            if (lst_json[j]['event_type'] == 'text-generation') :
+        for token in lst_data:
+            if token != "":
+                lst_json.append(json.loads(token))
+        for elt in lst_json:
+            if elt["event_type"] == "text-generation":
                 yield ChatStreamResponse(
-                    text = lst_json[j]['text'],
-                    blocked=False,
-                    provider="cohere"
+                    text=elt["text"], blocked=False, provider="cohere"
                 )
-            
 
     def text__generation(
         self,
@@ -154,9 +152,9 @@ List of corrected words:
         )
 
         # Calculate billed tokens
-        billed_units = original_response['meta']['billed_units']
+        billed_units = original_response["meta"]["billed_units"]
         original_response["usage"] = {
-            "total_tokens" : billed_units['input_tokens'] + billed_units['output_tokens']
+            "total_tokens": billed_units["input_tokens"] + billed_units["output_tokens"]
         }
 
         return ResponseType[GenerationDataClass](
@@ -235,9 +233,9 @@ List of corrected words:
         )
 
         # Calculate billed tokens
-        billed_units = original_response['meta']['billed_units']
+        billed_units = original_response["meta"]["billed_units"]
         original_response["usage"] = {
-            "total_tokens" : billed_units['input_tokens'] + billed_units['output_tokens']
+            "total_tokens": billed_units["input_tokens"] + billed_units["output_tokens"]
         }
 
         return ResponseType[SummarizeDataClass](
@@ -307,9 +305,9 @@ For Example:
         standardized_response = CustomNamedEntityRecognitionDataClass(items=items)
 
         # Calculate billed tokens
-        billed_units = original_response['meta']['billed_units']
+        billed_units = original_response["meta"]["billed_units"]
         original_response["usage"] = {
-            "total_tokens" : billed_units['input_tokens'] + billed_units['output_tokens']
+            "total_tokens": billed_units["input_tokens"] + billed_units["output_tokens"]
         }
 
         return ResponseType[CustomNamedEntityRecognitionDataClass](
@@ -359,11 +357,11 @@ For Example:
                     ],
                 )
             )
-            
+
         # Calculate billed tokens
-        billed_units = original_response['meta']['billed_units']
+        billed_units = original_response["meta"]["billed_units"]
         original_response["usage"] = {
-            "total_tokens" : billed_units['input_tokens'] + billed_units['output_tokens']
+            "total_tokens": billed_units["input_tokens"] + billed_units["output_tokens"]
         }
         return ResponseType[SpellCheckDataClass](
             original_response=original_response,
@@ -388,10 +386,8 @@ For Example:
             items.append(EmbeddingDataClass(embedding=prediction))
 
         # Calculate billed tokens
-        billed_units = original_response['meta']['billed_units']
-        original_response["usage"] = {
-            "total_tokens" : billed_units['input_tokens']
-        }
+        billed_units = original_response["meta"]["billed_units"]
+        original_response["usage"] = {"total_tokens": billed_units["input_tokens"]}
         standardized_response = EmbeddingsDataClass(items=items)
         return ResponseType[EmbeddingsDataClass](
             original_response=original_response,
@@ -439,37 +435,37 @@ For Example:
 
         # Calculate total tokens
         usage = {
-            "total_tokens" : texts_embed_response['meta']['billed_units']['input_tokens'] + query_embed_response['meta']['billed_units']['input_tokens']
+            "total_tokens": texts_embed_response["meta"]["billed_units"]["input_tokens"]
+            + query_embed_response["meta"]["billed_units"]["input_tokens"]
         }
         # Build the original response
         original_response = {
             "texts_embeddings": texts_embed_response,
             "embeddings_query": query_embed_response,
-            "usage" : usage
+            "usage": usage,
         }
         result = ResponseType[SearchDataClass](
             original_response=original_response,
             standardized_response=SearchDataClass(items=sorted_items),
         )
         return result
-    
 
-    def text__chat(self,
-                text: str,
-                chatbot_global_action: Optional[str] = None,
-                previous_history: Optional[List[Dict[str, str]]]= None,
-                temperature: float = 0.0,
-                max_tokens: int = 25,
-                model: Optional[str] = "command-light",
-                stream: bool = False) ->ResponseType[Union[ChatDataClass, StreamChat]]:
+    def text__chat(
+        self,
+        text: str,
+        chatbot_global_action: Optional[str] = None,
+        previous_history: Optional[List[Dict[str, str]]] = None,
+        temperature: float = 0.0,
+        max_tokens: int = 25,
+        model: Optional[str] = None,
+        stream: bool = False,
+    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        messages = [{"role": "USER", "message": text}]
 
-
-        messages = [{"role": "USER", "message": text}]  
-        
         if previous_history:
-            for id, message in enumerate(previous_history):
+            for index, message in enumerate(previous_history):
                 messages.insert(
-                    id,
+                    index,
                     {"role": message.get("role"), "message": message.get("message")},
                 )
 
@@ -479,47 +475,47 @@ For Example:
         url = f"{self.base_url}chat"
         payload = {
             "message": text,
-            "temperature": temperature,            
-            "model" : model,
-            "chat_history" : messages,
-            "connectors" : [{"id" : "web-search"}],
-            "stream" : stream
+            "temperature": temperature,
+            "model": model,
+            "chat_history": messages,
+            "connectors": [{"id": "web-search"}],
+            "stream": stream,
         }
 
         response = requests.post(url, headers=self.headers, json=payload)
 
-        if (response.status_code != 200) :
+        if response.status_code != 200:
             raise ProviderException(response.text, response.status_code)
-            
 
-        elif (response.status_code == 200) :
-            if stream == False :
+        else:
+            if not stream:
                 try:
                     original_response = response.json()
-                except requests.JSONDecodeError:
-                    raise ProviderException(response.text, code = response.status_code)
-            
-                generated_text=original_response['text']
-            
+                except requests.JSONDecodeError as exp:
+                    raise ProviderException(
+                        response.text, code=response.status_code
+                    ) from exp
+
+                generated_text = original_response["text"]
+
                 message = [
                     ChatMessageDataClass(role="USER", message=text),
                     ChatMessageDataClass(role="CHATBOT", message=generated_text),
                 ]
-                standardized_response = ChatDataClass(generated_text=generated_text, message=message)
+                standardized_response = ChatDataClass(
+                    generated_text=generated_text, message=message
+                )
 
                 return ResponseType[ChatDataClass](
                     original_response=original_response,
-                    standardized_response=standardized_response
+                    standardized_response=standardized_response,
                 )
-            elif stream == True :
+            else:
                 data = response.text
-                lst_data = []
                 lst_data = data.split("\n")
-                return ResponseType[StreamChat] (
-                original_response=None, 
-                standardized_response=StreamChat(stream=self.__text_to_json(lst_data))
+                return ResponseType[StreamChat](
+                    original_response=None,
+                    standardized_response=StreamChat(
+                        stream=self.__text_to_json(lst_data)
+                    ),
                 )
-            
-        
-
-

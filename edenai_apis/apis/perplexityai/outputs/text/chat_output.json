@@ -1,0 +1,40 @@
+{
+  "original_response": {
+    "id": "c49e97fe-1390-48fe-9896-d59df763bb42",
+    "model": "pplx-7b-online",
+    "created": 2023309,
+    "usage": {
+      "prompt_tokens": 128,
+      "completion_tokens": 320,
+      "total_tokens": 448
+    },
+    "object": "chat.completion",
+    "choices": [
+      {
+        "index": 0,
+        "finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Barack Hussein Obama II is an American politician who served as the 44th President of the United States from 2009 to 2017. A member of the Democratic Party, he was the first African-American president in U.S. history. Before becoming President, Obama held various political positions, including:\n\n- U.S. Senator from Illinois (2005-2008)\n- Illinois State Senator (1997-2004)\n\nIn addition to his political career, Obama worked as a civil rights lawyer and university lecturer. He was born on August 4, 1961, in Honolulu, Hawaii, and graduated from Columbia University in 1983 with a B.A. in political science. Obama's story is the American story, with values from the heartland, a middle-class upbringing in a strong family, hard work and education as the means of getting ahead, and the conviction that a life so blessed should be lived in service to others.\n\nDuring his presidency, Obama implemented significant healthcare reforms and worked on various domestic and foreign policy issues. He was awarded the Nobel Peace Prize in 2009 for his extraordinary efforts to strengthen international diplomacy, human rights, and peace. After serving two terms as President, Obama is currently serving as a private citizen.\n"
+        },
+        "delta": {
+          "role": "assistant",
+          "content": ""
+        }
+      }
+    ]
+  },
+  "standardized_response": {
+    "generated_text": "Barack Hussein Obama II is an American politician who served as the 44th President of the United States from 2009 to 2017. A member of the Democratic Party, he was the first African-American president in U.S. history. Before becoming President, Obama held various political positions, including:\n\n- U.S. Senator from Illinois (2005-2008)\n- Illinois State Senator (1997-2004)\n\nIn addition to his political career, Obama worked as a civil rights lawyer and university lecturer. He was born on August 4, 1961, in Honolulu, Hawaii, and graduated from Columbia University in 1983 with a B.A. in political science. Obama's story is the American story, with values from the heartland, a middle-class upbringing in a strong family, hard work and education as the means of getting ahead, and the conviction that a life so blessed should be lived in service to others.\n\nDuring his presidency, Obama implemented significant healthcare reforms and worked on various domestic and foreign policy issues. He was awarded the Nobel Peace Prize in 2009 for his extraordinary efforts to strengthen international diplomacy, human rights, and peace. After serving two terms as President, Obama is currently serving as a private citizen.\n",
+    "message": [
+      {
+        "role": "user",
+        "message": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004."
+      },
+      {
+        "role": "system",
+        "message": "Barack Hussein Obama II is an American politician who served as the 44th President of the United States from 2009 to 2017. A member of the Democratic Party, he was the first African-American president in U.S. history. Before becoming President, Obama held various political positions, including:\n\n- U.S. Senator from Illinois (2005-2008)\n- Illinois State Senator (1997-2004)\n\nIn addition to his political career, Obama worked as a civil rights lawyer and university lecturer. He was born on August 4, 1961, in Honolulu, Hawaii, and graduated from Columbia University in 1983 with a B.A. in political science. Obama's story is the American story, with values from the heartland, a middle-class upbringing in a strong family, hard work and education as the means of getting ahead, and the conviction that a life so blessed should be lived in service to others.\n\nDuring his presidency, Obama implemented significant healthcare reforms and worked on various domestic and foreign policy issues. He was awarded the Nobel Peace Prize in 2009 for his extraordinary efforts to strengthen international diplomacy, human rights, and peace. After serving two terms as President, Obama is currently serving as a private citizen.\n"
+      }
+    ]
+  }
+}
