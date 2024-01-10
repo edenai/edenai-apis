@@ -136,6 +136,11 @@
 | | google |
 | | microsoft |
 | | openai |
+| **chat** | cohere |
+| | google |
+| | openai |
+| | perplexityai |
+| | replicate |
 | **custom_classification** | cohere |
 | | openai |
 | **custom_named_entity_recognition** | cohere |
@@ -152,9 +157,6 @@
 | | openai |
 | | prowritingaid |
 | | sapling |
-| **chat** | google |
-| | openai |
-| | replicate |
 | **code_generation** | google |
 | | nlpcloud |
 | | openai |
@@ -434,7 +436,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | custom_classification |
+| **text** | chat |
+| | custom_classification |
 | | custom_named_entity_recognition |
 | | embeddings |
 | | generation |
@@ -766,6 +769,13 @@
 |----------|-------------|
 | **text** | ai_detection |
 | | plagia_detection |
+
+</details>
+<details><summary>perplexityai</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | chat |
 
 </details>
 <details><summary>phedone</summary>
