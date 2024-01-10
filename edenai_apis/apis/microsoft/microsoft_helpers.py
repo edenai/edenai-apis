@@ -871,8 +871,8 @@ def microsoft_parser_normalizer(original_response: Dict) -> List[Dict]:
 
             if key_name == "Items":
                 items = key_value.get("value", [])
-                page_item_idx = page_index or 1
-                page_dict[page_item_idx-1]["items"] = items
+                for page_idx in range(len(original_response.get("pages") or [])):
+                    page_dict[page_idx]["items"] = items
 
     # Convert the dictionary to a list, maintaining the order of pages
     for page_index, page_elements in sorted(page_dict.items()):
