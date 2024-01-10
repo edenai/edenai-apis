@@ -53,6 +53,18 @@
     },
     "search" : {
       "version" : "v1"
+    },
+    "chat" : {
+      "constraints": {
+        "models": [
+          "command",
+          "command-light",
+          "command-nightly",
+          "command-light-nightly"
+        ],
+        "default_model": "command-light"
+      },
+      "version": "2022-12-06"
     }
   }
 }
