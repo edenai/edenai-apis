@@ -140,6 +140,7 @@
 | **chat** | cohere |
 | | google |
 | | meta |
+| | mistral |
 | | openai |
 | | perplexityai |
 | | replicate |
@@ -149,6 +150,7 @@
 | | openai |
 | **embeddings** | cohere |
 | | google |
+| | mistral |
 | | openai |
 | **search** | cohere |
 | | google |
@@ -688,7 +690,9 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | generation |
+| **text** | chat |
+| | embeddings |
+| | generation |
 
 </details>
 <details><summary>modernmt</summary>
