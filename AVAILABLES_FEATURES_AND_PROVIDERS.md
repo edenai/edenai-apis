@@ -77,6 +77,7 @@
 | | clarifai |
 | | cohere |
 | | google |
+| | meta |
 | | mistral |
 | | openai |
 | **summarize** | alephalpha |
@@ -138,6 +139,7 @@
 | | openai |
 | **chat** | cohere |
 | | google |
+| | meta |
 | | openai |
 | | perplexityai |
 | | replicate |
@@ -630,6 +632,14 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | summarize |
+
+</details>
+<details><summary>meta</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | chat |
+| | generation |
 
 </details>
 <details><summary>microsoft</summary>
