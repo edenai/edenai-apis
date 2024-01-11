@@ -61,5 +61,6 @@ from .voci import VociApi
 from .voxist import VoxistApi
 from .winstonai import WinstonaiApi
 from .writesonic import WritesonicApi
+from .meta import MetaApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

@@ -1,0 +1,11 @@
+{
+  "original_response": {
+    "generation": "Hello! I'm LLaMA, an AI assistant developed by Meta AI that can understand and respond to human",
+    "prompt_token_count": 21,
+    "generation_token_count": 25,
+    "stop_reason": "length"
+  },
+  "standardized_response": {
+    "generated_text": "hola!"
+  }
+}
