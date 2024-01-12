@@ -6,22 +6,30 @@ from typing import Dict, Literal
 
 import boto3
 import requests
+from requests.exceptions import JSONDecodeError
 
+from edenai_apis.apis.veryfi.veryfi_ocr_normalizer import (
+    veryfi_bank_check_parser,
+    veryfi_financial_parser,
+    veryfi_invoice_parser,
+    veryfi_receipt_parser,
+)
 from edenai_apis.features.ocr.bank_check_parsing import BankCheckParsingDataClass
-from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass
-from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import InvoiceParserDataClass
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialParserDataClass,
+)
+from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
+    InvoiceParserDataClass,
+)
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
-from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import ReceiptParserDataClass
+from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
+    ReceiptParserDataClass,
+)
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import load_key
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.apis.veryfi.veryfi_ocr_normalizer import (
-    veryfi_invoice_parser,
-    veryfi_receipt_parser,
-    veryfi_bank_check_parser,
-    veryfi_financial_parser
-)
+
 
 class VeryfiApi(ProviderInterface, OcrInterface):
     provider_name = "veryfi"
@@ -152,9 +160,8 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__financial_parser(
-            self, file: str, language: str, document_type: str, file_url: str = ""
-            ) -> ResponseType[FinancialParserDataClass]:
-        
+        self, file: str, language: str, document_type: str, file_url: str = ""
+    ) -> ResponseType[FinancialParserDataClass]:
         original_response = self._process_document(file)
 
         standardized_response = veryfi_financial_parser(original_response)
@@ -163,3 +170,4 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
+
