@@ -77,6 +77,7 @@
 | | clarifai |
 | | cohere |
 | | google |
+| | meta |
 | | mistral |
 | | openai |
 | **summarize** | alephalpha |
@@ -138,6 +139,8 @@
 | | openai |
 | **chat** | cohere |
 | | google |
+| | meta |
+| | mistral |
 | | openai |
 | | perplexityai |
 | | replicate |
@@ -147,6 +150,7 @@
 | | openai |
 | **embeddings** | cohere |
 | | google |
+| | mistral |
 | | openai |
 | **search** | cohere |
 | | google |
@@ -632,6 +636,14 @@
 | **text** | summarize |
 
 </details>
+<details><summary>meta</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | chat |
+| | generation |
+
+</details>
 <details><summary>microsoft</summary>
 
 | Features | Subfeatures |
@@ -678,7 +690,9 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | generation |
+| **text** | chat |
+| | embeddings |
+| | generation |
 
 </details>
 <details><summary>modernmt</summary>
