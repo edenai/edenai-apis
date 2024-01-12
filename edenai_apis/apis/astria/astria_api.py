@@ -131,18 +131,12 @@ class AstriaApi (ProviderInterface, ImageInterface) :
 
 """Method to create a fine tune model
     Create a tune with image__create_tune
-    Create a prompt with image__create_prompt
-    Request the output with image__get_image_prompt
+    Create a prompt and request the images with image__generate_image 
+
+Output :
+    Current output : list of url of the images
+    Will be good to integrate in the output the promptid and the tuneid
 """
-"""Output need to have
-    id of the tune, id of the prompt, list of url of the image
-"""
-
-
-
-test = AstriaApi()
-print(test.get__all_tunes())
-#print(test.image__get_image_prompt(tuneid=950996, promptid=13182890))
 
 
 
