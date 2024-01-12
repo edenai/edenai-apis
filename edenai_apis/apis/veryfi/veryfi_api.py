@@ -67,7 +67,11 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             response = self._process_document_directly(file, document_type)
 
         if response.status_code != HTTPStatus.CREATED:
-            raise ProviderException(message=response.json(), code=response.status_code)
+            try:
+                message = response.json()
+            except JSONDecodeError:
+                message = response.text
+            raise ProviderException(message=message, code=response.status_code)
 
         return response.json()
 
