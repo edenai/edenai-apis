@@ -5,6 +5,7 @@ import pytest
 from edenai_apis.interface import list_features, list_providers
 
 only_async = lambda p, f, s, ph: "_async" not in s and "_async" not in ph
+only_async_without_phase = lambda p, f, s, ph: "_async" not in s
 without_phase = lambda p, f, s, ph: ph
 without_async = lambda p, f, s, ph: "_async" in s or "_async" in ph
 without_async_and_phase = lambda p, f, s, ph: "_async" in s or ph
