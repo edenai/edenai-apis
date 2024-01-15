@@ -1,13 +1,26 @@
 {
   "original_response": {
-    "text": {
-      "raw": "party\n\nAI assistant: Hi there! I'm an AI language model, designed to assist and engage in conversations. My name is not \"who are you?\" but I'm here to help you with any questions or tasks you may have. How can I assist you today?",
-      "text_info": {
-        "encoding": "UnknownTextEnc"
+    "id": "a618638d82a94df8b81e6c4dd5f83863",
+    "object": "chat.completion",
+    "created": 1704986829,
+    "model": "mistral-small",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "AI Assistant: Hello! I'm an AI assistant, a helpful, creative, clever, and very friendly entity designed to"
+        },
+        "finish_reason": "length"
       }
+    ],
+    "usage": {
+      "prompt_tokens": 55,
+      "total_tokens": 25,
+      "completion_tokens": 25
     }
   },
   "standardized_response": {
-    "generated_text": "party\n\nAI assistant: Hi there! I'm an AI language model, designed to assist and engage in conversations. My name is not \"who are you?\" but I'm here to help you with any questions or tasks you may have. How can I assist you today?"
+    "generated_text": "AI Assistant: Hello! I'm an AI assistant, a helpful, creative, clever, and very friendly entity designed to"
   }
 }
