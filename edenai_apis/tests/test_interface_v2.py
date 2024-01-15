@@ -30,7 +30,17 @@ def test_return_provider_method_returns_right_method(
         subfeature_methods.append(subfeature)
         subfeature_methods[0] += "__launch_job"
         subfeature_methods[1] += "__get_job_result"
-    phase_suffix = f"__{phase}" if phase else ""
+    if phase:
+        if "_async" in phase:
+            subfeature_methods.append(subfeature)
+            subfeature_methods[0] += f"__{phase}__launch_job"
+            subfeature_methods[1] += f"__{phase}__get_job_result"
+            phase = None
+            phase_suffix = ""
+        else:
+            phase_suffix = f"__{phase}"
+    else:
+        phase_suffix = ""
 
     for method_name in subfeature_methods:
         feature_interface_module = importlib.import_module(
@@ -75,7 +85,16 @@ def test_abstract_returns_right_method(provider, feature, subfeature, phase):
         subfeature_methods.append(subfeature)
         subfeature_methods[0] += "__launch_job"
         subfeature_methods[1] += "__get_job_result"
-    phase_suffix = f"__{phase}" if phase else ""
+    if phase:
+        if "_async" in phase:
+            subfeature_methods.append(subfeature)
+            subfeature_methods[0] += f"__{phase}__launch_job"
+            subfeature_methods[1] += f"__{phase}__get_job_result"
+            phase_suffix = ""
+        else:
+            phase_suffix = f"__{phase}"
+    else:
+        phase_suffix = ""
 
     for method_name in subfeature_methods:
         provider_interface_module = importlib.import_module(
