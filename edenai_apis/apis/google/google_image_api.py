@@ -383,7 +383,7 @@ class GoogleImageApi(ImageInterface):
             standardized_response=LogoDetectionDataClass(items=items),
         )
 
-    def _imagegen_qa(
+    def _imagen_qa(
         self,
         fstream: BinaryIO,
         question: str,
@@ -526,8 +526,8 @@ class GoogleImageApi(ImageInterface):
             }
             if question is None:
                 question = "Describe the image"
-            if model == "imagegen":
-                return self._imagegen_qa(fstream, question, headers)
+            if model == "imagen":
+                return self._imagen_qa(fstream, question, headers)
             elif model == "gemini-pro-vision":
                 return self._gemini_pro_vision_qa(
                     fstream, question, temperature, max_tokens, headers
