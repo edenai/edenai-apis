@@ -1,0 +1,7 @@
+{
+    "image" : {
+        "fine-tune" : {
+            "version" : "v1.0"
+        }
+    }
+}
