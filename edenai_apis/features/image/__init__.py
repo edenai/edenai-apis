@@ -77,3 +77,9 @@ from .automl_classification import (
     AutomlClassificationPredictAsyncDataClass,
     AutomlClassificationDeleteProjectDataClass,
 )
+
+from .fine_tuning import (
+    FineTuningCreateProjectDataClass,
+    FineTuningGenerateImageDataClass,
+    FineTuningListProject
+)

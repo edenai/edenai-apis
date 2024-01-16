@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from io import BufferedReader
-from typing import Literal, Optional, Dict, Any
+from typing import Literal, Optional, Dict, Any, List
 
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
@@ -80,8 +80,13 @@ from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncBaseResponseType,
     AsyncResponseType,
+    AsyncPendingResponseType
 )
 
+from edenai_apis.features.image.fine_tuning import (
+    FineTuningGenerateImageDataClass,
+    FineTuningListProject
+)
 
 class ImageInterface:
     @abstractmethod
@@ -526,3 +531,79 @@ class ImageInterface:
             project_id (str): id of the project
         """
         raise NotImplementedError
+
+    @abstractmethod
+    def image__finetuning__create_project_async__launch_job(
+        self,
+        name : str, 
+        description : str, 
+        images : List[str],  #change for only file
+        base_project_id : Optional[int] = None
+        ) ->AsyncLaunchJobResponseType:
+        
+        """
+        Create a project for fine-tuning project, return the project id, the name, and the description of the project
+
+            name (str): A class name the describes the fine-tune (the project)
+            description (str): Description of the fine-tune
+            images 
+            base_project_id (Optional[int]) : Training on top of an existent project
+
+        """
+
+        raise NotImplementedError
+    
+    @abstractmethod
+    def image__finetuning__create_project_async__get_job_result(
+        self,
+        job_id : str )->AsyncPendingResponseType :
+        """
+        Get the advancement of a project training, return pending if not complete, return the time when the training finished in the other case
+
+            job_id (str) : id of the job created
+        """
+
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__finetuning__generate_image_async__launch_job(
+        self, 
+        tuneid : int, 
+        prompt : str, 
+        negative_prompt : Optional[str] = "", 
+        num_images : Optional[int] = 1) ->AsyncLaunchJobResponseType:
+        
+        """
+        Create the job to generate the images
+
+            tuneid : the id of the project
+            prompt : Description of the image.
+            negative_prompt : A comma separated list of words that should not appear in the image.
+            num_images : Number of images to generate. Range: 1-8.
+
+        """
+
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__finetuning__generate_image_async__get_job_result(
+            self,
+            provider_job_id: str) ->ResponseType[FineTuningGenerateImageDataClass]:
+        
+        """
+        Get the result of the images creation
+
+            provider_job_id (str) : a string with the tune id and the prompt id, must be concatenate with a -
+
+        """
+
+        raise NotImplementedError
+    
+    @abstractmethod
+    def image__finetuning__list_project(self) ->ResponseType[FineTuningListProject]:
+        
+        """List all the fine-tuning project id of the user"""
+        
+        raise NotImplementedError
+   
+

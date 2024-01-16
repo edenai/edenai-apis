@@ -3,7 +3,6 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features import ProviderInterface, ImageInterface
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.features.image import GeneratedImageDataClass, GenerationDataClass
 
 
 import requests
@@ -28,20 +27,16 @@ class AstriaApi (ProviderInterface, ImageInterface) :
             "authorization" : f"Bearer {self.api_settings['api_key']}"
         } 
 
-    def wait_for_images(self, tuneid :int, promptid :int, num_images : int) ->List[str]:
-        lst_url = self.image__get_image_prompt(tuneid, promptid)
-        timewait = 0
-        while (len(lst_url)!= num_images) :
-            time.sleep(30)
-            timewait += 30
-            print(timewait)
-            if timewait > 10000 :
-                raise Exception("Timeout Error")
-            else :
-                lst_url = self.image__get_image_prompt(tuneid, promptid)
+    def image__finetuning_wait_for_images(self, tuneid :int, promptid :int) ->List[str]:
+        lst_url = self.image__finetuning_get_image_prompt(tuneid, promptid)
+        
+        if lst_url != [] :
+            return lst_url
+        
         return lst_url
 
-    def image__promptinfo(self, tuneid : int, promptid : int)->json :
+    def image__finetuning_promptinfo(self, tuneid : int, promptid : int)->json :
+        '''Get all the information about a specific prompt'''
         response = requests.get(f"{self.url}tunes/{tuneid}/prompts/{promptid}", headers=self.headers)
         try :
             response = response.json()
@@ -49,11 +44,15 @@ class AstriaApi (ProviderInterface, ImageInterface) :
             raise ProviderException(message=response.text, code=response.status_code)
         return response
     
-    def image__get_image_prompt(self, tuneid : int, promptid : int) ->List[str]:
-        promptinfo = self.image__promptinfo(tuneid, promptid)
-        return promptinfo['images']
+    def image__finetuning_get_image_prompt(self, tuneid : int, promptid : int) ->List[str]:
+        promptinfo = self.image__finetuning_promptinfo(tuneid, promptid)
+        try :
+            images = promptinfo['images']
+        except KeyError :
+            raise ProviderException(message=promptinfo)
+        return images
 
-    def get__all_tunes(self) ->json:
+    def image__finetuning_get__all_tunes(self) ->json: #ResponseType[FineTuningListProjectDataClass]
         response = requests.get(f'{self.url}tunes', headers=self.headers)
         try : 
             response = response.json()
@@ -61,7 +60,7 @@ class AstriaApi (ProviderInterface, ImageInterface) :
             raise ProviderException(message=response.text, code=response.status_code)
         return response
     
-    def get_tune(self, tuneid : int = None)->json :
+    def image__finetuning_get_tune(self, tuneid : int = None)->json :
         if tuneid is not None :
             response = requests.get(f"{self.url}tunes/{tuneid}", headers=self.headers)
             try : 
@@ -69,13 +68,19 @@ class AstriaApi (ProviderInterface, ImageInterface) :
             except json.JSONDecodeError :
                 raise ProviderException(message=response.text, code=response.status_code)
             return response
-        raise Exception("Missing id")
+        raise ProviderException("Missing id")
 
 
-    def image__create_tune(self, name : str, description : str, images : List[str], token : Literal['owhx', 'sks'] = 'sks', base_tune_id : Optional[int] = None)-> int : #return the id of the fine-tuning model
+    def image__finetuning__create_project_async__launch_job(
+            self, 
+            name : str, 
+            description : str, 
+            images : List[str], 
+            token : Literal['owhx', 'sks'] = 'sks', 
+            base_tune_id : Optional[int] = None) -> int : #ResponseType[FineTuningCreateProjectDataClass]
         
         if (len(images) == 0) :
-            raise Exception("'1-50 images required'")
+            raise ProviderException("'1-50 images required'")
         
 
         image_data = []
@@ -106,9 +111,34 @@ class AstriaApi (ProviderInterface, ImageInterface) :
         except KeyError :
             raise ProviderException(message=response.text, code=response.status_code)
 
-        return tuneid
+        return tuneid #change class
     
-    def image__generate_image(self, tuneid : int, prompt : str, negative_prompt : Optional[str] = "", num_images : Optional[int] = 1)->List[str] :
+    def image__finetuning__create_project_async__get_job_result(self, job_id : str) : #ResponseType[Job done]
+        response = requests.get(f'https://api.astria.ai/tunes/{job_id}', headers=self.headers)
+        if response.status_code == 200 :
+            try :
+                response = json.loads(response)
+            except json.JSONDecodeError :
+                raise ProviderException(message=response.text, code=response.status_code)
+
+            if response['trained_at'] != None :
+                return #AsynResponstype, job done
+            else :
+                return #pending async (look amazon)
+        
+        else :
+            raise ProviderException(message=response.text, code=response.status_code)
+
+
+    
+    def image__finetuning__generate_image_async__launch_job(
+            self, 
+            tuneid : int, 
+            prompt : str, 
+            negative_prompt : Optional[str] = "", 
+            num_images : Optional[int] = 1)->List[str] : #ResponseType[FineTuningGenerateImageDataClass]
+        
+        
         url = f"{self.url}tunes/{tuneid}/prompts"
         data = {
             'prompt[text]' : prompt,
@@ -118,15 +148,40 @@ class AstriaApi (ProviderInterface, ImageInterface) :
 
         response = requests.post(url, headers=self.headers, data=data)
         try : 
-            response = response.json()
+            rjson = response.json()
         except json.JSONDecodeError :
             raise ProviderException(message=response.text, code=response.status_code)
+        
+        print(response)
+        try :
+            promptid = rjson['id']
+        except KeyError :
+            raise ProviderException(message=response, code=response.status_code)
+        
+        return f'{tuneid}-{promptid}'
+        
+    
+    
+    def image__finetuning__async_generate_image__get_job_result(self, provider_job_id: str) : #ResponseType[All urls]
+        tune_prompt = provider_job_id.split('-')
+        tuneid = tune_prompt[0]
+        promptid = tune_prompt[1]
 
-        promptid = response['id']
+        list_url = self.image__finetuning_wait_for_images(tuneid, promptid)
 
-        list_url = self.wait_for_images(tuneid, promptid, num_images)
+        return list_url #change output
 
-        return list_url
+
+
+    def image__finetuning__list_tunes(self):
+        response = self.image__finetuning_get__all_tunes()
+        
+        lst_id_tunes = []
+        for tunes in response :
+            lst_id_tunes.append(tunes['id'])
+
+        return lst_id_tunes
+
         
 
 """Method to create a fine tune model
@@ -137,11 +192,14 @@ Output :
     Current output : list of url of the images
     Will be good to integrate in the output the promptid and the tuneid
 """
+test = AstriaApi()
+res = test.image__finetuning__generate_image_async__launch_job(956910, "A little sks dog in a bed", num_images=4)
+print(res)
+time.sleep(120)
+img = test.image__finetuning__async_generate_image__get_job_result(res)
+print(img)
 
-
-
-
-
+#add class and finish implémentation
 
 
 
