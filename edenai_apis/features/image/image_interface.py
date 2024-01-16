@@ -546,7 +546,7 @@ class ImageInterface:
 
             name (str): A class name the describes the fine-tune (the project)
             description (str): Description of the fine-tune
-            images 
+            images (list(str)) : List of images to train the model
             base_project_id (Optional[int]) : Training on top of an existent project
 
         """
