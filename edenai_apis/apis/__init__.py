@@ -5,6 +5,7 @@ from .amazon import AmazonApi
 from .anthropic import AnthropicApi
 from .api4ai import Api4aiApi
 from .assembly import AssemblyApi
+from .astria import AstriaApi
 from .base64 import Base64Api
 from .clarifai import ClarifaiApi
 from .cohere import CohereApi
@@ -26,6 +27,7 @@ from .klippa import KlippaApi
 from .lettria import LettriaApi
 from .lovoai import LovoaiApi
 from .meaningcloud import MeaningcloudApi
+from .meta import MetaApi
 from .microsoft import MicrosoftApi
 from .mindee import MindeeApi
 from .mistral import MistralApi
@@ -36,10 +38,11 @@ from .nyckel import NyckelApi
 from .oneai import OneaiApi
 from .openai import OpenaiApi
 from .originalityai import OriginalityaiApi
-from .phedone import PhedoneApi
 from .perplexityai import PerplexityApi
+from .phedone import PhedoneApi
 from .photoroom import PhotoroomApi
 from .picpurify import PicpurifyApi
+from .privateai import PrivateaiApi
 from .prowritingaid import ProWritingAidApi
 from .readyredact import ReadyRedactApi
 from .replicate import ReplicateApi
@@ -61,7 +64,5 @@ from .voci import VociApi
 from .voxist import VoxistApi
 from .winstonai import WinstonaiApi
 from .writesonic import WritesonicApi
-from .meta import MetaApi
-from .privateai import PrivateaiApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

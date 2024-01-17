@@ -239,7 +239,9 @@ def validate_audio_format(constraints: dict, args: dict) -> dict:
     return args
 
 
-def validate_models(provider: str, subfeature: str, constraints: dict, args: dict) -> Dict:
+def validate_models(
+    provider: str, subfeature: str, constraints: dict, args: dict
+) -> Dict:
     models = constraints.get("models") or constraints.get("voice_ids")
     if not models:
         if "settings" in args:
@@ -267,8 +269,9 @@ def validate_models(provider: str, subfeature: str, constraints: dict, args: dic
         else:
             selected_model = constraints.get("default_model")
         args["model"] = selected_model
-    args.pop("settings", None) 
+    args.pop("settings", None)
     return args
+
 
 def validate_document_type(subfeature: str, constraints: dict, args: dict) -> Dict:
     """
@@ -290,15 +293,22 @@ def validate_document_type(subfeature: str, constraints: dict, args: dict) -> Di
             return args
 
         # Handle the case where null document type is allowed
-        if constraints.get("allow_null_document_type") and args.get("document_type") == "auto-detect":
+        if (
+            constraints.get("allow_null_document_type")
+            and args.get("document_type") == "auto-detect"
+        ):
             args["document_type"] = ""
             return args
-        
 
         # Check if the document type is allowed or raise an exception
-        if not constraints.get("allow_null_document_type") and args["document_type"] == "auto-detect":
-            raise ProviderException("The provider does not accept auto-detect for this feature.")
-        
+        if (
+            not constraints.get("allow_null_document_type")
+            and args["document_type"] == "auto-detect"
+        ):
+            raise ProviderException(
+                "The provider does not accept auto-detect for this feature."
+            )
+
         # Return the validated arguments
         return args
     else:
@@ -323,6 +333,18 @@ def transform_file_args(args: dict) -> dict:
             file_path = file_wrapper.file_path
             file_url = file_wrapper.file_url
             args.update({file_arg: file_path, f"{file_arg}_url": file_url})
+    if args.get("files"):
+        files = []
+        files_url = []
+        for file in args.get("files", []):
+            if isinstance(file, FileWrapper):
+                file_wrapper: FileWrapper = file
+                file_path = file_wrapper.file_path
+                file_url = file_wrapper.file_url
+                files.append(file_path)
+                files_url.append(file_url)
+        args.update({"files": files, "files_url": files_url})
+
     return args
 
 
@@ -377,11 +399,15 @@ def validate_all_provider_constraints(
         validated_args = validate_audio_format(provider_constraints, validated_args)
 
         #  Validate models
-        validated_args = validate_models(provider, subfeature, provider_constraints, validated_args)
+        validated_args = validate_models(
+            provider, subfeature, provider_constraints, validated_args
+        )
 
         # Validate document_type
-        validated_args = validate_document_type(subfeature, provider_constraints, validated_args)
-        
+        validated_args = validate_document_type(
+            subfeature, provider_constraints, validated_args
+        )
+
         # ...
 
         validated_args = transform_file_args(validated_args)
