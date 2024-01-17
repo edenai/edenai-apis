@@ -498,8 +498,10 @@ class GoogleImageApi(ImageInterface):
 
         standardized_response = QuestionAnswerDataClass(
             answers=[
-                part["text"]
-                for part in original_response["candidates"][0]["content"]["parts"]
+                part.get("text", "")
+                for part in original_response["candidates"][0]
+                .get("content", {})
+                .get("parts", {})
             ]
         )
 
