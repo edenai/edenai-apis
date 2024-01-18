@@ -1,8 +1,8 @@
 {
   "original_response": {
-    "api_version": "2022-08-31",
+    "api_version": "2023-07-31",
     "model_id": "prebuilt-invoice",
-    "content": "SNG Engineering, Inc. Consulting Engineers 344 Main Street Suite 200 Gaithersburg, MD 20878\nPhone: 301.548.0055 Fax: 301.548.1840 E-mail: sng.engineering@erols.com\nINVOICE\nSNG\nTO,\nDamita J Goldsmith\n201 Stan Fey Dr\nUpper Marlboro , MD 20774\nShip To:\nSame\nReference: 201 Stan Fey Drive\nUpper Marlboro\nINVOICE NO: 014- 03 DATE: January 20, 2003\nSALESPERSON\nP.O. NUMBER\nDATE SHIPPED\nSHIPPED VIA\nF.O.B. POINT\nTERMS\non receipt of service\nQUANTITY\nDESCRIPTION\nUNIT PRICE\nAMOUNT\n1 1\nField inspection of construction on 1/19/2003 deficiencies in house\n750.00\n750 .. 00\nconstruction, Garage drive way & legal support to Attorney to 1/19/2003\nSUBTOTAL\n750.00\nSHIPPING & HANDELING\nTOTAL DUE\n750.00\nMake all checks payable to SNG Engineering, Inc. If you have any questions concerning this invoice, call: Sach Gupta, 301.548.0055 The payment will be due within fifteen days after receipt of invoice by the owner/contractor. Please note that 1-1/2 percent interest will accrue on the unpaid balance after this date.\nTHANK YOU FOR YOUR BUSINESS!",
+    "content": "SNG Engineering, Inc.\nSNG\nINVOICE\nConsulting Engineers\n344 Main Street Suite 200\nGaithersburg, MD 20878\nPhone: 301.548.0055 Fax: 301.548.1840\nINVOICE NO: 014- 03\nE-mail: sng.engineering@erols.com\nDATE: January 20, 2003\nTO,\nShip To:\nSame\nDamita J Goldsmith\n201 Stan Fey Dr\nUpper Marlboro , MD 20774\nReference: 201 Stan Fey Drive\nUpper Marlboro\nSALESPERSON\nP.O. NUMBER\nDATE SHIPPED\nSHIPPED VIA\nF.O.B. POINT\nTERMS\non receipt of service\nQUANTITY\nDESCRIPTION\nUNIT PRICE\nAMOUNT\n1\n1\nField inspection of construction on 1/19/2003 deficiencies in house\n750.00\n750 .. 00\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003\nSUBTOTAL\n750.00\nSHIPPING & HANDELING\nTOTAL DUE\n750.00\nMake all checks payable to SNG Engineering, Inc.\nIf you have any questions concerning this invoice, call: Sach Gupta, 301.548.0055\nThe payment will be due within fifteen days after receipt of invoice by the owner/contractor.\nPlease note that 1-1/2 percent interest will accrue on the unpaid balance after this date.\nTHANK YOU FOR YOUR BUSINESS!",
     "languages": [],
     "pages": [
       {
@@ -40,6 +40,60 @@
             ]
           },
           {
+            "content": "SNG",
+            "polygon": [
+              {
+                "x": 47.0,
+                "y": 75.0
+              },
+              {
+                "x": 158.0,
+                "y": 75.0
+              },
+              {
+                "x": 157.0,
+                "y": 119.0
+              },
+              {
+                "x": 47.0,
+                "y": 121.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 22,
+                "length": 3
+              }
+            ]
+          },
+          {
+            "content": "INVOICE",
+            "polygon": [
+              {
+                "x": 491.0,
+                "y": 50.0
+              },
+              {
+                "x": 647.0,
+                "y": 50.0
+              },
+              {
+                "x": 647.0,
+                "y": 81.0
+              },
+              {
+                "x": 491.0,
+                "y": 82.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 26,
+                "length": 7
+              }
+            ]
+          },
+          {
             "content": "Consulting Engineers",
             "polygon": [
               {
@@ -61,7 +115,7 @@
             ],
             "spans": [
               {
-                "offset": 22,
+                "offset": 34,
                 "length": 20
               }
             ]
@@ -88,7 +142,7 @@
             ],
             "spans": [
               {
-                "offset": 43,
+                "offset": 55,
                 "length": 25
               }
             ]
@@ -115,7 +169,7 @@
             ],
             "spans": [
               {
-                "offset": 69,
+                "offset": 81,
                 "length": 22
               }
             ]
@@ -142,8 +196,35 @@
             ],
             "spans": [
               {
-                "offset": 92,
+                "offset": 104,
                 "length": 37
+              }
+            ]
+          },
+          {
+            "content": "INVOICE NO: 014- 03",
+            "polygon": [
+              {
+                "x": 534.0,
+                "y": 107.0
+              },
+              {
+                "x": 650.0,
+                "y": 107.0
+              },
+              {
+                "x": 650.0,
+                "y": 120.0
+              },
+              {
+                "x": 534.0,
+                "y": 120.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 142,
+                "length": 19
               }
             ]
           },
@@ -169,62 +250,35 @@
             ],
             "spans": [
               {
-                "offset": 130,
+                "offset": 162,
                 "length": 33
               }
             ]
           },
           {
-            "content": "INVOICE",
+            "content": "DATE: January 20, 2003",
             "polygon": [
               {
-                "x": 491.0,
-                "y": 50.0
+                "x": 521.0,
+                "y": 120.0
               },
               {
-                "x": 647.0,
-                "y": 50.0
+                "x": 648.0,
+                "y": 120.0
               },
               {
-                "x": 647.0,
-                "y": 81.0
+                "x": 648.0,
+                "y": 134.0
               },
               {
-                "x": 491.0,
-                "y": 82.0
+                "x": 521.0,
+                "y": 134.0
               }
             ],
             "spans": [
               {
-                "offset": 164,
-                "length": 7
-              }
-            ]
-          },
-          {
-            "content": "SNG",
-            "polygon": [
-              {
-                "x": 47.0,
-                "y": 75.0
-              },
-              {
-                "x": 158.0,
-                "y": 75.0
-              },
-              {
-                "x": 157.0,
-                "y": 119.0
-              },
-              {
-                "x": 47.0,
-                "y": 121.0
-              }
-            ],
-            "spans": [
-              {
-                "offset": 172,
-                "length": 3
+                "offset": 196,
+                "length": 22
               }
             ]
           },
@@ -250,89 +304,8 @@
             ],
             "spans": [
               {
-                "offset": 176,
+                "offset": 219,
                 "length": 3
-              }
-            ]
-          },
-          {
-            "content": "Damita J Goldsmith",
-            "polygon": [
-              {
-                "x": 61.0,
-                "y": 204.0
-              },
-              {
-                "x": 163.0,
-                "y": 204.0
-              },
-              {
-                "x": 163.0,
-                "y": 216.0
-              },
-              {
-                "x": 61.0,
-                "y": 217.0
-              }
-            ],
-            "spans": [
-              {
-                "offset": 180,
-                "length": 18
-              }
-            ]
-          },
-          {
-            "content": "201 Stan Fey Dr",
-            "polygon": [
-              {
-                "x": 61.0,
-                "y": 218.0
-              },
-              {
-                "x": 146.0,
-                "y": 218.0
-              },
-              {
-                "x": 146.0,
-                "y": 230.0
-              },
-              {
-                "x": 61.0,
-                "y": 230.0
-              }
-            ],
-            "spans": [
-              {
-                "offset": 199,
-                "length": 15
-              }
-            ]
-          },
-          {
-            "content": "Upper Marlboro , MD 20774",
-            "polygon": [
-              {
-                "x": 61.0,
-                "y": 231.0
-              },
-              {
-                "x": 204.0,
-                "y": 231.0
-              },
-              {
-                "x": 204.0,
-                "y": 244.0
-              },
-              {
-                "x": 61.0,
-                "y": 245.0
-              }
-            ],
-            "spans": [
-              {
-                "offset": 215,
-                "length": 25
               }
             ]
           },
@@ -358,7 +331,7 @@
             ],
             "spans": [
               {
-                "offset": 241,
+                "offset": 223,
                 "length": 8
               }
             ]
@@ -385,8 +358,89 @@
             ],
             "spans": [
               {
-                "offset": 250,
+                "offset": 232,
                 "length": 4
+              }
+            ]
+          },
+          {
+            "content": "Damita J Goldsmith",
+            "polygon": [
+              {
+                "x": 61.0,
+                "y": 204.0
+              },
+              {
+                "x": 163.0,
+                "y": 204.0
+              },
+              {
+                "x": 163.0,
+                "y": 216.0
+              },
+              {
+                "x": 61.0,
+                "y": 217.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 237,
+                "length": 18
+              }
+            ]
+          },
+          {
+            "content": "201 Stan Fey Dr",
+            "polygon": [
+              {
+                "x": 61.0,
+                "y": 218.0
+              },
+              {
+                "x": 146.0,
+                "y": 218.0
+              },
+              {
+                "x": 146.0,
+                "y": 230.0
+              },
+              {
+                "x": 61.0,
+                "y": 230.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 256,
+                "length": 15
+              }
+            ]
+          },
+          {
+            "content": "Upper Marlboro , MD 20774",
+            "polygon": [
+              {
+                "x": 61.0,
+                "y": 231.0
+              },
+              {
+                "x": 204.0,
+                "y": 231.0
+              },
+              {
+                "x": 204.0,
+                "y": 244.0
+              },
+              {
+                "x": 61.0,
+                "y": 245.0
+              }
+            ],
+            "spans": [
+              {
+                "offset": 272,
+                "length": 25
               }
             ]
           },
@@ -412,7 +466,7 @@
             ],
             "spans": [
               {
-                "offset": 255,
+                "offset": 298,
                 "length": 29
               }
             ]
@@ -439,62 +493,8 @@
             ],
             "spans": [
               {
-                "offset": 285,
+                "offset": 328,
                 "length": 14
-              }
-            ]
-          },
-          {
-            "content": "INVOICE NO: 014- 03",
-            "polygon": [
-              {
-                "x": 534.0,
-                "y": 107.0
-              },
-              {
-                "x": 650.0,
-                "y": 107.0
-              },
-              {
-                "x": 650.0,
-                "y": 120.0
-              },
-              {
-                "x": 534.0,
-                "y": 120.0
-              }
-            ],
-            "spans": [
-              {
-                "offset": 300,
-                "length": 19
-              }
-            ]
-          },
-          {
-            "content": "DATE: January 20, 2003",
-            "polygon": [
-              {
-                "x": 521.0,
-                "y": 120.0
-              },
-              {
-                "x": 648.0,
-                "y": 120.0
-              },
-              {
-                "x": 648.0,
-                "y": 134.0
-              },
-              {
-                "x": 521.0,
-                "y": 134.0
-              }
-            ],
-            "spans": [
-              {
-                "offset": 320,
-                "length": 22
               }
             ]
           },
@@ -1335,6 +1335,58 @@
             "confidence": 0.965
           },
           {
+            "content": "SNG",
+            "polygon": [
+              {
+                "x": 49.0,
+                "y": 75.0
+              },
+              {
+                "x": 144.0,
+                "y": 75.0
+              },
+              {
+                "x": 144.0,
+                "y": 120.0
+              },
+              {
+                "x": 49.0,
+                "y": 121.0
+              }
+            ],
+            "span": {
+              "offset": 22,
+              "length": 3
+            },
+            "confidence": 0.751
+          },
+          {
+            "content": "INVOICE",
+            "polygon": [
+              {
+                "x": 494.0,
+                "y": 50.0
+              },
+              {
+                "x": 639.0,
+                "y": 51.0
+              },
+              {
+                "x": 639.0,
+                "y": 82.0
+              },
+              {
+                "x": 493.0,
+                "y": 83.0
+              }
+            ],
+            "span": {
+              "offset": 26,
+              "length": 7
+            },
+            "confidence": 0.98
+          },
+          {
             "content": "Consulting",
             "polygon": [
               {
@@ -1355,7 +1407,7 @@
               }
             ],
             "span": {
-              "offset": 22,
+              "offset": 34,
               "length": 10
             },
             "confidence": 0.993
@@ -1381,7 +1433,7 @@
               }
             ],
             "span": {
-              "offset": 33,
+              "offset": 45,
               "length": 9
             },
             "confidence": 0.984
@@ -1407,7 +1459,7 @@
               }
             ],
             "span": {
-              "offset": 43,
+              "offset": 55,
               "length": 3
             },
             "confidence": 0.994
@@ -1433,7 +1485,7 @@
               }
             ],
             "span": {
-              "offset": 47,
+              "offset": 59,
               "length": 4
             },
             "confidence": 0.992
@@ -1459,7 +1511,7 @@
               }
             ],
             "span": {
-              "offset": 52,
+              "offset": 64,
               "length": 6
             },
             "confidence": 0.993
@@ -1485,7 +1537,7 @@
               }
             ],
             "span": {
-              "offset": 59,
+              "offset": 71,
               "length": 5
             },
             "confidence": 0.994
@@ -1511,7 +1563,7 @@
               }
             ],
             "span": {
-              "offset": 65,
+              "offset": 77,
               "length": 3
             },
             "confidence": 0.996
@@ -1537,7 +1589,7 @@
               }
             ],
             "span": {
-              "offset": 69,
+              "offset": 81,
               "length": 13
             },
             "confidence": 0.991
@@ -1563,7 +1615,7 @@
               }
             ],
             "span": {
-              "offset": 83,
+              "offset": 95,
               "length": 2
             },
             "confidence": 0.995
@@ -1589,7 +1641,7 @@
               }
             ],
             "span": {
-              "offset": 86,
+              "offset": 98,
               "length": 5
             },
             "confidence": 0.995
@@ -1615,7 +1667,7 @@
               }
             ],
             "span": {
-              "offset": 92,
+              "offset": 104,
               "length": 6
             },
             "confidence": 0.993
@@ -1641,7 +1693,7 @@
               }
             ],
             "span": {
-              "offset": 99,
+              "offset": 111,
               "length": 12
             },
             "confidence": 0.984
@@ -1667,7 +1719,7 @@
               }
             ],
             "span": {
-              "offset": 112,
+              "offset": 124,
               "length": 4
             },
             "confidence": 0.98
@@ -1693,712 +1745,10 @@
               }
             ],
             "span": {
-              "offset": 117,
+              "offset": 129,
               "length": 12
             },
             "confidence": 0.99
-          },
-          {
-            "content": "E-mail:",
-            "polygon": [
-              {
-                "x": 187.0,
-                "y": 129.0
-              },
-              {
-                "x": 223.0,
-                "y": 130.0
-              },
-              {
-                "x": 223.0,
-                "y": 145.0
-              },
-              {
-                "x": 188.0,
-                "y": 145.0
-              }
-            ],
-            "span": {
-              "offset": 130,
-              "length": 7
-            },
-            "confidence": 0.99
-          },
-          {
-            "content": "sng.engineering@erols.com",
-            "polygon": [
-              {
-                "x": 226.0,
-                "y": 130.0
-              },
-              {
-                "x": 365.0,
-                "y": 131.0
-              },
-              {
-                "x": 366.0,
-                "y": 145.0
-              },
-              {
-                "x": 226.0,
-                "y": 145.0
-              }
-            ],
-            "span": {
-              "offset": 138,
-              "length": 25
-            },
-            "confidence": 0.935
-          },
-          {
-            "content": "INVOICE",
-            "polygon": [
-              {
-                "x": 494.0,
-                "y": 50.0
-              },
-              {
-                "x": 639.0,
-                "y": 51.0
-              },
-              {
-                "x": 639.0,
-                "y": 82.0
-              },
-              {
-                "x": 493.0,
-                "y": 83.0
-              }
-            ],
-            "span": {
-              "offset": 164,
-              "length": 7
-            },
-            "confidence": 0.98
-          },
-          {
-            "content": "SNG",
-            "polygon": [
-              {
-                "x": 49.0,
-                "y": 75.0
-              },
-              {
-                "x": 144.0,
-                "y": 75.0
-              },
-              {
-                "x": 144.0,
-                "y": 120.0
-              },
-              {
-                "x": 49.0,
-                "y": 121.0
-              }
-            ],
-            "span": {
-              "offset": 172,
-              "length": 3
-            },
-            "confidence": 0.751
-          },
-          {
-            "content": "TO,",
-            "polygon": [
-              {
-                "x": 45.0,
-                "y": 190.0
-              },
-              {
-                "x": 63.0,
-                "y": 190.0
-              },
-              {
-                "x": 62.0,
-                "y": 203.0
-              },
-              {
-                "x": 45.0,
-                "y": 203.0
-              }
-            ],
-            "span": {
-              "offset": 176,
-              "length": 3
-            },
-            "confidence": 0.673
-          },
-          {
-            "content": "Damita",
-            "polygon": [
-              {
-                "x": 62.0,
-                "y": 205.0
-              },
-              {
-                "x": 98.0,
-                "y": 205.0
-              },
-              {
-                "x": 99.0,
-                "y": 217.0
-              },
-              {
-                "x": 63.0,
-                "y": 217.0
-              }
-            ],
-            "span": {
-              "offset": 180,
-              "length": 6
-            },
-            "confidence": 0.995
-          },
-          {
-            "content": "J",
-            "polygon": [
-              {
-                "x": 101.0,
-                "y": 205.0
-              },
-              {
-                "x": 108.0,
-                "y": 205.0
-              },
-              {
-                "x": 108.0,
-                "y": 217.0
-              },
-              {
-                "x": 102.0,
-                "y": 217.0
-              }
-            ],
-            "span": {
-              "offset": 187,
-              "length": 1
-            },
-            "confidence": 0.995
-          },
-          {
-            "content": "Goldsmith",
-            "polygon": [
-              {
-                "x": 110.0,
-                "y": 205.0
-              },
-              {
-                "x": 161.0,
-                "y": 204.0
-              },
-              {
-                "x": 161.0,
-                "y": 217.0
-              },
-              {
-                "x": 111.0,
-                "y": 217.0
-              }
-            ],
-            "span": {
-              "offset": 189,
-              "length": 9
-            },
-            "confidence": 0.993
-          },
-          {
-            "content": "201",
-            "polygon": [
-              {
-                "x": 63.0,
-                "y": 218.0
-              },
-              {
-                "x": 82.0,
-                "y": 218.0
-              },
-              {
-                "x": 82.0,
-                "y": 231.0
-              },
-              {
-                "x": 63.0,
-                "y": 231.0
-              }
-            ],
-            "span": {
-              "offset": 199,
-              "length": 3
-            },
-            "confidence": 0.996
-          },
-          {
-            "content": "Stan",
-            "polygon": [
-              {
-                "x": 84.0,
-                "y": 218.0
-              },
-              {
-                "x": 108.0,
-                "y": 218.0
-              },
-              {
-                "x": 108.0,
-                "y": 231.0
-              },
-              {
-                "x": 84.0,
-                "y": 231.0
-              }
-            ],
-            "span": {
-              "offset": 203,
-              "length": 4
-            },
-            "confidence": 0.985
-          },
-          {
-            "content": "Fey",
-            "polygon": [
-              {
-                "x": 111.0,
-                "y": 218.0
-              },
-              {
-                "x": 130.0,
-                "y": 218.0
-              },
-              {
-                "x": 130.0,
-                "y": 231.0
-              },
-              {
-                "x": 111.0,
-                "y": 231.0
-              }
-            ],
-            "span": {
-              "offset": 208,
-              "length": 3
-            },
-            "confidence": 0.995
-          },
-          {
-            "content": "Dr",
-            "polygon": [
-              {
-                "x": 133.0,
-                "y": 218.0
-              },
-              {
-                "x": 146.0,
-                "y": 218.0
-              },
-              {
-                "x": 146.0,
-                "y": 231.0
-              },
-              {
-                "x": 133.0,
-                "y": 231.0
-              }
-            ],
-            "span": {
-              "offset": 212,
-              "length": 2
-            },
-            "confidence": 0.995
-          },
-          {
-            "content": "Upper",
-            "polygon": [
-              {
-                "x": 62.0,
-                "y": 232.0
-              },
-              {
-                "x": 93.0,
-                "y": 232.0
-              },
-              {
-                "x": 93.0,
-                "y": 246.0
-              },
-              {
-                "x": 63.0,
-                "y": 246.0
-              }
-            ],
-            "span": {
-              "offset": 215,
-              "length": 5
-            },
-            "confidence": 0.995
-          },
-          {
-            "content": "Marlboro",
-            "polygon": [
-              {
-                "x": 95.0,
-                "y": 232.0
-              },
-              {
-                "x": 139.0,
-                "y": 231.0
-              },
-              {
-                "x": 140.0,
-                "y": 245.0
-              },
-              {
-                "x": 96.0,
-                "y": 246.0
-              }
-            ],
-            "span": {
-              "offset": 221,
-              "length": 8
-            },
-            "confidence": 0.947
-          },
-          {
-            "content": ",",
-            "polygon": [
-              {
-                "x": 142.0,
-                "y": 231.0
-              },
-              {
-                "x": 147.0,
-                "y": 231.0
-              },
-              {
-                "x": 147.0,
-                "y": 245.0
-              },
-              {
-                "x": 143.0,
-                "y": 245.0
-              }
-            ],
-            "span": {
-              "offset": 230,
-              "length": 1
-            },
-            "confidence": 0.993
-          },
-          {
-            "content": "MD",
-            "polygon": [
-              {
-                "x": 150.0,
-                "y": 231.0
-              },
-              {
-                "x": 167.0,
-                "y": 231.0
-              },
-              {
-                "x": 167.0,
-                "y": 245.0
-              },
-              {
-                "x": 150.0,
-                "y": 245.0
-              }
-            ],
-            "span": {
-              "offset": 232,
-              "length": 2
-            },
-            "confidence": 0.997
-          },
-          {
-            "content": "20774",
-            "polygon": [
-              {
-                "x": 172.0,
-                "y": 231.0
-              },
-              {
-                "x": 204.0,
-                "y": 231.0
-              },
-              {
-                "x": 204.0,
-                "y": 245.0
-              },
-              {
-                "x": 172.0,
-                "y": 245.0
-              }
-            ],
-            "span": {
-              "offset": 235,
-              "length": 5
-            },
-            "confidence": 0.995
-          },
-          {
-            "content": "Ship",
-            "polygon": [
-              {
-                "x": 347.0,
-                "y": 191.0
-              },
-              {
-                "x": 372.0,
-                "y": 191.0
-              },
-              {
-                "x": 372.0,
-                "y": 204.0
-              },
-              {
-                "x": 348.0,
-                "y": 204.0
-              }
-            ],
-            "span": {
-              "offset": 241,
-              "length": 4
-            },
-            "confidence": 0.992
-          },
-          {
-            "content": "To:",
-            "polygon": [
-              {
-                "x": 376.0,
-                "y": 191.0
-              },
-              {
-                "x": 396.0,
-                "y": 191.0
-              },
-              {
-                "x": 396.0,
-                "y": 205.0
-              },
-              {
-                "x": 376.0,
-                "y": 204.0
-              }
-            ],
-            "span": {
-              "offset": 246,
-              "length": 3
-            },
-            "confidence": 0.995
-          },
-          {
-            "content": "Same",
-            "polygon": [
-              {
-                "x": 412.0,
-                "y": 190.0
-              },
-              {
-                "x": 443.0,
-                "y": 190.0
-              },
-              {
-                "x": 443.0,
-                "y": 203.0
-              },
-              {
-                "x": 412.0,
-                "y": 203.0
-              }
-            ],
-            "span": {
-              "offset": 250,
-              "length": 4
-            },
-            "confidence": 0.993
-          },
-          {
-            "content": "Reference:",
-            "polygon": [
-              {
-                "x": 347.0,
-                "y": 218.0
-              },
-              {
-                "x": 404.0,
-                "y": 218.0
-              },
-              {
-                "x": 404.0,
-                "y": 232.0
-              },
-              {
-                "x": 347.0,
-                "y": 231.0
-              }
-            ],
-            "span": {
-              "offset": 255,
-              "length": 10
-            },
-            "confidence": 0.977
-          },
-          {
-            "content": "201",
-            "polygon": [
-              {
-                "x": 406.0,
-                "y": 218.0
-              },
-              {
-                "x": 426.0,
-                "y": 218.0
-              },
-              {
-                "x": 426.0,
-                "y": 232.0
-              },
-              {
-                "x": 407.0,
-                "y": 232.0
-              }
-            ],
-            "span": {
-              "offset": 266,
-              "length": 3
-            },
-            "confidence": 0.995
-          },
-          {
-            "content": "Stan",
-            "polygon": [
-              {
-                "x": 428.0,
-                "y": 218.0
-              },
-              {
-                "x": 451.0,
-                "y": 218.0
-              },
-              {
-                "x": 452.0,
-                "y": 232.0
-              },
-              {
-                "x": 429.0,
-                "y": 232.0
-              }
-            ],
-            "span": {
-              "offset": 270,
-              "length": 4
-            },
-            "confidence": 0.991
-          },
-          {
-            "content": "Fey",
-            "polygon": [
-              {
-                "x": 454.0,
-                "y": 218.0
-              },
-              {
-                "x": 473.0,
-                "y": 218.0
-              },
-              {
-                "x": 473.0,
-                "y": 232.0
-              },
-              {
-                "x": 454.0,
-                "y": 232.0
-              }
-            ],
-            "span": {
-              "offset": 275,
-              "length": 3
-            },
-            "confidence": 0.995
-          },
-          {
-            "content": "Drive",
-            "polygon": [
-              {
-                "x": 475.0,
-                "y": 218.0
-              },
-              {
-                "x": 503.0,
-                "y": 218.0
-              },
-              {
-                "x": 503.0,
-                "y": 233.0
-              },
-              {
-                "x": 475.0,
-                "y": 232.0
-              }
-            ],
-            "span": {
-              "offset": 279,
-              "length": 5
-            },
-            "confidence": 0.993
-          },
-          {
-            "content": "Upper",
-            "polygon": [
-              {
-                "x": 406.0,
-                "y": 232.0
-              },
-              {
-                "x": 437.0,
-                "y": 232.0
-              },
-              {
-                "x": 438.0,
-                "y": 245.0
-              },
-              {
-                "x": 407.0,
-                "y": 245.0
-              }
-            ],
-            "span": {
-              "offset": 285,
-              "length": 5
-            },
-            "confidence": 0.995
-          },
-          {
-            "content": "Marlboro",
-            "polygon": [
-              {
-                "x": 440.0,
-                "y": 232.0
-              },
-              {
-                "x": 486.0,
-                "y": 232.0
-              },
-              {
-                "x": 486.0,
-                "y": 245.0
-              },
-              {
-                "x": 441.0,
-                "y": 245.0
-              }
-            ],
-            "span": {
-              "offset": 291,
-              "length": 8
-            },
-            "confidence": 0.993
           },
           {
             "content": "INVOICE",
@@ -2421,7 +1771,7 @@
               }
             ],
             "span": {
-              "offset": 300,
+              "offset": 142,
               "length": 7
             },
             "confidence": 0.994
@@ -2447,7 +1797,7 @@
               }
             ],
             "span": {
-              "offset": 308,
+              "offset": 150,
               "length": 3
             },
             "confidence": 0.995
@@ -2473,7 +1823,7 @@
               }
             ],
             "span": {
-              "offset": 312,
+              "offset": 154,
               "length": 4
             },
             "confidence": 0.99
@@ -2499,10 +1849,62 @@
               }
             ],
             "span": {
-              "offset": 317,
+              "offset": 159,
               "length": 2
             },
             "confidence": 0.995
+          },
+          {
+            "content": "E-mail:",
+            "polygon": [
+              {
+                "x": 187.0,
+                "y": 129.0
+              },
+              {
+                "x": 223.0,
+                "y": 130.0
+              },
+              {
+                "x": 223.0,
+                "y": 145.0
+              },
+              {
+                "x": 188.0,
+                "y": 145.0
+              }
+            ],
+            "span": {
+              "offset": 162,
+              "length": 7
+            },
+            "confidence": 0.99
+          },
+          {
+            "content": "sng.engineering@erols.com",
+            "polygon": [
+              {
+                "x": 226.0,
+                "y": 130.0
+              },
+              {
+                "x": 365.0,
+                "y": 131.0
+              },
+              {
+                "x": 366.0,
+                "y": 145.0
+              },
+              {
+                "x": 226.0,
+                "y": 145.0
+              }
+            ],
+            "span": {
+              "offset": 170,
+              "length": 25
+            },
+            "confidence": 0.935
           },
           {
             "content": "DATE:",
@@ -2525,7 +1927,7 @@
               }
             ],
             "span": {
-              "offset": 320,
+              "offset": 196,
               "length": 5
             },
             "confidence": 0.993
@@ -2551,7 +1953,7 @@
               }
             ],
             "span": {
-              "offset": 326,
+              "offset": 202,
               "length": 7
             },
             "confidence": 0.993
@@ -2577,7 +1979,7 @@
               }
             ],
             "span": {
-              "offset": 334,
+              "offset": 210,
               "length": 3
             },
             "confidence": 0.983
@@ -2603,8 +2005,606 @@
               }
             ],
             "span": {
-              "offset": 338,
+              "offset": 214,
               "length": 4
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "TO,",
+            "polygon": [
+              {
+                "x": 45.0,
+                "y": 190.0
+              },
+              {
+                "x": 63.0,
+                "y": 190.0
+              },
+              {
+                "x": 62.0,
+                "y": 203.0
+              },
+              {
+                "x": 45.0,
+                "y": 203.0
+              }
+            ],
+            "span": {
+              "offset": 219,
+              "length": 3
+            },
+            "confidence": 0.673
+          },
+          {
+            "content": "Ship",
+            "polygon": [
+              {
+                "x": 347.0,
+                "y": 191.0
+              },
+              {
+                "x": 372.0,
+                "y": 191.0
+              },
+              {
+                "x": 372.0,
+                "y": 204.0
+              },
+              {
+                "x": 348.0,
+                "y": 204.0
+              }
+            ],
+            "span": {
+              "offset": 223,
+              "length": 4
+            },
+            "confidence": 0.992
+          },
+          {
+            "content": "To:",
+            "polygon": [
+              {
+                "x": 376.0,
+                "y": 191.0
+              },
+              {
+                "x": 396.0,
+                "y": 191.0
+              },
+              {
+                "x": 396.0,
+                "y": 205.0
+              },
+              {
+                "x": 376.0,
+                "y": 204.0
+              }
+            ],
+            "span": {
+              "offset": 228,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Same",
+            "polygon": [
+              {
+                "x": 412.0,
+                "y": 190.0
+              },
+              {
+                "x": 443.0,
+                "y": 190.0
+              },
+              {
+                "x": 443.0,
+                "y": 203.0
+              },
+              {
+                "x": 412.0,
+                "y": 203.0
+              }
+            ],
+            "span": {
+              "offset": 232,
+              "length": 4
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "Damita",
+            "polygon": [
+              {
+                "x": 62.0,
+                "y": 205.0
+              },
+              {
+                "x": 98.0,
+                "y": 205.0
+              },
+              {
+                "x": 99.0,
+                "y": 217.0
+              },
+              {
+                "x": 63.0,
+                "y": 217.0
+              }
+            ],
+            "span": {
+              "offset": 237,
+              "length": 6
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "J",
+            "polygon": [
+              {
+                "x": 101.0,
+                "y": 205.0
+              },
+              {
+                "x": 108.0,
+                "y": 205.0
+              },
+              {
+                "x": 108.0,
+                "y": 217.0
+              },
+              {
+                "x": 102.0,
+                "y": 217.0
+              }
+            ],
+            "span": {
+              "offset": 244,
+              "length": 1
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Goldsmith",
+            "polygon": [
+              {
+                "x": 110.0,
+                "y": 205.0
+              },
+              {
+                "x": 161.0,
+                "y": 204.0
+              },
+              {
+                "x": 161.0,
+                "y": 217.0
+              },
+              {
+                "x": 111.0,
+                "y": 217.0
+              }
+            ],
+            "span": {
+              "offset": 246,
+              "length": 9
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "201",
+            "polygon": [
+              {
+                "x": 63.0,
+                "y": 218.0
+              },
+              {
+                "x": 82.0,
+                "y": 218.0
+              },
+              {
+                "x": 82.0,
+                "y": 231.0
+              },
+              {
+                "x": 63.0,
+                "y": 231.0
+              }
+            ],
+            "span": {
+              "offset": 256,
+              "length": 3
+            },
+            "confidence": 0.996
+          },
+          {
+            "content": "Stan",
+            "polygon": [
+              {
+                "x": 84.0,
+                "y": 218.0
+              },
+              {
+                "x": 108.0,
+                "y": 218.0
+              },
+              {
+                "x": 108.0,
+                "y": 231.0
+              },
+              {
+                "x": 84.0,
+                "y": 231.0
+              }
+            ],
+            "span": {
+              "offset": 260,
+              "length": 4
+            },
+            "confidence": 0.985
+          },
+          {
+            "content": "Fey",
+            "polygon": [
+              {
+                "x": 111.0,
+                "y": 218.0
+              },
+              {
+                "x": 130.0,
+                "y": 218.0
+              },
+              {
+                "x": 130.0,
+                "y": 231.0
+              },
+              {
+                "x": 111.0,
+                "y": 231.0
+              }
+            ],
+            "span": {
+              "offset": 265,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Dr",
+            "polygon": [
+              {
+                "x": 133.0,
+                "y": 218.0
+              },
+              {
+                "x": 146.0,
+                "y": 218.0
+              },
+              {
+                "x": 146.0,
+                "y": 231.0
+              },
+              {
+                "x": 133.0,
+                "y": 231.0
+              }
+            ],
+            "span": {
+              "offset": 269,
+              "length": 2
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Upper",
+            "polygon": [
+              {
+                "x": 62.0,
+                "y": 232.0
+              },
+              {
+                "x": 93.0,
+                "y": 232.0
+              },
+              {
+                "x": 93.0,
+                "y": 246.0
+              },
+              {
+                "x": 63.0,
+                "y": 246.0
+              }
+            ],
+            "span": {
+              "offset": 272,
+              "length": 5
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Marlboro",
+            "polygon": [
+              {
+                "x": 95.0,
+                "y": 232.0
+              },
+              {
+                "x": 139.0,
+                "y": 231.0
+              },
+              {
+                "x": 140.0,
+                "y": 245.0
+              },
+              {
+                "x": 96.0,
+                "y": 246.0
+              }
+            ],
+            "span": {
+              "offset": 278,
+              "length": 8
+            },
+            "confidence": 0.947
+          },
+          {
+            "content": ",",
+            "polygon": [
+              {
+                "x": 142.0,
+                "y": 231.0
+              },
+              {
+                "x": 147.0,
+                "y": 231.0
+              },
+              {
+                "x": 147.0,
+                "y": 245.0
+              },
+              {
+                "x": 143.0,
+                "y": 245.0
+              }
+            ],
+            "span": {
+              "offset": 287,
+              "length": 1
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "MD",
+            "polygon": [
+              {
+                "x": 150.0,
+                "y": 231.0
+              },
+              {
+                "x": 167.0,
+                "y": 231.0
+              },
+              {
+                "x": 167.0,
+                "y": 245.0
+              },
+              {
+                "x": 150.0,
+                "y": 245.0
+              }
+            ],
+            "span": {
+              "offset": 289,
+              "length": 2
+            },
+            "confidence": 0.997
+          },
+          {
+            "content": "20774",
+            "polygon": [
+              {
+                "x": 172.0,
+                "y": 231.0
+              },
+              {
+                "x": 204.0,
+                "y": 231.0
+              },
+              {
+                "x": 204.0,
+                "y": 245.0
+              },
+              {
+                "x": 172.0,
+                "y": 245.0
+              }
+            ],
+            "span": {
+              "offset": 292,
+              "length": 5
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Reference:",
+            "polygon": [
+              {
+                "x": 347.0,
+                "y": 218.0
+              },
+              {
+                "x": 404.0,
+                "y": 218.0
+              },
+              {
+                "x": 404.0,
+                "y": 232.0
+              },
+              {
+                "x": 347.0,
+                "y": 231.0
+              }
+            ],
+            "span": {
+              "offset": 298,
+              "length": 10
+            },
+            "confidence": 0.977
+          },
+          {
+            "content": "201",
+            "polygon": [
+              {
+                "x": 406.0,
+                "y": 218.0
+              },
+              {
+                "x": 426.0,
+                "y": 218.0
+              },
+              {
+                "x": 426.0,
+                "y": 232.0
+              },
+              {
+                "x": 407.0,
+                "y": 232.0
+              }
+            ],
+            "span": {
+              "offset": 309,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Stan",
+            "polygon": [
+              {
+                "x": 428.0,
+                "y": 218.0
+              },
+              {
+                "x": 451.0,
+                "y": 218.0
+              },
+              {
+                "x": 452.0,
+                "y": 232.0
+              },
+              {
+                "x": 429.0,
+                "y": 232.0
+              }
+            ],
+            "span": {
+              "offset": 313,
+              "length": 4
+            },
+            "confidence": 0.991
+          },
+          {
+            "content": "Fey",
+            "polygon": [
+              {
+                "x": 454.0,
+                "y": 218.0
+              },
+              {
+                "x": 473.0,
+                "y": 218.0
+              },
+              {
+                "x": 473.0,
+                "y": 232.0
+              },
+              {
+                "x": 454.0,
+                "y": 232.0
+              }
+            ],
+            "span": {
+              "offset": 318,
+              "length": 3
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Drive",
+            "polygon": [
+              {
+                "x": 475.0,
+                "y": 218.0
+              },
+              {
+                "x": 503.0,
+                "y": 218.0
+              },
+              {
+                "x": 503.0,
+                "y": 233.0
+              },
+              {
+                "x": 475.0,
+                "y": 232.0
+              }
+            ],
+            "span": {
+              "offset": 322,
+              "length": 5
+            },
+            "confidence": 0.993
+          },
+          {
+            "content": "Upper",
+            "polygon": [
+              {
+                "x": 406.0,
+                "y": 232.0
+              },
+              {
+                "x": 437.0,
+                "y": 232.0
+              },
+              {
+                "x": 438.0,
+                "y": 245.0
+              },
+              {
+                "x": 407.0,
+                "y": 245.0
+              }
+            ],
+            "span": {
+              "offset": 328,
+              "length": 5
+            },
+            "confidence": 0.995
+          },
+          {
+            "content": "Marlboro",
+            "polygon": [
+              {
+                "x": 440.0,
+                "y": 232.0
+              },
+              {
+                "x": 486.0,
+                "y": 232.0
+              },
+              {
+                "x": 486.0,
+                "y": 245.0
+              },
+              {
+                "x": 441.0,
+                "y": 245.0
+              }
+            ],
+            "span": {
+              "offset": 334,
+              "length": 8
             },
             "confidence": 0.993
           },
@@ -3152,7 +3152,7 @@
               "offset": 474,
               "length": 1
             },
-            "confidence": 0.967
+            "confidence": 0.699
           },
           {
             "content": "Field",
@@ -5423,1199 +5423,12 @@
             "offset": 0,
             "length": 1031
           }
-        ]
+        ],
+        "barcodes": [],
+        "formulas": []
       }
     ],
-    "paragraphs": [
-      {
-        "role": null,
-        "content": "SNG Engineering, Inc. Consulting Engineers 344 Main Street Suite 200 Gaithersburg, MD 20878",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 185.0,
-                "y": 41.0
-              },
-              {
-                "x": 405.0,
-                "y": 42.0
-              },
-              {
-                "x": 405.0,
-                "y": 105.0
-              },
-              {
-                "x": 185.0,
-                "y": 104.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 0,
-            "length": 91
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "Phone: 301.548.0055 Fax: 301.548.1840 E-mail: sng.engineering@erols.com",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 186.0,
-                "y": 116.0
-              },
-              {
-                "x": 395.0,
-                "y": 116.0
-              },
-              {
-                "x": 395.0,
-                "y": 145.0
-              },
-              {
-                "x": 186.0,
-                "y": 145.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 92,
-            "length": 71
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "INVOICE",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 491.0,
-                "y": 50.0
-              },
-              {
-                "x": 647.0,
-                "y": 50.0
-              },
-              {
-                "x": 647.0,
-                "y": 82.0
-              },
-              {
-                "x": 491.0,
-                "y": 82.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 164,
-            "length": 7
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "SNG",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 47.0,
-                "y": 75.0
-              },
-              {
-                "x": 158.0,
-                "y": 75.0
-              },
-              {
-                "x": 158.0,
-                "y": 121.0
-              },
-              {
-                "x": 47.0,
-                "y": 121.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 172,
-            "length": 3
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "TO,",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 42.0,
-                "y": 190.0
-              },
-              {
-                "x": 63.0,
-                "y": 190.0
-              },
-              {
-                "x": 63.0,
-                "y": 203.0
-              },
-              {
-                "x": 43.0,
-                "y": 202.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 176,
-            "length": 3
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "Damita J Goldsmith",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 61.0,
-                "y": 204.0
-              },
-              {
-                "x": 163.0,
-                "y": 204.0
-              },
-              {
-                "x": 163.0,
-                "y": 216.0
-              },
-              {
-                "x": 61.0,
-                "y": 217.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 180,
-            "length": 18
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "201 Stan Fey Dr",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 61.0,
-                "y": 218.0
-              },
-              {
-                "x": 146.0,
-                "y": 218.0
-              },
-              {
-                "x": 146.0,
-                "y": 230.0
-              },
-              {
-                "x": 61.0,
-                "y": 230.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 199,
-            "length": 15
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "Upper Marlboro , MD 20774",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 61.0,
-                "y": 231.0
-              },
-              {
-                "x": 204.0,
-                "y": 231.0
-              },
-              {
-                "x": 204.0,
-                "y": 244.0
-              },
-              {
-                "x": 61.0,
-                "y": 245.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 215,
-            "length": 25
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "Ship To:",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 345.0,
-                "y": 190.0
-              },
-              {
-                "x": 400.0,
-                "y": 190.0
-              },
-              {
-                "x": 400.0,
-                "y": 204.0
-              },
-              {
-                "x": 345.0,
-                "y": 203.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 241,
-            "length": 8
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "Same",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 409.0,
-                "y": 190.0
-              },
-              {
-                "x": 445.0,
-                "y": 190.0
-              },
-              {
-                "x": 445.0,
-                "y": 203.0
-              },
-              {
-                "x": 410.0,
-                "y": 203.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 250,
-            "length": 4
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "Reference: 201 Stan Fey Drive",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 345.0,
-                "y": 217.0
-              },
-              {
-                "x": 505.0,
-                "y": 217.0
-              },
-              {
-                "x": 505.0,
-                "y": 232.0
-              },
-              {
-                "x": 345.0,
-                "y": 231.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 255,
-            "length": 29
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "Upper Marlboro",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 405.0,
-                "y": 231.0
-              },
-              {
-                "x": 488.0,
-                "y": 231.0
-              },
-              {
-                "x": 488.0,
-                "y": 245.0
-              },
-              {
-                "x": 405.0,
-                "y": 244.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 285,
-            "length": 14
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "INVOICE NO: 014- 03 DATE: January 20, 2003",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 521.0,
-                "y": 107.0
-              },
-              {
-                "x": 650.0,
-                "y": 107.0
-              },
-              {
-                "x": 650.0,
-                "y": 134.0
-              },
-              {
-                "x": 521.0,
-                "y": 134.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 300,
-            "length": 42
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "SALESPERSON",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 34.0,
-                "y": 311.0
-              },
-              {
-                "x": 144.0,
-                "y": 311.0
-              },
-              {
-                "x": 144.0,
-                "y": 327.0
-              },
-              {
-                "x": 34.0,
-                "y": 328.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 343,
-            "length": 11
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "P.O. NUMBER",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 144.0,
-                "y": 311.0
-              },
-              {
-                "x": 242.0,
-                "y": 311.0
-              },
-              {
-                "x": 242.0,
-                "y": 327.0
-              },
-              {
-                "x": 144.0,
-                "y": 327.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 355,
-            "length": 11
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "DATE SHIPPED",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 242.0,
-                "y": 311.0
-              },
-              {
-                "x": 349.0,
-                "y": 311.0
-              },
-              {
-                "x": 349.0,
-                "y": 327.0
-              },
-              {
-                "x": 242.0,
-                "y": 327.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 367,
-            "length": 12
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "SHIPPED VIA",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 349.0,
-                "y": 311.0
-              },
-              {
-                "x": 448.0,
-                "y": 311.0
-              },
-              {
-                "x": 448.0,
-                "y": 327.0
-              },
-              {
-                "x": 349.0,
-                "y": 327.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 380,
-            "length": 11
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "F.O.B. POINT",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 448.0,
-                "y": 311.0
-              },
-              {
-                "x": 548.0,
-                "y": 311.0
-              },
-              {
-                "x": 548.0,
-                "y": 327.0
-              },
-              {
-                "x": 448.0,
-                "y": 327.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 392,
-            "length": 12
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "TERMS",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 548.0,
-                "y": 311.0
-              },
-              {
-                "x": 657.0,
-                "y": 311.0
-              },
-              {
-                "x": 658.0,
-                "y": 327.0
-              },
-              {
-                "x": 548.0,
-                "y": 327.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 405,
-            "length": 5
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "on receipt of service",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 548.0,
-                "y": 327.0
-              },
-              {
-                "x": 658.0,
-                "y": 327.0
-              },
-              {
-                "x": 658.0,
-                "y": 354.0
-              },
-              {
-                "x": 548.0,
-                "y": 354.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 411,
-            "length": 21
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "QUANTITY",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 41.0,
-                "y": 369.0
-              },
-              {
-                "x": 123.0,
-                "y": 369.0
-              },
-              {
-                "x": 123.0,
-                "y": 383.0
-              },
-              {
-                "x": 41.0,
-                "y": 383.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 433,
-            "length": 8
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "DESCRIPTION",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 123.0,
-                "y": 369.0
-              },
-              {
-                "x": 491.0,
-                "y": 369.0
-              },
-              {
-                "x": 491.0,
-                "y": 383.0
-              },
-              {
-                "x": 123.0,
-                "y": 383.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 442,
-            "length": 11
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "UNIT PRICE",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 491.0,
-                "y": 369.0
-              },
-              {
-                "x": 572.0,
-                "y": 369.0
-              },
-              {
-                "x": 572.0,
-                "y": 383.0
-              },
-              {
-                "x": 491.0,
-                "y": 383.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 454,
-            "length": 10
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "AMOUNT",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 572.0,
-                "y": 369.0
-              },
-              {
-                "x": 654.0,
-                "y": 369.0
-              },
-              {
-                "x": 654.0,
-                "y": 383.0
-              },
-              {
-                "x": 572.0,
-                "y": 383.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 465,
-            "length": 6
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "1 1",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 41.0,
-                "y": 383.0
-              },
-              {
-                "x": 123.0,
-                "y": 383.0
-              },
-              {
-                "x": 123.0,
-                "y": 413.0
-              },
-              {
-                "x": 41.0,
-                "y": 413.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 472,
-            "length": 3
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "Field inspection of construction on 1/19/2003 deficiencies in house",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 123.0,
-                "y": 383.0
-              },
-              {
-                "x": 491.0,
-                "y": 383.0
-              },
-              {
-                "x": 490.0,
-                "y": 413.0
-              },
-              {
-                "x": 123.0,
-                "y": 413.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 476,
-            "length": 67
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "750.00",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 491.0,
-                "y": 383.0
-              },
-              {
-                "x": 572.0,
-                "y": 383.0
-              },
-              {
-                "x": 572.0,
-                "y": 413.0
-              },
-              {
-                "x": 490.0,
-                "y": 413.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 544,
-            "length": 6
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "750 .. 00",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 572.0,
-                "y": 383.0
-              },
-              {
-                "x": 654.0,
-                "y": 383.0
-              },
-              {
-                "x": 654.0,
-                "y": 413.0
-              },
-              {
-                "x": 572.0,
-                "y": 413.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 551,
-            "length": 9
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "construction, Garage drive way & legal support to Attorney to 1/19/2003",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 123.0,
-                "y": 413.0
-              },
-              {
-                "x": 490.0,
-                "y": 413.0
-              },
-              {
-                "x": 490.0,
-                "y": 466.0
-              },
-              {
-                "x": 123.0,
-                "y": 466.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 561,
-            "length": 71
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "SUBTOTAL",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 423.0,
-                "y": 574.0
-              },
-              {
-                "x": 573.0,
-                "y": 575.0
-              },
-              {
-                "x": 573.0,
-                "y": 602.0
-              },
-              {
-                "x": 423.0,
-                "y": 602.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 633,
-            "length": 8
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "750.00",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 573.0,
-                "y": 575.0
-              },
-              {
-                "x": 655.0,
-                "y": 575.0
-              },
-              {
-                "x": 655.0,
-                "y": 602.0
-              },
-              {
-                "x": 573.0,
-                "y": 602.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 642,
-            "length": 6
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "SHIPPING & HANDELING",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 423.0,
-                "y": 602.0
-              },
-              {
-                "x": 573.0,
-                "y": 602.0
-              },
-              {
-                "x": 573.0,
-                "y": 646.0
-              },
-              {
-                "x": 423.0,
-                "y": 645.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 649,
-            "length": 20
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "TOTAL DUE",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 423.0,
-                "y": 645.0
-              },
-              {
-                "x": 573.0,
-                "y": 646.0
-              },
-              {
-                "x": 573.0,
-                "y": 689.0
-              },
-              {
-                "x": 422.0,
-                "y": 689.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 670,
-            "length": 9
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "750.00",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 573.0,
-                "y": 646.0
-              },
-              {
-                "x": 655.0,
-                "y": 647.0
-              },
-              {
-                "x": 655.0,
-                "y": 689.0
-              },
-              {
-                "x": 573.0,
-                "y": 689.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 680,
-            "length": 6
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "Make all checks payable to SNG Engineering, Inc. If you have any questions concerning this invoice, call: Sach Gupta, 301.548.0055 The payment will be due within fifteen days after receipt of invoice by the owner/contractor. Please note that 1-1/2 percent interest will accrue on the unpaid balance after this date.",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 38.0,
-                "y": 698.0
-              },
-              {
-                "x": 494.0,
-                "y": 698.0
-              },
-              {
-                "x": 494.0,
-                "y": 752.0
-              },
-              {
-                "x": 38.0,
-                "y": 752.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 687,
-            "length": 315
-          }
-        ]
-      },
-      {
-        "role": null,
-        "content": "THANK YOU FOR YOUR BUSINESS!",
-        "bounding_regions": [
-          {
-            "page_number": 1,
-            "polygon": [
-              {
-                "x": 248.0,
-                "y": 776.0
-              },
-              {
-                "x": 447.0,
-                "y": 776.0
-              },
-              {
-                "x": 447.0,
-                "y": 792.0
-              },
-              {
-                "x": 248.0,
-                "y": 792.0
-              }
-            ]
-          }
-        ],
-        "spans": [
-          {
-            "offset": 1003,
-            "length": 28
-          }
-        ]
-      }
-    ],
+    "paragraphs": [],
     "tables": [
       {
         "row_count": 2,
@@ -7229,7 +6042,7 @@
             "column_index": 0,
             "row_span": 1,
             "column_span": 1,
-            "content": "1 1",
+            "content": "1\n1",
             "bounding_regions": [
               {
                 "page_number": 1,
@@ -7409,7 +6222,7 @@
             "column_index": 1,
             "row_span": 1,
             "column_span": 1,
-            "content": "construction, Garage drive way & legal support to Attorney to 1/19/2003",
+            "content": "construction, Garage drive way & legal support to Attorney to\n1/19/2003",
             "bounding_regions": [
               {
                 "page_number": 1,
@@ -7788,1334 +6601,15 @@
         ]
       }
     ],
-    "key_value_pairs": [
-      {
-        "key": {
-          "content": "INVOICE NO:",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 535.0,
-                  "y": 107.0
-                },
-                {
-                  "x": 608.0,
-                  "y": 107.0
-                },
-                {
-                  "x": 608.0,
-                  "y": 120.0
-                },
-                {
-                  "x": 535.0,
-                  "y": 120.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 300,
-              "length": 11
-            }
-          ]
-        },
-        "value": {
-          "content": "014- 03",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 610.0,
-                  "y": 106.0
-                },
-                {
-                  "x": 651.0,
-                  "y": 108.0
-                },
-                {
-                  "x": 650.0,
-                  "y": 122.0
-                },
-                {
-                  "x": 609.0,
-                  "y": 120.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 312,
-              "length": 7
-            }
-          ]
-        },
-        "confidence": 0.883
-      },
-      {
-        "key": {
-          "content": "Phone:",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 187.0,
-                  "y": 117.0
-                },
-                {
-                  "x": 224.0,
-                  "y": 117.0
-                },
-                {
-                  "x": 224.0,
-                  "y": 131.0
-                },
-                {
-                  "x": 187.0,
-                  "y": 131.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 92,
-              "length": 6
-            }
-          ]
-        },
-        "value": {
-          "content": "301.548.0055",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 227.0,
-                  "y": 117.0
-                },
-                {
-                  "x": 296.0,
-                  "y": 117.0
-                },
-                {
-                  "x": 296.0,
-                  "y": 131.0
-                },
-                {
-                  "x": 227.0,
-                  "y": 131.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 99,
-              "length": 12
-            }
-          ]
-        },
-        "confidence": 0.912
-      },
-      {
-        "key": {
-          "content": "Fax:",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 299.0,
-                  "y": 117.0
-                },
-                {
-                  "x": 321.0,
-                  "y": 117.0
-                },
-                {
-                  "x": 321.0,
-                  "y": 131.0
-                },
-                {
-                  "x": 299.0,
-                  "y": 131.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 112,
-              "length": 4
-            }
-          ]
-        },
-        "value": {
-          "content": "301.548.1840",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 324.0,
-                  "y": 117.0
-                },
-                {
-                  "x": 394.0,
-                  "y": 116.0
-                },
-                {
-                  "x": 394.0,
-                  "y": 131.0
-                },
-                {
-                  "x": 324.0,
-                  "y": 131.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 117,
-              "length": 12
-            }
-          ]
-        },
-        "confidence": 0.912
-      },
-      {
-        "key": {
-          "content": "DATE:",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 522.0,
-                  "y": 120.0
-                },
-                {
-                  "x": 558.0,
-                  "y": 121.0
-                },
-                {
-                  "x": 558.0,
-                  "y": 134.0
-                },
-                {
-                  "x": 522.0,
-                  "y": 135.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 320,
-              "length": 5
-            }
-          ]
-        },
-        "value": {
-          "content": "January 20, 2003",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 561.0,
-                  "y": 121.0
-                },
-                {
-                  "x": 648.0,
-                  "y": 121.0
-                },
-                {
-                  "x": 648.0,
-                  "y": 134.0
-                },
-                {
-                  "x": 561.0,
-                  "y": 134.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 326,
-              "length": 16
-            }
-          ]
-        },
-        "confidence": 0.875
-      },
-      {
-        "key": {
-          "content": "E-mail:",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 187.0,
-                  "y": 129.0
-                },
-                {
-                  "x": 223.0,
-                  "y": 130.0
-                },
-                {
-                  "x": 223.0,
-                  "y": 145.0
-                },
-                {
-                  "x": 188.0,
-                  "y": 145.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 130,
-              "length": 7
-            }
-          ]
-        },
-        "value": {
-          "content": "sng.engineering@erols.com",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 226.0,
-                  "y": 130.0
-                },
-                {
-                  "x": 365.0,
-                  "y": 131.0
-                },
-                {
-                  "x": 366.0,
-                  "y": 145.0
-                },
-                {
-                  "x": 226.0,
-                  "y": 145.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 138,
-              "length": 25
-            }
-          ]
-        },
-        "confidence": 0.909
-      },
-      {
-        "key": {
-          "content": "TO,",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 45.0,
-                  "y": 190.0
-                },
-                {
-                  "x": 63.0,
-                  "y": 190.0
-                },
-                {
-                  "x": 62.0,
-                  "y": 203.0
-                },
-                {
-                  "x": 45.0,
-                  "y": 203.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 176,
-              "length": 3
-            }
-          ]
-        },
-        "value": {
-          "content": "Damita J Goldsmith\n201 Stan Fey Dr\nUpper Marlboro , MD 20774",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 62.0,
-                  "y": 204.0
-                },
-                {
-                  "x": 204.0,
-                  "y": 204.0
-                },
-                {
-                  "x": 204.0,
-                  "y": 246.0
-                },
-                {
-                  "x": 62.0,
-                  "y": 246.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 180,
-              "length": 60
-            }
-          ]
-        },
-        "confidence": 0.753
-      },
-      {
-        "key": {
-          "content": "Ship To:",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 347.0,
-                  "y": 190.0
-                },
-                {
-                  "x": 396.0,
-                  "y": 191.0
-                },
-                {
-                  "x": 396.0,
-                  "y": 205.0
-                },
-                {
-                  "x": 347.0,
-                  "y": 204.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 241,
-              "length": 8
-            }
-          ]
-        },
-        "value": {
-          "content": "Same",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 412.0,
-                  "y": 190.0
-                },
-                {
-                  "x": 443.0,
-                  "y": 190.0
-                },
-                {
-                  "x": 443.0,
-                  "y": 203.0
-                },
-                {
-                  "x": 412.0,
-                  "y": 203.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 250,
-              "length": 4
-            }
-          ]
-        },
-        "confidence": 0.891
-      },
-      {
-        "key": {
-          "content": "Reference:",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 347.0,
-                  "y": 218.0
-                },
-                {
-                  "x": 404.0,
-                  "y": 218.0
-                },
-                {
-                  "x": 404.0,
-                  "y": 232.0
-                },
-                {
-                  "x": 347.0,
-                  "y": 231.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 255,
-              "length": 10
-            }
-          ]
-        },
-        "value": {
-          "content": "201 Stan Fey Drive\nUpper Marlboro",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 406.0,
-                  "y": 218.0
-                },
-                {
-                  "x": 503.0,
-                  "y": 218.0
-                },
-                {
-                  "x": 503.0,
-                  "y": 245.0
-                },
-                {
-                  "x": 406.0,
-                  "y": 245.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 266,
-              "length": 33
-            }
-          ]
-        },
-        "confidence": 0.835
-      },
-      {
-        "key": {
-          "content": "SALESPERSON",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 49.0,
-                  "y": 315.0
-                },
-                {
-                  "x": 131.0,
-                  "y": 315.0
-                },
-                {
-                  "x": 131.0,
-                  "y": 328.0
-                },
-                {
-                  "x": 49.0,
-                  "y": 327.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 343,
-              "length": 11
-            }
-          ]
-        },
-        "value": null,
-        "confidence": 0.682
-      },
-      {
-        "key": {
-          "content": "P.O. NUMBER",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 155.0,
-                  "y": 314.0
-                },
-                {
-                  "x": 230.0,
-                  "y": 315.0
-                },
-                {
-                  "x": 230.0,
-                  "y": 328.0
-                },
-                {
-                  "x": 155.0,
-                  "y": 327.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 355,
-              "length": 11
-            }
-          ]
-        },
-        "value": {
-          "content": "1 1\nField\n1/19/2003",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 76.0,
-                  "y": 392.0
-                },
-                {
-                  "x": 179.0,
-                  "y": 393.0
-                },
-                {
-                  "x": 178.0,
-                  "y": 460.0
-                },
-                {
-                  "x": 75.0,
-                  "y": 458.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 472,
-              "length": 9
-            },
-            {
-              "offset": 623,
-              "length": 9
-            }
-          ]
-        },
-        "confidence": 0.302
-      },
-      {
-        "key": {
-          "content": "DATE SHIPPED",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 254.0,
-                  "y": 314.0
-                },
-                {
-                  "x": 337.0,
-                  "y": 315.0
-                },
-                {
-                  "x": 337.0,
-                  "y": 328.0
-                },
-                {
-                  "x": 254.0,
-                  "y": 327.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 367,
-              "length": 12
-            }
-          ]
-        },
-        "value": {
-          "content": "inspection of construction on 1/19/2003",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 152.0,
-                  "y": 392.0
-                },
-                {
-                  "x": 354.0,
-                  "y": 392.0
-                },
-                {
-                  "x": 354.0,
-                  "y": 406.0
-                },
-                {
-                  "x": 152.0,
-                  "y": 406.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 482,
-              "length": 39
-            }
-          ]
-        },
-        "confidence": 0.111
-      },
-      {
-        "key": {
-          "content": "SHIPPED VIA",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 363.0,
-                  "y": 313.0
-                },
-                {
-                  "x": 433.0,
-                  "y": 315.0
-                },
-                {
-                  "x": 433.0,
-                  "y": 329.0
-                },
-                {
-                  "x": 363.0,
-                  "y": 327.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 380,
-              "length": 11
-            }
-          ]
-        },
-        "value": {
-          "content": "deficiencies in house",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 356.0,
-                  "y": 392.0
-                },
-                {
-                  "x": 463.0,
-                  "y": 392.0
-                },
-                {
-                  "x": 463.0,
-                  "y": 406.0
-                },
-                {
-                  "x": 356.0,
-                  "y": 406.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 522,
-              "length": 21
-            }
-          ]
-        },
-        "confidence": 0.727
-      },
-      {
-        "key": {
-          "content": "F.O.B. POINT",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 465.0,
-                  "y": 314.0
-                },
-                {
-                  "x": 538.0,
-                  "y": 315.0
-                },
-                {
-                  "x": 538.0,
-                  "y": 328.0
-                },
-                {
-                  "x": 465.0,
-                  "y": 327.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 392,
-              "length": 12
-            }
-          ]
-        },
-        "value": null,
-        "confidence": 0.747
-      },
-      {
-        "key": {
-          "content": "TERMS",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 584.0,
-                  "y": 316.0
-                },
-                {
-                  "x": 623.0,
-                  "y": 315.0
-                },
-                {
-                  "x": 623.0,
-                  "y": 327.0
-                },
-                {
-                  "x": 584.0,
-                  "y": 326.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 405,
-              "length": 5
-            }
-          ]
-        },
-        "value": null,
-        "confidence": 0.683
-      },
-      {
-        "key": {
-          "content": "QUANTITY",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 52.0,
-                  "y": 372.0
-                },
-                {
-                  "x": 110.0,
-                  "y": 372.0
-                },
-                {
-                  "x": 110.0,
-                  "y": 384.0
-                },
-                {
-                  "x": 52.0,
-                  "y": 384.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 433,
-              "length": 8
-            }
-          ]
-        },
-        "value": null,
-        "confidence": 0.683
-      },
-      {
-        "key": {
-          "content": "DESCRIPTION",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 267.0,
-                  "y": 372.0
-                },
-                {
-                  "x": 343.0,
-                  "y": 371.0
-                },
-                {
-                  "x": 343.0,
-                  "y": 385.0
-                },
-                {
-                  "x": 267.0,
-                  "y": 385.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 442,
-              "length": 11
-            }
-          ]
-        },
-        "value": {
-          "content": "construction, Garage drive way & legal support to Attorney to",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 125.0,
-                  "y": 419.0
-                },
-                {
-                  "x": 431.0,
-                  "y": 419.0
-                },
-                {
-                  "x": 431.0,
-                  "y": 434.0
-                },
-                {
-                  "x": 125.0,
-                  "y": 434.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 561,
-              "length": 61
-            }
-          ]
-        },
-        "confidence": 0.0
-      },
-      {
-        "key": {
-          "content": "UNIT PRICE",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 499.0,
-                  "y": 370.0
-                },
-                {
-                  "x": 563.0,
-                  "y": 372.0
-                },
-                {
-                  "x": 563.0,
-                  "y": 385.0
-                },
-                {
-                  "x": 499.0,
-                  "y": 383.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 454,
-              "length": 10
-            }
-          ]
-        },
-        "value": {
-          "content": "750.00",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 530.0,
-                  "y": 393.0
-                },
-                {
-                  "x": 564.0,
-                  "y": 393.0
-                },
-                {
-                  "x": 564.0,
-                  "y": 405.0
-                },
-                {
-                  "x": 530.0,
-                  "y": 404.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 544,
-              "length": 6
-            }
-          ]
-        },
-        "confidence": 0.891
-      },
-      {
-        "key": {
-          "content": "AMOUNT",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 589.0,
-                  "y": 372.0
-                },
-                {
-                  "x": 639.0,
-                  "y": 372.0
-                },
-                {
-                  "x": 639.0,
-                  "y": 385.0
-                },
-                {
-                  "x": 589.0,
-                  "y": 384.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 465,
-              "length": 6
-            }
-          ]
-        },
-        "value": {
-          "content": "750 .. 00",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 611.0,
-                  "y": 393.0
-                },
-                {
-                  "x": 649.0,
-                  "y": 393.0
-                },
-                {
-                  "x": 649.0,
-                  "y": 405.0
-                },
-                {
-                  "x": 611.0,
-                  "y": 405.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 551,
-              "length": 9
-            }
-          ]
-        },
-        "confidence": 0.874
-      },
-      {
-        "key": {
-          "content": "SUBTOTAL",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 508.0,
-                  "y": 584.0
-                },
-                {
-                  "x": 568.0,
-                  "y": 583.0
-                },
-                {
-                  "x": 568.0,
-                  "y": 596.0
-                },
-                {
-                  "x": 508.0,
-                  "y": 596.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 633,
-              "length": 8
-            }
-          ]
-        },
-        "value": {
-          "content": "750.00",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 611.0,
-                  "y": 584.0
-                },
-                {
-                  "x": 646.0,
-                  "y": 584.0
-                },
-                {
-                  "x": 645.0,
-                  "y": 596.0
-                },
-                {
-                  "x": 611.0,
-                  "y": 596.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 642,
-              "length": 6
-            }
-          ]
-        },
-        "confidence": 0.912
-      },
-      {
-        "key": {
-          "content": "SHIPPING & HANDELING",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 434.0,
-                  "y": 609.0
-                },
-                {
-                  "x": 566.0,
-                  "y": 609.0
-                },
-                {
-                  "x": 566.0,
-                  "y": 623.0
-                },
-                {
-                  "x": 434.0,
-                  "y": 623.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 649,
-              "length": 20
-            }
-          ]
-        },
-        "value": null,
-        "confidence": 0.458
-      },
-      {
-        "key": {
-          "content": "TOTAL DUE",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 503.0,
-                  "y": 664.0
-                },
-                {
-                  "x": 568.0,
-                  "y": 665.0
-                },
-                {
-                  "x": 568.0,
-                  "y": 679.0
-                },
-                {
-                  "x": 503.0,
-                  "y": 678.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 670,
-              "length": 9
-            }
-          ]
-        },
-        "value": {
-          "content": "750.00",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 611.0,
-                  "y": 667.0
-                },
-                {
-                  "x": 645.0,
-                  "y": 666.0
-                },
-                {
-                  "x": 645.0,
-                  "y": 678.0
-                },
-                {
-                  "x": 611.0,
-                  "y": 678.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 680,
-              "length": 6
-            }
-          ]
-        },
-        "confidence": 0.892
-      },
-      {
-        "key": {
-          "content": "call:",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 291.0,
-                  "y": 711.0
-                },
-                {
-                  "x": 312.0,
-                  "y": 711.0
-                },
-                {
-                  "x": 313.0,
-                  "y": 726.0
-                },
-                {
-                  "x": 292.0,
-                  "y": 726.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 787,
-              "length": 5
-            }
-          ]
-        },
-        "value": {
-          "content": "Sach Gupta, 301.548.0055",
-          "bounding_regions": [
-            {
-              "page_number": 1,
-              "polygon": [
-                {
-                  "x": 315.0,
-                  "y": 711.0
-                },
-                {
-                  "x": 452.0,
-                  "y": 710.0
-                },
-                {
-                  "x": 452.0,
-                  "y": 725.0
-                },
-                {
-                  "x": 315.0,
-                  "y": 726.0
-                }
-              ]
-            }
-          ],
-          "spans": [
-            {
-              "offset": 793,
-              "length": 24
-            }
-          ]
-        },
-        "confidence": 0.875
-      }
-    ],
+    "key_value_pairs": [],
     "styles": [
       {
         "is_handwritten": true,
+        "similar_font_family": null,
+        "font_style": null,
+        "font_weight": null,
+        "color": null,
+        "background_color": null,
         "spans": [
           {
             "offset": 474,
@@ -9168,7 +6662,13 @@
               "state": "MD",
               "postal_code": "20774",
               "country_region": null,
-              "street_address": "201 Stan Fey Dr"
+              "street_address": "201 Stan Fey Dr",
+              "unit": null,
+              "city_district": null,
+              "state_district": null,
+              "suburb": null,
+              "house": null,
+              "level": null
             },
             "content": "201 Stan Fey Dr\nUpper Marlboro , MD 20774",
             "bounding_regions": [
@@ -9196,11 +6696,11 @@
             ],
             "spans": [
               {
-                "offset": 199,
+                "offset": 256,
                 "length": 41
               }
             ],
-            "confidence": 0.732
+            "confidence": 0.713
           },
           "CustomerAddressRecipient": {
             "value_type": "string",
@@ -9231,11 +6731,11 @@
             ],
             "spans": [
               {
-                "offset": 180,
+                "offset": 237,
                 "length": 18
               }
             ],
-            "confidence": 0.754
+            "confidence": 0.81
           },
           "CustomerName": {
             "value_type": "string",
@@ -9266,11 +6766,11 @@
             ],
             "spans": [
               {
-                "offset": 180,
+                "offset": 237,
                 "length": 18
               }
             ],
-            "confidence": 0.754
+            "confidence": 0.81
           },
           "InvoiceDate": {
             "value_type": "date",
@@ -9301,11 +6801,11 @@
             ],
             "spans": [
               {
-                "offset": 326,
+                "offset": 202,
                 "length": 16
               }
             ],
-            "confidence": 0.932
+            "confidence": 0.93
           },
           "InvoiceId": {
             "value_type": "string",
@@ -9336,17 +6836,18 @@
             ],
             "spans": [
               {
-                "offset": 312,
+                "offset": 154,
                 "length": 7
               }
             ],
-            "confidence": 0.936
+            "confidence": 0.938
           },
           "InvoiceTotal": {
             "value_type": "currency",
             "value": {
               "amount": 750.0,
-              "symbol": null
+              "symbol": null,
+              "code": "USD"
             },
             "content": "750.00",
             "bounding_regions": [
@@ -9378,7 +6879,7 @@
                 "length": 6
               }
             ],
-            "confidence": 0.763
+            "confidence": 0.79
           },
           "Items": {
             "value_type": "list",
@@ -9390,7 +6891,8 @@
                     "value_type": "currency",
                     "value": {
                       "amount": 750.0,
-                      "symbol": null
+                      "symbol": null,
+                      "code": "USD"
                     },
                     "content": "750 .. 00",
                     "bounding_regions": [
@@ -9422,12 +6924,12 @@
                         "length": 9
                       }
                     ],
-                    "confidence": 0.762
+                    "confidence": 0.766
                   },
                   "Description": {
                     "value_type": "string",
                     "value": "Field inspection of construction on 1/19/2003 deficiencies in house\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003",
-                    "content": "Field inspection of construction on 1/19/2003 deficiencies in house\nconstruction, Garage drive way & legal support to Attorney to 1/19/2003",
+                    "content": "Field inspection of construction on 1/19/2003 deficiencies in house\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003",
                     "bounding_regions": [
                       {
                         "page_number": 1,
@@ -9461,48 +6963,49 @@
                         "length": 71
                       }
                     ],
-                    "confidence": 0.874
+                    "confidence": 0.715
                   },
                   "Quantity": {
                     "value_type": "float",
                     "value": 1.0,
-                    "content": "1 1",
+                    "content": "1",
                     "bounding_regions": [
                       {
                         "page_number": 1,
                         "polygon": [
                           {
-                            "x": 86.0,
+                            "x": 79.0,
                             "y": 392.0
                           },
                           {
-                            "x": 86.0,
-                            "y": 403.0
-                          },
-                          {
-                            "x": 76.0,
-                            "y": 403.0
-                          },
-                          {
-                            "x": 76.0,
+                            "x": 82.0,
                             "y": 392.0
+                          },
+                          {
+                            "x": 83.0,
+                            "y": 403.0
+                          },
+                          {
+                            "x": 79.0,
+                            "y": 403.0
                           }
                         ]
                       }
                     ],
                     "spans": [
                       {
-                        "offset": 472,
-                        "length": 3
+                        "offset": 474,
+                        "length": 1
                       }
                     ],
-                    "confidence": 0.641
+                    "confidence": 0.713
                   },
                   "UnitPrice": {
                     "value_type": "currency",
                     "value": {
                       "amount": 750.0,
-                      "symbol": null
+                      "symbol": null,
+                      "code": "USD"
                     },
                     "content": "750.00",
                     "bounding_regions": [
@@ -9534,10 +7037,10 @@
                         "length": 6
                       }
                     ],
-                    "confidence": 0.927
+                    "confidence": 0.944
                   }
                 },
-                "content": "1 1\nField inspection of construction on 1/19/2003 deficiencies in house\n750.00\n750 .. 00\nconstruction, Garage drive way & legal support to Attorney to 1/19/2003",
+                "content": "1\n1\nField inspection of construction on 1/19/2003 deficiencies in house\n750.00\n750 .. 00\nconstruction, Garage drive way & legal support to Attorney to\n1/19/2003",
                 "bounding_regions": [
                   {
                     "page_number": 1,
@@ -9567,7 +7070,7 @@
                     "length": 160
                   }
                 ],
-                "confidence": 0.703
+                "confidence": 0.781
               }
             ],
             "content": null,
@@ -9608,7 +7111,7 @@
                 "length": 21
               }
             ],
-            "confidence": 0.528
+            "confidence": 0.653
           },
           "RemittanceAddressRecipient": {
             "value_type": "string",
@@ -9643,7 +7146,42 @@
                 "length": 21
               }
             ],
-            "confidence": 0.82
+            "confidence": 0.886
+          },
+          "ServiceEndDate": {
+            "value_type": "date",
+            "value": "2003-01-19",
+            "content": "1/19/2003",
+            "bounding_regions": [
+              {
+                "page_number": 1,
+                "polygon": [
+                  {
+                    "x": 127.0,
+                    "y": 446.0
+                  },
+                  {
+                    "x": 177.0,
+                    "y": 447.0
+                  },
+                  {
+                    "x": 178.0,
+                    "y": 459.0
+                  },
+                  {
+                    "x": 127.0,
+                    "y": 459.0
+                  }
+                ]
+              }
+            ],
+            "spans": [
+              {
+                "offset": 623,
+                "length": 9
+              }
+            ],
+            "confidence": 0.433
           },
           "ShippingAddress": {
             "value_type": "address",
@@ -9655,7 +7193,13 @@
               "state": null,
               "postal_code": null,
               "country_region": null,
-              "street_address": "201 Stan Fey Drive"
+              "street_address": "201 Stan Fey Drive",
+              "unit": null,
+              "city_district": null,
+              "state_district": null,
+              "suburb": null,
+              "house": null,
+              "level": null
             },
             "content": "201 Stan Fey Drive\nUpper Marlboro",
             "bounding_regions": [
@@ -9683,11 +7227,11 @@
             ],
             "spans": [
               {
-                "offset": 266,
+                "offset": 309,
                 "length": 33
               }
             ],
-            "confidence": 0.751
+            "confidence": 0.509
           },
           "ShippingAddressRecipient": {
             "value_type": "string",
@@ -9718,17 +7262,18 @@
             ],
             "spans": [
               {
-                "offset": 250,
+                "offset": 232,
                 "length": 4
               }
             ],
-            "confidence": 0.554
+            "confidence": 0.44
           },
           "SubTotal": {
             "value_type": "currency",
             "value": {
               "amount": 750.0,
-              "symbol": null
+              "symbol": null,
+              "code": "USD"
             },
             "content": "750.00",
             "bounding_regions": [
@@ -9760,7 +7305,7 @@
                 "length": 6
               }
             ],
-            "confidence": 0.968
+            "confidence": 0.942
           },
           "VendorAddress": {
             "value_type": "address",
@@ -9772,9 +7317,15 @@
               "state": "MD",
               "postal_code": "20878",
               "country_region": null,
-              "street_address": "344 Main Street Suite 200"
+              "street_address": "344 Main Street Suite 200",
+              "unit": "Suite 200",
+              "city_district": null,
+              "state_district": null,
+              "suburb": null,
+              "house": null,
+              "level": null
             },
-            "content": "344 Main Street Suite 200 Gaithersburg, MD 20878",
+            "content": "344 Main Street Suite 200\nGaithersburg, MD 20878",
             "bounding_regions": [
               {
                 "page_number": 1,
@@ -9800,11 +7351,11 @@
             ],
             "spans": [
               {
-                "offset": 43,
+                "offset": 55,
                 "length": 48
               }
             ],
-            "confidence": 0.889
+            "confidence": 0.886
           },
           "VendorAddressRecipient": {
             "value_type": "string",
@@ -9835,11 +7386,11 @@
             ],
             "spans": [
               {
-                "offset": 22,
+                "offset": 34,
                 "length": 20
               }
             ],
-            "confidence": 0.544
+            "confidence": 0.503
           },
           "VendorName": {
             "value_type": "string",
@@ -9871,14 +7422,10 @@
             "spans": [
               {
                 "offset": 0,
-                "length": 21
-              },
-              {
-                "offset": 172,
-                "length": 3
+                "length": 25
               }
             ],
-            "confidence": 0.415
+            "confidence": 0.308
           }
         },
         "confidence": 1.0
@@ -9908,7 +7455,7 @@
         },
         "merchant_information": {
           "merchant_name": "SNG Engineering, Inc.\nSNG",
-          "merchant_address": "344 Main Street Suite 200 Gaithersburg, MD 20878",
+          "merchant_address": "344 Main Street Suite 200\nGaithersburg, MD 20878",
           "merchant_phone": null,
           "merchant_email": null,
           "merchant_fax": null,
