@@ -4,6 +4,7 @@ from io import BytesIO
 from typing import Dict, Literal, Optional, Any, List
 
 import requests
+from PIL import Image
 
 from edenai_apis.features import ProviderInterface, ImageInterface
 from edenai_apis.features.image import BackgroundRemovalDataClass
@@ -17,6 +18,8 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
+from stability_sdk import client
+import stability_sdk.interfaces.gooseai.generation.generation_pb2 as generation
 
 class StabilityAIApi(ProviderInterface, ImageInterface):
     provider_name = "stabilityai"
@@ -115,3 +118,44 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
                 image_resource_url=resource_url,
             ),
         )
+
+    def image__variation (self, 
+            file :str, 
+            prompt : Optional[str] = "Change this image",  
+            num_images : Optional[int] = 1, 
+            resolution : Literal["256x256", "512x512", "1024x1024"] = "512x512", 
+            temperature : Optional[float] = 0.1
+            ) :
+        url = 'grpc.stability.ai:443'
+        stabilityapi = client.StabilityInference(
+            key = self.api_key,
+            verbose=True,
+            engine = 'stable-diffusion-xl-1024-v1-0'    
+        )
+        size = resolution.split('x')
+        sizew = size[0]
+        sizeh = size[1]
+
+        with open(file, 'rb') as fstream :
+            image = Image.open(BytesIO(fstream.read()))
+
+        response = stabilityapi.generate (
+            prompt = prompt,
+            start_schedule=temperature, 
+            init_image=image,
+            width=int(sizew),    
+            height=int(sizeh),
+            samples=num_images
+        )
+
+        for resp in response:
+            for artifact in resp.artifacts:
+                if artifact.finish_reason == generation.FILTER:
+                    raise ProviderException(
+                        message=artifact.finish_reason)
+                if artifact.type == generation.ARTIFACT_IMAGE:
+                    img = Image.open(BytesIO(artifact.binary))
+                    return img
+                
+test=StabilityAIApi()
+test.image__variation('./image_test/phoque.png', 'Change this image')

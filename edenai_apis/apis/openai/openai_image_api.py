@@ -2,8 +2,9 @@ import base64
 from io import BytesIO
 from json import JSONDecodeError
 from typing import Sequence, Literal, Optional
-
 import requests
+
+import openai
 
 from edenai_apis.features import ImageInterface
 from edenai_apis.features.image.generation import (
@@ -19,7 +20,9 @@ from ...features.image.question_answer import QuestionAnswerDataClass
 from ...utils.exception import ProviderException
 
 
-class OpenaiImageApi(ImageInterface):
+class OpenaiImageApi(ImageInterface):       
+
+
     def image__generation(
         self,
         text: str,
@@ -120,3 +123,32 @@ class OpenaiImageApi(ImageInterface):
                 original_response=original_response,
                 standardized_response=standardized_response,
             )
+
+    def image__variation(
+            self, 
+            file : str,
+            num_images : int = 1, 
+            resolution : Literal["256x256", "512x512", "1024x1024"] = "512x512"
+            ) :
+        
+        """with open(file, "rb") as fstream:
+            
+
+            url = f"{self.url}/images/variations"
+        
+            self.headers['Content-type'] = 'multipart/form-data'
+            payload = {
+                'image' : fstream.read()
+                "model" : "dall-e-2",
+                "n" : num_images,
+                "size" : resolution,
+            }"""
+
+        response = openai.Image.create_variation(
+            image = open(file, 'rb'),
+            n = num_images,
+            model = 'dall-e-2',
+            size = resolution,
+        )
+    
+        original_response = response
