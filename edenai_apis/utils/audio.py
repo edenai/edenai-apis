@@ -1,5 +1,4 @@
 from io import BufferedReader
-from io import BufferedReader
 from typing import Union, List, Dict
 
 from pydub import AudioSegment
@@ -154,7 +153,7 @@ def __confirm_appropriate_language(language: str, provider: str, subfeature: str
     return formated_language
 
 
-def __get_voices_from_constrains(constraints: Dict, language: str, gender: str):
+def __get_voices_from_constrains(constraints: Dict, language: str, gender: str = ""):
     if isinstance(language, list):
         return []
     voices = {
@@ -172,6 +171,8 @@ def __get_voices_from_constrains(constraints: Dict, language: str, gender: str):
         }
     if gender:
         voices = voices["MALE"] if gender.upper() == "MALE" else voices["FEMALE"]
+    else:
+        voices = voices.get("MALE", []) + voices.get("FEMALE", [])
     return voices
 
 
@@ -194,7 +195,9 @@ def __has_voice_in_contrains(contraints: Dict, voice: str):
     return voice in all_voices
 
 
-def get_voices(language: str, subfeature: str, gender: str, providers: List[str]) -> Dict[str, List]:
+def get_voices(
+    language: str, subfeature: str, gender: str, providers: List[str]
+) -> Dict[str, List]:
     """Returns the list of voices for each provider withing the providers parameter according the the language and gender
 
     Args:
@@ -209,7 +212,9 @@ def get_voices(language: str, subfeature: str, gender: str, providers: List[str]
     for provider in providers:
         constrains = __get_provider_tts_constraints(provider, subfeature)
         if constrains:
-            formtatted_language = __confirm_appropriate_language(language, provider, subfeature)
+            formtatted_language = __confirm_appropriate_language(
+                language, provider, subfeature
+            )
             voices.update(
                 {
                     provider: __get_voices_from_constrains(
