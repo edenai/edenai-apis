@@ -1,0 +1,36 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "eden_ai_CUsfFZDj4Ywg4n92QYRQImcsI_1705910182341",
+  "original_response": {
+    "What is the resume's email address?": "jwsmith@colostate.edu",
+    "What is the first Adult Care experience?": "Four years experience in early childhood development with a diverse background in the care of special needs children and adults."
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "confidence": 1.0,
+        "value": "jwsmith@colostate.edu",
+        "query": "What is the resume's email address?",
+        "bounding_box": {
+          "left": 0.0,
+          "top": 0.0,
+          "width": 0.0,
+          "height": 0.0
+        },
+        "page": 0
+      },
+      {
+        "confidence": 1.0,
+        "value": "Four years experience in early childhood development with a diverse background in the care of special needs children and adults.",
+        "query": "What is the first Adult Care experience?",
+        "bounding_box": {
+          "left": 0.0,
+          "top": 0.0,
+          "width": 0.0,
+          "height": 0.0
+        },
+        "page": 0
+      }
+    ]
+  }
+}

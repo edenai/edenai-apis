@@ -1,0 +1,14 @@
+{
+    "ocr": {
+        "custom_document_parsing_async": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "application/pdf"
+                ]
+            },
+            "version": "v1"
+        }
+    }
+}
