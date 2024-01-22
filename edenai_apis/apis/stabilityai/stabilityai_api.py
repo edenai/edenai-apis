@@ -1,7 +1,7 @@
 import base64
 import json
 from io import BytesIO
-from typing import Dict, Literal, Optional, Any, List
+from typing import Dict, Literal, Optional, Any, List, Sequence
 
 import requests
 from PIL import Image
@@ -150,13 +150,32 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
             steps = steps
             )
 
+
         for resp in response:
+
             for artifact in resp.artifacts:
                 if artifact.finish_reason == generation.FILTER:
                     raise ProviderException(
                         message=artifact.finish_reason)
                 if artifact.type == generation.ARTIFACT_IMAGE:
-                    return img
+                    original_response = response
+                    generations: Sequence[GeneratedImageDataClass] = []
+                    for generated_image in original_response.get("data"):
+                        image_b64 = generated_image.get("b64_json")
+
+                        image_data = image_b64.encode()
+                        image_content = BytesIO(base64.b64decode(image_data))
+                        resource_url = upload_file_bytes_to_s3(image_content, ".png", USER_PROCESS)
+                        generations.append(
+                            GeneratedImageDataClass(
+                                image=image_b64, image_resource_url=resource_url
+                            )
+                        )
+                    
+                    return ResponseType[GenerationDataClass](
+                        original_response=original_response,
+                        standardized_response=GenerationDataClass(items=generations),
+                    )
+
                 
-test=StabilityAIApi()
-img = test.image__variation('./image_test/sans.png', 'Do some variations on this image', temperature=0.3, steps=50)
+                
