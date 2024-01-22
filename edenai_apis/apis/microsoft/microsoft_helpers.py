@@ -1,3 +1,4 @@
+import datetime
 from collections import defaultdict
 from copy import deepcopy
 from math import floor
@@ -1026,7 +1027,11 @@ def microsoft_financial_parser_formatter(
                             .get("value", {})
                             .get("amount"),
                             product_code=line.get("ProductCode", {}).get("value"),
-                            date=line.get("Date", {}).get("value"),
+                            date=line.get("Date", {}).get("value").isoformat()
+                            if isinstance(
+                                line.get("Date", {}).get("value"), datetime.date
+                            )
+                            else line.get("Date", {}).get("value"),
                             tax=(line.get("Tax", {}).get("value") or {}).get("amount"),
                             tax_rate=line.get("TaxRate", {}).get("value"),
                         )
