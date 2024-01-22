@@ -124,8 +124,9 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
             prompt : Optional[str] = "Change this image",  
             num_images : Optional[int] = 1, 
             resolution : Literal["256x256", "512x512", "1024x1024"] = "512x512", 
-            temperature : Optional[float] = 0.1
-            ) :
+            temperature : Optional[float] = 0.1,
+            steps : int = 30,
+            ) ->ResponseType[GeneratedImageDataClass]:
         url = 'grpc.stability.ai:443'
         stabilityapi = client.StabilityInference(
             key = self.api_key,
@@ -145,8 +146,9 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
             init_image=image,
             width=int(sizew),    
             height=int(sizeh),
-            samples=num_images
-        )
+            samples=num_images,
+            steps = steps
+            )
 
         for resp in response:
             for artifact in resp.artifacts:
@@ -154,8 +156,7 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
                     raise ProviderException(
                         message=artifact.finish_reason)
                 if artifact.type == generation.ARTIFACT_IMAGE:
-                    img = Image.open(BytesIO(artifact.binary))
                     return img
                 
 test=StabilityAIApi()
-test.image__variation('./image_test/phoque.png', 'Change this image')
+img = test.image__variation('./image_test/sans.png', 'Do some variations on this image', temperature=0.3, steps=50)

@@ -152,3 +152,4 @@ class OpenaiImageApi(ImageInterface):
         )
     
         original_response = response
+        print(response)
