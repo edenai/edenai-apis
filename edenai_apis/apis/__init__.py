@@ -16,6 +16,7 @@ from .deepgram import DeepgramApi
 from .deepl import DeeplApi
 from .elevenlabs import ElevenlabsApi
 from .emvista import EmvistaApi
+from .extracta import ExtractaApi
 from .facepp import FaceppApi
 from .faker import FakerApi
 from .gladia import GladiaApi
