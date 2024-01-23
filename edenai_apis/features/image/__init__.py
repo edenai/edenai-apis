@@ -83,3 +83,8 @@ from .fine_tuning import (
     FineTuningGenerateImageDataClass,
     FineTuningListProject
 )
+
+from .variation import (
+    VariationImageDataClass,
+    VariationDataClass
+)

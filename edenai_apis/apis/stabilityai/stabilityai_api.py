@@ -172,10 +172,10 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
                     generations: Sequence[VariationImageDataClass] = []
 
                     image_content = BytesIO(base64.b64decode(artifact.binary))
-                    #resource_url = upload_file_bytes_to_s3(image_content, ".png", USER_PROCESS)
+                    resource_url = upload_file_bytes_to_s3(artifact.binary, ".png", USER_PROCESS)
                     generations.append(
                         VariationImageDataClass(
-                            image=str(image_content), image_resource_url=""
+                            image=str(image_content), image_resource_url=resource_url
                         )
                     )
                     return ResponseType[VariationDataClass](

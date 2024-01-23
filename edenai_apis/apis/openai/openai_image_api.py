@@ -19,6 +19,9 @@ from .helpers import (
 from ...features.image.question_answer import QuestionAnswerDataClass
 from ...utils.exception import ProviderException
 
+from edenai_apis.features.image.variation import (
+    VariationDataClass, VariationImageDataClass
+)
 
 class OpenaiImageApi(ImageInterface):       
 
@@ -127,37 +130,25 @@ class OpenaiImageApi(ImageInterface):
     def image__variation(
             self, 
             file : str,
-            prompt : str = None,
-            num_images : int = 1, 
-            resolution : Literal["256x256", "512x512", "1024x1024"] = "512x512"
-            ) ->ResponseType[ImageGenerationDataClass]:
-
-
-        if prompt == None :
-            try :
-                response = openai.Image.create_variation(
-                    image = open(file, 'rb'),
-                    n = num_images,
-                    model = 'dall-e-2',
-                    size = resolution,
-                    response_format = 'b64_json'
-                )
-            except openai.OpenAIError as error :
-                raise ProviderException(message=error._message, code=error.code)
-        else :
-            try :
-                response = openai.Image.create_edit(
-                    prompt = prompt,
-                    image = open(file, 'rb'),
-                    model = 'dall-e-2',
-                    n = num_images,
-                    size = resolution,
-                    response_format = 'b64_json'
-                )
-            except openai.OpenAIError as error :
-                raise ProviderException(message=error._message, code=error.code)
+            prompt : Optional[str] = "",
+            num_images : Optional[int] = 1, 
+            resolution : Literal["256x256", "512x512", "1024x1024"] = "512x512",
+            temperature : Optional[int] = 0.3
+            ) ->ResponseType[VariationDataClass]:
+   
+        try :
+            response = openai.Image.create_variation(
+                image = open(file, 'rb'),
+                n = num_images,
+                model = 'dall-e-2',
+                size = resolution,
+                response_format = 'b64_json'
+            )
+        except openai.OpenAIError as error :
+            raise ProviderException(message=error._message, code=error.code)
+        
         original_response = response
-        generations: Sequence[GeneratedImageDataClass] = []
+        generations: Sequence[VariationImageDataClass] = []
         for generated_image in original_response.get("data"):
             image_b64 = generated_image.get("b64_json")
 
@@ -165,13 +156,13 @@ class OpenaiImageApi(ImageInterface):
             image_content = BytesIO(base64.b64decode(image_data))
             resource_url = upload_file_bytes_to_s3(image_content, ".png", USER_PROCESS)
             generations.append(
-                GeneratedImageDataClass(
+                VariationImageDataClass(
                     image=image_b64, image_resource_url=resource_url
                 )
             )
         
-        return ResponseType[ImageGenerationDataClass](
+        return ResponseType[VariationDataClass](
             original_response=original_response,
-            standardized_response=ImageGenerationDataClass(items=generations),
+            standardized_response=VariationDataClass(items=generations),
         )
         
