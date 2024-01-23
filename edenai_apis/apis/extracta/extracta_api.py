@@ -120,7 +120,7 @@ class ExtractaApi(
         original_response = response.json()
 
         # extract job id
-        job_id = original_response["job_id"]
+        job_id = original_response.get("job_id")
 
         # check for job id
         if not job_id:
@@ -158,7 +158,7 @@ class ExtractaApi(
         original_response = response.json()
 
         # get status from request
-        status = original_response["status"]
+        status = original_response.get("status")
 
         # check for status
         if not status:
@@ -190,7 +190,7 @@ class ExtractaApi(
             )
 
         # get extraction details
-        extraction_details = original_response["extractionDetails"]
+        extraction_details = original_response.get("extractionDetails")
         if not extraction_details:
             raise ProviderException("Error: Extraction details not found in response.")
 
