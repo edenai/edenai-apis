@@ -1,3 +1,4 @@
+import datetime
 from collections import defaultdict
 from copy import deepcopy
 from math import floor
@@ -36,10 +37,17 @@ from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import
     FinancialMerchantInformation,
     FinancialParserDataClass,
     FinancialParserObjectDataClass,
-    FinancialPaymentInformation
+    FinancialPaymentInformation,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     format_date,
+)
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
+    BoundingBox,
+    Line,
+    OcrAsyncDataClass,
+    Word,
+    Page as OcrAsyncPage,
 )
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     BoundixBoxOCRTable,
@@ -60,16 +68,9 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import (
     combine_date_with_time,
     standardized_confidence_score,
-    convert_time_to_string
+    convert_time_to_string,
 )
 from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
-from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
-    BoundingBox,
-    Line,
-    OcrAsyncDataClass,
-    Word,
-    Page as OcrAsyncPage,
-)
 
 
 def get_microsoft_headers() -> Dict:
@@ -542,7 +543,7 @@ def normalize_invoice_result(response):
             item_lines: Sequence[ItemLinesInvoice] = []
             for item in items:
                 line = item.get("value", default_dict)
-                if line:
+                if line and line is not None:
                     item_lines.append(
                         ItemLinesInvoice(
                             amount=line.get("Amount", default_dict)
@@ -656,6 +657,7 @@ def normalize_invoice_result(response):
 
     standardized_response = InvoiceParserDataClass(extracted_data=invoices)
     return standardized_response
+
 
 def format_text_for_ssml_tags(text: str):
     tobe_replaced = [("&", "&amp"), ("<", "&lt"), (">", "&gt")]
@@ -842,6 +844,7 @@ def microsoft_ocr_async_standardize_response(
         raw_text=raw_text, pages=pages, number_of_pages=number_of_pages
     )
 
+
 def microsoft_parser_normalizer(original_response: Dict) -> List[Dict]:
     """
     Transforms the raw output from the Microsoft Invoice/Receipt Parser into a structured and user-friendly format.
@@ -856,18 +859,20 @@ def microsoft_parser_normalizer(original_response: Dict) -> List[Dict]:
     page_dict = {}
     for page_idx in range(len(original_response.get("pages") or [])):
         page_dict[page_idx] = {}
-    
+
     for idx, document in enumerate(original_response.get("documents") or [{}]):
         doc_type = document.get("doc_type")
         fields = document.get("fields")
         for key_name, key_value in fields.items():
-            page_index=None
+            page_index = None
             if isinstance(key_value, dict):
-                page_index = (key_value.get("bounding_regions") or [{}])[0].get("page_number")
+                page_index = (key_value.get("bounding_regions") or [{}])[0].get(
+                    "page_number"
+                )
             if page_index:
-                page_dict[page_index-1][key_name] = key_value
-                page_dict[page_index-1]["document_type"] = doc_type
-                page_dict[page_index-1]["document_index"] = idx + 1
+                page_dict[page_index - 1][key_name] = key_value
+                page_dict[page_index - 1]["document_type"] = doc_type
+                page_dict[page_index - 1]["document_index"] = idx + 1
 
             if key_name == "Items":
                 items = key_value.get("value", [])
@@ -879,7 +884,10 @@ def microsoft_parser_normalizer(original_response: Dict) -> List[Dict]:
         new_response.append(page_elements)
     return new_response
 
-def microsoft_financial_parser_formatter(original_response : dict) -> FinancialParserDataClass:
+
+def microsoft_financial_parser_formatter(
+    original_response: dict,
+) -> FinancialParserDataClass:
     """
     Parse a document using Microsoft financial parser (receipt/invoice) and return organized financial data.
 
@@ -894,104 +902,150 @@ def microsoft_financial_parser_formatter(original_response : dict) -> FinancialP
     for page_idx, page_document in enumerate(responses):
         # Customer information
         customer_information = FinancialCustomerInformation(
-                        name = page_document.get("CustomerName", {}).get("value"),
-                        id = page_document.get("CustomerId", {}).get("value"),
-                        tax_id = page_document.get("CustomerTaxId", {}).get("value"),
-                        mailling_address=page_document.get("CustomerAddress", {}).get("content"),
-                        billing_address=page_document.get("BillingAddress", {}).get("content"),
-                        shipping_address=page_document.get("ShippingAddress", {}).get("content"),
-                        remittance_address=page_document.get("RemittanceAddress", {}).get("content"),
-                        service_address=page_document.get("ServiceAddress", {}).get("content"),
-                        remit_to_name=page_document.get("CustomerAddressRecipient", {}).get("content")
-                    )
-        
-        # Merchant information 
-        merchant_information = FinancialMerchantInformation(
-                name=page_document.get("VendorName", {}).get("value") or page_document.get("MerchantName", {}).get("value"),
-                address=page_document.get("VendorAddress", {}).get("content") or page_document.get("MerchantAddress", {}).get("content"),
-                phone=page_document.get("MerchantPhoneNumber", {}).get("value"),
-                tax_id=page_document.get("VendorTaxId", {}).get("value"),
-                house_number=page_document.get("MerchantAddress", {}).get("value", {}).get("house_number"),
-                street_name=page_document.get("MerchantAddress", {}).get("value" , {}).get("street_address"),
-                city=page_document.get("MerchantAddress", {}).get("value", {}).get("city_district"),
-                zip_code=page_document.get("MerchantAddress", {}).get("value", {}).get("postal_code"),
-                province=page_document.get("MerchantAddress", {}).get("value" , {}).get("state_district")
+            name=page_document.get("CustomerName", {}).get("value"),
+            id=page_document.get("CustomerId", {}).get("value"),
+            tax_id=page_document.get("CustomerTaxId", {}).get("value"),
+            mailling_address=page_document.get("CustomerAddress", {}).get("content"),
+            billing_address=page_document.get("BillingAddress", {}).get("content"),
+            shipping_address=page_document.get("ShippingAddress", {}).get("content"),
+            remittance_address=page_document.get("RemittanceAddress", {}).get(
+                "content"
+            ),
+            service_address=page_document.get("ServiceAddress", {}).get("content"),
+            remit_to_name=page_document.get("CustomerAddressRecipient", {}).get(
+                "content"
+            ),
+        )
 
-            )
-        
+        # Merchant information
+        merchant_information = FinancialMerchantInformation(
+            name=page_document.get("VendorName", {}).get("value")
+            or page_document.get("MerchantName", {}).get("value"),
+            address=page_document.get("VendorAddress", {}).get("content")
+            or page_document.get("MerchantAddress", {}).get("content"),
+            phone=page_document.get("MerchantPhoneNumber", {}).get("value"),
+            tax_id=page_document.get("VendorTaxId", {}).get("value"),
+            house_number=page_document.get("MerchantAddress", {})
+            .get("value", {})
+            .get("house_number"),
+            street_name=page_document.get("MerchantAddress", {})
+            .get("value", {})
+            .get("street_address"),
+            city=page_document.get("MerchantAddress", {})
+            .get("value", {})
+            .get("city_district"),
+            zip_code=page_document.get("MerchantAddress", {})
+            .get("value", {})
+            .get("postal_code"),
+            province=page_document.get("MerchantAddress", {})
+            .get("value", {})
+            .get("state_district"),
+        )
+
         # Payment information
         payment_information = FinancialPaymentInformation(
-                        total=page_document.get("InvoiceTotal", {}).get("value", {}).get("amount"),
-                        subtotal=page_document.get("SubTotal", {}).get("value", {}).get("amount"),
-                        payment_terms=page_document.get("PaymentTerm", {}).get("value"),
-                        amount_due=page_document.get("AmountDue", {}).get("value", {}).get("amount"),
-                        previous_unpaid_balance=page_document.get("PreviousUnpaidBalance", {}).get("amount"),
-                        total_tax = page_document.get("TotalTax", {}).get("value", {}).get("amount") if isinstance(page_document.get("TotalTax", {}).get("value"), dict) else page_document.get("TotalTax", {}).get("value"),
-                        discount=page_document.get("TotalDiscount", {}).get("value", {}).get("amount")
-                    )
-        
+            total=page_document.get("InvoiceTotal", {}).get("value", {}).get("amount"),
+            subtotal=page_document.get("SubTotal", {}).get("value", {}).get("amount"),
+            payment_terms=page_document.get("PaymentTerm", {}).get("value"),
+            amount_due=page_document.get("AmountDue", {})
+            .get("value", {})
+            .get("amount"),
+            previous_unpaid_balance=page_document.get("PreviousUnpaidBalance", {}).get(
+                "amount"
+            ),
+            total_tax=page_document.get("TotalTax", {}).get("value", {}).get("amount")
+            if isinstance(page_document.get("TotalTax", {}).get("value"), dict)
+            else page_document.get("TotalTax", {}).get("value"),
+            discount=page_document.get("TotalDiscount", {})
+            .get("value", {})
+            .get("amount"),
+        )
+
         # Document information
         financial_document_information = FinancialDocumentInformation(
-                invoice_receipt_id=page_document.get("InvoiceId", {}).get("value"),
-                purchase_order=page_document.get("PurchaseOrder", {}).get("value"),
-                invoice_due_date=format_date(page_document.get("DueDate", {}).get("value")),
-                invoice_date=format_date(page_document.get("InvoiceDate", {}).get("value") or page_document.get("TransactionDate", {}).get("value")),
-                time=convert_time_to_string(page_document.get("InvoiceTime", {}).get("value") or page_document.get("TransactionTime", {}).get("value")),
-                )
-        
+            invoice_receipt_id=page_document.get("InvoiceId", {}).get("value"),
+            purchase_order=page_document.get("PurchaseOrder", {}).get("value"),
+            invoice_due_date=format_date(page_document.get("DueDate", {}).get("value")),
+            invoice_date=format_date(
+                page_document.get("InvoiceDate", {}).get("value")
+                or page_document.get("TransactionDate", {}).get("value")
+            ),
+            time=convert_time_to_string(
+                page_document.get("InvoiceTime", {}).get("value")
+                or page_document.get("TransactionTime", {}).get("value")
+            ),
+        )
+
         # Bank information
         payment_details = page_document.get("PaymentDetails", {}).get("value", [])
         payment_items = []
         for obj in payment_details:
-            line = obj.get("value" , {})
+            line = obj.get("value", {})
             if line:
                 payment_items.append(
                     {
-                        "iban" : line.get("IBAN", {}).get("content"),
-                        "swift" : line.get("SWIFT", {}).get("content")
-                    })
+                        "iban": line.get("IBAN", {}).get("content"),
+                        "swift": line.get("SWIFT", {}).get("content"),
+                    }
+                )
         bank = FinancialBankInformation(
-                swift = payment_items[0].get("swift") if len(payment_items)>0 else None,
-                iban = payment_items[0].get("iban") if len(payment_items)>0 else None
-            )
-        
+            swift=payment_items[0].get("swift") if len(payment_items) > 0 else None,
+            iban=payment_items[0].get("iban") if len(payment_items) > 0 else None,
+        )
+
         # Local information
-        local = FinancialLocalInformation(currency_code=page_document.get("InvoiceTotal", {}).get("value", {}).get("code"))
+        local = FinancialLocalInformation(
+            currency_code=page_document.get("InvoiceTotal", {})
+            .get("value", {})
+            .get("code")
+        )
 
         # Document metadata
         document_metadata = FinancialDocumentMetadata(
-                        document_index=page_document.get("document_index"),
-                        document_page_number=page_idx+1,
-                        document_type=page_document.get("document_type")
-                        )
-        
+            document_index=page_document.get("document_index"),
+            document_page_number=page_idx + 1,
+            document_type=page_document.get("document_type"),
+        )
+
         # Items
         items = page_document.get("items")
         item_lines = []
-        if items : 
+        if items:
             for item in items:
                 page_item = item["bounding_regions"][0].get("page_number")
                 line = item.get("value", {})
-                if page_item == page_idx+1 and line:
+                if page_item == page_idx + 1 and line:
                     item_lines.append(
                         FinancialLineItem(
-                            amount_line=line.get("Amount", {}).get("value", {}).get("amount") or line.get("TotalPrice", {}).get("value"),
+                            amount_line=line.get("Amount", {})
+                            .get("value", {})
+                            .get("amount")
+                            or line.get("TotalPrice", {}).get("value"),
                             description=line.get("Description", {}).get("value"),
                             quantity=line.get("Quantity", {}).get("value") or 0,
-                            unit_price=line.get("UnitPrice", {}).get("value", {}).get("amount"),
+                            unit_price=line.get("UnitPrice", {})
+                            .get("value", {})
+                            .get("amount"),
                             product_code=line.get("ProductCode", {}).get("value"),
-                            date=line.get("Date", {}).get("value"),
+                            date=line.get("Date", {}).get("value").isoformat()
+                            if isinstance(
+                                line.get("Date", {}).get("value"), datetime.date
+                            )
+                            else line.get("Date", {}).get("value"),
                             tax=(line.get("Tax", {}).get("value") or {}).get("amount"),
-                            tax_rate=line.get("TaxRate", {}).get("value")
-                        ))
-        extracted_data.append(FinancialParserObjectDataClass(
-            customer_information=customer_information,
-            merchant_information=merchant_information,
-            payment_information=payment_information,
-            financial_document_information=financial_document_information,
-            bank=bank,
-            local=local,
-            document_metadata=document_metadata,
-            item_lines=item_lines
-        ))
+                            tax_rate=line.get("TaxRate", {}).get("value"),
+                        )
+                    )
+        extracted_data.append(
+            FinancialParserObjectDataClass(
+                customer_information=customer_information,
+                merchant_information=merchant_information,
+                payment_information=payment_information,
+                financial_document_information=financial_document_information,
+                bank=bank,
+                local=local,
+                document_metadata=document_metadata,
+                item_lines=item_lines,
+            )
+        )
     return FinancialParserDataClass(extracted_data=extracted_data)

@@ -1332,7 +1332,7 @@
     "question_answer": {
       "constraints": {
         "models": [
-          "imagegen",
+          "imagen",
           "gemini-pro-vision"
         ],
         "default_model": "gemini-pro-vision"

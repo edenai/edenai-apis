@@ -6,7 +6,7 @@
           "role": "model",
           "parts": [
             {
-              "text": " Facebook, Apple, Amazon, Netflix and Google"
+              "text": " Facebook, Apple, Amazon, Netflix, and Google"
             }
           ]
         },
@@ -33,13 +33,13 @@
     ],
     "usageMetadata": {
       "promptTokenCount": 266,
-      "candidatesTokenCount": 9,
-      "totalTokenCount": 275
+      "candidatesTokenCount": 10,
+      "totalTokenCount": 276
     }
   },
   "standardized_response": {
     "answers": [
-      " Facebook, Apple, Amazon, Netflix and Google"
+      " Facebook, Apple, Amazon, Netflix, and Google"
     ]
   }
 }

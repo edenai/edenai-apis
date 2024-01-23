@@ -1,5 +1,6 @@
 import base64
 from io import BytesIO
+from json import JSONDecodeError
 from typing import Dict, Sequence, Optional, Any
 
 import requests
@@ -307,8 +308,12 @@ class Api4aiApi(
         }
         # Get response
         response = requests.post(self.urls["nsfw"], files=payload)
-        original_response = response.json()
-
+        try:
+            original_response = response.json()
+        except JSONDecodeError as exp:
+            raise ProviderException(
+                message="Internal server error", code=response.status_code
+            ) from exp
         file_.close()
 
         # Handle errors

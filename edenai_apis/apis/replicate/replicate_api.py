@@ -1,7 +1,7 @@
 import base64
+import http.client
 from typing import Dict, Generator, List, Literal, Optional, Union, overload
 
-import http.client
 import requests
 
 from edenai_apis.features import TextInterface, ImageInterface
@@ -14,7 +14,6 @@ from edenai_apis.features.text import (
     ChatDataClass,
     ChatMessageDataClass,
 )
-from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
@@ -35,7 +34,7 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
             "Authorization": f"Token {api_settings['api_key']}",
         }
         self.base_url = "https://api.replicate.com/v1"
-        
+
     def __get_stream_response(self, url: str) -> Generator:
         headers = {**self.headers, "Accept": "text/event-stream"}
         response = requests.get(url, headers=headers, stream=True)
@@ -45,16 +44,20 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
                 response.close()
                 break
             elif last_chunk == b"event: error" and chunk.startswith(b"data: "):
-                yield ChatStreamResponse(text = "[ERROR]",
-                                             blocked = True, 
-                                             provider = self.provider_name)
+                yield ChatStreamResponse(
+                    text="[ERROR]", blocked=True, provider=self.provider_name
+                )
             elif chunk.startswith(b"data: "):
                 if last_chunk == b"data: " and chunk == b"data: ":
-                    yield ChatStreamResponse(text = "\n", blocked = False, provider = self.provider_name)
+                    yield ChatStreamResponse(
+                        text="\n", blocked=False, provider=self.provider_name
+                    )
                 else:
-                    yield ChatStreamResponse(text = chunk.decode("utf-8").replace("data: ", ""),
-                                             blocked = False, 
-                                             provider = self.provider_name)
+                    yield ChatStreamResponse(
+                        text=chunk.decode("utf-8").replace("data: ", ""),
+                        blocked=False,
+                        provider=self.provider_name,
+                    )
             last_chunk = chunk
 
     @overload
@@ -97,7 +100,9 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
 
         if response.status_code >= 500:
             raise ProviderException(
-                message=http.client.responses[response.status_code], code=response.status_code)
+                message=http.client.responses[response.status_code],
+                code=response.status_code,
+            )
         response_dict = response.json()
         if response.status_code != 200:
             raise ProviderException(
@@ -126,7 +131,7 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         text: str,
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
-        model: Optional[str] = None
+        model: Optional[str] = None,
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.base_url}/predictions"
         size = resolution.split("x")
@@ -137,25 +142,33 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
                 "prompt": text,
                 "width": int(size[0]),
                 "height": int(size[1]),
+                "num_outputs": num_images,
             },
             "version": version,
         }
 
         response_dict = ReplicateApi.__get_response(self, url, payload)
         image_url = response_dict.get("output")
+        generated_images = []
         if isinstance(image_url, list):
-            image_url = image_url[0]
-        image_bytes = base64.b64encode(requests.get(image_url).content)
+            for image in image_url:
+                generated_images.append(
+                    GeneratedImageDataClass(
+                        image=base64.b64encode(requests.get(image).content),
+                        image_resource_url=image,
+                    )
+                )
+        else:
+            generated_images.append(
+                GeneratedImageDataClass(
+                    image=base64.b64encode(requests.get(image_url).content),
+                    image_resource_url=image_url,
+                )
+            )
 
         return ResponseType[GenerationDataClass](
             original_response=response_dict,
-            standardized_response=GenerationDataClass(
-                items=[
-                    GeneratedImageDataClass(
-                        image=image_bytes, image_resource_url=image_url
-                    )
-                ]
-            ),
+            standardized_response=GenerationDataClass(items=generated_images),
         )
 
     def text__chat(

@@ -106,7 +106,7 @@ print(res.status)  # "pending" | "succeeded" | "failed"
 
 ## Contribute
 
-We would love to have your contribution. Please follow our [gidelines for adding a new AI provider's API or a new AI feature](CONTRIBUTE.md). You can check [the package structure](PACKAGE_STRUCTURE.md) for more details on how it is organized.
+We would love to have your contribution. Please follow our [guidelines for adding a new AI provider's API or a new AI feature](CONTRIBUTE.md). You can check [the package structure](PACKAGE_STRUCTURE.md) for more details on how it is organized.
 We use GitHub issues for tracking requests and bugs. For broader discussions you can [join our discord](https://discord.com/invite/VYwTbMQc8u).
 
 ## Don’t want to create accounts for all providers and host the project by yourself?

@@ -153,31 +153,41 @@ class TestLoadSubfeature:
         assert method_subfeature.__name__ == expected_name
 
     @pytest.mark.parametrize(
-        ("provider", "feature", "subfeature"),
-        global_features(only_async)["ungrouped_providers"],
+        ("provider", "feature", "subfeature", "phase"),
+        global_features(only_async, return_phase=True)["ungrouped_providers"],
     )
     def test_load_subfeature_async_subfeature_get_job_result(
-        self, provider, feature, subfeature
+        self, provider, feature, subfeature, phase
     ):
         method_subfeature = load_subfeature(
-            provider, feature, subfeature, "get_job_result"
+            provider, feature, subfeature, phase, "__get_job_result"
         )
 
-        expected_name = f"{feature}__{subfeature}__get_job_result"
+        expected_name = (
+            f"{feature}__{subfeature}__get_job_result"
+            if not phase
+            else f"{feature}__{subfeature}__{phase}__get_job_result"
+        )
 
         assert callable(method_subfeature)
         assert method_subfeature.__name__ == expected_name
 
     @pytest.mark.parametrize(
-        ("provider", "feature", "subfeature"),
-        global_features(only_async)["ungrouped_providers"],
+        ("provider", "feature", "subfeature", "phase"),
+        global_features(only_async, return_phase=True)["ungrouped_providers"],
     )
     def test_load_subfeature_async_subfeature_launch_job(
-        self, provider, feature, subfeature
+        self, provider, feature, subfeature, phase
     ):
-        method_subfeature = load_subfeature(provider, feature, subfeature, "launch_job")
+        method_subfeature = load_subfeature(
+            provider, feature, subfeature, phase, "__launch_job"
+        )
 
-        expected_name = f"{feature}__{subfeature}__launch_job"
+        expected_name = (
+            f"{feature}__{subfeature}__launch_job"
+            if not phase
+            else f"{feature}__{subfeature}__{phase}__launch_job"
+        )
 
         if method_subfeature.__name__ == "func_wrapper":
             assert method_subfeature.__closure__ is not None

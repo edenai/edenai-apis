@@ -61,6 +61,7 @@
 | | google |
 | | microsoft |
 | **anonymization_async** | base64 |
+| | privateai |
 | | readyredact |
 | **bank_check_parsing** | base64 |
 | | mindee |
@@ -812,6 +813,13 @@
 |----------|-------------|
 | **image** | explicit_content |
 | | face_detection |
+
+</details>
+<details><summary>privateai</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **ocr** | anonymization_async |
 
 </details>
 <details><summary>prowritingaid</summary>

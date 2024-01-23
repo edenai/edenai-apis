@@ -1,6 +1,6 @@
 {
   "original_response": {
-    "model_version": "2023-05",
+    "model_version": "2022-04",
     "embedding": [
       0.09472656,
       1.203125,
@@ -5123,6 +5123,7 @@
       1.6015625,
       0.62109375
     ],
+    "num_tokens_prompt_total": 144,
     "message": null
   },
   "standardized_response": {

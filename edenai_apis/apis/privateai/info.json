@@ -1,0 +1,39 @@
+{
+  "ocr": {
+    "anonymization_async": {
+      "constraints": {
+        "file_types": [
+          "application/dicom",
+          "application/json",
+          "application/msword",
+          "application/pdf",
+          "application/vnd.ms-excel",
+          "application/vnd.ms-powerpoint",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/xml",
+          "audio/m4a",
+          "audio/mp3",
+          "audio/mp4",
+          "audio/mp4a-latm",
+          "audio/mpeg",
+          "audio/wav",
+          "audio/webm",
+          "audio/x-wav",
+          "image/bmp",
+          "image/jpeg",
+          "image/jpg",
+          "image/png",
+          "image/tif",
+          "image/tiff",
+          "image/x-ms-bmp",
+          "message/rfc822",
+          "text/csv",
+          "text/plain"
+        ]
+      },
+      "version": "v3"
+    }
+  }
+}

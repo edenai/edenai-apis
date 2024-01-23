@@ -1,16 +1,7 @@
 {
     "text": {
       "ai_detection":{
-        "version" : "v2",
-        "constraints": {
-          "languages": [
-              "en",
-              "fr",
-              "es",
-              "de",
-              "pt"
-          ]
-      }
+        "version" : "v2"
     },
       "plagia_detection":{
         "version" : "v2"
