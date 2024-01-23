@@ -19,8 +19,13 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 from stability_sdk import client
+from stability_sdk.api import (
+    ClassifierException, OutOfCreditsException
+)
 import stability_sdk.interfaces.gooseai.generation.generation_pb2 as generation
-
+from edenai_apis.features.image.variation import (
+    VariationDataClass, VariationImageDataClass
+)
 class StabilityAIApi(ProviderInterface, ImageInterface):
     provider_name = "stabilityai"
 
@@ -121,61 +126,60 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
 
     def image__variation (self, 
             file :str, 
-            prompt : Optional[str] = "Change this image",  
+            prompt : Optional[str] = "",  
             num_images : Optional[int] = 1, 
             resolution : Literal["256x256", "512x512", "1024x1024"] = "512x512", 
-            temperature : Optional[float] = 0.1,
-            steps : int = 30,
-            ) ->ResponseType[GeneratedImageDataClass]:
-        url = 'grpc.stability.ai:443'
+            temperature : Optional[float] = 0.3,
+            ) ->ResponseType[VariationImageDataClass]:
+
         stabilityapi = client.StabilityInference(
             key = self.api_key,
             verbose=True,
             engine = 'stable-diffusion-xl-1024-v1-0'    
         )
+
         size = resolution.split('x')
         sizew = size[0]
         sizeh = size[1]
-
+        
         with open(file, 'rb') as fstream :
             image = Image.open(BytesIO(fstream.read()))
 
-        response = stabilityapi.generate (
-            prompt = prompt,
-            start_schedule=temperature, 
-            init_image=image,
-            width=int(sizew),    
-            height=int(sizeh),
-            samples=num_images,
-            steps = steps
-            )
+        if prompt == "" :
+            prompt = "Generate a variation of this image and maintain the style"
 
+        try :
+            response = stabilityapi.generate (
+                prompt = prompt,
+                start_schedule=temperature, 
+                init_image=image,
+                width=int(sizew),    
+                height=int(sizeh),
+                samples=num_images,
+            )
+        except OutOfCreditsException as crediterror:
+            raise ProviderException(message = crediterror.details)
+        except ClassifierException as message_error :
+            raise ProviderException(message = message_error.classifier_result)
 
         for resp in response:
-
             for artifact in resp.artifacts:
                 if artifact.finish_reason == generation.FILTER:
                     raise ProviderException(
                         message=artifact.finish_reason)
                 if artifact.type == generation.ARTIFACT_IMAGE:
                     original_response = response
-                    generations: Sequence[GeneratedImageDataClass] = []
-                    for generated_image in original_response.get("data"):
-                        image_b64 = generated_image.get("b64_json")
+                    generations: Sequence[VariationImageDataClass] = []
 
-                        image_data = image_b64.encode()
-                        image_content = BytesIO(base64.b64decode(image_data))
-                        resource_url = upload_file_bytes_to_s3(image_content, ".png", USER_PROCESS)
-                        generations.append(
-                            GeneratedImageDataClass(
-                                image=image_b64, image_resource_url=resource_url
-                            )
+                    image_content = BytesIO(base64.b64decode(artifact.binary))
+                    #resource_url = upload_file_bytes_to_s3(image_content, ".png", USER_PROCESS)
+                    generations.append(
+                        VariationImageDataClass(
+                            image=str(image_content), image_resource_url=""
                         )
-                    
-                    return ResponseType[GenerationDataClass](
-                        original_response=original_response,
-                        standardized_response=GenerationDataClass(items=generations),
                     )
-
-                
+                    return ResponseType[VariationDataClass](
+                        original_response=original_response,
+                        standardized_response=VariationDataClass(items=generations),
+                    )
                 

@@ -383,6 +383,16 @@
       },
       "version": "v1Beta"
     },
+    "variation" : {
+      "constraints" : {
+        "resolutions" : [
+          "256x256",
+          "512x512",
+          "1024x1024"
+        ]
+      },
+      "version" : "v1.0"
+    },
     "question_answer": {
       "constraints": {
         "models": [
