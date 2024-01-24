@@ -71,3 +71,6 @@ aleph_alpha_client==6.0.0
 openai==0.28.1
 
 python-dotenv
+
+# corticalio
+responses==0.24.1
