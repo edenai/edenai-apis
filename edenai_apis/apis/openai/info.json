@@ -391,6 +391,16 @@
         "default_model": "gpt-4-vision-preview"
       },
       "version": "v1"
+    },
+    "variation" : {
+      "constraints" : {
+        "resolutions" : [
+          "256x256",
+          "512x512",
+          "1024x1024"
+        ]
+      },
+      "version" : "v1.0"
     }
   },
   "audio": {

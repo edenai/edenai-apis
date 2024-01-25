@@ -85,6 +85,11 @@ from edenai_apis.utils.types import (
     AsyncBaseResponseType,
 )
 
+from edenai_apis.features.image.variation import (
+    VariationDataClass, 
+    VariationImageDataClass
+)
+
 
 class ImageInterface:
     @abstractmethod
@@ -595,4 +600,24 @@ class ImageInterface:
         Args:
             provider_job_id (str) : id of async job
         """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__variation(
+        self, 
+        file : str, 
+        prompt : Optional[str], 
+        num_images : Optional[int] = 1, 
+        resolution :Literal["256x256", "512x512", "1024x1024"] = "512x512", 
+        temperature : Optional[float] = 0.3) ->ResponseType[VariationDataClass]:
+
+        """
+        Generate image variation for a provide image
+        file (str) : image provided
+        prompt (Optional[str]) : prompt to provide to the provider to change the image, indication.
+        num_images (Optional[int]) : number of images, default to 1
+        resolution (Literal["256x256", "512x512", "1024x1024")): size of the image, can be 256x256 or 512x512 or 1024x1024
+        temperature (Optional[float]) : Set the strength of the prompt in relation to the initial image.
+        """
+
         raise NotImplementedError
