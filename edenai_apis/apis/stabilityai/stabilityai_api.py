@@ -1,7 +1,8 @@
 import base64
 import json
 from io import BytesIO
-from typing import Dict, Literal, Optional, Any, List
+from json import JSONDecodeError
+from typing import Dict, Literal, Optional, Any, List, Sequence
 
 import requests
 
@@ -10,6 +11,10 @@ from edenai_apis.features.image import BackgroundRemovalDataClass
 from edenai_apis.features.image.generation import (
     GenerationDataClass,
     GeneratedImageDataClass,
+)
+from edenai_apis.features.image.variation import (
+    VariationDataClass,
+    VariationImageDataClass,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -115,3 +120,61 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
                 image_resource_url=resource_url,
             ),
         )
+
+    def image__variation(
+        self,
+        file: str,
+        prompt: Optional[str] = "",
+        num_images: Optional[int] = 1,
+        resolution: Literal["256x256", "512x512", "1024x1024"] = "512x512",
+        temperature: Optional[float] = 0.3,
+        model: Optional[str] = None,
+        file_url: str = "",
+    ) -> ResponseType[VariationDataClass]:
+        url = f"https://api.stability.ai/v1/generation/{model}/image-to-image"
+        del self.headers["Content-Type"]
+
+        img = open(file, "rb")
+
+        if not prompt:
+            prompt = "Generate a variation of this image and maintain the style"
+
+        data = {
+            "image_strength": 1 - temperature,
+            "text_prompts[0][text]": prompt,
+            "samples": num_images,
+        }
+        files = {"init_image": img}
+
+        response = requests.post(url, headers=self.headers, data=data, files=files)
+
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
+
+        else:
+            try:
+                original_response = response.json()
+            except JSONDecodeError:
+                raise ProviderException(
+                    message=response.text, code=response.status_code
+                )
+
+            generations: Sequence[VariationImageDataClass] = []
+
+            for generated_image in original_response.get("artifacts"):
+                image_b64 = generated_image.get("base64")
+                image_data = image_b64.encode()
+                image_content = BytesIO(base64.b64decode(image_data))
+
+                resource_url = upload_file_bytes_to_s3(
+                    image_content, ".png", USER_PROCESS
+                )
+                generations.append(
+                    VariationImageDataClass(
+                        image=image_b64, image_resource_url=resource_url
+                    )
+                )
+            return ResponseType[VariationDataClass](
+                original_response=original_response,
+                standardized_response=VariationDataClass(items=generations),
+            )
