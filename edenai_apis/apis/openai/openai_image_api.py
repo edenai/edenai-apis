@@ -2,14 +2,18 @@ import base64
 from io import BytesIO
 from json import JSONDecodeError
 from typing import Sequence, Literal, Optional
-import requests
 
 import openai
+import requests
 
 from edenai_apis.features import ImageInterface
 from edenai_apis.features.image.generation import (
     GenerationDataClass as ImageGenerationDataClass,
     GeneratedImageDataClass,
+)
+from edenai_apis.features.image.variation import (
+    VariationDataClass,
+    VariationImageDataClass,
 )
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
@@ -19,11 +23,8 @@ from .helpers import (
 from ...features.image.question_answer import QuestionAnswerDataClass
 from ...utils.exception import ProviderException
 
-from edenai_apis.features.image.variation import (
-    VariationDataClass, VariationImageDataClass
-)
 
-class OpenaiImageApi(ImageInterface):       
+class OpenaiImageApi(ImageInterface):
     def image__generation(
         self,
         text: str,
@@ -126,24 +127,24 @@ class OpenaiImageApi(ImageInterface):
             )
 
     def image__variation(
-            self, 
-            file : str,
-            prompt : Optional[str] = "",
-            num_images : Optional[int] = 1, 
-            resolution : Literal["256x256", "512x512", "1024x1024"] = "512x512",
-            temperature : Optional[int] = 0.3,
-            model : Optional[str] = None
-            ) ->ResponseType[VariationDataClass]:
-
-        try :
+        self,
+        file: str,
+        prompt: Optional[str] = "",
+        num_images: Optional[int] = 1,
+        resolution: Literal["256x256", "512x512", "1024x1024"] = "512x512",
+        temperature: Optional[int] = 0.3,
+        model: Optional[str] = None,
+        file_url: str = "",
+    ) -> ResponseType[VariationDataClass]:
+        try:
             response = openai.Image.create_variation(
-                image = open(file, 'rb'),
-                n = num_images,
-                model = 'dall-e-2',
-                size = resolution,
-                response_format = 'b64_json'
+                image=open(file, "rb"),
+                n=num_images,
+                model=model,
+                size=resolution,
+                response_format="b64_json",
             )
-        except openai.OpenAIError as error :
+        except openai.OpenAIError as error:
             raise ProviderException(message=error.user_message, code=error.code)
 
         original_response = response
@@ -164,4 +165,3 @@ class OpenaiImageApi(ImageInterface):
             original_response=original_response,
             standardized_response=VariationDataClass(items=generations),
         )
-

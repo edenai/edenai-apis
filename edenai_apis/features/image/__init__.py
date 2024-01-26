@@ -86,5 +86,6 @@ from .search import (
 
 from .variation import (
     VariationImageDataClass,
-    VariationDataClass
+    VariationDataClass,
+    variation_arguments,
 )
