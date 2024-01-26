@@ -4,7 +4,7 @@
       {
         "mid": "/m/02crq1",
         "name": "Couch",
-        "score": 0.8711485,
+        "score": 0.87114835,
         "boundingPoly": {
           "normalizedVertices": [
             {
@@ -29,7 +29,7 @@
       {
         "mid": "/m/02crq1",
         "name": "Couch",
-        "score": 0.84934115,
+        "score": 0.8493409,
         "boundingPoly": {
           "normalizedVertices": [
             {
@@ -54,7 +54,7 @@
       {
         "mid": "/m/01g317",
         "name": "Person",
-        "score": 0.84032655,
+        "score": 0.84032625,
         "boundingPoly": {
           "normalizedVertices": [
             {
@@ -157,23 +157,7 @@
     "items": [
       {
         "label": "Couch",
-        "confidence": 0.8711485,
-        "x_min": 0.66105765,
-        "x_max": 0.66105765,
-        "y_min": 0.5171873,
-        "y_max": 0.5171873
-      },
-      {
-        "label": "Couch",
-        "confidence": 0.8711485,
-        "x_min": 0.66105765,
-        "x_max": 0.9353079,
-        "y_min": 0.5171873,
-        "y_max": 0.5171873
-      },
-      {
-        "label": "Couch",
-        "confidence": 0.8711485,
+        "confidence": 0.87114835,
         "x_min": 0.66105765,
         "x_max": 0.9353079,
         "y_min": 0.5171873,
@@ -181,39 +165,7 @@
       },
       {
         "label": "Couch",
-        "confidence": 0.8711485,
-        "x_min": 0.66105765,
-        "x_max": 0.9353079,
-        "y_min": 0.5171873,
-        "y_max": 0.91517144
-      },
-      {
-        "label": "Couch",
-        "confidence": 0.84934115,
-        "x_min": 0.3995088,
-        "x_max": 0.3995088,
-        "y_min": 0.4860921,
-        "y_max": 0.4860921
-      },
-      {
-        "label": "Couch",
-        "confidence": 0.84934115,
-        "x_min": 0.3995088,
-        "x_max": 0.65442437,
-        "y_min": 0.4860921,
-        "y_max": 0.4860921
-      },
-      {
-        "label": "Couch",
-        "confidence": 0.84934115,
-        "x_min": 0.3995088,
-        "x_max": 0.65442437,
-        "y_min": 0.4860921,
-        "y_max": 0.6775963
-      },
-      {
-        "label": "Couch",
-        "confidence": 0.84934115,
+        "confidence": 0.8493409,
         "x_min": 0.3995088,
         "x_max": 0.65442437,
         "y_min": 0.4860921,
@@ -221,59 +173,11 @@
       },
       {
         "label": "Person",
-        "confidence": 0.84032655,
-        "x_min": 0.642284,
-        "x_max": 0.642284,
-        "y_min": 0.46736634,
-        "y_max": 0.46736634
-      },
-      {
-        "label": "Person",
-        "confidence": 0.84032655,
-        "x_min": 0.642284,
-        "x_max": 0.8311648,
-        "y_min": 0.46736634,
-        "y_max": 0.46736634
-      },
-      {
-        "label": "Person",
-        "confidence": 0.84032655,
+        "confidence": 0.84032625,
         "x_min": 0.642284,
         "x_max": 0.8311648,
         "y_min": 0.46736634,
         "y_max": 0.77956
-      },
-      {
-        "label": "Person",
-        "confidence": 0.84032655,
-        "x_min": 0.642284,
-        "x_max": 0.8311648,
-        "y_min": 0.46736634,
-        "y_max": 0.77956
-      },
-      {
-        "label": "Lighting",
-        "confidence": 0.679412,
-        "x_min": 0.27088618,
-        "x_max": 0.27088618,
-        "y_min": 0.24709482,
-        "y_max": 0.24709482
-      },
-      {
-        "label": "Lighting",
-        "confidence": 0.679412,
-        "x_min": 0.27088618,
-        "x_max": 0.33400524,
-        "y_min": 0.24709482,
-        "y_max": 0.24709482
-      },
-      {
-        "label": "Lighting",
-        "confidence": 0.679412,
-        "x_min": 0.27088618,
-        "x_max": 0.33400524,
-        "y_min": 0.24709482,
-        "y_max": 0.5099434
       },
       {
         "label": "Lighting",
@@ -287,57 +191,9 @@
         "label": "Lighting",
         "confidence": 0.67128795,
         "x_min": 0.6391575,
-        "x_max": 0.6391575,
-        "y_min": 0.29109618,
-        "y_max": 0.29109618
-      },
-      {
-        "label": "Lighting",
-        "confidence": 0.67128795,
-        "x_min": 0.6391575,
-        "x_max": 0.73852676,
-        "y_min": 0.29109618,
-        "y_max": 0.29109618
-      },
-      {
-        "label": "Lighting",
-        "confidence": 0.67128795,
-        "x_min": 0.6391575,
         "x_max": 0.73852676,
         "y_min": 0.29109618,
         "y_max": 0.532905
-      },
-      {
-        "label": "Lighting",
-        "confidence": 0.67128795,
-        "x_min": 0.6391575,
-        "x_max": 0.73852676,
-        "y_min": 0.29109618,
-        "y_max": 0.532905
-      },
-      {
-        "label": "Table",
-        "confidence": 0.5540873,
-        "x_min": 0.3807793,
-        "x_max": 0.3807793,
-        "y_min": 0.63843435,
-        "y_max": 0.63843435
-      },
-      {
-        "label": "Table",
-        "confidence": 0.5540873,
-        "x_min": 0.3807793,
-        "x_max": 0.6623654,
-        "y_min": 0.63843435,
-        "y_max": 0.63843435
-      },
-      {
-        "label": "Table",
-        "confidence": 0.5540873,
-        "x_min": 0.3807793,
-        "x_max": 0.6623654,
-        "y_min": 0.63843435,
-        "y_max": 0.9065644
       },
       {
         "label": "Table",

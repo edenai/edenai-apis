@@ -137,16 +137,16 @@ class GoogleImageApi(ImageInterface):
                 y_min, y_max = min(y_min, normalize_vertice.get("y", 0)), max(
                     y_max, normalize_vertice.get("y", 0)
                 )
-                items.append(
-                    ObjectItem(
-                        label=object_annotation["name"],
-                        confidence=object_annotation["score"],
-                        x_min=x_min,
-                        x_max=x_max,
-                        y_min=y_min,
-                        y_max=y_max,
-                    )
+            items.append(
+                ObjectItem(
+                    label=object_annotation["name"],
+                    confidence=object_annotation["score"],
+                    x_min=x_min,
+                    x_max=x_max,
+                    y_min=y_min,
+                    y_max=y_max,
                 )
+            )
 
         return ResponseType[ObjectDetectionDataClass](
             original_response=response,
