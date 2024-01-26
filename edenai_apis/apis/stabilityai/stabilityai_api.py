@@ -21,15 +21,8 @@ from edenai_apis.features.image.variation import (
     VariationDataClass, VariationImageDataClass
 )
 
-from stability_sdk import client
-from stability_sdk.api import (
-    ClassifierException, OutOfCreditsException
-)
-import stability_sdk.interfaces.gooseai.generation.generation_pb2 as generation
-from edenai_apis.features.image.variation import (
-    VariationDataClass, VariationImageDataClass
-)
-from PIL import Image
+from json import JSONDecodeError
+
 
 class StabilityAIApi(ProviderInterface, ImageInterface):
     provider_name = "stabilityai"
@@ -51,7 +44,7 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
         model: Optional[str] = None,
-    ) -> ResponseType[GenerationDataClass]:
+        ) -> ResponseType[GenerationDataClass]:
         url = f"https://api.stability.ai/v1/generation/{model}/text-to-image"
         size = resolution.split("x")
         payload = {
@@ -135,55 +128,54 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         num_images : Optional[int] = 1, 
         resolution : Literal["256x256", "512x512", "1024x1024"] = "512x512", 
         temperature : Optional[float] = 0.3,
+        model : Optional[str] = None
         ) ->ResponseType[VariationImageDataClass]:
 
-        stabilityapi = client.StabilityInference(
-            key = self.api_key,
-            verbose=True,
-            engine = 'stable-diffusion-xl-1024-v1-0'    
-        )
+        url = f"https://api.stability.ai/v1/generation/{model}/image-to-image"
+        del self.headers['Content-Type'] 
 
-        size = resolution.split('x')
-        sizew = size[0]
-        sizeh = size[1]
-
-        with open(file, 'rb') as fstream :
-            image = Image.open(BytesIO(fstream.read()))
-
+        img = open(file, "rb")
+        
         if prompt == "" :
             prompt = "Generate a variation of this image and maintain the style"
 
-        try :
-            response = stabilityapi.generate (
-                prompt = prompt,
-                start_schedule=temperature, 
-                init_image=image,
-                width=int(sizew),    
-                height=int(sizeh),
-                samples=num_images,
+        data = {
+            "image_strength" : 1-temperature,
+            "text_prompts[0][text]" : prompt,
+            "samples" : num_images
+        }
+        files = {
+            "init_image" : img
+        }
+
+                    
+        response = requests.post(url, headers=self.headers, data=data, files=files)
+
+        if response.status_code != 200 :
+            raise ProviderException(message=response.text, code=response.status_code)
+        
+        else :
+            
+            original_response = response
+            try :
+                res_json = response.json()
+            except JSONDecodeError :
+                raise ProviderException(message=response.text, code=response.status_code)
+            
+            generations: Sequence[VariationImageDataClass] = []
+
+            for generated_image in res_json.get("artifacts"):
+                image_b64 = generated_image.get("base64")
+                image_data = image_b64.encode()
+                image_content = BytesIO(base64.b64decode(image_data))
+                
+                resource_url = upload_file_bytes_to_s3(image_content, ".png", USER_PROCESS)
+                generations.append(
+                    VariationImageDataClass(
+                        image=str(image_content), image_resource_url=resource_url
+                    )
+                )
+            return ResponseType[VariationDataClass](
+                original_response=original_response,
+                standardized_response=VariationDataClass(items=generations),
             )
-        except OutOfCreditsException as crediterror:
-            raise ProviderException(message = crediterror.details)
-        except ClassifierException as message_error :
-            raise ProviderException(message = message_error.classifier_result)
-
-        for resp in response:
-            for artifact in resp.artifacts:
-                if artifact.finish_reason == generation.FILTER:
-                    raise ProviderException(
-                        message=artifact.finish_reason)
-                if artifact.type == generation.ARTIFACT_IMAGE:
-                    original_response = response
-                    generations: Sequence[VariationImageDataClass] = []
-
-                    image_content = BytesIO(base64.b64decode(artifact.binary))
-                    resource_url = upload_file_bytes_to_s3(artifact.binary, ".png", USER_PROCESS)
-                    generations.append(
-                        VariationImageDataClass(
-                            image=str(image_content), image_resource_url=resource_url
-                        )
-                    )
-                    return ResponseType[VariationDataClass](
-                        original_response=original_response,
-                        standardized_response=VariationDataClass(items=generations),
-                    )

@@ -398,7 +398,11 @@
           "256x256",
           "512x512",
           "1024x1024"
-        ]
+        ],
+        "models" : [
+          "dall-e-2"
+        ],
+        "default_model" : "dall-e-2"
       },
       "version" : "v1.0"
     }
