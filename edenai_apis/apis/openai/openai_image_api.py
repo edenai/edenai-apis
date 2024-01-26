@@ -131,7 +131,8 @@ class OpenaiImageApi(ImageInterface):
             prompt : Optional[str] = "",
             num_images : Optional[int] = 1, 
             resolution : Literal["256x256", "512x512", "1024x1024"] = "512x512",
-            temperature : Optional[int] = 0.3
+            temperature : Optional[int] = 0.3,
+            model : Optional[str] = None
             ) ->ResponseType[VariationDataClass]:
 
         try :
@@ -143,7 +144,7 @@ class OpenaiImageApi(ImageInterface):
                 response_format = 'b64_json'
             )
         except openai.OpenAIError as error :
-            raise ProviderException(message=error._message, code=error.code)
+            raise ProviderException(message=error.user_message, code=error.code)
 
         original_response = response
         generations: Sequence[VariationImageDataClass] = []
