@@ -64,7 +64,11 @@ class AstriaApi(ProviderInterface, ImageInterface):
             status="succeeded" if data['trained_at'] else "pending",
             provider_job_id=provider_job_id,
             original_response=data,
-            standardized_response=GenerationFineTuningCreateProjectAsyncDataClass(**data),
+            standardized_response=GenerationFineTuningCreateProjectAsyncDataClass(
+                project_id=data["id"],
+                name=data["name"],
+                description=data["title"],
+            ),
         )
 
     def image__generation_fine_tuning__generate_image_async__launch_job(
