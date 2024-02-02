@@ -52,7 +52,7 @@ class AstriaApi(ProviderInterface, ImageInterface):
 
         response = requests.post(f"{self.url}tunes", data=data, files=files, headers=self.headers)
         response.raise_for_status()
-        return AsyncLaunchJobResponseType(provider_job_id=response.json()["id"])
+        return AsyncLaunchJobResponseType(provider_job_id=str(response.json()["id"]))
 
     def image__generation_fine_tuning__create_project_async__get_job_result(
         self, provider_job_id: str
@@ -71,6 +71,7 @@ class AstriaApi(ProviderInterface, ImageInterface):
             ),
         )
 
+    # https://docs.astria.ai/docs/api/prompt/create
     def image__generation_fine_tuning__generate_image_async__launch_job(
             self,
             project_id: str,
@@ -78,25 +79,31 @@ class AstriaApi(ProviderInterface, ImageInterface):
             negative_prompt: Optional[str] = "",
             num_images: Optional[int] = 1,
             input_image: Optional[str] = None,
+            # Only if name=man/woman
+            face_swap: Optional[bool] = True,
+            inpaint_faces: Optional[bool] = True,
+            super_resolution: Optional[bool] = True,
+            face_correct: Optional[bool] = False,
     ) -> AsyncLaunchJobResponseType:
         data = {
             'prompt[text]': prompt,
             'prompt[negative_prompt]': negative_prompt,
             'prompt[num_images]': num_images,
-            'prompt[face_swap]': True,
-            'prompt[inpaint_faces]': False,
-            'prompt[super_resolution]': True,
-            'prompt[face_correct]': False,
+            'prompt[face_swap]': face_swap,
+            'prompt[inpaint_faces]': inpaint_faces,
+            'prompt[super_resolution]': super_resolution,
+            'prompt[face_correct]': face_correct,
             # 'prompt[callback]': 'https://optional-callback-url.com/to-your-service-when-ready?prompt_id=1'
         }
         files = []
         if input_image:
-            files.append((f"tune[prompts_attributes][{i}][input_image]", load_image(input_image)))
+            files.append((f"prompt[input_image]", load_image(input_image)))
 
-        response = requests.post(f"{self.url}/tunes/{project_id}", headers=self.headers, data=data)
+        response = requests.post(f"{self.url}/tunes/{project_id}/prompts", headers=self.headers, data=data, files=files)
         response.raise_for_status()
         return AsyncLaunchJobResponseType(provider_job_id=response.json()["id"])
 
+    # https://docs.astria.ai/docs/api/prompt/retrieve
     def image__generation_fine_tuning__generate_image_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[GenerationFineTuningGenerateImageAsyncDataClass]:
@@ -107,5 +114,5 @@ class AstriaApi(ProviderInterface, ImageInterface):
             status="succeeded" if data['trained_at'] else "pending",
             provider_job_id=provider_job_id,
             original_response=data,
-            standardized_response=GenerationFineTuningGenerateImageAsyncDataClass(**data),
+            standardized_response=GenerationFineTuningGenerateImageAsyncDataClass(images_url=data["images"]),
         )
