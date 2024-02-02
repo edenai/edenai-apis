@@ -41,7 +41,7 @@ class AstriaApi(ProviderInterface, ImageInterface):
         data = {
             "tune[title]": title,
             "tune[name]": class_name,
-            "tune[base_tune_id]": 690204,
+            "tune[base_tune_id]": base_tune_id,
             # "tune[callback]": 'https://optional-callback-url.com/to-your-service-when-ready?prompt_id=1'
         }
         for image in files:
