@@ -89,7 +89,8 @@ class GladiaApi(ProviderInterface, AudioInterface):
             original_response = response.json()
         except JSONDecodeError:
             raise ProviderException(message="Internal Server Error", code=500)
-        if original_response.get("status") == "processing":
+        status = original_response.get("status")
+        if status == "processing" or status == "queued":
             return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
                 provider_job_id=provider_job_id
             )
