@@ -16,7 +16,7 @@ def construct_classification_instruction(
         Given the following list of labels and corresponding text, classify each text according to the appropriate label. Here are some examples:
 
         Labels: {labels}
-        Text: {examples}
+        Text: {texts}
 
         Example Classification:
         {formated_examples}
@@ -61,6 +61,7 @@ def construct_anonymization_context(text: str) -> str:
     """
     return prompt
 
+
 def construct_keyword_extraction_context(text: str) -> str:
     output_template = '{"items":[{"keyword": ... , "importance": ...}]}'
     prompt = f"""
@@ -89,6 +90,7 @@ def construct_translation_context(
 
     Your Output:
 """
+
 
 def construct_language_detection_context(text: str) -> str:
     return f"""
