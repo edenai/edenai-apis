@@ -14,7 +14,7 @@ import pytest
 
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
-from edenai_apis.tests.conftest import global_features, only_async
+from edenai_apis.tests.conftest import global_features, only_async_without_phase
 from edenai_apis.utils.compare import compare_responses
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.conversion import iterate_all
@@ -212,7 +212,7 @@ class CommonAsyncTests:
 )
 @pytest.mark.parametrize(
     ("provider", "feature", "subfeature"),
-    global_features(only_async)["ungrouped_providers"],
+    global_features(only_async_without_phase)["ungrouped_providers"],
 )
 class TestAsyncSubFeatures(CommonAsyncTests):
     @pytest.mark.skipif(
@@ -243,7 +243,7 @@ class TestAsyncSubFeatures(CommonAsyncTests):
 @pytest.mark.skipif(os.environ.get("TEST_SCOPE") != "CICD", reason="Run On CICD")
 @pytest.mark.parametrize(
     ("providers", "feature", "subfeature"),
-    global_features(filter=only_async)["grouped_providers"],
+    global_features(filter=only_async_without_phase)["grouped_providers"],
 )
 class TestFeatureAsyncSubfeatures(CommonAsyncTests):
     def test_async_subfeature(self, providers, feature, subfeature):

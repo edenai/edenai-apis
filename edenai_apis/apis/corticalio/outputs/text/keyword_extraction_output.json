@@ -1,0 +1,98 @@
+{
+  "original_response": {
+    "keywords": [
+      {
+        "word": "president of the united states",
+        "document_frequency": 0.0004999643801806,
+        "pos_tags": [
+          "NOUN"
+        ],
+        "score": 1
+      },
+      {
+        "word": "obama",
+        "document_frequency": 0.001454943226604,
+        "pos_tags": [
+          "NOUN"
+        ],
+        "score": 0.8594673070844961
+      },
+      {
+        "word": "american politician who served",
+        "document_frequency": 0.00002380782762765109,
+        "pos_tags": [
+          "NOUN",
+          "ADJECTIVE",
+          "VERB"
+        ],
+        "score": 0.7002718702365017
+      },
+      {
+        "word": "member of the democratic party",
+        "document_frequency": 0.00006655161082015209,
+        "pos_tags": [
+          "NOUN",
+          "ADJECTIVE"
+        ],
+        "score": 0.6326513671913615
+      },
+      {
+        "word": "illinois state",
+        "document_frequency": 0.0001024931575476,
+        "pos_tags": [
+          "NOUN"
+        ],
+        "score": 0.6042459083347695
+      },
+      {
+        "word": "hussein",
+        "document_frequency": 0.0004331370030173,
+        "pos_tags": [
+          "NOUN"
+        ],
+        "score": 0.5094384469491752
+      },
+      {
+        "word": "barack",
+        "document_frequency": 0.0007393295660586,
+        "pos_tags": [
+          "NOUN"
+        ],
+        "score": 0.4742659991447742
+      }
+    ],
+    "language": "en"
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "keyword": "president of the united states",
+        "importance": 1
+      },
+      {
+        "keyword": "obama",
+        "importance": 0.86
+      },
+      {
+        "keyword": "american politician who served",
+        "importance": 0.70
+      },
+      {
+        "keyword": "member of the democratic party",
+        "importance": 0.63
+      },
+      {
+        "keyword": "illinois state",
+        "importance": 0.60
+      },
+      {
+        "keyword": "hussein",
+        "importance": 0.51
+      },
+      {
+        "keyword": "barack",
+        "importance": 0.47
+      }
+    ]
+  }
+}

@@ -2,10 +2,34 @@
     "text": {
         "generation": {
             "constraints": {
-                "models":["mistral-7B-Instruct", "mistral-7B-OpenOrca","openHermes-2-mistral-7B"],
-                "default_model": "mistral-7B-Instruct"
+                "models":[
+                    "medium", 
+                    "small",
+                    "tiny"
+                ],
+                "default_model": "small"
             },
-            "version": "v1"
+            "version": "v0.0.1"
+        },
+        "chat": {
+            "constraints": {
+                "models":[
+                    "medium", 
+                    "small",
+                    "tiny"
+                ],
+                "default_model": "small"
+            },
+            "version": "v0.0.1"
+        },
+        "embeddings": {
+            "constraints": {
+                "models":[
+                    "1024__mistral-embed"
+                ],
+                "default_model": "1024__mistral-embed"
+            },
+            "version": "v0.0.1"
         }
     }
 }

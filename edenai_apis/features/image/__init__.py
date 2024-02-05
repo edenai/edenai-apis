@@ -2,6 +2,17 @@ from .anonymization import (
     AnonymizationDataClass,
     anonymization_arguments,
 )
+from .automl_classification import (
+    automl_classification_create_project_arguments,
+    automl_classification_upload_data_async_arguments,
+    automl_classification_train_async_arguments,
+    automl_classification_delete_project_arguments,
+    AutomlClassificationCreateProjectDataClass,
+    AutomlClassificationUploadDataAsyncDataClass,
+    AutomlClassificationTrainAsyncDataClass,
+    AutomlClassificationPredictAsyncDataClass,
+    AutomlClassificationDeleteProjectDataClass,
+)
 from .background_removal import BackgroundRemovalDataClass
 from .explicit_content import (
     ExplicitContentDataClass,
@@ -36,6 +47,12 @@ from .generation import (
     GeneratedImageDataClass,
     generation_arguments,
 )
+from .generation_fine_tuning import (
+    GenerationFineTuningCreateProjectAsyncDataClass,
+    GenerationFineTuningGenerateImageAsyncDataClass,
+    generation_fine_tuning_create_project_async_arguments,
+    generation_fine_tuning_generate_image_async_arguments,
+)
 from .image_interface import ImageInterface
 from .landmark_detection import (
     LandmarkVertice,
@@ -66,14 +83,9 @@ from .search import (
     search_launch_similarity_arguments,
     search_upload_image_arguments,
 )
-from .automl_classification import (
-    automl_classification_create_project_arguments,
-    automl_classification_upload_data_async_arguments,
-    automl_classification_train_async_arguments,
-    automl_classification_delete_project_arguments,
-    AutomlClassificationCreateProjectDataClass,
-    AutomlClassificationUploadDataAsyncDataClass,
-    AutomlClassificationTrainAsyncDataClass,
-    AutomlClassificationPredictAsyncDataClass,
-    AutomlClassificationDeleteProjectDataClass,
+
+from .variation import (
+    VariationImageDataClass,
+    VariationDataClass,
+    variation_arguments,
 )

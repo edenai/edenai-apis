@@ -160,6 +160,6 @@ class InfosInvoiceParserDataClass(BaseModel):
     # --------------------------------------------#
     item_lines: Sequence[ItemLinesInvoice] = Field(default_factory=list)
 
-
+# DEPRECATED
 class InvoiceParserDataClass(BaseModel):
     extracted_data: Sequence[InfosInvoiceParserDataClass] = Field(default_factory=list)

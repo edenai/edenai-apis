@@ -1,0 +1,12 @@
+{
+  "image": {
+    "generation_fine_tuning": {
+      "create_project_async": {
+        "version": "v1.0"
+      },
+      "generate_image_async": {
+        "version": "v1.0"
+      }
+    }
+  }
+}

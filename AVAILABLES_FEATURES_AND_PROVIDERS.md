@@ -61,6 +61,7 @@
 | | google |
 | | microsoft |
 | **anonymization_async** | base64 |
+| | privateai |
 | | readyredact |
 | **bank_check_parsing** | base64 |
 | | mindee |
@@ -77,6 +78,7 @@
 | | clarifai |
 | | cohere |
 | | google |
+| | meta |
 | | mistral |
 | | openai |
 | **summarize** | alephalpha |
@@ -136,12 +138,20 @@
 | | google |
 | | microsoft |
 | | openai |
+| **chat** | cohere |
+| | google |
+| | meta |
+| | mistral |
+| | openai |
+| | perplexityai |
+| | replicate |
 | **custom_classification** | cohere |
 | | openai |
 | **custom_named_entity_recognition** | cohere |
 | | openai |
 | **embeddings** | cohere |
 | | google |
+| | mistral |
 | | openai |
 | **search** | cohere |
 | | google |
@@ -152,9 +162,6 @@
 | | openai |
 | | prowritingaid |
 | | sapling |
-| **chat** | google |
-| | openai |
-| | replicate |
 | **code_generation** | google |
 | | nlpcloud |
 | | openai |
@@ -434,7 +441,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | custom_classification |
+| **text** | chat |
+| | custom_classification |
 | | custom_named_entity_recognition |
 | | embeddings |
 | | generation |
@@ -629,6 +637,14 @@
 | **text** | summarize |
 
 </details>
+<details><summary>meta</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | chat |
+| | generation |
+
+</details>
 <details><summary>microsoft</summary>
 
 | Features | Subfeatures |
@@ -675,7 +691,9 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | generation |
+| **text** | chat |
+| | embeddings |
+| | generation |
 
 </details>
 <details><summary>modernmt</summary>
@@ -768,6 +786,13 @@
 | | plagia_detection |
 
 </details>
+<details><summary>perplexityai</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | chat |
+
+</details>
 <details><summary>phedone</summary>
 
 | Features | Subfeatures |
@@ -788,6 +813,13 @@
 |----------|-------------|
 | **image** | explicit_content |
 | | face_detection |
+
+</details>
+<details><summary>privateai</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **ocr** | anonymization_async |
 
 </details>
 <details><summary>prowritingaid</summary>

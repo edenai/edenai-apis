@@ -111,8 +111,10 @@ class GoogleTranslationApi(TranslationInterface):
         original_response = handle_google_call(client.translate_document, **payload)
 
         file_bytes = original_response.document_translation.byte_stream_outputs[0]
-
         file_.close()
+
+        print(dir(original_response))
+        serialized_response = MessageToDict(original_response._pb) 
 
         b64_file = base64.b64encode(file_bytes)
         resource_url = upload_file_bytes_to_s3(
@@ -120,7 +122,7 @@ class GoogleTranslationApi(TranslationInterface):
         )
 
         return ResponseType[DocumentTranslationDataClass](
-            original_response=original_response,
+            original_response=serialized_response,
             standardized_response=DocumentTranslationDataClass(
                 file=b64_file, document_resource_url=resource_url
             ),

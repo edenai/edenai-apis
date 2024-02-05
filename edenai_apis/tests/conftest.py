@@ -4,13 +4,16 @@ import pytest
 
 from edenai_apis.interface import list_features, list_providers
 
-only_async = lambda p, f, s, ph: "_async" not in s
+only_async = lambda p, f, s, ph: "_async" not in s and "_async" not in ph
+only_async_without_phase = lambda p, f, s, ph: "_async" not in s
 without_phase = lambda p, f, s, ph: ph
-without_async = lambda p, f, s, ph: "_async" in s
+without_async = lambda p, f, s, ph: "_async" in s or "_async" in ph
 without_async_and_phase = lambda p, f, s, ph: "_async" in s or ph
 
 
-def global_features(filter: Callable[[Any], bool] = None, return_phase: bool = False):
+def global_features(
+    filter: Callable[[str, str, str, str], bool] = None, return_phase: bool = False
+):
     """Generate a list of parameters for tests classes.
     Args:
         filter(lambda): filter object
@@ -22,7 +25,7 @@ def global_features(filter: Callable[[Any], bool] = None, return_phase: bool = F
     params_dict = {}
 
     for provider, feature, subfeature, *phase in method_list:
-        if filter and filter(provider, feature, subfeature, phase):
+        if filter and filter(provider, feature, subfeature, phase[0] if phase else ""):
             continue
         params_list = [provider, feature, subfeature]
 

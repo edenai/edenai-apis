@@ -137,16 +137,16 @@ class GoogleImageApi(ImageInterface):
                 y_min, y_max = min(y_min, normalize_vertice.get("y", 0)), max(
                     y_max, normalize_vertice.get("y", 0)
                 )
-                items.append(
-                    ObjectItem(
-                        label=object_annotation["name"],
-                        confidence=object_annotation["score"],
-                        x_min=x_min,
-                        x_max=x_max,
-                        y_min=y_min,
-                        y_max=y_max,
-                    )
+            items.append(
+                ObjectItem(
+                    label=object_annotation["name"],
+                    confidence=object_annotation["score"],
+                    x_min=x_min,
+                    x_max=x_max,
+                    y_min=y_min,
+                    y_max=y_max,
                 )
+            )
 
         return ResponseType[ObjectDetectionDataClass](
             original_response=response,
@@ -383,7 +383,7 @@ class GoogleImageApi(ImageInterface):
             standardized_response=LogoDetectionDataClass(items=items),
         )
 
-    def _imagegen_qa(
+    def _imagen_qa(
         self,
         fstream: BinaryIO,
         question: str,
@@ -498,8 +498,10 @@ class GoogleImageApi(ImageInterface):
 
         standardized_response = QuestionAnswerDataClass(
             answers=[
-                part["text"]
-                for part in original_response["candidates"][0]["content"]["parts"]
+                part.get("text", "")
+                for part in original_response["candidates"][0]
+                .get("content", {})
+                .get("parts", {})
             ]
         )
 
@@ -526,8 +528,8 @@ class GoogleImageApi(ImageInterface):
             }
             if question is None:
                 question = "Describe the image"
-            if model == "imagegen":
-                return self._imagegen_qa(fstream, question, headers)
+            if model == "imagen":
+                return self._imagen_qa(fstream, question, headers)
             elif model == "gemini-pro-vision":
                 return self._gemini_pro_vision_qa(
                     fstream, question, temperature, max_tokens, headers

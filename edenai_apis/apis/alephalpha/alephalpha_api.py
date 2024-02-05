@@ -83,7 +83,7 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
         except Exception as exc:
             raise ProviderException(message=str(exc)) from exc
 
-        original_response = response._asdict()
+        original_response = response.__dict__
         items: Sequence[EmbeddingDataClass] = [
             EmbeddingDataClass(embedding=response.embedding)
         ]

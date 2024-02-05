@@ -1,7 +1,11 @@
 from abc import abstractmethod
 from io import BufferedReader
-from typing import Literal, Optional, Dict, Any
+from typing import Literal, Optional, Dict, Any, List
 
+from edenai_apis.features.image import (
+    GenerationFineTuningCreateProjectAsyncDataClass,
+    GenerationFineTuningGenerateImageAsyncDataClass,
+)
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
 )
@@ -74,12 +78,14 @@ from edenai_apis.features.image.search.get_images.search_get_images_dataclass im
     SearchGetImagesDataClass,
 )
 from edenai_apis.features.image.search.search_dataclass import SearchDataClass
+from edenai_apis.features.image.variation import (
+    VariationDataClass,
+)
 from edenai_apis.utils.types import (
     ResponseSuccess,
     ResponseType,
     AsyncLaunchJobResponseType,
     AsyncBaseResponseType,
-    AsyncResponseType,
 )
 
 
@@ -525,4 +531,95 @@ class ImageInterface:
         Args:
             project_id (str): id of the project
         """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__generation_fine_tuning__create_project_async__launch_job(
+        self,
+        name: str,
+        description: str,
+        files: List[str],
+        files_url: List[str] = [],
+        base_project_id: Optional[int] = None,
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Create a project for fine-tuning project, return the project id, the name, and the description of the project
+
+        Args:
+            name (str): A class name the describes the fine-tune (the project)
+            description (str): Description of the fine-tune
+            files (list(str)) : List of images to train the model
+            files_url (list(str)): List of urls of images to train the model
+            base_project_id (Optional[int]) : Training on top of an existent project
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__generation_fine_tuning__create_project_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[GenerationFineTuningCreateProjectAsyncDataClass]:
+        """
+        Get the advancement of a project training, return pending if not complete,
+        return the time when the training finished in the other case
+
+        Args:
+            provider_job_id (str) : id of async job
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__generation_fine_tuning__generate_image_async__launch_job(
+        self,
+        project_id: str,
+        prompt: str,
+        negative_prompt: Optional[str] = "",
+        num_images: Optional[int] = 1,
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Create the job to generate the images
+
+        Args:
+            project_id : the id of the project
+            prompt : Description of the image.
+            negative_prompt : A comma separated list of words that should not appear in the image.
+            num_images : Number of images to generate. Range: 1-8.
+
+        """
+
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__generation_fine_tuning__generate_image_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[GenerationFineTuningGenerateImageAsyncDataClass]:
+        """
+        Get the result of the images creation
+
+        Args:
+            provider_job_id (str) : id of async job
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__variation(
+        self,
+        file: str,
+        prompt: Optional[str],
+        num_images: Optional[int] = 1,
+        resolution: Literal["256x256", "512x512", "1024x1024"] = "512x512",
+        temperature: Optional[float] = 0.3,
+        file_url: str = "",
+    ) -> ResponseType[VariationDataClass]:
+        """
+        Generate image variation for a provide image
+
+        Args :
+            file (str) : image provided
+            prompt (Optional[str]) : prompt to provide to the provider to change the image, indication.
+            num_images (Optional[int]) : number of images, default to 1
+            resolution (Literal["256x256", "512x512", "1024x1024")): size of the image, can be 256x256 or 512x512 or 1024x1024
+            temperature (Optional[float]) : Set the strength of the prompt in relation to the initial image.
+            model (Optional[str]) : A model for the generation
+        """
+
         raise NotImplementedError

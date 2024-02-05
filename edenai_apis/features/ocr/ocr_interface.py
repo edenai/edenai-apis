@@ -48,6 +48,7 @@ class OcrInterface:
         """
         raise NotImplementedError
 
+    # DEPRECATED
     @abstractmethod
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = ""
@@ -97,6 +98,7 @@ class OcrInterface:
         """
         raise NotImplementedError
 
+    # DEPRECATED
     @abstractmethod
     def ocr__receipt_parser(
         self, file: str, language: str, file_url: str = ""

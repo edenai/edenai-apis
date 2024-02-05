@@ -3,12 +3,17 @@ from io import BytesIO
 from json import JSONDecodeError
 from typing import Sequence, Literal, Optional
 
+import openai
 import requests
 
 from edenai_apis.features import ImageInterface
 from edenai_apis.features.image.generation import (
     GenerationDataClass as ImageGenerationDataClass,
     GeneratedImageDataClass,
+)
+from edenai_apis.features.image.variation import (
+    VariationDataClass,
+    VariationImageDataClass,
 )
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
@@ -120,3 +125,43 @@ class OpenaiImageApi(ImageInterface):
                 original_response=original_response,
                 standardized_response=standardized_response,
             )
+
+    def image__variation(
+        self,
+        file: str,
+        prompt: Optional[str] = "",
+        num_images: Optional[int] = 1,
+        resolution: Literal["256x256", "512x512", "1024x1024"] = "512x512",
+        temperature: Optional[int] = 0.3,
+        model: Optional[str] = None,
+        file_url: str = "",
+    ) -> ResponseType[VariationDataClass]:
+        try:
+            response = openai.Image.create_variation(
+                image=open(file, "rb"),
+                n=num_images,
+                model=model,
+                size=resolution,
+                response_format="b64_json",
+            )
+        except openai.OpenAIError as error:
+            raise ProviderException(message=error.user_message, code=error.code)
+
+        original_response = response
+        generations: Sequence[VariationImageDataClass] = []
+        for generated_image in original_response.get("data"):
+            image_b64 = generated_image.get("b64_json")
+
+            image_data = image_b64.encode()
+            image_content = BytesIO(base64.b64decode(image_data))
+            resource_url = upload_file_bytes_to_s3(image_content, ".png", USER_PROCESS)
+            generations.append(
+                VariationImageDataClass(
+                    image=image_b64, image_resource_url=resource_url
+                )
+            )
+
+        return ResponseType[VariationDataClass](
+            original_response=original_response,
+            standardized_response=VariationDataClass(items=generations),
+        )
