@@ -69,6 +69,7 @@ from edenai_apis.utils.conversion import (
     combine_date_with_time,
     standardized_confidence_score,
     convert_time_to_string,
+    convert_string_to_number,
 )
 from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
 
@@ -1033,7 +1034,9 @@ def microsoft_financial_parser_formatter(
                             )
                             else line.get("Date", {}).get("value"),
                             tax=(line.get("Tax", {}).get("value") or {}).get("amount"),
-                            tax_rate=line.get("TaxRate", {}).get("value"),
+                            tax_rate=convert_string_to_number(
+                                line.get("TaxRate", {}).get("value"), float
+                            ),
                         )
                     )
         extracted_data.append(

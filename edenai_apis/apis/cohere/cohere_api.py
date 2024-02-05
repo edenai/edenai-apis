@@ -2,9 +2,11 @@ import json
 from typing import Optional, List, Dict, Sequence, Union, Literal, Generator
 
 import requests
-from edenai_apis.apis.cohere.helpers import extract_json_text
 
+from edenai_apis.apis.cohere.helpers import extract_json_text
 from edenai_apis.features import ProviderInterface, TextInterface
+from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
 from edenai_apis.features.text.custom_classification import (
     ItemCustomClassificationDataClass,
     CustomClassificationDataClass,
@@ -27,9 +29,6 @@ from edenai_apis.utils.conversion import construct_word_list
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
-
-from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
-from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
 
 
 class CohereApi(ProviderInterface, TextInterface):
@@ -297,6 +296,7 @@ For Example:
         original_response = response.json()
         data = original_response.get("text")
 
+        print(data)
         try:
             items = extract_json_text(data)
         except json.JSONDecodeError as exc:
