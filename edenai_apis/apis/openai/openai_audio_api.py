@@ -1,9 +1,9 @@
 import base64
 from io import BytesIO
-
-import requests
+import json
 import uuid
-from typing import Optional, List, Literal
+from typing import Optional, List
+import requests
 from edenai_apis.apis.amazon.helpers import check_webhook_result
 from edenai_apis.features.audio import TextToSpeechDataClass
 from edenai_apis.utils.types import (
@@ -19,11 +19,9 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 )
 from edenai_apis.features import AudioInterface
 from edenai_apis.utils.exception import ProviderException
-import json
-import urllib
 
-from .helpers import convert_tts_audio_rate, get_openapi_response
 from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
+from .helpers import convert_tts_audio_rate
 
 
 class OpenaiAudioApi(AudioInterface):
