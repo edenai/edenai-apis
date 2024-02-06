@@ -82,6 +82,7 @@ class CohereApi(ProviderInterface, TextInterface):
         Text: {text}
 
         Answer: ```json[{', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]```
+
         """
 
     @staticmethod
@@ -278,9 +279,10 @@ Categories: {built_entities}
 
 Text: {text}
 
-
 For Example:
 {prompt_examples}
+
+Your answer:
 """
 
         # Construct request
@@ -288,6 +290,8 @@ For Example:
             "model": "command",
             "message": prompt,
             "temperature": 0,
+            "stop_sequences": ["--"],
+            "truncate": "END",
         }
         response = requests.post(url, json=payload, headers=self.headers)
         if response.status_code != 200:
