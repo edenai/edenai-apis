@@ -1,4 +1,5 @@
-from typing import Dict, List, Optional, Sequence
+import json
+from typing import Dict, List, Optional, Sequence, Any
 
 import requests
 
@@ -37,9 +38,9 @@ from .config import get_domain_language_from_code
 class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
     provider_name = "neuralspace"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )
         self.api_key = self.api_settings["api"]
         self.url = "https://platform.neuralspace.ai/api/"
@@ -63,10 +64,14 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
                     response.json().get("message"), code=response.status_code
                 )
 
-        response = response.json()
-        data = response["data"]
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(message="Internal Server Error", code=500) from exc
 
-        items: Sequence[InfosNamedEntityRecognitionDataClass] = []
+        data = original_response.get("data") or {}
+
+        items: List[InfosNamedEntityRecognitionDataClass] = []
 
         if len(data["entities"]) > 0:
             for entity in data["entities"]:
@@ -102,11 +107,14 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         }
 
         response = requests.request("POST", url, json=files, headers=self.header)
-        original_resoonse = response.json()
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(message="Internal Server Error", code=500) from exc
 
-        data = original_resoonse["data"]
+        data = original_response.get("data") or {}
 
-        if original_resoonse["success"] is False:
+        if original_response.get("success", False) is False:
             raise ProviderException(data.get("error"), code=response.status_code)
 
         standardized_response = AutomaticTranslationDataClass(
@@ -118,7 +126,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         )
 
     def translation__language_detection(
-        self, text
+        self, text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
         url = f"{self.url}language-detection/v1/detect"
         files = {"text": text}
