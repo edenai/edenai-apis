@@ -450,16 +450,12 @@ def normalize_invoice_result(response):
                 else None
             )
 
+            total = fields.get("InvoiceTotal", {}) or {}
+            total_value = total.get("value", {}) or {}
+            total_bouding_regions = (total.get("bounding_regions", [{}]) or [{}])[0]
             invoice_total = (
-                (
-                    fields.get("InvoiceTotal", default_dict)
-                    .get("value", default_dict)
-                    .get("amount")
-                )
-                if fields.get("InvoiceTotal", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
+                total_value.get("amount")
+                if total_bouding_regions.get("page_number") == idx + 1
                 else None
             )
 
@@ -509,25 +505,30 @@ def normalize_invoice_result(response):
                 == idx + 1
                 else None
             )
+            total_tax = fields.get("TotalTax", {}) or {}
+            total_tax_value = total_tax.get("value", {}) or {}
+            total_tax_bouding_regions = (
+                total_tax.get("bounding_regions", [{}]) or [{}]
+            )[0]
             taxes = [
                 TaxesInvoice(
-                    value=fields.get("TotalTax", default_dict)
-                    .get("value", {})
-                    .get("amount")
-                    if fields.get("TotalTax", {})
-                    .get("bounding_regions", [{}])[0]
-                    .get("page_number")
-                    == idx + 1
-                    else None,
+                    value=(
+                        total_tax_value.get("amount")
+                        if total_tax_bouding_regions.get("page_number") == idx + 1
+                        else None
+                    ),
                     rate=None,
                 )
             ]
+
+            amount = fields.get("AmountDue", {}) or {}
+            amount_due_value = amount.get("value", {}) or {}
+            amount_due_bouding_regions = (amount.get("bounding_regions", [{}]) or [{}])[
+                0
+            ]
             amount_due = (
-                fields.get("AmountDue", default_dict).get("value", {}).get("amount")
-                if fields.get("AmountDue", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
+                amount_due_value.get("amount")
+                if amount_due_bouding_regions.get("page_number") == idx + 1
                 else None
             )
             previous_unpaid_balance = (
@@ -543,69 +544,83 @@ def normalize_invoice_result(response):
             items = fields.get("Items", default_dict).get("value", [])
             item_lines: Sequence[ItemLinesInvoice] = []
             for item in items:
-                line = item.get("value", default_dict)
-                if line and line is not None:
+                line = item.get("value", default_dict) or {}
+                if line:
+                    ## Amount
+                    line_amount = line.get("Amount", {}) or {}
+                    line_amount_value = line_amount.get("value", {}) or {}
+                    amount_bouding_regions = (
+                        line_amount.get("bounding_regions", [{}]) or [{}]
+                    )[0]
+                    ## Prcie
+                    line_price = line.get("UnitPrice", {}) or {}
+                    line_price_value = line_price.get("value", {}) or {}
+                    price_bouding_regions = (
+                        line_price.get("bounding_regions", [{}]) or [{}]
+                    )[0]
                     item_lines.append(
                         ItemLinesInvoice(
-                            amount=line.get("Amount", default_dict)
-                            .get("value", default_dict)
-                            .get("amount")
-                            if line.get("Amount", {})
-                            .get("bounding_regions", [{}])[0]
-                            .get("page_number")
-                            == idx + 1
-                            else None,
-                            description=line.get("Description", default_dict).get(
-                                "value"
-                            )
-                            if line.get("Description", {})
-                            .get("bounding_regions", [{}])[0]
-                            .get("page_number")
-                            == idx + 1
-                            else None,
+                            amount=(
+                                line_amount_value.get("amount")
+                                if amount_bouding_regions.get("page_number") == idx + 1
+                                else None
+                            ),
+                            description=(
+                                line.get("Description", default_dict).get("value")
+                                if line.get("Description", {})
+                                .get("bounding_regions", [{}])[0]
+                                .get("page_number")
+                                == idx + 1
+                                else None
+                            ),
                             quantity=(
-                                float(
-                                    (line.get("Quantity", {}) or {}).get("value", 0)
-                                    or 0
+                                (
+                                    float(
+                                        (line.get("Quantity", {}) or {}).get("value", 0)
+                                        or 0
+                                    )
+                                    or None
                                 )
-                                or None
-                            )
-                            if line.get("Quantity", {})
-                            .get("bounding_regions", [{}])[0]
-                            .get("page_number")
-                            == idx + 1
-                            else None,
-                            unit_price=line.get("UnitPrice", default_dict)
-                            .get("value", default_dict)
-                            .get("amount")
-                            if line.get("UnitPrice", {})
-                            .get("bounding_regions", [{}])[0]
-                            .get("page_number")
-                            else None,
-                            product_code=line.get("ProductCode", default_dict).get(
-                                "value"
-                            )
-                            if line.get("ProductCode", {})
-                            .get("bounding_regions", [{}])[0]
-                            .get("page_number")
-                            == idx + 1
-                            else None,
-                            date_item=str(
-                                line.get("Date", default_dict).get("value", "") or ""
-                            )
-                            if line.get("Date", {})
-                            .get("bounding_regions", [{}])[0]
-                            .get("page_number")
-                            == idx + 1
-                            else None,
-                            tax_item=line.get("Tax", default_dict)
-                            .get("value", default_dict)
-                            .get("amount")
-                            if fields.get("Tax", {})
-                            .get("bounding_regions", [{}])[0]
-                            .get("page_number")
-                            == idx + 1
-                            else None,
+                                if line.get("Quantity", {})
+                                .get("bounding_regions", [{}])[0]
+                                .get("page_number")
+                                == idx + 1
+                                else None
+                            ),
+                            unit_price=(
+                                line_price_value.get("amount")
+                                if price_bouding_regions.get("page_number")
+                                else None
+                            ),
+                            product_code=(
+                                line.get("ProductCode", default_dict).get("value")
+                                if line.get("ProductCode", {})
+                                .get("bounding_regions", [{}])[0]
+                                .get("page_number")
+                                == idx + 1
+                                else None
+                            ),
+                            date_item=(
+                                str(
+                                    line.get("Date", default_dict).get("value", "")
+                                    or ""
+                                )
+                                if line.get("Date", {})
+                                .get("bounding_regions", [{}])[0]
+                                .get("page_number")
+                                == idx + 1
+                                else None
+                            ),
+                            tax_item=(
+                                line.get("Tax", default_dict)
+                                .get("value", default_dict)
+                                .get("amount")
+                                if fields.get("Tax", {})
+                                .get("bounding_regions", [{}])[0]
+                                .get("page_number")
+                                == idx + 1
+                                else None
+                            ),
                         )
                     )
 
@@ -954,9 +969,11 @@ def microsoft_financial_parser_formatter(
             previous_unpaid_balance=page_document.get("PreviousUnpaidBalance", {}).get(
                 "amount"
             ),
-            total_tax=page_document.get("TotalTax", {}).get("value", {}).get("amount")
-            if isinstance(page_document.get("TotalTax", {}).get("value"), dict)
-            else page_document.get("TotalTax", {}).get("value"),
+            total_tax=(
+                page_document.get("TotalTax", {}).get("value", {}).get("amount")
+                if isinstance(page_document.get("TotalTax", {}).get("value"), dict)
+                else page_document.get("TotalTax", {}).get("value")
+            ),
             discount=page_document.get("TotalDiscount", {})
             .get("value", {})
             .get("amount"),
@@ -1028,11 +1045,13 @@ def microsoft_financial_parser_formatter(
                             .get("value", {})
                             .get("amount"),
                             product_code=line.get("ProductCode", {}).get("value"),
-                            date=line.get("Date", {}).get("value").isoformat()
-                            if isinstance(
-                                line.get("Date", {}).get("value"), datetime.date
-                            )
-                            else line.get("Date", {}).get("value"),
+                            date=(
+                                line.get("Date", {}).get("value").isoformat()
+                                if isinstance(
+                                    line.get("Date", {}).get("value"), datetime.date
+                                )
+                                else line.get("Date", {}).get("value")
+                            ),
                             tax=(line.get("Tax", {}).get("value") or {}).get("amount"),
                             tax_rate=convert_string_to_number(
                                 line.get("TaxRate", {}).get("value"), float
