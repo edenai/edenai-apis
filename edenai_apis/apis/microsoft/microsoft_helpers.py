@@ -878,7 +878,7 @@ def microsoft_parser_normalizer(original_response: Dict) -> List[Dict]:
 
     for idx, document in enumerate(original_response.get("documents") or [{}]):
         doc_type = document.get("doc_type")
-        fields = document.get("fields")
+        fields = document.get("fields", {}) or {}
         for key_name, key_value in fields.items():
             page_index = None
             if isinstance(key_value, dict):
@@ -1033,12 +1033,14 @@ def microsoft_financial_parser_formatter(
                 page_item = item["bounding_regions"][0].get("page_number")
                 line = item.get("value", {})
                 if page_item == page_idx + 1 and line:
+                    # Amount Line
+                    amount_line_value = (line.get("Amount", {}) or {}).get(
+                        "value", {}
+                    ) or {}
                     item_lines.append(
                         FinancialLineItem(
-                            amount_line=line.get("Amount", {})
-                            .get("value", {})
-                            .get("amount")
-                            or line.get("TotalPrice", {}).get("value"),
+                            amount_line=amount_line_value.get("amount")
+                            or (line.get("TotalPrice", {}) or {}).get("value"),
                             description=line.get("Description", {}).get("value"),
                             quantity=line.get("Quantity", {}).get("value") or 0,
                             unit_price=line.get("UnitPrice", {})
