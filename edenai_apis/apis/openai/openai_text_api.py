@@ -543,6 +543,11 @@ class OpenaiTextApi(TextInterface):
             raise ProviderException(
                 "OpenAI didn't return a valid JSON", code=500
             ) from exc
+        for item in items.get("items", []) or []:
+            try:
+                item["entity"] = str(item.get("entity"))
+            except:
+                pass
 
         standardized_response = CustomNamedEntityRecognitionDataClass(
             items=items.get("items")
