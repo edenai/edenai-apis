@@ -152,7 +152,9 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             standardized_response=standardized_response,
         )
 
-    def ocr__bank_check_parsing(self, file: str, file_url: str = "") -> ResponseType:
+    def ocr__bank_check_parsing(
+        self, file: str, file_url: str = ""
+    ) -> ResponseType[BankCheckParsingDataClass]:
         original_response = self._process_document(file, document_type="checks")
 
         standardized_response = veryfi_bank_check_parser(original_response)
