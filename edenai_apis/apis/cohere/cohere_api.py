@@ -221,7 +221,10 @@ List of corrected words:
         }
 
         response = requests.post(url, json=payload, headers=self.headers)
-        original_response = response.json()
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal server error", code=500) from exc
 
         if "message" in original_response:
             raise ProviderException(
