@@ -82,6 +82,7 @@ class CohereApi(ProviderInterface, TextInterface):
         Text: {text}
 
         Answer: ```json[{', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]```
+
         """
 
     @staticmethod
@@ -220,7 +221,10 @@ List of corrected words:
         }
 
         response = requests.post(url, json=payload, headers=self.headers)
-        original_response = response.json()
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal server error", code=500) from exc
 
         if "message" in original_response:
             raise ProviderException(
@@ -278,9 +282,10 @@ Categories: {built_entities}
 
 Text: {text}
 
-
 For Example:
 {prompt_examples}
+
+Your answer:
 """
 
         # Construct request
@@ -288,6 +293,8 @@ For Example:
             "model": "command",
             "message": prompt,
             "temperature": 0,
+            "stop_sequences": ["--"],
+            "truncate": "END",
         }
         response = requests.post(url, json=payload, headers=self.headers)
         if response.status_code != 200:
@@ -369,12 +376,15 @@ For Example:
         )
 
     def text__embeddings(
-        self, texts: List[str], model: str
+        self, texts: List[str], model: Optional[str] = None
     ) -> ResponseType[EmbeddingsDataClass]:
         url = f"{self.base_url}embed"
         model = model.split("__")[1]
         payload = {"texts": texts, "model": model}
         response = requests.post(url, json=payload, headers=self.headers)
+        if response.status_code >= 500:
+            raise ProviderException("Internal Server Error")
+
         original_response = response.json()
         if "message" in original_response:
             raise ProviderException(

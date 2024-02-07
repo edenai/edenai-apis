@@ -129,6 +129,7 @@ def combine_date_with_time(
                 continue
     return date
 
+
 def convert_time_to_string(time) -> str:
     if time:
         for fmt in ["%H:%M", "%H:%M:%S"]:
@@ -293,8 +294,14 @@ def standardized_confidence_score_picpurify(confidence_score: float, nsfw: bool)
         return 1
 
 
-def construct_word_list(original_text, corrected_words):
-    word_list = []
+def construct_word_list(
+    original_text: str,
+    corrected_words: Union[Dict[str, Any], List[Dict[str, Any]], None],
+) -> List[Dict[str, Any]]:
+    word_list: List[Dict[str, Any]] = []
+    if corrected_words is None:
+        return word_list
+
     if isinstance(corrected_words, list):
         corrected_words = {"corrections": corrected_words}
 
@@ -325,7 +332,7 @@ def construct_word_list(original_text, corrected_words):
     return word_list
 
 
-def _iterate_recursive(value, returned) -> Generator:
+def _iterate_recursive(value, returned) -> Generator[Any, Any, None]:
     if isinstance(value, (dict, list)):
         for v in iterate_all(value, returned):
             yield v
@@ -335,8 +342,9 @@ def _iterate_recursive(value, returned) -> Generator:
 
 
 def iterate_all(
-    iterable: Union[Dict, List], returned: Literal["key", "value"] = "value"
-) -> Generator:
+    iterable: Union[Dict[Any, Any], List[Any]],
+    returned: Literal["key", "value"] = "value",
+) -> Generator[Any, Any, None]:
     if isinstance(iterable, dict):
         for key, value in iterable.items():
             if returned == "key":

@@ -2,11 +2,9 @@ import json
 from typing import Dict, Generator, List, Literal, Optional, Sequence, Union
 
 import requests
-import vertexai
 from google.cloud import language_v1
 from google.cloud.language import Document as GoogleDocument
 from google.protobuf.json_format import MessageToDict
-from vertexai.language_models import ChatMessage, ChatModel
 
 from edenai_apis.apis.google.google_helpers import (
     get_access_token,
@@ -284,7 +282,9 @@ class GoogleTextApi(TextInterface):
                 message=original_response["error"]["message"],
                 code=response.status_code,
             )
-        parts = original_response["candidates"][0]["content"].get("parts", [])
+        parts = ((original_response["candidates"] or [{}])[0]["content"] or {}).get(
+            "parts", []
+        )
         standardized_response = GenerationDataClass(
             generated_text=parts[0].get("text", " ") if parts else " "
         )

@@ -1,7 +1,6 @@
 import json
 from typing import Dict, List, Literal, Optional, Sequence, Union
 
-import numpy as np
 import openai
 import requests
 from pydantic_core._pydantic_core import ValidationError
@@ -50,7 +49,6 @@ from edenai_apis.features.text.spell_check.spell_check_dataclass import (
 )
 from edenai_apis.features.text.summarize import SummarizeDataClass
 from edenai_apis.features.text.topic_extraction import (
-    ExtractedTopic,
     TopicExtractionDataClass,
 )
 from edenai_apis.utils.conversion import (
@@ -592,6 +590,8 @@ class OpenaiTextApi(TextInterface):
         json_detected_labels_copy = []
         for detected_label in json_detected_labels["classifications"]:
             if detected_label.get("label") and detected_label.get("input"):
+                if detected_label.get("confidence") is None:
+                    detected_label["confidence"] = 0.0
                 json_detected_labels_copy.append(detected_label)
 
         return ResponseType[CustomClassificationDataClass](
