@@ -1,3 +1,4 @@
+from json import JSONDecodeError
 from typing import Dict
 
 import requests
@@ -41,6 +42,23 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
         self.key = self.api_settings["API_KEY"]
         self.url = "https://www.picpurify.com/analyse/1.1"
 
+
+    def _raise_on_error(self, response: requests.Response) -> None:
+        """
+        Raises:
+            ProviderException: when response status is different than 2XX
+        """
+        if response.ok:
+            return
+        try:
+            data = response.json()
+            code = data['error']['errorCode']
+            message = data['error']['errorMsg']
+            raise ProviderException(message=message, code=code)
+        except (JSONDecodeError, KeyError):
+            # in case of 5XX err picpurify server doesn't return json object
+            raise ProviderException(message=response.text, code=response.status_code)
+
     def image__face_detection(
             self, file: str, file_url: str = ""
     ) -> ResponseType[FaceDetectionDataClass]:
@@ -51,15 +69,9 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
         file_ = open(file, "rb")
         files = {"image": file_}
         response = requests.post(self.url, files=files, data=payload)
+        self._raise_on_error(response)
         original_response = response.json()
         file_.close()
-
-        # Handle error
-        if "error" in original_response:
-            raise ProviderException(
-                original_response["error"]["errorMsg"],
-                code=response.status_code
-            )
 
         # Std response
         img_size = Img.open(file).size
@@ -124,15 +136,9 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
         file_ = open(file, "rb")
         files = {"image": file_}
         response = requests.post(self.url, files=files, data=payload)
+        self._raise_on_error(response)
         original_response = response.json()
         file_.close()
-
-        # Handle error
-        if "error" in original_response:
-            raise ProviderException(
-                original_response["error"]["errorMsg"],
-                code=response.status_code
-            )
 
         # get moderation label keys from categegories found in image
         # (eg: 'drug_moderation', 'gore_moderation' etc.)
