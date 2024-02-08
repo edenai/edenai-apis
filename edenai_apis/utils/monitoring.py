@@ -127,8 +127,10 @@ def insert_api_call(
         cur = POSTGRES_CONNECTION.cursor()
         cur.execute(insert_statement, (AsIs(",".join(columns)), tuple(values)))
         POSTGRES_CONNECTION.commit()  # <--- makes sure the change is shown in the database
+        cur.close()
     except psycopg2.InterfaceError as exc:
         try:
+            rds_settings = load_provider(ProviderDataEnum.KEY, "rds")
             POSTGRES_CONNECTION = psycopg2.connect(
                 f"dbname=history_db user={rds_settings['write_only_user']} "
                 + f"password={rds_settings['write_only_password']} host={rds_settings['host']}"
@@ -144,4 +146,3 @@ def insert_api_call(
     #     print(exc)
     #     POSTGRES_CONNECTION.rollback()
 
-    cur.close()
