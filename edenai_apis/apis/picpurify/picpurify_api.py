@@ -2,15 +2,13 @@ from json import JSONDecodeError
 from typing import Dict
 
 import requests
-from PIL import Image as Img
-
-from edenai_apis.features import ProviderInterface, ImageInterface
+from edenai_apis.features import ImageInterface, ProviderInterface
 from edenai_apis.features.image import (
-    ExplicitItem,
     ExplicitContentDataClass,
+    ExplicitItem,
     FaceBoundingBox,
-    FaceItem,
     FaceDetectionDataClass,
+    FaceItem,
 )
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.face_detection.face_detection_dataclass import (
@@ -30,6 +28,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import standardized_confidence_score_picpurify
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+from PIL import Image as Img
 
 
 class PicpurifyApi(ProviderInterface, ImageInterface):
@@ -42,7 +41,6 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
         self.key = self.api_settings["API_KEY"]
         self.url = "https://www.picpurify.com/analyse/1.1"
 
-
     def _raise_on_error(self, response: requests.Response) -> None:
         """
         Raises:
@@ -52,15 +50,15 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
             return
         try:
             data = response.json()
-            code = data['error']['errorCode']
-            message = data['error']['errorMsg']
+            code = data["error"]["errorCode"]
+            message = data["error"]["errorMsg"]
             raise ProviderException(message=message, code=code)
         except (JSONDecodeError, KeyError):
             # in case of 5XX err picpurify server doesn't return json object
             raise ProviderException(message=response.text, code=response.status_code)
 
     def image__face_detection(
-            self, file: str, file_url: str = ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[FaceDetectionDataClass]:
         payload = {
             "API_KEY": self.key,
@@ -126,12 +124,12 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
             return 0.2
 
     def image__explicit_content(
-            self, file: str, file_url: str = ""
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
         payload = {
             "API_KEY": self.key,
             "task": "suggestive_nudity_moderation,gore_moderation,"
-                    + "weapon_moderation,drug_moderation,hate_sign_moderation",
+            + "weapon_moderation,drug_moderation,hate_sign_moderation",
         }
         file_ = open(file, "rb")
         files = {"image": file_}
@@ -145,7 +143,9 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
         moderation_labels = original_response.get("performed", [])
         items = []
         for label in moderation_labels:
-            classificator = CategoryType.choose_category_subcategory(label.replace("moderation", "content"))
+            classificator = CategoryType.choose_category_subcategory(
+                label.replace("moderation", "content")
+            )
             original_response_label = original_response.get(label, {})
             items.append(
                 ExplicitItem(
@@ -155,12 +155,15 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
                     likelihood_score=self._standardized_confidence(
                         original_response_label.get("confidence_score", 0),
                         original_response_label.get(
-                            label.replace("moderation", "content"), True)
+                            label.replace("moderation", "content"), True
+                        ),
                     ),
                     likelihood=standardized_confidence_score_picpurify(
                         original_response[label]["confidence_score"],
-                        original_response[label][label.replace("moderation", "content")]
-                    )
+                        original_response[label][
+                            label.replace("moderation", "content")
+                        ],
+                    ),
                 )
             )
 
