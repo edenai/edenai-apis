@@ -81,16 +81,11 @@ class OpenaiTextApi(TextInterface):
         self, text: str, output_sentences: int, language: str, model: str
     ) -> ResponseType[SummarizeDataClass]:
         url = f"{self.url}/chat/completions"
-        prompt = f"{text}\n\nTl;dr"
+        prompt = f"""Given the following text, please provide a concise summary in the same language:
+        text : {text}
+        sumamry : 
+        """
         messages = [{"role": "user", "content": prompt}]
-        messages.insert(
-            0,
-            {
-                "role": "system",
-                "content": f"""Act as a PII system that takes a text input containing personally identifiable information (PII) and generates an anonymized version of the text, 
-                """,
-            },
-        )
         # Build the request
         payload = {
             "model": model,
