@@ -8,13 +8,10 @@ from edenai_apis.apis.amazon.helpers import handle_amazon_call
 import boto3
 import json
 
-class AnthropicApi(
-    ProviderInterface,
-    TextInterface
 
-):
+class AnthropicApi(ProviderInterface, TextInterface):
     provider_name = "anthropic"
-    
+
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
@@ -27,32 +24,35 @@ class AnthropicApi(
         )
 
     def text__generation(
-        self, 
+        self,
         text: str,
-        temperature: float, 
+        temperature: float,
         max_tokens: int,
-        model: str,) -> ResponseType[GenerationDataClass]:
+        model: str,
+    ) -> ResponseType[GenerationDataClass]:
         # Headers for the HTTP request
-        accept_header = 'application/json'
-        content_type_header = 'application/json'
+        accept_header = "application/json"
+        content_type_header = "application/json"
 
         # Body of the HTTP request, containing text, maxTokens, and temperature
-        request_body = json.dumps({
-            "prompt": f"\n\nHuman:{text}\n\nAssistant:",
-            "temperature": temperature,
-            "max_tokens_to_sample" : max_tokens
-        })
+        request_body = json.dumps(
+            {
+                "prompt": f"\n\nHuman:{text}\n\nAssistant:",
+                "temperature": temperature,
+                "max_tokens_to_sample": max_tokens,
+            }
+        )
 
         # Parameters for the HTTP request
         request_params = {
             "body": request_body,
             "modelId": f"{self.provider_name}.{model}",
             "accept": accept_header,
-            "contentType": content_type_header
+            "contentType": content_type_header,
         }
         response = handle_amazon_call(self.bedrock.invoke_model, **request_params)
-        response_body = json.loads(response.get('body').read())
-        generated_text = response_body['completion']
+        response_body = json.loads(response.get("body").read())
+        generated_text = response_body["completion"]
         standardized_response = GenerationDataClass(generated_text=generated_text)
 
         return ResponseType[GenerationDataClass](
