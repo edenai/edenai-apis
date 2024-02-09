@@ -15,7 +15,7 @@ def extract(
 
     Args:
         obj (dict): object to extract value from
-        path (List[str | int]): list of keys/indexed representing the path of the value to extract (eg: obj['result'][0] will be ['result', 0])
+        path (list[str | int]): list of keys/indexed representing the path of the value to extract (eg: obj['result'][0] will be ['result', 0])
         fallback (T), optional: fallback value if something goes wrong while trying to get extract value
         type_validator (type), optional: expected type of extracted value, if they are different, we return the fallback
 
@@ -26,17 +26,22 @@ def extract(
       Extract a value from an object
       >>> obj = {"one": {"two": [0, "result", 0]}}
       >>> extract(obj, ["one", "two", 1])
-      "result"
+      result
 
-      Get fallback Value if extraction failed
+      Fail extracting value should return None by default
+      >>> obj = {"one": {"two": [0, "result", 0]}}
+      >>> extract(obj, ["one", "two", 3])  # index error
+      None
+
+      Get fallback Value if extraction failed and custom fallback is passed
       >>> obj = {"one": {"two": [0, "result", 0]}}
       >>> extract(obj, ["one", "two", 3], fallback="FALLBACK_VALUE")
-      "FALLBACK_VALUE"
+      FALLBACK_VALUE
 
       Simple type validation, return fallback if validation fails
       >>> obj = {"one": {"two": [0, "result", 0]}}
-      >>> extract(obj, ["one", "two", 3], fallback="FALLBACK_VALUE", type_validator=int)
-      "FALLBACK_VALUE"
+      >>> extract(obj, ["one", "two", 1], fallback="FALLBACK_VALUE", type_validator=int)
+      FALLBACK_VALUE
     """
     result = obj
     try:
