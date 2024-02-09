@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from typing import Sequence
 
 import requests
@@ -15,6 +16,23 @@ from edenai_apis.utils.types import ResponseType
 
 
 class MicrosoftTranslationApi(TranslationInterface):
+
+    def _raise_on_error(self, response: requests.Response) -> None:
+        """
+        Raise ProviderException if the response is not successful
+        """
+        status = response.status_code
+        if status >= 500:
+            # we pass generic http error instead of returning whole html response
+            message = HTTPStatus(status).phrase
+            raise ProviderException(message=message, code=status)
+        if status >= 400:
+            data = response.json()
+            error = data.get("error", {}) or {}
+            error_message = error.get("message", "")
+            raise ProviderException(error_message, code=status)
+
+
     def translation__language_detection(
         self, text
     ) -> ResponseType[LanguageDetectionDataClass]:
@@ -28,11 +46,8 @@ class MicrosoftTranslationApi(TranslationInterface):
             },
         )
 
+        self._raise_on_error(response)
         data = response.json()
-        if response.status_code != 200:
-            raise ProviderException(
-                message=data["error"]["message"], code=response.status_code
-            )
 
         items: Sequence[InfosLanguageDetectionDataClass] = []
         for lang in data["results"]["documents"]:
@@ -74,12 +89,8 @@ class MicrosoftTranslationApi(TranslationInterface):
         ]
         # Getting response of API
         response = requests.post(url, headers=self.headers["translator"], json=body)
+        self._raise_on_error(response)
         data = response.json()
-
-        if response.status_code >= 400:
-            error = data.get("error", {}) or {}
-            error_message = error.get("message", "")
-            raise ProviderException(error_message, code = response.status_code)
 
         # Create output TextAutomaticTranslation object
         standardized_response = AutomaticTranslationDataClass(
