@@ -27,6 +27,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import standardized_confidence_score_picpurify
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.parsing import extract
 from edenai_apis.utils.types import ResponseType
 from PIL import Image as Img
 
@@ -46,10 +47,11 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
         Raises:
             ProviderException: when response status is different than 2XX
         """
-        if response.ok:
-            return
         try:
             data = response.json()
+            if not "error" in data and response.ok:
+                # picpurify can return error even with status 200
+                return
             code = data["error"]["errorCode"]
             message = data["error"]["errorMsg"]
             raise ProviderException(message=message, code=code)
@@ -74,7 +76,12 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
         # Std response
         img_size = Img.open(file).size
         width, height = img_size
-        face_detection = original_response["face_detection"]["results"]
+        face_detection = extract(
+            original_response,
+            ["face_detection", "results"],
+            fallback=[],
+            type_validator=list,
+        )
         faces = []
         for face in face_detection:
             age = face["age_majority"]["decision"]
