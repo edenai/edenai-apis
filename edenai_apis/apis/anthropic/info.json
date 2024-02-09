@@ -1,15 +1,27 @@
 {
-    "text" : {
-        "generation" : {
-            "constraints": {
-              "models": [
-                "claude-instant-v1",
-                "claude-v1",
-                "claude-v2"
-              ],
-              "default_model" : "claude-v2"
-            },
-            "version": "v1"
-          }
+  "text": {
+    "generation": {
+      "constraints": {
+        "models": [
+          "claude-instant-v1",
+          "claude-v1",
+          "claude-v2"
+        ],
+        "default_model": "claude-v2"
+      },
+      "version": "v1"
+    },
+    "summarize": {
+      "constraints": {
+        "allow_null_language": true,
+        "models": [
+          "claude-instant-v1",
+          "claude-v1",
+          "claude-v2"
+        ],
+        "default_model": "claude-v2"
+      },
+      "version": "v1"
     }
+  }
 }
