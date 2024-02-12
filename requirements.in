@@ -74,3 +74,5 @@ python-dotenv
 
 # corticalio
 responses==0.24.1
+
+anthropic-bedrock==0.8.0
