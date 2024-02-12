@@ -1,9 +1,13 @@
-from typing import Dict, Any, Union
+from typing import Dict, Any, List, Union
 import json
 import requests
 import boto3
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import GenerationDataClass, SummarizeDataClass
+from edenai_apis.features.text.embeddings.embeddings_dataclass import (
+    EmbeddingsDataClass,
+    EmbeddingDataClass,
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
@@ -119,6 +123,23 @@ class Ai21labsApi(ProviderInterface, TextInterface):
         standardized_response = SummarizeDataClass(result=summary)
 
         return ResponseType[SummarizeDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    def text__embeddings(
+        self, texts: List[str], model: str = None
+    ) -> ResponseType[EmbeddingsDataClass]:
+        payload = {"texts": texts}
+        original_response = self.__ai21labs_api_request(url="embed", payload=payload)
+        embeddings = original_response["results"]
+        items = []
+        for embedding in embeddings:
+            items.append(EmbeddingDataClass(embedding=embedding["embedding"]))
+
+        standardized_response = EmbeddingsDataClass(items=items)
+
+        return ResponseType[EmbeddingsDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
         )
