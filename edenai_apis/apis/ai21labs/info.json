@@ -21,6 +21,14 @@
     "embeddings": {
       "version": "v1",
       "constraints": {}
+    },
+    "spell_check": {
+      "constraints": {
+        "languages": [
+          "en"
+        ]
+      },
+      "version": "v1"
     }
   }
 }
