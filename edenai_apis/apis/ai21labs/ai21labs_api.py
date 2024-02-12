@@ -8,6 +8,11 @@ from edenai_apis.features.text.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
     EmbeddingDataClass,
 )
+from edenai_apis.features.text.spell_check.spell_check_dataclass import (
+    SpellCheckDataClass,
+    SpellCheckItem,
+    SuggestionItem,
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
@@ -142,4 +147,29 @@ class Ai21labsApi(ProviderInterface, TextInterface):
         return ResponseType[EmbeddingsDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
+        )
+
+    def text__spell_check(
+        self, text: str, language: str
+    ) -> ResponseType[SpellCheckDataClass]:
+        payload = {"text": text}
+        original_response = self.__ai21labs_api_request(url="gec", payload=payload)
+        items = []
+        for correction in original_response.get("corrections"):
+            start_index = correction.get("startIndex")
+            end_index = correction.get("endIndex")
+            length = end_index - start_index
+            spell_check_item = SpellCheckItem(
+                text=correction.get("originalText"),
+                suggestions=[
+                    SuggestionItem(suggestion=correction.get("suggestion"), score=None)
+                ],
+                offset=start_index,
+                length=length,
+                type=correction.get("correctionType"),
+            )
+            items.append(spell_check_item)
+        return ResponseType[SpellCheckDataClass](
+            original_response=original_response,
+            standardized_response=SpellCheckDataClass(text=text, items=items),
         )
