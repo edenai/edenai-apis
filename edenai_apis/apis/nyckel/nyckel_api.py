@@ -354,6 +354,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
             else:
                 try_again = False
         data = response.json()
+        data["label_name"] = label
         job_id = str(uuid.uuid4())
         data_job_id = {job_id: data}
         s = requests.Session()
@@ -413,7 +414,8 @@ class NyckelApi(ProviderInterface, ImageInterface):
         return AsyncResponseType[AutomlClassificationUploadDataAsyncDataClass](
             original_response=original_response,
             standardized_response=AutomlClassificationUploadDataAsyncDataClass(
-                message="Data uploaded successfully"
+                message="Data uploaded successfully",
+                label_name=original_response.get("label_name"),
             ),
             provider_job_id=provider_job_id,
         )
@@ -561,9 +563,11 @@ class NyckelApi(ProviderInterface, ImageInterface):
             ProviderException("Something went wrong when deleting the project")
         if response.status_code >= 400:
             raise ProviderException(
-                message=response.text
-                if response.text != ""
-                else "This project does not exist",
+                message=(
+                    response.text
+                    if response.text != ""
+                    else "This project does not exist"
+                ),
                 code=response.status_code,
             )
         return ResponseType[AutomlClassificationDeleteProjectDataClass](
