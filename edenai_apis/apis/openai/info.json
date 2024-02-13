@@ -181,11 +181,7 @@
         "models": [
           "gpt-3.5-turbo-instruct",
           "babbage-002",
-          "davinci-002",
-          "text-davinci-003",
-          "text-curie-001",
-          "text-babbage-001",
-          "text-ada-001"
+          "davinci-002"
         ],
         "default_model": "gpt-3.5-turbo-instruct"
       },
@@ -392,19 +388,19 @@
       },
       "version": "v1"
     },
-    "variation" : {
-      "constraints" : {
-        "resolutions" : [
+    "variation": {
+      "constraints": {
+        "resolutions": [
           "256x256",
           "512x512",
           "1024x1024"
         ],
-        "models" : [
+        "models": [
           "dall-e-2"
         ],
-        "default_model" : "dall-e-2"
+        "default_model": "dall-e-2"
       },
-      "version" : "v1.0"
+      "version": "v1.0"
     }
   },
   "audio": {
