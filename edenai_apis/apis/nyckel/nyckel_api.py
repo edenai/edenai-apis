@@ -415,6 +415,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
             original_response=original_response,
             standardized_response=AutomlClassificationUploadDataAsyncDataClass(
                 message="Data uploaded successfully",
+                image=original_response.get("data"),
                 label_name=original_response.get("label_name"),
             ),
             provider_job_id=provider_job_id,
