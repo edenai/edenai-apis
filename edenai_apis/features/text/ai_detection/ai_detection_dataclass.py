@@ -12,7 +12,7 @@ class AiDetectionItem(BaseModel):
     @model_validator(mode="before")
     def _set_ai_score_detail(cls, values: dict) -> dict:
         ai_score = values.get("ai_score", None)
-        if not ai_score:
+        if ai_score is None:
             return values
         values["ai_score_detail"] = ai_score
         return values
