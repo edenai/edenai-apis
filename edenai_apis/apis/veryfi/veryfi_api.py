@@ -80,9 +80,10 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             raise ProviderException(message="Internal Server Error", code=500)
 
         if response.status_code != HTTPStatus.CREATED:
-            raise ProviderException(
-                message=original_response["message"], code=response.status_code
+            error_message = original_response.get("message") or original_response.get(
+                "error"
             )
+            raise ProviderException(message=error_message, code=response.status_code)
 
         return original_response
 
