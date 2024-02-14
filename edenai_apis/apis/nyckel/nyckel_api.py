@@ -156,7 +156,8 @@ class NyckelApi(ProviderInterface, ImageInterface):
         # The response 'data' key points to a url where we can fetch the image.
         try:
             fetch_image_response = requests.get(response.json()[0]["data"])
-            fetch_image_response.raise_for_status()
+            if fetch_image_response.status_code >= 400:
+                self._raise_provider_exception(url, {}, fetch_image_response)
         except IndexError:
             raise ProviderException(f"Image '{image_name}' not found.")
         except Exception:
