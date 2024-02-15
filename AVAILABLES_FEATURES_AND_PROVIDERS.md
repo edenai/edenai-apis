@@ -44,6 +44,7 @@
 | | klippa |
 | | senseloaf |
 | **custom_document_parsing_async** | amazon |
+| | extracta |
 | **data_extraction** | amazon |
 | | base64 |
 | **ocr** | amazon |
@@ -72,6 +73,11 @@
 
 | Subfeatures | Providers |
 |----------|-------------|
+| **embeddings** | ai21labs |
+| | cohere |
+| | google |
+| | mistral |
+| | openai |
 | **generation** | ai21labs |
 | | amazon |
 | | anthropic |
@@ -81,7 +87,16 @@
 | | meta |
 | | mistral |
 | | openai |
-| **summarize** | alephalpha |
+| **spell_check** | ai21labs |
+| | cohere |
+| | microsoft |
+| | nlpcloud |
+| | openai |
+| | prowritingaid |
+| | sapling |
+| **summarize** | ai21labs |
+| | alephalpha |
+| | anthropic |
 | | cohere |
 | | connexun |
 | | emvista |
@@ -100,6 +115,7 @@
 | **entity_sentiment** | amazon |
 | | google |
 | **keyword_extraction** | amazon |
+| | corticalio |
 | | emvista |
 | | ibm |
 | | microsoft |
@@ -149,19 +165,9 @@
 | | openai |
 | **custom_named_entity_recognition** | cohere |
 | | openai |
-| **embeddings** | cohere |
-| | google |
-| | mistral |
-| | openai |
 | **search** | cohere |
 | | google |
 | | openai |
-| **spell_check** | cohere |
-| | microsoft |
-| | nlpcloud |
-| | openai |
-| | prowritingaid |
-| | sapling |
 | **code_generation** | google |
 | | nlpcloud |
 | | openai |
@@ -232,11 +238,14 @@
 | | google |
 | | microsoft |
 | | smartclick |
+| **generation_fine_tuning** | astria |
 | **landmark_detection** | google |
 | | microsoft |
 | **automl_classification** | nyckel |
 | **search** | nyckel |
 | | sentisight |
+| **variation** | openai |
+| | stabilityai |
 
 </details>
 <details><summary>audio</summary>
@@ -332,7 +341,10 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | generation |
+| **text** | embeddings |
+| | generation |
+| | spell_check |
+| | summarize |
 
 </details>
 <details><summary>alephalpha</summary>
@@ -387,6 +399,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | generation |
+| | summarize |
 
 </details>
 <details><summary>api4ai</summary>
@@ -407,6 +420,13 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | speech_to_text_async |
+
+</details>
+<details><summary>astria</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | generation_fine_tuning |
 
 </details>
 <details><summary>base64</summary>
@@ -459,6 +479,13 @@
 | | summarize |
 
 </details>
+<details><summary>corticalio</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | keyword_extraction |
+
+</details>
 <details><summary>dataleon</summary>
 
 | Features | Subfeatures |
@@ -506,6 +533,13 @@
 | | sentiment_analysis |
 | | summarize |
 | | syntax_analysis |
+
+</details>
+<details><summary>extracta</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **ocr** | custom_document_parsing_async |
 
 </details>
 <details><summary>facepp</summary>
@@ -757,6 +791,7 @@
 | | text_to_speech |
 | **image** | generation |
 | | question_answer |
+| | variation |
 | **text** | anonymization |
 | | chat |
 | | code_generation |
@@ -912,6 +947,7 @@
 |----------|-------------|
 | **image** | background_removal |
 | | generation |
+| | variation |
 
 </details>
 <details><summary>symbl</summary>
