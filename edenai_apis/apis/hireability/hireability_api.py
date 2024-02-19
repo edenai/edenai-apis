@@ -128,18 +128,21 @@ class HireabilityApi(ProviderInterface, OcrInterface):
                 "Name"
             )  # value of MajorProgramName can be None
             description = (i.get("MajorProgramName") or [None])[0]
-            location = ResumeLocation(
-                country_code=i.get("ReferenceLocation", {}).get("CountryCode"),
-                region=i.get("ReferenceLocation", {}).get("CountrySubDivisionCode"),
-                city=i.get("ReferenceLocation", {}).get("CityName", ""),
-                formatted_location=None,
-                postal_code=None,
-                country=None,
-                raw_input_location=None,
-                street=None,
-                street_number=None,
-                appartment_number=None,
-            )
+            if isinstance(i.get("ReferenceLocation"), dict):
+                location = ResumeLocation(
+                    country_code=i.get("ReferenceLocation", {}).get("CountryCode"),
+                    region=i.get("ReferenceLocation", {}).get("CountrySubDivisionCode"),
+                    city=i.get("ReferenceLocation", {}).get("CityName", ""),
+                    formatted_location=None,
+                    postal_code=None,
+                    country=None,
+                    raw_input_location=None,
+                    street=None,
+                    street_number=None,
+                    appartment_number=None,
+                )
+            else:
+                location = ResumeLocation()
             edu_entries.append(
                 ResumeEducationEntry(
                     start_date=i.get("AttendanceStartDate"),
@@ -159,9 +162,7 @@ class HireabilityApi(ProviderInterface, OcrInterface):
         for i in infos.get("PositionHistory", []):
             work_location = ResumeLocation(
                 country_code=(i.get("ReferenceLocation") or {}).get("CountryCode"),
-                region=(i.get("ReferenceLocation") or {}).get(
-                    "CountrySubDivisionCode"
-                ),
+                region=(i.get("ReferenceLocation") or {}).get("CountrySubDivisionCode"),
                 city=(i.get("ReferenceLocation") or {}).get("CityName", ""),
                 formatted_location=None,
                 postal_code=None,
