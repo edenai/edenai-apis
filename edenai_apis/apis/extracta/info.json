@@ -4,8 +4,43 @@
             "constraints": {
                 "file_types": [
                     "image/jpeg",
+                    "image/jpg",
                     "image/png",
+                    "image/tiff",
+                    "image/bmp",
                     "application/pdf"
+                ]
+            },
+            "version": "v1"
+        },
+        "resume_parser": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/jpg",
+                    "image/png",
+                    "image/tiff",
+                    "image/bmp",
+                    "application/pdf",
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "text/plain"
+                ]
+            },
+            "version": "v1"
+        },
+        "bank_check_parsing": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/jpg",
+                    "image/png",
+                    "image/tiff",
+                    "image/bmp",
+                    "application/pdf",
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "text/plain"
                 ]
             },
             "version": "v1"
