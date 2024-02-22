@@ -8,6 +8,7 @@ from edenai_apis.features.text.embeddings import EmbeddingsDataClass, EmbeddingD
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.exception import ProviderException
 
 
 class JinaApi(ProviderInterface, TextInterface):
@@ -32,7 +33,7 @@ class JinaApi(ProviderInterface, TextInterface):
             self.api_url, json={"input": texts, "model": model}
         ).json()
         if "data" not in resp:
-            raise RuntimeError(resp["detail"])
+            raise ProviderException(resp["detail"])
         embeddings = resp["data"]
         # Sort resulting embeddings by index
         sorted_embeddings = sorted(embeddings, key=lambda e: e["index"])  # type: ignore
