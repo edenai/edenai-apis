@@ -153,7 +153,6 @@
 | | google |
 | | mistral |
 | | openai |
-| | jina |
 | **search** | cohere |
 | | google |
 | | openai |
@@ -985,13 +984,5 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **text** | summarize |
-
-</details>
-
-<details><summary>jina</summary>
-
-| Features | Subfeatures |
-|----------|-------------|
-| **text** | embeddings |
 
 </details>
