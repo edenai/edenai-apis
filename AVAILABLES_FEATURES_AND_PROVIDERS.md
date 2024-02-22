@@ -40,6 +40,7 @@
 | | tabscanner |
 | | veryfi |
 | **resume_parser** | affinda |
+| | extracta |
 | | hireability |
 | | klippa |
 | | senseloaf |
@@ -65,6 +66,7 @@
 | | privateai |
 | | readyredact |
 | **bank_check_parsing** | base64 |
+| | extracta |
 | | mindee |
 | | veryfi |
 
@@ -539,7 +541,9 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **ocr** | custom_document_parsing_async |
+| **ocr** | bank_check_parsing |
+| | custom_document_parsing_async |
+| | resume_parser |
 
 </details>
 <details><summary>facepp</summary>
