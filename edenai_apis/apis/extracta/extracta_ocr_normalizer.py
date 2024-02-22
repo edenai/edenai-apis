@@ -199,11 +199,20 @@ def extracta_resume_parser(original_response: dict) -> ResumeParserDataClass:
     return ResumeParserDataClass(extracted_data=extracted_data)
 
 
-def extracta_bank_check_parsing(original_response: dict) -> ResumeParserDataClass:
+def extracta_bank_check_parsing(original_response: dict) -> BankCheckParsingDataClass:
+    # Convert amount to float if not None
+    amount = original_response.get("amount")
+    if amount is not None:
+        try:
+            amount = float(amount)
+        except ValueError:
+            # Handle or log the error if the conversion fails
+            amount = None
+
     # extracted data
     extracted_data = [
         ItemBankCheckParsingDataClass(
-            amount=original_response.get("amount", None),
+            amount=amount,
             amount_text=original_response.get("amount_text", None),
             bank_address=original_response.get("bank_address", None),
             bank_name=original_response.get("bank_name", None),
