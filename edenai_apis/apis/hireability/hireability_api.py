@@ -142,7 +142,18 @@ class HireabilityApi(ProviderInterface, OcrInterface):
                     appartment_number=None,
                 )
             else:
-                location = ResumeLocation()
+                location = ResumeLocation(
+                    country_code=None,
+                    region=None,
+                    city=None,
+                    formatted_location=None,
+                    postal_code=None,
+                    country=None,
+                    raw_input_location=None,
+                    street=None,
+                    street_number=None,
+                    appartment_number=None,
+                )
             edu_entries.append(
                 ResumeEducationEntry(
                     start_date=i.get("AttendanceStartDate"),
