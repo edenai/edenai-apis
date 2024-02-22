@@ -1,0 +1,45 @@
+{
+  "original_response": {
+    "amount": "25.00",
+    "amount_text": "Twenty-five and no/100 Dollars",
+    "bank_address": "WASHINGTON'S OLDEST NATIONAL BANK THE FIRST NATIONAL BANK OF WASHINGTON WASHINGTON, D. C.",
+    "bank_name": "THE FIRST NATIONAL BANK OF WASHINGTON",
+    "date": "1975-01-13",
+    "memo": "world hunger relief",
+    "payer_name": "HON. GERALD R. FORD MRS. BETTY B. FORD",
+    "payer_address": "",
+    "receiver_name": "Presiding Bishop, Episcopal Church",
+    "receiver_address": "",
+    "currency": "USD",
+    "micr": {
+      "micr_raw": "0540000414061161160000002500",
+      "account_number": "6116",
+      "routing_number": "05400004",
+      "check_number": "878"
+    }
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "amount": 25.0,
+        "amount_text": "Twenty-five and no/100 Dollars",
+        "bank_address": "WASHINGTON'S OLDEST NATIONAL BANK THE FIRST NATIONAL BANK OF WASHINGTON WASHINGTON, D. C.",
+        "bank_name": "THE FIRST NATIONAL BANK OF WASHINGTON",
+        "date": "1975-01-13",
+        "memo": "world hunger relief",
+        "payer_address": "",
+        "payer_name": "HON. GERALD R. FORD MRS. BETTY B. FORD",
+        "receiver_address": "",
+        "receiver_name": "Presiding Bishop, Episcopal Church",
+        "currency": "USD",
+        "micr": {
+          "raw": "0540000414061161160000002500",
+          "account_number": "6116",
+          "routing_number": "05400004",
+          "serial_number": null,
+          "check_number": "878"
+        }
+      }
+    ]
+  }
+}
