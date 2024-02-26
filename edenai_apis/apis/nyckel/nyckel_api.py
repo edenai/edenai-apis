@@ -103,7 +103,12 @@ class NyckelApi(ProviderInterface, ImageInterface):
     def _raise_provider_exception(
         self, url: str, data: dict, response: requests.Response
     ) -> None:
-        raise ProviderException(response.text, response.status_code)
+        nyckel_predict_error = "No model available to invoke function"
+        error = response.text
+
+        if nyckel_predict_error in error:
+            error = "Please check your submited data for training/testing"
+        raise ProviderException(error, response.status_code)
 
     def image__search__create_project(self, project_name: str) -> str:
         """
