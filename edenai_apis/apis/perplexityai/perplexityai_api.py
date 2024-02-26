@@ -60,14 +60,15 @@ class PerplexityApi(ProviderInterface, TextInterface):
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         messages = []
 
+        if chatbot_global_action:
+            messages.append({"role": "system", "content": chatbot_global_action})
+
         if previous_history:
             for message in previous_history:
                 messages.append(
                     {"role": message.get("role"), "content": message.get("message")},
                 )
 
-        if chatbot_global_action:
-            messages.append({"role": "system", "content": chatbot_global_action})
         messages.append({"role": "user", "content": text})
         url = f"{self.url}/chat/completions"
         payload = {
