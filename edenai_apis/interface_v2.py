@@ -15,6 +15,7 @@ from typing import Callable, Dict, Type
 from edenai_apis.features import AudioInterface, ImageInterface, OcrInterface
 from edenai_apis.features import ProviderInterface
 from edenai_apis.features import TextInterface, TranslationInterface, VideoInterface
+from edenai_apis.features.multimodal import MultimodalInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 
@@ -88,3 +89,4 @@ Translation = abstract(TranslationInterface, method_prefix="translation__")
 Ocr = abstract(OcrInterface, method_prefix="ocr__")
 Video = abstract(VideoInterface, method_prefix="video__")
 Audio = abstract(AudioInterface, method_prefix="audio__")
+Multimodal = abstract(MultimodalInterface, method_prefix="multimodal__")

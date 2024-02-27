@@ -1,5 +1,8 @@
+import mimetypes
 import os
 from typing import Optional, List
+
+from pydub.utils import mediainfo
 
 
 class FileInfo:
@@ -45,3 +48,15 @@ class FileWrapper:
         except OSError as e:
             # The file was moved or deleted before the tempfile could unlink
             pass
+
+
+def create_file_wrapper_for_sample(file_path: str) -> FileWrapper:
+    mime_type = mimetypes.guess_type(file_path)[0] or ""
+    file_info = FileInfo(
+        os.stat(file_path).st_size,
+        mime_type,
+        [extension[1:] for extension in mimetypes.guess_all_extensions(mime_type)],
+        mediainfo(file_path).get("sample_rate", "44100"),
+        mediainfo(file_path).get("channels", "1"),
+    )
+    return FileWrapper(file_path, "", file_info)

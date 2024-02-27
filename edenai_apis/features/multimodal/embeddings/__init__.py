@@ -1,5 +1,3 @@
-from .embeddings_dataclass import EmbeddingsDataClass
+from .embeddings_dataclass import EmbeddingsDataClass, EmbeddingModel
 
-__all__ = [
-    "EmbeddingsDataClass",
-]
+__all__ = ["EmbeddingsDataClass", "EmbeddingModel"]

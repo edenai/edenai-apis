@@ -1,4 +1,5 @@
-from typing import Dict, List, Optional
+from copy import deepcopy
+from typing import Dict, List, Optional, Any
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -240,8 +241,8 @@ def validate_audio_format(constraints: dict, args: dict) -> dict:
 
 
 def validate_models(
-    provider: str, subfeature: str, constraints: dict, args: dict
-) -> Dict:
+    provider: str, subfeature: str, constraints: Dict[str, Any], args: Dict[str, Any]
+) -> Dict[str, Any]:
     models = constraints.get("models") or constraints.get("voice_ids")
     if not models:
         if "settings" in args:
@@ -316,7 +317,7 @@ def validate_document_type(subfeature: str, constraints: dict, args: dict) -> Di
         return args
 
 
-def transform_file_args(args: dict) -> dict:
+def transform_file_args(args: Dict[str, Any]) -> Dict[str, Any]:
     """transform the file wrapper to file path and file url for subfeature functions
 
     Args:
@@ -325,7 +326,7 @@ def transform_file_args(args: dict) -> dict:
     Returns:
         dict: updated args
     """
-    file_args = ["file", "file1", "file2"]
+    file_args = ["file", "file1", "file2", "image", "video"]
 
     for file_arg in file_args:
         if args.get(file_arg) and isinstance(args.get(file_arg), FileWrapper):
@@ -333,6 +334,16 @@ def transform_file_args(args: dict) -> dict:
             file_path = file_wrapper.file_path
             file_url = file_wrapper.file_url
             args.update({file_arg: file_path, f"{file_arg}_url": file_url})
+        elif args.get("inputs") and isinstance(args.get("inputs"), dict):
+            inputs = deepcopy(args.get("inputs"))
+            for key, value in args.get("inputs").items():
+                if isinstance(value, FileWrapper):
+                    file_wrapper: FileWrapper = value
+                    file_path = file_wrapper.file_path
+                    file_url = file_wrapper.file_url
+                    inputs[key] = file_path
+                    inputs[f"{key}_url"] = file_url
+            args.update({"inputs": inputs})
     if args.get("files"):
         files = []
         files_url = []

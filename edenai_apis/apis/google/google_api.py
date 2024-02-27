@@ -8,6 +8,7 @@ from google.cloud.language import LanguageServiceClient
 
 from edenai_apis.apis.google.google_audio_api import GoogleAudioApi
 from edenai_apis.apis.google.google_image_api import GoogleImageApi
+from edenai_apis.apis.google.google_multimodal_api import GoogleMultimodalApi
 from edenai_apis.apis.google.google_ocr_api import GoogleOcrApi
 from edenai_apis.apis.google.google_text_api import GoogleTextApi
 from edenai_apis.apis.google.google_translation_api import GoogleTranslationApi
@@ -25,6 +26,7 @@ class GoogleApi(
     GoogleTranslationApi,
     GoogleAudioApi,
     GoogleVideoApi,
+    GoogleMultimodalApi,
 ):
     provider_name = "google"
 

@@ -1339,5 +1339,16 @@
       },
       "version": "v1"
     }
+  },
+  "multimodal": {
+    "embeddings": {
+      "constraints": {
+        "models": [
+          "multimodalembedding@001"
+        ],
+        "default_model": "multimodalembedding@001"
+      },
+      "version": "v1"
+    }
   }
 }
