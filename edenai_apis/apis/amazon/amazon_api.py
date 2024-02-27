@@ -9,6 +9,7 @@ from edenai_apis.apis.amazon.amazon_video_api import AmazonVideoApi
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from .amazon_multimodal_api import AmazonMultimodalApi
 from .config import clients, storage_clients
 
 
@@ -20,6 +21,7 @@ class AmazonApi(
     AmazonTextApi,
     AmazonTranslationApi,
     AmazonVideoApi,
+    AmazonMultimodalApi,
 ):
     provider_name = "amazon"
 

@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, model_validator, ValidationError
 
 
 class InputsModel(BaseModel):
@@ -23,5 +23,5 @@ class InputsModel(BaseModel):
                 self.video_url,
             ]
         ):
-            raise ValueError("At least one input must be provided")
+            raise ValidationError("At least one input must be provided")
         return self  # type: ignore

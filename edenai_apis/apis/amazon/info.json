@@ -822,5 +822,16 @@
         ]
       }
     }
+  },
+  "multimodal": {
+    "embeddings": {
+      "constraints": {
+        "models": [
+          "titan-embed-image-v1"
+        ],
+        "default_model": "titan-embed-image-v1"
+      },
+      "version": "boto3 (v1.15.18)"
+    }
   }
 }
