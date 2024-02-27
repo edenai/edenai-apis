@@ -3,6 +3,7 @@ import uuid
 from typing import Literal, Any, Dict, Optional
 
 import requests
+from pydantic import ValidationError
 
 from edenai_apis.apis.google.google_helpers import get_access_token
 from edenai_apis.features.multimodal import MultimodalInterface
@@ -116,7 +117,7 @@ class GoogleMultimodalApi(MultimodalInterface):
 
         try:
             inputs_parsed = EmbeddingsInputsModel(**inputs)
-        except ValueError as exc:
+        except ValidationError as exc:
             raise ProviderException(message="Inputs are not valid") from exc
 
         payload = self.__embeddings_construct(
@@ -139,7 +140,7 @@ class GoogleMultimodalApi(MultimodalInterface):
                     EmbeddingModel(
                         text_embedding=instance.get("textEmbedding", []),
                         image_embedding=instance.get("imageEmbedding", []),
-                        video_embedding=[
+                        video_embeddings=[
                             VideoEmbeddingModel(
                                 embedding=video.get("embedding", []),
                                 start_offset=video.get("startOffsetSec"),
