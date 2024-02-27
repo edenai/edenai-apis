@@ -9,6 +9,7 @@ from edenai_apis.features.multimodal import MultimodalInterface
 from edenai_apis.features.multimodal.embeddings import (
     EmbeddingsDataClass,
     EmbeddingModel,
+    VideoEmbeddingModel,
 )
 from edenai_apis.features.multimodal.embeddings.inputsmodel import (
     InputsModel as EmbeddingsInputsModel,
@@ -54,7 +55,6 @@ class GoogleMultimodalApi(MultimodalInterface):
         blob = bucket.blob(filename)
 
         blob.upload_from_filename(file_path)
-        print(f"File {file_path} uploaded to {filename}.")
         return f"gs://{bucket_name}/{filename}"
 
     # XXX: Maybe change how dimension is handled, see in constraints and look pricing
@@ -93,15 +93,14 @@ class GoogleMultimodalApi(MultimodalInterface):
             "parameters": {"dimension": dimension},
         }
 
-        print(image_uri, video_uri, inputs.text)
         if inputs.text:
             payload["instances"][0]["text"] = inputs.text
 
         if image_uri:
-            payload["instances"][0]["image"] = {"gscUri": image_uri}
+            payload["instances"][0]["image"] = {"gcsUri": image_uri}
 
         if video_uri:
-            payload["instances"][0]["video"] = {"gscUri": video_uri}
+            payload["instances"][0]["video"] = {"gcsUri": video_uri}
 
         return payload
 
@@ -116,7 +115,6 @@ class GoogleMultimodalApi(MultimodalInterface):
         url = self.__construct_url(model, location)
 
         try:
-            print(inputs)
             inputs_parsed = EmbeddingsInputsModel(**inputs)
         except ValueError as exc:
             raise ProviderException(message="Inputs are not valid") from exc
@@ -141,7 +139,14 @@ class GoogleMultimodalApi(MultimodalInterface):
                     EmbeddingModel(
                         text_embedding=instance.get("textEmbedding", []),
                         image_embedding=instance.get("imageEmbedding", []),
-                        video_embedding=instance.get("videoEmbedding", []),
+                        video_embedding=[
+                            VideoEmbeddingModel(
+                                embedding=video.get("embedding", []),
+                                start_offset=video.get("startOffsetSec"),
+                                end_offset=video.get("endOffsetSec"),
+                            )
+                            for video in instance.get("videoEmbeddings", [])
+                        ],
                     )
                     for instance in original_response.get("predictions", [])
                 ]

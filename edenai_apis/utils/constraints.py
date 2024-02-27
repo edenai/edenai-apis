@@ -66,7 +66,9 @@ def validate_resolution(constraints: dict, args: dict) -> dict:
     return args
 
 
-def validate_input_file_type(constraints: dict, provider: str, args: dict) -> dict:
+def validate_input_file_type(
+    constraints: dict, provider: str, args: dict, file_type: str = "file"
+) -> dict:
     """Check that a provider offers support for the input file type
 
     Args:
@@ -80,7 +82,9 @@ def validate_input_file_type(constraints: dict, provider: str, args: dict) -> di
     Raises:
         - `ProviderException`: if file is not supported
     """
-    provider_file_type_constraints: List[str] = constraints.get("file_types", [])
+    provider_file_type_constraints: List[str] = constraints.get(
+        f"{file_type}_types", []
+    )
 
     input_file: FileWrapper = args.get("file")
 
@@ -392,6 +396,15 @@ def validate_all_provider_constraints(
         # file types
         validated_args = validate_input_file_type(
             provider_constraints, provider, validated_args
+        )
+
+        # image and video types for multimodal
+        validated_args = validate_input_file_type(
+            provider_constraints, provider, validated_args, file_type="image"
+        )
+
+        validated_args = validate_input_file_type(
+            provider_constraints, provider, validated_args, file_type="video"
         )
 
         # languages

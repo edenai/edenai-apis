@@ -1343,6 +1343,24 @@
   "multimodal": {
     "embeddings": {
       "constraints": {
+        "image_types": [
+          "bmp",
+          "gif",
+          "jpg",
+          "jpeg",
+          "png"
+        ],
+        "video_types": [
+          "avi",
+          "flv",
+          "mkv",
+          "mov",
+          "mp4",
+          "mpeg",
+          "mpg",
+          "webm",
+          "wmv"
+        ],
         "models": [
           "multimodalembedding@001"
         ],

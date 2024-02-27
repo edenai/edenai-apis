@@ -3,7 +3,7 @@
     {
       "text_embedding": [],
       "image_embedding": [],
-      "video_embedding": []
+      "video_embeddings": []
     }
   ]
 }
