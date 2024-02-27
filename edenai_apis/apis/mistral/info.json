@@ -5,7 +5,8 @@
                 "models":[
                     "medium", 
                     "small",
-                    "tiny"
+                    "tiny",
+                    "large-latest"
                 ],
                 "default_model": "small"
             },
