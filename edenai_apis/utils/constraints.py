@@ -1,4 +1,3 @@
-from copy import deepcopy
 from typing import Dict, List, Optional, Any
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -86,7 +85,7 @@ def validate_input_file_type(
         f"{file_type}_types", []
     )
 
-    input_file: FileWrapper = args.get("file")
+    input_file: FileWrapper = args.get(file_type)
 
     if input_file and len(provider_file_type_constraints) > 0:
         input_file_type = input_file.file_info.file_media_type
@@ -338,16 +337,6 @@ def transform_file_args(args: Dict[str, Any]) -> Dict[str, Any]:
             file_path = file_wrapper.file_path
             file_url = file_wrapper.file_url
             args.update({file_arg: file_path, f"{file_arg}_url": file_url})
-        elif args.get("inputs") and isinstance(args.get("inputs"), dict):
-            inputs = deepcopy(args.get("inputs"))
-            for key, value in args.get("inputs").items():
-                if isinstance(value, FileWrapper):
-                    file_wrapper: FileWrapper = value
-                    file_path = file_wrapper.file_path
-                    file_url = file_wrapper.file_url
-                    inputs[key] = file_path
-                    inputs[f"{key}_url"] = file_url
-            args.update({"inputs": inputs})
     if args.get("files"):
         files = []
         files_url = []
