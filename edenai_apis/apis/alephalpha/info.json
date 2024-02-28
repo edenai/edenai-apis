@@ -17,9 +17,9 @@
           "luminous-supreme",
           "luminous-extended-control"
         ],
-        "default_model":"luminous-extended"
+        "default_model": "luminous-extended"
       },
-      "version":"1.12.0"
+      "version": "1.12.0"
     }
   },
   "image": {
@@ -52,6 +52,17 @@
         "models": [
           "luminous-base",
           "luminous-extended"
+        ],
+        "default_model": "luminous-base"
+      }
+    }
+  },
+  "multimodal": {
+    "embeddings": {
+      "version": "1.12.0",
+      "constraints": {
+        "models": [
+          "luminous-base"
         ],
         "default_model": "luminous-base"
       }
