@@ -104,13 +104,11 @@ class GoogleVideoApi(VideoInterface):
         self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
-        operation = (
-            self.clients["video"].annotate_video(
-                request={
-                    "features": [videointelligence.Feature.TEXT_DETECTION],
-                    "input_uri": gcs_uri,
-                }
-            ),
+        operation = self.clients["video"].annotate_video(
+            request={
+                "features": [videointelligence.Feature.TEXT_DETECTION],
+                "input_uri": gcs_uri,
+            }
         )
 
         return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
