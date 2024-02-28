@@ -180,14 +180,13 @@ class GoogleVideoApi(VideoInterface):
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         # Configure the request for each feature
-        operation = (
-            self.clients["video"].annotate_video(
-                request={
-                    "features": [videointelligence.Feature.OBJECT_TRACKING],
-                    "input_uri": gcs_uri,
-                }
-            ),
+        operation = self.clients["video"].annotate_video(
+            request={
+                "features": [videointelligence.Feature.OBJECT_TRACKING],
+                "input_uri": gcs_uri,
+            }
         )
+
         # Return job id (operation name)
         return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
 
@@ -197,13 +196,11 @@ class GoogleVideoApi(VideoInterface):
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         # Configure the request for each feature
-        operation = (
-            self.clients["video"].annotate_video(
-                request={
-                    "features": [videointelligence.Feature.EXPLICIT_CONTENT_DETECTION],
-                    "input_uri": gcs_uri,
-                }
-            ),
+        operation = self.clients["video"].annotate_video(
+            request={
+                "features": [videointelligence.Feature.EXPLICIT_CONTENT_DETECTION],
+                "input_uri": gcs_uri,
+            }
         )
 
         # Return job id (operation name)
