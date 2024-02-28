@@ -78,6 +78,7 @@
 | **embeddings** | ai21labs |
 | | cohere |
 | | google |
+| | jina |
 | | mistral |
 | | openai |
 | **generation** | ai21labs |
@@ -638,6 +639,13 @@
 | | topic_extraction |
 | **translation** | automatic_translation |
 | | language_detection |
+
+</details>
+<details><summary>jina</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | embeddings |
 
 </details>
 <details><summary>klippa</summary>
