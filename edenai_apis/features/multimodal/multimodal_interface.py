@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Literal, Dict, Optional
+from typing import Literal, Optional
 
 from edenai_apis.features.multimodal.chat import ChatDataClass
 from edenai_apis.features.multimodal.embeddings import EmbeddingsDataClass
@@ -11,8 +11,12 @@ class MultimodalInterface:
     @abstractmethod
     def multimodal__embeddings(
         self,
-        inputs: Dict[str, Optional[str]],
         model: str,
+        text: Optional[str] = None,
+        image: Optional[str] = None,
+        video: Optional[str] = None,
+        image_url: Optional[str] = None,
+        video_url: Optional[str] = None,
         dimension: Literal["xs", "s", "m", "xl"] = "xl",
     ) -> ResponseType[EmbeddingsDataClass]:
         raise NotImplementedError

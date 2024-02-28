@@ -2,18 +2,12 @@ import base64
 import json
 from typing import Any, Dict, Optional, Literal
 
-from pydantic import ValidationError
-
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
 from edenai_apis.features.multimodal import MultimodalInterface
 from edenai_apis.features.multimodal.embeddings import (
     EmbeddingsDataClass,
     EmbeddingModel,
 )
-from edenai_apis.features.multimodal.embeddings.inputsmodel import (
-    InputsModel as EmbeddingsInputsModel,
-)
-from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
 
@@ -35,22 +29,29 @@ class AmazonMultimodalApi(MultimodalInterface):
 
     def multimodal__embeddings(
         self,
-        inputs: Dict[str, Optional[str]],
         model: str,
+        text: Optional[str] = None,
+        image: Optional[str] = None,
+        video: Optional[str] = None,
+        image_url: Optional[str] = None,
+        video_url: Optional[str] = None,
         dimension: Literal["xs", "s", "m", "xl"] = "xl",
     ) -> ResponseType[EmbeddingsDataClass]:
-        try:
-            parsed_inputs = EmbeddingsInputsModel(**inputs)
-        except ValidationError as exc:
-            raise ProviderException(message="Inputs are not valid") from exc
+        parsed_inputs = {
+            "text": text,
+            "image": image,
+            "image_url": image_url,
+            "video": video,
+            "video_url": video_url,
+        }
 
         payload = {
-            "inputText": parsed_inputs.text,
+            "inputText": parsed_inputs["text"],
             "embeddingConfig": {"outputEmbeddingLength": 256},
         }
 
-        if parsed_inputs.image:
-            with open(parsed_inputs.image, "rb") as fstream:
+        if parsed_inputs["image"]:
+            with open(parsed_inputs["image"], "rb") as fstream:
                 file_b64 = base64.b64encode(fstream.read()).decode("utf-8")
                 payload["inputImage"] = file_b64
 
@@ -69,10 +70,10 @@ class AmazonMultimodalApi(MultimodalInterface):
                 items=[
                     EmbeddingModel(
                         text_embedding=original_response.get("embedding", [])
-                        if parsed_inputs.text
+                        if parsed_inputs["text"]
                         else [],
                         image_embedding=original_response.get("embedding", [])
-                        if parsed_inputs.image
+                        if parsed_inputs["image"]
                         else [],
                     )
                 ]

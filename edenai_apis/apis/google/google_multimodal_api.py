@@ -3,7 +3,6 @@ import uuid
 from typing import Literal, Any, Dict, Optional
 
 import requests
-from pydantic import ValidationError
 
 from edenai_apis.apis.google.google_helpers import get_access_token
 from edenai_apis.features.multimodal import MultimodalInterface
@@ -11,9 +10,6 @@ from edenai_apis.features.multimodal.embeddings import (
     EmbeddingsDataClass,
     EmbeddingModel,
     VideoEmbeddingModel,
-)
-from edenai_apis.features.multimodal.embeddings.inputsmodel import (
-    InputsModel as EmbeddingsInputsModel,
 )
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
@@ -73,29 +69,29 @@ class GoogleMultimodalApi(MultimodalInterface):
         raise ValueError("Invalid dimension")
 
     def __embeddings_construct(
-        self, inputs: EmbeddingsInputsModel, dimension: int
+        self, inputs: Dict[str, Optional[str]], dimension: int
     ) -> Dict[str, Any]:
         image_uri = None
         video_uri = None
-        if inputs.image:
-            image_uri = inputs.image_url
+        if inputs["image"]:
+            image_uri = inputs["image_url"]
 
-            if not inputs.image_url or not inputs.image_url.startswith("gs://"):
-                image_uri = self.__upload_file_to_gsc(inputs.image)
+            if not inputs["image_url"] or not inputs["image_url"].startswith("gs://"):
+                image_uri = self.__upload_file_to_gsc(inputs["image"])
 
-        if inputs.video:
-            video_uri = inputs.video_url
+        if inputs["video"]:
+            video_uri = inputs["video_url"]
 
-            if not inputs.video_url or not inputs.video_url.startswith("gs://"):
-                video_uri = self.__upload_file_to_gsc(inputs.video)
+            if not inputs["video_url"] or not inputs["video_url"].startswith("gs://"):
+                video_uri = self.__upload_file_to_gsc(inputs["video"])
 
         payload: Dict[str, Any] = {
             "instances": [{}],
             "parameters": {"dimension": dimension},
         }
 
-        if inputs.text:
-            payload["instances"][0]["text"] = inputs.text
+        if inputs["text"]:
+            payload["instances"][0]["text"] = inputs["text"]
 
         if image_uri:
             payload["instances"][0]["image"] = {"gcsUri": image_uri}
@@ -107,18 +103,24 @@ class GoogleMultimodalApi(MultimodalInterface):
 
     def multimodal__embeddings(
         self,
-        inputs: Dict[str, Optional[str]],
         model: str,
+        text: Optional[str] = None,
+        image: Optional[str] = None,
+        video: Optional[str] = None,
+        image_url: Optional[str] = None,
+        video_url: Optional[str] = None,
         dimension: Literal["xs", "s", "m", "xl"] = "xl",
     ) -> ResponseType[EmbeddingsDataClass]:
         location = "us-central1"
         header = self.__construct_header()
         url = self.__construct_url(model, location)
-
-        try:
-            inputs_parsed = EmbeddingsInputsModel(**inputs)
-        except ValidationError as exc:
-            raise ProviderException(message="Inputs are not valid") from exc
+        inputs_parsed = {
+            "text": text,
+            "image": image,
+            "video": video,
+            "image_url": image_url,
+            "video_url": video_url,
+        }
 
         payload = self.__embeddings_construct(
             inputs_parsed, GoogleMultimodalApi.__get_dimension(dimension)

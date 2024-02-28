@@ -10,7 +10,6 @@ from aleph_alpha_client import (
     CompletionRequest,
     Text,
 )
-from pydantic import ValidationError
 
 from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
 from edenai_apis.features.image.embeddings import (
@@ -23,7 +22,6 @@ from edenai_apis.features.multimodal.embeddings import (
     EmbeddingsDataClass as MultimodalEmbeddingsDataClass,
     EmbeddingModel,
 )
-from edenai_apis.features.multimodal.embeddings.inputsmodel import InputsModel
 from edenai_apis.features.text import SummarizeDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -151,35 +149,36 @@ class AlephAlphaApi(
 
     def multimodal__embeddings(
         self,
-        inputs: Dict[str, Optional[str]],
         model: str,
+        text: Optional[str] = None,
+        image: Optional[str] = None,
+        video: Optional[str] = None,
+        image_url: Optional[str] = None,
+        video_url: Optional[str] = None,
         dimension: Literal["xs", "s", "m", "xl"] = "xl",
     ) -> ResponseType[MultimodalEmbeddingsDataClass]:
         client = Client(self.api_key)
-        try:
-            parsed_inputs = InputsModel(**inputs)
-            if (
-                not parsed_inputs.text
-                and not parsed_inputs.image
-                and not parsed_inputs.image_url
-            ):
-                raise ValidationError(
-                    "At least one of text, image or image_url must be provided"
-                )
-        except ValidationError as exc:
-            raise ProviderException("Invalid inputs") from exc
+        parsed_inputs = {
+            "text": text,
+            "image": image,
+            "image_url": image_url,
+            "video": video,
+            "video_url": video_url,
+        }
 
-        text = Text.from_text(parsed_inputs.text) if parsed_inputs.text else None
-        image = (
-            Image.from_url(parsed_inputs.image_url)
-            if parsed_inputs.image_url
-            else Image.from_file(parsed_inputs.image)
-            if parsed_inputs.image
+        request_text = (
+            Text.from_text(parsed_inputs["text"]) if parsed_inputs["text"] else None
+        )
+        request_image = image = (
+            Image.from_url(parsed_inputs["image_url"])
+            if parsed_inputs["image_url"]
+            else Image.from_file(parsed_inputs["image"])
+            if parsed_inputs["image"]
             else None
         )
 
         request = SemanticEmbeddingRequest(
-            prompt=AlephAlphaApi.__construct_prompt(text, image),
+            prompt=AlephAlphaApi.__construct_prompt(request_text, request_image),
             representation=SemanticRepresentation.Symmetric,
         )
         try:
@@ -191,8 +190,8 @@ class AlephAlphaApi(
         standardized_response = MultimodalEmbeddingsDataClass(
             items=[
                 EmbeddingModel(
-                    text_embedding=response.embedding if text else [],
-                    image_embedding=response.embedding if image else [],
+                    text_embedding=response.embedding if request_text else [],
+                    image_embedding=response.embedding if request_image else [],
                 )
             ]
         )
