@@ -31,7 +31,7 @@ class SmartClickApi(ProviderInterface, ImageInterface):
         }
 
     def image__logo_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[LogoDetectionDataClass]:
         url = f"{self.base_url}logo-detection"
 
@@ -46,7 +46,7 @@ class SmartClickApi(ProviderInterface, ImageInterface):
         if response.status_code != 200:
             # Poorly documented
             # ref: https://smartclick.ai/api/logo-detection/
-            raise ProviderException(message=response.text, code = response.status_code)
+            raise ProviderException(message=response.text, code=response.status_code)
 
         # standardized response : description/score/bounding_box
         items: Sequence[LogoItem] = []

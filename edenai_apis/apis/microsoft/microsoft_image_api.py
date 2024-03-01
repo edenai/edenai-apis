@@ -204,7 +204,7 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__logo_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[LogoDetectionDataClass]:
         file_ = open(file, "rb")
         response = requests.post(
