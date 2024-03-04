@@ -421,7 +421,7 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface
             )
 
     def image__logo_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[LogoDetectionDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)

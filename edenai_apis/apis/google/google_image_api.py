@@ -344,7 +344,7 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__logo_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[LogoDetectionDataClass]:
         with open(file, "rb") as file_:
             content = file_.read()

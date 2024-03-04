@@ -8,6 +8,8 @@
         },
         "name": "logo_detection.jpeg",
         "md5": "29bd00c8beed1f817416fc1be2696650",
+        "width": 1280,
+        "height": 720,
         "entities": [
           {
             "kind": "objects",
