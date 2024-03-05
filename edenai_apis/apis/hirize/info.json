@@ -1,0 +1,17 @@
+{
+    "text": {
+        "resume_parser": {
+            "version": "v1.0",
+            "constraints": {
+                "payload": {
+                    "presence": true,
+                    "type": "string"
+                },
+                "file_name": {
+                    "presence": true,
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

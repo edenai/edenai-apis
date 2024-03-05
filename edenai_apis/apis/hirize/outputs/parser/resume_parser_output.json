@@ -1,0 +1,105 @@
+{
+    "success": true,
+    "remaining_credit": 21.12,
+    "data": {
+        "id": 21884,
+        "result": {
+            "skills": [
+                "Operating Systems",
+                "Compiler Construction",
+                "Computer Graphics",
+                "PDP-8",
+                "PDP-11",
+                "CDC 6000 Series",
+                "WATerloo FORTRAN IV (WATFIV)",
+                "GNU Cobol",
+                "ALGOL (ALGOrithmic Language)",
+                "Scheduling",
+                "Real Time Systems",
+                "Debugging",
+                "Traffic Flow",
+                "Presentation Design",
+                "Traffic Engineering",
+                "Microcomputer",
+                "Prototype (Computer Science)",
+                "Information Sciences"
+            ],
+            "basic_info": {
+                "name": "Jhon Doe",
+                "links": [],
+                "current_position": "Systems programmer"
+            },
+            "contact_info": {
+                "email": "jhon.doe@test.com",
+                "phone_number": "(617)498-3909",
+                "street_address": "A-11 Harvard University Cambridge, Massachusetts 02138",
+                "city": "Cambridge",
+                "zip_code": "02138",
+                "country": "USA"
+            },
+            "work_experience": {
+                "works": [
+                    {
+                        "company": "TRW Systems Group",
+                        "end_date": "1973-09-01",
+                        "job_title": "Systems programmer",
+                        "seniority": "Junior",
+                        "start_date": "1973-01-01",
+                        "months": 8
+                    },
+                    {
+                        "company": "In partnership with Paul G. Allen",
+                        "end_date": "Present",
+                        "job_title": "Systems analyst or systems programmer",
+                        "seniority": "Intern",
+                        "start_date": "1972-06-01",
+                        "months": 621
+                    },
+                    {
+                        "company": "Lakeside school",
+                        "end_date": "1972-09-01",
+                        "job_title": "Co-leader and Co-Partner",
+                        "seniority": "Junior",
+                        "start_date": "1971-06-01",
+                        "months": 15
+                    },
+                    {
+                        "company": "Information Science Inc.",
+                        "end_date": "1971-12-01",
+                        "job_title": "Part of team designing and implementing an extensive payroll package in COBOL",
+                        "seniority": "Junior",
+                        "start_date": "1971-01-01",
+                        "months": 11
+                    }
+                ],
+                "total_work_experience": 54.699999999999996,
+                "average_time": 13.7
+            },
+            "education": [
+                {
+                    "major": null,
+                    "school_name": "Harvard College",
+                    "education_level": "BS",
+                    "graduation_year": null
+                }
+            ],
+            "achievements_and_honors": [
+                {
+                    "date": null,
+                    "name": "Honors student",
+                    "institution_name": "Harvard College"
+                },
+                {
+                    "date": "1974-05-01",
+                    "name": "Demonstrations to costumers",
+                    "institution_name": "In partnership with Paul G. Allen"
+                },
+                {
+                    "date": "1973-09-01",
+                    "name": "Total profits from this venture exceed $10.000",
+                    "institution_name": "Lakeside school"
+                }
+            ]
+        }
+    }
+}
