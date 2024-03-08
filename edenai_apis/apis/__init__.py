@@ -67,5 +67,6 @@ from .voxist import VoxistApi
 from .winstonai import WinstonaiApi
 from .writesonic import WritesonicApi
 from .jina import JinaApi
+from .twelvelabs import TwelveLabsApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
