@@ -4,13 +4,19 @@
             "file_types": [
                 "mp4",
                 "webm"
-              ]
+              ],
+              "version": "v1.1.0"
+
         },
         "texte_detection_async": {
             "file_types": [
                 "mp4",
                 "webm"
-              ]
+              ],
+              "version": "v1.1.0"
+
         }
+
     }
+
 }
