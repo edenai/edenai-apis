@@ -16,8 +16,6 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
 
 
 def convert_json_to_logo_dataclass(data: Dict) -> LogoDetectionAsyncDataClass:
-    if data == None :
-        return LogoDetectionAsyncDataClass(logos=[])
     try:
         logos_tracks = []
         for item in data["data"]:
@@ -54,5 +52,4 @@ def convert_json_to_text_dataclass(data: Dict) -> TextDetectionAsyncDataClass:
         print(texts)
         return TextDetectionAsyncDataClass(texts=texts)
     except Exception as e:
-        print("passing here")
         return TextDetectionAsyncDataClass(texts=[])
