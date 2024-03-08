@@ -1,18 +1,22 @@
 {
     "video": {
         "logo_detection_async": {
+            "constraints": {
             "file_types": [
                 "mp4",
                 "webm"
-              ],
-              "version": "v1.1.2"
+              ]
+                },
+            "version": "v1.1.2"
 
         },
-        "texte_detection_async": {
+        "text_detection_async": {
+            "constraints": {
             "file_types": [
                 "mp4",
                 "webm"
-              ],
+              ]
+                },
               "version": "v1.1.2"
 
         }
