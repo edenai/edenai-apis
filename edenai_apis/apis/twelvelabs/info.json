@@ -2,11 +2,15 @@
     "video": {
         "logo_detection_async": {
             "file_types": [
-                "video/mp4",
-                "video/x-msvideo",
-                "video/quicktime"
+                "mp4",
+                "webm"
               ]
-
-        }   
+        },
+        "texte_detection_async": {
+            "file_types": [
+                "mp4",
+                "webm"
+              ]
+        }
     }
 }
