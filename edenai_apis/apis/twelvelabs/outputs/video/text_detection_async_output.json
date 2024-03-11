@@ -1,0 +1,334 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "65eae638bb29f13bdd6f4300_65eae63a48db9fa780cb47ed_65eae63abb29f13bdd6f4301",
+  "original_response": {
+    "id": "65eae63a48db9fa780cb47ed",
+    "index_id": "65eae638bb29f13bdd6f4300",
+    "data": [
+      {
+        "end": 5,
+        "start": 1,
+        "value": "by Getty Images\u2122"
+      },
+      {
+        "end": 4,
+        "start": 1,
+        "value": "iStock."
+      },
+      {
+        "end": 12,
+        "start": 4,
+        "value": "10:45"
+      },
+      {
+        "end": 6,
+        "start": 4,
+        "value": "Are you still waiting for me?"
+      },
+      {
+        "end": 6,
+        "start": 4,
+        "value": "George"
+      },
+      {
+        "end": 12,
+        "start": 4,
+        "value": "Tuesday, 29 June"
+      },
+      {
+        "end": 7,
+        "start": 6,
+        "value": "Messages now"
+      },
+      {
+        "end": 7,
+        "start": 6,
+        "value": "Mail 09 40"
+      },
+      {
+        "end": 7,
+        "start": 6,
+        "value": "5 New Messages"
+      },
+      {
+        "end": 7,
+        "start": 6,
+        "value": "Jessica Walker"
+      },
+      {
+        "end": 7,
+        "start": 6,
+        "value": "3 Missed Calls"
+      },
+      {
+        "end": 9,
+        "start": 8,
+        "value": "Messages"
+      },
+      {
+        "end": 12,
+        "start": 9,
+        "value": "iStock."
+      },
+      {
+        "end": 12,
+        "start": 9,
+        "value": "by Getty Images\u2122"
+      },
+      {
+        "end": 10,
+        "start": 9,
+        "value": "Walker"
+      },
+      {
+        "end": 10,
+        "start": 9,
+        "value": "Calls"
+      }
+    ]
+  },
+  "standardized_response": {
+    "texts": [
+      {
+        "text": "by Getty Images\u2122",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 4.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "iStock.",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 3.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "10:45",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 8.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "Are you still waiting for me?",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 2.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "George",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 2.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "Tuesday, 29 June",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 8.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "Messages now",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 1.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "Mail 09 40",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 1.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "5 New Messages",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 1.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "Jessica Walker",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 1.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "3 Missed Calls",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 1.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "Messages",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 1.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "iStock.",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 3.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "by Getty Images\u2122",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 3.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "Walker",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 1.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      },
+      {
+        "text": "Calls",
+        "frames": [
+          {
+            "confidence": 1.0,
+            "timestamp": 1.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
