@@ -322,7 +322,9 @@
 | | google |
 | **text_detection_async** | amazon |
 | | google |
+| | twelvelabs |
 | **logo_detection_async** | google |
+| | twelvelabs |
 | **object_tracking_async** | google |
 
 </details>
@@ -986,6 +988,14 @@
 | | question_answer |
 | | sentiment_analysis |
 | | topic_extraction |
+
+</details>
+<details><summary>twelvelabs</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **video** | logo_detection_async |
+| | text_detection_async |
 
 </details>
 <details><summary>vernai</summary>
