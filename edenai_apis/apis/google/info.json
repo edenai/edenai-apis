@@ -938,7 +938,7 @@
           "text-bison",
           "gemini-pro"
         ],
-        "default_model": "text-bison"
+        "default_model": "gemini-pro"
       },
       "version": "v1"
     },

@@ -13,7 +13,7 @@
           "stable-diffusion-v1-6",
           "stable-diffusion-xl-beta-v2-2-2"
         ],
-        "default_model": "stable-diffusion-v1-6"
+        "default_model": "stable-diffusion-xl-1024-v1-0"
       },
       "version": "v1Beta"
     },
@@ -41,4 +41,3 @@
     }
   }
 }
-
