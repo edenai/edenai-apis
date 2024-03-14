@@ -1,9 +1,15 @@
-from typing import Dict
+from typing import Dict, List, Union, Optional, Generator
 import json
 import boto3
 from anthropic_bedrock import AnthropicBedrock
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import GenerationDataClass, SummarizeDataClass
+from edenai_apis.features.text.chat.chat_dataclass import (
+    StreamChat,
+    ChatStreamResponse,
+    ChatMessageDataClass,
+    ChatDataClass,
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
@@ -26,21 +32,11 @@ class AnthropicApi(ProviderInterface, TextInterface):
         )
         self.client = AnthropicBedrock()
 
-    def __anthropic_request(
-        self, text: str, model: str, temperature: int = 0, max_tokens=10000
-    ):
+    def __anthropic_request(self, request_body: str, model: str):
         # Headers for the HTTP request
         accept_header = "application/json"
         content_type_header = "application/json"
 
-        # Body of the HTTP request, containing text, maxTokens, and temperature
-        request_body = json.dumps(
-            {
-                "prompt": text,
-                "temperature": temperature,
-                "max_tokens_to_sample": max_tokens,
-            }
-        )
         # Parameters for the HTTP request
         request_params = {
             "body": request_body,
@@ -75,6 +71,31 @@ class AnthropicApi(ProviderInterface, TextInterface):
         except Exception:
             raise ProviderException("Client Error", status_code=500)
 
+    def __chat_stream_generator(self, response) -> Generator:
+        """returns a generator of chat messages
+
+        Args:
+            response : The post request response
+
+        Yields:
+            Generator: generator of messages
+        """
+        for event in response.get("body"):
+            chunk = json.loads(event["chunk"]["bytes"])
+
+            if chunk["type"] == "message_delta":
+                yield ChatStreamResponse(
+                    text="", blocked=True, provider=self.provider_name
+                )
+
+            if chunk["type"] == "content_block_delta":
+                if chunk["delta"]["type"] == "text_delta":
+                    yield ChatStreamResponse(
+                        text=chunk["delta"]["text"],
+                        blocked=False,
+                        provider=self.provider_name,
+                    )
+
     def text__generation(
         self,
         text: str,
@@ -83,35 +104,134 @@ class AnthropicApi(ProviderInterface, TextInterface):
         model: str,
     ) -> ResponseType[GenerationDataClass]:
         prompt = f"\n\nHuman:{text}\n\nAssistant:"
-        response_body = self.__anthropic_request(
-            text=prompt, model=model, temperature=temperature, max_tokens=max_tokens
+        # Body of the HTTP request, containing text, maxTokens, and temperature
+        request_body = json.dumps(
+            {
+                "prompt": prompt,
+                "temperature": temperature,
+                "max_tokens_to_sample": max_tokens,
+            }
         )
-        generated_text = response_body["completion"]
-        response_body["usage"] = self.__calculate_usage(
+        response = self.__anthropic_request(request_body=request_body, model=model)
+        generated_text = response["completion"]
+        response["usage"] = self.__calculate_usage(
             prompt=prompt, generated_text=generated_text
         )
         standardized_response = GenerationDataClass(generated_text=generated_text)
 
         return ResponseType[GenerationDataClass](
-            original_response=response_body,
+            original_response=response,
             standardized_response=standardized_response,
         )
 
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str = None
     ) -> ResponseType[SummarizeDataClass]:
-        prompt = f"""\n\nHuman: Given the following text, please provide a concise summary in the same language: text : {text}\n\nAssistant: 
-        Summary:
-        """
+        messages = [
+            {
+                "role": "user",
+                "content": f"Given the following text, please provide a concise summary of this text : {text}",
+            },
+            {
+                "role": "assistant",
+                "content": """Summary:""",
+            },
+        ]
+        body = {
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": 10000,
+            "temperature": 0,
+            "messages": messages,
+        }
+
+        request_body = json.dumps(body)
+
         original_response = self.__anthropic_request(
-            text=prompt, model=model, max_tokens=100000
+            request_body=request_body, model=model
         )
-        result = original_response.get("completion")
-        original_response["usage"] = self.__calculate_usage(
-            prompt=prompt, generated_text=result
+
+        # Calculate total usage
+        original_response["usage"]["total_tokens"] = (
+            original_response["usage"]["input_tokens"]
+            + original_response["usage"]["output_tokens"]
         )
+
+        result = original_response["content"][0]["text"]
+
         standardized_response = SummarizeDataClass(result=result)
         return ResponseType[SummarizeDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
         )
+
+    def text__chat(
+        self,
+        text: str,
+        chatbot_global_action: Optional[str],
+        previous_history: Optional[List[Dict[str, str]]],
+        temperature: float,
+        max_tokens: int,
+        model: str,
+        stream: bool = False,
+    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        messages = [{"role": "user", "content": text}]
+
+        if previous_history:
+            for idx, message in enumerate(previous_history):
+                messages.insert(
+                    idx,
+                    {"role": message.get("role"), "content": message.get("message")},
+                )
+
+        body = {
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": max_tokens,
+            "temperature": temperature,
+            "messages": messages,
+        }
+
+        if chatbot_global_action:
+            body["system"] = chatbot_global_action
+
+        request_body = json.dumps(body)
+
+        if stream is False:
+            original_response = self.__anthropic_request(
+                request_body=request_body, model=model
+            )
+
+            # Calculate total usage
+            original_response["usage"]["total_tokens"] = (
+                original_response["usage"]["input_tokens"]
+                + original_response["usage"]["output_tokens"]
+            )
+
+            generated_text = original_response["content"][0]["text"]
+            message = [
+                ChatMessageDataClass(role="user", message=text),
+                ChatMessageDataClass(role="assistant", message=generated_text),
+            ]
+
+            standardized_response = ChatDataClass(
+                generated_text=generated_text, message=message
+            )
+
+            return ResponseType[ChatDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+        else:
+            # Parameters for the HTTP request
+            request_params = {
+                "body": request_body,
+                "modelId": f"{self.provider_name}.{model}",
+            }
+            response = handle_amazon_call(
+                self.bedrock.invoke_model_with_response_stream, **request_params
+            )
+            stream_response = self.__chat_stream_generator(response)
+
+            return ResponseType[StreamChat](
+                original_response=None,
+                standardized_response=StreamChat(stream=stream_response),
+            )

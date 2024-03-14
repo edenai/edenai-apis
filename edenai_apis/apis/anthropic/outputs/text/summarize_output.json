@@ -1,15 +1,24 @@
 {
   "original_response": {
-    "completion": "Barack Obama was the 44th president of the United States from 2009 to 2017. He was the first African-American to hold the presidency. Prior to becoming president, Obama was a U.S. senator from Illinois from 2005 to 2008 and an Illinois state senator from 1997 to 2004. He is a member of the Democratic Party.",
-    "stop_reason": "stop_sequence",
-    "stop": "\n\nHuman:",
+    "id": "msg_01NRf85zbEA5yqquNgzNxb3v",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": " Barack Obama is a former U.S. president who served from 2009 to 2017. He was the first African-American president and a member of the Democratic Party. Prior to becoming president, he served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004."
+      }
+    ],
+    "model": "claude-3-sonnet-28k-20240229",
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
     "usage": {
-      "total_tokens": 168,
-      "prompt_tokens": 101,
-      "completion_tokens": 67
+      "input_tokens": 111,
+      "output_tokens": 83,
+      "total_tokens": 194
     }
   },
   "standardized_response": {
-    "result": "Barack Obama was the 44th president of the United States from 2009 to 2017. He was the first African-American to hold the presidency. Prior to becoming president, Obama was a U.S. senator from Illinois from 2005 to 2008 and an Illinois state senator from 1997 to 2004. He is a member of the Democratic Party."
+    "result": " Barack Obama is a former U.S. president who served from 2009 to 2017. He was the first African-American president and a member of the Democratic Party. Prior to becoming president, he served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004."
   }
 }
