@@ -153,17 +153,18 @@
 | | google |
 | | ibm |
 | | lettria |
-| **moderation** | clarifai |
-| | google |
-| | microsoft |
-| | openai |
-| **chat** | cohere |
+| **chat** | anthropic |
+| | cohere |
 | | google |
 | | meta |
 | | mistral |
 | | openai |
 | | perplexityai |
 | | replicate |
+| **moderation** | clarifai |
+| | google |
+| | microsoft |
+| | openai |
 | **custom_classification** | cohere |
 | | openai |
 | **custom_named_entity_recognition** | cohere |
@@ -403,7 +404,8 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | generation |
+| **text** | chat |
+| | generation |
 | | summarize |
 
 </details>
