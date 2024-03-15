@@ -136,7 +136,7 @@ def get_file_extension(
 # ******Text_to_Speech******#
 
 
-def __confirm_appropriate_language(language: str, provider: str, subfeature: str):
+def confirm_appropriate_language(language: str, provider: str, subfeature: str):
     if not language:
         return None
     try:
@@ -212,7 +212,7 @@ def get_voices(
     for provider in providers:
         constrains = __get_provider_tts_constraints(provider, subfeature)
         if constrains:
-            formtatted_language = __confirm_appropriate_language(
+            formtatted_language = confirm_appropriate_language(
                 language, provider, subfeature
             )
             voices.update(
@@ -245,7 +245,7 @@ def retreive_voice_id(
     """
     # provider_name = getattr(object_instance, "provider_name")
     constrains = __get_provider_tts_constraints(provider_name, subfeature)
-    language = __confirm_appropriate_language(language, provider_name, subfeature)
+    language = confirm_appropriate_language(language, provider_name, subfeature)
     if isinstance(language, list):
         language = None
     if settings and provider_name in settings:
