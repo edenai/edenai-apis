@@ -245,7 +245,7 @@ def validate_models(
     voice_ids = constraints.get("voice_ids")
     settings = args.get("settings", {})
 
-    if subfeature == "text_to_speech" and voice_ids:
+    if "text_to_speech" in subfeature and voice_ids:
         if any(option in voice_ids for option in ["MALE", "FEMALE"]):
             voice_id = retreive_voice_id(
                 provider, subfeature, args["language"], args["option"], settings
@@ -253,7 +253,7 @@ def validate_models(
             args["voice_id"] = voice_id
     else:
         if settings and provider in settings:
-            selected_model = settings["provider"]
+            selected_model = settings[provider]
             args["model"] = selected_model
 
     args.pop("settings", None)
