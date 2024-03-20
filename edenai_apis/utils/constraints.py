@@ -242,15 +242,20 @@ def validate_audio_format(constraints: dict, args: dict) -> dict:
 def validate_models(
     provider: str, subfeature: str, constraints: dict, args: dict
 ) -> Dict:
-
+    voice_ids = constraints.get("voice_ids")
     settings = args.get("settings", {})
 
-    if settings and provider in settings:
-        selected_model = settings[provider]
-        if subfeature == "text_to_speech":
-            args["voice_id"] = selected_model
-        else:
+    if subfeature == "text_to_speech" and voice_ids:
+        if any(option in voice_ids for option in ["MALE", "FEMALE"]):
+            voice_id = retreive_voice_id(
+                provider, subfeature, args["language"], args["option"], settings
+            )
+            args["voice_id"] = voice_id
+    else:
+        if settings and provider in settings:
+            selected_model = settings["provider"]
             args["model"] = selected_model
+
     args.pop("settings", None)
     return args
 
