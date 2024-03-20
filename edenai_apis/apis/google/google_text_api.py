@@ -270,24 +270,26 @@ class GoogleTextApi(TextInterface):
         response = requests.post(url=url, headers=headers, json=payload)
 
         try:
-            original_response = response.json()[0]
+            original_response = response.json()
         except (json.JSONDecodeError, IndexError) as exc:
             raise ProviderException(
                 message="Internal Server Error",
                 code=500,
             ) from exc
 
-        if "error" in original_response:
-            raise ProviderException(
-                message=original_response["error"]["message"],
-                code=response.status_code,
-            )
-        parts = ((original_response["candidates"] or [{}])[0]["content"] or {}).get(
-            "parts", []
-        )
-        standardized_response = GenerationDataClass(
-            generated_text=parts[0].get("text", " ") if parts else " "
-        )
+        generated_text = ""
+        for i in range(len(original_response)):
+            if "error" in original_response[i]:
+                raise ProviderException(
+                    message=original_response["error"]["message"],
+                    code=response.status_code,
+                )
+            parts = (
+                (original_response[i]["candidates"] or [{}])[0]["content"] or {}
+            ).get("parts", [])
+            generated_text += parts[0].get("text", "") if parts else ""
+
+        standardized_response = GenerationDataClass(generated_text=generated_text)
 
         return ResponseType[GenerationDataClass](
             original_response=original_response,
