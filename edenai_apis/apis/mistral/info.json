@@ -17,9 +17,10 @@
                 "models": [
                     "medium",
                     "small",
-                    "tiny"
+                    "tiny",
+                    "large-latest"
                 ],
-                "default_model": "tiny"
+                "default_model": "large-latest"
             },
             "version": "v0.0.1"
         },
