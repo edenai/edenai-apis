@@ -17,7 +17,8 @@
         "models": [
           "claude-instant-v1",
           "claude-v2",
-          "claude-3-sonnet-20240229-v1:0"
+          "claude-3-sonnet-20240229-v1:0",
+          "claude-3-haiku-20240307-v1:0"
         ],
         "default_model": "claude-3-sonnet-20240229-v1:0"
       },
@@ -29,7 +30,8 @@
         "models": [
           "claude-instant-v1",
           "claude-v2",
-          "claude-3-sonnet-20240229-v1:0"
+          "claude-3-sonnet-20240229-v1:0",
+          "claude-3-haiku-20240307-v1:0"
         ],
         "default_model": "claude-3-sonnet-20240229-v1:0"
       },
