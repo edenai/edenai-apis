@@ -477,32 +477,28 @@ class GoogleImageApi(ImageInterface):
                 code=500,
             ) from exc
 
-        try:
-            original_response = original_response[0]
-        except IndexError as exc:
-            raise ProviderException(
-                message="No predictions found",
-                code=400,
-            ) from exc
+        answer = ""
 
-        if original_response.get("error") is not None:
-            raise ProviderException(
-                message=original_response["error"]["message"], code=400
+        for i in range(len(original_response)):
+            if original_response[i].get("error") is not None:
+                raise ProviderException(
+                    message=original_response["error"]["message"], code=400
+                )
+
+            if (
+                not original_response[i].get("candidates")
+                or len(original_response[i].get("candidates", [])) < 1
+            ):
+                raise ProviderException(message="No predictions found", code=400)
+            answer += (
+                original_response[i]["candidates"][0]
+                .get("content", {})
+                .get("parts", [{}])[0]
+                .get("text", "")
             )
 
-        if (
-            not original_response.get("candidates")
-            or len(original_response.get("candidates", [])) < 1
-        ):
-            raise ProviderException(message="No predictions found", code=400)
-
         standardized_response = QuestionAnswerDataClass(
-            answers=[
-                part.get("text", "")
-                for part in original_response["candidates"][0]
-                .get("content", {})
-                .get("parts", {})
-            ]
+            answers=[answer],
         )
 
         return ResponseType[QuestionAnswerDataClass](
