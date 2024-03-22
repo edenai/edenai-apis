@@ -483,7 +483,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         payees_list_value = []
         for p in payees_list:
             if p:
-                payees_list_value.append(p.get("value", ""))
+                payees_list_value.append(p.get("value") or "")
         payees_str = None
         if len(payees_list_value) > 0:
             payees_str = ",".join(payees_list_value)
