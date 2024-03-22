@@ -120,11 +120,11 @@ class DeeplApi(ProviderInterface, TranslationInterface):
         response = requests.post(
             f"{self.url}document/{document_id}", headers=self.header, data=doc_key
         ).json()
-        while response["status"] != "done":
+        while response.get("status") != "done":
             response = requests.post(
                 f"{self.url}document/{document_id}", headers=self.header, data=doc_key
             ).json()
-            if response["status"] == "error":
+            if response.get("status") == "error":
                 raise ProviderException(response["error_message"])
             sleep(0.5)
 
