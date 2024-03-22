@@ -464,7 +464,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
             response = requests.post(self.url_bank_check, headers=headers, files=files)
         except:
             raise ProviderException(
-                "Something went wrong when calling this feautre!!", code=500
+                "Something went wrong when calling this feature", code=500
             )
         original_response = response.json()
         if response.status_code >= 400 or "document" not in original_response:
