@@ -108,19 +108,9 @@ class SaplingApi(ProviderInterface, TextInterface):
         headers = {"Content-Type": "application/json"}
         payload = {"key": self.api_key, "text": text}
 
-        try:
-            response = requests.post(
-                f"{self.url}sentiment", json=payload, headers=headers
-            )
-        except Exception as excp:
-            raise ProviderException(str(excp), code=500)
+        response = requests.post(f"{self.url}sentiment", json=payload, headers=headers)
 
-        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
-            raise ProviderException("Internal server error", code=response.status_code)
-
-        if response.status_code >= HTTPStatus.BAD_REQUEST:
-            raise ProviderException(response.text, code=response.status_code)
-
+        SaplingApi._check_error(response)
         response_json = response.json()
 
         best_sentiment = {
