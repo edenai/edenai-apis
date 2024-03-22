@@ -1,0 +1,476 @@
+{
+  "original_response": {
+    "general": {
+      "ShopName": {
+        "value": "SC AUCHAN ROMANIA SA"
+      },
+      "ShopStreet": {
+        "value": "STR. ZAHARIA STANCU, NR. 1"
+      },
+      "Date": {
+        "value": "2022-04-02"
+      },
+      "Time": {
+        "value": "12:29"
+      },
+      "TotalPrice": {
+        "value": "168.95"
+      },
+      "Currency": {
+        "value": "RON"
+      }
+    },
+    "productItems": [
+      {
+        "TaxPercentage": {
+          "value": "19.0"
+        },
+        "TaxLabel": {
+          "value": "D"
+        },
+        "ProductName": {
+          "value": "STICKERE PUISOR QUA"
+        },
+        "ProductPrice": {
+          "value": "16.0"
+        },
+        "ProductUnitPrice": {
+          "value": "16.0"
+        },
+        "ProductQuantity": {
+          "value": "1.0"
+        },
+        "ProductUnit": {
+          "value": "BUC"
+        }
+      },
+      {
+        "TaxPercentage": {
+          "value": "19.0"
+        },
+        "TaxLabel": {
+          "value": "D"
+        },
+        "ProductName": {
+          "value": "SELECLINE FIERBATOR"
+        },
+        "ProductPrice": {
+          "value": "44.01"
+        },
+        "ProductUnitPrice": {
+          "value": "44.01"
+        },
+        "ProductQuantity": {
+          "value": "1.0"
+        },
+        "ProductUnit": {
+          "value": "BUC"
+        }
+      },
+      {
+        "TaxPercentage": {
+          "value": "19.0"
+        },
+        "TaxLabel": {
+          "value": "D"
+        },
+        "ProductName": {
+          "value": "TAXA VERDE"
+        },
+        "ProductPrice": {
+          "value": "0.89"
+        },
+        "ProductUnitPrice": {
+          "value": "0.89"
+        },
+        "ProductQuantity": {
+          "value": "1.0"
+        },
+        "ProductUnit": {
+          "value": "BUC"
+        }
+      },
+      {
+        "TaxPercentage": {
+          "value": "19.0"
+        },
+        "TaxLabel": {
+          "value": "D"
+        },
+        "ProductName": {
+          "value": "COS DREPTUNG CARLIGE"
+        },
+        "ProductPrice": {
+          "value": "5.55"
+        },
+        "ProductUnitPrice": {
+          "value": "5.55"
+        },
+        "ProductQuantity": {
+          "value": "1.0"
+        },
+        "ProductUnit": {
+          "value": "BUC"
+        }
+      },
+      {
+        "TaxPercentage": {
+          "value": "9.0"
+        },
+        "TaxLabel": {
+          "value": "B"
+        },
+        "ProductName": {
+          "value": "CROISSANT 7 DAYS SPU"
+        },
+        "ProductPrice": {
+          "value": "1.75"
+        },
+        "ProductUnitPrice": {
+          "value": "1.75"
+        },
+        "ProductQuantity": {
+          "value": "1.0"
+        },
+        "ProductUnit": {
+          "value": "BUC"
+        }
+      },
+      {
+        "TaxPercentage": {
+          "value": "9.0"
+        },
+        "TaxLabel": {
+          "value": "B"
+        },
+        "ProductName": {
+          "value": "PAINE CU MAIA SI MAS"
+        },
+        "ProductPrice": {
+          "value": "3.6"
+        },
+        "ProductUnitPrice": {
+          "value": "3.6"
+        },
+        "ProductQuantity": {
+          "value": "1.0"
+        },
+        "ProductUnit": {
+          "value": "BUC"
+        }
+      },
+      {
+        "TaxPercentage": {
+          "value": "9.0"
+        },
+        "TaxLabel": {
+          "value": "B"
+        },
+        "ProductName": {
+          "value": "PATE DE PORC 20% 120"
+        },
+        "ProductPrice": {
+          "value": "7.1"
+        },
+        "ProductUnitPrice": {
+          "value": "3.55"
+        },
+        "ProductQuantity": {
+          "value": "2.0"
+        },
+        "ProductUnit": {
+          "value": "BUC"
+        }
+      },
+      {
+        "TaxPercentage": {
+          "value": "9.0"
+        },
+        "TaxLabel": {
+          "value": "B"
+        },
+        "ProductName": {
+          "value": "NUTELLA 700G"
+        },
+        "ProductPrice": {
+          "value": "19.4"
+        },
+        "ProductUnitPrice": {
+          "value": "19.4"
+        },
+        "ProductQuantity": {
+          "value": "1.0"
+        },
+        "ProductUnit": {
+          "value": "BUC"
+        }
+      },
+      {
+        "TaxPercentage": {
+          "value": "19.0"
+        },
+        "TaxLabel": {
+          "value": "D"
+        },
+        "ProductName": {
+          "value": "RADIERA GALET"
+        },
+        "ProductPrice": {
+          "value": "4.55"
+        },
+        "ProductUnitPrice": {
+          "value": "4.55"
+        },
+        "ProductQuantity": {
+          "value": "1.0"
+        },
+        "ProductUnit": {
+          "value": "BUC"
+        }
+      },
+      {
+        "TaxPercentage": {
+          "value": "19.0"
+        },
+        "TaxLabel": {
+          "value": "D"
+        },
+        "ProductName": {
+          "value": "GP SUPER ALKALINE LR"
+        },
+        "ProductPrice": {
+          "value": "18.7"
+        },
+        "ProductUnitPrice": {
+          "value": "18.7"
+        },
+        "ProductQuantity": {
+          "value": "1.0"
+        },
+        "ProductUnit": {
+          "value": "BUC"
+        }
+      },
+      {
+        "TaxPercentage": {
+          "value": "19.0"
+        },
+        "TaxLabel": {
+          "value": "D"
+        },
+        "ProductName": {
+          "value": "NIVEA BALS DUPA RAS"
+        },
+        "ProductPrice": {
+          "value": "30.5"
+        },
+        "ProductUnitPrice": {
+          "value": "30.5"
+        },
+        "ProductQuantity": {
+          "value": "1.0"
+        },
+        "ProductUnit": {
+          "value": "BUC"
+        }
+      },
+      {
+        "TaxPercentage": {
+          "value": "19.0"
+        },
+        "TaxLabel": {
+          "value": "D"
+        },
+        "ProductName": {
+          "value": "AUC VV LICHID PARBRC END ELEMENTE"
+        },
+        "ProductPrice": {
+          "value": "16.9"
+        },
+        "ProductUnitPrice": {
+          "value": "16.9"
+        },
+        "ProductQuantity": {
+          "value": "1.0"
+        },
+        "ProductUnit": {
+          "value": "BUC"
+        }
+      }
+    ],
+    "taxes": [
+      {
+        "TaxAmount": {
+          "value": "2.63"
+        },
+        "TaxNetAmount": {
+          "value": "2.63"
+        },
+        "TaxGrossAmount": {
+          "value": "31.85"
+        },
+        "TaxPercentage": {
+          "value": "9.0"
+        },
+        "TaxLabel": {
+          "value": "B"
+        }
+      },
+      {
+        "TaxAmount": {
+          "value": "21.89"
+        },
+        "TaxNetAmount": {
+          "value": "21.89"
+        },
+        "TaxGrossAmount": {
+          "value": "137.1"
+        },
+        "TaxPercentage": {
+          "value": "19.0"
+        },
+        "TaxLabel": {
+          "value": "D"
+        }
+      }
+    ],
+    "payments": null,
+    "performanceOption": "SPEED",
+    "fileHash": "f89132435d92e7300bcf989407e4d4cc",
+    "version": "0.1.20",
+    "numberOfPages": 1,
+    "pages": [],
+    "fullText": null,
+    "languages": [
+      "ro",
+      "en"
+    ],
+    "mainLanguage": "ro"
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "invoice_number": null,
+        "invoice_total": 168.95,
+        "invoice_subtotal": null,
+        "barcodes": [],
+        "category": null,
+        "date": "2022-04-02",
+        "due_date": null,
+        "time": "12:29",
+        "customer_information": {
+          "customer_name": null
+        },
+        "merchant_information": {
+          "merchant_name": "SC AUCHAN ROMANIA SA",
+          "merchant_address": "STR. ZAHARIA STANCU, NR. 1",
+          "merchant_phone": null,
+          "merchant_url": null,
+          "merchant_siret": null,
+          "merchant_siren": null,
+          "merchant_vat_number": null,
+          "merchant_gst_number": null,
+          "merchant_abn_number": null
+        },
+        "payment_information": {
+          "card_type": null,
+          "card_number": null,
+          "cash": null,
+          "tip": null,
+          "discount": null,
+          "change": null
+        },
+        "locale": {
+          "currency": "RON",
+          "language": "ro",
+          "country": null
+        },
+        "taxes": [
+          {
+            "taxes": 2.63,
+            "rate": 9.0
+          },
+          {
+            "taxes": 21.89,
+            "rate": 19.0
+          }
+        ],
+        "receipt_infos": {},
+        "item_lines": [
+          {
+            "description": "STICKERE PUISOR QUA",
+            "quantity": 1.0,
+            "amount": 16.0,
+            "unit_price": 16.0
+          },
+          {
+            "description": "SELECLINE FIERBATOR",
+            "quantity": 1.0,
+            "amount": 44.01,
+            "unit_price": 44.01
+          },
+          {
+            "description": "TAXA VERDE",
+            "quantity": 1.0,
+            "amount": 0.89,
+            "unit_price": 0.89
+          },
+          {
+            "description": "COS DREPTUNG CARLIGE",
+            "quantity": 1.0,
+            "amount": 5.55,
+            "unit_price": 5.55
+          },
+          {
+            "description": "CROISSANT 7 DAYS SPU",
+            "quantity": 1.0,
+            "amount": 1.75,
+            "unit_price": 1.75
+          },
+          {
+            "description": "PAINE CU MAIA SI MAS",
+            "quantity": 1.0,
+            "amount": 3.6,
+            "unit_price": 3.6
+          },
+          {
+            "description": "PATE DE PORC 20% 120",
+            "quantity": 2.0,
+            "amount": 7.1,
+            "unit_price": 3.55
+          },
+          {
+            "description": "NUTELLA 700G",
+            "quantity": 1.0,
+            "amount": 19.4,
+            "unit_price": 19.4
+          },
+          {
+            "description": "RADIERA GALET",
+            "quantity": 1.0,
+            "amount": 4.55,
+            "unit_price": 4.55
+          },
+          {
+            "description": "GP SUPER ALKALINE LR",
+            "quantity": 1.0,
+            "amount": 18.7,
+            "unit_price": 18.7
+          },
+          {
+            "description": "NIVEA BALS DUPA RAS",
+            "quantity": 1.0,
+            "amount": 30.5,
+            "unit_price": 30.5
+          },
+          {
+            "description": "AUC VV LICHID PARBRC END ELEMENTE",
+            "quantity": 1.0,
+            "amount": 16.9,
+            "unit_price": 16.9
+          }
+        ]
+      }
+    ]
+  }
+}
