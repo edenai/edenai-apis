@@ -1,103 +1,68 @@
 {
     "success": true,
-    "remaining_credit": 21.12,
+    "remaining_credit": 8.12,
     "data": {
-        "id": 21884,
+        "id": 22978,
         "result": {
             "skills": [
-                "Operating Systems",
-                "Compiler Construction",
-                "Computer Graphics",
-                "PDP-8",
-                "PDP-11",
-                "CDC 6000 Series",
-                "WATerloo FORTRAN IV (WATFIV)",
-                "GNU Cobol",
-                "ALGOL (ALGOrithmic Language)",
-                "Scheduling",
-                "Real Time Systems",
-                "Debugging",
-                "Traffic Flow",
-                "Presentation Design",
-                "Traffic Engineering",
-                "Microcomputer",
-                "Prototype (Computer Science)",
-                "Information Sciences"
+                "Detail Oriented",
+                "Graphic Design",
+                "Aesthetics",
+                "Product Design",
+                "Moz (SEO Software)",
+                "Website Management",
+                "Content Design",
+                "Brand Marketing",
+                "Industrial Production",
+                "Logo Design",
+                "Branding",
+                "Team Management",
+                "Digital Marketing",
+                "Copywriting",
+                "English Language",
+                "French Language"
             ],
             "basic_info": {
-                "name": "Jhon Doe",
-                "links": [],
-                "current_position": "Systems programmer"
+                "name": "Olivia Wilson",
+                "links": [
+                    "www.reallygreatsite.com"
+                ],
+                "current_position": "Product Design Manager"
             },
             "contact_info": {
-                "email": "jhon.doe@test.com",
-                "phone_number": "(617)498-3909",
-                "street_address": "A-11 Harvard University Cambridge, Massachusetts 02138",
-                "city": "Cambridge",
-                "zip_code": "02138",
-                "country": "USA"
+                "email": "hello@reallygreatsite.com",
+                "phone_number": "+123-456-7890",
+                "street_address": "123 Anywhere St.",
+                "city": "Any",
+                "zip_code": "12345",
+                "country": "Any"
             },
             "work_experience": {
                 "works": [
                     {
-                        "company": "TRW Systems Group",
-                        "end_date": "1973-09-01",
-                        "job_title": "Systems programmer",
-                        "seniority": "Junior",
-                        "start_date": "1973-01-01",
-                        "months": 8
-                    },
-                    {
-                        "company": "In partnership with Paul G. Allen",
-                        "end_date": "Present",
-                        "job_title": "Systems analyst or systems programmer",
-                        "seniority": "Intern",
-                        "start_date": "1972-06-01",
-                        "months": 621
-                    },
-                    {
-                        "company": "Lakeside school",
-                        "end_date": "1972-09-01",
-                        "job_title": "Co-leader and Co-Partner",
-                        "seniority": "Junior",
-                        "start_date": "1971-06-01",
-                        "months": 15
-                    },
-                    {
-                        "company": "Information Science Inc.",
-                        "end_date": "1971-12-01",
-                        "job_title": "Part of team designing and implementing an extensive payroll package in COBOL",
-                        "seniority": "Junior",
-                        "start_date": "1971-01-01",
-                        "months": 11
+                        "company": "Ginyard International Co.",
+                        "end_date": "2023-01-01",
+                        "job_title": "Product Design Manager",
+                        "seniority": "Mid",
+                        "start_date": "2020-01-01",
+                        "months": 36
                     }
                 ],
-                "total_work_experience": 54.699999999999996,
-                "average_time": 13.7
+                "total_work_experience": 3,
+                "average_time": 3
             },
             "education": [
                 {
-                    "major": null,
-                    "school_name": "Harvard College",
-                    "education_level": "BS",
-                    "graduation_year": null
-                }
-            ],
-            "achievements_and_honors": [
-                {
-                    "date": null,
-                    "name": "Honors student",
-                    "institution_name": "Harvard College"
+                    "major": "Product Design",
+                    "school_name": "Arowwai Industries",
+                    "education_level": "Bachelor of Design",
+                    "graduation_year": 2019
                 },
                 {
-                    "date": "1974-05-01",
-                    "name": "Demonstrations to costumers",
-                    "institution_name": "In partnership with Paul G. Allen"
-                },
-                {
-                    "date": "1973-09-01",
-                    "name": "Total profits from this venture exceed $10.000",
-                    "institution_name": "Lakeside school"
+                    "major": "Branding and Logo Design",
+                    "school_name": "Wardiere University",
+                    "education_level": "Bachelor of Design",
+                    "graduation_year": 2008
                 }
             ]
         }
