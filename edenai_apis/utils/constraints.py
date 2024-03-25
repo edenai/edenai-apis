@@ -401,6 +401,8 @@ def validate_all_provider_constraints(
 
         return validated_args
 
+    args = validate_models(provider, subfeature, {}, args)
+
     args = transform_file_args(args)
 
     return args
