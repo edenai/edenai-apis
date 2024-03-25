@@ -959,13 +959,12 @@ def microsoft_financial_parser_formatter(
         )
 
         # Payment information
+        amount_value = (page_document.get("AmountDue", {}) or {}).get("value", {}) or {}
         payment_information = FinancialPaymentInformation(
             total=page_document.get("InvoiceTotal", {}).get("value", {}).get("amount"),
             subtotal=page_document.get("SubTotal", {}).get("value", {}).get("amount"),
             payment_terms=page_document.get("PaymentTerm", {}).get("value"),
-            amount_due=page_document.get("AmountDue", {})
-            .get("value", {})
-            .get("amount"),
+            amount_due=amount_value.get("amount"),
             previous_unpaid_balance=page_document.get("PreviousUnpaidBalance", {}).get(
                 "amount"
             ),
