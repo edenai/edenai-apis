@@ -729,7 +729,7 @@ def _convert_response_to_blocks_with_id(responses: list) -> dict:
 
     blocks_dict = {}
     for response in responses:
-        for block in response["Blocks"]:
+        for block in response.get("Blocks", []) or []:
             blocks_dict[block["Id"]] = block
     return blocks_dict
 
