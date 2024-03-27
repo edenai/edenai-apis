@@ -467,7 +467,10 @@ class OpenaiTextApi(TextInterface):
             "max_tokens": max_tokens,
         }
 
-        response = requests.post(url, json=payload, headers=self.headers)
+        try:
+            response = requests.post(url, json=payload, headers=self.headers)
+        except requests.exceptions.ChunkedEncodingError:
+            raise ProviderException("Connection closed with provider", 400)
         original_response = get_openapi_response(response)
 
         standardized_response = CodeGenerationDataClass(
