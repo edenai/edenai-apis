@@ -52,7 +52,7 @@ from edenai_apis.features.ocr.financial_parser import (
     FinancialMerchantInformation,
     FinancialParserDataClass,
     FinancialParserObjectDataClass,
-    FinancialPaymentInformation
+    FinancialPaymentInformation,
 )
 from edenai_apis.utils.conversion import (
     combine_date_with_time,
@@ -662,70 +662,99 @@ class FinancialStandardizer:
     def std_response(self) -> List[FinancialParserObjectDataClass]:
         extracted_data = []
         for page_idx, invoice in enumerate(self.__formatted_data):
+            address_parsed = (invoice.get("customerBillingAddress", {}) or {}).get(
+                "parsed", {}
+            ) or {}
             customer_information = FinancialCustomerInformation(
                 name=invoice.get("customerContactName", {}).get("raw"),
                 billing_address=invoice.get("customerBillingAddress", {}).get("raw"),
                 shipping_address=invoice.get("customerDeliveryAddress", {}).get("raw"),
-                country=invoice.get("customerBillingAddress", {}).get("parsed", {}).get("country"),
-                zip_code=invoice.get("customerBillingAddress", {}).get("parsed", {}).get("postalCode"),
-                city=invoice.get("customerBillingAddress", {}).get("parsed", {}).get("city"),
-                street_name=invoice.get("customerBillingAddress", {}).get("parsed", {}).get("street"),
-                house_number=invoice.get("customerBillingAddress", {}).get("parsed" , {}).get("apartmentNumber"),
-                province=invoice.get("customerBillingAddress", {}).get("parsed", {}).get("state"),
+                country=address_parsed.get("country"),
+                zip_code=address_parsed.get("postalCode"),
+                city=address_parsed.get("city"),
+                street_name=address_parsed.get("street"),
+                house_number=address_parsed.get("apartmentNumber"),
+                province=address_parsed.get("state"),
                 business_number=invoice.get("customerBusinessNumber", {}).get("raw"),
                 email=invoice.get("customerEmail", {}).get("raw"),
                 id_reference=invoice.get("customerNumber", {}).get("raw"),
                 phone=invoice.get("customerPhoneNumber", {}).get("raw"),
-                vat_number=invoice.get("customerVat", {}).get("raw")
+                vat_number=invoice.get("customerVat", {}).get("raw"),
             )
             merchant_information = FinancialMerchantInformation(
                 address=invoice.get("supplierAddress", {}).get("raw"),
-                country=invoice.get("supplierAddress", {}).get("parsed", {}).get("country"),
-                street_name=invoice.get("supplierAddress", {}).get("parsed", {}).get("street"),
-                house_number=invoice.get("supplierAddress",{}).get("parsed", {}).get("apartmentNumber"),
+                country=invoice.get("supplierAddress", {})
+                .get("parsed", {})
+                .get("country"),
+                street_name=invoice.get("supplierAddress", {})
+                .get("parsed", {})
+                .get("street"),
+                house_number=invoice.get("supplierAddress", {})
+                .get("parsed", {})
+                .get("apartmentNumber"),
                 city=invoice.get("supplierAddress", {}).get("parsed", {}).get("city"),
-                zip_code=invoice.get("supplierAddress", {}).get("parsed", {}).get("postalCode"),
-                province=invoice.get("supplierAddress", {}).get("parsed", {}).get("state"),
+                zip_code=invoice.get("supplierAddress", {})
+                .get("parsed", {})
+                .get("postalCode"),
+                province=invoice.get("supplierAddress", {})
+                .get("parsed", {})
+                .get("state"),
                 business_number=invoice.get("supplierBusinessNumber", {}).get("raw"),
                 name=invoice.get("supplierCompanyName", {}).get("raw"),
                 email=invoice.get("supplierEmail", {}).get("raw"),
                 phone=invoice.get("supplierPhoneNumber", {}).get("raw"),
                 vat_number=invoice.get("supplierVat", {}).get("raw"),
-                website=invoice.get("supplierWebsite", {}).get("raw")
+                website=invoice.get("supplierWebsite", {}).get("raw"),
             )
             payment_information = FinancialPaymentInformation(
-                amount_paid=convert_string_to_number(invoice.get("paymentAmountPaid", {}).get("parsed"), float),
-                total_tax=convert_string_to_number(invoice.get("paymentAmountTax", {}).get("parsed"), float),
-                total=convert_string_to_number(invoice.get("paymentAmountTotal", {}).get("parsed"), float),
-                amount_due=convert_string_to_number(invoice.get("paymentAmountDue", {}).get("parsed"), float),
+                amount_paid=convert_string_to_number(
+                    invoice.get("paymentAmountPaid", {}).get("parsed"), float
+                ),
+                total_tax=convert_string_to_number(
+                    invoice.get("paymentAmountTax", {}).get("parsed"), float
+                ),
+                total=convert_string_to_number(
+                    invoice.get("paymentAmountTotal", {}).get("parsed"), float
+                ),
+                amount_due=convert_string_to_number(
+                    invoice.get("paymentAmountDue", {}).get("parsed"), float
+                ),
                 payment_terms=invoice.get("paymentTerms", {}).get("raw"),
                 transaction_reference=invoice.get("paymentReference", {}).get("raw"),
-                amount_shipping=convert_string_to_number(invoice.get("paymentDelivery", {}).get("parsed"), float),
-                subtotal=convert_string_to_number(invoice.get("paymentAmountBase", {}).get("parsed"), float),
-                previous_unpaid_balance=invoice.get("openingBalance", {}).get("parsed")
+                amount_shipping=convert_string_to_number(
+                    invoice.get("paymentDelivery", {}).get("parsed"), float
+                ),
+                subtotal=convert_string_to_number(
+                    invoice.get("paymentAmountBase", {}).get("parsed"), float
+                ),
+                previous_unpaid_balance=invoice.get("openingBalance", {}).get("parsed"),
             )
             financial_document_information = FinancialDocumentInformation(
-                invoice_receipt_id=invoice.get("invoiceNumber", {}).get("raw") or invoice.get("receiptNumber", {}).get("raw"),
+                invoice_receipt_id=invoice.get("invoiceNumber", {}).get("raw")
+                or invoice.get("receiptNumber", {}).get("raw"),
                 order_date=invoice.get("invoiceOrderDate", {}).get("raw"),
                 purchase_order=invoice.get("invoicePurchaseOrderNumber", {}).get("raw"),
                 invoice_due_date=invoice.get("paymentDateDue", {}).get("raw"),
-                invoice_date=invoice.get("invoiceDate", {}).get("raw") or invoice.get("date", {}).get("raw"),
+                invoice_date=invoice.get("invoiceDate", {}).get("raw")
+                or invoice.get("date", {}).get("raw"),
                 biller_code=invoice.get("bpayBillerCode", {}).get("raw"),
-                time=invoice.get("time",{}).get("raw")
-
+                time=invoice.get("time", {}).get("raw"),
             )
             bank = FinancialBankInformation(
                 account_number=invoice.get("bankAccountNumber", {}).get("raw"),
                 bsb=invoice.get("bankBsb", {}).get("raw"),
                 iban=invoice.get("bankIban", {}).get("raw"),
                 swift=invoice.get("bankSwift", {}).get("raw"),
-                sort_code=invoice.get("bankSortCode", {}).get("raw")
+                sort_code=invoice.get("bankSortCode", {}).get("raw"),
             )
             local = FinancialLocalInformation(
-                currency_code=invoice.get("currencyCode", {}).get("parsed", {}).get("value") or invoice.get("receiptCurrencyCode", {}).get("parsed", {}).get("value")
+                currency_code=invoice.get("currencyCode", {})
+                .get("parsed", {})
+                .get("value")
+                or invoice.get("receiptCurrencyCode", {}).get("parsed", {}).get("value")
             )
             document_metadata = FinancialDocumentMetadata(
-                document_page_number=page_idx+1
+                document_page_number=page_idx + 1
             )
             item_lines = []
             tables = invoice.get("items") or []
@@ -741,11 +770,17 @@ class FinancialStandardizer:
 
                     item_lines.append(
                         FinancialLineItem(
-                            unit_price=convert_string_to_number(unit_price.get("raw"), float),
-                            quantity=convert_string_to_number(quantity.get("parsed"), int),
+                            unit_price=convert_string_to_number(
+                                unit_price.get("raw"), float
+                            ),
+                            quantity=convert_string_to_number(
+                                quantity.get("parsed"), int
+                            ),
                             amount=convert_string_to_number(total.get("raw"), float),
                             description=description.get("raw"),
-                            amount_line=convert_string_to_number(total.get("parsed"), float)
+                            amount_line=convert_string_to_number(
+                                total.get("parsed"), float
+                            ),
                         )
                     )
 
@@ -758,14 +793,16 @@ class FinancialStandardizer:
                     bank=bank,
                     local=local,
                     document_metadata=document_metadata,
-                    item_lines=item_lines
+                    item_lines=item_lines,
                 )
             )
         self.__std_response["extracted_data"] = extracted_data
         return self.__std_response["extracted_data"]
-    
+
     @property
     def standardized_response(self):
         return FinancialParserDataClass(
-            extracted_data=[invoice for invoice in self.__std_response["extracted_data"]]
+            extracted_data=[
+                invoice for invoice in self.__std_response["extracted_data"]
+            ]
         )
