@@ -42,8 +42,6 @@ class PerplexityApi(ProviderInterface, TextInterface):
             length = len(lst_data)
         for token in lst_data:
             jsonres = json.loads(token)
-            if error := jsonres.get("error"):
-                raise ProviderException(error.get("message"), error.get("code") or 400)
             yield ChatStreamResponse(
                 text=jsonres["choices"][0]["delta"]["content"],
                 blocked=False,
