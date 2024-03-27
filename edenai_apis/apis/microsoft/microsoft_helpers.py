@@ -959,13 +959,12 @@ def microsoft_financial_parser_formatter(
         )
 
         # Payment information
+        amount_value = (page_document.get("AmountDue", {}) or {}).get("value", {}) or {}
         payment_information = FinancialPaymentInformation(
             total=page_document.get("InvoiceTotal", {}).get("value", {}).get("amount"),
             subtotal=page_document.get("SubTotal", {}).get("value", {}).get("amount"),
             payment_terms=page_document.get("PaymentTerm", {}).get("value"),
-            amount_due=page_document.get("AmountDue", {})
-            .get("value", {})
-            .get("amount"),
+            amount_due=amount_value.get("amount"),
             previous_unpaid_balance=page_document.get("PreviousUnpaidBalance", {}).get(
                 "amount"
             ),
@@ -1037,15 +1036,16 @@ def microsoft_financial_parser_formatter(
                     amount_line_value = (line.get("Amount", {}) or {}).get(
                         "value", {}
                     ) or {}
+                    unit_price_value = (line.get("UnitPrice", {}) or {}).get(
+                        "value", {}
+                    ) or {}
                     item_lines.append(
                         FinancialLineItem(
                             amount_line=amount_line_value.get("amount")
                             or (line.get("TotalPrice", {}) or {}).get("value"),
                             description=line.get("Description", {}).get("value"),
                             quantity=line.get("Quantity", {}).get("value") or 0,
-                            unit_price=line.get("UnitPrice", {})
-                            .get("value", {})
-                            .get("amount"),
+                            unit_price=unit_price_value.get("amount"),
                             product_code=line.get("ProductCode", {}).get("value"),
                             date=(
                                 line.get("Date", {}).get("value").isoformat()
