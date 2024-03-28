@@ -1,11 +1,14 @@
 import logging
-from typing import Any, List, Optional, TypeVar, Union
+from typing import Any, List, Optional, TypeVar, Union, Protocol
 
 T = TypeVar("T")
 
+class Indexable(Protocol):
+    def __getitem__(self, __key: Any) -> Any:
+        ...
 
 def extract(
-    obj: Union[dict, list],
+    obj: Indexable,
     path: List[Union[str, int]],
     fallback: T = None,
     type_validator: Optional[type] = None,
