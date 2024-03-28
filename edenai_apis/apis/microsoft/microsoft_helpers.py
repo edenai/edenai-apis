@@ -1,4 +1,5 @@
 import datetime
+from utils.parsing import extract
 from collections import defaultdict
 from copy import deepcopy
 from math import floor
@@ -918,104 +919,92 @@ def microsoft_financial_parser_formatter(
     for page_idx, page_document in enumerate(responses):
         # Customer information
         customer_information = FinancialCustomerInformation(
-            name=page_document.get("CustomerName", {}).get("value"),
-            id=page_document.get("CustomerId", {}).get("value"),
-            tax_id=page_document.get("CustomerTaxId", {}).get("value"),
-            mailling_address=page_document.get("CustomerAddress", {}).get("content"),
-            billing_address=page_document.get("BillingAddress", {}).get("content"),
-            shipping_address=page_document.get("ShippingAddress", {}).get("content"),
-            remittance_address=page_document.get("RemittanceAddress", {}).get(
-                "content"
-            ),
-            service_address=page_document.get("ServiceAddress", {}).get("content"),
-            remit_to_name=page_document.get("CustomerAddressRecipient", {}).get(
-                "content"
-            ),
+            name=extract(page_document, ["CustomerName", "value"]),
+            id_reference=extract(page_document, ["CustomerId", "value"]),
+            tax_id=extract(page_document, ["CustomerTaxId", "value"]),
+            mailling_address=extract(page_document, ["CustomerAddress", "content"]),
+            billing_address=extract(page_document, ["BillingAddress", "content"]),
+            shipping_address=extract(page_document, ["ShippingAddress", "content"]),
+            remittance_address=extract(page_document, ["RemittanceAddress", "content"]),
+            service_address=extract(page_document, ["ServiceAddress", "content"]),
+            remit_to_name=extract(page_document, ["CustomerAddressRecipient", "content"]),
         )
 
         # Merchant information
         merchant_information = FinancialMerchantInformation(
-            name=page_document.get("VendorName", {}).get("value")
-            or page_document.get("MerchantName", {}).get("value"),
-            address=page_document.get("VendorAddress", {}).get("content")
-            or page_document.get("MerchantAddress", {}).get("content"),
-            phone=page_document.get("MerchantPhoneNumber", {}).get("value"),
-            tax_id=page_document.get("VendorTaxId", {}).get("value"),
-            house_number=page_document.get("MerchantAddress", {})
-            .get("value", {})
-            .get("house_number"),
-            street_name=page_document.get("MerchantAddress", {})
-            .get("value", {})
-            .get("street_address"),
-            city=page_document.get("MerchantAddress", {})
-            .get("value", {})
-            .get("city_district"),
-            zip_code=page_document.get("MerchantAddress", {})
-            .get("value", {})
-            .get("postal_code"),
-            province=page_document.get("MerchantAddress", {})
-            .get("value", {})
-            .get("state_district"),
+            phone=extract(page_document, ["MerchantPhoneNumber", "value"]),
+            tax_id=extract(page_document, ["VendorTaxId", "value"]),
+            house_number=extract(page_document, ["MerchantAddress", "value", "house_number"]),
+            street_name=extract(page_document, ["MerchantAddress", "value", "street_address"]),
+            city=extract(page_document, ["MerchantAddress", "value", "city_district"]),
+            zip_code=extract(page_document, ["MerchantAddress", "value", "postal_code"]),
+            province=extract(page_document, ["MerchantAddress", "value", "state_district"]),
+            name=extract(
+                obj=page_document,
+                path=['VendorName', 'value'],
+                fallback=extract(page_document, ["MerchantName", "value"])
+            ),
+            address=extract(
+                obj=page_document,
+                path=["VendorAddress", 'content'],
+                fallback=extract(page_document, ['MerchantAddress', "content"])
+            ),
         )
 
         # Payment information
         payment_information = FinancialPaymentInformation(
-            total=page_document.get("InvoiceTotal", {}).get("value", {}).get("amount"),
-            subtotal=page_document.get("SubTotal", {}).get("value", {}).get("amount"),
-            payment_terms=page_document.get("PaymentTerm", {}).get("value"),
-            amount_due=page_document.get("AmountDue", {})
-            .get("value", {})
-            .get("amount"),
-            previous_unpaid_balance=page_document.get("PreviousUnpaidBalance", {}).get(
-                "amount"
+            total=extract(page_document, ["InvoiceTotal", "value", "amount"]),
+            subtotal=extract(page_document, ["SubTotal", "value", "amount"]),
+            payment_terms=extract(page_document, ["PaymentTerm", "value"]),
+            amount_due=extract(page_document, ["AmountDue", "value", "amount"]),
+            previous_unpaid_balance=extract(page_document, ["PreviousUnpaidBalance", "value"]),
+            discount=extract(page_document, ["TotalDiscount", "value", "amount"]),
+            total_tax = extract(
+                obj=page_document,
+                path=["TotalTax", "value"],
+                type_validator=float,
+                fallback=extract(page_document, ["TotalTax", "value", "amount"])
             ),
-            total_tax=(
-                page_document.get("TotalTax", {}).get("value", {}).get("amount")
-                if isinstance(page_document.get("TotalTax", {}).get("value"), dict)
-                else page_document.get("TotalTax", {}).get("value")
-            ),
-            discount=page_document.get("TotalDiscount", {})
-            .get("value", {})
-            .get("amount"),
         )
 
         # Document information
         financial_document_information = FinancialDocumentInformation(
-            invoice_receipt_id=page_document.get("InvoiceId", {}).get("value"),
-            purchase_order=page_document.get("PurchaseOrder", {}).get("value"),
-            invoice_due_date=format_date(page_document.get("DueDate", {}).get("value")),
+            invoice_receipt_id=extract(page_document, ["InvoiceId", "value"]),
+            purchase_order=extract(page_document, ["PurchaseOrder", "value"]),
+            invoice_due_date=format_date(extract(page_document, ["DueDate", "value"])),
             invoice_date=format_date(
-                page_document.get("InvoiceDate", {}).get("value")
-                or page_document.get("TransactionDate", {}).get("value")
+                extract(
+                    obj=page_document,
+                    path=["InvoiceDate", "value"],
+                    fallback=extract(page_document, ["TransactionDate", "value"]),
+                )
             ),
             time=convert_time_to_string(
-                page_document.get("InvoiceTime", {}).get("value")
-                or page_document.get("TransactionTime", {}).get("value")
+                extract(
+                    obj=page_document,
+                    path=["InvoiceTime", "value"],
+                    fallback=extract(page_document, ["TransactionTime", "value"]),
+                )
             ),
         )
 
         # Bank information
-        payment_details = page_document.get("PaymentDetails", {}).get("value", [])
+        payment_details = extract(page_document, ["PaymentDetails", "value"], fallback=[])
         payment_items = []
         for obj in payment_details:
-            line = obj.get("value", {})
-            if line:
-                payment_items.append(
-                    {
-                        "iban": line.get("IBAN", {}).get("content"),
-                        "swift": line.get("SWIFT", {}).get("content"),
-                    }
-                )
+            if line := obj.get("value"):
+                payment_items.append({
+                    "iban": extract(line, ["IBAN", "content"]),
+                    "swift": extract(line, ["SWIFT", "content"]),
+                })
         bank = FinancialBankInformation(
-            swift=payment_items[0].get("swift") if len(payment_items) > 0 else None,
-            iban=payment_items[0].get("iban") if len(payment_items) > 0 else None,
+            swift=extract(payment_items, [0, "swift"]),
+            iban=extract(payment_items, [0, "iban"]),
         )
 
         # Local information
         local = FinancialLocalInformation(
-            currency_code=page_document.get("InvoiceTotal", {})
-            .get("value", {})
-            .get("code")
+            currency_code=extract(page_document, ["InvoiceTotal", "value", "code"])
         )
 
         # Document metadata
@@ -1026,40 +1015,37 @@ def microsoft_financial_parser_formatter(
         )
 
         # Items
-        items = page_document.get("items")
+        items = page_document.get("items") or []
         item_lines = []
-        if items:
-            for item in items:
-                page_item = item["bounding_regions"][0].get("page_number")
-                line = item.get("value", {})
-                if page_item == page_idx + 1 and line:
-                    # Amount Line
-                    amount_line_value = (line.get("Amount", {}) or {}).get(
-                        "value", {}
-                    ) or {}
-                    item_lines.append(
-                        FinancialLineItem(
-                            amount_line=amount_line_value.get("amount")
-                            or (line.get("TotalPrice", {}) or {}).get("value"),
-                            description=line.get("Description", {}).get("value"),
-                            quantity=line.get("Quantity", {}).get("value") or 0,
-                            unit_price=line.get("UnitPrice", {})
-                            .get("value", {})
-                            .get("amount"),
-                            product_code=line.get("ProductCode", {}).get("value"),
-                            date=(
-                                line.get("Date", {}).get("value").isoformat()
-                                if isinstance(
-                                    line.get("Date", {}).get("value"), datetime.date
-                                )
-                                else line.get("Date", {}).get("value")
-                            ),
-                            tax=(line.get("Tax", {}).get("value") or {}).get("amount"),
-                            tax_rate=convert_string_to_number(
-                                line.get("TaxRate", {}).get("value"), float
-                            ),
+        for item in items:
+            page_item=extract(item, ["bounding_regions", 0, "page_number"])
+            line = item.get("value")
+            if line and page_item == (page_idx + 1):
+                # Amount Line
+
+                date = extract(line, ['Date', 'value'])
+                if isinstance(date, datetime.date):
+                    date = date.isoformat()
+
+                item_lines.append(
+                    FinancialLineItem(
+                        amount_line=extract(
+                            obj=line,
+                            path=["Amount", "value", "amount"],
+                            fallback=extract(line, ["TotalPrice", "value"]),
+                        ),
+                        description=extract(line, ["Description", "value"]),
+                        quantity=extract(line, ["Quantity", "value"], 0),
+                        unit_price=extract(line, ["UnitPrice", "value", "amount"]),
+                        product_code=extract(line, ["ProductCode", "value"]),
+                        date=date,
+                        tax=extract(line, ["Tax", "value", "amount"]),
+                        tax_rate=convert_string_to_number(
+                            string_number=extract(line, ["TaxRate", "value"]),
+                            val_type=float
                         )
                     )
+                )
         extracted_data.append(
             FinancialParserObjectDataClass(
                 customer_information=customer_information,
