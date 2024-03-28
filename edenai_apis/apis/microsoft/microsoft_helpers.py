@@ -2,7 +2,7 @@ import datetime
 from collections import defaultdict
 from copy import deepcopy
 from math import floor
-from typing import Dict, List, Sequence
+from typing import Dict, List, Sequence, Optional, Any
 
 from edenai_apis.features.image.face_detection.face_detection_dataclass import (
     FaceAccessories,
@@ -46,9 +46,9 @@ from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
     BoundingBox,
     Line,
     OcrAsyncDataClass,
-    Word,
-    Page as OcrAsyncPage,
 )
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import Page as OcrAsyncPage
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import Word
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     BoundixBoxOCRTable,
     Cell,
@@ -67,10 +67,11 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import (
     combine_date_with_time,
-    standardized_confidence_score,
-    convert_time_to_string,
     convert_string_to_number,
+    convert_time_to_string,
+    standardized_confidence_score,
 )
+from edenai_apis.utils.parsing import extract
 from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
 
 
@@ -310,6 +311,18 @@ def miscrosoft_normalize_face_detection_response(response, img_size):
         )
     return deepcopy(faces_list)
 
+def _get_page_val(
+    fields: dict,
+    page_num: int,
+    path: List[str],
+) -> Optional[Any]:
+    """Extract value if object page_number is equal to current page"""
+    value = None
+    field_name = path[0]
+    page_number_path = [field_name, "bounding_regions", 0, "page_number"]
+    if extract(fields, page_number_path) == page_num:
+        value = extract(fields, path)
+    return value
 
 def normalize_invoice_result(response):
     """normalize the original response of the provider api"""
@@ -321,306 +334,55 @@ def normalize_invoice_result(response):
             fields = document.get("fields")
             if not fields:
                 continue
-            customer_name = (
-                fields.get("CustomerName", default_dict).get("value")
-                if fields.get("CustomerName", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-            # Customer information
 
-            customer_id = (
-                fields.get("CustomerId", default_dict).get("value")
-                if fields.get("CustomerId", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
+            page_num = idx + 1
 
-            customer_tax_id = (
-                fields.get("CustomerTaxId", default_dict).get("value")
-                if fields.get("CustomerTaxId", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-
-            customer_address = (
-                fields.get("CustomerAddress", default_dict).get("content")
-                if fields.get("CustomerAddress", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-
-            customer_mailing_address = (
-                fields.get("CustomerAddress", default_dict).get("content")
-                if fields.get("CustomerAddress", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-
-            customer_billing_address = (
-                fields.get("BillingAddress", default_dict).get("content")
-                if fields.get("BillingAddress", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-
-            customer_shipping_address = (
-                fields.get("ShippingAddress", default_dict).get("content")
-                if fields.get("ShippingAddress", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-
-            customer_service_address = (
-                fields.get("ServiceAddress", default_dict).get("content")
-                if fields.get("ServiceAddress", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-
-            customer_remittance_address = (
-                fields.get("RemittanceAddress", default_dict).get("content")
-                if fields.get("RemittanceAddress", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-
-            # Merchant information
-            merchant_address = (
-                fields.get("VendorAddress", default_dict).get("content")
-                if fields.get("VendorAddress", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-
-            merchant_name = (
-                fields.get("VendorName", default_dict).get("value", None)
-                if fields.get("VendorName", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-
-            merchant_tax_id = (
-                fields.get("VendorTaxId", default_dict).get("value")
-                if fields.get("VendorTaxId", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-
-            # Others
-            purchase_order = (
-                fields.get("PurchaseOrder", default_dict).get("value")
-                if fields.get("PurchaseOrder", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-
-            payment_term = (
-                fields.get("PaymentTerm", default_dict).get("value")
-                if fields.get("PaymentTerm", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-
-            total = fields.get("InvoiceTotal", {}) or {}
-            total_value = total.get("value", {}) or {}
-            total_bouding_regions = (total.get("bounding_regions", [{}]) or [{}])[0]
-            invoice_total = (
-                total_value.get("amount")
-                if total_bouding_regions.get("page_number") == idx + 1
-                else None
-            )
-
-            invoice_subtotal = (
-                (
-                    fields.get("SubTotal", default_dict)
-                    .get("value", default_dict)
-                    .get("amount")
-                )
-                if fields.get("SubTotal", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-
-            invoice_number = (
-                fields.get("InvoiceId", default_dict).get("value")
-                if fields.get("InvoiceId", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-            date = (
-                format_date(fields.get("InvoiceDate", default_dict).get("value"))
-                if fields.get("InvoiceDate", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-            invoice_time = (
-                fields.get("InvoiceTime", default_dict).get("value")
-                if fields.get("InvoiceTime", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-            date = combine_date_with_time(date, invoice_time)
-            due_date = (
-                format_date(fields.get("DueDate", default_dict).get("value"))
-                if fields.get("DueDate", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
-            total_tax = fields.get("TotalTax", {}) or {}
-            total_tax_value = total_tax.get("value", {}) or {}
-            total_tax_bouding_regions = (
-                total_tax.get("bounding_regions", [{}]) or [{}]
-            )[0]
-            taxes = [
-                TaxesInvoice(
-                    value=(
-                        total_tax_value.get("amount")
-                        if total_tax_bouding_regions.get("page_number") == idx + 1
-                        else None
-                    ),
-                    rate=None,
-                )
-            ]
-
-            amount = fields.get("AmountDue", {}) or {}
-            amount_due_value = amount.get("value", {}) or {}
-            amount_due_bouding_regions = (amount.get("bounding_regions", [{}]) or [{}])[
-                0
-            ]
-            amount_due = (
-                amount_due_value.get("amount")
-                if amount_due_bouding_regions.get("page_number") == idx + 1
-                else None
-            )
-            previous_unpaid_balance = (
-                fields.get("PreviousUnpaidBalance", default_dict).get("amount")
-                if fields.get("PreviousUnpaidBalance", {})
-                .get("bounding_regions", [{}])[0]
-                .get("page_number")
-                == idx + 1
-                else None
-            )
+            customer_name               = _get_page_val(fields, page_num, ["CustomerName",          "value"          ])
+            customer_id                 = _get_page_val(fields, page_num, ["CustomerId",            "value"          ])
+            customer_tax_id             = _get_page_val(fields, page_num, ["CustomerTaxId",         "value"          ])
+            customer_address            = _get_page_val(fields, page_num, ["CustomerAddress",       "content"        ])
+            customer_mailing_address    = _get_page_val(fields, page_num, ["CustomerAddress",       "content"        ])
+            customer_billing_address    = _get_page_val(fields, page_num, ["BillingAddress",        "content"        ])
+            customer_shipping_address   = _get_page_val(fields, page_num, ["ShippingAddress",       "content"        ])
+            customer_service_address    = _get_page_val(fields, page_num, ["ServiceAddress",        "content"        ])
+            customer_remittance_address = _get_page_val(fields, page_num, ["RemittanceAddress",     "content"        ])
+            merchant_address            = _get_page_val(fields, page_num, ["VendorAddress",         "content"        ])
+            merchant_name               = _get_page_val(fields, page_num, ["VendorName",            "value"          ])
+            merchant_tax_id             = _get_page_val(fields, page_num, ["VendorTaxId",           "value"          ])
+            purchase_order              = _get_page_val(fields, page_num, ["PurchaseOrder",         "value"          ])
+            payment_term                = _get_page_val(fields, page_num, ["PaymentTerm",           "value"          ])
+            invoice_total               = _get_page_val(fields, page_num, ["InvoiceTotal",          "value", "amount"])
+            invoice_subtotal            = _get_page_val(fields, page_num, ["SubTotal",              "value", "amount"])
+            invoice_number              = _get_page_val(fields, page_num, ["InvoiceId",             "value"          ])
+            invoice_date                = _get_page_val(fields, page_num, ["InvoiceDate",           "value"          ])
+            invoice_time                = _get_page_val(fields, page_num, ["InvoiceTime",           "value"          ])
+            due_date                    = _get_page_val(fields, page_num, ["DueDate",               "value"          ])
+            tax                         = _get_page_val(fields, page_num, ["TotalTax",              "value", "amount"])
+            amount_due                  = _get_page_val(fields, page_num, ["AmountDue",             "value", "amount"])
+            previous_unpaid_balance     = _get_page_val(fields, page_num, ["PreviousUnpaidBalance", "value", "amount"])
 
             # Items line
-            items = fields.get("Items", default_dict).get("value", [])
+            items = extract(fields, ["Items", "value"], [])
             item_lines: Sequence[ItemLinesInvoice] = []
             for item in items:
-                line = item.get("value", default_dict) or {}
-                if line:
-                    ## Amount
-                    line_amount = line.get("Amount", {}) or {}
-                    line_amount_value = line_amount.get("value", {}) or {}
-                    amount_bouding_regions = (
-                        line_amount.get("bounding_regions", [{}]) or [{}]
-                    )[0]
-                    ## Prcie
-                    line_price = line.get("UnitPrice", {}) or {}
-                    line_price_value = line_price.get("value", {}) or {}
-                    price_bouding_regions = (
-                        line_price.get("bounding_regions", [{}]) or [{}]
-                    )[0]
+                if line := item.get("value"):
+                    amount       = _get_page_val(line, page_num, ["Amount",      "value", "amount"])
+                    description  = _get_page_val(line, page_num, ["Description", "value"          ])
+                    quantity     = _get_page_val(line, page_num, ["Quantity",    "value"          ])
+                    unit_price   = _get_page_val(line, page_num, ["UnitPrice",   "value", "amount"])
+                    product_code = _get_page_val(line, page_num, ["ProductCode", "value"          ])
+                    date_item    = _get_page_val(line, page_num, ["Date",        "value"          ])
+                    tax_item     = _get_page_val(line, page_num, ["Tax",         "value", "amount"])
+
                     item_lines.append(
                         ItemLinesInvoice(
-                            amount=(
-                                line_amount_value.get("amount")
-                                if amount_bouding_regions.get("page_number") == idx + 1
-                                else None
-                            ),
-                            description=(
-                                line.get("Description", default_dict).get("value")
-                                if line.get("Description", {})
-                                .get("bounding_regions", [{}])[0]
-                                .get("page_number")
-                                == idx + 1
-                                else None
-                            ),
-                            quantity=(
-                                (
-                                    float(
-                                        (line.get("Quantity", {}) or {}).get("value", 0)
-                                        or 0
-                                    )
-                                    or None
-                                )
-                                if line.get("Quantity", {})
-                                .get("bounding_regions", [{}])[0]
-                                .get("page_number")
-                                == idx + 1
-                                else None
-                            ),
-                            unit_price=(
-                                line_price_value.get("amount")
-                                if price_bouding_regions.get("page_number")
-                                else None
-                            ),
-                            product_code=(
-                                line.get("ProductCode", default_dict).get("value")
-                                if line.get("ProductCode", {})
-                                .get("bounding_regions", [{}])[0]
-                                .get("page_number")
-                                == idx + 1
-                                else None
-                            ),
-                            date_item=(
-                                str(
-                                    line.get("Date", default_dict).get("value", "")
-                                    or ""
-                                )
-                                if line.get("Date", {})
-                                .get("bounding_regions", [{}])[0]
-                                .get("page_number")
-                                == idx + 1
-                                else None
-                            ),
-                            tax_item=(
-                                line.get("Tax", default_dict)
-                                .get("value", default_dict)
-                                .get("amount")
-                                if fields.get("Tax", {})
-                                .get("bounding_regions", [{}])[0]
-                                .get("page_number")
-                                == idx + 1
-                                else None
-                            ),
+                            amount=amount,
+                            description=description,
+                            quantity=float(quantity) if quantity else None,
+                            unit_price=unit_price,
+                            product_code=product_code,
+                            date_item=str(date_item) if date_item else None,
+                            tax_item=tax_item,
                         )
                     )
 
@@ -663,10 +425,10 @@ def normalize_invoice_result(response):
                     payment_term=payment_term,
                     amount_due=amount_due,
                     previous_unpaid_balance=previous_unpaid_balance,
-                    date=date,
-                    due_date=due_date,
+                    date=combine_date_with_time(format_date(invoice_date), invoice_time),
+                    due_date=format_date(due_date),
                     purchase_order=purchase_order,
-                    taxes=taxes,
+                    taxes=[TaxesInvoice(value=tax, rate=None)],
                     item_lines=item_lines,
                 )
             )
