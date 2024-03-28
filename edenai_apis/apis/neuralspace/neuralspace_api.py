@@ -1,5 +1,7 @@
 import json
+from http import HTTPStatus
 from typing import Dict, List, Optional, Sequence, Any
+from utils.parsing import extract
 
 import requests
 
@@ -204,14 +206,19 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         payload.update(provider_params)
 
         response = requests.post(url=url_file_transcribe, headers=headers, data=payload)
-        original_response = response.json()
+
         if response.status_code != 201:
-            raise ProviderException(
-                original_response.get("data").get("error"), code=response.status_code
-            )
+            status = response.status_code
+            message = response.text
+            try:
+                data = response.json()
+                message = extract(data, ["data", "error"], fallback=message)
+            except requests.JSONDecodeError:
+                message = HTTPStatus(status).phrase
+            raise ProviderException(message, code=status)
 
+        original_response = response.json()
         transcribeId = original_response.get("data").get("transcribeId")
-
         return AsyncLaunchJobResponseType(provider_job_id=transcribeId)
 
     def audio__speech_to_text_async__get_job_result(
