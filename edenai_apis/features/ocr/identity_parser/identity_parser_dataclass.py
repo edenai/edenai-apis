@@ -114,14 +114,12 @@ class InfosIdentityParserDataClass(BaseModel):
 
     @field_validator("expire_date", "issuance_date", "birth_date")
     def date_validator(cls, value, info: ValidationInfo):
-        none_val = {"value": None, "confidence": None}
         if not value.value:
-            return none_val
+            return {"value": None, "confidence": None}
         try:
             datetime.datetime.strptime(value.value, "%Y-%m-%d")
         except ValueError:
             logging.warning(f"Incorrect date format received on {info.field_name}, format should be YYYY-MM-DD. Got: {value.value}")
-            return none_val
         return value
 
     @staticmethod
