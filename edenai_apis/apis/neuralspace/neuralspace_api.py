@@ -209,12 +209,12 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
 
         if response.status_code != 201:
             status = response.status_code
-            message = response.text
+            message = HTTPStatus(status).phrase
             try:
                 data = response.json()
                 message = extract(data, ["data", "error"], fallback=message)
             except requests.JSONDecodeError:
-                message = HTTPStatus(status).phrase
+                pass
             raise ProviderException(message, code=status)
 
         original_response = response.json()
