@@ -24,7 +24,7 @@ psycopg2
 #test
 pytest-mock
 pytest-cov
-pytest
+pytest==7.4.4
 pytest-xdist
 pytest-timeout
 
