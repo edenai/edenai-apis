@@ -117,16 +117,21 @@ class DeeplApi(ProviderInterface, TranslationInterface):
 
         doc_key = {"document_key": document_key}
 
-        response = requests.post(
+        response_status = requests.post(
             f"{self.url}document/{document_id}", headers=self.header, data=doc_key
         ).json()
-        while response.get("status") != "done":
-            response = requests.post(
-                f"{self.url}document/{document_id}", headers=self.header, data=doc_key
-            ).json()
-            if response.get("status") == "error":
-                raise ProviderException(response["error_message"])
-            sleep(0.5)
+        try:
+            while response_status.get("status") != "done":
+                response_status = requests.post(
+                    f"{self.url}document/{document_id}",
+                    headers=self.header,
+                    data=doc_key,
+                ).json()
+                if response_status.get("status") == "error":
+                    raise ProviderException(response_status["error_message"])
+                sleep(0.5)
+        except KeyError as exc:
+            raise ProviderException("Internal server error", 500) from exc
 
         response = requests.post(
             f"{self.url}document/{document_id}/result",
