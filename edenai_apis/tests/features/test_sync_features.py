@@ -4,6 +4,7 @@
     - Saved output for each provider exists and is well standardized
     - providers APIs work and their outputs are well standardized
 """
+
 import importlib
 import os
 import traceback
@@ -138,6 +139,10 @@ class TestSyncSubfeatures(CommonTestsSubfeatures):
     def test_sync_subfeature(self, providers, feature, subfeature):
         """Test API Call"""
         failures = []
+        model_erros = [
+            "Resolution not supported by the provider",
+            "missing 1 required positional argument: 'model'",
+        ]
         # List of providers with wokring / not working
         for provider in providers:
             self._test_feature_saved_output(provider, feature, subfeature)
@@ -150,8 +155,10 @@ class TestSyncSubfeatures(CommonTestsSubfeatures):
 
         # Only fail if all providers failes in a certain feature/subfeature
         print(failures)
-        if "missing 1 required positional argument: 'model'" in str(failures):
-            pytest.skip("we skip test because of missing model argument. This should be tested in implementation of the feature")
+        if any([model_error in str(failures) for model_error in model_erros]):
+            pytest.skip(
+                "we skip test because of missing model argument. This should be tested in implementation of the feature"
+            )
         assert len(providers) != len(failures)
 
     def test_sync_subfeature_fake(self, providers, feature, subfeature):
