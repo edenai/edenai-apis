@@ -242,33 +242,20 @@ def validate_audio_format(constraints: dict, args: dict) -> dict:
 def validate_models(
     provider: str, subfeature: str, constraints: dict, args: dict
 ) -> Dict:
-    models = constraints.get("models") or constraints.get("voice_ids")
-    if not models:
-        if "settings" in args:
-            del args["settings"]
-        return args
-
-    # get right model name
+    voice_ids = constraints.get("voice_ids")
     settings = args.get("settings", {})
 
-    # if it's a voice id for text_to_speech
-    if any(option in models for option in ["MALE", "FEMALE"]):
-        voice_id = retreive_voice_id(
-            provider, subfeature, args["language"], args["option"], settings
-        )
-        args["voice_id"] = voice_id
-    else:  # otherwise
+    if "text_to_speech" in subfeature and voice_ids:
+        if any(option in voice_ids for option in ["MALE", "FEMALE"]):
+            voice_id = retreive_voice_id(
+                provider, subfeature, args["language"], args["option"], settings
+            )
+            args["voice_id"] = voice_id
+    else:
         if settings and provider in settings:
-            if constraints and settings[provider] in models:
-                selected_model = settings[provider]
-            else:
-                all_availaible_models = ", ".join(models)
-                raise ProviderException(
-                    f"Wrong model name, availaible models for {provider} are : {all_availaible_models}"
-                )
-        else:
-            selected_model = constraints.get("default_model")
-        args["model"] = selected_model
+            selected_model = settings[provider]
+            args["model"] = selected_model
+
     args.pop("settings", None)
     return args
 
@@ -413,6 +400,8 @@ def validate_all_provider_constraints(
         validated_args = transform_file_args(validated_args)
 
         return validated_args
+
+    args = validate_models(provider, subfeature, {}, args)
 
     args = transform_file_args(args)
 

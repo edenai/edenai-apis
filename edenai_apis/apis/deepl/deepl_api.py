@@ -48,13 +48,17 @@ class DeeplApi(ProviderInterface, TranslationInterface):
         }
 
         response = requests.request("POST", url, headers=self.header, data=data)
-        original_response = response.json()
 
         if response.status_code >= 500:
+            raise ProviderException(message=response.text, code=response.status_code)
+
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
             raise ProviderException(
-                message=http.client.responses[response.status_code],
-                code=response.status_code,
-            )
+                message=response.text, code=response.status_code
+            ) from exc
+
         if response.status_code != 200:
             raise ProviderException(
                 message=original_response["message"], code=response.status_code

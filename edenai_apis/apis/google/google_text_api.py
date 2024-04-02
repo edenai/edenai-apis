@@ -499,12 +499,17 @@ class GoogleTextApi(TextInterface):
             response = requests.post(
                 url=f"{url}:predict", headers=headers, json=payload
             )
-            original_response = response.json()
-            if "error" in original_response:
+            try:
+                original_response = response.json()
+                if "error" in original_response:
+                    raise ProviderException(
+                        message=original_response["error"]["message"],
+                        code=response.status_code,
+                    )
+            except json.JSONDecodeError as exc:
                 raise ProviderException(
-                    message=original_response["error"]["message"],
-                    code=response.status_code,
-                )
+                    response.text, code=response.status_code
+                ) from exc
 
             # Standardize the response
             generated_text = original_response["predictions"][0]["candidates"][0][
