@@ -1,5 +1,5 @@
 import datetime
-from utils.parsing import extract
+
 from collections import defaultdict
 from copy import deepcopy
 from math import floor

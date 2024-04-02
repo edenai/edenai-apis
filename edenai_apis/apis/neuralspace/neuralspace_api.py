@@ -1,7 +1,7 @@
 import json
 from http import HTTPStatus
 from typing import Dict, List, Optional, Sequence, Any
-from utils.parsing import extract
+from edenai_apis.utils.parsing import extract
 
 import requests
 
