@@ -239,9 +239,11 @@ class OpenaiTextApi(TextInterface):
         response = requests.post(url, json=payload, headers=self.headers)
         original_response = get_openapi_response(response)
 
-        answer = original_response["choices"][0]["text"].split("\n")
-        answer = answer[0]
-        standardized_response = QuestionAnswerDataClass(answers=[answer])
+        answers = []
+        for choice in original_response["choices"]:
+            answer = choice["text"]
+            answers.append(answer)
+        standardized_response = QuestionAnswerDataClass(answers=answers)
 
         result = ResponseType[QuestionAnswerDataClass](
             original_response=original_response,
