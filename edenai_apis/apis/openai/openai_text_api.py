@@ -795,7 +795,7 @@ class OpenaiTextApi(TextInterface):
             )
 
     def text__prompt_optimization(
-        self, text: str, target_provider: Literal["openai", "google", "cohere"]
+        self, text: str, target_provider: str
     ) -> ResponseType[PromptOptimizationDataClass]:
         url = f"{self.url}/chat/completions"
         prompt = construct_prompt_optimization_instruction(text, target_provider)
