@@ -317,6 +317,10 @@ def construct_prompt_optimization_instruction(text: str, target_provider: str):
         "perplexityai": perplexityai_prompt_guidelines(text),
     }
 
+    # Check if the target provider is supported, if not raise error
+    if target_provider not in prompt:
+        raise ProviderException(f"Unsupported target provider: {target_provider}")
+
     return prompt[target_provider]
 
 
