@@ -69,6 +69,7 @@
 | | extracta |
 | | mindee |
 | | veryfi |
+| **invoice_splitter_async** | mindee |
 
 </details>
 <details><summary>text</summary>
@@ -734,6 +735,7 @@
 | | financial_parser |
 | | identity_parser |
 | | invoice_parser |
+| | invoice_splitter_async |
 | | receipt_parser |
 
 </details>
