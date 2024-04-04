@@ -107,13 +107,26 @@
           "pt-PT"
         ],
         "allow_null_language": true,
-        "documents" : [
+        "documents": [
           "receipt",
           "invoice"
         ],
-      "allow_null_document_type": true
+        "allow_null_document_type": true
       },
       "version": "v1.2"
+    },
+    "invoice_splitter_async": {
+      "version": "v1",
+      "constraints": {
+        "file_types": [
+          "application/pdf",
+          "image/jpeg",
+          "image/png",
+          "image/tiff",
+          "image/heic",
+          "image/webp"
+        ]
+      }
     }
   }
 }
