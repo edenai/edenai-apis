@@ -609,7 +609,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
                 error=original_response["api_request"]["error"],
             )
 
-        if original_response["api_request"]["status"] == "pending":
+        if original_response["job"]["status"] in ["processing", "waiting"]:
             return AsyncPendingResponseType(provider_job_id=provider_job_id)
 
         extracted_data = []
