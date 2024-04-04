@@ -460,7 +460,11 @@ class NyckelApi(ProviderInterface, ImageInterface):
             raise ProviderException(
                 message="There must 2 images per labels and at least 2 labels in the project"
             )
-        labels = [res["annotation"]["labelId"] for res in response_json]
+        labels = [
+            res["annotation"]["labelId"]
+            for res in response_json
+            if res.get("annotation")
+        ]
         unique_labels = set(labels)
         nb_two_labes = 0
         for x in unique_labels:
