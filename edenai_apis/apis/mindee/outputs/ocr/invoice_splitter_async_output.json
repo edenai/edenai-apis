@@ -1,0 +1,103 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "620540d7-21b1-415c-9ba2-213bf10d85bb",
+  "original_response": {
+    "api_request": {
+      "error": {},
+      "resources": [
+        "document",
+        "job"
+      ],
+      "status": "success",
+      "status_code": 200,
+      "url": "https://api.mindee.net/v1/products/mindee/invoice_splitter/v1/documents/9f4f745e-6a39-4230-be99-06f7ac81efb1"
+    },
+    "document": {
+      "id": "9f4f745e-6a39-4230-be99-06f7ac81efb1",
+      "inference": {
+        "extras": {},
+        "finished_at": "2024-04-04T08:42:40.306000",
+        "is_rotation_applied": null,
+        "pages": [
+          {
+            "extras": {},
+            "id": 0,
+            "orientation": {
+              "value": null
+            },
+            "prediction": {}
+          },
+          {
+            "extras": {},
+            "id": 1,
+            "orientation": {
+              "value": null
+            },
+            "prediction": {}
+          },
+          {
+            "extras": {},
+            "id": 2,
+            "orientation": {
+              "value": null
+            },
+            "prediction": {}
+          }
+        ],
+        "prediction": {
+          "invoice_page_groups": [
+            {
+              "confidence": 1.0,
+              "page_indexes": [
+                0
+              ]
+            },
+            {
+              "confidence": 1.0,
+              "page_indexes": [
+                1,
+                2
+              ]
+            }
+          ]
+        },
+        "processing_time": 2.2077951431274414,
+        "product": {
+          "features": [
+            "invoice_page_groups"
+          ],
+          "name": "mindee/invoice_splitter",
+          "type": "standard",
+          "version": "1.2"
+        },
+        "started_at": "2024-04-04T08:42:37.988000"
+      },
+      "n_pages": 3,
+      "name": "invoice-multipages.pdf"
+    },
+    "job": {
+      "available_at": "2024-04-04T08:42:40.316000",
+      "error": {},
+      "id": "620540d7-21b1-415c-9ba2-213bf10d85bb",
+      "issued_at": "2024-04-04T08:42:37.988000",
+      "status": "completed"
+    }
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "page_indexes": [
+          0
+        ],
+        "confidence": 1.0
+      },
+      {
+        "page_indexes": [
+          1,
+          2
+        ],
+        "confidence": 1.0
+      }
+    ]
+  }
+}
