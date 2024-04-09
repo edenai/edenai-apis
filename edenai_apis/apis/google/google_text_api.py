@@ -508,7 +508,7 @@ class GoogleTextApi(TextInterface):
                     )
             except json.JSONDecodeError as exc:
                 raise ProviderException(
-                    response.text, code=response.status_code
+                    "Provider did not return a valid JSON", code=response.status_code
                 ) from exc
 
             # Standardize the response
