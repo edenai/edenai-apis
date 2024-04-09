@@ -150,7 +150,7 @@ class MicrosoftTextApi(TextInterface):
 
         if response.status_code != 202:
             err = response.json().get("error", {})
-            details = err.get("details", [defaultdict])[0] or {}
+            details = (err.get("details", [{}]) or [{}])[0]
             error_msg = details.get("message", "Microsoft Azure couldn't create job")
             raise ProviderException(error_msg, code=response.status_code)
 
