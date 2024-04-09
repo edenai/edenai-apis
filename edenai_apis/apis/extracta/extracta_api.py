@@ -1,45 +1,36 @@
-from typing import Dict
+import base64
+import json
+import mimetypes
+from typing import List, Dict, Union
 
+import requests
+
+from edenai_apis.apis.extracta.extracta_ocr_normalizer import (
+    extracta_resume_parser,
+    extracta_bank_check_parsing,
+)
+from edenai_apis.features.ocr.bank_check_parsing import BankCheckParsingDataClass
+from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
+    CustomDocumentParsingAsyncBoundingBox,
+    CustomDocumentParsingAsyncDataClass,
+    CustomDocumentParsingAsyncItem,
+)
+from edenai_apis.features.ocr.ocr_interface import OcrInterface
+from edenai_apis.features.ocr.resume_parser import ResumeParserDataClass
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-
-import mimetypes
-import base64
-import requests
-
-import json
-from typing import List, Dict, Union
-
 from edenai_apis.utils.exception import (
     AsyncJobException,
     AsyncJobExceptionReason,
     ProviderException,
 )
-
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
     ResponseType,
-)
-
-from edenai_apis.features.ocr.ocr_interface import OcrInterface
-
-from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
-    CustomDocumentParsingAsyncBoundingBox,
-    CustomDocumentParsingAsyncDataClass,
-    CustomDocumentParsingAsyncItem,
-)
-
-from edenai_apis.features.ocr.resume_parser import ResumeParserDataClass
-
-from edenai_apis.features.ocr.bank_check_parsing import BankCheckParsingDataClass
-
-from edenai_apis.apis.extracta.extracta_ocr_normalizer import (
-    extracta_resume_parser,
-    extracta_bank_check_parsing,
 )
 
 
@@ -206,7 +197,7 @@ class ExtractaApi(
         for key, value in extraction_details.items():
             item = CustomDocumentParsingAsyncItem(
                 confidence=1,
-                value=value,
+                value=str(value),
                 query=key,
                 page=0,
                 bounding_box=CustomDocumentParsingAsyncBoundingBox(
