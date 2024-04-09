@@ -121,13 +121,13 @@ class DeeplApi(ProviderInterface, TranslationInterface):
             f"{self.url}document/{document_id}", headers=self.header, data=doc_key
         ).json()
         try:
-            while response_status.get("status") != "done":
+            while response_status["status"] != "done":
                 response_status = requests.post(
                     f"{self.url}document/{document_id}",
                     headers=self.header,
                     data=doc_key,
                 ).json()
-                if response_status.get("status") == "error":
+                if response_status["status"] == "error":
                     raise ProviderException(response_status["error_message"])
                 sleep(0.5)
         except KeyError as exc:
