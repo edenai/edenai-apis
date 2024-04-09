@@ -2,10 +2,6 @@ import json
 from typing import Dict, Generator, List, Literal, Optional, Sequence, Union
 
 import requests
-from google.cloud import language_v1
-from google.cloud.language import Document as GoogleDocument
-from google.protobuf.json_format import MessageToDict
-
 from edenai_apis.apis.google.google_helpers import (
     get_access_token,
     get_tag_name,
@@ -18,7 +14,7 @@ from edenai_apis.features.text import (
     CodeGenerationDataClass,
     GenerationDataClass,
 )
-from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
+from edenai_apis.features.text.chat.chat_dataclass import ChatStreamResponse, StreamChat
 from edenai_apis.features.text.embeddings.embeddings_dataclass import (
     EmbeddingDataClass,
     EmbeddingsDataClass,
@@ -54,7 +50,12 @@ from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass impor
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
+from edenai_apis.utils.parsing import extract
 from edenai_apis.utils.types import ResponseType
+
+from google.cloud import language_v1
+from google.cloud.language import Document as GoogleDocument
+from google.protobuf.json_format import MessageToDict
 
 
 class GoogleTextApi(TextInterface):
@@ -284,10 +285,9 @@ class GoogleTextApi(TextInterface):
                     message=original_response["error"]["message"],
                     code=response.status_code,
                 )
-            parts = (
-                (original_response[i]["candidates"] or [{}])[0]["content"] or {}
-            ).get("parts", [])
-            generated_text += parts[0].get("text", "") if parts else ""
+            parts = extract(original_response, [i, "candidates", 0, "content", "parts"])
+            if parts:
+                generated_text += extract(parts, [0, "text"], fallback="", type_validator=str)
 
         standardized_response = GenerationDataClass(generated_text=generated_text)
 
@@ -508,7 +508,7 @@ class GoogleTextApi(TextInterface):
                     )
             except json.JSONDecodeError as exc:
                 raise ProviderException(
-                    response.text, code=response.status_code
+                    "Provider did not return a valid JSON", code=response.status_code
                 ) from exc
 
             # Standardize the response

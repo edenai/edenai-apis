@@ -5,6 +5,13 @@ from requests import Response
 
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
+from .prompts_guidelines import (
+    anthropic_prompt_guidelines,
+    cohere_prompt_guideines,
+    google_prompt_guidelines,
+    general_prompt_guidelines,
+    perplexityai_prompt_guidelines,
+)
 
 
 def construct_classification_instruction(
@@ -270,110 +277,6 @@ Please perform this task and provide the JSON output.
 """
 
 
-cohere_prompt_guideines = (
-    lambda description: f"""
-Construct a prompt for cohere Large language Model from a user description by following these guidelines :
-
-To write a good prompt in the Cohere Playground, you can follow these guidelines based on the provided article:
-
-Understand the Purpose: Clearly define the purpose of your prompt. Identify what specific output or task you want the generative model to perform.
-
-Be Clear and Specific: Craft your prompt to provide clear instructions or commands to the model. Use imperative verbs like "generate," "write," "list," or "provide" to guide the model's output. The more specific you are, the better the model will understand your requirements.
-
-Use Context and Examples: Consider adding context or examples to your prompt to help ground the model's output. Providing additional information or relevant examples can improve the accuracy and relevance of the generated text.
-
-Iterate and Experiment: Prompt design is a creative process, so feel free to iterate and experiment with different variations of prompts. Test different instructions, formats, or additional details to refine and improve the output.
-
-Consider Prompt Length: Depending on the complexity of the task, you can use both short and long prompts. A concise prompt can sometimes yield satisfactory results, while longer prompts with more instructions and context may be necessary for more specific tasks.
-
-
-Remember, prompt design is a combination of science and art. While there are guiding principles, it's also essential to be creative and open to exploring different approaches until you achieve the desired outcome.  
-
-User Description : 
-
-{description}
-
-Prompt : 
-"""
-)
-google_prompt_guidelines = (
-    lambda description: f"""
-Construct a prompt for Google Generative Ai Large Language Model from a user description by following these guidelines : 
-
-Give clear instructions:
-Prompt the model to provide specific guidance and suggestions to enhance the formatting of academic papers. For example:
-"Please provide recommendations to improve the structure and organization of the introduction section of an academic paper on [topic]."
-
-Include examples:
-Present the model with well-formatted examples of academic paper sections or elements. Request the model to generate similar structures or formats. For instance:
-"Based on the provided abstract, generate a concise and well-structured conclusion for an academic paper."
-
-Contextual information:
-If needed, provide contextual information that the model can use to tailor its response. For example:
-"Given the research question, provide a discussion section that presents the findings and their implications in a clear and coherent manner."
-
-Partial input completion:
-Ask the model to complete or revise partial content based on formatting rules. For instance:
-"Given the incomplete citation, please generate the full APA citation for the provided scholarly article."
-
-Response formatting:
-Guide the model to format its responses appropriately. For example:
-"Format your response as a bulleted list, outlining the key steps involved in conducting a literature review for an academic research paper."
-
-User Description : 
-
-{description}
-
-Prompt : 
-"""
-)
-openai_prompt_guidelines = (
-    lambda description: f"""
-Construct a prompt for OpenAI GPT Large Language Model from a user description by following these guidelines : 
-To write good prompts for GPT models, you can follow these guidelines :
-
-Be clear and specific: Provide clear instructions and constraints in your prompt to guide the model towards generating the desired output. Avoid leaving ambiguous or open-ended prompts that may result in unexpected responses. Specify the task or query explicitly.
-
-Example: Instead of "Classify this post," use "Classify the sentiment of this post as positive, neutral, or negative: 'My cat is adorable '"
-
-Provide sample outputs: If you have specific formatting requirements or want the model to generate outputs in a particular structure, provide examples of the expected output. This helps the model understand the desired format and align its responses accordingly.
-
-Example: Instead of just asking to extract cities and airport codes, provide an example of the expected JSON output structure:
-
-Extract the cities and airport codes from this text as JSON:
-
-Text: "I want to fly from Los Angeles to Miami."
-JSON Output: {{
-  "Origin": {{
-    "CityName": "Los Angeles",
-    "AirportCode": "LAX"
-  }},
-  "Destination": {{
-    "CityName": "Miami",
-    "AirportCode": "MIA"
-  }}
-}}
-
-Provide relevant context: If the prompt requires the model to answer questions or perform specific tasks, provide relevant background information or facts to guide the model's understanding. This helps prevent the model from generating fabricated or incorrect responses.
-
-Example: When asking questions about a specific document, include relevant context from that document in your prompt:
-
-Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass one-thousandth that of the Sun... [additional context]
-
-Answer the following question:
-Q: Which is the fifth planet from the sun?
-A: Jupiter
-
-Q: What’s the mass of Jupiter compared to the Sun?
-
-Refine, refine, refine: Prompt engineering can be an iterative process. Experiment with different techniques, iterate on your prompts, and learn from the initial outputs generated by the model. Use the generated outputs to provide additional context or guidance in subsequent prompts to improve the quality of the responses.
-
-By following these tips and refining your prompts, you can guide GPT models to generate more accurate and desired completions.
-
-User Description : {description}
-Prompt :
-"""
-)
 prompt_optimization_missing_information = (
     lambda user_description: f"""
 You are a Prompt Optimizer for LLMs, you take a description in input and generate a prompt from it.
@@ -394,11 +297,29 @@ missing information :
 
 
 def construct_prompt_optimization_instruction(text: str, target_provider: str):
+    """
+    Constructs prompt optimization instructions based on the target provider.
+
+    Args:
+        text (str): The input text for which prompt optimization instructions are needed.
+        target_provider (str): The target provider for which prompt optimization instructions are requested.
+
+    Returns:
+        prompt: A str containing the prompt optimization instructions for the specified target provider.
+    """
     prompt = {
         "google": google_prompt_guidelines(text),
         "cohere": cohere_prompt_guideines(text),
-        "openai": openai_prompt_guidelines(text),
+        "openai": general_prompt_guidelines(text, "OpenAI", "GPT"),
+        "mistral": general_prompt_guidelines(text, "Mistral", "open"),
+        "meta": general_prompt_guidelines(text, "Meta", "Llama"),
+        "anthropic": anthropic_prompt_guidelines(text),
+        "perplexityai": perplexityai_prompt_guidelines(text),
     }
+
+    # Check if the target provider is supported, if not raise error
+    if target_provider not in prompt:
+        raise ProviderException(f"Unsupported target provider: {target_provider}")
 
     return prompt[target_provider]
 
