@@ -286,9 +286,11 @@ class AmazonOcrApi(OcrInterface):
         self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
             Key=file, Body=file_content
         )
-        pages_num = str(query.get("pages", 1) or 1).split(",") or None
         formatted_queries = [
-            {"Text": query.get("query"), "Pages": pages_num}
+            {
+                "Text": query.get("query"),
+                "Pages": str(query.get("pages", 1) or 1).split(",") or None,
+            }
             for query in queries
         ]
 
