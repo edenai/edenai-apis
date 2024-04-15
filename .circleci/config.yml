@@ -88,19 +88,16 @@ workflows:
           filters:
             branches:
               only:
-                - fix/check_providers
+                - master
+                - circleci
   nightly:
-    # triggers:
-    #   - schedule:
-    #       cron: "0 6 * * 1-5"
-    #       filters:
-    #         branches:
-    #           only:
-    #             - master
-    #             - release
+    triggers:
+      - schedule:
+          cron: "0 6 * * 1-5"
+          filters:
+            branches:
+              only:
+                - master
+                - release
     jobs:
-     - check_providers:
-        filters:
-          branches:
-            only:
-              - fix/check_providers
+     - check_providers
