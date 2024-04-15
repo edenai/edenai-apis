@@ -56,7 +56,7 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt-get install build-essential libssl-dev libasound2 wget
-
+            
             wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.0g-2ubuntu4_amd64.deb
             sudo dpkg -i libssl1.1_1.1.0g-2ubuntu4_amd64.deb
 
@@ -70,11 +70,12 @@ jobs:
             sudo apt-get update
             sudo apt-get install ffmpeg -y
             pip install -e .
-
+            
       - run:
           name: check working providers
           command: |
             python edenai_apis/scripts/check_not_working_providers.py << parameters.interval >>
+
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -87,17 +88,19 @@ workflows:
           filters:
             branches:
               only:
-                - master
-                - circleci
-  nightly:
-    triggers:
-      - schedule:
-          #cron: "0 6 * * 1-5"
-          filters:
-            branches:
-              only:
-                - master
-                - release
                 - fix/check_providers
+  nightly:
+    # triggers:
+    #   - schedule:
+    #       cron: "0 6 * * 1-5"
+    #       filters:
+    #         branches:
+    #           only:
+    #             - master
+    #             - release
     jobs:
-      - check_providers
+     - check_providers:
+        filters:
+          branches:
+            only:
+              - fix/check_providers
