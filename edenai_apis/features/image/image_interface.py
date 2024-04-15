@@ -272,7 +272,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__search__launch_similarity(
-        self, file: str, project_id: str, file_url: str = ""
+        self, file: str, project_id: str, file_url: str = "", n: int = 10
     ) -> ResponseType[SearchDataClass]:
         """
         Launch similarity analysis of a search image project

@@ -212,13 +212,17 @@ class NyckelApi(ProviderInterface, ImageInterface):
         )
 
     def image__search__launch_similarity(
-        self, project_id: str, file: Optional[str] = None, file_url: str = ""
+        self,
+        project_id: str,
+        file: Optional[str] = None,
+        file_url: str = "",
+        n: int = 10,
     ) -> ResponseType[SearchDataClass]:
         self._refresh_session_auth_headers_if_needed()
 
         url = (
             f"https://www.nyckel.com/v0.9/functions/{project_id}/"
-            f"search?sampleCount={self.DEFAULT_SIMILAR_IMAGE_COUNT}"
+            f"search?sampleCount={n}"
         )
 
         if file == "" or file is None:
