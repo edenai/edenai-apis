@@ -96,7 +96,7 @@ class AnonymizationEntity(BaseModel):
 
     @field_serializer('subcategory', mode="plain", when_used="always")
     def serialize_subcategory(self, value: SubCategoryType, _: FieldSerializationInfo):
-        return value.value
+        return getattr(value, 'value', None)
 
 
 class AnonymizationDataClass(BaseModel):
