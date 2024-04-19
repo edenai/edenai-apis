@@ -19,12 +19,13 @@ def get_provider_methods():
 
 
 @pytest.mark.parametrize(
-    ("ProviderClass", "Interface", "method_name"), get_provider_methods()
+    ("ProviderClass", "Interface", "method_name"),
+    sorted(get_provider_methods(), key=lambda param: param[2]),
 )
 def test_inteface_methods_signature(ProviderClass, Interface, method_name):
     """
     Test that implemented provider feature method signature is
-    the same as the one in the featur interface
+    the same as the one in the feature interface
     """
     implemented_method = getattr(ProviderClass, method_name, None)
     interface_method = getattr(Interface, method_name)
@@ -33,4 +34,4 @@ def test_inteface_methods_signature(ProviderClass, Interface, method_name):
     if implemented_method:
         assert signature(implemented_method) == signature(
             interface_method
-        ), f"{ProviderClass.__name__}.{method_name} got wront signature, it should match its interface's signature"
+        ), f"{ProviderClass.__name__}.{method_name} got wrong signature, it should match its interface's signature"
