@@ -34,7 +34,7 @@ from edenai_apis.features.text.spell_check.spell_check_dataclass import (
 from edenai_apis.utils.types import ResponseType
 
 
-class TextInterface(ABC):
+class TextInterface:
     @abstractmethod
     def text__anonymization(
         self, text: str, language: str

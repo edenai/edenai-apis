@@ -12,10 +12,10 @@ def get_provider_methods():
 
     for ProviderClass in providers_classes:
         interfaces = ProviderClass.__bases__
-
         for Interface in interfaces:
-            for method_name in getattr(Interface, "__abstractmethods__", []):
-                yield (ProviderClass, Interface, method_name)
+            for method_name, method in Interface.__dict__.items():
+                if getattr(method, "__isabstractmethod__", False):
+                    yield (ProviderClass, Interface, method_name)
 
 
 @pytest.mark.parametrize(

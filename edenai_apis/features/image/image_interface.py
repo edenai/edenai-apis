@@ -91,7 +91,7 @@ from edenai_apis.utils.types import (
 )
 
 
-class ImageInterface(ABC):
+class ImageInterface:
     @abstractmethod
     def image__anonymization(
         self, file: str, file_url: str = ""

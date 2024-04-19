@@ -13,7 +13,7 @@ from edenai_apis.features.video import (
 from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
 
 
-class VideoInterface(ABC):
+class VideoInterface:
     ### Explicit content detection methods
     @abstractmethod
     def video__explicit_content_detection_async__launch_job(

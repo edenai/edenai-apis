@@ -12,7 +12,7 @@ from edenai_apis.features.translation.language_detection.language_detection_data
 from edenai_apis.utils.types import ResponseType
 
 
-class TranslationInterface(ABC):
+class TranslationInterface:
     @abstractmethod
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str

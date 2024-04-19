@@ -41,7 +41,7 @@ from edenai_apis.utils.types import (
 )
 
 
-class OcrInterface(ABC):
+class OcrInterface:
     @abstractmethod
     def ocr__ocr(
         self, file: str, language: str, file_url: str = ""

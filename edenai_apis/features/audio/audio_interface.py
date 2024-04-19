@@ -18,7 +18,7 @@ from edenai_apis.utils.types import (
 )
 
 
-class AudioInterface(ABC):
+class AudioInterface:
     ### Speech to Text methods
     @abstractmethod
     def audio__speech_to_text_async__launch_job(
