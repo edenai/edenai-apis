@@ -215,7 +215,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         self,
         project_id: str,
         file: Optional[str] = None,
-        file_url: str = "",
+        file_url: Optional[str] = None,
         n: int = 10,
     ) -> ResponseType[SearchDataClass]:
         self._refresh_session_auth_headers_if_needed()
@@ -225,10 +225,8 @@ class NyckelApi(ProviderInterface, ImageInterface):
             f"search?sampleCount={n}"
         )
 
-        if file == "" or file is None:
-            assert (
-                file_url and file_url != ""
-            ), "Either file or file_url must be provided"
+        if not file:
+            assert file_url, "Either file or file_url must be provided"
             data = {"data": file_url}
             response = self._session.post(url, json=data)
         else:

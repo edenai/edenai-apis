@@ -1,4 +1,4 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from io import BufferedReader
 
 from edenai_apis.features.video import (
@@ -13,7 +13,7 @@ from edenai_apis.features.video import (
 from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
 
 
-class VideoInterface:
+class VideoInterface(ABC):
     ### Explicit content detection methods
     @abstractmethod
     def video__explicit_content_detection_async__launch_job(
@@ -86,7 +86,7 @@ class VideoInterface:
     ### Logo detection methods
     @abstractmethod
     def video__logo_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", language: str = "en"
     ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect logos in a video
@@ -151,7 +151,7 @@ class VideoInterface:
     ### Text detection methods
     @abstractmethod
     def video__text_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", language: str = "en"
     ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect text in a video

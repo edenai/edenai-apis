@@ -54,7 +54,8 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         speaking_rate: int,
         speaking_pitch: int,
         speaking_volume: int,
-        sampling_rate: int) -> ResponseType[TextToSpeechDataClass]:
+        sampling_rate: int
+    ) -> ResponseType[TextToSpeechDataClass]:
 
         ids = ElevenlabsApi.__get_voice_id(voice_id=voice_id)
         url = f"{self.base_url}text-to-speech/{ids}"

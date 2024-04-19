@@ -1,5 +1,5 @@
 import json
-from typing import Dict
+from typing import Dict, Optional
 
 import requests
 
@@ -28,7 +28,7 @@ class WritesonicApi(ProviderInterface, TextInterface):
         }
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str = None
+        self, text: str, output_sentences: int, language: str, model: Optional[str] = None
     ) -> ResponseType[SummarizeDataClass]:
         url = f"https://api.writesonic.com/v2/business/content/summary?engine=premium&language={language}"
         payload = {

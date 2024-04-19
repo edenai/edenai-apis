@@ -40,7 +40,7 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
         text: str,
         output_sentences: int,
         language: str,
-        model: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SummarizeDataClass]:
         headers = {
             "Content-Type": "application/json",
@@ -63,9 +63,9 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
     def image__embeddings(
         self,
         file: str,
-        model: str,
         representation: str,
         file_url: str = "",
+        model: Optional[str] = None,
     ) -> ResponseType[EmbeddingsDataClass]:
         if representation == "symmetric":
             representation_client = SemanticRepresentation.Symmetric

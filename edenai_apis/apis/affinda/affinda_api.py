@@ -111,8 +111,8 @@ class AffindaApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__financial_parser(
-            self, file: str, language: str, document_type: str, file_url: str = ""
-            ) -> ResponseType[FinancialParserDataClass]:
+        self, file: str, language: str, document_type: str = "", file_url: str = ""
+    ) -> ResponseType[FinancialParserDataClass]:
         workspace_key = (
             "receipt_workspace"
             if document_type == FinancialParserType.RECEIPT.value

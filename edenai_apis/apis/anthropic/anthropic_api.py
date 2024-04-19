@@ -125,7 +125,11 @@ class AnthropicApi(ProviderInterface, TextInterface):
         )
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str = None
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: Optional[str] = None
     ) -> ResponseType[SummarizeDataClass]:
         messages = [
             {
@@ -167,11 +171,11 @@ class AnthropicApi(ProviderInterface, TextInterface):
     def text__chat(
         self,
         text: str,
-        chatbot_global_action: Optional[str],
-        previous_history: Optional[List[Dict[str, str]]],
-        temperature: float,
-        max_tokens: int,
-        model: str,
+        chatbot_global_action: Optional[str] = None,
+        previous_history: Optional[List[Dict[str, str]]] = None,
+        temperature: float = 0.0,
+        max_tokens: int = 25,
+        model: Optional[str] = None,
         stream: bool = False,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         messages = [{"role": "user", "content": text}]

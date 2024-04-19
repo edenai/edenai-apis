@@ -1,4 +1,4 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from io import BufferedReader
 from typing import List, Literal, Optional
 
@@ -18,7 +18,7 @@ from edenai_apis.utils.types import (
 )
 
 
-class AudioInterface:
+class AudioInterface(ABC):
     ### Speech to Text methods
     @abstractmethod
     def audio__speech_to_text_async__launch_job(
@@ -29,9 +29,9 @@ class AudioInterface:
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model: str = None,
+        model: Optional[str] = None,
         file_url: str = "",
-        provider_params: dict = dict(),
+        provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
         """Launch an asynchronous job to convert an audio file to text
         Args:
@@ -70,7 +70,16 @@ class AudioInterface:
     ### Text to Speech methods
     @abstractmethod
     def audio__text_to_speech(
-        self, language: str, text: str, option: Literal["MALE", "FEMALE"]
+        self,
+        language: str,
+        text: str,
+        option: str,
+        voice_id: str,
+        audio_format: str,
+        speaking_rate: int,
+        speaking_pitch: int,
+        speaking_volume: int,
+        sampling_rate: int,
     ) -> ResponseType[TextToSpeechDataClass]:
         """Convert Text into audio speech
         Args:
@@ -82,7 +91,17 @@ class AudioInterface:
 
     @abstractmethod
     def audio__text_to_speech_async__launch_job(
-        self, language: str, text: str, option: Literal["MALE", "FEMALE"]
+        self,
+        language: str,
+        text: str,
+        option: str,
+        voice_id: str,
+        audio_format: str,
+        speaking_rate: int,
+        speaking_pitch: int,
+        speaking_volume: int,
+        sampling_rate: int,
+        file_url: str = "",
     ) -> AsyncLaunchJobResponseType:
         """Convert text into longer audio speech
         Args:

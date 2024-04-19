@@ -26,7 +26,7 @@ class ModernmtApi(ProviderInterface, TranslationInterface):
         self.url = "https://api.modernmt.com/translate"
 
     def translation__language_detection(
-        self, text
+        self, text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
         response = requests.get(
             url=f"{self.url}/detect", headers=self.header, data={"q": text}
