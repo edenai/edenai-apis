@@ -15,6 +15,7 @@ from edenai_apis.features.text.chat.chat_dataclass import (
 from edenai_apis.features.multimodal.chat.chat_dataclass import (
     ChatDataClass as ChatMultimodalDataClass,
     StreamChat as StreamChatMultimodal,
+    ChatMessageDataClass as ChatMultimodalMessageDataClass,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -104,7 +105,7 @@ class AnthropicApi(ProviderInterface, TextInterface):
 
     @staticmethod
     def __format_anthropic_messages(
-        messages: List[ChatMessageDataClass],
+        messages: List[ChatMultimodalMessageDataClass],
     ) -> List[Dict[str, str]]:
         """
         Format messages into a format accepted by Anthropic.
@@ -328,7 +329,7 @@ class AnthropicApi(ProviderInterface, TextInterface):
 
     def multimodal__chat(
         self,
-        messages: List[ChatMessageDataClass],
+        messages: List[ChatMultimodalMessageDataClass],
         chatbot_global_action: Optional[str],
         temperature: float = 0,
         max_tokens: int = 25,
