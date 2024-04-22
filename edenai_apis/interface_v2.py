@@ -10,9 +10,15 @@ Example:
     >>> 3d_from_img = 3DModels.create_3d_model_from_image('<provider_here>')
     >>> response = 3d_from_img(image=...)
 """
+
 from typing import Callable, Dict, Type
 
-from edenai_apis.features import AudioInterface, ImageInterface, OcrInterface
+from edenai_apis.features import (
+    AudioInterface,
+    ImageInterface,
+    OcrInterface,
+    MultimodalInterface,
+)
 from edenai_apis.features import ProviderInterface
 from edenai_apis.features import TextInterface, TranslationInterface, VideoInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -88,3 +94,4 @@ Translation = abstract(TranslationInterface, method_prefix="translation__")
 Ocr = abstract(OcrInterface, method_prefix="ocr__")
 Video = abstract(VideoInterface, method_prefix="video__")
 Audio = abstract(AudioInterface, method_prefix="audio__")
+Multimodal = abstract(MultimodalInterface, method_prefix="multimodal__")

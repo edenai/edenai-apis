@@ -1,4 +1,6 @@
 from typing import Dict, List, Union, Optional, Generator
+import httpx
+import base64
 import json
 import boto3
 from anthropic_bedrock import AnthropicBedrock
@@ -9,6 +11,10 @@ from edenai_apis.features.text.chat.chat_dataclass import (
     ChatStreamResponse,
     ChatMessageDataClass,
     ChatDataClass,
+)
+from edenai_apis.features.multimodal.chat.chat_dataclass import (
+    ChatDataClass as ChatMultimodalDataClass,
+    StreamChat as StreamChatMultimodal,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -95,6 +101,84 @@ class AnthropicApi(ProviderInterface, TextInterface):
                         blocked=False,
                         provider=self.provider_name,
                     )
+
+    @staticmethod
+    def __format_anthropic_messages(
+        messages: List[ChatMessageDataClass],
+    ) -> List[Dict[str, str]]:
+        """
+        Format messages into a format accepted by Anthropic.
+
+        Args:
+            messages (List[ChatMessageDataClass]): List of messages to be formatted.
+
+        Returns:
+            List[Dict[str, str]]: Transformed messages in Anthropic accepted format.
+
+        >>> Accepted format:
+            [
+                {
+                    "role": <role>,
+                    "content": [
+                        {
+                            "type": "image",
+                            "source": {
+                                "type": "base64",
+                                "media_type": "image/jpeg",
+                                "data": "iVBORw..."
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "text": <text_content>
+                        }
+                    ]
+                }
+            ]
+        """
+        transformed_messages = []
+        for item in messages:
+            if item["role"] == "user":
+                transformed_message = {"role": item["role"], "content": []}
+                for content_item in item["content"]:
+                    if content_item["type"] == "text":
+                        transformed_message["content"].append(
+                            {"type": "text", "text": content_item["content"]["text"]}
+                        )
+                    elif content_item["type"] == "media_url":
+                        media_url = content_item["content"]["media_url"]
+                        media_data = base64.b64encode(
+                            httpx.get(media_url).content
+                        ).decode("utf-8")
+                        if media_data:
+                            transformed_message["content"].append(
+                                {
+                                    "type": "image",
+                                    "source": {
+                                        "type": "base64",
+                                        "media_type": "image/jpeg",
+                                        "data": media_data,
+                                    },
+                                }
+                            )
+                    elif content_item["type"] == "media_base64":
+                        transformed_message["content"].append(
+                            {
+                                "type": "image",
+                                "source": {
+                                    "type": "base64",
+                                    "media_type": "image/jpeg",
+                                    "data": content_item["content"]["media_base64"],
+                                },
+                            }
+                        )
+            else:
+                transformed_message = {
+                    "role": item["role"],
+                    "content": item.get("content")[0].get("content").get("text"),
+                }
+            transformed_messages.append(transformed_message)
+        return transformed_messages
 
     def text__generation(
         self,
@@ -234,4 +318,72 @@ class AnthropicApi(ProviderInterface, TextInterface):
             return ResponseType[StreamChat](
                 original_response=None,
                 standardized_response=StreamChat(stream=stream_response),
+            )
+
+    def multimodal__chat(
+        self,
+        messages: List[Dict[str, str]],
+        chatbot_global_action: str = None,
+        temperature: float = 0,
+        max_tokens: int = 25,
+        model: str = None,
+        stop_sequences: List[str] = None,
+        top_k: int = None,
+        top_p: int = None,
+        stream: bool = False,
+        provider_params: dict = None,
+    ) -> ResponseType[Union[ChatMultimodalDataClass, StreamChatMultimodal]]:
+
+        formated_messages = self.__format_anthropic_messages(messages=messages)
+        body = {
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": max_tokens,
+            "temperature": temperature,
+            "messages": formated_messages,
+        }
+        if stop_sequences:
+            body["stop_sequences"] = stop_sequences
+
+        if top_k:
+            body["top_k"] = top_k
+
+        if top_p:
+            body["top_p"] = top_p
+
+        if chatbot_global_action:
+            body["system"] = chatbot_global_action
+
+        request_body = json.dumps(body)
+
+        if stream is False:
+            original_response = self.__anthropic_request(
+                request_body=request_body, model=model
+            )
+
+            generated_text = original_response["content"][0]["text"]
+
+            standardized_response = (
+                ChatMultimodalDataClass.generate_standardized_response(
+                    generated_text=generated_text, messages=messages
+                )
+            )
+            return ResponseType[ChatMultimodalDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+        else:
+            request_params = {
+                "body": request_body,
+                "modelId": f"{self.provider_name}.{model}",
+            }
+            response = handle_amazon_call(
+                self.bedrock.invoke_model_with_response_stream, **request_params
+            )
+            stream_response = self.__chat_stream_generator(response)
+
+            return (
+                ResponseType[StreamChat](
+                    original_response=None,
+                    standardized_response=StreamChat(stream=stream_response),
+                ),
             )
