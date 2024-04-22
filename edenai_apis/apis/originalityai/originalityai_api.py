@@ -36,7 +36,7 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
         self,
         text: str,
         title: str = "",
-        providers_params: Optional[Dict[str, Any]] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
     ) -> ResponseType[PlagiaDetectionDataClass]:
         url = f"{self.base_url}/plag"
         payload = {"content": text, "title": title}

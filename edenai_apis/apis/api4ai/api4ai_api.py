@@ -90,7 +90,7 @@ class Api4aiApi(
         self,
         file: str,
         file_url: str = "",
-        model: str = None,
+        model: Optional[str] = None,
     ) -> ResponseType[ObjectDetectionDataClass]:
         """
         This function is used to detect objects in an image.
@@ -244,7 +244,7 @@ class Api4aiApi(
         return result
 
     def image__logo_detection(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[LogoDetectionDataClass]:
         file_ = open(file, "rb")
         payload = {

@@ -163,7 +163,7 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
 
     def video__text_detection_async__launch_job(
             self, file: str, file_url: str = "", language: str = "en"
-    ) -> AsyncLaunchJobResponseType :
+    ) -> AsyncLaunchJobResponseType:
         
         index_url = f"{self.base_url}/indexes"
         task_url = f"{self.base_url}/tasks"

@@ -111,8 +111,8 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
     
     def ocr__financial_parser(
-            self, file: str, language: str, document_type: str, file_url: str = ""
-            ) -> ResponseType[FinancialParserDataClass]:
+        self, file: str, language: str, document_type: str = "", file_url: str = ""
+    ) -> ResponseType[FinancialParserDataClass]:
         file_ = open(file, "rb")
         original_response = self._make_post_request(file_)
 

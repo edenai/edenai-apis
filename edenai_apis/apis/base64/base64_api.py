@@ -41,6 +41,7 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     format_date,
 )
 from edenai_apis.features.ocr.invoice_parser import InvoiceParserDataClass
+from edenai_apis.features.ocr.ocr.ocr_dataclass import OcrDataClass
 from edenai_apis.features.ocr.receipt_parser import ReceiptParserDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -146,7 +147,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         file: str,
         language: str,
         file_url: str = "",
-    ):
+    ) -> ResponseType[OcrDataClass]:
         raise ProviderException(
             message="This provider is deprecated. You won't be charged for your call.",
             code=500,

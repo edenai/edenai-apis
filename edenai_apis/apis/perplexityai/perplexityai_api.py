@@ -56,7 +56,7 @@ class PerplexityApi(ProviderInterface, TextInterface):
         chatbot_global_action: Optional[str] = None,
         previous_history: Optional[List[Dict[str, str]]] = None,
         temperature: float = 0.0,
-        max_tokens: int = 64,
+        max_tokens: int = 25,
         model: Optional[str] = None,
         stream: bool = False,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:

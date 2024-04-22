@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Optional
 
 import requests
 
@@ -27,8 +27,9 @@ class JinaApi(ProviderInterface, TextInterface):
         )
 
     def text__embeddings(
-            self, texts: List[str], model: str = "jina-embeddings-v2-base-en"
+        self, texts: List[str], model: Optional[str] = None
     ) -> ResponseType[EmbeddingsDataClass]:
+        model = model or "jina-embeddings-v2-base-en"
         resp = self.session.post(  # type: ignore
             self.api_url, json={"input": texts, "model": model}
         ).json()

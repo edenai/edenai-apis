@@ -1,4 +1,4 @@
-from typing import Dict, Sequence
+from typing import Dict, Optional, Sequence
 
 import requests
 
@@ -31,7 +31,7 @@ class SmartClickApi(ProviderInterface, ImageInterface):
         }
 
     def image__logo_detection(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[LogoDetectionDataClass]:
         url = f"{self.base_url}logo-detection"
 

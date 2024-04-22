@@ -1,5 +1,5 @@
 import json
-from typing import Dict
+from typing import Dict, Optional
 
 import requests
 
@@ -64,7 +64,11 @@ class ConnexunApi(ProviderInterface, TextInterface):
         )
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str = None
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SummarizeDataClass]:
         # Prepare request
         files = {"text": text, "output_sentences": output_sentences}

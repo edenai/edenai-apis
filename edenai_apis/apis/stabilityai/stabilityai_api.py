@@ -124,7 +124,7 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
     def image__variation(
         self,
         file: str,
-        prompt: Optional[str] = "",
+        prompt: Optional[str],
         num_images: Optional[int] = 1,
         resolution: Literal["256x256", "512x512", "1024x1024"] = "512x512",
         temperature: Optional[float] = 0.3,
@@ -133,7 +133,7 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
     ) -> ResponseType[VariationDataClass]:
         url = f"https://api.stability.ai/v1/generation/{model}/image-to-image"
         del self.headers["Content-Type"]
-
+        prompt = prompt or ""
         img = open(file, "rb")
 
         if not prompt:
