@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import Optional, List, Dict
 
-from edenai_apis.features.multimodal.chat import ChatDataClass
+from edenai_apis.features.multimodal.chat import ChatDataClass, ChatMessageDataClass
 from edenai_apis.utils.types import ResponseType
 
 
@@ -10,7 +10,7 @@ class MultimodalInterface:
     @abstractmethod
     def multimodal__chat(
         self,
-        messages: List[Dict[str, str]],
+        messages: List[ChatMessageDataClass],
         chatbot_global_action: Optional[str],
         temperature: float = 0,
         max_tokens: int = 25,

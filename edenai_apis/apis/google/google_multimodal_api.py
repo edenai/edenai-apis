@@ -151,7 +151,7 @@ class GoogleMultimodalApi(MultimodalInterface):
 
     def multimodal__chat(
         self,
-        messages: List[Dict[str, str]],
+        messages: List[ChatMessageDataClass],
         chatbot_global_action: Optional[str],
         temperature: float = 0,
         max_tokens: int = 25,
