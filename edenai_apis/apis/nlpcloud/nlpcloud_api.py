@@ -211,7 +211,7 @@ class NlpCloudApi(ProviderInterface, TextInterface):
         text: str,
         output_sentences: int,
         language: str,
-        model: str = None,
+        model: Optional[str] = None,
     ) -> ResponseType[SummarizeDataClass]:
         # Check none model
         url = self.url["basic"] + "gpu/" + model + "/summarization"

@@ -90,11 +90,11 @@ class MistralApi(ProviderInterface, TextInterface):
     def text__chat(
         self,
         text: str,
-        chatbot_global_action: Optional[str],
-        previous_history: Optional[List[Dict[str, str]]],
-        temperature: float,
-        max_tokens: int,
-        model: str,
+        chatbot_global_action: Optional[str] = None,
+        previous_history: Optional[List[Dict[str, str]]] = None,
+        temperature: float = 0.0,
+        max_tokens: int = 25,
+        model: Optional[str] = None,
         stream: bool = False,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         messages = [{"role": "user", "content": text}]
@@ -164,7 +164,7 @@ class MistralApi(ProviderInterface, TextInterface):
             )
 
     def text__embeddings(
-        self, texts: List[str], model: str
+        self, texts: List[str], model: Optional[str] = None
     ) -> ResponseType[EmbeddingsDataClass]:
         model = model.split("__")[1]
         payload = {"model": model, "input": texts}

@@ -308,12 +308,14 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
 
     def image__search__launch_similarity(
-        self, file: str, project_id: str, n: int = 10, file_url: str = ""
+        self, project_id: str, file: Optional[str] = None,  file_url: Optional[str] = None, n: int = 10
     ) -> ResponseType[SearchDataClass]:
         search_project_url = (
             "https://platform.sentisight.ai/api/similarity"
             + f"?project={project_id}&limit={n}&threshold=0&and=false"
         )
+        if not file:
+            raise ValueError("file is required.")
         file_ = open(file, "rb")
         response = requests.post(
             search_project_url,

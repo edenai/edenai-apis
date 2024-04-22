@@ -1,5 +1,5 @@
 import json
-from typing import Optional, List, Dict, Sequence, Union, Literal, Generator
+from typing import Optional, List, Dict, Sequence, Tuple, Union, Literal, Generator
 
 import requests
 
@@ -117,8 +117,8 @@ List of corrected words:
     def text__generation(
         self,
         text: str,
-        max_tokens: int,
         temperature: float,
+        max_tokens: int,
         model: str,
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.base_url}generate"
@@ -163,7 +163,7 @@ List of corrected words:
         )
 
     def text__custom_classification(
-        self, texts: List[str], labels: List[str], examples: List[List[str]]
+        self, texts: List[str], labels: List[str], examples: List[Tuple[str, str]]
     ) -> ResponseType[CustomClassificationDataClass]:
         # Build the request
         url = f"{self.base_url}classify"
@@ -203,7 +203,11 @@ List of corrected words:
         )
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SummarizeDataClass]:
         url = f"{self.base_url}summarize"
         length = "long"

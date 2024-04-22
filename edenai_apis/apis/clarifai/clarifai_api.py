@@ -356,7 +356,10 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface
             return result
 
     def image__object_detection(
-        self, file: str, model: str, file_url: str = ""
+        self,
+        file: str,
+        file_url: str = "",
+        model: Optional[str] = None,
     ) -> ResponseType[ObjectDetectionDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)

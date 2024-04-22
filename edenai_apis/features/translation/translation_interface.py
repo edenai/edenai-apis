@@ -1,4 +1,4 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 
 from edenai_apis.features.translation.automatic_translation.automatic_translation_dataclass import (
     AutomaticTranslationDataClass,
@@ -44,7 +44,12 @@ class TranslationInterface:
 
     @abstractmethod
     def translation__document_translation(
-        self, source_language: str, target_language: str, text: str
+        self,
+        file: str,
+        file_type: str,
+        source_language: str,
+        target_language: str,
+        file_url: str = "",
     ) -> ResponseType[DocumentTranslationDataClass]:
         """
         Translate a document
