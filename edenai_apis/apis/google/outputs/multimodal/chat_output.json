@@ -1,0 +1,103 @@
+{
+  "original_response": {
+    "usage": {
+      "prompt_tokens": 294,
+      "completion_tokens": 294,
+      "total_tokens": 294
+    },
+    "data": [
+      {
+        "candidates": [
+          {
+            "content": {
+              "role": "model",
+              "parts": [
+                {
+                  "text": " The image shows a wooden walkway through a lush green marsh. The sky is a clear blue with white clouds. The marsh is full of tall grass."
+                }
+              ]
+            },
+            "finishReason": "STOP",
+            "safetyRatings": [
+              {
+                "category": "HARM_CATEGORY_HATE_SPEECH",
+                "probability": "NEGLIGIBLE",
+                "probabilityScore": 0.01802074,
+                "severity": "HARM_SEVERITY_NEGLIGIBLE",
+                "severityScore": 0.065604836
+              },
+              {
+                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                "probability": "NEGLIGIBLE",
+                "probabilityScore": 0.06717858,
+                "severity": "HARM_SEVERITY_NEGLIGIBLE",
+                "severityScore": 0.08977328
+              },
+              {
+                "category": "HARM_CATEGORY_HARASSMENT",
+                "probability": "NEGLIGIBLE",
+                "probabilityScore": 0.03825006,
+                "severity": "HARM_SEVERITY_NEGLIGIBLE",
+                "severityScore": 0.05291181
+              },
+              {
+                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                "probability": "NEGLIGIBLE",
+                "probabilityScore": 0.056652427,
+                "severity": "HARM_SEVERITY_NEGLIGIBLE",
+                "severityScore": 0.048948623
+              }
+            ]
+          }
+        ],
+        "usageMetadata": {
+          "promptTokenCount": 264,
+          "candidatesTokenCount": 30,
+          "totalTokenCount": 294
+        }
+      }
+    ]
+  },
+  "standardized_response": {
+    "generated_text": " The image shows a wooden walkway through a lush green marsh. The sky is a clear blue with white clouds. The marsh is full of tall grass.",
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": "Describe this image please ! ",
+              "media_type": null
+            }
+          },
+          {
+            "type": "media_url",
+            "content": {
+              "media_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+              "media_base64": null,
+              "text": null,
+              "media_type": null
+            }
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": " The image shows a wooden walkway through a lush green marsh. The sky is a clear blue with white clouds. The marsh is full of tall grass.",
+              "media_type": null
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

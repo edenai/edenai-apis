@@ -1339,5 +1339,10 @@
       },
       "version": "v1"
     }
+  },
+  "multimodal": {
+    "chat": {
+      "version": "v1"
+    }
   }
 }
