@@ -61,11 +61,12 @@ class GoogleMultimodalApi(MultimodalInterface):
                         parts.append({"text": content["content"]["text"]})
                     elif content["type"] == "media_url":
                         media_url = content["content"]["media_url"]
+                        media_type = content["content"]["media_type"]
                         response = requests.get(media_url)
 
                         data = base64.b64encode(response.content).decode("utf-8")
                         parts.append(
-                            {"inlineData": {"data": data, "mimeType": "image/jpeg"}}
+                            {"inlineData": {"data": data, "mimeType": media_type}}
                         )
                     elif content["type"] == "media_base64":
                         media_base64 = content["content"]["media_base64"]

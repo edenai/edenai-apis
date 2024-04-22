@@ -156,7 +156,9 @@ class AnthropicApi(ProviderInterface, TextInterface):
                                     "type": "image",
                                     "source": {
                                         "type": "base64",
-                                        "media_type": "image/jpeg",
+                                        "media_type": content_item["content"][
+                                            "media_type"
+                                        ],
                                         "data": media_data,
                                     },
                                 }
@@ -167,7 +169,7 @@ class AnthropicApi(ProviderInterface, TextInterface):
                                 "type": "image",
                                 "source": {
                                     "type": "base64",
-                                    "media_type": "image/jpeg",
+                                    "media_type": content_item["content"]["media_type"],
                                     "data": content_item["content"]["media_base64"],
                                 },
                             }
