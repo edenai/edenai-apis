@@ -1,4 +1,4 @@
-from typing import Dict, List, Union, Generator
+from typing import Dict, List, Union, Generator, Optional
 import json
 import requests
 import base64
@@ -151,15 +151,15 @@ class GoogleMultimodalApi(MultimodalInterface):
     def multimodal__chat(
         self,
         messages: List[Dict[str, str]],
-        chatbot_global_action: str = None,
+        chatbot_global_action: Optional[str],
         temperature: float = 0,
         max_tokens: int = 25,
-        model: str = None,
-        stop_sequences: List[str] = None,
-        top_k: int = None,
-        top_p: int = None,
+        model: Optional[str] = None,
+        stop_sequences: Optional[List[str]] = None,
+        top_k: Optional[int] = None,
+        top_p: Optional[int] = None,
         stream: bool = False,
-        provider_params: dict = None,
+        provider_params: Optional[dict] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         token = get_access_token(self.location)
         base_url = "https://{location}-aiplatform.googleapis.com/v1/projects/{project_id}/locations/{location}/publishers/google/models/{model}:streamGenerateContent"

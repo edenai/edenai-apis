@@ -1,5 +1,4 @@
-import json
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Optional
 import openai
 from edenai_apis.features import MultimodalInterface
 from edenai_apis.features.multimodal.chat import (
@@ -80,15 +79,15 @@ class OpenaiMultimodalApi(MultimodalInterface):
     def multimodal__chat(
         self,
         messages: List[Dict[str, str]],
-        chatbot_global_action: str = None,
+        chatbot_global_action: Optional[str],
         temperature: float = 0,
         max_tokens: int = 25,
-        model: str = None,
-        stop_sequences: List[str] = None,
-        top_k: int = None,
-        top_p: int = None,
+        model: Optional[str] = None,
+        stop_sequences: Optional[List[str]] = None,
+        top_k: Optional[int] = None,
+        top_p: Optional[int] = None,
         stream: bool = False,
-        provider_params: dict = None,
+        provider_params: Optional[dict] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         formatted_messages = self.__format_openai_messages(messages)
 

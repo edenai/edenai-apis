@@ -8,7 +8,7 @@ from edenai_apis.utils.types import ResponseType
 class MultimodalInterface:
 
     @abstractmethod
-    def multimodal_chat(
+    def multimodal__chat(
         self,
         messages: List[Dict[str, str]],
         chatbot_global_action: Optional[str],
@@ -19,7 +19,7 @@ class MultimodalInterface:
         top_k: Optional[int] = None,
         top_p: Optional[int] = None,
         stream: bool = False,
-        provider_params: dict = None,
+        provider_params: Optional[dict] = None,
     ) -> ResponseType[ChatDataClass]:
         """
         Generate responses in a multimodal conversation using a chatbot.
