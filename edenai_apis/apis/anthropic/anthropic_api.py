@@ -22,6 +22,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.loaders.data_loader import load_info_file
 
 
 class AnthropicApi(ProviderInterface, TextInterface):
@@ -54,6 +55,14 @@ class AnthropicApi(ProviderInterface, TextInterface):
         response = handle_amazon_call(self.bedrock.invoke_model, **request_params)
         response_body = json.loads(response.get("body").read())
         return response_body
+
+    def __get_anthropic_version(self):
+        """
+        Retrieve the used version of anthropic
+        """
+        info = load_info_file(provider_name=self.provider_name)
+        anthropic_version = info["multimodal"]["chat"]["version"]
+        return anthropic_version
 
     def __calculate_usage(self, prompt: str, generated_text: str):
         """
@@ -229,7 +238,7 @@ class AnthropicApi(ProviderInterface, TextInterface):
             },
         ]
         body = {
-            "anthropic_version": "bedrock-2023-05-31",
+            "anthropic_version": self.__get_anthropic_version(),
             "max_tokens": 10000,
             "temperature": 0,
             "messages": messages,
@@ -275,7 +284,7 @@ class AnthropicApi(ProviderInterface, TextInterface):
                 )
 
         body = {
-            "anthropic_version": "bedrock-2023-05-31",
+            "anthropic_version": self.__get_anthropic_version(),
             "max_tokens": max_tokens,
             "temperature": temperature,
             "messages": messages,
@@ -343,7 +352,7 @@ class AnthropicApi(ProviderInterface, TextInterface):
 
         formated_messages = self.__format_anthropic_messages(messages=messages)
         body = {
-            "anthropic_version": "bedrock-2023-05-31",
+            "anthropic_version": self.__get_anthropic_version(),
             "max_tokens": max_tokens,
             "temperature": temperature,
             "messages": formated_messages,
