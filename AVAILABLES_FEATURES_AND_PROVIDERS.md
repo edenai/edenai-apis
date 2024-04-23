@@ -330,6 +330,15 @@
 | **object_tracking_async** | google |
 
 </details>
+<details><summary>multimodal</summary>
+
+| Subfeatures | Providers |
+|----------|-------------|
+| **chat** | anthropic |
+| | google |
+| | openai |
+
+</details>
 
 
 # Available Providers:
@@ -405,6 +414,7 @@
 
 | Features | Subfeatures |
 |----------|-------------|
+| **multimodal** | chat |
 | **text** | chat |
 | | generation |
 | | summarize |
@@ -586,6 +596,7 @@
 | | logo_detection |
 | | object_detection |
 | | question_answer |
+| **multimodal** | chat |
 | **ocr** | financial_parser |
 | | invoice_parser |
 | | ocr |
@@ -810,6 +821,7 @@
 | **image** | generation |
 | | question_answer |
 | | variation |
+| **multimodal** | chat |
 | **text** | anonymization |
 | | chat |
 | | code_generation |
