@@ -896,5 +896,18 @@
       },
       "version": "v1.0"
     }
+  },
+  "multimodal": {
+    "chat": {
+      "constraints": {
+        "models": [
+          "gpt-4",
+          "gpt-4-1106-preview",
+          "gpt-4-vision-preview"
+        ],
+        "default_model": "gpt-4"
+      },
+      "version": "v1Beta"
+    }
   }
 }

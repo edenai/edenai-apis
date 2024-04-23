@@ -37,5 +37,10 @@
       },
       "version": "bedrock-2023-05-31"
     }
+  },
+  "multimodal": {
+    "chat": {
+      "version": "bedrock-2023-05-31"
+    }
   }
 }
