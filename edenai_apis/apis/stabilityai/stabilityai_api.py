@@ -64,9 +64,9 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
             raise ProviderException("Internal Server Error", code=500) from exc
 
         # Handle error
-        if "message" in original_response:
+        if response.status_code != 200:
             raise ProviderException(
-                original_response["message"], code=response.status_code
+                message=original_response.get("message"), code=response.status_code
             )
 
         generations: List[GeneratedImageDataClass] = []
@@ -93,22 +93,21 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         file_url: str = "",
         provider_params: Optional[Dict[str, Any]] = None,
     ) -> ResponseType[BackgroundRemovalDataClass]:
-        url = "https://clipdrop-api.co/remove-background/v1"
+        url = "https://api.stability.ai/v2beta/stable-image/edit/remove-background"
         with open(file, "rb") as f:
-            files = {"image_file": f.read()}
-            headers = {
-                "x-api-key": self.api_settings["bg_removal_api_key"],
-                "Accept": "image/png",
-            }
+            files = {"image": f.read()}
+            headers = {"Authorization": f"Bearer {self.api_key}", "accept": "image/*"}
 
             response = requests.post(url, files=files, headers=headers)
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal Server Error", code=500) from exc
 
-        if response.status_code != 200:
-            try:
-                error_message = response.json()["error"]
-            except (KeyError, json.JSONDecodeError):
-                error_message = "Internal Server Error"
-            raise ProviderException(error_message, code=response.status_code)
+        if "message" in original_response:
+            raise ProviderException(
+                original_response["message"], code=response.status_code
+            )
 
         image_b64 = base64.b64encode(response.content).decode("utf-8")
         resource_url = BackgroundRemovalDataClass.generate_resource_url(image_b64)
