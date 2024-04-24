@@ -286,8 +286,8 @@ class NyckelApi(ProviderInterface, ImageInterface):
 
         try:
             response = self._session.delete(url)
-        except:
-            raise ProviderException("Something went wrong !!", 500)
+        except Exception as exc:
+            raise ProviderException("Something went wrong !!", 500) from exc
 
         if response.status_code >= 400:
             self._raise_provider_exception(url, {}, response)
@@ -301,14 +301,16 @@ class NyckelApi(ProviderInterface, ImageInterface):
 
         url = f"https://www.nyckel.com/v1/functions/{project_id}/labels"
         payload = {"name": label_name, "description": label_description}
+        response = self._session.post(url, json=payload)
         try:
-            response = self._session.post(url, json=payload)
+            original_response = response.json()
         except:
             raise ProviderException(
                 "Something went wrong when creating the label !!", 500
             )
-        if response.status_code >= 400 and "already exists" not in response.json().get(
-            "message", ""
+        if (
+            response.status_code >= 400
+            and "already exists" not in original_response.get("message", "")
         ):
             raise self._raise_provider_exception(url, payload, response)
 
@@ -326,42 +328,31 @@ class NyckelApi(ProviderInterface, ImageInterface):
 
         if not label:
             raise ProviderException("Label needs to be specified !!")
-        payload = (
-            {"annotation": {"labelName": label}}
-            if file_url
-            else {"annotation.labelName": label}
-        )
+
+        # Create Label
+        self.__create_label_if_no_exists(project_id=project_id, label_name=label)
+
+        # Upload Sample
         post_parameters = {"url": url}
-
         if file_url:
-            post_parameters["json"] = payload
-            payload["data"] = file_url
-
+            post_parameters["json"] = {
+                "annotation": {"LabelName": label},
+                "data": file_url,
+            }
         else:
             file_ = open(file, "rb")
             post_parameters["files"] = {"data": file_}
-            post_parameters["data"] = payload
+            post_parameters["data"] = {"annotation.labelName": label}
 
-        try_again = True
-        error_message = f"A label with name '{label}' was not found"
+        response = self._session.post(**post_parameters)
+        if response.status_code >= 400:
+            self._raise_provider_exception(url, post_parameters, response)
+        try:
+            original_response = response.json()
+        except Exception as exp:
+            raise ProviderException("Something went wrong !!", 500) from exp
 
-        while try_again:  # in case the label is not already created, it will be created
-            file_.seek(0)
-            try:
-                response = self._session.post(**post_parameters)
-            except:
-                raise ProviderException("Something went wrong !!", 500)
-
-            if response.status_code >= 400:
-                if (
-                    response.json().get("message") == error_message
-                ):  # label with the provided name does not exists
-                    self.__create_label_if_no_exists(project_id, label)
-                else:
-                    self._raise_provider_exception(url, post_parameters, response)
-            else:
-                try_again = False
-        data = response.json()
+        data = original_response
         data["label_name"] = label
         job_id = str(uuid.uuid4())
         data_job_id = {job_id: data}
@@ -380,10 +371,10 @@ class NyckelApi(ProviderInterface, ImageInterface):
             )
         except Exception as exp:
             self.__image__automl_classification_delete_image(project_id, data["id"])
-            raise ProviderException("Could not upload image data", 400)
+            raise ProviderException("Could not upload image data", 400) from exp
         if webook_response.status_code >= 400:
             self.__image__automl_classification_delete_image(project_id, data["id"])
-            raise ProviderException("Could not upload image data", 400)
+            raise ProviderException("Could not upload image data", 400) from exp
         return AsyncLaunchJobResponseType(provider_job_id=job_id)
 
     def image__automl_classification__upload_data_async__get_job_result(
