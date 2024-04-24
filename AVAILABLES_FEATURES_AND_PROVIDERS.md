@@ -234,6 +234,7 @@
 | | sentisight |
 | **anonymization** | api4ai |
 | **background_removal** | api4ai |
+| | clipdrop |
 | | microsoft |
 | | photoroom |
 | | sentisight |
@@ -473,6 +474,13 @@
 | **ocr** | ocr |
 | **text** | generation |
 | | moderation |
+
+</details>
+<details><summary>clipdrop</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | background_removal |
 
 </details>
 <details><summary>cohere</summary>
