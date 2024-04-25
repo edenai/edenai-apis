@@ -301,13 +301,13 @@ class NyckelApi(ProviderInterface, ImageInterface):
 
         url = f"https://www.nyckel.com/v1/functions/{project_id}/labels"
         payload = {"name": label_name, "description": label_description}
-        response = self._session.post(url, json=payload)
         try:
+            response = self._session.post(url, json=payload)
             original_response = response.json()
-        except json.JSONDecodeError as exp:
+        except:
             raise ProviderException(
                 "Something went wrong when creating the label !!", 500
-            ) from exp
+            )
         if (
             response.status_code >= 400
             and "already exists" not in original_response.get("message", "")
