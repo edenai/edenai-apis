@@ -1,4 +1,6 @@
 import json
+import base64
+from io import BytesIO
 from pathlib import Path
 from time import time
 from typing import Dict, List, Optional
@@ -12,6 +14,9 @@ from edenai_apis.features.audio import (
     SpeechDiarizationEntry,
     SpeechDiarization,
 )
+from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
+    TextToSpeechDataClass,
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
@@ -20,8 +25,13 @@ from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
+    ResponseType,
 )
-from edenai_apis.utils.upload_s3 import upload_file_to_s3
+from edenai_apis.utils.upload_s3 import (
+    upload_file_to_s3,
+    upload_file_bytes_to_s3,
+    USER_PROCESS,
+)
 
 
 class DeepgramApi(ProviderInterface, AudioInterface):
@@ -68,7 +78,6 @@ class DeepgramApi(ProviderInterface, AudioInterface):
 
         data = {"url": content_url}
 
-
         data_config = {
             "language": language,
             "callback": self.webhook_url,
@@ -91,12 +100,14 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             if isinstance(value, bool):
                 data_config[key] = str(value).lower()
 
-        response = requests.post(self.url, headers=headers, json=data, params=data_config)
+        response = requests.post(
+            self.url, headers=headers, json=data, params=data_config
+        )
         result = response.json()
         if response.status_code != 200:
             raise ProviderException(
                 f"{result.get('err_code')}: {result.get('err_msg')}",
-                code = response.status_code
+                code=response.status_code,
             )
 
         transcribe_id = response.json()["request_id"]
@@ -119,7 +130,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         )
 
         if response_status != 200:
-            raise ProviderException(wehbook_result, code = response_status)
+            raise ProviderException(wehbook_result, code=response_status)
         try:
             original_response = json.loads(wehbook_result[0]["content"])
         except Exception:
@@ -136,7 +147,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         if original_response.get("err_code"):
             raise ProviderException(
                 f"{original_response.get('err_code')}: {original_response.get('err_msg')}",
-                code = response_status
+                code=response_status,
             )
 
         if not "results" in original_response:
@@ -176,4 +187,61 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             original_response=original_response,
             standardized_response=standardized_response,
             provider_job_id=public_provider_job_id,
+        )
+
+    def audio__text_to_speech(
+        self,
+        language: str,
+        text: str,
+        option: str,
+        voice_id: str,
+        audio_format: str,
+        speaking_rate: int,
+        speaking_pitch: int,
+        speaking_volume: int,
+        sampling_rate: int,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        _, model = voice_id.split("_")
+        base_url = f"https://api.deepgram.com/v1/speak?model={model}"
+        if audio_format:
+            base_url += f"&container={audio_format}"
+
+        if sampling_rate or sampling_rate != 0:
+            base_url += f"&sample_rate={sampling_rate}"
+
+        headers = {
+            "Authorization": f"Token {self.api_key}",
+            "Content-Type": "application/json",
+        }
+
+        payload = {"text": text}
+        response = requests.post(
+            base_url,
+            headers=headers,
+            json=payload,
+        )
+        if response.status_code != 200:
+            try:
+                result = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException(
+                    code=500, message="Internal Server Error"
+                ) from exc
+
+            raise ProviderException(
+                code=response.status_code, message=result.get("err_msg")
+            )
+
+        audio_content = BytesIO(response.content)
+        audio = base64.b64encode(audio_content.read()).decode("utf-8")
+        audio_content.seek(0)
+        resource_url = upload_file_bytes_to_s3(
+            audio_content, f".{audio_format}", USER_PROCESS
+        )
+
+        return ResponseType[TextToSpeechDataClass](
+            original_response=response.content,
+            standardized_response=TextToSpeechDataClass(
+                audio=audio, voice_type=1, audio_resource_url=resource_url
+            ),
         )
