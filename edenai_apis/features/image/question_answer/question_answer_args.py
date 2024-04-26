@@ -30,5 +30,9 @@ def question_answer_arguments(provider_name: str) -> Dict[str, Any]:
         "question": "What are the logos on the image ?",
         "temperature": 0.0,
         "max_tokens": 64,
-        "settings": {},
+        "settings": {
+            "alephalpha": "luminous-extended",
+            "google": "gemini-pro-vision",
+            "openai": "gpt-4-vision-preview",
+        },
     }
