@@ -74,14 +74,18 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         else:
             response = self._process_document_directly(file, document_type)
 
-        if response.status_code != HTTPStatus.CREATED:
-            try:
-                message = response.json()
-            except JSONDecodeError:
-                message = response.text
-            raise ProviderException(message=message, code=response.status_code)
+        try:
+            original_response = response.json()
+        except JSONDecodeError:
+            raise ProviderException(message="Internal Server Error", code=500)
 
-        return response.json()
+        if response.status_code != HTTPStatus.CREATED:
+            error_message = original_response.get("message") or original_response.get(
+                "error"
+            )
+            raise ProviderException(message=error_message, code=response.status_code)
+
+        return original_response
 
     def _process_document_through_bucket(self, filename: str, document_type: str):
         """Upload file to veryfi bucket then process it"""
@@ -149,7 +153,9 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             standardized_response=standardized_response,
         )
 
-    def ocr__bank_check_parsing(self, file: str, file_url: str = "") -> ResponseType:
+    def ocr__bank_check_parsing(
+        self, file: str, file_url: str = ""
+    ) -> ResponseType[BankCheckParsingDataClass]:
         original_response = self._process_document(file, document_type="checks")
 
         standardized_response = veryfi_bank_check_parser(original_response)
@@ -160,7 +166,7 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__financial_parser(
-        self, file: str, language: str, document_type: str, file_url: str = ""
+        self, file: str, language: str, document_type: str = "", file_url: str = ""
     ) -> ResponseType[FinancialParserDataClass]:
         original_response = self._process_document(file)
 
@@ -170,4 +176,3 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
-

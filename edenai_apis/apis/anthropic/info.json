@@ -1,15 +1,46 @@
 {
-    "text" : {
-        "generation" : {
-            "constraints": {
-              "models": [
-                "claude-instant-v1",
-                "claude-v1",
-                "claude-v2"
-              ],
-              "default_model" : "claude-v2"
-            },
-            "version": "v1"
-          }
+  "text": {
+    "generation": {
+      "constraints": {
+        "models": [
+          "claude-instant-v1",
+          "claude-v1",
+          "claude-v2"
+        ],
+        "default_model": "claude-v2"
+      },
+      "version": "bedrock-2023-05-31"
+    },
+    "summarize": {
+      "constraints": {
+        "allow_null_language": true,
+        "models": [
+          "claude-instant-v1",
+          "claude-v2",
+          "claude-3-sonnet-20240229-v1:0",
+          "claude-3-haiku-20240307-v1:0"
+        ],
+        "default_model": "claude-3-sonnet-20240229-v1:0"
+      },
+      "version": "bedrock-2023-05-31"
+    },
+    "chat": {
+      "constraints": {
+        "allow_null_language": true,
+        "models": [
+          "claude-instant-v1",
+          "claude-v2",
+          "claude-3-sonnet-20240229-v1:0",
+          "claude-3-haiku-20240307-v1:0"
+        ],
+        "default_model": "claude-3-sonnet-20240229-v1:0"
+      },
+      "version": "bedrock-2023-05-31"
     }
+  },
+  "multimodal": {
+    "chat": {
+      "version": "bedrock-2023-05-31"
+    }
+  }
 }

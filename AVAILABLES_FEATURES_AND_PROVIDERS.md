@@ -40,10 +40,12 @@
 | | tabscanner |
 | | veryfi |
 | **resume_parser** | affinda |
+| | extracta |
 | | hireability |
 | | klippa |
 | | senseloaf |
 | **custom_document_parsing_async** | amazon |
+| | extracta |
 | **data_extraction** | amazon |
 | | base64 |
 | **ocr** | amazon |
@@ -64,14 +66,22 @@
 | | privateai |
 | | readyredact |
 | **bank_check_parsing** | base64 |
+| | extracta |
 | | mindee |
 | | veryfi |
+| **invoice_splitter_async** | mindee |
 
 </details>
 <details><summary>text</summary>
 
 | Subfeatures | Providers |
 |----------|-------------|
+| **embeddings** | ai21labs |
+| | cohere |
+| | google |
+| | jina |
+| | mistral |
+| | openai |
 | **generation** | ai21labs |
 | | amazon |
 | | anthropic |
@@ -81,7 +91,16 @@
 | | meta |
 | | mistral |
 | | openai |
-| **summarize** | alephalpha |
+| **spell_check** | ai21labs |
+| | cohere |
+| | microsoft |
+| | nlpcloud |
+| | openai |
+| | prowritingaid |
+| | sapling |
+| **summarize** | ai21labs |
+| | alephalpha |
+| | anthropic |
 | | cohere |
 | | connexun |
 | | emvista |
@@ -100,6 +119,7 @@
 | **entity_sentiment** | amazon |
 | | google |
 | **keyword_extraction** | amazon |
+| | corticalio |
 | | emvista |
 | | ibm |
 | | microsoft |
@@ -134,34 +154,25 @@
 | | google |
 | | ibm |
 | | lettria |
-| **moderation** | clarifai |
-| | google |
-| | microsoft |
-| | openai |
-| **chat** | cohere |
+| **chat** | anthropic |
+| | cohere |
 | | google |
 | | meta |
 | | mistral |
 | | openai |
 | | perplexityai |
 | | replicate |
+| **moderation** | clarifai |
+| | google |
+| | microsoft |
+| | openai |
 | **custom_classification** | cohere |
 | | openai |
 | **custom_named_entity_recognition** | cohere |
 | | openai |
-| **embeddings** | cohere |
-| | google |
-| | mistral |
-| | openai |
 | **search** | cohere |
 | | google |
 | | openai |
-| **spell_check** | cohere |
-| | microsoft |
-| | nlpcloud |
-| | openai |
-| | prowritingaid |
-| | sapling |
 | **code_generation** | google |
 | | nlpcloud |
 | | openai |
@@ -223,6 +234,7 @@
 | | sentisight |
 | **anonymization** | api4ai |
 | **background_removal** | api4ai |
+| | clipdrop |
 | | microsoft |
 | | photoroom |
 | | sentisight |
@@ -232,11 +244,14 @@
 | | google |
 | | microsoft |
 | | smartclick |
+| **generation_fine_tuning** | astria |
 | **landmark_detection** | google |
 | | microsoft |
 | **automl_classification** | nyckel |
 | **search** | nyckel |
 | | sentisight |
+| **variation** | openai |
+| | stabilityai |
 
 </details>
 <details><summary>audio</summary>
@@ -310,8 +325,19 @@
 | | google |
 | **text_detection_async** | amazon |
 | | google |
+| | twelvelabs |
 | **logo_detection_async** | google |
+| | twelvelabs |
 | **object_tracking_async** | google |
+
+</details>
+<details><summary>multimodal</summary>
+
+| Subfeatures | Providers |
+|----------|-------------|
+| **chat** | anthropic |
+| | google |
+| | openai |
 
 </details>
 
@@ -332,7 +358,10 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | generation |
+| **text** | embeddings |
+| | generation |
+| | spell_check |
+| | summarize |
 
 </details>
 <details><summary>alephalpha</summary>
@@ -386,7 +415,10 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | generation |
+| **multimodal** | chat |
+| **text** | chat |
+| | generation |
+| | summarize |
 
 </details>
 <details><summary>api4ai</summary>
@@ -407,6 +439,13 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | speech_to_text_async |
+
+</details>
+<details><summary>astria</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | generation_fine_tuning |
 
 </details>
 <details><summary>base64</summary>
@@ -437,6 +476,13 @@
 | | moderation |
 
 </details>
+<details><summary>clipdrop</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | background_removal |
+
+</details>
 <details><summary>cohere</summary>
 
 | Features | Subfeatures |
@@ -457,6 +503,13 @@
 |----------|-------------|
 | **text** | sentiment_analysis |
 | | summarize |
+
+</details>
+<details><summary>corticalio</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | keyword_extraction |
 
 </details>
 <details><summary>dataleon</summary>
@@ -508,6 +561,15 @@
 | | syntax_analysis |
 
 </details>
+<details><summary>extracta</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **ocr** | bank_check_parsing |
+| | custom_document_parsing_async |
+| | resume_parser |
+
+</details>
 <details><summary>facepp</summary>
 
 | Features | Subfeatures |
@@ -542,6 +604,7 @@
 | | logo_detection |
 | | object_detection |
 | | question_answer |
+| **multimodal** | chat |
 | **ocr** | financial_parser |
 | | invoice_parser |
 | | ocr |
@@ -600,6 +663,13 @@
 | | topic_extraction |
 | **translation** | automatic_translation |
 | | language_detection |
+
+</details>
+<details><summary>jina</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **text** | embeddings |
 
 </details>
 <details><summary>klippa</summary>
@@ -684,6 +754,7 @@
 | | financial_parser |
 | | identity_parser |
 | | invoice_parser |
+| | invoice_splitter_async |
 | | receipt_parser |
 
 </details>
@@ -757,6 +828,8 @@
 | | text_to_speech |
 | **image** | generation |
 | | question_answer |
+| | variation |
+| **multimodal** | chat |
 | **text** | anonymization |
 | | chat |
 | | code_generation |
@@ -912,6 +985,7 @@
 |----------|-------------|
 | **image** | background_removal |
 | | generation |
+| | variation |
 
 </details>
 <details><summary>symbl</summary>
@@ -938,6 +1012,14 @@
 | | question_answer |
 | | sentiment_analysis |
 | | topic_extraction |
+
+</details>
+<details><summary>twelvelabs</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **video** | logo_detection_async |
+| | text_detection_async |
 
 </details>
 <details><summary>vernai</summary>

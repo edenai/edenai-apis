@@ -1,0 +1,35 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "65eaec22bb29f13bdd6f4308_65eaec2448db9fa780cb47ef_65eaec24bb29f13bdd6f4309",
+  "original_response": {
+    "id": "65eaec2448db9fa780cb47ef",
+    "index_id": "65eaec22bb29f13bdd6f4308",
+    "data": [
+      {
+        "end": 14,
+        "score": 0.9650607705116272,
+        "start": 13,
+        "value": "Aston Martin"
+      }
+    ]
+  },
+  "standardized_response": {
+    "logos": [
+      {
+        "description": "Aston Martin",
+        "tracking": [
+          {
+            "timestamp": 1.0,
+            "bounding_box": {
+              "top": null,
+              "left": null,
+              "height": null,
+              "width": null
+            },
+            "confidence": 0.9650607705116272
+          }
+        ]
+      }
+    ]
+  }
+}

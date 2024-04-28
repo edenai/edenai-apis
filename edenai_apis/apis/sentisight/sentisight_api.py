@@ -22,6 +22,12 @@ from edenai_apis.features.image.search.get_images import (
     ImageSearchItem,
     SearchGetImagesDataClass,
 )
+from edenai_apis.features.image.search.upload_image.search_upload_image_dataclass import (
+    SearchUploadImageDataClass,
+)
+from edenai_apis.features.image.search.delete_image.search_delete_image_dataclass import (
+    SearchDeleteImageDataClass,
+)
 from edenai_apis.features.ocr import OcrDataClass, Bounding_box
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -216,7 +222,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
 
     def image__search__upload_image(
         self, file: str, image_name: str, project_id: str, file_url: str = ""
-    ) -> ResponseSuccess:
+    ) -> ResponseType[SearchUploadImageDataClass]:
         upload_project_url = (
             "https://platform.sentisight.ai/api/image/"
             + f"{project_id}/{image_name}?preprocess=true"
@@ -238,11 +244,14 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         if response.status_code != 200:
             handle_error_image_search(response)
 
-        return ResponseSuccess()
+        return ResponseType[SearchUploadImageDataClass](
+            standardized_response=SearchUploadImageDataClass(status="success"),
+            original_response={},
+        )
 
     def image__search__delete_image(
         self, image_name: str, project_id: str
-    ) -> ResponseSuccess:
+    ) -> ResponseType[SearchDeleteImageDataClass]:
         delete_project_url = (
             f"https://platform.sentisight.ai/api/image/{project_id}/{image_name}/"
         )
@@ -252,7 +261,10 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         if response.status_code != 200:
             handle_error_image_search(response)
 
-        return ResponseSuccess()
+        return ResponseType[SearchDeleteImageDataClass](
+            standardized_response=SearchDeleteImageDataClass(status="success"),
+            original_response={},
+        )
 
     def image__search__get_images(
         self, project_id: str
@@ -296,12 +308,14 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
 
     def image__search__launch_similarity(
-        self, file: str, project_id: str, file_url: str = ""
+        self, project_id: str, file: Optional[str] = None,  file_url: Optional[str] = None, n: int = 10
     ) -> ResponseType[SearchDataClass]:
         search_project_url = (
             "https://platform.sentisight.ai/api/similarity"
-            + f"?project={project_id}&limit=10&threshold=0&and=false"
+            + f"?project={project_id}&limit={n}&threshold=0&and=false"
         )
+        if not file:
+            raise ValueError("file is required.")
         file_ = open(file, "rb")
         response = requests.post(
             search_project_url,

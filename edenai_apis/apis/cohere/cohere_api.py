@@ -1,10 +1,12 @@
 import json
-from typing import Optional, List, Dict, Sequence, Union, Literal, Generator
+from typing import Optional, List, Dict, Sequence, Tuple, Union, Literal, Generator
 
 import requests
-from edenai_apis.apis.cohere.helpers import extract_json_text
 
+from edenai_apis.apis.cohere.helpers import extract_json_text
 from edenai_apis.features import ProviderInterface, TextInterface
+from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
 from edenai_apis.features.text.custom_classification import (
     ItemCustomClassificationDataClass,
     CustomClassificationDataClass,
@@ -27,9 +29,6 @@ from edenai_apis.utils.conversion import construct_word_list
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
-
-from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
-from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
 
 
 class CohereApi(ProviderInterface, TextInterface):
@@ -83,6 +82,7 @@ class CohereApi(ProviderInterface, TextInterface):
         Text: {text}
 
         Answer: ```json[{', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]```
+
         """
 
     @staticmethod
@@ -117,8 +117,8 @@ List of corrected words:
     def text__generation(
         self,
         text: str,
-        max_tokens: int,
         temperature: float,
+        max_tokens: int,
         model: str,
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.base_url}generate"
@@ -163,7 +163,7 @@ List of corrected words:
         )
 
     def text__custom_classification(
-        self, texts: List[str], labels: List[str], examples: List[List[str]]
+        self, texts: List[str], labels: List[str], examples: List[Tuple[str, str]]
     ) -> ResponseType[CustomClassificationDataClass]:
         # Build the request
         url = f"{self.base_url}classify"
@@ -203,7 +203,11 @@ List of corrected words:
         )
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SummarizeDataClass]:
         url = f"{self.base_url}summarize"
         length = "long"
@@ -221,7 +225,10 @@ List of corrected words:
         }
 
         response = requests.post(url, json=payload, headers=self.headers)
-        original_response = response.json()
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal server error", code=500) from exc
 
         if "message" in original_response:
             raise ProviderException(
@@ -279,9 +286,10 @@ Categories: {built_entities}
 
 Text: {text}
 
-
 For Example:
 {prompt_examples}
+
+Your answer:
 """
 
         # Construct request
@@ -289,6 +297,8 @@ For Example:
             "model": "command",
             "message": prompt,
             "temperature": 0,
+            "stop_sequences": ["--"],
+            "truncate": "END",
         }
         response = requests.post(url, json=payload, headers=self.headers)
         if response.status_code != 200:
@@ -297,6 +307,7 @@ For Example:
         original_response = response.json()
         data = original_response.get("text")
 
+        print(data)
         try:
             items = extract_json_text(data)
         except json.JSONDecodeError as exc:
@@ -369,12 +380,15 @@ For Example:
         )
 
     def text__embeddings(
-        self, texts: List[str], model: str
+        self, texts: List[str], model: Optional[str] = None
     ) -> ResponseType[EmbeddingsDataClass]:
         url = f"{self.base_url}embed"
         model = model.split("__")[1]
         payload = {"texts": texts, "model": model}
         response = requests.post(url, json=payload, headers=self.headers)
+        if response.status_code >= 500:
+            raise ProviderException("Internal Server Error")
+
         original_response = response.json()
         if "message" in original_response:
             raise ProviderException(

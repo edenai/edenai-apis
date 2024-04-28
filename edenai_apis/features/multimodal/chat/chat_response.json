@@ -1,0 +1,42 @@
+{
+    "generated_text": "The image depicts a peaceful nature scene. In the foreground, there is a wooden boardwalk or pathway that stretches across a grassy field or meadow. The grass is lush and green, with some areas appearing slightly overgrown. The boardwalk provides a clear path through the tall grass.\n\nIn the background, there are trees and shrubs lining the horizon, suggesting a rural or countryside setting. The sky is a beautiful shade of blue with scattered white clouds, creating a serene and picturesque atmosphere.\n\nThe image conveys a sense of tranquility and invites the viewer to explore the natural surroundings along the boardwalk path. The vibrant colors and the contrast between the wooden pathway and the lush greenery make for a visually appealing and calming scene.",
+    "messages": [
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "content": {
+                        "media_url": null,
+                        "media_base64": null,
+                        "text": "Describe this image please ! ",
+                        "media_type": null
+                    }
+                },
+                {
+                    "type": "media_url",
+                    "content": {
+                        "media_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                        "media_base64": null,
+                        "text": null,
+                        "media_type": null
+                    }
+                }
+            ]
+        },
+        {
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "content": {
+                        "media_url": null,
+                        "media_base64": null,
+                        "text": "The image depicts a peaceful nature scene. In the foreground, there is a wooden boardwalk or pathway that stretches across a grassy field or meadow. The grass is lush and green, with some areas appearing slightly overgrown. The boardwalk provides a clear path through the tall grass.\n\nIn the background, there are trees and shrubs lining the horizon, suggesting a rural or countryside setting. The sky is a beautiful shade of blue with scattered white clouds, creating a serene and picturesque atmosphere.\n\nThe image conveys a sense of tranquility and invites the viewer to explore the natural surroundings along the boardwalk path. The vibrant colors and the contrast between the wooden pathway and the lush greenery make for a visually appealing and calming scene.",
+                        "media_type": null
+                    }
+                }
+            ]
+        }
+    ]
+}

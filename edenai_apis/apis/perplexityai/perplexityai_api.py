@@ -42,6 +42,8 @@ class PerplexityApi(ProviderInterface, TextInterface):
             length = len(lst_data)
         for token in lst_data:
             jsonres = json.loads(token)
+            if error := jsonres.get("error"):
+                raise ProviderException(error.get("message"), error.get("code") or 400)
             yield ChatStreamResponse(
                 text=jsonres["choices"][0]["delta"]["content"],
                 blocked=False,
@@ -54,11 +56,14 @@ class PerplexityApi(ProviderInterface, TextInterface):
         chatbot_global_action: Optional[str] = None,
         previous_history: Optional[List[Dict[str, str]]] = None,
         temperature: float = 0.0,
-        max_tokens: int = 64,
+        max_tokens: int = 25,
         model: Optional[str] = None,
         stream: bool = False,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         messages = []
+
+        if chatbot_global_action:
+            messages.append({"role": "system", "content": chatbot_global_action})
 
         if previous_history:
             for message in previous_history:
@@ -66,8 +71,6 @@ class PerplexityApi(ProviderInterface, TextInterface):
                     {"role": message.get("role"), "content": message.get("message")},
                 )
 
-        if chatbot_global_action:
-            messages.append({"role": "system", "content": chatbot_global_action})
         messages.append({"role": "user", "content": text})
         url = f"{self.url}/chat/completions"
         payload = {

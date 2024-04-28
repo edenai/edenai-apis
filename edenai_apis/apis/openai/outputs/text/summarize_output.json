@@ -1,27 +1,28 @@
 {
   "original_response": {
-    "id": "chatcmpl-8O2HUflyeTJc0V8gqfdhxnPFiAqGA",
+    "id": "chatcmpl-8pzVJyrbIrM0NFl5CxECxQyHYLkyt",
     "object": "chat.completion",
-    "created": 1700739332,
+    "created": 1707401841,
     "model": "gpt-3.5-turbo-1106",
     "choices": [
       {
         "index": 0,
         "message": {
           "role": "assistant",
-          "content": "Castle is an American series produced by ABC Studios and first released in 2009. It has a total of four seasons and 63 episodes, with the fourth season set to be released soon. The show stars Nathan Fillion and has been a popular success."
+          "content": "Barack Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. He was the first African-American president and had previously served as a U.S. senator and an Illinois state senator."
         },
+        "logprobs": null,
         "finish_reason": "stop"
       }
     ],
     "usage": {
-      "prompt_tokens": 109,
-      "completion_tokens": 52,
-      "total_tokens": 161
+      "prompt_tokens": 113,
+      "completion_tokens": 51,
+      "total_tokens": 164
     },
-    "system_fingerprint": "fp_eeff13170a"
+    "system_fingerprint": "fp_04f9a1eebf"
   },
   "standardized_response": {
-    "result": "Castle is an American series produced by ABC Studios and first released in 2009. It has a total of four seasons and 63 episodes, with the fourth season set to be released soon. The show stars Nathan Fillion and has been a popular success."
+    "result": "Barack Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. He was the first African-American president and had previously served as a U.S. senator and an Illinois state senator."
   }
 }

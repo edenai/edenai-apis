@@ -27,10 +27,11 @@ class FakerApi(ProviderInterface, AudioInterface):
         language: str, 
         speakers: int, 
         profanity_filter: bool, 
-        vocabulary: list,
+        vocabulary: Optional[List[str]],
         audio_attributes: tuple,
+        model: Optional[str] = None,
         file_url: str = "",
-        provider_params: dict = dict(),
+        provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
         sleep(randint(1, 3))
         return AsyncLaunchJobResponseType(provider_job_id="SomeFakeID")

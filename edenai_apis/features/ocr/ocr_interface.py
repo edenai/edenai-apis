@@ -1,14 +1,18 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from typing import List, Dict, Union
 
 from edenai_apis.features.ocr.anonymization_async.anonymization_async_dataclass import (
     AnonymizationAsyncDataClass,
 )
+from edenai_apis.features.ocr.bank_check_parsing.bank_check_parsing_dataclass import BankCheckParsingDataClass
 from edenai_apis.features.ocr.custom_document_parsing_async import (
     CustomDocumentParsingAsyncDataClass,
 )
 from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import (
     DataExtractionDataClass,
+)
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialParserDataClass,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     IdentityParserDataClass,
@@ -16,7 +20,11 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     InvoiceParserDataClass,
 )
+from edenai_apis.features.ocr.invoice_splitter_async.invoice_splitter_async_dataclass import (
+    InvoiceSplitterAsyncDataClass,
+)
 from edenai_apis.features.ocr.ocr.ocr_dataclass import OcrDataClass
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import OcrAsyncDataClass
 from edenai_apis.features.ocr.ocr_tables_async.ocr_tables_async_dataclass import (
     OcrTablesAsyncDataClass,
 )
@@ -26,7 +34,6 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 from edenai_apis.features.ocr.resume_parser.resume_parser_dataclass import (
     ResumeParserDataClass,
 )
-from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -48,6 +55,7 @@ class OcrInterface:
         """
         raise NotImplementedError
 
+    # DEPRECATED
     @abstractmethod
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = ""
@@ -97,6 +105,7 @@ class OcrInterface:
         """
         raise NotImplementedError
 
+    # DEPRECATED
     @abstractmethod
     def ocr__receipt_parser(
         self, file: str, language: str, file_url: str = ""
@@ -112,7 +121,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__financial_parser(
-        self, file: str, language: str, document_type: str, file_url: str = ""
+        self, file: str, language: str, document_type: str = "", file_url: str = ""
     ) -> ResponseType[FinancialParserDataClass]:
         """Parse a financial document (receipt or invoice) and returned structured data
 
@@ -189,7 +198,7 @@ class OcrInterface:
     @abstractmethod
     def ocr__ocr_async__get_job_result(
         self, provider_job_id: str
-    ) -> AsyncBaseResponseType[OcrDataClass]:
+    ) -> AsyncBaseResponseType[OcrAsyncDataClass]:
         """
         Get the result of an asynchronous job by its ID
 
@@ -212,7 +221,7 @@ class OcrInterface:
         self,
         file: str,
         file_url: str = "",
-    ) -> ResponseType[DataExtractionDataClass]:
+    ) -> ResponseType[BankCheckParsingDataClass]:
         """
         Parse a bank check and extract all information
 
@@ -239,6 +248,31 @@ class OcrInterface:
     def ocr__anonymization_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[AnonymizationAsyncDataClass]:
+        """
+        Get the result of an asynchronous job by its ID
+
+        Args:
+            provider_job_id (str): id of async job
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def ocr__invoice_splitter_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Split an invoice into multiple invoices
+
+        Args:
+            file (str): Path of file
+            file_url (str) : Url of file
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def ocr__invoice_splitter_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[InvoiceSplitterAsyncDataClass]:
         """
         Get the result of an asynchronous job by its ID
 

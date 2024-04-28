@@ -1,37 +1,37 @@
 {
-    "text": {
-      "generation" : {
-        "constraints": {
-          "models": [
-            "command",
-            "command-light",
-            "command-nightly",
-            "command-light-nightly"
-          ],
-          "default_model" : "command-nightly"
-        },
-        "version": "2022-12-06"
+  "text": {
+    "generation": {
+      "constraints": {
+        "models": [
+          "command",
+          "command-light",
+          "command-nightly",
+          "command-light-nightly"
+        ],
+        "default_model": "command-nightly"
       },
-      "custom_classification":{
-        "version" : "2022-12-06"
-      },
-      "custom_named_entity_recognition":{
-        "version" : "2022-12-06"
-      },
-      "summarize":{
-        "version" : "2022-12-06",
-        "constraints": {
-          "languages": [
-              "en"
-          ],
-          "models": [
-            "summarize-xlarge",
-            "summarize-medium"
-          ],
-          "default_model" : "summarize-xlarge"
+      "version": "2022-12-06"
+    },
+    "custom_classification": {
+      "version": "2022-12-06"
+    },
+    "custom_named_entity_recognition": {
+      "version": "2022-12-06"
+    },
+    "summarize": {
+      "version": "2022-12-06",
+      "constraints": {
+        "languages": [
+          "en"
+        ],
+        "models": [
+          "summarize-xlarge",
+          "summarize-medium"
+        ],
+        "default_model": "summarize-xlarge"
       }
     },
-    "spell_check":{
+    "spell_check": {
       "constraints": {
         "languages": [
           "en"
@@ -40,21 +40,21 @@
       },
       "version": "2022-12-06"
     },
-    "embeddings" : {
+    "embeddings": {
       "constraints": {
         "models": [
           "4096__embed-english-v2.0",
           "1024__embed-english-light-v2.0",
           "768__embed-multilingual-v2.0"
         ],
-        "default_model" : "4096__embed-english-v2.0"
+        "default_model": "4096__embed-english-v2.0"
       },
-      "version" : "v1"
+      "version": "v1"
     },
-    "search" : {
-      "version" : "v1"
+    "search": {
+      "version": "v1"
     },
-    "chat" : {
+    "chat": {
       "constraints": {
         "models": [
           "command",
@@ -62,7 +62,7 @@
           "command-nightly",
           "command-light-nightly"
         ],
-        "default_model": "command-light"
+        "default_model": "command-nightly"
       },
       "version": "2022-12-06"
     }

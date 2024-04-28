@@ -938,7 +938,7 @@
           "text-bison",
           "gemini-pro"
         ],
-        "default_model": "text-bison"
+        "default_model": "gemini-pro"
       },
       "version": "v1"
     },
@@ -1322,11 +1322,11 @@
       "version": "v1"
     },
     "logo_detection": {
+      "constraints": {},
       "version": "v1"
     },
     "object_detection": {
-      "constraints": {
-      },
+      "constraints": {},
       "version": "v1"
     },
     "question_answer": {
@@ -1337,6 +1337,11 @@
         ],
         "default_model": "gemini-pro-vision"
       },
+      "version": "v1"
+    }
+  },
+  "multimodal": {
+    "chat": {
       "version": "v1"
     }
   }

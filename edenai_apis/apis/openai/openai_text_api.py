@@ -1,7 +1,6 @@
 import json
 from typing import Dict, List, Literal, Optional, Sequence, Union
 
-import numpy as np
 import openai
 import requests
 from pydantic_core._pydantic_core import ValidationError
@@ -50,7 +49,6 @@ from edenai_apis.features.text.spell_check.spell_check_dataclass import (
 )
 from edenai_apis.features.text.summarize import SummarizeDataClass
 from edenai_apis.features.text.topic_extraction import (
-    ExtractedTopic,
     TopicExtractionDataClass,
 )
 from edenai_apis.utils.conversion import (
@@ -83,16 +81,11 @@ class OpenaiTextApi(TextInterface):
         self, text: str, output_sentences: int, language: str, model: str
     ) -> ResponseType[SummarizeDataClass]:
         url = f"{self.url}/chat/completions"
-        prompt = f"{text}\n\nTl;dr"
+        prompt = f"""Given the following text, please provide a concise summary in the same language:
+        text : {text}
+        sumamry : 
+        """
         messages = [{"role": "user", "content": prompt}]
-        messages.insert(
-            0,
-            {
-                "role": "system",
-                "content": f"""Act as a PII system that takes a text input containing personally identifiable information (PII) and generates an anonymized version of the text, 
-                """,
-            },
-        )
         # Build the request
         payload = {
             "model": model,
@@ -246,9 +239,11 @@ class OpenaiTextApi(TextInterface):
         response = requests.post(url, json=payload, headers=self.headers)
         original_response = get_openapi_response(response)
 
-        answer = original_response["choices"][0]["text"].split("\n")
-        answer = answer[0]
-        standardized_response = QuestionAnswerDataClass(answers=[answer])
+        answers = []
+        for choice in original_response["choices"]:
+            answer = choice["text"]
+            answers.append(answer)
+        standardized_response = QuestionAnswerDataClass(answers=answers)
 
         result = ResponseType[QuestionAnswerDataClass](
             original_response=original_response,
@@ -474,7 +469,10 @@ class OpenaiTextApi(TextInterface):
             "max_tokens": max_tokens,
         }
 
-        response = requests.post(url, json=payload, headers=self.headers)
+        try:
+            response = requests.post(url, json=payload, headers=self.headers)
+        except requests.exceptions.ChunkedEncodingError:
+            raise ProviderException("Connection closed with provider", 400)
         original_response = get_openapi_response(response)
 
         standardized_response = CodeGenerationDataClass(
@@ -545,6 +543,11 @@ class OpenaiTextApi(TextInterface):
             raise ProviderException(
                 "OpenAI didn't return a valid JSON", code=500
             ) from exc
+        for item in items.get("items", []) or []:
+            try:
+                item["entity"] = str(item.get("entity"))
+            except:
+                pass
 
         standardized_response = CustomNamedEntityRecognitionDataClass(
             items=items.get("items")
@@ -592,6 +595,8 @@ class OpenaiTextApi(TextInterface):
         json_detected_labels_copy = []
         for detected_label in json_detected_labels["classifications"]:
             if detected_label.get("label") and detected_label.get("input"):
+                if detected_label.get("confidence") is None:
+                    detected_label["confidence"] = 0.0
                 json_detected_labels_copy.append(detected_label)
 
         return ResponseType[CustomClassificationDataClass](
@@ -790,7 +795,7 @@ class OpenaiTextApi(TextInterface):
             )
 
     def text__prompt_optimization(
-        self, text: str, target_provider: Literal["openai", "google", "cohere"]
+        self, text: str, target_provider: str
     ) -> ResponseType[PromptOptimizationDataClass]:
         url = f"{self.url}/chat/completions"
         prompt = construct_prompt_optimization_instruction(text, target_provider)

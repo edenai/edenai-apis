@@ -1,7 +1,7 @@
 from collections import defaultdict
-from typing import Dict, Sequence
+from typing import Dict, Optional, Sequence
 
-from PIL import Image as Img
+from PIL import Image as Img, UnidentifiedImageError
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
 from clarifai_grpc.grpc.api import resources_pb2, service_pb2, service_pb2_grpc
 from clarifai_grpc.grpc.api.status import status_code_pb2
@@ -356,7 +356,10 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface
             return result
 
     def image__object_detection(
-        self, file: str, model: str, file_url: str = ""
+        self,
+        file: str,
+        file_url: str = "",
+        model: Optional[str] = None,
     ) -> ResponseType[ObjectDetectionDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
@@ -421,14 +424,18 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface
             )
 
     def image__logo_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[LogoDetectionDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
 
         with open(file, "rb") as file_:
             file_content = file_.read()
-        width, height = Img.open(file).size
+        try:
+            width, height = Img.open(file).size
+        except UnidentifiedImageError:
+            raise ProviderException("This image type is not supported.")
+
         user_id = "clarifai"
         app_id = "main"
         metadata = (("authorization", self.key),)

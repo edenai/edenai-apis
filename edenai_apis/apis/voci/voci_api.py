@@ -41,10 +41,11 @@ class VociApi(ProviderInterface, AudioInterface):
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model: str = None,
+        model: Optional[str] = None,
         file_url: str = "",
-        provider_params = dict()
+        provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes
 
         data_config = {

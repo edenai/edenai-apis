@@ -143,8 +143,9 @@ class AmazonAudioApi(AudioInterface):
         vocab_name: Optional[str] = None,
         initiate_vocab: bool = False,
         format: str = "wav",
-        provider_params: dict = dict(),
+        provider_params: Optional[dict] = None,
     ):
+        provider_params = provider_params or {}
         if speakers < 2:
             speakers = 2
         params = {
@@ -190,10 +191,11 @@ class AmazonAudioApi(AudioInterface):
         profanity_filter: bool,
         vocabulary: list,
         audio_attributes: tuple,
-        model: str = None,
+        model: Optional[str] = None,
         file_url: str = "",
-        provider_params=dict(),
+        provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes
 
         filename = self._upload_audio_file_to_amazon_server(

@@ -1,4 +1,7 @@
-from typing import Dict, List, Optional, Sequence
+import json
+from http import HTTPStatus
+from typing import Dict, List, Optional, Sequence, Any
+from edenai_apis.utils.parsing import extract
 
 import requests
 
@@ -37,9 +40,9 @@ from .config import get_domain_language_from_code
 class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
     provider_name = "neuralspace"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )
         self.api_key = self.api_settings["api"]
         self.url = "https://platform.neuralspace.ai/api/"
@@ -63,10 +66,14 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
                     response.json().get("message"), code=response.status_code
                 )
 
-        response = response.json()
-        data = response["data"]
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(message="Internal Server Error", code=500) from exc
 
-        items: Sequence[InfosNamedEntityRecognitionDataClass] = []
+        data = original_response.get("data") or {}
+
+        items: List[InfosNamedEntityRecognitionDataClass] = []
 
         if len(data["entities"]) > 0:
             for entity in data["entities"]:
@@ -102,11 +109,14 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         }
 
         response = requests.request("POST", url, json=files, headers=self.header)
-        original_resoonse = response.json()
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(message="Internal Server Error", code=500) from exc
 
-        data = original_resoonse["data"]
+        data = original_response.get("data") or {}
 
-        if original_resoonse["success"] is False:
+        if original_response.get("success", False) is False:
             raise ProviderException(data.get("error"), code=response.status_code)
 
         standardized_response = AutomaticTranslationDataClass(
@@ -118,7 +128,7 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         )
 
     def translation__language_detection(
-        self, text
+        self, text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
         url = f"{self.url}language-detection/v1/detect"
         files = {"text": text}
@@ -158,10 +168,11 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model: str = None,
+        model: Optional[str] = None,
         file_url: str = "",
-        provider_params=dict(),
+        provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes
 
         url_file_upload = f"{self.url}file/upload"
@@ -196,14 +207,19 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         payload.update(provider_params)
 
         response = requests.post(url=url_file_transcribe, headers=headers, data=payload)
-        original_response = response.json()
+
         if response.status_code != 201:
-            raise ProviderException(
-                original_response.get("data").get("error"), code=response.status_code
-            )
+            status = response.status_code
+            message = HTTPStatus(status).phrase
+            try:
+                data = response.json()
+                message = extract(data, ["data", "error"], fallback=message)
+            except requests.JSONDecodeError:
+                pass
+            raise ProviderException(message, code=status)
 
+        original_response = response.json()
         transcribeId = original_response.get("data").get("transcribeId")
-
         return AsyncLaunchJobResponseType(provider_job_id=transcribeId)
 
     def audio__speech_to_text_async__get_job_result(

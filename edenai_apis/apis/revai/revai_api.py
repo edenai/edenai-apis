@@ -68,10 +68,11 @@ class RevAIApi(ProviderInterface, AudioInterface):
         file_url: str,
         language: str,
         profanity_filter: bool,
-        vocab_name: str = None,
+        vocab_name: Optional[str] = None,
         initiate_vocab: bool = False,
-        provider_params = dict()
+        provider_params: Optional[dict] = None
     ):
+        provider_params = provider_params or {}
         config = {
             "filter_profanity": profanity_filter,
         }
@@ -134,10 +135,11 @@ class RevAIApi(ProviderInterface, AudioInterface):
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model: str = None,
+        model: Optional[str] = None,
         file_url: str = "",
-        provider_params = dict()
+        provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes
 
         # upload file to amazon S3

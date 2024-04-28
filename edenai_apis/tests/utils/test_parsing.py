@@ -27,6 +27,26 @@ def test_parsing_extract_mixed_object():
 
     assert test_output == expected_output
 
+def test_parsing_extract_mixed_object_multiple_times():
+    expected_output_1 = "yay"
+    expected_output_2 = "yaay"
+    expected_output_3 = "yaaay"
+
+    test_obj_copy = {"first_level": [{0: expected_output_2}, {"second": expected_output_1},], "hello": expected_output_3}
+    test_obj = {"first_level": [{0: expected_output_2}, {"second": expected_output_1},], "hello": expected_output_3}
+
+    test_output_1 = extract(test_obj, ["first_level", 1, "second"])
+    test_output_2 = extract(test_obj, ["first_level", 0, 0])
+    test_output_3 = extract(test_obj, ["hello"])
+    test_output_4 = extract(test_obj, ["first_level", 1, "second"])
+    test_output_5 = extract(test_obj, ["first_level", 1, "second"])
+
+    assert test_output_1 == expected_output_1
+    assert test_output_2 == expected_output_2
+    assert test_output_3 == expected_output_3
+    assert test_obj == test_obj_copy
+    assert test_output_4 == expected_output_1
+    assert test_output_5 == expected_output_1
 
 def test_parsing_fallback_on_index_error():
     expected_output = "yay"

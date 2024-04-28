@@ -71,7 +71,7 @@ class Api4aiApi(
 
         self.endpoints = {
             "object_detection": "/general-det/v1/results",
-            "logo_detection": "/brand-det/v1/results",
+            "logo_detection": "/brand-det/{model}/results",
             "face_detection": "/face-analyzer/v1/results",
             "anonymization": "/img-anonymization/v1/results",
             "nsfw": "/nsfw/v1/results",
@@ -90,7 +90,7 @@ class Api4aiApi(
         self,
         file: str,
         file_url: str = "",
-        model: str = None,
+        model: Optional[str] = None,
     ) -> ResponseType[ObjectDetectionDataClass]:
         """
         This function is used to detect objects in an image.
@@ -244,14 +244,16 @@ class Api4aiApi(
         return result
 
     def image__logo_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[LogoDetectionDataClass]:
         file_ = open(file, "rb")
         payload = {
             "image": file_,
         }
         # Get response
-        response = requests.post(self.urls["logo_detection"], files=payload)
+        response = requests.post(
+            self.urls["logo_detection"].format(model=model), files=payload
+        )
         if response.status_code >= 400:
             error_message = ""
             try:
@@ -273,26 +275,31 @@ class Api4aiApi(
             )
 
         # Get result
-        logos = original_response["results"][0]["entities"][0]["objects"]
         items: Sequence[LogoItem] = []
-        for logo in logos:
-            brand = logo.get("entities")[0].get("classes")
-            try:
-                brand_name, score = list(brand.items())[0]
-            except IndexError:
-                continue
-            vertices = []
-            vertices.append(LogoVertice(x=logo["box"][0], y=logo["box"][1]))
-            vertices.append(LogoVertice(x=logo["box"][2], y=logo["box"][1]))
-            vertices.append(LogoVertice(x=logo["box"][2], y=logo["box"][3]))
-            vertices.append(LogoVertice(x=logo["box"][0], y=logo["box"][3]))
-            items.append(
-                LogoItem(
-                    description=brand_name,
-                    score=score,
-                    bounding_poly=LogoBoundingPoly(vertices=vertices),
+        logos = original_response["results"][0]["entities"][0]
+        if logos.get("strings"):
+            for logo in logos.get("strings"):
+                items.append(LogoItem(description=logo, bounding_poly=None, score=None))
+
+        if logos.get("objects"):
+            for logo in logos.get("objects"):
+                brand = logo.get("entities")[0].get("classes")
+                try:
+                    brand_name, score = list(brand.items())[0]
+                except IndexError:
+                    continue
+                vertices = []
+                vertices.append(LogoVertice(x=logo["box"][0], y=logo["box"][1]))
+                vertices.append(LogoVertice(x=logo["box"][2], y=logo["box"][1]))
+                vertices.append(LogoVertice(x=logo["box"][2], y=logo["box"][3]))
+                vertices.append(LogoVertice(x=logo["box"][0], y=logo["box"][3]))
+                items.append(
+                    LogoItem(
+                        description=brand_name,
+                        score=score,
+                        bounding_poly=LogoBoundingPoly(vertices=vertices),
+                    )
                 )
-            )
         standardized = LogoDetectionDataClass(items=items)
         result = ResponseType[LogoDetectionDataClass](
             original_response=original_response, standardized_response=standardized

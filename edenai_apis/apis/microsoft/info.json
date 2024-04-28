@@ -1241,7 +1241,7 @@
           "nl"
         ],
         "allow_null_language": true,
-        "documents" : [
+        "documents": [
           "receipt",
           "invoice"
         ]
@@ -1716,11 +1716,11 @@
       "version": "v3.2"
     },
     "logo_detection": {
+      "constraints": {},
       "version": "v3.2"
     },
     "object_detection": {
-      "constraints":{
-      },
+      "constraints": {},
       "version": "v3.2"
     },
     "landmark_detection": {

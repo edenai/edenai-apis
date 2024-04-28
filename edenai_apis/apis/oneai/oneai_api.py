@@ -196,7 +196,7 @@ class OneaiApi(
         )
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str = None
+        self, text: str, output_sentences: int, language: str, model: Optional[str] = None
     ) -> ResponseType[SummarizeDataClass]:
         data = json.dumps({"input": text, "steps": [{"skill": "summarize"}]})
 
@@ -218,7 +218,7 @@ class OneaiApi(
         )
 
     def translation__language_detection(
-        self, text
+        self, text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
         data = json.dumps(
             {
@@ -258,10 +258,11 @@ class OneaiApi(
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model: str = None,
+        model: Optional[str] = None,
         file_url: str = "",
-        provider_params: dict = dict()
+        provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes
 
         data = {

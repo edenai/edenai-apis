@@ -206,7 +206,9 @@ class TestLoadSamples:
     )
     def test_load_sample_valid_parameters(self, feature, subfeature, phase):
         if feature == "image" and (
-            subfeature == "search" or subfeature == "automl_classification"
+            subfeature == "search"
+            or subfeature == "automl_classification"
+            or subfeature == "generation_fine_tuning"
         ):
             pytest.skip(
                 "image-search and image-automl_classification need dynamic argument as each provider should have a different project_id"

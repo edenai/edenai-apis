@@ -1,6 +1,7 @@
 {
     "image": {
         "logo_detection": {
+            "constraints": {},
             "version": "v3.2"
         }
     }

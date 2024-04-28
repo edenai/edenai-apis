@@ -1,11 +1,17 @@
 {
     "image": {
         "object_detection": {
-            "constraints":{
-            },
+            "constraints": {},
             "version": "1.9.2"
         },
         "logo_detection": {
+            "constraints": {
+                "models": [
+                    "v1",
+                    "v2"
+                ],
+                "default_model": "v1"
+            },
             "version": "v1.0.0"
         },
         "face_detection": {

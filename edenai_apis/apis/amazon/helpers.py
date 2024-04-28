@@ -60,7 +60,7 @@ from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import
     FinancialMerchantInformation,
     FinancialParserDataClass,
     FinancialParserObjectDataClass,
-    FinancialPaymentInformation
+    FinancialPaymentInformation,
 )
 from edenai_apis.features.video.explicit_content_detection_async.explicit_content_detection_async_dataclass import (
     ContentNSFW,
@@ -103,7 +103,7 @@ from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
 from edenai_apis.utils.types import (
     ResponseType,
 )
-from .config import clients, storage_clients
+from .config import storage_clients
 
 
 def check_webhook_result(job_id: str, api_settings: dict) -> Dict:
@@ -203,7 +203,7 @@ def _upload_video_file_to_amazon_server(file: str, file_name: str, api_settings:
     return filename
 
 
-def amazon_launch_video_job(file: str, feature: str):
+def amazon_get_video_data(file: str):
     api_settings = load_provider(ProviderDataEnum.KEY, "amazon")
     # Upload video to amazon server
     filename = _upload_video_file_to_amazon_server(file, Path(file), api_settings)
@@ -212,48 +212,12 @@ def amazon_launch_video_job(file: str, feature: str):
     role = api_settings["role"]
     topic = api_settings["topic_video"]
     bucket = api_settings["bucket_video"]
-
-    features = {
-        "LABEL": clients(api_settings)["video"].start_label_detection(
-            Video={"S3Object": {"Bucket": bucket, "Name": filename}},
-            NotificationChannel={
-                "RoleArn": role,
-                "SNSTopicArn": topic,
-            },
-        ),
-        "TEXT": clients(api_settings)["video"].start_text_detection(
-            Video={"S3Object": {"Bucket": bucket, "Name": filename}},
-            NotificationChannel={
-                "RoleArn": role,
-                "SNSTopicArn": topic,
-            },
-        ),
-        "FACE": clients(api_settings)["video"].start_face_detection(
-            Video={"S3Object": {"Bucket": bucket, "Name": filename}},
-            NotificationChannel={
-                "RoleArn": role,
-                "SNSTopicArn": topic,
-            },
-        ),
-        "PERSON": clients(api_settings)["video"].start_person_tracking(
-            Video={"S3Object": {"Bucket": bucket, "Name": filename}},
-            NotificationChannel={
-                "RoleArn": role,
-                "SNSTopicArn": topic,
-            },
-        ),
-        "EXPLICIT": clients(api_settings)["video"].start_content_moderation(
-            Video={"S3Object": {"Bucket": bucket, "Name": filename}},
-            NotificationChannel={
-                "RoleArn": role,
-                "SNSTopicArn": topic,
-            },
-        ),
+    video = {"S3Object": {"Bucket": bucket, "Name": filename}}
+    notification_channel = {
+        "RoleArn": role,
+        "SNSTopicArn": topic,
     }
-    response = features.get(feature)
-    # return job id
-    job_id = response["JobId"]
-    return job_id
+    return video, notification_channel
 
 
 def amazon_video_original_response(
@@ -456,6 +420,7 @@ def amazon_invoice_parser_formatter(pages: List[dict]) -> InvoiceParserDataClass
             extracted_data.append(invoice_infos)
     return InvoiceParserDataClass(extracted_data=extracted_data)
 
+
 def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass:
     extracted_data = []
     for page in pages:
@@ -541,6 +506,7 @@ def amazon_receipt_parser_formatter(pages: List[dict]) -> ReceiptParserDataClass
             extracted_data.append(receipt_infos)
     return ReceiptParserDataClass(extracted_data=extracted_data)
 
+
 def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataClass:
     """
     Parse Amazon financial response into a data class response by organizing the response.
@@ -555,12 +521,14 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
 
     for page_idx, page in enumerate(pages):
         if page.get("JobStatus") == "FAILED":
-            raise ProviderException(page.get("StatusMessage", "Amazon returned a job status: FAILED"))
+            raise ProviderException(
+                page.get("StatusMessage", "Amazon returned a job status: FAILED")
+            )
 
         for invoice in page.get("ExpenseDocuments") or []:
             summary = {}
             currencies = {}
-            invoice_index = invoice['ExpenseIndex']
+            invoice_index = invoice["ExpenseIndex"]
 
             # Parse summary fields
             for field in invoice["SummaryFields"]:
@@ -584,10 +552,16 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
                     }
                     item_lines.append(
                         FinancialLineItem(
-                            amount_line=convert_string_to_number(parsed_items.get("PRICE"), float),
+                            amount_line=convert_string_to_number(
+                                parsed_items.get("PRICE"), float
+                            ),
                             description=parsed_items.get("ITEM"),
-                            quantity=convert_string_to_number(parsed_items.get("QUANTITY"), int),
-                            unit_price=convert_string_to_number(parsed_items.get("UNIT_PRICE"), float),
+                            quantity=convert_string_to_number(
+                                parsed_items.get("QUANTITY"), int
+                            ),
+                            unit_price=convert_string_to_number(
+                                parsed_items.get("UNIT_PRICE"), float
+                            ),
                             product_code=parsed_items.get("PRODUCT_CODE"),
                         )
                     )
@@ -604,7 +578,7 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
                 gst_number=summary.get("RECEIVER_GST_NUMBER"),
                 pan_number=summary.get("RECEIVER_PAN_NUMBER"),
                 customer_number=summary.get("CUSTOMER_NUMBER"),
-                tax_id=summary.get("TAX_PAYER_ID")
+                tax_id=summary.get("TAX_PAYER_ID"),
             )
 
             # Build FinancialMerchantInformation object
@@ -629,10 +603,16 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
                 amount_paid=convert_string_to_number(summary.get("AMOUNT_PAID"), float),
                 total=convert_string_to_number(summary.get("TOTAL"), float),
                 subtotal=convert_string_to_number(summary.get("SUB_TOTAL"), float),
-                service_charge=convert_string_to_number(summary.get("SERVICE_CHARGE"), float),
+                service_charge=convert_string_to_number(
+                    summary.get("SERVICE_CHARGE"), float
+                ),
                 payment_terms=summary.get("PAYMENT_TERMS"),
-                shipping_handling_charge=convert_string_to_number(summary.get("SHIPPING_HANDLING_CHARGE"), float),
-                prior_balance=convert_string_to_number(summary.get("PRIOR_BALANCE"), float),
+                shipping_handling_charge=convert_string_to_number(
+                    summary.get("SHIPPING_HANDLING_CHARGE"), float
+                ),
+                prior_balance=convert_string_to_number(
+                    summary.get("PRIOR_BALANCE"), float
+                ),
                 gratuity=convert_string_to_number(summary.get("GRATUITY"), float),
                 discount=convert_string_to_number(summary.get("DISCOUNT"), float),
                 total_tax=convert_string_to_number(summary.get("TAX"), float),
@@ -644,7 +624,7 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
                 purchase_order=summary.get("PO_NUMBER"),
                 invoice_date=summary.get("INVOICE_RECEIPT_DATE"),
                 invoice_due_date=summary.get("DUE_DATE"),
-                order_date=summary.get("ORDER_DATE")
+                order_date=summary.get("ORDER_DATE"),
             )
 
             invoice_currency = None
@@ -667,7 +647,8 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
 
             # Build FinancialDocumentMetadata object
             document_metadata = FinancialDocumentMetadata(
-                document_index=invoice_index, document_page_number=page_idx+1)
+                document_index=invoice_index, document_page_number=page_idx + 1
+            )
 
             # Build FinancialParserObjectDataClass object
             financial_document = FinancialParserObjectDataClass(
@@ -678,11 +659,12 @@ def amazon_financial_parser_formatter(pages: List[dict]) -> FinancialParserDataC
                 local=local,
                 bank=bank,
                 item_lines=item_lines,
-                document_metadata=document_metadata
+                document_metadata=document_metadata,
             )
             extracted_data.append(financial_document)
 
     return FinancialParserDataClass(extracted_data=extracted_data)
+
 
 def amazon_speaking_rate_converter(speaking_rate: int):
     if speaking_rate < -80:
@@ -747,7 +729,7 @@ def _convert_response_to_blocks_with_id(responses: list) -> dict:
 
     blocks_dict = {}
     for response in responses:
-        for block in response["Blocks"]:
+        for block in response.get("Blocks", []) or []:
             blocks_dict[block["Id"]] = block
     return blocks_dict
 
@@ -1085,7 +1067,7 @@ def amazon_video_explicit_parser(response):
         moderated_content.append(
             ContentNSFW(
                 timestamp=timestamp,
-                confidence=confidence/100,
+                confidence=confidence / 100,
                 category=category,
             )
         )

@@ -25,4 +25,8 @@ file_wrapper = FileWrapper(image_path, "", file_info)
 
 
 def embeddings_arguments(provider_name: str) -> Dict:
-    return {"file": file_wrapper, "representation": "document", "settings": {}}
+    return {
+        "file": file_wrapper,
+        "representation": "document",
+        "settings": {"alephalpha": "luminous-base"},
+    }

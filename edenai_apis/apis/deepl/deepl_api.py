@@ -48,13 +48,17 @@ class DeeplApi(ProviderInterface, TranslationInterface):
         }
 
         response = requests.request("POST", url, headers=self.header, data=data)
-        original_response = response.json()
 
         if response.status_code >= 500:
+            raise ProviderException(message=response.text, code=response.status_code)
+
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
             raise ProviderException(
-                message=http.client.responses[response.status_code],
-                code=response.status_code,
-            )
+                message=response.text, code=response.status_code
+            ) from exc
+
         if response.status_code != 200:
             raise ProviderException(
                 message=original_response["message"], code=response.status_code
@@ -117,16 +121,21 @@ class DeeplApi(ProviderInterface, TranslationInterface):
 
         doc_key = {"document_key": document_key}
 
-        response = requests.post(
+        response_status = requests.post(
             f"{self.url}document/{document_id}", headers=self.header, data=doc_key
         ).json()
-        while response["status"] != "done":
-            response = requests.post(
-                f"{self.url}document/{document_id}", headers=self.header, data=doc_key
-            ).json()
-            if response["status"] == "error":
-                raise ProviderException(response["error_message"])
-            sleep(0.5)
+        try:
+            while response_status["status"] != "done":
+                response_status = requests.post(
+                    f"{self.url}document/{document_id}",
+                    headers=self.header,
+                    data=doc_key,
+                ).json()
+                if response_status["status"] == "error":
+                    raise ProviderException(response_status["error_message"])
+                sleep(0.5)
+        except KeyError as exc:
+            raise ProviderException("Internal server error", 500) from exc
 
         response = requests.post(
             f"{self.url}document/{document_id}/result",

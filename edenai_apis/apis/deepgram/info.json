@@ -55,7 +55,7 @@
                     "enhanced",
                     "base"
                 ],
-                "default_model":"base"
+                "default_model": "enhanced"
             },
             "version": "v1"
         }

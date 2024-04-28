@@ -7,7 +7,7 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: cimg/python:3.8
+      - image: cimg/python:3.11
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
@@ -41,7 +41,7 @@ jobs:
 
   check_providers:
     docker:
-      - image: cimg/python:3.8
+      - image: cimg/python:3.11
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     parameters:

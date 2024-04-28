@@ -1,10 +1,15 @@
 {
   "original_response": {
-    "completion": " Hi! My name is Claude. I was created by Anthropic to be helpful, harmless, and honest.",
-    "stop_reason": "max_tokens",
-    "stop": null
+    "completion": " I'm Claude, an AI assistant created by Anthropic.",
+    "stop_reason": "stop_sequence",
+    "stop": "\n\nHuman:",
+    "usage": {
+      "total_tokens": 54,
+      "prompt_tokens": 41,
+      "completion_tokens": 13
+    }
   },
   "standardized_response": {
-    "generated_text": " Hi! My name is Claude. I was created by Anthropic to be helpful, harmless, and honest."
+    "generated_text": " I'm Claude, an AI assistant created by Anthropic."
   }
 }

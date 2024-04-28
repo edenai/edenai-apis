@@ -5,6 +5,7 @@
     - list_providers
     - check_provider_constraints
 """
+
 import pytest
 from pytest_mock import MockerFixture
 
@@ -71,6 +72,7 @@ def test_list_features():
                 "face_recognition" in method[2]
                 or "search" in method[2]
                 or "automl_classification" in method[2]
+                or "generation_fine_tuning" in method[2]
             )
         for elem in method:
             assert elem

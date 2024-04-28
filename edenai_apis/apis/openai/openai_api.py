@@ -7,6 +7,7 @@ from edenai_apis.apis.openai.openai_audio_api import OpenaiAudioApi
 from edenai_apis.apis.openai.openai_image_api import OpenaiImageApi
 from edenai_apis.apis.openai.openai_text_api import OpenaiTextApi
 from edenai_apis.apis.openai.openai_translation_api import OpenaiTranslationApi
+from edenai_apis.apis.openai.openai_multimodal_api import OpenaiMultimodalApi
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -18,6 +19,7 @@ class OpenaiApi(
     OpenaiTranslationApi,
     OpenaiTextApi,
     OpenaiAudioApi,
+    OpenaiMultimodalApi,
 ):
     provider_name = "openai"
 
