@@ -2,5 +2,6 @@
     "api_key": "",
     "url": "",
     "uploadFileRoute": "",
-    "getResultRoute": ""
+    "getResultRoute": "",
+    "processFileRoute": ""
 }

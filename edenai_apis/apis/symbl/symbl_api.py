@@ -1,6 +1,6 @@
 import json
 import os
-from typing import Dict
+from typing import Dict, List, Optional
 
 import requests
 
@@ -65,12 +65,13 @@ class SymblApi(ProviderInterface, AudioInterface):
         language: str,
         speakers: int,
         profanity_filter: bool,
-        vocabulary: list,
+        vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model: str = None,
+        model: Optional[str] = None,
         file_url: str = "",
-        provider_params = dict()
+        provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes
 
         number_of_bytes = os.stat(file).st_size

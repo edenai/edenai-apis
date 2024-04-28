@@ -67,10 +67,9 @@ from edenai_apis.utils.types import (
 
 
 class GoogleVideoApi(VideoInterface):
-    def google_video_launch_job(
+    def google_upload_video(
         self,
         file: str,
-        feature: GoogleVideoFeatures,
     ) -> AsyncLaunchJobResponseType:
         # Launch async job for label detection
         storage_client = self.clients["storage"]
@@ -85,110 +84,125 @@ class GoogleVideoApi(VideoInterface):
         blob.upload_from_filename(file)
         gcs_uri = f"gs://{bucket_name}/{file_name}"
 
-        # Configure the request for each feature
-        features = {
-            GoogleVideoFeatures.LABEL: self.clients["video"].annotate_video(
-                request={
-                    "features": [videointelligence.Feature.LABEL_DETECTION],
-                    "input_uri": gcs_uri,
-                }
-            ),
-            GoogleVideoFeatures.TEXT: self.clients["video"].annotate_video(
-                request={
-                    "features": [videointelligence.Feature.TEXT_DETECTION],
-                    "input_uri": gcs_uri,
-                }
-            ),
-            GoogleVideoFeatures.FACE: self.clients["video"].annotate_video(
-                request={
-                    "features": [videointelligence.Feature.FACE_DETECTION],
-                    "input_uri": gcs_uri,
-                    "video_context": videointelligence.VideoContext(
-                        face_detection_config=videointelligence.FaceDetectionConfig(
-                            include_bounding_boxes=True, include_attributes=True
-                        )
-                    ),
-                }
-            ),
-            GoogleVideoFeatures.PERSON: self.clients["video"].annotate_video(
-                request={
-                    "features": [videointelligence.Feature.PERSON_DETECTION],
-                    "input_uri": gcs_uri,
-                    "video_context": videointelligence.VideoContext(
-                        person_detection_config=videointelligence.PersonDetectionConfig(
-                            include_bounding_boxes=True,
-                            include_attributes=True,
-                            include_pose_landmarks=True,
-                        )
-                    ),
-                }
-            ),
-            GoogleVideoFeatures.LOGO: self.clients["video"].annotate_video(
-                request={
-                    "features": [videointelligence.Feature.LOGO_RECOGNITION],
-                    "input_uri": gcs_uri,
-                }
-            ),
-            GoogleVideoFeatures.OBJECT: self.clients["video"].annotate_video(
-                request={
-                    "features": [videointelligence.Feature.OBJECT_TRACKING],
-                    "input_uri": gcs_uri,
-                }
-            ),
-            GoogleVideoFeatures.EXPLICIT: self.clients["video"].annotate_video(
-                request={
-                    "features": [videointelligence.Feature.EXPLICIT_CONTENT_DETECTION],
-                    "input_uri": gcs_uri,
-                }
-            ),
-        }
-
-        # Return job id (operation name)
-        return AsyncLaunchJobResponseType(
-            provider_job_id=features[feature].operation.name
-        )
+        return gcs_uri
 
     # Launch label detection job
     def video__label_detection_async__launch_job(
         self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
-        return self.google_video_launch_job(file, GoogleVideoFeatures.LABEL)
+        gcs_uri = self.google_upload_video(file=file)
+        operation = self.clients["video"].annotate_video(
+            request={
+                "features": [videointelligence.Feature.LABEL_DETECTION],
+                "input_uri": gcs_uri,
+            }
+        )
+        return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
 
     # Launch text detection job
     def video__text_detection_async__launch_job(
         self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
-        return self.google_video_launch_job(file, GoogleVideoFeatures.TEXT)
+        gcs_uri = self.google_upload_video(file=file)
+        operation = self.clients["video"].annotate_video(
+            request={
+                "features": [videointelligence.Feature.TEXT_DETECTION],
+                "input_uri": gcs_uri,
+            }
+        )
+
+        return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
 
     # Launch face detection job
     def video__face_detection_async__launch_job(
         self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
-        return self.google_video_launch_job(file, GoogleVideoFeatures.FACE)
+        gcs_uri = self.google_upload_video(file=file)
+
+        # Configure the request for each feature
+        operation = self.clients["video"].annotate_video(
+            request={
+                "features": [videointelligence.Feature.FACE_DETECTION],
+                "input_uri": gcs_uri,
+                "video_context": videointelligence.VideoContext(
+                    face_detection_config=videointelligence.FaceDetectionConfig(
+                        include_bounding_boxes=True, include_attributes=True
+                    )
+                ),
+            }
+        )
+        return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
 
     # Launch person tracking job
     def video__person_tracking_async__launch_job(
         self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
-        return self.google_video_launch_job(file, GoogleVideoFeatures.PERSON)
+        gcs_uri = self.google_upload_video(file=file)
+        # Configure the request for each feature
+        operation = self.clients["video"].annotate_video(
+            request={
+                "features": [videointelligence.Feature.PERSON_DETECTION],
+                "input_uri": gcs_uri,
+                "video_context": videointelligence.VideoContext(
+                    person_detection_config=videointelligence.PersonDetectionConfig(
+                        include_bounding_boxes=True,
+                        include_attributes=True,
+                        include_pose_landmarks=True,
+                    )
+                ),
+            }
+        )
+
+        # Return job id (operation name)
+        return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
 
     # Launch logo detection job
     def video__logo_detection_async__launch_job(
         self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
-        return self.google_video_launch_job(file, GoogleVideoFeatures.LOGO)
+        gcs_uri = self.google_upload_video(file=file)
+        # Configure the request for each feature
+        operation = self.clients["video"].annotate_video(
+            request={
+                "features": [videointelligence.Feature.LOGO_RECOGNITION],
+                "input_uri": gcs_uri,
+            }
+        )
+
+        # Return job id (operation name)
+        return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
 
     # Launch object tracking job
     def video__object_tracking_async__launch_job(
         self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
-        return self.google_video_launch_job(file, GoogleVideoFeatures.OBJECT)
+        gcs_uri = self.google_upload_video(file=file)
+        # Configure the request for each feature
+        operation = self.clients["video"].annotate_video(
+            request={
+                "features": [videointelligence.Feature.OBJECT_TRACKING],
+                "input_uri": gcs_uri,
+            }
+        )
+
+        # Return job id (operation name)
+        return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
 
     # Launch explicit content detection job
     def video__explicit_content_detection_async__launch_job(
         self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
-        return self.google_video_launch_job(file, GoogleVideoFeatures.EXPLICIT)
+        gcs_uri = self.google_upload_video(file=file)
+        # Configure the request for each feature
+        operation = self.clients["video"].annotate_video(
+            request={
+                "features": [videointelligence.Feature.EXPLICIT_CONTENT_DETECTION],
+                "input_uri": gcs_uri,
+            }
+        )
+
+        # Return job id (operation name)
+        return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
 
     def video__label_detection_async__get_job_result(
         self, provider_job_id: str

@@ -2,12 +2,6 @@ import json
 from typing import Dict, Generator, List, Literal, Optional, Sequence, Union
 
 import requests
-import vertexai
-from google.cloud import language_v1
-from google.cloud.language import Document as GoogleDocument
-from google.protobuf.json_format import MessageToDict
-from vertexai.language_models import ChatMessage, ChatModel
-
 from edenai_apis.apis.google.google_helpers import (
     get_access_token,
     get_tag_name,
@@ -20,7 +14,7 @@ from edenai_apis.features.text import (
     CodeGenerationDataClass,
     GenerationDataClass,
 )
-from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
+from edenai_apis.features.text.chat.chat_dataclass import ChatStreamResponse, StreamChat
 from edenai_apis.features.text.embeddings.embeddings_dataclass import (
     EmbeddingDataClass,
     EmbeddingsDataClass,
@@ -56,7 +50,12 @@ from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass impor
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
+from edenai_apis.utils.parsing import extract
 from edenai_apis.utils.types import ResponseType
+
+from google.cloud import language_v1
+from google.cloud.language import Document as GoogleDocument
+from google.protobuf.json_format import MessageToDict
 
 
 class GoogleTextApi(TextInterface):
@@ -272,22 +271,25 @@ class GoogleTextApi(TextInterface):
         response = requests.post(url=url, headers=headers, json=payload)
 
         try:
-            original_response = response.json()[0]
+            original_response = response.json()
         except (json.JSONDecodeError, IndexError) as exc:
             raise ProviderException(
                 message="Internal Server Error",
                 code=500,
             ) from exc
 
-        if "error" in original_response:
-            raise ProviderException(
-                message=original_response["error"]["message"],
-                code=response.status_code,
-            )
-        parts = original_response["candidates"][0]["content"].get("parts", [])
-        standardized_response = GenerationDataClass(
-            generated_text=parts[0].get("text", " ") if parts else " "
-        )
+        generated_text = ""
+        for i in range(len(original_response)):
+            if "error" in original_response[i]:
+                raise ProviderException(
+                    message=original_response["error"]["message"],
+                    code=response.status_code,
+                )
+            parts = extract(original_response, [i, "candidates", 0, "content", "parts"])
+            if parts:
+                generated_text += extract(parts, [0, "text"], fallback="", type_validator=str)
+
+        standardized_response = GenerationDataClass(generated_text=generated_text)
 
         return ResponseType[GenerationDataClass](
             original_response=original_response,
@@ -497,12 +499,17 @@ class GoogleTextApi(TextInterface):
             response = requests.post(
                 url=f"{url}:predict", headers=headers, json=payload
             )
-            original_response = response.json()
-            if "error" in original_response:
+            try:
+                original_response = response.json()
+                if "error" in original_response:
+                    raise ProviderException(
+                        message=original_response["error"]["message"],
+                        code=response.status_code,
+                    )
+            except json.JSONDecodeError as exc:
                 raise ProviderException(
-                    message=original_response["error"]["message"],
-                    code=response.status_code,
-                )
+                    "Provider did not return a valid JSON", code=response.status_code
+                ) from exc
 
             # Standardize the response
             generated_text = original_response["predictions"][0]["candidates"][0][

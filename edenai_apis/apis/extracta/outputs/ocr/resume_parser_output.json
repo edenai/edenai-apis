@@ -1,0 +1,199 @@
+{
+  "original_response": {
+    "name": "John W. Smith",
+    "first_name": "John",
+    "last_name": "Smith",
+    "address": "2002 Front Range Way Fort Collins, CO 80525",
+    "self_summary": "Four years experience in early childhood development with a diverse background in the care of special needs children and adults.",
+    "phones": [],
+    "mails": [
+      "jwsmith@colostate.edu"
+    ],
+    "urls": [],
+    "work_experience": [
+      {
+        "title": "Counseling Supervisor",
+        "start_date": "1999-01-01",
+        "end_date": "2002-01-01",
+        "company_name": "The Wesley Center",
+        "address": "Little Rock, Arkansas",
+        "description": "Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas",
+        "industry": ""
+      },
+      {
+        "title": "Client Specialist",
+        "start_date": "1996-01-01",
+        "end_date": "1997-01-01",
+        "company_name": "Rainbow Special Care Center",
+        "address": "Little Rock, Arkansas",
+        "description": "",
+        "industry": ""
+      }
+    ],
+    "education": [
+      {
+        "title": "BS in Early Childhood Development",
+        "start_date": "1999-01-01",
+        "end_date": "",
+        "address": "Little Rock, AR",
+        "description": "",
+        "establishment": "University of Arkansas at Little Rock",
+        "gpa": "3.8",
+        "accreditation": ""
+      },
+      {
+        "title": "BA in Elementary Education",
+        "start_date": "1998-01-01",
+        "end_date": "",
+        "address": "Little Rock, AR",
+        "description": "",
+        "establishment": "University of Arkansas at Little Rock",
+        "gpa": "3.5",
+        "accreditation": ""
+      }
+    ],
+    "languages": [],
+    "skills": [],
+    "certifications": []
+  },
+  "standardized_response": {
+    "extracted_data": {
+      "personal_infos": {
+        "name": {
+          "first_name": "John",
+          "last_name": "Smith",
+          "raw_name": "John W. Smith",
+          "middle": null,
+          "title": null,
+          "prefix": null,
+          "sufix": null
+        },
+        "address": {
+          "formatted_location": "2002 Front Range Way Fort Collins, CO 80525",
+          "postal_code": null,
+          "region": null,
+          "country": null,
+          "country_code": null,
+          "raw_input_location": null,
+          "street": null,
+          "street_number": null,
+          "appartment_number": null,
+          "city": null
+        },
+        "self_summary": "Four years experience in early childhood development with a diverse background in the care of special needs children and adults.",
+        "objective": null,
+        "date_of_birth": null,
+        "place_of_birth": null,
+        "phones": [],
+        "mails": [
+          "jwsmith@colostate.edu"
+        ],
+        "urls": [],
+        "fax": [],
+        "current_profession": null,
+        "gender": null,
+        "nationality": null,
+        "martial_status": null,
+        "current_salary": null
+      },
+      "education": {
+        "total_years_education": null,
+        "entries": [
+          {
+            "title": "BS in Early Childhood Development",
+            "start_date": "1999-01-01",
+            "end_date": "",
+            "location": {
+              "formatted_location": "Little Rock, AR",
+              "postal_code": null,
+              "region": null,
+              "country": null,
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": null
+            },
+            "establishment": "University of Arkansas at Little Rock",
+            "description": "",
+            "gpa": "3.8",
+            "accreditation": ""
+          },
+          {
+            "title": "BA in Elementary Education",
+            "start_date": "1998-01-01",
+            "end_date": "",
+            "location": {
+              "formatted_location": "Little Rock, AR",
+              "postal_code": null,
+              "region": null,
+              "country": null,
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": null
+            },
+            "establishment": "University of Arkansas at Little Rock",
+            "description": "",
+            "gpa": "3.5",
+            "accreditation": ""
+          }
+        ]
+      },
+      "work_experience": {
+        "total_years_experience": null,
+        "entries": [
+          {
+            "title": "Counseling Supervisor",
+            "start_date": "1999-01-01",
+            "end_date": "2002-01-01",
+            "company": "The Wesley Center",
+            "location": {
+              "formatted_location": "Little Rock, Arkansas",
+              "postal_code": null,
+              "region": null,
+              "country": null,
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": null
+            },
+            "description": "Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas",
+            "industry": ""
+          },
+          {
+            "title": "Client Specialist",
+            "start_date": "1996-01-01",
+            "end_date": "1997-01-01",
+            "company": "Rainbow Special Care Center",
+            "location": {
+              "formatted_location": "Little Rock, Arkansas",
+              "postal_code": null,
+              "region": null,
+              "country": null,
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": null
+            },
+            "description": "",
+            "industry": ""
+          }
+        ]
+      },
+      "languages": [],
+      "skills": [],
+      "certifications": [],
+      "courses": [],
+      "publications": [],
+      "interests": []
+    }
+  }
+}

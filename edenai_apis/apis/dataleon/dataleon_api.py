@@ -261,7 +261,7 @@ class DataleonApi(ProviderInterface, OcrInterface):
         return result
     
     def ocr__financial_parser(
-            self, file: str, language: str, document_type: str, file_url: str = ""
+            self, file: str, language: str, document_type: str = "", file_url: str = ""
             ) -> ResponseType[FinancialParserDataClass]:
         if document_type == FinancialParserType.RECEIPT.value:
             url = self.url_receipt

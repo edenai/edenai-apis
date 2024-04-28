@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS history (
      GRANT INSERT ON TABLE history TO history_write_only;
 ```
 """
+
 import getpass
 import os
 import socket
@@ -126,8 +127,22 @@ def insert_api_call(
         cur = POSTGRES_CONNECTION.cursor()
         cur.execute(insert_statement, (AsIs(",".join(columns)), tuple(values)))
         POSTGRES_CONNECTION.commit()  # <--- makes sure the change is shown in the database
-    except errors.InFailedSqlTransaction as exc:
-        print(exc)
-        POSTGRES_CONNECTION.rollback()
+        cur.close()
+    except psycopg2.InterfaceError as exc:
+        try:
+            rds_settings = load_provider(ProviderDataEnum.KEY, "rds")
+            POSTGRES_CONNECTION = psycopg2.connect(
+                f"dbname=history_db user={rds_settings['write_only_user']} "
+                + f"password={rds_settings['write_only_password']} host={rds_settings['host']}"
+            )
+        except:
+            pass
+    except Exception:
+        try:
+            POSTGRES_CONNECTION.rollback()
+        except:
+            pass
+    # except errors.InFailedSqlTransaction as exc:
+    #     print(exc)
+    #     POSTGRES_CONNECTION.rollback()
 
-    cur.close()

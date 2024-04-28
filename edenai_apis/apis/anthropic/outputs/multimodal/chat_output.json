@@ -1,0 +1,62 @@
+{
+  "original_response": {
+    "id": "msg_014iDSJ4Juvko2577PhRDsQo",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "The image depicts a peaceful nature scene. In the foreground, there is a wooden boardwalk or trail that extends through a lush green meadow filled with tall grasses. The boardwalk leads the viewer's eye towards the distance, where trees and bushes can be seen lining the horizon. The sky above is a beautiful shade of blue with scattered white clouds, creating a serene and tranquil atmosphere. The image conveys a sense of serenity and invites the viewer to explore the natural surroundings along the path."
+      }
+    ],
+    "model": "claude-3-sonnet-28k-20240229",
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "usage": {
+      "input_tokens": 1613,
+      "output_tokens": 116
+    }
+  },
+  "standardized_response": {
+    "generated_text": "The image depicts a peaceful nature scene. In the foreground, there is a wooden boardwalk or trail that extends through a lush green meadow filled with tall grasses. The boardwalk leads the viewer's eye towards the distance, where trees and bushes can be seen lining the horizon. The sky above is a beautiful shade of blue with scattered white clouds, creating a serene and tranquil atmosphere. The image conveys a sense of serenity and invites the viewer to explore the natural surroundings along the path.",
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": "Describe this image please ! ",
+              "media_type": null
+            }
+          },
+          {
+            "type": "media_url",
+            "content": {
+              "media_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+              "media_base64": null,
+              "text": null,
+              "media_type": null
+            }
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": "The image depicts a peaceful nature scene. In the foreground, there is a wooden boardwalk or trail that extends through a lush green meadow filled with tall grasses. The boardwalk leads the viewer's eye towards the distance, where trees and bushes can be seen lining the horizon. The sky above is a beautiful shade of blue with scattered white clouds, creating a serene and tranquil atmosphere. The image conveys a sense of serenity and invites the viewer to explore the natural surroundings along the path.",
+              "media_type": null
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

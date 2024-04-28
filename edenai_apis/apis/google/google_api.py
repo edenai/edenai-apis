@@ -12,6 +12,7 @@ from edenai_apis.apis.google.google_ocr_api import GoogleOcrApi
 from edenai_apis.apis.google.google_text_api import GoogleTextApi
 from edenai_apis.apis.google.google_translation_api import GoogleTranslationApi
 from edenai_apis.apis.google.google_video_api import GoogleVideoApi
+from edenai_apis.apis.google.google_multimodal_api import GoogleMultimodalApi
 from edenai_apis.features import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -25,6 +26,7 @@ class GoogleApi(
     GoogleTranslationApi,
     GoogleAudioApi,
     GoogleVideoApi,
+    GoogleMultimodalApi,
 ):
     provider_name = "google"
 

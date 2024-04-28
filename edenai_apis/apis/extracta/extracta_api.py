@@ -1,40 +1,36 @@
-from typing import Dict
+import base64
+import json
+import mimetypes
+from typing import List, Dict, Union
 
+import requests
+
+from edenai_apis.apis.extracta.extracta_ocr_normalizer import (
+    extracta_resume_parser,
+    extracta_bank_check_parsing,
+)
+from edenai_apis.features.ocr.bank_check_parsing import BankCheckParsingDataClass
+from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
+    CustomDocumentParsingAsyncBoundingBox,
+    CustomDocumentParsingAsyncDataClass,
+    CustomDocumentParsingAsyncItem,
+)
+from edenai_apis.features.ocr.ocr_interface import OcrInterface
+from edenai_apis.features.ocr.resume_parser import ResumeParserDataClass
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-
-import mimetypes
-import base64
-import requests
-
-import json
-from typing import List, Dict, Union
-
-from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
-    CustomDocumentParsingAsyncDataClass,
-)
-
-from edenai_apis.features.ocr.ocr_interface import OcrInterface
-
 from edenai_apis.utils.exception import (
     AsyncJobException,
     AsyncJobExceptionReason,
     ProviderException,
 )
-
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
     ResponseType,
-)
-
-from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
-    CustomDocumentParsingAsyncBoundingBox,
-    CustomDocumentParsingAsyncDataClass,
-    CustomDocumentParsingAsyncItem,
 )
 
 
@@ -48,10 +44,12 @@ class ExtractaApi(
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, "extracta", api_keys=api_keys
         )
+
         self.api_key = self.api_settings["api_key"]
         self.url = self.api_settings["url"]
         self.uploadFileRoute = self.api_settings["uploadFileRoute"]
         self.getResultRoute = self.api_settings["getResultRoute"]
+        self.processFileRoute = self.api_settings["processFileRoute"]
 
     def ocr__custom_document_parsing_async__launch_job(
         self, file: str, queries: List[Dict[str, Union[str, str]]], file_url: str = ""
@@ -120,7 +118,7 @@ class ExtractaApi(
         original_response = response.json()
 
         # extract job id
-        job_id = original_response.get("job_id")
+        job_id = original_response.get("job_id", None)
 
         # check for job id
         if not job_id:
@@ -158,7 +156,7 @@ class ExtractaApi(
         original_response = response.json()
 
         # get status from request
-        status = original_response.get("status")
+        status = original_response.get("status", None)
 
         # check for status
         if not status:
@@ -184,13 +182,13 @@ class ExtractaApi(
             raise ProviderException("Error: Unknown status.")
 
         # get job id from request and comapre it
-        if original_response["job_id"] != provider_job_id:
+        if original_response.get("job_id", None) != provider_job_id:
             raise ProviderException(
                 "Error: Job ID from request does not match the job id from response."
             )
 
         # get extraction details
-        extraction_details = original_response.get("extractionDetails")
+        extraction_details = original_response.get("extractionDetails", None)
         if not extraction_details:
             raise ProviderException("Error: Extraction details not found in response.")
 
@@ -199,7 +197,7 @@ class ExtractaApi(
         for key, value in extraction_details.items():
             item = CustomDocumentParsingAsyncItem(
                 confidence=1,
-                value=value,
+                value=str(value),
                 query=key,
                 page=0,
                 bounding_box=CustomDocumentParsingAsyncBoundingBox(
@@ -217,4 +215,128 @@ class ExtractaApi(
             original_response=extraction_details,
             standardized_response=standardized_response,
             provider_job_id=provider_job_id,
+        )
+
+    def ocr__resume_parser(
+        self, file: str, file_url: str = ""
+    ) -> ResponseType[ResumeParserDataClass]:
+        isUrl = False
+
+        # Check if file_url is provided
+        if file_url:
+            image_source = file_url
+            isUrl = True
+        else:
+            # Open the file and read its contents
+            try:
+                with open(file, "rb") as f_stream:
+                    image_as_base64 = (
+                        f"data:{mimetypes.guess_type(file)[0]};base64,"
+                        + base64.b64encode(f_stream.read()).decode()
+                    )
+                image_source = image_as_base64
+            except FileNotFoundError:
+                raise ProviderException("Error: The file was not found.")
+            except IOError:
+                raise ProviderException(
+                    "Error: An I/O error occurred while handling the file."
+                )
+
+        # make payload
+        payload = json.dumps(
+            {
+                "extractionDetails": {
+                    "name": "Eden.ai - Extraction",
+                    "language": "English",
+                    "documentId": "resume_parser",
+                },
+                "file": image_source,
+                "isUrl": isUrl,
+            }
+        )
+
+        # make headers
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}",
+        }
+
+        # call api
+        response = requests.post(
+            url=self.url + self.processFileRoute, headers=headers, data=payload
+        )
+
+        # check for error
+        if response.status_code != 200:
+            raise ProviderException(response.text, code=response.status_code)
+
+        # successful response
+        original_response = response.json()
+
+        standardized_response = extracta_resume_parser(original_response)
+        return ResponseType[ResumeParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    def ocr__bank_check_parsing(
+        self, file: str, file_url: str = ""
+    ) -> ResponseType[BankCheckParsingDataClass]:
+        isUrl = False
+
+        # Check if file_url is provided
+        if file_url:
+            image_source = file_url
+            isUrl = True
+        else:
+            # Open the file and read its contents
+            try:
+                with open(file, "rb") as f_stream:
+                    image_as_base64 = (
+                        f"data:{mimetypes.guess_type(file)[0]};base64,"
+                        + base64.b64encode(f_stream.read()).decode()
+                    )
+                image_source = image_as_base64
+            except FileNotFoundError:
+                raise ProviderException("Error: The file was not found.")
+            except IOError:
+                raise ProviderException(
+                    "Error: An I/O error occurred while handling the file."
+                )
+
+        # make payload
+        payload = json.dumps(
+            {
+                "extractionDetails": {
+                    "name": "Eden.ai - Extraction",
+                    "language": "English",
+                    "documentId": "bank_check_parsing",
+                },
+                "file": image_source,
+                "isUrl": isUrl,
+            }
+        )
+
+        # make headers
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}",
+        }
+
+        # call api
+        response = requests.post(
+            url=self.url + self.processFileRoute, headers=headers, data=payload
+        )
+
+        # check for error
+        if response.status_code != 200:
+            raise ProviderException(response.text, code=response.status_code)
+
+        # successful response
+        original_response = response.json()
+
+        standardized_response = extracta_bank_check_parsing(original_response)
+        return ResponseType[BankCheckParsingDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
         )

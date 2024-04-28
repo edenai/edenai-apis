@@ -150,7 +150,7 @@ class MicrosoftTextApi(TextInterface):
 
         if response.status_code != 202:
             err = response.json().get("error", {})
-            details = err.get("details", [defaultdict])[0] or {}
+            details = (err.get("details", [{}]) or [{}])[0]
             error_msg = details.get("message", "Microsoft Azure couldn't create job")
             raise ProviderException(error_msg, code=response.status_code)
 
@@ -168,6 +168,11 @@ class MicrosoftTextApi(TextInterface):
         wait_time = 0
         summary = ""
         while wait_time < 60:  # Wait for the answer from provider
+            if error := data.get("error"):
+                raise ProviderException(
+                    error.get("message") or "Error calling the summarize feature",
+                    400,
+                )
             if data["status"] == "succeeded":
                 sentences = data["tasks"]["extractiveSummarizationTasks"][0]["results"][
                     "documents"
@@ -373,7 +378,9 @@ class MicrosoftTextApi(TextInterface):
         self._check_microsoft_error(data, response.status_code)
 
         items: Sequence[InfosKeywordExtractionDataClass] = []
-        key_phrases = data.get("results", {}).get("documents", [{}])[0].get("keyPhrases") or []
+        key_phrases = (
+            data.get("results", {}).get("documents", [{}])[0].get("keyPhrases") or []
+        )
         for key_phrase in key_phrases:
             items.append(
                 InfosKeywordExtractionDataClass(keyword=key_phrase, importance=None)

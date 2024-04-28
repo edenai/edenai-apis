@@ -6,6 +6,9 @@ from edenai_apis import Image
 from edenai_apis.features.image.search import SearchDataClass
 from edenai_apis.features.image.search.get_image import SearchGetImageDataClass
 from edenai_apis.features.image.search.get_images import SearchGetImagesDataClass
+from edenai_apis.features.image.search.delete_image.search_delete_image_dataclass import (
+    SearchDeleteImageDataClass,
+)
 from edenai_apis.interface import list_providers
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
@@ -31,7 +34,7 @@ class TestImageSearch:
             feature="image",
             subfeature="search",
             phase="upload_image",
-            provider_name=provider
+            provider_name=provider,
         )
         feature_args = validate_all_provider_constraints(
             provider, "image", "search", "upload_image", feature_args
@@ -45,7 +48,9 @@ class TestImageSearch:
         upload_output = upload_image_method(**feature_args).model_dump()
 
         # Assert
-        assert upload_output.get("status") == "success", "Upload phase failed"
+        assert (
+            upload_output.get("standardized_response").get("status") == "success"
+        ), "Upload phase failed"
 
     def test_get_all_images(self, provider):
         # Setup
@@ -54,7 +59,7 @@ class TestImageSearch:
             feature="image",
             subfeature="search",
             phase="get_images",
-            provider_name=provider
+            provider_name=provider,
         )
         try:
             get_images_method = Image.search__get_images(provider)
@@ -82,7 +87,7 @@ class TestImageSearch:
             feature="image",
             subfeature="search",
             phase="get_image",
-            provider_name=provider
+            provider_name=provider,
         )
         try:
             get_image_method = Image.search__get_image(provider)
@@ -111,7 +116,7 @@ class TestImageSearch:
             feature="image",
             subfeature="search",
             phase="get_image",
-            provider_name=provider
+            provider_name=provider,
         )
         feature_args["image_name"] = invalid_image
         get_image_method = Image.search__get_image(provider)
@@ -130,7 +135,7 @@ class TestImageSearch:
             feature="image",
             subfeature="search",
             phase="launch_similarity",
-            provider_name=provider
+            provider_name=provider,
         )
         feature_args = validate_all_provider_constraints(
             provider, "image", "search", "upload_image", feature_args
@@ -177,11 +182,17 @@ class TestImageSearch:
             feature="image",
             subfeature="search",
             phase="delete_image",
-            provider_name=provider
+            provider_name=provider,
         )
         delete_image = Image.search__delete_image(provider)
 
-        launch_similarity_output = delete_image(**feature_args)
+        delete_image_output = delete_image(**feature_args)
+        standardized_response = delete_image_output.standardized_response
 
         # Assert
-        assert isinstance(launch_similarity_output, ResponseSuccess)
+        assert isinstance(
+            delete_image_output, ResponseType
+        ), f"Expected ResponseType but got {type(delete_image_output)}"
+        assert isinstance(
+            standardized_response, SearchDeleteImageDataClass
+        ), f"Expected SearchGetImagesDataClass but got {type(standardized_response)}"

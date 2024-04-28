@@ -1,4 +1,4 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from io import BufferedReader
 from typing import Literal, Optional, Dict, Any, List
 
@@ -71,6 +71,7 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
     ObjectDetectionDataClass,
 )
 from edenai_apis.features.image.question_answer import QuestionAnswerDataClass
+from edenai_apis.features.image.search.delete_image.search_delete_image_dataclass import SearchDeleteImageDataClass
 from edenai_apis.features.image.search.get_image.search_get_image_dataclass import (
     SearchGetImageDataClass,
 )
@@ -78,6 +79,7 @@ from edenai_apis.features.image.search.get_images.search_get_images_dataclass im
     SearchGetImagesDataClass,
 )
 from edenai_apis.features.image.search.search_dataclass import SearchDataClass
+from edenai_apis.features.image.search.upload_image.search_upload_image_dataclass import SearchUploadImageDataClass
 from edenai_apis.features.image.variation import (
     VariationDataClass,
 )
@@ -92,7 +94,7 @@ from edenai_apis.utils.types import (
 class ImageInterface:
     @abstractmethod
     def image__anonymization(
-        self, file: BufferedReader
+        self, file: str, file_url: str = ""
     ) -> ResponseType[AnonymizationDataClass]:
         """
         Anonymize face, names, car plates etc. from an image
@@ -159,7 +161,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__logo_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[LogoDetectionDataClass]:
         """
         Detect Logo in an image
@@ -174,7 +176,7 @@ class ImageInterface:
         self,
         file: str,
         file_url: str = "",
-        model: str = None,
+        model: Optional[str] = None,
     ) -> ResponseType[ObjectDetectionDataClass]:
         """
         Detect objects in an image
@@ -221,7 +223,7 @@ class ImageInterface:
     @abstractmethod
     def image__search__upload_image(
         self, file: str, image_name: str, project_id: str, file_url: str = ""
-    ) -> ResponseSuccess:
+    ) -> ResponseType[SearchUploadImageDataClass]:
         """
         Upload image for an image search project
 
@@ -235,7 +237,7 @@ class ImageInterface:
     @abstractmethod
     def image__search__delete_image(
         self, image_name: str, project_id: str
-    ) -> ResponseSuccess:
+    ) -> ResponseType[SearchDeleteImageDataClass]:
         """
         Delete image of an image search project
 
@@ -272,7 +274,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__search__launch_similarity(
-        self, file: str, project_id: str, file_url: str = ""
+        self, project_id: str, file: Optional[str] = None, file_url: Optional[str] = None, n: int = 10
     ) -> ResponseType[SearchDataClass]:
         """
         Launch similarity analysis of a search image project
@@ -330,7 +332,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__face_recognition__add_face(
-        self, collection_id: str, file: str, file_url: str = ""
+        self, collection_id: str, file: str, file_url: Optional[str] = None
     ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
         """
         Detect and add a face to a collection from an image
@@ -356,7 +358,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__face_recognition__recognize(
-        self, collection_id: str, file: str, file_url: str = ""
+        self, collection_id: str, file: str, file_url: Optional[str] = None
     ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         """
         Detect the biggers face from image and try
@@ -389,8 +391,8 @@ class ImageInterface:
         self,
         file1: str,
         file2: str,
-        file1_url: str,
-        file2_url: str,
+        file1_url: Optional[str] = None,
+        file2_url: Optional[str] = None,
     ) -> ResponseType[FaceCompareDataClass]:
         """
 
@@ -608,6 +610,7 @@ class ImageInterface:
         num_images: Optional[int] = 1,
         resolution: Literal["256x256", "512x512", "1024x1024"] = "512x512",
         temperature: Optional[float] = 0.3,
+        model: Optional[str] = None,
         file_url: str = "",
     ) -> ResponseType[VariationDataClass]:
         """

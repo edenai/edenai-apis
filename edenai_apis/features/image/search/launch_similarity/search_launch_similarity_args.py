@@ -33,4 +33,4 @@ def search_launch_similarity_arguments(provider_name: str) -> Dict:
             f"Please add a project id for test arguments of provider: {provider_name}"
         )
 
-    return {"file": file_wrapper, "project_id": project_id}
+    return {"file": file_wrapper, "project_id": project_id, "n": 12}
