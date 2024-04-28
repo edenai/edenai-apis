@@ -386,8 +386,11 @@ def eagledoc_financial_parser(original_response: dict) -> FinancialParserDataCla
     if taxInfo is not None and bool(taxInfo):
 
         for tax in taxInfo:
-            totalTaxAmount = totalTaxAmount + float(dict_get(tax, "TaxAmount", "value"))
-    
+            newTaxValue = float(dict_get(tax, "TaxAmount", "value"))
+
+            if newTaxValue is not None:
+                totalTaxAmount = totalTaxAmount + newTaxValue
+            
     else:
         totalTaxAmount = None
 
@@ -401,12 +404,12 @@ def eagledoc_financial_parser(original_response: dict) -> FinancialParserDataCla
             paymentCardNumber = dict_get(payments[0], "PaymentCardNumber", "value")
 
     financial_payment_information = FinancialPaymentInformation(
-        amount_due=float(dict_get(original_response, "general", "TotalPrice", "value")),
+        amount_due = float(dict_get(original_response, "general", "TotalPrice", "value")) if dict_get(original_response, "general", "TotalPrice", "value") is not None else None,
         amount_tip=None,
         amount_shipping=None,
         amount_change=None,
         amount_paid=None,
-        total=float(dict_get(original_response, "general", "TotalPrice", "value")),
+        total = float(dict_get(original_response, "general", "TotalPrice", "value")) if dict_get(original_response, "general", "TotalPrice", "value") is not None else None,
         subtotal=None,
         total_tax=totalTaxAmount,
         tax_rate=None,
@@ -448,16 +451,16 @@ def eagledoc_financial_parser(original_response: dict) -> FinancialParserDataCla
     if productItems is not None:
 
         financial_line_items = [FinancialLineItem(
-            tax=float(dict_get(item, "ProductPrice", "value")),
-            amount_line=float(dict_get(item, "ProductPrice", "value")),
+            tax=None,
+            amount_line = float(dict_get(item, "ProductPrice", "value")) if dict_get(item, "ProductPrice", "value") is not None else None,
             description=dict_get(item, "ProductName", "value"),
-            quantity=float(dict_get(item, "ProductQuantity", "value")),
-            unit_price=float(dict_get(item, "ProductUnitPrice", "value")),
+            quantity = float(dict_get(item, "ProductQuantity", "value")) if dict_get(item, "ProductQuantity", "value") is not None else None,
+            unit_price = float(dict_get(item, "ProductUnitPrice", "value")) if dict_get(item, "ProductUnitPrice", "value") is not None else None,
             unit_type=dict_get(item, "ProductUnit", "value"),
             date=None,
             product_code=dict_get(item, "ProductId", "value"),
             purchase_order=None,
-            tax_rate=float(dict_get(item, "TaxPercentage", "value")),
+            tax_rate = float(dict_get(item, "TaxPercentage", "value")) if dict_get(item, "TaxPercentage", "value") is not None else None,
             base_total=None,
             sub_total=None,
             discount_amount=None,
@@ -471,10 +474,10 @@ def eagledoc_financial_parser(original_response: dict) -> FinancialParserDataCla
             financial_line_items = []
 
 
-    financial_bar_codes = FinancialBarcode(
-        value=None,
-        type=None,
-    )
+    # financial_bar_codes = FinancialBarcode(
+    #     value=None,
+    #     type=None,
+    # )
 
     financial_document_information = FinancialDocumentInformation(
         invoice_receipt_id=dict_get(original_response, "general", "InvoiceNumber", "value"),
@@ -488,7 +491,7 @@ def eagledoc_financial_parser(original_response: dict) -> FinancialParserDataCla
         biller_code=None,
         order_date=None,
         tracking_number=None,
-        barcodes=financial_bar_codes,
+        # barcodes=financial_bar_codes,
     )
 
     financial_document_meta_data = FinancialDocumentMetadata(

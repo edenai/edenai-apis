@@ -3,83 +3,130 @@
     "docType": "Invoice",
     "general": {
       "ShopName": {
-        "value": "SNG Engineering, Inc.",
-        "page": 1
+        "value": "SNG Engineering, Inc. SNG",
+        "page": 1,
+        "confidence": 0.46
       },
       "ShopStreet": {
         "value": "Main Street",
-        "page": 1
+        "page": 1,
+        "confidence": 0.89
       },
       "ShopHouseNumber": {
         "value": "344",
-        "page": 1
+        "page": 1,
+        "confidence": 0.89
       },
       "ShopCity": {
         "value": "Gaithersburg",
-        "page": 1
+        "page": 1,
+        "confidence": 0.89
       },
       "ShopZip": {
         "value": "20878",
-        "page": 1
+        "page": 1,
+        "confidence": 0.89
       },
       "CustomerName": {
         "value": "Damita J Goldsmith",
-        "page": 1
+        "page": 1,
+        "confidence": 0.57
       },
       "CustomerStreet": {
         "value": "Stan Fey Dr",
-        "page": 1
+        "page": 1,
+        "confidence": 0.66
       },
       "CustomerHouseNumber": {
         "value": "201",
-        "page": 1
+        "page": 1,
+        "confidence": 0.66
       },
       "CustomerCity": {
         "value": "Upper Marlboro",
-        "page": 1
+        "page": 1,
+        "confidence": 0.66
       },
       "CustomerZip": {
         "value": "20774",
-        "page": 1
+        "page": 1,
+        "confidence": 0.66
       },
       "InvoiceDate": {
         "value": "2003-01-20",
-        "page": 1
+        "page": 1,
+        "confidence": 0.93
       },
       "InvoiceNumber": {
         "value": "014- 03",
-        "page": 1
+        "page": 1,
+        "confidence": 0.94
       },
       "TotalPrice": {
         "value": "750.0",
-        "page": 1
+        "page": 1,
+        "confidence": 0.75
+      },
+      "Currency": {
+        "value": "USD",
+        "confidence": 1.0
       },
       "ReverseCharge": {
         "value": "false",
-        "page": 0
+        "confidence": 1.0
+      },
+      "VATNumber": {
+        "value": "301.548.0055",
+        "page": 1,
+        "confidence": 0.88
+      },
+      "IBAN": {
+        "value": "Gaithersburg",
+        "page": 1,
+        "confidence": 0.93
+      },
+      "BIC": {
+        "value": "20878",
+        "page": 1,
+        "confidence": 0.88
+      },
+      "Email": {
+        "value": "sng.engineering@erols.com",
+        "page": 1,
+        "confidence": 0.97
+      },
+      "Fax": {
+        "value": "301.548.184",
+        "page": 1,
+        "confidence": 0.91
       }
     },
     "productItems": [
       {
         "TaxGrossAmount": {
           "value": "750.0",
-          "page": 1
+          "page": 1,
+          "confidence": 0.92108166
         },
         "ProductName": {
           "value": "Field inspection of construction on 1/19/2003 deficiencies in house",
-          "page": 1
+          "page": 1,
+          "confidence": 0.98
         },
         "ProductPrice": {
           "value": "750.0",
-          "page": 1
+          "page": 1,
+          "confidence": 0.92
         },
         "ProductUnitPrice": {
           "value": "750.0",
-          "page": 1
+          "page": 1,
+          "confidence": 1.0
         },
         "ProductQuantity": {
           "value": "1.0",
-          "page": 1
+          "page": 1,
+          "confidence": 1.0
         }
       }
     ],
@@ -88,11 +135,11 @@
     "paymentBanks": null,
     "performanceOption": "ACCURACY",
     "fileHash": "72e3bdcce7217608fc6a79e61194652c",
-    "version": "0.1.20",
+    "version": "0.3.01",
     "numberOfPages": 1,
     "pages": [
       {
-        "width": 608.0,
+        "width": 610.0,
         "height": 744.0
       }
     ],
@@ -125,7 +172,7 @@
           "siren_number": null
         },
         "merchant_information": {
-          "merchant_name": "SNG Engineering, Inc.",
+          "merchant_name": "SNG Engineering, Inc. SNG",
           "merchant_address": "Main Street, 344, 20878, Gaithersburg",
           "merchant_phone": null,
           "merchant_email": null,
@@ -156,7 +203,7 @@
         "service_due_date": null,
         "po_number": null,
         "locale": {
-          "currency": null,
+          "currency": "USD",
           "language": "en"
         },
         "bank_informations": {
