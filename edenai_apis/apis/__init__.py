@@ -15,6 +15,7 @@ from .dataleon import DataleonApi
 from .deepai import DeepAIApi
 from .deepgram import DeepgramApi
 from .deepl import DeeplApi
+from .eagledoc import EagledocApi
 from .elevenlabs import ElevenlabsApi
 from .emvista import EmvistaApi
 from .extracta import ExtractaApi

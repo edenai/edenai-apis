@@ -10,9 +10,11 @@ from edenai_apis.features.ocr.receipt_parser import ReceiptParserDataClass
 from edenai_apis.loaders.loaders import ProviderDataEnum, load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass
 from edenai_apis.apis.eagledoc.eagledoc_ocr_normalizer import (
     eagledoc_invoice_parser,
-    eagledoc_receipt_parser
+    eagledoc_receipt_parser,
+    eagledoc_financial_parser
 )
 
 class EagledocApi(ProviderInterface, OcrInterface):
@@ -51,6 +53,22 @@ class EagledocApi(ProviderInterface, OcrInterface):
             raise ProviderException(message=response.json(), code=response.status_code)
 
         return original_response
+
+
+    def ocr__financial_parser(
+            self, file: str, language: str, document_type: str, file_url: str = ""
+            ) -> ResponseType[FinancialParserDataClass]:
+
+        file_ = open(file, "rb")
+        original_response = self._make_post_request(file_, endpoint="/finance/v1/processing")
+
+        file_.close()
+        standardize_response = eagledoc_financial_parser(original_response)
+
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=standardize_response,
+        )
 
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = ""

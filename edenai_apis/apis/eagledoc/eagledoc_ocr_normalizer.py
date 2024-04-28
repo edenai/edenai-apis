@@ -19,6 +19,21 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     PaymentInformation,
     Taxes,
 )
+
+from edenai_apis.features.ocr.financial_parser import (
+    FinancialBankInformation,
+    FinancialBarcode,
+    FinancialCustomerInformation,
+    FinancialDocumentInformation,
+    FinancialDocumentMetadata,
+    FinancialLineItem,
+    FinancialLocalInformation,
+    FinancialMerchantInformation,
+    FinancialParserDataClass,
+    FinancialParserObjectDataClass,
+    FinancialPaymentInformation
+)
+
 from collections import defaultdict
 from functools import reduce
 
@@ -265,3 +280,237 @@ def eagledoc_receipt_parser(original_response: dict) -> ReceiptParserDataClass:
         ]
 
         return ReceiptParserDataClass(extracted_data=info_receipt)
+
+# **************************************************************************************************
+#                                           Financial Parser 
+# **************************************************************************************************
+def eagledoc_financial_parser(original_response: dict) -> FinancialParserDataClass:
+    """
+    Parse Eagle Doc original response into an organized financial parser data class object.
+    The input can be a receipt or an invoice
+
+    Args:
+    - original_response (dict): Eagle Doc original response.
+
+    Returns:
+    - FinancialParserDataClass: Parsed financial data organized into a data class.
+    """
+
+    address_CustomerStreet = dict_get(original_response, "general", "CustomerStreet", "value")
+    address_CustomerHouseNumber = dict_get(original_response, "general", "CustomerHouseNumber", "value")
+    address_CustomerCity = dict_get(original_response, "general", "CustomerCity", "value")
+    address_CustomerZip = dict_get(original_response, "general", "CustomerZip", "value")
+    address_CustomerState = dict_get(original_response, "general", "CustomerState", "value")
+    address_CustomerCountry = dict_get(original_response, "general", "CustomerCountry", "value")
+
+    customer_information = FinancialCustomerInformation(
+        name=dict_get(original_response, "general", "CustomerName", "value"),
+        id_reference=None,
+        mailling_address=None,
+        billing_address=', '.join(filter(None, (address_CustomerStreet, address_CustomerHouseNumber, address_CustomerCity, address_CustomerZip, address_CustomerState, address_CustomerCountry))),
+        shipping_address=None,
+        service_address=None,
+        remittance_address=None,
+        email=None,
+        phone=None,
+        vat_number=None,
+        abn_number=None,
+        gst_number=None,
+        pan_number=None,
+        business_number=None,
+        siret_number=None,
+        siren_number=None,
+        customer_number=None,
+        coc_number=None,
+        fiscal_number=None,
+        registration_number=None,
+        tax_id=None,
+        website=None,
+        remit_to_name=None,
+        city=address_CustomerCity,
+        country=address_CustomerCountry,
+        house_number=address_CustomerHouseNumber,
+        province=address_CustomerState,
+        street_name=address_CustomerStreet,
+        zip_code=address_CustomerZip,
+        municipality=None,
+    )
+
+    address_ShopStreet = dict_get(original_response, "general", "ShopStreet", "value")
+    address_ShopHouseNumber = dict_get(original_response, "general", "ShopHouseNumber", "value")
+    address_ShopCity = dict_get(original_response, "general", "ShopCity", "value")
+    address_ShopZip = dict_get(original_response, "general", "ShopZip", "value")
+    address_ShopState = dict_get(original_response, "general", "ShopState", "value")
+    address_ShopCountry = dict_get(original_response, "general", "ShopCountry", "value")
+
+    merchant_information = FinancialMerchantInformation(
+        name=dict_get(original_response, "general", "ShopName", "value"),
+        address=', '.join(filter(None, (address_ShopStreet, address_ShopHouseNumber, address_ShopZip, address_ShopCity, address_ShopState, address_ShopCountry))),
+        phone=dict_get(original_response, "general", "ShopTel", "value"),
+        tax_id=None,
+        id_reference=None,
+        vat_number=dict_get(original_response, "general", "ShopTaxNumber", "value"),
+        abn_number=None,
+        gst_number=None,
+        business_number=None,
+        siret_number=None,
+        siren_number=None,
+        pan_number=None,
+        coc_number=None,
+        fiscal_number=None,
+        email=dict_get(original_response, "general", "ShopEmail", "value"),
+        fax=None,
+        website=dict_get(original_response, "general", "ShopWeb", "value"),
+        registration=None,
+        city=None,
+        country=address_ShopCountry,
+        house_number=address_ShopHouseNumber,
+        province=address_ShopState,
+        street_name=address_ShopStreet,
+        zip_code=address_ShopZip,
+        country_code=None,
+    )
+
+    financial_local_information = FinancialLocalInformation(
+        currency=dict_get(original_response, "general", "Currency", "value"),
+        currency_code=dict_get(original_response, "general", "Currency", "value"),
+        currency_exchange_rate=None,
+        country=dict_get(original_response, "general", "ShopCountry", "value"),
+        language=dict_get(original_response, "mainLanguage"),
+    )
+
+    # calculate the total tax amount
+    taxInfo = dict_get(original_response, "taxes")
+    totalTaxAmount = 0.0
+    
+    if taxInfo is not None and bool(taxInfo):
+
+        for tax in taxInfo:
+            totalTaxAmount = totalTaxAmount + float(dict_get(tax, "TaxAmount", "value"))
+    
+    else:
+        totalTaxAmount = None
+
+    # get the first payment method
+    payments = dict_get(original_response, "payments")
+    paymentMethod = None
+    paymentCardNumber = None
+
+    if payments is not None:
+            paymentMethod = dict_get(payments[0], "PaymentMethod", "value")
+            paymentCardNumber = dict_get(payments[0], "PaymentCardNumber", "value")
+
+    financial_payment_information = FinancialPaymentInformation(
+        amount_due=float(dict_get(original_response, "general", "TotalPrice", "value")),
+        amount_tip=None,
+        amount_shipping=None,
+        amount_change=None,
+        amount_paid=None,
+        total=float(dict_get(original_response, "general", "TotalPrice", "value")),
+        subtotal=None,
+        total_tax=totalTaxAmount,
+        tax_rate=None,
+        discount=None,
+        gratuity=None,
+        service_charge=None,
+        previous_unpaid_balance=None,
+        prior_balance=None,
+        payment_terms=None,
+        payment_method=paymentMethod,
+        payment_card_number=paymentCardNumber,
+        payment_auth_code=None,
+        shipping_handling_charge=None,
+        transaction_number=None,
+        transaction_reference=None,
+    )
+
+    # get bank information
+    paymentBanks = dict_get(original_response, "paymentBanks")
+    bank_iban = None
+    bank_bic = None
+    if paymentBanks is not None:
+        bank_iban = dict_get(paymentBanks[0], "IBAN", "value")
+        bank_bic = dict_get(paymentBanks[0], "BIC", "value")
+
+    financial_bank_information = FinancialBankInformation(
+        iban=bank_iban,
+        swift=None,
+        bsb=None,
+        sort_code=None,
+        account_number=None,
+        routing_number=None,
+        bic=bank_bic,
+    )
+
+    productItems = dict_get(original_response, "productItems")
+    financial_line_items=None
+
+    if productItems is not None:
+
+        financial_line_items = [FinancialLineItem(
+            tax=float(dict_get(item, "ProductPrice", "value")),
+            amount_line=float(dict_get(item, "ProductPrice", "value")),
+            description=dict_get(item, "ProductName", "value"),
+            quantity=float(dict_get(item, "ProductQuantity", "value")),
+            unit_price=float(dict_get(item, "ProductUnitPrice", "value")),
+            unit_type=dict_get(item, "ProductUnit", "value"),
+            date=None,
+            product_code=dict_get(item, "ProductId", "value"),
+            purchase_order=None,
+            tax_rate=float(dict_get(item, "TaxPercentage", "value")),
+            base_total=None,
+            sub_total=None,
+            discount_amount=None,
+            discount_rate=None,
+            discount_code=None,
+            order_number=None,
+            title=dict_get(item, "ProductName", "value"),
+        ) for item in productItems]
+
+    else:
+            financial_line_items = []
+
+
+    financial_bar_codes = FinancialBarcode(
+        value=None,
+        type=None,
+    )
+
+    financial_document_information = FinancialDocumentInformation(
+        invoice_receipt_id=dict_get(original_response, "general", "InvoiceNumber", "value"),
+        purchase_order=dict_get(original_response, "general", "OrderNumber", "value"),
+        invoice_date=dict_get(original_response, "general", "InvoiceDate", "value"),
+        time=None,
+        invoice_due_date=dict_get(original_response, "general", "InvoiceDueDate", "value"),
+        service_start_date=None,
+        service_end_date=None,
+        reference=None,
+        biller_code=None,
+        order_date=None,
+        tracking_number=None,
+        barcodes=financial_bar_codes,
+    )
+
+    financial_document_meta_data = FinancialDocumentMetadata(
+         document_index=None,
+         document_page_number=None,
+         document_type=dict_get(original_response, "docType"),
+    )
+
+    extracted_data = []
+
+    extracted_data.append(
+        FinancialParserObjectDataClass(
+            customer_information=customer_information,
+            merchant_information=merchant_information,
+            payment_information=financial_payment_information,
+            financial_document_information=financial_document_information,
+            local=financial_local_information,
+            bank=financial_bank_information,
+            item_lines=financial_line_items,
+            document_metadata=financial_document_meta_data
+        )
+    )
+
+    return FinancialParserDataClass(extracted_data=extracted_data)
+    
