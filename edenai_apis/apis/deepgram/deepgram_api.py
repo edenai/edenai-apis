@@ -206,7 +206,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         if audio_format:
             base_url += f"&container={audio_format}"
 
-        if sampling_rate and sampling_rate != 0:
+        if sampling_rate:
             base_url += f"&sample_rate={sampling_rate}"
 
         headers = {
