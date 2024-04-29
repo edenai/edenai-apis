@@ -275,6 +275,7 @@
 | | voci |
 | | voxist |
 | **text_to_speech** | amazon |
+| | deepgram |
 | | elevenlabs |
 | | google |
 | | ibm |
@@ -533,6 +534,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | speech_to_text_async |
+| | text_to_speech |
 
 </details>
 <details><summary>deepl</summary>
