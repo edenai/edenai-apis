@@ -22,6 +22,7 @@ def chat_arguments(provider_name: str):
             "cohere": "command-nightly",
             "perplexityai": "pplx-70b-online",
             "replicate": "llama-2-70b-chat",
+            "anthropic": "claude-3-sonnet-20240229-v1:0",
         },
         "stream": False,
     }
