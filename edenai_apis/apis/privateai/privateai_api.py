@@ -32,7 +32,7 @@ class PrivateaiApi(ProviderInterface, OcrInterface):
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
         self.api_key = self.api_settings["api_key"]
-        self.url = "https://api.private-ai.com/deid/"
+        self.url = "https://api.private-ai.com/cloud/"
         self.headers = {
             "Content-Type": "application/json",
             "X-API-KEY": self.api_key,
