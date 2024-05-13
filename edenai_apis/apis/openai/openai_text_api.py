@@ -12,7 +12,11 @@ from edenai_apis.features.text.anonymization.anonymization_dataclass import (
 )
 from edenai_apis.features.text.anonymization.category import CategoryType
 from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
-from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
+from edenai_apis.features.text.chat.chat_dataclass import (
+    StreamChat,
+    ChatStreamResponse,
+    ToolCall,
+)
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
     CodeGenerationDataClass,
 )
@@ -70,6 +74,8 @@ from .helpers import (
     construct_sentiment_analysis_context,
     construct_spell_check_instruction,
     construct_topic_extraction_context,
+    convert_tool_results_to_openai_tool_calls,
+    convert_tools_to_openai,
     finish_unterminated_json,
     get_openapi_response,
     prompt_optimization_missing_information,
@@ -737,15 +743,39 @@ class OpenaiTextApi(TextInterface):
         max_tokens: int,
         model: str,
         stream=False,
+        available_tools: Optional[List[dict]] = None,
+        tool_choice: Literal["auto", "any", "none"] = "auto",
+        tools_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-        messages = [{"role": "user", "content": text}]
+        previous_history = previous_history or []
+        messages = []
+        for msg in previous_history:
+            message = {
+                "role": msg.get("role"),
+                "content": msg.get("message"),
+                }
+            if msg.get("tool_calls"):
+                message['tool_calls'] = [{
+                    "id": tool["id"],
+                    "type": "function",
+                    "function": {
+                        "name": tool["name"],
+                        "arguments": tool["arguments"],
+                    },
+                } for tool in msg['tool_calls']]
+            messages.append(message)
 
-        if previous_history:
-            for idx, message in enumerate(previous_history):
-                messages.insert(
-                    idx,
-                    {"role": message.get("role"), "content": message.get("message")},
-                )
+        if text:
+            messages.append({"role": "user", "content": text})
+
+        for tool in tools_results or []:
+            messages.append(
+                {
+                    "role": "tool",
+                    "content": tool["result"],
+                    "tool_call_id": tool["call"]["id"],
+                }
+            )
 
         if chatbot_global_action:
             messages.insert(0, {"role": "system", "content": chatbot_global_action})
@@ -757,6 +787,10 @@ class OpenaiTextApi(TextInterface):
             "max_tokens": max_tokens,
             "stream": stream,
         }
+
+        if available_tools:
+            payload["tools"] = convert_tools_to_openai(available_tools)
+            payload["tool_choice"] = "required" if tool_choice == "any" else tool_choice
         try:
             response = openai.ChatCompletion.create(**payload)
         except Exception as exc:
@@ -764,10 +798,27 @@ class OpenaiTextApi(TextInterface):
 
         # Standardize the response
         if stream is False:
-            generated_text = response["choices"][0]["message"]["content"]
+            message = response["choices"][0]["message"]
+            generated_text = message["content"]
+            original_tool_calls = message.get("tool_calls") or []
+            tool_calls = []
+            for call in original_tool_calls:
+                tool_calls.append(
+                    ToolCall(
+                        id=call["id"],
+                        name=call["function"]["name"],
+                        arguments=call["function"]["arguments"],
+                    )
+                )
             message = [
-                ChatMessageDataClass(role="user", message=text),
-                ChatMessageDataClass(role="assistant", message=generated_text),
+                ChatMessageDataClass(
+                    role="user", message=text, tools=available_tools
+                ),
+                ChatMessageDataClass(
+                    role="assistant",
+                    message=generated_text,
+                    tool_calls=tool_calls,
+                ),
             ]
 
             standardized_response = ChatDataClass(
