@@ -102,8 +102,8 @@ class MistralApi(ProviderInterface, TextInterface):
         model: Optional[str] = None,
         stream: bool = False,
         available_tools: Optional[List[dict]] = None,
-        tool_choice: Literal["auto", "any", "none"] = "auto",
-        tools_results: Optional[List[dict]] = None,
+        tool_choice: Literal["auto", "required", "none"] = "auto",
+        tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         previous_history = previous_history or []
         messages = []
@@ -128,8 +128,8 @@ class MistralApi(ProviderInterface, TextInterface):
         if text:
             messages.append({"role": "user", "content": text})
 
-        if tools_results:
-            for tool in tools_results or []:
+        if tool_results:
+            for tool in tool_results or []:
                 messages.append(
                     {
                         "role": "tool",
@@ -149,8 +149,8 @@ class MistralApi(ProviderInterface, TextInterface):
         }
 
         if available_tools:
-            payload["tool_choice"] = tool_choice
             payload["tools"] = convert_tools_to_openai(available_tools)
+            payload["tool_choice"] = 'any' if tool_choice == 'required' else tool_choice
 
         if not stream:
             response = requests.post(

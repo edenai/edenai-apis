@@ -744,8 +744,8 @@ class OpenaiTextApi(TextInterface):
         model: str,
         stream=False,
         available_tools: Optional[List[dict]] = None,
-        tool_choice: Literal["auto", "any", "none"] = "auto",
-        tools_results: Optional[List[dict]] = None,
+        tool_choice: Literal["auto", "required", "none"] = "auto",
+        tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         previous_history = previous_history or []
         messages = []
@@ -768,7 +768,7 @@ class OpenaiTextApi(TextInterface):
         if text:
             messages.append({"role": "user", "content": text})
 
-        for tool in tools_results or []:
+        for tool in tool_results or []:
             messages.append(
                 {
                     "role": "tool",
@@ -790,7 +790,7 @@ class OpenaiTextApi(TextInterface):
 
         if available_tools:
             payload["tools"] = convert_tools_to_openai(available_tools)
-            payload["tool_choice"] = "required" if tool_choice == "any" else tool_choice
+            payload["tool_choice"] = tool_choice
         try:
             response = openai.ChatCompletion.create(**payload)
         except Exception as exc:
