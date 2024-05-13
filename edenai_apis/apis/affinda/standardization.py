@@ -59,6 +59,7 @@ from edenai_apis.utils.conversion import (
     convert_string_to_number,
 )
 from .models import Document, DocumentError, DocumentMeta
+from edenai_apis.utils.parsing import extract
 
 
 class ResumeStandardizer:
@@ -77,50 +78,63 @@ class ResumeStandardizer:
         self.__std_response = {}
 
     def __std_names(self) -> ResumePersonalName:
-        name = self.__data.get("name") or {}
+        name = self.__data.get("candidateName") or {}
         return ResumePersonalName(
             raw_name=name.get("raw"),
-            first_name=name.get("first"),
-            last_name=name.get("last"),
-            middle=name.get("middle"),
-            title=name.get("title"),
-            sufix=None,
+            first_name=extract(name, ["parsed", "candidateNameFirst", "parsed"]),
+            last_name=extract(name, ["parsed", "candidateNameFamily", "parsed"]),
+            middle=extract(name, ["parsed", "candidateNameMiddle", "parsed"]),
+            title=extract(name, ["parsed", "candidateNameTitle", "parsed"]),
+            sufix=extract(name, ["parsed", "candidateNameSuffix", "parsed"]),
             prefix=None,
         )
 
-    def __std_location(self, which_location: Optional[dict] = None) -> ResumeLocation:
+    def __std_location(
+        self, key: str, which_location: Optional[dict] = None
+    ) -> ResumeLocation:
         if which_location is None:
             which_location = self.__data
-        location = which_location.get("location") or {}
+        location = which_location.get(key) or {}
         return ResumeLocation(
             raw_input_location=location.get("rawInput"),
-            postal_code=location.get("postalCode"),
-            region=location.get("state"),
-            country_code=location.get("countryCode"),
-            country=location.get("country"),
-            appartment_number=location.get("apartmentNumber"),
-            city=location.get("city"),
-            street=location.get("street"),
-            street_number=location.get("streetNumber"),
-            formatted_location=location.get("formatted"),
+            postal_code=extract(location, ["parsed", "postalCode"]),
+            region=extract(location, ["parsed", "state"]),
+            country_code=extract(location, ["parsed", "countryCode"]),
+            country=extract(location, ["parsed", "country"]),
+            appartment_number=extract(location, ["parsed", "apartmentNumber"]),
+            city=extract(location, ["parsed", "city"]),
+            street=extract(location, ["parsed", "street"]),
+            street_number=extract(location, ["parsed", "streetNumber"]),
+            formatted_location=extract(location, ["parsed", "formatted"]),
         )
 
     def std_personnal_information(self) -> ResumePersonalInfo:
         self.__std_response["personal_infos"] = ResumePersonalInfo(
             name=self.__std_names(),
-            address=self.__std_location(),
-            phones=self.__data.get("phoneNumbers") or [],
-            mails=self.__data.get("emails") or [],
-            urls=self.__data.get("websites") or [],
-            self_summary=self.__data.get("summary"),
+            address=self.__std_location(key="location"),
+            phones=[
+                phone.get("parsed")
+                for phone in self.__data.get("phoneNumbers", [])
+                if phone
+            ],
+            mails=[
+                email.get("parsed") for email in self.__data.get("emails", []) if email
+            ],
+            urls=[
+                website.get("parsed")
+                for website in self.__data.get("websites", [])
+                if website
+            ],
+            self_summary=extract(self.__data, ["summary", "parsed"]),
             current_profession=self.__data.get("profession"),
-            objective=self.__data.get("objective"),
-            date_of_birth=self.__data.get("dateOfBirth"),
+            objective=extract(self.__data, ["objective", "parsed"]),
+            date_of_birth=extract(self.__data, ["dateOfBirth", "parsed"]),
             place_of_birth=None,
             gender=None,
-            nationality=None,
+            nationality=extract(self.__data, ["nationality", "parsed"]),
             martial_status=None,
             current_salary=None,
+            availability=extract(self.__data, ["availability", "parsed"]),
         )
 
         return self.__std_response["personal_infos"]
@@ -128,18 +142,31 @@ class ResumeStandardizer:
     def std_education(self) -> ResumeEducation:
         edu_entries: List[ResumeEducationEntry] = []
         for i in self.__data.get("education") or []:
-            dates = i.get("dates") or {}
-            grade = i.get("grade") or {}
+            education = i.get("parsed", {})
+            location = self.__std_location(
+                which_location=education, key="educationLocation"
+            )
+            start_date = extract(
+                education, ["educationDateRange", "parsed", "start", "date"]
+            )
+            end_date = extract(
+                education, ["educationDateRange", "parsed", "end", "date"]
+            )
+            grade = extract(education, ["educationGrade", "raw"])
+            accreditation = extract(education, ["educationAccreditation", "parsed"])
+            establishment = extract(education, ["educationOrganization", "parsed"])
+            title = extract(education, ["educationLevel", "parsed", "value"])
+            description = extract(education, ["educationMajor", "parsed"])
             edu_entries.append(
                 ResumeEducationEntry(
-                    location=self.__std_location(which_location=i),
-                    start_date=dates.get("startDate"),
-                    end_date=dates.get("completionDate"),
-                    establishment=i.get("organization"),
-                    gpa=grade.get("value"),
-                    accreditation=i.get("accreditation", {}).get("education"),
-                    title=None,
-                    description=None,
+                    location=location,
+                    start_date=start_date,
+                    end_date=end_date,
+                    establishment=establishment,
+                    gpa=grade,
+                    accreditation=accreditation,
+                    title=title,
+                    description=description,
                 )
             )
 
@@ -152,20 +179,37 @@ class ResumeStandardizer:
     def std_work_experience(self) -> ResumeWorkExp:
         work_entries: List[ResumeWorkExpEntry] = []
         for i in self.__data.get("workExperience") or []:
-            dates = i.get("dates") or {}
+            work_experience = i.get("parsed", {})
             work_entries.append(
                 ResumeWorkExpEntry(
-                    title=i.get("jobTitle"),
-                    company=i.get("organization"),
-                    start_date=dates.get("startDate"),
-                    end_date=dates.get("endDate"),
-                    description=i.get("job_description"),
-                    location=self.__std_location(which_location=i),
+                    title=extract(work_experience, ["jobTitle", "parsed"]),
+                    company=extract(
+                        work_experience, ["workExperienceOrganization", "parsed"]
+                    ),
+                    start_date=extract(
+                        work_experience,
+                        ["workExperienceDateRange", "parsed", "start", "date"],
+                    ),
+                    end_date=extract(
+                        work_experience,
+                        ["workExperienceDateRange", "parsed", "end", "date"],
+                    ),
+                    description=extract(work_experience, ["jobDescription", "parsed"]),
+                    location=self.__std_location(
+                        which_location=work_experience, key="workExperienceLocation"
+                    ),
+                    type=extract(
+                        work_experience, ["workExperienceType", "parsed", "value"]
+                    ),
                     industry=None,
                 )
             )
+        total_years = extract(self.__data, ["totalYearsExperience", "parsed"])
+        if total_years:
+            total_years = str(total_years)
+
         self.__std_response["work_experience"] = ResumeWorkExp(
-            total_years_experience=self.__data.get("total_years_experience"),
+            total_years_experience=total_years,
             entries=work_entries,
         )
 
@@ -173,12 +217,10 @@ class ResumeStandardizer:
 
     def std_skills(self) -> List[ResumeSkill]:
         self.__std_response["skills"] = []
-        for i in self.__data.get("skills", []) or []:
-            skill_name = i.get("name")
-            skill_type = i.get("type").replace("_skill", "")
-            self.__std_response["skills"].append(
-                ResumeSkill(name=skill_name, type=skill_type)
-            )
+        for i in self.__data.get("skill", []) or []:
+            name = extract(i, ["parsed", "name"])
+            value = extract(i, ["parsed", "type"])
+            self.__std_response["skills"].append(ResumeSkill(name=name, type=value))
 
         return self.__std_response["skills"]
 
@@ -186,14 +228,19 @@ class ResumeStandardizer:
         self,
     ) -> Tuple[List[ResumeLang], List[ResumeSkill], List[ResumeSkill]]:
         self.__std_response["languages"] = [
-            ResumeLang(name=i, code=None) for i in self.__data.get("languages", [])
+            ResumeLang(
+                name=extract(i, ["parsed", "languageName", "parsed", "label"]),
+                code=extract(i, ["parsed", "languageName", "parsed", "value"]),
+            )
+            for i in self.__data.get("language") or []
         ]
         self.__std_response["certifications"] = [
-            ResumeSkill(name=i, type=None)
-            for i in self.__data.get("certifications", [])
+            ResumeSkill(name=extract(i, ["parsed"]), type=None)
+            for i in self.__data.get("achievement") or []
         ]
         self.__std_response["publications"] = [
-            ResumeSkill(name=i, type=None) for i in self.__data.get("publications", [])
+            ResumeSkill(name=i.get("raw"), type=None)
+            for i in self.__data.get("publications") or []
         ]
 
         return (
