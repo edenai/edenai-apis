@@ -114,16 +114,14 @@ class ResumeStandardizer:
             address=self.__std_location(key="location"),
             phones=[
                 phone.get("parsed")
-                for phone in self.__data.get("phoneNumbers", [])
-                if phone
+                for phone in self.__data.get("phoneNumbers", []) or []
             ],
             mails=[
-                email.get("parsed") for email in self.__data.get("emails", []) if email
+                email.get("parsed") for email in self.__data.get("emails", []) or []
             ],
             urls=[
                 website.get("parsed")
-                for website in self.__data.get("websites", [])
-                if website
+                for website in self.__data.get("websites", []) or []
             ],
             self_summary=extract(self.__data, ["summary", "parsed"]),
             current_profession=self.__data.get("profession"),
