@@ -1,3 +1,4 @@
+import itertools
 import json
 from typing import Dict, List, Literal, Optional, Sequence, Union
 
@@ -768,14 +769,17 @@ class OpenaiTextApi(TextInterface):
         if text:
             messages.append({"role": "user", "content": text})
 
-        for tool in tool_results or []:
-            messages.append(
-                {
-                    "role": "tool",
-                    "content": tool["result"],
-                    "tool_call_id": tool["call"]["id"],
-                }
-            )
+        if tool_results:
+            tool_calls = itertools.chain.from_iterable(msg['tool_calls'] for msg in previous_history if msg['tool_calls'])
+            for tool in tool_results or []:
+                id = list(filter(lambda tool_call: tool_call['id'] == tool['id'], tool_calls))[0]['id']
+                messages.append(
+                    {
+                        "role": "tool",
+                        "content": tool["result"],
+                        "tool_call_id": id,
+                    }
+                )
 
         if chatbot_global_action:
             messages.insert(0, {"role": "system", "content": chatbot_global_action})

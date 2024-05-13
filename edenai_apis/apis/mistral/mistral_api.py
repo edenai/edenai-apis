@@ -1,3 +1,4 @@
+import itertools
 from typing import Dict, List, Literal, Optional, Union, Generator
 import requests
 import json
@@ -129,12 +130,14 @@ class MistralApi(ProviderInterface, TextInterface):
             messages.append({"role": "user", "content": text})
 
         if tool_results:
+            tool_calls = itertools.chain.from_iterable(msg['tool_calls'] for msg in previous_history if msg['tool_calls'])
             for tool in tool_results or []:
+                name = list(filter(lambda tool_call: tool_call['id'] == tool['id'], tool_calls))[0]['name']
                 messages.append(
                     {
                         "role": "tool",
                         "content": tool["result"],
-                        "name": tool["call"]["name"],
+                        "name": name,
                     }
                 )
 
