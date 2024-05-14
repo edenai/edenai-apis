@@ -3,10 +3,18 @@ from typing import Optional, List, Dict, Sequence, Tuple, Union, Literal, Genera
 
 import requests
 
-from edenai_apis.apis.cohere.helpers import extract_json_text
+from edenai_apis.apis.cohere.helpers import (
+    convert_tools_results_to_cohere,
+    convert_tools_to_cohere,
+    extract_json_text,
+)
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
-from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
+from edenai_apis.features.text.chat.chat_dataclass import (
+    StreamChat,
+    ChatStreamResponse,
+    ToolCall,
+)
 from edenai_apis.features.text.custom_classification import (
     ItemCustomClassificationDataClass,
     CustomClassificationDataClass,
@@ -473,15 +481,16 @@ Your answer:
         max_tokens: int = 25,
         model: Optional[str] = None,
         stream: bool = False,
+        available_tools: Optional[List[dict]] = None,
+        tool_results: Optional[List[dict]] = None,
+        tools_choice=None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         messages = [{"role": "USER", "message": text}]
-
-        if previous_history:
-            for index, message in enumerate(previous_history):
-                messages.insert(
-                    index,
-                    {"role": message.get("role"), "message": message.get("message")},
-                )
+        previous_history = previous_history or []
+        messages = [
+            {"role": msg.get("role"), "message": msg.get("message") or None}
+            for msg in previous_history
+        ]
 
         if chatbot_global_action:
             messages.insert(0, {"role": "CHATBOT", "message": chatbot_global_action})
@@ -492,9 +501,18 @@ Your answer:
             "temperature": temperature,
             "model": model,
             "chat_history": messages,
-            "connectors": [{"id": "web-search"}],
             "stream": stream,
         }
+        if tool_results:
+            payload["tool_results"] = convert_tools_results_to_cohere(tool_results, previous_history)
+            del payload['chat_history']
+            payload['message'] = next(filter(lambda msg: msg['role'] == 'USER', previous_history))['message']
+
+        if available_tools:
+            payload["tools"] = convert_tools_to_cohere(available_tools)
+
+        if not available_tools and not tool_results:
+            payload["connectors"] = [{"id": "web-search"}]
 
         response = requests.post(url, headers=self.headers, json=payload)
 
@@ -511,10 +529,25 @@ Your answer:
                     ) from exp
 
                 generated_text = original_response["text"]
+                tool_calls = []
+                generation_id = original_response['generation_id']
+                for index, tool in enumerate(original_response.get("tool_calls", [])):
+                    tool_id = f"{generation_id}-{tool['name']}-{index}"
+                    tool_calls.append(
+                        ToolCall(
+                            id=tool_id,
+                            name=tool["name"],
+                            arguments=json.dumps(tool["parameters"]),
+                        )
+                    )
 
                 message = [
-                    ChatMessageDataClass(role="USER", message=text),
-                    ChatMessageDataClass(role="CHATBOT", message=generated_text),
+                    ChatMessageDataClass(
+                        role="USER", message=text, tools=available_tools
+                    ),
+                    ChatMessageDataClass(
+                        role="CHATBOT", message=generated_text, tool_calls=tool_calls
+                    ),
                 ]
                 standardized_response = ChatDataClass(
                     generated_text=generated_text, message=message
