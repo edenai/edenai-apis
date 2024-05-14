@@ -267,7 +267,8 @@
         "gender": null,
         "nationality": null,
         "martial_status": null,
-        "current_salary": null
+        "current_salary": null,
+        "availability": null
       },
       "education": {
         "total_years_education": null,
@@ -316,7 +317,8 @@
               "city": null
             },
             "description": "",
-            "industry": null
+            "industry": null,
+            "type": null
           },
           {
             "title": "Client Specialist",
@@ -336,7 +338,8 @@
               "city": null
             },
             "description": "",
-            "industry": null
+            "industry": null,
+            "type": null
           },
           {
             "title": "Teacher s Assistant",
@@ -356,7 +359,8 @@
               "city": null
             },
             "description": "",
-            "industry": null
+            "industry": null,
+            "type": null
           }
         ]
       },

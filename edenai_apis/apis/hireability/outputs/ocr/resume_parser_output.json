@@ -4,22 +4,22 @@
       {
         "HireAbilityJSONResults": [
           {
-            "id": "2912445400145",
+            "id": "29135152603301",
             "usageLimitType": "based_on_agreement",
-            "currentUsage": "132",
-            "accountValidThrough": "12-18-2023",
+            "currentUsage": "14743",
+            "accountValidThrough": "12-18-2024",
             "GivenName": "John",
             "MiddleName": "W.",
             "FamilyName": "Smith",
             "FormattedName": "John W. Smith",
+            "DateOfBirth": "2002-01-01",
             "DisabilityIndicator": false,
             "Address": [
               {
                 "CountryCode": "US",
                 "CountrySubDivisionCode": "CO",
                 "CityName": "Fort Collins",
-                "PostalCode": "80525",
-                "AddressLine": "2002 Front Range Way"
+                "PostalCode": "80525"
               }
             ],
             "Email": [
@@ -171,7 +171,7 @@
               {
                 "Error": [
                   {
-                    "Id": "2912445400145",
+                    "Id": "29135152603301",
                     "ErrorCode": "",
                     "ErrorMessage": ""
                   }
@@ -205,11 +205,11 @@
           "street": null,
           "street_number": null,
           "appartment_number": null,
-          "city": null
+          "city": ""
         },
         "self_summary": null,
         "objective": null,
-        "date_of_birth": null,
+        "date_of_birth": "2002-01-01",
         "place_of_birth": null,
         "phones": [],
         "mails": [
@@ -221,11 +221,55 @@
         "gender": null,
         "nationality": null,
         "martial_status": null,
-        "current_salary": null
+        "current_salary": null,
+        "availability": null
       },
       "education": {
         "total_years_education": null,
-        "entries": []
+        "entries": [
+          {
+            "title": "bachelors",
+            "start_date": null,
+            "end_date": "1999-01-01",
+            "location": {
+              "formatted_location": null,
+              "postal_code": null,
+              "region": "AR",
+              "country": null,
+              "country_code": "US",
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": "Little Rock"
+            },
+            "establishment": "University of Arkansas at Little Rock",
+            "description": "Early Childhood Development",
+            "gpa": "",
+            "accreditation": null
+          },
+          {
+            "title": "bachelors",
+            "start_date": null,
+            "end_date": "1998-01-01",
+            "location": {
+              "formatted_location": null,
+              "postal_code": null,
+              "region": null,
+              "country": null,
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": null
+            },
+            "establishment": "University of Arkansas at Little Rock",
+            "description": "Elementary Education",
+            "gpa": "4.0 Scale",
+            "accreditation": null
+          }
+        ]
       },
       "work_experience": {
         "total_years_experience": null,
@@ -245,9 +289,10 @@
               "street": null,
               "street_number": null,
               "appartment_number": null,
-              "city": null
+              "city": "Little Rock"
             },
             "description": null,
+            "type": null,
             "industry": null
           },
           {
@@ -265,9 +310,10 @@
               "street": null,
               "street_number": null,
               "appartment_number": null,
-              "city": null
+              "city": "Little Rock"
             },
             "description": null,
+            "type": null,
             "industry": null
           },
           {
@@ -285,9 +331,10 @@
               "street": null,
               "street_number": null,
               "appartment_number": null,
-              "city": null
+              "city": "Conway"
             },
             "description": null,
+            "type": null,
             "industry": "academia"
           }
         ]

@@ -1,345 +1,1964 @@
 {
   "original_response": {
     "data": {
-      "certifications": [],
+      "achievement": [
+        {
+          "id": 142351876,
+          "rectangle": {
+            "x0": 108.204,
+            "y0": 615.672,
+            "x1": 252.74161,
+            "y1": 625.992,
+            "pageIndex": 0
+          },
+          "rectangles": [
+            {
+              "x0": 108.204,
+              "y0": 615.672,
+              "x1": 252.74161,
+              "y1": 625.992,
+              "pageIndex": 0
+            }
+          ],
+          "document": "cXKENNoO",
+          "pageIndex": 0,
+          "raw": "Dean's List, Chancellor's List",
+          "parsed": "Dean's List, Chancellor's List",
+          "confidence": 0.961,
+          "classificationConfidence": 0.961,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "FDmPNkvu",
+          "contentType": "text",
+          "parent": null
+        }
+      ],
+      "association": null,
+      "availability": null,
+      "candidateName": {
+        "id": 142351887,
+        "rectangle": {
+          "x0": 261.21378,
+          "y0": 76.38159,
+          "x1": 350.48724,
+          "y1": 86.06976,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 261.21378,
+            "y0": 76.38159,
+            "x1": 350.48724,
+            "y1": 86.06976,
+            "pageIndex": 0
+          }
+        ],
+        "document": "cXKENNoO",
+        "pageIndex": 0,
+        "raw": "John W. Smith",
+        "parsed": {
+          "candidateNameFamily": {
+            "id": 142351890,
+            "rectangle": {
+              "x0": 315.83084,
+              "y0": 76.38159,
+              "x1": 350.48724,
+              "y1": 86.06976,
+              "pageIndex": 0
+            },
+            "rectangles": [
+              {
+                "x0": 315.83084,
+                "y0": 76.38159,
+                "x1": 350.48724,
+                "y1": 86.06976,
+                "pageIndex": 0
+              }
+            ],
+            "document": "cXKENNoO",
+            "pageIndex": 0,
+            "raw": "Smith",
+            "parsed": "Smith",
+            "confidence": 0.982,
+            "classificationConfidence": 0.982,
+            "textExtractionConfidence": 1.0,
+            "isVerified": false,
+            "isClientVerified": false,
+            "isAutoVerified": false,
+            "verifiedBy": null,
+            "dataPoint": "JPTTzVgR",
+            "contentType": "text",
+            "parent": 142351887
+          },
+          "candidateNameFirst": {
+            "id": 142351888,
+            "rectangle": {
+              "x0": 261.21378,
+              "y0": 76.605286,
+              "x1": 290.2223,
+              "y1": 86.055786,
+              "pageIndex": 0
+            },
+            "rectangles": [
+              {
+                "x0": 261.21378,
+                "y0": 76.605286,
+                "x1": 290.2223,
+                "y1": 86.055786,
+                "pageIndex": 0
+              }
+            ],
+            "document": "cXKENNoO",
+            "pageIndex": 0,
+            "raw": "John",
+            "parsed": "John",
+            "confidence": 0.982,
+            "classificationConfidence": 0.982,
+            "textExtractionConfidence": 1.0,
+            "isVerified": false,
+            "isClientVerified": false,
+            "isAutoVerified": false,
+            "verifiedBy": null,
+            "dataPoint": "uqIGRfKv",
+            "contentType": "text",
+            "parent": 142351887
+          },
+          "candidateNameMiddle": {
+            "id": 142351889,
+            "rectangle": {
+              "x0": 294.24713,
+              "y0": 76.605286,
+              "x1": 311.00912,
+              "y1": 86.055786,
+              "pageIndex": 0
+            },
+            "rectangles": [
+              {
+                "x0": 294.24713,
+                "y0": 76.605286,
+                "x1": 311.00912,
+                "y1": 86.055786,
+                "pageIndex": 0
+              }
+            ],
+            "document": "cXKENNoO",
+            "pageIndex": 0,
+            "raw": "W.",
+            "parsed": "W.",
+            "confidence": 0.982,
+            "classificationConfidence": 0.982,
+            "textExtractionConfidence": 1.0,
+            "isVerified": false,
+            "isClientVerified": false,
+            "isAutoVerified": false,
+            "verifiedBy": null,
+            "dataPoint": "IBJXPTZB",
+            "contentType": "text",
+            "parent": 142351887
+          }
+        },
+        "confidence": 1.0,
+        "classificationConfidence": 1.0,
+        "textExtractionConfidence": 1.0,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "verifiedBy": null,
+        "dataPoint": "VnzxoCXe",
+        "contentType": "group",
+        "parent": null
+      },
       "dateOfBirth": null,
       "education": [
         {
-          "id": 30987823,
-          "organization": "University of Arkansas at Little Rock",
-          "accreditation": {
-            "education": "BS in Early Childhood Development",
-            "educationLevel": null,
-            "inputStr": "BS in Early Childhood Development",
-            "matchStr": ""
+          "id": 142351891,
+          "rectangle": {
+            "x0": 73.272,
+            "y0": 529.51196,
+            "x1": 328.272,
+            "y1": 579.68396,
+            "pageIndex": 0
           },
-          "grade": null,
-          "location": {
-            "formatted": "Little Rock, AR, USA",
-            "streetNumber": null,
-            "street": null,
-            "apartmentNumber": null,
-            "city": "Little Rock",
-            "postalCode": null,
-            "state": "Arkansas",
-            "country": "United States",
-            "rawInput": "Little Rock, AR",
-            "countryCode": "US",
-            "latitude": 34.7464809,
-            "longitude": -92.28959479999999
+          "rectangles": [
+            {
+              "x0": 73.272,
+              "y0": 529.896,
+              "x1": 121.92,
+              "y1": 540.42,
+              "pageIndex": 0
+            },
+            {
+              "x0": 125.33999,
+              "y0": 529.51196,
+              "x1": 136.644,
+              "y1": 540.42,
+              "pageIndex": 0
+            },
+            {
+              "x0": 136.75198,
+              "y0": 529.51196,
+              "x1": 181.68,
+              "y1": 537.972,
+              "pageIndex": 0
+            },
+            {
+              "x0": 185.26799,
+              "y0": 531.084,
+              "x1": 194.568,
+              "y1": 537.972,
+              "pageIndex": 0
+            },
+            {
+              "x0": 196.956,
+              "y0": 529.51196,
+              "x1": 222.50398,
+              "y1": 537.972,
+              "pageIndex": 0
+            },
+            {
+              "x0": 225.40799,
+              "y0": 529.51196,
+              "x1": 251.256,
+              "y1": 539.328,
+              "pageIndex": 0
+            },
+            {
+              "x0": 255.288,
+              "y0": 529.51196,
+              "x1": 280.836,
+              "y1": 537.972,
+              "pageIndex": 0
+            },
+            {
+              "x0": 283.74,
+              "y0": 529.51196,
+              "x1": 309.588,
+              "y1": 539.328,
+              "pageIndex": 0
+            },
+            {
+              "x0": 313.41602,
+              "y0": 529.716,
+              "x1": 328.272,
+              "y1": 537.83997,
+              "pageIndex": 0
+            },
+            {
+              "x0": 90.624,
+              "y0": 560.61597,
+              "x1": 94.908,
+              "y1": 564.984,
+              "pageIndex": 0
+            },
+            {
+              "x0": 108.204,
+              "y0": 558.096,
+              "x1": 122.0352,
+              "y1": 566.388,
+              "pageIndex": 0
+            },
+            {
+              "x0": 126.014404,
+              "y0": 557.89197,
+              "x1": 134.9616,
+              "y1": 566.22,
+              "pageIndex": 0
+            },
+            {
+              "x0": 138.2448,
+              "y0": 557.89197,
+              "x1": 163.9416,
+              "y1": 568.8,
+              "pageIndex": 0
+            },
+            {
+              "x0": 167.4288,
+              "y0": 557.89197,
+              "x1": 217.75438,
+              "y1": 566.388,
+              "pageIndex": 0
+            },
+            {
+              "x0": 220.91759,
+              "y0": 557.89197,
+              "x1": 285.35278,
+              "y1": 568.776,
+              "pageIndex": 0
+            },
+            {
+              "x0": 288.81598,
+              "y0": 557.89197,
+              "x1": 319.86002,
+              "y1": 568.776,
+              "pageIndex": 0
+            },
+            {
+              "x0": 90.624,
+              "y0": 575.316,
+              "x1": 94.908,
+              "y1": 579.68396,
+              "pageIndex": 0
+            }
+          ],
+          "document": "cXKENNoO",
+          "pageIndex": 0,
+          "raw": "University of Arkansas at Little Rock, Little Rock, AR \u2022 BS in Early Childhood Development (1999) \u2022",
+          "parsed": {
+            "educationLocation": {
+              "id": 142351893,
+              "rectangle": {
+                "x0": 255.288,
+                "y0": 529.51196,
+                "x1": 328.272,
+                "y1": 539.328,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 255.288,
+                  "y0": 529.51196,
+                  "x1": 328.272,
+                  "y1": 539.328,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "Little Rock, AR",
+              "parsed": {
+                "formatted": "Little Rock, AR, USA",
+                "streetNumber": null,
+                "street": null,
+                "apartmentNumber": null,
+                "city": "Little Rock",
+                "postalCode": null,
+                "state": "Arkansas",
+                "stateCode": "AR",
+                "country": "United States",
+                "rawInput": "Little Rock, AR",
+                "countryCode": "US",
+                "latitude": 34.7444618,
+                "longitude": -92.2880157,
+                "poBox": null
+              },
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "guWPCPxG",
+              "contentType": "location",
+              "parent": 142351891
+            },
+            "educationOrganization": {
+              "id": 142351892,
+              "rectangle": {
+                "x0": 73.272,
+                "y0": 529.51196,
+                "x1": 181.68,
+                "y1": 540.42,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 73.272,
+                  "y0": 529.51196,
+                  "x1": 181.68,
+                  "y1": 540.42,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "University of Arkansas",
+              "parsed": "University of Arkansas",
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "bOGfWpok",
+              "contentType": "text",
+              "parent": 142351891
+            },
+            "educationMajor": [
+              {
+                "id": 142351895,
+                "rectangle": {
+                  "x0": 138.2448,
+                  "y0": 557.89197,
+                  "x1": 285.35278,
+                  "y1": 568.8,
+                  "pageIndex": 0
+                },
+                "rectangles": [
+                  {
+                    "x0": 138.2448,
+                    "y0": 557.89197,
+                    "x1": 285.35278,
+                    "y1": 568.8,
+                    "pageIndex": 0
+                  }
+                ],
+                "document": "cXKENNoO",
+                "pageIndex": 0,
+                "raw": "Early Childhood Development",
+                "parsed": "Early Childhood Development",
+                "confidence": 0.946,
+                "classificationConfidence": 0.946,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "verifiedBy": null,
+                "dataPoint": "DVdCJkGZ",
+                "contentType": "text",
+                "parent": 142351891
+              }
+            ],
+            "educationDateRange": {
+              "id": 142351896,
+              "rectangle": {
+                "x0": 288.81598,
+                "y0": 557.89197,
+                "x1": 319.86002,
+                "y1": 568.776,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 288.81598,
+                  "y0": 557.89197,
+                  "x1": 319.86002,
+                  "y1": 568.776,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "(1999)",
+              "parsed": {
+                "end": {
+                  "day": null,
+                  "date": "1999-01-01",
+                  "year": 1999,
+                  "month": null,
+                  "isCurrent": false
+                },
+                "start": null,
+                "durationInMonths": null
+              },
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "eXyAVzAL",
+              "contentType": "daterange",
+              "parent": 142351891
+            },
+            "educationAccreditation": {
+              "id": 142351894,
+              "rectangle": {
+                "x0": 108.204,
+                "y0": 558.096,
+                "x1": 122.0352,
+                "y1": 566.388,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 108.204,
+                  "y0": 558.096,
+                  "x1": 122.0352,
+                  "y1": 566.388,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "BS",
+              "parsed": "BS",
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "VBeTahGr",
+              "contentType": "text",
+              "parent": 142351891
+            },
+            "educationLevel": {
+              "id": 142351897,
+              "rectangle": null,
+              "rectangles": [],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": null,
+              "parsed": {
+                "id": 7871,
+                "label": "Bachelor",
+                "value": "Bachelor"
+              },
+              "confidence": 0.952,
+              "classificationConfidence": 0.952,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "HrbPMAJS",
+              "contentType": "enum",
+              "parent": 142351891
+            }
           },
-          "dates": {
-            "startDate": null,
-            "completionDate": "1999-01-01",
-            "isCurrent": false,
-            "rawText": "(1999)"
-          }
+          "confidence": 0.986,
+          "classificationConfidence": 0.986,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "pImSWkWw",
+          "contentType": "group",
+          "parent": null
         },
         {
-          "id": 30987824,
-          "organization": null,
-          "accreditation": {
-            "education": "Bachelor of Arts",
-            "educationLevel": "bachelors",
-            "inputStr": "BA in Elementary Education",
-            "matchStr": ""
+          "id": 142351898,
+          "rectangle": {
+            "x0": 108.204,
+            "y0": 572.592,
+            "x1": 512.90643,
+            "y1": 609.468,
+            "pageIndex": 0
           },
-          "grade": {
-            "raw": "3.8,",
-            "value": "3.8",
-            "metric": null
+          "rectangles": [
+            {
+              "x0": 108.204,
+              "y0": 572.592,
+              "x1": 512.90643,
+              "y1": 609.468,
+              "pageIndex": 0
+            }
+          ],
+          "document": "cXKENNoO",
+          "pageIndex": 0,
+          "raw": "BA in Elementary Education (1998) GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4.",
+          "parsed": {
+            "educationDateRange": {
+              "id": 142351902,
+              "rectangle": {
+                "x0": 250.44604,
+                "y0": 572.592,
+                "x1": 281.46005,
+                "y1": 583.476,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 250.44604,
+                  "y0": 572.592,
+                  "x1": 281.46005,
+                  "y1": 583.476,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "(1998)",
+              "parsed": {
+                "end": {
+                  "day": null,
+                  "date": "1998-01-01",
+                  "year": 1998,
+                  "month": null,
+                  "isCurrent": false
+                },
+                "start": null,
+                "durationInMonths": null
+              },
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "eXyAVzAL",
+              "contentType": "daterange",
+              "parent": 142351898
+            },
+            "educationMajor": [
+              {
+                "id": 142351900,
+                "rectangle": {
+                  "x0": 140.232,
+                  "y0": 572.592,
+                  "x1": 195.2388,
+                  "y1": 583.5,
+                  "pageIndex": 0
+                },
+                "rectangles": [
+                  {
+                    "x0": 140.232,
+                    "y0": 572.592,
+                    "x1": 195.2388,
+                    "y1": 583.5,
+                    "pageIndex": 0
+                  }
+                ],
+                "document": "cXKENNoO",
+                "pageIndex": 0,
+                "raw": "Elementary",
+                "parsed": "Elementary",
+                "confidence": 0.967,
+                "classificationConfidence": 0.967,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "verifiedBy": null,
+                "dataPoint": "DVdCJkGZ",
+                "contentType": "text",
+                "parent": 142351898
+              },
+              {
+                "id": 142351901,
+                "rectangle": {
+                  "x0": 196.5852,
+                  "y0": 587.232,
+                  "x1": 343.54318,
+                  "y1": 598.14,
+                  "pageIndex": 0
+                },
+                "rectangles": [
+                  {
+                    "x0": 196.5852,
+                    "y0": 587.232,
+                    "x1": 343.54318,
+                    "y1": 598.14,
+                    "pageIndex": 0
+                  }
+                ],
+                "document": "cXKENNoO",
+                "pageIndex": 0,
+                "raw": "Early Childhood Development",
+                "parsed": "Early Childhood Development",
+                "confidence": 0.574,
+                "classificationConfidence": 0.574,
+                "textExtractionConfidence": 1.0,
+                "isVerified": false,
+                "isClientVerified": false,
+                "isAutoVerified": false,
+                "verifiedBy": null,
+                "dataPoint": "DVdCJkGZ",
+                "contentType": "text",
+                "parent": 142351898
+              }
+            ],
+            "educationAccreditation": {
+              "id": 142351899,
+              "rectangle": {
+                "x0": 108.204,
+                "y0": 572.796,
+                "x1": 124.5372,
+                "y1": 580.92,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 108.204,
+                  "y0": 572.796,
+                  "x1": 124.5372,
+                  "y1": 580.92,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "BA",
+              "parsed": "BA",
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "VBeTahGr",
+              "contentType": "text",
+              "parent": 142351898
+            },
+            "educationGrade": {
+              "id": 142351903,
+              "rectangle": {
+                "x0": 108.42,
+                "y0": 587.43604,
+                "x1": 131.8704,
+                "y1": 595.728,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 108.42,
+                  "y0": 587.43604,
+                  "x1": 131.8704,
+                  "y1": 595.728,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "GPA",
+              "parsed": {
+                "educationGradeUnit": {
+                  "id": 142351904,
+                  "rectangle": null,
+                  "rectangles": [],
+                  "document": "cXKENNoO",
+                  "pageIndex": 0,
+                  "raw": null,
+                  "parsed": {
+                    "id": 8165,
+                    "label": "GPA",
+                    "value": "GPA"
+                  },
+                  "confidence": 0.899,
+                  "classificationConfidence": 0.899,
+                  "textExtractionConfidence": 1.0,
+                  "isVerified": false,
+                  "isClientVerified": false,
+                  "isAutoVerified": false,
+                  "verifiedBy": null,
+                  "dataPoint": "btOwzwDr",
+                  "contentType": "enum",
+                  "parent": 142351903
+                }
+              },
+              "confidence": 0.978,
+              "classificationConfidence": 0.978,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "dCxQdMsQ",
+              "contentType": "group",
+              "parent": 142351898
+            },
+            "educationLevel": {
+              "id": 142351905,
+              "rectangle": null,
+              "rectangles": [],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": null,
+              "parsed": {
+                "id": 7871,
+                "label": "Bachelor",
+                "value": "Bachelor"
+              },
+              "confidence": 0.584,
+              "classificationConfidence": 0.584,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "HrbPMAJS",
+              "contentType": "enum",
+              "parent": 142351898
+            }
           },
-          "location": null,
-          "dates": {
-            "startDate": null,
-            "completionDate": "1998-01-01",
-            "isCurrent": false,
-            "rawText": "(1998)"
-          }
+          "confidence": 0.908,
+          "classificationConfidence": 0.908,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "pImSWkWw",
+          "contentType": "group",
+          "parent": null
         }
       ],
-      "emails": [
-        "jwsmith@colostate.edu"
+      "email": [
+        {
+          "id": 142351877,
+          "rectangle": {
+            "x0": 248.688,
+            "y0": 105.41998,
+            "x1": 362.3592,
+            "y1": 116.34003,
+            "pageIndex": 0
+          },
+          "rectangles": [
+            {
+              "x0": 248.688,
+              "y0": 105.41998,
+              "x1": 362.3592,
+              "y1": 116.34003,
+              "pageIndex": 0
+            }
+          ],
+          "document": "cXKENNoO",
+          "pageIndex": 0,
+          "raw": "jwsmith@colostate.edu",
+          "parsed": "jwsmith@colostate.edu",
+          "confidence": 0.982,
+          "classificationConfidence": 0.982,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "dOXvRAeJ",
+          "contentType": "text",
+          "parent": null
+        }
       ],
+      "headshot": null,
+      "hobby": null,
+      "language": null,
       "location": {
-        "formatted": "2002 Caribou Dr Suite 101, Fort Collins, CO 80525, USA",
-        "streetNumber": "2002",
-        "street": "Caribou Drive",
-        "apartmentNumber": "Suite 101",
-        "city": "Fort Collins",
-        "postalCode": "80525",
-        "state": "Colorado",
-        "country": "United States",
-        "rawInput": "2002 Front Range Way Fort Collins, CO 80525",
-        "countryCode": "US",
-        "latitude": 40.531067,
-        "longitude": -105.0409688
+        "id": 142351878,
+        "rectangle": {
+          "x0": 191.952,
+          "y0": 91.63202,
+          "x1": 419.4492,
+          "y1": 102.54004,
+          "pageIndex": 0
+        },
+        "rectangles": [
+          {
+            "x0": 191.952,
+            "y0": 91.63202,
+            "x1": 419.4492,
+            "y1": 102.54004,
+            "pageIndex": 0
+          }
+        ],
+        "document": "cXKENNoO",
+        "pageIndex": 0,
+        "raw": "2002 Front Range Way Fort Collins, CO 80525",
+        "parsed": {
+          "formatted": "2716 S College Ave Suite A, Fort Collins, CO 80525, USA",
+          "streetNumber": "2716",
+          "street": "South College Avenue",
+          "apartmentNumber": "Suite A",
+          "city": "Fort Collins",
+          "postalCode": "80525",
+          "state": "Colorado",
+          "stateCode": "CO",
+          "country": "United States",
+          "rawInput": "2002 Front Range Way Fort Collins, CO 80525",
+          "countryCode": "US",
+          "latitude": 40.5496898,
+          "longitude": -105.0763851,
+          "poBox": null
+        },
+        "confidence": 0.982,
+        "classificationConfidence": 0.982,
+        "textExtractionConfidence": 1.0,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "verifiedBy": null,
+        "dataPoint": "WTtoImKj",
+        "contentType": "location",
+        "parent": null
       },
-      "name": {
-        "raw": "John W. Smith",
-        "last": "Smith",
-        "first": "John",
-        "title": "",
-        "middle": "W."
-      },
-      "objective": "",
-      "phoneNumbers": [],
-      "phoneNumberDetails": [],
-      "publications": [],
-      "referees": [],
-      "sections": [
+      "nationality": null,
+      "objective": null,
+      "patent": null,
+      "phoneNumber": null,
+      "preferredWorkLocation": null,
+      "project": null,
+      "publication": null,
+      "referee": null,
+      "rightToWork": null,
+      "skill": [
         {
-          "bbox": [
-            72.35244,
-            40.018433,
-            419.4492,
-            116.34003
+          "id": 142351879,
+          "rectangle": {
+            "x0": 220.72801,
+            "y0": 158.29199,
+            "x1": 333.27362,
+            "y1": 169.17603,
+            "pageIndex": 0
+          },
+          "rectangles": [
+            {
+              "x0": 220.72801,
+              "y0": 158.29199,
+              "x1": 333.27362,
+              "y1": 169.17603,
+              "pageIndex": 0
+            }
           ],
-          "text": "Functional Resume Sample John W. Smith 2002 Front Range Way Fort Collins, CO 80525 jwsmith@colostate.edu",
+          "document": "cXKENNoO",
           "pageIndex": 0,
-          "sectionType": "PersonalDetails"
+          "raw": "childhood development",
+          "parsed": {
+            "name": "Child Development",
+            "type": "Specialized Skill",
+            "emsiId": "KS121VP6YZVZXVB89MFD",
+            "infoUrl": "https://en.wikipedia.org/wiki/Child_Development",
+            "category": "Education and Training",
+            "isLanguage": false,
+            "isSoftware": false,
+            "subCategory": "Childhood Education and Development"
+          },
+          "confidence": 0.681,
+          "classificationConfidence": 0.681,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "rAIARBHa",
+          "contentType": "enum",
+          "parent": null
         },
         {
-          "bbox": [
-            72.11184,
-            133.93555,
-            530.53204,
-            276.18
+          "id": 142351880,
+          "rectangle": {
+            "x0": 273.65884,
+            "y0": 333.672,
+            "x1": 315.47522,
+            "y1": 344.58,
+            "pageIndex": 0
+          },
+          "rectangles": [
+            {
+              "x0": 273.65884,
+              "y0": 333.672,
+              "x1": 315.47522,
+              "y1": 344.58,
+              "pageIndex": 0
+            }
           ],
-          "text": "Career Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.",
+          "document": "cXKENNoO",
           "pageIndex": 0,
-          "sectionType": "Summary"
+          "raw": "planning",
+          "parsed": {
+            "name": "Planning",
+            "type": "Common Skill",
+            "emsiId": "ESEB1D4619E6E83A061D",
+            "infoUrl": "https://en.wikipedia.org/wiki/Planning",
+            "category": "Physical and Inherent Abilities",
+            "isLanguage": false,
+            "isSoftware": false,
+            "subCategory": "Initiative and Leadership"
+          },
+          "confidence": 0.786,
+          "classificationConfidence": 0.786,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "rAIARBHa",
+          "contentType": "enum",
+          "parent": null
         },
         {
-          "bbox": [
-            72.2796,
-            293.70157,
-            514.05115,
-            487.43997
+          "id": 142351881,
+          "rectangle": {
+            "x0": 390.42853,
+            "y0": 348.37198,
+            "x1": 431.63535,
+            "y1": 356.856,
+            "pageIndex": 0
+          },
+          "rectangles": [
+            {
+              "x0": 390.42853,
+              "y0": 348.37198,
+              "x1": 431.63535,
+              "y1": 356.856,
+              "pageIndex": 0
+            }
           ],
-          "text": "Childcare Experience \u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \u2022 Oversaw daily activity and outing planning for 100 clients. \u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \u2022 Assisted teachers with managing daily classroom activities. \u2022 Oversaw daily and special student activities. Employment History 1999-2002 Counseling Supervisor, The Wesley Center, Little Rock, Arkansas. 1997-1999 Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas 1996-1997 Teacher's Assistant, Cowell Elementary, Conway, Arkansas",
+          "document": "cXKENNoO",
           "pageIndex": 0,
-          "sectionType": "WorkExperience"
+          "raw": "financial",
+          "parsed": {
+            "name": "Finance",
+            "type": "Specialized Skill",
+            "emsiId": "KS123MC78KV644P5DDZ0",
+            "infoUrl": "https://en.wikipedia.org/wiki/Finance",
+            "category": "Finance",
+            "isLanguage": false,
+            "isSoftware": false,
+            "subCategory": "General Finance"
+          },
+          "confidence": 0.657,
+          "classificationConfidence": 0.657,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "rAIARBHa",
+          "contentType": "enum",
+          "parent": null
         },
         {
-          "bbox": [
-            72.2796,
-            505.02145,
-            512.90643,
-            625.992
+          "id": 142351882,
+          "rectangle": {
+            "x0": 138.2448,
+            "y0": 557.89197,
+            "x1": 285.35278,
+            "y1": 568.8,
+            "pageIndex": 0
+          },
+          "rectangles": [
+            {
+              "x0": 138.2448,
+              "y0": 557.89197,
+              "x1": 285.35278,
+              "y1": 568.8,
+              "pageIndex": 0
+            }
           ],
-          "text": "Education University of Arkansas at Little Rock, Little Rock, AR \u2022 BS in Early Childhood Development (1999) \u2022 BA in Elementary Education (1998) \u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \u2022 Dean's List, Chancellor's List",
+          "document": "cXKENNoO",
           "pageIndex": 0,
-          "sectionType": "Education"
+          "raw": "Early Childhood Development",
+          "parsed": {
+            "name": "Early Childhood Education",
+            "type": "Specialized Skill",
+            "emsiId": "KS1238Q6Q5K06K7QRKSJ",
+            "infoUrl": "https://en.wikipedia.org/wiki/Early_childhood_education",
+            "category": "Education and Training",
+            "isLanguage": false,
+            "isSoftware": false,
+            "subCategory": "Childhood Education and Development"
+          },
+          "confidence": 0.655,
+          "classificationConfidence": 0.655,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "rAIARBHa",
+          "contentType": "enum",
+          "parent": null
+        },
+        {
+          "id": 142351883,
+          "rectangle": {
+            "x0": 140.232,
+            "y0": 572.592,
+            "x1": 246.91924,
+            "y1": 583.5,
+            "pageIndex": 0
+          },
+          "rectangles": [
+            {
+              "x0": 140.232,
+              "y0": 572.592,
+              "x1": 246.91924,
+              "y1": 583.5,
+              "pageIndex": 0
+            }
+          ],
+          "document": "cXKENNoO",
+          "pageIndex": 0,
+          "raw": "Elementary Education",
+          "parsed": {
+            "name": "Teaching",
+            "type": "Common Skill",
+            "emsiId": "KS120PQ6XD1JWMFQVJNW",
+            "infoUrl": "https://en.wikipedia.org/wiki/Teacher#Qualities",
+            "category": "Education and Training",
+            "isLanguage": false,
+            "isSoftware": false,
+            "subCategory": "Teaching"
+          },
+          "confidence": 0.633,
+          "classificationConfidence": 0.633,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "rAIARBHa",
+          "contentType": "enum",
+          "parent": null
+        },
+        {
+          "id": 142351884,
+          "rectangle": {
+            "x0": 225.74402,
+            "y0": 587.232,
+            "x1": 276.02164,
+            "y1": 595.728,
+            "pageIndex": 0
+          },
+          "rectangles": [
+            {
+              "x0": 225.74402,
+              "y0": 587.232,
+              "x1": 276.02164,
+              "y1": 595.728,
+              "pageIndex": 0
+            }
+          ],
+          "document": "cXKENNoO",
+          "pageIndex": 0,
+          "raw": "Childhood",
+          "parsed": {
+            "name": "Child Development",
+            "type": "Specialized Skill",
+            "emsiId": "KS121VP6YZVZXVB89MFD",
+            "infoUrl": "https://en.wikipedia.org/wiki/Child_Development",
+            "category": "Education and Training",
+            "isLanguage": false,
+            "isSoftware": false,
+            "subCategory": "Childhood Education and Development"
+          },
+          "confidence": 0.796,
+          "classificationConfidence": 0.796,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "rAIARBHa",
+          "contentType": "enum",
+          "parent": null
+        },
+        {
+          "id": 142351885,
+          "rectangle": {
+            "x0": 435.06357,
+            "y0": 587.232,
+            "x1": 483.45242,
+            "y1": 595.716,
+            "pageIndex": 0
+          },
+          "rectangles": [
+            {
+              "x0": 435.06357,
+              "y0": 587.232,
+              "x1": 483.45242,
+              "y1": 595.716,
+              "pageIndex": 0
+            }
+          ],
+          "document": "cXKENNoO",
+          "pageIndex": 0,
+          "raw": "Education",
+          "parsed": {
+            "name": "Culinary Arts",
+            "type": "Specialized Skill",
+            "emsiId": "KS122L3623T14TVNXKQY",
+            "infoUrl": "https://en.wikipedia.org/wiki/Culinary_arts",
+            "category": "Hospitality and Food Services",
+            "isLanguage": false,
+            "isSoftware": false,
+            "subCategory": "Food and Beverage"
+          },
+          "confidence": 0.659,
+          "classificationConfidence": 0.659,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "rAIARBHa",
+          "contentType": "enum",
+          "parent": null
         }
       ],
-      "skills": [
-        {
-          "id": 324708112,
-          "emsiId": "ESEB1D4619E6E83A061D",
-          "name": "Planning",
-          "lastUsed": null,
-          "numberOfMonths": null,
-          "type": "soft_skill",
-          "sources": [
-            {
-              "section": "WorkExperience",
-              "position": null,
-              "workExperienceId": null
-            }
-          ]
+      "summary": {
+        "id": 142351886,
+        "rectangle": {
+          "x0": 72.192,
+          "y0": 158.29199,
+          "x1": 530.53204,
+          "y1": 182.97601,
+          "pageIndex": 0
         },
-        {
-          "id": 324708113,
-          "emsiId": "KSAC5KBXJNGIKQFE4AQ7",
-          "name": "Supervisord",
-          "lastUsed": null,
-          "numberOfMonths": null,
-          "type": "hard_skill",
-          "sources": [
-            {
-              "section": "WorkExperience",
-              "position": null,
-              "workExperienceId": null
-            }
-          ]
-        }
-      ],
-      "languages": [
-        "English"
-      ],
-      "summary": "Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.",
-      "websites": [],
-      "linkedin": null,
-      "totalYearsExperience": 6,
-      "profession": "Specialist",
+        "rectangles": [
+          {
+            "x0": 72.192,
+            "y0": 158.29199,
+            "x1": 530.53204,
+            "y1": 182.97601,
+            "pageIndex": 0
+          }
+        ],
+        "document": "cXKENNoO",
+        "pageIndex": 0,
+        "raw": "Four years experience in early childhood development with a diverse background in the care of special needs children and adults.",
+        "parsed": "Four years experience in early childhood development with a diverse background in the care of \nspecial needs children and adults.",
+        "confidence": 0.982,
+        "classificationConfidence": 0.982,
+        "textExtractionConfidence": 1.0,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "verifiedBy": null,
+        "dataPoint": "TDdHMtTt",
+        "contentType": "text",
+        "parent": null
+      },
+      "totalYearsExperience": {
+        "id": 142351924,
+        "rectangle": null,
+        "rectangles": [],
+        "document": "cXKENNoO",
+        "pageIndex": 0,
+        "raw": null,
+        "parsed": 6.0,
+        "confidence": null,
+        "classificationConfidence": null,
+        "textExtractionConfidence": 1.0,
+        "isVerified": false,
+        "isClientVerified": false,
+        "isAutoVerified": false,
+        "verifiedBy": null,
+        "dataPoint": "kmXcmhNj",
+        "contentType": "float",
+        "parent": null
+      },
+      "website": null,
+      "willingToRelocate": null,
       "workExperience": [
         {
-          "id": 55617418,
-          "jobTitle": "Counseling Supervisor",
-          "organization": "The Wesley Center",
-          "location": {
-            "formatted": "Little Rock, AR, USA",
-            "streetNumber": null,
-            "street": null,
-            "apartmentNumber": null,
-            "city": "Little Rock",
-            "postalCode": null,
-            "state": "Arkansas",
-            "country": "United States",
-            "rawInput": "Little Rock, Arkansas.",
-            "countryCode": "US",
-            "latitude": 34.7464809,
-            "longitude": -92.28959479999999
+          "id": 142351918,
+          "rectangle": {
+            "x0": 73.40402,
+            "y0": 476.53198,
+            "x1": 433.53244,
+            "y1": 487.43997,
+            "pageIndex": 0
           },
-          "dates": {
-            "startDate": "1999-01-01",
-            "endDate": "2002-01-01",
-            "monthsInPosition": 36,
-            "isCurrent": false,
-            "rawText": "1999-2002"
-          },
-          "jobDescription": "",
-          "occupation": {
-            "jobTitle": "Counseling Supervisor",
-            "jobTitleNormalized": "Counseling Supervisor",
-            "classification": null,
-            "managementLevel": "Low",
-            "emsiId": "ETAA2F9BC62B38B593"
-          }
-        },
-        {
-          "id": 55617419,
-          "jobTitle": "Client Specialist",
-          "organization": "Rainbow Special Care Center",
-          "location": {
-            "formatted": "Little Rock, AR, USA",
-            "streetNumber": null,
-            "street": null,
-            "apartmentNumber": null,
-            "city": "Little Rock",
-            "postalCode": null,
-            "state": "Arkansas",
-            "country": "United States",
-            "rawInput": "Little Rock, Arkansas",
-            "countryCode": "US",
-            "latitude": 34.7464809,
-            "longitude": -92.28959479999999
-          },
-          "dates": {
-            "startDate": "1997-01-01",
-            "endDate": "1999-01-01",
-            "monthsInPosition": 24,
-            "isCurrent": false,
-            "rawText": "1997-1999"
-          },
-          "jobDescription": "",
-          "occupation": {
-            "jobTitle": "Client Specialist",
-            "jobTitleNormalized": "Client Specialist",
-            "classification": {
-              "socCode": 7219,
-              "title": "Customer service occupations n.e.c.",
-              "minorGroup": "Customer Service Occupations",
-              "subMajorGroup": "CUSTOMER SERVICE OCCUPATIONS",
-              "majorGroup": "SALES AND CUSTOMER SERVICE OCCUPATIONS"
+          "rectangles": [
+            {
+              "x0": 73.40402,
+              "y0": 476.53198,
+              "x1": 433.53244,
+              "y1": 487.43997,
+              "pageIndex": 0
+            }
+          ],
+          "document": "cXKENNoO",
+          "pageIndex": 0,
+          "raw": "1996-1997 Teacher's Assistant, Cowell Elementary, Conway, Arkansas",
+          "parsed": {
+            "workExperienceLocation": {
+              "id": 142351922,
+              "rectangle": {
+                "x0": 343.69562,
+                "y0": 476.53198,
+                "x1": 433.53244,
+                "y1": 487.43997,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 343.69562,
+                  "y0": 476.53198,
+                  "x1": 433.53244,
+                  "y1": 487.43997,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "Conway, Arkansas",
+              "parsed": {
+                "formatted": "Conway, AR, USA",
+                "streetNumber": null,
+                "street": null,
+                "apartmentNumber": null,
+                "city": "Conway",
+                "postalCode": null,
+                "state": "Arkansas",
+                "stateCode": "AR",
+                "country": "United States",
+                "rawInput": "Conway, Arkansas",
+                "countryCode": "US",
+                "latitude": 35.0917506,
+                "longitude": -92.4366522,
+                "poBox": null
+              },
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "xEkHjFTi",
+              "contentType": "location",
+              "parent": 142351918
             },
-            "managementLevel": null,
-            "emsiId": "ET9E0AD794669C2164"
-          }
+            "workExperienceOrganization": {
+              "id": 142351921,
+              "rectangle": {
+                "x0": 244.8169,
+                "y0": 476.53198,
+                "x1": 339.6576,
+                "y1": 487.43997,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 244.8169,
+                  "y0": 476.53198,
+                  "x1": 339.6576,
+                  "y1": 487.43997,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "Cowell Elementary,",
+              "parsed": "Cowell Elementary,",
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "Wktrhyll",
+              "contentType": "text",
+              "parent": 142351918
+            },
+            "jobTitle": {
+              "id": 142351920,
+              "rectangle": {
+                "x0": 144.36841,
+                "y0": 476.53198,
+                "x1": 240.76929,
+                "y1": 486.852,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 144.36841,
+                  "y0": 476.53198,
+                  "x1": 240.76929,
+                  "y1": 486.852,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "Teacher's Assistant,",
+              "parsed": "Teacher's Assistant",
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "vHnfkLNn",
+              "contentType": "text",
+              "parent": 142351918
+            },
+            "workExperienceDateRange": {
+              "id": 142351919,
+              "rectangle": {
+                "x0": 73.40402,
+                "y0": 476.748,
+                "x1": 123.49682,
+                "y1": 485.016,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 73.40402,
+                  "y0": 476.748,
+                  "x1": 123.49682,
+                  "y1": 485.016,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "1996-1997",
+              "parsed": {
+                "end": {
+                  "day": null,
+                  "date": "1997-01-01",
+                  "year": 1997,
+                  "month": null,
+                  "isCurrent": false
+                },
+                "start": {
+                  "day": null,
+                  "date": "1996-01-01",
+                  "year": 1996,
+                  "month": null,
+                  "isCurrent": false
+                },
+                "durationInMonths": 12
+              },
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "tRNnYWxv",
+              "contentType": "daterange",
+              "parent": 142351918
+            },
+            "workExperienceType": {
+              "id": 142351923,
+              "rectangle": null,
+              "rectangles": [],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": null,
+              "parsed": {
+                "id": 7874,
+                "label": "Full time",
+                "value": "Full time"
+              },
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "YjhlkHwh",
+              "contentType": "enum",
+              "parent": 142351918
+            }
+          },
+          "confidence": 1.0,
+          "classificationConfidence": 1.0,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "NyGRdLTM",
+          "contentType": "group",
+          "parent": null
         },
         {
-          "id": 55617420,
-          "jobTitle": "Teacher's Assistant",
-          "organization": "Cowell Elementary",
-          "location": {
-            "formatted": "Conway, AR, USA",
-            "streetNumber": null,
-            "street": null,
-            "apartmentNumber": null,
-            "city": "Conway",
-            "postalCode": null,
-            "state": "Arkansas",
-            "country": "United States",
-            "rawInput": "Conway, Arkansas",
-            "countryCode": "US",
-            "latitude": 35.0886963,
-            "longitude": -92.4421011
+          "id": 142351906,
+          "rectangle": {
+            "x0": 73.404,
+            "y0": 448.93198,
+            "x1": 465.57477,
+            "y1": 459.83997,
+            "pageIndex": 0
           },
-          "dates": {
-            "startDate": "1996-01-01",
-            "endDate": "1997-01-01",
-            "monthsInPosition": 12,
-            "isCurrent": false,
-            "rawText": "1996-1997"
+          "rectangles": [
+            {
+              "x0": 73.404,
+              "y0": 448.93198,
+              "x1": 465.57477,
+              "y1": 459.83997,
+              "pageIndex": 0
+            }
+          ],
+          "document": "cXKENNoO",
+          "pageIndex": 0,
+          "raw": "1999-2002 Counseling Supervisor, The Wesley Center, Little Rock, Arkansas.",
+          "parsed": {
+            "workExperienceOrganization": {
+              "id": 142351909,
+              "rectangle": {
+                "x0": 260.04956,
+                "y0": 448.93198,
+                "x1": 354.7272,
+                "y1": 459.83997,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 260.04956,
+                  "y0": 448.93198,
+                  "x1": 354.7272,
+                  "y1": 459.83997,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "The Wesley Center,",
+              "parsed": "The Wesley Center,",
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "Wktrhyll",
+              "contentType": "text",
+              "parent": 142351906
+            },
+            "jobTitle": {
+              "id": 142351908,
+              "rectangle": {
+                "x0": 144.432,
+                "y0": 448.93198,
+                "x1": 256.1124,
+                "y1": 459.83997,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 144.432,
+                  "y0": 448.93198,
+                  "x1": 256.1124,
+                  "y1": 459.83997,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "Counseling Supervisor,",
+              "parsed": "Counseling Supervisor",
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "vHnfkLNn",
+              "contentType": "text",
+              "parent": 142351906
+            },
+            "workExperienceLocation": {
+              "id": 142351910,
+              "rectangle": {
+                "x0": 358.5852,
+                "y0": 448.93198,
+                "x1": 465.57477,
+                "y1": 459.25198,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 358.5852,
+                  "y0": 448.93198,
+                  "x1": 465.57477,
+                  "y1": 459.25198,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "Little Rock, Arkansas.",
+              "parsed": {
+                "formatted": "Little Rock, AR, USA",
+                "streetNumber": null,
+                "street": null,
+                "apartmentNumber": null,
+                "city": "Little Rock",
+                "postalCode": null,
+                "state": "Arkansas",
+                "stateCode": "AR",
+                "country": "United States",
+                "rawInput": "Little Rock, Arkansas.",
+                "countryCode": "US",
+                "latitude": 34.7444618,
+                "longitude": -92.2880157,
+                "poBox": null
+              },
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "xEkHjFTi",
+              "contentType": "location",
+              "parent": 142351906
+            },
+            "workExperienceDateRange": {
+              "id": 142351907,
+              "rectangle": {
+                "x0": 73.404,
+                "y0": 449.14798,
+                "x1": 123.5112,
+                "y1": 457.416,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 73.404,
+                  "y0": 449.14798,
+                  "x1": 123.5112,
+                  "y1": 457.416,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "1999-2002",
+              "parsed": {
+                "end": {
+                  "day": null,
+                  "date": "2002-01-01",
+                  "year": 2002,
+                  "month": null,
+                  "isCurrent": false
+                },
+                "start": {
+                  "day": null,
+                  "date": "1999-01-01",
+                  "year": 1999,
+                  "month": null,
+                  "isCurrent": false
+                },
+                "durationInMonths": 36
+              },
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "tRNnYWxv",
+              "contentType": "daterange",
+              "parent": 142351906
+            },
+            "workExperienceType": {
+              "id": 142351911,
+              "rectangle": null,
+              "rectangles": [],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": null,
+              "parsed": {
+                "id": 7874,
+                "label": "Full time",
+                "value": "Full time"
+              },
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "YjhlkHwh",
+              "contentType": "enum",
+              "parent": 142351906
+            }
           },
-          "jobDescription": "",
-          "occupation": {
-            "jobTitle": "Teacher's Assistant",
-            "jobTitleNormalized": "Research Assistant/Teacher's Assistant",
-            "classification": null,
-            "managementLevel": null,
-            "emsiId": "ET2E88E1F70E85FBAA"
-          }
+          "confidence": 1.0,
+          "classificationConfidence": 1.0,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "NyGRdLTM",
+          "contentType": "group",
+          "parent": null
+        },
+        {
+          "id": 142351912,
+          "rectangle": {
+            "x0": 73.40402,
+            "y0": 462.732,
+            "x1": 481.82526,
+            "y1": 473.616,
+            "pageIndex": 0
+          },
+          "rectangles": [
+            {
+              "x0": 73.40402,
+              "y0": 462.732,
+              "x1": 481.82526,
+              "y1": 473.616,
+              "pageIndex": 0
+            }
+          ],
+          "document": "cXKENNoO",
+          "pageIndex": 0,
+          "raw": "1997-1999 Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas",
+          "parsed": {
+            "workExperienceOrganization": {
+              "id": 142351915,
+              "rectangle": {
+                "x0": 229.20604,
+                "y0": 462.732,
+                "x1": 373.64883,
+                "y1": 473.616,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 229.20604,
+                  "y0": 462.732,
+                  "x1": 373.64883,
+                  "y1": 473.616,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "Rainbow Special Care Center,",
+              "parsed": "Rainbow Special Care Center,",
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "Wktrhyll",
+              "contentType": "text",
+              "parent": 142351912
+            },
+            "jobTitle": {
+              "id": 142351914,
+              "rectangle": {
+                "x0": 144.43204,
+                "y0": 462.732,
+                "x1": 225.38403,
+                "y1": 473.616,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 144.43204,
+                  "y0": 462.732,
+                  "x1": 225.38403,
+                  "y1": 473.616,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "Client Specialist,",
+              "parsed": "Client Specialist",
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "vHnfkLNn",
+              "contentType": "text",
+              "parent": 142351912
+            },
+            "workExperienceLocation": {
+              "id": 142351916,
+              "rectangle": {
+                "x0": 377.48044,
+                "y0": 462.732,
+                "x1": 481.82526,
+                "y1": 473.052,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 377.48044,
+                  "y0": 462.732,
+                  "x1": 481.82526,
+                  "y1": 473.052,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "Little Rock, Arkansas",
+              "parsed": {
+                "formatted": "Little Rock, AR, USA",
+                "streetNumber": null,
+                "street": null,
+                "apartmentNumber": null,
+                "city": "Little Rock",
+                "postalCode": null,
+                "state": "Arkansas",
+                "stateCode": "AR",
+                "country": "United States",
+                "rawInput": "Little Rock, Arkansas",
+                "countryCode": "US",
+                "latitude": 34.7444618,
+                "longitude": -92.2880157,
+                "poBox": null
+              },
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "xEkHjFTi",
+              "contentType": "location",
+              "parent": 142351912
+            },
+            "workExperienceDateRange": {
+              "id": 142351913,
+              "rectangle": {
+                "x0": 73.40402,
+                "y0": 462.948,
+                "x1": 123.49922,
+                "y1": 471.216,
+                "pageIndex": 0
+              },
+              "rectangles": [
+                {
+                  "x0": 73.40402,
+                  "y0": 462.948,
+                  "x1": 123.49922,
+                  "y1": 471.216,
+                  "pageIndex": 0
+                }
+              ],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": "1997-1999",
+              "parsed": {
+                "end": {
+                  "day": null,
+                  "date": "1999-01-01",
+                  "year": 1999,
+                  "month": null,
+                  "isCurrent": false
+                },
+                "start": {
+                  "day": null,
+                  "date": "1997-01-01",
+                  "year": 1997,
+                  "month": null,
+                  "isCurrent": false
+                },
+                "durationInMonths": 24
+              },
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "tRNnYWxv",
+              "contentType": "daterange",
+              "parent": 142351912
+            },
+            "workExperienceType": {
+              "id": 142351917,
+              "rectangle": null,
+              "rectangles": [],
+              "document": "cXKENNoO",
+              "pageIndex": 0,
+              "raw": null,
+              "parsed": {
+                "id": 7874,
+                "label": "Full time",
+                "value": "Full time"
+              },
+              "confidence": 0.982,
+              "classificationConfidence": 0.982,
+              "textExtractionConfidence": 1.0,
+              "isVerified": false,
+              "isClientVerified": false,
+              "isAutoVerified": false,
+              "verifiedBy": null,
+              "dataPoint": "YjhlkHwh",
+              "contentType": "enum",
+              "parent": 142351912
+            }
+          },
+          "confidence": 1.0,
+          "classificationConfidence": 1.0,
+          "textExtractionConfidence": 1.0,
+          "isVerified": false,
+          "isClientVerified": false,
+          "isAutoVerified": false,
+          "verifiedBy": null,
+          "dataPoint": "NyGRdLTM",
+          "contentType": "group",
+          "parent": null
         }
       ],
-      "headShot": null,
-      "isResumeProbability": 99,
-      "rawText": "Functional Resume Sample John W. Smith 2002 Front Range Way Fort Collins, CO 80525 jwsmith@colostate.edu\nCareer Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.\nChildcare Experience \u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \u2022 Oversaw daily activity and outing planning for 100 clients. \u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \u2022 Assisted teachers with managing daily classroom activities. \u2022 Oversaw daily and special student activities. Employment History 1999-2002 Counseling Supervisor, The Wesley Center, Little Rock, Arkansas. 1997-1999 Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas 1996-1997 Teacher's Assistant, Cowell Elementary, Conway, Arkansas\nEducation University of Arkansas at Little Rock, Little Rock, AR \u2022 BS in Early Childhood Development (1999) \u2022 BA in Elementary Education (1998) \u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \u2022 Dean's List, Chancellor's List",
-      "redactedText": "Functional Resume Sample **** ** ***** **** ***** ***** *** **** ******** ** ***** *********************\nCareer Summary Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.\nChildcare Experience \u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \u2022 Oversaw daily activity and outing planning for 100 clients. \u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \u2022 Assisted teachers with managing daily classroom activities. \u2022 Oversaw daily and special student activities. Employment History ********* Counseling Supervisor, The Wesley Center, ****** ***** ********* ********* Client Specialist, Rainbow Special Care Center, ****** ***** ******** ********* Teacher's Assistant, Cowell Elementary, ******* ********\nEducation University of Arkansas at Little Rock, ****** ***** ** \u2022 BS in Early Childhood Development ****** \u2022 BA in Elementary Education ****** \u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \u2022 Dean's List, Chancellor's List"
+      "rawText": "Functional Resume Sample \nJohn W. Smith \n2002 Front Range Way Fort Collins, CO 80525 jwsmith@colostate.edu \nCareer Summary \nFour years experience in early childhood development with a diverse background in the care of special needs children and adults. \nAdult Care Experience \n\u2022 Determined work placement for 150 special needs adult clients. \n\u2022 Maintained client databases and records. \n\u2022 Coordinated client contact with local health care professionals on a monthly basis. \n\u2022 Managed 25 volunteer workers. \nChildcare Experience \n\u2022 Coordinated service assignments for 20 part-time counselors and 100 client families. \n\u2022 Oversaw daily activity and outing planning for 100 clients. \n\u2022 Assisted families of special needs clients with researching financial assistance and healthcare. \n\u2022 Assisted teachers with managing daily classroom activities. \n\u2022 Oversaw daily and special student activities. \nEmployment History \n1999-2002 Counseling Supervisor, The Wesley Center, Little Rock, Arkansas. 1997-1999 Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas 1996-1997 Teacher's Assistant, Cowell Elementary, Conway, Arkansas \nEducation \nUniversity of Arkansas at Little Rock, Little Rock, AR \n\u2022 BS in Early Childhood Development (1999) \n\u2022 BA in Elementary Education (1998) \n\u2022 GPA (4.0 Scale): Early Childhood Development \u2013 3.8, Elementary Education \u2013 3.5, Overall 3.4. \n\u2022 Dean's List, Chancellor's List"
     },
     "meta": {
-      "identifier": "MvIhJrjj",
+      "identifier": "cXKENNoO",
+      "customIdentifier": null,
       "ready": true,
       "failed": false,
-      "readyDt": "2023-08-23T10:43:26.060127Z",
+      "readyDt": "2024-05-13T12:50:22.657883Z",
       "fileName": "resume.pdf",
       "expiryTime": null,
       "language": "en",
-      "pdf": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/resume_DfRCgO9.pdf?versionId=ghcRH1rNMYNKctQJI2lIVyrM64Y5KgBF&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNCQ4S455J%2F20230823%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230823T104326Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEoaDmFwLXNvdXRoZWFzdC0yIkcwRQIhAKrTfe4ii7ZIWhGXxVbANEzmnTrrB9gCipU%2FsniqVK5hAiBRBMLPF9JE3g9%2B1IqIA%2FwfLlUzzs8%2BvYscMWIuQ%2BzF4SqJBQgTEAIaDDMzNTU5NDU3MTE2MiIMEBiAfKzBmzYXx9GuKuYEBeAoO7dW8I%2Fh9tAIYymbZ9janQziteXM%2F7hpelPgA1z8woHVuZ0Dtx47kzAc9S3Ap27F%2BZJvAVmEwjZ5pSsJzEPkuyXlvO%2BAsQoUcebmImeIpWmbDUUHX0kVUBVMorPBaod03okueJyvz31pG5W69CZ5f2njjDhQFgjW%2Bs6IMyQbY1aeQyBD%2BxtAGUcyiVVS0TxTub8SBhA64PyBoOEDf1JBdHTn0J8AYToQMiXeHX1ERuMuVxWMMI7RUTAaEsqugq%2F3uJAI6zjGgNFoJ9QIEsWenDTuf06VVLcGQQO7KYzE3lNZalnKx%2FAggc0ufoDeLxEuh%2Brsr0oKwIQbo%2FYFJK6DzdV%2F%2FIRPwnZG3BJz5qrsK2ugwjjWOcl58LpfIN1v%2B8RPmNcjVoekpdYxYPNvEYrunJ8xIeIGasFsrRn8xCACKmaWo2BUkGXwAcn3f036zZoIfxEPOUSR3tHdRaxk%2BD%2BMn5fV1douqF9Taw7jhSsk0TtvEAHqgf6hupA03UISR5ZHr1%2FHl0WcriTgy0DK6uqrro4w%2FVXF46amSQBubiBfRrTnKx%2BXKNeqveuxAUBkO338Bk0YxCmh%2BdHRLrPL3rGBgfF26tTUlrsITWtN966uHjnHh4cjsl8IK7HMSocKI9JRdnLbrI3nJ91pzCCGS5K%2BXaqFXFP3gHIbUj8%2BPG0y18JlTpRx9K5Qsi3sbzcBqBp0g47xo6pFDkdEpd48sTriZLTX%2BCCTedJFZP6uOZsukm5QLwoKk%2FBqNKFM5MYyz64bsvzgF4bBOLxxjTOHf6ESA9zxRHJy8n8BVe3yGh0QZx7uiTkwhLqXpwY6mgEQug%2FavpHwTud8fDEW1SU8P6sHXfNvlJaXlaKxwknpuQy%2FT7VjqcLsDPg7a4L71dXdV0wO9tXKqJ4KaBefT0r%2FsKRSSAR%2BXvE7J32pd%2FbG7B2%2BsIS6IOLCSBJ2VpF0olrjFBf2DI7BnaNkvaHctAFhRs5bA%2FU6P1vsRUFQF03GRkHcaHqtVaiURRPELf3uT802xyZJey3UJUhk&X-Amz-Signature=e0e7b1894e01639465beb64777b74464d88811edc2c2d9701c3efcef3c386ed6",
+      "pdf": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/resume_G3c781j.pdf?versionId=3vpXjPncNSuR3j8zuA8PVsewZztF4OoK&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNB2CLACFG%2F20240513%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20240513T125023Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAwaDmFwLXNvdXRoZWFzdC0yIkcwRQIgYJIp9Iw%2BAjjz%2BsfDcotRFTLa0BzpI3sJqLCRPfObI4oCIQCKBBNfeuytU6Yy6O0yGtS8D5zR%2F5nComYSXFSdC8d16CqJBQh1EAMaDDMzNTU5NDU3MTE2MiIM%2BX3RYohsD75FaZVEKuYETc0As2kYIUTIYbOJoLO1OyBVkBXf1E9010iPSrzk6DVh4mOBntty7DqUBC2ae5p%2F%2Ff6p7EuwHDiIloF6JefQ3hnnLZPQG2dJUHPwSIOtc9WfErEhfF06hz42Lz2fIWEHUenrQIfjQTu%2Fb92DkS7jYViOgMyfpASl39NFe26OjaJ8pWWPdTN3VsdiS0G72K17y2NYCZUn7WeHFmBo%2BI7Hu9mLZzfLwl3XS5y4Q1joW9JkRbxwvw0jiiRp4Mb2%2FQB7wvCHlxVOMKfPYlEwHFpIiScJb6DaLlUSdV29hhy11utmomzdn7awPEm2FKVaZYDJAUQnGyW%2FdVgjClCBnAo8e7uJb0bou3fjPVNmmjcAaQG0p8qAEOCBYFTVDICvtr5G3vbqEkvdjH1kHEuWkYR%2FfJEvyaHmQpoA47XZwDgqcdmL2qTjNbFiw%2FSPocm477tauXX2DAtlYM%2B539NXARzW0uAl%2F87ZHBRS6nq0jcM7BoVfP7KINIRfE1SmEQkGDPZuhs5zjwEHHVOzQyN8k7XBes2JnvVT3yesP7bIhC856uXgLypgQYBAHC3JrbgIcY%2FqIBALHj%2Bjv3u7v71IyCsA9klKYWbrExz6twM4LyFOEdKF6uOIUbWRCfQw7wbDdIAFtIkz%2FCgRiJHm%2FHy5Gq5ieCQWJJNcIuiRbsesGtIe44wc2f6BKM4mBRypeTrQ2RljMVKVAJRi7aSqGJwTZxy%2Fi%2FrImfDqFiGqxJH0kuiyboPfKoacRHQtax9dkCW8hmScEo6w%2B7e%2BXyQuxNFcn8xc7aYzfgZ%2BpivXHq0bdYjJAK1Ev6VtEBow8oeIsgY6mgHtiLXiGgWHDhu5OHGH2x%2Fk9vEgSkmpD3cxSO139fVzpTFD%2BVzOqAwn8GOTzybCtS1D7iJm04Eh0Gts3Er7uju9%2B1ll54vuAiRKxkW9ynLigtJafKwnTRvX5iARC0Jh7rmcy7KRqzGzDIcZ0YMjua7qS20DMc8xJrYWTjWZHR0%2FnMR1nyIW4iKPAU%2BWsNkqRL2DzZaSuOEKHjyG&X-Amz-Signature=a7abbff6efbfdf15c6d141380063e525498c6709138625a34a15b1ce005f3a53",
       "parentDocument": null,
       "childDocuments": [],
       "pages": [
         {
-          "id": 32229014,
+          "id": 73448548,
           "pageIndex": 0,
-          "image": null,
+          "image": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/pages/73448548_jmg3jZk.png?versionId=_58yOgWKoPb5nCRqWWYv8v0Wb7NMhqs2&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNB2CLACFG%2F20240513%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20240513T125023Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAwaDmFwLXNvdXRoZWFzdC0yIkcwRQIgYJIp9Iw%2BAjjz%2BsfDcotRFTLa0BzpI3sJqLCRPfObI4oCIQCKBBNfeuytU6Yy6O0yGtS8D5zR%2F5nComYSXFSdC8d16CqJBQh1EAMaDDMzNTU5NDU3MTE2MiIM%2BX3RYohsD75FaZVEKuYETc0As2kYIUTIYbOJoLO1OyBVkBXf1E9010iPSrzk6DVh4mOBntty7DqUBC2ae5p%2F%2Ff6p7EuwHDiIloF6JefQ3hnnLZPQG2dJUHPwSIOtc9WfErEhfF06hz42Lz2fIWEHUenrQIfjQTu%2Fb92DkS7jYViOgMyfpASl39NFe26OjaJ8pWWPdTN3VsdiS0G72K17y2NYCZUn7WeHFmBo%2BI7Hu9mLZzfLwl3XS5y4Q1joW9JkRbxwvw0jiiRp4Mb2%2FQB7wvCHlxVOMKfPYlEwHFpIiScJb6DaLlUSdV29hhy11utmomzdn7awPEm2FKVaZYDJAUQnGyW%2FdVgjClCBnAo8e7uJb0bou3fjPVNmmjcAaQG0p8qAEOCBYFTVDICvtr5G3vbqEkvdjH1kHEuWkYR%2FfJEvyaHmQpoA47XZwDgqcdmL2qTjNbFiw%2FSPocm477tauXX2DAtlYM%2B539NXARzW0uAl%2F87ZHBRS6nq0jcM7BoVfP7KINIRfE1SmEQkGDPZuhs5zjwEHHVOzQyN8k7XBes2JnvVT3yesP7bIhC856uXgLypgQYBAHC3JrbgIcY%2FqIBALHj%2Bjv3u7v71IyCsA9klKYWbrExz6twM4LyFOEdKF6uOIUbWRCfQw7wbDdIAFtIkz%2FCgRiJHm%2FHy5Gq5ieCQWJJNcIuiRbsesGtIe44wc2f6BKM4mBRypeTrQ2RljMVKVAJRi7aSqGJwTZxy%2Fi%2FrImfDqFiGqxJH0kuiyboPfKoacRHQtax9dkCW8hmScEo6w%2B7e%2BXyQuxNFcn8xc7aYzfgZ%2BpivXHq0bdYjJAK1Ev6VtEBow8oeIsgY6mgHtiLXiGgWHDhu5OHGH2x%2Fk9vEgSkmpD3cxSO139fVzpTFD%2BVzOqAwn8GOTzybCtS1D7iJm04Eh0Gts3Er7uju9%2B1ll54vuAiRKxkW9ynLigtJafKwnTRvX5iARC0Jh7rmcy7KRqzGzDIcZ0YMjua7qS20DMc8xJrYWTjWZHR0%2FnMR1nyIW4iKPAU%2BWsNkqRL2DzZaSuOEKHjyG&X-Amz-Signature=ccb9c628a08bf2d24117b7b27f73a7279aff0dff95d87540f754207bbf62064d",
           "height": 792.0,
           "width": 612.0,
-          "rotation": 0
+          "rotation": 0,
+          "imageTranslated": null
         }
       ],
       "ocrConfidence": null,
-      "reviewUrl": "https://app.affinda.com/review/MvIhJrjj?signature=eyJ1c2VyX2lkIjoyNDIzfQ:1qYlKg:WBv2g0Na0goPzEfh7iZNzVlkXEx_10W4xHfWRya207g:1qYlKg:uoOrIHs8sqr20q96pYRN4yB4S94quRscoyv2Kh8LgVA",
-      "createdDt": "2023-08-23T10:43:25.184150Z",
+      "reviewUrl": "https://app.affinda.com/review/cXKENNoO?signature=eyJ1c2VyX2lkIjoyNDIzfQ:1s6V8J:j4oi05DUkWs-OvQ1ygbky8y-8-c0D16xYapvuYRHWa0:1s6V8J:fvZ_qeUs-WsLuSlPsqm4fyDcvQTB82pcCic0mnVPbsQ",
+      "createdDt": "2024-05-13T12:50:20.881817Z",
       "errorDetail": null,
-      "file": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/resume_DfRCgO9.pdf?versionId=ghcRH1rNMYNKctQJI2lIVyrM64Y5KgBF&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNCQ4S455J%2F20230823%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20230823T104326Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEEoaDmFwLXNvdXRoZWFzdC0yIkcwRQIhAKrTfe4ii7ZIWhGXxVbANEzmnTrrB9gCipU%2FsniqVK5hAiBRBMLPF9JE3g9%2B1IqIA%2FwfLlUzzs8%2BvYscMWIuQ%2BzF4SqJBQgTEAIaDDMzNTU5NDU3MTE2MiIMEBiAfKzBmzYXx9GuKuYEBeAoO7dW8I%2Fh9tAIYymbZ9janQziteXM%2F7hpelPgA1z8woHVuZ0Dtx47kzAc9S3Ap27F%2BZJvAVmEwjZ5pSsJzEPkuyXlvO%2BAsQoUcebmImeIpWmbDUUHX0kVUBVMorPBaod03okueJyvz31pG5W69CZ5f2njjDhQFgjW%2Bs6IMyQbY1aeQyBD%2BxtAGUcyiVVS0TxTub8SBhA64PyBoOEDf1JBdHTn0J8AYToQMiXeHX1ERuMuVxWMMI7RUTAaEsqugq%2F3uJAI6zjGgNFoJ9QIEsWenDTuf06VVLcGQQO7KYzE3lNZalnKx%2FAggc0ufoDeLxEuh%2Brsr0oKwIQbo%2FYFJK6DzdV%2F%2FIRPwnZG3BJz5qrsK2ugwjjWOcl58LpfIN1v%2B8RPmNcjVoekpdYxYPNvEYrunJ8xIeIGasFsrRn8xCACKmaWo2BUkGXwAcn3f036zZoIfxEPOUSR3tHdRaxk%2BD%2BMn5fV1douqF9Taw7jhSsk0TtvEAHqgf6hupA03UISR5ZHr1%2FHl0WcriTgy0DK6uqrro4w%2FVXF46amSQBubiBfRrTnKx%2BXKNeqveuxAUBkO338Bk0YxCmh%2BdHRLrPL3rGBgfF26tTUlrsITWtN966uHjnHh4cjsl8IK7HMSocKI9JRdnLbrI3nJ91pzCCGS5K%2BXaqFXFP3gHIbUj8%2BPG0y18JlTpRx9K5Qsi3sbzcBqBp0g47xo6pFDkdEpd48sTriZLTX%2BCCTedJFZP6uOZsukm5QLwoKk%2FBqNKFM5MYyz64bsvzgF4bBOLxxjTOHf6ESA9zxRHJy8n8BVe3yGh0QZx7uiTkwhLqXpwY6mgEQug%2FavpHwTud8fDEW1SU8P6sHXfNvlJaXlaKxwknpuQy%2FT7VjqcLsDPg7a4L71dXdV0wO9tXKqJ4KaBefT0r%2FsKRSSAR%2BXvE7J32pd%2FbG7B2%2BsIS6IOLCSBJ2VpF0olrjFBf2DI7BnaNkvaHctAFhRs5bA%2FU6P1vsRUFQF03GRkHcaHqtVaiURRPELf3uT802xyZJey3UJUhk&X-Amz-Signature=e0e7b1894e01639465beb64777b74464d88811edc2c2d9701c3efcef3c386ed6",
+      "file": "https://affinda-api-data-prod-ap1.s3.amazonaws.com/media/documents/resume_G3c781j.pdf?versionId=3vpXjPncNSuR3j8zuA8PVsewZztF4OoK&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAU4IX6YWNB2CLACFG%2F20240513%2Fap-southeast-2%2Fs3%2Faws4_request&X-Amz-Date=20240513T125023Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAwaDmFwLXNvdXRoZWFzdC0yIkcwRQIgYJIp9Iw%2BAjjz%2BsfDcotRFTLa0BzpI3sJqLCRPfObI4oCIQCKBBNfeuytU6Yy6O0yGtS8D5zR%2F5nComYSXFSdC8d16CqJBQh1EAMaDDMzNTU5NDU3MTE2MiIM%2BX3RYohsD75FaZVEKuYETc0As2kYIUTIYbOJoLO1OyBVkBXf1E9010iPSrzk6DVh4mOBntty7DqUBC2ae5p%2F%2Ff6p7EuwHDiIloF6JefQ3hnnLZPQG2dJUHPwSIOtc9WfErEhfF06hz42Lz2fIWEHUenrQIfjQTu%2Fb92DkS7jYViOgMyfpASl39NFe26OjaJ8pWWPdTN3VsdiS0G72K17y2NYCZUn7WeHFmBo%2BI7Hu9mLZzfLwl3XS5y4Q1joW9JkRbxwvw0jiiRp4Mb2%2FQB7wvCHlxVOMKfPYlEwHFpIiScJb6DaLlUSdV29hhy11utmomzdn7awPEm2FKVaZYDJAUQnGyW%2FdVgjClCBnAo8e7uJb0bou3fjPVNmmjcAaQG0p8qAEOCBYFTVDICvtr5G3vbqEkvdjH1kHEuWkYR%2FfJEvyaHmQpoA47XZwDgqcdmL2qTjNbFiw%2FSPocm477tauXX2DAtlYM%2B539NXARzW0uAl%2F87ZHBRS6nq0jcM7BoVfP7KINIRfE1SmEQkGDPZuhs5zjwEHHVOzQyN8k7XBes2JnvVT3yesP7bIhC856uXgLypgQYBAHC3JrbgIcY%2FqIBALHj%2Bjv3u7v71IyCsA9klKYWbrExz6twM4LyFOEdKF6uOIUbWRCfQw7wbDdIAFtIkz%2FCgRiJHm%2FHy5Gq5ieCQWJJNcIuiRbsesGtIe44wc2f6BKM4mBRypeTrQ2RljMVKVAJRi7aSqGJwTZxy%2Fi%2FrImfDqFiGqxJH0kuiyboPfKoacRHQtax9dkCW8hmScEo6w%2B7e%2BXyQuxNFcn8xc7aYzfgZ%2BpivXHq0bdYjJAK1Ev6VtEBow8oeIsgY6mgHtiLXiGgWHDhu5OHGH2x%2Fk9vEgSkmpD3cxSO139fVzpTFD%2BVzOqAwn8GOTzybCtS1D7iJm04Eh0Gts3Er7uju9%2B1ll54vuAiRKxkW9ynLigtJafKwnTRvX5iARC0Jh7rmcy7KRqzGzDIcZ0YMjua7qS20DMc8xJrYWTjWZHR0%2FnMR1nyIW4iKPAU%2BWsNkqRL2DzZaSuOEKHjyG&X-Amz-Signature=a7abbff6efbfdf15c6d141380063e525498c6709138625a34a15b1ce005f3a53",
       "collection": {
-        "identifier": "GmkTYqqC",
-        "name": "Resume Parses",
+        "identifier": "sVNtsQWb",
+        "name": "Resumes NextGen (Early Access)",
         "extractor": {
-          "id": 6,
-          "identifier": "resume",
-          "name": "Resume Parse",
+          "id": 575,
+          "identifier": "resume-v4",
+          "name": "Resume NextGen (Early Access)",
           "baseExtractor": null,
           "validatable": true
-        }
+        },
+        "validationRules": []
       },
       "workspace": {
-        "identifier": "fghJjxHz",
-        "name": "Recruitment"
+        "identifier": "eehxQHQp",
+        "name": "Resumes NextGen"
       },
       "tags": [],
       "isOcrd": false,
       "isConfirmed": false,
       "confirmedDt": null,
+      "confirmedBy": null,
       "isRejected": false,
       "rejectedDt": null,
+      "rejectedBy": null,
       "isArchived": false,
       "archivedDt": null,
       "errorCode": null,
-      "confirmedBy": null,
       "sourceEmail": null,
+      "sourceEmailAddress": null,
       "createdBy": {
         "id": 2423,
         "name": "Eden AI",
@@ -348,18 +1967,14 @@
         "avatar": null,
         "master": null
       },
-      "regionBias": {
-        "country": null,
-        "countries": null,
-        "squareCoordinates": null
-      }
+      "regionBias": null
     },
     "error": {
       "errorCode": null,
       "errorDetail": null
     },
     "warnings": [],
-    "extractor": "resume"
+    "extractor": "resume-v4-custom_field_type"
   },
   "standardized_response": {
     "extracted_data": {
@@ -369,43 +1984,42 @@
           "last_name": "Smith",
           "raw_name": "John W. Smith",
           "middle": "W.",
-          "title": "",
+          "title": null,
           "prefix": null,
           "sufix": null
         },
         "address": {
-          "formatted_location": "2002 Caribou Dr Suite 101, Fort Collins, CO 80525, USA",
+          "formatted_location": "2716 S College Ave Suite A, Fort Collins, CO 80525, USA",
           "postal_code": "80525",
           "region": "Colorado",
           "country": "United States",
           "country_code": "US",
-          "raw_input_location": "2002 Front Range Way Fort Collins, CO 80525",
-          "street": "Caribou Drive",
-          "street_number": "2002",
-          "appartment_number": "Suite 101",
+          "raw_input_location": null,
+          "street": "South College Avenue",
+          "street_number": "2716",
+          "appartment_number": "Suite A",
           "city": "Fort Collins"
         },
-        "self_summary": "Four years experience in early childhood development with a diverse background in the care of special needs children and adults. Adult Care Experience \u2022 Determined work placement for 150 special needs adult clients. \u2022 Maintained client databases and records. \u2022 Coordinated client contact with local health care professionals on a monthly basis. \u2022 Managed 25 volunteer workers.",
-        "objective": "",
+        "self_summary": "Four years experience in early childhood development with a diverse background in the care of \nspecial needs children and adults.",
+        "objective": null,
         "date_of_birth": null,
         "place_of_birth": null,
         "phones": [],
-        "mails": [
-          "jwsmith@colostate.edu"
-        ],
+        "mails": [],
         "urls": [],
         "fax": [],
-        "current_profession": "Specialist",
+        "current_profession": null,
         "gender": null,
         "nationality": null,
         "martial_status": null,
-        "current_salary": null
+        "current_salary": null,
+        "availability": null
       },
       "education": {
         "total_years_education": null,
         "entries": [
           {
-            "title": null,
+            "title": "Bachelor",
             "start_date": null,
             "end_date": "1999-01-01",
             "location": {
@@ -414,19 +2028,19 @@
               "region": "Arkansas",
               "country": "United States",
               "country_code": "US",
-              "raw_input_location": "Little Rock, AR",
+              "raw_input_location": null,
               "street": null,
               "street_number": null,
               "appartment_number": null,
               "city": "Little Rock"
             },
-            "establishment": "University of Arkansas at Little Rock",
+            "establishment": "University of Arkansas",
             "description": null,
             "gpa": null,
-            "accreditation": "BS in Early Childhood Development"
+            "accreditation": "BS"
           },
           {
-            "title": null,
+            "title": "Bachelor",
             "start_date": null,
             "end_date": "1998-01-01",
             "location": {
@@ -443,93 +2057,116 @@
             },
             "establishment": null,
             "description": null,
-            "gpa": "3.8",
-            "accreditation": "Bachelor of Arts"
+            "gpa": "GPA",
+            "accreditation": "BA"
           }
         ]
       },
       "work_experience": {
-        "total_years_experience": null,
+        "total_years_experience": "6.0",
         "entries": [
-          {
-            "title": "Counseling Supervisor",
-            "start_date": "1999-01-01",
-            "end_date": "2002-01-01",
-            "company": "The Wesley Center",
-            "location": {
-              "formatted_location": "Little Rock, AR, USA",
-              "postal_code": null,
-              "region": "Arkansas",
-              "country": "United States",
-              "country_code": "US",
-              "raw_input_location": "Little Rock, Arkansas.",
-              "street": null,
-              "street_number": null,
-              "appartment_number": null,
-              "city": "Little Rock"
-            },
-            "description": null,
-            "industry": null
-          },
-          {
-            "title": "Client Specialist",
-            "start_date": "1997-01-01",
-            "end_date": "1999-01-01",
-            "company": "Rainbow Special Care Center",
-            "location": {
-              "formatted_location": "Little Rock, AR, USA",
-              "postal_code": null,
-              "region": "Arkansas",
-              "country": "United States",
-              "country_code": "US",
-              "raw_input_location": "Little Rock, Arkansas",
-              "street": null,
-              "street_number": null,
-              "appartment_number": null,
-              "city": "Little Rock"
-            },
-            "description": null,
-            "industry": null
-          },
           {
             "title": "Teacher's Assistant",
             "start_date": "1996-01-01",
             "end_date": "1997-01-01",
-            "company": "Cowell Elementary",
+            "company": "Cowell Elementary,",
             "location": {
               "formatted_location": "Conway, AR, USA",
               "postal_code": null,
               "region": "Arkansas",
               "country": "United States",
               "country_code": "US",
-              "raw_input_location": "Conway, Arkansas",
+              "raw_input_location": null,
               "street": null,
               "street_number": null,
               "appartment_number": null,
               "city": "Conway"
             },
             "description": null,
+            "type": "Full time",
+            "industry": null
+          },
+          {
+            "title": "Counseling Supervisor",
+            "start_date": "1999-01-01",
+            "end_date": "2002-01-01",
+            "company": "The Wesley Center,",
+            "location": {
+              "formatted_location": "Little Rock, AR, USA",
+              "postal_code": null,
+              "region": "Arkansas",
+              "country": "United States",
+              "country_code": "US",
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": "Little Rock"
+            },
+            "description": null,
+            "type": "Full time",
+            "industry": null
+          },
+          {
+            "title": "Client Specialist",
+            "start_date": "1997-01-01",
+            "end_date": "1999-01-01",
+            "company": "Rainbow Special Care Center,",
+            "location": {
+              "formatted_location": "Little Rock, AR, USA",
+              "postal_code": null,
+              "region": "Arkansas",
+              "country": "United States",
+              "country_code": "US",
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": "Little Rock"
+            },
+            "description": null,
+            "type": "Full time",
             "industry": null
           }
         ]
       },
-      "languages": [
-        {
-          "name": "English",
-          "code": null
-        }
-      ],
+      "languages": [],
       "skills": [
         {
-          "name": "Planning",
-          "type": "soft"
+          "name": "Child Development",
+          "type": "Specialized Skill"
         },
         {
-          "name": "Supervisord",
-          "type": "hard"
+          "name": "Planning",
+          "type": "Common Skill"
+        },
+        {
+          "name": "Finance",
+          "type": "Specialized Skill"
+        },
+        {
+          "name": "Early Childhood Education",
+          "type": "Specialized Skill"
+        },
+        {
+          "name": "Teaching",
+          "type": "Common Skill"
+        },
+        {
+          "name": "Child Development",
+          "type": "Specialized Skill"
+        },
+        {
+          "name": "Culinary Arts",
+          "type": "Specialized Skill"
         }
       ],
-      "certifications": [],
+      "certifications": [
+        {
+          "name": "Dean's List, Chancellor's List",
+          "type": null
+        }
+      ],
       "courses": [],
       "publications": [],
       "interests": []

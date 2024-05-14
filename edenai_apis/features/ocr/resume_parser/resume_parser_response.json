@@ -36,7 +36,8 @@
       "gender": null,
       "nationality": null,
       "martial_status": null,
-      "current_salary": null
+      "current_salary": null,
+      "availability": null
     },
     "education": {
       "total_years_education": null,
@@ -63,7 +64,8 @@
             "city": null
           },
           "description": null,
-          "industry": null
+          "industry": null,
+          "type": "Full time"
         },
         {
           "title": "Client Specialist",
@@ -82,7 +84,8 @@
             "appartment_number": null
           },
           "description": null,
-          "industry": null
+          "industry": null,
+          "type": "Full time"
         },
         {
           "title": "Teacher's Assistant",
@@ -101,7 +104,8 @@
             "appartment_number": null
           },
           "description": null,
-          "industry": "academia"
+          "industry": "academia",
+          "type": "Full time"
         }
       ]
     },
