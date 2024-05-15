@@ -133,10 +133,14 @@ class MistralApi(ProviderInterface, TextInterface):
             tool_calls = itertools.chain.from_iterable(msg['tool_calls'] for msg in previous_history if msg['tool_calls'])
             for tool in tool_results or []:
                 name = list(filter(lambda tool_call: tool_call['id'] == tool['id'], tool_calls))[0]['name']
+                try:
+                    result = json.dumps(tool["result"])
+                except json.JSONDecodeError:
+                    result = str(result)
                 messages.append(
                     {
                         "role": "tool",
-                        "content": tool["result"],
+                        "content": result,
                         "name": name,
                     }
                 )

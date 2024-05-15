@@ -117,7 +117,7 @@ def convert_tools_results_to_cohere(tools_results: List[Dict[str, str]], previou
         }
         try:
             output = json.loads(output)
-        except json.JSONDecodeError:
+        except TypeError:
             pass
         result.append({"call": call, "outputs": [output]})
     return result

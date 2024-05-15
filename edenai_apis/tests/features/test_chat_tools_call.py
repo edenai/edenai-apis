@@ -44,34 +44,11 @@ def test_tool_call(provider, model):
                         "description": "The geographical location for which weather information is requested.",
                         "type": "string",
                     },
-                    "date": {
-                        "description": "The date for which weather information is requested. Should be in ISO date format (YYYY-MM-DD). Default to present day.",
-                        "type": "string",
-                        "format": "date",
-                    },
                     "units": {
                         "description": "The units of measurement for the temperature.",
                         "type": "string",
                         "enum": ["Celsius", "Fahrenheit"],
                         "default": "Celsius",
-                    },
-                    "options": {
-                        "description": "Additional options for the weather request.",
-                        "type": "object",
-                        "properties": {
-                            "include_humidity": {
-                                "description": "Whether to include humidity information in the weather data.",
-                                "type": "boolean",
-                            },
-                            "include_wind_speed": {
-                                "description": "Whether to include wind speed information in the weather data.",
-                                "type": "boolean",
-                            },
-                            "include_pressure": {
-                                "description": "Whether to include atmospheric pressure information in the weather data.",
-                                "type": "boolean",
-                            },
-                        },
                     },
                 },
                 "required": ["location"],
@@ -96,9 +73,7 @@ def test_tool_call(provider, model):
     messages = tool_call_result.standardized_response.message
     history = [msg.model_dump() for msg in messages]
 
-    weather_api_response = json.dumps(
-        {"temperature": "10", "unit": "Celsius", "weather": "rainy"}
-    )
+    weather_api_response = {"temperature": "10", "unit": "Celsius", "weather": "rainy"}
 
     tool_results = [{"id": tool_call.id, "result": weather_api_response}]
 

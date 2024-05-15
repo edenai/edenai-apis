@@ -773,10 +773,14 @@ class OpenaiTextApi(TextInterface):
             tool_calls = itertools.chain.from_iterable(msg['tool_calls'] for msg in previous_history if msg['tool_calls'])
             for tool in tool_results or []:
                 id = list(filter(lambda tool_call: tool_call['id'] == tool['id'], tool_calls))[0]['id']
+                try:
+                    result = json.dumps(tool["result"])
+                except json.JSONDecodeError:
+                    result = str(result)
                 messages.append(
                     {
                         "role": "tool",
-                        "content": tool["result"],
+                        "content": result,
                         "tool_call_id": id,
                     }
                 )
