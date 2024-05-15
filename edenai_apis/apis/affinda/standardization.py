@@ -218,7 +218,8 @@ class ResumeStandardizer:
         for i in self.__data.get("skill", []) or []:
             name = extract(i, ["parsed", "name"])
             value = extract(i, ["parsed", "type"])
-            self.__std_response["skills"].append(ResumeSkill(name=name, type=value))
+            if name and value:
+                self.__std_response["skills"].append(ResumeSkill(name=name, type=value))
 
         return self.__std_response["skills"]
 
