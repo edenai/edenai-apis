@@ -1,10 +1,17 @@
-from typing import Dict, List, Optional, Union, Generator
+import itertools
+from typing import Dict, List, Literal, Optional, Union, Generator
 import requests
 import json
+from edenai_apis.apis.openai.helpers import convert_tools_to_openai
 
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
-from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
+from edenai_apis.features.text.chat.chat_dataclass import (
+    StreamChat,
+    ChatStreamResponse,
+    ToolCall,
+)
+from edenai_apis.features.text.chat.helpers import get_tool_call_from_history_by_id
 from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
 from edenai_apis.features.text.generation.generation_dataclass import (
     GenerationDataClass,
@@ -96,14 +103,46 @@ class MistralApi(ProviderInterface, TextInterface):
         max_tokens: int = 25,
         model: Optional[str] = None,
         stream: bool = False,
+        available_tools: Optional[List[dict]] = None,
+        tool_choice: Literal["auto", "required", "none"] = "auto",
+        tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-        messages = [{"role": "user", "content": text}]
+        previous_history = previous_history or []
+        messages = []
+        for msg in previous_history:
+            message = {
+                "role": msg.get("role"),
+                "content": msg.get("message"),
+            }
+            if msg.get("tool_calls"):
+                message['tool_calls'] = [
+                    {
+                        "id": t.get("id"),
+                        "function": {
+                            "name": t.get("name"),
+                            "arguments": t.get("arguments"),
+                        },
+                    }
+                    for t in msg["tool_calls"]
+                ]
+            messages.append(message)
 
-        if previous_history:
-            for idx, message in enumerate(previous_history):
-                messages.insert(
-                    idx,
-                    {"role": message.get("role"), "content": message.get("message")},
+        if text:
+            messages.append({"role": "user", "content": text})
+
+        if tool_results:
+            for tool in tool_results or []:
+                tool_call = get_tool_call_from_history_by_id(tool['id'], previous_history)
+                try:
+                    result = json.dumps(tool["result"])
+                except json.JSONDecodeError:
+                    result = str(result)
+                messages.append(
+                    {
+                        "role": "tool",
+                        "content": result,
+                        "name": tool_call['name'],
+                    }
                 )
 
         if chatbot_global_action:
@@ -115,6 +154,11 @@ class MistralApi(ProviderInterface, TextInterface):
             "temperature": temperature,
             "max_tokens": max_tokens,
         }
+
+        if available_tools:
+            payload["tools"] = convert_tools_to_openai(available_tools)
+            payload["tool_choice"] = 'any' if tool_choice == 'required' else tool_choice
+
         if not stream:
             response = requests.post(
                 self.url + "v1/chat/completions", json=payload, headers=self.headers
@@ -128,10 +172,24 @@ class MistralApi(ProviderInterface, TextInterface):
                 raise ProviderException(response.text, code=response.status_code)
 
             # Build a list of ChatMessageDataClass objects for the conversation history
-            generated_text = original_response["choices"][0]["message"]["content"]
+            message = original_response["choices"][0]["message"]
+            generated_text = message["content"]
+            original_tools_calls = message.get("tool_calls") or []
+            tool_calls = []
+            for tool_call in original_tools_calls:
+                tool_calls.append(
+                    ToolCall(
+                        id=tool_call["id"],
+                        name=tool_call["function"]["name"],
+                        arguments=tool_call["function"]["arguments"],
+                    )
+                )
+
             message = [
-                ChatMessageDataClass(role="user", message=text),
-                ChatMessageDataClass(role="assistant", message=generated_text),
+                ChatMessageDataClass(role="user", message=text, tools=available_tools),
+                ChatMessageDataClass(
+                    role="assistant", message=generated_text, tool_calls=tool_calls
+                ),
             ]
 
             # Build the standardized response

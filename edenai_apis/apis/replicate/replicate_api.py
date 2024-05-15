@@ -180,7 +180,14 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         max_tokens: int = 25,
         model: Optional[str] = None,
         stream: bool = False,
+        available_tools: Optional[List[dict]] = None,
+        tool_choice: Literal["auto", "required", "none"] = "auto",
+        tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+
+        if any([available_tools, tool_results]):
+            raise ProviderException("This provider does not support the use of tools")
+
         # Construct the API URL
         url = f"{self.base_url}/predictions"
 

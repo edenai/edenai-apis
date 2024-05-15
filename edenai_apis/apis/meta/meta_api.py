@@ -1,4 +1,4 @@
-from typing import Dict, Optional, List, Union
+from typing import Dict, Literal, Optional, List, Union
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import GenerationDataClass
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse, ChatDataClass, ChatMessageDataClass
@@ -76,7 +76,13 @@ class MetaApi(
         max_tokens: int = 25,
         model: Optional[str] = None,
         stream: bool = False,
+        available_tools: Optional[List[dict]] = None,
+        tool_choice: Literal["auto", "required", "none"] = "auto",
+        tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+
+        if any([available_tools, tool_results]):
+            raise ProviderException("This provider does not support the use of tools")
 
         # Build the prompt by formatting the previous history and current text
         prompt = ""

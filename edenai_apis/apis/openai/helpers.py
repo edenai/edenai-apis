@@ -369,3 +369,29 @@ def finish_unterminated_json(json_string: str, end_brackets: str) -> str:
     except json.JSONDecodeError:
         json_string = json_string[:-1]
         return finish_unterminated_json(json_string, end_brackets)
+
+
+def convert_tools_to_openai(tools: Optional[List[dict]]):
+    if not tools:
+        return None
+
+    openai_tools = []
+    for tool in tools:
+        openai_tools.append({"type": "function", "function": tool})
+    return openai_tools
+
+
+def convert_tool_results_to_openai_tool_calls(tools_results: List[dict]):
+    result = []
+    for tool in tools_results:
+        result.append(
+            {
+                "id": tool["call"]["id"],
+                "type": "function",
+                "function": {
+                    "name": tool["call"]["name"],
+                    "arguments": tool["call"]["arguments"],
+                },
+            }
+        )
+    return result

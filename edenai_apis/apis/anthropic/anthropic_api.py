@@ -1,4 +1,4 @@
-from typing import Dict, List, Union, Optional, Generator
+from typing import Dict, List, Literal, Union, Optional, Generator
 import httpx
 import base64
 import json
@@ -273,8 +273,14 @@ class AnthropicApi(ProviderInterface, TextInterface):
         max_tokens: int = 25,
         model: Optional[str] = None,
         stream: bool = False,
+        available_tools: Optional[List[dict]] = None,
+        tool_choice: Literal["auto", "required", "none"] = "auto",
+        tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         messages = [{"role": "user", "content": text}]
+
+        if any([available_tools, tool_results]):
+            raise ProviderException("This provider does not support the use of tools")
 
         if previous_history:
             for idx, message in enumerate(previous_history):
