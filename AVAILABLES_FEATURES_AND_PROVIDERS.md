@@ -104,7 +104,6 @@
 | | cohere |
 | | connexun |
 | | emvista |
-| | huggingface |
 | | meaningcloud |
 | | microsoft |
 | | nlpcloud |
@@ -180,12 +179,11 @@
 | | ibm |
 | | openai |
 | | tenstorrent |
-| **question_answer** | huggingface |
-| | openai |
-| | tenstorrent |
 | **emotion_detection** | nlpcloud |
 | | vernai |
 | **prompt_optimization** | openai |
+| **question_answer** | openai |
+| | tenstorrent |
 | **ai_detection** | originalityai |
 | | sapling |
 | | winstonai |
@@ -293,7 +291,6 @@
 | **automatic_translation** | amazon |
 | | deepl |
 | | google |
-| | huggingface |
 | | ibm |
 | | microsoft |
 | | modernmt |
@@ -641,15 +638,6 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **ocr** | resume_parser |
-
-</details>
-<details><summary>huggingface</summary>
-
-| Features | Subfeatures |
-|----------|-------------|
-| **text** | question_answer |
-| | summarize |
-| **translation** | automatic_translation |
 
 </details>
 <details><summary>ibm</summary>
