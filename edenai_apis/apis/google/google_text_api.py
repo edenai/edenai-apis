@@ -476,7 +476,14 @@ class GoogleTextApi(TextInterface):
         max_tokens: int,
         model: str,
         stream=False,
+        available_tools: Optional[List[dict]] = None,
+        tool_choice: Literal["auto", "required", "none"] = "auto",
+        tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[StreamChat, ChatDataClass]]:
+
+        if any([available_tools, tool_results]):
+            raise ProviderException("This provider does not support the use of tools")
+
         url_subdomain = "us-central1-aiplatform"
         location = "us-central1"
         token = get_access_token(self.location)
