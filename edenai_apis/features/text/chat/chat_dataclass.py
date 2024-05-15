@@ -1,6 +1,6 @@
-from typing import Dict, Generator, List, Literal, Optional, Sequence
+from typing import Dict, Generator, List, Optional, Sequence
 
-from pydantic import BaseModel, StrictStr, Field
+from pydantic import BaseModel, Field, StrictStr
 
 
 class ToolCall(BaseModel):
@@ -11,13 +11,13 @@ class ToolCall(BaseModel):
 
 class ChatMessageDataClass(BaseModel):
     role: Optional[StrictStr]
-    message: Optional[StrictStr] = ""  # DEPRECATED use 'content' for consistency
+    message: Optional[StrictStr] = ""
     tools: Optional[List[dict]] = Field(
         default=None, description="Tools defined by the user"
     )
     tool_calls: Optional[List[ToolCall]] = Field(
         default=None,
-        description="The function calls generated from tools definition and user prompt.",
+        description="The tools arguments generated from tools definition and user prompt.",
     )
 
 
