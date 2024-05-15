@@ -483,7 +483,7 @@ Your answer:
         stream: bool = False,
         available_tools: Optional[List[dict]] = None,
         tool_results: Optional[List[dict]] = None,
-        tools_choice=None,
+        tool_choice: Literal["auto", "required", "none"] = "auto",
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         messages = [{"role": "USER", "message": text}]
         previous_history = previous_history or []
@@ -495,7 +495,6 @@ Your answer:
         if chatbot_global_action:
             messages.insert(0, {"role": "CHATBOT", "message": chatbot_global_action})
 
-        url = f"{self.base_url}chat"
         payload = {
             "message": text,
             "temperature": temperature,
@@ -503,6 +502,8 @@ Your answer:
             "chat_history": messages,
             "stream": stream,
         }
+
+
         if tool_results:
             payload["tool_results"] = convert_tools_results_to_cohere(tool_results, previous_history)
             del payload['chat_history']
@@ -510,11 +511,21 @@ Your answer:
 
         if available_tools:
             payload["tools"] = convert_tools_to_cohere(available_tools)
+            if tool_choice == "required":
+                payload["preamble"] = "You must choose at least one tool among the available tools"
+            elif tool_choice == "none":
+                payload["preamble"] = (
+                    "You must directly answer the question, please ignore the available tools"
+                )
+            else:
+                payload["preamble"] = (
+                    "When a question is irrelevant or unrelated to the available tools, please choose to directly answer it."
+                )
 
         if not available_tools and not tool_results:
             payload["connectors"] = [{"id": "web-search"}]
 
-        response = requests.post(url, headers=self.headers, json=payload)
+        response = requests.post(f"{self.base_url}chat", headers=self.headers, json=payload)
 
         if response.status_code != 200:
             raise ProviderException(response.text, response.status_code)
