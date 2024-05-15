@@ -482,8 +482,8 @@ Your answer:
         model: Optional[str] = None,
         stream: bool = False,
         available_tools: Optional[List[dict]] = None,
-        tool_results: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
+        tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         messages = [{"role": "USER", "message": text}]
         previous_history = previous_history or []
