@@ -23,7 +23,6 @@ from .faker import FakerApi
 from .gladia import GladiaApi
 from .google import GoogleApi
 from .hireability import HireabilityApi
-from .huggingface import HuggingfaceApi
 from .ibm import IbmApi
 from .klippa import KlippaApi
 from .lettria import LettriaApi
