@@ -375,8 +375,13 @@ class AnthropicApi(ProviderInterface, TextInterface):
             original_response = self.__anthropic_request(
                 request_body=request_body, model=model
             )
-
             generated_text = original_response["content"][0]["text"]
+
+            # Calculate total usage
+            original_response["usage"]["total_tokens"] = (
+                original_response["usage"]["input_tokens"]
+                + original_response["usage"]["output_tokens"]
+            )
 
             standardized_response = (
                 ChatMultimodalDataClass.generate_standardized_response(
