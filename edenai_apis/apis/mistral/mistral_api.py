@@ -11,6 +11,7 @@ from edenai_apis.features.text.chat.chat_dataclass import (
     ChatStreamResponse,
     ToolCall,
 )
+from edenai_apis.features.text.chat.helpers import get_tool_call_from_history_by_id
 from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
 from edenai_apis.features.text.generation.generation_dataclass import (
     GenerationDataClass,
@@ -130,9 +131,8 @@ class MistralApi(ProviderInterface, TextInterface):
             messages.append({"role": "user", "content": text})
 
         if tool_results:
-            tool_calls = itertools.chain.from_iterable(msg['tool_calls'] for msg in previous_history if msg['tool_calls'])
             for tool in tool_results or []:
-                name = list(filter(lambda tool_call: tool_call['id'] == tool['id'], tool_calls))[0]['name']
+                tool_call = get_tool_call_from_history_by_id(tool['id'], previous_history)
                 try:
                     result = json.dumps(tool["result"])
                 except json.JSONDecodeError:
@@ -141,7 +141,7 @@ class MistralApi(ProviderInterface, TextInterface):
                     {
                         "role": "tool",
                         "content": result,
-                        "name": name,
+                        "name": tool_call['name'],
                     }
                 )
 

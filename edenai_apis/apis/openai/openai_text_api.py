@@ -1,6 +1,7 @@
 import itertools
 import json
 from typing import Dict, List, Literal, Optional, Sequence, Union
+from edenai_apis.features.text.chat.helpers import get_tool_call_from_history_by_id
 
 import openai
 import requests
@@ -770,9 +771,8 @@ class OpenaiTextApi(TextInterface):
             messages.append({"role": "user", "content": text})
 
         if tool_results:
-            tool_calls = itertools.chain.from_iterable(msg['tool_calls'] for msg in previous_history if msg['tool_calls'])
             for tool in tool_results or []:
-                id = list(filter(lambda tool_call: tool_call['id'] == tool['id'], tool_calls))[0]['id']
+                tool_call = get_tool_call_from_history_by_id(tool['id'], previous_history)
                 try:
                     result = json.dumps(tool["result"])
                 except json.JSONDecodeError:
@@ -781,7 +781,7 @@ class OpenaiTextApi(TextInterface):
                     {
                         "role": "tool",
                         "content": result,
-                        "tool_call_id": id,
+                        "tool_call_id": tool_call['id'],
                     }
                 )
 

@@ -3,6 +3,8 @@ import json
 import re
 from typing import Dict, List, Optional, Tuple, Union
 
+from edenai_apis.features.text.chat.helpers import get_tool_call_from_history_by_id
+
 
 def extract_json_text(input_string: str) -> Optional[Union[dict, list]]:
     pattern = r"```json(.*?)```"
@@ -44,7 +46,7 @@ def get_type(json_schema_param, base_description="") -> Tuple[str, str]:
     if json_schema_param["type"] == "array":
         if items := json_schema_param["items"]:
             array_param, description = get_type(items, description)
-            return f"{param_type}[{array_param}]", description
+            return f"List[{array_param}]", description
 
     # ref: https://docs.cohere.com/docs/parameter-types-in-tool-use#example--dictionaries
     if json_schema_param["type"] == "object":
@@ -60,10 +62,10 @@ def get_type(json_schema_param, base_description="") -> Tuple[str, str]:
                 description += f"- {key}: {item_description} \n,"
 
             if len(dict_value_type) == 1:
-                final_type = list(dict_values_types)[0]
+                final_value_type = list(dict_values_types)[0]
             else:
-                final_type = f"Union[{' ,'.join(dict_values_types)}]"
-            return f"{param_type}[str, {final_type}]", description
+                final_value_type = f"Union[{' ,'.join(dict_values_types)}]"
+            return f"Dict[str, {final_value_type}]", description
 
 
     # ref: https://docs.cohere.com/docs/parameter-types-in-tool-use#example--enumerated-values-enums
@@ -107,8 +109,7 @@ def convert_tools_results_to_cohere(tools_results: List[Dict[str, str]], previou
 
     result = []
     for tool_result in tools_results:
-        tool_calls = itertools.chain.from_iterable([msg['tool_calls'] for msg in previous_history if msg['tool_calls']])
-        tool_call = list(filter(lambda tool: tool['id'] == tool_result['id'], tool_calls))[0]
+        tool_call = get_tool_call_from_history_by_id(tool_result['id'], previous_history)
         output = tool_result['result']
         call = {
             "name": tool_call['name'],
