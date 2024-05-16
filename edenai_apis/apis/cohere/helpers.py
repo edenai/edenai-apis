@@ -26,8 +26,10 @@ json_schema_types_map_python_types = {
     "array": "List",
 }
 
+
 def _end_of_description_sentence(description):
     return ". " if description and not description.strip().endswith(".") else " "
+
 
 def get_type(json_schema_param, base_description="") -> Tuple[str, str]:
     """
@@ -53,7 +55,9 @@ def get_type(json_schema_param, base_description="") -> Tuple[str, str]:
         if properties := json_schema_param["properties"]:
             dict_values_types = set()
             end_of_sentence = _end_of_description_sentence(description)
-            description += f"{end_of_sentence}Contains the following list of attributes: \n"
+            description += (
+                f"{end_of_sentence}Contains the following list of attributes: \n"
+            )
 
             # get type and add each key, value to the description of this param
             for key, value in properties.items():
@@ -66,7 +70,6 @@ def get_type(json_schema_param, base_description="") -> Tuple[str, str]:
             else:
                 final_value_type = f"Union[{' ,'.join(dict_values_types)}]"
             return f"Dict[str, {final_value_type}]", description
-
 
     # ref: https://docs.cohere.com/docs/parameter-types-in-tool-use#example--enumerated-values-enums
     if enum := json_schema_param.get("enum"):
@@ -88,8 +91,8 @@ def convert_tools_to_cohere(available_tools):
         for name, prop in tool["parameters"]["properties"].items():
             param = {}
             param_type, description = get_type(prop)
-            param['type'] = param_type
-            param['description'] = description
+            param["type"] = param_type
+            param["description"] = description
             param["required"] = name in tool["parameters"]["required"]
             parameters_definitions[name] = param
 
@@ -103,22 +106,36 @@ def convert_tools_to_cohere(available_tools):
     return tools
 
 
-def convert_tools_results_to_cohere(tools_results: List[Dict[str, str]], previous_history):
+def convert_cohere_tool_call_to_edenai_tool_call(tool_call):
+    return {
+        "name": tool_call["name"],
+        "parameters": json.loads(tool_call["arguments"]),
+        "generation_id": "-".join(tool_call["id"].split("-")[:-2]),
+    }
+
+
+def convert_tools_results_to_cohere(
+    tools_results: List[Dict[str, str]], previous_history
+):
     if not tools_results:
         return None
 
     result = []
     for tool_result in tools_results:
-        tool_call = get_tool_call_from_history_by_id(tool_result['id'], previous_history)
-        output = tool_result['result']
-        call = {
-            "name": tool_call['name'],
-            "parameters": json.loads(tool_call['arguments']),
-            "generation_id": '-'.join(tool_call['id'].split('-')[:-2])
-        }
-        try:
-            output = json.loads(output)
-        except TypeError:
-            pass
-        result.append({"call": call, "outputs": [output]})
+        tool_call = get_tool_call_from_history_by_id(
+            tool_result["id"], previous_history
+        )
+        tool_output = tool_result["result"]
+        call = convert_cohere_tool_call_to_edenai_tool_call(tool_call)
+        output = [{"result": tool_output}]
+        result.append({"call": call, "outputs": output})
     return result
+
+
+cohere_roles = {
+    "user": "USER",
+    "system": "SYSTEM",
+    "assistant": "CHATBOT",
+    "chatbot": "CHATBOT",
+    "tool": "TOOL",
+}

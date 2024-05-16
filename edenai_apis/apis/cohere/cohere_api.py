@@ -4,9 +4,11 @@ from typing import Optional, List, Dict, Sequence, Tuple, Union, Literal, Genera
 import requests
 
 from edenai_apis.apis.cohere.helpers import (
+    convert_cohere_tool_call_to_edenai_tool_call,
     convert_tools_results_to_cohere,
     convert_tools_to_cohere,
     extract_json_text,
+    cohere_roles,
 )
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
@@ -486,14 +488,23 @@ Your answer:
         tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
 
-        if any([available_tools, tool_results]):
-            raise ProviderException("This provider does not support the use of tools")
+        # if any([available_tools, tool_results]):
+        #     raise ProviderException("This provider does not support the use of tools")
 
         previous_history = previous_history or []
-        messages = [
-            {"role": msg.get("role"), "message": msg.get("message") or None}
-            for msg in previous_history
-        ]
+
+        messages = []
+        for msg in previous_history:
+            message = {
+                "role": cohere_roles[msg.get("role", "user").lower()],
+                "message": msg.get("message"),
+            }
+            if msg.get("tool_calls"):
+                message["tool_calls"] = [
+                    convert_cohere_tool_call_to_edenai_tool_call(t)
+                    for t in msg["tool_calls"]
+                ]
+            messages.append(message)
 
         if chatbot_global_action:
             messages.insert(0, {"role": "CHATBOT", "message": chatbot_global_action})
@@ -506,16 +517,21 @@ Your answer:
             "stream": stream,
         }
 
-
         if tool_results:
-            payload["tool_results"] = convert_tools_results_to_cohere(tool_results, previous_history)
-            del payload['chat_history']
-            payload['message'] = next(filter(lambda msg: msg['role'] == 'USER', previous_history))['message']
+            payload["tool_results"] = convert_tools_results_to_cohere(
+                tool_results, previous_history
+            )
+            del payload["chat_history"]
+            payload["message"] = next(
+                filter(lambda msg: msg["role"].lower() == "user", previous_history)
+            )["message"]
 
         if available_tools:
             payload["tools"] = convert_tools_to_cohere(available_tools)
             if tool_choice == "required":
-                payload["preamble"] = "You must choose at least one tool among the available tools"
+                payload["preamble"] = (
+                    "You must choose at least one tool among the available tools"
+                )
             elif tool_choice == "none":
                 payload["preamble"] = (
                     "You must directly answer the question, please ignore the available tools"
@@ -528,7 +544,9 @@ Your answer:
         if not available_tools and not tool_results:
             payload["connectors"] = [{"id": "web-search"}]
 
-        response = requests.post(f"{self.base_url}chat", headers=self.headers, json=payload)
+        response = requests.post(
+            f"{self.base_url}chat", headers=self.headers, json=payload
+        )
 
         if response.status_code != 200:
             raise ProviderException(response.text, response.status_code)
@@ -544,7 +562,7 @@ Your answer:
 
                 generated_text = original_response["text"]
                 tool_calls = []
-                generation_id = original_response['generation_id']
+                generation_id = original_response["generation_id"]
                 for index, tool in enumerate(original_response.get("tool_calls", [])):
                     tool_id = f"{generation_id}-{tool['name']}-{index}"
                     tool_calls.append(
@@ -557,10 +575,10 @@ Your answer:
 
                 message = [
                     ChatMessageDataClass(
-                        role="USER", message=text, tools=available_tools
+                        role="user", message=text, tools=available_tools
                     ),
                     ChatMessageDataClass(
-                        role="CHATBOT", message=generated_text, tool_calls=tool_calls
+                        role="assistant", message=generated_text, tool_calls=tool_calls
                     ),
                 ]
                 standardized_response = ChatDataClass(
