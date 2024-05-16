@@ -485,7 +485,10 @@ Your answer:
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-        messages = [{"role": "USER", "message": text}]
+
+        if any([available_tools, tool_results]):
+            raise ProviderException("This provider does not support the use of tools")
+
         previous_history = previous_history or []
         messages = [
             {"role": msg.get("role"), "message": msg.get("message") or None}
