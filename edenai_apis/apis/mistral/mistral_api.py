@@ -127,7 +127,7 @@ class MistralApi(ProviderInterface, TextInterface):
                 ]
             messages.append(message)
 
-        if text:
+        if text and not tool_results:
             messages.append({"role": "user", "content": text})
 
         if tool_results:

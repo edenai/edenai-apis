@@ -767,7 +767,7 @@ class OpenaiTextApi(TextInterface):
                 } for tool in msg['tool_calls']]
             messages.append(message)
 
-        if text:
+        if text and not tool_results:
             messages.append({"role": "user", "content": text})
 
         if tool_results:
@@ -796,9 +796,10 @@ class OpenaiTextApi(TextInterface):
             "stream": stream,
         }
 
-        if available_tools:
+        if available_tools and not tool_results:
             payload["tools"] = convert_tools_to_openai(available_tools)
             payload["tool_choice"] = tool_choice
+
         try:
             response = openai.ChatCompletion.create(**payload)
         except Exception as exc:
