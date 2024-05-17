@@ -47,8 +47,8 @@ class C2paManifestItem(BaseModel):
     title: str
     format: str
     instance_id: str
-    ingredients: list[str]
-    assertions: list[C2paAssertions]
+    ingredients: Sequence[int]
+    assertions: Sequence[C2paAssertions]
     signature_info: C2paSignatureInfo
     label: str
 
@@ -62,10 +62,10 @@ class AiImageDetectionDataClass(BaseModel):
     ai_probability: float
     version: str
     mime_type: str
-    c2pa: C2PAItem
-    exif: ExifIptcItem
+    c2pa: C2PAItem | None
+    exif: ExifIptcItem | None
     ai_watermark_detected: bool
-    ai_watermark_issuers: list[str]
+    ai_watermark_issuers: Sequence[str]
 
 
     @staticmethod
