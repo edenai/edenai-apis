@@ -115,6 +115,7 @@
 | | microsoft |
 | | oneai |
 | | openai |
+| | privateai |
 | **entity_sentiment** | amazon |
 | | google |
 | **keyword_extraction** | amazon |
@@ -883,6 +884,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **ocr** | anonymization_async |
+| **text** | anonymization |
 
 </details>
 <details><summary>prowritingaid</summary>
