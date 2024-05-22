@@ -69,6 +69,7 @@ class PersonalInformationSubCategoryType(SubCategoryBase, Enum):
     Email = "Email"
     Phone = "Phone"
     PersonType = "PersonType"
+    Gender = "Gender"
 
     @classmethod
     def list_choices(cls) -> Dict["SubCategoryBase", List[str]]:
@@ -78,6 +79,7 @@ class PersonalInformationSubCategoryType(SubCategoryBase, Enum):
             cls.Email: SubCategoryPattern.PersonnalInformation.EMAIL,
             cls.Phone: SubCategoryPattern.PersonnalInformation.PHONE,
             cls.PersonType: SubCategoryPattern.PersonnalInformation.PERSON_TYPE,
+            cls.Gender: SubCategoryPattern.PersonnalInformation.GENDER,
         }
 
 

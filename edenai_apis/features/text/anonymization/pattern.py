@@ -23,11 +23,12 @@ class SubCategoryPattern:
             PERSON_TYPE (list): List of all the patterns for the person type subcategory.
         """
 
-        NAME = ["name", "username", "person", "human"]
+        NAME = ["name", "username", "person", "human", "name_given", "name_family"]
         AGE = ["age"]
-        EMAIL = ["email"]
-        PHONE = ["phone", "phonenumber", "phone number"]
+        EMAIL = ["email", "email_address"]
+        PHONE = ["phone", "phonenumber", "phone number", "phone_number"]
         PERSON_TYPE = ["persontype"]
+        GENDER = ["gender_sexuality"]
 
     class FinancialInformation:
         """This class contains all the patterns for the subcategories of the anonymization category.
@@ -52,6 +53,7 @@ class SubCategoryPattern:
             "bank account number",
             "bank_account_number",
             "international_bank_account_number",
+            "account_number",
         ]
         BANK_ROUTING_NUMBER = ["bank_routing", "aba_routing_number", "iban"]
         SWIFT_CODE = ["swift code", "swift_code"]
@@ -172,10 +174,10 @@ class SubCategoryPattern:
             DATE (list): List of all the patterns for the date subcategory.
         """
 
-        DURATION = ["duration", "timeduration"]
+        DURATION = ["duration", "timeduration", "date_interval"]
         DATE_TIME = ["date_time", "datetime"]
         TIME = ["time"]
-        DATE = ["date"]
+        DATE = ["date", "dob"]
 
     class LocationInformation:
         """This class contains all the patterns for the subcategories of the anonymization category.
@@ -185,8 +187,15 @@ class SubCategoryPattern:
             ADDRESS (list): List of all the patterns for the address subcategory.
         """
 
-        ADDRESS = ["address"]
-        LOCATION = ["location"]
+        ADDRESS = ["address", "LOCATION_ADDRESS"]
+        LOCATION = [
+            "location",
+            "LOCATION_CITY",
+            "LOCATION_COORDINATE",
+            "LOCATION_COUNTRY",
+            "LOCATION_STATE",
+            "LOCATION_ZIP",
+        ]
 
     class Other:
         """This class contains all the patterns for the subcategories of the anonymization category.
