@@ -75,7 +75,7 @@ class AiImageDetectionDataClass(BaseModel):
         else:
             return "original"
         
-    @field_validator("ai_score")
+    @field_validator("ai_probability")
     def check_min_max(cls, v):
         if not 0 <= v <= 1:
             raise ValueError("Value should be between 0 and 1")
