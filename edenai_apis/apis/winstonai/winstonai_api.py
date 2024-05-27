@@ -49,9 +49,8 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
         if response.status_code != 200:
             raise ProviderException(response.json(), code=response.status_code)
         
-        original_response: AiDetectionDataClass = response.json()
+        return response.json()
 
-        return original_response
 
 
     def text__ai_detection(
