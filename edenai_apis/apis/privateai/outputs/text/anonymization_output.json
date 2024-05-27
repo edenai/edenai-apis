@@ -47,7 +47,7 @@
         "offset": 20,
         "length": 3,
         "category": "PersonalInformation",
-        "subcategory": null,
+        "subcategory": "Name",
         "original_label": "NAME_GIVEN",
         "content": "Luc",
         "confidence_score": 0.912
@@ -56,7 +56,7 @@
         "offset": 31,
         "length": 14,
         "category": "PersonalInformation",
-        "subcategory": null,
+        "subcategory": "Phone",
         "original_label": "PHONE_NUMBER",
         "content": "06 21 32 43 54",
         "confidence_score": 0.904
