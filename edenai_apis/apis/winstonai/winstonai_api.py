@@ -1,8 +1,6 @@
 import json
 from typing import Dict, Sequence, Any, Optional
-
 import requests
-
 from edenai_apis.apis.winstonai.config import WINSTON_AI_API_URL
 from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
 from edenai_apis.features.image.ai_image_detection.ai_image_detection_dataclass import AiImageDetectionDataClass
@@ -20,6 +18,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
+
 class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
     provider_name = "winstonai"
 
@@ -34,24 +33,44 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
             "Content-Type": "application/json",
             "Authorization": f'Bearer {self.api_settings["api_key"]}',
         }
-    
-    def image__ai_detection(self, file_url: str, model_version: str = "1.0") -> ResponseType[AiImageDetectionDataClass]:
+
+    def image__ai_detection(self, file_url: str) -> ResponseType[AiImageDetectionDataClass]:
         if provider_params is None:
             provider_params = {}
 
         payload = json.dumps({
             "url": file_url,
-            "version": model_version
         })
 
-        response = requests.request("POST", f"{self.api_url}/image-detection", headers=self.headers, data=payload)
+        response = requests.request(
+            "POST", f"{self.api_url}/image-detection", headers=self.headers, data=payload
+        )
 
         if response.status_code != 200:
             raise ProviderException(response.json(), code=response.status_code)
-        
-        return response.json()
 
+        original_response = response.json()
 
+        score = original_response.get("score") / 100
+
+        if score is None:
+            raise ProviderException(response.json())
+
+        standardized_response = AiImageDetectionDataClass(
+            score=score,
+            human_probability=original_response["human_probability"],
+            ai_probability=original_response["ai_probability"],
+            version=original_response["version"],
+            mime_type=original_response["mime_type"],
+            ai_watermark_detected=original_response["ai_watermark_detected"],
+            c2pa_metadata=original_response["c2pa"],
+            iptc_metadata=original_response["iptc"],
+        )
+
+        return ResponseType[AiImageDetectionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
 
     def text__ai_detection(
         self, text: str, provider_params: Optional[Dict[str, Any]] = None
@@ -86,13 +105,14 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
                 text=sentence["text"],
                 ai_score=1-(sentence["score"] / 100),
                 prediction=AiDetectionItem.set_label_based_on_score(
-                    1- (sentence["score"] / 100)
+                    1 - (sentence["score"] / 100)
                 ),
             )
             for sentence in sentences
         ]
 
-        standardized_response = AiDetectionDataClass(ai_score=1-score, items=items)
+        standardized_response = AiDetectionDataClass(
+            ai_score=1-score, items=items)
 
         return ResponseType[AiDetectionDataClass](
             original_response=original_response,

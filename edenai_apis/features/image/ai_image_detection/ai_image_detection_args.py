@@ -2,5 +2,5 @@ HUMAN_IMAGE_EXAMPLE = ('https://www.iptc.org/std-dev/photometadata/examples/goog
 
 def ai_image_detection_arguments(provider_name: str) -> dict:
     return {
-        "image_url": HUMAN_IMAGE_EXAMPLE
+        "url": HUMAN_IMAGE_EXAMPLE
     }

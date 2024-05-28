@@ -1,4 +1,30 @@
 from pydantic import BaseModel, field_validator
+from typing import Dict
+
+class C2paAssertion(BaseModel):
+    label: str
+    data: Dict[str, str]
+
+class C2paSignatureInfo(BaseModel):
+    issuer: str
+    cert_serial_number: str
+    time: str
+    timeObject: str
+
+class C2paMetadata(BaseModel):
+    claim_generator: str
+    title: str
+    format: str
+    instance_id: str
+    ingredients: list[int]
+    assertions: list[C2paAssertion]
+    signature_info: C2paSignatureInfo
+    label: str
+    thumbnail: str
+
+class C2paObject(BaseModel):
+    activeManifest: C2paMetadata
+    manifests: Dict[str, C2paMetadata]
 
 class AiImageDetectionDataClass(BaseModel):
     score: float
@@ -7,6 +33,8 @@ class AiImageDetectionDataClass(BaseModel):
     version: str
     mime_type: str
     ai_watermark_detected: bool
+    c2pa_metadata: C2paObject | None
+    iptc_metadata: Dict[str, str] | None
 
     @staticmethod
     def set_label_based_on_score(ai_score: float):
