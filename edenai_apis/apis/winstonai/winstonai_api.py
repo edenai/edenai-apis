@@ -3,7 +3,7 @@ from typing import Dict, Sequence, Any, Optional
 import requests
 from edenai_apis.apis.winstonai.config import WINSTON_AI_API_URL
 from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
-from edenai_apis.features.image.ai_image_detection.ai_image_detection_dataclass import AiImageDetectionDataClass
+from edenai_apis.features.image.ai_detection.ai_detection_dataclass import AiImageDetectionDataClass
 from edenai_apis.features.text.ai_detection.ai_detection_dataclass import (
     AiDetectionDataClass,
     AiDetectionItem,
@@ -64,7 +64,7 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
             mime_type=original_response["mime_type"],
             ai_watermark_detected=original_response["ai_watermark_detected"],
             c2pa_metadata=original_response["c2pa"],
-            iptc_metadata=original_response["iptc"],
+            exif_metadata=original_response["iptc"],
         )
 
         return ResponseType[AiImageDetectionDataClass](

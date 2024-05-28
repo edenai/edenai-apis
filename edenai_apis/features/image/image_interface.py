@@ -6,6 +6,7 @@ from edenai_apis.features.image import (
     GenerationFineTuningCreateProjectAsyncDataClass,
     GenerationFineTuningGenerateImageAsyncDataClass,
 )
+from edenai_apis.features.image.ai_detection.ai_detection_dataclass import AiImageDetectionDataClass
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
 )
@@ -89,9 +90,7 @@ from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncBaseResponseType,
 )
-from edenai_apis.features.image.ai_image_detection.ai_image_detection_dataclass import (
-    AiImageDetectionDataClass,
-)
+
 
 
 class ImageInterface:
