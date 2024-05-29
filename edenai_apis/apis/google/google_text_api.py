@@ -57,6 +57,7 @@ from google.cloud import language_v1
 from google.cloud.language import Document as GoogleDocument
 from google.protobuf.json_format import MessageToDict
 
+import re
 
 class GoogleTextApi(TextInterface):
     def text__named_entity_recognition(
@@ -249,8 +250,9 @@ class GoogleTextApi(TextInterface):
         max_tokens: int,
         location: str,
         headers: Dict[str, str],
+        model : str
     ):
-        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/gemini-pro:streamGenerateContent"
+        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:streamGenerateContent"
 
         payload = {
             "contents": {
@@ -310,9 +312,10 @@ class GoogleTextApi(TextInterface):
             "Content-Type": "application/json",
             "Authorization": f"Bearer {token}",
         }
-        if model == "gemini-pro":
+        pattern = r'^gemini-([a-zA-Z0-9.]+-)?pro$'
+        if re.match(pattern, model):
             return self._gemini_pro_generation(
-                text, temperature, max_tokens, location, headers
+                text, temperature, max_tokens, location, headers, model
             )
         else:
             url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
