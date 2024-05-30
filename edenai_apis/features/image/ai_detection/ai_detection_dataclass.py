@@ -2,7 +2,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 
-class AiImageDetectionDataClass(BaseModel):
+class AiDetectionDataClass(BaseModel):
     ai_score: float = Field(ge=0, le=1)
     prediction: Literal["ai-generated", "original"]
 

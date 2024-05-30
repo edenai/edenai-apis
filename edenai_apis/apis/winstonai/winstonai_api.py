@@ -3,7 +3,7 @@ from typing import Dict, Sequence, Any, Optional
 import requests
 from edenai_apis.apis.winstonai.config import WINSTON_AI_API_URL
 from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
-from edenai_apis.features.image.ai_detection.ai_detection_dataclass import AiImageDetectionDataClass
+from edenai_apis.features.image.ai_detection.ai_detection_dataclass import AiDetectionDataClass as ImageAiDetectionDataclass
 from edenai_apis.features.text.ai_detection.ai_detection_dataclass import (
     AiDetectionDataClass,
     AiDetectionItem,
@@ -34,7 +34,7 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
             "Authorization": f'Bearer {self.api_settings["api_key"]}',
         }
 
-    def image__ai_detection(self, file_url: str) -> ResponseType[AiImageDetectionDataClass]:
+    def image__ai_detection(self, file_url: str) -> ResponseType[ImageAiDetectionDataclass]:
 
         payload = json.dumps({
             "url": file_url,
@@ -50,17 +50,17 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
         original_response = response.json()
 
         score = original_response.get("score") / 100
-        prediction = AiImageDetectionDataClass.set_label_based_on_score(score)
+        prediction = AiDetectionDataClass.set_label_based_on_score(score)
         if score is None:
             raise ProviderException(response.json())
 
 
-        standardized_response = AiImageDetectionDataClass(
+        standardized_response = AiDetectionDataClass(
             ai_score=score,
             prediction=prediction,
         )
 
-        return ResponseType[AiImageDetectionDataClass](
+        return ResponseType[AiDetectionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
         )
