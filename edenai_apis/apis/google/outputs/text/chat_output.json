@@ -2,43 +2,92 @@
   "original_response": {
     "predictions": [
       {
-        "candidates": [
-          {
-            "content": "Barack Obama, president, united states, african american, democrat, senator, illinois",
-            "author": "bot"
-          }
-        ],
         "citationMetadata": [
           {
             "citations": []
           }
         ],
-        "safetyAttributes": {
-          "categories": [
-            "Death, Harm & Tragedy",
-            "Politics",
-            "War & Conflict"
-          ],
-          "scores": [
-            0.1,
-            1,
-            0.1
-          ],
-          "blocked": false
+        "groundingMetadata": [
+          {}
+        ],
+        "safetyAttributes": [
+          {
+            "blocked": false,
+            "scores": [
+              0.1,
+              0.2,
+              1,
+              0.1
+            ],
+            "categories": [
+              "Derogatory",
+              "Insult",
+              "Politics",
+              "Sexual"
+            ],
+            "safetyRatings": [
+              {
+                "category": "Dangerous Content",
+                "severityScore": 0.1,
+                "probabilityScore": 0.1,
+                "severity": "NEGLIGIBLE"
+              },
+              {
+                "severity": "NEGLIGIBLE",
+                "probabilityScore": 0.2,
+                "category": "Harassment",
+                "severityScore": 0.1
+              },
+              {
+                "probabilityScore": 0.1,
+                "category": "Hate Speech",
+                "severity": "NEGLIGIBLE",
+                "severityScore": 0.2
+              },
+              {
+                "probabilityScore": 0.1,
+                "category": "Sexually Explicit",
+                "severity": "NEGLIGIBLE",
+                "severityScore": 0
+              }
+            ]
+          }
+        ],
+        "candidates": [
+          {
+            "author": "bot",
+            "content": " barack hussein obama, united states, democratic party, african-american, illinois, u.s. senator"
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "tokenMetadata": {
+        "outputTokenCount": {
+          "totalTokens": 25,
+          "totalBillableCharacters": 85
+        },
+        "inputTokenCount": {
+          "totalBillableCharacters": 836,
+          "totalTokens": 216
         }
       }
-    ]
+    }
   },
   "standardized_response": {
-    "generated_text": "Barack Obama, president, united states, african american, democrat, senator, illinois",
+    "generated_text": " barack hussein obama, united states, democratic party, african-american, illinois, u.s. senator",
     "message": [
       {
         "role": "user",
-        "message": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004."
+        "message": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+        "tools": null,
+        "tool_calls": null
       },
       {
         "role": "assistant",
-        "message": "Barack Obama, president, united states, african american, democrat, senator, illinois"
+        "message": " barack hussein obama, united states, democratic party, african-american, illinois, u.s. senator",
+        "tools": null,
+        "tool_calls": null
       }
     ]
   }

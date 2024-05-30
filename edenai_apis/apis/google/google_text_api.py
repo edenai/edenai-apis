@@ -582,26 +582,40 @@ class GoogleTextApi(TextInterface):
                 text, previous_history if previous_history else [], False, temperature, max_tokens, context,
             )
             url = f"{url}:generateContent"
+            response = requests.post(url=url, headers=headers, json=payload)
+            try:
+                original_response = response.json()
+                if "error" in original_response:
+                    raise ProviderException(
+                        message=original_response["error"]["message"],
+                        code=response.status_code,
+                    )
+            except json.JSONDecodeError as exc:
+                raise ProviderException(
+                    "Provider did not return a valid JSON", code=response.status_code
+                ) from exc
+
+            generated_text = original_response["candidates"][0]["content"]["parts"][0]["text"]
         else:
             payload = self.__text_chat_prepare_payload(
                 text, previous_history if previous_history else [], False, temperature, max_tokens, context,
             )
             url = f"{url}:predict"
 
-        response = requests.post(url=url, headers=headers, json=payload)
-        try:
-            original_response = response.json()
-            if "error" in original_response:
+            response = requests.post(url=url, headers=headers, json=payload)
+            try:
+                original_response = response.json()
+                if "error" in original_response:
+                    raise ProviderException(
+                        message=original_response["error"]["message"],
+                        code=response.status_code,
+                    )
+            except json.JSONDecodeError as exc:
                 raise ProviderException(
-                    message=original_response["error"]["message"],
-                    code=response.status_code,
-                )
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                "Provider did not return a valid JSON", code=response.status_code
-            ) from exc
+                    "Provider did not return a valid JSON", code=response.status_code
+                ) from exc
 
-        generated_text = original_response["candidates"][0]["content"]["parts"][0]["text"]
+            generated_text = original_response["predictions"][0]["candidates"][0]["content"]        
         message = [
             ChatMessageDataClass(role="user", message=text),
             ChatMessageDataClass(role="assistant", message=generated_text),
