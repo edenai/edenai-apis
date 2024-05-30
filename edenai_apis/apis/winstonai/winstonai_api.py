@@ -35,8 +35,6 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
         }
 
     def image__ai_detection(self, file_url: str) -> ResponseType[AiImageDetectionDataClass]:
-        if provider_params is None:
-            provider_params = {}
 
         payload = json.dumps({
             "url": file_url,
@@ -52,19 +50,15 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
         original_response = response.json()
 
         score = original_response.get("score") / 100
-
+        prediction = AiImageDetectionDataClass.set_label_based_on_score(score)
         if score is None:
             raise ProviderException(response.json())
 
+
         standardized_response = AiImageDetectionDataClass(
-            score=score,
-            human_probability=original_response["human_probability"],
-            ai_probability=original_response["ai_probability"],
-            version=original_response["version"],
-            mime_type=original_response["mime_type"],
+            ai_score=score,
+            prediction=prediction,
             ai_watermark_detected=original_response["ai_watermark_detected"],
-            c2pa_metadata=original_response["c2pa"],
-            exif_metadata=original_response["iptc"],
         )
 
         return ResponseType[AiImageDetectionDataClass](
