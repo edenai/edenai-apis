@@ -58,7 +58,6 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
         standardized_response = AiImageDetectionDataClass(
             ai_score=score,
             prediction=prediction,
-            ai_watermark_detected=original_response["ai_watermark_detected"],
         )
 
         return ResponseType[AiImageDetectionDataClass](
