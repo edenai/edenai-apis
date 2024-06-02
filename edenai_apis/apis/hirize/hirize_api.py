@@ -42,24 +42,12 @@ class HirizeApi(ProviderInterface):
             "payload": payload,
             "file_name": file_name
         })
-        try:
 
-            result = Client(
-                api_keys=self.api_key,
-                header=self.headers,
-                data=dumpData,
-                url=url
-            ).ocr_resume_parser()
-            return result
+        result = Client(api_keys=self.api_key,
+                        header=self.headers,
+                        data=dumpData,
+                        url=url
+                    ).ocr_resume_parser()
 
-        except requests.exceptions.RequestException as exc:
+        return result
 
-            raise ProviderException(
-                message=f"{exc}",
-                code=response.status_code
-            ) from exc
-
-        except JSONDecodeError:
-            raise ProviderException(
-                message="Internal server error", code=response.status_code
-            )
