@@ -1,7 +1,7 @@
 from json import JSONDecodeError
 from pathlib import Path
 from time import time
-from typing import Dict
+from typing import Dict, List, Optional
 
 import requests
 
@@ -38,12 +38,13 @@ class GladiaApi(ProviderInterface, AudioInterface):
         language: str,
         speakers: int,
         profanity_filter: bool,
-        vocabulary: list,
+        vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model: str = None,
+        model: Optional[str] = None,
         file_url: str = "",
-        provider_params: dict = dict(),
+        provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
         headers = {"x-gladia-key": self.api_key}
         export_format, channels, frame_rate = audio_attributes
         file_name = str(int(time())) + "_" + str(file.split("/")[-1])

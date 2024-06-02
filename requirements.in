@@ -24,7 +24,7 @@ psycopg2
 #test
 pytest-mock
 pytest-cov
-pytest
+pytest==7.4.4
 pytest-xdist
 pytest-timeout
 
@@ -39,6 +39,7 @@ boto3
 clarifai-grpc==9.10.7
 
 #google
+
 google-api-python-client==2.88.0
 google-cloud-documentai==2.15.0
 google-cloud-language==2.10.0

@@ -2,15 +2,20 @@ import base64
 import json
 import mimetypes
 import uuid
-from typing import Dict
+from typing import Dict, List
 from io import BytesIO
 
 import requests
 
-from edenai_apis.features import ProviderInterface, OcrInterface
+from edenai_apis.features import ProviderInterface, OcrInterface, TextInterface
 from edenai_apis.features.ocr.anonymization_async.anonymization_async_dataclass import (
     AnonymizationAsyncDataClass,
 )
+from edenai_apis.features.text.anonymization.anonymization_dataclass import (
+    AnonymizationDataClass,
+    AnonymizationEntity,
+)
+from edenai_apis.features.text.anonymization.category import CategoryType
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from apis.amazon.helpers import check_webhook_result
@@ -20,11 +25,13 @@ from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
+    ResponseType,
 )
 from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
+from edenai_apis.utils.parsing import extract
 
 
-class PrivateaiApi(ProviderInterface, OcrInterface):
+class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
     provider_name = "privateai"
 
     def __init__(self, api_keys: Dict = {}) -> None:
@@ -32,7 +39,7 @@ class PrivateaiApi(ProviderInterface, OcrInterface):
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
         self.api_key = self.api_settings["api_key"]
-        self.url = "https://api.private-ai.com/deid/"
+        self.url = "https://api.private-ai.com/cloud/"
         self.headers = {
             "Content-Type": "application/json",
             "X-API-KEY": self.api_key,
@@ -130,4 +137,53 @@ class PrivateaiApi(ProviderInterface, OcrInterface):
                 document=redacted_document, document_url=resource_url
             ),
             provider_job_id=provider_job_id,
+        )
+
+    def text__anonymization(
+        self, text: str, language: str
+    ) -> ResponseType[AnonymizationDataClass]:
+        payload = {
+            "text": [text],
+            "entity_detection": {"accuracy": "high", "return_entity": True},
+        }
+        response = requests.post(
+            url=self.url + "v3/process/text", json=payload, headers=self.headers
+        )
+
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
+
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(message="Internal server error", code=500) from exc
+
+        entities: List[AnonymizationEntity] = []
+        new_text = text
+        for entity in original_response[0].get("entities", []):
+            start_index = extract(entity, ["location", "stt_idx"])
+            end_index = extract(entity, ["location", "end_idx"])
+            original_label = entity.get("best_label")
+            confidence = extract(entity, ["labels", original_label])
+            classification = CategoryType.choose_category_subcategory(original_label)
+            replacement = "*" * (end_index - start_index)
+            new_text = new_text[:start_index] + replacement + new_text[end_index:]
+            entities.append(
+                AnonymizationEntity(
+                    offset=start_index,
+                    length=end_index - start_index,
+                    category=classification["category"],
+                    subcategory=classification["subcategory"],
+                    original_label=original_label,
+                    content=entity.get("text"),
+                    confidence_score=confidence,
+                )
+            )
+
+        standardized_response = AnonymizationDataClass(
+            result=new_text, entities=entities
+        )
+        return ResponseType[AnonymizationDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
         )

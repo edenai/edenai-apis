@@ -133,7 +133,7 @@
           "gpt-3.5-turbo",
           "gpt-3.5-turbo-16k"
         ],
-        "default_model": "gpt-3.5-turbo-1106"
+        "default_model": "gpt-4"
       },
       "version": "v3.0.0"
     },
@@ -375,7 +375,7 @@
           "dall-e-2",
           "dall-e-3"
         ],
-        "default_model": "dall-e-2"
+        "default_model": "dall-e-3"
       },
       "version": "v1Beta"
     },
@@ -895,6 +895,19 @@
         }
       },
       "version": "v1.0"
+    }
+  },
+  "multimodal": {
+    "chat": {
+      "constraints": {
+        "models": [
+          "gpt-4",
+          "gpt-4-1106-preview",
+          "gpt-4-vision-preview"
+        ],
+        "default_model": "gpt-4"
+      },
+      "version": "v1Beta"
     }
   }
 }

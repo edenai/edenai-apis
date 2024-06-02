@@ -69,6 +69,7 @@
 | | extracta |
 | | mindee |
 | | veryfi |
+| **invoice_splitter_async** | mindee |
 
 </details>
 <details><summary>text</summary>
@@ -103,7 +104,6 @@
 | | cohere |
 | | connexun |
 | | emvista |
-| | huggingface |
 | | meaningcloud |
 | | microsoft |
 | | nlpcloud |
@@ -115,6 +115,7 @@
 | | microsoft |
 | | oneai |
 | | openai |
+| | privateai |
 | **entity_sentiment** | amazon |
 | | google |
 | **keyword_extraction** | amazon |
@@ -153,17 +154,18 @@
 | | google |
 | | ibm |
 | | lettria |
-| **moderation** | clarifai |
-| | google |
-| | microsoft |
-| | openai |
-| **chat** | cohere |
+| **chat** | anthropic |
+| | cohere |
 | | google |
 | | meta |
 | | mistral |
 | | openai |
 | | perplexityai |
 | | replicate |
+| **moderation** | clarifai |
+| | google |
+| | microsoft |
+| | openai |
 | **custom_classification** | cohere |
 | | openai |
 | **custom_named_entity_recognition** | cohere |
@@ -178,12 +180,11 @@
 | | ibm |
 | | openai |
 | | tenstorrent |
-| **question_answer** | huggingface |
-| | openai |
-| | tenstorrent |
 | **emotion_detection** | nlpcloud |
 | | vernai |
 | **prompt_optimization** | openai |
+| **question_answer** | openai |
+| | tenstorrent |
 | **ai_detection** | originalityai |
 | | sapling |
 | | winstonai |
@@ -232,6 +233,7 @@
 | | sentisight |
 | **anonymization** | api4ai |
 | **background_removal** | api4ai |
+| | clipdrop |
 | | microsoft |
 | | photoroom |
 | | sentisight |
@@ -272,6 +274,7 @@
 | | voci |
 | | voxist |
 | **text_to_speech** | amazon |
+| | deepgram |
 | | elevenlabs |
 | | google |
 | | ibm |
@@ -289,7 +292,6 @@
 | **automatic_translation** | amazon |
 | | deepl |
 | | google |
-| | huggingface |
 | | ibm |
 | | microsoft |
 | | modernmt |
@@ -322,8 +324,19 @@
 | | google |
 | **text_detection_async** | amazon |
 | | google |
+| | twelvelabs |
 | **logo_detection_async** | google |
+| | twelvelabs |
 | **object_tracking_async** | google |
+
+</details>
+<details><summary>multimodal</summary>
+
+| Subfeatures | Providers |
+|----------|-------------|
+| **chat** | anthropic |
+| | google |
+| | openai |
 
 </details>
 
@@ -401,7 +414,9 @@
 
 | Features | Subfeatures |
 |----------|-------------|
-| **text** | generation |
+| **multimodal** | chat |
+| **text** | chat |
+| | generation |
 | | summarize |
 
 </details>
@@ -460,6 +475,13 @@
 | | moderation |
 
 </details>
+<details><summary>clipdrop</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | background_removal |
+
+</details>
 <details><summary>cohere</summary>
 
 | Features | Subfeatures |
@@ -510,6 +532,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | speech_to_text_async |
+| | text_to_speech |
 
 </details>
 <details><summary>deepl</summary>
@@ -581,6 +604,7 @@
 | | logo_detection |
 | | object_detection |
 | | question_answer |
+| **multimodal** | chat |
 | **ocr** | financial_parser |
 | | invoice_parser |
 | | ocr |
@@ -615,15 +639,6 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **ocr** | resume_parser |
-
-</details>
-<details><summary>huggingface</summary>
-
-| Features | Subfeatures |
-|----------|-------------|
-| **text** | question_answer |
-| | summarize |
-| **translation** | automatic_translation |
 
 </details>
 <details><summary>ibm</summary>
@@ -730,6 +745,7 @@
 | | financial_parser |
 | | identity_parser |
 | | invoice_parser |
+| | invoice_splitter_async |
 | | receipt_parser |
 
 </details>
@@ -804,6 +820,7 @@
 | **image** | generation |
 | | question_answer |
 | | variation |
+| **multimodal** | chat |
 | **text** | anonymization |
 | | chat |
 | | code_generation |
@@ -867,6 +884,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **ocr** | anonymization_async |
+| **text** | anonymization |
 
 </details>
 <details><summary>prowritingaid</summary>
@@ -986,6 +1004,14 @@
 | | question_answer |
 | | sentiment_analysis |
 | | topic_extraction |
+
+</details>
+<details><summary>twelvelabs</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **video** | logo_detection_async |
+| | text_detection_async |
 
 </details>
 <details><summary>vernai</summary>

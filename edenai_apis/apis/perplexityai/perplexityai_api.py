@@ -5,7 +5,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
-from typing import Dict, List, Optional, Union, Generator
+from typing import Dict, List, Literal, Optional, Union, Generator
 import requests
 import json
 
@@ -42,6 +42,8 @@ class PerplexityApi(ProviderInterface, TextInterface):
             length = len(lst_data)
         for token in lst_data:
             jsonres = json.loads(token)
+            if error := jsonres.get("error"):
+                raise ProviderException(error.get("message"), error.get("code") or 400)
             yield ChatStreamResponse(
                 text=jsonres["choices"][0]["delta"]["content"],
                 blocked=False,
@@ -54,11 +56,17 @@ class PerplexityApi(ProviderInterface, TextInterface):
         chatbot_global_action: Optional[str] = None,
         previous_history: Optional[List[Dict[str, str]]] = None,
         temperature: float = 0.0,
-        max_tokens: int = 64,
+        max_tokens: int = 25,
         model: Optional[str] = None,
         stream: bool = False,
+        available_tools: Optional[List[dict]] = None,
+        tool_choice: Literal["auto", "required", "none"] = "auto",
+        tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         messages = []
+
+        if any([available_tools, tool_results]):
+            raise ProviderException("This provider does not support the use of tools")
 
         if chatbot_global_action:
             messages.append({"role": "system", "content": chatbot_global_action})

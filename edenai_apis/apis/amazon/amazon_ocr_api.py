@@ -287,7 +287,10 @@ class AmazonOcrApi(OcrInterface):
             Key=file, Body=file_content
         )
         formatted_queries = [
-            {"Text": query.get("query"), "Pages": query.get("pages").split(",")}
+            {
+                "Text": query.get("query"),
+                "Pages": str(query.get("pages", 1) or 1).split(",") or None,
+            }
             for query in queries
         ]
 

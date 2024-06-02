@@ -2,30 +2,31 @@
     "text": {
         "generation": {
             "constraints": {
-                "models":[
-                    "medium", 
+                "models": [
+                    "medium",
                     "small",
                     "tiny",
                     "large-latest"
                 ],
-                "default_model": "small"
+                "default_model": "large-latest"
             },
             "version": "v0.0.1"
         },
         "chat": {
             "constraints": {
-                "models":[
-                    "medium", 
+                "models": [
+                    "medium",
                     "small",
-                    "tiny"
+                    "tiny",
+                    "large-latest"
                 ],
-                "default_model": "small"
+                "default_model": "large-latest"
             },
             "version": "v0.0.1"
         },
         "embeddings": {
             "constraints": {
-                "models":[
+                "models": [
                     "1024__mistral-embed"
                 ],
                 "default_model": "1024__mistral-embed"

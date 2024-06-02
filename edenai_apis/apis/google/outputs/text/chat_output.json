@@ -4,33 +4,78 @@
       {
         "candidates": [
           {
-            "content": "Barack Obama, president, united states, african american, democrat, senator, illinois",
-            "author": "bot"
+            "author": "bot",
+            "content": " barack hussein obama, united states, democratic party, african-american, illinois, u.s. senator"
           }
+        ],
+        "safetyAttributes": [
+          {
+            "scores": [
+              0.1,
+              0.2,
+              1,
+              0.1
+            ],
+            "safetyRatings": [
+              {
+                "probabilityScore": 0.1,
+                "severity": "NEGLIGIBLE",
+                "category": "Dangerous Content",
+                "severityScore": 0.1
+              },
+              {
+                "category": "Harassment",
+                "severityScore": 0.1,
+                "severity": "NEGLIGIBLE",
+                "probabilityScore": 0.2
+              },
+              {
+                "severity": "NEGLIGIBLE",
+                "category": "Hate Speech",
+                "severityScore": 0.2,
+                "probabilityScore": 0.1
+              },
+              {
+                "severityScore": 0,
+                "probabilityScore": 0.1,
+                "severity": "NEGLIGIBLE",
+                "category": "Sexually Explicit"
+              }
+            ],
+            "categories": [
+              "Derogatory",
+              "Insult",
+              "Politics",
+              "Sexual"
+            ],
+            "blocked": false
+          }
+        ],
+        "groundingMetadata": [
+          {}
         ],
         "citationMetadata": [
           {
             "citations": []
           }
-        ],
-        "safetyAttributes": {
-          "categories": [
-            "Death, Harm & Tragedy",
-            "Politics",
-            "War & Conflict"
-          ],
-          "scores": [
-            0.1,
-            1,
-            0.1
-          ],
-          "blocked": false
+        ]
+      }
+    ],
+    "metadata": {
+      "tokenMetadata": {
+        "outputTokenCount": {
+          "totalBillableCharacters": 85,
+          "totalTokens": 25
+        },
+        "inputTokenCount": {
+          "totalBillableCharacters": 836,
+          "totalTokens": 216
         }
       }
-    ]
+    }
   },
   "standardized_response": {
-    "generated_text": "Barack Obama, president, united states, african american, democrat, senator, illinois",
+    "generated_text": " barack hussein obama, united states, democratic party, african-american, illinois, u.s. senator",
     "message": [
       {
         "role": "user",
@@ -38,7 +83,7 @@
       },
       {
         "role": "assistant",
-        "message": "Barack Obama, president, united states, african american, democrat, senator, illinois"
+        "message": " barack hussein obama, united states, democratic party, african-american, illinois, u.s. senator"
       }
     ]
   }

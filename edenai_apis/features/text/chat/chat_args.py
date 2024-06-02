@@ -14,6 +14,15 @@ def chat_arguments(provider_name: str):
         ],
         "temperature": 0.6,
         "max_tokens": 1024,
-        "settings": {},
-        "stream": False
+        "settings": {
+            "meta": "llama2-13b-chat-v1",
+            "openai": "gpt-3.5-turbo",
+            "mistral": "large-latest",
+            "google": "chat-bison",
+            "cohere": "command-nightly",
+            "perplexityai": "pplx-70b-online",
+            "replicate": "llama-2-70b-chat",
+            "anthropic": "claude-3-sonnet-20240229-v1:0",
+        },
+        "stream": False,
     }

@@ -1,4 +1,4 @@
-from typing import Dict, Any, List, Union
+from typing import Dict, Any, List, Optional, Union
 import json
 import requests
 import boto3
@@ -118,7 +118,11 @@ class Ai21labsApi(ProviderInterface, TextInterface):
         )
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str = None
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: Optional[str] = None
     ) -> ResponseType[SummarizeDataClass]:
         payload = {"source": text, "sourceType": "TEXT"}
         original_response = self.__ai21labs_api_request(
@@ -133,7 +137,7 @@ class Ai21labsApi(ProviderInterface, TextInterface):
         )
 
     def text__embeddings(
-        self, texts: List[str], model: str = None
+        self, texts: List[str], model: Optional[str] = None
     ) -> ResponseType[EmbeddingsDataClass]:
         payload = {"texts": texts}
         original_response = self.__ai21labs_api_request(url="embed", payload=payload)

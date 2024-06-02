@@ -211,7 +211,11 @@ class FaceppApi(ProviderInterface, ImageInterface):
         )
 
     def image__face_compare(
-        self, file1: str, file2: str, file1_url: str = "", file2_url: str = ""
+        self,
+        file1: str,
+        file2: str,
+        file1_url: Optional[str] = None,
+        file2_url: Optional[str] = None,
     ) -> ResponseType[FaceCompareDataClass]:
         url = self.base_url + "/compare"
         if file1_url and file2_url:

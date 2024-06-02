@@ -8,8 +8,8 @@ data_path = os.path.join(feature_path, "data")
 
 def text_to_speech_arguments(provider_name: str) -> Dict:
     return {
-        "language": "fr",
-        "text": "Bonjour Je m'appelle Jane",
+        "language": "en",
+        "text": "Hello my name is Jane",
         "option": "FEMALE",
         "settings": {},
         "audio_format": "",

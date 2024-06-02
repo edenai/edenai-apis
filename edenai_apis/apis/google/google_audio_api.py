@@ -110,8 +110,9 @@ class GoogleAudioApi(AudioInterface):
         audio_attributes: tuple,
         model: Optional[str] = None,
         file_url: str = "",
-        provider_params=dict(),
+        provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
         export_format, channels, _ = audio_attributes
 
         # check language

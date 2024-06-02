@@ -55,7 +55,39 @@
                     "enhanced",
                     "base"
                 ],
-                "default_model":"base"
+                "default_model": "enhanced"
+            },
+            "version": "v1"
+        },
+        "text_to_speech": {
+            "constraints": {
+                "languages": [
+                    "en"
+                ],
+                "audio_format": [
+                    "mp3",
+                    "wav",
+                    "flac",
+                    "aac"
+                ],
+                "voice_ids": {
+                    "FEMALE": [
+                        "en_aura-asteria-en",
+                        "en_aura-luna-en",
+                        "en_aura-stella-en",
+                        "en_aura-athena-en",
+                        "en_aura-hera-en"
+                    ],
+                    "MALE": [
+                        "en_aura-orion-en",
+                        "en_aura-arcas-en",
+                        "en_aura-perseus-en",
+                        "en_aura-angus-en",
+                        "en_aura-orpheus-en",
+                        "en_aura-helios-en",
+                        "en_aura-zeus-en"
+                    ]
+                }
             },
             "version": "v1"
         }

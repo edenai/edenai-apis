@@ -1,0 +1,67 @@
+{
+  "original_response": {
+    "id": "chatcmpl-9GmnSVzy7nHGfiIgPOuIU9DgXw0fL",
+    "object": "chat.completion",
+    "created": 1713787850,
+    "model": "gpt-4-turbo-2024-04-09",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "This image features a serene natural landscape with a wooden boardwalk extending through a lush green meadow. The boardwalk leads the viewer's eye towards the horizon, flanked by tall grasses and a variety of shrubs. The sky above is expansive and decorated with soft, white clouds, suggesting a pleasant, sunny day. The overall atmosphere of the image is peaceful and inviting, emphasizing the beauty of an undisturbed natural environment."
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 1118,
+      "completion_tokens": 87,
+      "total_tokens": 1205
+    },
+    "system_fingerprint": "fp_67e6987839"
+  },
+  "standardized_response": {
+    "generated_text": "This image features a serene natural landscape with a wooden boardwalk extending through a lush green meadow. The boardwalk leads the viewer's eye towards the horizon, flanked by tall grasses and a variety of shrubs. The sky above is expansive and decorated with soft, white clouds, suggesting a pleasant, sunny day. The overall atmosphere of the image is peaceful and inviting, emphasizing the beauty of an undisturbed natural environment.",
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": "Describe this image please ! ",
+              "media_type": null
+            }
+          },
+          {
+            "type": "media_url",
+            "content": {
+              "media_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+              "media_base64": null,
+              "text": null,
+              "media_type": null
+            }
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": "This image features a serene natural landscape with a wooden boardwalk extending through a lush green meadow. The boardwalk leads the viewer's eye towards the horizon, flanked by tall grasses and a variety of shrubs. The sky above is expansive and decorated with soft, white clouds, suggesting a pleasant, sunny day. The overall atmosphere of the image is peaceful and inviting, emphasizing the beauty of an undisturbed natural environment.",
+              "media_type": null
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

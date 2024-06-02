@@ -1,6 +1,20 @@
 from .anonymization_async import (
     anonymization_async_arguments,
-    AnonymizationAsyncDataClass
+    AnonymizationAsyncDataClass,
+)
+from .financial_parser import (
+    FinancialBankInformation,
+    FinancialBarcode,
+    FinancialCustomerInformation,
+    FinancialDocumentInformation,
+    FinancialDocumentMetadata,
+    FinancialLineItem,
+    FinancialLocalInformation,
+    FinancialMerchantInformation,
+    FinancialParserDataClass,
+    FinancialParserObjectDataClass,
+    FinancialPaymentInformation,
+    financial_parser_arguments,
 )
 from .identity_parser import (
     identity_parser_arguments,
@@ -21,6 +35,10 @@ from .invoice_parser import (
     CustomerInformationInvoice,
     BankInvoice,
     invoice_parser_arguments,
+)
+from .invoice_splitter_async.invoice_splitter_async_dataclass import (
+    InvoiceSplitterAsyncDataClass,
+    InvoiceGroupDataClass,
 )
 from .ocr import OcrDataClass, Bounding_box, ocr_arguments
 from .ocr_async import (
@@ -62,18 +80,4 @@ from .resume_parser import (
     ResumeWorkExpEntry,
     ResumeLocation,
     resume_parser_arguments,
-)
-from .financial_parser import (
-    FinancialBankInformation,
-    FinancialBarcode,
-    FinancialCustomerInformation,
-    FinancialDocumentInformation,
-    FinancialDocumentMetadata,
-    FinancialLineItem,
-    FinancialLocalInformation,
-    FinancialMerchantInformation,
-    FinancialParserDataClass,
-    FinancialParserObjectDataClass,
-    FinancialPaymentInformation,
-    financial_parser_arguments
 )

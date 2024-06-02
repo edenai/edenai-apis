@@ -1,3 +1,4 @@
+import json
 from collections import defaultdict
 from io import BufferedReader
 from typing import Dict, Optional, Sequence, TypeVar
@@ -32,6 +33,10 @@ from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     MerchantInformationInvoice,
     TaxesInvoice,
 )
+from edenai_apis.features.ocr.invoice_splitter_async.invoice_splitter_async_dataclass import (
+    InvoiceSplitterAsyncDataClass,
+    InvoiceGroupDataClass,
+)
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
     CustomerInformation,
     ItemLines,
@@ -47,7 +52,14 @@ from edenai_apis.utils.conversion import (
     convert_string_to_number,
 )
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.types import (
+    ResponseType,
+    AsyncLaunchJobResponseType,
+    AsyncPendingResponseType,
+    AsyncErrorResponseType,
+    AsyncBaseResponseType,
+    AsyncResponseType,
+)
 
 ParamsApi = TypeVar("ParamsApi")
 
@@ -72,6 +84,9 @@ class MindeeApi(ProviderInterface, OcrInterface):
         )
         self.url_bank_check = (
             "https://api.mindee.net/v1/products/mindee/bank_check/v1/predict"
+        )
+        self.url_invoice_splitter = (
+            "https://api.mindee.net/v1/products/mindee/invoice_splitter/v1/"
         )
 
     def _get_api_attributes(
@@ -464,7 +479,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
             response = requests.post(self.url_bank_check, headers=headers, files=files)
         except:
             raise ProviderException(
-                "Something went wrong when calling this feautre!!", code=500
+                "Something went wrong when calling this feature", code=500
             )
         original_response = response.json()
         if response.status_code >= 400 or "document" not in original_response:
@@ -483,7 +498,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         payees_list_value = []
         for p in payees_list:
             if p:
-                payees_list_value.append(p.get("value", ""))
+                payees_list_value.append(p.get("value") or "")
         payees_str = None
         if len(payees_list_value) > 0:
             payees_str = ",".join(payees_list_value)
@@ -524,7 +539,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__financial_parser(
-        self, file: str, language: str, document_type: str, file_url: str = ""
+        self, file: str, language: str, document_type: str = "", file_url: str = ""
     ) -> ResponseType[FinancialParserDataClass]:
         headers = {
             "Authorization": self.api_key,
@@ -549,4 +564,70 @@ class MindeeApi(ProviderInterface, OcrInterface):
         return ResponseType[FinancialParserDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
+        )
+
+    def ocr__invoice_splitter_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
+        with open(file, "rb") as file_:
+            args = self._get_api_attributes(file_)
+            response = requests.post(
+                url=self.url_invoice_splitter + "predict_async",
+                headers=args["headers"],
+                files=args["files"],
+            )
+
+            if response.status_code != 202:
+                raise ProviderException(
+                    response.json()["api_request"]["error"],
+                    code=response.status_code,
+                )
+        return AsyncLaunchJobResponseType(provider_job_id=response.json()["job"]["id"])
+
+    def ocr__invoice_splitter_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[InvoiceSplitterAsyncDataClass]:
+        headers = {
+            "Authorization": self.api_key,
+        }
+
+        response = requests.get(
+            f"{self.url_invoice_splitter}documents/queue/{provider_job_id}",
+            headers=headers,
+        )
+
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                f"Error while decoding the response: {exc}", code=response.status_code
+            ) from exc
+
+        if original_response["api_request"]["status"] == "failure":
+            return AsyncErrorResponseType(
+                provider_job_id=provider_job_id,
+                error=original_response["api_request"]["error"],
+            )
+
+        if original_response["job"]["status"] in ["processing", "waiting"]:
+            return AsyncPendingResponseType(provider_job_id=provider_job_id)
+
+        extracted_data = []
+        for group in original_response["document"]["inference"]["prediction"][
+            "invoice_page_groups"
+        ]:
+            extracted_data.append(
+                InvoiceGroupDataClass(
+                    page_indexes=group["page_indexes"],
+                    confidence=group["confidence"],
+                )
+            )
+
+        return AsyncResponseType[InvoiceSplitterAsyncDataClass](
+            provider_job_id=provider_job_id,
+            status="succeeded",
+            original_response=original_response,
+            standardized_response=InvoiceSplitterAsyncDataClass(
+                extracted_data=extracted_data
+            ),
         )

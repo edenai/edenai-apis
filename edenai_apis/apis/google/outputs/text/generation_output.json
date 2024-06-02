@@ -1,38 +1,68 @@
 {
   "original_response": {
-    "candidates": [
+    "predictions": [
       {
-        "content": {
-          "role": "model",
-          "parts": [
-            {
-              "text": "Assistant: Greetings! I am your AI assistant, designed to be helpful, creative"
-            }
-          ]
+        "citationMetadata": {
+          "citations": []
         },
-        "finishReason": "MAX_TOKENS",
-        "safetyRatings": [
-          {
-            "category": "HARM_CATEGORY_HARASSMENT",
-            "probability": "NEGLIGIBLE"
-          },
-          {
-            "category": "HARM_CATEGORY_HATE_SPEECH",
-            "probability": "NEGLIGIBLE"
-          },
-          {
-            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-            "probability": "NEGLIGIBLE"
-          },
-          {
-            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-            "probability": "NEGLIGIBLE"
-          }
-        ]
+        "content": " AI Assistant: Greetings! I'm your friendly AI assistant, here to help you with any questions or tasks you may have",
+        "safetyAttributes": {
+          "scores": [
+            0.1,
+            0.1,
+            0.2,
+            0.1
+          ],
+          "safetyRatings": [
+            {
+              "severityScore": 0,
+              "category": "Dangerous Content",
+              "probabilityScore": 0,
+              "severity": "NEGLIGIBLE"
+            },
+            {
+              "severityScore": 0,
+              "probabilityScore": 0.1,
+              "severity": "NEGLIGIBLE",
+              "category": "Harassment"
+            },
+            {
+              "probabilityScore": 0.1,
+              "severity": "NEGLIGIBLE",
+              "severityScore": 0.1,
+              "category": "Hate Speech"
+            },
+            {
+              "probabilityScore": 0.1,
+              "category": "Sexually Explicit",
+              "severity": "NEGLIGIBLE",
+              "severityScore": 0
+            }
+          ],
+          "categories": [
+            "Derogatory",
+            "Insult",
+            "Religion & Belief",
+            "Sexual"
+          ],
+          "blocked": false
+        }
       }
-    ]
+    ],
+    "metadata": {
+      "tokenMetadata": {
+        "outputTokenCount": {
+          "totalBillableCharacters": 95,
+          "totalTokens": 25
+        },
+        "inputTokenCount": {
+          "totalBillableCharacters": 121,
+          "totalTokens": 32
+        }
+      }
+    }
   },
   "standardized_response": {
-    "generated_text": "Assistant: Greetings! I am your AI assistant, designed to be helpful, creative"
+    "generated_text": " AI Assistant: Greetings! I'm your friendly AI assistant, here to help you with any questions or tasks you may have"
   }
 }

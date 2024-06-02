@@ -1,5 +1,7 @@
 import json
+from http import HTTPStatus
 from typing import Dict, List, Optional, Sequence, Any
+from edenai_apis.utils.parsing import extract
 
 import requests
 
@@ -166,10 +168,11 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
-        model: str = None,
+        model: Optional[str] = None,
         file_url: str = "",
-        provider_params=dict(),
+        provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes
 
         url_file_upload = f"{self.url}file/upload"
@@ -204,14 +207,19 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         payload.update(provider_params)
 
         response = requests.post(url=url_file_transcribe, headers=headers, data=payload)
-        original_response = response.json()
+
         if response.status_code != 201:
-            raise ProviderException(
-                original_response.get("data").get("error"), code=response.status_code
-            )
+            status = response.status_code
+            message = HTTPStatus(status).phrase
+            try:
+                data = response.json()
+                message = extract(data, ["data", "error"], fallback=message)
+            except requests.JSONDecodeError:
+                pass
+            raise ProviderException(message, code=status)
 
+        original_response = response.json()
         transcribeId = original_response.get("data").get("transcribeId")
-
         return AsyncLaunchJobResponseType(provider_job_id=transcribeId)
 
     def audio__speech_to_text_async__get_job_result(

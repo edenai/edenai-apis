@@ -1,3 +1,4 @@
+import logging
 import datetime
 import json
 import os
@@ -10,6 +11,7 @@ from pydantic import (
     Field,
     StrictStr,
     field_validator,
+    ValidationInfo
 )
 
 
@@ -111,13 +113,13 @@ class InfosIdentityParserDataClass(BaseModel):
         return value
 
     @field_validator("expire_date", "issuance_date", "birth_date")
-    def date_validator(cls, value):
+    def date_validator(cls, value, info: ValidationInfo):
         if not value.value:
             return {"value": None, "confidence": None}
         try:
             datetime.datetime.strptime(value.value, "%Y-%m-%d")
         except ValueError:
-            raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+            logging.warning(f"Incorrect date format received on {info.field_name}, format should be YYYY-MM-DD. Got: {value.value}")
         return value
 
     @staticmethod

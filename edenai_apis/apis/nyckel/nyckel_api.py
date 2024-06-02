@@ -212,19 +212,21 @@ class NyckelApi(ProviderInterface, ImageInterface):
         )
 
     def image__search__launch_similarity(
-        self, project_id: str, file: Optional[str] = None, file_url: str = ""
+        self,
+        project_id: str,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        n: int = 10,
     ) -> ResponseType[SearchDataClass]:
         self._refresh_session_auth_headers_if_needed()
 
         url = (
             f"https://www.nyckel.com/v0.9/functions/{project_id}/"
-            f"search?sampleCount={self.DEFAULT_SIMILAR_IMAGE_COUNT}"
+            f"search?sampleCount={n}"
         )
 
-        if file == "" or file is None:
-            assert (
-                file_url and file_url != ""
-            ), "Either file or file_url must be provided"
+        if not file:
+            assert file_url, "Either file or file_url must be provided"
             data = {"data": file_url}
             response = self._session.post(url, json=data)
         else:
@@ -284,8 +286,8 @@ class NyckelApi(ProviderInterface, ImageInterface):
 
         try:
             response = self._session.delete(url)
-        except:
-            raise ProviderException("Something went wrong !!", 500)
+        except Exception as exc:
+            raise ProviderException("Something went wrong !!", 500) from exc
 
         if response.status_code >= 400:
             self._raise_provider_exception(url, {}, response)
@@ -301,12 +303,14 @@ class NyckelApi(ProviderInterface, ImageInterface):
         payload = {"name": label_name, "description": label_description}
         try:
             response = self._session.post(url, json=payload)
+            original_response = response.json()
         except:
             raise ProviderException(
                 "Something went wrong when creating the label !!", 500
             )
-        if response.status_code >= 400 and "already exists" not in response.json().get(
-            "message", ""
+        if (
+            response.status_code >= 400
+            and "already exists" not in original_response.get("message", "")
         ):
             raise self._raise_provider_exception(url, payload, response)
 
@@ -324,42 +328,31 @@ class NyckelApi(ProviderInterface, ImageInterface):
 
         if not label:
             raise ProviderException("Label needs to be specified !!")
-        payload = (
-            {"annotation": {"labelName": label}}
-            if file_url
-            else {"annotation.labelName": label}
-        )
+
+        # Create Label
+        self.__create_label_if_no_exists(project_id=project_id, label_name=label)
+
+        # Upload Sample
         post_parameters = {"url": url}
-
         if file_url:
-            post_parameters["json"] = payload
-            payload["data"] = file_url
-
+            post_parameters["json"] = {
+                "annotation": {"LabelName": label},
+                "data": file_url,
+            }
         else:
             file_ = open(file, "rb")
             post_parameters["files"] = {"data": file_}
-            post_parameters["data"] = payload
+            post_parameters["data"] = {"annotation.labelName": label}
 
-        try_again = True
-        error_message = f"A label with name '{label}' was not found"
+        response = self._session.post(**post_parameters)
+        if response.status_code >= 400:
+            self._raise_provider_exception(url, post_parameters, response)
+        try:
+            original_response = response.json()
+        except Exception as exp:
+            raise ProviderException("Something went wrong !!", 500) from exp
 
-        while try_again:  # in case the label is not already created, it will be created
-            file_.seek(0)
-            try:
-                response = self._session.post(**post_parameters)
-            except:
-                raise ProviderException("Something went wrong !!", 500)
-
-            if response.status_code >= 400:
-                if (
-                    response.json().get("message") == error_message
-                ):  # label with the provided name does not exists
-                    self.__create_label_if_no_exists(project_id, label)
-                else:
-                    self._raise_provider_exception(url, post_parameters, response)
-            else:
-                try_again = False
-        data = response.json()
+        data = original_response
         data["label_name"] = label
         job_id = str(uuid.uuid4())
         data_job_id = {job_id: data}
@@ -378,10 +371,10 @@ class NyckelApi(ProviderInterface, ImageInterface):
             )
         except Exception as exp:
             self.__image__automl_classification_delete_image(project_id, data["id"])
-            raise ProviderException("Could not upload image data", 400)
+            raise ProviderException("Could not upload image data", 400) from exp
         if webook_response.status_code >= 400:
             self.__image__automl_classification_delete_image(project_id, data["id"])
-            raise ProviderException("Could not upload image data", 400)
+            raise ProviderException("Could not upload image data", 400) from exp
         return AsyncLaunchJobResponseType(provider_job_id=job_id)
 
     def image__automl_classification__upload_data_async__get_job_result(
@@ -460,7 +453,11 @@ class NyckelApi(ProviderInterface, ImageInterface):
             raise ProviderException(
                 message="There must 2 images per labels and at least 2 labels in the project"
             )
-        labels = [res["annotation"]["labelId"] for res in response_json]
+        labels = [
+            res["annotation"]["labelId"]
+            for res in response_json
+            if res.get("annotation")
+        ]
         unique_labels = set(labels)
         nb_two_labes = 0
         for x in unique_labels:

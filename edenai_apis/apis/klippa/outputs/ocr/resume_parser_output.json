@@ -140,7 +140,7 @@
         "other_interests": []
       }
     },
-    "request_id": "YdPgNzyjUVU9I9fv5QlX3FKehfG81LLy"
+    "request_id": "iIwTMOPhDMu90CwGYT21p6ehcYl6PW7X"
   },
   "standardized_response": {
     "extracted_data": {
@@ -180,7 +180,8 @@
         "gender": null,
         "nationality": null,
         "martial_status": null,
-        "current_salary": null
+        "current_salary": null,
+        "availability": null
       },
       "education": {
         "total_years_education": null,
@@ -250,6 +251,7 @@
               "city": "Little Rock"
             },
             "description": null,
+            "type": null,
             "industry": null
           },
           {
@@ -270,6 +272,7 @@
               "city": "Little Rock"
             },
             "description": null,
+            "type": null,
             "industry": null
           },
           {
@@ -290,6 +293,7 @@
               "city": "Conway"
             },
             "description": null,
+            "type": null,
             "industry": null
           }
         ]

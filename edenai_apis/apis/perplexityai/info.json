@@ -2,8 +2,8 @@
     "text": {
         "chat": {
             "version": "v1.0",
-            "constraints" : {
-                "models" : [
+            "constraints": {
+                "models": [
                     "mistral-7b-instruct",
                     "mixtral-8x7b-instruct",
                     "codellama-34b-instruct",
@@ -13,7 +13,7 @@
                     "pplx-7b-online",
                     "pplx-70b-online"
                 ],
-                "default_model" : "pplx-7b-online"
+                "default_model": "pplx-70b-online"
             }
         }
     }

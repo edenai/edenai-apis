@@ -84,7 +84,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return SentimentEnum.NEUTRAL.value
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str = None
+        self, text: str, output_sentences: int, language: str, model: Optional[str] = None
     ) -> ResponseType[SummarizeDataClass]:
         files, headers = self._prepare_request(language, text)
 
