@@ -4,6 +4,8 @@ edenai_apis/api_keys/*
 build/
 *.egg-info/
 .eggs/
+bin/
+lib/
 
 *.swp
 *.pyc
