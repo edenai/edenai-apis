@@ -2,6 +2,7 @@ from .anonymization import (
     AnonymizationDataClass,
     anonymization_arguments,
 )
+from .ai_detection import ai_detection_arguments
 from .automl_classification import (
     automl_classification_create_project_arguments,
     automl_classification_upload_data_async_arguments,
