@@ -251,6 +251,7 @@
 | | sentisight |
 | **variation** | openai |
 | | stabilityai |
+| **ai_detection** | winstonai |
 
 </details>
 <details><summary>audio</summary>
@@ -1049,6 +1050,7 @@
 
 | Features | Subfeatures |
 |----------|-------------|
+| **image** | ai_detection |
 | **text** | ai_detection |
 | | plagia_detection |
 
