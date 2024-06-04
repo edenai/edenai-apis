@@ -34,7 +34,7 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
             "Authorization": f'Bearer {self.api_settings["api_key"]}',
         }
 
-    def image__ai_detection(self, file_url: str) -> ResponseType[ImageAiDetectionDataclass]:
+    def image__ai_detection(self, file: Optional[str] = None,  file_url: Optional[str] = None) -> ResponseType[ImageAiDetectionDataclass]:
 
         payload = json.dumps({
             "url": file_url,
