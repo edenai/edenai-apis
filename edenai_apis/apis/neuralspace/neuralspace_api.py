@@ -60,16 +60,18 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         files = {"text": text, "language": language}
 
         response = requests.request("POST", url, json=files, headers=self.header)
-        if response.status_code != 200:
-            if not response.json().get("success"):
-                raise ProviderException(
-                    response.json().get("message"), code=response.status_code
-                )
 
         try:
             original_response = response.json()
         except json.JSONDecodeError as exc:
             raise ProviderException(message="Internal Server Error", code=500) from exc
+
+        if response.status_code != 200:
+            if not original_response.get("success"):
+                raise ProviderException(
+                    original_response.get("message"), code=response.status_code
+                )
+
 
         data = original_response.get("data") or {}
 
