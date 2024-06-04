@@ -1,7 +1,7 @@
 import json
 from collections import defaultdict
 from io import BufferedReader
-from typing import Dict, Optional, Sequence, TypeVar
+from typing import Dict, Optional, Sequence, TypeVar, TypedDict
 
 import requests
 
@@ -61,8 +61,9 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 
-ParamsApi = TypeVar("ParamsApi")
-
+class RequestParams(TypedDict):
+    headers: Dict[str, str]
+    files: Dict[str, BufferedReader]
 
 class MindeeApi(ProviderInterface, OcrInterface):
     provider_name = "mindee"
@@ -90,21 +91,12 @@ class MindeeApi(ProviderInterface, OcrInterface):
         )
 
     def _get_api_attributes(
-        self, file: BufferedReader, language: Optional[str] = None
-    ) -> ParamsApi:
-        params: ParamsApi = {
-            "headers": {"Authorization": self.api_key},
-            "files": {"document": file},
-            "params": {
-                "local": {
-                    "langage": language.split("-")[0],
-                    "country": language.split("-")[1],
-                }
-            }
-            if language
-            else None,
-        }
-        return params
+        self, file: BufferedReader
+    ) -> RequestParams:
+        return RequestParams(
+            headers={"Authorization": self.api_key},
+            files={"document": file},
+        )
 
     def ocr__receipt_parser(
         self, file: str, language: str, file_url: str = ""
@@ -115,7 +107,6 @@ class MindeeApi(ProviderInterface, OcrInterface):
             self.url_receipt,
             headers=args["headers"],
             files=args["files"],
-            params=args["params"],
         )
         original_response = response.json()
 
@@ -210,8 +201,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         }
         file_ = open(file, "rb")
         files = {"document": file_}
-        params = {"locale": {"language": language}}
-        response = requests.post(self.url, headers=headers, files=files, params=params)
+        response = requests.post(self.url, headers=headers, files=files)
         original_response = response.json()
 
         file_.close()
@@ -546,9 +536,8 @@ class MindeeApi(ProviderInterface, OcrInterface):
         }
         file_ = open(file, "rb")
         files = {"document": file_}
-        params = {"locale": {"language": language}}
         response = requests.post(
-            self.url_financial, headers=headers, files=files, params=params
+            self.url_financial, headers=headers, files=files
         )
         original_response = response.json()
 
