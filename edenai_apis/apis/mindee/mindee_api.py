@@ -102,7 +102,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
         file_ = open(file, "rb")
-        args = self._get_api_attributes(file_, language)
+        args = self._get_api_attributes(file_)
         response = requests.post(
             self.url_receipt,
             headers=args["headers"],
