@@ -53,7 +53,7 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
 
         original_response = response.json()
 
-        score = original_response.get("score") / 100
+        score = 1 - original_response.get("score") / 100
         prediction = ImageAiDetectionDataclass.set_label_based_on_score(score)
         if score is None:
             raise ProviderException(response.json())
