@@ -58,10 +58,10 @@
     "ai_watermark_detected": false,
     "ai_watermark_issuers": [],
     "credits_used": 300,
-    "credits_remaining": 273132
+    "credits_remaining": 130639
   },
   "standardized_response": {
-    "ai_score": 0.9704999999999999,
-    "prediction": "ai-generated"
+    "ai_score": 0.02950000000000008,
+    "prediction": "original"
   }
 }
