@@ -1,5 +1,6 @@
 import json
 from typing import Dict, Sequence, Any, Optional
+from uuid import uuid4
 import requests
 from edenai_apis.apis.winstonai.config import WINSTON_AI_API_URL
 from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
@@ -17,6 +18,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.upload_s3 import upload_file_to_s3
 
 
 class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
@@ -35,9 +37,11 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
         }
 
     def image__ai_detection(self, file: Optional[str] = None,  file_url: Optional[str] = None) -> ResponseType[ImageAiDetectionDataclass]:
+        if not file_url and not file:
+            raise ProviderException("file or file_url required")
 
         payload = json.dumps({
-            "url": file_url,
+            "url": file_url or upload_file_to_s3(file, file)
         })
 
         response = requests.request(
