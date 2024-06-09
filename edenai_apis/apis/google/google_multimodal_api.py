@@ -184,7 +184,7 @@ class GoogleMultimodalApi(MultimodalInterface):
                 "topK": top_k,
                 "stopSequences": stop_sequences,
             },
-            "systemInstruction": chatbot_global_action,
+            # "systemInstruction": chatbot_global_action,
         }
         if stream is False:
             response = requests.post(url, json=payload, headers=headers)

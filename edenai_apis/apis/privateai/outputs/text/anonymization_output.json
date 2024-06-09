@@ -1,0 +1,66 @@
+{
+  "original_response": [
+    {
+      "processed_text": "The phone number of [NAME_GIVEN_1] is the [PHONE_NUMBER_1].",
+      "entities": [
+        {
+          "processed_text": "NAME_GIVEN_1",
+          "text": "Luc",
+          "location": {
+            "stt_idx": 20,
+            "end_idx": 23,
+            "stt_idx_processed": 20,
+            "end_idx_processed": 34
+          },
+          "best_label": "NAME_GIVEN",
+          "labels": {
+            "NAME_GIVEN": 0.9117,
+            "NAME": 0.9053
+          }
+        },
+        {
+          "processed_text": "PHONE_NUMBER_1",
+          "text": "06 21 32 43 54",
+          "location": {
+            "stt_idx": 31,
+            "end_idx": 45,
+            "stt_idx_processed": 42,
+            "end_idx_processed": 58
+          },
+          "best_label": "PHONE_NUMBER",
+          "labels": {
+            "PHONE_NUMBER": 0.9037
+          }
+        }
+      ],
+      "entities_present": true,
+      "characters_processed": 46,
+      "languages_detected": {
+        "en": 0.7309150695800781
+      }
+    }
+  ],
+  "standardized_response": {
+    "result": "The phone number of *** is the **************.",
+    "entities": [
+      {
+        "offset": 20,
+        "length": 3,
+        "category": "PersonalInformation",
+        "subcategory": "Name",
+        "original_label": "NAME_GIVEN",
+        "content": "Luc",
+        "confidence_score": 0.912
+      },
+      {
+        "offset": 31,
+        "length": 14,
+        "category": "PersonalInformation",
+        "subcategory": "Phone",
+        "original_label": "PHONE_NUMBER",
+        "content": "06 21 32 43 54",
+        "confidence_score": 0.904
+      }
+    ]
+  }
+}

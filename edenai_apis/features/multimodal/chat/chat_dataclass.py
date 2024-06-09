@@ -39,21 +39,21 @@ class ChatMessage(BaseModel):
     type: Literal["media_url", "media_base64", "text"]
     content: ChatMessageContent
 
-    @model_validator(mode="before")
-    def check_type_and_content(cls, values):
-        type_, content = values.get("type"), values.get("content")
-        if type_ == "media_url" and not content.media_url:
-            raise ValueError(
-                "If type is media_url, media_url must be provided in content"
-            )
-        if type_ == "media_base64" and not content.media_base64:
-            raise ValueError(
-                "If type is media_base64, media_base64 must be provided in content"
-            )
-        if type_ == "text" and not content.text:
-            raise ValueError("If type is text, text must be provided in content")
+    # @model_validator(mode="before")
+    # def check_type_and_content(cls, values):
+    #     type_, content = values.get("type"), values.get("content")
+    #     if type_ == "media_url" and not content.media_url:
+    #         raise ValueError(
+    #             "If type is media_url, media_url must be provided in content"
+    #         )
+    #     if type_ == "media_base64" and not content.media_base64:
+    #         raise ValueError(
+    #             "If type is media_base64, media_base64 must be provided in content"
+    #         )
+    #     if type_ == "text" and not content.text:
+    #         raise ValueError("If type is text, text must be provided in content")
 
-        return values
+    #     return values
 
 
 class ChatMessageDataClass(BaseModel):

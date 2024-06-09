@@ -104,7 +104,6 @@
 | | cohere |
 | | connexun |
 | | emvista |
-| | huggingface |
 | | meaningcloud |
 | | microsoft |
 | | nlpcloud |
@@ -116,6 +115,7 @@
 | | microsoft |
 | | oneai |
 | | openai |
+| | privateai |
 | **entity_sentiment** | amazon |
 | | google |
 | **keyword_extraction** | amazon |
@@ -180,12 +180,11 @@
 | | ibm |
 | | openai |
 | | tenstorrent |
-| **question_answer** | huggingface |
-| | openai |
-| | tenstorrent |
 | **emotion_detection** | nlpcloud |
 | | vernai |
 | **prompt_optimization** | openai |
+| **question_answer** | openai |
+| | tenstorrent |
 | **ai_detection** | originalityai |
 | | sapling |
 | | winstonai |
@@ -252,6 +251,7 @@
 | | sentisight |
 | **variation** | openai |
 | | stabilityai |
+| **ai_detection** | winstonai |
 
 </details>
 <details><summary>audio</summary>
@@ -275,6 +275,7 @@
 | | voci |
 | | voxist |
 | **text_to_speech** | amazon |
+| | deepgram |
 | | elevenlabs |
 | | google |
 | | ibm |
@@ -292,7 +293,6 @@
 | **automatic_translation** | amazon |
 | | deepl |
 | | google |
-| | huggingface |
 | | ibm |
 | | microsoft |
 | | modernmt |
@@ -533,6 +533,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **audio** | speech_to_text_async |
+| | text_to_speech |
 
 </details>
 <details><summary>deepl</summary>
@@ -639,15 +640,6 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **ocr** | resume_parser |
-
-</details>
-<details><summary>huggingface</summary>
-
-| Features | Subfeatures |
-|----------|-------------|
-| **text** | question_answer |
-| | summarize |
-| **translation** | automatic_translation |
 
 </details>
 <details><summary>ibm</summary>
@@ -893,6 +885,7 @@
 | Features | Subfeatures |
 |----------|-------------|
 | **ocr** | anonymization_async |
+| **text** | anonymization |
 
 </details>
 <details><summary>prowritingaid</summary>
@@ -1057,6 +1050,7 @@
 
 | Features | Subfeatures |
 |----------|-------------|
+| **image** | ai_detection |
 | **text** | ai_detection |
 | | plagia_detection |
 

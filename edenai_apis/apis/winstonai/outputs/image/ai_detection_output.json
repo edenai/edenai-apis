@@ -1,0 +1,67 @@
+{
+  "original_response": {
+    "score": 97.05,
+    "human_probability": 0.9705126881599426,
+    "ai_probability": 0.02948736399412155,
+    "version": "1.0",
+    "mime_type": "image/jpeg",
+    "c2pa": null,
+    "exif": {
+      "SpecialInstructions": "This photo is for metadata testing purposes only",
+      "DateCreated": "2020-01-08T13:30:01+01:00",
+      "TimeCreated": "133001+0100",
+      "Byline": "Jane Photosty",
+      "Headline": "The railway and the cars",
+      "Credit": "IPTC/Jane Photosty",
+      "CopyrightNotice": "\u00a9 Copyright 2020 IPTC (Test Images) - www.iptc.org",
+      "Caption": "The railways of the S45 line are running very close to a small street with parking cars",
+      "ApplicationRecordVersion": "\u0000\u0004",
+      "creator": "Jane Photosty",
+      "description": {
+        "lang": "x-default",
+        "value": "The railways of the S45 line are running very close to a small street with parking cars"
+      },
+      "rights": {
+        "lang": "x-default",
+        "value": "\u00a9 Copyright 2020 IPTC (Test Images) - www.iptc.org"
+      },
+      "Instructions": "This photo is for metadata testing purposes only",
+      "CopyrightOwner": {
+        "parseType": "Resource",
+        "CopyrightOwnerID": "https://iptc.org",
+        "CopyrightOwnerName": "IPTC - International Press Telecommunications Council"
+      },
+      "ImageCreator": {
+        "parseType": "Resource",
+        "ImageCreatorID": "https://example.com/photogs/JanePhotosty",
+        "ImageCreatorName": "Jane Photosty"
+      },
+      "Licensor": {
+        "parseType": "Resource",
+        "LicensorID": "https://iptc.org",
+        "LicensorName": "IPTC - International Press Telecommunications Council",
+        "LicensorURL": "https://iptc.org/tests/licensing-of-images-test-page/"
+      },
+      "UsageTerms": {
+        "lang": "x-default",
+        "value": "All rights reserved. To use this image an explicit license granted by IPTC is required."
+      },
+      "WebStatement": "https://iptc.org/tests/copyright-and-licenses-of-images-test-page/",
+      "ImageDescription": "The railways of the S45 line are running very close to a small street with parking cars",
+      "XResolution": 72,
+      "YResolution": 72,
+      "ResolutionUnit": "inches",
+      "Artist": "Jane Photosty",
+      "YCbCrPositioning": 1,
+      "Copyright": "\u00a9 Copyright 2020 IPTC (Test Images) - www.iptc.org"
+    },
+    "ai_watermark_detected": false,
+    "ai_watermark_issuers": [],
+    "credits_used": 300,
+    "credits_remaining": 130639
+  },
+  "standardized_response": {
+    "ai_score": 0.02950000000000008,
+    "prediction": "original"
+  }
+}

@@ -5,7 +5,10 @@ from edenai_apis.features.ocr import (
     ResumeParserDataClass,
     InvoiceParserDataClass,
 )
-from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass, FinancialParserType
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialParserDataClass,
+    FinancialParserType,
+)
 from edenai_apis.features.ocr.identity_parser import IdentityParserDataClass
 from edenai_apis.features.ocr.receipt_parser import ReceiptParserDataClass
 from edenai_apis.features.provider.provider_interface import ProviderInterface
@@ -14,7 +17,13 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
 from .client import Client
 from .document import FileParameter, UploadDocumentParams
-from .standardization import IdentityStandardizer, InvoiceStandardizer, ReceiptStandardizer, ResumeStandardizer, FinancialStandardizer
+from .standardization import (
+    IdentityStandardizer,
+    InvoiceStandardizer,
+    ReceiptStandardizer,
+    ResumeStandardizer,
+    FinancialStandardizer,
+)
 
 
 class AffindaApi(ProviderInterface, OcrInterface):
@@ -32,9 +41,11 @@ class AffindaApi(ProviderInterface, OcrInterface):
     def ocr__resume_parser(
         self, file: str, file_url: str = ""
     ) -> ResponseType[ResumeParserDataClass]:
-        self.client.current_workspace = self.api_settings["resume_workspace"]
+        self.client.current_workspace = self.api_settings["nextgen_resume_parser"]
 
-        document = self.client.create_document(file=FileParameter(file=file, url=file_url))
+        document = self.client.create_document(
+            file=FileParameter(file=file, url=file_url)
+        )
         original_response = self.client.last_api_response
 
         standardizer = ResumeStandardizer(document=document)
@@ -43,12 +54,12 @@ class AffindaApi(ProviderInterface, OcrInterface):
         standardizer.std_work_experience()
         standardizer.std_skills()
         standardizer.std_miscellaneous()
-      
+
         self.client.delete_document(document.meta.identifier)
 
         return ResponseType[ResumeParserDataClass](
-            original_response=original_response, 
-            standardized_response=standardizer.standardized_response
+            original_response=original_response,
+            standardized_response=standardizer.standardized_response,
         )
 
     def ocr__invoice_parser(
@@ -56,7 +67,9 @@ class AffindaApi(ProviderInterface, OcrInterface):
     ) -> ResponseType[InvoiceParserDataClass]:
         self.client.current_workspace = self.api_settings["invoice_workspace"]
 
-        document = self.client.create_document(file=FileParameter(file=file, url=file_url))
+        document = self.client.create_document(
+            file=FileParameter(file=file, url=file_url)
+        )
         original_response = self.client.last_api_response
 
         standardizer = InvoiceStandardizer(document=document)
@@ -73,12 +86,13 @@ class AffindaApi(ProviderInterface, OcrInterface):
             standardized_response=standardizer.standardized_response,
         )
 
-
-    def ocr__receipt_parser(self, file: str, language: str, file_url: str = "") -> ResponseType[ReceiptParserDataClass]:
+    def ocr__receipt_parser(
+        self, file: str, language: str, file_url: str = ""
+    ) -> ResponseType[ReceiptParserDataClass]:
         self.client.current_workspace = self.api_settings["receipt_workspace"]
         document = self.client.create_document(
             file=FileParameter(file=file, url=file_url),
-            parameters=UploadDocumentParams(language=language)
+            parameters=UploadDocumentParams(language=language),
         )
         original_response = self.client.last_api_response
 
@@ -92,12 +106,16 @@ class AffindaApi(ProviderInterface, OcrInterface):
 
         return ResponseType[ReceiptParserDataClass](
             original_response=original_response,
-            standardized_response=standardizer.standardized_response
+            standardized_response=standardizer.standardized_response,
         )
-    
-    def ocr__identity_parser(self, file: str, file_url: str = "") -> ResponseType[IdentityParserDataClass]:
-        self.client.current_workspace = self.api_settings['identity_workspace']
-        document = self.client.create_document(file=FileParameter(file=file, url=file_url))
+
+    def ocr__identity_parser(
+        self, file: str, file_url: str = ""
+    ) -> ResponseType[IdentityParserDataClass]:
+        self.client.current_workspace = self.api_settings["identity_workspace"]
+        document = self.client.create_document(
+            file=FileParameter(file=file, url=file_url)
+        )
         original_response = self.client.last_api_response
 
         standardizer = IdentityStandardizer(document=document)
@@ -107,7 +125,7 @@ class AffindaApi(ProviderInterface, OcrInterface):
 
         return ResponseType[IdentityParserDataClass](
             original_response=original_response,
-            standardized_response=standardizer.standardized_response
+            standardized_response=standardizer.standardized_response,
         )
 
     def ocr__financial_parser(
@@ -119,12 +137,16 @@ class AffindaApi(ProviderInterface, OcrInterface):
             else "invoice_workspace"
         )
         self.client.current_workspace = self.api_settings[workspace_key]
-        document = self.client.create_document(file=FileParameter(file=file, url=file_url))
+        document = self.client.create_document(
+            file=FileParameter(file=file, url=file_url)
+        )
         original_response = self.client.last_api_response
-        standardizer = FinancialStandardizer(document=document, original_response=original_response)
+        standardizer = FinancialStandardizer(
+            document=document, original_response=original_response
+        )
         standardizer.std_response()
 
         return ResponseType[FinancialParserDataClass](
             original_response=original_response,
-            standardized_response=standardizer.standardized_response
+            standardized_response=standardizer.standardized_response,
         )

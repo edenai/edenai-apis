@@ -1,102 +1,68 @@
 {
-  "original_response": [
-    {
-      "candidates": [
-        {
-          "content": {
-            "role": "model",
-            "parts": [
-              {
-                "text": "AI: Greetings, I am Gemini, a versatile and advanced conversational AI designed to assist and engage with you in"
-              }
-            ]
-          },
-          "finishReason": "MAX_TOKENS",
+  "original_response": {
+    "predictions": [
+      {
+        "citationMetadata": {
+          "citations": []
+        },
+        "content": " AI Assistant: Greetings! I'm your friendly AI assistant, here to help you with any questions or tasks you may have",
+        "safetyAttributes": {
+          "scores": [
+            0.1,
+            0.1,
+            0.2,
+            0.1
+          ],
           "safetyRatings": [
             {
-              "category": "HARM_CATEGORY_HATE_SPEECH",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.040162582,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.052716404
+              "severityScore": 0,
+              "category": "Dangerous Content",
+              "probabilityScore": 0,
+              "severity": "NEGLIGIBLE"
             },
             {
-              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.01822929,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.039121646
+              "severityScore": 0,
+              "probabilityScore": 0.1,
+              "severity": "NEGLIGIBLE",
+              "category": "Harassment"
             },
             {
-              "category": "HARM_CATEGORY_HARASSMENT",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.108566426,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.047074173
+              "probabilityScore": 0.1,
+              "severity": "NEGLIGIBLE",
+              "severityScore": 0.1,
+              "category": "Hate Speech"
             },
             {
-              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.07723878,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.032528225
+              "probabilityScore": 0.1,
+              "category": "Sexually Explicit",
+              "severity": "NEGLIGIBLE",
+              "severityScore": 0
             }
-          ]
+          ],
+          "categories": [
+            "Derogatory",
+            "Insult",
+            "Religion & Belief",
+            "Sexual"
+          ],
+          "blocked": false
         }
-      ]
-    },
-    {
-      "candidates": [
-        {
-          "content": {
-            "role": "model",
-            "parts": [
-              {
-                "text": " a comprehensive manner"
-              }
-            ]
-          },
-          "finishReason": "MAX_TOKENS",
-          "safetyRatings": [
-            {
-              "category": "HARM_CATEGORY_HATE_SPEECH",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.041930523,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.053107906
-            },
-            {
-              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.018653521,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.034880884
-            },
-            {
-              "category": "HARM_CATEGORY_HARASSMENT",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.112015955,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.049313594
-            },
-            {
-              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.08166612,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.03904829
-            }
-          ]
+      }
+    ],
+    "metadata": {
+      "tokenMetadata": {
+        "outputTokenCount": {
+          "totalBillableCharacters": 95,
+          "totalTokens": 25
+        },
+        "inputTokenCount": {
+          "totalBillableCharacters": 121,
+          "totalTokens": 32
         }
-      ],
-      "usageMetadata": {
-        "promptTokenCount": 32,
-        "candidatesTokenCount": 25,
-        "totalTokenCount": 57
       }
     }
-  ],
+  },
   "standardized_response": {
-    "generated_text": "AI: Greetings, I am Gemini, a versatile and advanced conversational AI designed to assist and engage with you in a comprehensive manner"
+    "generated_text": " AI Assistant: Greetings! I'm your friendly AI assistant, here to help you with any questions or tasks you may have"
   }
 }

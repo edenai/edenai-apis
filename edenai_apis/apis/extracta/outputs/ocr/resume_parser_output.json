@@ -18,7 +18,7 @@
         "company_name": "The Wesley Center",
         "address": "Little Rock, Arkansas",
         "description": "Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas",
-        "industry": ""
+        "industry": "Early Childhood Development"
       },
       {
         "title": "Client Specialist",
@@ -27,14 +27,23 @@
         "company_name": "Rainbow Special Care Center",
         "address": "Little Rock, Arkansas",
         "description": "",
-        "industry": ""
+        "industry": "Early Childhood Development"
+      },
+      {
+        "title": "Teacher's Assistant",
+        "start_date": "1997-01-01",
+        "end_date": "1999-01-01",
+        "company_name": "Cowell Elementary",
+        "address": "Conway, Arkansas",
+        "description": "",
+        "industry": "Early Childhood Development"
       }
     ],
     "education": [
       {
         "title": "BS in Early Childhood Development",
         "start_date": "1999-01-01",
-        "end_date": "",
+        "end_date": "1999-01-01",
         "address": "Little Rock, AR",
         "description": "",
         "establishment": "University of Arkansas at Little Rock",
@@ -44,7 +53,7 @@
       {
         "title": "BA in Elementary Education",
         "start_date": "1998-01-01",
-        "end_date": "",
+        "end_date": "1998-01-01",
         "address": "Little Rock, AR",
         "description": "",
         "establishment": "University of Arkansas at Little Rock",
@@ -94,7 +103,8 @@
         "gender": null,
         "nationality": null,
         "martial_status": null,
-        "current_salary": null
+        "current_salary": null,
+        "availability": null
       },
       "education": {
         "total_years_education": null,
@@ -102,7 +112,7 @@
           {
             "title": "BS in Early Childhood Development",
             "start_date": "1999-01-01",
-            "end_date": "",
+            "end_date": "1999-01-01",
             "location": {
               "formatted_location": "Little Rock, AR",
               "postal_code": null,
@@ -123,7 +133,7 @@
           {
             "title": "BA in Elementary Education",
             "start_date": "1998-01-01",
-            "end_date": "",
+            "end_date": "1998-01-01",
             "location": {
               "formatted_location": "Little Rock, AR",
               "postal_code": null,
@@ -164,7 +174,8 @@
               "city": null
             },
             "description": "Client Specialist, Rainbow Special Care Center, Little Rock, Arkansas",
-            "industry": ""
+            "type": null,
+            "industry": "Early Childhood Development"
           },
           {
             "title": "Client Specialist",
@@ -184,7 +195,29 @@
               "city": null
             },
             "description": "",
-            "industry": ""
+            "type": null,
+            "industry": "Early Childhood Development"
+          },
+          {
+            "title": "Teacher's Assistant",
+            "start_date": "1997-01-01",
+            "end_date": "1999-01-01",
+            "company": "Cowell Elementary",
+            "location": {
+              "formatted_location": "Conway, Arkansas",
+              "postal_code": null,
+              "region": null,
+              "country": null,
+              "country_code": null,
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": null
+            },
+            "description": "",
+            "type": null,
+            "industry": "Early Childhood Development"
           }
         ]
       },
