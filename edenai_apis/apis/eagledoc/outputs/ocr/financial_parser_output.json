@@ -5,7 +5,7 @@
       "ShopName": {
         "value": "SNG Engineering, Inc.",
         "page": 1,
-        "confidence": 0.81
+        "confidence": 0.79
       },
       "ShopStreet": {
         "value": "344 Main Street Suite 200",
@@ -29,17 +29,17 @@
       },
       "ShopCountry": {
         "value": "US",
-        "confidence": 1.0
+        "confidence": 0.24
       },
       "CustomerName": {
         "value": "Damita J Goldsmith",
         "page": 1,
-        "confidence": 0.85
+        "confidence": 0.83
       },
       "CustomerStreet": {
         "value": "201 Stan Fey Dr",
         "page": 1,
-        "confidence": 0.84
+        "confidence": 0.85
       },
       "CustomerCity": {
         "value": "Upper Marlboro",
@@ -49,12 +49,16 @@
       "CustomerZip": {
         "value": "20774",
         "page": 1,
-        "confidence": 0.83
+        "confidence": 0.76
       },
       "CustomerState": {
         "value": "MD",
         "page": 1,
         "confidence": 0.84
+      },
+      "CustomerCountry": {
+        "value": "US",
+        "confidence": 0.0
       },
       "InvoiceDate": {
         "value": "2003-01-20",
@@ -79,30 +83,20 @@
         "value": "false",
         "confidence": 1.0
       },
-      "VATNumber": {
-        "value": "301.548.0055",
-        "page": 1,
-        "confidence": 0.91
-      },
-      "IBAN": {
-        "value": "Gaithersburg",
-        "page": 1,
-        "confidence": 0.91
-      },
-      "BIC": {
-        "value": "Suite 200",
-        "page": 1,
-        "confidence": 0.91
-      },
       "Email": {
         "value": "sng.engineering@erols.com",
         "page": 1,
         "confidence": 0.97
       },
       "Fax": {
-        "value": "301.548.184",
+        "value": "301.548.1840",
         "page": 1,
-        "confidence": 0.91
+        "confidence": 0.87
+      },
+      "DocumentType": {
+        "value": "Invoice",
+        "page": 1,
+        "confidence": 0.99
       }
     },
     "productItems": [
@@ -139,7 +133,7 @@
     "paymentBanks": null,
     "performanceOption": "ACCURACY",
     "fileHash": "72e3bdcce7217608fc6a79e61194652c",
-    "version": "0.3.01",
+    "version": "0.9.04",
     "numberOfPages": 1,
     "pages": [
       {
@@ -161,7 +155,7 @@
           "name": "Damita J Goldsmith",
           "id_reference": null,
           "mailling_address": null,
-          "billing_address": "201 Stan Fey Dr, Upper Marlboro, 20774, MD",
+          "billing_address": "201 Stan Fey Dr, Upper Marlboro, 20774, MD, US",
           "shipping_address": null,
           "service_address": null,
           "remittance_address": null,
@@ -182,7 +176,7 @@
           "website": null,
           "remit_to_name": null,
           "city": "Upper Marlboro",
-          "country": null,
+          "country": "US",
           "house_number": null,
           "province": "MD",
           "street_name": "201 Stan Fey Dr",
@@ -204,17 +198,17 @@
           "pan_number": null,
           "coc_number": null,
           "fiscal_number": null,
-          "email": null,
+          "email": "sng.engineering@erols.com",
           "fax": null,
           "website": null,
           "registration": null,
-          "city": null,
-          "country": "US",
+          "city": "Gaithersburg",
+          "country": null,
           "house_number": null,
           "province": "MD",
           "street_name": "344 Main Street Suite 200",
           "zip_code": "20878",
-          "country_code": null
+          "country_code": "US"
         },
         "payment_information": {
           "amount_due": 750.0,
