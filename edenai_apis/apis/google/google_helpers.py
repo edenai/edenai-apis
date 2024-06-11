@@ -2,7 +2,7 @@ import enum
 import json
 import re
 from http import HTTPStatus
-from typing import List, Sequence
+from typing import List, Sequence, Dict
 from typing import Tuple
 
 import google
@@ -590,3 +590,19 @@ def google_financial_parser(document: Document) -> FinancialParserDataClass:
         )
 
     return FinancialParserDataClass(extracted_data=extracted_data)
+
+
+def calculate_usage_tokens(original_response: List[dict]) -> Dict:
+    """
+    Calculates the token usage from the original response.
+
+    This function extracts token usage information from the provided response.
+    """
+    usage = {
+        "prompt_tokens": original_response["usage_metadata"]["prompt_token_count"],
+        "completion_tokens": original_response["usage_metadata"][
+            "candidates_token_count"
+        ],
+        "total_tokens": original_response["usage_metadata"]["total_token_count"],
+    }
+    original_response["usage"] = usage

@@ -5,6 +5,7 @@ from google.cloud import aiplatform, storage
 from google.cloud import translate_v3 as translate
 from google.cloud import videointelligence, vision
 from google.cloud.language import LanguageServiceClient
+import google.generativeai as genai
 
 from edenai_apis.apis.google.google_audio_api import GoogleAudioApi
 from edenai_apis.apis.google.google_image_api import GoogleImageApi
@@ -13,6 +14,7 @@ from edenai_apis.apis.google.google_text_api import GoogleTextApi
 from edenai_apis.apis.google.google_translation_api import GoogleTranslationApi
 from edenai_apis.apis.google.google_video_api import GoogleVideoApi
 from edenai_apis.apis.google.google_multimodal_api import GoogleMultimodalApi
+
 from edenai_apis.features import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -51,3 +53,5 @@ class GoogleApi(
         aiplatform.init(
             project=self.project_id,
         )
+
+        genai.configure(api_key=self.api_settings.get("genai_api_key"))
