@@ -1,6 +1,8 @@
 from typing import Dict, List, Union, Generator, Optional
 import json
 import requests
+import google.generativeai as genai
+from google.api_core.exceptions import GoogleAPIError
 import base64
 from edenai_apis.features.multimodal.chat import (
     ChatDataClass,
@@ -10,8 +12,8 @@ from edenai_apis.features.multimodal.chat import (
 )
 from edenai_apis.features.multimodal.multimodal_interface import MultimodalInterface
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.apis.google.google_helpers import get_access_token
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.apis.google.google_helpers import calculate_usage_tokens
 
 
 class GoogleMultimodalApi(MultimodalInterface):
@@ -32,122 +34,45 @@ class GoogleMultimodalApi(MultimodalInterface):
         >>> Accepted format:
         [
             {
-            "role": string,
-            "parts": [
-                {
-                // Union field data can be only one of the following:
-                "text": string,
-                "inlineData": {
-                    "mimeType": string,
-                    "data": string
-                },
-                "fileData": {
-                    "mimeType": string,
-                    "fileUri": string
-                }
-                }
-            ]
+                "role": "user",
+                "parts": [
+                    "can you describe this image ? ",
+                    {"mime_type": "image/jpeg", "data": base64_image},
+                ],
             }
         ]
-
         """
-        transformed_messages = []
+        formatted_messages = []
+
         for message in messages:
-            role = message["role"].upper()
-            if role == "USER":
-                parts = []
-                for content in message["content"]:
-                    if content["type"] == "text":
-                        parts.append({"text": content["content"]["text"]})
-                    elif content["type"] == "media_url":
-                        media_url = content["content"]["media_url"]
-                        media_type = content["content"]["media_type"]
-                        response = requests.get(media_url)
+            formatted_message = {"role": message.get("role"), "parts": []}
+            for content_item in message.get("content"):
+                if content_item["type"] == "text":
+                    formatted_message["parts"].append(content_item["content"]["text"])
+                elif content_item["type"] == "media_base64":
+                    formatted_message["parts"].append(
+                        {
+                            "mime_type": content_item["content"]["media_type"],
+                            "data": content_item["content"]["media_base64"],
+                        }
+                    )
+                elif content_item["type"] == "media_url":
+                    media_url = content_item["content"]["media_url"]
+                    media_type = content_item["content"]["media_type"]
+                    response = requests.get(media_url)
+                    data = base64.b64encode(response.content).decode("utf-8")
+                    formatted_message["parts"].append(
+                        {"mime_type": media_type, "data": data}
+                    )
 
-                        data = base64.b64encode(response.content).decode("utf-8")
-                        parts.append(
-                            {"inlineData": {"data": data, "mimeType": media_type}}
-                        )
-                    elif content["type"] == "media_base64":
-                        media_base64 = content["content"]["media_base64"]
-                        parts.append(
-                            {
-                                "inlineData": {
-                                    "data": media_base64,
-                                    "mimeType": content["content"]["media_type"],
-                                }
-                            }
-                        )
-                transformed_messages.append({"role": role, "parts": parts})
-            elif role == "ASSISTANT":
-                transformed_messages.append(
-                    {
-                        "role": role,
-                        "parts": [
-                            {
-                                "text": message.get("content")[0]
-                                .get("content")
-                                .get("text"),
-                            }
-                        ],
-                    }
-                )
-        return transformed_messages
+            formatted_messages.append(formatted_message)
 
-    @staticmethod
-    def __calculate_usage_tokens(original_response: List[dict]) -> Dict:
-        """
-        Calculates the token usage from the original response.
-
-        This function extracts token usage information from the provided response.
-        It assumes that usageMetadata appears only in the last element of the object.
-
-        """
-        # The object usageMetadata appear only in the last element of the obj
-        usage = {
-            "prompt_tokens": original_response[-1]["usageMetadata"]["totalTokenCount"],
-            "completion_tokens": original_response[-1]["usageMetadata"][
-                "totalTokenCount"
-            ],
-            "total_tokens": original_response[-1]["usageMetadata"]["totalTokenCount"],
-        }
-        return {"usage": usage, "data": original_response}
-
-    @staticmethod
-    def __retrieve_generated_text(original_response: List[dict]) -> str:
-        """
-        Builds the generated text from Google Gemini response.
-
-        This function constructs the generated text from the provided response.
-        It iterates through the list of dictionaries and retrieves the text parts
-        """
-        answer = ""
-        for resp in original_response:
-            answer += (
-                resp["candidates"][0]
-                .get("content", {})
-                .get("parts", [{}])[0]
-                .get("text", "")
-            )
-        return answer
+        return formatted_messages
 
     @staticmethod
     def __chat_stream_generator(response: requests.Response) -> Generator:
-        for resp in response.iter_lines():
-            raw_data = resp.decode()
-            if "data: " in raw_data:
-                _, content = raw_data.split("data :")
-                try:
-                    content_json = json.loads(content)
-                    yield ChatStreamResponse(
-                        text=content_json["candidates"][0]["content"]["parts"][0][
-                            "text"
-                        ],
-                        blocked=False,
-                        provider="google",
-                    )
-                except Exception as exc:
-                    return
+        for chunk in response:
+            yield ChatStreamResponse(text=chunk.text, blocked=False, provider="google")
 
     def multimodal__chat(
         self,
@@ -162,50 +87,34 @@ class GoogleMultimodalApi(MultimodalInterface):
         stream: bool = False,
         provider_params: Optional[dict] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-        token = get_access_token(self.location)
-        base_url = "https://{location}-aiplatform.googleapis.com/v1/projects/{project_id}/locations/{location}/publishers/google/models/{model}:streamGenerateContent"
-        url = base_url.format(
-            location="us-central1",
-            project_id=self.project_id,
-            model=model,
-        )
         formatted_messages = self.__format_google_messages(messages=messages)
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {token}",
+        generation_config = {
+            "temperature": temperature,
+            "top_p": top_k,
+            "top_k": top_p,
+            "max_output_tokens": max_tokens,
+            "stop_sequences": stop_sequences,
         }
-        payload = {
-            "contents": formatted_messages,
-            "generationConfig": {
-                "candidateCount": 1,
-                "temperature": temperature,
-                "maxOutputTokens": max_tokens,
-                "topP": top_p,
-                "topK": top_k,
-                "stopSequences": stop_sequences,
-            },
-            # "systemInstruction": chatbot_global_action,
-        }
+        model = genai.GenerativeModel(
+            model,
+            generation_config=generation_config,
+            system_instruction=chatbot_global_action,
+        )
+
         if stream is False:
-            response = requests.post(url, json=payload, headers=headers)
             try:
-                original_response = response.json()
+                response = model.generate_content(formatted_messages)
+            except GoogleAPIError as exc:
+                raise ProviderException(exc.message) from exc
+            try:
+                original_response = response.to_dict()
             except json.JSONDecodeError as exc:
                 raise ProviderException(
                     "An error occurred while parsing the response."
                 ) from exc
 
-            if response.status_code != 200:
-                raise ProviderException(
-                    message=response.text,
-                    code=response.status_code,
-                )
-            generated_text = self.__retrieve_generated_text(
-                original_response=original_response
-            )
-            original_response = self.__calculate_usage_tokens(
-                original_response=original_response
-            )
+            generated_text = response.text
+            calculate_usage_tokens(original_response=original_response)
             standardized_response = ChatDataClass.generate_standardized_response(
                 generated_text=generated_text,
                 messages=messages,
@@ -216,20 +125,11 @@ class GoogleMultimodalApi(MultimodalInterface):
                 standardized_response=standardized_response,
             )
         else:
-            url += "?alt=sse"
-            response = requests.post(url, json=payload, headers=headers, stream=True)
             try:
-                original_response = response.json()
-            except json.JSONDecodeError as exc:
-                raise ProviderException(
-                    "An error occurred while parsing the response."
-                ) from exc
+                response = model.generate_content(formatted_messages, stream=True)
+            except GoogleAPIError as exc:
+                raise ProviderException(exc.message) from exc
 
-            if response.status_code != 200:
-                raise ProviderException(
-                    message=response.text,
-                    code=response.status_code,
-                )
             stream_response = self.__chat_stream_generator(response)
             return ResponseType[StreamChat](
                 original_response=None,

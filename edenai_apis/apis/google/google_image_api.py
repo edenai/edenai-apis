@@ -6,6 +6,8 @@ import numpy as np
 import requests
 from PIL import Image as Img, UnidentifiedImageError
 from google.cloud import vision
+import google.generativeai as genai
+from google.api_core.exceptions import GoogleAPIError
 from google.cloud.vision_v1.types.image_annotator import AnnotateImageResponse
 from google.protobuf.json_format import MessageToDict
 
@@ -13,6 +15,7 @@ from edenai_apis.apis.google.google_helpers import (
     handle_google_call,
     score_to_content,
     get_access_token,
+    calculate_usage_tokens,
 )
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
@@ -440,67 +443,44 @@ class GoogleImageApi(ImageInterface):
         question: str,
         temperature: float,
         max_tokens: int,
-        header: Dict[str, str],
-        location: str = "us-central1",
+        model_name: str,
     ):
-        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/gemini-pro-vision:streamGenerateContent"
-
-        payload = {
-            "contents": {
-                "role": "USER",
+        messages = [
+            {
+                "role": "user",
                 "parts": [
+                    question,
                     {
-                        "inlineData": {
-                            "data": base64.b64encode(fstream.read()).decode("utf-8"),
-                            "mimeType": "image/png",
-                        }
-                    },
-                    {
-                        "text": question,
+                        "mime_type": "image/png",
+                        "data": base64.b64encode(fstream.read()).decode("utf-8"),
                     },
                 ],
-            },
-            "generationConfig": {
-                "candidateCount": 1,
-                "temperature": temperature,
-                "maxOutputTokens": max_tokens,
-            },
+            }
+        ]
+
+        generation_config = {
+            "temperature": temperature,
+            "max_output_tokens": max_tokens,
         }
-
-        response = requests.post(url, json=payload, headers=header)
-
+        model = genai.GenerativeModel(
+            model_name,
+            generation_config=generation_config,
+        )
         try:
-            original_response = response.json()
+            response = model.generate_content(messages)
+        except GoogleAPIError as exc:
+            raise ProviderException(exc.message) from exc
+        try:
+            original_response = response.to_dict()
         except json.JSONDecodeError as exc:
             raise ProviderException(
-                message="Internal Server Error",
-                code=500,
+                "An error occurred while parsing the response."
             ) from exc
-
-        answer = ""
-
-        for i in range(len(original_response)):
-            if original_response[i].get("error") is not None:
-                raise ProviderException(
-                    message=original_response["error"]["message"], code=400
-                )
-
-            if (
-                not original_response[i].get("candidates")
-                or len(original_response[i].get("candidates", [])) < 1
-            ):
-                raise ProviderException(message="No predictions found", code=400)
-            answer += (
-                original_response[i]["candidates"][0]
-                .get("content", {})
-                .get("parts", [{}])[0]
-                .get("text", "")
-            )
-
+        answer = response.text
+        calculate_usage_tokens(original_response=original_response)
         standardized_response = QuestionAnswerDataClass(
             answers=[answer],
         )
-
         return ResponseType[QuestionAnswerDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
@@ -526,9 +506,9 @@ class GoogleImageApi(ImageInterface):
                 question = "Describe the image"
             if model == "imagen":
                 return self._imagen_qa(fstream, question, headers)
-            elif model == "gemini-pro-vision":
+            elif "gemini" in model:
                 return self._gemini_pro_vision_qa(
-                    fstream, question, temperature, max_tokens, headers
+                    fstream, question, temperature, max_tokens, model
                 )
             else:
                 raise ProviderException(
