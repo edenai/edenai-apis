@@ -136,8 +136,11 @@ furo==2024.1.29
     # via -r requirements.in
 future==1.0.0
     # via ffmpeg-python
+google-ai-generativelanguage==0.6.4
+    # via google-generativeai
 google-api-core[grpc]==2.18.0
     # via
+    #   google-ai-generativelanguage
     #   google-api-python-client
     #   google-cloud-aiplatform
     #   google-cloud-automl
@@ -152,10 +155,14 @@ google-api-core[grpc]==2.18.0
     #   google-cloud-translate
     #   google-cloud-videointelligence
     #   google-cloud-vision
+    #   google-generativeai
 google-api-python-client==2.88.0
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   google-generativeai
 google-auth==2.29.0
     # via
+    #   google-ai-generativelanguage
     #   google-api-core
     #   google-api-python-client
     #   google-auth-httplib2
@@ -163,6 +170,7 @@ google-auth==2.29.0
     #   google-cloud-core
     #   google-cloud-resource-manager
     #   google-cloud-storage
+    #   google-generativeai
 google-auth-httplib2==0.2.0
     # via google-api-python-client
 google-cloud-aiplatform==1.35.0
@@ -198,6 +206,8 @@ google-cloud-vision==3.4.2
     # via -r requirements.in
 google-crc32c==1.5.0
     # via google-resumable-media
+google-generativeai==0.6.0
+    # via -r requirements.in
 google-pasta==0.2.0
     # via sagemaker
 google-resumable-media==2.7.0
@@ -358,6 +368,7 @@ ppft==1.7.6.8
     # via pathos
 proto-plus==1.23.0
     # via
+    #   google-ai-generativelanguage
     #   google-api-core
     #   google-cloud-aiplatform
     #   google-cloud-automl
@@ -372,6 +383,7 @@ proto-plus==1.23.0
 protobuf==4.25.3
     # via
     #   clarifai-grpc
+    #   google-ai-generativelanguage
     #   google-api-core
     #   google-cloud-aiplatform
     #   google-cloud-automl
@@ -383,6 +395,7 @@ protobuf==4.25.3
     #   google-cloud-translate
     #   google-cloud-videointelligence
     #   google-cloud-vision
+    #   google-generativeai
     #   googleapis-common-protos
     #   grpc-google-iam-v1
     #   grpcio-status
@@ -411,6 +424,7 @@ pydantic==2.6.4
     # via
     #   -r requirements.in
     #   anthropic-bedrock
+    #   google-generativeai
 pydantic-core==2.16.3
     # via pydantic
 pydub==0.25.1
@@ -564,6 +578,7 @@ tomlkit==0.12.4
 tqdm==4.66.2
     # via
     #   aleph-alpha-client
+    #   google-generativeai
     #   huggingface-hub
     #   openai
     #   sagemaker
@@ -577,6 +592,7 @@ typing-extensions==4.11.0
     #   anthropic-bedrock
     #   azure-ai-formrecognizer
     #   azure-core
+    #   google-generativeai
     #   huggingface-hub
     #   mypy
     #   pydantic
