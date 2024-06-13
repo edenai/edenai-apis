@@ -38,9 +38,7 @@ from edenai_apis.loaders.data_loader import load_info_file
 from edenai_apis.apis.anthropic.prompts import LOGO_DETECTION_SYSTEM_PROMPT
 
 
-class AnthropicApi(
-    ProviderInterface, TextInterface, MultimodalInterface, ImageInterface
-):
+class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
     provider_name = "anthropic"
 
     def __init__(self, api_keys: Dict = {}) -> None:
