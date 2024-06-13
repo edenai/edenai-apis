@@ -1,42 +1,50 @@
 {
   "original_response": {
-    "id": "msg_bdrk_01UXtqAimJbqNKnmFXPNaiug",
+    "id": "msg_bdrk_01XXVBkwzGHTn5pzyiu6j4ck",
     "type": "message",
     "role": "assistant",
     "model": "claude-3-sonnet-20240229",
     "content": [
       {
         "type": "text",
-        "text": "{\n  \"items\": [\"Facebook\", \"Apple\", \"Amazon\", \"Google\"]\n}"
+        "text": "{\n  \"items\": [\n    \"Facebook\",\n    \"Apple\",\n    \"Amazon\",\n    \"Google\"\n  ]\n}"
       }
     ],
     "stop_reason": "end_turn",
     "stop_sequence": null,
     "usage": {
       "input_tokens": 1301,
-      "output_tokens": 23,
-      "total_tokens": 1324
+      "output_tokens": 35,
+      "total_tokens": 1336
     }
   },
   "standardized_response": {
     "items": [
       {
-        "bounding_poly": null,
+        "bounding_poly": {
+          "vertices": []
+        },
         "description": "Facebook",
         "score": null
       },
       {
-        "bounding_poly": null,
+        "bounding_poly": {
+          "vertices": []
+        },
         "description": "Apple",
         "score": null
       },
       {
-        "bounding_poly": null,
+        "bounding_poly": {
+          "vertices": []
+        },
         "description": "Amazon",
         "score": null
       },
       {
-        "bounding_poly": null,
+        "bounding_poly": {
+          "vertices": []
+        },
         "description": "Google",
         "score": null
       }

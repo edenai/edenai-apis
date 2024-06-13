@@ -19,6 +19,7 @@ from edenai_apis.features.image.generation import (
 )
 from edenai_apis.features.image.logo_detection.logo_detection_dataclass import (
     LogoDetectionDataClass,
+    LogoBoundingPoly,
     LogoItem,
 )
 from edenai_apis.features.image.variation import (
@@ -228,7 +229,11 @@ class OpenaiImageApi(ImageInterface):
             file=file, model=model, system_prompt=LOGO_DETECTION_SYSTEM_PROMPT
         )
         items: List[LogoItem] = [
-            LogoItem(description=logo, bounding_poly=None, score=None)
+            LogoItem(
+                description=logo,
+                bounding_poly=LogoBoundingPoly(vertices=[]),
+                score=None,
+            )
             for logo in logos.get("items", [])
         ]
 

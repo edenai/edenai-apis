@@ -1,15 +1,15 @@
 {
   "original_response": {
-    "id": "chatcmpl-9ZbLENyYdNyR5gaLzNijrDiNK0ssD",
+    "id": "chatcmpl-9Zfzx8vxcL1BR1b0XtuTBdC9oDSJX",
     "object": "chat.completion",
-    "created": 1718272048,
+    "created": 1718289949,
     "model": "gpt-4o-2024-05-13",
     "choices": [
       {
         "index": 0,
         "message": {
           "role": "assistant",
-          "content": "{\n    \"items\": [\"Facebook\", \"Apple\", \"Amazon\", \"Netflix\", \"Google\"]\n}"
+          "content": "{\n  \"items\": [\"Facebook\", \"Apple\", \"Amazon\", \"Netflix\", \"Google\"]\n}"
         },
         "logprobs": null,
         "finish_reason": "stop"
@@ -25,27 +25,37 @@
   "standardized_response": {
     "items": [
       {
-        "bounding_poly": null,
+        "bounding_poly": {
+          "vertices": []
+        },
         "description": "Facebook",
         "score": null
       },
       {
-        "bounding_poly": null,
+        "bounding_poly": {
+          "vertices": []
+        },
         "description": "Apple",
         "score": null
       },
       {
-        "bounding_poly": null,
+        "bounding_poly": {
+          "vertices": []
+        },
         "description": "Amazon",
         "score": null
       },
       {
-        "bounding_poly": null,
+        "bounding_poly": {
+          "vertices": []
+        },
         "description": "Netflix",
         "score": null
       },
       {
-        "bounding_poly": null,
+        "bounding_poly": {
+          "vertices": []
+        },
         "description": "Google",
         "score": null
       }

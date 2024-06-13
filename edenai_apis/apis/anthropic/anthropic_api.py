@@ -14,6 +14,7 @@ from edenai_apis.features import (
 )
 from edenai_apis.features.image.logo_detection.logo_detection_dataclass import (
     LogoDetectionDataClass,
+    LogoBoundingPoly,
     LogoItem,
 )
 from edenai_apis.features.text import GenerationDataClass, SummarizeDataClass
@@ -353,7 +354,7 @@ class AnthropicApi(
 
     def multimodal__chat(
         self,
-        messages: List[ChatMultimodalMessageDataClass],
+        messages: List[ChatMessageDataClass],
         chatbot_global_action: Optional[str],
         temperature: float = 0,
         max_tokens: int = 25,
@@ -363,7 +364,7 @@ class AnthropicApi(
         top_p: Optional[int] = None,
         stream: bool = False,
         provider_params: Optional[dict] = None,
-    ) -> ResponseType[Union[ChatMultimodalDataClass, StreamChatMultimodal]]:
+    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
 
         formated_messages = self.__format_anthropic_messages(messages=messages)
         body = {
@@ -463,7 +464,11 @@ class AnthropicApi(
             ) from exc
 
         items: List[LogoItem] = [
-            LogoItem(description=logo, bounding_poly=None, score=None)
+            LogoItem(
+                description=logo,
+                bounding_poly=LogoBoundingPoly(vertices=[]),
+                score=None,
+            )
             for logo in logos.get("items", [])
         ]
 
