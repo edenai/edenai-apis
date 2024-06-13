@@ -59,6 +59,7 @@ from google.protobuf.json_format import MessageToDict
 
 import re
 
+
 class GoogleTextApi(TextInterface):
     def text__named_entity_recognition(
         self, language: str, text: str
@@ -250,7 +251,7 @@ class GoogleTextApi(TextInterface):
         max_tokens: int,
         location: str,
         headers: Dict[str, str],
-        model : str
+        model: str,
     ):
         url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:streamGenerateContent"
 
@@ -289,7 +290,9 @@ class GoogleTextApi(TextInterface):
                 )
             parts = extract(original_response, [i, "candidates", 0, "content", "parts"])
             if parts:
-                generated_text += extract(parts, [0, "text"], fallback="", type_validator=str)
+                generated_text += extract(
+                    parts, [0, "text"], fallback="", type_validator=str
+                )
 
         standardized_response = GenerationDataClass(generated_text=generated_text)
 
@@ -313,7 +316,7 @@ class GoogleTextApi(TextInterface):
             "Authorization": f"Bearer {token}",
         }
 
-        pattern = r'^gemini-([a-zA-Z0-9.]+-)?pro$'
+        pattern = r"^gemini-([a-zA-Z0-9.]+-)?pro$"
         if re.match(pattern, model):
             return self._gemini_pro_generation(
                 text, temperature, max_tokens, location, headers, model
@@ -471,8 +474,9 @@ class GoogleTextApi(TextInterface):
                 return
         response.close()
 
-
-    def _gemini_chat_stream_generator(self, response: requests.Response) -> Generator[ChatStreamResponse, None, None]:
+    def _gemini_chat_stream_generator(
+        self, response: requests.Response
+    ) -> Generator[ChatStreamResponse, None, None]:
         """
         Returns a generator of chat messages for the Gemini model stream response.
 
@@ -491,10 +495,10 @@ class GoogleTextApi(TextInterface):
         buffer = ""
         for raw in response.iter_lines():
             if raw:
-                decoded_line = raw.decode('utf-8')
-                buffer += decoded_line                
+                decoded_line = raw.decode("utf-8")
+                buffer += decoded_line
                 try:
-                    if buffer.startswith('[') and buffer.endswith(']'):
+                    if buffer.startswith("[") and buffer.endswith("]"):
                         data_list = json.loads(buffer)
                         for data in data_list:
                             for candidate in data.get("candidates", []):
@@ -502,23 +506,22 @@ class GoogleTextApi(TextInterface):
                                 for part in text_parts:
                                     yield ChatStreamResponse(
                                         text=part["text"],
-                                        blocked=False, 
-                                        provider="google"
+                                        blocked=False,
+                                        provider="google",
                                     )
-                        buffer = ""  
+                        buffer = ""
                 except json.JSONDecodeError:
                     continue
         response.close()
 
-
     def _gemini_pro_chat_prepare_payload(
-            self,
-            user_message: str,
-            history: List[dict],
-            stream: bool,
-            temperature: float,
-            max_tokens: int,
-            context: str = "",
+        self,
+        user_message: str,
+        history: List[dict],
+        stream: bool,
+        temperature: float,
+        max_tokens: int,
+        context: str = "",
     ) -> dict:
         """returns the right payload for google chat when using gemini pro
 
@@ -535,7 +538,7 @@ class GoogleTextApi(TextInterface):
             dict: returns the right payload
         """
         messages = []
-    
+
         for message in history:
             role = message.get("role")
             if role == "assistant":
@@ -546,24 +549,16 @@ class GoogleTextApi(TextInterface):
         messages.append({"role": "user", "parts": [{"text": user_message}]})
         payload = {
             "contents": messages,
-            "systemInstruction": {
-                "role": "model",
-                "parts": [
-                {
-                    "text": context
-                }
-                ]
-            },
+            "systemInstruction": {"role": "model", "parts": [{"text": context}]},
             "generationConfig": {
                 "candidateCount": 1,
                 "temperature": temperature,
                 "maxOutputTokens": max_tokens,
-            }
+            },
         }
 
         return payload
-    
-    
+
     def _handle_non_streaming(
         self,
         text: str,
@@ -579,7 +574,12 @@ class GoogleTextApi(TextInterface):
 
         if re.match(pattern, model):
             payload = self._gemini_pro_chat_prepare_payload(
-                text, previous_history if previous_history else [], False, temperature, max_tokens, context,
+                text,
+                previous_history if previous_history else [],
+                False,
+                temperature,
+                max_tokens,
+                context,
             )
             url = f"{url}:generateContent"
             response = requests.post(url=url, headers=headers, json=payload)
@@ -595,10 +595,17 @@ class GoogleTextApi(TextInterface):
                     "Provider did not return a valid JSON", code=response.status_code
                 ) from exc
 
-            generated_text = original_response["candidates"][0]["content"]["parts"][0]["text"]
+            generated_text = original_response["candidates"][0]["content"]["parts"][0][
+                "text"
+            ]
         else:
             payload = self.__text_chat_prepare_payload(
-                text, previous_history if previous_history else [], False, temperature, max_tokens, context,
+                text,
+                previous_history if previous_history else [],
+                False,
+                temperature,
+                max_tokens,
+                context,
             )
             url = f"{url}:predict"
 
@@ -615,7 +622,9 @@ class GoogleTextApi(TextInterface):
                     "Provider did not return a valid JSON", code=response.status_code
                 ) from exc
 
-            generated_text = original_response["predictions"][0]["candidates"][0]["content"]        
+            generated_text = original_response["predictions"][0]["candidates"][0][
+                "content"
+            ]
         message = [
             ChatMessageDataClass(role="user", message=text),
             ChatMessageDataClass(role="assistant", message=generated_text),
@@ -644,17 +653,31 @@ class GoogleTextApi(TextInterface):
 
         if re.match(pattern, model):
             payload = self._gemini_pro_chat_prepare_payload(
-                text, previous_history if previous_history else [], True, temperature, max_tokens, context,
+                text,
+                previous_history if previous_history else [],
+                True,
+                temperature,
+                max_tokens,
+                context,
             )
             url = f"{url}:streamGenerateContent"
         else:
             payload = self.__text_chat_prepare_payload(
-                text, previous_history if previous_history else [], True, temperature, max_tokens, context,
+                text,
+                previous_history if previous_history else [],
+                True,
+                temperature,
+                max_tokens,
+                context,
             )
             url = f"{url}:serverStreamingPredict"
 
         response = requests.post(url=url, headers=headers, json=payload, stream=True)
-        response = self._gemini_chat_stream_generator(response) if re.match(pattern, model) else self.__text_chat_stream_generator(response)
+        response = (
+            self._gemini_chat_stream_generator(response)
+            if re.match(pattern, model)
+            else self.__text_chat_stream_generator(response)
+        )
 
         return ResponseType[StreamChat](
             original_response=None,
@@ -688,15 +711,31 @@ class GoogleTextApi(TextInterface):
             "Authorization": f"Bearer {token}",
         }
         context = chatbot_global_action if chatbot_global_action else ""
-        pattern = r'^gemini-([a-zA-Z0-9.]+-)?pro$'
+        pattern = r"^gemini-([a-zA-Z0-9.]+-)?pro$"
 
         if stream:
             return self._handle_streaming(
-                text, previous_history, temperature, max_tokens, context, url, headers, model, pattern
+                text,
+                previous_history,
+                temperature,
+                max_tokens,
+                context,
+                url,
+                headers,
+                model,
+                pattern,
             )
         else:
             return self._handle_non_streaming(
-                text, previous_history, temperature, max_tokens, context, url, headers, model, pattern
+                text,
+                previous_history,
+                temperature,
+                max_tokens,
+                context,
+                url,
+                headers,
+                model,
+                pattern,
             )
 
     def text__embeddings(
@@ -716,7 +755,13 @@ class GoogleTextApi(TextInterface):
             instances.append({"content": text})
         payload = {"instances": instances}
         response = requests.post(url=url, headers=headers, json=payload)
-        original_response = response.json()
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+
         if "error" in original_response:
             raise ProviderException(
                 message=original_response["error"]["message"], code=response.status_code
