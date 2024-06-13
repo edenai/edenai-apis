@@ -1,24 +1,45 @@
 {
   "original_response": {
-    "id": "msg_bdrk_01HEuSDWMMmcdFwWtdZvjkQr",
+    "id": "msg_bdrk_01UXtqAimJbqNKnmFXPNaiug",
     "type": "message",
     "role": "assistant",
     "model": "claude-3-sonnet-20240229",
     "content": [
       {
         "type": "text",
-        "text": "{\n  \"items\": []\n}"
+        "text": "{\n  \"items\": [\"Facebook\", \"Apple\", \"Amazon\", \"Google\"]\n}"
       }
     ],
     "stop_reason": "end_turn",
     "stop_sequence": null,
     "usage": {
-      "input_tokens": 466,
-      "output_tokens": 12,
-      "total_tokens": 478
+      "input_tokens": 1301,
+      "output_tokens": 23,
+      "total_tokens": 1324
     }
   },
   "standardized_response": {
-    "items": []
+    "items": [
+      {
+        "bounding_poly": null,
+        "description": "Facebook",
+        "score": null
+      },
+      {
+        "bounding_poly": null,
+        "description": "Apple",
+        "score": null
+      },
+      {
+        "bounding_poly": null,
+        "description": "Amazon",
+        "score": null
+      },
+      {
+        "bounding_poly": null,
+        "description": "Google",
+        "score": null
+      }
+    ]
   }
 }

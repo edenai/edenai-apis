@@ -1,0 +1,45 @@
+{
+  "original_response": {
+    "id": "chatcmpl-9ZfadCdWSn0H77efgTPJLI6P96GdB",
+    "object": "chat.completion",
+    "created": 1718288379,
+    "model": "gpt-4o-2024-05-13",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"nsfw_likelihood\": 4,\n  \"nsfw_likelihood_score\": 0.8,\n  \"items\": [\n    {\n      \"label\": \"Violence\",\n      \"likelihood\": 4,\n      \"likelihood_score\": 0.8,\n      \"category\": \"Violence\",\n      \"subcategory\": \"Violence\"\n    },\n    {\n      \"label\": \"Medical\",\n      \"likelihood\": 3,\n      \"likelihood_score\": 0.6,\n      \"category\": \"Content\",\n      \"subcategory\": \"Medical\"\n    }\n  ]\n}"
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 944,
+      "completion_tokens": 123,
+      "total_tokens": 1067
+    },
+    "system_fingerprint": "fp_aa87380ac5"
+  },
+  "standardized_response": {
+    "nsfw_likelihood": 4,
+    "nsfw_likelihood_score": 0.8,
+    "items": [
+      {
+        "label": "Violence",
+        "likelihood": 4,
+        "likelihood_score": 0.8,
+        "category": "Violence",
+        "subcategory": null
+      },
+      {
+        "label": "Medical",
+        "likelihood": 3,
+        "likelihood_score": 0.6,
+        "category": "Content",
+        "subcategory": null
+      }
+    ]
+  }
+}

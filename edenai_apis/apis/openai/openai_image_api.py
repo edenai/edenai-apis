@@ -10,6 +10,9 @@ import openai
 import requests
 
 from edenai_apis.features import ImageInterface
+from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
+    ExplicitContentDataClass,
+)
 from edenai_apis.features.image.generation import (
     GenerationDataClass as ImageGenerationDataClass,
     GeneratedImageDataClass,
@@ -24,10 +27,11 @@ from edenai_apis.features.image.variation import (
 )
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
+from edenai_apis.apis.anthropic.prompts import LOGO_DETECTION_SYSTEM_PROMPT
+from edenai_apis.apis.openai.prompts_guidelines import EXPLICIT_CONTENT_SYSTEM_PROMPT
 from .helpers import (
     get_openapi_response,
 )
-from edenai_apis.apis.anthropic.prompts import LOGO_DETECTION_SYSTEM_PROMPT
 from ...features.image.question_answer import QuestionAnswerDataClass
 from ...utils.exception import ProviderException
 
@@ -231,4 +235,19 @@ class OpenaiImageApi(ImageInterface):
         return ResponseType[LogoDetectionDataClass](
             original_response=original_response,
             standardized_response=LogoDetectionDataClass(items=items),
+        )
+
+    def image__explicit_content(
+        self, file: str, file_url: str = ""
+    ) -> ResponseType[ExplicitContentDataClass]:
+        original_response, output = self.__image_request(
+            file=file, model="gpt-4o", system_prompt=EXPLICIT_CONTENT_SYSTEM_PROMPT
+        )
+        return ResponseType(
+            original_response=original_response,
+            standardized_response=ExplicitContentDataClass(
+                items=output.get("items"),
+                nsfw_likelihood=output.get("nsfw_likelihood"),
+                nsfw_likelihood_score=output.get("nsfw_likelihood_score"),
+            ),
         )

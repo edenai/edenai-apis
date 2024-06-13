@@ -404,6 +404,9 @@
     },
     "logo_detection": {
       "version": "v1"
+    },
+    "explicit_content": {
+      "version": "v1"
     }
   },
   "audio": {
