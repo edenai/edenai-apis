@@ -1,7 +1,10 @@
 import base64
+import json
+import mimetypes
 from io import BytesIO
 from json import JSONDecodeError
-from typing import Sequence, Literal, Optional
+from typing import Sequence, Literal, Optional, List
+from pydantic_core._pydantic_core import ValidationError
 
 import openai
 import requests
@@ -10,6 +13,10 @@ from edenai_apis.features import ImageInterface
 from edenai_apis.features.image.generation import (
     GenerationDataClass as ImageGenerationDataClass,
     GeneratedImageDataClass,
+)
+from edenai_apis.features.image.logo_detection.logo_detection_dataclass import (
+    LogoDetectionDataClass,
+    LogoItem,
 )
 from edenai_apis.features.image.variation import (
     VariationDataClass,
@@ -20,11 +27,55 @@ from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 from .helpers import (
     get_openapi_response,
 )
+from edenai_apis.apis.anthropic.prompts import LOGO_DETECTION_SYSTEM_PROMPT
 from ...features.image.question_answer import QuestionAnswerDataClass
 from ...utils.exception import ProviderException
 
 
 class OpenaiImageApi(ImageInterface):
+
+    @staticmethod
+    def __image_request(file: str, model: str, system_prompt: str):
+        """
+        Sends an image file to the OpenAI API for processing, such as logo detection or explicit content detection.
+
+        Args:
+            file (str): The path to the image file to be processed.
+            model (str): The name of the OpenAI model to be used for processing.
+            system_prompt (str): The system prompt to be used for the model.
+        """
+        mime_type = mimetypes.guess_type(file)[0]
+        with open(file, "rb") as fstream:
+            base64_data = base64.b64encode(fstream.read()).decode("utf-8")
+            media_data_url = f"data:{mime_type};base64,{base64_data}"
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {
+                "role": "user",
+                "content": [
+                    {"type": "image_url", "image_url": {"url": media_data_url}}
+                ],
+            },
+        ]
+        payload = {
+            "messages": messages,
+            "model": model,
+            "response_format": {"type": "json_object"},
+        }
+
+        try:
+            response = openai.ChatCompletion.create(**payload)
+        except Exception as exc:
+            raise ProviderException(str(exc)) from exc
+
+        try:
+            items = json.loads(response["choices"][0]["message"]["content"])
+        except (KeyError, json.JSONDecodeError, ValidationError) as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+        return response, items
+
     def image__generation(
         self,
         text: str,
@@ -164,4 +215,20 @@ class OpenaiImageApi(ImageInterface):
         return ResponseType[VariationDataClass](
             original_response=original_response,
             standardized_response=VariationDataClass(items=generations),
+        )
+
+    def image__logo_detection(
+        self, file: str, file_url: str = "", model: Optional[str] = None
+    ) -> ResponseType[LogoDetectionDataClass]:
+        original_response, logos = self.__image_request(
+            file=file, model=model, system_prompt=LOGO_DETECTION_SYSTEM_PROMPT
+        )
+        items: List[LogoItem] = [
+            LogoItem(description=logo, bounding_poly=None, score=None)
+            for logo in logos.get("items", [])
+        ]
+
+        return ResponseType[LogoDetectionDataClass](
+            original_response=original_response,
+            standardized_response=LogoDetectionDataClass(items=items),
         )

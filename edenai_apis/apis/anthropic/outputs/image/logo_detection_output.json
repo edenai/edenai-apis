@@ -1,0 +1,24 @@
+{
+  "original_response": {
+    "id": "msg_bdrk_01HEuSDWMMmcdFwWtdZvjkQr",
+    "type": "message",
+    "role": "assistant",
+    "model": "claude-3-sonnet-20240229",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"items\": []\n}"
+      }
+    ],
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "usage": {
+      "input_tokens": 466,
+      "output_tokens": 12,
+      "total_tokens": 478
+    }
+  },
+  "standardized_response": {
+    "items": []
+  }
+}

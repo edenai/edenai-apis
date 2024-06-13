@@ -1,0 +1,54 @@
+{
+  "original_response": {
+    "id": "chatcmpl-9ZbLENyYdNyR5gaLzNijrDiNK0ssD",
+    "object": "chat.completion",
+    "created": 1718272048,
+    "model": "gpt-4o-2024-05-13",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\n    \"items\": [\"Facebook\", \"Apple\", \"Amazon\", \"Netflix\", \"Google\"]\n}"
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 1208,
+      "completion_tokens": 21,
+      "total_tokens": 1229
+    },
+    "system_fingerprint": "fp_aa87380ac5"
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "bounding_poly": null,
+        "description": "Facebook",
+        "score": null
+      },
+      {
+        "bounding_poly": null,
+        "description": "Apple",
+        "score": null
+      },
+      {
+        "bounding_poly": null,
+        "description": "Amazon",
+        "score": null
+      },
+      {
+        "bounding_poly": null,
+        "description": "Netflix",
+        "score": null
+      },
+      {
+        "bounding_poly": null,
+        "description": "Google",
+        "score": null
+      }
+    ]
+  }
+}

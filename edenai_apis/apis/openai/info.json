@@ -401,6 +401,9 @@
         "default_model": "dall-e-2"
       },
       "version": "v1.0"
+    },
+    "logo_detection": {
+      "version": "v1"
     }
   },
   "audio": {
