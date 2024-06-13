@@ -1,6 +1,7 @@
 from typing import Dict, List, Union, Generator, Optional
 import json
 import requests
+import httpx
 import google.generativeai as genai
 from google.api_core.exceptions import GoogleAPIError
 import base64
@@ -59,8 +60,8 @@ class GoogleMultimodalApi(MultimodalInterface):
                 elif content_item["type"] == "media_url":
                     media_url = content_item["content"]["media_url"]
                     media_type = content_item["content"]["media_type"]
-                    response = requests.get(media_url)
-                    data = base64.b64encode(response.content).decode("utf-8")
+                    response = httpx.get(media_url).content
+                    data = base64.b64encode(response).decode("utf-8")
                     formatted_message["parts"].append(
                         {"mime_type": media_type, "data": data}
                     )
