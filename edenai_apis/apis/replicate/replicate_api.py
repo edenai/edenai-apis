@@ -1,5 +1,6 @@
 import base64
 import http.client
+from datetime import datetime
 from typing import Dict, Generator, List, Literal, Optional, Union, overload
 
 import requests
@@ -35,6 +36,31 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         }
         self.base_url = "https://api.replicate.com/v1"
 
+    @staticmethod
+    def __calculate_predict_time(get_response: dict):
+        """
+        Calculates the prediction time for a replicate and adds it to the response dictionary.
+
+        This calculation is necessary because the `metrics` object is no longer returned
+        in the response from the replicate service.
+
+        Args:
+            get_response (dict): A dictionary containing the keys "started_at" and "completed_at"
+                                with their corresponding timestamp values in ISO 8601 format.
+
+        Returns:
+            None: The function updates the provided `get_response` dictionary in place by adding
+                the `metrics` dictionary with the `predict_time`.
+        """
+        started_at = get_response.get("started_at")
+        completed_at = get_response.get("completed_at")
+
+        start_time = datetime.fromisoformat(started_at.replace("Z", "+00:00"))
+        end_time = datetime.fromisoformat(completed_at.replace("Z", "+00:00"))
+
+        time_difference = {"predict_time": (end_time - start_time).total_seconds()}
+        get_response["metrics"] = time_difference
+
     def __get_stream_response(self, url: str) -> Generator:
         headers = {**self.headers, "Accept": "text/event-stream"}
         response = requests.get(url, headers=headers, stream=True)
@@ -63,12 +89,12 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
     @overload
     def __get_response(
         self, url: str, payload: dict, stream: Literal[True]
-    ) -> Generator:
-        ...
+    ) -> Generator: ...
 
     @overload
-    def __get_response(self, url: str, payload: dict, stream: Literal[False]) -> dict:
-        ...
+    def __get_response(
+        self, url: str, payload: dict, stream: Literal[False]
+    ) -> dict: ...
 
     def __get_response(
         self, url: str, payload: dict, stream: bool = False
@@ -124,6 +150,7 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
 
             status = response_dict["status"]
 
+        self.__calculate_predict_time(response_dict)
         return response_dict
 
     def image__generation(
