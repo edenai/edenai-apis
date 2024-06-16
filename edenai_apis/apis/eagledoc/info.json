@@ -23,6 +23,22 @@
                   ]
             },
             "version": "v3"
+        },
+        "financial_parser": {
+            "constraints": {
+                "allow_null_language": true,
+                "documents": [
+                    "receipt",
+                    "invoice"
+                ],
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "image/tiff",
+                    "application/pdf"
+                  ]
+            },
+            "version": "v1"
         }
     }
 }
