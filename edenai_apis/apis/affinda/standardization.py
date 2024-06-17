@@ -228,7 +228,7 @@ class ResumeStandardizer:
     ) -> Tuple[List[ResumeLang], List[ResumeSkill], List[ResumeSkill]]:
         self.__std_response["languages"] = [
             ResumeLang(
-                name=extract(i, ["parsed", "languageName", "parsed", "label"]),
+                name=extract(i, ["raw"]),
                 code=extract(i, ["parsed", "languageName", "parsed", "value"]),
             )
             for i in self.__data.get("language") or []

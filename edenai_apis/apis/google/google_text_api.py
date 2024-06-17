@@ -659,7 +659,13 @@ class GoogleTextApi(TextInterface):
             instances.append({"content": text})
         payload = {"instances": instances}
         response = requests.post(url=url, headers=headers, json=payload)
-        original_response = response.json()
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+
         if "error" in original_response:
             raise ProviderException(
                 message=original_response["error"]["message"], code=response.status_code
