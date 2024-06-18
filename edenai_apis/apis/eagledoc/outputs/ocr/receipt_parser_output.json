@@ -1,0 +1,600 @@
+{
+  "original_response": {
+    "general": {
+      "ShopName": {
+        "value": "SC AUCHAN ROMANIA SA",
+        "confidence": 0.38
+      },
+      "ShopStreet": {
+        "value": "SERVICIUL CLIENTI 021-9141",
+        "confidence": 0.42
+      },
+      "ShopState": {
+        "value": "PE",
+        "confidence": 0.97
+      },
+      "ShopCountry": {
+        "value": "CA",
+        "confidence": 0.99
+      },
+      "Time": {
+        "value": "12:29:23",
+        "confidence": 0.95
+      },
+      "InvoiceDate": {
+        "value": "2022-04-02",
+        "confidence": 0.99
+      },
+      "TotalPrice": {
+        "value": "168.95",
+        "confidence": 0.91
+      },
+      "Currency": {
+        "value": "RON",
+        "confidence": 1.0
+      },
+      "ReverseCharge": {
+        "value": "false",
+        "confidence": 1.0
+      },
+      "StoreID": {
+        "value": "2AUCHQ08",
+        "confidence": 0.83
+      },
+      "Cashier": {
+        "value": "CASA RAPIDA",
+        "confidence": 0.81
+      },
+      "Website": {
+        "value": "AUCHAN...SI",
+        "confidence": 0.27
+      }
+    },
+    "productItems": [
+      {
+        "Currency": {
+          "value": "RON",
+          "confidence": 0.91
+        },
+        "TaxPercentage": {
+          "value": "19.0",
+          "confidence": 0.98
+        },
+        "TaxLabel": {
+          "value": "D",
+          "confidence": 0.98
+        },
+        "ProductName": {
+          "value": "STICKERE PUISOR DUA",
+          "confidence": 0.19
+        },
+        "ProductPrice": {
+          "value": "16.0",
+          "confidence": 0.98
+        },
+        "ProductUnitPrice": {
+          "value": "16.0",
+          "confidence": 1.0
+        },
+        "ProductQuantity": {
+          "value": "1.0",
+          "confidence": 1.0
+        }
+      },
+      {
+        "Currency": {
+          "value": "RON",
+          "confidence": 0.91
+        },
+        "TaxPercentage": {
+          "value": "19.0",
+          "confidence": 0.98
+        },
+        "TaxLabel": {
+          "value": "D",
+          "confidence": 0.96
+        },
+        "ProductName": {
+          "value": "SELECLINE FIERBATOR",
+          "confidence": 0.2
+        },
+        "ProductPrice": {
+          "value": "44.01",
+          "confidence": 0.96
+        },
+        "ProductUnitPrice": {
+          "value": "44.01",
+          "confidence": 1.0
+        },
+        "ProductQuantity": {
+          "value": "1.0",
+          "confidence": 1.0
+        }
+      },
+      {
+        "Currency": {
+          "value": "RON",
+          "confidence": 0.91
+        },
+        "TaxPercentage": {
+          "value": "19.0",
+          "confidence": 0.98
+        },
+        "TaxLabel": {
+          "value": "D",
+          "confidence": 0.95
+        },
+        "ProductName": {
+          "value": "1  BUC X",
+          "confidence": 0.92
+        },
+        "ProductPrice": {
+          "value": "0.89",
+          "confidence": 0.95
+        },
+        "ProductUnitPrice": {
+          "value": "0.89",
+          "confidence": 1.0
+        },
+        "ProductQuantity": {
+          "value": "1.0",
+          "confidence": 1.0
+        }
+      },
+      {
+        "Currency": {
+          "value": "RON",
+          "confidence": 0.91
+        },
+        "TaxPercentage": {
+          "value": "19.0",
+          "confidence": 0.98
+        },
+        "TaxLabel": {
+          "value": "D",
+          "confidence": 0.94
+        },
+        "ProductName": {
+          "value": "COS DREPTUNG CARLIGE",
+          "confidence": 0.19
+        },
+        "ProductPrice": {
+          "value": "5.55",
+          "confidence": 0.94
+        },
+        "ProductUnitPrice": {
+          "value": "5.55",
+          "confidence": 1.0
+        },
+        "ProductQuantity": {
+          "value": "1.0",
+          "confidence": 1.0
+        }
+      },
+      {
+        "Currency": {
+          "value": "RON",
+          "confidence": 0.91
+        },
+        "TaxPercentage": {
+          "value": "9.0",
+          "confidence": 0.92
+        },
+        "TaxLabel": {
+          "value": "B",
+          "confidence": 0.94
+        },
+        "ProductName": {
+          "value": "CROISSANT 7 DAYS SPU",
+          "confidence": 0.2
+        },
+        "ProductPrice": {
+          "value": "1.75",
+          "confidence": 0.94
+        },
+        "ProductUnitPrice": {
+          "value": "1.75",
+          "confidence": 1.0
+        },
+        "ProductQuantity": {
+          "value": "1.0",
+          "confidence": 1.0
+        }
+      },
+      {
+        "Currency": {
+          "value": "RON",
+          "confidence": 0.91
+        },
+        "TaxPercentage": {
+          "value": "9.0",
+          "confidence": 0.92
+        },
+        "TaxLabel": {
+          "value": "B",
+          "confidence": 0.85
+        },
+        "ProductName": {
+          "value": "PAINE CU MAIA SI MAS",
+          "confidence": 0.2
+        },
+        "ProductPrice": {
+          "value": "3.6",
+          "confidence": 0.85
+        },
+        "ProductUnitPrice": {
+          "value": "3.6",
+          "confidence": 1.0
+        },
+        "ProductQuantity": {
+          "value": "1.0",
+          "confidence": 1.0
+        }
+      },
+      {
+        "Currency": {
+          "value": "RON",
+          "confidence": 0.91
+        },
+        "TaxPercentage": {
+          "value": "9.0",
+          "confidence": 0.92
+        },
+        "TaxLabel": {
+          "value": "B",
+          "confidence": 0.94
+        },
+        "ProductName": {
+          "value": "PATE DE PORC 20% 120",
+          "confidence": 0.2
+        },
+        "ProductPrice": {
+          "value": "7.1",
+          "confidence": 0.94
+        },
+        "ProductUnitPrice": {
+          "value": "3.55",
+          "confidence": 1.0
+        },
+        "ProductQuantity": {
+          "value": "2.0",
+          "confidence": 1.0
+        }
+      },
+      {
+        "Currency": {
+          "value": "RON",
+          "confidence": 0.91
+        },
+        "TaxPercentage": {
+          "value": "9.0",
+          "confidence": 0.92
+        },
+        "TaxLabel": {
+          "value": "B",
+          "confidence": 0.96
+        },
+        "ProductName": {
+          "value": "NUTELLA 700G",
+          "confidence": 0.19
+        },
+        "ProductPrice": {
+          "value": "19.4",
+          "confidence": 0.96
+        },
+        "ProductUnitPrice": {
+          "value": "19.4",
+          "confidence": 1.0
+        },
+        "ProductQuantity": {
+          "value": "1.0",
+          "confidence": 1.0
+        }
+      },
+      {
+        "Currency": {
+          "value": "RON",
+          "confidence": 0.91
+        },
+        "TaxPercentage": {
+          "value": "19.0",
+          "confidence": 0.98
+        },
+        "TaxLabel": {
+          "value": "D",
+          "confidence": 0.92
+        },
+        "ProductName": {
+          "value": "RADIERA GALET",
+          "confidence": 0.2
+        },
+        "ProductPrice": {
+          "value": "4.55",
+          "confidence": 0.92
+        },
+        "ProductUnitPrice": {
+          "value": "4.55",
+          "confidence": 1.0
+        },
+        "ProductQuantity": {
+          "value": "1.0",
+          "confidence": 1.0
+        }
+      },
+      {
+        "Currency": {
+          "value": "RON",
+          "confidence": 0.91
+        },
+        "TaxPercentage": {
+          "value": "19.0",
+          "confidence": 0.98
+        },
+        "TaxLabel": {
+          "value": "D",
+          "confidence": 0.95
+        },
+        "ProductName": {
+          "value": "GP SUPER ALKALINE LR",
+          "confidence": 0.2
+        },
+        "ProductPrice": {
+          "value": "18.7",
+          "confidence": 0.95
+        },
+        "ProductUnitPrice": {
+          "value": "18.7",
+          "confidence": 1.0
+        },
+        "ProductQuantity": {
+          "value": "1.0",
+          "confidence": 1.0
+        }
+      },
+      {
+        "Currency": {
+          "value": "RON",
+          "confidence": 0.91
+        },
+        "TaxPercentage": {
+          "value": "19.0",
+          "confidence": 0.98
+        },
+        "TaxLabel": {
+          "value": "D",
+          "confidence": 0.97
+        },
+        "ProductName": {
+          "value": "NIVEA BALS DUPA RAS",
+          "confidence": 0.2
+        },
+        "ProductPrice": {
+          "value": "30.5",
+          "confidence": 0.97
+        },
+        "ProductUnitPrice": {
+          "value": "30.5",
+          "confidence": 1.0
+        },
+        "ProductQuantity": {
+          "value": "1.0",
+          "confidence": 1.0
+        }
+      },
+      {
+        "Currency": {
+          "value": "RON",
+          "confidence": 0.91
+        },
+        "TaxPercentage": {
+          "value": "19.0",
+          "confidence": 0.98
+        },
+        "TaxLabel": {
+          "value": "D",
+          "confidence": 0.94
+        },
+        "ProductName": {
+          "value": "AUC WV LICHID PARBRC END ELEMENTE",
+          "confidence": 0.08
+        },
+        "ProductPrice": {
+          "value": "16.9",
+          "confidence": 0.94
+        },
+        "ProductUnitPrice": {
+          "value": "16.9",
+          "confidence": 1.0
+        },
+        "ProductQuantity": {
+          "value": "1.0",
+          "confidence": 1.0
+        }
+      }
+    ],
+    "taxes": [
+      {
+        "TaxAmount": {
+          "value": "2.63",
+          "confidence": 0.87
+        },
+        "TaxNetAmount": {
+          "value": "29.22",
+          "confidence": 1.0
+        },
+        "TaxGrossAmount": {
+          "value": "31.85",
+          "confidence": 0.99
+        },
+        "TaxPercentage": {
+          "value": "9.0",
+          "confidence": 0.92
+        },
+        "TaxLabel": {
+          "value": "B",
+          "confidence": 0.4
+        }
+      },
+      {
+        "TaxAmount": {
+          "value": "21.89",
+          "confidence": 0.99
+        },
+        "TaxNetAmount": {
+          "value": "115.21",
+          "confidence": 1.0
+        },
+        "TaxGrossAmount": {
+          "value": "137.1",
+          "confidence": 0.98
+        },
+        "TaxPercentage": {
+          "value": "19.0",
+          "confidence": 0.98
+        },
+        "TaxLabel": {
+          "value": "D",
+          "confidence": 0.49
+        }
+      }
+    ],
+    "payments": null,
+    "performanceOption": "SPEED",
+    "fileHash": "f89132435d92e7300bcf989407e4d4cc",
+    "version": "0.3.01",
+    "numberOfPages": 1,
+    "pages": [],
+    "fullText": null,
+    "languages": [
+      "ro",
+      "en"
+    ],
+    "mainLanguage": "ro"
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "invoice_number": null,
+        "invoice_total": 168.95,
+        "invoice_subtotal": null,
+        "barcodes": [],
+        "category": null,
+        "date": null,
+        "due_date": null,
+        "time": "12:29:23",
+        "customer_information": {
+          "customer_name": null
+        },
+        "merchant_information": {
+          "merchant_name": "SC AUCHAN ROMANIA SA",
+          "merchant_address": "SERVICIUL CLIENTI 021-9141, PE, CA",
+          "merchant_phone": null,
+          "merchant_url": null,
+          "merchant_siret": null,
+          "merchant_siren": null,
+          "merchant_vat_number": null,
+          "merchant_gst_number": null,
+          "merchant_abn_number": null
+        },
+        "payment_information": {
+          "card_type": null,
+          "card_number": null,
+          "cash": null,
+          "tip": null,
+          "discount": null,
+          "change": null
+        },
+        "locale": {
+          "currency": "RON",
+          "language": "ro",
+          "country": "CA"
+        },
+        "taxes": [
+          {
+            "taxes": 2.63,
+            "rate": 9.0
+          },
+          {
+            "taxes": 21.89,
+            "rate": 19.0
+          }
+        ],
+        "receipt_infos": {},
+        "item_lines": [
+          {
+            "description": "STICKERE PUISOR DUA",
+            "quantity": 1.0,
+            "amount": 16.0,
+            "unit_price": 16.0
+          },
+          {
+            "description": "SELECLINE FIERBATOR",
+            "quantity": 1.0,
+            "amount": 44.01,
+            "unit_price": 44.01
+          },
+          {
+            "description": "1  BUC X",
+            "quantity": 1.0,
+            "amount": 0.89,
+            "unit_price": 0.89
+          },
+          {
+            "description": "COS DREPTUNG CARLIGE",
+            "quantity": 1.0,
+            "amount": 5.55,
+            "unit_price": 5.55
+          },
+          {
+            "description": "CROISSANT 7 DAYS SPU",
+            "quantity": 1.0,
+            "amount": 1.75,
+            "unit_price": 1.75
+          },
+          {
+            "description": "PAINE CU MAIA SI MAS",
+            "quantity": 1.0,
+            "amount": 3.6,
+            "unit_price": 3.6
+          },
+          {
+            "description": "PATE DE PORC 20% 120",
+            "quantity": 2.0,
+            "amount": 7.1,
+            "unit_price": 3.55
+          },
+          {
+            "description": "NUTELLA 700G",
+            "quantity": 1.0,
+            "amount": 19.4,
+            "unit_price": 19.4
+          },
+          {
+            "description": "RADIERA GALET",
+            "quantity": 1.0,
+            "amount": 4.55,
+            "unit_price": 4.55
+          },
+          {
+            "description": "GP SUPER ALKALINE LR",
+            "quantity": 1.0,
+            "amount": 18.7,
+            "unit_price": 18.7
+          },
+          {
+            "description": "NIVEA BALS DUPA RAS",
+            "quantity": 1.0,
+            "amount": 30.5,
+            "unit_price": 30.5
+          },
+          {
+            "description": "AUC WV LICHID PARBRC END ELEMENTE",
+            "quantity": 1.0,
+            "amount": 16.9,
+            "unit_price": 16.9
+          }
+        ]
+      }
+    ]
+  }
+}

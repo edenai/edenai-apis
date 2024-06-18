@@ -1,0 +1,234 @@
+{
+  "original_response": {
+    "docType": "Invoice",
+    "general": {
+      "ShopName": {
+        "value": "SNG Engineering, Inc. SNG",
+        "page": 1,
+        "confidence": 0.46
+      },
+      "ShopStreet": {
+        "value": "Main Street",
+        "page": 1,
+        "confidence": 0.89
+      },
+      "ShopHouseNumber": {
+        "value": "344",
+        "page": 1,
+        "confidence": 0.89
+      },
+      "ShopCity": {
+        "value": "Gaithersburg",
+        "page": 1,
+        "confidence": 0.89
+      },
+      "ShopZip": {
+        "value": "20878",
+        "page": 1,
+        "confidence": 0.89
+      },
+      "CustomerName": {
+        "value": "Damita J Goldsmith",
+        "page": 1,
+        "confidence": 0.57
+      },
+      "CustomerStreet": {
+        "value": "Stan Fey Dr",
+        "page": 1,
+        "confidence": 0.66
+      },
+      "CustomerHouseNumber": {
+        "value": "201",
+        "page": 1,
+        "confidence": 0.66
+      },
+      "CustomerCity": {
+        "value": "Upper Marlboro",
+        "page": 1,
+        "confidence": 0.66
+      },
+      "CustomerZip": {
+        "value": "20774",
+        "page": 1,
+        "confidence": 0.66
+      },
+      "InvoiceDate": {
+        "value": "2003-01-20",
+        "page": 1,
+        "confidence": 0.93
+      },
+      "InvoiceNumber": {
+        "value": "014- 03",
+        "page": 1,
+        "confidence": 0.94
+      },
+      "TotalPrice": {
+        "value": "750.0",
+        "page": 1,
+        "confidence": 0.75
+      },
+      "Currency": {
+        "value": "USD",
+        "confidence": 1.0
+      },
+      "ReverseCharge": {
+        "value": "false",
+        "confidence": 1.0
+      },
+      "VATNumber": {
+        "value": "301.548.0055",
+        "page": 1,
+        "confidence": 0.88
+      },
+      "IBAN": {
+        "value": "Gaithersburg",
+        "page": 1,
+        "confidence": 0.93
+      },
+      "BIC": {
+        "value": "20878",
+        "page": 1,
+        "confidence": 0.88
+      },
+      "Email": {
+        "value": "sng.engineering@erols.com",
+        "page": 1,
+        "confidence": 0.97
+      },
+      "Fax": {
+        "value": "301.548.184",
+        "page": 1,
+        "confidence": 0.91
+      }
+    },
+    "productItems": [
+      {
+        "TaxGrossAmount": {
+          "value": "750.0",
+          "page": 1,
+          "confidence": 0.92108166
+        },
+        "ProductName": {
+          "value": "Field inspection of construction on 1/19/2003 deficiencies in house",
+          "page": 1,
+          "confidence": 0.98
+        },
+        "ProductPrice": {
+          "value": "750.0",
+          "page": 1,
+          "confidence": 0.92
+        },
+        "ProductUnitPrice": {
+          "value": "750.0",
+          "page": 1,
+          "confidence": 1.0
+        },
+        "ProductQuantity": {
+          "value": "1.0",
+          "page": 1,
+          "confidence": 1.0
+        }
+      }
+    ],
+    "taxes": null,
+    "payments": null,
+    "paymentBanks": null,
+    "performanceOption": "ACCURACY",
+    "fileHash": "72e3bdcce7217608fc6a79e61194652c",
+    "version": "0.3.01",
+    "numberOfPages": 1,
+    "pages": [
+      {
+        "width": 610.0,
+        "height": 744.0
+      }
+    ],
+    "fullText": null,
+    "languages": [
+      "en",
+      "it"
+    ],
+    "mainLanguage": "en"
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "customer_information": {
+          "customer_name": "Damita J Goldsmith",
+          "customer_address": "Stan Fey Dr, 201, Upper Marlboro, 20774",
+          "customer_email": null,
+          "customer_id": null,
+          "customer_tax_id": null,
+          "customer_mailing_address": null,
+          "customer_billing_address": "Stan Fey Dr, 201, Upper Marlboro, 20774",
+          "customer_shipping_address": null,
+          "customer_service_address": null,
+          "customer_remittance_address": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "vat_number": null,
+          "siret_number": null,
+          "siren_number": null
+        },
+        "merchant_information": {
+          "merchant_name": "SNG Engineering, Inc. SNG",
+          "merchant_address": "Main Street, 344, 20878, Gaithersburg",
+          "merchant_phone": null,
+          "merchant_email": null,
+          "merchant_fax": null,
+          "merchant_website": null,
+          "merchant_tax_id": null,
+          "merchant_siret": null,
+          "merchant_siren": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "vat_number": null
+        },
+        "invoice_number": "014- 03",
+        "invoice_total": 750.0,
+        "invoice_subtotal": null,
+        "gratuity": null,
+        "amount_due": null,
+        "previous_unpaid_balance": null,
+        "discount": null,
+        "taxes": [],
+        "service_charge": null,
+        "payment_term": null,
+        "purchase_order": null,
+        "date": "2003-01-20",
+        "due_date": null,
+        "service_date": null,
+        "service_due_date": null,
+        "po_number": null,
+        "locale": {
+          "currency": "USD",
+          "language": "en"
+        },
+        "bank_informations": {
+          "account_number": null,
+          "iban": null,
+          "bsb": null,
+          "sort_code": null,
+          "vat_number": null,
+          "rooting_number": null,
+          "swift": null
+        },
+        "item_lines": [
+          {
+            "description": "Field inspection of construction on 1/19/2003 deficiencies in house",
+            "quantity": 1.0,
+            "amount": 750.0,
+            "unit_price": 750.0,
+            "discount": null,
+            "product_code": null,
+            "date_item": null,
+            "tax_item": null,
+            "tax_rate": null
+          }
+        ]
+      }
+    ]
+  }
+}
