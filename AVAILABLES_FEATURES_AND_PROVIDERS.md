@@ -7,6 +7,7 @@
 | | amazon |
 | | base64 |
 | | dataleon |
+| | eagledoc |
 | | google |
 | | klippa |
 | | microsoft |
@@ -23,6 +24,7 @@
 | | amazon |
 | | base64 |
 | | dataleon |
+| | eagledoc |
 | | google |
 | | klippa |
 | | microsoft |
@@ -33,6 +35,7 @@
 | | amazon |
 | | base64 |
 | | dataleon |
+| | eagledoc |
 | | google |
 | | klippa |
 | | microsoft |
@@ -542,6 +545,15 @@
 |----------|-------------|
 | **translation** | automatic_translation |
 | | document_translation |
+
+</details>
+<details><summary>eagledoc</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **ocr** | financial_parser |
+| | invoice_parser |
+| | receipt_parser |
 
 </details>
 <details><summary>elevenlabs</summary>
