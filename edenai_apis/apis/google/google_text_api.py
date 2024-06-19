@@ -7,6 +7,9 @@ from edenai_apis.apis.google.google_helpers import (
     get_tag_name,
     handle_google_call,
     score_to_sentiment,
+    gemini_request,
+    palm_request,
+    calculate_usage_tokens,
 )
 from edenai_apis.features.text import (
     ChatDataClass,
@@ -308,22 +311,28 @@ class GoogleTextApi(TextInterface):
         max_tokens: int,
         model: str,
     ) -> ResponseType[GenerationDataClass]:
-        url_subdomain = "us-central1-aiplatform"
-        location = "us-central1"
-        token = get_access_token(self.location)
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {token}",
-        }
-
-        pattern = r"^gemini-([a-zA-Z0-9.]+-)?pro$"
-        if re.match(pattern, model):
-            return self._gemini_pro_generation(
-                text, temperature, max_tokens, location, headers, model
+        if "gemini" in model:
+            payload = {
+                "contents": {
+                    "role": "user",
+                    "parts": [
+                        {
+                            "text": text,
+                        },
+                    ],
+                },
+                "generationConfig": {
+                    "temperature": temperature,
+                    "max_output_tokens": max_tokens,
+                },
+            }
+            original_response = gemini_request(
+                payload=payload, model=model, api_key=self.api_settings["genai_api_key"]
             )
+            generated_text = original_response["candidates"][0]["content"]["parts"][0][
+                "text"
+            ]
         else:
-            url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
-
             payload = {
                 "instances": [{"prompt": text}],
                 "parameters": {
@@ -331,22 +340,20 @@ class GoogleTextApi(TextInterface):
                     "maxOutputTokens": max_tokens,
                 },
             }
-            response = requests.post(url=url, headers=headers, json=payload)
-            original_response = response.json()
-            if "error" in original_response:
-                raise ProviderException(
-                    message=original_response["error"]["message"],
-                    code=response.status_code,
-                )
-
-            standardized_response = GenerationDataClass(
-                generated_text=original_response["predictions"][0]["content"]
+            token = get_access_token(self.location)
+            original_response = palm_request(
+                payload=payload,
+                model=model,
+                location=self.location,
+                token=token,
+                project_id=self.project_id,
             )
+            generated_text = original_response["predictions"][0]["content"]
 
-            return ResponseType[GenerationDataClass](
-                original_response=original_response,
-                standardized_response=standardized_response,
-            )
+        return ResponseType[GenerationDataClass](
+            original_response=original_response,
+            standardized_response=GenerationDataClass(generated_text=generated_text),
+        )
 
     def __text_chat_prepare_payload(
         self,
@@ -486,33 +493,21 @@ class GoogleTextApi(TextInterface):
         Yields:
             Generator[ChatStreamResponse]: Generator of messages
         """
-        yield ChatStreamResponse(
-            text="",
-            blocked=False,
-            provider="google",
-        )
-
-        buffer = ""
-        for raw in response.iter_lines():
-            if raw:
-                decoded_line = raw.decode("utf-8")
-                buffer += decoded_line
+        for resp in response.iter_lines():
+            raw_data = resp.decode()
+            if "data: " in raw_data:
+                _, content = raw_data.split("data: ")
                 try:
-                    if buffer.startswith("[") and buffer.endswith("]"):
-                        data_list = json.loads(buffer)
-                        for data in data_list:
-                            for candidate in data.get("candidates", []):
-                                text_parts = candidate["content"]["parts"]
-                                for part in text_parts:
-                                    yield ChatStreamResponse(
-                                        text=part["text"],
-                                        blocked=False,
-                                        provider="google",
-                                    )
-                        buffer = ""
-                except json.JSONDecodeError:
-                    continue
-        response.close()
+                    content_json = json.loads(content)
+                    yield ChatStreamResponse(
+                        text=content_json["candidates"][0]["content"]["parts"][0][
+                            "text"
+                        ],
+                        blocked=False,
+                        provider="google",
+                    )
+                except Exception as exc:
+                    return
 
     def _gemini_pro_chat_prepare_payload(
         self,
@@ -549,13 +544,17 @@ class GoogleTextApi(TextInterface):
         messages.append({"role": "user", "parts": [{"text": user_message}]})
         payload = {
             "contents": messages,
-            "systemInstruction": {"role": "model", "parts": [{"text": context}]},
             "generationConfig": {
                 "candidateCount": 1,
                 "temperature": temperature,
                 "maxOutputTokens": max_tokens,
             },
         }
+        if context and context != "":
+            payload["systemInstruction"] = {
+                "role": "model",
+                "parts": [{"text": context}],
+            }
 
         return payload
 
@@ -566,8 +565,6 @@ class GoogleTextApi(TextInterface):
         temperature: float,
         max_tokens: int,
         context: str,
-        url: str,
-        headers: dict,
         model: str,
         pattern: str,
     ) -> ResponseType[ChatDataClass]:
@@ -581,8 +578,9 @@ class GoogleTextApi(TextInterface):
                 max_tokens,
                 context,
             )
-            url = f"{url}:generateContent"
-            response = requests.post(url=url, headers=headers, json=payload)
+            api_key = self.api_settings["genai_api_key"]
+            base_url = f"https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={api_key}"
+            response = requests.post(url=base_url, json=payload)
             try:
                 original_response = response.json()
                 if "error" in original_response:
@@ -594,7 +592,7 @@ class GoogleTextApi(TextInterface):
                 raise ProviderException(
                     "Provider did not return a valid JSON", code=response.status_code
                 ) from exc
-
+            calculate_usage_tokens(original_response)
             generated_text = original_response["candidates"][0]["content"]["parts"][0][
                 "text"
             ]
@@ -607,7 +605,15 @@ class GoogleTextApi(TextInterface):
                 max_tokens,
                 context,
             )
-            url = f"{url}:predict"
+            url_subdomain = "us-central1-aiplatform"
+            location = "us-central1"
+            token = get_access_token(self.location)
+            url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
+
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {token}",
+            }
 
             response = requests.post(url=url, headers=headers, json=payload)
             try:
@@ -645,8 +651,6 @@ class GoogleTextApi(TextInterface):
         temperature: float,
         max_tokens: int,
         context: str,
-        url: str,
-        headers: dict,
         model: str,
         pattern: str,
     ) -> ResponseType[StreamChat]:
@@ -660,8 +664,19 @@ class GoogleTextApi(TextInterface):
                 max_tokens,
                 context,
             )
-            url = f"{url}:streamGenerateContent"
+            api_key = self.api_settings["genai_api_key"]
+            base_url = f"https://generativelanguage.googleapis.com/v1/models/{model}:streamGenerateContent?alt=sse&key={api_key}"
+            response = requests.post(base_url, json=payload, stream=True)
         else:
+            url_subdomain = "us-central1-aiplatform"
+            location = "us-central1"
+            token = get_access_token(self.location)
+            url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:serverStreamingPredict"
+
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {token}",
+            }
             payload = self.__text_chat_prepare_payload(
                 text,
                 previous_history if previous_history else [],
@@ -670,9 +685,12 @@ class GoogleTextApi(TextInterface):
                 max_tokens,
                 context,
             )
-            url = f"{url}:serverStreamingPredict"
+            response = requests.post(
+                url=url, headers=headers, json=payload, stream=True
+            )
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
 
-        response = requests.post(url=url, headers=headers, json=payload, stream=True)
         response = (
             self._gemini_chat_stream_generator(response)
             if re.match(pattern, model)
@@ -701,15 +719,6 @@ class GoogleTextApi(TextInterface):
         if any([available_tools, tool_results]):
             raise ProviderException("This provider does not support the use of tools")
 
-        url_subdomain = "us-central1-aiplatform"
-        location = "us-central1"
-        token = get_access_token(self.location)
-        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}"
-
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {token}",
-        }
         context = chatbot_global_action if chatbot_global_action else ""
         pattern = r"^gemini-([a-zA-Z0-9.]+-)?pro$"
 
@@ -720,8 +729,6 @@ class GoogleTextApi(TextInterface):
                 temperature,
                 max_tokens,
                 context,
-                url,
-                headers,
                 model,
                 pattern,
             )
@@ -732,8 +739,6 @@ class GoogleTextApi(TextInterface):
                 temperature,
                 max_tokens,
                 context,
-                url,
-                headers,
                 model,
                 pattern,
             )

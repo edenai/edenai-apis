@@ -443,7 +443,7 @@ class GoogleImageApi(ImageInterface):
         max_tokens: int,
     ):
         api_key = self.api_settings["genai_api_key"]
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key={api_key}"
+        url = f"https://generativelanguage.googleapis.com/v1/models/gemini-pro-vision:generateContent?key={api_key}"
         payload = {
             "contents": {
                 "role": "user",

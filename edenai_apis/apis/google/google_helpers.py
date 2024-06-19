@@ -1,12 +1,12 @@
 import enum
 import json
 import re
-from http import HTTPStatus
 from typing import List, Sequence
 from typing import Tuple
+from http import HTTPStatus
+import requests
 
 import google
-import google.auth
 import google.auth
 import googleapiclient.discovery
 from google.cloud.documentai_v1beta3 import Document
@@ -604,3 +604,44 @@ def calculate_usage_tokens(original_response: dict) -> dict:
         "completion_tokens": original_response["usageMetadata"]["candidatesTokenCount"],
         "total_tokens": original_response["usageMetadata"]["totalTokenCount"],
     }
+
+
+def gemini_request(payload: dict, model: str, api_key: str):
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+    response = requests.post(url, json=payload)
+    try:
+        original_response = response.json()
+    except json.JSONDecodeError as exc:
+        raise ProviderException(
+            "An error occurred while parsing the response."
+        ) from exc
+
+    if response.status_code != 200:
+        raise ProviderException(
+            message=original_response["error"]["message"],
+            code=response.status_code,
+        )
+    calculate_usage_tokens(original_response=original_response)
+    return original_response
+
+
+def palm_request(payload: dict, model: str, location: str, token: str, project_id: str):
+    url_subdomain = "us-central1-aiplatform"
+    location = "us-central1"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {token}",
+    }
+    url = f"https://{url_subdomain}.googleapis.com/v1/projects/{project_id}/locations/{location}/publishers/google/models/{model}:predict"
+
+    response = requests.post(url=url, headers=headers, json=payload)
+    try:
+        original_response = response.json()
+    except json.JSONDecodeError as exc:
+        raise ProviderException("An error occured while parsing the response.") from exc
+
+    if response.status_code != 200:
+        raise ProviderException(
+            message=original_response["error"]["message"], code=response.status_code
+        )
+    return original_response

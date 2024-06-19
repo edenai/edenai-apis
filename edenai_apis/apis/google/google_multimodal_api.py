@@ -122,7 +122,7 @@ class GoogleMultimodalApi(MultimodalInterface):
         provider_params: Optional[dict] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         api_key = self.api_settings["genai_api_key"]
-        base_url = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+        base_url = "https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={api_key}"
         url = base_url.format(model=model, api_key=api_key)
         formatted_messages = self.__format_google_messages(messages=messages)
         payload = {
