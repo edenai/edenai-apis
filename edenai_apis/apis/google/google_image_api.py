@@ -13,6 +13,7 @@ from edenai_apis.apis.google.google_helpers import (
     handle_google_call,
     score_to_content,
     get_access_token,
+    calculate_usage_tokens,
 )
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
@@ -440,19 +441,17 @@ class GoogleImageApi(ImageInterface):
         question: str,
         temperature: float,
         max_tokens: int,
-        header: Dict[str, str],
-        location: str = "us-central1",
     ):
-        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/gemini-pro-vision:streamGenerateContent"
-
+        api_key = self.api_settings["genai_api_key"]
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key={api_key}"
         payload = {
             "contents": {
-                "role": "USER",
+                "role": "user",
                 "parts": [
                     {
-                        "inlineData": {
+                        "inline_data": {
                             "data": base64.b64encode(fstream.read()).decode("utf-8"),
-                            "mimeType": "image/png",
+                            "mime_type": "image/png",
                         }
                     },
                     {
@@ -463,11 +462,11 @@ class GoogleImageApi(ImageInterface):
             "generationConfig": {
                 "candidateCount": 1,
                 "temperature": temperature,
-                "maxOutputTokens": max_tokens,
+                "max_output_tokens": max_tokens,
             },
         }
 
-        response = requests.post(url, json=payload, headers=header)
+        response = requests.post(url, json=payload)
 
         try:
             original_response = response.json()
@@ -476,26 +475,8 @@ class GoogleImageApi(ImageInterface):
                 message="Internal Server Error",
                 code=500,
             ) from exc
-
-        answer = ""
-
-        for i in range(len(original_response)):
-            if original_response[i].get("error") is not None:
-                raise ProviderException(
-                    message=original_response["error"]["message"], code=400
-                )
-
-            if (
-                not original_response[i].get("candidates")
-                or len(original_response[i].get("candidates", [])) < 1
-            ):
-                raise ProviderException(message="No predictions found", code=400)
-            answer += (
-                original_response[i]["candidates"][0]
-                .get("content", {})
-                .get("parts", [{}])[0]
-                .get("text", "")
-            )
+        calculate_usage_tokens(original_response=original_response)
+        answer = original_response["candidates"][0]["content"]["parts"][0]["text"]
 
         standardized_response = QuestionAnswerDataClass(
             answers=[answer],
@@ -528,7 +509,7 @@ class GoogleImageApi(ImageInterface):
                 return self._imagen_qa(fstream, question, headers)
             elif model == "gemini-pro-vision":
                 return self._gemini_pro_vision_qa(
-                    fstream, question, temperature, max_tokens, headers
+                    fstream, question, temperature, max_tokens
                 )
             else:
                 raise ProviderException(

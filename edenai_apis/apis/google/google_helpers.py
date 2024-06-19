@@ -590,3 +590,17 @@ def google_financial_parser(document: Document) -> FinancialParserDataClass:
         )
 
     return FinancialParserDataClass(extracted_data=extracted_data)
+
+
+# ************************************* Chat ****************************************
+
+
+def calculate_usage_tokens(original_response: dict) -> dict:
+    """
+    Calculates the token usage from the original response.
+    """
+    original_response["usage"] = {
+        "prompt_tokens": original_response["usageMetadata"]["promptTokenCount"],
+        "completion_tokens": original_response["usageMetadata"]["candidatesTokenCount"],
+        "total_tokens": original_response["usageMetadata"]["totalTokenCount"],
+    }
