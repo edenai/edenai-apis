@@ -42,5 +42,10 @@
     "chat": {
       "version": "bedrock-2023-05-31"
     }
+  },
+  "image": {
+    "logo_detection": {
+      "version": "bedrock-2023-05-31"
+    }
   }
 }

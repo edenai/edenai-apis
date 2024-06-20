@@ -37,23 +37,88 @@ SubCategoryType = Union[
 
 
 class ExplicitItem(BaseModel):
-    label: StrictStr
-    likelihood: int
-    likelihood_score: float
-    category: CategoryType
-    subcategory: SubCategoryType
-
+    label: StrictStr = Field(description="")
+    likelihood: int = Field(description="")
+    likelihood_score: float = Field(description="")
+    category: CategoryType = Field(
+        description="The category of the detected content. Possible values include: 'Toxic', 'Content', 'Sexual', 'Violence', 'DrugAndAlcohol', 'Finance', 'HateAndExtremism', 'Safe', 'Other'."
+    )
+    subcategory: SubCategoryType = Field(
+        description="The subcategory of content. Possible values:\n\n"
+        "Toxic Subcategories:\n"
+        "- Insult\n"
+        "- Obscene\n"
+        "- Derogatory\n"
+        "- Profanity\n"
+        "- Threat\n"
+        "- Toxic\n\n"
+        "Content Subcategories:\n"
+        "- MiddleFinger\n"
+        "- PublicSafety\n"
+        "- Health\n"
+        "- Explicit\n"
+        "- QRCode\n"
+        "- Medical\n"
+        "- Politics\n"
+        "- Legal\n\n"
+        "Sexual Subcategories:\n"
+        "- SexualActivity\n"
+        "- SexualSituations\n"
+        "- Nudity\n"
+        "- PartialNudity\n"
+        "- Suggestive\n"
+        "- AdultToys\n"
+        "- RevealingClothes\n"
+        "- Sexual\n\n"
+        "Violence Subcategories:\n"
+        "- GraphicViolenceOrGore\n"
+        "- PhysicalViolence\n"
+        "- WeaponViolence\n"
+        "- Violence\n\n"
+        "Drug and Alcohol Subcategories:\n"
+        "- DrugProducts\n"
+        "- DrugUse\n"
+        "- Tobacco\n"
+        "- Smoking\n"
+        "- Alcohol\n"
+        "- Drinking\n\n"
+        "Finance Subcategories:\n"
+        "- Gambling\n"
+        "- Finance\n"
+        "- MoneyContent\n\n"
+        "Hate and Extremism Subcategories:\n"
+        "- Hate\n"
+        "- Harassment\n"
+        "- Threatening\n"
+        "- Extremist\n"
+        "- Racy\n\n"
+        "Safe Subcategories:\n"
+        "- Safe\n"
+        "- NotSafe\n\n"
+        "Other Subcategories:\n"
+        "- Spoof\n"
+        "- Religion\n"
+        "- Offensive\n"
+        "- Other"
+    )
     model_config = ConfigDict(use_enum_values=True)
 
     @field_serializer("subcategory", mode="plain", when_used="always")
     def serialize_subcategory(self, value: SubCategoryType, _: FieldSerializationInfo):
-        return getattr(value, 'value', None)
+        return getattr(value, "value", None)
 
 
 class ExplicitContentDataClass(BaseModel):
-    nsfw_likelihood: int
-    nsfw_likelihood_score: float
-    items: Sequence[ExplicitItem] = Field(default_factory=list)
+    nsfw_likelihood: int = Field(
+        description="An integer representing the likelihood of NSFW content. Higher values indicate a higher likelihood."
+    )
+    nsfw_likelihood_score: float = Field(
+        description="A floating-point score representing the confidence level of the NSFW likelihood assessment. This is typically a value between 0.0 and 1.0."
+    )
+    items: Sequence[ExplicitItem] = Field(
+        default_factory=list,
+        description="A list of items identified as potentially explicit. Each item contains details of the explicit content detected.",
+    )
 
     @field_validator("nsfw_likelihood")
     def check_min_max(cls, v):

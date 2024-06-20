@@ -24,4 +24,11 @@ file_wrapper = FileWrapper(image_path, "", file_info)
 
 
 def logo_detection_arguments(provider_name: str) -> Dict:
-    return {"file": file_wrapper, "settings": {"api4ai": "v1"}}
+    return {
+        "file": file_wrapper,
+        "settings": {
+            "api4ai": "v1",
+            "openai": "gpt-4o",
+            "anthropic": "claude-3-sonnet-20240229-v1:0",
+        },
+    }

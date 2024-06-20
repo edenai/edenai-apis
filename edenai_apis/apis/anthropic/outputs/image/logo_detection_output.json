@@ -1,0 +1,53 @@
+{
+  "original_response": {
+    "id": "msg_bdrk_01JniAr72eCkk3J8Xf3ngvbV",
+    "type": "message",
+    "role": "assistant",
+    "model": "claude-3-sonnet-20240229",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n    \"items\": [\"Facebook\", \"Apple\", \"Amazon\", \"Google\"]\n}"
+      }
+    ],
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "usage": {
+      "input_tokens": 1301,
+      "output_tokens": 23,
+      "total_tokens": 1324
+    }
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "bounding_poly": {
+          "vertices": []
+        },
+        "description": "Facebook",
+        "score": null
+      },
+      {
+        "bounding_poly": {
+          "vertices": []
+        },
+        "description": "Apple",
+        "score": null
+      },
+      {
+        "bounding_poly": {
+          "vertices": []
+        },
+        "description": "Amazon",
+        "score": null
+      },
+      {
+        "bounding_poly": {
+          "vertices": []
+        },
+        "description": "Google",
+        "score": null
+      }
+    ]
+  }
+}

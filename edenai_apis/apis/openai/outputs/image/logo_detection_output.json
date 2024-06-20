@@ -1,0 +1,74 @@
+{
+  "original_response": {
+    "id": "chatcmpl-9cCN8gdP4rOpH4eMLNsQ7Mg7OTUjC",
+    "object": "chat.completion",
+    "created": 1718891050,
+    "model": "gpt-4o-2024-05-13",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": null,
+          "tool_calls": [
+            {
+              "id": "call_Kl9i3oetjpZQulThntX8oIQ2",
+              "type": "function",
+              "function": {
+                "name": "logo_detection",
+                "arguments": "{\"items\":[{\"bounding_poly\":{\"vertices\":[]},\"description\":\"Facebook\",\"score\":null},{\"bounding_poly\":{\"vertices\":[]},\"description\":\"Apple\",\"score\":null},{\"bounding_poly\":{\"vertices\":[]},\"description\":\"Amazon\",\"score\":null},{\"bounding_poly\":{\"vertices\":[]},\"description\":\"Netflix\",\"score\":null},{\"bounding_poly\":{\"vertices\":[]},\"description\":\"Google\",\"score\":null}]}"
+              }
+            }
+          ]
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 1257,
+      "completion_tokens": 80,
+      "total_tokens": 1337
+    },
+    "system_fingerprint": "fp_9cb5d38cf7"
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "bounding_poly": {
+          "vertices": []
+        },
+        "description": "Facebook",
+        "score": null
+      },
+      {
+        "bounding_poly": {
+          "vertices": []
+        },
+        "description": "Apple",
+        "score": null
+      },
+      {
+        "bounding_poly": {
+          "vertices": []
+        },
+        "description": "Amazon",
+        "score": null
+      },
+      {
+        "bounding_poly": {
+          "vertices": []
+        },
+        "description": "Netflix",
+        "score": null
+      },
+      {
+        "bounding_poly": {
+          "vertices": []
+        },
+        "description": "Google",
+        "score": null
+      }
+    ]
+  }
+}

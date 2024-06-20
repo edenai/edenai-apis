@@ -1,10 +1,17 @@
-from typing import Dict, List, Literal, Union, Optional, Generator
-import httpx
 import base64
 import json
+import mimetypes
+from typing import Dict, List, Literal, Union, Optional, Generator
+import httpx
 import boto3
 from anthropic_bedrock import AnthropicBedrock
-from edenai_apis.features import ProviderInterface, TextInterface
+from pydantic_core._pydantic_core import ValidationError
+from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
+from edenai_apis.features.image.logo_detection.logo_detection_dataclass import (
+    LogoDetectionDataClass,
+    LogoItem,
+    LogoBoundingPoly,
+)
 from edenai_apis.features.text import GenerationDataClass, SummarizeDataClass
 from edenai_apis.features.text.chat.chat_dataclass import (
     StreamChat,
@@ -23,9 +30,10 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.loaders.data_loader import load_info_file
+from edenai_apis.apis.anthropic.prompts import LOGO_DETECTION_SYSTEM_PROMPT
 
 
-class AnthropicApi(ProviderInterface, TextInterface):
+class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
     provider_name = "anthropic"
 
     def __init__(self, api_keys: Dict = {}) -> None:
@@ -414,3 +422,63 @@ class AnthropicApi(ProviderInterface, TextInterface):
                     standardized_response=StreamChat(stream=stream_response),
                 ),
             )
+
+    def image__logo_detection(
+        self, file: str, file_url: str = "", model: Optional[str] = None
+    ) -> ResponseType[LogoDetectionDataClass]:
+        mime_type = mimetypes.guess_type(file)[0]
+        with open(file, "rb") as fstream:
+            base64_data = base64.b64encode(fstream.read()).decode("utf-8")
+
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": mime_type,
+                            "data": base64_data,
+                        },
+                    }
+                ],
+            }
+        ]
+        body = {
+            "anthropic_version": self.__get_anthropic_version(),
+            "max_tokens": 10000,
+            "messages": messages,
+            "system": LOGO_DETECTION_SYSTEM_PROMPT,
+        }
+        request_body = json.dumps(body)
+        original_response = self.__anthropic_request(
+            request_body=request_body, model=model
+        )
+
+        # Calculate total usage
+        original_response["usage"]["total_tokens"] = (
+            original_response["usage"]["input_tokens"]
+            + original_response["usage"]["output_tokens"]
+        )
+
+        try:
+            logos = json.loads(original_response["content"][0]["text"])
+        except (KeyError, json.JSONDecodeError, ValidationError) as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+
+        items: List[LogoItem] = [
+            LogoItem(
+                description=logo,
+                bounding_poly=LogoBoundingPoly(vertices=[]),
+                score=None,
+            )
+            for logo in logos.get("items", [])
+        ]
+
+        return ResponseType[LogoDetectionDataClass](
+            original_response=original_response,
+            standardized_response=LogoDetectionDataClass(items=items),
+        )
