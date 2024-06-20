@@ -8,12 +8,13 @@
   "documentai": {
     "project_id": 0,
     "process_ocr_tables_id": "",
-    "process_invoice_id" : "",
-    "process_receipt_id" : ""
+    "process_invoice_id": "",
+    "process_receipt_id": ""
   },
   "private_key": "",
   "private_key_id": "",
   "project_id": "",
   "token_uri": "",
-  "type": ""
+  "type": "",
+  "genai_api_key": ""
 }

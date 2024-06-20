@@ -1,7 +1,8 @@
 from typing import Dict, List, Union, Generator, Optional
 import json
-import requests
 import base64
+import requests
+import httpx
 from edenai_apis.features.multimodal.chat import (
     ChatDataClass,
     StreamChat,
@@ -10,8 +11,8 @@ from edenai_apis.features.multimodal.chat import (
 )
 from edenai_apis.features.multimodal.multimodal_interface import MultimodalInterface
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.apis.google.google_helpers import get_access_token
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.apis.google.google_helpers import calculate_usage_tokens
 
 
 class GoogleMultimodalApi(MultimodalInterface):
@@ -36,14 +37,10 @@ class GoogleMultimodalApi(MultimodalInterface):
             "parts": [
                 {
                 // Union field data can be only one of the following:
-                "text": string,
+                "text": {"text" : string},
                 "inlineData": {
                     "mimeType": string,
                     "data": string
-                },
-                "fileData": {
-                    "mimeType": string,
-                    "fileUri": string
                 }
                 }
             ]
@@ -53,8 +50,8 @@ class GoogleMultimodalApi(MultimodalInterface):
         """
         transformed_messages = []
         for message in messages:
-            role = message["role"].upper()
-            if role == "USER":
+            role = message["role"]
+            if role == "user":
                 parts = []
                 for content in message["content"]:
                     if content["type"] == "text":
@@ -62,27 +59,26 @@ class GoogleMultimodalApi(MultimodalInterface):
                     elif content["type"] == "media_url":
                         media_url = content["content"]["media_url"]
                         media_type = content["content"]["media_type"]
-                        response = requests.get(media_url)
-
+                        response = httpx.get(media_url)
                         data = base64.b64encode(response.content).decode("utf-8")
                         parts.append(
-                            {"inlineData": {"data": data, "mimeType": media_type}}
+                            {"inline_data": {"data": data, "mime_type": media_type}}
                         )
                     elif content["type"] == "media_base64":
                         media_base64 = content["content"]["media_base64"]
                         parts.append(
                             {
-                                "inlineData": {
+                                "inline_data": {
                                     "data": media_base64,
-                                    "mimeType": content["content"]["media_type"],
+                                    "mime_type": content["content"]["media_type"],
                                 }
                             }
                         )
                 transformed_messages.append({"role": role, "parts": parts})
-            elif role == "ASSISTANT":
+            elif role == "assistant":
                 transformed_messages.append(
                     {
-                        "role": role,
+                        "role": "model",
                         "parts": [
                             {
                                 "text": message.get("content")[0]
@@ -93,43 +89,6 @@ class GoogleMultimodalApi(MultimodalInterface):
                     }
                 )
         return transformed_messages
-
-    @staticmethod
-    def __calculate_usage_tokens(original_response: List[dict]) -> Dict:
-        """
-        Calculates the token usage from the original response.
-
-        This function extracts token usage information from the provided response.
-        It assumes that usageMetadata appears only in the last element of the object.
-
-        """
-        # The object usageMetadata appear only in the last element of the obj
-        usage = {
-            "prompt_tokens": original_response[-1]["usageMetadata"]["totalTokenCount"],
-            "completion_tokens": original_response[-1]["usageMetadata"][
-                "totalTokenCount"
-            ],
-            "total_tokens": original_response[-1]["usageMetadata"]["totalTokenCount"],
-        }
-        return {"usage": usage, "data": original_response}
-
-    @staticmethod
-    def __retrieve_generated_text(original_response: List[dict]) -> str:
-        """
-        Builds the generated text from Google Gemini response.
-
-        This function constructs the generated text from the provided response.
-        It iterates through the list of dictionaries and retrieves the text parts
-        """
-        answer = ""
-        for resp in original_response:
-            answer += (
-                resp["candidates"][0]
-                .get("content", {})
-                .get("parts", [{}])[0]
-                .get("text", "")
-            )
-        return answer
 
     @staticmethod
     def __chat_stream_generator(response: requests.Response) -> Generator:
@@ -162,18 +121,10 @@ class GoogleMultimodalApi(MultimodalInterface):
         stream: bool = False,
         provider_params: Optional[dict] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-        token = get_access_token(self.location)
-        base_url = "https://{location}-aiplatform.googleapis.com/v1/projects/{project_id}/locations/{location}/publishers/google/models/{model}:streamGenerateContent"
-        url = base_url.format(
-            location="us-central1",
-            project_id=self.project_id,
-            model=model,
-        )
+        api_key = self.api_settings["genai_api_key"]
+        base_url = "https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={api_key}"
+        url = base_url.format(model=model, api_key=api_key)
         formatted_messages = self.__format_google_messages(messages=messages)
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {token}",
-        }
         payload = {
             "contents": formatted_messages,
             "generationConfig": {
@@ -184,10 +135,14 @@ class GoogleMultimodalApi(MultimodalInterface):
                 "topK": top_k,
                 "stopSequences": stop_sequences,
             },
-            # "systemInstruction": chatbot_global_action,
         }
+        if chatbot_global_action:
+            payload["system_instruction"] = (
+                {"parts": {"text": chatbot_global_action}},
+            )
+
         if stream is False:
-            response = requests.post(url, json=payload, headers=headers)
+            response = requests.post(url, json=payload)
             try:
                 original_response = response.json()
             except json.JSONDecodeError as exc:
@@ -197,15 +152,13 @@ class GoogleMultimodalApi(MultimodalInterface):
 
             if response.status_code != 200:
                 raise ProviderException(
-                    message=response.text,
+                    message=original_response["error"]["message"],
                     code=response.status_code,
                 )
-            generated_text = self.__retrieve_generated_text(
-                original_response=original_response
-            )
-            original_response = self.__calculate_usage_tokens(
-                original_response=original_response
-            )
+            generated_text = original_response["candidates"][0]["content"]["parts"][0][
+                "text"
+            ]
+            calculate_usage_tokens(original_response=original_response)
             standardized_response = ChatDataClass.generate_standardized_response(
                 generated_text=generated_text,
                 messages=messages,
@@ -216,8 +169,8 @@ class GoogleMultimodalApi(MultimodalInterface):
                 standardized_response=standardized_response,
             )
         else:
-            url += "?alt=sse"
-            response = requests.post(url, json=payload, headers=headers, stream=True)
+            url.replace("generateContent", "streamGenerateContent?alt=sse")
+            response = requests.post(url, json=payload, stream=True)
             try:
                 original_response = response.json()
             except json.JSONDecodeError as exc:
