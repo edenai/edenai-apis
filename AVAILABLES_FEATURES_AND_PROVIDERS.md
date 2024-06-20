@@ -208,6 +208,7 @@
 | | clarifai |
 | | google |
 | | microsoft |
+| | openai |
 | | picpurify |
 | | sentisight |
 | **face_compare** | amazon |
@@ -234,6 +235,13 @@
 | | google |
 | | microsoft |
 | | sentisight |
+| **logo_detection** | anthropic |
+| | api4ai |
+| | clarifai |
+| | google |
+| | microsoft |
+| | openai |
+| | smartclick |
 | **anonymization** | api4ai |
 | **background_removal** | api4ai |
 | | clipdrop |
@@ -241,11 +249,6 @@
 | | photoroom |
 | | sentisight |
 | | stabilityai |
-| **logo_detection** | api4ai |
-| | clarifai |
-| | google |
-| | microsoft |
-| | smartclick |
 | **generation_fine_tuning** | astria |
 | **landmark_detection** | google |
 | | microsoft |
@@ -418,6 +421,7 @@
 
 | Features | Subfeatures |
 |----------|-------------|
+| **image** | logo_detection |
 | **multimodal** | chat |
 | **text** | chat |
 | | generation |
@@ -830,7 +834,9 @@
 |----------|-------------|
 | **audio** | speech_to_text_async |
 | | text_to_speech |
-| **image** | generation |
+| **image** | explicit_content |
+| | generation |
+| | logo_detection |
 | | question_answer |
 | | variation |
 | **multimodal** | chat |
