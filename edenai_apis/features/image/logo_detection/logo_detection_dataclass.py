@@ -1,8 +1,4 @@
 from typing import Optional, Sequence
-
-from pydantic import BaseModel, Field, StrictStr
-
-from typing import Optional, Sequence
 from pydantic import BaseModel, Field, StrictStr
 
 
