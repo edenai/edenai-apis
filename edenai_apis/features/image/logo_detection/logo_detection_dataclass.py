@@ -7,8 +7,8 @@ from pydantic import BaseModel, Field, StrictStr
 
 
 class LogoVertice(BaseModel):
-    x: Optional[float]
-    y: Optional[float]
+    x: Optional[float] = Field(description="The x-coordinate of the vertex.")
+    y: Optional[float] = Field(description="The y-coordinate of the vertex.")
 
 
 class LogoBoundingPoly(BaseModel):
@@ -18,7 +18,7 @@ class LogoBoundingPoly(BaseModel):
 
 
 class LogoItem(BaseModel):
-    bounding_poly: LogoBoundingPoly
+    bounding_poly: LogoBoundingPoly = LogoBoundingPoly()
     description: Optional[StrictStr] = Field(description="Name of the logo")
     score: Optional[float] = Field(
         description="Confidence score how sure it's this is a real logo."
