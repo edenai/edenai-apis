@@ -118,6 +118,8 @@ distro==1.9.0
     # via anthropic-bedrock
 docker==7.0.0
     # via sagemaker
+docstring-parser==0.16
+    # via -r requirements.in
 docutils==0.20.1
     # via sphinx
 execnet==2.1.1
