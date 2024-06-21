@@ -327,7 +327,9 @@ class GoogleTextApi(TextInterface):
                 },
             }
             original_response = gemini_request(
-                payload=payload, model=model, api_key=self.api_settings["genai_api_key"]
+                payload=payload,
+                model=model,
+                api_key=self.api_settings.get("genai_api_key"),
             )
             generated_text = original_response["candidates"][0]["content"]["parts"][0][
                 "text"
@@ -578,7 +580,7 @@ class GoogleTextApi(TextInterface):
                 max_tokens,
                 context,
             )
-            api_key = self.api_settings["genai_api_key"]
+            api_key = self.api_settings.get("genai_api_key")
             base_url = f"https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={api_key}"
             response = requests.post(url=base_url, json=payload)
             try:
@@ -664,7 +666,7 @@ class GoogleTextApi(TextInterface):
                 max_tokens,
                 context,
             )
-            api_key = self.api_settings["genai_api_key"]
+            api_key = self.api_settings.get("genai_api_key")
             base_url = f"https://generativelanguage.googleapis.com/v1/models/{model}:streamGenerateContent?alt=sse&key={api_key}"
             response = requests.post(base_url, json=payload, stream=True)
         else:
