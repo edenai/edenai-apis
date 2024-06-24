@@ -41,7 +41,7 @@
         "likelihood": 5,
         "likelihood_score": 0.95,
         "category": "Violence",
-        "subcategory": null
+        "subcategory": "Violence"
       }
     ]
   }
