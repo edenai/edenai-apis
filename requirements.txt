@@ -162,6 +162,7 @@ google-auth==2.29.0
     #   google-cloud-bigquery
     #   google-cloud-core
     #   google-cloud-resource-manager
+    #   google-cloud-speech
     #   google-cloud-storage
 google-auth-httplib2==0.2.0
     # via google-api-python-client
@@ -182,7 +183,7 @@ google-cloud-language==2.10.0
     # via -r requirements.in
 google-cloud-resource-manager==1.12.3
     # via google-cloud-aiplatform
-google-cloud-speech==2.20.0
+google-cloud-speech==2.26.0
     # via -r requirements.in
 google-cloud-storage==2.9.0
     # via
