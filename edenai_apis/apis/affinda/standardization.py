@@ -202,9 +202,13 @@ class ResumeStandardizer:
                     industry=None,
                 )
             )
+
         total_years = extract(self.__data, ["totalYearsExperience", "parsed"])
-        if total_years:
+
+        if isinstance(total_years, (int, float)):
             total_years = str(total_years)
+        else:
+            total_years = None
 
         self.__std_response["work_experience"] = ResumeWorkExp(
             total_years_experience=total_years,
