@@ -568,10 +568,9 @@ class GoogleTextApi(TextInterface):
         max_tokens: int,
         context: str,
         model: str,
-        pattern: str,
     ) -> ResponseType[ChatDataClass]:
 
-        if re.match(pattern, model):
+        if model != "chat-bison":
             payload = self._gemini_pro_chat_prepare_payload(
                 text,
                 previous_history if previous_history else [],
@@ -654,10 +653,9 @@ class GoogleTextApi(TextInterface):
         max_tokens: int,
         context: str,
         model: str,
-        pattern: str,
     ) -> ResponseType[StreamChat]:
 
-        if re.match(pattern, model):
+        if model != "chat-bison":
             payload = self._gemini_pro_chat_prepare_payload(
                 text,
                 previous_history if previous_history else [],
@@ -694,9 +692,9 @@ class GoogleTextApi(TextInterface):
             raise ProviderException(message=response.text, code=response.status_code)
 
         response = (
-            self._gemini_chat_stream_generator(response)
-            if re.match(pattern, model)
-            else self.__text_chat_stream_generator(response)
+            self.__text_chat_stream_generator(response)
+            if model == "chat-bison"
+            else self._gemini_chat_stream_generator(response)
         )
 
         return ResponseType[StreamChat](
@@ -722,7 +720,6 @@ class GoogleTextApi(TextInterface):
             raise ProviderException("This provider does not support the use of tools")
 
         context = chatbot_global_action if chatbot_global_action else ""
-        pattern = r"^gemini-([a-zA-Z0-9.]+-)?pro$"
 
         if stream:
             return self._handle_streaming(
@@ -732,7 +729,6 @@ class GoogleTextApi(TextInterface):
                 max_tokens,
                 context,
                 model,
-                pattern,
             )
         else:
             return self._handle_non_streaming(
@@ -742,7 +738,6 @@ class GoogleTextApi(TextInterface):
                 max_tokens,
                 context,
                 model,
-                pattern,
             )
 
     def text__embeddings(
