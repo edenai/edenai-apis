@@ -722,7 +722,7 @@ class GoogleTextApi(TextInterface):
             raise ProviderException("This provider does not support the use of tools")
 
         context = chatbot_global_action if chatbot_global_action else ""
-        pattern = r"^gemini-([a-zA-Z0-9.]+-)?pro$"
+        pattern = r"^gemini-\d+\.\d+-(flash|pro)(-\d+)?$"
 
         if stream:
             return self._handle_streaming(
