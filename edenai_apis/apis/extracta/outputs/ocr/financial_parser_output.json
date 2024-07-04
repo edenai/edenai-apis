@@ -1,0 +1,202 @@
+{
+  "original_response": {
+    "merchant_information": {
+      "name": "SNG Engineering, Inc. Consulting Engineers",
+      "address": "344 Main Street Suite 200 Gaithersburg, MD 20878",
+      "phone": "301.548.0055",
+      "tax_id": "",
+      "email": "sng.engineering@erols.com",
+      "fax": "301.548.1840",
+      "website": "",
+      "city": "Gaithersburg",
+      "country": "MD",
+      "house_number": "344",
+      "province": "MD",
+      "street_name": "Main Street",
+      "zip_code": "20878"
+    },
+    "bank": {
+      "iban": ""
+    },
+    "customer_information": {
+      "name": "Damita J Goldsmith",
+      "address": "201 Stan Fey Dr Upper Marlboro , MD 20774",
+      "phone": "",
+      "tax_id": "",
+      "email": "",
+      "website": "",
+      "city": "Upper Marlboro",
+      "country": "MD",
+      "house_number": "201",
+      "province": "MD",
+      "street_name": "Stan Fey Dr",
+      "zip_code": "20774"
+    },
+    "financial_document_information": {
+      "invoice_receipt_id": "014- 03",
+      "invoice_date": "2003-01-20",
+      "document_type": "invoice"
+    },
+    "item_lines": [
+      {
+        "title": "Field inspection of construction on 1/19/2003 deficiencies in house construction, Garage drive way & legal support to Attorney to 1/19/2003",
+        "unit_price": "750.00",
+        "quantity": "1",
+        "tax": "",
+        "amount_line": "750.00"
+      }
+    ],
+    "payment_information": {
+      "subtotal": "750.00",
+      "total_tax": "",
+      "total": "750.00"
+    },
+    "local": {
+      "currency_code": ""
+    }
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "customer_information": {
+          "name": "Damita J Goldsmith",
+          "id_reference": null,
+          "mailling_address": null,
+          "billing_address": "201 Stan Fey Dr Upper Marlboro , MD 20774",
+          "shipping_address": null,
+          "service_address": null,
+          "remittance_address": null,
+          "email": null,
+          "phone": null,
+          "vat_number": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "business_number": null,
+          "siret_number": null,
+          "siren_number": null,
+          "customer_number": null,
+          "coc_number": null,
+          "fiscal_number": null,
+          "registration_number": null,
+          "tax_id": null,
+          "website": null,
+          "remit_to_name": null,
+          "city": "Upper Marlboro",
+          "country": "MD",
+          "house_number": "201",
+          "province": "MD",
+          "street_name": "Stan Fey Dr",
+          "zip_code": "20774",
+          "municipality": null
+        },
+        "merchant_information": {
+          "name": "SNG Engineering, Inc. Consulting Engineers",
+          "address": "344 Main Street Suite 200 Gaithersburg, MD 20878",
+          "phone": "301.548.0055",
+          "tax_id": null,
+          "id_reference": null,
+          "vat_number": null,
+          "abn_number": null,
+          "gst_number": null,
+          "business_number": null,
+          "siret_number": null,
+          "siren_number": null,
+          "pan_number": null,
+          "coc_number": null,
+          "fiscal_number": null,
+          "email": "sng.engineering@erols.com",
+          "fax": "301.548.1840",
+          "website": null,
+          "registration": null,
+          "city": "Gaithersburg",
+          "country": "MD",
+          "house_number": "344",
+          "province": "MD",
+          "street_name": "Main Street",
+          "zip_code": "20878",
+          "country_code": null
+        },
+        "payment_information": {
+          "amount_due": null,
+          "amount_tip": null,
+          "amount_shipping": null,
+          "amount_change": null,
+          "amount_paid": null,
+          "total": 750.0,
+          "subtotal": 750.0,
+          "total_tax": null,
+          "tax_rate": null,
+          "discount": null,
+          "gratuity": null,
+          "service_charge": null,
+          "previous_unpaid_balance": null,
+          "prior_balance": null,
+          "payment_terms": null,
+          "payment_method": null,
+          "payment_card_number": null,
+          "payment_auth_code": null,
+          "shipping_handling_charge": null,
+          "transaction_number": null,
+          "transaction_reference": null
+        },
+        "financial_document_information": {
+          "invoice_receipt_id": "014- 03",
+          "purchase_order": null,
+          "invoice_date": "2003-01-20",
+          "time": null,
+          "invoice_due_date": null,
+          "service_start_date": null,
+          "service_end_date": null,
+          "reference": null,
+          "biller_code": null,
+          "order_date": null,
+          "tracking_number": null,
+          "barcodes": []
+        },
+        "local": {
+          "currency": null,
+          "currency_code": null,
+          "currency_exchange_rate": null,
+          "country": null,
+          "language": null
+        },
+        "bank": {
+          "iban": null,
+          "swift": null,
+          "bsb": null,
+          "sort_code": null,
+          "account_number": null,
+          "routing_number": null,
+          "bic": null
+        },
+        "item_lines": [
+          {
+            "tax": null,
+            "amount_line": 750.0,
+            "description": null,
+            "quantity": 1.0,
+            "unit_price": 750.0,
+            "unit_type": null,
+            "date": null,
+            "product_code": null,
+            "purchase_order": null,
+            "tax_rate": null,
+            "base_total": null,
+            "sub_total": null,
+            "discount_amount": null,
+            "discount_rate": null,
+            "discount_code": null,
+            "order_number": null,
+            "title": "Field inspection of construction on 1/19/2003 deficiencies in house construction, Garage drive way & legal support to Attorney to 1/19/2003"
+          }
+        ],
+        "document_metadata": {
+          "document_index": null,
+          "document_page_number": null,
+          "document_type": "invoice"
+        }
+      }
+    ]
+  }
+}

@@ -8,7 +8,10 @@
                     "image/png",
                     "image/tiff",
                     "image/bmp",
-                    "application/pdf"
+                    "application/pdf",
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "text/plain"
                 ]
             },
             "version": "v1"
@@ -41,6 +44,82 @@
                     "application/msword",
                     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                     "text/plain"
+                ]
+            },
+            "version": "v1"
+        },
+        "financial_parser": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/jpg",
+                    "image/png",
+                    "image/tiff",
+                    "image/bmp",
+                    "application/pdf",
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "text/plain"
+                ],
+                "languages": [
+                    "zh-tw",
+                    "zh-cn",
+                    "en",
+                    "de",
+                    "ja",
+                    "es",
+                    "fr",
+                    "it",
+                    "pt",
+                    "nl",
+                    "pl",
+                    "sv",
+                    "cs",
+                    "ru",
+                    "da",
+                    "ro",
+                    "no",
+                    "id",
+                    "hu",
+                    "tr",
+                    "hr",
+                    "sk",
+                    "fi",
+                    "vi",
+                    "th",
+                    "sl",
+                    "el",
+                    "et",
+                    "ar",
+                    "ko",
+                    "lt",
+                    "fa",
+                    "bg",
+                    "he",
+                    "uk",
+                    "tl",
+                    "mk",
+                    "so",
+                    "lv",
+                    "sq",
+                    "af",
+                    "sw",
+                    "bn",
+                    "hi",
+                    "ur",
+                    "mr",
+                    "gu",
+                    "ta",
+                    "ne",
+                    "ml",
+                    "te",
+                    "kn",
+                    "pa"
+                ],
+                "allow_null_language": true,
+                "documents": [
+                    "receipt",
+                    "invoice"
                 ]
             },
             "version": "v1"
