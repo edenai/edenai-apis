@@ -2,7 +2,9 @@ import random
 from typing import Dict
 
 import openai
+from openai import OpenAI
 
+from edenai_apis.apis.openai.openai_doc_parsing_api import OpenaiDocParsingApi
 from edenai_apis.apis.openai.openai_audio_api import OpenaiAudioApi
 from edenai_apis.apis.openai.openai_image_api import OpenaiImageApi
 from edenai_apis.apis.openai.openai_text_api import OpenaiTextApi
@@ -20,6 +22,7 @@ class OpenaiApi(
     OpenaiTextApi,
     OpenaiAudioApi,
     OpenaiMultimodalApi,
+    OpenaiDocParsingApi,
 ):
     provider_name = "openai"
 
@@ -44,6 +47,10 @@ class OpenaiApi(
             "Content-Type": "application/json",
         }
         self.max_tokens = 270
+
+        self.client = OpenAI(
+                 api_key=self.api_key,
+                )
 
         self.webhook_settings = load_provider(ProviderDataEnum.KEY, "webhooksite")
         self.webhook_token = self.webhook_settings["webhook_token"]

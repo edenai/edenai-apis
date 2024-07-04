@@ -320,7 +320,7 @@ numpy==1.26.4
     #   shapely
 oauthlib==3.2.2
     # via requests-oauthlib
-openai==0.28.1
+openai==1.35.9
     # via -r requirements.in
 packaging==24.0
     # via
