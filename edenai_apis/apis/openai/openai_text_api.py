@@ -3,66 +3,56 @@ import json
 from typing import Dict, List, Literal, Optional, Sequence, Union
 from edenai_apis.features.text.chat.helpers import get_tool_call_from_history_by_id
 
-import openai
+from openai import OpenAI
+
 import requests
 from pydantic_core._pydantic_core import ValidationError
 
 from edenai_apis.features import TextInterface
 from edenai_apis.features.text.anonymization import AnonymizationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
-    AnonymizationEntity,
-)
+    AnonymizationEntity)
 from edenai_apis.features.text.anonymization.category import CategoryType
 from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
 from edenai_apis.features.text.chat.chat_dataclass import (
     StreamChat,
     ChatStreamResponse,
-    ToolCall,
-)
+    ToolCall)
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
-    CodeGenerationDataClass,
-)
+    CodeGenerationDataClass)
 from edenai_apis.features.text.custom_classification import (
-    CustomClassificationDataClass,
-)
+    CustomClassificationDataClass)
 from edenai_apis.features.text.custom_named_entity_recognition import (
-    CustomNamedEntityRecognitionDataClass,
-)
+    CustomNamedEntityRecognitionDataClass)
 from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
 from edenai_apis.features.text.generation import GenerationDataClass
 from edenai_apis.features.text.keyword_extraction import KeywordExtractionDataClass
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
-    InfosKeywordExtractionDataClass,
-)
+    InfosKeywordExtractionDataClass)
 from edenai_apis.features.text.moderation import ModerationDataClass, TextModerationItem
 from edenai_apis.features.text.moderation.category import (
-    CategoryType as CategoryTypeModeration,
-)
+    CategoryType as CategoryTypeModeration)
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
-    NamedEntityRecognitionDataClass,
+    NamedEntityRecognitionDataClass
 )
 from edenai_apis.features.text.prompt_optimization import (
     PromptDataClass,
-    PromptOptimizationDataClass,
-)
+    PromptOptimizationDataClass)
 from edenai_apis.features.text.question_answer import QuestionAnswerDataClass
 from edenai_apis.features.text.search import InfosSearchDataClass, SearchDataClass
 from edenai_apis.features.text.sentiment_analysis import SentimentAnalysisDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
     SpellCheckItem,
-    SuggestionItem,
-)
+    SuggestionItem)
 from edenai_apis.features.text.summarize import SummarizeDataClass
 from edenai_apis.features.text.topic_extraction import (
-    TopicExtractionDataClass,
-)
+    TopicExtractionDataClass)
 from edenai_apis.utils.conversion import (
     closest_above_value,
     construct_word_list,
     find_all_occurrence,
-    standardized_confidence_score,
-)
+    standardized_confidence_score)
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
@@ -80,9 +70,8 @@ from .helpers import (
     convert_tools_to_openai,
     finish_unterminated_json,
     get_openapi_response,
-    prompt_optimization_missing_information,
+    prompt_optimization_missing_information
 )
-
 
 class OpenaiTextApi(TextInterface):
     def text__summarize(
@@ -337,13 +326,13 @@ class OpenaiTextApi(TextInterface):
             "response_format": {"type": "json_object"},
         }
         try:
-            response = openai.ChatCompletion.create(**payload)
+            response = self.client.chat.completions.create(**payload)
         except Exception as exc:
             raise ProviderException(str(exc)) from exc
 
-        raw_keywords = response["choices"][0]["message"]["content"]
+        raw_keywords = response.choices[0].message.content
         try:
-            if response["choices"][0]["finish_reason"] == "length":
+            if response.choices[0].finish_reason == "length":
                 keywords = json.loads(
                     finish_unterminated_json(raw_keywords, end_brackets="]}")
                 )
@@ -535,13 +524,13 @@ class OpenaiTextApi(TextInterface):
             "presence_penalty": 0,
         }
         try:
-            response = openai.ChatCompletion.create(**payload)
+            response = self.client.chat.completions.create(**payload)
         except Exception as exc:
             raise ProviderException(str(exc))
 
-        raw_items = response["choices"][0]["message"]["content"]
+        raw_items = response.choices[0].message.content
         try:
-            if response["choices"][0]["finish_reason"] == "length":
+            if response.choices[0].finish_reason == "length":
                 items = json.loads(
                     finish_unterminated_json(raw_items, end_brackets="]}")
                 )
@@ -801,13 +790,13 @@ class OpenaiTextApi(TextInterface):
             payload["tool_choice"] = tool_choice
 
         try:
-            response = openai.ChatCompletion.create(**payload)
+            response = self.client.chat.completions.create(**payload)
         except Exception as exc:
             raise ProviderException(str(exc))
 
         # Standardize the response
         if stream is False:
-            message = response["choices"][0]["message"]
+            message = response.choices[0].message
             generated_text = message["content"]
             original_tool_calls = message.get("tool_calls") or []
             tool_calls = []

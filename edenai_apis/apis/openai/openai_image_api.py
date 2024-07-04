@@ -3,7 +3,9 @@ from io import BytesIO
 from json import JSONDecodeError
 from typing import Sequence, Literal, Optional
 
-import openai
+from openai import OpenAI, APIError
+
+
 import requests
 import mimetypes
 
@@ -26,9 +28,7 @@ from edenai_apis.features.image.variation import (
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 from .tools import OpenAIFunctionTools
-from .helpers import (
-    get_openapi_response,
-)
+from .helpers import get_openapi_response
 from ...features.image.question_answer import QuestionAnswerDataClass
 from ...utils.exception import ProviderException
 
@@ -73,7 +73,7 @@ class OpenaiImageApi(ImageInterface):
         }
 
         try:
-            response = openai.ChatCompletion.create(**payload)
+            response = self.client.chat.completions.create(**payload)
         except Exception as exc:
             raise ProviderException(str(exc)) from exc
 
@@ -191,14 +191,14 @@ class OpenaiImageApi(ImageInterface):
         file_url: str = "",
     ) -> ResponseType[VariationDataClass]:
         try:
-            response = openai.Image.create_variation(
+            response = self.client.images.generate(
                 image=open(file, "rb"),
                 n=num_images,
                 model=model,
                 size=resolution,
                 response_format="b64_json",
             )
-        except openai.OpenAIError as error:
+        except APIError as error:
             raise ProviderException(message=error.user_message, code=error.code)
 
         original_response = response
