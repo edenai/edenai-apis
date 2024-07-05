@@ -522,6 +522,7 @@ class AmazonImageApi(ImageInterface):
         file_url: str = "",
         model: str = "titan-embed-image-v1",
         embedding_dimension: Optional[int] = 256,
+        representation: Optional[str] = "image",
     ) -> ResponseType[EmbeddingsDataClass]:
         accept_header = "application/json"
         content_type_header = "application/json"
