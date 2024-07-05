@@ -1,8 +1,6 @@
 import base64
 import json
 from typing import Sequence, Optional, BinaryIO, Dict
-from google.cloud import storage
-from io import BytesIO
 import numpy as np
 import requests
 from PIL import Image as Img, UnidentifiedImageError
