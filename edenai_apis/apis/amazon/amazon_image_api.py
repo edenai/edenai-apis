@@ -3,7 +3,10 @@ import base64
 from io import BytesIO
 from typing import Literal, Optional, Sequence
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
-from edenai_apis.features.image.embeddings.embeddings_dataclass import EmbeddingsDataClass, EmbeddingDataClass
+from edenai_apis.features.image.embeddings.embeddings_dataclass import (
+    EmbeddingsDataClass,
+    EmbeddingDataClass,
+)
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
@@ -51,7 +54,10 @@ from edenai_apis.features.image.face_recognition.recognize.face_recognition_reco
     FaceRecognitionRecognizeDataClass,
     FaceRecognitionRecognizedFaceDataClass,
 )
-from edenai_apis.features.image.generation.generation_dataclass import GenerationDataClass, GeneratedImageDataClass
+from edenai_apis.features.image.generation.generation_dataclass import (
+    GenerationDataClass,
+    GeneratedImageDataClass,
+)
 from edenai_apis.features.image.image_interface import ImageInterface
 from edenai_apis.features.image.object_detection.object_detection_dataclass import (
     ObjectDetectionDataClass,
@@ -170,9 +176,9 @@ class AmazonImageApi(ImageInterface):
                 if emo.get("Type"):
                     if emo.get("Type").lower() == "happy":  # normalise keywords
                         emo["Type"] = "happiness"
-                    emotion_output[
-                        emo.get("Type").lower()
-                    ] = standardized_confidence_score(normalized_emo / 100)
+                    emotion_output[emo.get("Type").lower()] = (
+                        standardized_confidence_score(normalized_emo / 100)
+                    )
             emotions = FaceEmotions(
                 anger=emotion_output.get("angry"),
                 surprise=emotion_output.get("surprise"),
@@ -457,11 +463,12 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__generation(
-        self, 
-        text: str, 
-        resolution: Literal['256x256', '512x512', '1024x1024'], 
+        self,
+        text: str,
+        resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
-        model: Optional[str] = None ) -> ResponseType[GenerationDataClass]:
+        model: Optional[str] = None,
+    ) -> ResponseType[GenerationDataClass]:
         # Headers for the HTTP request
         accept_header = "application/json"
         content_type_header = "application/json"
@@ -472,9 +479,7 @@ class AmazonImageApi(ImageInterface):
         request_body = json.dumps(
             {
                 "taskType": "TEXT_IMAGE",
-                "textToImageParams": {
-                    "text": text
-                },
+                "textToImageParams": {"text": text},
                 "imageGenerationConfig": {
                     "numberOfImages": num_images,
                     "quality": quality,
@@ -482,7 +487,7 @@ class AmazonImageApi(ImageInterface):
                     "width": int(width),
                     # "cfgScale": float,
                     # "seed": int
-                }
+                },
             }
         )
 
@@ -499,34 +504,38 @@ class AmazonImageApi(ImageInterface):
         response_body = json.loads(response.get("body").read())
         generated_images = []
         for image in response_body["images"]:
-            base64_bytes = image.encode('ascii')
+            base64_bytes = image.encode("ascii")
             image_bytes = BytesIO(base64.b64decode(base64_bytes))
             resource_url = upload_file_bytes_to_s3(image_bytes, ".png", USER_PROCESS)
             generated_images.append(
-                GeneratedImageDataClass(image = image, image_resource_url=resource_url)
+                GeneratedImageDataClass(image=image, image_resource_url=resource_url)
             )
 
         return ResponseType[GenerationDataClass](
             original_response=response_body,
             standardized_response=GenerationDataClass(items=generated_images),
         )
-    
-    def image__embeddings(self, file: str, file_url: str = "", model: str = "titan-embed-image-v1", embedding_dimension: Optional[int] = 256) -> ResponseType[EmbeddingsDataClass]:
+
+    def image__embeddings(
+        self,
+        file: str,
+        file_url: str = "",
+        model: str = "titan-embed-image-v1",
+        embedding_dimension: Optional[int] = 256,
+    ) -> ResponseType[EmbeddingsDataClass]:
         accept_header = "application/json"
         content_type_header = "application/json"
 
-        with open(file, 'rb') as image_file:
+        with open(file, "rb") as image_file:
             image_bytes = image_file.read()
 
         request_body = {
-            "inputImage": base64.b64encode(image_bytes).decode('utf-8'),
-            "embeddingConfig": {
-                "outputEmbeddingLength": embedding_dimension
-            }
+            "inputImage": base64.b64encode(image_bytes).decode("utf-8"),
+            "embeddingConfig": {"outputEmbeddingLength": embedding_dimension},
         }
 
         request_params = {
-            "body": json.dumps(request_body).encode('utf-8'),
+            "body": json.dumps(request_body).encode("utf-8"),
             "modelId": f"amazon.{model}",
             "accept": accept_header,
             "contentType": content_type_header,
