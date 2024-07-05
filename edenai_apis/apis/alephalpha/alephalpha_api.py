@@ -63,7 +63,7 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
     def image__embeddings(
         self,
         file: str,
-        representation: Optional[str] = None,
+        representation: Optional[str],
         file_url: str = "",
         model: Optional[str] = None,
     ) -> ResponseType[EmbeddingsDataClass]:
