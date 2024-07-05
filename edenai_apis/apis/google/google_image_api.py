@@ -525,6 +525,7 @@ class GoogleImageApi(ImageInterface):
             self,
             file: Optional[str],
             file_url: Optional[str] = "",
+            representation: Optional[str] = "image",
             model: Optional[str] = "multimodalembedding@001",
             embedding_dimension: int = 1408
     ) -> ResponseType[EmbeddingsDataClass] : 
