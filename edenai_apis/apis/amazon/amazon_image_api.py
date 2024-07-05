@@ -1,8 +1,9 @@
 import json
 import base64
 from io import BytesIO
-from typing import Literal, Optional
+from typing import Literal, Optional, Sequence
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
+from edenai_apis.features.image.embeddings.embeddings_dataclass import EmbeddingsDataClass, EmbeddingDataClass
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
@@ -508,4 +509,41 @@ class AmazonImageApi(ImageInterface):
         return ResponseType[GenerationDataClass](
             original_response=response_body,
             standardized_response=GenerationDataClass(items=generated_images),
+        )
+    
+    def image__embeddings(self, file: str, file_url: str = "", model: str = "titan-embed-image-v1", embedding_dimension: Optional[int] = 256) -> ResponseType[EmbeddingsDataClass]:
+        accept_header = "application/json"
+        content_type_header = "application/json"
+
+        with open(file, 'rb') as image_file:
+            image_bytes = image_file.read()
+
+        request_body = {
+            "inputImage": base64.b64encode(image_bytes).decode('utf-8'),
+            "embeddingConfig": {
+                "outputEmbeddingLength": embedding_dimension
+            }
+        }
+
+        request_params = {
+            "body": json.dumps(request_body).encode('utf-8'),
+            "modelId": f"amazon.{model}",
+            "accept": accept_header,
+            "contentType": content_type_header,
+        }
+
+        response = handle_amazon_call(
+            self.clients["bedrock"].invoke_model, **request_params
+        )
+
+        original_response = json.loads(response.get("body").read())
+
+        items: Sequence[EmbeddingDataClass] = []
+        items.append(EmbeddingDataClass(embedding=original_response["embedding"]))
+
+        standardized_response = EmbeddingsDataClass(items=items)
+
+        return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
         )
