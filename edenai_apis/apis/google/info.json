@@ -1338,6 +1338,15 @@
         "default_model": "gemini-pro-vision"
       },
       "version": "v1"
+    },
+    "embeddings": {
+      "constraints": {
+        "models": [
+          "multimodalembedding@001"
+        ],
+        "default_model": "multimodalembedding@001"
+      },
+      "version": "v1"
     }
   },
   "multimodal": {

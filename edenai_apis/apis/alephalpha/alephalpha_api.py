@@ -63,9 +63,9 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
     def image__embeddings(
         self,
         file: str,
-        representation: str,
-        file_url: str = "",
+        representation: Optional[str] = None,
         model: Optional[str] = None,
+        file_url: str = "",
     ) -> ResponseType[EmbeddingsDataClass]:
         if representation == "symmetric":
             representation_client = SemanticRepresentation.Symmetric

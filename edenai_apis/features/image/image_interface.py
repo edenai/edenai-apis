@@ -122,9 +122,9 @@ class ImageInterface:
     def image__embeddings(
         self,
         file: str,
-        representation: str,
-        file_url: str = "",
+        representation: Optional[str] = None,
         model: Optional[str] = None,
+        file_url: str = "",
     ) -> ResponseType[EmbeddingsDataClass]:
         """
         Embeds an image

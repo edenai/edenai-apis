@@ -1,7 +1,6 @@
 import base64
 import json
 from typing import Sequence, Optional, BinaryIO, Dict
-
 import numpy as np
 import requests
 from PIL import Image as Img, UnidentifiedImageError
@@ -56,6 +55,10 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 from edenai_apis.features.image.question_answer import QuestionAnswerDataClass
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.features.image.embeddings import (
+    EmbeddingsDataClass,
+    EmbeddingDataClass,
+)
 
 
 class GoogleImageApi(ImageInterface):
@@ -516,3 +519,65 @@ class GoogleImageApi(ImageInterface):
                     message="Model not found",
                     code=400,
                 )
+
+    def image__embeddings(
+        self,
+        file: Optional[str],
+        representation: Optional[str] = "image",
+        model: Optional[str] = "multimodalembedding@001",
+        embedding_dimension: int = 1408,
+        file_url: Optional[str] = "",
+    ) -> ResponseType[EmbeddingsDataClass]:
+
+        token = get_access_token(self.location)
+        location = "us-central1"
+        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        }
+
+        with open(file, "rb") as file_:
+            content = file_.read()
+            payload = {
+                "instances": [
+                    {
+                        "image": {
+                            "bytesBase64Encoded": base64.b64encode(content).decode(
+                                "utf-8"
+                            )
+                        }
+                    }
+                ],
+                "parameters": {"dimension": embedding_dimension},
+            }
+
+            response = requests.post(url, json=payload, headers=headers)
+            try:
+                original_response = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException(
+                    message="Internal Server Error",
+                    code=500,
+                ) from exc
+
+            if "error" in original_response:
+                raise ProviderException(
+                    message=original_response["error"]["message"], code=400
+                )
+
+            if not original_response.get("predictions"):
+                raise ProviderException(message="No predictions found", code=400)
+
+            predictions = original_response["predictions"].get("imageEmbedding") or []
+            items: Sequence[EmbeddingDataClass] = []
+
+            for prediction in predictions:
+                items.append(EmbeddingDataClass(embedding=prediction))
+
+            standardized_response = EmbeddingsDataClass(items=items)
+
+            return ResponseType[EmbeddingsDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
