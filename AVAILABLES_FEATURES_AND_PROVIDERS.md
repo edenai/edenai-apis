@@ -200,6 +200,8 @@
 | Subfeatures | Providers |
 |----------|-------------|
 | **embeddings** | alephalpha |
+| | amazon |
+| | google |
 | **question_answer** | alephalpha |
 | | google |
 | | openai |
@@ -386,7 +388,8 @@
 | **audio** | speech_to_text_async |
 | | text_to_speech |
 | | text_to_speech_async |
-| **image** | explicit_content |
+| **image** | embeddings |
+| | explicit_content |
 | | face_compare |
 | | face_detection |
 | | face_recognition |
@@ -615,7 +618,8 @@
 |----------|-------------|
 | **audio** | speech_to_text_async |
 | | text_to_speech |
-| **image** | explicit_content |
+| **image** | embeddings |
+| | explicit_content |
 | | face_detection |
 | | landmark_detection |
 | | logo_detection |
