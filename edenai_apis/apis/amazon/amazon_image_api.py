@@ -174,9 +174,9 @@ class AmazonImageApi(ImageInterface):
             for emo in face.get("Emotions", []):
                 normalized_emo = emo.get("Confidence", 0.0) * 100
                 if emo.get("Type"):
-                    if emo.get("Type").lower() == "happy":  # normalise keywords
+                    if emo["Type"].lower() == "happy":  # normalise keywords
                         emo["Type"] = "happiness"
-                    emotion_output[emo.get("Type").lower()] = (
+                    emotion_output[emo["Type"].lower()] = (
                         standardized_confidence_score(normalized_emo / 100)
                     )
             emotions = FaceEmotions(
@@ -519,10 +519,10 @@ class AmazonImageApi(ImageInterface):
     def image__embeddings(
         self,
         file: str,
-        file_url: str = "",
         model: str = "titan-embed-image-v1",
         embedding_dimension: Optional[int] = 256,
         representation: Optional[str] = "image",
+        file_url: str = "",
     ) -> ResponseType[EmbeddingsDataClass]:
         accept_header = "application/json"
         content_type_header = "application/json"
@@ -548,8 +548,10 @@ class AmazonImageApi(ImageInterface):
 
         original_response = json.loads(response.get("body").read())
 
+
+        embeddings = original_response["embedding"] or []
         items: Sequence[EmbeddingDataClass] = []
-        items.append(EmbeddingDataClass(embedding=original_response["embedding"]))
+        items.append(EmbeddingDataClass(embedding=embeddings))
 
         standardized_response = EmbeddingsDataClass(items=items)
 

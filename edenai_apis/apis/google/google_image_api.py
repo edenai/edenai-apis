@@ -60,6 +60,7 @@ from edenai_apis.features.image.embeddings import (
     EmbeddingDataClass,
 )
 
+
 class GoogleImageApi(ImageInterface):
     def _convert_likelihood(self, value: int) -> float:
         values = [0, 0.2, 0.4, 0.6, 0.8, 1]
@@ -520,14 +521,14 @@ class GoogleImageApi(ImageInterface):
                 )
 
     def image__embeddings(
-            self,
-            file: Optional[str],
-            file_url: Optional[str] = "",
-            representation: Optional[str] = "image",
-            model: Optional[str] = "multimodalembedding@001",
-            embedding_dimension: int = 1408
-    ) -> ResponseType[EmbeddingsDataClass] : 
-        
+        self,
+        file: Optional[str],
+        representation: Optional[str] = "image",
+        model: Optional[str] = "multimodalembedding@001",
+        embedding_dimension: int = 1408,
+        file_url: Optional[str] = "",
+    ) -> ResponseType[EmbeddingsDataClass]:
+
         token = get_access_token(self.location)
         location = "us-central1"
         url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
@@ -535,22 +536,22 @@ class GoogleImageApi(ImageInterface):
             "Content-Type": "application/json",
             "Authorization": f"Bearer {token}",
         }
-        
+
         with open(file, "rb") as file_:
             content = file_.read()
             payload = {
                 "instances": [
                     {
                         "image": {
-                            "bytesBase64Encoded": base64.b64encode(content).decode("utf-8")
+                            "bytesBase64Encoded": base64.b64encode(content).decode(
+                                "utf-8"
+                            )
                         }
                     }
                 ],
-                "parameters": {
-                    "dimension" : embedding_dimension
-                },
+                "parameters": {"dimension": embedding_dimension},
             }
-    
+
             response = requests.post(url, json=payload, headers=headers)
             try:
                 original_response = response.json()
@@ -559,26 +560,24 @@ class GoogleImageApi(ImageInterface):
                     message="Internal Server Error",
                     code=500,
                 ) from exc
-            
+
             if "error" in original_response:
                 raise ProviderException(
                     message=original_response["error"]["message"], code=400
                 )
-            
+
             if not original_response.get("predictions"):
                 raise ProviderException(message="No predictions found", code=400)
-            
-            
+
+            predictions = original_response["predictions"].get("imageEmbedding") or []
             items: Sequence[EmbeddingDataClass] = []
-            
-            for prediction in original_response["predictions"]:
-                items.append(EmbeddingDataClass(embedding=prediction["imageEmbedding"]))
-            
+
+            for prediction in predictions:
+                items.append(EmbeddingDataClass(embedding=prediction))
+
             standardized_response = EmbeddingsDataClass(items=items)
-            
+
             return ResponseType[EmbeddingsDataClass](
                 original_response=original_response,
                 standardized_response=standardized_response,
             )
-        
-
