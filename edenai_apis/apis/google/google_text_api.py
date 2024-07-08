@@ -342,11 +342,10 @@ class GoogleTextApi(TextInterface):
                     "maxOutputTokens": max_tokens,
                 },
             }
-            token = get_access_token(self.location)
+            token = get_access_token(self.api_settings)
             original_response = palm_request(
                 payload=payload,
                 model=model,
-                location=self.location,
                 token=token,
                 project_id=self.project_id,
             )
@@ -609,7 +608,7 @@ class GoogleTextApi(TextInterface):
             )
             url_subdomain = "us-central1-aiplatform"
             location = "us-central1"
-            token = get_access_token(self.location)
+            token = get_access_token(self.api_settings)
             url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
 
             headers = {
@@ -672,7 +671,7 @@ class GoogleTextApi(TextInterface):
         else:
             url_subdomain = "us-central1-aiplatform"
             location = "us-central1"
-            token = get_access_token(self.location)
+            token = get_access_token(self.api_settings)
             url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:serverStreamingPredict"
 
             headers = {
@@ -751,7 +750,7 @@ class GoogleTextApi(TextInterface):
         model = model.split("__")
         url_subdomain = "us-central1-aiplatform"
         location = "us-central1"
-        token = get_access_token(self.location)
+        token = get_access_token(self.api_settings)
         url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model[1]}:predict"
         headers = {
             "Content-Type": "application/json",
@@ -790,7 +789,7 @@ class GoogleTextApi(TextInterface):
     ) -> ResponseType[CodeGenerationDataClass]:
         url_subdomain = "us-central1-aiplatform"
         location = "us-central1"
-        token = get_access_token(self.location)
+        token = get_access_token(self.api_settings)
         url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/code-bison:predict"
         headers = {
             "Content-Type": "application/json",

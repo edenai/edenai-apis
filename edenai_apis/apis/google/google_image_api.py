@@ -498,7 +498,7 @@ class GoogleImageApi(ImageInterface):
         settings: Optional[dict] = None,
     ) -> ResponseType[QuestionAnswerDataClass]:
         with open(file, "rb") as fstream:
-            token = get_access_token(self.location)
+            token = get_access_token(self.api_settings)
             headers = {
                 "Content-Type": "application/json",
                 "Authorization": f"Bearer {token}",

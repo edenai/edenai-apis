@@ -1,7 +1,7 @@
 import enum
 import json
 import re
-from typing import List, Sequence
+from typing import Dict, List, Sequence
 from typing import Tuple
 from http import HTTPStatus
 import requests
@@ -421,12 +421,12 @@ def handle_done_response_ocr_async(
     )
 
 
-def get_access_token(location: str):
+def get_access_token(creds):
     """
     Retrieves an access token for the Google Cloud Platform using service account credentials.
 
     Args:
-        location (str): The file location of the service account credentials.
+        creds (Dict[str, str]): api_settings of google, should contains private_key of service account
 
     Returns:
         str: The access token required for making API REST calls.
@@ -439,8 +439,9 @@ def get_access_token(location: str):
 
     """
     scopes = ["https://www.googleapis.com/auth/cloud-platform"]
-    credentials = service_account.Credentials.from_service_account_file(
-        location, scopes=scopes
+    credentials = service_account.Credentials.from_service_account_info(
+       info=creds,
+       scopes=scopes 
     )
     auth_req = google.auth.transport.requests.Request()
     credentials.refresh(auth_req)
@@ -625,7 +626,7 @@ def gemini_request(payload: dict, model: str, api_key: str):
     return original_response
 
 
-def palm_request(payload: dict, model: str, location: str, token: str, project_id: str):
+def palm_request(payload: dict, model: str, token: str, project_id: str):
     url_subdomain = "us-central1-aiplatform"
     location = "us-central1"
     headers = {
