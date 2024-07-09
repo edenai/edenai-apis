@@ -20,7 +20,8 @@ class OpenaiDocParsingApi(OcrInterface):
             instruction,
             message_text,
             example_file,
-            input_file
+            input_file,
+            dataclass
             ):
 
         with open(os.path.join(os.path.dirname(__file__), example_file), "r") as f:
@@ -28,9 +29,9 @@ class OpenaiDocParsingApi(OcrInterface):
 
         assistant = self.client.beta.assistants.create(
             name=name,
-            instructions="{} You return a json output shaped like the following with the exact same structure and the exact same keys : \n {}".format(instruction, output_response),
+            instructions="{} You return a json output shaped like the following with the exact same structure and the exact same keys : \n {}  \n\n The json output should follow this pydantic schema \n {}".format(instruction, output_response, dataclass.schema()),
             response_format={ "type": "json_object" },
-                model="gpt-4o",
+            model="gpt-4o",
             )
 
         message_file = self.client.files.create(
@@ -72,7 +73,8 @@ class OpenaiDocParsingApi(OcrInterface):
                 instruction="You are an invoice parsing model.",
                 message_text="Analyse this invoice :",
                 example_file="outputs/ocr/financial_parser_output.json",
-                input_file=file
+                input_file=file,
+                dataclass=FinancialParserDataClass
                 )
 
         return ResponseType[FinancialParserDataClass](
@@ -90,7 +92,8 @@ class OpenaiDocParsingApi(OcrInterface):
                 instruction="You are an resume parsing model.",
                 message_text="Analyse this resume :",
                 example_file="outputs/ocr/resume_parser_output.json",
-                input_file=file
+                input_file=file,
+                dataclass=ResumeParserDataClass
                 )
 
 
@@ -109,7 +112,8 @@ class OpenaiDocParsingApi(OcrInterface):
                 instruction="You are an Identy Documents parsing model.",
                 message_text="Analyse this ID Document :",
                 example_file="outputs/ocr/identity_parser_output.json",
-                input_file=file
+                input_file=file,
+                dataclass=IdentityParserDataClass
                 )
 
         return ResponseType[IdentityParserDataClass](

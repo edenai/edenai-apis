@@ -120,9 +120,8 @@ class OpenaiMultimodalApi(MultimodalInterface):
             standardized_response = ChatDataClass.generate_standardized_response(
                 generated_text=generated_text, messages=messages
             )
-
             return ResponseType[ChatDataClass](
-                original_response=response,
+                original_response=response.to_dict(),
                 standardized_response=standardized_response,
             )
 
