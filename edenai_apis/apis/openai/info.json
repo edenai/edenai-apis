@@ -870,7 +870,7 @@
     }
   },
   "ocr": {
-    "invoice_parser": {
+    "financial_parser": {
       "constraints": {
         "file_types": [
           "application/pdf",
@@ -1125,6 +1125,9 @@
         "allow_null_language": true
       },
       "version": "v1.0"
+    },
+    "identity_parser": {
+        "version": "v1"
     }
   }
 }
