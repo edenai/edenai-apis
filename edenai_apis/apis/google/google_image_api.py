@@ -569,11 +569,11 @@ class GoogleImageApi(ImageInterface):
             if not original_response.get("predictions"):
                 raise ProviderException(message="No predictions found", code=400)
 
-            predictions = original_response["predictions"].get("imageEmbedding") or []
             items: Sequence[EmbeddingDataClass] = []
-
-            for prediction in predictions:
-                items.append(EmbeddingDataClass(embedding=prediction))
+            
+            for prediction in original_response["predictions"] :  
+                embedding = prediction.get("imageEmbedding") or []
+                items.append(EmbeddingDataClass(embedding=embedding))
 
             standardized_response = EmbeddingsDataClass(items=items)
 
