@@ -717,7 +717,7 @@ class OpenaiTextApi(TextInterface):
             texts = texts[0]
         payload = {
             "input": texts,
-            "model": model[1],
+            "model": model[1] if len(model) > 1 else model[0],
         }
 
         response = requests.post(url, json=payload, headers=self.headers)
