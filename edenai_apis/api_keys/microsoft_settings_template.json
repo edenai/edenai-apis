@@ -7,6 +7,10 @@
     "subscription_key": "",
     "url": ""
   },
+  "form_recognizer": {
+    "url": "",
+    "subscription_key": ""
+  },
   "documentintelligence": {
     "url": "",
     "subscription_key": ""
