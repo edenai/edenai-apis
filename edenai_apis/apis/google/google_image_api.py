@@ -478,7 +478,7 @@ class GoogleImageApi(ImageInterface):
                 message="Internal Server Error",
                 code=500,
             ) from exc
-        calculate_usage_tokens(original_response=original_response)
+        # calculate_usage_tokens(original_response=original_response)
         answer = original_response["candidates"][0]["content"]["parts"][0]["text"]
 
         standardized_response = QuestionAnswerDataClass(
@@ -570,8 +570,8 @@ class GoogleImageApi(ImageInterface):
                 raise ProviderException(message="No predictions found", code=400)
 
             items: Sequence[EmbeddingDataClass] = []
-            
-            for prediction in original_response["predictions"] :  
+
+            for prediction in original_response["predictions"]:
                 embedding = prediction.get("imageEmbedding") or []
                 items.append(EmbeddingDataClass(embedding=embedding))
 

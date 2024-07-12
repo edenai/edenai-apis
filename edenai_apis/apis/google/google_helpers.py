@@ -621,7 +621,7 @@ def gemini_request(payload: dict, model: str, api_key: str):
             message=original_response["error"]["message"],
             code=response.status_code,
         )
-    calculate_usage_tokens(original_response=original_response)
+    # calculate_usage_tokens(original_response=original_response)
     return original_response
 
 
