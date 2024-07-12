@@ -1,46 +1,5 @@
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
-from edenai_apis.features.ocr.identity_parser import (
-    IdentityParserDataClass,
-    InfoCountry,
-    InfosIdentityParserDataClass,
-    ItemIdentityParserDataClass,
-    format_date,
-    get_info_country,
-)
-from edenai_apis.features.ocr.invoice_parser import (
-    BankInvoice,
-    InfosInvoiceParserDataClass,
-    InvoiceParserDataClass,
-    ItemLinesInvoice,
-    TaxesInvoice,
-)
-from edenai_apis.features.ocr.invoice_parser import (
-    MerchantInformationInvoice,
-    CustomerInformationInvoice,
-)
-from edenai_apis.features.ocr.receipt_parser import (
-    InfosReceiptParserDataClass,
-    ItemLines,
-    Locale,
-    MerchantInformation,
-    PaymentInformation,
-    ReceiptParserDataClass,
-    Taxes,
-)
-from edenai_apis.features.ocr.resume_parser import (
-    ResumeEducation,
-    ResumeEducationEntry,
-    ResumeLocation,
-    ResumePersonalInfo,
-    ResumePersonalName,
-    ResumeExtractedData,
-    ResumeLang,
-    ResumeParserDataClass,
-    ResumeSkill,
-    ResumeWorkExp,
-    ResumeWorkExpEntry,
-)
 from edenai_apis.features.ocr.financial_parser import (
     FinancialBankInformation,
     FinancialBarcode,
@@ -54,12 +13,52 @@ from edenai_apis.features.ocr.financial_parser import (
     FinancialParserObjectDataClass,
     FinancialPaymentInformation,
 )
+from edenai_apis.features.ocr.identity_parser import (
+    IdentityParserDataClass,
+    InfoCountry,
+    InfosIdentityParserDataClass,
+    ItemIdentityParserDataClass,
+    format_date,
+    get_info_country,
+)
+from edenai_apis.features.ocr.invoice_parser import (
+    BankInvoice,
+    CustomerInformationInvoice,
+    InfosInvoiceParserDataClass,
+    InvoiceParserDataClass,
+    ItemLinesInvoice,
+    MerchantInformationInvoice,
+    TaxesInvoice,
+)
+from edenai_apis.features.ocr.receipt_parser import (
+    InfosReceiptParserDataClass,
+    ItemLines,
+    Locale,
+    MerchantInformation,
+    PaymentInformation,
+    ReceiptParserDataClass,
+    Taxes,
+)
+from edenai_apis.features.ocr.resume_parser import (
+    ResumeEducation,
+    ResumeEducationEntry,
+    ResumeExtractedData,
+    ResumeLang,
+    ResumeLocation,
+    ResumeParserDataClass,
+    ResumePersonalInfo,
+    ResumePersonalName,
+    ResumeSkill,
+    ResumeWorkExp,
+    ResumeWorkExpEntry,
+)
 from edenai_apis.utils.conversion import (
     combine_date_with_time,
     convert_string_to_number,
 )
-from .models import Document, DocumentError, DocumentMeta
 from edenai_apis.utils.parsing import extract
+
+from .models import Document, DocumentError, DocumentMeta
 
 
 class ResumeStandardizer:
@@ -113,13 +112,19 @@ class ResumeStandardizer:
             name=self.__std_names(),
             address=self.__std_location(key="location"),
             phones=[
-                phone.get("raw")
+                phone["raw"]
                 for phone in self.__data.get("phoneNumber", []) or []
+                if phone.get("raw")
             ],
-            mails=[email.get("parsed") for email in self.__data.get("email", []) or []],
+            mails=[
+                email["parsed"]
+                for email in self.__data.get("email", []) or []
+                if email.get("parsed")
+            ],
             urls=[
-                website.get("raw")
+                website["raw"]
                 for website in self.__data.get("website", []) or []
+                if website.get("raw")
             ],
             self_summary=extract(self.__data, ["summary", "parsed"]),
             current_profession=self.__data.get("profession"),
