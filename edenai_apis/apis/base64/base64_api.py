@@ -3,16 +3,23 @@ import json
 import mimetypes
 import uuid
 from enum import Enum
-from typing import Any, Dict, Sequence, Type, TypeVar, Union
 from io import BytesIO
+from typing import Any, Dict, Sequence, Type, TypeVar, Union
 
 import requests
+from apis.amazon.helpers import check_webhook_result
 
-from edenai_apis.features import ProviderInterface, OcrInterface
+from edenai_apis.apis.base64.base64_helpers import (
+    extract_item_lignes,
+    format_financial_document_data,
+    format_invoice_document_data,
+    format_receipt_document_data,
+)
+from edenai_apis.features import OcrInterface, ProviderInterface
 from edenai_apis.features.image.face_compare import (
+    FaceCompareBoundingBox,
     FaceCompareDataClass,
     FaceMatch,
-    FaceCompareBoundingBox,
 )
 from edenai_apis.features.ocr.anonymization_async.anonymization_async_dataclass import (
     AnonymizationAsyncDataClass,
@@ -28,13 +35,15 @@ from edenai_apis.features.ocr.data_extraction.data_extraction_dataclass import (
     DataExtractionDataClass,
     ItemDataExtraction,
 )
-from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialParserDataClass,
+)
 from edenai_apis.features.ocr.identity_parser import (
     IdentityParserDataClass,
     InfoCountry,
+    InfosIdentityParserDataClass,
     ItemIdentityParserDataClass,
     get_info_country,
-    InfosIdentityParserDataClass,
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     Country,
@@ -46,22 +55,16 @@ from edenai_apis.features.ocr.receipt_parser import ReceiptParserDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.bounding_box import BoundingBox
-from apis.amazon.helpers import check_webhook_result
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
-    ResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
+    ResponseType,
 )
-from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
-from edenai_apis.apis.base64.base64_helpers import (
-    extract_item_lignes,
-    format_invoice_document_data,
-    format_receipt_document_data,
-    format_financial_document_data
-    )
+from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
+
 
 class SubfeatureParser(Enum):
     RECEIPT = "receipt"
@@ -128,13 +131,9 @@ class Base64Api(ProviderInterface, OcrInterface):
             ocr_file, "finance/" + document_type.value
         )
         if document_type == SubfeatureParser.RECEIPT:
-            standardized_response = format_receipt_document_data(
-                original_response
-            )
+            standardized_response = format_receipt_document_data(original_response)
         elif document_type == SubfeatureParser.INVOICE:
-            standardized_response = format_invoice_document_data(
-                original_response
-            )
+            standardized_response = format_invoice_document_data(original_response)
 
         result = ResponseType[T](
             original_response=original_response,
@@ -164,18 +163,16 @@ class Base64Api(ProviderInterface, OcrInterface):
         return self._ocr_finance_document(file, SubfeatureParser.RECEIPT)
 
     def ocr__financial_parser(
-            self, file: str, language: str, document_type: str = "", file_url: str = ""
-            ) -> ResponseType[FinancialParserDataClass]:
-        original_response = self._send_ocr_document(
-            file, "finance/" + document_type
-        )
+        self, file: str, language: str, document_type: str = "", file_url: str = ""
+    ) -> ResponseType[FinancialParserDataClass]:
+        original_response = self._send_ocr_document(file, "finance/" + document_type)
 
         standardized_response = format_financial_document_data(original_response)
         return ResponseType[FinancialParserDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
         )
-    
+
     def ocr__identity_parser(
         self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
@@ -408,14 +405,15 @@ class Base64Api(ProviderInterface, OcrInterface):
                 except ValueError:
                     bbox = BoundingBox.unknown()
 
-                items.append(
-                    ItemDataExtraction(
-                        key=value.get("key"),
-                        value=value.get("value"),
-                        confidence_score=value.get("confidence"),
-                        bounding_box=bbox,
+                if key := value.get(key):
+                    items.append(
+                        ItemDataExtraction(
+                            key=key,
+                            value=value.get("value"),
+                            confidence_score=value.get("confidence"),
+                            bounding_box=bbox,
+                        )
                     )
-                )
 
         standardized_response = DataExtractionDataClass(fields=items)
 
