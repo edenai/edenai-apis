@@ -13,48 +13,57 @@ from pydantic_core._pydantic_core import ValidationError
 from edenai_apis.features import TextInterface
 from edenai_apis.features.text.anonymization import AnonymizationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
-    AnonymizationEntity)
+    AnonymizationEntity,
+)
 from edenai_apis.features.text.anonymization.category import CategoryType
 from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
 from edenai_apis.features.text.chat.chat_dataclass import (
     StreamChat,
     ChatStreamResponse,
-    ToolCall)
+    ToolCall,
+)
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
-    CodeGenerationDataClass)
+    CodeGenerationDataClass,
+)
 from edenai_apis.features.text.custom_classification import (
-    CustomClassificationDataClass)
+    CustomClassificationDataClass,
+)
 from edenai_apis.features.text.custom_named_entity_recognition import (
-    CustomNamedEntityRecognitionDataClass)
+    CustomNamedEntityRecognitionDataClass,
+)
 from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
 from edenai_apis.features.text.generation import GenerationDataClass
 from edenai_apis.features.text.keyword_extraction import KeywordExtractionDataClass
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
-    InfosKeywordExtractionDataClass)
+    InfosKeywordExtractionDataClass,
+)
 from edenai_apis.features.text.moderation import ModerationDataClass, TextModerationItem
 from edenai_apis.features.text.moderation.category import (
-    CategoryType as CategoryTypeModeration)
+    CategoryType as CategoryTypeModeration,
+)
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
-    NamedEntityRecognitionDataClass
+    NamedEntityRecognitionDataClass,
 )
 from edenai_apis.features.text.prompt_optimization import (
     PromptDataClass,
-    PromptOptimizationDataClass)
+    PromptOptimizationDataClass,
+)
 from edenai_apis.features.text.question_answer import QuestionAnswerDataClass
 from edenai_apis.features.text.search import InfosSearchDataClass, SearchDataClass
 from edenai_apis.features.text.sentiment_analysis import SentimentAnalysisDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
     SpellCheckItem,
-    SuggestionItem)
+    SuggestionItem,
+)
 from edenai_apis.features.text.summarize import SummarizeDataClass
-from edenai_apis.features.text.topic_extraction import (
-    TopicExtractionDataClass)
+from edenai_apis.features.text.topic_extraction import TopicExtractionDataClass
 from edenai_apis.utils.conversion import (
     closest_above_value,
     construct_word_list,
     find_all_occurrence,
-    standardized_confidence_score)
+    standardized_confidence_score,
+)
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
@@ -72,59 +81,64 @@ from .helpers import (
     convert_tools_to_openai,
     finish_unterminated_json,
     get_openapi_response,
-    prompt_optimization_missing_information
+    prompt_optimization_missing_information,
 )
 
 
 class OpenaiTextApi(TextInterface):
 
-    def __assistant_text(self,
-                name,
-                instruction,
-                message_text,
-                example_file,
-                dataclass
-            ):
-
+    def __assistant_text(
+        self, name, instruction, message_text, example_file, dataclass
+    ):
 
         with open(os.path.join(os.path.dirname(__file__), example_file), "r") as f:
-                output_response = json.load(f)["standardized_response"]
+            output_response = json.load(f)["standardized_response"]
 
         assistant = self.client.beta.assistants.create(
-          response_format={ "type": "json_object" },
-          model="gpt-4o",
-          name=name,
-          instructions="{} You return a json output shaped like the following with the exact same structure and the exact same keys but the values would change : \n {} \n\n You should follow this pydantic dataclass schema {}".format(instruction, output_response, dataclass.schema()),
+            response_format={"type": "json_object"},
+            model="gpt-4o",
+            name=name,
+            instructions="{} You return a json output shaped like the following with the exact same structure and the exact same keys but the values would change : \n {} \n\n You should follow this pydantic dataclass schema {}".format(
+                instruction, output_response, dataclass.schema()
+            ),
         )
-        print(assistant)
         thread = self.client.beta.threads.create(
-          messages=[
-            {
-              "role": "user",
-              "content": [
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
                         {
                             "type": "text",
                             "text": message_text,
                         }
-                    ]
-            }
-          ]
+                    ],
+                }
+            ]
         )
 
         run = self.client.beta.threads.runs.create_and_poll(
-          thread_id=thread.id,
-          assistant_id=assistant.id,
+            thread_id=thread.id,
+            assistant_id=assistant.id,
         )
 
-        while run.status != 'completed':
-          sleep(1)
+        while run.status != "completed":
+            sleep(1)
 
-        messages = self.client.beta.threads.messages.list(
-            thread_id=thread.id
-          )
+        messages = self.client.beta.threads.messages.list(thread_id=thread.id)
+        usage = run.to_dict()["usage"]
+        original_response = messages.to_dict()
+        original_response["usage"] = usage
 
-        return json.loads(json.loads(messages.data[0].content[0].json())["text"]["value"]) 
+        try:
+            standardized_response = json.loads(
+                json.loads(messages.data[0].content[0].json())["text"]["value"]
+            )
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
 
+        return original_response, standardized_response
 
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str
@@ -192,7 +206,6 @@ class OpenaiTextApi(TextInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
-
 
     def text__search(
         self,
@@ -372,16 +385,16 @@ class OpenaiTextApi(TextInterface):
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
 
-        result = self.__assistant_text(
-                name="Keywoord Extraction",
-                instruction="You are an Keyword Extract model. You extract keywords from a text input.",
-                message_text=text,
-                example_file="outputs/text/keyword_extraction_output.json",
-                dataclass=KeywordExtractionDataClass
-                )
+        original_response, result = self.__assistant_text(
+            name="Keywoord Extraction",
+            instruction="You are an Keyword Extract model. You extract keywords from a text input.",
+            message_text=text,
+            example_file="outputs/text/keyword_extraction_output.json",
+            dataclass=KeywordExtractionDataClass,
+        )
 
         return ResponseType[KeywordExtractionDataClass](
-            original_response=result,
+            original_response=original_response,
             standardized_response=result,
         )
 
@@ -389,32 +402,32 @@ class OpenaiTextApi(TextInterface):
         self, language: str, text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
 
-        result = self.__assistant_text(
-                name="Sentiment Analysis",
-                instruction="You are a Text Sentiment Analysis model. You extract the sentiment of a textual input.",
-                message_text=text,
-                example_file="outputs/text/sentiment_analysis_output.json",
-                dataclass=SentimentAnalysisDataClass,
-                )
+        original_response, result = self.__assistant_text(
+            name="Sentiment Analysis",
+            instruction="You are a Text Sentiment Analysis model. You extract the sentiment of a textual input.",
+            message_text=text,
+            example_file="outputs/text/sentiment_analysis_output.json",
+            dataclass=SentimentAnalysisDataClass,
+        )
 
         return ResponseType[SentimentAnalysisDataClass](
-            original_response=result, standardized_response=result
+            original_response=original_response, standardized_response=result
         )
 
     def text__topic_extraction(
         self, language: str, text: str
     ) -> ResponseType[TopicExtractionDataClass]:
 
-        result = self.__assistant_text(
-                name="Topic Extraction",
-                instruction="You are a Text Topic Exstraction Model. You extract the main topic of a textual input.",
-                message_text=text,
-                example_file="outputs/text/topic_extraction_output.json",
-                dataclass=TopicExtractionDataClass
-                )
+        original_response, result = self.__assistant_text(
+            name="Topic Extraction",
+            instruction="You are a Text Topic Exstraction Model. You extract the main topic of a textual input.",
+            message_text=text,
+            example_file="outputs/text/topic_extraction_output.json",
+            dataclass=TopicExtractionDataClass,
+        )
 
         return ResponseType[TopicExtractionDataClass](
-            original_response=result,
+            original_response=original_response,
             standardized_response=result,
         )
 
@@ -487,10 +500,10 @@ class OpenaiTextApi(TextInterface):
         self, text: str, entities: List[str], examples: Optional[List[Dict]] = None
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
 
-        result = self.__assistant_text(
-                name="Custom NER",
-                instruction="You are a Named Entity Extraction Model. Given a list of Entities Types and a text input, you should extract extract all entities of the given entities types.",
-                message_text="""
+        original_response, result = self.__assistant_text(
+            name="Custom NER",
+            instruction="You are a Named Entity Extraction Model. Given a list of Entities Types and a text input, you should extract extract all entities of the given entities types.",
+            message_text="""
                 Entities to look for : 
                 {}
 
@@ -498,14 +511,15 @@ class OpenaiTextApi(TextInterface):
                 text : 
 
                 {}
-                """.format(entities, text),
-                example_file="outputs/text/custom_named_entity_recognition_output.json",
-                dataclass=CustomNamedEntityRecognitionDataClass
-                )
-
+                """.format(
+                entities, text
+            ),
+            example_file="outputs/text/custom_named_entity_recognition_output.json",
+            dataclass=CustomNamedEntityRecognitionDataClass,
+        )
 
         return ResponseType[CustomNamedEntityRecognitionDataClass](
-            original_response=result,
+            original_response=original_response,
             standardized_response=result,
         )
 
@@ -513,11 +527,10 @@ class OpenaiTextApi(TextInterface):
         self, texts: List[str], labels: List[str], examples: List[List[str]]
     ) -> ResponseType[CustomClassificationDataClass]:
 
-
-        result = self.__assistant_text(
-                name="Custom classification",
-                instruction="You are a Text Classification Model. Given a list of possible labels and a list of texts, you should classify each text by giving it one label.",
-                message_text="""
+        original_response, result = self.__assistant_text(
+            name="Custom classification",
+            instruction="You are a Text Classification Model. Given a list of possible labels and a list of texts, you should classify each text by giving it one label.",
+            message_text="""
                 Possible Labels : 
                 {}
 
@@ -525,32 +538,31 @@ class OpenaiTextApi(TextInterface):
                 List of texts : 
 
                 {}
-                """.format(labels, texts),
-                example_file="outputs/text/custom_classification_output.json",
-                dataclass=CustomClassificationDataClass
-                )
-
+                """.format(
+                labels, texts
+            ),
+            example_file="outputs/text/custom_classification_output.json",
+            dataclass=CustomClassificationDataClass,
+        )
 
         return ResponseType[CustomClassificationDataClass](
-            original_response=result,
-            standardized_response=result
-            )
+            original_response=original_response, standardized_response=result
+        )
 
     def text__spell_check(
         self, text: str, language: str
     ) -> ResponseType[SpellCheckDataClass]:
 
-        result = self.__assistant_text(
-                name="Spell Check",
-                instruction="You are a Spell Checking model. You analyze a text input and proficiently detect and correct any grammar, syntax, spelling or other types of errors.",
-                message_text=text,
-                example_file="outputs/text/spell_check_output.json",
-                dataclass=SpellCheckDataClass
-                )
-
+        original_response, result = self.__assistant_text(
+            name="Spell Check",
+            instruction="You are a Spell Checking model. You analyze a text input and proficiently detect and correct any grammar, syntax, spelling or other types of errors.",
+            message_text=text,
+            example_file="outputs/text/spell_check_output.json",
+            dataclass=SpellCheckDataClass,
+        )
 
         return ResponseType[SpellCheckDataClass](
-            original_response=result,
+            original_response=original_response,
             standardized_response=result,
         )
 
@@ -558,19 +570,17 @@ class OpenaiTextApi(TextInterface):
         self, language: str, text: str
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
 
-        result = self.__assistant_text(
-                name="NER",
-                instruction="You are a Named Entity Extraction Model. Given an input text you should extract extract all entities in it.",
-                message_text=text,
-                example_file="outputs/text/named_entity_recognition_output.json",
-                dataclass=NamedEntityRecognitionDataClass
-                )
-
+        original_response, result = self.__assistant_text(
+            name="NER",
+            instruction="You are a Named Entity Extraction Model. Given an input text you should extract extract all entities in it.",
+            message_text=text,
+            example_file="outputs/text/named_entity_recognition_output.json",
+            dataclass=NamedEntityRecognitionDataClass,
+        )
 
         return ResponseType[NamedEntityRecognitionDataClass](
-            original_response=result,
-            standardized_response=result
-            )
+            original_response=original_response, standardized_response=result
+        )
 
     def text__embeddings(
         self, texts: List[str], model: str
@@ -619,16 +629,19 @@ class OpenaiTextApi(TextInterface):
             message = {
                 "role": msg.get("role"),
                 "content": msg.get("message"),
-                }
+            }
             if msg.get("tool_calls"):
-                message['tool_calls'] = [{
-                    "id": tool["id"],
-                    "type": "function",
-                    "function": {
-                        "name": tool["name"],
-                        "arguments": tool["arguments"],
-                    },
-                } for tool in msg['tool_calls']]
+                message["tool_calls"] = [
+                    {
+                        "id": tool["id"],
+                        "type": "function",
+                        "function": {
+                            "name": tool["name"],
+                            "arguments": tool["arguments"],
+                        },
+                    }
+                    for tool in msg["tool_calls"]
+                ]
             messages.append(message)
 
         if text and not tool_results:
@@ -636,7 +649,9 @@ class OpenaiTextApi(TextInterface):
 
         if tool_results:
             for tool in tool_results or []:
-                tool_call = get_tool_call_from_history_by_id(tool['id'], previous_history)
+                tool_call = get_tool_call_from_history_by_id(
+                    tool["id"], previous_history
+                )
                 try:
                     result = json.dumps(tool["result"])
                 except json.JSONDecodeError:
@@ -645,7 +660,7 @@ class OpenaiTextApi(TextInterface):
                     {
                         "role": "tool",
                         "content": result,
-                        "tool_call_id": tool_call['id'],
+                        "tool_call_id": tool_call["id"],
                     }
                 )
 
@@ -684,9 +699,7 @@ class OpenaiTextApi(TextInterface):
                     )
                 )
             messages = [
-                ChatMessageDataClass(
-                    role="user", message=text, tools=available_tools
-                ),
+                ChatMessageDataClass(role="user", message=text, tools=available_tools),
                 ChatMessageDataClass(
                     role="assistant",
                     message=generated_text,

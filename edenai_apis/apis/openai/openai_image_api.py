@@ -74,7 +74,6 @@ class OpenaiImageApi(ImageInterface):
             standardized_response=ImageGenerationDataClass(items=generations),
         )
 
-
     def image__question_answer(
         self,
         file: str,
@@ -180,35 +179,28 @@ class OpenaiImageApi(ImageInterface):
             standardized_response=VariationDataClass(items=generations),
         )
 
+    def __assistant_image(
+        self, name, instruction, message_text, example_file, input_file, dataclass
+    ):
 
-    def __assistant_image(self,
-                name,
-                instruction,
-                message_text,
-                example_file,
-                input_file,
-                dataclass
-            ):
-
-        file = self.client.files.create(
-          file=open(input_file, "rb"),
-          purpose="vision"
-        )
+        file = self.client.files.create(file=open(input_file, "rb"), purpose="vision")
 
         with open(os.path.join(os.path.dirname(__file__), example_file), "r") as f:
-                output_response = json.load(f)["standardized_response"]
+            output_response = json.load(f)["standardized_response"]
 
         assistant = self.client.beta.assistants.create(
-          response_format={ "type": "json_object" },
-          model="gpt-4o",
-          name=name,
-          instructions="{} You return a json output shaped like the following with the exact same structure and the exact same keys but the values would change : \n {}".format(instruction, output_response),
+            response_format={"type": "json_object"},
+            model="gpt-4o",
+            name=name,
+            instructions="{} You return a json output shaped like the following with the exact same structure and the exact same keys but the values would change : \n {}".format(
+                instruction, output_response
+            ),
         )
         thread = self.client.beta.threads.create(
-          messages=[
-            {
-              "role": "user",
-              "content": [
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
                         {
                             "type": "text",
                             "text": message_text,
@@ -217,59 +209,67 @@ class OpenaiImageApi(ImageInterface):
                             "type": "image_file",
                             "image_file": {"file_id": file.id},
                         },
-                    ]
-            }
-          ]
+                    ],
+                }
+            ]
         )
 
         run = self.client.beta.threads.runs.create_and_poll(
-          thread_id=thread.id,
-          assistant_id=assistant.id,
+            thread_id=thread.id,
+            assistant_id=assistant.id,
         )
 
-        while run.status != 'completed':
-          sleep(1)
+        while run.status != "completed":
+            sleep(1)
 
-        messages = self.client.beta.threads.messages.list(
-            thread_id=thread.id
-          )
+        messages = self.client.beta.threads.messages.list(thread_id=thread.id)
+        usage = run.to_dict()["usage"]
+        original_response = messages.to_dict()
+        original_response["usage"] = usage
 
-        return json.loads(json.loads(messages.data[0].content[0].json())["text"]["value"]) 
+        try:
+            standardized_response = json.loads(
+                json.loads(messages.data[0].content[0].json())["text"]["value"]
+            )
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
 
-
+        return original_response, standardized_response
 
     def image__explicit_content(
         self,
         file: str,
         file_url: str = "",
     ) -> ResponseType[ExplicitContentDataClass]:
-        result = self.__assistant_image(
-                name="Image Explicit Content Analysis",
-                instruction="You are an Explicit Image Detection model.",
-                message_text="Analys this image :",
-                example_file="outputs/image/explicit_content_output.json",
-                input_file=file,
-                dataclass=ExplicitContentDataClass
-                )
+        original_response, result = self.__assistant_image(
+            name="Image Explicit Content Analysis",
+            instruction="You are an Explicit Image Detection model.",
+            message_text="Analys this image :",
+            example_file="outputs/image/explicit_content_output.json",
+            input_file=file,
+            dataclass=ExplicitContentDataClass,
+        )
 
         return ResponseType[ExplicitContentDataClass](
-            original_response=result,
+            original_response=original_response,
             standardized_response=result,
         )
 
     def image__logo_detection(
         self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[LogoDetectionDataClass]:
-        result = self.__assistant_image(
-                name="logo detection",
-                instruction="You are a Logo Detection model. You get an image input and return logos detected inside it. If no logo is detected the items list should be empty",
-                message_text="Analys this image :",
-                example_file="outputs/image/logo_detection_output.json",
-                input_file=file,
-                dataclass=LogoDetectionDataClass
-                )
+        original_response, result = self.__assistant_image(
+            name="logo detection",
+            instruction="You are a Logo Detection model. You get an image input and return logos detected inside it. If no logo is detected the items list should be empty",
+            message_text="Analys this image :",
+            example_file="outputs/image/logo_detection_output.json",
+            input_file=file,
+            dataclass=LogoDetectionDataClass,
+        )
 
         return ResponseType[LogoDetectionDataClass](
-            original_response=result,
+            original_response=original_response,
             standardized_response=result,
         )
