@@ -13,6 +13,7 @@
 | | klippa |
 | | microsoft |
 | | mindee |
+| | openai |
 | | tabscanner |
 | | veryfi |
 | **identity_parser** | affinda |
@@ -21,6 +22,7 @@
 | | klippa |
 | | microsoft |
 | | mindee |
+| | openai |
 | **invoice_parser** | affinda |
 | | amazon |
 | | base64 |
@@ -47,6 +49,7 @@
 | | extracta |
 | | hireability |
 | | klippa |
+| | openai |
 | | senseloaf |
 | **custom_document_parsing_async** | amazon |
 | | extracta |
@@ -846,6 +849,9 @@
 | | question_answer |
 | | variation |
 | **multimodal** | chat |
+| **ocr** | financial_parser |
+| | identity_parser |
+| | resume_parser |
 | **text** | anonymization |
 | | chat |
 | | code_generation |
