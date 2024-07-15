@@ -8,6 +8,7 @@
 | | base64 |
 | | dataleon |
 | | eagledoc |
+| | extracta |
 | | google |
 | | klippa |
 | | microsoft |
@@ -587,6 +588,7 @@
 |----------|-------------|
 | **ocr** | bank_check_parsing |
 | | custom_document_parsing_async |
+| | financial_parser |
 | | resume_parser |
 
 </details>
