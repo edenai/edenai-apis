@@ -1,0 +1,244 @@
+{
+  "original_response": {
+    "data": [
+      {
+        "id": "msg_T8X4yPnDfSG5ywedhE6Ibyp5",
+        "assistant_id": "asst_dbObDofguNDYE4C4HcW0Ja4c",
+        "attachments": [],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "{\n  \"extracted_data\": {\n    \"personal_infos\": {\n      \"name\": {\n        \"first_name\": \"Amit\",\n        \"last_name\": \"Verma\",\n        \"raw_name\": \"Amit K. Verma\",\n        \"middle\": \"K.\",\n        \"title\": null,\n        \"prefix\": null,\n        \"sufix\": null\n      },\n      \"address\": {\n        \"formatted_location\": \"123 Business Rd, Mumbai, MH 400001, India\",\n        \"postal_code\": \"400001\",\n        \"region\": \"Maharashtra\",\n        \"country\": \"India\",\n        \"country_code\": \"IN\",\n        \"raw_input_location\": null,\n        \"street\": \"Business Road\",\n        \"street_number\": \"123\",\n        \"appartment_number\": null,\n        \"city\": \"Mumbai\"\n      },\n      \"self_summary\": \"Dynamic marketing professional with a robust background in digital marketing, SEO, and branding strategies. Over 8 years of experience in driving growth and managing online presence for top-tier companies.\",\n      \"objective\": \"Seeking a senior role in digital marketing to leverage my skills in a growth-focused environment.\",\n      \"date_of_birth\": null,\n      \"place_of_birth\": null,\n      \"phones\": [\"+91-9876543210\"],\n      \"mails\": [\"amit.verma@mail.com\"],\n      \"urls\": [\"https://www.linkedin.com/in/amitverma\"],\n      \"fax\": [],\n      \"current_profession\": \"Digital Marketing Expert\",\n      \"gender\": null,\n      \"nationality\": null,\n      \"martial_status\": null,\n      \"current_salary\": \"INR 12,00,000 per annum\",\n      \"availability\": \"Immediate\"\n    },\n    \"education\": {\n      \"total_years_education\": null,\n      \"entries\": [\n        {\n          \"title\": \"Master of Business Administration (MBA)\",\n          \"start_date\": \"2008-07-01\",\n          \"end_date\": \"2010-06-01\",\n          \"location\": {\n            \"formatted_location\": \"Mumbai, MH, India\",\n            \"postal_code\": \"400001\",\n            \"region\": \"Maharashtra\",\n            \"country\": \"India\",\n            \"country_code\": \"IN\",\n            \"raw_input_location\": null,\n            \"street\": null,\n            \"street_number\": null,\n            \"appartment_number\": null,\n            \"city\": \"Mumbai\"\n          },\n          \"establishment\": \"University of Mumbai\",\n          \"description\": \"Specialized in Marketing\",\n          \"gpa\": null,\n          \"accreditation\": null\n        },\n        {\n          \"title\": \"Bachelor of Commerce (BCom)\",\n          \"start_date\": \"2005-07-01\",\n          \"end_date\": \"2008-06-01\",\n          \"location\": {\n            \"formatted_location\": \"Mumbai, MH, India\",\n            \"postal_code\": \"400001\",\n            \"region\": \"Maharashtra\",\n            \"country\": \"India\",\n            \"country_code\": \"IN\",\n            \"raw_input_location\": null,\n            \"street\": null,\n            \"street_number\": null,\n            \"appartment_number\": null,\n            \"city\": \"Mumbai\"\n          },\n          \"establishment\": \"St. Xavier's College\",\n          \"description\": \"Majored in Accounting\",\n          \"gpa\": null,\n          \"accreditation\": null\n        }\n      ]\n    },\n    \"work_experience\": {\n      \"total_years_experience\": \"8.0\",\n      \"entries\": [\n        {\n          \"title\": \"Senior Digital Marketing Manager\",\n          \"start_date\": \"2017-07-01\",\n          \"end_date\": \"2022-12-01\",\n          \"company\": \"Techno Corp\",\n          \"location\": {\n            \"formatted_location\": \"Mumbai, MH, India\",\n            \"postal_code\": \"400001\",\n            \"region\": \"Maharashtra\",\n            \"country\": \"India\",\n            \"country_code\": \"IN\",\n            \"raw_input_location\": null,\n            \"street\": null,\n            \"street_number\": null,\n            \"appartment_number\": null,\n            \"city\": \"Mumbai\"\n          },\n          \"description\": \"Led a team of marketers to enhance online presence and drive growth. Managed SEO, PPC campaigns and social media strategies.\",\n          \"type\": \"Full time\",\n          \"industry\": \"IT & Services\"\n        },\n        {\n          \"title\": \"Digital Marketing Specialist\",\n          \"start_date\": \"2013-07-01\",\n          \"end_date\": \"2017-06-30\",\n          \"company\": \"Creative Solutions\",\n          \"location\": {\n            \"formatted_location\": \"Mumbai, MH, India\",\n            \"postal_code\": \"400001\",\n            \"region\": \"Maharashtra\",\n            \"country\": \"India\",\n            \"country_code\": \"IN\",\n            \"raw_input_location\": null,\n            \"street\": null,\n            \"street_number\": null,\n            \"appartment_number\": null,\n            \"city\": \"Mumbai\"\n          },\n          \"description\": \"Implemented SEO and content marketing strategies for clients. Analyzed performance metrics and improved website rankings.\",\n          \"type\": \"Full time\",\n          \"industry\": \"Marketing & Advertising\"\n        }\n      ]\n    },\n    \"languages\": [],\n    \"skills\": [\n      {\n        \"name\": \"Digital Marketing\",\n        \"type\": \"Specialized Skill\"\n      },\n      {\n        \"name\": \"SEO\",\n        \"type\": \"Specialized Skill\"\n      },\n      {\n        \"name\": \"Branding\",\n        \"type\": \"Specialized Skill\"\n      },\n      {\n        \"name\": \"PPC Campaigns\",\n        \"type\": \"Specialized Skill\"\n      },\n      {\n        \"name\": \"Social Media Marketing\",\n        \"type\": \"Specialized Skill\"\n      },\n      {\n        \"name\": \"Content Marketing\",\n        \"type\": \"Specialized Skill\"\n      },\n      {\n        \"name\": \"Team Leadership\",\n        \"type\": \"Common Skill\"\n      },\n      {\n        \"name\": \"Google Analytics\",\n        \"type\": \"Specialized Skill\"\n      }\n    ],\n    \"certifications\": [],\n    \"courses\": [],\n    \"publications\": [],\n    \"interests\": []\n  }\n}"
+            },
+            "type": "text"
+          }
+        ],
+        "created_at": 1721034093,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "assistant",
+        "run_id": "run_3wtR894Oo0iZXOJeIpAQg2lX",
+        "thread_id": "thread_zqHqwq708daNVAc6GoudAiV9"
+      },
+      {
+        "id": "msg_8D5OF9gIjhTLva5AXcitBAWC",
+        "assistant_id": null,
+        "attachments": [
+          {
+            "file_id": "file-mNskaGrBx4hUJq67k0hjPEZF",
+            "tools": [
+              {
+                "type": "file_search"
+              }
+            ]
+          }
+        ],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "Analyse this resume :"
+            },
+            "type": "text"
+          }
+        ],
+        "created_at": 1721034092,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "user",
+        "run_id": null,
+        "thread_id": "thread_zqHqwq708daNVAc6GoudAiV9"
+      }
+    ],
+    "object": "list",
+    "first_id": "msg_T8X4yPnDfSG5ywedhE6Ibyp5",
+    "last_id": "msg_8D5OF9gIjhTLva5AXcitBAWC",
+    "has_more": false,
+    "usage": {
+      "completion_tokens": 1310,
+      "prompt_tokens": 3590,
+      "total_tokens": 4900
+    }
+  },
+  "standardized_response": {
+    "extracted_data": {
+      "personal_infos": {
+        "name": {
+          "first_name": "Amit",
+          "last_name": "Verma",
+          "raw_name": "Amit K. Verma",
+          "middle": "K.",
+          "title": null,
+          "prefix": null,
+          "sufix": null
+        },
+        "address": {
+          "formatted_location": "123 Business Rd, Mumbai, MH 400001, India",
+          "postal_code": "400001",
+          "region": "Maharashtra",
+          "country": "India",
+          "country_code": "IN",
+          "raw_input_location": null,
+          "street": "Business Road",
+          "street_number": "123",
+          "appartment_number": null,
+          "city": "Mumbai"
+        },
+        "self_summary": "Dynamic marketing professional with a robust background in digital marketing, SEO, and branding strategies. Over 8 years of experience in driving growth and managing online presence for top-tier companies.",
+        "objective": "Seeking a senior role in digital marketing to leverage my skills in a growth-focused environment.",
+        "date_of_birth": null,
+        "place_of_birth": null,
+        "phones": [
+          "+91-9876543210"
+        ],
+        "mails": [
+          "amit.verma@mail.com"
+        ],
+        "urls": [
+          "https://www.linkedin.com/in/amitverma"
+        ],
+        "fax": [],
+        "current_profession": "Digital Marketing Expert",
+        "gender": null,
+        "nationality": null,
+        "martial_status": null,
+        "current_salary": "INR 12,00,000 per annum",
+        "availability": "Immediate"
+      },
+      "education": {
+        "total_years_education": null,
+        "entries": [
+          {
+            "title": "Master of Business Administration (MBA)",
+            "start_date": "2008-07-01",
+            "end_date": "2010-06-01",
+            "location": {
+              "formatted_location": "Mumbai, MH, India",
+              "postal_code": "400001",
+              "region": "Maharashtra",
+              "country": "India",
+              "country_code": "IN",
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": "Mumbai"
+            },
+            "establishment": "University of Mumbai",
+            "description": "Specialized in Marketing",
+            "gpa": null,
+            "accreditation": null
+          },
+          {
+            "title": "Bachelor of Commerce (BCom)",
+            "start_date": "2005-07-01",
+            "end_date": "2008-06-01",
+            "location": {
+              "formatted_location": "Mumbai, MH, India",
+              "postal_code": "400001",
+              "region": "Maharashtra",
+              "country": "India",
+              "country_code": "IN",
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": "Mumbai"
+            },
+            "establishment": "St. Xavier's College",
+            "description": "Majored in Accounting",
+            "gpa": null,
+            "accreditation": null
+          }
+        ]
+      },
+      "work_experience": {
+        "total_years_experience": "8.0",
+        "entries": [
+          {
+            "title": "Senior Digital Marketing Manager",
+            "start_date": "2017-07-01",
+            "end_date": "2022-12-01",
+            "company": "Techno Corp",
+            "location": {
+              "formatted_location": "Mumbai, MH, India",
+              "postal_code": "400001",
+              "region": "Maharashtra",
+              "country": "India",
+              "country_code": "IN",
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": "Mumbai"
+            },
+            "description": "Led a team of marketers to enhance online presence and drive growth. Managed SEO, PPC campaigns and social media strategies.",
+            "type": "Full time",
+            "industry": "IT & Services"
+          },
+          {
+            "title": "Digital Marketing Specialist",
+            "start_date": "2013-07-01",
+            "end_date": "2017-06-30",
+            "company": "Creative Solutions",
+            "location": {
+              "formatted_location": "Mumbai, MH, India",
+              "postal_code": "400001",
+              "region": "Maharashtra",
+              "country": "India",
+              "country_code": "IN",
+              "raw_input_location": null,
+              "street": null,
+              "street_number": null,
+              "appartment_number": null,
+              "city": "Mumbai"
+            },
+            "description": "Implemented SEO and content marketing strategies for clients. Analyzed performance metrics and improved website rankings.",
+            "type": "Full time",
+            "industry": "Marketing & Advertising"
+          }
+        ]
+      },
+      "languages": [],
+      "skills": [
+        {
+          "name": "Digital Marketing",
+          "type": "Specialized Skill"
+        },
+        {
+          "name": "SEO",
+          "type": "Specialized Skill"
+        },
+        {
+          "name": "Branding",
+          "type": "Specialized Skill"
+        },
+        {
+          "name": "PPC Campaigns",
+          "type": "Specialized Skill"
+        },
+        {
+          "name": "Social Media Marketing",
+          "type": "Specialized Skill"
+        },
+        {
+          "name": "Content Marketing",
+          "type": "Specialized Skill"
+        },
+        {
+          "name": "Team Leadership",
+          "type": "Common Skill"
+        },
+        {
+          "name": "Google Analytics",
+          "type": "Specialized Skill"
+        }
+      ],
+      "certifications": [],
+      "courses": [],
+      "publications": [],
+      "interests": []
+    }
+  }
+}

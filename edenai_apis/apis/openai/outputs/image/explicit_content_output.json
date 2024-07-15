@@ -1,47 +1,74 @@
 {
   "original_response": {
-    "id": "chatcmpl-9cD155nCoNlyUszT8C2bK5uIRrtGo",
-    "object": "chat.completion",
-    "created": 1718893527,
-    "model": "gpt-4o-2024-05-13",
-    "choices": [
+    "data": [
       {
-        "index": 0,
-        "message": {
-          "role": "assistant",
-          "content": null,
-          "tool_calls": [
-            {
-              "id": "call_pCUr3gt0VEgAtcXUDJATQygT",
-              "type": "function",
-              "function": {
-                "name": "explicit_content_detection",
-                "arguments": "{\"nsfw_likelihood\":4,\"nsfw_likelihood_score\":0.85,\"items\":[{\"label\":\"Violence\",\"likelihood\":5,\"likelihood_score\":0.95,\"category\":\"Violence\",\"subcategory\":\"GraphicViolenceOrGore\"}]}"
-              }
-            }
-          ]
-        },
-        "logprobs": null,
-        "finish_reason": "stop"
+        "id": "msg_q5iHS8Iqi2sdujXw1RtCbr0A",
+        "assistant_id": "asst_kesqlDvwY76R7uyD09zRMcYP",
+        "attachments": [],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "{\n    \"nsfw_likelihood\": 4,\n    \"nsfw_likelihood_score\": 0.88,\n    \"items\": [\n        {\n            \"label\": \"Violence\",\n            \"likelihood\": 5,\n            \"likelihood_score\": 0.95,\n            \"category\": \"Violence\",\n            \"subcategory\": \"Violence\"\n        }\n    ]\n}"
+            },
+            "type": "text"
+          }
+        ],
+        "created_at": 1721034893,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "assistant",
+        "run_id": "run_qKh99kjgmkZAzq82JRAQnusu",
+        "thread_id": "thread_jU2m7E3e56NbuZOVLI6CkASS"
+      },
+      {
+        "id": "msg_ArEWPDJ4eZuqkUrUHrSFeW9Y",
+        "assistant_id": null,
+        "attachments": [],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "Analys this image :"
+            },
+            "type": "text"
+          },
+          {
+            "image_file": {
+              "file_id": "file-oJSNPo2TBlV5DaB1nS9b6apR",
+              "detail": "auto"
+            },
+            "type": "image_file"
+          }
+        ],
+        "created_at": 1721034890,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "user",
+        "run_id": null,
+        "thread_id": "thread_jU2m7E3e56NbuZOVLI6CkASS"
       }
     ],
+    "object": "list",
+    "first_id": "msg_q5iHS8Iqi2sdujXw1RtCbr0A",
+    "last_id": "msg_ArEWPDJ4eZuqkUrUHrSFeW9Y",
+    "has_more": false,
     "usage": {
-      "prompt_tokens": 877,
-      "completion_tokens": 54,
-      "total_tokens": 931
-    },
-    "system_fingerprint": "fp_9cb5d38cf7"
+      "completion_tokens": 80,
+      "prompt_tokens": 215,
+      "total_tokens": 295
+    }
   },
   "standardized_response": {
     "nsfw_likelihood": 4,
-    "nsfw_likelihood_score": 0.85,
+    "nsfw_likelihood_score": 0.88,
     "items": [
       {
         "label": "Violence",
         "likelihood": 5,
         "likelihood_score": 0.95,
         "category": "Violence",
-        "subcategory": "Violence"
+        "subcategory": null
       }
     ]
   }

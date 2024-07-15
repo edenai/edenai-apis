@@ -1,0 +1,145 @@
+{
+  "original_response": {
+    "data": [
+      {
+        "id": "msg_x8AzO8JQ4g2qOcAp0G3thPz6",
+        "assistant_id": "asst_74j0PokYJtWcj1bzHvXPnCM6",
+        "attachments": [],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "{\n  \"extracted_data\": [\n    {\n      \"last_name\": {\n        \"value\": \"DOLORES\",\n        \"confidence\": 0.96\n      },\n      \"given_names\": [\n        {\n          \"value\": \"Jane\",\n          \"confidence\": 0.97\n        }\n      ],\n      \"birth_place\": {\n        \"value\": null,\n        \"confidence\": null\n      },\n      \"birth_date\": {\n        \"value\": \"1985-05-15\",\n        \"confidence\": 0.96\n      },\n      \"issuance_date\": {\n        \"value\": \"2022-01-20\",\n        \"confidence\": 0.95\n      },\n      \"expire_date\": {\n        \"value\": \"2032-01-19\",\n        \"confidence\": 0.96\n      },\n      \"document_id\": {\n        \"value\": \"B12345678\",\n        \"confidence\": 0.96\n      },\n      \"issuing_state\": {\n        \"value\": null,\n        \"confidence\": null\n      },\n      \"address\": {\n        \"value\": null,\n        \"confidence\": null\n      },\n      \"age\": {\n        \"value\": null,\n        \"confidence\": null\n      },\n      \"country\": {\n        \"name\": \"Canada\",\n        \"alpha2\": \"CA\",\n        \"alpha3\": \"CAN\",\n        \"confidence\": null\n      },\n      \"document_type\": {\n        \"value\": \"ID\",\n        \"confidence\": 0.96\n      },\n      \"gender\": {\n        \"value\": \"F\",\n        \"confidence\": 0.96\n      },\n      \"image_id\": [\n        {\n          \"value\": \"\",\n          \"confidence\": null\n        },\n        {\n          \"value\": \"\",\n          \"confidence\": null\n        }\n      ],\n      \"image_signature\": [],\n      \"mrz\": {\n        \"value\": \"I<CAADOLORES<<JANE<<<<<<<<<<<<<<<<<<<<<<<<<\\nB123456789CAN8505156F3201209500101709<091824\",\n        \"confidence\": 0.96\n      },\n      \"nationality\": {\n        \"value\": \"Can\",\n        \"confidence\": 0.96\n      }\n    }\n  ]\n}"
+            },
+            "type": "text"
+          }
+        ],
+        "created_at": 1721034183,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "assistant",
+        "run_id": "run_XdzPe26W1XOGoBVdoLQZ5YHO",
+        "thread_id": "thread_QqHT9mHoTj0N2HgFOlLuvouw"
+      },
+      {
+        "id": "msg_WgSd5f07Ke2Ncb9VFelJSQXM",
+        "assistant_id": null,
+        "attachments": [
+          {
+            "file_id": "file-X0g3uRGlS3jbdRPqfvWjTN9l",
+            "tools": [
+              {
+                "type": "file_search"
+              }
+            ]
+          }
+        ],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "Analyse this ID Document :"
+            },
+            "type": "text"
+          }
+        ],
+        "created_at": 1721034181,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "user",
+        "run_id": null,
+        "thread_id": "thread_QqHT9mHoTj0N2HgFOlLuvouw"
+      }
+    ],
+    "object": "list",
+    "first_id": "msg_x8AzO8JQ4g2qOcAp0G3thPz6",
+    "last_id": "msg_WgSd5f07Ke2Ncb9VFelJSQXM",
+    "has_more": false,
+    "usage": {
+      "completion_tokens": 472,
+      "prompt_tokens": 1190,
+      "total_tokens": 1662
+    }
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "last_name": {
+          "value": "DOLORES",
+          "confidence": 0.96
+        },
+        "given_names": [
+          {
+            "value": "Jane",
+            "confidence": 0.97
+          }
+        ],
+        "birth_place": {
+          "value": null,
+          "confidence": null
+        },
+        "birth_date": {
+          "value": "1985-05-15",
+          "confidence": 0.96
+        },
+        "issuance_date": {
+          "value": "2022-01-20",
+          "confidence": 0.95
+        },
+        "expire_date": {
+          "value": "2032-01-19",
+          "confidence": 0.96
+        },
+        "document_id": {
+          "value": "B12345678",
+          "confidence": 0.96
+        },
+        "issuing_state": {
+          "value": null,
+          "confidence": null
+        },
+        "address": {
+          "value": null,
+          "confidence": null
+        },
+        "age": {
+          "value": null,
+          "confidence": null
+        },
+        "country": {
+          "name": "Canada",
+          "alpha2": "CA",
+          "alpha3": "CAN",
+          "confidence": null
+        },
+        "document_type": {
+          "value": "Id",
+          "confidence": 0.96
+        },
+        "gender": {
+          "value": "F",
+          "confidence": 0.96
+        },
+        "image_id": [
+          {
+            "value": "",
+            "confidence": null
+          },
+          {
+            "value": "",
+            "confidence": null
+          }
+        ],
+        "image_signature": [],
+        "mrz": {
+          "value": "I<CAADOLORES<<JANE<<<<<<<<<<<<<<<<<<<<<<<<<\nB123456789CAN8505156F3201209500101709<091824",
+          "confidence": 0.96
+        },
+        "nationality": {
+          "value": "Can",
+          "confidence": 0.96
+        }
+      }
+    ]
+  }
+}

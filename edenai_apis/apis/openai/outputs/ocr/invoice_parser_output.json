@@ -1,0 +1,245 @@
+{
+  "original_response": {
+    "result": "success",
+    "data": {
+      "document_type": "invoice",
+      "full_document_type": [
+        {
+          "classification": "financial",
+          "confidence": 1
+        },
+        {
+          "classification": "invoice",
+          "confidence": 0.95
+        },
+        {
+          "classification": "professional_services",
+          "confidence": 0.44
+        }
+      ],
+      "amount": 75000,
+      "amount_change": 0,
+      "amount_shipping": 0,
+      "amount_tip": 0,
+      "vatamount": 0,
+      "amountexvat": 75000,
+      "currency": "USD",
+      "date": "2003-01-20T00:00:00",
+      "purchasedate": "2003-01-20",
+      "purchasetime": "00:00:00",
+      "date_of_arrival": "",
+      "date_of_departure": "",
+      "service_date": "",
+      "early_payment_discount": [],
+      "distance_traveled": {
+        "value": 0,
+        "unit": ""
+      },
+      "vatitems": [],
+      "vat_context": "",
+      "lines": [
+        {
+          "description": "",
+          "lineitems": [
+            {
+              "title": "Field inspection of construction on 1/19/2003 deficiencies in house",
+              "description": "",
+              "amount": 75000,
+              "amount_each": 75000,
+              "amount_ex_vat": 75000,
+              "quantity": 1,
+              "vat_amount": 0,
+              "vat_percentage": 0,
+              "vat_code": "",
+              "unit_of_measurement": "",
+              "sku": "",
+              "ean": "",
+              "order_number": "",
+              "line_number": "",
+              "discount_percentage": 0,
+              "discount_amount": 0,
+              "discount_code": "",
+              "matched_purchase_order": null
+            }
+          ]
+        }
+      ],
+      "paymentmethod": "",
+      "payment_auth_code": "",
+      "payment_card_number": "",
+      "payment_card_account_number": "",
+      "payment_card_bank": "",
+      "payment_card_issuer": "",
+      "payment_due_date": "",
+      "terminal_number": "",
+      "document_subject": "",
+      "package_number": "",
+      "invoice_number": "014-03",
+      "invoice_type": "invoice",
+      "receipt_number": "014-03",
+      "shop_number": "",
+      "transaction_number": "",
+      "transaction_reference": "",
+      "order_number": "",
+      "table_number": "",
+      "table_group": "",
+      "server": "",
+      "metadata": {
+        "word_count": 0,
+        "line_count": 0,
+        "page_count": 0,
+        "total_page_count": 0
+      },
+      "merchant_name": "Sng Engineering",
+      "merchant_legal_name": "",
+      "merchant_id": "",
+      "merchant_coc_number": "",
+      "merchant_vat_number": "",
+      "merchant_fiscal_number": "",
+      "merchant_bank_account_number": "",
+      "merchant_bank_account_number_bic": "",
+      "merchant_chain_liability_bank_account_number": "",
+      "merchant_chain_liability_amount": 0,
+      "merchant_bank_domestic_account_number": "",
+      "merchant_bank_domestic_bank_code": "",
+      "merchant_website": "",
+      "merchant_email": "",
+      "merchant_address": "",
+      "merchant_street_name": "",
+      "merchant_house_number": "",
+      "merchant_zipcode": "",
+      "merchant_city": "",
+      "merchant_municipality": "",
+      "merchant_province": "",
+      "merchant_country": "",
+      "merchant_country_code": "US",
+      "merchant_phone": "3015480055",
+      "merchant_main_activity_code": "",
+      "customer_id": "",
+      "customer_name": "",
+      "customer_legal_name": "",
+      "customer_number": "",
+      "customer_reference": "",
+      "customer_address": "",
+      "customer_street_name": "",
+      "customer_house_number": "",
+      "customer_zipcode": "",
+      "customer_city": "",
+      "customer_municipality": "",
+      "customer_province": "",
+      "customer_country": "",
+      "customer_phone": "",
+      "customer_vat_number": "",
+      "customer_fiscal_number": "",
+      "customer_coc_number": "",
+      "customer_bank_account_number": "",
+      "customer_bank_account_number_bic": "",
+      "customer_website": "",
+      "customer_email": "",
+      "payment_slip_code": "",
+      "payment_slip_reference_number": "",
+      "payment_slip_customer_number": "",
+      "document_language": "EN",
+      "personal_income_tax_amount": 0,
+      "personal_income_tax_rate": 0,
+      "project_code": "",
+      "matched_keywords": [],
+      "matched_lineitems": null,
+      "matched_purchase_order_id": "",
+      "matched_purchase_orders": null,
+      "matched_project_code_id": "",
+      "matched_entity_id": null,
+      "barcodes": null,
+      "hash": "547ea6c7078231c8ee51867cbcc1ad4235ea54d0",
+      "hash_duplicate": true,
+      "raw_text": "                          SNG Engineering, Inc.\n                         Consulting Engineers\n                                                                              INVOICE\n                         344 Main Street Suite 200\n                         Gaithersburg, MD 20878\n                                                                                      INVOICE NO: 014-03\nSAG\n                         Phone: 301.548.0055 Fax: 301.548.1840\n                                                                                    DATE: January20, 2003\n                         E-mail: sng.engineering@erols.com\nTO,                                                  Ship To:   Same\n   Damita J Goldsmith\n   201 Stan Fey Dr                                   Reference: 201 Stan Fey Drive\n   Upper Marlboro, MD 20774                                    Upper Marlboro\n SALESPERSON        P.O. NUMBER      DATE SHIPPED       SHIPPED VIA      F.O.B. POINT         TERMS\n                                                                                          on receipt of service\n  QUANTITY                             DESCRIPTION                             UNIT PRICE      AMOUNT\n      1        Field inspection of construction on 1/19/2003 deficiencies in house   750.00        750..00\n              construction, Garage drive way & legal support to Attorney to\n               1/19/2003\n                                                                                 SUBTOTAL          750.00\n                                                                    SHIPPING & HANDELING\n                                                                                TOTAL DUE          750.00\nMake all checks payable to SNG Engineering, Inc.\nf you have any questions concerning this invoice, call: Sach Gupta, 301.548.0055\nThe payment will be due within fifteen days after receipt of invoice by the owner/contractor.\nPlease note that 1-1/2 percent interest will accrue on the unpaid balance after this date.\n                                    THANK YOU FOR YOUR BUSINESS!"
+    },
+    "request_id": "cUD2rksWpvH3vGplI4Asfkjmq32zv7It"
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "customer_information": {
+          "customer_name": "",
+          "customer_address": "",
+          "customer_email": "",
+          "customer_id": "",
+          "customer_tax_id": "",
+          "customer_mailing_address": null,
+          "customer_billing_address": "",
+          "customer_shipping_address": null,
+          "customer_service_address": null,
+          "customer_remittance_address": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "vat_number": null,
+          "siret_number": null,
+          "siren_number": null
+        },
+        "merchant_information": {
+          "merchant_name": "Sng Engineering",
+          "merchant_address": "",
+          "merchant_phone": "3015480055",
+          "merchant_email": "",
+          "merchant_fax": null,
+          "merchant_website": "",
+          "merchant_tax_id": "",
+          "merchant_siret": "",
+          "merchant_siren": null,
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "vat_number": null
+        },
+        "invoice_number": "014-03",
+        "invoice_total": 75000.0,
+        "invoice_subtotal": null,
+        "gratuity": null,
+        "amount_due": null,
+        "previous_unpaid_balance": null,
+        "discount": null,
+        "taxes": [
+          {
+            "value": 0.0,
+            "rate": 0.0
+          }
+        ],
+        "service_charge": null,
+        "payment_term": null,
+        "purchase_order": null,
+        "date": null,
+        "due_date": null,
+        "service_date": null,
+        "service_due_date": null,
+        "po_number": null,
+        "locale": {
+          "currency": "USD",
+          "language": "EN"
+        },
+        "bank_informations": {
+          "account_number": "",
+          "iban": "",
+          "bsb": null,
+          "sort_code": "",
+          "vat_number": null,
+          "rooting_number": null,
+          "swift": null
+        },
+        "item_lines": [
+          {
+            "description": "",
+            "quantity": 1.0,
+            "amount": 75000.0,
+            "unit_price": 75000.0,
+            "discount": 0.0,
+            "product_code": "",
+            "date_item": null,
+            "tax_item": null,
+            "tax_rate": 0.0
+          }
+        ]
+      }
+    ]
+  }
+}

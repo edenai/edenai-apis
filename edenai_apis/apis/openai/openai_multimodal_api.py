@@ -1,5 +1,6 @@
 from typing import Dict, List, Union, Optional
-import openai
+from openai import OpenAI
+
 from edenai_apis.features import MultimodalInterface
 from edenai_apis.features.multimodal.chat import (
     ChatDataClass,
@@ -109,19 +110,18 @@ class OpenaiMultimodalApi(MultimodalInterface):
             payload["stop"] = stop_sequences
 
         try:
-            response = openai.ChatCompletion.create(**payload)
+            response = self.client.chat.completions.create(**payload)
         except Exception as exc:
             raise ProviderException(str(exc))
 
         if stream is False:
-            generated_text = response["choices"][0]["message"]["content"]
+            generated_text = response.choices[0].message.content
 
             standardized_response = ChatDataClass.generate_standardized_response(
                 generated_text=generated_text, messages=messages
             )
-
             return ResponseType[ChatDataClass](
-                original_response=response,
+                original_response=response.to_dict(),
                 standardized_response=standardized_response,
             )
 
