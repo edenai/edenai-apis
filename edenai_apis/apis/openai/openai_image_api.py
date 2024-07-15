@@ -192,8 +192,8 @@ class OpenaiImageApi(ImageInterface):
             response_format={"type": "json_object"},
             model="gpt-4o",
             name=name,
-            instructions="{} You return a json output shaped like the following with the exact same structure and the exact same keys but the values would change : \n {}".format(
-                instruction, output_response
+            instructions="{} You return a json output shaped like the following with the exact same structure and the exact same keys but the values would change : \n {} \n\n You should follow this pydantic dataclass schema {}".format(
+                instruction, output_response, dataclass.schema()
             ),
         )
         thread = self.client.beta.threads.create(

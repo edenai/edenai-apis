@@ -2,27 +2,27 @@
   "original_response": {
     "data": [
       {
-        "id": "msg_q5iHS8Iqi2sdujXw1RtCbr0A",
-        "assistant_id": "asst_kesqlDvwY76R7uyD09zRMcYP",
+        "id": "msg_8oVI2RyHYbhTGzsGPJ8RYvxB",
+        "assistant_id": "asst_NkLFHBzi7Q24ImW20cbuBDWr",
         "attachments": [],
         "content": [
           {
             "text": {
               "annotations": [],
-              "value": "{\n    \"nsfw_likelihood\": 4,\n    \"nsfw_likelihood_score\": 0.88,\n    \"items\": [\n        {\n            \"label\": \"Violence\",\n            \"likelihood\": 5,\n            \"likelihood_score\": 0.95,\n            \"category\": \"Violence\",\n            \"subcategory\": \"Violence\"\n        }\n    ]\n}"
+              "value": "{\n  \"nsfw_likelihood\": 5,\n  \"nsfw_likelihood_score\": 0.99,\n  \"items\": [\n    {\n      \"label\": \"Violence\",\n      \"likelihood\": 5,\n      \"likelihood_score\": 0.99,\n      \"category\": \"Violence\",\n      \"subcategory\": \"GraphicViolenceOrGore\"\n    }\n  ]\n}"
             },
             "type": "text"
           }
         ],
-        "created_at": 1721034893,
+        "created_at": 1721060031,
         "metadata": {},
         "object": "thread.message",
         "role": "assistant",
-        "run_id": "run_qKh99kjgmkZAzq82JRAQnusu",
-        "thread_id": "thread_jU2m7E3e56NbuZOVLI6CkASS"
+        "run_id": "run_9vdrQy3qxAxKbSn7LWYiu2CF",
+        "thread_id": "thread_wroSi0a2rfGOeH3ASHV4Su0Q"
       },
       {
-        "id": "msg_ArEWPDJ4eZuqkUrUHrSFeW9Y",
+        "id": "msg_h633LuzTFH9OrJnMF3ZFtIGa",
         "assistant_id": null,
         "attachments": [],
         "content": [
@@ -35,38 +35,38 @@
           },
           {
             "image_file": {
-              "file_id": "file-oJSNPo2TBlV5DaB1nS9b6apR",
+              "file_id": "file-FDfNMKttMaeDVv2RKlz8M5Jv",
               "detail": "auto"
             },
             "type": "image_file"
           }
         ],
-        "created_at": 1721034890,
+        "created_at": 1721060029,
         "metadata": {},
         "object": "thread.message",
         "role": "user",
         "run_id": null,
-        "thread_id": "thread_jU2m7E3e56NbuZOVLI6CkASS"
+        "thread_id": "thread_wroSi0a2rfGOeH3ASHV4Su0Q"
       }
     ],
     "object": "list",
-    "first_id": "msg_q5iHS8Iqi2sdujXw1RtCbr0A",
-    "last_id": "msg_ArEWPDJ4eZuqkUrUHrSFeW9Y",
+    "first_id": "msg_8oVI2RyHYbhTGzsGPJ8RYvxB",
+    "last_id": "msg_h633LuzTFH9OrJnMF3ZFtIGa",
     "has_more": false,
     "usage": {
-      "completion_tokens": 80,
-      "prompt_tokens": 215,
-      "total_tokens": 295
+      "completion_tokens": 84,
+      "prompt_tokens": 1488,
+      "total_tokens": 1572
     }
   },
   "standardized_response": {
-    "nsfw_likelihood": 4,
-    "nsfw_likelihood_score": 0.88,
+    "nsfw_likelihood": 5,
+    "nsfw_likelihood_score": 0.99,
     "items": [
       {
         "label": "Violence",
         "likelihood": 5,
-        "likelihood_score": 0.95,
+        "likelihood_score": 0.99,
         "category": "Violence",
         "subcategory": null
       }
