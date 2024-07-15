@@ -8,15 +8,17 @@ import requests
 from edenai_apis.apis.extracta.extracta_ocr_normalizer import (
     extracta_resume_parser,
     extracta_bank_check_parsing,
+    extracta_financial_parser,
 )
+from edenai_apis.features.ocr.resume_parser import ResumeParserDataClass
 from edenai_apis.features.ocr.bank_check_parsing import BankCheckParsingDataClass
+from edenai_apis.features.ocr.financial_parser import FinancialParserDataClass
 from edenai_apis.features.ocr.custom_document_parsing_async.custom_document_parsing_async_dataclass import (
     CustomDocumentParsingAsyncBoundingBox,
     CustomDocumentParsingAsyncDataClass,
     CustomDocumentParsingAsyncItem,
 )
 from edenai_apis.features.ocr.ocr_interface import OcrInterface
-from edenai_apis.features.ocr.resume_parser import ResumeParserDataClass
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -337,6 +339,70 @@ class ExtractaApi(
 
         standardized_response = extracta_bank_check_parsing(original_response)
         return ResponseType[BankCheckParsingDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    def ocr__financial_parser(
+        self, file: str, language: str, document_type: str = "", file_url: str = ""
+    ) -> ResponseType[FinancialParserDataClass]:
+        isUrl = False
+
+        # Check if file_url is provided
+        if file_url:
+            image_source = file_url
+            isUrl = True
+        else:
+            # Open the file and read its contents
+            try:
+                with open(file, "rb") as f_stream:
+                    image_as_base64 = (
+                        f"data:{mimetypes.guess_type(file)[0]};base64,"
+                        + base64.b64encode(f_stream.read()).decode()
+                    )
+                image_source = image_as_base64
+            except FileNotFoundError:
+                raise ProviderException("Error: The file was not found.")
+            except IOError:
+                raise ProviderException(
+                    "Error: An I/O error occurred while handling the file."
+                )
+
+        # make payload
+        payload = json.dumps(
+            {
+                "extractionDetails": {
+                    "name": "Eden.ai - Extraction",
+                    "language": "English",
+                    "documentId": "financial_parser",
+                    "documentType": document_type,
+                    "documentLanguage": language,
+                },
+                "file": image_source,
+                "isUrl": isUrl,
+            }
+        )
+
+        # make headers
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}",
+        }
+
+        # call api
+        response = requests.post(
+            url=self.url + self.processFileRoute, headers=headers, data=payload
+        )
+
+        # check for error
+        if response.status_code != 200:
+            raise ProviderException(response.text, code=response.status_code)
+
+        # successful response
+        original_response = response.json()
+
+        standardized_response = extracta_financial_parser(original_response)
+        return ResponseType[FinancialParserDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
         )
