@@ -119,9 +119,9 @@ class MicrosoftOcrApi(OcrInterface):
         file_ = open(file, "rb")
         try:
             document_analysis_client = DocumentAnalysisClient(
-                endpoint=self.api_settings["form_recognizer"]["url"],
+                endpoint=self.url["documentintelligence"],
                 credential=AzureKeyCredential(
-                    self.api_settings["form_recognizer"]["subscription_key"]
+                    self.api_settings["documentintelligence"]["subscription_key"]
                 ),
             )
             poller = document_analysis_client.begin_analyze_document(
@@ -153,9 +153,9 @@ class MicrosoftOcrApi(OcrInterface):
         file_ = open(file, "rb")
         try:
             document_analysis_client = DocumentAnalysisClient(
-                endpoint=self.api_settings["form_recognizer"]["url"],
+                endpoint=self.url["documentintelligence"],
                 credential=AzureKeyCredential(
-                    self.api_settings["form_recognizer"]["subscription_key"]
+                    self.api_settings["documentintelligence"]["subscription_key"]
                 ),
             )
             poller = document_analysis_client.begin_analyze_document(
@@ -255,9 +255,9 @@ class MicrosoftOcrApi(OcrInterface):
         file_ = open(file, "rb")
         try:
             document_analysis_client = DocumentAnalysisClient(
-                endpoint=self.api_settings["form_recognizer"]["url"],
+                endpoint=self.url["documentintelligence"],
                 credential=AzureKeyCredential(
-                    self.api_settings["form_recognizer"]["subscription_key"]
+                    self.api_settings["documentintelligence"]["subscription_key"]
                 ),
             )
             poller = document_analysis_client.begin_analyze_document(
@@ -368,8 +368,8 @@ class MicrosoftOcrApi(OcrInterface):
         with open(file, "rb") as file_:
             file_content = file_.read()
         url = (
-            f"{self.api_settings['form_recognizer']['url']}formrecognizer/documentModels/"
-            f"prebuilt-layout:analyze?api-version=2022-08-31"
+            f"{self.url['documentintelligence']}documentintelligence/documentModels/"
+            f"prebuilt-layout:analyze?api-version=2024-02-29-preview"
         )
         url = add_query_param_in_url(url, {"locale": language})
 
@@ -377,7 +377,7 @@ class MicrosoftOcrApi(OcrInterface):
             url,
             headers={
                 "Content-Type": "application/octet-stream",
-                "Ocp-Apim-Subscription-Key": self.api_settings["form_recognizer"][
+                "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
                     "subscription_key"
                 ],
             },
@@ -393,19 +393,19 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__ocr_tables_async__get_job_result(
-        self, job_id: str
+        self, provider_job_id: str
     ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
         headers = {
             "Content-Type": "application/octet-stream",
-            "Ocp-Apim-Subscription-Key": self.api_settings["form_recognizer"][
+            "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
                 "subscription_key"
             ],
         }
 
         url = (
-            self.api_settings["form_recognizer"]["url"]
-            + f"formrecognizer/documentModels/prebuilt-layout/"
-            f"analyzeResults/{job_id}?api-version=2022-08-31"
+            self.url['documentintelligence']
+            + f"documentintelligence/documentModels/prebuilt-layout/"
+            f"analyzeResults/{provider_job_id}?api-version=2024-02-29-preview"
         )
         response = requests.get(url, headers=headers)
 
@@ -434,25 +434,26 @@ class MicrosoftOcrApi(OcrInterface):
             return AsyncResponseType[OcrTablesAsyncDataClass](
                 original_response=data,
                 standardized_response=standardized_response,
-                provider_job_id=job_id,
+                provider_job_id=provider_job_id,
             )
 
-        return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)
+        return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=provider_job_id)
 
     def ocr__ocr_async__launch_job(
         self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
         with open(file, "rb") as file_:
             file_content = file_.read()
+
         url = (
-            f"{get_microsoft_urls()['form_recognizer']}formrecognizer/documentModels/"
-            f"prebuilt-layout:analyze?api-version=2023-07-31"
+            f"{self.url['documentintelligence']}documentintelligence/documentModels/"
+            f"prebuilt-layout:analyze?api-version=2024-02-29-preview"
         )
         response = requests.post(
             url,
             headers={
                 "Content-Type": "application/octet-stream",
-                "Ocp-Apim-Subscription-Key": self.api_settings["form_recognizer"][
+                "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
                     "subscription_key"
                 ],
             },
@@ -469,15 +470,15 @@ class MicrosoftOcrApi(OcrInterface):
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[OcrDataClass]:
         headers = {
-            "Ocp-Apim-Subscription-Key": self.api_settings["form_recognizer"][
+            "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
                 "subscription_key"
             ],
         }
 
         url = (
-            get_microsoft_urls()["form_recognizer"]
-            + f"formrecognizer/documentModels/prebuilt-layout/"
-            f"analyzeResults/{provider_job_id}?api-version=2023-07-31"
+            self.url['documentintelligence']
+            + f"documentintelligence/documentModels/prebuilt-layout/"
+            f"analyzeResults/{provider_job_id}?api-version=2024-02-29-preview"
         )
         response = requests.get(url, headers=headers)
 
@@ -514,9 +515,9 @@ class MicrosoftOcrApi(OcrInterface):
         file_ = open(file, "rb")
         try:
             document_analysis_client = DocumentAnalysisClient(
-                endpoint=self.api_settings["form_recognizer"]["url"],
+                endpoint=self.url["documentintelligence"],
                 credential=AzureKeyCredential(
-                    self.api_settings["form_recognizer"]["subscription_key"]
+                    self.api_settings["documentintelligence"]["subscription_key"]
                 ),
             )
             document_type_value = (

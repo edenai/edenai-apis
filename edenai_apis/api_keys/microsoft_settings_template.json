@@ -11,6 +11,10 @@
     "url": "",
     "subscription_key": ""
   },
+  "documentintelligence": {
+    "url": "",
+    "subscription_key": ""
+  },
   "face": {
     "subscription_key": "",
     "url": ""

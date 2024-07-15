@@ -126,7 +126,7 @@ def get_microsoft_urls() -> Dict:
         "translator": api_settings["translator"]["url"],
         "speech": api_settings["speech"]["url"],
         "spell_check": api_settings["spell_check"]["url"],
-        "form_recognizer": api_settings["form_recognizer"]["url"],
+        "documentintelligence": api_settings["documentintelligence"]["url"],
     }
 
 

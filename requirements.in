@@ -60,7 +60,7 @@ watson-developer-cloud
 lettria==6.0.0
 
 #microsoft
-azure-ai-formrecognizer==3.2.0
+azure-ai-formrecognizer==3.3
 azure-cognitiveservices-speech
 azure-core
 
