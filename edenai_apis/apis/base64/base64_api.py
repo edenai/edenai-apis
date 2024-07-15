@@ -408,14 +408,15 @@ class Base64Api(ProviderInterface, OcrInterface):
                 except ValueError:
                     bbox = BoundingBox.unknown()
 
-                items.append(
-                    ItemDataExtraction(
-                        key=value.get("key"),
-                        value=value.get("value"),
-                        confidence_score=value.get("confidence"),
-                        bounding_box=bbox,
+                if key := value.get(key):
+                    items.append(
+                        ItemDataExtraction(
+                            key=key,
+                            value=value.get("value"),
+                            confidence_score=value.get("confidence"),
+                            bounding_box=bbox,
+                        )
                     )
-                )
 
         standardized_response = DataExtractionDataClass(fields=items)
 
