@@ -123,7 +123,9 @@
     },
     "summarize": {
       "constraints": {
-        "languages": ["en"],
+        "languages": [
+          "en"
+        ],
         "allow_null_language": true,
         "models": [
           "gpt-4",
@@ -140,35 +142,47 @@
     },
     "anonymization": {
       "constraints": {
-        "languages": ["en"],
+        "languages": [
+          "en"
+        ],
         "allow_null_language": true
       },
       "version": "v3.0.0"
     },
     "keyword_extraction": {
       "constraints": {
-        "languages": ["en"],
+        "languages": [
+          "en"
+        ],
         "allow_null_language": true
       },
       "version": "v3.0.0"
     },
     "sentiment_analysis": {
       "constraints": {
-        "languages": ["en"],
+        "languages": [
+          "en"
+        ],
         "allow_null_language": true
       },
       "version": "v3.0.0"
     },
     "topic_extraction": {
       "constraints": {
-        "languages": ["en"],
+        "languages": [
+          "en"
+        ],
         "allow_null_language": true
       },
       "version": "v1"
     },
     "generation": {
       "constraints": {
-        "models": ["gpt-3.5-turbo-instruct", "babbage-002", "davinci-002"],
+        "models": [
+          "gpt-3.5-turbo-instruct",
+          "babbage-002",
+          "davinci-002"
+        ],
         "default_model": "gpt-3.5-turbo-instruct"
       },
       "version": "v1"
@@ -200,7 +214,10 @@
     },
     "moderation": {
       "constraints": {
-        "languages": ["en", "fr"],
+        "languages": [
+          "en",
+          "fr"
+        ],
         "allow_null_language": true
       },
       "version": "v3.0.0"
@@ -210,7 +227,9 @@
     },
     "embeddings": {
       "constraints": {
-        "models": ["1536__text-embedding-ada-002"],
+        "models": [
+          "1536__text-embedding-ada-002"
+        ],
         "default_model": "1536__text-embedding-ada-002"
       },
       "version": "v3.0.0"
@@ -352,22 +371,33 @@
           "1024x1792",
           "1792x1024"
         ],
-        "models": ["dall-e-2", "dall-e-3"],
+        "models": [
+          "dall-e-2",
+          "dall-e-3"
+        ],
         "default_model": "dall-e-3"
       },
       "version": "v1Beta"
     },
     "question_answer": {
       "constraints": {
-        "models": ["gpt-4-vision-preview"],
+        "models": [
+          "gpt-4-vision-preview"
+        ],
         "default_model": "gpt-4-vision-preview"
       },
       "version": "v1"
     },
     "variation": {
       "constraints": {
-        "resolutions": ["256x256", "512x512", "1024x1024"],
-        "models": ["dall-e-2"],
+        "resolutions": [
+          "256x256",
+          "512x512",
+          "1024x1024"
+        ],
+        "models": [
+          "dall-e-2"
+        ],
         "default_model": "dall-e-2"
       },
       "version": "v1.0"
@@ -441,7 +471,15 @@
           "vi",
           "cy"
         ],
-        "file_extensions": ["m4a", "mp3", "mp4", "mpeg", "mpga", "wav", "webm"],
+        "file_extensions": [
+          "m4a",
+          "mp3",
+          "mp4",
+          "mpeg",
+          "mpga",
+          "wav",
+          "webm"
+        ],
         "allow_null_language": true
       },
       "version": "boto3 (v1.15.18)"
@@ -507,7 +545,12 @@
           "vi",
           "cy"
         ],
-        "audio_format": ["mp3", "opus", "aac", "flac"],
+        "audio_format": [
+          "mp3",
+          "opus",
+          "aac",
+          "flac"
+        ],
         "voice_ids": {
           "FEMALE": [
             "af_nova",
@@ -863,7 +906,11 @@
   "multimodal": {
     "chat": {
       "constraints": {
-        "models": ["gpt-4", "gpt-4-1106-preview", "gpt-4-vision-preview"],
+        "models": [
+          "gpt-4",
+          "gpt-4-1106-preview",
+          "gpt-4-vision-preview"
+        ],
         "default_model": "gpt-4"
       },
       "version": "v1Beta"
@@ -875,12 +922,11 @@
         "file_types": [
           "application/pdf",
           "application/msword",
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document'",
-          "text/plain",
-          "application/rtf",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
           "text/html",
-          "image/png",
-          "image/jpeg"
+          "text/markdown",
+          "text/plain"
         ],
         "languages": [
           "af",
@@ -1003,12 +1049,11 @@
         "file_types": [
           "application/pdf",
           "application/msword",
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document'",
-          "text/plain",
-          "application/rtf",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
           "text/html",
-          "image/png",
-          "image/jpeg"
+          "text/markdown",
+          "text/plain"
         ],
         "languages": [
           "af",
@@ -1127,7 +1172,18 @@
       "version": "v1.0"
     },
     "identity_parser": {
-        "version": "v1"
+      "constraints": {
+        "file_types": [
+          "application/pdf",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "text/html",
+          "text/markdown",
+          "text/plain"
+        ]
+      },
+      "version": "v1"
     }
   }
 }
