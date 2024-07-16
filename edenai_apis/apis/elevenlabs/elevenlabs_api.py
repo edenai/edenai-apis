@@ -32,7 +32,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
 
     def __get_model_from_voice(voice_id: str):
         if 'Multilingual' in voice_id:
-            return 'eleven_multilingual_v1'
+            return 'eleven_multilingual_v2'
         return 'eleven_monolingual_v1'
     
     def __get_voice_id(voice_id: str):
