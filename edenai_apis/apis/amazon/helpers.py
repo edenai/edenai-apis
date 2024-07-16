@@ -167,13 +167,14 @@ def _ocr_tables_standarize_row(row) -> Tuple[Row, int]:
 
 def _ocr_tables_standarize_cell(cell) -> Cell:
     is_header = "COLUMN_HEADER" in cell.entityTypes
+    confidence = float(cell.confidence / 100)
     return Cell(
         text=cell.mergedText,
         row_index=cell.columnIndex,
         col_index=cell.rowIndex,
         row_span=cell.rowSpan,
         col_span=cell.columnSpan,
-        confidence=cell.confidence,
+        confidence=confidence,
         is_header=is_header,
         bounding_box=BoundixBoxOCRTable(
             left=cell.geometry.boundingBox.left,
