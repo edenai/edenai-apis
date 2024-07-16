@@ -730,7 +730,7 @@ class OpenaiTextApi(TextInterface):
 
             return ResponseType[StreamChat](
                 original_response=None, standardized_response=StreamChat(stream=stream)
-            )
+            ).model_dump()
 
     def text__prompt_optimization(
         self, text: str, target_provider: str
