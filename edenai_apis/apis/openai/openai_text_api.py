@@ -719,8 +719,8 @@ class OpenaiTextApi(TextInterface):
         else:
             stream = (
                 ChatStreamResponse(
-                    text=chunk["choices"][0]["delta"].get("content", ""),
-                    blocked=not chunk["choices"][0].get("finish_reason")
+                    text=chunk.to_dict()["choices"][0]["delta"].get("content", ""),
+                    blocked=not chunk.to_dict()["choices"][0].get("finish_reason")
                     in (None, "stop"),
                     provider="openai",
                 )
@@ -730,7 +730,7 @@ class OpenaiTextApi(TextInterface):
 
             return ResponseType[StreamChat](
                 original_response=None, standardized_response=StreamChat(stream=stream)
-            ).model_dump()
+            )
 
     def text__prompt_optimization(
         self, text: str, target_provider: str
