@@ -72,7 +72,7 @@ from edenai_apis.utils.conversion import (
     convert_time_to_string,
     standardized_confidence_score,
 )
-from edenai_apis.utils.parsing import extract
+from edenai_apis.utils.parsing import extract, extract_amount
 from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
 from statistics import mean
 
@@ -737,7 +737,7 @@ def microsoft_financial_parser_formatter(
             subtotal=extract(page_document, ["SubTotal", "value", "amount"]),
             payment_terms=extract(page_document, ["PaymentTerm", "value"]),
             amount_due=extract(page_document, ["AmountDue", "value", "amount"]),
-            previous_unpaid_balance=extract(page_document, ["PreviousUnpaidBalance", "value"]),
+            previous_unpaid_balance=extract_amount(page_document, ["PreviousUnpaidBalance", "value"]),
             discount=extract(page_document, ["TotalDiscount", "value", "amount"]),
             total_tax = extract(
                 obj=page_document,

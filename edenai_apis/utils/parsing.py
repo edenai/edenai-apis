@@ -3,9 +3,10 @@ from typing import Any, List, Optional, TypeVar, Union, Protocol
 
 T = TypeVar("T")
 
+
 class Indexable(Protocol):
-    def __getitem__(self, __key: Any) -> Any:
-        ...
+    def __getitem__(self, __key: Any) -> Any: ...
+
 
 def extract(
     obj: Indexable,
@@ -63,3 +64,12 @@ def extract(
         return fallback
 
     return result
+
+
+def extract_amount(
+    obj: Indexable, path: List[Union[str, int]], fallback: T = None
+) -> Union[float, T]:
+    value = extract(obj, path, fallback=fallback)
+    if isinstance(value, dict) and "amount" in value:
+        return value["amount"]
+    return value
