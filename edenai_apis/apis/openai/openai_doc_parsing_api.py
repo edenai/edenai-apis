@@ -1,5 +1,6 @@
 import json
 import os
+import fitz 
 from time import sleep
 
 from edenai_apis.features.ocr import (
@@ -12,6 +13,16 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.features import OcrInterface
 from edenai_apis.utils.exception import ProviderException
 
+def extract_text_from_pdf(pdf_path):
+    try :
+        doc = fitz.open(pdf_path)
+    except :
+        raise FileNotFoundError
+    text = ""
+    for page_num in range(len(doc)):
+        page = doc.load_page(page_num)
+        text += page.get_text()
+    return text
 
 class OpenaiDocParsingApi(OcrInterface):
 
@@ -23,26 +34,22 @@ class OpenaiDocParsingApi(OcrInterface):
             output_response = json.load(f)["standardized_response"]
 
         assistant = self.client.beta.assistants.create(
+            response_format={"type": "json_object"},
             name=name,
-            instructions="{} You return a json output shaped like the following with the exact same structure and the exact same keys : \n {}  \n\n The json output should follow this pydantic schema \n {}".format(
+            instructions="{} You return a json output and nothing else than a json output. The json should be shaped like the following with the exact same structure and the exact same keys but change the values to extract the inputed document informations : \n {}  \n\n The json output should follow this pydantic schema \n {} \n\n Your response should directly start with '{{' ".format(
                 instruction, output_response, dataclass.schema()
             ),
-            response_format={"type": "json_object"},
             model="gpt-4o",
         )
 
-        message_file = self.client.files.create(
-            file=open(input_file, "rb"), purpose="assistants"
-        )
+
+        input_file_text = extract_text_from_pdf(input_file)
 
         thread = self.client.beta.threads.create(
             messages=[
                 {
                     "role": "user",
-                    "content": message_text,
-                    "attachments": [
-                        {"file_id": message_file.id, "tools": [{"type": "file_search"}]}
-                    ],
+                    "content": message_text+input_file_text,
                 }
             ]
         )
@@ -62,7 +69,7 @@ class OpenaiDocParsingApi(OcrInterface):
 
         try:
             standardized_response = json.loads(
-                json.loads(messages.data[0].content[0].json())["text"]["value"]
+                   json.loads(messages.data[0].content[0].json())["text"]["value"]
             )
         except json.JSONDecodeError as exc:
             raise ProviderException(
@@ -77,8 +84,8 @@ class OpenaiDocParsingApi(OcrInterface):
 
         original_response, result = self.__assistant_parser(
             name="Invoice Parser",
-            instruction="You are an invoice parsing model.",
-            message_text="Analyse this invoice :",
+            instruction="You are an invoice parsing model. You take an invoice as an input and extract information from it.",
+            message_text="Analyse this invoice : \n",
             example_file="outputs/ocr/financial_parser_output.json",
             input_file=file,
             dataclass=FinancialParserDataClass,

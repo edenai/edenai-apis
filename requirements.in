@@ -69,7 +69,7 @@ modernmt
 aleph_alpha_client==6.0.0
 
 # openai
-openai==0.28.1
+openai==1.35.9
 
 python-dotenv
 
@@ -79,3 +79,5 @@ responses==0.24.1
 anthropic-bedrock==0.8.0
 
 docstring_parser
+
+pymupdf
