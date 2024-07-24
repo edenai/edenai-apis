@@ -1,9 +1,12 @@
 import itertools
 import json
+import os
+from time import sleep
 from typing import Dict, List, Literal, Optional, Sequence, Union
 from edenai_apis.features.text.chat.helpers import get_tool_call_from_history_by_id
 
-import openai
+from openai import OpenAI
+
 import requests
 from pydantic_core._pydantic_core import ValidationError
 
@@ -54,9 +57,7 @@ from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SuggestionItem,
 )
 from edenai_apis.features.text.summarize import SummarizeDataClass
-from edenai_apis.features.text.topic_extraction import (
-    TopicExtractionDataClass,
-)
+from edenai_apis.features.text.topic_extraction import TopicExtractionDataClass
 from edenai_apis.utils.conversion import (
     closest_above_value,
     construct_word_list,
@@ -85,6 +86,60 @@ from .helpers import (
 
 
 class OpenaiTextApi(TextInterface):
+
+    def __assistant_text(
+        self, name, instruction, message_text, example_file, dataclass
+    ):
+
+        with open(os.path.join(os.path.dirname(__file__), example_file), "r") as f:
+            output_response = json.load(f)["standardized_response"]
+
+        assistant = self.client.beta.assistants.create(
+            response_format={"type": "json_object"},
+            model="gpt-4o",
+            name=name,
+            instructions="{} You return a json output shaped like the following with the exact same structure and the exact same keys but the values would change : \n {} \n\n You should follow this pydantic dataclass schema {}".format(
+                instruction, output_response, dataclass.schema()
+            ),
+        )
+        thread = self.client.beta.threads.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": message_text,
+                        }
+                    ],
+                }
+            ]
+        )
+
+        run = self.client.beta.threads.runs.create_and_poll(
+            thread_id=thread.id,
+            assistant_id=assistant.id,
+        )
+
+        while run.status != "completed":
+            sleep(1)
+
+        messages = self.client.beta.threads.messages.list(thread_id=thread.id)
+        usage = run.to_dict()["usage"]
+        original_response = messages.to_dict()
+        original_response["usage"] = usage
+
+        try:
+            standardized_response = json.loads(
+                json.loads(messages.data[0].content[0].json())["text"]["value"]
+            )
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+
+        return original_response, standardized_response
+
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str
     ) -> ResponseType[SummarizeDataClass]:
@@ -329,129 +384,51 @@ class OpenaiTextApi(TextInterface):
     def text__keyword_extraction(
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
-        prompt = construct_keyword_extraction_context(text)
-        payload = {
-            "messages": [{"role": "system", "content": prompt}],
-            "max_tokens": self.max_tokens,
-            "model": "gpt-3.5-turbo-1106",
-            "response_format": {"type": "json_object"},
-        }
-        try:
-            response = openai.ChatCompletion.create(**payload)
-        except Exception as exc:
-            raise ProviderException(str(exc)) from exc
 
-        raw_keywords = response["choices"][0]["message"]["content"]
-        try:
-            if response["choices"][0]["finish_reason"] == "length":
-                keywords = json.loads(
-                    finish_unterminated_json(raw_keywords, end_brackets="]}")
-                )
-            else:
-                keywords = json.loads(raw_keywords)
-            if isinstance(keywords, list) and len(keywords) > 0:
-                keywords = keywords[0]
-            items = keywords.get("items", []) or []
-            items_standardized = []
-            for item in items:
-                keyword = item.get("keyword")
-                try:
-                    importance = float(item.get("importance"))
-                except:
-                    importance = 0
-                if not keyword or not isinstance(keyword, str):
-                    continue
-                item_standardized = InfosKeywordExtractionDataClass(
-                    keyword=keyword, importance=importance
-                )
-                items_standardized.append(item_standardized)
-            standardized_response = KeywordExtractionDataClass(items=items_standardized)
-        except (KeyError, json.JSONDecodeError, TypeError, ValidationError) as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response."
-            ) from exc
+        original_response, result = self.__assistant_text(
+            name="Keywoord Extraction",
+            instruction="You are an Keyword Extract model. You extract keywords from a text input.",
+            message_text=text,
+            example_file="outputs/text/keyword_extraction_output.json",
+            dataclass=KeywordExtractionDataClass,
+        )
 
         return ResponseType[KeywordExtractionDataClass](
-            original_response=response,
-            standardized_response=standardized_response,
+            original_response=original_response,
+            standardized_response=result,
         )
 
     def text__sentiment_analysis(
         self, language: str, text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
-        url = f"{self.url}/chat/completions"
-        prompt = construct_sentiment_analysis_context(text)
-        json_output = {"general_sentiment": "Positive", "general_sentiment_rate": 0.8}
-        messages = [{"role": "user", "content": prompt}]
-        messages.insert(
-            0,
-            {
-                "role": "system",
-                "content": f"""Act as sentiment analysis model capable of analyzing text data and providing a generalized sentiment label.
-                you return a JSON object in this format : {json_output}""",
-            },
+
+        original_response, result = self.__assistant_text(
+            name="Sentiment Analysis",
+            instruction="You are a Text Sentiment Analysis model. You extract the sentiment of a textual input.",
+            message_text=text,
+            example_file="outputs/text/sentiment_analysis_output.json",
+            dataclass=SentimentAnalysisDataClass,
         )
-        # Build the request
-        payload = {
-            "response_format": {"type": "json_object"},
-            "model": "gpt-3.5-turbo-1106",
-            "messages": messages,
-        }
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = get_openapi_response(response)
-        sentiments_content = original_response["choices"][0]["message"]["content"]
-        try:
-            sentiments = json.loads(sentiments_content)
-            standarize = SentimentAnalysisDataClass(
-                general_sentiment=sentiments["general_sentiment"],
-                general_sentiment_rate=sentiments["general_sentiment_rate"],
-            )
-        except (KeyError, json.JSONDecodeError, ValidationError) as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response."
-            ) from exc
 
         return ResponseType[SentimentAnalysisDataClass](
-            original_response=original_response, standardized_response=standarize
+            original_response=original_response, standardized_response=result
         )
 
     def text__topic_extraction(
         self, language: str, text: str
     ) -> ResponseType[TopicExtractionDataClass]:
-        url = f"{self.url}/chat/completions"
-        prompt = construct_topic_extraction_context(text)
-        json_output = {"items": [{"category": "categrory", "importance": 0.9}]}
-        messages = [{"role": "user", "content": prompt}]
-        messages.insert(
-            0,
-            {
-                "role": "system",
-                "content": f"""Act as a taxonomy extractor model to automatically identify and categorize hierarchical relationships within a given body of text.
-                you return a JSON object in this format : {json_output}""",
-            },
-        )
-        # Build the request
-        payload = {
-            "response_format": {"type": "json_object"},
-            "model": "gpt-3.5-turbo-1106",
-            "messages": messages,
-        }
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = get_openapi_response(response)
-        topics_data = original_response["choices"][0]["message"]["content"]
-        try:
-            categories_data = json.loads(topics_data)
-        except (KeyError, json.JSONDecodeError) as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response."
-            ) from exc
-        categories = categories_data.get("items", [])
 
-        standarized_response = TopicExtractionDataClass(items=categories)
+        original_response, result = self.__assistant_text(
+            name="Topic Extraction",
+            instruction="You are a Text Topic Exstraction Model. You extract the main topic of a textual input.",
+            message_text=text,
+            example_file="outputs/text/topic_extraction_output.json",
+            dataclass=TopicExtractionDataClass,
+        )
 
         return ResponseType[TopicExtractionDataClass](
             original_response=original_response,
-            standardized_response=standarized_response,
+            standardized_response=result,
         )
 
     def text__code_generation(
@@ -522,190 +499,87 @@ class OpenaiTextApi(TextInterface):
     def text__custom_named_entity_recognition(
         self, text: str, entities: List[str], examples: Optional[List[Dict]] = None
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
-        built_entities = ",".join(entities)
-        prompt = construct_custom_ner_instruction(text, built_entities, examples)
-        payload = {
-            "messages": [{"role": "system", "content": prompt}],
-            "model": "gpt-3.5-turbo-1106",
-            "response_format": {"type": "json_object"},
-            "temperature": 0.0,
-            "max_tokens": 4096,
-            "top_p": 1,
-            "frequency_penalty": 0,
-            "presence_penalty": 0,
-        }
-        try:
-            response = openai.ChatCompletion.create(**payload)
-        except Exception as exc:
-            raise ProviderException(str(exc))
 
-        raw_items = response["choices"][0]["message"]["content"]
-        try:
-            if response["choices"][0]["finish_reason"] == "length":
-                items = json.loads(
-                    finish_unterminated_json(raw_items, end_brackets="]}")
-                )
-            else:
-                items = json.loads(raw_items)
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                "OpenAI didn't return a valid JSON", code=500
-            ) from exc
-        for item in items.get("items", []) or []:
-            try:
-                item["entity"] = str(item.get("entity"))
-            except:
-                pass
+        original_response, result = self.__assistant_text(
+            name="Custom NER",
+            instruction="You are a Named Entity Extraction Model. Given a list of Entities Types and a text input, you should extract extract all entities of the given entities types.",
+            message_text="""
+                Entities to look for : 
+                {}
 
-        standardized_response = CustomNamedEntityRecognitionDataClass(
-            items=items.get("items")
+                ======
+                text : 
+
+                {}
+                """.format(
+                entities, text
+            ),
+            example_file="outputs/text/custom_named_entity_recognition_output.json",
+            dataclass=CustomNamedEntityRecognitionDataClass,
         )
 
         return ResponseType[CustomNamedEntityRecognitionDataClass](
-            original_response=response,
-            standardized_response=standardized_response,
+            original_response=original_response,
+            standardized_response=result,
         )
 
     def text__custom_classification(
         self, texts: List[str], labels: List[str], examples: List[List[str]]
     ) -> ResponseType[CustomClassificationDataClass]:
-        url = f"{self.url}/chat/completions"
 
-        prompt = construct_classification_instruction(texts, labels, examples)
-        messages = [{"role": "user", "content": prompt}]
-        messages.insert(
-            0,
-            {
-                "role": "system",
-                "content": """Act as a classification Model, 
-                you return a JSON object in this format : {"classifications": [{"input": <text>, "label": <label>, "confidence": <confidence_score>}]}""",
-            },
+        original_response, result = self.__assistant_text(
+            name="Custom classification",
+            instruction="You are a Text Classification Model. Given a list of possible labels and a list of texts, you should classify each text by giving it one label.",
+            message_text="""
+                Possible Labels : 
+                {}
+
+                ======
+                List of texts : 
+
+                {}
+                """.format(
+                labels, texts
+            ),
+            example_file="outputs/text/custom_classification_output.json",
+            dataclass=CustomClassificationDataClass,
         )
-        # Build the request
-        payload = {
-            "response_format": {"type": "json_object"},
-            "model": "gpt-3.5-turbo-1106",
-            "messages": messages,
-        }
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = get_openapi_response(response)
-
-        # Getting labels
-        detected_labels = original_response["choices"][0]["message"]["content"]
-
-        try:
-            json_detected_labels = json.loads(detected_labels)
-        except json.JSONDecodeError:
-            raise ProviderException(
-                "An error occurred while parsing the response.", 400
-            )
-
-        json_detected_labels_copy = []
-        for detected_label in json_detected_labels["classifications"]:
-            if detected_label.get("label") and detected_label.get("input"):
-                if detected_label.get("confidence") is None:
-                    detected_label["confidence"] = 0.0
-                json_detected_labels_copy.append(detected_label)
 
         return ResponseType[CustomClassificationDataClass](
-            original_response=original_response,
-            standardized_response=CustomClassificationDataClass(
-                classifications=json_detected_labels_copy
-            ),
+            original_response=original_response, standardized_response=result
         )
 
     def text__spell_check(
         self, text: str, language: str
     ) -> ResponseType[SpellCheckDataClass]:
-        url = f"{self.url}/chat/completions"
-        prompt = construct_spell_check_instruction(text, language)
-        messages = [{"role": "user", "content": prompt}]
-        messages.insert(
-            0,
-            {
-                "role": "system",
-                "content": "Act As a spell checker, your role is to analyze the provided text and proficiently correct any spelling errors. Accept input texts and deliver precise and accurate corrections to enhance the overall writing quality. json",
-            },
+
+        original_response, result = self.__assistant_text(
+            name="Spell Check",
+            instruction="You are a Spell Checking model. You analyze a text input and proficiently detect and correct any grammar, syntax, spelling or other types of errors.",
+            message_text=text,
+            example_file="outputs/text/spell_check_output.json",
+            dataclass=SpellCheckDataClass,
         )
-        payload = {
-            "model": "gpt-3.5-turbo-1106",
-            "messages": messages,
-            "temperature": 0.0,
-            "response_format": {"type": "json_object"},
-        }
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = get_openapi_response(response)
-
-        try:
-            data = original_response["choices"][0]["message"]["content"]
-            corrected_items = json.loads(data)
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response.",
-                code=response.status_code,
-            ) from exc
-
-        corrections = construct_word_list(text, corrected_items)
-
-        items: List[SpellCheckItem] = []
-        for item in corrections:
-            items.append(
-                SpellCheckItem(
-                    text=item["word"],
-                    offset=item["offset"],
-                    length=item["length"],
-                    type=None,
-                    suggestions=[
-                        SuggestionItem(suggestion=item["suggestion"], score=1.0)
-                    ],
-                )
-            )
 
         return ResponseType[SpellCheckDataClass](
             original_response=original_response,
-            standardized_response=SpellCheckDataClass(text=text, items=items),
+            standardized_response=result,
         )
 
     def text__named_entity_recognition(
         self, language: str, text: str
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
-        url = f"{self.url}/chat/completions"
-        prompt = construct_ner_instruction(text)
-        json_output = {
-            "items": [
-                {"entity": "entity", "category": "categrory", "importance": "score"}
-            ]
-        }
-        messages = [{"role": "user", "content": prompt}]
-        messages.insert(
-            0,
-            {
-                "role": "system",
-                "content": f"""Act as a Named Entity Recognition model that indentify and classify named entities within a given text.
-                you return a JSON object in this format : {json_output}""",
-            },
+
+        original_response, result = self.__assistant_text(
+            name="NER",
+            instruction="You are a Named Entity Extraction Model. Given an input text you should extract extract all entities in it.",
+            message_text=text,
+            example_file="outputs/text/named_entity_recognition_output.json",
+            dataclass=NamedEntityRecognitionDataClass,
         )
-        # Build the request
-        payload = {
-            "response_format": {"type": "json_object"},
-            "model": "gpt-3.5-turbo-1106",
-            "messages": messages,
-        }
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = get_openapi_response(response)
-        entities_data = original_response["choices"][0]["message"]["content"]
-        try:
-            original_items = json.loads(entities_data)
-        except (KeyError, json.JSONDecodeError) as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response."
-            ) from exc
 
         return ResponseType[NamedEntityRecognitionDataClass](
-            original_response=original_response,
-            standardized_response=NamedEntityRecognitionDataClass(
-                items=original_items["items"]
-            ),
+            original_response=original_response, standardized_response=result
         )
 
     def text__embeddings(
@@ -755,16 +629,19 @@ class OpenaiTextApi(TextInterface):
             message = {
                 "role": msg.get("role"),
                 "content": msg.get("message"),
-                }
+            }
             if msg.get("tool_calls"):
-                message['tool_calls'] = [{
-                    "id": tool["id"],
-                    "type": "function",
-                    "function": {
-                        "name": tool["name"],
-                        "arguments": tool["arguments"],
-                    },
-                } for tool in msg['tool_calls']]
+                message["tool_calls"] = [
+                    {
+                        "id": tool["id"],
+                        "type": "function",
+                        "function": {
+                            "name": tool["name"],
+                            "arguments": tool["arguments"],
+                        },
+                    }
+                    for tool in msg["tool_calls"]
+                ]
             messages.append(message)
 
         if text and not tool_results:
@@ -772,7 +649,9 @@ class OpenaiTextApi(TextInterface):
 
         if tool_results:
             for tool in tool_results or []:
-                tool_call = get_tool_call_from_history_by_id(tool['id'], previous_history)
+                tool_call = get_tool_call_from_history_by_id(
+                    tool["id"], previous_history
+                )
                 try:
                     result = json.dumps(tool["result"])
                 except json.JSONDecodeError:
@@ -781,7 +660,7 @@ class OpenaiTextApi(TextInterface):
                     {
                         "role": "tool",
                         "content": result,
-                        "tool_call_id": tool_call['id'],
+                        "tool_call_id": tool_call["id"],
                     }
                 )
 
@@ -801,15 +680,15 @@ class OpenaiTextApi(TextInterface):
             payload["tool_choice"] = tool_choice
 
         try:
-            response = openai.ChatCompletion.create(**payload)
+            response = self.client.chat.completions.create(**payload)
         except Exception as exc:
             raise ProviderException(str(exc))
 
         # Standardize the response
         if stream is False:
-            message = response["choices"][0]["message"]
-            generated_text = message["content"]
-            original_tool_calls = message.get("tool_calls") or []
+            message = response.choices[0].message
+            generated_text = message.content
+            original_tool_calls = message.tool_calls or []
             tool_calls = []
             for call in original_tool_calls:
                 tool_calls.append(
@@ -819,30 +698,29 @@ class OpenaiTextApi(TextInterface):
                         arguments=call["function"]["arguments"],
                     )
                 )
-            message = [
-                ChatMessageDataClass(
-                    role="user", message=text, tools=available_tools
-                ),
+            messages = [
+                ChatMessageDataClass(role="user", message=text, tools=available_tools),
                 ChatMessageDataClass(
                     role="assistant",
                     message=generated_text,
                     tool_calls=tool_calls,
                 ),
             ]
+            messages_json = [m.dict() for m in messages]
 
             standardized_response = ChatDataClass(
-                generated_text=generated_text, message=message
+                generated_text=generated_text, message=messages_json
             )
 
             return ResponseType[ChatDataClass](
-                original_response=response,
+                original_response=response.to_dict(),
                 standardized_response=standardized_response,
             )
         else:
             stream = (
                 ChatStreamResponse(
-                    text=chunk["choices"][0]["delta"].get("content", ""),
-                    blocked=not chunk["choices"][0].get("finish_reason")
+                    text=chunk.to_dict()["choices"][0]["delta"].get("content", ""),
+                    blocked=not chunk.to_dict()["choices"][0].get("finish_reason")
                     in (None, "stop"),
                     provider="openai",
                 )

@@ -1,0 +1,246 @@
+{
+  "original_response": {
+    "data": [
+      {
+        "id": "msg_lnQ9e3mUGnUXa3STZWhKPFM3",
+        "assistant_id": "asst_lVQmbIp0oDXRDOLoRK27Z0Hw",
+        "attachments": [],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "{\n  \"extracted_data\": [\n    {\n      \"customer_information\": {\n        \"name\": \"ABC Company\",\n        \"id_reference\": \"\",\n        \"mailling_address\": null,\n        \"billing_address\": \"789 Pine Avenue, Capital City, TX 78390\",\n        \"shipping_address\": null,\n        \"service_address\": null,\n        \"remittance_address\": null,\n        \"email\": \"contact@abccompany.com\",\n        \"phone\": \"555-9876\",\n        \"vat_number\": \"US123456789\",\n        \"abn_number\": null,\n        \"gst_number\": null,\n        \"pan_number\": null,\n        \"business_number\": null,\n        \"siret_number\": null,\n        \"siren_number\": null,\n        \"customer_number\": null,\n        \"coc_number\": null,\n        \"fiscal_number\": null,\n        \"registration_number\": null,\n        \"tax_id\": null,\n        \"website\": \"www.abccompany.com\",\n        \"remit_to_name\": null,\n        \"city\": \"Capital City\",\n        \"country\": \"US\",\n        \"house_number\": \"789\",\n        \"province\": \"\",\n        \"street_name\": \"Pine Avenue\",\n        \"zip_code\": \"78390\",\n        \"municipality\": \"\"\n      },\n      \"merchant_information\": {\n        \"name\": \"XYZ Services\",\n        \"address\": \"123 Maple Street, Shelbyville, TX 75850\",\n        \"phone\": \"555-1234\",\n        \"tax_id\": null,\n        \"id_reference\": \"\",\n        \"vat_number\": \"\",\n        \"abn_number\": null,\n        \"gst_number\": null,\n        \"business_number\": null,\n        \"siret_number\": null,\n        \"siren_number\": null,\n        \"pan_number\": null,\n        \"coc_number\": \"\",\n        \"fiscal_number\": \"\",\n        \"email\": \"info@xyzservices.com\",\n        \"fax\": null,\n        \"website\": \"www.xyzservices.com\",\n        \"registration\": null,\n        \"city\": \"Shelbyville\",\n        \"country\": \"US\",\n        \"house_number\": \"123\",\n        \"province\": \"\",\n        \"street_name\": \"Maple Street\",\n        \"zip_code\": \"75850\",\n        \"country_code\": null\n      },\n      \"payment_information\": {\n        \"amount_due\": 350.0,\n        \"amount_tip\": 0.0,\n        \"amount_shipping\": 20.0,\n        \"amount_change\": 0.0,\n        \"amount_paid\": null,\n        \"total\": 370.0,\n        \"subtotal\": 350.0,\n        \"total_tax\": 20.0,\n        \"tax_rate\": 5.71,\n        \"discount\": 10.0,\n        \"gratuity\": null,\n        \"service_charge\": null,\n        \"previous_unpaid_balance\": null,\n        \"prior_balance\": null,\n        \"payment_terms\": \"Net 30\",\n        \"payment_method\": \"Bank Transfer\",\n        \"payment_card_number\": \"\",\n        \"payment_auth_code\": \"\",\n        \"shipping_handling_charge\": null,\n        \"transaction_number\": null,\n        \"transaction_reference\": null\n      },\n      \"financial_document_information\": {\n        \"invoice_receipt_id\": \"INV-67890\",\n        \"purchase_order\": null,\n        \"invoice_date\": \"2023-09-25T00:00:00\",\n        \"time\": null,\n        \"invoice_due_date\": \"2023-10-25\",\n        \"service_start_date\": \"\",\n        \"service_end_date\": null,\n        \"reference\": null,\n        \"biller_code\": null,\n        \"order_date\": \"2023-09-25\",\n        \"tracking_number\": null,\n        \"barcodes\": []\n      },\n      \"local\": {\n        \"currency\": null,\n        \"currency_code\": \"USD\",\n        \"currency_exchange_rate\": null,\n        \"country\": \"US\",\n        \"language\": \"EN\"\n      },\n      \"bank\": {\n        \"iban\": null,\n        \"swift\": null,\n        \"bsb\": null,\n        \"sort_code\": \"\",\n        \"account_number\": \"\",\n        \"routing_number\": null,\n        \"bic\": \"\"\n      },\n      \"item_lines\": [\n        {\n          \"tax\": 15.0,\n          \"amount_line\": 100.0,\n          \"description\": \"Consulting services\",\n          \"quantity\": 1.0,\n          \"unit_price\": 100.0,\n          \"unit_type\": null,\n          \"date\": null,\n          \"product_code\": \"\",\n          \"purchase_order\": null,\n          \"tax_rate\": 15.0,\n          \"base_total\": null,\n          \"sub_total\": null,\n          \"discount_amount\": null,\n          \"discount_rate\": null,\n          \"discount_code\": null,\n          \"order_number\": null,\n          \"title\": null\n        },\n        {\n          \"tax\": 5.0,\n          \"amount_line\": 50.0,\n          \"description\": \"Maintenance services\",\n          \"quantity\": 1.0,\n          \"unit_price\": 50.0,\n          \"unit_type\": null,\n          \"date\": null,\n          \"product_code\": \"\",\n          \"purchase_order\": null,\n          \"tax_rate\": 10.0,\n          \"base_total\": null,\n          \"sub_total\": null,\n          \"discount_amount\": null,\n          \"discount_rate\": null,\n          \"discount_code\": null,\n          \"order_number\": null,\n          \"title\": null\n        },\n        {\n          \"tax\": 0.0,\n          \"amount_line\": 200.0,\n          \"description\": \"Software subscription\",\n          \"quantity\": 1.0,\n          \"unit_price\": 200.0,\n          \"unit_type\": null,\n          \"date\": null,\n          \"product_code\": \"\",\n          \"purchase_order\": null,\n          \"tax_rate\": 0.0,\n          \"base_total\": null,\n          \"sub_total\": null,\n          \"discount_amount\": null,\n          \"discount_rate\": null,\n          \"discount_code\": null,\n          \"order_number\": null,\n          \"title\": null\n        }\n      ],\n      \"document_metadata\": {\n        \"document_index\": null,\n        \"document_page_number\": null,\n        \"document_type\": \"invoice\"\n      }\n    }\n  ]\n}"
+            },
+            "type": "text"
+          }
+        ],
+        "created_at": 1721034007,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "assistant",
+        "run_id": "run_89v3Z5kTPmRXF16KLTFeTnYg",
+        "thread_id": "thread_XPFTEkcLTgygC7uW5Cqp9AgM"
+      },
+      {
+        "id": "msg_x9Xp1UEdGwMyxL6DLHCdCRCt",
+        "assistant_id": null,
+        "attachments": [
+          {
+            "file_id": "file-KhYWBQ5hXNCQTSGnXgC6bPAw",
+            "tools": [
+              {
+                "type": "file_search"
+              }
+            ]
+          }
+        ],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "Analyse this invoice :"
+            },
+            "type": "text"
+          }
+        ],
+        "created_at": 1721034005,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "user",
+        "run_id": null,
+        "thread_id": "thread_XPFTEkcLTgygC7uW5Cqp9AgM"
+      }
+    ],
+    "object": "list",
+    "first_id": "msg_lnQ9e3mUGnUXa3STZWhKPFM3",
+    "last_id": "msg_x9Xp1UEdGwMyxL6DLHCdCRCt",
+    "has_more": false,
+    "usage": {
+      "completion_tokens": 1329,
+      "prompt_tokens": 7181,
+      "total_tokens": 8510
+    }
+  },
+  "standardized_response": {
+    "extracted_data": [
+      {
+        "customer_information": {
+          "name": "ABC Company",
+          "id_reference": "",
+          "mailling_address": null,
+          "billing_address": "789 Pine Avenue, Capital City, TX 78390",
+          "shipping_address": null,
+          "service_address": null,
+          "remittance_address": null,
+          "email": "contact@abccompany.com",
+          "phone": "555-9876",
+          "vat_number": "US123456789",
+          "abn_number": null,
+          "gst_number": null,
+          "pan_number": null,
+          "business_number": null,
+          "siret_number": null,
+          "siren_number": null,
+          "customer_number": null,
+          "coc_number": null,
+          "fiscal_number": null,
+          "registration_number": null,
+          "tax_id": null,
+          "website": "www.abccompany.com",
+          "remit_to_name": null,
+          "city": "Capital City",
+          "country": "US",
+          "house_number": "789",
+          "province": "",
+          "street_name": "Pine Avenue",
+          "zip_code": "78390",
+          "municipality": ""
+        },
+        "merchant_information": {
+          "name": "XYZ Services",
+          "address": "123 Maple Street, Shelbyville, TX 75850",
+          "phone": "555-1234",
+          "tax_id": null,
+          "id_reference": "",
+          "vat_number": "",
+          "abn_number": null,
+          "gst_number": null,
+          "business_number": null,
+          "siret_number": null,
+          "siren_number": null,
+          "pan_number": null,
+          "coc_number": "",
+          "fiscal_number": "",
+          "email": "info@xyzservices.com",
+          "fax": null,
+          "website": "www.xyzservices.com",
+          "registration": null,
+          "city": "Shelbyville",
+          "country": "US",
+          "house_number": "123",
+          "province": "",
+          "street_name": "Maple Street",
+          "zip_code": "75850",
+          "country_code": null
+        },
+        "payment_information": {
+          "amount_due": 350.0,
+          "amount_tip": 0.0,
+          "amount_shipping": 20.0,
+          "amount_change": 0.0,
+          "amount_paid": null,
+          "total": 370.0,
+          "subtotal": 350.0,
+          "total_tax": 20.0,
+          "tax_rate": 5.71,
+          "discount": 10.0,
+          "gratuity": null,
+          "service_charge": null,
+          "previous_unpaid_balance": null,
+          "prior_balance": null,
+          "payment_terms": "Net 30",
+          "payment_method": "Bank Transfer",
+          "payment_card_number": "",
+          "payment_auth_code": "",
+          "shipping_handling_charge": null,
+          "transaction_number": null,
+          "transaction_reference": null
+        },
+        "financial_document_information": {
+          "invoice_receipt_id": "INV-67890",
+          "purchase_order": null,
+          "invoice_date": "2023-09-25T00:00:00",
+          "time": null,
+          "invoice_due_date": "2023-10-25",
+          "service_start_date": "",
+          "service_end_date": null,
+          "reference": null,
+          "biller_code": null,
+          "order_date": "2023-09-25",
+          "tracking_number": null,
+          "barcodes": []
+        },
+        "local": {
+          "currency": null,
+          "currency_code": "USD",
+          "currency_exchange_rate": null,
+          "country": "US",
+          "language": "EN"
+        },
+        "bank": {
+          "iban": null,
+          "swift": null,
+          "bsb": null,
+          "sort_code": "",
+          "account_number": "",
+          "routing_number": null,
+          "bic": ""
+        },
+        "item_lines": [
+          {
+            "tax": 15.0,
+            "amount_line": 100.0,
+            "description": "Consulting services",
+            "quantity": 1.0,
+            "unit_price": 100.0,
+            "unit_type": null,
+            "date": null,
+            "product_code": "",
+            "purchase_order": null,
+            "tax_rate": 15.0,
+            "base_total": null,
+            "sub_total": null,
+            "discount_amount": null,
+            "discount_rate": null,
+            "discount_code": null,
+            "order_number": null,
+            "title": null
+          },
+          {
+            "tax": 5.0,
+            "amount_line": 50.0,
+            "description": "Maintenance services",
+            "quantity": 1.0,
+            "unit_price": 50.0,
+            "unit_type": null,
+            "date": null,
+            "product_code": "",
+            "purchase_order": null,
+            "tax_rate": 10.0,
+            "base_total": null,
+            "sub_total": null,
+            "discount_amount": null,
+            "discount_rate": null,
+            "discount_code": null,
+            "order_number": null,
+            "title": null
+          },
+          {
+            "tax": 0.0,
+            "amount_line": 200.0,
+            "description": "Software subscription",
+            "quantity": 1.0,
+            "unit_price": 200.0,
+            "unit_type": null,
+            "date": null,
+            "product_code": "",
+            "purchase_order": null,
+            "tax_rate": 0.0,
+            "base_total": null,
+            "sub_total": null,
+            "discount_amount": null,
+            "discount_rate": null,
+            "discount_code": null,
+            "order_number": null,
+            "title": null
+          }
+        ],
+        "document_metadata": {
+          "document_index": null,
+          "document_page_number": null,
+          "document_type": "invoice"
+        }
+      }
+    ]
+  }
+}

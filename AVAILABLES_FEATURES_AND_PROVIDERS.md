@@ -8,10 +8,12 @@
 | | base64 |
 | | dataleon |
 | | eagledoc |
+| | extracta |
 | | google |
 | | klippa |
 | | microsoft |
 | | mindee |
+| | openai |
 | | tabscanner |
 | | veryfi |
 | **identity_parser** | affinda |
@@ -20,6 +22,7 @@
 | | klippa |
 | | microsoft |
 | | mindee |
+| | openai |
 | **invoice_parser** | affinda |
 | | amazon |
 | | base64 |
@@ -46,6 +49,7 @@
 | | extracta |
 | | hireability |
 | | klippa |
+| | openai |
 | | senseloaf |
 | **custom_document_parsing_async** | amazon |
 | | extracta |
@@ -587,6 +591,7 @@
 |----------|-------------|
 | **ocr** | bank_check_parsing |
 | | custom_document_parsing_async |
+| | financial_parser |
 | | resume_parser |
 
 </details>
@@ -844,6 +849,9 @@
 | | question_answer |
 | | variation |
 | **multimodal** | chat |
+| **ocr** | financial_parser |
+| | identity_parser |
+| | resume_parser |
 | **text** | anonymization |
 | | chat |
 | | code_generation |

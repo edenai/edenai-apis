@@ -1,4 +1,4 @@
-from typing import Sequence, Union
+from typing import Sequence, Union, Optional
 
 from pydantic import (
     BaseModel,
@@ -43,7 +43,7 @@ class ExplicitItem(BaseModel):
     category: CategoryType = Field(
         description="The category of the detected content. Possible values include: 'Toxic', 'Content', 'Sexual', 'Violence', 'DrugAndAlcohol', 'Finance', 'HateAndExtremism', 'Safe', 'Other'."
     )
-    subcategory: SubCategoryType = Field(
+    subcategory: Optional[str] = Field(
         description="The subcategory of content. Possible values:\n\n"
         "Toxic Subcategories:\n"
         "- Insult\n"

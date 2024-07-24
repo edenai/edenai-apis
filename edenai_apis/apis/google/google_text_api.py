@@ -593,7 +593,6 @@ class GoogleTextApi(TextInterface):
                 raise ProviderException(
                     "Provider did not return a valid JSON", code=response.status_code
                 ) from exc
-            calculate_usage_tokens(original_response)
             generated_text = original_response["candidates"][0]["content"]["parts"][0][
                 "text"
             ]

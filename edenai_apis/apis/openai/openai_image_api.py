@@ -1,9 +1,14 @@
 import base64
+import os
+import json
 from io import BytesIO
 from json import JSONDecodeError
 from typing import Sequence, Literal, Optional
+from time import sleep
 
-import openai
+from openai import OpenAI, APIError
+
+
 import requests
 import mimetypes
 
@@ -26,58 +31,12 @@ from edenai_apis.features.image.variation import (
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 from .tools import OpenAIFunctionTools
-from .helpers import (
-    get_openapi_response,
-)
+from .helpers import get_openapi_response
 from ...features.image.question_answer import QuestionAnswerDataClass
 from ...utils.exception import ProviderException
 
 
 class OpenaiImageApi(ImageInterface):
-
-    @staticmethod
-    def __image_request(
-        file: str,
-        model: str,
-        tools: list[dict],
-        tool_choice: dict,
-        system_prompt: Optional[str] = None,
-    ):
-        """
-        Sends an image file to the OpenAI API for processing, such as logo detection or explicit content detection.
-        Args:
-            file (str): The path to the image file to be processed.
-            model (str): The name of the OpenAI model to be used for processing.
-            tools (list): list of tools to use.
-            tool_choice (dict) : choice of used tool
-        """
-        mime_type = mimetypes.guess_type(file)[0]
-        with open(file, "rb") as fstream:
-            base64_data = base64.b64encode(fstream.read()).decode("utf-8")
-            media_data_url = f"data:{mime_type};base64,{base64_data}"
-        messages = [
-            {
-                "role": "user",
-                "content": [
-                    {"type": "image_url", "image_url": {"url": media_data_url}}
-                ],
-            },
-        ]
-        if system_prompt:
-            messages.insert(0, {"role": "system", "content": system_prompt})
-        payload = {
-            "messages": messages,
-            "model": model,
-            "tools": tools,
-            "tool_choice": tool_choice,
-        }
-
-        try:
-            response = openai.ChatCompletion.create(**payload)
-        except Exception as exc:
-            raise ProviderException(str(exc)) from exc
-
-        return response
 
     def image__generation(
         self,
@@ -191,14 +150,14 @@ class OpenaiImageApi(ImageInterface):
         file_url: str = "",
     ) -> ResponseType[VariationDataClass]:
         try:
-            response = openai.Image.create_variation(
+            response = self.client.images.generate(
                 image=open(file, "rb"),
                 n=num_images,
                 model=model,
                 size=resolution,
                 response_format="b64_json",
             )
-        except openai.OpenAIError as error:
+        except APIError as error:
             raise ProviderException(message=error.user_message, code=error.code)
 
         original_response = response
@@ -220,46 +179,97 @@ class OpenaiImageApi(ImageInterface):
             standardized_response=VariationDataClass(items=generations),
         )
 
-    def image__logo_detection(
-        self, file: str, file_url: str = "", model: str = None
-    ) -> ResponseType[LogoDetectionDataClass]:
-        openai_function_tools = OpenAIFunctionTools(
-            tool_name="logo_detection",
-            tool_description="Detects logos and brands in an image. This function identifies the logos present in the image.",
-            dataclass=LogoDetectionDataClass,
-        )
-        response = self.__image_request(
-            file=file,
-            model=model,
-            tools=openai_function_tools.get_tool(),
-            tool_choice=openai_function_tools.get_tool_choice(),
-        )
-        standardized_response = openai_function_tools.get_response(response=response)
+    def __assistant_image(
+        self, name, instruction, message_text, example_file, input_file, dataclass
+    ):
 
-        return ResponseType[LogoDetectionDataClass](
-            original_response=response,
-            standardized_response=standardized_response,
+        file = self.client.files.create(file=open(input_file, "rb"), purpose="vision")
+
+        with open(os.path.join(os.path.dirname(__file__), example_file), "r") as f:
+            output_response = json.load(f)["standardized_response"]
+
+        assistant = self.client.beta.assistants.create(
+            response_format={"type": "json_object"},
+            model="gpt-4o",
+            name=name,
+            instructions="{} You return a json output shaped like the following with the exact same structure and the exact same keys but the values would change : \n {} \n\n You should follow this pydantic dataclass schema {}".format(
+                instruction, output_response, dataclass.schema()
+            ),
         )
+        thread = self.client.beta.threads.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": message_text,
+                        },
+                        {
+                            "type": "image_file",
+                            "image_file": {"file_id": file.id},
+                        },
+                    ],
+                }
+            ]
+        )
+
+        run = self.client.beta.threads.runs.create_and_poll(
+            thread_id=thread.id,
+            assistant_id=assistant.id,
+        )
+
+        while run.status != "completed":
+            sleep(1)
+
+        messages = self.client.beta.threads.messages.list(thread_id=thread.id)
+        usage = run.to_dict()["usage"]
+        original_response = messages.to_dict()
+        original_response["usage"] = usage
+
+        try:
+            standardized_response = json.loads(
+                json.loads(messages.data[0].content[0].json())["text"]["value"]
+            )
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+
+        return original_response, standardized_response
 
     def image__explicit_content(
         self,
         file: str,
         file_url: str = "",
     ) -> ResponseType[ExplicitContentDataClass]:
-
-        openai_function_tools = OpenAIFunctionTools(
-            tool_name="explicit_content_detection",
-            tool_description="Detects Explicit content in an image.",
+        original_response, result = self.__assistant_image(
+            name="Image Explicit Content Analysis",
+            instruction="You are an Explicit Image Detection model.",
+            message_text="Analys this image :",
+            example_file="outputs/image/explicit_content_output.json",
+            input_file=file,
             dataclass=ExplicitContentDataClass,
         )
-        response = self.__image_request(
-            file=file,
-            model="gpt-4o",
-            tools=openai_function_tools.get_tool(),
-            tool_choice=openai_function_tools.get_tool_choice(),
+
+        return ResponseType[ExplicitContentDataClass](
+            original_response=original_response,
+            standardized_response=result,
         )
-        standardized_response = openai_function_tools.get_response(response=response)
-        return ResponseType(
-            original_response=response,
-            standardized_response=standardized_response,
+
+    def image__logo_detection(
+        self, file: str, file_url: str = "", model: str = None
+    ) -> ResponseType[LogoDetectionDataClass]:
+        original_response, result = self.__assistant_image(
+            name="logo detection",
+            instruction="You are a Logo Detection model. You get an image input and return logos detected inside it. If no logo is detected the items list should be empty",
+            message_text="Analys this image :",
+            example_file="outputs/image/logo_detection_output.json",
+            input_file=file,
+            dataclass=LogoDetectionDataClass,
+        )
+
+        return ResponseType[LogoDetectionDataClass](
+            original_response=original_response,
+            standardized_response=result,
         )

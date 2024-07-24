@@ -72,8 +72,9 @@ from edenai_apis.utils.conversion import (
     convert_time_to_string,
     standardized_confidence_score,
 )
-from edenai_apis.utils.parsing import extract
+from edenai_apis.utils.parsing import extract, extract_amount
 from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
+from statistics import mean
 
 
 def get_microsoft_headers() -> Dict:
@@ -126,7 +127,7 @@ def get_microsoft_urls() -> Dict:
         "translator": api_settings["translator"]["url"],
         "speech": api_settings["speech"]["url"],
         "spell_check": api_settings["spell_check"]["url"],
-        "form_recognizer": api_settings["form_recognizer"]["url"],
+        "documentintelligence": api_settings["documentintelligence"]["url"],
     }
 
 
@@ -517,7 +518,6 @@ def get_right_audio_support_and_sampling_rate(
     )
     return extension, right_audio_format
 
-
 def microsoft_ocr_tables_standardize_response(
     original_response: dict,
 ) -> OcrTablesAsyncDataClass:
@@ -525,19 +525,18 @@ def microsoft_ocr_tables_standardize_response(
     pages: List[Page] = [Page() for _ in range(num_pages)]
 
     for table in original_response.get("tables", []):
-        std_table = _ocr_tables_standardize_table(table, original_response)
         page_index: int = table["boundingRegions"][0]["pageNumber"] - 1
+        std_table = _ocr_tables_standardize_table(table, original_response, page_index)
         pages[page_index].tables.append(std_table)
 
     return OcrTablesAsyncDataClass(pages=pages, num_pages=num_pages)
 
-
-def _ocr_tables_standardize_table(table: dict, original_response: dict) -> Table:
+def _ocr_tables_standardize_table(table: dict, original_response: dict, page_index: int) -> Table:
     num_rows = table.get("rowCount", 0)
     rows = [Row() for _ in range(num_rows)]
 
     for cell in table["cells"]:
-        std_cell = _ocr_tables_standardize_cell(cell, original_response)
+        std_cell = _ocr_tables_standardize_cell(cell, original_response, page_index)
         row = rows[cell["rowIndex"]]
         row.cells.append(std_cell)
 
@@ -546,13 +545,17 @@ def _ocr_tables_standardize_table(table: dict, original_response: dict) -> Table
     )
     return std_table
 
-
-def _ocr_tables_standardize_cell(cell: dict, original_response: dict) -> Cell:
+def _ocr_tables_standardize_cell(cell: dict, original_response: dict, page_index: int) -> Cell:
     current_page_num = cell["boundingRegions"][0]["pageNumber"]
     width = original_response["pages"][current_page_num - 1]["width"]
     height = original_response["pages"][current_page_num - 1]["height"]
     is_header = cell.get("kind") in ["columnHeader", "rowHeader"]
     bounding_box = cell["boundingRegions"][0]["polygon"]
+
+    # Get the confidence of the words within the cell's bounding box
+    words = original_response["pages"][page_index]["words"]
+    cell_confidence = _calculate_cell_confidence(words, bounding_box)
+
     return Cell(
         text=cell["content"],
         col_index=cell["columnIndex"],
@@ -566,8 +569,23 @@ def _ocr_tables_standardize_cell(cell: dict, original_response: dict) -> Cell:
             left=bounding_box[1] / width,
             top=bounding_box[0] / height,
         ),
-        confidence=None,
+        confidence=cell_confidence,
     )
+
+def _calculate_cell_confidence(words: List[Dict], bounding_box: List[float]) -> float:
+    cell_words = [
+        word for word in words
+        if _is_word_in_bounding_box(word["polygon"], bounding_box)
+    ]
+    if not cell_words:
+        return 1.0
+    confidences = [word["confidence"] for word in cell_words]
+    return mean(confidences)
+
+def _is_word_in_bounding_box(word_box: List[float], cell_box: List[float]) -> bool:
+    word_left, word_top, word_right, word_bottom = word_box[0], word_box[1], word_box[4], word_box[5]
+    cell_left, cell_top, cell_right, cell_bottom = cell_box[0], cell_box[1], cell_box[4], cell_box[5]
+    return not (word_right < cell_left or word_left > cell_right or word_bottom < cell_top or word_top > cell_bottom)
 
 
 def _create_ocr_async_bounding_box(polygon, height, width):
@@ -719,7 +737,7 @@ def microsoft_financial_parser_formatter(
             subtotal=extract(page_document, ["SubTotal", "value", "amount"]),
             payment_terms=extract(page_document, ["PaymentTerm", "value"]),
             amount_due=extract(page_document, ["AmountDue", "value", "amount"]),
-            previous_unpaid_balance=extract(page_document, ["PreviousUnpaidBalance", "value"]),
+            previous_unpaid_balance=extract_amount(page_document, ["PreviousUnpaidBalance", "value"]),
             discount=extract(page_document, ["TotalDiscount", "value", "amount"]),
             total_tax = extract(
                 obj=page_document,
