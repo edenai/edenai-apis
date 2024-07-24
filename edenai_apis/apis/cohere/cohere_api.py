@@ -91,7 +91,7 @@ class CohereApi(ProviderInterface, TextInterface):
 
         Text: {text}
 
-        Answer: ```json[{', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]```
+        Answer: [{', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]
 
         """
 
@@ -284,10 +284,11 @@ List of corrected words:
                     ],
                 }
             )
+        output_prompt_format = "[{'entity': 'one entity', 'category': 'one category'},{'entity': 'another entity', 'category': 'another category} ..]"
         prompt = f"""You act as a named entities recognition model.
 Extract an exhaustive list of Entities from the given Text according to the specified Categories and return the list as a valid JSON.
 
-return the json response between ```json and ```. The keys of each objects in the list are `entity` and `category`.
+return the json as a list. The keys of each objects in the list are `entity` and `category`.
 `entity` value must be the extracted entity from the text, `category` value must be the category of the extracted entity.
 The JSON MUST be valid and conform to the given description.
 Be correct and concise. If no entities are found, return an empty list.
@@ -299,7 +300,13 @@ Text: {text}
 For Example:
 {prompt_examples}
 
-Your answer:
+the output should respect the following format letter by letter, do not add from your own : 
+{output_prompt_format}
+
+the output should never contain ```json at all.
+the output should 
+Your answer : 
+{output_prompt_format}
 """
 
         # Construct request
@@ -316,8 +323,6 @@ Your answer:
 
         original_response = response.json()
         data = original_response.get("text")
-
-        print(data)
         try:
             items = extract_json_text(data)
         except json.JSONDecodeError as exc:
