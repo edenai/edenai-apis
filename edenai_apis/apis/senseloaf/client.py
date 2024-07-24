@@ -270,10 +270,6 @@ class Client:
             raise ProviderException(
                 "Please provide path to file or url for parsing resume"
             )
-        elif file != "" and url != "":
-            raise ProviderException(
-                "Please provide file or url for parsing resume, not both"
-            )
         elif file != "":
             return self.__parse_jd_from_file(file)
         elif url != "":
