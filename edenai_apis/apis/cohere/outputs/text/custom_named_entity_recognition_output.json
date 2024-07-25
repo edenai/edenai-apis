@@ -1,22 +1,34 @@
 {
   "original_response": {
-    "response_id": "1413f4b4-0dfc-4fd1-af7d-722cc1575643",
-    "text": "Sure, here is a JSON object that contains the extracted entities along with their categories from the given text:\n\n```json\n[\n    {\n        \"entity\": \"John Smith\",\n        \"category\": \"person\"\n    },\n    {\n        \"entity\": \"Starbucks\",\n        \"category\": \"location\"\n    },\n    {\n        \"entity\": \"New York City\",\n        \"category\": \"location\"\n    },\n    {\n        \"entity\": \"IBM\",\n        \"category\": \"organization\"\n    }\n]\n```\n\nWould you like me to extract entities from another text?",
-    "generation_id": "4fac970e-5a40-409a-8f9c-89d1676aad91",
-    "token_count": {
-      "prompt_tokens": 342,
-      "response_tokens": 120,
-      "total_tokens": 462,
-      "billed_tokens": 453
-    },
+    "response_id": "3725ab10-5dcd-4d54-8555-2800c00cf707",
+    "text": "[{'entity': 'John Smith', 'category': 'person'}, {'entity': 'Starbucks', 'category': 'location'}, {'entity': 'New York City', 'category': 'location'}, {'entity': 'IBM', 'category': 'organization'}]",
+    "generation_id": "1dd2b898-bb18-4169-86eb-8b47386008cf",
+    "chat_history": [
+      {
+        "role": "USER",
+        "message": "You act as a named entities recognition model.\nExtract an exhaustive list of Entities from the given Text according to the specified Categories and return the list as a valid JSON.\n\nreturn the json as a list. The keys of each objects in the list are `entity` and `category`.\n`entity` value must be the extracted entity from the text, `category` value must be the category of the extracted entity.\nThe JSON MUST be valid and conform to the given description.\nBe correct and concise. If no entities are found, return an empty list.\n\nCategories: person,location,organization\n\nText: Yesterday, I met John Smith at Starbucks in New York City. He works for IBM.\n\nFor Example:\n\n        Categories: drink, date\n\n        Text: Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia. Extracted these entities from the Text if they exist: drink, date\n\n        Answer: [{\"entity\":\"Coca-Cola\", \"category\":\"drink\"}, {\"entity\":\"coke\", \"category\":\"drink\"}, {\"entity\":\"19th century\", \"category\":\"date\"}]\n\n        \n\nthe output should respect the following format letter by letter, do not add from your own : \n[{'entity': 'one entity', 'category': 'one category'},{'entity': 'another entity', 'category': 'another category} ..]\n\nthe output should never contain ```json at all.\nthe output should \nYour answer : \n[{'entity': 'one entity', 'category': 'one category'},{'entity': 'another entity', 'category': 'another category} ..]\n"
+      },
+      {
+        "role": "CHATBOT",
+        "message": "[{'entity': 'John Smith', 'category': 'person'}, {'entity': 'Starbucks', 'category': 'location'}, {'entity': 'New York City', 'category': 'location'}, {'entity': 'IBM', 'category': 'organization'}]"
+      }
+    ],
+    "finish_reason": "COMPLETE",
     "meta": {
       "api_version": {
         "version": "2022-12-06"
       },
       "billed_units": {
-        "input_tokens": 333,
-        "output_tokens": 120
+        "input_tokens": 386,
+        "output_tokens": 54
+      },
+      "tokens": {
+        "input_tokens": 447,
+        "output_tokens": 54
       }
+    },
+    "usage": {
+      "total_tokens": 440
     }
   },
   "standardized_response": {
