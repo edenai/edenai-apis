@@ -1,11 +1,14 @@
 {
   "original_response": {
-    "generation": "Hello! I'm LLaMA, an AI assistant developed by Meta AI that can understand and respond to human",
-    "prompt_token_count": 21,
-    "generation_token_count": 25,
-    "stop_reason": "length"
+    "generation": " *big virtual smile* I'm so glad you asked! I'm an AI assistant, which means I'm a computer program designed to help and chat with humans like you. I don't have a personal name, but you can call me \"Lumina\" if you'd like - it's a name that means \"light\" in Latin, and I'm here to shed some light on any questions or topics you'd like to discuss! What brings you here today?",
+    "prompt_token_count": 50,
+    "generation_token_count": 96,
+    "stop_reason": "stop",
+    "usage": {
+      "total_tokens": 146
+    }
   },
   "standardized_response": {
-    "generated_text": "hola!"
+    "generated_text": " *big virtual smile* I'm so glad you asked! I'm an AI assistant, which means I'm a computer program designed to help and chat with humans like you. I don't have a personal name, but you can call me \"Lumina\" if you'd like - it's a name that means \"light\" in Latin, and I'm here to shed some light on any questions or topics you'd like to discuss! What brings you here today?"
   }
 }
