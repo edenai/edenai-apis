@@ -1,11 +1,11 @@
 {
   "original_response": {
     "generation": "barack obama, united states, democratic party, illinois",
-    "prompt_token_count": 290,
-    "generation_token_count": 17,
+    "prompt_token_count": 228,
+    "generation_token_count": 14,
     "stop_reason": "stop",
     "usage": {
-      "total_tokens": 307
+      "total_tokens": 242
     }
   },
   "standardized_response": {

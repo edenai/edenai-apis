@@ -15,7 +15,7 @@ def chat_arguments(provider_name: str):
         "temperature": 0.6,
         "max_tokens": 1024,
         "settings": {
-            "meta": "llama2-13b-chat-v1",
+            "meta": "llama3-1-70b-instruct-v1:0",
             "openai": "gpt-3.5-turbo",
             "mistral": "large-latest",
             "google": "chat-bison",
