@@ -120,6 +120,7 @@ class GoogleMultimodalApi(MultimodalInterface):
         top_p: Optional[int] = None,
         stream: bool = False,
         provider_params: Optional[dict] = None,
+        response_format = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         api_key = self.api_settings.get("genai_api_key")
         base_url = "https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={api_key}"
