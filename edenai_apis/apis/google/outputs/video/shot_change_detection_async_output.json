@@ -1,0 +1,70 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "projects/148983085864/locations/europe-west1/operations/14501064314951439811",
+  "original_response": {
+    "@type": "type.googleapis.com/google.cloud.videointelligence.v1.AnnotateVideoResponse",
+    "annotationResults": [
+      {
+        "inputUri": "/audios-speech2text/1722245418shot_video_.mp4",
+        "shotAnnotations": [
+          {
+            "startTimeOffset": "0s",
+            "endTimeOffset": "1s"
+          },
+          {
+            "startTimeOffset": "1.040s",
+            "endTimeOffset": "3.400s"
+          },
+          {
+            "startTimeOffset": "3.440s",
+            "endTimeOffset": "5.280s"
+          },
+          {
+            "startTimeOffset": "5.320s",
+            "endTimeOffset": "6.800s"
+          },
+          {
+            "startTimeOffset": "6.840s",
+            "endTimeOffset": "10.960s"
+          },
+          {
+            "startTimeOffset": "11s",
+            "endTimeOffset": "13.080s"
+          }
+        ],
+        "segment": {
+          "startTimeOffset": "0s",
+          "endTimeOffset": "13.080s"
+        }
+      }
+    ]
+  },
+  "standardized_response": {
+    "shotAnnotations": [
+      {
+        "startTimeOffset": 0.0,
+        "endTimeOffset": 1.0
+      },
+      {
+        "startTimeOffset": 1.04,
+        "endTimeOffset": 3.4
+      },
+      {
+        "startTimeOffset": 3.44,
+        "endTimeOffset": 5.28
+      },
+      {
+        "startTimeOffset": 5.32,
+        "endTimeOffset": 6.8
+      },
+      {
+        "startTimeOffset": 6.84,
+        "endTimeOffset": 10.96
+      },
+      {
+        "startTimeOffset": 11.0,
+        "endTimeOffset": 13.08
+      }
+    ]
+  }
+}
