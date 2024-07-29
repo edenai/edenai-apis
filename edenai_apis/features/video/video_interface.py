@@ -170,3 +170,15 @@ class VideoInterface:
             - provider_job_id (str): id of async job
         """
         raise NotImplementedError
+
+    @abstractmethod
+    def video__shot_change_detection_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
+        raise NotImplementedError
+
+    @abstractmethod
+    def video__shot_change_detection_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType:
+        raise NotImplementedError
