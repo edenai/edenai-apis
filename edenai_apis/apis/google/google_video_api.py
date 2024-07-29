@@ -220,7 +220,7 @@ class GoogleVideoApi(VideoInterface):
         )
 
         return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
-    
+
     def video__label_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[LabelDetectionAsyncDataClass]:
@@ -679,7 +679,9 @@ class GoogleVideoApi(VideoInterface):
                 start = float(shot["startTimeOffset"][:-1])
                 end = float(shot["endTimeOffset"][:-1])
                 shots.append(ShotFrame(startTimeOffset=start, endTimeOffset=end))
-            standardized_response = ShotChangeDetectionAsyncDataClass(shotAnnotations=shots)
+            standardized_response = ShotChangeDetectionAsyncDataClass(
+                shotAnnotations=shots
+            )
 
             return AsyncResponseType[ShotChangeDetectionAsyncDataClass](
                 status="succeeded",
@@ -687,8 +689,7 @@ class GoogleVideoApi(VideoInterface):
                 standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
-        
+
         return AsyncPendingResponseType[ShotChangeDetectionAsyncDataClass](
             status="pending", provider_job_id=provider_job_id
         )
-    
