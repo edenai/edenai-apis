@@ -31,7 +31,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install ffmpeg -y
-          pip install -r requirements.txt
+          pip install -r requirements.txt -c constraints.txt
       - name: Set Env variables
         run: "echo TEST_SCOPE=CICD-OPENSOURCE >> $GITHUB_ENV"
       - name: Run Test suite
