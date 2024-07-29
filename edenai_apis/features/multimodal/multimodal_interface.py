@@ -20,6 +20,7 @@ class MultimodalInterface:
         top_p: Optional[int] = None,
         stream: bool = False,
         provider_params: Optional[dict] = None,
+        response_format = None,
     ) -> ResponseType[ChatDataClass]:
         """
         Generate responses in a multimodal conversation using a chatbot.
