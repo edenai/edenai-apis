@@ -362,6 +362,7 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
         top_p: Optional[int] = None,
         stream: bool = False,
         provider_params: Optional[dict] = None,
+        response_format = None,
     ) -> ResponseType[Union[ChatMultimodalDataClass, StreamChatMultimodal]]:
 
         formated_messages = self.__format_anthropic_messages(messages=messages)

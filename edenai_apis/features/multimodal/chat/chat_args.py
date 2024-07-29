@@ -31,4 +31,5 @@ def chat_arguments(provider_name: str):
             "google": "gemini-1.0-pro-vision",
         },
         "provider_params": {},
+        "response_format": None,
     }
