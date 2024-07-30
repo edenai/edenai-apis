@@ -56,6 +56,10 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
     VideoTextBoundingBox,
     VideoTextFrames,
 )
+from edenai_apis.features.video.shot_change_detection_async.shot_change_detection_async_dataclass import (
+    ShotChangeDetectionAsyncDataClass,
+    ShotFrame,
+)
 from edenai_apis.features.video.video_interface import VideoInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
@@ -202,6 +206,19 @@ class GoogleVideoApi(VideoInterface):
         )
 
         # Return job id (operation name)
+        return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
+
+    def video__shot_change_detection_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
+        gcs_uri = self.google_upload_video(file=file)
+        operation = self.clients["video"].annotate_video(
+            request={
+                "features": [videointelligence.Feature.SHOT_CHANGE_DETECTION],
+                "input_uri": gcs_uri,
+            }
+        )
+
         return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
 
     def video__label_detection_async__get_job_result(
@@ -645,5 +662,34 @@ class GoogleVideoApi(VideoInterface):
             )
 
         return AsyncPendingResponseType[ExplicitContentDetectionAsyncDataClass](
+            status="pending", provider_job_id=provider_job_id
+        )
+
+    def video__shot_change_detection_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[ShotChangeDetectionAsyncDataClass]:
+
+        result = google_video_get_job(provider_job_id)
+        print(result)
+        if result.get("done"):
+            response = result["response"]["annotationResults"][0]
+            shot_annotations = response.get("shotAnnotations", [])
+            shots = []
+            for shot in shot_annotations:
+                start = float(shot["startTimeOffset"][:-1])
+                end = float(shot["endTimeOffset"][:-1])
+                shots.append(ShotFrame(startTimeOffset=start, endTimeOffset=end))
+            standardized_response = ShotChangeDetectionAsyncDataClass(
+                shotAnnotations=shots
+            )
+
+            return AsyncResponseType[ShotChangeDetectionAsyncDataClass](
+                status="succeeded",
+                original_response=result["response"],
+                standardized_response=standardized_response,
+                provider_job_id=provider_job_id,
+            )
+
+        return AsyncPendingResponseType[ShotChangeDetectionAsyncDataClass](
             status="pending", provider_job_id=provider_job_id
         )

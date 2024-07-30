@@ -1309,6 +1309,16 @@
         ]
       },
       "version": "Video intelligence v1"
+    },
+    "shot_change_detection_async": {
+      "constraints": {
+        "file_types": [
+          "video/mp4",
+          "video/x-msvideo",
+          "video/quicktime"
+        ]
+      },
+      "version": "Video intelligence v1"
     }
   },
   "image": {

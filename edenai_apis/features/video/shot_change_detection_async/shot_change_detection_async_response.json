@@ -1,0 +1,28 @@
+{
+"shotAnnotations": [
+    {
+      "startTimeOffset": 0.0,
+      "endTimeOffset": 1.0
+    },
+    {
+      "startTimeOffset": 1.04,
+      "endTimeOffset": 3.4
+    },
+    {
+      "startTimeOffset": 3.44,
+      "endTimeOffset": 5.28
+    },
+    {
+      "startTimeOffset": 5.32,
+      "endTimeOffset": 6.8
+    },
+    {
+      "startTimeOffset": 6.84,
+      "endTimeOffset": 10.96
+    },
+    {
+      "startTimeOffset": 11.0,
+      "endTimeOffset": 13.08
+    }
+  ]
+}
