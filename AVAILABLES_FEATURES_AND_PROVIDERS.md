@@ -341,6 +341,7 @@
 | **logo_detection_async** | google |
 | | twelvelabs |
 | **object_tracking_async** | google |
+| **shot_change_detection_async** | google |
 
 </details>
 <details><summary>multimodal</summary>
@@ -657,6 +658,7 @@
 | | logo_detection_async |
 | | object_tracking_async |
 | | person_tracking_async |
+| | shot_change_detection_async |
 | | text_detection_async |
 
 </details>
