@@ -1,4 +1,5 @@
 import base64
+from http import HTTPStatus
 import json
 from typing import Sequence, Optional, BinaryIO, Dict
 import numpy as np
@@ -54,6 +55,7 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 )
 from edenai_apis.features.image.question_answer import QuestionAnswerDataClass
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.parsing import extract
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.image.embeddings import (
     EmbeddingsDataClass,
@@ -478,6 +480,13 @@ class GoogleImageApi(ImageInterface):
                 message="Internal Server Error",
                 code=500,
             ) from exc
+        if response.status_code >= HTTPStatus.BAD_REQUEST:
+            raise ProviderException(
+                extract(original_response, ["error", "message"])
+                or "Something went wrong when performing the request",
+                code=extract(original_response, ["error", "code"])
+                or HTTPStatus.BAD_REQUEST,
+            )
         # calculate_usage_tokens(original_response=original_response)
         answer = original_response["candidates"][0]["content"]["parts"][0]["text"]
 
