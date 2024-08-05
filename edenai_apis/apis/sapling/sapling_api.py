@@ -186,7 +186,7 @@ class SaplingApi(ProviderInterface, TextInterface):
             )
 
         standardized_response = AiDetectionDataClass(
-            ai_score=original_response.get("score"), items=items
+            ai_score=original_response.get("score") or 0, items=items
         )
 
         result = ResponseType[AiDetectionDataClass](
