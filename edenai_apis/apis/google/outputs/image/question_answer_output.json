@@ -1,103 +1,51 @@
 {
-  "original_response": [
-    {
-      "candidates": [
-        {
-          "content": {
-            "role": "model",
-            "parts": [
-              {
-                "text": " The image shows six logos of big tech companies, namely Facebook, Apple, Amazon, Netflix, and Google. The logos are all in their respective colors and"
-              }
-            ]
-          },
-          "safetyRatings": [
+  "original_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
             {
-              "category": "HARM_CATEGORY_HATE_SPEECH",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.02800752,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.16184942
-            },
-            {
-              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.06198946,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.12199923
-            },
-            {
-              "category": "HARM_CATEGORY_HARASSMENT",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.051941562,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.07737811
-            },
-            {
-              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.0279544,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.051653776
+              "text": "The logos are: Facebook, Apple, Amazon, Netflix, and Google."
             }
-          ]
-        }
-      ]
-    },
-    {
-      "candidates": [
-        {
-          "content": {
-            "role": "model",
-            "parts": [
-              {
-                "text": " are arranged in a row."
-              }
-            ]
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0,
+        "safetyRatings": [
+          {
+            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+            "probability": "NEGLIGIBLE"
           },
-          "finishReason": "STOP",
-          "safetyRatings": [
-            {
-              "category": "HARM_CATEGORY_HATE_SPEECH",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.028436033,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.14596547
-            },
-            {
-              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.05330468,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.10230471
-            },
-            {
-              "category": "HARM_CATEGORY_HARASSMENT",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.056756895,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.069921836
-            },
-            {
-              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-              "probability": "NEGLIGIBLE",
-              "probabilityScore": 0.0269635,
-              "severity": "HARM_SEVERITY_NEGLIGIBLE",
-              "severityScore": 0.047074173
-            }
-          ]
-        }
-      ],
-      "usageMetadata": {
-        "promptTokenCount": 267,
-        "candidatesTokenCount": 37,
-        "totalTokenCount": 304
+          {
+            "category": "HARM_CATEGORY_HATE_SPEECH",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_HARASSMENT",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+            "probability": "NEGLIGIBLE"
+          }
+        ]
       }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 267,
+      "candidatesTokenCount": 15,
+      "totalTokenCount": 282
+    },
+    "usage": {
+      "prompt_tokens": 267,
+      "completion_tokens": 15,
+      "total_tokens": 282
     }
-  ],
+  },
   "standardized_response": {
     "answers": [
-      " The image shows six logos of big tech companies, namely Facebook, Apple, Amazon, Netflix, and Google. The logos are all in their respective colors and are arranged in a row."
+      "The logos are: Facebook, Apple, Amazon, Netflix, and Google."
     ]
   }
 }

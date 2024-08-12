@@ -389,145 +389,73 @@ class GoogleImageApi(ImageInterface):
             standardized_response=LogoDetectionDataClass(items=items),
         )
 
-    def _imagen_qa(
-        self,
-        fstream: BinaryIO,
-        question: str,
-        headers: Dict[str, str],
-        location: str = "us-central1",
-    ) -> ResponseType[QuestionAnswerDataClass]:
-        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/imagetext:predict"
-        payload = {
-            "instances": [
-                {
-                    "prompt": question or "Describe the image",
-                    "image": {
-                        "bytesBase64Encoded": base64.b64encode(fstream.read()).decode(
-                            "utf-8"
-                        )
-                    },
-                }
-            ],
-            "parameters": {
-                "sampleCount": 3,
-            },
-        }
-
-        response = requests.post(url, json=payload, headers=headers)
-
-        try:
-            original_response = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                message="Internal Server Error",
-                code=500,
-            ) from exc
-
-        if "error" in original_response:
-            raise ProviderException(
-                message=original_response["error"]["message"], code=400
-            )
-
-        if not original_response.get("predictions"):
-            raise ProviderException(message="No predictions found", code=400)
-
-        standardized_response = QuestionAnswerDataClass(
-            answers=original_response["predictions"],
-        )
-
-        return ResponseType[QuestionAnswerDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
-
-    def _gemini_pro_vision_qa(
-        self,
-        fstream: BinaryIO,
-        question: str,
-        temperature: float,
-        max_tokens: int,
-    ):
-        api_key = self.api_settings.get("genai_api_key")
-        url = f"https://generativelanguage.googleapis.com/v1/models/gemini-pro-vision:generateContent?key={api_key}"
-        payload = {
-            "contents": {
-                "role": "user",
-                "parts": [
-                    {
-                        "inline_data": {
-                            "data": base64.b64encode(fstream.read()).decode("utf-8"),
-                            "mime_type": "image/png",
-                        }
-                    },
-                    {
-                        "text": question,
-                    },
-                ],
-            },
-            "generationConfig": {
-                "candidateCount": 1,
-                "temperature": temperature,
-                "max_output_tokens": max_tokens,
-            },
-        }
-
-        response = requests.post(url, json=payload)
-
-        try:
-            original_response = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                message="Internal Server Error",
-                code=500,
-            ) from exc
-        if response.status_code >= HTTPStatus.BAD_REQUEST:
-            raise ProviderException(
-                extract(original_response, ["error", "message"])
-                or "Something went wrong when performing the request",
-                code=extract(original_response, ["error", "code"])
-                or HTTPStatus.BAD_REQUEST,
-            )
-        # calculate_usage_tokens(original_response=original_response)
-        answer = original_response["candidates"][0]["content"]["parts"][0]["text"]
-
-        standardized_response = QuestionAnswerDataClass(
-            answers=[answer],
-        )
-
-        return ResponseType[QuestionAnswerDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
-
     def image__question_answer(
         self,
         file: str,
         temperature: float,
         max_tokens: int,
         file_url: str = "",
-        model: Optional[str] = "gemini-pro-vision",
+        model: Optional[str] = None,
         question: Optional[str] = None,
         settings: Optional[dict] = None,
     ) -> ResponseType[QuestionAnswerDataClass]:
         with open(file, "rb") as fstream:
-            token = get_access_token(self.location)
-            headers = {
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {token}",
-            }
             if question is None:
                 question = "Describe the image"
-            if model == "imagen":
-                return self._imagen_qa(fstream, question, headers)
-            elif model == "gemini-pro-vision":
-                return self._gemini_pro_vision_qa(
-                    fstream, question, temperature, max_tokens
-                )
-            else:
+            api_key = self.api_settings.get("genai_api_key")
+            base_url = "https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={api_key}"
+            url = base_url.format(model=model, api_key=api_key)
+            payload = {
+                "contents": {
+                    "role": "user",
+                    "parts": [
+                        {
+                            "text": question,
+                        },
+                        {
+                            "inlineData": {
+                                "data": base64.b64encode(fstream.read()).decode(
+                                    "utf-8"
+                                ),
+                                "mimeType": "image/png",
+                            }
+                        },
+                    ],
+                },
+                "generationConfig": {
+                    "candidateCount": 1,
+                    "temperature": temperature,
+                    "max_output_tokens": max_tokens,
+                },
+            }
+
+            response = requests.post(url, json=payload)
+
+            try:
+                original_response = response.json()
+            except json.JSONDecodeError as exc:
                 raise ProviderException(
-                    message="Model not found",
-                    code=400,
+                    message="Internal Server Error",
+                    code=500,
+                ) from exc
+            if response.status_code >= HTTPStatus.BAD_REQUEST:
+                raise ProviderException(
+                    extract(original_response, ["error", "message"])
+                    or "Something went wrong when performing the request",
+                    code=extract(original_response, ["error", "code"])
+                    or HTTPStatus.BAD_REQUEST,
                 )
+            calculate_usage_tokens(original_response=original_response)
+            answer = original_response["candidates"][0]["content"]["parts"][0]["text"]
+
+            standardized_response = QuestionAnswerDataClass(
+                answers=[answer],
+            )
+
+            return ResponseType[QuestionAnswerDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
 
     def image__embeddings(
         self,
