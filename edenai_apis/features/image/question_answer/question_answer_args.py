@@ -8,8 +8,6 @@ from pydub.utils import mediainfo
 from edenai_apis.utils.files import FileInfo, FileWrapper
 
 
-
-
 def question_answer_arguments(provider_name: str) -> Dict[str, Any]:
     feature_path = os.path.dirname(os.path.dirname(__file__))
 
@@ -33,7 +31,7 @@ def question_answer_arguments(provider_name: str) -> Dict[str, Any]:
         "max_tokens": 64,
         "settings": {
             "alephalpha": "luminous-extended",
-            "google": "gemini-pro-vision",
+            "google": "gemini-1.5-flash",
             "openai": "gpt-4-vision-preview",
         },
     }
