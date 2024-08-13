@@ -1040,7 +1040,11 @@
           "yo",
           "zu"
         ],
-        "allow_null_language": true
+        "allow_null_language": true,
+        "documents" : [
+          "receipt",
+          "invoice"
+        ]
       },
       "version": "v1.0"
     },
