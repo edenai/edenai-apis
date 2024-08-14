@@ -120,10 +120,10 @@ class GoogleMultimodalApi(MultimodalInterface):
         top_p: Optional[int] = None,
         stream: bool = False,
         provider_params: Optional[dict] = None,
-        response_format = None,
+        response_format=None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         api_key = self.api_settings.get("genai_api_key")
-        base_url = "https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={api_key}"
+        base_url = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
         url = base_url.format(model=model, api_key=api_key)
         formatted_messages = self.__format_google_messages(messages=messages)
         payload = {
@@ -138,9 +138,10 @@ class GoogleMultimodalApi(MultimodalInterface):
             },
         }
         if chatbot_global_action:
-            payload["system_instruction"] = (
-                {"parts": {"text": chatbot_global_action}},
-            )
+            payload["systemInstruction"] = {
+                "role": "test",
+                "parts": [{"text": chatbot_global_action}],
+            }
 
         if stream is False:
             response = requests.post(url, json=payload)
