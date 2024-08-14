@@ -5,7 +5,9 @@ from typing import Dict
 import requests
 
 from edenai_apis.features import AudioInterface
-from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import TextToSpeechDataClass
+from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
+    TextToSpeechDataClass,
+)
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -23,11 +25,11 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
         self.api_key = self.api_settings["api_key"]
-        self.base_url ="https://api.elevenlabs.io/v1/"
+        self.base_url = "https://api.elevenlabs.io/v1/"
         self.headers = {
             "Accept": "audio/mpeg",
             "Content-Type": "application/json",
-            "xi-api-key": self.api_key
+            "xi-api-key": self.api_key,
         }
 
     def __get_model_from_voice(voice_id: str):
@@ -37,12 +39,13 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
     
     def __get_voice_id(voice_id: str):
         try:
-            voice_name = voice_id.split('_')[-1]  # Extract the name from the voice_id
-            voice_id_from_dict = voice_ids[voice_name]  # Retrieve the ID using the name from the dict
+            voice_name = voice_id.split("_")[-1]  # Extract the name from the voice_id
+            voice_id_from_dict = voice_ids[
+                voice_name
+            ]  # Retrieve the ID using the name from the dict
         except Exception:
             raise ProviderException("Voice ID not found for the given voice name.")
         return voice_id_from_dict
-    
 
     def audio__text_to_speech(
         self,
@@ -54,7 +57,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         speaking_rate: int,
         speaking_pitch: int,
         speaking_volume: int,
-        sampling_rate: int
+        sampling_rate: int,
     ) -> ResponseType[TextToSpeechDataClass]:
 
         ids = ElevenlabsApi.__get_voice_id(voice_id=voice_id)
@@ -63,24 +66,20 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         data = {
             "text": text,
             "model_id": model,
-            "voice_settings": {
-                "stability": 0.5,
-                "similarity_boost": 0.5
-            }
+            "voice_settings": {"stability": 0.5, "similarity_boost": 0.5},
         }
         response = requests.post(url, json=data, headers=self.headers)
-        
+
         if response.status_code != 200:
-            raise ProviderException(
-                response.text,
-                code = response.status_code
-                )
-        
+            raise ProviderException(response.text, code=response.status_code)
+
         audio_content = BytesIO(response.content)
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
 
         audio_content.seek(0)
-        resource_url = upload_file_bytes_to_s3(audio_content, ".wav", USER_PROCESS)
+        resource_url = upload_file_bytes_to_s3(
+            audio_content, f".{audio_format}", USER_PROCESS
+        )
 
         return ResponseType[TextToSpeechDataClass](
             original_response=audio,
