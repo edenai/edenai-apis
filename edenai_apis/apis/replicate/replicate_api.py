@@ -160,10 +160,7 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         num_images: int = 1,
         model: Optional[str] = None,
     ) -> ResponseType[GenerationDataClass]:
-        url = f"{self.base_url}/predictions"
         size = resolution.split("x")
-        version = get_model_id_image[model]
-
         payload = {
             "input": {
                 "prompt": text,
@@ -171,8 +168,13 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
                 "height": int(size[1]),
                 "num_outputs": num_images,
             },
-            "version": version,
         }
+
+        if model in get_model_id_image:
+            url = f"{self.base_url}/predictions"
+            payload["version"] = get_model_id_image[model]
+        else:
+            url = f"{self.base_url}/models/{model}/predictions"
 
         response_dict = ReplicateApi.__get_response(self, url, payload)
         image_url = response_dict.get("output")
@@ -214,13 +216,6 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
 
         if any([available_tools, tool_results]):
             raise ProviderException("This provider does not support the use of tools")
-
-        # Construct the API URL
-        url = f"{self.base_url}/predictions"
-
-        # Get the model ID based on the provided model name
-        model_id = get_model_id[model]
-
         # Build the prompt by formatting the previous history and current text
         prompt = ""
         if previous_history:
@@ -239,9 +234,14 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
                 "max_new_tokens": max_tokens,
                 "temperature": temperature,
                 "min_new_tokens": -1,
-            },
-            "version": model_id,
+            }
         }
+
+        if model in get_model_id:
+            url = f"{self.base_url}/predictions"
+            payload["version"] = get_model_id[model]
+        else:
+            url = f"{self.base_url}/models/{model}/predictions"
 
         # Include system prompt if provided
         if chatbot_global_action:
