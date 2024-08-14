@@ -139,7 +139,7 @@ class GoogleMultimodalApi(MultimodalInterface):
         }
         if chatbot_global_action:
             payload["systemInstruction"] = {
-                "role": "test",
+                "role": "assistant",  # role ignored for system instruction
                 "parts": [{"text": chatbot_global_action}],
             }
 
