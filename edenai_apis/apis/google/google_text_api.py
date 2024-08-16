@@ -580,7 +580,7 @@ class GoogleTextApi(TextInterface):
                 context,
             )
             api_key = self.api_settings.get("genai_api_key")
-            base_url = f"https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={api_key}"
+            base_url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
             response = requests.post(url=base_url, json=payload)
             try:
                 original_response = response.json()
@@ -664,7 +664,7 @@ class GoogleTextApi(TextInterface):
                 context,
             )
             api_key = self.api_settings.get("genai_api_key")
-            base_url = f"https://generativelanguage.googleapis.com/v1/models/{model}:streamGenerateContent?alt=sse&key={api_key}"
+            base_url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:streamGenerateContent?alt=sse&key={api_key}"
             response = requests.post(base_url, json=payload, stream=True)
         else:
             url_subdomain = "us-central1-aiplatform"

@@ -1,65 +1,50 @@
 {
   "original_response": {
-    "usage": {
-      "prompt_tokens": 294,
-      "completion_tokens": 294,
-      "total_tokens": 294
-    },
-    "data": [
+    "candidates": [
       {
-        "candidates": [
+        "content": {
+          "parts": [
+            {
+              "text": "Avast, matey! It be a fine day for a walk on the plank, eh? The sky be a clear blue, with a few fluffy clouds sailin' by. The grass be lush and green, and the path be straight ahead, leadin' to who knows where. A fine day for a seafaring adventure, I'd say! \n"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0,
+        "safetyRatings": [
           {
-            "content": {
-              "role": "model",
-              "parts": [
-                {
-                  "text": " The image shows a wooden walkway through a lush green marsh. The sky is a clear blue with white clouds. The marsh is full of tall grass."
-                }
-              ]
-            },
-            "finishReason": "STOP",
-            "safetyRatings": [
-              {
-                "category": "HARM_CATEGORY_HATE_SPEECH",
-                "probability": "NEGLIGIBLE",
-                "probabilityScore": 0.01802074,
-                "severity": "HARM_SEVERITY_NEGLIGIBLE",
-                "severityScore": 0.065604836
-              },
-              {
-                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-                "probability": "NEGLIGIBLE",
-                "probabilityScore": 0.06717858,
-                "severity": "HARM_SEVERITY_NEGLIGIBLE",
-                "severityScore": 0.08977328
-              },
-              {
-                "category": "HARM_CATEGORY_HARASSMENT",
-                "probability": "NEGLIGIBLE",
-                "probabilityScore": 0.03825006,
-                "severity": "HARM_SEVERITY_NEGLIGIBLE",
-                "severityScore": 0.05291181
-              },
-              {
-                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                "probability": "NEGLIGIBLE",
-                "probabilityScore": 0.056652427,
-                "severity": "HARM_SEVERITY_NEGLIGIBLE",
-                "severityScore": 0.048948623
-              }
-            ]
+            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_HATE_SPEECH",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_HARASSMENT",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+            "probability": "NEGLIGIBLE"
           }
-        ],
-        "usageMetadata": {
-          "promptTokenCount": 264,
-          "candidatesTokenCount": 30,
-          "totalTokenCount": 294
-        }
+        ]
       }
-    ]
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 271,
+      "candidatesTokenCount": 73,
+      "totalTokenCount": 344
+    },
+    "usage": {
+      "prompt_tokens": 271,
+      "completion_tokens": 73,
+      "total_tokens": 344
+    }
   },
   "standardized_response": {
-    "generated_text": " The image shows a wooden walkway through a lush green marsh. The sky is a clear blue with white clouds. The marsh is full of tall grass.",
+    "generated_text": "Avast, matey! It be a fine day for a walk on the plank, eh? The sky be a clear blue, with a few fluffy clouds sailin' by. The grass be lush and green, and the path be straight ahead, leadin' to who knows where. A fine day for a seafaring adventure, I'd say! \n",
     "messages": [
       {
         "role": "user",
@@ -79,7 +64,7 @@
               "media_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
               "media_base64": null,
               "text": null,
-              "media_type": null
+              "media_type": "image/jpeg"
             }
           }
         ]
@@ -92,7 +77,7 @@
             "content": {
               "media_url": null,
               "media_base64": null,
-              "text": " The image shows a wooden walkway through a lush green marsh. The sky is a clear blue with white clouds. The marsh is full of tall grass.",
+              "text": "Avast, matey! It be a fine day for a walk on the plank, eh? The sky be a clear blue, with a few fluffy clouds sailin' by. The grass be lush and green, and the path be straight ahead, leadin' to who knows where. A fine day for a seafaring adventure, I'd say! \n",
               "media_type": null
             }
           }

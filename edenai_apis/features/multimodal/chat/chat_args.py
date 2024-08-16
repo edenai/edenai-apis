@@ -18,7 +18,7 @@ def chat_arguments(provider_name: str):
                 ],
             }
         ],
-        "chatbot_global_action": None,
+        "chatbot_global_action": "Always reply like a pirate",
         "temperature": 0,
         "max_tokens": 200,
         "stop_sequences": None,
@@ -28,7 +28,7 @@ def chat_arguments(provider_name: str):
         "settings": {
             "openai": "gpt-4-turbo",
             "anthropic": "claude-3-sonnet-20240229-v1:0",
-            "google": "gemini-1.0-pro-vision",
+            "google": "gemini-1.5-flash",
         },
         "provider_params": {},
         "response_format": None,
