@@ -1,7 +1,7 @@
 import json
 from collections import defaultdict
 from http import HTTPStatus
-from typing import Dict, Optional, Any
+from typing import Any, Dict, Optional
 
 import requests
 
@@ -47,8 +47,6 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
         try:
             original_response = response.json()
         except json.JSONDecodeError as exc:
-            print(response.status_code)
-            print(response.text)
             raise ProviderException(
                 message="Internal Server Error", code=response.status_code
             ) from exc
@@ -68,7 +66,7 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
                 candidates.append(
                     PlagiaDetectionCandidate(
                         url=match["website"],
-                        plagia_score=match["score"] / 100,
+                        plagia_score=int(match["score"]) / 100,
                         plagiarized_text=match["pText"],
                     )
                 )
