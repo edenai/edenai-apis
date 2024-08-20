@@ -1,3 +1,4 @@
+import requests
 import json
 from typing import List, Optional, Dict
 
@@ -395,3 +396,25 @@ def convert_tool_results_to_openai_tool_calls(tools_results: List[dict]):
             }
         )
     return result
+
+
+def moderate_content(headers, content: str) -> bool:
+    if not content:
+        pass
+
+    response = requests.post(
+        "https://api.openai.com/v1/moderations",
+        headers=headers,
+        json={"input": content},
+    )
+    response = get_openapi_response(response)
+    flagged = response["results"][0]["flagged"]
+
+    if flagged:
+        categories = [
+            category
+            for category, value in response["results"][0]["categories"].items()
+            if value
+        ]
+        message = f"Content rejected by OpenAI due to the violation of the following policies : {', '.join(categories)}."
+        raise ProviderException(message=message, code=400)

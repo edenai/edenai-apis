@@ -10,6 +10,7 @@ from edenai_apis.apis.openai.openai_image_api import OpenaiImageApi
 from edenai_apis.apis.openai.openai_text_api import OpenaiTextApi
 from edenai_apis.apis.openai.openai_translation_api import OpenaiTranslationApi
 from edenai_apis.apis.openai.openai_multimodal_api import OpenaiMultimodalApi
+from edenai_apis.apis.openai.helpers import moderate_content
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -49,8 +50,33 @@ class OpenaiApi(
         self.max_tokens = 270
 
         self.client = OpenAI(
-                 api_key=self.api_key,
-                )
+            api_key=self.api_key,
+        )
 
         self.webhook_settings = load_provider(ProviderDataEnum.KEY, "webhooksite")
         self.webhook_token = self.webhook_settings["webhook_token"]
+
+    def check_content_moderation(self, *args, **kwargs):
+        if "text" in kwargs:
+            moderate_content(self.headers, kwargs["text"])
+
+        if "chatbot_global_action" in kwargs:
+            moderate_content(self.headers, kwargs["chatbot_global_action"])
+
+        if "previous_history" in kwargs:
+            for item in kwargs["previous_history"]:
+                moderate_content(self.headers, item.get("message"))
+
+        if "texts" in kwargs:
+            for item in kwargs["texts"]:
+                moderate_content(self.headers, item)
+
+        if "instruction" in kwargs:
+            moderate_content(self.headers, kwargs["instruction"])
+
+        if "messages" in kwargs:
+            for message in kwargs["messages"]:
+                for content in message.get("content", []):
+                    text = content.get("content", {}).get("text")
+                    if text:
+                        moderate_content(self.headers, text)
