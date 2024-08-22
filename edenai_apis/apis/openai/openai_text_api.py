@@ -82,6 +82,7 @@ from .helpers import (
     finish_unterminated_json,
     get_openapi_response,
     prompt_optimization_missing_information,
+    check_moderation_decorator,
 )
 
 
@@ -140,6 +141,7 @@ class OpenaiTextApi(TextInterface):
 
         return original_response, standardized_response
 
+    @check_moderation_decorator
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str
     ) -> ResponseType[SummarizeDataClass]:
@@ -314,6 +316,7 @@ class OpenaiTextApi(TextInterface):
         )
         return result
 
+    @check_moderation_decorator
     def text__anonymization(
         self, text: str, language: str
     ) -> ResponseType[AnonymizationDataClass]:
@@ -381,6 +384,7 @@ class OpenaiTextApi(TextInterface):
             standardized_response=standardized_response,
         )
 
+    @check_moderation_decorator
     def text__keyword_extraction(
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
@@ -398,6 +402,7 @@ class OpenaiTextApi(TextInterface):
             standardized_response=result,
         )
 
+    @check_moderation_decorator
     def text__sentiment_analysis(
         self, language: str, text: str
     ) -> ResponseType[SentimentAnalysisDataClass]:
@@ -414,6 +419,7 @@ class OpenaiTextApi(TextInterface):
             original_response=original_response, standardized_response=result
         )
 
+    @check_moderation_decorator
     def text__topic_extraction(
         self, language: str, text: str
     ) -> ResponseType[TopicExtractionDataClass]:
@@ -431,6 +437,7 @@ class OpenaiTextApi(TextInterface):
             standardized_response=result,
         )
 
+    @check_moderation_decorator
     def text__code_generation(
         self, instruction: str, temperature: float, max_tokens: int, prompt: str = ""
     ) -> ResponseType[CodeGenerationDataClass]:
@@ -468,6 +475,7 @@ class OpenaiTextApi(TextInterface):
             standardized_response=standardized_response,
         )
 
+    @check_moderation_decorator
     def text__generation(
         self,
         text: str,
@@ -496,6 +504,7 @@ class OpenaiTextApi(TextInterface):
             standardized_response=standardized_response,
         )
 
+    @check_moderation_decorator
     def text__custom_named_entity_recognition(
         self, text: str, entities: List[str], examples: Optional[List[Dict]] = None
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
@@ -523,6 +532,7 @@ class OpenaiTextApi(TextInterface):
             standardized_response=result,
         )
 
+    @check_moderation_decorator
     def text__custom_classification(
         self, texts: List[str], labels: List[str], examples: List[List[str]]
     ) -> ResponseType[CustomClassificationDataClass]:
@@ -549,6 +559,7 @@ class OpenaiTextApi(TextInterface):
             original_response=original_response, standardized_response=result
         )
 
+    @check_moderation_decorator
     def text__spell_check(
         self, text: str, language: str
     ) -> ResponseType[SpellCheckDataClass]:
@@ -566,6 +577,7 @@ class OpenaiTextApi(TextInterface):
             standardized_response=result,
         )
 
+    @check_moderation_decorator
     def text__named_entity_recognition(
         self, language: str, text: str
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
@@ -582,6 +594,7 @@ class OpenaiTextApi(TextInterface):
             original_response=original_response, standardized_response=result
         )
 
+    @check_moderation_decorator
     def text__embeddings(
         self, texts: List[str], model: str
     ) -> ResponseType[EmbeddingsDataClass]:
@@ -610,6 +623,7 @@ class OpenaiTextApi(TextInterface):
             standardized_response=standardized_response,
         )
 
+    @check_moderation_decorator
     def text__chat(
         self,
         text: str,
@@ -732,6 +746,7 @@ class OpenaiTextApi(TextInterface):
                 original_response=None, standardized_response=StreamChat(stream=stream)
             )
 
+    @check_moderation_decorator
     def text__prompt_optimization(
         self, text: str, target_provider: str
     ) -> ResponseType[PromptOptimizationDataClass]:

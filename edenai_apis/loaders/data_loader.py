@@ -41,7 +41,7 @@ def load_key(provider_name, location=False, api_keys: Dict = {}):
 
     if api_keys:
         data = api_keys
-        #check_messsing_keys(provider_settings_data, data)
+        # check_messsing_keys(provider_settings_data, data)
 
     if location:
         return data, provider_settings_path
@@ -49,13 +49,11 @@ def load_key(provider_name, location=False, api_keys: Dict = {}):
 
 
 @overload
-def load_class() -> List[Type[ProviderInterface]]:
-    ...
+def load_class() -> List[Type[ProviderInterface]]: ...
 
 
 @overload
-def load_class(provider_name: str) -> Type[ProviderInterface]:
-    ...
+def load_class(provider_name: str) -> Type[ProviderInterface]: ...
 
 
 def load_class(
@@ -155,9 +153,9 @@ def load_info_file(provider_name: str = "") -> Dict:
                     .get("version")
                 ):
                     for phase in provider_info.get(feature, {}).get(subfeature, []):
-                        all_infos[
-                            (provider_name_i, feature, subfeature, phase)
-                        ] = provider_info[feature][subfeature][phase]
+                        all_infos[(provider_name_i, feature, subfeature, phase)] = (
+                            provider_info[feature][subfeature][phase]
+                        )
                 else:
                     all_infos[(provider_name_i, feature, subfeature)] = provider_info[
                         feature
@@ -224,8 +222,12 @@ def load_subfeature(
     """
     api = load_class(provider_name)()
     phase_ = f"__{phase}" if phase else ""
+    func = getattr(api, f"{feature}__{subfeature}{phase_}{suffix}")
 
-    return getattr(api, f"{feature}__{subfeature}{phase_}{suffix}")
+    if hasattr(func, "original_func"):
+        func = func.original_func
+
+    return func
 
 
 def load_samples(

@@ -21,7 +21,7 @@ from edenai_apis.features import AudioInterface
 from edenai_apis.utils.exception import ProviderException
 
 from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
-from .helpers import convert_tts_audio_rate
+from .helpers import convert_tts_audio_rate, check_moderation_decorator
 
 
 class OpenaiAudioApi(AudioInterface):
@@ -118,6 +118,7 @@ class OpenaiAudioApi(AudioInterface):
             provider_job_id=provider_job_id,
         )
 
+    @check_moderation_decorator
     def audio__text_to_speech(
         self,
         language: str,

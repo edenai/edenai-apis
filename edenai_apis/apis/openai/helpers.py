@@ -418,3 +418,13 @@ def moderate_content(headers, content: str) -> bool:
         ]
         message = f"Content rejected by OpenAI due to the violation of the following policies : {', '.join(categories)}."
         raise ProviderException(message=message, code=400)
+
+
+def check_moderation_decorator(func):
+    def wrapper(self, *args, **kwargs):
+        if self.moderation_flag:
+            self.check_content_moderation(*args, **kwargs)
+        return func(self, *args, **kwargs)
+
+    wrapper.original_func = func
+    return wrapper

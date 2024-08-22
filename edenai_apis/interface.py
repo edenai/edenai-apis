@@ -31,8 +31,7 @@ def list_features(
     feature: Optional[str] = None,
     subfeature: Optional[str] = None,
     as_dict: Literal[False] = False,
-) -> ProviderList:
-    ...
+) -> ProviderList: ...
 
 
 @overload
@@ -41,8 +40,7 @@ def list_features(
     feature: Optional[str] = None,
     subfeature: Optional[str] = None,
     as_dict: Literal[True] = True,
-) -> ProviderDict:
-    ...
+) -> ProviderDict: ...
 
 
 def list_features(
@@ -182,6 +180,7 @@ def compute_output(
     fake: bool = False,
     api_keys: Dict = {},
     user_email: Optional[str] = None,
+    **kwargs,
 ) -> Dict:
     """
     Compute subfeature for provider and subfeature
@@ -250,7 +249,7 @@ def compute_output(
         subfeature_class = getattr(feature_class, subfeature_method_name)
 
         try:
-            subfeature_result = subfeature_class(provider_name, api_keys)(
+            subfeature_result = subfeature_class(provider_name, api_keys, **kwargs)(
                 **args
             ).model_dump()
         except ProviderException as exc:

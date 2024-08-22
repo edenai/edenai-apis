@@ -1,4 +1,3 @@
-
 import requests
 import json
 from edenai_apis.features import TranslationInterface
@@ -14,16 +13,26 @@ from .helpers import (
     get_openapi_response,
     construct_language_detection_context,
     construct_translation_context,
+    check_moderation_decorator,
 )
 
 
 class OpenaiTranslationApi(TranslationInterface):
+    @check_moderation_decorator
     def translation__language_detection(
         self, text: str
     ) -> ResponseType[LanguageDetectionDataClass]:
         url = f"{self.url}/chat/completions"
         prompt = construct_language_detection_context(text)
-        json_output = {"items" : [{"language" : "isocode", "display_name": "language display name", "confidence" : 0.8}]}
+        json_output = {
+            "items": [
+                {
+                    "language": "isocode",
+                    "display_name": "language display name",
+                    "confidence": 0.8,
+                }
+            ]
+        }
         messages = [{"role": "user", "content": prompt}]
         messages.insert(
             0,
@@ -50,9 +59,10 @@ class OpenaiTranslationApi(TranslationInterface):
             ) from exc
         return ResponseType[LanguageDetectionDataClass](
             original_response=original_response,
-            standardized_response=LanguageDetectionDataClass(items=data.get('items')),
+            standardized_response=LanguageDetectionDataClass(items=data.get("items")),
         )
 
+    @check_moderation_decorator
     def translation__automatic_translation(
         self, source_language: str, target_language: str, text: str
     ) -> ResponseType[AutomaticTranslationDataClass]:
@@ -75,9 +85,7 @@ class OpenaiTranslationApi(TranslationInterface):
         original_response = get_openapi_response(response)
         translation = original_response["choices"][0]["message"]["content"]
 
-        standardized = AutomaticTranslationDataClass(
-            text=translation
-        )
+        standardized = AutomaticTranslationDataClass(text=translation)
 
         return ResponseType[AutomaticTranslationDataClass](
             original_response=original_response, standardized_response=standardized

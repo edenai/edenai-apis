@@ -11,6 +11,7 @@ from edenai_apis.features.multimodal.chat import (
 )
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.apis.openai.helpers import check_moderation_decorator
 
 
 class OpenaiMultimodalApi(MultimodalInterface):
@@ -78,6 +79,7 @@ class OpenaiMultimodalApi(MultimodalInterface):
 
         return transformed_messages
 
+    @check_moderation_decorator
     def multimodal__chat(
         self,
         messages: List[ChatMessageDataClass],
@@ -90,7 +92,7 @@ class OpenaiMultimodalApi(MultimodalInterface):
         top_p: Optional[int] = None,
         stream: bool = False,
         provider_params: Optional[dict] = None,
-        response_format = None,
+        response_format=None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         formatted_messages = self.__format_openai_messages(messages)
 
@@ -99,9 +101,9 @@ class OpenaiMultimodalApi(MultimodalInterface):
                 0, {"role": "system", "content": chatbot_global_action}
             )
 
-        if response_format == "json" :
-            response_format = { "type": "json_object" }
-        elif response_format is None :
+        if response_format == "json":
+            response_format = {"type": "json_object"}
+        elif response_format is None:
             response_format = NOT_GIVEN
 
         payload = {
@@ -111,7 +113,7 @@ class OpenaiMultimodalApi(MultimodalInterface):
             "max_tokens": max_tokens,
             "top_p": top_p,
             "stream": stream,
-            "response_format": response_format
+            "response_format": response_format,
         }
 
         if stop_sequences:

@@ -27,7 +27,7 @@ class OpenaiApi(
 ):
     provider_name = "openai"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -55,6 +55,7 @@ class OpenaiApi(
 
         self.webhook_settings = load_provider(ProviderDataEnum.KEY, "webhooksite")
         self.webhook_token = self.webhook_settings["webhook_token"]
+        self.moderation_flag = kwargs.get("moderation_flag", True)
 
     def check_content_moderation(self, *args, **kwargs):
         if "text" in kwargs:

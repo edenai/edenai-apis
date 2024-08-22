@@ -31,13 +31,13 @@ from edenai_apis.features.image.variation import (
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 from .tools import OpenAIFunctionTools
-from .helpers import get_openapi_response
+from .helpers import get_openapi_response, check_moderation_decorator
 from ...features.image.question_answer import QuestionAnswerDataClass
 from ...utils.exception import ProviderException
 
 
 class OpenaiImageApi(ImageInterface):
-
+    @check_moderation_decorator
     def image__generation(
         self,
         text: str,
@@ -45,7 +45,6 @@ class OpenaiImageApi(ImageInterface):
         num_images: int = 1,
         model: Optional[str] = None,
     ) -> ResponseType[ImageGenerationDataClass]:
-        self.check_content_moderation(text=text)
         url = f"{self.url}/images/generations"
         payload = {
             "prompt": text,
