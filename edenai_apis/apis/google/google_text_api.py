@@ -331,9 +331,11 @@ class GoogleTextApi(TextInterface):
                 model=model,
                 api_key=self.api_settings.get("genai_api_key"),
             )
-            generated_text = original_response["candidates"][0]["content"]["parts"][0][
-                "text"
-            ]
+            generated_text = extract(
+                original_response, ["candidates", 0, "content", "parts", 0, "text"]
+            )
+            if not generated_text:
+                raise ProviderException("Empty response", code=200)
         else:
             payload = {
                 "instances": [{"prompt": text}],
