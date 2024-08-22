@@ -35,7 +35,7 @@ def return_provider_method(func: Callable) -> Callable:
         Callable: function take a provider_name and return its class's methods
     """
 
-    def wrapped(provider: str, api_keys: Dict = {}) -> Callable:
+    def wrapped(provider: str, api_keys: Dict = {}, **kwargs) -> Callable:
         """find given func in given provider's class, and returns it
 
         Args:
@@ -50,7 +50,7 @@ def return_provider_method(func: Callable) -> Callable:
 
         # Instantiate the provider's class.
         # Example : google_api = GoogleAPI()
-        provider_instance = ProviderClass(api_keys)
+        provider_instance = ProviderClass(api_keys, **kwargs)
 
         # Get the right function.
         # Example : google_api.image__object_detection

@@ -65,8 +65,9 @@ class OpenaiApi(
             moderate_content(self.headers, kwargs["chatbot_global_action"])
 
         if "previous_history" in kwargs:
-            for item in kwargs["previous_history"]:
-                moderate_content(self.headers, item.get("message"))
+            if kwargs["previous_history"]:
+                for item in kwargs["previous_history"]:
+                    moderate_content(self.headers, item.get("message"))
 
         if "texts" in kwargs:
             for item in kwargs["texts"]:
