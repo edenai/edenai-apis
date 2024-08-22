@@ -27,7 +27,7 @@ from edenai_apis.utils.types import (
 class VociApi(ProviderInterface, AudioInterface):
     provider_name = "voci"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )

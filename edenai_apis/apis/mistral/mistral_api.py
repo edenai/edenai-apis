@@ -25,7 +25,7 @@ from edenai_apis.utils.types import ResponseType
 class MistralApi(ProviderInterface, TextInterface):
     provider_name = "mistral"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -115,7 +115,7 @@ class MistralApi(ProviderInterface, TextInterface):
                 "content": msg.get("message"),
             }
             if msg.get("tool_calls"):
-                message['tool_calls'] = [
+                message["tool_calls"] = [
                     {
                         "id": t.get("id"),
                         "function": {
@@ -132,7 +132,9 @@ class MistralApi(ProviderInterface, TextInterface):
 
         if tool_results:
             for tool in tool_results or []:
-                tool_call = get_tool_call_from_history_by_id(tool['id'], previous_history)
+                tool_call = get_tool_call_from_history_by_id(
+                    tool["id"], previous_history
+                )
                 try:
                     result = json.dumps(tool["result"])
                 except json.JSONDecodeError:
@@ -141,7 +143,7 @@ class MistralApi(ProviderInterface, TextInterface):
                     {
                         "role": "tool",
                         "content": result,
-                        "name": tool_call['name'],
+                        "name": tool_call["name"],
                     }
                 )
 
@@ -157,7 +159,7 @@ class MistralApi(ProviderInterface, TextInterface):
 
         if available_tools:
             payload["tools"] = convert_tools_to_openai(available_tools)
-            payload["tool_choice"] = 'any' if tool_choice == 'required' else tool_choice
+            payload["tool_choice"] = "any" if tool_choice == "required" else tool_choice
 
         if not stream:
             response = requests.post(

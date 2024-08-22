@@ -61,14 +61,16 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 
+
 class RequestParams(TypedDict):
     headers: Dict[str, str]
     files: Dict[str, BufferedReader]
 
+
 class MindeeApi(ProviderInterface, OcrInterface):
     provider_name = "mindee"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -90,9 +92,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
             "https://api.mindee.net/v1/products/mindee/invoice_splitter/v1/"
         )
 
-    def _get_api_attributes(
-        self, file: BufferedReader
-    ) -> RequestParams:
+    def _get_api_attributes(self, file: BufferedReader) -> RequestParams:
         return RequestParams(
             headers={"Authorization": self.api_key},
             files={"document": file},
@@ -536,9 +536,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         }
         file_ = open(file, "rb")
         files = {"document": file_}
-        response = requests.post(
-            self.url_financial, headers=headers, files=files
-        )
+        response = requests.post(self.url_financial, headers=headers, files=files)
         original_response = response.json()
 
         file_.close()

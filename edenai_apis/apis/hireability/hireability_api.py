@@ -29,7 +29,7 @@ from edenai_apis.utils.types import ResponseType
 class HireabilityApi(ProviderInterface, OcrInterface):
     provider_name = "hireability"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         super().__init__()
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys

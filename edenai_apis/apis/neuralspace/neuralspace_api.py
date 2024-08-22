@@ -40,7 +40,7 @@ from .config import get_domain_language_from_code
 class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
     provider_name = "neuralspace"
 
-    def __init__(self, api_keys: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )
@@ -71,7 +71,6 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
                 raise ProviderException(
                     original_response.get("message"), code=response.status_code
                 )
-
 
         data = original_response.get("data") or {}
 

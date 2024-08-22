@@ -14,7 +14,7 @@ from edenai_apis.utils.exception import ProviderException
 class JinaApi(ProviderInterface, TextInterface):
     provider_name = "jina"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -39,7 +39,10 @@ class JinaApi(ProviderInterface, TextInterface):
         # Sort resulting embeddings by index
         sorted_embeddings = sorted(embeddings, key=lambda e: e["index"])  # type: ignore
         # Return just the embeddings
-        items = [EmbeddingDataClass(embedding=result["embedding"]) for result in sorted_embeddings]
+        items = [
+            EmbeddingDataClass(embedding=result["embedding"])
+            for result in sorted_embeddings
+        ]
         standardized_response = EmbeddingsDataClass(items=items)
         return ResponseType[EmbeddingsDataClass](
             original_response=resp,

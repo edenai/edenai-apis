@@ -16,7 +16,7 @@ from edenai_apis.utils.types import (
 class AstriaApi(ProviderInterface, ImageInterface):
     provider_name = "astria"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.url = "https://api.astria.ai/"
 
         self.api_settings = load_provider(

@@ -44,7 +44,7 @@ from edenai_apis.utils.types import ResponseType
 class CohereApi(ProviderInterface, TextInterface):
     provider_name = "cohere"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )

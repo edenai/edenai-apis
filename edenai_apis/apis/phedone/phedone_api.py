@@ -22,7 +22,7 @@ class PhedoneApi(ProviderInterface, TranslationInterface):
 
     provider_name: str = "phedone"
 
-    def __init__(self, api_keys: Optional[Dict[str, Any]] = {}) -> None:
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = {}, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )

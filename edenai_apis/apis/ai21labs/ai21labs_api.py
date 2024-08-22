@@ -23,7 +23,7 @@ from edenai_apis.utils.exception import ProviderException
 class Ai21labsApi(ProviderInterface, TextInterface):
     provider_name = "ai21labs"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -122,7 +122,7 @@ class Ai21labsApi(ProviderInterface, TextInterface):
         text: str,
         output_sentences: int,
         language: str,
-        model: Optional[str] = None
+        model: Optional[str] = None,
     ) -> ResponseType[SummarizeDataClass]:
         payload = {"source": text, "sourceType": "TEXT"}
         original_response = self.__ai21labs_api_request(

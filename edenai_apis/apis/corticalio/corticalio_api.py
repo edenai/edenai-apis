@@ -10,13 +10,10 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
 
 
-class CorticalioApi(
-    ProviderInterface,
-    TextInterface
-):
+class CorticalioApi(ProviderInterface, TextInterface):
     provider_name = "corticalio"
 
-    def __init__(self, api_keys: Dict = None):
+    def __init__(self, api_keys: Dict = None, **kwargs):
         api_keys = api_keys or {}
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
@@ -38,12 +35,9 @@ class CorticalioApi(
             ProviderException: if the specified or auto-detected language is not supported, or
                                some error occurred while processing request.
         """
-        response = self.client.extract_keywords(
-            text=text,
-            language=language
-        )
+        response = self.client.extract_keywords(text=text, language=language)
 
         return ResponseType[KeywordExtractionDataClass](
             original_response=response,
-            standardized_response=normalize_keywords(response)
+            standardized_response=normalize_keywords(response),
         )

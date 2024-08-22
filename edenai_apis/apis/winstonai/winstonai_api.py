@@ -27,7 +27,7 @@ from edenai_apis.utils.upload_s3 import upload_file_to_s3
 class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
     provider_name = "winstonai"
 
-    def __init__(self, api_keys: Optional[Dict[str, Any]] = None):
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY,
             provider_name=self.provider_name,

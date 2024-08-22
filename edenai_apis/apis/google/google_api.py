@@ -30,7 +30,7 @@ class GoogleApi(
 ):
     provider_name = "google"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         self.api_settings, self.location = load_provider(
             ProviderDataEnum.KEY,
             provider_name=self.provider_name,

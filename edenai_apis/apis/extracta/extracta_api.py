@@ -42,7 +42,7 @@ class ExtractaApi(
 ):
     provider_name = "extracta"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, "extracta", api_keys=api_keys
         )

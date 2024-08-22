@@ -87,7 +87,7 @@ class Client:
     __current_collection: Optional[Collection]
     __last_api_response: Optional[dict]
 
-    def __init__(self, api_keys: str) -> None:
+    def __init__(self, api_keys: str, **kwargs) -> None:
         self.__api_keys = api_keys
         self.headers = {"Authorization": f"Bearer {self.__api_keys}"}
         self.__current_organization = None

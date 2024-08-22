@@ -5,8 +5,12 @@ from typing import Dict
 import requests
 
 from edenai_apis.features import OcrInterface, ProviderInterface
-from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import IdentityParserDataClass
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialParserDataClass,
+)
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    IdentityParserDataClass,
+)
 from edenai_apis.features.ocr.invoice_parser import InvoiceParserDataClass
 from edenai_apis.features.ocr.receipt_parser import ReceiptParserDataClass
 from edenai_apis.features.ocr.resume_parser import ResumeParserDataClass
@@ -18,13 +22,14 @@ from edenai_apis.apis.klippa.klippa_ocr_normalizer import (
     klippa_financial_parser,
     klippa_id_parser,
     klippa_receipt_parser,
-    klippa_resume_parser
+    klippa_resume_parser,
 )
+
 
 class KlippaApi(ProviderInterface, OcrInterface):
     provider_name = "klippa"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -47,9 +52,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         try:
             original_response = response.json()
         except JSONDecodeError as exc:
-            raise ProviderException(
-                message="Internal Server Error", code=500
-            ) from exc
+            raise ProviderException(message="Internal Server Error", code=500) from exc
 
         if response.status_code != 200:
             raise ProviderException(message=response.json(), code=response.status_code)
@@ -103,13 +106,13 @@ class KlippaApi(ProviderInterface, OcrInterface):
         file_ = open(file, "rb")
         original_response = self._make_post_request(file_, endpoint="/resume")
         file_.close()
-        
+
         standardized_response = klippa_resume_parser(original_response)
         return ResponseType[ResumeParserDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
         )
-    
+
     def ocr__financial_parser(
         self, file: str, language: str, document_type: str = "", file_url: str = ""
     ) -> ResponseType[FinancialParserDataClass]:
@@ -121,6 +124,6 @@ class KlippaApi(ProviderInterface, OcrInterface):
         standardize_response = klippa_financial_parser(original_response)
 
         return ResponseType[FinancialParserDataClass](
-                    original_response=original_response,
-                    standardized_response=standardize_response,
-                )
+            original_response=original_response,
+            standardized_response=standardize_response,
+        )

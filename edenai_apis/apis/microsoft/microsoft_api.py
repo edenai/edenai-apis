@@ -24,7 +24,7 @@ class MicrosoftApi(
 ):
     provider_name = "microsoft"
 
-    def __init__(self, user=None, api_keys: Dict = {}):
+    def __init__(self, user=None, api_keys: Dict = {}, **kwargs):
         super().__init__()
 
         self.api_settings = load_provider(

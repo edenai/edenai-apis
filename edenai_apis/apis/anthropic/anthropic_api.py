@@ -36,7 +36,7 @@ from edenai_apis.apis.anthropic.prompts import LOGO_DETECTION_SYSTEM_PROMPT
 class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
     provider_name = "anthropic"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -362,7 +362,7 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
         top_p: Optional[int] = None,
         stream: bool = False,
         provider_params: Optional[dict] = None,
-        response_format = None,
+        response_format=None,
     ) -> ResponseType[Union[ChatMultimodalDataClass, StreamChatMultimodal]]:
 
         formated_messages = self.__format_anthropic_messages(messages=messages)

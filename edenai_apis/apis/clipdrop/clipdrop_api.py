@@ -13,7 +13,7 @@ from edenai_apis.utils.types import ResponseType
 class ClipdropApi(ProviderInterface, ImageInterface):
     provider_name = "clipdrop"
 
-    def __init__(self, api_keys: Optional[Dict[str, Any]] = None):
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )

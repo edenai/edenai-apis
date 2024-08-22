@@ -26,7 +26,7 @@ from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 class StabilityAIApi(ProviderInterface, ImageInterface):
     provider_name = "stabilityai"
 
-    def __init__(self, api_keys: Optional[Dict[str, Any]] = None):
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )

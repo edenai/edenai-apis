@@ -19,7 +19,7 @@ from edenai_apis.utils.types import (
 class VoxistApi(ProviderInterface, AudioInterface):
     provider_name: str = "voxist"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.api_settings: Dict = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -34,7 +34,7 @@ class VoxistApi(ProviderInterface, AudioInterface):
         audio_attributes: tuple,
         model: Optional[str] = None,
         file_url: str = "",
-        provider_params: Optional[dict] = None
+        provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
         raise ProviderException(
             message="This provider is deprecated.",

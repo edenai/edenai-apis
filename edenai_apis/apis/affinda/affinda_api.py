@@ -29,7 +29,7 @@ from .standardization import (
 class AffindaApi(ProviderInterface, OcrInterface):
     provider_name = "affinda"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         super().__init__()
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys

@@ -33,7 +33,7 @@ from edenai_apis.utils.upload_s3 import upload_file_to_s3
 class RevAIApi(ProviderInterface, AudioInterface):
     provider_name = "revai"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -70,7 +70,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
         profanity_filter: bool,
         vocab_name: Optional[str] = None,
         initiate_vocab: bool = False,
-        provider_params: Optional[dict] = None
+        provider_params: Optional[dict] = None,
     ):
         provider_params = provider_params or {}
         config = {
@@ -113,7 +113,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
                 if "filter_profanity" in key:
                     raise ProviderException(
                         f"{key}: {value[0]} Use 'en' language for profanity filter",
-                        code = response.status_code
+                        code=response.status_code,
                     )
             message = f"{original_response.get('title','')}: {original_response.get('details','')}"
             if message and message[0] == ":":
@@ -163,7 +163,11 @@ class RevAIApi(ProviderInterface, AudioInterface):
             )
 
         provider_job_id = self._launch_transcribe(
-            file_name, content_url, language, profanity_filter, provider_params=provider_params
+            file_name,
+            content_url,
+            language,
+            profanity_filter,
+            provider_params=provider_params,
         )
         provider_job_id = (
             f"{provider_job_id}EdenAI{file_name}"  # file_name to delete file
@@ -232,7 +236,7 @@ class RevAIApi(ProviderInterface, AudioInterface):
             if "could not find job" in error_message:
                 raise AsyncJobException(
                     reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
-                    code= response.status_code
+                    code=response.status_code,
                 )
             raise ProviderException(
                 message=error_message,

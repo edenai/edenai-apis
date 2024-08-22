@@ -26,7 +26,7 @@ from edenai_apis.utils.types import ResponseType
 class RossumApi(ProviderInterface, OcrInterface):
     provider_name = "rossum"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -235,9 +235,11 @@ class RossumApi(ProviderInterface, OcrInterface):
         for idx, category_information in enumerate(page["content"]):
             current_category = RossumApi.CategoryType.as_list()[idx]
             data_as_dict = {
-                entry["schema_id"]: entry["value"]
-                if entry["category"] == "datapoint"
-                else entry["children"]
+                entry["schema_id"]: (
+                    entry["value"]
+                    if entry["category"] == "datapoint"
+                    else entry["children"]
+                )
                 for entry in category_information["children"]
             }
             if current_category == RossumApi.CategoryType.LINE_ITEMS.value:
@@ -322,12 +324,16 @@ class RossumApi(ProviderInterface, OcrInterface):
             for tax in response_parsed["vat_and_amount"]["tax_details"]:
                 taxes.append(
                     TaxesInvoice(
-                        value=float(tax["tax_detail_tax"])
-                        if tax["tax_detail_tax"]
-                        else None,
-                        rate=float(tax["tax_detail_rate"])
-                        if tax["tax_detail_rate"]
-                        else None,
+                        value=(
+                            float(tax["tax_detail_tax"])
+                            if tax["tax_detail_tax"]
+                            else None
+                        ),
+                        rate=(
+                            float(tax["tax_detail_rate"])
+                            if tax["tax_detail_rate"]
+                            else None
+                        ),
                     )
                 )
 
@@ -346,16 +352,20 @@ class RossumApi(ProviderInterface, OcrInterface):
             for item in response_parsed["line_items"]:
                 item_lines.append(
                     ItemLinesInvoice(
-                        unit_price=float(item["item_amount_base"])
-                        if item["item_amount_base"]
-                        else None,
-                        amount=float(item["item_amount"])
-                        if item["item_amount"]
-                        else None,
+                        unit_price=(
+                            float(item["item_amount_base"])
+                            if item["item_amount_base"]
+                            else None
+                        ),
+                        amount=(
+                            float(item["item_amount"]) if item["item_amount"] else None
+                        ),
                         description=item["item_description"],
-                        quantity=float(item["item_quantity"])
-                        if item["item_quantity"]
-                        else None,
+                        quantity=(
+                            float(item["item_quantity"])
+                            if item["item_quantity"]
+                            else None
+                        ),
                     )
                 )
 

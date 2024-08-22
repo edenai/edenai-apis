@@ -20,7 +20,7 @@ from .config import voice_ids
 class ElevenlabsApi(ProviderInterface, AudioInterface):
     provider_name = "elevenlabs"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -33,10 +33,10 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         }
 
     def __get_model_from_voice(voice_id: str):
-        if 'Multilingual' in voice_id:
-            return 'eleven_multilingual_v2'
-        return 'eleven_monolingual_v1'
-    
+        if "Multilingual" in voice_id:
+            return "eleven_multilingual_v2"
+        return "eleven_monolingual_v1"
+
     def __get_voice_id(voice_id: str):
         try:
             voice_name = voice_id.split("_")[-1]  # Extract the name from the voice_id

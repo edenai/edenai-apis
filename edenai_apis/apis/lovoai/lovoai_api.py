@@ -32,7 +32,7 @@ from .config import voice_ids
 class LovoaiApi(ProviderInterface, AudioInterface):
     provider_name = "lovoai"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )

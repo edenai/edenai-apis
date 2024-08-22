@@ -19,7 +19,7 @@ from edenai_apis.utils.types import ResponseType
 class ProWritingAidApi(ProviderInterface, TextInterface):
     provider_name = "prowritingaid"
 
-    def __init__(self, api_keys: Optional[Dict[str, Any]] = None):
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None, **kwargs):
         api_settings = load_provider(
             ProviderDataEnum.KEY,
             provider_name=self.provider_name,

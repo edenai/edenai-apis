@@ -59,7 +59,7 @@ from .clarifai_helpers import explicit_content_likelihood, get_formatted_languag
 class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface):
     provider_name = "clarifai"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )

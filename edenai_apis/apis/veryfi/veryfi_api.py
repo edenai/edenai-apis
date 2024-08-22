@@ -34,7 +34,7 @@ from edenai_apis.utils.types import ResponseType
 class VeryfiApi(ProviderInterface, OcrInterface):
     provider_name = "veryfi"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         self.url = "https://api.veryfi.com/api/v8/partner"
 
         self.api_settings = load_key(

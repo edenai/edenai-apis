@@ -26,7 +26,7 @@ from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
 class DeeplApi(ProviderInterface, TranslationInterface):
     provider_name = "deepl"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )

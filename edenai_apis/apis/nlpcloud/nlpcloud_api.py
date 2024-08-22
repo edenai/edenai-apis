@@ -31,7 +31,7 @@ from edenai_apis.utils.types import ResponseType
 class NlpCloudApi(ProviderInterface, TextInterface):
     provider_name = "nlpcloud"
 
-    def __init__(self, api_keys: Optional[Dict] = None):
+    def __init__(self, api_keys: Optional[Dict] = None, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )

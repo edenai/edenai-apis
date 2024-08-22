@@ -17,7 +17,10 @@ from edenai_apis.features.ocr import (
     MerchantInformation,
     Taxes,
 )
-from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass, FinancialParserType
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialParserDataClass,
+    FinancialParserType,
+)
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import BankInvoice
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -26,10 +29,11 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.apis.dataleon.dataleon_ocr_normalizer import dataleon_financial_parser
 
+
 class DataleonApi(ProviderInterface, OcrInterface):
     provider_name = "dataleon"
 
-    def __init__(self, api_keys: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -259,18 +263,21 @@ class DataleonApi(ProviderInterface, OcrInterface):
             standardized_response=ReceiptParserDataClass(extracted_data=[ocr_receipt]),
         )
         return result
-    
+
     def ocr__financial_parser(
-            self, file: str, language: str, document_type: str = "", file_url: str = ""
-            ) -> ResponseType[FinancialParserDataClass]:
+        self, file: str, language: str, document_type: str = "", file_url: str = ""
+    ) -> ResponseType[FinancialParserDataClass]:
         if document_type == FinancialParserType.RECEIPT.value:
             url = self.url_receipt
         else:
-            url=self.url_invoice
+            url = self.url_invoice
 
         with open(file, "rb") as file_:
             response = requests.post(
-                url=url, headers=self.headers, files={"file": file_}, data={"table" : "true"}
+                url=url,
+                headers=self.headers,
+                files={"file": file_},
+                data={"table": "true"},
             )
 
         file_.close()

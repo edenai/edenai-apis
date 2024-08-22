@@ -15,7 +15,7 @@ from edenai_apis.utils.types import ResponseType
 class PhotoroomApi(ImageInterface, ProviderInterface):
     provider_name: str = "photoroom"
 
-    def __init__(self, api_key: Optional[Dict[str, str]] = None) -> None:
+    def __init__(self, api_key: Optional[Dict[str, str]] = None, **kwargs) -> None:
         self.api_settings: Dict[str, str] = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_key or {}
         )

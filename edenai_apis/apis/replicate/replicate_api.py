@@ -25,7 +25,7 @@ from .config import get_model_id, get_model_id_image
 class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
     provider_name = "replicate"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         api_settings = load_provider(
             ProviderDataEnum.KEY, provider_name=self.provider_name, api_keys=api_keys
         )

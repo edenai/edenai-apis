@@ -29,7 +29,7 @@ from .emvista_tags import tags
 class EmvistaApi(ProviderInterface, TextInterface):
     provider_name = "emvista"
 
-    def __init__(self, api_keys: Optional[Dict[str, Any]] = None):
+    def __init__(self, api_keys: Optional[Dict[str, Any]] = None, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )
@@ -84,7 +84,11 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return SentimentEnum.NEUTRAL.value
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: Optional[str] = None
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SummarizeDataClass]:
         files, headers = self._prepare_request(language, text)
 
@@ -197,9 +201,11 @@ class EmvistaApi(ProviderInterface, TextInterface):
             general_sentiment=EmvistaApi._normalize_sentiment(
                 result.get("globalScore", 0)
             ),
-            general_sentiment_rate=abs(result.get("globalScore", 0))
-            if result.get("globalScore") != "NaN"
-            else 0,
+            general_sentiment_rate=(
+                abs(result.get("globalScore", 0))
+                if result.get("globalScore") != "NaN"
+                else 0
+            ),
         )
 
         result = ResponseType[SentimentAnalysisDataClass](

@@ -13,7 +13,7 @@ import json
 class PerplexityApi(ProviderInterface, TextInterface):
     provider_name = "perplexityai"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         self.url = "https://api.perplexity.ai"
 
         self.api_settings = load_provider(

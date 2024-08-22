@@ -12,7 +12,7 @@ class TenstorrentApi(
 ):
     provider_name = "tenstorrent"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, provider_name=self.provider_name, api_keys=api_keys
         )

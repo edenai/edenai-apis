@@ -12,7 +12,7 @@ from edenai_apis.utils.types import ResponseType
 class MeaningcloudApi(ProviderInterface, TextInterface):
     provider_name = "meaningcloud"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: Dict = {}, **kwargs):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -20,7 +20,11 @@ class MeaningcloudApi(ProviderInterface, TextInterface):
         self.url = "https://api.meaningcloud.com/summarization-1.0"
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: Optional[str] = None
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SummarizeDataClass]:
         data = {
             "key": self.api_key,

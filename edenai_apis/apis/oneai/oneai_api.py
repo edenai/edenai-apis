@@ -56,7 +56,7 @@ class OneaiApi(
 ):
     provider_name = "oneai"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -196,7 +196,11 @@ class OneaiApi(
         )
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: Optional[str] = None
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SummarizeDataClass]:
         data = json.dumps({"input": text, "steps": [{"skill": "summarize"}]})
 
@@ -275,7 +279,7 @@ class OneaiApi(
                 }
             ],
             "multilingual": True,
-            **provider_params
+            **provider_params,
         }
 
         file_ = open(file, "rb")
@@ -404,10 +408,10 @@ class OneaiApi(
                 standardized_response=standardized_response,
             )
         elif status == OneAIAsyncStatus.FAILED.value:
-            raise ProviderException(original_response, code = status_code)
+            raise ProviderException(original_response, code=status_code)
         elif status == OneAIAsyncStatus.NOT_FOUND.value:
             raise AsyncJobException(
-                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, 
-                code = status_code)
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, code=status_code
+            )
         else:
             raise ProviderException(original_response, code=status_code)

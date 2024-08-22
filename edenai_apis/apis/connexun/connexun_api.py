@@ -17,7 +17,7 @@ from edenai_apis.utils.types import ResponseType
 class ConnexunApi(ProviderInterface, TextInterface):
     provider_name = "connexun"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
@@ -40,8 +40,7 @@ class ConnexunApi(ProviderInterface, TextInterface):
 
         if isinstance(original_response, dict) and original_response.get("message"):
             raise ProviderException(
-                original_response["message"],
-                code = response.status_code
+                original_response["message"], code=response.status_code
             )
 
         general_sentiment = original_response.get("Sentiment")
@@ -49,8 +48,7 @@ class ConnexunApi(ProviderInterface, TextInterface):
 
         if not general_sentiment and not general_sentiment_rate:
             raise ProviderException(
-                "Provider has not found a sentiment of the text.",
-                code = 200
+                "Provider has not found a sentiment of the text.", code=200
             )
 
         standardized_response = SentimentAnalysisDataClass(
@@ -85,15 +83,15 @@ class ConnexunApi(ProviderInterface, TextInterface):
         try:
             original_response = response.json()
         except json.JSONDecodeError:
-            raise ProviderException("Internal server error", code = status_code)
+            raise ProviderException("Internal server error", code=status_code)
         if status_code != 200:
-            raise ProviderException(response.json()["detail"], code = status_code)
+            raise ProviderException(response.json()["detail"], code=status_code)
         if original_response.get("Error"):
-            raise ProviderException(original_response["Error"], code = status_code)
+            raise ProviderException(original_response["Error"], code=status_code)
 
         # Check errors from API
         if isinstance(original_response, dict) and original_response.get("message"):
-            raise ProviderException(original_response["message"], code = status_code)
+            raise ProviderException(original_response["message"], code=status_code)
 
         # Return standardized response
         standardized_response = SummarizeDataClass(

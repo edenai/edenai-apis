@@ -45,7 +45,7 @@ from .types import SentisightBackgroundRemovalParams, SentisightPreTrainModel
 class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
     provider_name: str = "sentisight"
 
-    def __init__(self, api_keys: Optional[Dict[str, str]] = None) -> None:
+    def __init__(self, api_keys: Optional[Dict[str, str]] = None, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys or {}
         )
@@ -308,7 +308,11 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
 
     def image__search__launch_similarity(
-        self, project_id: str, file: Optional[str] = None,  file_url: Optional[str] = None, n: int = 10
+        self,
+        project_id: str,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        n: int = 10,
     ) -> ResponseType[SearchDataClass]:
         search_project_url = (
             "https://platform.sentisight.ai/api/similarity"

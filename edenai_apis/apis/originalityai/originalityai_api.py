@@ -25,7 +25,7 @@ from edenai_apis.utils.types import ResponseType
 class OriginalityaiApi(ProviderInterface, TextInterface):
     provider_name: str = "originalityai"
 
-    def __init__(self, api_keys: Dict = {}) -> None:
+    def __init__(self, api_keys: Dict = {}, **kwargs) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
