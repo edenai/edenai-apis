@@ -112,7 +112,7 @@ class MetaApi(ProviderInterface, TextInterface):
         if chatbot_global_action:
             prompt += f"<|start_header_id|>system<|end_header_id|>{chatbot_global_action}<|eot_id|>\n"
 
-        for msg in previous_history:
+        for msg in previous_history or []:
             role = msg["role"]
             message = msg["message"]
             prompt += f"<|start_header_id|>{role}<|end_header_id|>{message}<|eot_id|>\n"
