@@ -1,6 +1,7 @@
 from typing import Dict, List, Union, Optional
 from openai import OpenAI
 from openai import NOT_GIVEN
+import asyncio
 
 from edenai_apis.features import MultimodalInterface
 from edenai_apis.features.multimodal.chat import (
@@ -92,8 +93,10 @@ class OpenaiMultimodalApi(MultimodalInterface):
         provider_params: Optional[dict] = None,
         response_format=None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-        self.check_content_moderation(
-            messages=messages, chatbot_global_action=chatbot_global_action
+        asyncio.run(
+            self.check_content_moderation(
+                messages=messages, chatbot_global_action=chatbot_global_action
+            )
         )
         formatted_messages = self.__format_openai_messages(messages)
 

@@ -1,5 +1,6 @@
 import base64
 import os
+import asyncio
 import json
 from io import BytesIO
 from json import JSONDecodeError
@@ -45,7 +46,7 @@ class OpenaiImageApi(ImageInterface):
         num_images: int = 1,
         model: Optional[str] = None,
     ) -> ResponseType[ImageGenerationDataClass]:
-        self.check_content_moderation(text=text)
+        asyncio.run(self.check_content_moderation(text=text))
         url = f"{self.url}/images/generations"
         payload = {
             "prompt": text,
