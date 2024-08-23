@@ -90,8 +90,11 @@ class OpenaiMultimodalApi(MultimodalInterface):
         top_p: Optional[int] = None,
         stream: bool = False,
         provider_params: Optional[dict] = None,
-        response_format = None,
+        response_format=None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        self.check_content_moderation(
+            messages=messages, chatbot_global_action=chatbot_global_action
+        )
         formatted_messages = self.__format_openai_messages(messages)
 
         if chatbot_global_action:
@@ -99,9 +102,9 @@ class OpenaiMultimodalApi(MultimodalInterface):
                 0, {"role": "system", "content": chatbot_global_action}
             )
 
-        if response_format == "json" :
-            response_format = { "type": "json_object" }
-        elif response_format is None :
+        if response_format == "json":
+            response_format = {"type": "json_object"}
+        elif response_format is None:
             response_format = NOT_GIVEN
 
         payload = {
@@ -111,7 +114,7 @@ class OpenaiMultimodalApi(MultimodalInterface):
             "max_tokens": max_tokens,
             "top_p": top_p,
             "stream": stream,
-            "response_format": response_format
+            "response_format": response_format,
         }
 
         if stop_sequences:

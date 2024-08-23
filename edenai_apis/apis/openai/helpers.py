@@ -1,5 +1,6 @@
 import requests
 import json
+import asyncio
 from typing import List, Optional, Dict
 
 from requests import Response
@@ -418,3 +419,9 @@ def moderate_content(headers, content: str) -> bool:
         ]
         message = f"Content rejected by OpenAI due to the violation of the following policies : {', '.join(categories)}."
         raise ProviderException(message=message, code=400)
+
+
+async def moderate_if_exists(headers, value):
+    if value and isinstance(value, str):
+        await asyncio.to_thread(moderate_content, headers, value)
+ 
