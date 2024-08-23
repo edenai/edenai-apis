@@ -1,5 +1,6 @@
 import itertools
 import json
+import asyncio
 import os
 from time import sleep
 from typing import Dict, List, Literal, Optional, Sequence, Union
@@ -475,6 +476,7 @@ class OpenaiTextApi(TextInterface):
         max_tokens: int,
         model: str,
     ) -> ResponseType[GenerationDataClass]:
+        asyncio.run(self.check_content_moderation(text=text))
         url = f"{self.url}/completions"
 
         payload = {
@@ -624,6 +626,13 @@ class OpenaiTextApi(TextInterface):
         tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         previous_history = previous_history or []
+        asyncio.run(
+            self.check_content_moderation(
+                text=text,
+                chatbot_global_action=chatbot_global_action,
+                previous_history=previous_history,
+            )
+        )
         messages = []
         for msg in previous_history:
             message = {

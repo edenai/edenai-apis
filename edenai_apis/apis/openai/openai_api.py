@@ -1,5 +1,6 @@
 import random
 from typing import Dict
+import asyncio
 
 import openai
 from openai import OpenAI
@@ -10,7 +11,7 @@ from edenai_apis.apis.openai.openai_image_api import OpenaiImageApi
 from edenai_apis.apis.openai.openai_text_api import OpenaiTextApi
 from edenai_apis.apis.openai.openai_translation_api import OpenaiTranslationApi
 from edenai_apis.apis.openai.openai_multimodal_api import OpenaiMultimodalApi
-from edenai_apis.apis.openai.helpers import moderate_content
+from edenai_apis.apis.openai.helpers import moderate_if_exists
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -55,28 +56,38 @@ class OpenaiApi(
 
         self.webhook_settings = load_provider(ProviderDataEnum.KEY, "webhooksite")
         self.webhook_token = self.webhook_settings["webhook_token"]
+        self.moderation_flag = True
 
-    def check_content_moderation(self, *args, **kwargs):
-        if "text" in kwargs:
-            moderate_content(self.headers, kwargs["text"])
+    async def check_content_moderation(self, *args, **kwargs):
+        tasks = []
 
-        if "chatbot_global_action" in kwargs:
-            moderate_content(self.headers, kwargs["chatbot_global_action"])
+        tasks.append(moderate_if_exists(self.headers, kwargs.get("text")))
+        tasks.append(
+            moderate_if_exists(self.headers, kwargs.get("chatbot_global_action"))
+        )
+        tasks.append(moderate_if_exists(self.headers, kwargs.get("instruction")))
 
         if "previous_history" in kwargs:
-            for item in kwargs["previous_history"]:
-                moderate_content(self.headers, item.get("message"))
+            tasks.extend(
+                moderate_if_exists(self.headers, item.get("message"))
+                for item in kwargs["previous_history"]
+                if isinstance(item, dict)
+            )
 
         if "texts" in kwargs:
-            for item in kwargs["texts"]:
-                moderate_content(self.headers, item)
-
-        if "instruction" in kwargs:
-            moderate_content(self.headers, kwargs["instruction"])
+            tasks.extend(
+                moderate_if_exists(self.headers, item) for item in kwargs["texts"]
+            )
 
         if "messages" in kwargs:
             for message in kwargs["messages"]:
-                for content in message.get("content", []):
-                    text = content.get("content", {}).get("text")
-                    if text:
-                        moderate_content(self.headers, text)
+                if isinstance(message, dict) and "content" in message:
+                    for content in message["content"]:
+                        if isinstance(content, dict) and "content" in content:
+                            tasks.append(
+                                moderate_if_exists(
+                                    self.headers, content["content"].get("text")
+                                )
+                            )
+
+        await asyncio.gather(*tasks)
