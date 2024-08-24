@@ -15,7 +15,7 @@ from edenai_apis.apis.openai.helpers import moderate_if_exists
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-
+from asgiref.sync import async_to_sync
 
 class OpenaiApi(
     ProviderInterface,
@@ -92,21 +92,4 @@ class OpenaiApi(
         await asyncio.gather(*tasks)
 
     def check_content_moderation(self, *args, **kwargs):
-        coroutine = self._check_content_moderation(*args, **kwargs)
-        try:
-            loop = asyncio.get_event_loop()
-            if loop.is_running():
-                
-                future = asyncio.run_coroutine_threadsafe(coroutine, loop)
-                return future.result()  # This will block until the coroutine completes
-            else:
-                return loop.run_until_complete(coroutine)
-        except RuntimeError:
-            # No event loop in the current thread
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            try:
-                async_result = loop.run_until_complete(coroutine)
-                return async_result
-            finally:
-                loop.close()
+        async_to_sync(self._check_content_moderation)(*args, **kwargs)
