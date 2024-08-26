@@ -70,7 +70,7 @@ class ResumePersonalName(BaseModel):
 
 class ResumePersonalInfo(BaseModel):
     name: ResumePersonalName
-    address: ResumeLocation
+    address: Optional[ResumeLocation]
     self_summary: Optional[StrictStr]  # all
     objective: Optional[StrictStr]  # Hireability
     date_of_birth: Optional[StrictStr]  # Affinda
