@@ -4,6 +4,7 @@
     - Saved output for each provider exists and is well standardized
     - providers APIs work and their outputs are well standardized
 """
+
 import importlib
 import logging
 import os
@@ -240,7 +241,6 @@ class TestAsyncSubFeatures(CommonAsyncTests):
         self._test_get_job_result_does_not_exist(provider, feature, subfeature)
 
 
-@pytest.mark.skipif(os.environ.get("TEST_SCOPE") != "CICD", reason="Run On CICD")
 @pytest.mark.parametrize(
     ("providers", "feature", "subfeature"),
     global_features(filter=only_async_without_phase)["grouped_providers"],
