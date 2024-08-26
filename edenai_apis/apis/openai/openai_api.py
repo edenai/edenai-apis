@@ -60,7 +60,7 @@ class OpenaiApi(
         self.webhook_token = self.webhook_settings["webhook_token"]
         self.moderation_flag = True
 
-    async def _check_content_moderation(self, *args, **kwargs):
+    async def check_content_moderation_async(self, *args, **kwargs):
         tasks = []
 
         tasks.append(moderate_if_exists(self.headers, kwargs.get("text")))
@@ -96,4 +96,4 @@ class OpenaiApi(
             await asyncio.gather(*tasks)
 
     def check_content_moderation(self, *args, **kwargs):
-        async_to_sync(self._check_content_moderation)(*args, **kwargs)
+        async_to_sync(self.check_content_moderation_async)(*args, **kwargs)
