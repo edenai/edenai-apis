@@ -46,7 +46,7 @@ class OpenaiImageApi(ImageInterface):
         num_images: int = 1,
         model: Optional[str] = None,
     ) -> ResponseType[ImageGenerationDataClass]:
-        asyncio.run(self.check_content_moderation(text=text))
+        self.check_content_moderation(text=text)
         url = f"{self.url}/images/generations"
         payload = {
             "prompt": text,
