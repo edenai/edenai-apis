@@ -692,7 +692,9 @@
                         "ru-RU_Monolingual_Bill",
                         "ru-RU_Multilingual_Bill",
                         "ru-RU_Monolingual_George",
-                        "ru-RU_Multilingual_George"
+                        "ru-RU_Multilingual_George",
+                        "US_Monolingual_Jessie",
+                        "es-ES_Multilingual_Michael"
                     ],
                     "FEMALE": [
                         "en-US_Monolingual_Dorothy",
