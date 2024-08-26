@@ -1,6 +1,7 @@
 import random
 from typing import Dict
 import asyncio
+import aiohttp
 
 import openai
 from openai import OpenAI
@@ -16,6 +17,7 @@ from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from asgiref.sync import async_to_sync
+
 
 class OpenaiApi(
     ProviderInterface,
@@ -89,7 +91,9 @@ class OpenaiApi(
                                     self.headers, content["content"].get("text")
                                 )
                             )
-        await asyncio.gather(*tasks)
+
+        async with aiohttp.ClientSession() as session:
+            await asyncio.gather(*tasks)
 
     def check_content_moderation(self, *args, **kwargs):
         async_to_sync(self._check_content_moderation)(*args, **kwargs)
