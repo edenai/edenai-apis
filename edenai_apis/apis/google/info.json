@@ -1343,9 +1343,9 @@
       "constraints": {
         "models": [
           "imagen",
-          "gemini-pro-vision"
+          "gemini-1.5-flash"
         ],
-        "default_model": "gemini-pro-vision"
+        "default_model": "gemini-1.5-flash"
       },
       "version": "v1"
     },
