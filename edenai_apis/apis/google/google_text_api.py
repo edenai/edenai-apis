@@ -595,9 +595,11 @@ class GoogleTextApi(TextInterface):
                 raise ProviderException(
                     "Provider did not return a valid JSON", code=response.status_code
                 ) from exc
-            generated_text = original_response["candidates"][0]["content"]["parts"][0][
-                "text"
-            ]
+            generated_text = extract(
+                original_response, ["candidates", 0, "content", "parts", 0, "text"]
+            )
+            if not generated_text:
+                raise ProviderException("Empty response", code=400)
         else:
             payload = self.__text_chat_prepare_payload(
                 text,

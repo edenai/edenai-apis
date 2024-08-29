@@ -80,3 +80,5 @@ anthropic-bedrock==0.8.0
 docstring_parser
 
 pymupdf
+
+asgiref

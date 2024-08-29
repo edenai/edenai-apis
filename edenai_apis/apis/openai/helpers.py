@@ -1,6 +1,7 @@
 import requests
 import json
 import asyncio
+import aiohttp
 from typing import List, Optional, Dict
 
 from requests import Response
@@ -399,29 +400,48 @@ def convert_tool_results_to_openai_tool_calls(tools_results: List[dict]):
     return result
 
 
-def moderate_content(headers, content: str) -> bool:
+async def moderate_content(headers, content: str) -> bool:
     if not content:
-        pass
+        return False
 
-    response = requests.post(
-        "https://api.openai.com/v1/moderations",
-        headers=headers,
-        json={"input": content},
-    )
-    response = get_openapi_response(response)
-    flagged = response["results"][0]["flagged"]
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            "https://api.openai.com/v1/moderations",
+            headers=headers,
+            json={"input": content},
+        ) as response:
+            response_data = await get_openapi_response_async(response)
+            flagged = response_data["results"][0]["flagged"]
 
-    if flagged:
-        categories = [
-            category
-            for category, value in response["results"][0]["categories"].items()
-            if value
-        ]
-        message = f"Content rejected by OpenAI due to the violation of the following policies : {', '.join(categories)}."
-        raise ProviderException(message=message, code=400)
+            if flagged:
+                categories = [
+                    category
+                    for category, value in response_data["results"][0][
+                        "categories"
+                    ].items()
+                    if value
+                ]
+                message = f"Content rejected by OpenAI due to the violation of the following policies: {', '.join(categories)}."
+                raise ProviderException(message=message, code=400)
+
+    return not flagged
 
 
 async def moderate_if_exists(headers, value):
     if value and isinstance(value, str):
-        await asyncio.to_thread(moderate_content, headers, value)
- 
+        await moderate_content(headers, value)  # could be a problem
+
+
+async def get_openapi_response_async(response: aiohttp.ClientResponse):
+    """
+    This function takes an aiohttp.ClientResponse as input and returns its response.json()
+    raises a ProviderException if the response contains an error.
+    """
+    try:
+        original_response = await response.json()
+        if "error" in original_response or response.status >= 400:
+            message_error = original_response["error"]["message"]
+            raise ProviderException(message_error, code=response.status)
+        return original_response
+    except Exception:
+        raise ProviderException(await response.text(), code=response.status)

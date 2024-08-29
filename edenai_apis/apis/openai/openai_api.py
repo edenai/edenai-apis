@@ -1,6 +1,7 @@
 import random
 from typing import Dict
 import asyncio
+import aiohttp
 
 import openai
 from openai import OpenAI
@@ -15,6 +16,7 @@ from edenai_apis.apis.openai.helpers import moderate_if_exists
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from asgiref.sync import async_to_sync
 
 
 class OpenaiApi(
@@ -58,7 +60,7 @@ class OpenaiApi(
         self.webhook_token = self.webhook_settings["webhook_token"]
         self.moderation_flag = True
 
-    async def check_content_moderation(self, *args, **kwargs):
+    async def check_content_moderation_async(self, *args, **kwargs):
         tasks = []
 
         tasks.append(moderate_if_exists(self.headers, kwargs.get("text")))
@@ -90,4 +92,8 @@ class OpenaiApi(
                                 )
                             )
 
-        await asyncio.gather(*tasks)
+        async with aiohttp.ClientSession() as session:
+            await asyncio.gather(*tasks)
+
+    def check_content_moderation(self, *args, **kwargs):
+        async_to_sync(self.check_content_moderation_async)(*args, **kwargs)

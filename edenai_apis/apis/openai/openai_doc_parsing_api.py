@@ -1,6 +1,6 @@
 import json
 import os
-import fitz 
+import fitz
 from time import sleep
 
 from edenai_apis.features.ocr import (
@@ -13,16 +13,18 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.features import OcrInterface
 from edenai_apis.utils.exception import ProviderException
 
+
 def extract_text_from_pdf(pdf_path):
-    try :
+    try:
         doc = fitz.open(pdf_path)
-    except :
+    except:
         raise FileNotFoundError
     text = ""
     for page_num in range(len(doc)):
         page = doc.load_page(page_num)
         text += page.get_text()
     return text
+
 
 class OpenaiDocParsingApi(OcrInterface):
 
@@ -42,14 +44,13 @@ class OpenaiDocParsingApi(OcrInterface):
             model="gpt-4o",
         )
 
-
         input_file_text = extract_text_from_pdf(input_file)
 
         thread = self.client.beta.threads.create(
             messages=[
                 {
                     "role": "user",
-                    "content": message_text+input_file_text,
+                    "content": message_text + input_file_text,
                 }
             ]
         )
@@ -69,7 +70,7 @@ class OpenaiDocParsingApi(OcrInterface):
 
         try:
             standardized_response = json.loads(
-                   json.loads(messages.data[0].content[0].json())["text"]["value"]
+                json.loads(messages.data[0].content[0].json())["text"]["value"]
             )
         except json.JSONDecodeError as exc:
             raise ProviderException(

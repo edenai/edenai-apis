@@ -93,11 +93,11 @@ class OpenaiMultimodalApi(MultimodalInterface):
         provider_params: Optional[dict] = None,
         response_format=None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-        asyncio.run(
-            self.check_content_moderation(
-                messages=messages, chatbot_global_action=chatbot_global_action
-            )
+
+        self.check_content_moderation(
+            messages=messages, chatbot_global_action=chatbot_global_action
         )
+
         formatted_messages = self.__format_openai_messages(messages)
 
         if chatbot_global_action:
