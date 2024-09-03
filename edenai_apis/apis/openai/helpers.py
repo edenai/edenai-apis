@@ -1,7 +1,6 @@
-import requests
 import json
-import asyncio
 import aiohttp
+from enum import Enum
 from typing import List, Optional, Dict
 
 from requests import Response
@@ -15,6 +14,10 @@ from .prompts_guidelines import (
     general_prompt_guidelines,
     perplexityai_prompt_guidelines,
 )
+
+
+class OpenAIErrorCode(Enum):
+    RATE_LIMIT_EXCEEDED = "rate_limit_exceeded"
 
 
 def construct_classification_instruction(
@@ -411,6 +414,10 @@ async def moderate_content(headers, content: str) -> bool:
             json={"input": content},
         ) as response:
             response_data = await get_openapi_response_async(response)
+
+            if response_data is None:
+                return False
+
             flagged = response_data["results"][0]["flagged"]
 
             if flagged:
@@ -440,6 +447,9 @@ async def get_openapi_response_async(response: aiohttp.ClientResponse):
     try:
         original_response = await response.json()
         if "error" in original_response or response.status >= 400:
+            code = original_response["error"]["code"]
+            if code == OpenAIErrorCode.RATE_LIMIT_EXCEEDED.value:
+                return None
             message_error = original_response["error"]["message"]
             raise ProviderException(message_error, code=response.status)
         return original_response
