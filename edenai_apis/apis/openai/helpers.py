@@ -421,16 +421,12 @@ async def moderate_content(headers, content: str) -> bool:
             flagged = response_data["results"][0]["flagged"]
 
             if flagged:
-                categories = [
-                    category
-                    for category, value in response_data["results"][0][
-                        "categories"
-                    ].items()
-                    if value
-                ]
-                message = f"Content rejected by OpenAI due to the violation of the following policies: {', '.join(categories)}."
-                raise ProviderException(message=message, code=400)
+                categories = response_data["results"][0]["categories"]
+                if categories["sexual"] or categories["sexual/minors"]:
+                    message = "Content rejected due to violation of sexual content policies."
+                    raise ProviderException(message=message, code=400)
 
+                return False
     return not flagged
 
 
