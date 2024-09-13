@@ -423,7 +423,7 @@ async def moderate_content(headers, content: str) -> bool:
             if flagged:
                 categories = response_data["results"][0]["categories"]
                 if categories["sexual"] or categories["sexual/minors"]:
-                    message = "Content rejected due to violation of sexual content policies, including content related to minors."
+                    message = "Content rejected due to violation of sexual content policies."
                     raise ProviderException(message=message, code=400)
 
                 return False
