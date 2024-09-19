@@ -61,21 +61,21 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         if not language:
             raise LanguageException("Language not provided")
 
-        file_ = open(file, "rb")
-        response = requests.post(
-            url=add_query_param_in_url(url, {"lang": get_formatted_language(language)}),
-            headers={
-                "accept": "*/*",
-                "X-Auth-token": self.key,
-                "Content-Type": "application/octet-stream",
-            },
-            data=file_,
-        )
-        file_.close()
+        with open(file, "rb") as file_:
+            response = requests.post(
+                url=add_query_param_in_url(url, {"lang": get_formatted_language(language)}),
+                headers={
+                    "accept": "*/*",
+                    "X-Auth-token": self.key,
+                    "Content-Type": "application/octet-stream",
+                },
+                data=file_,
+            )
         if response.status_code != 200:
             raise ProviderException(response.text, code=response.status_code)
         response = response.json()
-        width, height = Img.open(file).size
+        with Img.open(file) as img:
+            width, height = img.size
         # response["width"], response["height"] = Img.open(file).size
 
         bounding_boxes: Sequence[Bounding_box] = []
@@ -109,23 +109,22 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
     def image__object_detection(
         self, file: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[ObjectDetectionDataClass]:
-        file_ = open(file, "rb")
-        response = requests.post(
-            self.base_url + SentisightPreTrainModel.OBJECT_DETECTION.value,
-            headers={
-                "accept": "*/*",
-                "X-Auth-token": self.key,
-                "Content-Type": "application/octet-stream",
-            },
-            data=file_,
-        )
-        file_.close()
+        with open(file, "rb") as file_:
+            response = requests.post(
+                self.base_url + SentisightPreTrainModel.OBJECT_DETECTION.value,
+                headers={
+                    "accept": "*/*",
+                    "X-Auth-token": self.key,
+                    "Content-Type": "application/octet-stream",
+                },
+                data=file_,
+            )
         if response.status_code != 200:
             raise ProviderException(response.text, code=response.status_code)
 
-        img = Img.open(file)
-        width = img.width
-        height = img.height
+        with Img.open(file) as img:
+            width = img.width
+            height = img.height
 
         original_response = response.json()
         objects: Sequence[ObjectItem] = []
@@ -150,17 +149,16 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
     def image__explicit_content(
         self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
-        file_ = open(file, "rb")
-        response = requests.post(
-            self.base_url + SentisightPreTrainModel.NSFW_CLASSIFICATION.value,
-            headers={
-                "accept": "*/*",
-                "X-Auth-token": self.key,
-                "Content-Type": "application/octet-stream",
-            },
-            data=file_,
-        )
-        file_.close()
+        with open(file, "rb") as file_:
+            response = requests.post(
+                self.base_url + SentisightPreTrainModel.NSFW_CLASSIFICATION.value,
+                headers={
+                    "accept": "*/*",
+                    "X-Auth-token": self.key,
+                    "Content-Type": "application/octet-stream",
+                },
+                data=file_,
+            )
         if response.status_code != 200:
             raise ProviderException(response.text, code=response.status_code)
 
@@ -228,18 +226,16 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             + f"{project_id}/{image_name}?preprocess=true"
         )
         # Build the request
-        file_ = open(file, "rb")
-        response = requests.post(
-            upload_project_url,
-            headers={
-                "accept": "*/*",
-                "X-Auth-token": self.key,
-                "Content-Type": "application/octet-stream",
-            },
-            data=file_,
-        )
-
-        file_.close()
+        with open(file, "rb") as file_:
+            response = requests.post(
+                upload_project_url,
+                headers={
+                    "accept": "*/*",
+                    "X-Auth-token": self.key,
+                    "Content-Type": "application/octet-stream",
+                },
+                data=file_,
+            )
 
         if response.status_code != 200:
             handle_error_image_search(response)
@@ -316,18 +312,17 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
         if not file:
             raise ValueError("file is required.")
-        file_ = open(file, "rb")
-        response = requests.post(
-            search_project_url,
-            headers={
-                "accept": "*/*",
-                "X-Auth-token": self.key,
-                "Content-Type": "application/octet-stream",
-            },
-            data=file_,
-        )
+        with open(file, "rb") as file_:
+            response = requests.post(
+                search_project_url,
+                headers={
+                    "accept": "*/*",
+                    "X-Auth-token": self.key,
+                    "Content-Type": "application/octet-stream",
+                },
+                data=file_,
+            )
 
-        file_.close()
         # Handle the error
         if response.status_code != 200:
             handle_error_image_search(response)

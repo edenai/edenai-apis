@@ -51,12 +51,11 @@ class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
         self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
         data_job_id = {}
-        file_ = open(file, "rb")
-        file_data = base64.b64encode(file_.read())
-        file_data = file_data.decode("ascii")
-        mimetype = mimetypes.guess_type(file)[0]
-        extension = mimetypes.guess_extension(mimetype)
-        file_.close()
+        with open(file, "rb") as file_:
+            file_data = base64.b64encode(file_.read())
+            file_data = file_data.decode("ascii")
+            mimetype = mimetypes.guess_type(file)[0]
+            extension = mimetypes.guess_extension(mimetype)
         data = {
             "file": {
                 "data": file_data,  # base64 converted file

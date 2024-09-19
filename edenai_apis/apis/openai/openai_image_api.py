@@ -152,13 +152,14 @@ class OpenaiImageApi(ImageInterface):
         file_url: str = "",
     ) -> ResponseType[VariationDataClass]:
         try:
-            response = self.client.images.generate(
-                image=open(file, "rb"),
-                n=num_images,
-                model=model,
-                size=resolution,
-                response_format="b64_json",
-            )
+            with open(file, "rb") as file_:
+                response = self.client.images.generate(
+                    image=file_,
+                    n=num_images,
+                    model=model,
+                    size=resolution,
+                    response_format="b64_json",
+                )
         except APIError as error:
             raise ProviderException(message=error.user_message, code=error.code)
 

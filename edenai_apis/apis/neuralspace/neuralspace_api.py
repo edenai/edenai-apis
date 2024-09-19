@@ -72,7 +72,6 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
                     original_response.get("message"), code=response.status_code
                 )
 
-
         data = original_response.get("data") or {}
 
         items: List[InfosNamedEntityRecognitionDataClass] = []
@@ -181,12 +180,10 @@ class NeuralSpaceApi(ProviderInterface, TextInterface, TranslationInterface):
         url_file_transcribe = f"{self.url}transcription/v1/file/transcribe"
         # first, upload file
         headers = {"Authorization": f"{self.api_key}"}
-        file_ = open(file, "rb")
-        files = {"files": file_}
+        with open(file, "rb") as file_:
+            files = {"files": file_}
+            response = requests.post(url=url_file_upload, headers=headers, files=files)
 
-        response = requests.post(url=url_file_upload, headers=headers, files=files)
-
-        file_.close()
         if response.status_code != 200:
             raise ProviderException(
                 "Failed to upload file for transcription", response.status_code

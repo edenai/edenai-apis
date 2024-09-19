@@ -95,12 +95,10 @@ class Api4aiApi(
         """
         This function is used to detect objects in an image.
         """
-        file_ = open(file, "rb")
-        files = {"image": file_}
-        response = requests.post(self.urls["object_detection"], files=files)
-        original_response = response.json()
-
-        file_.close()
+        with open(file, "rb") as file_:
+            files = {"image": file_}
+            response = requests.post(self.urls["object_detection"], files=files)
+            original_response = response.json()
 
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
@@ -135,14 +133,13 @@ class Api4aiApi(
     def image__face_detection(
         self, file: str, file_url: str = ""
     ) -> ResponseType[FaceDetectionDataClass]:
-        file_ = open(file, "rb")
-        payload = {
-            "image": file_,
-        }
-        # Get response
-        response = requests.post(self.urls["face_detection"], files=payload)
-        original_response = response.json()
-        file_.close()
+        with open(file, "rb") as file_:
+            payload = {
+                "image": file_,
+            }
+            # Get response
+            response = requests.post(self.urls["face_detection"], files=payload)
+            original_response = response.json()
 
         # Handle errors
         if "failure" in original_response["results"][0]["status"]["code"]:
@@ -200,13 +197,11 @@ class Api4aiApi(
     def image__anonymization(
         self, file: str, file_url: str = ""
     ) -> ResponseType[AnonymizationDataClass]:
-        file_ = open(file, "rb")
-        files = {"image": file_}
-        response = requests.post(self.urls["anonymization"], files=files)
+        with open(file, "rb") as file_:
+            files = {"image": file_}
+            response = requests.post(self.urls["anonymization"], files=files)
 
-        original_response = response.json()
-
-        file_.close()
+            original_response = response.json()
 
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
@@ -246,27 +241,26 @@ class Api4aiApi(
     def image__logo_detection(
         self, file: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[LogoDetectionDataClass]:
-        file_ = open(file, "rb")
-        payload = {
-            "image": file_,
-        }
-        # Get response
-        response = requests.post(
-            self.urls["logo_detection"].format(model=model), files=payload
-        )
-        if response.status_code >= 400:
-            error_message = ""
-            try:
-                error_message = response.json().get("message", "")
-            except:
-                pass
-            error_message = (
-                error_message or "Something went wrong when calling the provider"
+        with open(file, "rb") as file_:
+            payload = {
+                "image": file_,
+            }
+            # Get response
+            response = requests.post(
+                self.urls["logo_detection"].format(model=model), files=payload
             )
-            raise ProviderException(error_message, code=response.status_code)
+            if response.status_code >= 400:
+                error_message = ""
+                try:
+                    error_message = response.json().get("message", "")
+                except:
+                    pass
+                error_message = (
+                    error_message or "Something went wrong when calling the provider"
+                )
+                raise ProviderException(error_message, code=response.status_code)
 
-        original_response = response.json()
-        file_.close()
+            original_response = response.json()
         # Handle errors
         if "failure" in original_response["results"][0]["status"]["code"]:
             raise ProviderException(
@@ -309,19 +303,18 @@ class Api4aiApi(
     def image__explicit_content(
         self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
-        file_ = open(file, "rb")
-        payload = {
-            "image": file_,
-        }
-        # Get response
-        response = requests.post(self.urls["nsfw"], files=payload)
-        try:
-            original_response = response.json()
-        except JSONDecodeError as exp:
-            raise ProviderException(
-                message="Internal server error", code=response.status_code
-            ) from exp
-        file_.close()
+        with open(file, "rb") as file_:
+            payload = {
+                "image": file_,
+            }
+            # Get response
+            response = requests.post(self.urls["nsfw"], files=payload)
+            try:
+                original_response = response.json()
+            except JSONDecodeError as exp:
+                raise ProviderException(
+                    message="Internal server error", code=response.status_code
+                ) from exp
 
         # Handle errors
         if (
@@ -370,9 +363,8 @@ class Api4aiApi(
         language: str,
         file_url: str = "",
     ) -> ResponseType[OcrDataClass]:
-        file_ = open(file, "rb")
-        response = requests.post(self.urls["ocr"], files={"image": file_})
-        file_.close()
+        with open(file, "rb") as file_:
+            response = requests.post(self.urls["ocr"], files={"image": file_})
 
         error = get_errors_from_response(response)
         if error is not None:

@@ -10,12 +10,15 @@ from edenai_apis.features.ocr.receipt_parser import ReceiptParserDataClass
 from edenai_apis.loaders.loaders import ProviderDataEnum, load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import FinancialParserDataClass
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialParserDataClass,
+)
 from edenai_apis.apis.eagledoc.eagledoc_ocr_normalizer import (
     eagledoc_invoice_parser,
     eagledoc_receipt_parser,
-    eagledoc_financial_parser
+    eagledoc_financial_parser,
 )
+
 
 class EagledocApi(ProviderInterface, OcrInterface):
     provider_name = "eagledoc"
@@ -37,9 +40,12 @@ class EagledocApi(ProviderInterface, OcrInterface):
         files = {
             "file": file,
         }
-        
+
         response = requests.post(
-            url=self.url + endpoint, headers=self.headers, files=files, params=self.params
+            url=self.url + endpoint,
+            headers=self.headers,
+            files=files,
+            params=self.params,
         )
 
         try:
@@ -54,15 +60,15 @@ class EagledocApi(ProviderInterface, OcrInterface):
 
         return original_response
 
-
     def ocr__financial_parser(
-            self, file: str, language: str, document_type: str = "", file_url: str = ""
-            ) -> ResponseType[FinancialParserDataClass]:
+        self, file: str, language: str, document_type: str = "", file_url: str = ""
+    ) -> ResponseType[FinancialParserDataClass]:
 
-        file_ = open(file, "rb")
-        original_response = self._make_post_request(file_, endpoint="/finance/v1/processing")
+        with open(file, "rb") as file_:
+            original_response = self._make_post_request(
+                file_, endpoint="/finance/v1/processing"
+            )
 
-        file_.close()
         standardize_response = eagledoc_financial_parser(original_response)
 
         return ResponseType[FinancialParserDataClass](
@@ -73,10 +79,11 @@ class EagledocApi(ProviderInterface, OcrInterface):
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
-        file_ = open(file, "rb")
-        original_response = self._make_post_request(file_, endpoint="/invoice/v1/processing")
+        with open(file, "rb") as file_:
+            original_response = self._make_post_request(
+                file_, endpoint="/invoice/v1/processing"
+            )
 
-        file_.close()
         standardize_response = eagledoc_invoice_parser(original_response)
 
         return ResponseType[InvoiceParserDataClass](
@@ -87,10 +94,10 @@ class EagledocApi(ProviderInterface, OcrInterface):
     def ocr__receipt_parser(
         self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
-        file_ = open(file, "rb")
-        original_response = self._make_post_request(file_, endpoint="/receipt/v3/processing")
-
-        file_.close()
+        with open(file, "rb") as file_:
+            original_response = self._make_post_request(
+                file_, endpoint="/receipt/v3/processing"
+            )
 
         standardize_response = eagledoc_receipt_parser(original_response)
         return ResponseType[ReceiptParserDataClass](

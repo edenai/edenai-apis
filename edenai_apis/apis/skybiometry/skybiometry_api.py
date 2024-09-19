@@ -37,17 +37,16 @@ class SkybiometryApi(ProviderInterface, ImageInterface):
     def image__face_detection(
         self, file: str, file_url: str = ""
     ) -> ResponseType[FaceDetectionDataClass]:
-        file_ = open(file, "rb")
-        files = {"file": file_}
+        with open(file, "rb") as file_:
+            files = {"file": file_}
 
-        endpoint = f"{self.base_url}faces/detect.json"
-        query_params = (
-            f"api_key={self.api_key}&api_secret={self.api_secret}&attributes=all"
-        )
-        response = requests.post(f"{endpoint}?{query_params}", files=files)
+            endpoint = f"{self.base_url}faces/detect.json"
+            query_params = (
+                f"api_key={self.api_key}&api_secret={self.api_secret}&attributes=all"
+            )
+            response = requests.post(f"{endpoint}?{query_params}", files=files)
 
-        original_response = response.json()
-        file_.close()
+            original_response = response.json()
         if response.status_code != 200:
             raise ProviderException(
                 message=original_response["error_message"], code=response.status_code
@@ -109,40 +108,60 @@ class SkybiometryApi(ProviderInterface, ImageInterface):
                     age=face["attributes"].get("age_est", {}).get("value"),
                     gender=face["attributes"].get("gender", {}).get("value"),
                     facial_hair=FaceFacialHair(
-                        moustache=1.0
-                        if face["attributes"].get("mustache", {}).get("value") == "true"
-                        else 0.0,
-                        beard=1.0
-                        if face["attributes"].get("beard", {}).get("value") == "true"
-                        else 0.0,
+                        moustache=(
+                            1.0
+                            if face["attributes"].get("mustache", {}).get("value")
+                            == "true"
+                            else 0.0
+                        ),
+                        beard=(
+                            1.0
+                            if face["attributes"].get("beard", {}).get("value")
+                            == "true"
+                            else 0.0
+                        ),
                         sideburns=None,
                     ),
                     accessories=FaceAccessories(
-                        sunglasses=1.0
-                        if face["attributes"].get("dark_glasses", {}).get("value")
-                        == "true"
-                        else 0.0,
-                        eyeglasses=1.0
-                        if face["attributes"].get("glasses", {}).get("value") == "true"
-                        else 0.0,
-                        headwear=1.0
-                        if face["attributes"].get("hat", {}).get("value") == "true"
-                        else 0.0,
+                        sunglasses=(
+                            1.0
+                            if face["attributes"].get("dark_glasses", {}).get("value")
+                            == "true"
+                            else 0.0
+                        ),
+                        eyeglasses=(
+                            1.0
+                            if face["attributes"].get("glasses", {}).get("value")
+                            == "true"
+                            else 0.0
+                        ),
+                        headwear=(
+                            1.0
+                            if face["attributes"].get("hat", {}).get("value") == "true"
+                            else 0.0
+                        ),
                         reading_glasses=None,
                         swimming_goggles=None,
                         face_mask=None,
                     ),
                     features=FaceFeatures(
-                        eyes_open=1.0
-                        if face["attributes"].get("eyes", {}).get("value") == "open"
-                        else 0.0,
-                        smile=1.0
-                        if face["attributes"].get("smiling", {}).get("value") == "true"
-                        else 0.0,
-                        mouth_open=1.0
-                        if face["attributes"].get("lips", {}).get("value", "sealed")
-                        != "sealed"
-                        else 0.0,
+                        eyes_open=(
+                            1.0
+                            if face["attributes"].get("eyes", {}).get("value") == "open"
+                            else 0.0
+                        ),
+                        smile=(
+                            1.0
+                            if face["attributes"].get("smiling", {}).get("value")
+                            == "true"
+                            else 0.0
+                        ),
+                        mouth_open=(
+                            1.0
+                            if face["attributes"].get("lips", {}).get("value", "sealed")
+                            != "sealed"
+                            else 0.0
+                        ),
                     ),
                     poses=FacePoses.default(),
                     quality=FaceQuality.default(),

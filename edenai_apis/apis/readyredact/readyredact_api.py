@@ -31,20 +31,20 @@ class ReadyRedactApi(ProviderInterface, OcrInterface):
         self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
 
-        file_ = open(file, "rb")
-        files = [
-            ('file[]', (file, file_, 'application/pdf'))
-        ]
-        payload = {
-            "email": self.email
-        }
-        headers = {
-            'Accept': 'application/json'
-        }
-        params = {
-            "api_key": self.api_key
-        }
-        response = requests.post(url=self.url_put_file, params=params, data=payload, files=files, headers=headers)
+        with open(file, "rb") as file_:
+            files = [
+                ('file[]', (file, file_, 'application/pdf'))
+            ]
+            payload = {
+                "email": self.email
+            }
+            headers = {
+                'Accept': 'application/json'
+            }
+            params = {
+                "api_key": self.api_key
+            }
+            response = requests.post(url=self.url_put_file, params=params, data=payload, files=files, headers=headers)
         if response.status_code != 200:
             raise ProviderException(response.text, code=response.status_code)
         try:

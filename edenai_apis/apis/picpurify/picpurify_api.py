@@ -66,16 +66,15 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
             "API_KEY": self.key,
             "task": "face_gender_age_detection",
         }
-        file_ = open(file, "rb")
-        files = {"image": file_}
-        response = requests.post(self.url, files=files, data=payload)
-        self._raise_on_error(response)
-        original_response = response.json()
-        file_.close()
+        with open(file, "rb") as file_:
+            files = {"image": file_}
+            response = requests.post(self.url, files=files, data=payload)
+            self._raise_on_error(response)
+            original_response = response.json()
 
         # Std response
-        img_size = Img.open(file).size
-        width, height = img_size
+        with Img.open(file) as img:
+            width, height = img.size
         face_detection = extract(
             original_response,
             ["face_detection", "results"],
@@ -138,12 +137,11 @@ class PicpurifyApi(ProviderInterface, ImageInterface):
             "task": "suggestive_nudity_moderation,gore_moderation,"
             + "weapon_moderation,drug_moderation,hate_sign_moderation",
         }
-        file_ = open(file, "rb")
-        files = {"image": file_}
-        response = requests.post(self.url, files=files, data=payload)
-        self._raise_on_error(response)
-        original_response = response.json()
-        file_.close()
+        with open(file, "rb") as file_:
+            files = {"image": file_}
+            response = requests.post(self.url, files=files, data=payload)
+            self._raise_on_error(response)
+            original_response = response.json()
 
         # get moderation label keys from categegories found in image
         # (eg: 'drug_moderation', 'gore_moderation' etc.)

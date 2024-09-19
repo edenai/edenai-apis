@@ -486,7 +486,8 @@ class Client:
         if file.type == "url":
             payload["url"] = file.file
         elif file.type == "file":
-            files = {"file": open(file.file, "rb")}
+            with open(file.file, "rb") as f:
+                files = {"file": f}
 
         return Document(
             **self.__requests(

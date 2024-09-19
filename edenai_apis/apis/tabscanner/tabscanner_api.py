@@ -24,8 +24,8 @@ from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import
     FinancialParserObjectDataClass,
     FinancialLineItem,
     FinancialDocumentMetadata,
-    FinancialBankInformation
-    )
+    FinancialBankInformation,
+)
 from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import BarCode
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -53,7 +53,9 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         )
         response_json = response.json()
         if response_json.get("success") == False:
-            raise ProviderException(response_json.get("message"), code = response.status_code)
+            raise ProviderException(
+                response_json.get("message"), code=response.status_code
+            )
         return response_json["token"]
 
     def _get_response(self, token: str, retry=0) -> Any:
@@ -68,14 +70,13 @@ class TabscannerApi(ProviderInterface, OcrInterface):
     def ocr__receipt_parser(
         self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
-        file_ = open(file, "rb")
-        token = self._process(file_, "receipt")
-        sleep(1)
-        original_response, status_code = self._get_response(token)
-        file_.close()
+        with open(file, "rb") as file_:
+            token = self._process(file_, "receipt")
+            sleep(1)
+            original_response, status_code = self._get_response(token)
 
         if "result" not in original_response:
-            raise ProviderException(original_response["message"], code = status_code)
+            raise ProviderException(original_response["message"], code=status_code)
 
         receipt = original_response.get("result")
 
@@ -112,12 +113,16 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         list_items: Sequence[ItemLines] = [
             ItemLines(
                 description=json_element["descClean"],
-                amount=float(json_element["lineTotal"])
-                if json_element["lineTotal"] and json_element["lineTotal"] != ""
-                else None,
-                unit_price=convert_string_to_number(json_element["unit"], float)
-                if json_element["unit"] and json_element["unit"] != ""
-                else None,
+                amount=(
+                    float(json_element["lineTotal"])
+                    if json_element["lineTotal"] and json_element["lineTotal"] != ""
+                    else None
+                ),
+                unit_price=(
+                    convert_string_to_number(json_element["unit"], float)
+                    if json_element["unit"] and json_element["unit"] != ""
+                    else None
+                ),
                 quantity=json_element["qty"],
             )
             for json_element in receipt["lineItems"]
@@ -150,16 +155,15 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         return result
 
     def ocr__financial_parser(
-            self, file: str, language: str, document_type: str = "", file_url: str = ""
-            ) -> ResponseType[FinancialParserDataClass]:
-        file_ = open(file, "rb")
-        token = self._process(file_, document_type)
-        sleep(1)
-        original_response, status_code = self._get_response(token)
-        file_.close()
+        self, file: str, language: str, document_type: str = "", file_url: str = ""
+    ) -> ResponseType[FinancialParserDataClass]:
+        with open(file, "rb") as file_:
+            token = self._process(file_, document_type)
+            sleep(1)
+            original_response, status_code = self._get_response(token)
 
         if "result" not in original_response:
-            raise ProviderException(original_response["message"], code = status_code)
+            raise ProviderException(original_response["message"], code=status_code)
 
         financial_document = original_response.get("result")
 
@@ -185,15 +189,14 @@ class TabscannerApi(ProviderInterface, OcrInterface):
             amount_change=financial_document.get("change"),
             discount=financial_document.get("discount"),
             payment_method=financial_document.get("paymentMethod"),
-            subtotal = financial_document.get("subTotal"),
-            barcodes = [
-            FinancialBarcode(type=code_type, value=code_value)
-            for code_value, code_type in financial_document.get("barcodes", [])
-        ]
+            subtotal=financial_document.get("subTotal"),
+            barcodes=[
+                FinancialBarcode(type=code_type, value=code_value)
+                for code_value, code_type in financial_document.get("barcodes", [])
+            ],
         )
         financial_document_information = FinancialDocumentInformation(
-            date = financial_document.get("date")
-
+            date=financial_document.get("date")
         )
 
         local = FinancialLocalInformation(currecy=financial_document.get("currency"))
@@ -201,11 +204,13 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         list_items = [
             FinancialLineItem(
                 description=json_element.get("descClean"),
-                amount_line=convert_string_to_number(json_element.get("lineTotal"), float),
+                amount_line=convert_string_to_number(
+                    json_element.get("lineTotal"), float
+                ),
                 unit_price=convert_string_to_number(json_element.get("unit"), float),
                 quantity=json_element["qty"],
                 product_code=json_element.get("productCode"),
-                discount_amount=json_element.get("discount")
+                discount_amount=json_element.get("discount"),
             )
             for json_element in financial_document["lineItems"]
         ]
@@ -218,15 +223,15 @@ class TabscannerApi(ProviderInterface, OcrInterface):
                     payment_information=payment_information,
                     financial_document_information=financial_document_information,
                     local=local,
-                    bank = FinancialBankInformation(),
+                    bank=FinancialBankInformation(),
                     item_lines=list_items,
                     document_metadata=FinancialDocumentMetadata(
                         document_type=financial_document.get("documentType")
-                    )
+                    ),
                 )
             ]
         )
         return ResponseType[FinancialParserDataClass](
-                    original_response=original_response,
-                    standardized_response=standardized_response,
-                )
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )

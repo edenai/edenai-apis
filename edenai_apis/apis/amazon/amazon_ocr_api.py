@@ -111,22 +111,23 @@ class AmazonOcrApi(OcrInterface):
     def ocr__identity_parser(
         self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
-        file_ = open(file, "rb")
 
-        payload = {
-            "DocumentPages": [
-                {
-                    "Bytes": file_.read(),
-                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": "test"},
-                }
-            ]
-        }
+        with open(file, "rb") as file_:
+            payload = {
+                "DocumentPages": [
+                    {
+                        "Bytes": file_.read(),
+                        "S3Object": {
+                            "Bucket": self.api_settings["bucket"],
+                            "Name": "test",
+                        },
+                    }
+                ]
+            }
 
-        original_response = handle_amazon_call(
-            self.clients["textract"].analyze_id, **payload
-        )
-
-        file_.close()
+            original_response = handle_amazon_call(
+                self.clients["textract"].analyze_id, **payload
+            )
 
         items: Sequence[InfosIdentityParserDataClass] = []
         for document in original_response["IdentityDocuments"]:

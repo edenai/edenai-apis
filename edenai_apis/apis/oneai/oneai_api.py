@@ -278,12 +278,12 @@ class OneaiApi(
             **provider_params
         }
 
-        file_ = open(file, "rb")
-        response = requests.post(
-            url=f"{self.url}/async/file?pipeline={json.dumps(data)}",
-            headers=self.header,
-            data=file_.read(),
-        )
+        with open(file, "rb") as file_:
+            response = requests.post(
+                url=f"{self.url}/async/file?pipeline={json.dumps(data)}",
+                headers=self.header,
+                data=file_.read(),
+            )
         original_response = response.json()
 
         if response.status_code != 200:

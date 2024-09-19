@@ -133,19 +133,19 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         url = f"https://api.stability.ai/v1/generation/{model}/image-to-image"
         del self.headers["Content-Type"]
         prompt = prompt or ""
-        img = open(file, "rb")
+        with open(file, "rb") as img:
 
-        if not prompt:
-            prompt = "Generate a variation of this image and maintain the style"
+            if not prompt:
+                prompt = "Generate a variation of this image and maintain the style"
 
-        data = {
-            "image_strength": 1 - temperature,
-            "text_prompts[0][text]": prompt,
-            "samples": num_images,
-        }
-        files = {"init_image": img}
+            data = {
+                "image_strength": 1 - temperature,
+                "text_prompts[0][text]": prompt,
+                "samples": num_images,
+            }
+            files = {"init_image": img}
 
-        response = requests.post(url, headers=self.headers, data=data, files=files)
+            response = requests.post(url, headers=self.headers, data=data, files=files)
 
         if response.status_code != 200:
             raise ProviderException(message=response.text, code=response.status_code)

@@ -87,8 +87,9 @@ class MicrosoftOcrApi(OcrInterface):
             raise ProviderException(response["error"]["message"], request.status_code)
 
         # Get width and hight
-        width, height = Img.open(file).size
 
+        with Img.open(file) as img:
+            width, height = img.size
         boxes: Sequence[Bounding_box] = []
         # Get region of text
         for region in response["regions"]:
@@ -116,31 +117,29 @@ class MicrosoftOcrApi(OcrInterface):
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
-        file_ = open(file, "rb")
-        try:
-            document_analysis_client = DocumentAnalysisClient(
-                endpoint=self.url["documentintelligence"],
-                credential=AzureKeyCredential(
-                    self.api_settings["documentintelligence"]["subscription_key"]
-                ),
-            )
-            poller = document_analysis_client.begin_analyze_document(
-                "prebuilt-invoice", file_
-            )
-            invoices = poller.result()
-        except AzureError as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
+        with open(file, "rb") as file_:
+            try:
+                document_analysis_client = DocumentAnalysisClient(
+                    endpoint=self.url["documentintelligence"],
+                    credential=AzureKeyCredential(
+                        self.api_settings["documentintelligence"]["subscription_key"]
+                    ),
+                )
+                poller = document_analysis_client.begin_analyze_document(
+                    "prebuilt-invoice", file_
+                )
+                invoices = poller.result()
+            except AzureError as provider_call_exception:
+                raise ProviderException(str(provider_call_exception))
 
-        try:
-            if invoices is None or not hasattr(invoices, "to_dict"):
-                raise AttributeError
-            # AttributeError sometimes happens in the lib when calling to dict
-            # and a DocumentField has a None value
-            original_response = invoices.to_dict()
-        except AttributeError:
-            raise ProviderException("Provider return an empty response")
-
-        file_.close()
+            try:
+                if invoices is None or not hasattr(invoices, "to_dict"):
+                    raise AttributeError
+                # AttributeError sometimes happens in the lib when calling to dict
+                # and a DocumentField has a None value
+                original_response = invoices.to_dict()
+            except AttributeError:
+                raise ProviderException("Provider return an empty response")
 
         return ResponseType[InvoiceParserDataClass](
             original_response=original_response,
@@ -150,25 +149,24 @@ class MicrosoftOcrApi(OcrInterface):
     def ocr__receipt_parser(
         self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
-        file_ = open(file, "rb")
-        try:
-            document_analysis_client = DocumentAnalysisClient(
-                endpoint=self.url["documentintelligence"],
-                credential=AzureKeyCredential(
-                    self.api_settings["documentintelligence"]["subscription_key"]
-                ),
-            )
-            poller = document_analysis_client.begin_analyze_document(
-                "prebuilt-receipt", file_
-            )
-            form_pages = poller.result()
-        except AzureError as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
+        with open(file, "rb") as file_:
+            try:
+                document_analysis_client = DocumentAnalysisClient(
+                    endpoint=self.url["documentintelligence"],
+                    credential=AzureKeyCredential(
+                        self.api_settings["documentintelligence"]["subscription_key"]
+                    ),
+                )
+                poller = document_analysis_client.begin_analyze_document(
+                    "prebuilt-receipt", file_
+                )
+                form_pages = poller.result()
+            except AzureError as provider_call_exception:
+                raise ProviderException(str(provider_call_exception))
 
-        if form_pages is None or not hasattr(form_pages, "to_dict"):
-            raise ProviderException("Provider return an empty response")
-        original_response = form_pages.to_dict()
-        file_.close()
+            if form_pages is None or not hasattr(form_pages, "to_dict"):
+                raise ProviderException("Provider return an empty response")
+            original_response = form_pages.to_dict()
 
         # Normalize the response
         default_dict = defaultdict(lambda: None)
@@ -252,26 +250,24 @@ class MicrosoftOcrApi(OcrInterface):
     def ocr__identity_parser(
         self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
-        file_ = open(file, "rb")
-        try:
-            document_analysis_client = DocumentAnalysisClient(
-                endpoint=self.url["documentintelligence"],
-                credential=AzureKeyCredential(
-                    self.api_settings["documentintelligence"]["subscription_key"]
-                ),
-            )
-            poller = document_analysis_client.begin_analyze_document(
-                "prebuilt-idDocument", file_
-            )
-            response = poller.result()
-        except AzureError as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
+        with open(file, "rb") as file_:
+            try:
+                document_analysis_client = DocumentAnalysisClient(
+                    endpoint=self.url["documentintelligence"],
+                    credential=AzureKeyCredential(
+                        self.api_settings["documentintelligence"]["subscription_key"]
+                    ),
+                )
+                poller = document_analysis_client.begin_analyze_document(
+                    "prebuilt-idDocument", file_
+                )
+                response = poller.result()
+            except AzureError as provider_call_exception:
+                raise ProviderException(str(provider_call_exception))
 
-        if response is None or not hasattr(response, "to_dict"):
-            raise ProviderException("Provider return an empty response")
-        original_response = response.to_dict()
-
-        file_.close()
+            if response is None or not hasattr(response, "to_dict"):
+                raise ProviderException("Provider return an empty response")
+            original_response = response.to_dict()
 
         items = []
 
@@ -403,7 +399,7 @@ class MicrosoftOcrApi(OcrInterface):
         }
 
         url = (
-            self.url['documentintelligence']
+            self.url["documentintelligence"]
             + f"documentintelligence/documentModels/prebuilt-layout/"
             f"analyzeResults/{provider_job_id}?api-version=2024-02-29-preview"
         )
@@ -437,7 +433,9 @@ class MicrosoftOcrApi(OcrInterface):
                 provider_job_id=provider_job_id,
             )
 
-        return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=provider_job_id)
+        return AsyncPendingResponseType[OcrTablesAsyncDataClass](
+            provider_job_id=provider_job_id
+        )
 
     def ocr__ocr_async__launch_job(
         self, file: str, file_url: str = ""
@@ -476,7 +474,7 @@ class MicrosoftOcrApi(OcrInterface):
         }
 
         url = (
-            self.url['documentintelligence']
+            self.url["documentintelligence"]
             + f"documentintelligence/documentModels/prebuilt-layout/"
             f"analyzeResults/{provider_job_id}?api-version=2024-02-29-preview"
         )
@@ -512,35 +510,34 @@ class MicrosoftOcrApi(OcrInterface):
     def ocr__financial_parser(
         self, file: str, language: str, document_type: str, file_url: str = ""
     ) -> ResponseType[FinancialParserDataClass]:
-        file_ = open(file, "rb")
-        try:
-            document_analysis_client = DocumentAnalysisClient(
-                endpoint=self.url["documentintelligence"],
-                credential=AzureKeyCredential(
-                    self.api_settings["documentintelligence"]["subscription_key"]
-                ),
-            )
-            document_type_value = (
-                "prebuilt-receipt"
-                if document_type == FinancialParserType.RECEIPT.value
-                else "prebuilt-invoice"
-            )
-            poller = document_analysis_client.begin_analyze_document(
-                document_type_value, file_
-            )
-            form_pages = poller.result()
-        except AzureError as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
+        with open(file, "rb") as file_:
+            try:
+                document_analysis_client = DocumentAnalysisClient(
+                    endpoint=self.url["documentintelligence"],
+                    credential=AzureKeyCredential(
+                        self.api_settings["documentintelligence"]["subscription_key"]
+                    ),
+                )
+                document_type_value = (
+                    "prebuilt-receipt"
+                    if document_type == FinancialParserType.RECEIPT.value
+                    else "prebuilt-invoice"
+                )
+                poller = document_analysis_client.begin_analyze_document(
+                    document_type_value, file_
+                )
+                form_pages = poller.result()
+            except AzureError as provider_call_exception:
+                raise ProviderException(str(provider_call_exception))
 
-        try:
-            if form_pages is None or not hasattr(form_pages, "to_dict"):
-                raise AttributeError
-            # AttributeError sometimes happens in the lib when calling to dict
-            # and a DocumentField has a None value
-            original_response = form_pages.to_dict()
-        except AttributeError:
-            raise ProviderException("Provider return an empty response")
-        file_.close()
+            try:
+                if form_pages is None or not hasattr(form_pages, "to_dict"):
+                    raise AttributeError
+                # AttributeError sometimes happens in the lib when calling to dict
+                # and a DocumentField has a None value
+                original_response = form_pages.to_dict()
+            except AttributeError:
+                raise ProviderException("Provider return an empty response")
         standardized_response = microsoft_financial_parser_formatter(original_response)
         return ResponseType[FinancialParserDataClass](
             original_response=original_response,

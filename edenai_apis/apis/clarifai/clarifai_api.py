@@ -432,7 +432,8 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface
         with open(file, "rb") as file_:
             file_content = file_.read()
         try:
-            width, height = Img.open(file).size
+            with Img.open(file) as img:
+                width, height = img.size
         except UnidentifiedImageError:
             raise ProviderException("This image type is not supported.")
 

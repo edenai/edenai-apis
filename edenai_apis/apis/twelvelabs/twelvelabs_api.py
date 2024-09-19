@@ -5,7 +5,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncBaseResponseType,
-    AsyncResponseType
+    AsyncResponseType,
 )
 
 
@@ -92,7 +92,8 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
         response = requests.post(
             task_url, headers=self.headers, data=video_data_config, files=file_param
         )
-
+        if file_stream is not None:
+            file_stream.close()
 
         if response.status_code != 201:
             raise ProviderException(message=response.text, code=response.status_code)
@@ -109,7 +110,7 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
         response = response.json()
 
         video_id = response.get("video_id")
- 
+
         provider_job_id = index_id + "_" + video_id + "_" + task_id
 
         return AsyncLaunchJobResponseType(provider_job_id=provider_job_id)
@@ -117,7 +118,7 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
     def video__logo_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[LogoDetectionAsyncDataClass]:
-        
+
         index_id, video_id, task_id = provider_job_id.split("_")
 
         task_url = f"{self.base_url}/indexes/{index_id}/videos/{video_id}/logo"
@@ -136,7 +137,9 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
         if original_response.get("data") is None:
             response = requests.get(status_task_url, headers=self.headers)
             if response.status_code != 200:
-                raise ProviderException(message=response.text, code=response.status_code)
+                raise ProviderException(
+                    message=response.text, code=response.status_code
+                )
 
             task_status = response.json().get("status")
 
@@ -147,7 +150,6 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
                 )
 
         url = f"https://api.twelvelabs.io/v1.1/indexes/{index_id}"
-
 
         response = requests.delete(url, headers=self.headers)
 
@@ -162,9 +164,9 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
         )
 
     def video__text_detection_async__launch_job(
-            self, file: str, file_url: str = "", language: str = "en"
+        self, file: str, file_url: str = "", language: str = "en"
     ) -> AsyncLaunchJobResponseType:
-        
+
         index_url = f"{self.base_url}/indexes"
         task_url = f"{self.base_url}/tasks"
 
@@ -199,13 +201,13 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
             "language": language,
             "disable_video_stream": "false",
         }
-        
+
         # Create video task
         response = requests.post(
             task_url, headers=self.headers, data=video_data_config, files=file_param
         )
-
-
+        if file_stream is not None:
+            file_stream.close()
         if response.status_code != 201:
             raise ProviderException(message=response.text, code=response.status_code)
 
@@ -221,14 +223,13 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
         response = response.json()
 
         video_id = response.get("video_id")
- 
+
         provider_job_id = index_id + "_" + video_id + "_" + task_id
 
         return AsyncLaunchJobResponseType(provider_job_id=provider_job_id)
-    
 
     def video__text_detection_async__get_job_result(
-            self, provider_job_id: str
+        self, provider_job_id: str
     ) -> AsyncBaseResponseType[TextDetectionAsyncDataClass]:
         index_id, video_id, task_id = provider_job_id.split("_")
 
@@ -247,10 +248,12 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
 
         if original_response.get("data") is None:
 
-            #check task status
+            # check task status
             response = requests.get(status_task_url, headers=self.headers)
             if response.status_code != 200:
-                raise ProviderException(message=response.text, code=response.status_code)
+                raise ProviderException(
+                    message=response.text, code=response.status_code
+                )
 
             task_status = response.json().get("status")
 
@@ -261,7 +264,6 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
                 )
 
         url = f"https://api.twelvelabs.io/v1.1/indexes/{index_id}"
-
 
         response = requests.delete(url, headers=self.headers)
 

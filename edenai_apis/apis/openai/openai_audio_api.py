@@ -44,14 +44,14 @@ class OpenaiAudioApi(AudioInterface):
             "OpenAI-Organization": self.org_key,
         }
         url = "https://api.openai.com/v1/audio/transcriptions"
-        file_ = open(file, "rb")
-        files = {"file": file_}
-        payload = {"model": "whisper-1", "language": language, **provider_params}
-        response = requests.post(url, data=payload, files=files, headers=headers)
-        if response.status_code != 200:
-            raise ProviderException(response.text, response.status_code)
+        with open(file, "rb") as file_:
+            files = {"file": file_}
+            payload = {"model": "whisper-1", "language": language, **provider_params}
+            response = requests.post(url, data=payload, files=files, headers=headers)
+            if response.status_code != 200:
+                raise ProviderException(response.text, response.status_code)
 
-        job_id = str(uuid.uuid4())
+            job_id = str(uuid.uuid4())
         try:
             original_response = response.json()
         except requests.JSONDecodeError as exp:

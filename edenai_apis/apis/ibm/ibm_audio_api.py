@@ -82,27 +82,29 @@ class IbmAudioApi(AudioInterface):
         audio_attributes: tuple,
         model: Optional[str] = None,
         file_url: str = "",
-        provider_params: Optional[dict] = None
+        provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
         provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes
 
         language_audio = language
 
-        file_ = open(file, "rb")
-        audio_config = {
-            "audio": file_,
-            "content_type": "audio/" + export_format,
-            "speaker_labels": True,
-            "profanity_filter": profanity_filter,
-        }
-        audio_config.update({"rate": int(frame_rate)})
-        if language_audio:
-            audio_config.update({"model": f"{language_audio}_Telephony"})
-            if language_audio == "ja-JP":
-                audio_config["model"] = f"{language_audio}_Multimedia"
-        audio_config.update(provider_params)
-        response = handle_ibm_call(self.clients["speech"].create_job, **audio_config)
+        with open(file) as file_:
+            audio_config = {
+                "audio": file_,
+                "content_type": "audio/" + export_format,
+                "speaker_labels": True,
+                "profanity_filter": profanity_filter,
+            }
+            audio_config.update({"rate": int(frame_rate)})
+            if language_audio:
+                audio_config.update({"model": f"{language_audio}_Telephony"})
+                if language_audio == "ja-JP":
+                    audio_config["model"] = f"{language_audio}_Multimedia"
+            audio_config.update(provider_params)
+            response = handle_ibm_call(
+                self.clients["speech"].create_job, **audio_config
+            )
         if response.status_code == 201:
             return AsyncLaunchJobResponseType(provider_job_id=response.result["id"])
         else:

@@ -235,9 +235,11 @@ class RossumApi(ProviderInterface, OcrInterface):
         for idx, category_information in enumerate(page["content"]):
             current_category = RossumApi.CategoryType.as_list()[idx]
             data_as_dict = {
-                entry["schema_id"]: entry["value"]
-                if entry["category"] == "datapoint"
-                else entry["children"]
+                entry["schema_id"]: (
+                    entry["value"]
+                    if entry["category"] == "datapoint"
+                    else entry["children"]
+                )
                 for entry in category_information["children"]
             }
             if current_category == RossumApi.CategoryType.LINE_ITEMS.value:
@@ -322,12 +324,16 @@ class RossumApi(ProviderInterface, OcrInterface):
             for tax in response_parsed["vat_and_amount"]["tax_details"]:
                 taxes.append(
                     TaxesInvoice(
-                        value=float(tax["tax_detail_tax"])
-                        if tax["tax_detail_tax"]
-                        else None,
-                        rate=float(tax["tax_detail_rate"])
-                        if tax["tax_detail_rate"]
-                        else None,
+                        value=(
+                            float(tax["tax_detail_tax"])
+                            if tax["tax_detail_tax"]
+                            else None
+                        ),
+                        rate=(
+                            float(tax["tax_detail_rate"])
+                            if tax["tax_detail_rate"]
+                            else None
+                        ),
                     )
                 )
 
@@ -346,16 +352,20 @@ class RossumApi(ProviderInterface, OcrInterface):
             for item in response_parsed["line_items"]:
                 item_lines.append(
                     ItemLinesInvoice(
-                        unit_price=float(item["item_amount_base"])
-                        if item["item_amount_base"]
-                        else None,
-                        amount=float(item["item_amount"])
-                        if item["item_amount"]
-                        else None,
+                        unit_price=(
+                            float(item["item_amount_base"])
+                            if item["item_amount_base"]
+                            else None
+                        ),
+                        amount=(
+                            float(item["item_amount"]) if item["item_amount"] else None
+                        ),
                         description=item["item_description"],
-                        quantity=float(item["item_quantity"])
-                        if item["item_quantity"]
-                        else None,
+                        quantity=(
+                            float(item["item_quantity"])
+                            if item["item_quantity"]
+                            else None
+                        ),
                     )
                 )
 
@@ -385,16 +395,17 @@ class RossumApi(ProviderInterface, OcrInterface):
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
-        file_ = open(file, "rb")
-        _, annotation_endpoint = self._upload(file_)
-        id, status = self._get_status_and_id(annotation_endpoint)
-        while status != "to_review":
-            sleep(1)
+        with open(file, "rb") as file_:
+            _, annotation_endpoint = self._upload(file_)
             id, status = self._get_status_and_id(annotation_endpoint)
-            if status == "failed_import":
-                raise ProviderException("Invalid file, please check the file format.")
+            while status != "to_review":
+                sleep(1)
+                id, status = self._get_status_and_id(annotation_endpoint)
+                if status == "failed_import":
+                    raise ProviderException(
+                        "Invalid file, please check the file format."
+                    )
 
-        file_.close()
         original_response = self._download_reviewing_data(id)
         standardized_response = self._invoice_standardization(original_response)
 

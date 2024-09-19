@@ -106,12 +106,11 @@ class Base64Api(ProviderInterface, OcrInterface):
             raise ProviderException(response.text, code=response.status_code)
 
     def _send_ocr_document(self, file: str, model_type: str) -> Dict:
-        file_ = open(file, "rb")
-        image_as_base64 = (
-            f"data:{mimetypes.guess_type(file)[0]};base64,"
-            + base64.b64encode(file_.read()).decode()
-        )
-        file_.close()
+        with open(file, "rb") as file_
+            image_as_base64 = (
+                f"data:{mimetypes.guess_type(file)[0]};base64,"
+                + base64.b64encode(file_.read()).decode()
+            )
 
         data = {"modelTypes": [model_type], "image": image_as_base64}
 
@@ -176,20 +175,17 @@ class Base64Api(ProviderInterface, OcrInterface):
     def ocr__identity_parser(
         self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
-        file_ = open(file, "rb")
+        with open(file, "rb") as file_:
+            image_as_base64 = (
+                f"data:{mimetypes.guess_type(file)[0]};base64,"
+                + base64.b64encode(file_.read()).decode()
+            )
 
-        image_as_base64 = (
-            f"data:{mimetypes.guess_type(file)[0]};base64,"
-            + base64.b64encode(file_.read()).decode()
-        )
+            payload = json.dumps({"image": image_as_base64})
 
-        payload = json.dumps({"image": image_as_base64})
+            headers = {"Content-Type": "application/json", "Authorization": self.api_key}
 
-        headers = {"Content-Type": "application/json", "Authorization": self.api_key}
-
-        response = requests.post(url=self.url, headers=headers, data=payload)
-
-        file_.close()
+            response = requests.post(url=self.url, headers=headers, data=payload)
 
         original_response = self._get_response(response)
 
@@ -335,22 +331,22 @@ class Base64Api(ProviderInterface, OcrInterface):
         if file1_url and file2_url:
             payload = json.dumps({"url": file1_url, "queryUrl": file2_url})
         else:
-            file_reference_ = open(file1, "rb")
-            file_query_ = open(file2, "rb")
-            image_reference_as_base64 = (
-                f"data:{mimetypes.guess_type(file1)[0]};base64,"
-                + base64.b64encode(file_reference_.read()).decode()
-            )
-            image_query_as_base64 = (
-                f"data:{mimetypes.guess_type(file2)[0]};base64,"
-                + base64.b64encode(file_query_.read()).decode()
-            )
-            payload = json.dumps(
-                {
-                    "document": image_reference_as_base64,
-                    "query": image_query_as_base64,
-                }
-            )
+            with open(file1, "rb") as file_reference_, open(file2, "rb") as file_query_:
+          
+                image_reference_as_base64 = (
+                    f"data:{mimetypes.guess_type(file1)[0]};base64,"
+                    + base64.b64encode(file_reference_.read()).decode()
+                )
+                image_query_as_base64 = (
+                    f"data:{mimetypes.guess_type(file2)[0]};base64,"
+                    + base64.b64encode(file_query_.read()).decode()
+                )
+                payload = json.dumps(
+                    {
+                        "document": image_reference_as_base64,
+                        "query": image_query_as_base64,
+                    }
+                )
 
         response = requests.request("POST", url, headers=headers, data=payload)
         original_response = self._get_response(response)
@@ -474,12 +470,12 @@ class Base64Api(ProviderInterface, OcrInterface):
         self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
         data_job_id = {}
-        file_ = open(file, "rb")
-        image_as_base64 = (
-            f"data:{mimetypes.guess_type(file)[0]};base64,"
-            + base64.b64encode(file_.read()).decode()
-        )
-        file_.close()
+        with open(file, "rb") as file_:
+            image_as_base64 = (
+                f"data:{mimetypes.guess_type(file)[0]};base64,"
+                + base64.b64encode(file_.read()).decode()
+            )
+       
         payload = json.dumps(
             {
                 "image": image_as_base64,

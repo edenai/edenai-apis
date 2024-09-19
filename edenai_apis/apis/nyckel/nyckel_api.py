@@ -345,6 +345,8 @@ class NyckelApi(ProviderInterface, ImageInterface):
             post_parameters["data"] = {"annotation.labelName": label}
 
         response = self._session.post(**post_parameters)
+        if file_ is not None:
+            file_.close()
         if response.status_code >= 400:
             self._raise_provider_exception(url, post_parameters, response)
         try:
