@@ -106,7 +106,7 @@ class Base64Api(ProviderInterface, OcrInterface):
             raise ProviderException(response.text, code=response.status_code)
 
     def _send_ocr_document(self, file: str, model_type: str) -> Dict:
-        with open(file, "rb") as file_
+        with open(file, "rb") as file_:
             image_as_base64 = (
                 f"data:{mimetypes.guess_type(file)[0]};base64,"
                 + base64.b64encode(file_.read()).decode()
