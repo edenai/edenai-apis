@@ -137,6 +137,7 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
                 "text": text,
                 "language": provider_params.get("language", "en"),
                 "country": provider_params.get("country", "us"),
+                "excluded_sources": provider_params.get("excluded_sources", [])
             }
         )
 
@@ -162,6 +163,7 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
             source_url = source.get("url")
             source_score = source.get("score")
             source_prediction = 'plagiarized' if source_score > 5 else 'not plagiarized'
+            
             # startIndex, endIndex, sequence
             source_plagiarism_found: List[Dict[str, str]] = source.get("plagiarismFound")
 
