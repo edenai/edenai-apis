@@ -26,7 +26,7 @@ file_wrapper = FileWrapper(video_path, "", file_info)
 def question_answer_arguments(provider_name: str) -> Dict:
     return {
         "file": file_wrapper,
-        "question": "describe this video",
+        "text": "describe this video",
         "temperature": 0.0,
         "settings": {"google": "gemini-1.5-flash"},
     }

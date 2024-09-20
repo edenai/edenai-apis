@@ -188,7 +188,7 @@ class VideoInterface:
     @abstractmethod
     def video__question_answer(
         self,
-        question: str,
+        text: str,
         file: str,
         file_url: str = "",
         temperature: float = 0.0,

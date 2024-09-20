@@ -737,7 +737,7 @@ class GoogleVideoApi(VideoInterface):
 
     def video__question_answer(
         self,
-        question: str,
+        text: str,
         file: str,
         file_url: str = "",
         temperature: float = 0,
@@ -751,7 +751,7 @@ class GoogleVideoApi(VideoInterface):
             "contents": [
                 {
                     "parts": [
-                        {"text": question},
+                        {"text": text},
                         {
                             "file_data": {
                                 "mime_type": file_data["mimeType"],
