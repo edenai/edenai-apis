@@ -113,7 +113,8 @@ class GoogleVideoApi(VideoInterface):
         upload_url = f"https://generativelanguage.googleapis.com/upload/v1beta/files?key={api_key}"
 
         with open(file, "rb") as video_file:
-            response = requests.post(upload_url, data=video_file)
+            file = {"file": video_file}
+            response = requests.post(upload_url, files=file)
 
         if response.status_code != 200:
             raise ProviderException(message=response.text, code=response.status_code)
