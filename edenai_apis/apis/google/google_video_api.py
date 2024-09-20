@@ -1,6 +1,9 @@
 from pathlib import Path
 from time import time
-from typing import List
+from typing import List, Dict, Any
+import requests
+import json
+import time
 
 from google.cloud import videointelligence
 
@@ -8,10 +11,12 @@ from edenai_apis.apis.google.google_helpers import (
     GoogleVideoFeatures,
     google_video_get_job,
     score_to_content,
+    calculate_usage_tokens,
 )
 from edenai_apis.features.video import (
     ContentNSFW,
     ExplicitContentDetectionAsyncDataClass,
+    QuestionAnswerDataClass,
 )
 from edenai_apis.features.video.face_detection_async.face_detection_async_dataclass import (
     FaceAttributes,
@@ -67,6 +72,7 @@ from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
+    ResponseType,
 )
 
 
@@ -89,6 +95,40 @@ class GoogleVideoApi(VideoInterface):
         gcs_uri = f"gs://{bucket_name}/{file_name}"
 
         return gcs_uri
+
+    def _check_file_status(self, file_uri: str, api_key: str) -> Dict[str, Any]:
+        url = f"{file_uri}?key={api_key}"
+        response = requests.get(url)
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
+        try:
+            response_json = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+        return response_json
+
+    def _upload_and_process_file(self, file: str, api_key: str) -> Dict[str, Any]:
+        upload_url = f"https://generativelanguage.googleapis.com/upload/v1beta/files?key={api_key}"
+
+        with open(file, "rb") as video_file:
+            response = requests.post(upload_url, data=video_file)
+
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
+        try:
+            file_data = response.json()["file"]
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+
+        while file_data["state"] == "PROCESSING":
+            time.sleep(5)
+            file_data = self._check_file_status(file_data["uri"], api_key)
+
+        return file_data
 
     # Launch label detection job
     def video__label_detection_async__launch_job(
@@ -692,4 +732,54 @@ class GoogleVideoApi(VideoInterface):
 
         return AsyncPendingResponseType[ShotChangeDetectionAsyncDataClass](
             status="pending", provider_job_id=provider_job_id
+        )
+
+    def video__question_answer(
+        self,
+        question: str,
+        file: str,
+        file_url: str = "",
+        temperature: float = 0,
+        model: str = None,
+    ) -> QuestionAnswerDataClass:
+        api_key = self.api_settings.get("genai_api_key")
+        file_data = self._upload_and_process_file(file, api_key)
+        base_url = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+        url = base_url.format(model=model, api_key=api_key)
+        payload = {
+            "contents": [
+                {
+                    "parts": [
+                        {"text": question},
+                        {
+                            "file_data": {
+                                "mime_type": file_data["mimeType"],
+                                "file_uri": file_data["uri"],
+                            }
+                        },
+                    ]
+                }
+            ],
+            "generationConfig": {"candidateCount": 1, "temperature": temperature},
+        }
+        response = requests.post(url, json=payload)
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+
+        if response.status_code != 200:
+            raise ProviderException(
+                message=original_response["error"]["message"],
+                code=response.status_code,
+            )
+        generated_text = original_response["candidates"][0]["content"]["parts"][0][
+            "text"
+        ]
+        calculate_usage_tokens(original_response=original_response)
+        return ResponseType[QuestionAnswerDataClass](
+            original_response=original_response,
+            standardized_response=QuestionAnswerDataClass(answer=generated_text),
         )
