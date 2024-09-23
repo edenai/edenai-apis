@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from io import BufferedReader
+from typing import Optional
 
 from edenai_apis.features.video import (
     ExplicitContentDetectionAsyncDataClass,
@@ -9,6 +10,7 @@ from edenai_apis.features.video import (
     ObjectTrackingAsyncDataClass,
     PersonTrackingAsyncDataClass,
     TextDetectionAsyncDataClass,
+    QuestionAnswerDataClass,
 )
 from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
 
@@ -181,4 +183,15 @@ class VideoInterface:
     def video__shot_change_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType:
+        raise NotImplementedError
+
+    @abstractmethod
+    def video__question_answer(
+        self,
+        text: str,
+        file: str,
+        file_url: str = "",
+        temperature: float = 0.0,
+        model: Optional[str] = None,
+    ) -> QuestionAnswerDataClass:
         raise NotImplementedError
