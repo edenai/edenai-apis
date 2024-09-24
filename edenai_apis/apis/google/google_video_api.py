@@ -1,5 +1,5 @@
 from pathlib import Path
-from time import time
+from time import time, sleep
 from typing import List, Dict, Any
 import requests
 import json
@@ -125,7 +125,7 @@ class GoogleVideoApi(VideoInterface):
             ) from exc
 
         while file_data["state"] == "PROCESSING":
-            time.sleep(5)
+            sleep(5)
             file_data = self._check_file_status(file_data["uri"], api_key)
 
         return file_data
