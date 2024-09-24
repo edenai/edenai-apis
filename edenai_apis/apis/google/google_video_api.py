@@ -3,7 +3,6 @@ from time import time
 from typing import List, Dict, Any
 import requests
 import json
-import time
 
 from google.cloud import videointelligence
 
