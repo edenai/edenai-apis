@@ -279,8 +279,10 @@ jmespath==1.0.1
     #   botocore
 jsonlines==4.0.0
     # via lettria
-jsonschema==4.21.1
-    # via sagemaker
+jsonschema==4.23.0
+    # via
+    #   -r requirements.in
+    #   sagemaker
 jsonschema-specifications==2023.12.1
     # via jsonschema
 langcodes==3.3.0

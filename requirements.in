@@ -82,3 +82,4 @@ docstring_parser
 pymupdf
 
 asgiref
+jsonschema>=4.22
