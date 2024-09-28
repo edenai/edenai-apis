@@ -68,13 +68,13 @@ babel==2.14.0
     # via sphinx
 beautifulsoup4==4.12.3
     # via furo
-boto3==1.34.79
+boto3==1.35.0
     # via
     #   -r requirements.in
     #   amazon-textract-response-parser
     #   anthropic-bedrock
     #   sagemaker
-botocore==1.34.79
+botocore==1.35.28
     # via
     #   anthropic-bedrock
     #   boto3
