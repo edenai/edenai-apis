@@ -130,6 +130,14 @@ class GoogleVideoApi(VideoInterface):
 
         return file_data
 
+    def _delete_file(self, file: str, api_key: str):
+        delete_url = (
+            f"https://generativelanguage.googleapis.com/v1beta/{file}?key={api_key}"
+        )
+        response = requests.delete(url=delete_url)
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
+
     # Launch label detection job
     def video__label_detection_async__launch_job(
         self, file: str, file_url: str = ""
@@ -779,6 +787,8 @@ class GoogleVideoApi(VideoInterface):
             "text"
         ]
         calculate_usage_tokens(original_response=original_response)
+
+        self._delete_file(file=file_data["name"], api_key=api_key)
         return ResponseType[QuestionAnswerDataClass](
             original_response=original_response,
             standardized_response=QuestionAnswerDataClass(answer=generated_text),
