@@ -53,3 +53,7 @@ from .text_detection_async import (
 )
 
 from .question_answer import QuestionAnswerDataClass, question_answer_arguments
+from .question_answer_async import (
+    question_answer_async_arguments,
+    QuestionAnswerDataClass as QuestionAnswerAsyncDataClass,
+)

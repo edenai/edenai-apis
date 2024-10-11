@@ -1335,6 +1335,22 @@
         ]
       },
       "version": "v1Beta"
+    },
+    "question_answer_async": {
+      "constraints": {
+        "file_types": [
+          "video/mp4",
+          "video/mpeg",
+          "video/mov",
+          "video/avi",
+          "video/x-flx",
+          "video/mpg",
+          "video/webm",
+          "video/wmv",
+          "video/3gpp"
+        ]
+      },
+      "version": "v1Beta"
     }
   },
   "image": {
