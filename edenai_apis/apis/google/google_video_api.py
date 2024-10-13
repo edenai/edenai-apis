@@ -789,7 +789,7 @@ class GoogleVideoApi(VideoInterface):
                 message="The video file is too large (over 20 MB). Please use the asynchronous video question answering method instead.",
             )
         if file_data["state"] == "PROCESSING":
-            sleep(5)
+            sleep(3)
             file_data = self._check_file_status(file_data["uri"], api_key)
 
         original_response, generated_text = self._request_question_answer(
@@ -816,14 +816,15 @@ class GoogleVideoApi(VideoInterface):
         data_job_id = {}
         api_key = self.api_settings.get("genai_api_key")
         file_data = self._upload_and_process_file(file, api_key)
-        job_id = file_data["name"]
-        data_job_id[job_id] = {
+        job_id = file_data["name"].split("/")[1]
+        inputs = {
             "text": text,
             "temperature": temperature,
             "model": model,
         }
+        data_job_id[job_id] = inputs
         requests.post(
-            url=f"https://webhook.site/712b25e0-c197-48ca-811f-243eb552015d",
+            url=f"https://webhook.site/{self.webhook_token}",
             data=json.dumps(data_job_id),
             headers={"content-type": "application/json"},
         )
@@ -834,7 +835,7 @@ class GoogleVideoApi(VideoInterface):
         self, provider_job_id: str
     ) -> AsyncBaseResponseType:
         api_key = self.api_settings.get("genai_api_key")
-        url = f"https://generativelanguage.googleapis.com/v1beta/{provider_job_id}?key={api_key}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/files/{provider_job_id}?key={api_key}"
         response = requests.get(url=url)
         if response.status_code != 200:
             raise ProviderException(message=response.text, code=response.status_code)
@@ -849,7 +850,7 @@ class GoogleVideoApi(VideoInterface):
                 status="pending", provider_job_id=provider_job_id
             )
         else:
-            wehbook_result, status = check_webhook_result(
+            wehbook_result, _ = check_webhook_result(
                 provider_job_id, self.webhook_settings
             )
             result_object = (
