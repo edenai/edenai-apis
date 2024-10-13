@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
 
-class QuestionAnswerDataClass(BaseModel):
+class QuestionAnswerAsyncDataClass(BaseModel):
     answer: str
