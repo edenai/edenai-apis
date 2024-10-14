@@ -794,7 +794,7 @@ class GoogleVideoApi(VideoInterface):
         file_size_mb = self._bytes_to_mega(int(file_data.get("sizeBytes", 0)))
         if file_size_mb >= 20:
             raise ProviderException(
-                message="The video file is too large (over 20 MB). Please use the asynchronous video question answering method instead.",
+                message="The video file is too large (over 20 MB). Please use the asynchronous video question answering api instead.",
             )
         if file_data["state"] == "PROCESSING":
             sleep(3)
