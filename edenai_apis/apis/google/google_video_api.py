@@ -16,6 +16,7 @@ from edenai_apis.features.video import (
     ContentNSFW,
     ExplicitContentDetectionAsyncDataClass,
     QuestionAnswerDataClass,
+    QuestionAnswerAsyncDataClass,
 )
 from edenai_apis.features.video.face_detection_async.face_detection_async_dataclass import (
     FaceAttributes,
@@ -64,6 +65,7 @@ from edenai_apis.features.video.shot_change_detection_async.shot_change_detectio
     ShotChangeDetectionAsyncDataClass,
     ShotFrame,
 )
+from edenai_apis.apis.amazon.helpers import check_webhook_result
 from edenai_apis.features.video.video_interface import VideoInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
@@ -123,10 +125,6 @@ class GoogleVideoApi(VideoInterface):
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
-
-        while file_data["state"] == "PROCESSING":
-            sleep(5)
-            file_data = self._check_file_status(file_data["uri"], api_key)
 
         return file_data
 
@@ -742,16 +740,10 @@ class GoogleVideoApi(VideoInterface):
             status="pending", provider_job_id=provider_job_id
         )
 
-    def video__question_answer(
-        self,
-        text: str,
-        file: str,
-        file_url: str = "",
-        temperature: float = 0,
-        model: str = None,
-    ) -> QuestionAnswerDataClass:
-        api_key = self.api_settings.get("genai_api_key")
-        file_data = self._upload_and_process_file(file, api_key)
+    def _bytes_to_mega(self, bytes_value):
+        return bytes_value / (1024 * 1024)
+
+    def _request_question_answer(self, model, api_key, text, temperature, file_data):
         base_url = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
         url = base_url.format(model=model, api_key=api_key)
         payload = {
@@ -787,9 +779,118 @@ class GoogleVideoApi(VideoInterface):
             "text"
         ]
         calculate_usage_tokens(original_response=original_response)
+        return original_response, generated_text
+
+    def video__question_answer(
+        self,
+        text: str,
+        file: str,
+        file_url: str = "",
+        temperature: float = 0,
+        model: str = None,
+    ) -> QuestionAnswerDataClass:
+        api_key = self.api_settings.get("genai_api_key")
+        file_data = self._upload_and_process_file(file, api_key)
+        file_size_mb = self._bytes_to_mega(int(file_data.get("sizeBytes", 0)))
+        if file_size_mb >= 20:
+            raise ProviderException(
+                message="The video file is too large (over 20 MB). Please use the asynchronous video question answering api instead.",
+            )
+        if file_data["state"] == "PROCESSING":
+            sleep(3)
+            file_data = self._check_file_status(file_data["uri"], api_key)
+
+        original_response, generated_text = self._request_question_answer(
+            model=model,
+            api_key=api_key,
+            text=text,
+            temperature=temperature,
+            file_data=file_data,
+        )
 
         self._delete_file(file=file_data["name"], api_key=api_key)
         return ResponseType[QuestionAnswerDataClass](
             original_response=original_response,
             standardized_response=QuestionAnswerDataClass(answer=generated_text),
         )
+
+    def video__question_answer_async__launch_job(
+        self,
+        text: str,
+        file: str,
+        file_url: str = "",
+        temperature: float = 0,
+        model: str = None,
+    ) -> AsyncLaunchJobResponseType:
+        data_job_id = {}
+        api_key = self.api_settings.get("genai_api_key")
+        file_data = self._upload_and_process_file(file, api_key)
+        job_id = file_data["name"].split("/")[1]
+        inputs = {
+            "text": text,
+            "temperature": temperature,
+            "model": model,
+        }
+        data_job_id[job_id] = inputs
+        requests.post(
+            url=f"https://webhook.site/{self.webhook_token}",
+            data=json.dumps(data_job_id),
+            headers={"content-type": "application/json"},
+        )
+
+        return AsyncLaunchJobResponseType(provider_job_id=job_id)
+
+    def video__question_answer_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType:
+        api_key = self.api_settings.get("genai_api_key")
+        url = f"https://generativelanguage.googleapis.com/v1beta/files/{provider_job_id}?key={api_key}"
+        response = requests.get(url=url)
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
+        try:
+            file_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+        if file_data["state"] == "PROCESSING":
+            return AsyncPendingResponseType[QuestionAnswerAsyncDataClass](
+                status="pending", provider_job_id=provider_job_id
+            )
+        else:
+            wehbook_result, _ = check_webhook_result(
+                provider_job_id, self.webhook_settings
+            )
+            result_object = (
+                next(
+                    filter(
+                        lambda response: provider_job_id in response["content"],
+                        wehbook_result,
+                    ),
+                    None,
+                )
+                if wehbook_result
+                else None
+            )
+            try:
+                content = json.loads(result_object["content"]).get(
+                    provider_job_id, None
+                )
+            except json.JSONDecodeError:
+                raise ProviderException("An error occurred while parsing the response.")
+
+            original_response, generated_text = self._request_question_answer(
+                model=content["model"],
+                api_key=api_key,
+                text=content["text"],
+                temperature=content["temperature"],
+                file_data=file_data,
+            )
+            return AsyncResponseType[QuestionAnswerAsyncDataClass](
+                original_response=original_response,
+                standardized_response=QuestionAnswerAsyncDataClass(
+                    answer=generated_text
+                ),
+                provider_job_id=provider_job_id,
+            )

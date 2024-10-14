@@ -195,3 +195,20 @@ class VideoInterface:
         model: Optional[str] = None,
     ) -> QuestionAnswerDataClass:
         raise NotImplementedError
+
+    @abstractmethod
+    def video__question_answer_async__launch_job(
+        self,
+        text: str,
+        file: str,
+        file_url: str = "",
+        temperature: float = 0.0,
+        model: Optional[str] = None,
+    ) -> AsyncLaunchJobResponseType:
+        raise NotImplementedError
+
+    @abstractmethod
+    def video__question_answer_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType:
+        raise NotImplementedError
