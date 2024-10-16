@@ -10,7 +10,7 @@ The module interface is responsible of linking providers subfeature methods to o
 
 * #### list_features
 
-  Returns possible combinations of  (`provider`, `feature`, `subfeature`) or (`provider`, `feature`, `subfeature`, `phase`) given a provider, feature and subfeature as a list if **as_dict** is set to False, otherwise returns the results as a dictionary. If neither the provider, feature or subfeature are passed withing the function arguments, it returns the list of all possible combinations.
+  Returns possible combinations of  (`provider`, `feature`, `subfeature`) or (`provider`, `feature`, `subfeature`, `phase`) given a provider, feature and subfeature as a list if **as_dict** is set to False, otherwise returns the results as a dictionary. If neither the provider, feature or subfeature are passed within the function arguments, it returns the list of all possible combinations.
 
   ```python
     def list_features( provider_name: str = None, feature: str = None, subfeature: str = None, as_dict: bool = False) -> Union[List, Dict]:
@@ -169,7 +169,7 @@ The package listing all the [features](#feature) available in the project, each 
 
 ### **loaders**
 
-The `loaders` package is used to load data either from from the `providers` package or from the `features` one. It contains two functions, each one responsible for loading data for each of the two previous packages. *E.g:*
+The `loaders` package is used to load data either from the `providers` package or from the `features` one. It contains two functions, each one responsible for loading data for each of the two previous packages. *E.g:*
 
   ```python
 
