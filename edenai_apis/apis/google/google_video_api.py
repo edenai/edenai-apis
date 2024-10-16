@@ -794,12 +794,12 @@ class GoogleVideoApi(VideoInterface):
         api_key = self.api_settings.get("genai_api_key")
         file_data = self._upload_and_process_file(file, api_key)
         file_size_mb = self._bytes_to_mega(int(file_data.get("sizeBytes", 0)))
-        if file_size_mb >= 10:
+        if file_size_mb >= 100:
             self._delete_file(file=file_data["name"], api_key=api_key)
             raise ProviderException(
-                message="The video file is too large (over 10 MB). Please use the asynchronous video question answering api instead.",
+                message="The video file is too large (over 100 MB). Please use the asynchronous video question answering api instead.",
             )
-        if file_data["state"] == "PROCESSING":
+        while file_data["state"] == "PROCESSING":
             sleep(5)
             file_data = self._check_file_status(file_data["uri"], api_key)
 
