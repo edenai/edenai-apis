@@ -795,6 +795,7 @@ class GoogleVideoApi(VideoInterface):
         file_data = self._upload_and_process_file(file, api_key)
         file_size_mb = self._bytes_to_mega(int(file_data.get("sizeBytes", 0)))
         if file_size_mb >= 10:
+            self._delete_file(file=file_data["name"], api_key=api_key)
             raise ProviderException(
                 message="The video file is too large (over 10 MB). Please use the asynchronous video question answering api instead.",
             )
