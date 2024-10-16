@@ -766,11 +766,13 @@ class GoogleVideoApi(VideoInterface):
         try:
             original_response = response.json()
         except json.JSONDecodeError as exc:
+            self._delete_file(file=file_data["name"], api_key=api_key)
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
 
         if response.status_code != 200:
+            self._delete_file(file=file_data["name"], api_key=api_key)
             raise ProviderException(
                 message=original_response["error"]["message"],
                 code=response.status_code,
@@ -792,12 +794,12 @@ class GoogleVideoApi(VideoInterface):
         api_key = self.api_settings.get("genai_api_key")
         file_data = self._upload_and_process_file(file, api_key)
         file_size_mb = self._bytes_to_mega(int(file_data.get("sizeBytes", 0)))
-        if file_size_mb >= 20:
+        if file_size_mb >= 10:
             raise ProviderException(
-                message="The video file is too large (over 20 MB). Please use the asynchronous video question answering api instead.",
+                message="The video file is too large (over 10 MB). Please use the asynchronous video question answering api instead.",
             )
         if file_data["state"] == "PROCESSING":
-            sleep(3)
+            sleep(5)
             file_data = self._check_file_status(file_data["uri"], api_key)
 
         original_response, generated_text = self._request_question_answer(
@@ -887,6 +889,7 @@ class GoogleVideoApi(VideoInterface):
                 temperature=content["temperature"],
                 file_data=file_data,
             )
+            self._delete_file(file=file_data["name"], api_key=api_key)
             return AsyncResponseType[QuestionAnswerAsyncDataClass](
                 original_response=original_response,
                 standardized_response=QuestionAnswerAsyncDataClass(
