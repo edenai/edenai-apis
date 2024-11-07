@@ -75,6 +75,8 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
+from datetime import datetime, timezone
+from dateutil.parser import parse
 
 
 class GoogleVideoApi(VideoInterface):
@@ -96,6 +98,14 @@ class GoogleVideoApi(VideoInterface):
         gcs_uri = f"gs://{bucket_name}/{file_name}"
 
         return gcs_uri
+
+    def _is_older_than_3_hours(self, create_time: str) -> bool:
+        created_at = parse(create_time)
+        current_time = datetime.now(timezone.utc)
+        time_diff = current_time - created_at
+        hours_diff = time_diff.total_seconds() / 3600
+
+        return hours_diff > 3
 
     def _check_file_status(self, file_uri: str, api_key: str) -> Dict[str, Any]:
         url = f"{file_uri}?key={api_key}"
@@ -890,7 +900,9 @@ class GoogleVideoApi(VideoInterface):
                 temperature=content["temperature"],
                 file_data=file_data,
             )
-            self._delete_file(file=file_data["name"], api_key=api_key)
+            create_time = self._is_older_than_3_hours(file_data["createTime"])
+            if create_time:
+                self._delete_file(file=file_data["name"], api_key=api_key)
             return AsyncResponseType[QuestionAnswerAsyncDataClass](
                 original_response=original_response,
                 standardized_response=QuestionAnswerAsyncDataClass(
