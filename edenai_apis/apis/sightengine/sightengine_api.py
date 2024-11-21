@@ -30,7 +30,6 @@ class SightEngineApi(ProviderInterface, ImageInterface):
         self.headers = {
             "Content-Type": "application/json",
             "Authorization": f'Bearer {self.api_settings["api_key"]}',
-            
         }
         self.webhook_settings = load_provider(ProviderDataEnum.KEY, "webhooksite")
         self.webhook_token = self.webhook_settings["webhook_token"]
@@ -42,33 +41,32 @@ class SightEngineApi(ProviderInterface, ImageInterface):
         if not file_url and not file:
             raise ProviderException("file or file_url required")
 
-        payload = {"url": file_url or upload_file_to_s3(file, file),
-                              "models":"deepfake",
-                              "api_user": self.api_settings["api_user"],
-                              "api_secret": self.api_settings["api_key"]}
-        
-        response = requests.get(
-            f"{self.api_url}/check.json",
-            params=payload,
-        )
+        payload = {
+            "url": file_url or upload_file_to_s3(file, file),
+            "models":"deepfake",
+            "api_user": self.api_settings["api_user"],
+            "api_secret": self.api_settings["api_key"]
+        }
 
-        print(response.json())
-
-        if response.status_code != 200:
-            raise ProviderException(response.json(), code=response.status_code)
+        try:
+            response = requests.get(
+                f"{self.api_url}/check.json", params=payload, timeout=30
+            )
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            raise ProviderException(f"Request failed: {str(e)}")
 
         original_response = response.json()
 
         score = 1 - extract(original_response,["type","deepfake"],None)
         if score is None:
-            raise ProviderException(response.json())
+            raise ProviderException("Deepfake score not found in response.")
         prediction = ImageDeepfakeDetectionDataclass.set_label_based_on_score(score)
 
         standardized_response = ImageDeepfakeDetectionDataclass(
             ai_score=score,
             prediction=prediction,
         )
-
 
         return ResponseType[ImageDeepfakeDetectionDataclass](
             original_response=original_response,
@@ -88,34 +86,41 @@ class SightEngineApi(ProviderInterface, ImageInterface):
             "callback_url": self.webhook_url,
         }
 
-        if file:
-            with open(file, 'rb') as video_file:
-                files = {'media': video_file}
-
-                response = requests.post(
-                    f"{self.api_url}/video/check.json",
-                    files=files,
-                    data=payload,
-                )
-        elif file_url:
-            payload['stream_url'] = file_url
-
-            response = requests.get(
-                f"{self.api_url}/video/check.json",
-                params=payload,
-            )
-
-        if response.status_code != 200:
-            raise ProviderException(response.json(), code=response.status_code)
+        method = "POST" if file else "GET"
+        url = f"{self.api_url}/video/check.json"
         
+        try:
+            if file:
+                with open(file, "rb") as video_file:
+                    files = {"media": video_file}
+                    response = requests.request(
+                        method=method,
+                        url=url,
+                        files=files,
+                        data=payload,
+                        timeout=30,
+                    )
+            else:
+                payload["stream_url"] = file_url
+                response = requests.request(
+                    method=method,
+                    url=url,
+                    params=payload,
+                    timeout=30,
+                )
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            raise ProviderException(f"Request failed: {str(e)}")
 
         original_response = response.json()
-
         media_id = original_response.get("media", {}).get("id")
+
+        if not media_id:
+            raise ProviderException("Media ID not found in response.")
         
         requests.post(
             self.webhook_url,
-            json=media_id,
+            json={"media_id": media_id},
             headers={"content-type": "application/json"}
         )
 
