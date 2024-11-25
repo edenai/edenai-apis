@@ -62,7 +62,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[InvoiceParserDataClass]:
-        with open(file) as file_:
+        with open(file, "rb") as file_:
             original_response = self._make_post_request(file_)
         standardize_response = klippa_invoice_parser(original_response)
 
@@ -74,7 +74,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
     def ocr__receipt_parser(
         self, file: str, language: str, file_url: str = ""
     ) -> ResponseType[ReceiptParserDataClass]:
-        with open(file) as file_:
+        with open(file, "rb") as file_:
             original_response = self._make_post_request(file_)
 
         standardize_response = klippa_receipt_parser(original_response)
@@ -86,7 +86,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
     def ocr__identity_parser(
         self, file: str, file_url: str = ""
     ) -> ResponseType[IdentityParserDataClass]:
-        with open(file) as file_:
+        with open(file, "rb") as file_:
             original_response = self._make_post_request(file_, endpoint="/identity")
 
         standardized_response = klippa_id_parser(original_response)
@@ -98,7 +98,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
     def ocr__resume_parser(
         self, file: str, file_url: str = ""
     ) -> ResponseType[ResumeParserDataClass]:
-        with open(file) as file_:
+        with open(file, "rb") as file_:
             original_response = self._make_post_request(file_, endpoint="/resume")
 
         standardized_response = klippa_resume_parser(original_response)
@@ -110,7 +110,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
     def ocr__financial_parser(
         self, file: str, language: str, document_type: str = "", file_url: str = ""
     ) -> ResponseType[FinancialParserDataClass]:
-        with open(file) as file_:
+        with open(file, "rb") as file_:
             original_response = self._make_post_request(file_)
 
         standardize_response = klippa_financial_parser(original_response)

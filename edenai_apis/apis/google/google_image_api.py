@@ -119,7 +119,7 @@ class GoogleImageApi(ImageInterface):
     def image__object_detection(
         self, file: str, model: str = None, file_url: str = ""
     ) -> ResponseType[ObjectDetectionDataClass]:
-        with open(file) as file_:
+        with open(file, "rb") as file_:
             image = vision.Image(content=file_.read())
 
             payload = {"image": image}

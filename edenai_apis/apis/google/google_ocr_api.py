@@ -138,7 +138,7 @@ class GoogleOcrApi(OcrInterface):
             receipt_parser_project_id, "eu", receipt_parser_process_id
         )
 
-        with open(file) as file_:
+        with open(file, "rb") as file_:
             raw_document = documentai.RawDocument(
                 content=file_.read(), mime_type=mimetype
             )

@@ -89,7 +89,7 @@ class IbmAudioApi(AudioInterface):
 
         language_audio = language
 
-        with open(file) as file_:
+        with open(file, "rb") as file_:
             audio_config = {
                 "audio": file_,
                 "content_type": "audio/" + export_format,

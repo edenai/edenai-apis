@@ -40,7 +40,7 @@ class HireabilityApi(ProviderInterface, OcrInterface):
     def ocr__resume_parser(
         self, file: str, file_url: str = ""
     ) -> ResponseType[ResumeParserDataClass]:
-        with open(file) as file_:
+        with open(file, "rb") as file_:
             files = {"document": file_}
 
             # Generate Api output

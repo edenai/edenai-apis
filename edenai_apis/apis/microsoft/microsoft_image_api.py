@@ -56,7 +56,7 @@ class MicrosoftImageApi(ImageInterface):
     def image__explicit_content(
         self, file: str, file_url: str = ""
     ) -> ResponseType[ExplicitContentDataClass]:
-        with open(file) as file_:
+        with open(file, "rb") as file_:
             # Getting response of API
             response = requests.post(
                 f"{self.url['vision']}/analyze?visualFeatures=Adult",
@@ -109,7 +109,7 @@ class MicrosoftImageApi(ImageInterface):
     def image__object_detection(
         self, file: str, model: str = None, file_url: str = ""
     ) -> ResponseType[ObjectDetectionDataClass]:
-        with open(file) as file_:
+        with open(file, "rb") as file_:
             response = requests.post(
                 f"{self.url['vision']}/detect",
                 headers=self.headers["vision"],
@@ -204,7 +204,7 @@ class MicrosoftImageApi(ImageInterface):
     def image__logo_detection(
         self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[LogoDetectionDataClass]:
-        with open(file) as file_:
+        with open(file, "rb") as file_:
             response = requests.post(
                 f"{self.url['vision']}/analyze?visualFeatures=Brands",
                 headers=self.headers["vision"],

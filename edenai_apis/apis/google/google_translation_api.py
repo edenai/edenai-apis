@@ -95,7 +95,7 @@ class GoogleTranslationApi(TranslationInterface):
         client = self.clients["translate"]
         parent = f"projects/{self.project_id}/locations/global"
 
-        with open(file) as file_:
+        with open(file, "rb") as file_:
             document_input_config = {
                 "content": file_.read(),
                 "mime_type": file_type,
