@@ -1,0 +1,21 @@
+{
+  "original_response": {
+    "status": "success",
+    "request": {
+      "id": "req_h4tygWOFSudQCj175YtZg",
+      "timestamp": 1727355854.923456,
+      "operations": 1
+    },
+    "type": {
+      "deepfake": 0.01
+    },
+    "media": {
+      "id": "med_h4tyD5FNLdWjes2V36427",
+      "uri": "https://cdn.discordapp.com/attachments/1285184350261870694/1288046848560463892/tom-cruise_Deepfake2.jpeg?ex=66f6659b&is=66f5141b&hm=0eeade51129487243fddf2424f17e5cf24f640a4ecade235d87c1dab8c7e442b&"
+    }
+  },
+  "standardized_response": {
+    "ai_score": 0.99,
+    "prediction": "ai-generated"
+  }
+}

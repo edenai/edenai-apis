@@ -1,6 +1,8 @@
 from pathlib import Path
-from time import time
-from typing import List
+from time import time, sleep
+from typing import List, Dict, Any
+import requests
+import json
 
 from google.cloud import videointelligence
 
@@ -8,10 +10,13 @@ from edenai_apis.apis.google.google_helpers import (
     GoogleVideoFeatures,
     google_video_get_job,
     score_to_content,
+    calculate_usage_tokens,
 )
 from edenai_apis.features.video import (
     ContentNSFW,
     ExplicitContentDetectionAsyncDataClass,
+    QuestionAnswerDataClass,
+    QuestionAnswerAsyncDataClass,
 )
 from edenai_apis.features.video.face_detection_async.face_detection_async_dataclass import (
     FaceAttributes,
@@ -60,6 +65,7 @@ from edenai_apis.features.video.shot_change_detection_async.shot_change_detectio
     ShotChangeDetectionAsyncDataClass,
     ShotFrame,
 )
+from edenai_apis.apis.amazon.helpers import check_webhook_result
 from edenai_apis.features.video.video_interface import VideoInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
@@ -67,7 +73,10 @@ from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
+    ResponseType,
 )
+from datetime import datetime, timezone
+from dateutil.parser import parse
 
 
 class GoogleVideoApi(VideoInterface):
@@ -89,6 +98,53 @@ class GoogleVideoApi(VideoInterface):
         gcs_uri = f"gs://{bucket_name}/{file_name}"
 
         return gcs_uri
+
+    def _is_older_than_3_hours(self, create_time: str) -> bool:
+        created_at = parse(create_time)
+        current_time = datetime.now(timezone.utc)
+        time_diff = current_time - created_at
+        hours_diff = time_diff.total_seconds() / 3600
+
+        return hours_diff > 3
+
+    def _check_file_status(self, file_uri: str, api_key: str) -> Dict[str, Any]:
+        url = f"{file_uri}?key={api_key}"
+        response = requests.get(url)
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
+        try:
+            response_json = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+        return response_json
+
+    def _upload_and_process_file(self, file: str, api_key: str) -> Dict[str, Any]:
+        upload_url = f"https://generativelanguage.googleapis.com/upload/v1beta/files?key={api_key}"
+
+        with open(file, "rb") as video_file:
+            file = {"file": video_file}
+            response = requests.post(upload_url, files=file)
+
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
+        try:
+            file_data = response.json()["file"]
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+
+        return file_data
+
+    def _delete_file(self, file: str, api_key: str):
+        delete_url = (
+            f"https://generativelanguage.googleapis.com/v1beta/{file}?key={api_key}"
+        )
+        response = requests.delete(url=delete_url)
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
 
     # Launch label detection job
     def video__label_detection_async__launch_job(
@@ -693,3 +749,164 @@ class GoogleVideoApi(VideoInterface):
         return AsyncPendingResponseType[ShotChangeDetectionAsyncDataClass](
             status="pending", provider_job_id=provider_job_id
         )
+
+    def _bytes_to_mega(self, bytes_value):
+        return bytes_value / (1024 * 1024)
+
+    def _request_question_answer(self, model, api_key, text, temperature, file_data):
+        base_url = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+        url = base_url.format(model=model, api_key=api_key)
+        payload = {
+            "contents": [
+                {
+                    "parts": [
+                        {"text": text},
+                        {
+                            "file_data": {
+                                "mime_type": file_data["mimeType"],
+                                "file_uri": file_data["uri"],
+                            }
+                        },
+                    ]
+                }
+            ],
+            "generationConfig": {"candidateCount": 1, "temperature": temperature},
+        }
+        response = requests.post(url, json=payload)
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            self._delete_file(file=file_data["name"], api_key=api_key)
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+
+        if response.status_code != 200:
+            self._delete_file(file=file_data["name"], api_key=api_key)
+            raise ProviderException(
+                message=original_response["error"]["message"],
+                code=response.status_code,
+            )
+        generated_text = original_response["candidates"][0]["content"]["parts"][0][
+            "text"
+        ]
+        calculate_usage_tokens(original_response=original_response)
+        return original_response, generated_text
+
+    def video__question_answer(
+        self,
+        text: str,
+        file: str,
+        file_url: str = "",
+        temperature: float = 0,
+        model: str = None,
+    ) -> QuestionAnswerDataClass:
+        api_key = self.api_settings.get("genai_api_key")
+        file_data = self._upload_and_process_file(file, api_key)
+        file_size_mb = self._bytes_to_mega(int(file_data.get("sizeBytes", 0)))
+        if file_size_mb >= 100:
+            self._delete_file(file=file_data["name"], api_key=api_key)
+            raise ProviderException(
+                message="The video file is too large (over 100 MB). Please use the asynchronous video question answering api instead.",
+            )
+        while file_data["state"] == "PROCESSING":
+            sleep(5)
+            file_data = self._check_file_status(file_data["uri"], api_key)
+
+        original_response, generated_text = self._request_question_answer(
+            model=model,
+            api_key=api_key,
+            text=text,
+            temperature=temperature,
+            file_data=file_data,
+        )
+
+        self._delete_file(file=file_data["name"], api_key=api_key)
+        return ResponseType[QuestionAnswerDataClass](
+            original_response=original_response,
+            standardized_response=QuestionAnswerDataClass(answer=generated_text),
+        )
+
+    def video__question_answer_async__launch_job(
+        self,
+        text: str,
+        file: str,
+        file_url: str = "",
+        temperature: float = 0,
+        model: str = None,
+    ) -> AsyncLaunchJobResponseType:
+        data_job_id = {}
+        api_key = self.api_settings.get("genai_api_key")
+        file_data = self._upload_and_process_file(file, api_key)
+        job_id = file_data["name"].split("/")[1]
+        inputs = {
+            "text": text,
+            "temperature": temperature,
+            "model": model,
+        }
+        data_job_id[job_id] = inputs
+        requests.post(
+            url=f"https://webhook.site/{self.webhook_token}",
+            data=json.dumps(data_job_id),
+            headers={"content-type": "application/json"},
+        )
+
+        return AsyncLaunchJobResponseType(provider_job_id=job_id)
+
+    def video__question_answer_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType:
+        api_key = self.api_settings.get("genai_api_key")
+        url = f"https://generativelanguage.googleapis.com/v1beta/files/{provider_job_id}?key={api_key}"
+        response = requests.get(url=url)
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
+        try:
+            file_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+        if file_data["state"] == "PROCESSING":
+            return AsyncPendingResponseType[QuestionAnswerAsyncDataClass](
+                status="pending", provider_job_id=provider_job_id
+            )
+        else:
+            wehbook_result, _ = check_webhook_result(
+                provider_job_id, self.webhook_settings
+            )
+            result_object = (
+                next(
+                    filter(
+                        lambda response: provider_job_id in response["content"],
+                        wehbook_result,
+                    ),
+                    None,
+                )
+                if wehbook_result
+                else None
+            )
+            try:
+                content = json.loads(result_object["content"]).get(
+                    provider_job_id, None
+                )
+            except json.JSONDecodeError:
+                raise ProviderException("An error occurred while parsing the response.")
+
+            original_response, generated_text = self._request_question_answer(
+                model=content["model"],
+                api_key=api_key,
+                text=content["text"],
+                temperature=content["temperature"],
+                file_data=file_data,
+            )
+            create_time = self._is_older_than_3_hours(file_data["createTime"])
+            if create_time:
+                self._delete_file(file=file_data["name"], api_key=api_key)
+            return AsyncResponseType[QuestionAnswerAsyncDataClass](
+                original_response=original_response,
+                standardized_response=QuestionAnswerAsyncDataClass(
+                    answer=generated_text
+                ),
+                provider_job_id=provider_job_id,
+            )

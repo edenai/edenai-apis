@@ -53,6 +53,7 @@ from .rossum import RossumApi
 from .sapling import SaplingApi
 from .senseloaf import SenseloafApi
 from .sentisight import SentiSightApi
+from .sightengine import SightEngineApi
 from .skybiometry import SkybiometryApi
 from .smartclick import SmartClickApi
 from .speechmatics import SpeechmaticsApi

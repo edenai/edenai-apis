@@ -1,0 +1,49 @@
+{
+  "original_response": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "The video is about how to create AI hyperlapse videos. The video shows a man talking about AI hyperlapse videos and how they are becoming popular on YouTube and Instagram. He then shows how to create these videos using a phone. "
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "index": 0,
+        "safetyRatings": [
+          {
+            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_HATE_SPEECH",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_HARASSMENT",
+            "probability": "NEGLIGIBLE"
+          },
+          {
+            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+            "probability": "NEGLIGIBLE"
+          }
+        ]
+      }
+    ],
+    "usageMetadata": {
+      "promptTokenCount": 3838,
+      "candidatesTokenCount": 46,
+      "totalTokenCount": 3884
+    },
+    "usage": {
+      "prompt_tokens": 3838,
+      "completion_tokens": 46,
+      "total_tokens": 3884
+    }
+  },
+  "standardized_response": {
+    "answer": "The video is about how to create AI hyperlapse videos. The video shows a man talking about AI hyperlapse videos and how they are becoming popular on YouTube and Instagram. He then shows how to create these videos using a phone. "
+  }
+}

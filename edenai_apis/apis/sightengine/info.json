@@ -1,0 +1,13 @@
+{
+    "image": {
+        "deepfake": {
+            "version" : "v1beta"
+        }
+    },
+
+    "video": {
+        "deepfake": {
+            "version" : "v1beta"
+        }
+    }
+}

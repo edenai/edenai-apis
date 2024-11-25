@@ -32,7 +32,7 @@ affinda
 
 #amazon
 amazon-textract-response-parser
-boto3
+boto3==1.35
 
 #clarifai
 clarifai-grpc==9.10.7
@@ -68,7 +68,7 @@ modernmt
 aleph_alpha_client==6.0.0
 
 # openai
-openai==1.35.9
+openai==1.46.0
 
 python-dotenv
 
@@ -82,3 +82,4 @@ docstring_parser
 pymupdf
 
 asgiref
+jsonschema>=4.22

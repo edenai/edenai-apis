@@ -37,6 +37,8 @@ class GoogleApi(
             location=True,
             api_keys=api_keys,
         )
+        self.webhook_settings = load_provider(ProviderDataEnum.KEY, "webhooksite")
+        self.webhook_token = self.webhook_settings["webhook_token"]
         self.project_id = self.api_settings["project_id"]
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self.location
 

@@ -452,7 +452,7 @@ class OpenaiTextApi(TextInterface):
             "model": model,
             "temperature": temperature,
             "messages": messages,
-            "max_tokens": max_tokens,
+            "max_completion_tokens": max_tokens,
         }
 
         try:
@@ -631,6 +631,7 @@ class OpenaiTextApi(TextInterface):
             chatbot_global_action=chatbot_global_action,
             previous_history=previous_history,
         )
+        is_o1_model = "o1-" in model
         messages = []
         for msg in previous_history:
             message = {
@@ -671,14 +672,14 @@ class OpenaiTextApi(TextInterface):
                     }
                 )
 
-        if chatbot_global_action:
+        if chatbot_global_action and not is_o1_model:
             messages.insert(0, {"role": "system", "content": chatbot_global_action})
 
         payload = {
             "model": model,
             "temperature": temperature,
             "messages": messages,
-            "max_tokens": max_tokens,
+            "max_completion_tokens": max_tokens,
             "stream": stream,
         }
 
