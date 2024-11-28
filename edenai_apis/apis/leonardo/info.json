@@ -1,0 +1,55 @@
+{
+  "image": {
+    "generation": {
+      "constraints": {
+        "resolutions": [
+          "256x256",
+          "512x512",
+          "1024x1024"
+        ],
+        "models": [
+          [
+            "Leonardo Phoenix",
+            "Leonardo Anime XL",
+            "Leonardo Lightning XL",
+            "SDXL 1.0",
+            "Leonardo Kino XL",
+            "Leonardo Vision XL",
+            "Leonardo Diffusion XL",
+            "AlbedoBase XL",
+            "RPG v5",
+            "SDXL 0.9",
+            "3D Animation Style",
+            "DreamShaper v7",
+            "Absolute Reality v1.6",
+            "Anime Pastel Dream",
+            "DreamShaper v6",
+            "DreamShaper v5",
+            "Leonardo Diffusion",
+            "RPG 4.0",
+            "Deliberate 1.1",
+            "Vintage Style Photography",
+            "DreamShaper 3.2",
+            "Leonardo Select",
+            "Leonardo Creative",
+            "Battle Axes",
+            "Pixel Art",
+            "Magic Potions",
+            "Magic Items",
+            "Chest Armor",
+            "Character Portraits",
+            "Crystal Deposits",
+            "Spirit Creatures",
+            "Isometric Scifi Buildings",
+            "Cute Animal Characters",
+            "Amulets",
+            "Shields",
+            "Isometric Fantasy",
+            "Cute Characters"
+          ]
+        ]
+      },
+      "version": "v1"
+    }
+  }
+}

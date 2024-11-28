@@ -11,5 +11,6 @@ def generation_arguments(provider_name: str) -> Dict:
             "openai": "dall-e-3",
             "stabilityai": "stable-diffusion-xl-1024-v1-0",
             "replicate": "black-forest-labs/flux-pro",
+            "leonardo": "Leonardo Phoenix",
         },
     }
