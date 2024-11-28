@@ -1,0 +1,70 @@
+{
+    "success": true,
+    "remaining_credit": 8.12,
+    "data": {
+        "id": 22978,
+        "result": {
+            "skills": [
+                "Detail Oriented",
+                "Graphic Design",
+                "Aesthetics",
+                "Product Design",
+                "Moz (SEO Software)",
+                "Website Management",
+                "Content Design",
+                "Brand Marketing",
+                "Industrial Production",
+                "Logo Design",
+                "Branding",
+                "Team Management",
+                "Digital Marketing",
+                "Copywriting",
+                "English Language",
+                "French Language"
+            ],
+            "basic_info": {
+                "name": "Olivia Wilson",
+                "links": [
+                    "www.reallygreatsite.com"
+                ],
+                "current_position": "Product Design Manager"
+            },
+            "contact_info": {
+                "email": "hello@reallygreatsite.com",
+                "phone_number": "+123-456-7890",
+                "street_address": "123 Anywhere St.",
+                "city": "Any",
+                "zip_code": "12345",
+                "country": "Any"
+            },
+            "work_experience": {
+                "works": [
+                    {
+                        "company": "Ginyard International Co.",
+                        "end_date": "2023-01-01",
+                        "job_title": "Product Design Manager",
+                        "seniority": "Mid",
+                        "start_date": "2020-01-01",
+                        "months": 36
+                    }
+                ],
+                "total_work_experience": 3,
+                "average_time": 3
+            },
+            "education": [
+                {
+                    "major": "Product Design",
+                    "school_name": "Arowwai Industries",
+                    "education_level": "Bachelor of Design",
+                    "graduation_year": 2019
+                },
+                {
+                    "major": "Branding and Logo Design",
+                    "school_name": "Wardiere University",
+                    "education_level": "Bachelor of Design",
+                    "graduation_year": 2008
+                }
+            ]
+        }
+    }
+}

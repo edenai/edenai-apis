@@ -68,6 +68,7 @@ from .voxist import VoxistApi
 from .winstonai import WinstonaiApi
 from .writesonic import WritesonicApi
 from .jina import JinaApi
+from .hirize import HirizeApi
 from .twelvelabs import TwelveLabsApi
 from .clipdrop import ClipdropApi
 
