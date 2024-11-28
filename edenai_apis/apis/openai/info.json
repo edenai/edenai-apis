@@ -478,7 +478,8 @@
           "mpeg",
           "mpga",
           "wav",
-          "webm"
+          "webm",
+          "ogg"
         ],
         "allow_null_language": true
       },
@@ -1041,7 +1042,7 @@
           "zu"
         ],
         "allow_null_language": true,
-        "documents" : [
+        "documents": [
           "receipt",
           "invoice"
         ]
