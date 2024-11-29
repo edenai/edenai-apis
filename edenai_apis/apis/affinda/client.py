@@ -484,20 +484,29 @@ class Client:
         files: Optional[Dict[str, BufferedReader]] = None
 
         if file.type == "url":
-            payload["url"] = file.file
+             payload["url"] = file.file
         elif file.type == "file":
             with open(file.file, "rb") as f:
                 files = {"file": f}
-
-        return Document(
-            **self.__requests(
-                method=HTTPMethod.POST,
-                url=f"{self.BASE_URL}/documents",
-                headers=self.headers,
-                files=files,
-                data=payload,
+                return Document(
+                    **self.__requests(
+                        method=HTTPMethod.POST,
+                        url=f"{self.BASE_URL}/documents",
+                        headers=self.headers,
+                        files=files,
+                        data=payload,
+                    )
+                )
+        else:
+            return Document(
+                **self.__requests(
+                    method=HTTPMethod.POST,
+                    url=f"{self.BASE_URL}/documents",
+                    headers=self.headers,
+                    files=None,
+                    data=payload,
+                )
             )
-        )
 
     def delete_document(self, identifier: str) -> None:
         """Delete the document with the given identifier.
