@@ -50,28 +50,28 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
         provider_params: Optional[dict] = None,
     ) -> AsyncLaunchJobResponseType:
         provider_params = provider_params or {}
-        file_ = open(file, "rb")
-        config = {
-            "language": language,
-            "diarization": "speaker",
-            "operating_point": model,
-        }
-        if vocabulary:
-            config["additional_vocab"] = [{"content": word} for word in vocabulary]
+        with open(file, "rb") as file_:
+            config = {
+                "language": language,
+                "diarization": "speaker",
+                "operating_point": model,
+            }
+            if vocabulary:
+                config["additional_vocab"] = [{"content": word} for word in vocabulary]
 
-        payload = {
-            "config": json.dumps(
-                {"type": "transcription", "transcription_config": config}
-            ),
-            **provider_params,
-        }
-        # Send request
-        response = requests.post(
-            url=self.base_url,
-            headers=self.headers,
-            data=payload,
-            files={"data_file": file_},
-        )
+            payload = {
+                "config": json.dumps(
+                    {"type": "transcription", "transcription_config": config}
+                ),
+                **provider_params,
+            }
+            # Send request
+            response = requests.post(
+                url=self.base_url,
+                headers=self.headers,
+                data=payload,
+                files={"data_file": file_},
+            )
         if response.status_code != 201:
             raise ProviderException(response.content, response.status_code)
 

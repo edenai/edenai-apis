@@ -40,21 +40,19 @@ class HireabilityApi(ProviderInterface, OcrInterface):
     def ocr__resume_parser(
         self, file: str, file_url: str = ""
     ) -> ResponseType[ResumeParserDataClass]:
-        file_ = open(file, "rb")
-        files = {"document": file_}
+        with open(file, "rb") as file_:
+            files = {"document": file_}
 
-        # Generate Api output
-        response = requests.post(
-            self.url,
-            data={
-                "product_code": self.product_code,
-                "document_title": file,
-            },
-            files=files,
-        )
-        original_response = response.json()
-
-        file_.close()
+            # Generate Api output
+            response = requests.post(
+                self.url,
+                data={
+                    "product_code": self.product_code,
+                    "document_title": file,
+                },
+                files=files,
+            )
+            original_response = response.json()
 
         # Handle provider error
         if original_response["Results"][0]["HireAbilityJSONResults"][0].get(

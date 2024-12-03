@@ -93,13 +93,13 @@ class SymblApi(ProviderInterface, AudioInterface):
             params.update({"customVocabulary": vocabulary})
 
         params.update(provider_params)
-        file_ = open(file, "rb")
-        response = requests.post(
-            url="https://api.symbl.ai/v1/process/audio",
-            headers=headers,
-            data=file_,
-            params=params,
-        )
+        with open(file, "rb") as file_:
+            response = requests.post(
+                url="https://api.symbl.ai/v1/process/audio",
+                headers=headers,
+                data=file_,
+                params=params,
+            )
 
         if response.status_code != 201:
             raise ProviderException(

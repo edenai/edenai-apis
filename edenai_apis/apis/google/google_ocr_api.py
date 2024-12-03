@@ -138,18 +138,20 @@ class GoogleOcrApi(OcrInterface):
             receipt_parser_project_id, "eu", receipt_parser_process_id
         )
 
-        file_ = open(file, "rb")
-        raw_document = documentai.RawDocument(content=file_.read(), mime_type=mimetype)
+        with open(file, "rb") as file_:
+            raw_document = documentai.RawDocument(
+                content=file_.read(), mime_type=mimetype
+            )
 
-        payload_request = {"name": name, "raw_document": raw_document}
-        request = handle_google_call(documentai.ProcessRequest, **payload_request)
+            payload_request = {"name": name, "raw_document": raw_document}
+            request = handle_google_call(documentai.ProcessRequest, **payload_request)
 
-        payload_result = {"request": request}
-        result = handle_google_call(receipt_client.process_document, **payload_result)
+            payload_result = {"request": request}
+            result = handle_google_call(
+                receipt_client.process_document, **payload_result
+            )
 
-        document = result.document
-
-        file_.close()
+            document = result.document
 
         receipt_infos: InfosReceiptParserDataClass = InfosReceiptParserDataClass()
         receipt_taxe: Taxes = Taxes()
@@ -249,11 +251,11 @@ class GoogleOcrApi(OcrInterface):
             invoice_parser_project_id, "eu", invoice_parser_process_id
         )
 
-        file_ = open(file, "rb")
+        with open(file, "rb") as file_:
+            raw_document = documentai.RawDocument(
+                content=file_.read(), mime_type=mimetype
+            )
 
-        raw_document = documentai.RawDocument(content=file_.read(), mime_type=mimetype)
-
-        file_.close()
         payload_request = {"name": name, "raw_document": raw_document}
         request = handle_google_call(documentai.ProcessRequest, **payload_request)
 
@@ -565,20 +567,20 @@ class GoogleOcrApi(OcrInterface):
         name = financial_parser_client.processor_path(
             financial_project_id, "eu", financial_parser_process_id
         )
-        file_ = open(file, "rb")
-        raw_document = documentai.RawDocument(content=file_.read(), mime_type=mimetype)
+        with open(file) as file_:
+            raw_document = documentai.RawDocument(
+                content=file_.read(), mime_type=mimetype
+            )
 
-        payload_request = {"name": name, "raw_document": raw_document}
-        request = handle_google_call(documentai.ProcessRequest, **payload_request)
+            payload_request = {"name": name, "raw_document": raw_document}
+            request = handle_google_call(documentai.ProcessRequest, **payload_request)
 
-        payload_result = {"request": request}
-        result = handle_google_call(
-            financial_parser_client.process_document, **payload_result
-        )
-        document = result.document
+            payload_result = {"request": request}
+            result = handle_google_call(
+                financial_parser_client.process_document, **payload_result
+            )
+            document = result.document
 
-        file_.close()
-        file_ = open(file, "rb")
         standardized_response = google_financial_parser(document)
 
         return ResponseType[FinancialParserDataClass](

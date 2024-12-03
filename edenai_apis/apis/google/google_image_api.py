@@ -119,16 +119,15 @@ class GoogleImageApi(ImageInterface):
     def image__object_detection(
         self, file: str, model: str = None, file_url: str = ""
     ) -> ResponseType[ObjectDetectionDataClass]:
-        file_ = open(file, "rb")
-        image = vision.Image(content=file_.read())
+        with open(file, "rb") as file_:
+            image = vision.Image(content=file_.read())
 
-        payload = {"image": image}
-        response = handle_google_call(
-            self.clients["image"].object_localization, **payload
-        )
-        response = MessageToDict(response._pb)
+            payload = {"image": image}
+            response = handle_google_call(
+                self.clients["image"].object_localization, **payload
+            )
+            response = MessageToDict(response._pb)
 
-        file_.close()
         items = []
         for object_annotation in response.get("localizedObjectAnnotations", []):
             x_min, x_max = np.infty, -np.infty
