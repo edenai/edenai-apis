@@ -70,5 +70,6 @@ from .writesonic import WritesonicApi
 from .jina import JinaApi
 from .twelvelabs import TwelveLabsApi
 from .clipdrop import ClipdropApi
+from .leonardo import LeonardoApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
