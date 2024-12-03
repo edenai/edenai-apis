@@ -13,6 +13,7 @@ from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from .config import get_model_id_image
+from edenai_apis.utils.parsing import extract
 
 class LeonardoApi(ProviderInterface, ImageInterface):
     provider_name = "leonardo"
@@ -42,7 +43,11 @@ class LeonardoApi(ProviderInterface, ImageInterface):
         self, url: str, payload: dict
     ) -> Union[Generator, dict]:
         # Launch job
-        launch_job_response = requests.post(url, headers=self.headers, json=payload)
+
+        try:
+            launch_job_response = requests.post(url, headers=self.headers, json=payload)
+        except requests.exceptions.RequestException as e:
+            raise ProviderException(e)
         
         try:
             launch_job_response_dict = launch_job_response.json()
@@ -117,7 +122,7 @@ class LeonardoApi(ProviderInterface, ImageInterface):
         url = f"{self.base_url}/generations"
 
         response_dict = LeonardoApi.__get_response(self, url, payload)
-        image_url = [image.get('url') for image in response_dict.get('generations_by_pk', {}).get('generated_images', [])]
+        image_url = [image.get('url') for image in extract(response_dict, 'generations_by_pk.generated_images', [])]
 
         generated_images = []
         if isinstance(image_url, list):
