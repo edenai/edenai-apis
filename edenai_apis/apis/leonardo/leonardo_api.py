@@ -122,7 +122,9 @@ class LeonardoApi(ProviderInterface, ImageInterface):
         url = f"{self.base_url}/generations"
 
         response_dict = LeonardoApi.__get_response(self, url, payload)
-        image_url = [image.get('url') for image in extract(response_dict, 'generations_by_pk.generated_images', [])]
+        generation_by_pk = response_dict.get("generations_by_pk", {}) or {}
+        generated_images = generation_by_pk.get("generated_images", []) or []
+        image_url = [image.get('url') for image in generated_images]
 
         generated_images = []
         if isinstance(image_url, list):
