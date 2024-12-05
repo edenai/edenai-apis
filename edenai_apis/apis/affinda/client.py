@@ -483,9 +483,7 @@ class Client:
 
         files: Optional[Dict[str, BufferedReader]] = None
 
-        if file.type == "url":
-             payload["url"] = file.file
-        elif file.type == "file":
+        if file.type == "file":
             with open(file.file, "rb") as f:
                 files = {"file": f}
                 return Document(
@@ -498,6 +496,7 @@ class Client:
                     )
                 )
         else:
+            payload["url"] = file.file
             return Document(
                 **self.__requests(
                     method=HTTPMethod.POST,
