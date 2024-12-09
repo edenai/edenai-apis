@@ -31,7 +31,14 @@ def extract_text_from_pdf(pdf_path):
 class OpenaiDocParsingApi(OcrInterface):
 
     def __assistant_parser(
-        self, name, instruction, message_text, example_file, input_file, dataclass
+        self,
+        name,
+        instruction,
+        message_text,
+        example_file,
+        input_file,
+        dataclass,
+        model,
     ):
 
         with open(os.path.join(os.path.dirname(__file__), example_file), "r") as f:
@@ -43,7 +50,7 @@ class OpenaiDocParsingApi(OcrInterface):
             instructions="{} You return a json output and nothing else than a json output. The json should be shaped like the following with the exact same structure and the exact same keys but change the values to extract the inputed document informations : \n {}  \n\n The json output should follow this pydantic schema \n {} \n\n Your response should directly start with '{{' ".format(
                 instruction, output_response, dataclass.schema()
             ),
-            model="gpt-4o",
+            model=model,
         )
 
         input_file_text = extract_text_from_pdf(input_file)
@@ -82,7 +89,12 @@ class OpenaiDocParsingApi(OcrInterface):
         return original_response, standardized_response
 
     def ocr__financial_parser(
-        self, file: str, language: str, document_type: str = "", file_url: str = ""
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
     ) -> ResponseType[FinancialParserDataClass]:
 
         original_response, result = self.__assistant_parser(
@@ -92,6 +104,7 @@ class OpenaiDocParsingApi(OcrInterface):
             example_file="outputs/ocr/financial_parser_output.json",
             input_file=file,
             dataclass=FinancialParserDataClass,
+            model=model,
         )
 
         return ResponseType[FinancialParserDataClass](
@@ -99,7 +112,7 @@ class OpenaiDocParsingApi(OcrInterface):
         )
 
     def ocr__resume_parser(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[ResumeParserDataClass]:
 
         original_response, result = self.__assistant_parser(
@@ -109,6 +122,7 @@ class OpenaiDocParsingApi(OcrInterface):
             example_file="outputs/ocr/resume_parser_output.json",
             input_file=file,
             dataclass=ResumeParserDataClass,
+            model=model,
         )
 
         return ResponseType[ResumeParserDataClass](
@@ -117,7 +131,7 @@ class OpenaiDocParsingApi(OcrInterface):
         )
 
     def ocr__identity_parser(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[IdentityParserDataClass]:
 
         original_response, result = self.__assistant_parser(
@@ -127,6 +141,7 @@ class OpenaiDocParsingApi(OcrInterface):
             example_file="outputs/ocr/identity_parser_output.json",
             input_file=file,
             dataclass=IdentityParserDataClass,
+            model=model,
         )
 
         return ResponseType[IdentityParserDataClass](

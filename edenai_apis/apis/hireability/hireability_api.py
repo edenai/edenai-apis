@@ -38,7 +38,7 @@ class HireabilityApi(ProviderInterface, OcrInterface):
         self.url = "http://processing.resumeparser.com/requestprocessing.html"
 
     def ocr__resume_parser(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[ResumeParserDataClass]:
         with open(file, "rb") as file_:
             files = {"document": file_}

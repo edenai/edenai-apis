@@ -547,7 +547,12 @@ class GoogleOcrApi(OcrInterface):
         return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)
 
     def ocr__financial_parser(
-        self, file: str, language: str, document_type: str, file_url: str = ""
+        self,
+        file: str,
+        language: str,
+        document_type: str,
+        file_url: str = "",
+        model: str = None,
     ) -> ResponseType[FinancialParserDataClass]:
         mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
         financial_project_id = self.api_settings["documentai"]["project_id"]

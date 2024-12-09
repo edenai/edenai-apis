@@ -109,7 +109,7 @@ class AmazonOcrApi(OcrInterface):
         )
 
     def ocr__identity_parser(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[IdentityParserDataClass]:
 
         with open(file, "rb") as file_:
@@ -624,7 +624,12 @@ class AmazonOcrApi(OcrInterface):
             )
 
     def ocr__financial_parser(
-        self, file: str, language: str, document_type: str, file_url: str = ""
+        self,
+        file: str,
+        language: str,
+        document_type: str,
+        file_url: str = "",
+        model: str = None,
     ) -> ResponseType[FinancialParserDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()

@@ -7,8 +7,6 @@ from pydub.utils import mediainfo
 from edenai_apis.utils.files import FileInfo, FileWrapper
 
 
-
-
 def identity_parser_arguments(provider_name: str) -> Dict:
     feature_path = os.path.dirname(os.path.dirname(__file__))
 
@@ -27,4 +25,4 @@ def identity_parser_arguments(provider_name: str) -> Dict:
     )
     file_wrapper = FileWrapper(ocr_path, "", file_info)
     filename = "passport-US.pdf"
-    return {"file": file_wrapper}
+    return {"file": file_wrapper, "settings": {"openai": "gpt-4o"}}

@@ -7,7 +7,6 @@ from pydub.utils import mediainfo
 from edenai_apis.utils.files import FileInfo, FileWrapper
 
 
-
 def financial_parser_arguments(provider_name: str) -> Dict:
     feature_path = os.path.dirname(os.path.dirname(__file__))
 
@@ -25,5 +24,9 @@ def financial_parser_arguments(provider_name: str) -> Dict:
     )
     file_wrapper = FileWrapper(ocr_path, "", file_info)
 
-    
-    return {"file": file_wrapper, "language": "en", "document_type" : "invoice"}
+    return {
+        "file": file_wrapper,
+        "language": "en",
+        "document_type": "invoice",
+        "settings": {"openai": "gpt-4o"},
+    }
