@@ -155,7 +155,12 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         return result
 
     def ocr__financial_parser(
-        self, file: str, language: str, document_type: str = "", file_url: str = ""
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
     ) -> ResponseType[FinancialParserDataClass]:
         with open(file, "rb") as file_:
             token = self._process(file_, document_type)

@@ -166,7 +166,12 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__financial_parser(
-        self, file: str, language: str, document_type: str = "", file_url: str = ""
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
     ) -> ResponseType[FinancialParserDataClass]:
         original_response = self._process_document(file)
 

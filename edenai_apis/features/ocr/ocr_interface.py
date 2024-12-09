@@ -4,7 +4,9 @@ from typing import List, Dict, Union
 from edenai_apis.features.ocr.anonymization_async.anonymization_async_dataclass import (
     AnonymizationAsyncDataClass,
 )
-from edenai_apis.features.ocr.bank_check_parsing.bank_check_parsing_dataclass import BankCheckParsingDataClass
+from edenai_apis.features.ocr.bank_check_parsing.bank_check_parsing_dataclass import (
+    BankCheckParsingDataClass,
+)
 from edenai_apis.features.ocr.custom_document_parsing_async import (
     CustomDocumentParsingAsyncDataClass,
 )
@@ -121,7 +123,12 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__financial_parser(
-        self, file: str, language: str, document_type: str = "", file_url: str = ""
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
     ) -> ResponseType[FinancialParserDataClass]:
         """Parse a financial document (receipt or invoice) and returned structured data
 
@@ -135,7 +142,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__resume_parser(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[ResumeParserDataClass]:
         """Parse a resume and returned structured data
 
@@ -147,7 +154,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__identity_parser(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[IdentityParserDataClass]:
         """Parse an identity document and returned structured data
 

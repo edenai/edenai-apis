@@ -927,7 +927,9 @@
           "application/vnd.openxmlformats-officedocument.presentationml.presentation",
           "text/html",
           "text/markdown",
-          "text/plain"
+          "text/plain",
+          "image/png",
+          "image/jpeg"
         ],
         "languages": [
           "af",
@@ -1058,7 +1060,9 @@
           "application/vnd.openxmlformats-officedocument.presentationml.presentation",
           "text/html",
           "text/markdown",
-          "text/plain"
+          "text/plain",
+          "image/jpeg",
+          "image/png"
         ],
         "languages": [
           "af",
@@ -1185,7 +1189,9 @@
           "application/vnd.openxmlformats-officedocument.presentationml.presentation",
           "text/html",
           "text/markdown",
-          "text/plain"
+          "text/plain",
+          "image/png",
+          "image/jpeg"
         ]
       },
       "version": "v1"

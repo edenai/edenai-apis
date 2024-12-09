@@ -162,7 +162,12 @@ class Base64Api(ProviderInterface, OcrInterface):
         return self._ocr_finance_document(file, SubfeatureParser.RECEIPT)
 
     def ocr__financial_parser(
-        self, file: str, language: str, document_type: str = "", file_url: str = ""
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
     ) -> ResponseType[FinancialParserDataClass]:
         original_response = self._send_ocr_document(file, "finance/" + document_type)
 
@@ -173,7 +178,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         )
 
     def ocr__identity_parser(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[IdentityParserDataClass]:
         with open(file, "rb") as file_:
             image_as_base64 = (
@@ -183,7 +188,10 @@ class Base64Api(ProviderInterface, OcrInterface):
 
             payload = json.dumps({"image": image_as_base64})
 
-            headers = {"Content-Type": "application/json", "Authorization": self.api_key}
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": self.api_key,
+            }
 
             response = requests.post(url=self.url, headers=headers, data=payload)
 
@@ -332,7 +340,7 @@ class Base64Api(ProviderInterface, OcrInterface):
             payload = json.dumps({"url": file1_url, "queryUrl": file2_url})
         else:
             with open(file1, "rb") as file_reference_, open(file2, "rb") as file_query_:
-          
+
                 image_reference_as_base64 = (
                     f"data:{mimetypes.guess_type(file1)[0]};base64,"
                     + base64.b64encode(file_reference_.read()).decode()
@@ -475,7 +483,7 @@ class Base64Api(ProviderInterface, OcrInterface):
                 f"data:{mimetypes.guess_type(file)[0]};base64,"
                 + base64.b64encode(file_.read()).decode()
             )
-       
+
         payload = json.dumps(
             {
                 "image": image_as_base64,

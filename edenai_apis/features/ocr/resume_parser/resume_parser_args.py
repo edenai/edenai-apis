@@ -24,4 +24,4 @@ def resume_parser_arguments(provider_name: str) -> Dict:
         mediainfo(ocr_path).get("channels", "1"),
     )
     file_wrapper = FileWrapper(ocr_path, "", file_info)
-    return {"file": file_wrapper}
+    return {"file": file_wrapper, "settings": {"openai": "gpt-4o"}}

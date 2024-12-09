@@ -61,9 +61,11 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 
+
 class RequestParams(TypedDict):
     headers: Dict[str, str]
     files: Dict[str, BufferedReader]
+
 
 class MindeeApi(ProviderInterface, OcrInterface):
     provider_name = "mindee"
@@ -90,9 +92,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
             "https://api.mindee.net/v1/products/mindee/invoice_splitter/v1/"
         )
 
-    def _get_api_attributes(
-        self, file: BufferedReader
-    ) -> RequestParams:
+    def _get_api_attributes(self, file: BufferedReader) -> RequestParams:
         return RequestParams(
             headers={"Authorization": self.api_key},
             files={"document": file},
@@ -350,7 +350,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         return result
 
     def ocr__identity_parser(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[IdentityParserDataClass]:
         with open(file, "rb") as file_:
             args = self._get_api_attributes(file_)
@@ -460,7 +460,9 @@ class MindeeApi(ProviderInterface, OcrInterface):
             files = {"document": file_}
 
             try:
-                response = requests.post(self.url_bank_check, headers=headers, files=files)
+                response = requests.post(
+                    self.url_bank_check, headers=headers, files=files
+                )
             except:
                 raise ProviderException(
                     "Something went wrong when calling this feature", code=500
@@ -522,16 +524,19 @@ class MindeeApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__financial_parser(
-        self, file: str, language: str, document_type: str = "", file_url: str = ""
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
     ) -> ResponseType[FinancialParserDataClass]:
         headers = {
             "Authorization": self.api_key,
         }
         with open(file, "rb") as file_:
             files = {"document": file_}
-            response = requests.post(
-                self.url_financial, headers=headers, files=files
-            )
+            response = requests.post(self.url_financial, headers=headers, files=files)
             original_response = response.json()
 
         if "document" not in original_response:
