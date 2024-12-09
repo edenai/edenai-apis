@@ -401,7 +401,7 @@ class Base64Api(ProviderInterface, OcrInterface):
                 except ValueError:
                     bbox = BoundingBox.unknown()
 
-                if key := value.get(key):
+                if key := value.get("key"):
                     items.append(
                         ItemDataExtraction(
                             key=key,
