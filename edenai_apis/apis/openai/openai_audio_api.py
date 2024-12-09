@@ -1,26 +1,28 @@
 import base64
-from io import BytesIO
 import json
 import uuid
-from typing import Optional, List
+from io import BytesIO
+from typing import List, Optional
+
 import requests
+
 from edenai_apis.apis.amazon.helpers import check_webhook_result
+from edenai_apis.features import AudioInterface
 from edenai_apis.features.audio import TextToSpeechDataClass
-from edenai_apis.utils.types import (
-    AsyncBaseResponseType,
-    AsyncLaunchJobResponseType,
-    AsyncResponseType,
-    AsyncPendingResponseType,
-    ResponseType,
-)
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechDiarization,
     SpeechToTextAsyncDataClass,
 )
-from edenai_apis.features import AudioInterface
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.types import (
+    AsyncBaseResponseType,
+    AsyncLaunchJobResponseType,
+    AsyncPendingResponseType,
+    AsyncResponseType,
+    ResponseType,
+)
+from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
-from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
 from .helpers import convert_tts_audio_rate
 
 
