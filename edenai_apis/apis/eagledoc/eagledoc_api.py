@@ -50,10 +50,8 @@ class EagledocApi(ProviderInterface, OcrInterface):
 
         try:
             original_response = response.json()
-        except JSONDecodeError:
-            raise ProviderException(
-                message="Internal Server Error", code=500
-            ) from JSONDecodeError
+        except JSONDecodeError as exc:
+            raise ProviderException(message="Internal Server Error", code=500) from exc
 
         if response.status_code != 200:
             raise ProviderException(message=response.json(), code=response.status_code)
