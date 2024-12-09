@@ -519,10 +519,11 @@ class GoogleVideoApi(VideoInterface):
                             # Landmarks
                             landmark_output = {}
                             for land in time_stamped_object.get("landmarks", []):
-                                landmark_output[land["name"]] = [
-                                    land["point"]["x"],
-                                    land["point"]["y"],
-                                ]
+                                if landmark_name := land.get("name"):
+                                    landmark_output[landmark_name] = [
+                                        land["point"]["x"],
+                                        land["point"]["y"],
+                                    ]
                             landmark_tracking = PersonLandmarks(
                                 nose=landmark_output.get("nose", []),
                                 eye_left=landmark_output.get("left_eye", []),
