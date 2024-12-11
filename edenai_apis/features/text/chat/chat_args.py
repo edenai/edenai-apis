@@ -20,7 +20,7 @@ def chat_arguments(provider_name: str):
             "mistral": "large-latest",
             "google": "chat-bison",
             "cohere": "command-nightly",
-            "perplexityai": "pplx-70b-online",
+            "perplexityai": "llama-3.1-sonar-large-128k-chat",
             "replicate": "llama-2-70b-chat",
             "anthropic": "claude-3-sonnet-20240229-v1:0",
         },
