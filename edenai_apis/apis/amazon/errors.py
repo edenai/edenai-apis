@@ -54,6 +54,7 @@ ERRORS: ProviderErrorLists = {
         r"An error occurred \(ValidationException\) when calling the \w+ operation: 1 validation error detected: Value '.*' at 'image\.bytes' failed to satisfy constraint: Member must have length less than or equal to \d+",
     ],
     ProviderInvalidInputAudioDurationError: [
+        r"The input media file length is too small. Minimum audio duration is 0.500000 seconds. Check the length of the file and try your request again",
         r"The input media file length is too small\. Minimum audio duration is 0\.500000 milliseconds\. Check the length of the file and try your request again\.",
         r"Your audio file must have a speech segment long enough in duration to perform automatic language identification\. Provide an audio file with someone speaking for a longer period of time and try your request again",
     ],
