@@ -67,7 +67,11 @@ from edenai_apis.features.video.shot_change_detection_async.shot_change_detectio
 )
 from edenai_apis.apis.amazon.helpers import check_webhook_result
 from edenai_apis.features.video.video_interface import VideoInterface
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import (
+    ProviderException,
+    AsyncJobException,
+    AsyncJobExceptionReason,
+)
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -860,6 +864,10 @@ class GoogleVideoApi(VideoInterface):
         api_key = self.api_settings.get("genai_api_key")
         url = f"https://generativelanguage.googleapis.com/v1beta/files/{provider_job_id}?key={api_key}"
         response = requests.get(url=url)
+        if response.status_code == 403:
+            raise AsyncJobException(
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, code=403
+            )
         if response.status_code != 200:
             raise ProviderException(message=response.text, code=response.status_code)
         try:

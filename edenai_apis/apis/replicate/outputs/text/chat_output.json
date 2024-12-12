@@ -1,7 +1,8 @@
 {
   "original_response": {
-    "id": "a4wzjidbfgyocw2hqxbne3jq4a",
-    "version": "58d078176e02c219e11eb4da5a02a7830a283b14cf8f94537af893ccff5ee781",
+    "id": "7ga7j83aanrj40ckpsqsr074vc",
+    "model": "meta/llama-2-70b-chat",
+    "version": "dp-542693885b1777c98ef8c5a98f2005e7",
     "input": {
       "max_new_tokens": 1024,
       "min_new_tokens": -1,
@@ -9,74 +10,51 @@
       "system_prompt": "You are a keyword extractor. Extract Only the word from the text provided.",
       "temperature": 0.6
     },
-    "logs": "** Speed: 10.43 tokens/second\n",
+    "logs": "Random seed used: `57933`\nNote: Random seed will not impact output if greedy decoding is used.\nFormatted prompt: `<s>[INST] <<SYS>>\nYou are a keyword extractor. Extract Only the word from the text provided.\n<</SYS>>\n\n\n[INST]Steve Jobs was a co-founder of Apple Inc., a multinational technology company headquartered in Cupertino, California. He was also the CEO and a major shareholder of Pixar Animation Studios, which was later acquired by The Walt Disney Company. Jobs was widely recognized as a visionary entrepreneur and a pioneer in the personal computer industry. In addition to his business ventures, he was also known for his charismatic personality, his signature black turtleneck, and his famous keynote presentations at Apple's product launches.[/INST]\n\nsteve jobs, apple inc, pixar, california\n\n[INST]Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.[/INST]\n [/INST]`Random seed used: `57933`\nNote: Random seed will not impact output if greedy decoding is used.\nFormatted prompt: `<s>[INST] <<SYS>>\nYou are a keyword extractor. Extract Only the word from the text provided.\n<</SYS>>\n\n\n[INST]Steve Jobs was a co-founder of Apple Inc., a multinational technology company headquartered in Cupertino, California. He was also the CEO and a major shareholder of Pixar Animation Studios, which was later acquired by The Walt Disney Company. Jobs was widely recognized as a visionary entrepreneur and a pioneer in the personal computer industry. In addition to his business ventures, he was also known for his charismatic personality, his signature black turtleneck, and his famous keynote presentations at Apple's product launches.[/INST]\n\nsteve jobs, apple inc, pixar, california\n\n[INST]Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.[/INST]\n [/INST]`",
     "output": [
-      "",
-      " Sure",
-      "!",
-      " Here",
-      " are",
-      " the",
-      " keywords",
-      " extracted",
-      " from",
-      " the",
-      " given",
-      " text",
-      ":",
-      "\n",
-      "\n",
-      "*",
       " Bar",
       "ack",
+      ",",
       " Ob",
       "ama",
-      "\n",
-      "*",
-      " President",
-      "\n",
-      "*",
-      " United",
-      " States",
-      "\n",
-      "*",
+      ",",
       " African",
       "-",
       "American",
-      "\n",
-      "*",
-      " Democratic",
-      " Party",
-      "\n",
-      "*",
-      " Illinois",
-      "\n",
-      "*",
-      " Senator"
+      ",",
+      " president",
+      ",",
+      " Illinois"
     ],
+    "data_removed": false,
     "error": null,
     "status": "succeeded",
-    "created_at": "2023-08-14T13:54:49.793851Z",
-    "started_at": "2023-08-14T13:54:49.831764Z",
-    "completed_at": "2023-08-14T13:54:56.140426Z",
-    "metrics": {
-      "predict_time": 6.308662
-    },
+    "created_at": "2024-12-11T15:56:15.317Z",
+    "started_at": "2024-12-11T15:56:15.322094726Z",
+    "completed_at": "2024-12-11T15:56:15.602141529Z",
     "urls": {
-      "cancel": "https://api.replicate.com/v1/predictions/a4wzjidbfgyocw2hqxbne3jq4a/cancel",
-      "get": "https://api.replicate.com/v1/predictions/a4wzjidbfgyocw2hqxbne3jq4a"
+      "cancel": "https://api.replicate.com/v1/predictions/7ga7j83aanrj40ckpsqsr074vc/cancel",
+      "get": "https://api.replicate.com/v1/predictions/7ga7j83aanrj40ckpsqsr074vc",
+      "stream": "https://stream-b.svc.rno2.c.replicate.net/v1/streams/fivgzwornp2ntnfc3xbtklflgukelorctsk3wwshw3rukzb6hina"
+    },
+    "metrics": {
+      "predict_time": 0.280047
     }
   },
   "standardized_response": {
-    "generated_text": " Sure! Here are the keywords extracted from the given text:\n\n* Barack Obama\n* President\n* United States\n* African-American\n* Democratic Party\n* Illinois\n* Senator",
+    "generated_text": " Barack, Obama, African-American, president, Illinois",
     "message": [
       {
         "role": "user",
-        "message": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004."
+        "message": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+        "tools": null,
+        "tool_calls": null
       },
       {
         "role": "assistant",
-        "message": " Sure! Here are the keywords extracted from the given text:\n\n* Barack Obama\n* President\n* United States\n* African-American\n* Democratic Party\n* Illinois\n* Senator"
+        "message": " Barack, Obama, African-American, president, Illinois",
+        "tools": null,
+        "tool_calls": null
       }
     ]
   }

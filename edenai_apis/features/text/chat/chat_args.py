@@ -18,7 +18,7 @@ def chat_arguments(provider_name: str):
             "meta": "llama3-1-70b-instruct-v1:0",
             "openai": "gpt-3.5-turbo",
             "mistral": "large-latest",
-            "google": "chat-bison",
+            "google": "gemini-1.5-pro",
             "cohere": "command-nightly",
             "perplexityai": "llama-3.1-sonar-large-128k-chat",
             "replicate": "llama-2-70b-chat",
