@@ -27,7 +27,7 @@ from .helpers import convert_tts_audio_rate
 
 
 class OpenaiAudioApi(AudioInterface):
-    def audio__speech_to_text_async__launch_job(
+    def audio__speech_to_text(
         self,
         file: str,
         language: str,
@@ -38,7 +38,7 @@ class OpenaiAudioApi(AudioInterface):
         model: Optional[str] = None,
         file_url: str = "",
         provider_params: Optional[dict] = None,
-    ) -> AsyncLaunchJobResponseType:
+    ):
         provider_params = provider_params or {}
         data_job_id = {}
         headers = {
@@ -53,65 +53,10 @@ class OpenaiAudioApi(AudioInterface):
             if response.status_code != 200:
                 raise ProviderException(response.text, response.status_code)
 
-            job_id = str(uuid.uuid4())
         try:
             original_response = response.json()
         except requests.JSONDecodeError as exp:
             raise ProviderException("Internal Server Error", code=500) from exp
-        data_job_id[job_id] = original_response
-        requests.post(
-            url=f"https://webhook.site/{self.webhook_token}",
-            data=json.dumps(data_job_id),
-            headers={"content-type": "application/json"},
-        )
-        return AsyncLaunchJobResponseType(provider_job_id=job_id)
-
-    def audio__speech_to_text_async__get_job_result(
-        self, provider_job_id: str
-    ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
-        if not provider_job_id:
-            raise ProviderException("Job id None or empty!")
-
-        # Get results from webhooks :
-        # List all webhook results
-        # Getting results from webhook.site
-
-        wehbook_result, response_status = check_webhook_result(
-            provider_job_id, self.webhook_settings
-        )
-
-        if response_status != 200:
-            raise ProviderException(wehbook_result, code=response_status)
-
-        result_object = (
-            next(
-                filter(
-                    lambda response: provider_job_id in response["content"],
-                    wehbook_result,
-                ),
-                None,
-            )
-            if wehbook_result
-            else None
-        )
-
-        if not result_object or not result_object.get("content"):
-            return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id
-            )
-
-        try:
-            original_response = json.loads(result_object["content"]).get(
-                provider_job_id, None
-            )
-        except json.JSONDecodeError:
-            raise ProviderException("An error occurred while parsing the response.")
-
-        if original_response is None:
-            return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
-                provider_job_id=provider_job_id
-            )
-
         diarization = SpeechDiarization(total_speakers=0, entries=[])
         standardized_response = SpeechToTextAsyncDataClass(
             text=original_response.get("text"), diarization=diarization
@@ -119,7 +64,31 @@ class OpenaiAudioApi(AudioInterface):
         return AsyncResponseType[SpeechToTextAsyncDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
-            provider_job_id=provider_job_id,
+            provider_job_id=str(uuid.uuid4()),
+        )
+
+    def audio__speech_to_text_async__launch_job(
+        self,
+        file: str,
+        language: str,
+        speakers: int,
+        profanity_filter: bool,
+        vocabulary: Optional[List[str]],
+        audio_attributes: tuple,
+        model: Optional[str] = None,
+        file_url: str = "",
+        provider_params: Optional[dict] = None,
+    ) -> AsyncLaunchJobResponseType:
+        return self.audio__speech_to_text(
+            file,
+            language,
+            speakers,
+            profanity_filter,
+            vocabulary,
+            audio_attributes,
+            model,
+            file_url,
+            provider_params,
         )
 
     def audio__text_to_speech(
