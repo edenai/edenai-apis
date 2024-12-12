@@ -78,12 +78,12 @@ class TestProviderErrors:
         assert response is not None
 
     def test_input_text_too_long_sentences(self):
-        error = google_errors[ProviderInvalidInputTextLengthError][1]
+        error = google_errors[ProviderInvalidInputTextLengthError][0]
         unit = "sentence_count"
         input_field = "text"
         feature = "audio"
         subfeature = "text_to_speech"
-        text = "This is a sentence is too long " * 40 + "."
+        text = "This is a sentence is too long " * 4000 + "."
         args = load_feature(
             FeatureDataEnum.SAMPLES_ARGS,
             feature=feature,
@@ -99,6 +99,7 @@ class TestProviderErrors:
             "exception raised wasn't the right one, expected "
             f"{ProviderInvalidInputTextLengthError.__name__} got {exc.type}"
         )
+
         assert (
             re.search(error, str(exc.value)) is not None
         ), f"didn't raise the right error, should be {error}, got {exc.value}"
