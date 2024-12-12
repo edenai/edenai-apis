@@ -1,4 +1,46 @@
 {
-    "ai_score": 0.9704999999999999,
-    "prediction": "ai-generated"
+  "average_score": 0.001,
+  "prediction": "original",
+  "details_per_frame": [
+    {
+      "position": 0.0,
+      "score": 0.001,
+      "prediction": "original"
+    },
+    {
+      "position": 2000.0,
+      "score": 0.001,
+      "prediction": "original"
+    },
+    {
+      "position": 4000.0,
+      "score": 0.001,
+      "prediction": "original"
+    },
+    {
+      "position": 6000.0,
+      "score": 0.001,
+      "prediction": "original"
+    },
+    {
+      "position": 8000.0,
+      "score": 0.001,
+      "prediction": "original"
+    },
+    {
+      "position": 10000.0,
+      "score": 0.001,
+      "prediction": "original"
+    },
+    {
+      "position": 12000.0,
+      "score": 0.001,
+      "prediction": "original"
+    },
+    {
+      "position": 14000.0,
+      "score": 0.001,
+      "prediction": "original"
+    }
+  ]
 }

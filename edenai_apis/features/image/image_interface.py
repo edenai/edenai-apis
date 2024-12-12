@@ -5,7 +5,9 @@ from edenai_apis.features.image import (
     GenerationFineTuningCreateProjectAsyncDataClass,
     GenerationFineTuningGenerateImageAsyncDataClass,
 )
-from edenai_apis.features.image.ai_detection.ai_detection_dataclass import AiDetectionDataClass
+from edenai_apis.features.image.ai_detection.ai_detection_dataclass import (
+    AiDetectionDataClass,
+)
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
 )
@@ -71,7 +73,9 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
     ObjectDetectionDataClass,
 )
 from edenai_apis.features.image.question_answer import QuestionAnswerDataClass
-from edenai_apis.features.image.search.delete_image.search_delete_image_dataclass import SearchDeleteImageDataClass
+from edenai_apis.features.image.search.delete_image.search_delete_image_dataclass import (
+    SearchDeleteImageDataClass,
+)
 from edenai_apis.features.image.search.get_image.search_get_image_dataclass import (
     SearchGetImageDataClass,
 )
@@ -79,7 +83,9 @@ from edenai_apis.features.image.search.get_images.search_get_images_dataclass im
     SearchGetImagesDataClass,
 )
 from edenai_apis.features.image.search.search_dataclass import SearchDataClass
-from edenai_apis.features.image.search.upload_image.search_upload_image_dataclass import SearchUploadImageDataClass
+from edenai_apis.features.image.search.upload_image.search_upload_image_dataclass import (
+    SearchUploadImageDataClass,
+)
 from edenai_apis.features.image.variation import (
     VariationDataClass,
 )
@@ -89,7 +95,6 @@ from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncBaseResponseType,
 )
-
 
 
 class ImageInterface:
@@ -105,7 +110,7 @@ class ImageInterface:
             file_url (str): url of the image to analyze
         """
         raise NotImplementedError
-    
+
     @abstractmethod
     def image__anonymization(
         self, file: str, file_url: str = ""
@@ -166,6 +171,19 @@ class ImageInterface:
     ) -> ResponseType[LandmarkDetectionDataClass]:
         """
         Detect popular landmark in an image
+        (eg: popular tourist spots like Eiffel Tower)
+
+        Args:
+            file (BufferedReader): image to analyze
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__deepfake_detection(
+        self, file: str, file_url: str = ""
+    ) -> ResponseType[LandmarkDetectionDataClass]:
+        """
+        Detect altered images via inconsistencies.
         (eg: popular tourist spots like Eiffel Tower)
 
         Args:
@@ -288,7 +306,11 @@ class ImageInterface:
 
     @abstractmethod
     def image__search__launch_similarity(
-        self, project_id: str, file: Optional[str] = None, file_url: Optional[str] = None, n: int = 10
+        self,
+        project_id: str,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        n: int = 10,
     ) -> ResponseType[SearchDataClass]:
         """
         Launch similarity analysis of a search image project

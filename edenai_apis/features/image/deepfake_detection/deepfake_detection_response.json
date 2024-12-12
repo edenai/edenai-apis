@@ -1,4 +1,4 @@
 {
-    "ai_score": 0.9704999999999999,
-    "prediction": "ai-generated"
+    "deepfake_score": 0.01,
+    "prediction": "original"
 }
