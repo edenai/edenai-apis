@@ -123,10 +123,10 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
     def image__variation(
         self,
         file: str,
-        prompt: Optional[str] = "",
+        prompt: Optional[str],
         num_images: Optional[int] = 1,
         resolution: Literal["256x256", "512x512", "1024x1024"] = "512x512",
-        temperature: Optional[int] = 0.3,
+        temperature: Optional[float] = 0.3,
         model: Optional[str] = None,
         file_url: str = "",
     ) -> ResponseType[VariationDataClass]:

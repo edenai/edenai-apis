@@ -25,6 +25,9 @@ def variation_arguments(provider_name: str) -> Dict:
     file_wrapper = FileWrapper(image_path, "", file_info)
     return {
         "file": file_wrapper,
+        "prompt": "",
+        "num_images": 1,
         "resolution": "512x512",
+        "temperature": 0.3,
         "settings": {"stabilityai": "stable-diffusion-v1-6"},
     }
