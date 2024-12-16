@@ -98,15 +98,7 @@
 | | meta |
 | | mistral |
 | | openai |
-| **spell_check** | ai21labs |
-| | cohere |
-| | microsoft |
-| | nlpcloud |
-| | openai |
-| | prowritingaid |
-| | sapling |
-| **summarize** | ai21labs |
-| | alephalpha |
+| **summarize** | alephalpha |
 | | anthropic |
 | | cohere |
 | | connexun |
@@ -180,6 +172,12 @@
 | **search** | cohere |
 | | google |
 | | openai |
+| **spell_check** | cohere |
+| | microsoft |
+| | nlpcloud |
+| | openai |
+| | prowritingaid |
+| | sapling |
 | **code_generation** | google |
 | | nlpcloud |
 | | openai |
@@ -232,6 +230,7 @@
 | | microsoft |
 | **generation** | amazon |
 | | deepai |
+| | leonardo |
 | | openai |
 | | replicate |
 | | stabilityai |
@@ -263,6 +262,7 @@
 | | sentisight |
 | **variation** | openai |
 | | stabilityai |
+| **deepfake_detection** | sightengine |
 | **ai_detection** | winstonai |
 
 </details>
@@ -341,7 +341,10 @@
 | **logo_detection_async** | google |
 | | twelvelabs |
 | **object_tracking_async** | google |
+| **question_answer** | google |
+| **question_answer_async** | google |
 | **shot_change_detection_async** | google |
+| **deepfake_detection_async** | sightengine |
 
 </details>
 <details><summary>multimodal</summary>
@@ -373,8 +376,6 @@
 |----------|-------------|
 | **text** | embeddings |
 | | generation |
-| | spell_check |
-| | summarize |
 
 </details>
 <details><summary>alephalpha</summary>
@@ -658,6 +659,8 @@
 | | logo_detection_async |
 | | object_tracking_async |
 | | person_tracking_async |
+| | question_answer |
+| | question_answer_async |
 | | shot_change_detection_async |
 | | text_detection_async |
 
@@ -700,6 +703,13 @@
 | | invoice_parser |
 | | receipt_parser |
 | | resume_parser |
+
+</details>
+<details><summary>leonardo</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | generation |
 
 </details>
 <details><summary>lettria</summary>
@@ -981,6 +991,14 @@
 | | object_detection |
 | | search |
 | **ocr** | ocr |
+
+</details>
+<details><summary>sightengine</summary>
+
+| Features | Subfeatures |
+|----------|-------------|
+| **image** | deepfake_detection |
+| **video** | deepfake_detection_async |
 
 </details>
 <details><summary>skybiometry</summary>
