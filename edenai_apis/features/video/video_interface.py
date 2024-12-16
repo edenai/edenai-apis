@@ -39,6 +39,29 @@ class VideoInterface:
         """
         raise NotImplementedError
 
+    ### Deepfake detection methods
+    @abstractmethod
+    def video__deepfake_detection_async__launch_job(
+        self, file: str, file_url: str = ""
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Launch an asynchronous job to detect altered videos via inconsistencies
+
+        Args:
+            file (BufferedReader): video to analyze
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def video__deepfake_detection_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[ExplicitContentDetectionAsyncDataClass]:
+        """Get the result of an asynchronous job by its ID
+        Args:
+            - provider_job_id (str): id of async job
+        """
+        raise NotImplementedError
+
     ### Face detection methods
     @abstractmethod
     def video__face_detection_async__launch_job(

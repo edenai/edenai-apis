@@ -1,10 +1,24 @@
-dnld_t_dpf = ("https://cdn.discordapp.com/attachments/1285184350261870694/1288046846865969163/donald_trump_Deepfake1.jpeg?ex=66f3c29b&is=66f2711b&hm=adda1bc1ae8253fd7722745d4ecdc827873cfa819e8a1abbea65e1cf80545703&")
-t_cruise_not_dpf = ("https://cdn.discordapp.com/attachments/1285184350261870694/1288046848560463892/tom-cruise_Deepfake2.jpeg?ex=66f6659b&is=66f5141b&hm=0eeade51129487243fddf2424f17e5cf24f640a4ecade235d87c1dab8c7e442b&")
+import mimetypes
+import os
+from typing import Dict
+from pydub.utils import mediainfo
+from edenai_apis.utils.files import FileInfo, FileWrapper
 
 
-HUMAN_IMAGE_EXAMPLE = t_cruise_not_dpf
+def deepfake_detection_arguments(provider_name: str) -> Dict:
+    feature_path = os.path.dirname(os.path.dirname(__file__))
 
-def deepfake_detection_arguments(provider_name: str) -> dict:
-    return {
-        "file_url": HUMAN_IMAGE_EXAMPLE
-    }
+    data_path = os.path.join(feature_path, "data")
+
+    image_path = f"{data_path}/face.jpeg"
+
+    mime_type = mimetypes.guess_type(image_path)[0]
+    file_info = FileInfo(
+        os.stat(image_path).st_size,
+        mime_type,
+        [extension[1:] for extension in mimetypes.guess_all_extensions(mime_type)],
+        mediainfo(image_path).get("sample_rate", "44100"),
+        mediainfo(image_path).get("channels", "1"),
+    )
+    file_wrapper = FileWrapper(image_path, "", file_info)
+    return {"file": file_wrapper}
