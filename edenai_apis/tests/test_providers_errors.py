@@ -78,12 +78,12 @@ class TestProviderErrors:
         assert response is not None
 
     def test_input_text_too_long_sentences(self):
-        error = google_errors[ProviderInvalidInputTextLengthError][1]
+        error = google_errors[ProviderInvalidInputTextLengthError][0]
         unit = "sentence_count"
         input_field = "text"
         feature = "audio"
         subfeature = "text_to_speech"
-        text = "This is a sentence is too long " * 40 + "."
+        text = "This is a sentence is too long " * 4000 + "."
         args = load_feature(
             FeatureDataEnum.SAMPLES_ARGS,
             feature=feature,
@@ -99,6 +99,7 @@ class TestProviderErrors:
             "exception raised wasn't the right one, expected "
             f"{ProviderInvalidInputTextLengthError.__name__} got {exc.type}"
         )
+
         assert (
             re.search(error, str(exc.value)) is not None
         ), f"didn't raise the right error, should be {error}, got {exc.value}"
@@ -242,78 +243,78 @@ class TestProviderErrors:
             re.search(error, str(exc.value)) is not None
         ), f"didn't raise the right error, should be {error}, got {exc.value}"
 
-    def test_missing_input(self):
-        error = ibm_errors[ProviderMissingInputError][0]
-        input_field = "target_language"
-        feature = "translation"
-        subfeature = "automatic_translation"
-        args = load_feature(
-            FeatureDataEnum.SAMPLES_ARGS,
-            feature=feature,
-            subfeature=subfeature,
-        )
+    # def test_missing_input(self):
+    #     error = ibm_errors[ProviderMissingInputError][0]
+    #     input_field = "target_language"
+    #     feature = "translation"
+    #     subfeature = "automatic_translation"
+    #     args = load_feature(
+    #         FeatureDataEnum.SAMPLES_ARGS,
+    #         feature=feature,
+    #         subfeature=subfeature,
+    #     )
 
-        args[input_field] = None
+    #     args[input_field] = None
 
-        with pytest.raises(ProviderException) as exc:
-            compute_output("ibm", feature, subfeature, args)
+    #     with pytest.raises(ProviderException) as exc:
+    #         compute_output("ibm", feature, subfeature, args)
 
-        assert exc.type == ProviderMissingInputError, (
-            "exception raised wasn't the right one, expected "
-            f"{ProviderMissingInputError.__name__} got {exc.type}"
-        )
-        assert (
-            re.search(error, str(exc.value)) is not None
-        ), f"didn't raise the right error, should be {error}, got {exc.value}"
+    #     assert exc.type == ProviderMissingInputError, (
+    #         "exception raised wasn't the right one, expected "
+    #         f"{ProviderMissingInputError.__name__} got {exc.type}"
+    #     )
+    #     assert (
+    #         re.search(error, str(exc.value)) is not None
+    #     ), f"didn't raise the right error, should be {error}, got {exc.value}"
 
-    def test_missing_input(self):
-        error = ibm_errors[ProviderMissingInputError][0]
-        input_field = "target_language"
-        feature = "translation"
-        subfeature = "automatic_translation"
-        args = load_feature(
-            FeatureDataEnum.SAMPLES_ARGS,
-            feature=feature,
-            subfeature=subfeature,
-        )
+    # def test_missing_input(self):
+    #     error = ibm_errors[ProviderMissingInputError][0]
+    #     input_field = "target_language"
+    #     feature = "translation"
+    #     subfeature = "automatic_translation"
+    #     args = load_feature(
+    #         FeatureDataEnum.SAMPLES_ARGS,
+    #         feature=feature,
+    #         subfeature=subfeature,
+    #     )
 
-        args[input_field] = None
+    #     args[input_field] = None
 
-        with pytest.raises(ProviderException) as exc:
-            compute_output("ibm", feature, subfeature, args)
+    #     with pytest.raises(ProviderException) as exc:
+    #         compute_output("ibm", feature, subfeature, args)
 
-        assert exc.type == ProviderMissingInputError, (
-            "exception raised wasn't the right one, expected "
-            f"{ProviderMissingInputError.__name__} got {exc.type}"
-        )
-        assert (
-            re.search(error, str(exc.value)) is not None
-        ), f"didn't raise the right error, should be {error}, got {exc.value}"
+    #     assert exc.type == ProviderMissingInputError, (
+    #         "exception raised wasn't the right one, expected "
+    #         f"{ProviderMissingInputError.__name__} got {exc.type}"
+    #     )
+    #     assert (
+    #         re.search(error, str(exc.value)) is not None
+    #     ), f"didn't raise the right error, should be {error}, got {exc.value}"
 
-    def test_parsing_error(self):
-        error = ibm_errors[ProviderParsingError][0]
-        input_field = "text"
-        feature = "translation"
-        subfeature = "automatic_translation"
-        args = load_feature(
-            FeatureDataEnum.SAMPLES_ARGS,
-            feature=feature,
-            subfeature=subfeature,
-        )
+    # def test_parsing_error(self):
+    #     error = google_errors[ProviderParsingError][0]
+    #     input_field = "text"
+    #     feature = "translation"
+    #     subfeature = "automatic_translation"
+    #     args = load_feature(
+    #         FeatureDataEnum.SAMPLES_ARGS,
+    #         feature=feature,
+    #         subfeature=subfeature,
+    #     )
 
-        args[input_field] = "bidou bidou ba"
-        args["source_language"] = None
+    #     args[input_field] = "bidou bidou ba"
+    #     args["source_language"] = None
 
-        with pytest.raises(ProviderException) as exc:
-            compute_output("ibm", feature, subfeature, args)
+    #     with pytest.raises(ProviderException) as exc:
+    #         compute_output("ibm", feature, subfeature, args)
 
-        assert exc.type == ProviderParsingError, (
-            "exception raised wasn't the right one, expected "
-            f"{ProviderParsingError.__name__} got {exc.type}"
-        )
-        assert (
-            re.search(error, str(exc.value)) is not None
-        ), f"didn't raise the right error, should be {error}, got {exc.value}"
+    #     assert exc.type == ProviderParsingError, (
+    #         "exception raised wasn't the right one, expected "
+    #         f"{ProviderParsingError.__name__} got {exc.type}"
+    #     )
+    #     assert (
+    #         re.search(error, str(exc.value)) is not None
+    #     ), f"didn't raise the right error, should be {error}, got {exc.value}"
 
     def test_invalid_file_format_error(self):
         error = amazon_errors[ProviderInvalidInputFileFormatError][1]

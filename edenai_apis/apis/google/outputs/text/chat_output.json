@@ -1,89 +1,40 @@
 {
   "original_response": {
-    "predictions": [
+    "candidates": [
       {
-        "candidates": [
-          {
-            "author": "bot",
-            "content": " barack hussein obama, united states, democratic party, african-american, illinois, u.s. senator"
-          }
-        ],
-        "safetyAttributes": [
-          {
-            "scores": [
-              0.1,
-              0.2,
-              1,
-              0.1
-            ],
-            "safetyRatings": [
-              {
-                "probabilityScore": 0.1,
-                "severity": "NEGLIGIBLE",
-                "category": "Dangerous Content",
-                "severityScore": 0.1
-              },
-              {
-                "category": "Harassment",
-                "severityScore": 0.1,
-                "severity": "NEGLIGIBLE",
-                "probabilityScore": 0.2
-              },
-              {
-                "severity": "NEGLIGIBLE",
-                "category": "Hate Speech",
-                "severityScore": 0.2,
-                "probabilityScore": 0.1
-              },
-              {
-                "severityScore": 0,
-                "probabilityScore": 0.1,
-                "severity": "NEGLIGIBLE",
-                "category": "Sexually Explicit"
-              }
-            ],
-            "categories": [
-              "Derogatory",
-              "Insult",
-              "Politics",
-              "Sexual"
-            ],
-            "blocked": false
-          }
-        ],
-        "groundingMetadata": [
-          {}
-        ],
-        "citationMetadata": [
-          {
-            "citations": []
-          }
-        ]
+        "content": {
+          "parts": [
+            {
+              "text": "barack obama, united states\n"
+            }
+          ],
+          "role": "model"
+        },
+        "finishReason": "STOP",
+        "avgLogprobs": -0.2852514088153839
       }
     ],
-    "metadata": {
-      "tokenMetadata": {
-        "outputTokenCount": {
-          "totalBillableCharacters": 85,
-          "totalTokens": 25
-        },
-        "inputTokenCount": {
-          "totalBillableCharacters": 836,
-          "totalTokens": 216
-        }
-      }
-    }
+    "usageMetadata": {
+      "promptTokenCount": 220,
+      "candidatesTokenCount": 8,
+      "totalTokenCount": 228
+    },
+    "modelVersion": "gemini-1.5-pro-002"
   },
   "standardized_response": {
-    "generated_text": " barack hussein obama, united states, democratic party, african-american, illinois, u.s. senator",
+    "generated_text": "barack obama, united states\n",
     "message": [
       {
         "role": "user",
-        "message": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004."
+        "message": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+        "tools": null,
+        "tool_calls": null
       },
       {
         "role": "assistant",
-        "message": " barack hussein obama, united states, democratic party, african-american, illinois, u.s. senator"
+        "message": "barack obama, united states\n",
+        "tools": null,
+        "tool_calls": null
       }
     ]
   }

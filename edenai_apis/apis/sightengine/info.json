@@ -1,13 +1,12 @@
 {
     "image": {
         "deepfake_detection": {
-            "version" : "v1beta"
+            "version": "v1beta"
         }
     },
-
     "video": {
         "deepfake_detection_async": {
-            "version" : "v1beta"
+            "version": "v1beta"
         }
     }
 }

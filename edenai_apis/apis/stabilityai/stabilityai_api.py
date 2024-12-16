@@ -137,7 +137,6 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
 
             if not prompt:
                 prompt = "Generate a variation of this image and maintain the style"
-
             data = {
                 "image_strength": 1 - temperature,
                 "text_prompts[0][text]": prompt,

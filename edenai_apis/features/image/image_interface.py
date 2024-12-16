@@ -66,6 +66,9 @@ from edenai_apis.features.image.generation.generation_dataclass import (
 from edenai_apis.features.image.landmark_detection.landmark_detection_dataclass import (
     LandmarkDetectionDataClass,
 )
+from edenai_apis.features.image.deepfake_detection.deepfake_detection_dataclass import (
+    DeepfakeDetectionDataClass,
+)
 from edenai_apis.features.image.logo_detection.logo_detection_dataclass import (
     LogoDetectionDataClass,
 )
@@ -181,7 +184,7 @@ class ImageInterface:
     @abstractmethod
     def image__deepfake_detection(
         self, file: str, file_url: str = ""
-    ) -> ResponseType[LandmarkDetectionDataClass]:
+    ) -> ResponseType[DeepfakeDetectionDataClass]:
         """
         Detect altered images via inconsistencies.
         (eg: popular tourist spots like Eiffel Tower)

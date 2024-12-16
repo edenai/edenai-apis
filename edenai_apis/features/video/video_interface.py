@@ -12,6 +12,9 @@ from edenai_apis.features.video import (
     TextDetectionAsyncDataClass,
     QuestionAnswerDataClass,
 )
+from edenai_apis.features.video.deepfake_detection_async.deepfake_detection_async_dataclass import (
+    DeepfakeDetectionAsyncDataClass,
+)
 from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
 
 
@@ -55,7 +58,7 @@ class VideoInterface:
     @abstractmethod
     def video__deepfake_detection_async__get_job_result(
         self, provider_job_id: str
-    ) -> AsyncBaseResponseType[ExplicitContentDetectionAsyncDataClass]:
+    ) -> AsyncBaseResponseType[DeepfakeDetectionAsyncDataClass]:
         """Get the result of an asynchronous job by its ID
         Args:
             - provider_job_id (str): id of async job

@@ -1,15 +1,15 @@
 {
   "original_response": {
-    "id": "msg_01VyBzoaKXotthEsFdsUqhxZ",
+    "id": "msg_bdrk_013mcN9k1Bh8uH8TpV6XAjzM",
     "type": "message",
     "role": "assistant",
+    "model": "claude-3-sonnet-20240229",
     "content": [
       {
         "type": "text",
         "text": "barack hussein obama, democratic party, african-american, united states, illinois, senator"
       }
     ],
-    "model": "claude-3-sonnet-28k-20240229",
     "stop_reason": "end_turn",
     "stop_sequence": null,
     "usage": {
@@ -23,11 +23,15 @@
     "message": [
       {
         "role": "user",
-        "message": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004."
+        "message": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+        "tools": null,
+        "tool_calls": null
       },
       {
         "role": "assistant",
-        "message": "barack hussein obama, democratic party, african-american, united states, illinois, senator"
+        "message": "barack hussein obama, democratic party, african-american, united states, illinois, senator",
+        "tools": null,
+        "tool_calls": null
       }
     ]
   }

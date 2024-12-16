@@ -7,8 +7,6 @@ from pydub.utils import mediainfo
 from edenai_apis.utils.files import FileInfo, FileWrapper
 
 
-
-
 def variation_arguments(provider_name: str) -> Dict:
     feature_path = os.path.dirname(os.path.dirname(__file__))
 
@@ -25,4 +23,11 @@ def variation_arguments(provider_name: str) -> Dict:
         mediainfo(image_path).get("channels", "1"),
     )
     file_wrapper = FileWrapper(image_path, "", file_info)
-    return {"file": file_wrapper}
+    return {
+        "file": file_wrapper,
+        "prompt": "",
+        "num_images": 1,
+        "resolution": "512x512",
+        "temperature": 0.3,
+        "settings": {"stabilityai": "stable-diffusion-v1-6"},
+    }

@@ -144,16 +144,16 @@ class OpenaiImageApi(ImageInterface):
     def image__variation(
         self,
         file: str,
-        prompt: Optional[str] = "",
+        prompt: Optional[str],
         num_images: Optional[int] = 1,
         resolution: Literal["256x256", "512x512", "1024x1024"] = "512x512",
-        temperature: Optional[int] = 0.3,
+        temperature: Optional[float] = 0.3,
         model: Optional[str] = None,
         file_url: str = "",
     ) -> ResponseType[VariationDataClass]:
         try:
             with open(file, "rb") as file_:
-                response = self.client.images.generate(
+                response = self.client.images.create_variation(
                     image=file_,
                     n=num_images,
                     model=model,
@@ -165,9 +165,8 @@ class OpenaiImageApi(ImageInterface):
 
         original_response = response
         generations: Sequence[VariationImageDataClass] = []
-        for generated_image in original_response.get("data"):
-            image_b64 = generated_image.get("b64_json")
-
+        for generated_image in original_response.data:
+            image_b64 = generated_image.b64_json
             image_data = image_b64.encode()
             image_content = BytesIO(base64.b64decode(image_data))
             resource_url = upload_file_bytes_to_s3(image_content, ".png", USER_PROCESS)
@@ -178,7 +177,7 @@ class OpenaiImageApi(ImageInterface):
             )
 
         return ResponseType[VariationDataClass](
-            original_response=original_response,
+            original_response=original_response.to_dict(),
             standardized_response=VariationDataClass(items=generations),
         )
 
