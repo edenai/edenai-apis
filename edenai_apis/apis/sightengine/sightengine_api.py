@@ -44,7 +44,7 @@ class SightEngineApi(ProviderInterface, ImageInterface, VideoInterface):
         self.webhook_url = f"https://webhook.site/{self.webhook_token}"
 
     def image__deepfake_detection(
-        self, file: Optional[str] = None, file_url: Optional[str] = None
+        self, file: str, file_url: str = ""
     ) -> ResponseType[ImageDeepfakeDetectionDataclass]:
         if not file_url and not file:
             raise ProviderException("file or file_url required")
@@ -94,7 +94,7 @@ class SightEngineApi(ProviderInterface, ImageInterface, VideoInterface):
         )
 
     def video__deepfake_detection_async__launch_job(
-        self, file: Optional[str] = None, file_url: Optional[str] = None
+        self, file: str, file_url: str = ""
     ) -> AsyncLaunchJobResponseType:
         if not file_url and not file:
             raise ProviderException("file or file_url required")
