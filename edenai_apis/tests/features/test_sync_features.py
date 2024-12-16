@@ -130,6 +130,10 @@ class TestSyncProviders(CommonTestsSubfeatures):
         self._test_feature_saved_output(provider, feature, subfeature)
 
 
+@pytest.mark.skipif(
+    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
+    reason="Run On CircleCI not github actions (need api key)",
+)
 @pytest.mark.parametrize(
     ("providers", "feature", "subfeature"),
     global_features(filter=without_async_and_phase)["grouped_providers"],

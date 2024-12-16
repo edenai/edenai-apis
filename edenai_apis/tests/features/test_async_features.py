@@ -241,6 +241,10 @@ class TestAsyncSubFeatures(CommonAsyncTests):
         self._test_get_job_result_does_not_exist(provider, feature, subfeature)
 
 
+@pytest.mark.skipif(
+    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
+    reason="Run On CircleCI not github actions (need api key)",
+)
 @pytest.mark.parametrize(
     ("providers", "feature", "subfeature"),
     global_features(filter=only_async_without_phase)["grouped_providers"],
