@@ -11,6 +11,7 @@ from edenai_apis.features.video import (
     PersonTrackingAsyncDataClass,
     TextDetectionAsyncDataClass,
     QuestionAnswerDataClass,
+    GenerationAsyncDataClass,
 )
 from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
 
@@ -258,9 +259,9 @@ class VideoInterface:
         raise NotImplementedError
 
     @abstractmethod
-    def video__generation__get_job_result(
+    def video__generation_async__get_job_result(
         self, provider_job_id: str
-    ) -> AsyncBaseResponseType[TextDetectionAsyncDataClass]:
+    ) -> AsyncBaseResponseType[GenerationAsyncDataClass]:
         """Get the result of an asynchronous job by its ID
         Args:
             - provider_job_id (str): id of async job
