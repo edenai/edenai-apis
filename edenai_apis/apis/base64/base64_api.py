@@ -7,7 +7,6 @@ from io import BytesIO
 from typing import Any, Dict, Sequence, Type, TypeVar, Union
 
 import requests
-from apis.amazon.helpers import check_webhook_result
 
 from edenai_apis.apis.base64.base64_helpers import (
     extract_item_lignes,
@@ -83,8 +82,6 @@ class Base64Api(ProviderInterface, OcrInterface):
         )
         self.api_key = self.api_settings["secret"]
         self.url = "https://base64.ai/api/scan"
-        self.webhook_settings = load_provider(ProviderDataEnum.KEY, "webhooksite")
-        self.webhook_token = self.webhook_settings.get("webhook_token")
 
     class Field:
         def __init__(self, document: dict) -> None:
@@ -517,51 +514,6 @@ class Base64Api(ProviderInterface, OcrInterface):
         original_response = self._get_response(response)
 
         job_id = "document_anonymization_base64" + str(uuid.uuid4())
-        data_job_id[job_id] = original_response
-        requests.post(
-            url=f"https://webhook.site/{self.webhook_token}",
-            data=json.dumps(data_job_id),
-            headers={"content-type": "application/json"},
-        )
-
-        return AsyncLaunchJobResponseType(provider_job_id=job_id)
-
-    def ocr__anonymization_async__get_job_result(
-        self, provider_job_id: str
-    ) -> AsyncBaseResponseType[AnonymizationAsyncDataClass]:
-        wehbook_result, response_status = check_webhook_result(
-            provider_job_id, self.webhook_settings
-        )
-
-        if response_status != 200:
-            raise ProviderException(wehbook_result, code=response_status)
-
-        result_object = (
-            next(
-                filter(
-                    lambda response: provider_job_id in response["content"],
-                    wehbook_result,
-                ),
-                None,
-            )
-            if wehbook_result
-            else None
-        )
-
-        if not result_object or not result_object.get("content"):
-            raise ProviderException("Provider returned an empty response")
-
-        try:
-            original_response = json.loads(result_object["content"]).get(
-                provider_job_id, None
-            )
-        except json.JSONDecodeError:
-            raise ProviderException("An error occurred while parsing the response.")
-
-        if original_response is None:
-            return AsyncPendingResponseType[AnonymizationAsyncDataClass](
-                provider_job_id=provider_job_id
-            )
         # Extract the B64 redacted document
         redacted_document = original_response[0].get("redactedDocument")
         # document_mimetype = original_response[0]['features']['properties']['mimeType']
@@ -581,5 +533,5 @@ class Base64Api(ProviderInterface, OcrInterface):
             standardized_response=AnonymizationAsyncDataClass(
                 document=base64_data, document_url=resource_url
             ),
-            provider_job_id=provider_job_id,
+            provider_job_id=job_id,
         )

@@ -1,11 +1,11 @@
 import base64
+import json
 import time
 import uuid
-import json
-from requests.adapters import HTTPAdapter, Retry
 from typing import Dict, Optional
 
 import requests
+from requests.adapters import HTTPAdapter, Retry
 
 from edenai_apis.apis.nyckel.nyckel_helpers import check_webhook_result
 from edenai_apis.features import ImageInterface, ProviderInterface
@@ -45,12 +45,12 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
-    ResponseType,
-    AsyncLaunchJobResponseType,
     AsyncBaseResponseType,
+    AsyncErrorResponseType,
+    AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
-    AsyncErrorResponseType,
+    ResponseType,
 )
 
 
@@ -502,52 +502,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         if response.status_code >= 400:
             self._raise_provider_exception(url, {}, response)
         job_id = str(uuid.uuid4())
-        data_job_id = {job_id: response.json()}
-        try:
-            requests.post(
-                url=f"https://webhook.site/{self.webhook_token}",
-                data=json.dumps(data_job_id),
-                headers={"content-type": "application/json"},
-            )
-        except:
-            raise ProviderException(
-                "Something went wrong when running the prediction !!", 500
-            )
-        return AsyncLaunchJobResponseType(provider_job_id=job_id)
-
-    def image__automl_classification__predict_async__get_job_result(
-        self, provider_job_id: str
-    ) -> AsyncBaseResponseType[AutomlClassificationPredictAsyncDataClass]:
-        if not provider_job_id:
-            raise ProviderException("Job id None or empty!")
-        webhook_result, response_status = check_webhook_result(
-            provider_job_id, self.webhook_settings
-        )
-        if response_status != 200:
-            raise ProviderException(webhook_result, code=response_status)
-        result_object = (
-            next(
-                filter(
-                    lambda response: provider_job_id in response["content"],
-                    webhook_result,
-                ),
-                None,
-            )
-            if webhook_result
-            else None
-        )
-        if not result_object or not result_object.get("content"):
-            raise ProviderException("Provider returned an empty response")
-        try:
-            original_response = json.loads(result_object["content"]).get(
-                provider_job_id, None
-            )
-        except json.JSONDecodeError:
-            raise ProviderException("An error occurred while parsing the response.")
-        if original_response is None:
-            return AsyncPendingResponseType[AutomlClassificationPredictAsyncDataClass](
-                provider_job_id=provider_job_id
-            )
+        original_response = response.json()
         standardized_response = AutomlClassificationPredictAsyncDataClass(
             label=original_response.get("labelName", ""),
             confidence=original_response.get("confidence", 0),
@@ -555,7 +510,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         return AsyncResponseType[AutomlClassificationPredictAsyncDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
-            provider_job_id=provider_job_id,
+            provider_job_id=job_id,
         )
 
     def image__automl_classification__delete_project(

@@ -1,22 +1,26 @@
-from pathlib import Path
-from time import time, sleep
-from typing import List, Dict, Any
-import requests
+import base64
 import json
+from datetime import datetime, timezone
+from pathlib import Path
+from time import sleep, time
+from typing import Any, Dict, List
 
+import requests
+from dateutil.parser import parse
 from google.cloud import videointelligence
 
+from edenai_apis.apis.amazon.helpers import check_webhook_result
 from edenai_apis.apis.google.google_helpers import (
     GoogleVideoFeatures,
+    calculate_usage_tokens,
     google_video_get_job,
     score_to_content,
-    calculate_usage_tokens,
 )
 from edenai_apis.features.video import (
     ContentNSFW,
     ExplicitContentDetectionAsyncDataClass,
-    QuestionAnswerDataClass,
     QuestionAnswerAsyncDataClass,
+    QuestionAnswerDataClass,
 )
 from edenai_apis.features.video.face_detection_async.face_detection_async_dataclass import (
     FaceAttributes,
@@ -55,17 +59,16 @@ from edenai_apis.features.video.person_tracking_async.person_tracking_async_data
     VideoTrackingBoundingBox,
     VideoTrackingPerson,
 )
+from edenai_apis.features.video.shot_change_detection_async.shot_change_detection_async_dataclass import (
+    ShotChangeDetectionAsyncDataClass,
+    ShotFrame,
+)
 from edenai_apis.features.video.text_detection_async.text_detection_async_dataclass import (
     TextDetectionAsyncDataClass,
     VideoText,
     VideoTextBoundingBox,
     VideoTextFrames,
 )
-from edenai_apis.features.video.shot_change_detection_async.shot_change_detection_async_dataclass import (
-    ShotChangeDetectionAsyncDataClass,
-    ShotFrame,
-)
-from edenai_apis.apis.amazon.helpers import check_webhook_result
 from edenai_apis.features.video.video_interface import VideoInterface
 from edenai_apis.utils.exception import (
     ProviderException,
@@ -79,8 +82,6 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
-from datetime import datetime, timezone
-from dateutil.parser import parse
 
 
 class GoogleVideoApi(VideoInterface):
@@ -731,7 +732,6 @@ class GoogleVideoApi(VideoInterface):
     ) -> AsyncBaseResponseType[ShotChangeDetectionAsyncDataClass]:
 
         result = google_video_get_job(provider_job_id)
-        print(result)
         if result.get("done"):
             response = result["response"]["annotationResults"][0]
             shot_annotations = response.get("shotAnnotations", [])
@@ -838,23 +838,23 @@ class GoogleVideoApi(VideoInterface):
         file: str,
         file_url: str = "",
         temperature: float = 0,
-        model: str = None,
+        model: str | None = None,
     ) -> AsyncLaunchJobResponseType:
         data_job_id = {}
         api_key = self.api_settings.get("genai_api_key")
         file_data = self._upload_and_process_file(file, api_key)
-        job_id = file_data["name"].split("/")[1]
+        process_file_id = file_data["name"].split("/")[1]
+
         inputs = {
             "text": text,
             "temperature": temperature,
             "model": model,
+            "process_file_id": process_file_id,
         }
-        data_job_id[job_id] = inputs
-        requests.post(
-            url=f"https://webhook.site/{self.webhook_token}",
-            data=json.dumps(data_job_id),
-            headers={"content-type": "application/json"},
-        )
+        # HACK: serializer inputs as a job_id to be able to use them in get_job_result
+        job_id = base64.b64encode(
+            json.dumps(inputs, separators=(",", ":")).encode()
+        ).decode()
 
         return AsyncLaunchJobResponseType(provider_job_id=job_id)
 
@@ -862,7 +862,9 @@ class GoogleVideoApi(VideoInterface):
         self, provider_job_id: str
     ) -> AsyncBaseResponseType:
         api_key = self.api_settings.get("genai_api_key")
-        url = f"https://generativelanguage.googleapis.com/v1beta/files/{provider_job_id}?key={api_key}"
+        inputs = json.loads(base64.b64decode(provider_job_id))
+        process_file_id = inputs["process_file_id"]
+        url = f"https://generativelanguage.googleapis.com/v1beta/files/{process_file_id}?key={api_key}"
         response = requests.get(url=url)
         if response.status_code == 403:
             raise AsyncJobException(
@@ -881,32 +883,11 @@ class GoogleVideoApi(VideoInterface):
                 status="pending", provider_job_id=provider_job_id
             )
         else:
-            wehbook_result, _ = check_webhook_result(
-                provider_job_id, self.webhook_settings
-            )
-            result_object = (
-                next(
-                    filter(
-                        lambda response: provider_job_id in response["content"],
-                        wehbook_result,
-                    ),
-                    None,
-                )
-                if wehbook_result
-                else None
-            )
-            try:
-                content = json.loads(result_object["content"]).get(
-                    provider_job_id, None
-                )
-            except json.JSONDecodeError:
-                raise ProviderException("An error occurred while parsing the response.")
-
             original_response, generated_text = self._request_question_answer(
-                model=content["model"],
+                model=inputs["model"],
                 api_key=api_key,
-                text=content["text"],
-                temperature=content["temperature"],
+                text=inputs["text"],
+                temperature=inputs["temperature"],
                 file_data=file_data,
             )
             create_time = self._is_older_than_3_hours(file_data["createTime"])
