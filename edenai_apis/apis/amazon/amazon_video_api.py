@@ -18,7 +18,7 @@ from edenai_apis.features.video.text_detection_async.text_detection_async_datacl
     TextDetectionAsyncDataClass,
 )
 from edenai_apis.features.video.generation_async.generation_async_dataclass import (
-    GenerationAsyncDataclass,
+    GenerationAsyncDataClass,
 )
 from edenai_apis.features.video.video_interface import VideoInterface
 from edenai_apis.utils.exception import (
@@ -386,7 +386,7 @@ class AmazonVideoApi(VideoInterface):
     # Get job result for generation
     def video__generation_async__get_job_result(
         self, provider_job_id: str
-    ) -> GenerationAsyncDataclass:
+    ) -> GenerationAsyncDataClass:
         invocation = handle_amazon_call(
             self.clients["bedrock"].get_async_invoke,
             **{"invocationArn": provider_job_id},
@@ -403,7 +403,7 @@ class AmazonVideoApi(VideoInterface):
             resource_url = upload_file_bytes_to_s3(BytesIO(data), ".mp4", USER_PROCESS)
             return AsyncResponseType(
                 original_response=invocation,
-                standardized_response=GenerationAsyncDataclass(
+                standardized_response=GenerationAsyncDataClass(
                     video=video_content, video_resource_url=resource_url
                 ),
                 provider_job_id=provider_job_id,

@@ -1,8 +1,6 @@
-from typing import Optional, Sequence
-
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, StrictStr
 
 
-class GenerationAsyncDataclass(BaseModel):
+class GenerationAsyncDataClass(BaseModel):
     video: str
     video_resource_url: StrictStr
