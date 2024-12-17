@@ -235,3 +235,34 @@ class VideoInterface:
         self, provider_job_id: str
     ) -> AsyncBaseResponseType:
         raise NotImplementedError
+
+    ### Video generation methods
+    @abstractmethod
+    def video__generation_async__launch_job(
+        self,
+        text: str,
+        duration: Optional[int] = 6,
+        fps: Optional[int] = 24,
+        dimension: Optional[str] = "1280x720",
+        seed: Optional[float] = 12,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        model: Optional[str] = None,
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Launch an asynchronous job to detect text in a video
+
+        Args:
+            file (BufferedReader): video to analyze
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def video__generation__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[TextDetectionAsyncDataClass]:
+        """Get the result of an asynchronous job by its ID
+        Args:
+            - provider_job_id (str): id of async job
+        """
+        raise NotImplementedError

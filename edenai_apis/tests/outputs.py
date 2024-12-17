@@ -21,7 +21,7 @@ from edenai_apis.utils.monitoring import insert_api_call
 
 # TEXT_AUTOML_CLASSIFICATION = ["training_async", "prediction_async"]
 
-MAX_TIME = 220
+MAX_TIME = 280
 TIME_BETWEEN_CHECK = 10
 
 

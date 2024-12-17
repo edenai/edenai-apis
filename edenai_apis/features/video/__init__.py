@@ -57,3 +57,4 @@ from .question_answer_async import (
     question_answer_async_arguments,
     QuestionAnswerAsyncDataClass,
 )
+from .generation_async import generation_async_arguments, GenerationAsyncDataclass
