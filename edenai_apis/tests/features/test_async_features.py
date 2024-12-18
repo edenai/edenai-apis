@@ -25,7 +25,7 @@ from edenai_apis.utils.compare import compare_responses
 from edenai_apis.interface import IS_MONITORING
 from edenai_apis.utils.monitoring import insert_api_call
 
-MAX_TIME = 180
+MAX_TIME = 300
 TIME_BETWEEN_CHECK = 10
 INTERFACE_MODULE = importlib.import_module("edenai_apis.interface_v2")
 

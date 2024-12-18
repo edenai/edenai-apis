@@ -1,3 +1,7 @@
+from typing import Optional
+import base64
+from io import BytesIO
+
 from edenai_apis.features.video.explicit_content_detection_async.explicit_content_detection_async_dataclass import (
     ExplicitContentDetectionAsyncDataClass,
 )
@@ -12,6 +16,9 @@ from edenai_apis.features.video.person_tracking_async.person_tracking_async_data
 )
 from edenai_apis.features.video.text_detection_async.text_detection_async_dataclass import (
     TextDetectionAsyncDataClass,
+)
+from edenai_apis.features.video.generation_async.generation_async_dataclass import (
+    GenerationAsyncDataClass,
 )
 from edenai_apis.features.video.video_interface import VideoInterface
 from edenai_apis.utils.exception import (
@@ -33,6 +40,10 @@ from .helpers import (
     amazon_video_explicit_parser,
 )
 from .config import clients
+from edenai_apis.utils.upload_s3 import (
+    USER_PROCESS,
+    upload_file_bytes_to_s3,
+)
 
 
 class AmazonVideoApi(VideoInterface):
@@ -99,6 +110,46 @@ class AmazonVideoApi(VideoInterface):
         job_id = response["JobId"]
 
         return AsyncLaunchJobResponseType(provider_job_id=job_id)
+
+    # Launch job video generation
+    def video__generation_async__launch_job(
+        self,
+        text: str,
+        duration: Optional[int] = 6,
+        fps: Optional[int] = 24,
+        dimension: Optional[str] = "1280x720",
+        seed: Optional[float] = 12,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        model: Optional[str] = None,
+    ) -> AsyncLaunchJobResponseType:
+        text_input = {"text": text}
+        if file:
+            with open(file, "rb") as file_:
+                file_content = file_.read()
+                input_image_base64 = base64.b64encode(file_content).decode("utf-8")
+                images = [{"format": "png", "source": {"bytes": input_image_base64}}]
+                text_input["images"] = images
+        model_input = {
+            "taskType": "TEXT_VIDEO",
+            "textToVideoParams": text_input,
+            "videoGenerationConfig": {
+                "durationSeconds": duration,
+                "fps": fps,
+                "dimension": dimension,
+                "seed": seed,
+            },
+        }
+        request_params = {
+            "modelId": model,
+            "modelInput": model_input,
+            "outputDataConfig": {"s3OutputDataConfig": {"s3Uri": "s3://us-storage"}},
+        }
+        response = handle_amazon_call(
+            self.clients["bedrock"].start_async_invoke, **request_params
+        )
+        provider_job_id = response.get("invocationArn")
+        return AsyncLaunchJobResponseType(provider_job_id=provider_job_id)
 
     # Get job result for label detection
     def video__label_detection_async__get_job_result(
@@ -331,3 +382,35 @@ class AmazonVideoApi(VideoInterface):
                 provider_job_id=provider_job_id,
             )
         return AsyncPendingResponseType(provider_job_id=response["JobStatus"])
+
+    # Get job result for generation
+    def video__generation_async__get_job_result(
+        self, provider_job_id: str
+    ) -> GenerationAsyncDataClass:
+        invocation = handle_amazon_call(
+            self.clients["bedrock"].get_async_invoke,
+            **{"invocationArn": provider_job_id},
+        )
+        if invocation["status"] == "Completed":
+            file_name = invocation["outputDataConfig"]["s3OutputDataConfig"][
+                "s3Uri"
+            ].split("/")[-1]
+            response = self.clients["s3"].get_object(
+                Bucket="us-storage", Key=f"{file_name}/output.mp4"
+            )
+            data = response["Body"].read()
+            video_content = base64.b64encode(data).decode("utf-8")
+            resource_url = upload_file_bytes_to_s3(BytesIO(data), ".mp4", USER_PROCESS)
+            return AsyncResponseType(
+                original_response=invocation,
+                standardized_response=GenerationAsyncDataClass(
+                    video=video_content, video_resource_url=resource_url
+                ),
+                provider_job_id=provider_job_id,
+            )
+        if invocation["status"] == "InProgress":
+            return AsyncPendingResponseType(provider_job_id=provider_job_id)
+
+        if invocation["status"] == "Failed":
+            failure_message = invocation["failureMessage"]
+            raise ProviderException(failure_message)

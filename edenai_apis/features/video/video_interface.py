@@ -11,6 +11,7 @@ from edenai_apis.features.video import (
     PersonTrackingAsyncDataClass,
     TextDetectionAsyncDataClass,
     QuestionAnswerDataClass,
+    GenerationAsyncDataClass,
 )
 from edenai_apis.features.video.deepfake_detection_async.deepfake_detection_async_dataclass import (
     DeepfakeDetectionAsyncDataClass,
@@ -237,4 +238,35 @@ class VideoInterface:
     def video__question_answer_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType:
+        raise NotImplementedError
+
+    ### Video generation methods
+    @abstractmethod
+    def video__generation_async__launch_job(
+        self,
+        text: str,
+        duration: Optional[int] = 6,
+        fps: Optional[int] = 24,
+        dimension: Optional[str] = "1280x720",
+        seed: Optional[float] = 12,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        model: Optional[str] = None,
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Launch an asynchronous job to detect text in a video
+
+        Args:
+            file (BufferedReader): video to analyze
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def video__generation_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[GenerationAsyncDataClass]:
+        """Get the result of an asynchronous job by its ID
+        Args:
+            - provider_job_id (str): id of async job
+        """
         raise NotImplementedError

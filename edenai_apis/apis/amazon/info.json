@@ -521,7 +521,7 @@
           "fr",
           "de"
         ],
-        "documents" : [
+        "documents": [
           "receipt",
           "invoice"
         ],
@@ -623,14 +623,14 @@
       },
       "version": "boto3 (v1.15.18)"
     },
-    "generation" : {
+    "generation": {
       "constraints": {
         "models": [
           "titan-tg1-large",
           "titan-text-lite-v1",
           "titan-text-express-v1"
         ],
-        "default_model" : "titan-tg1-large"
+        "default_model": "titan-tg1-large"
       },
       "version": "v1"
     }
@@ -730,8 +730,7 @@
       "version": "boto3 (v1.15.18)"
     },
     "object_detection": {
-      "constraints": {
-      },
+      "constraints": {},
       "version": "boto3 (v1.15.18)"
     },
     "face_recognition": {
@@ -760,9 +759,9 @@
     "face_compare": {
       "version": "boto3 (v1.15.18)"
     },
-    "generation":{
+    "generation": {
       "constraints": {
-        "resolutions":[
+        "resolutions": [
           "256x256",
           "512x512",
           "1024x1024"
@@ -772,18 +771,18 @@
           "titan-image-generator-v1_standard"
         ],
         "default_model": "titan-image-generator-v1_premium"
-    },
+      },
       "version": "boto3 (v1.29.6)"
-   },
-   "embeddings": {
-    "constraints": {
-      "models": [
-        "titan-embed-image-v1"
-      ],
-      "default_model": "titan-embed-image-v1"
     },
-    "version": "v1"
-  }
+    "embeddings": {
+      "constraints": {
+        "models": [
+          "titan-embed-image-v1"
+        ],
+        "default_model": "titan-embed-image-v1"
+      },
+      "version": "v1"
+    }
   },
   "video": {
     "label_detection_async": {
@@ -830,6 +829,9 @@
           "video/quicktime"
         ]
       }
+    },
+    "generation_async": {
+      "version": "boto3"
     }
   }
 }
