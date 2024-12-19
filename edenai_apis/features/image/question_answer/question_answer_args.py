@@ -32,6 +32,6 @@ def question_answer_arguments(provider_name: str) -> Dict[str, Any]:
         "settings": {
             "alephalpha": "luminous-extended",
             "google": "gemini-1.5-flash",
-            "openai": "gpt-4-vision-preview",
+            "openai": "gpt-4o",
         },
     }

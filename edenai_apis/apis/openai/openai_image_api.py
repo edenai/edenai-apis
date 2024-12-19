@@ -91,7 +91,7 @@ class OpenaiImageApi(ImageInterface):
 
             url = f"{self.url}/chat/completions"
             payload = {
-                "model": "gpt-4-vision-preview" or model,
+                "model": model,
                 "messages": [
                     {
                         "role": "user",
