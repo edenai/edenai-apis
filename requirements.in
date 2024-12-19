@@ -32,7 +32,7 @@ affinda
 
 #amazon
 amazon-textract-response-parser
-boto3==1.35
+boto3==1.35.84
 
 #clarifai
 clarifai-grpc==9.10.7
