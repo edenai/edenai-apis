@@ -56,7 +56,7 @@ from edenai_apis.utils.types import ResponseType
 from .clarifai_helpers import explicit_content_likelihood, get_formatted_language
 
 
-class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface):
+class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
     provider_name = "clarifai"
 
     def __init__(self, api_keys: Dict = {}) -> None:
@@ -70,81 +70,6 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface, TextInterface
         self.face_detection_code = "face-detection"
         self.text_moderation_code = "moderation-multilingual-text-classification"
         self.text_generation_code = "mistral-7B-Instruct"
-
-    def text__generation(
-        self, text: str, temperature: float, max_tokens: int, model: str
-    ) -> ResponseType[GenerationDataClass]:
-        raise ProviderException(
-            message="This provider is deprecated. You won't be charged for your call.",
-            code=500,
-        )
-
-    def text__moderation(
-        self, text: str, language: str
-    ) -> ResponseType[ModerationDataClass]:
-        channel = ClarifaiChannel.get_grpc_channel()
-        stub = service_pb2_grpc.V2Stub(channel)
-
-        metadata = (("authorization", self.key),)
-        user_data_object = resources_pb2.UserAppIDSet(user_id="clarifai", app_id="main")
-
-        post_model_outputs_response = stub.PostModelOutputs(
-            service_pb2.PostModelOutputsRequest(
-                # The userDataObject is created in the overview and is required when using a PAT
-                user_app_id=user_data_object,
-                model_id=self.text_moderation_code,
-                inputs=[
-                    resources_pb2.Input(
-                        data=resources_pb2.Data(text=resources_pb2.Text(raw=text))
-                    )
-                ],
-            ),
-            metadata=metadata,
-        )
-
-        if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
-            raise ProviderException(
-                post_model_outputs_response.status.description,
-                code=post_model_outputs_response.status.code,
-            )
-
-        response = MessageToDict(
-            post_model_outputs_response, preserving_proto_field_name=True
-        )
-        output = response.get("outputs", [])
-        if len(output) == 0:
-            raise ProviderException(
-                "Clarifai returned an empty response!",
-                code=post_model_outputs_response.status.code,
-            )
-
-        original_response = output[0].get("data", {}) or {}
-
-        classification: Sequence[TextModerationItem] = []
-        for concept in original_response.get("concepts", []) or []:
-            classificator = CategoryType.choose_category_subcategory(concept["name"])
-            classification.append(
-                TextModerationItem(
-                    label=concept["name"],
-                    category=classificator["category"],
-                    subcategory=classificator["subcategory"],
-                    likelihood_score=concept["value"],
-                    likelihood=standardized_confidence_score(concept["value"]),
-                )
-            )
-        standardized_response: ModerationDataClass = ModerationDataClass(
-            nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
-                classification
-            ),
-            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(
-                classification
-            ),
-            items=classification,
-        )
-        return ResponseType[ModerationDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
 
     def ocr__ocr(
         self,
