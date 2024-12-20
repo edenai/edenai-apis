@@ -1,41 +1,31 @@
-from edenai_apis.features import ProviderInterface, VideoInterface
+import random
+from typing import Dict
 
-from edenai_apis.loaders.data_loader import ProviderDataEnum
-from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.types import (
-    AsyncLaunchJobResponseType,
-    AsyncBaseResponseType,
-    AsyncResponseType,
+import requests
+
+from edenai_apis.apis.twelvelabs.helpers import (
+    convert_json_to_logo_dataclass,
+    convert_json_to_text_dataclass,
 )
-
-
+from edenai_apis.features import ProviderInterface, VideoInterface
 from edenai_apis.features.video.logo_detection_async.logo_detection_async_dataclass import (
     LogoDetectionAsyncDataClass,
 )
-
 from edenai_apis.features.video.text_detection_async.text_detection_async_dataclass import (
     TextDetectionAsyncDataClass,
 )
-
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import (
-    ProviderException,
     AsyncJobException,
     AsyncJobExceptionReason,
+    ProviderException,
 )
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
-)
-
-from edenai_apis.utils.exception import ProviderException
-import requests
-
-from typing import Dict
-import random
-from edenai_apis.apis.twelvelabs.helpers import (
-    convert_json_to_logo_dataclass,
-    convert_json_to_text_dataclass,
+    AsyncResponseType,
 )
 
 
@@ -119,7 +109,10 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[LogoDetectionAsyncDataClass]:
 
-        index_id, video_id, task_id = provider_job_id.split("_")
+        try:
+            index_id, video_id, task_id = provider_job_id.split("_")
+        except ValueError:
+            raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
 
         task_url = f"{self.base_url}/indexes/{index_id}/videos/{video_id}/logo"
         status_task_url = f"{self.base_url}/tasks/{task_id}"
@@ -231,7 +224,10 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
     def video__text_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[TextDetectionAsyncDataClass]:
-        index_id, video_id, task_id = provider_job_id.split("_")
+        try:
+            index_id, video_id, task_id = provider_job_id.split("_")
+        except ValueError:
+            raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
 
         task_url = f"{self.base_url}/indexes/{index_id}/videos/{video_id}/text-in-video"
         status_task_url = f"{self.base_url}/tasks/{task_id}"

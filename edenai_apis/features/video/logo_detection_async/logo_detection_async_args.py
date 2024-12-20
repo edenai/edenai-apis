@@ -7,14 +7,12 @@ from pydub.utils import mediainfo
 from edenai_apis.utils.files import FileInfo, FileWrapper
 
 
-
-
 def logo_detection_async_arguments(provider_name: str) -> Dict:
     feature_path = os.path.dirname(os.path.dirname(__file__))
 
     data_path = os.path.join(feature_path, "data")
 
-    video_path = f"{data_path}/labels.mp4"
+    video_path = f"{data_path}/logo.mp4"
 
     mime_type = mimetypes.guess_type(video_path)[0]
     file_info = FileInfo(
