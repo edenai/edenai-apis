@@ -7,8 +7,6 @@ from pydub.utils import mediainfo
 from edenai_apis.utils.files import FileInfo, FileWrapper
 
 
-
-
 def object_detection_arguments(provider_name: str) -> Dict:
     feature_path = os.path.dirname(os.path.dirname(__file__))
 
@@ -25,4 +23,4 @@ def object_detection_arguments(provider_name: str) -> Dict:
         mediainfo(image_path).get("channels", "1"),
     )
     file_wrapper = FileWrapper(image_path, "", file_info)
-    return {"file": file_wrapper, "settings": {}}
+    return {"file": file_wrapper, "settings": {"clarifai": "general-image-detection"}}
