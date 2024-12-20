@@ -4,20 +4,20 @@ from typing import Dict
 
 import requests
 
+from edenai_apis.apis.eagledoc.eagledoc_ocr_normalizer import (
+    eagledoc_financial_parser,
+    eagledoc_invoice_parser,
+    eagledoc_receipt_parser,
+)
 from edenai_apis.features import OcrInterface, ProviderInterface
+from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
+    FinancialParserDataClass,
+)
 from edenai_apis.features.ocr.invoice_parser import InvoiceParserDataClass
 from edenai_apis.features.ocr.receipt_parser import ReceiptParserDataClass
 from edenai_apis.loaders.loaders import ProviderDataEnum, load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
-    FinancialParserDataClass,
-)
-from edenai_apis.apis.eagledoc.eagledoc_ocr_normalizer import (
-    eagledoc_invoice_parser,
-    eagledoc_receipt_parser,
-    eagledoc_financial_parser,
-)
 
 
 class EagledocApi(ProviderInterface, OcrInterface):
@@ -50,10 +50,8 @@ class EagledocApi(ProviderInterface, OcrInterface):
 
         try:
             original_response = response.json()
-        except JSONDecodeError:
-            raise ProviderException(
-                message="Internal Server Error", code=500
-            ) from JSONDecodeError
+        except JSONDecodeError as exc:
+            raise ProviderException(message="Internal Server Error", code=500) from exc
 
         if response.status_code != 200:
             raise ProviderException(message=response.json(), code=response.status_code)
