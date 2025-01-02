@@ -246,10 +246,6 @@ hyperlink==21.0.0
     # via
     #   autobahn
     #   twisted
-ibm-cloud-sdk-core==3.19.2
-    # via ibm-watson
-ibm-watson==8.0.0
-    # via -r requirements.in
 idna==3.6
     # via
     #   anyio
@@ -301,8 +297,6 @@ marshmallow==3.21.1
     # via amazon-textract-response-parser
 mccabe==0.7.0
     # via pylint
-modernmt==1.5.1
-    # via -r requirements.in
 msal==1.28.0
     # via
     #   azure-identity
