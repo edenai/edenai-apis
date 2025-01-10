@@ -5,22 +5,18 @@ from linkup import LinkupClient
 from typing import Dict, List, Optional
 from pydantic import BaseModel
 
-
 class SearchResult(BaseModel):
     type: str
     name: Optional[str]
     url: Optional[str]
     content: Optional[str]
 
-
 class StandardizedResponse(BaseModel):
     results: List[SearchResult]
-
 
 class ApiResponse(BaseModel):
     original_response: Dict
     standardized_response: StandardizedResponse
-
 
 class LinkupApi(ProviderInterface):
     provider_name = "linkup"
@@ -32,12 +28,16 @@ class LinkupApi(ProviderInterface):
         self.client = LinkupClient(api_key=self.api_settings["api_key"])
 
     def text__search(
-        self, query: str, texts: list = None, similarity_metric: str = "cosine", model: str = None
+        self,
+        query: str,
+        output_type: str = "searchResults",
+        depth: str = "standard",
+        structured_output_schema: Optional[dict] = None,
+        model: Optional[str] = None,
+        texts: Optional[List[str]] = None,
+        similarity_metric: str = "cosine",
     ):
         try:
-            output_type = "sourcedAnswer"
-            depth = "standard"
-            
             if model and ":" in model:
                 params = model.split(":")
                 if len(params) >= 1:
@@ -48,33 +48,62 @@ class LinkupApi(ProviderInterface):
             payload = {
                 "query": query,
                 "depth": depth,
-                "output_type": output_type
+                "output_type": output_type,
             }
+
+            if output_type == "structured" and structured_output_schema:
+                payload["structured_output_schema"] = structured_output_schema
 
             response = self.client.search(**payload)
 
-            if not hasattr(response, "sources") or not isinstance(response.sources, list):
-                raise ProviderException("Invalid format for response.sources; expected a list.")
+            print("DEBUG - Response:", response)
 
-            standardized_response = StandardizedResponse(
-                results=[
-                    SearchResult(
-                        type="text",
-                        name=getattr(source, "name", None),
-                        url=getattr(source, "url", None),
-                        content=getattr(source, "snippet", None),
-                    )
-                    for source in response.sources
-                ]
-            )
+            if output_type in ["searchResults", "sourcedAnswer"]:
+                sources = getattr(response, "sources", getattr(response, "results", []))
+                if not isinstance(sources, list):
+                    raise ProviderException("Invalid format for response.sources; expected a list.")
 
-            return ApiResponse(
-                original_response={
-                    "answer": response.answer,
-                    "sources": response.sources,
-                },
-                standardized_response=standardized_response
-            )
+                standardized_response = StandardizedResponse(
+                    results=[
+                        SearchResult(
+                            type="text",
+                            name=getattr(source, "name", None),
+                            url=getattr(source, "url", None),
+                            content=getattr(source, "snippet", None),
+                        )
+                        for source in sources
+                    ]
+                )
 
+                return ApiResponse(
+                    original_response={
+                        "answer": getattr(response, "answer", None),
+                        "sources": sources,
+                    },
+                    standardized_response=standardized_response,
+                )
+
+            elif output_type == "structured":
+                structured_data = getattr(response, "structured_data", response)
+                if not isinstance(structured_data, dict):
+                    raise ProviderException("Response does not contain valid 'structured_data'.")
+
+                return ApiResponse(
+                    original_response=structured_data,
+                    standardized_response=StandardizedResponse(
+                        results=[
+                            SearchResult(
+                                type="structured",
+                                name=structured_data.get("name"),
+                                url=structured_data.get("url"),
+                                content=structured_data.get("content"),
+                            )
+                        ]
+                    ),
+                )
+
+            else:
+                raise ProviderException(f"Unsupported output_type: {output_type}")
         except Exception as e:
+            print("DEBUG - Exception occurred:", str(e))
             raise ProviderException(f"Error during Linkup API call: {str(e)}")
