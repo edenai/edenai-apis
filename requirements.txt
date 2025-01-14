@@ -414,12 +414,12 @@ pycountry==23.12.11
     # via -r requirements.in
 pycparser==2.22
     # via cffi
-pydantic==2.6.4
+pydantic==2.7.4
     # via
     #   -r requirements.in
     #   anthropic-bedrock
     #   openai
-pydantic-core==2.16.3
+pydantic-core==2.18.4
     # via pydantic
 pydub==0.25.1
     # via -r requirements.in
