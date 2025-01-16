@@ -1,0 +1,26 @@
+{
+  "original_response": {
+    "id": "chatcmpl-7Qzaip4y0YQrOFlXLLPBqNzbHcKhd",
+    "object": "chat.completion",
+    "created": 1686667640,
+    "model": "gpt-3.5-turbo-0301",
+    "usage": {
+      "prompt_tokens": 39,
+      "completion_tokens": 175,
+      "total_tokens": 214
+    },
+    "choices": [
+      {
+        "message": {
+          "role": "assistant",
+          "content": "Sure, here's a Python function that checks if a year is a leap year:\n\n```python\ndef is_leap_year(year):\n    \"\"\"\n    Returns True if the given year is a leap year, False otherwise.\n    \"\"\"\n    if year % 4 == 0:\n        if year % 100 == 0:\n            if year % 400 == 0:\n                return True\n            else:\n                return False\n        else:\n            return True\n    else:\n        return False\n```\n\nThis function takes a year as input and returns True if it is a leap year, and False otherwise. It uses the standard rules for determining leap years: a year is a leap year if it is divisible by 4, unless it is also divisible by 100, in which case it is only a leap year if it is also divisible by 400."
+        },
+        "finish_reason": "stop",
+        "index": 0
+      }
+    ]
+  },
+  "standardized_response": {
+    "generated_text": "Sure, here's a Python function that checks if a year is a leap year:\n\n```python\ndef is_leap_year(year):\n    \"\"\"\n    Returns True if the given year is a leap year, False otherwise.\n    \"\"\"\n    if year % 4 == 0:\n        if year % 100 == 0:\n            if year % 400 == 0:\n                return True\n            else:\n                return False\n        else:\n            return True\n    else:\n        return False\n```\n\nThis function takes a year as input and returns True if it is a leap year, and False otherwise. It uses the standard rules for determining leap years: a year is a leap year if it is divisible by 4, unless it is also divisible by 100, in which case it is only a leap year if it is also divisible by 400."
+  }
+}

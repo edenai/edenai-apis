@@ -1,0 +1,28 @@
+{
+  "original_response": {
+    "id": "chatcmpl-8pzVJyrbIrM0NFl5CxECxQyHYLkyt",
+    "object": "chat.completion",
+    "created": 1707401841,
+    "model": "gpt-3.5-turbo-1106",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Barack Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. He was the first African-American president and had previously served as a U.S. senator and an Illinois state senator."
+        },
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 113,
+      "completion_tokens": 51,
+      "total_tokens": 164
+    },
+    "system_fingerprint": "fp_04f9a1eebf"
+  },
+  "standardized_response": {
+    "result": "Barack Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. He was the first African-American president and had previously served as a U.S. senator and an Illinois state senator."
+  }
+}

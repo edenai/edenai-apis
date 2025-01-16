@@ -1,0 +1,88 @@
+{
+  "original_response": {
+    "id": "chatcmpl-7fnGT0F7PbQ8XFUvTj11UyrcN6A9d",
+    "object": "chat.completion",
+    "created": 1690195177,
+    "model": "gpt-3.5-turbo-0613",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Text:\n###Hello, world! How are you?###"
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 88,
+      "completion_tokens": 12,
+      "total_tokens": 100
+    }
+  },
+  "standardized_response": {
+    "text": "Hollo, wrld! How r yu?",
+    "items": [
+      {
+        "text": "Hollo",
+        "type": null,
+        "offset": 0,
+        "length": 5,
+        "suggestions": [
+          {
+            "suggestion": "Text",
+            "score": 1.0
+          }
+        ]
+      },
+      {
+        "text": "wrld",
+        "type": null,
+        "offset": 7,
+        "length": 4,
+        "suggestions": [
+          {
+            "suggestion": "Hello",
+            "score": 1.0
+          }
+        ]
+      },
+      {
+        "text": "How",
+        "type": null,
+        "offset": 13,
+        "length": 3,
+        "suggestions": [
+          {
+            "suggestion": "world",
+            "score": 1.0
+          }
+        ]
+      },
+      {
+        "text": "r",
+        "type": null,
+        "offset": 17,
+        "length": 1,
+        "suggestions": [
+          {
+            "suggestion": "How",
+            "score": 1.0
+          }
+        ]
+      },
+      {
+        "text": "yu",
+        "type": null,
+        "offset": 19,
+        "length": 2,
+        "suggestions": [
+          {
+            "suggestion": "are",
+            "score": 1.0
+          }
+        ]
+      }
+    ]
+  }
+}
