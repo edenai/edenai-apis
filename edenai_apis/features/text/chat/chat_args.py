@@ -23,6 +23,7 @@ def chat_arguments(provider_name: str):
             "perplexityai": "llama-3.1-sonar-large-128k-chat",
             "replicate": "llama-2-70b-chat",
             "anthropic": "claude-3-sonnet-20240229-v1:0",
+            "xai": "grok-beta"
         },
         "stream": False,
     }

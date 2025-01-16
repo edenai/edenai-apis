@@ -1,0 +1,186 @@
+{
+  "original_response": {
+    "data": [
+      {
+        "id": "msg_sQGMkBrJjoguDpsO6uFHDQiB",
+        "assistant_id": "asst_Xc69f9ffxqINwOTOeZ5kFxLv",
+        "attachments": [],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "{\n  \"items\": [\n    {\n      \"bounding_poly\": {\n        \"vertices\": [\n          {\"x\": 0, \"y\": 0},\n          {\"x\": 40, \"y\": 0},\n          {\"x\": 40, \"y\": 40},\n          {\"x\": 0, \"y\": 40}\n        ]\n      },\n      \"description\": \"Facebook\",\n      \"score\": 0.99\n    },\n    {\n      \"bounding_poly\": {\n        \"vertices\": [\n          {\"x\": 60, \"y\": 0},\n          {\"x\": 100, \"y\": 0},\n          {\"x\": 100, \"y\": 40},\n          {\"x\": 60, \"y\": 40}\n        ]\n      },\n      \"description\": \"Apple\",\n      \"score\": 0.99\n    },\n    {\n      \"bounding_poly\": {\n        \"vertices\": [\n          {\"x\": 120, \"y\": 0},\n          {\"x\": 160, \"y\": 0},\n          {\"x\": 160, \"y\": 40},\n          {\"x\": 120, \"y\": 40}\n        ]\n      },\n      \"description\": \"Amazon\",\n      \"score\": 0.99\n    },\n    {\n      \"bounding_poly\": {\n        \"vertices\": [\n          {\"x\": 180, \"y\": 0},\n          {\"x\": 220, \"y\": 0},\n          {\"x\": 220, \"y\": 40},\n          {\"x\": 180, \"y\": 40}\n        ]\n      },\n      \"description\": \"Netflix\",\n      \"score\": 0.99\n    },\n    {\n      \"bounding_poly\": {\n        \"vertices\": [\n          {\"x\": 240, \"y\": 0},\n          {\"x\": 280, \"y\": 0},\n          {\"x\": 280, \"y\": 40},\n          {\"x\": 240, \"y\": 40}\n        ]\n      },\n      \"description\": \"Google\",\n      \"score\": 0.99\n    }\n  ]\n}"
+            },
+            "type": "text"
+          }
+        ],
+        "created_at": 1721034840,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "assistant",
+        "run_id": "run_w6ktkhGGkchQwGinqZGGpeiB",
+        "thread_id": "thread_wRhW9RCHX8Pf0Ru5VdxHoqZY"
+      },
+      {
+        "id": "msg_G4BHIxvatyEbUzTNzOecO1RO",
+        "assistant_id": null,
+        "attachments": [],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "Analys this image :"
+            },
+            "type": "text"
+          },
+          {
+            "image_file": {
+              "file_id": "file-VSSq88iEcWVvHcXLkqLFjcGk",
+              "detail": "auto"
+            },
+            "type": "image_file"
+          }
+        ],
+        "created_at": 1721034837,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "user",
+        "run_id": null,
+        "thread_id": "thread_wRhW9RCHX8Pf0Ru5VdxHoqZY"
+      }
+    ],
+    "object": "list",
+    "first_id": "msg_sQGMkBrJjoguDpsO6uFHDQiB",
+    "last_id": "msg_G4BHIxvatyEbUzTNzOecO1RO",
+    "has_more": false,
+    "usage": {
+      "completion_tokens": 445,
+      "prompt_tokens": 278,
+      "total_tokens": 723
+    }
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "bounding_poly": {
+          "vertices": [
+            {
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "x": 40.0,
+              "y": 0.0
+            },
+            {
+              "x": 40.0,
+              "y": 40.0
+            },
+            {
+              "x": 0.0,
+              "y": 40.0
+            }
+          ]
+        },
+        "description": "Facebook",
+        "score": 0.99
+      },
+      {
+        "bounding_poly": {
+          "vertices": [
+            {
+              "x": 60.0,
+              "y": 0.0
+            },
+            {
+              "x": 100.0,
+              "y": 0.0
+            },
+            {
+              "x": 100.0,
+              "y": 40.0
+            },
+            {
+              "x": 60.0,
+              "y": 40.0
+            }
+          ]
+        },
+        "description": "Apple",
+        "score": 0.99
+      },
+      {
+        "bounding_poly": {
+          "vertices": [
+            {
+              "x": 120.0,
+              "y": 0.0
+            },
+            {
+              "x": 160.0,
+              "y": 0.0
+            },
+            {
+              "x": 160.0,
+              "y": 40.0
+            },
+            {
+              "x": 120.0,
+              "y": 40.0
+            }
+          ]
+        },
+        "description": "Amazon",
+        "score": 0.99
+      },
+      {
+        "bounding_poly": {
+          "vertices": [
+            {
+              "x": 180.0,
+              "y": 0.0
+            },
+            {
+              "x": 220.0,
+              "y": 0.0
+            },
+            {
+              "x": 220.0,
+              "y": 40.0
+            },
+            {
+              "x": 180.0,
+              "y": 40.0
+            }
+          ]
+        },
+        "description": "Netflix",
+        "score": 0.99
+      },
+      {
+        "bounding_poly": {
+          "vertices": [
+            {
+              "x": 240.0,
+              "y": 0.0
+            },
+            {
+              "x": 280.0,
+              "y": 0.0
+            },
+            {
+              "x": 280.0,
+              "y": 40.0
+            },
+            {
+              "x": 240.0,
+              "y": 40.0
+            }
+          ]
+        },
+        "description": "Google",
+        "score": 0.99
+      }
+    ]
+  }
+}
