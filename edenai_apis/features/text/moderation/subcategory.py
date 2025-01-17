@@ -38,6 +38,7 @@ class SubCategoryBase(str):
             f"Unknown label {label}. Only {cls.list_choices().values()} are allowed."
         )
 
+
 class ToxicSubCategoryType(SubCategoryBase, Enum):
     Insult = "Insult"
     Obscene = "Obscene"
@@ -56,6 +57,7 @@ class ToxicSubCategoryType(SubCategoryBase, Enum):
             cls.Threat: SubCategoryPattern.Toxic.THREAT,
             cls.Toxic: SubCategoryPattern.Toxic.TOXIC,
         }
+
 
 class ContentSubCategoryType(SubCategoryBase, Enum):
     MiddleFinger = "MiddleFinger"
@@ -80,6 +82,7 @@ class ContentSubCategoryType(SubCategoryBase, Enum):
             cls.Legal: SubCategoryPattern.Content.LEGAL,
         }
 
+
 class SexualSubCategoryType(SubCategoryBase, Enum):
     SexualActivity = "SexualActivity"
     SexualSituations = "SexualSituations"
@@ -103,6 +106,7 @@ class SexualSubCategoryType(SubCategoryBase, Enum):
             cls.Sexual: SubCategoryPattern.Sexual.SEXUAL,
         }
 
+
 class ViolenceSubCategoryType(SubCategoryBase, Enum):
     GraphicViolenceOrGore = "GraphicViolenceOrGore"
     PhysicalViolence = "PhysicalViolence"
@@ -117,6 +121,7 @@ class ViolenceSubCategoryType(SubCategoryBase, Enum):
             cls.WeaponViolence: SubCategoryPattern.Violence.WEAPON_VIOLENCE,
             cls.Violence: SubCategoryPattern.Violence.VIOLENCE,
         }
+
 
 class DrugAndAlcoholSubCategoryType(SubCategoryBase, Enum):
     DrugProducts = "DrugProducts"
@@ -137,6 +142,7 @@ class DrugAndAlcoholSubCategoryType(SubCategoryBase, Enum):
             cls.Drinking: SubCategoryPattern.DrugAndAlcohol.DRINKING,
         }
 
+
 class FinanceSubCategoryType(SubCategoryBase, Enum):
     Gambling = "Gambling"
     Finance = "Finance"
@@ -149,6 +155,7 @@ class FinanceSubCategoryType(SubCategoryBase, Enum):
             cls.Finance: SubCategoryPattern.Finance.FINANCE,
             cls.MoneyContent: SubCategoryPattern.Finance.MONEY_CONTENT,
         }
+
 
 class HateAndExtremismSubCategoryType(SubCategoryBase, Enum):
     Hate = "Hate"
@@ -167,6 +174,7 @@ class HateAndExtremismSubCategoryType(SubCategoryBase, Enum):
             cls.Racy: SubCategoryPattern.HateAndExtremism.RACY,
         }
 
+
 class SafeSubCategoryType(SubCategoryBase, Enum):
     Safe = "Safe"
     NotSafe = "NotSafe"
@@ -177,6 +185,7 @@ class SafeSubCategoryType(SubCategoryBase, Enum):
             cls.Safe: SubCategoryPattern.Safe.SAFE,
             cls.NotSafe: SubCategoryPattern.Safe.NOT_SAFE,
         }
+
 
 class OtherSubCategoryType(SubCategoryBase, Enum):
     Spoof = "Spoof"

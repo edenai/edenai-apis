@@ -6,7 +6,7 @@ from time import sleep
 import pytest
 from apis.amazon.errors import ERRORS as amazon_errors
 from apis.google.errors import ERRORS as google_errors
-from apis.ibm.errors import ERRORS as ibm_errors
+
 from apis.microsoft.errors import ERRORS as microsoft_errors
 from features.audio.speech_to_text_async.speech_to_text_async_args import (
     data_path as audio_data_path,
