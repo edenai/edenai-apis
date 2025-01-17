@@ -1,0 +1,27 @@
+{
+  "original_response": {
+    "id": "chatcmpl-8O2Cg7YCvk3hub78dnCBb6ZYhp7vT",
+    "object": "chat.completion",
+    "created": 1700739034,
+    "model": "grock-beta",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "```Artificial intelligence, also known as machine intelligence, refers to the intelligence exhibited by machines created by humans. Usually, artificial intelligence refers to the technology that presents human intelligence through ordinary computer programs. The term also refers to the research on whether such intelligent systems can be realized and how to achieve them. At the same time, with advancements in fields such as medicine, neuroscience, robotics, and statistics, it is commonly predicted that many human professions will gradually be replaced by artificial intelligence.```"
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 270,
+      "completion_tokens": 97,
+      "total_tokens": 367
+    },
+    "system_fingerprint": "fp_eeff13170a"
+  },
+  "standardized_response": {
+    "text": "```Artificial intelligence, also known as machine intelligence, refers to the intelligence exhibited by machines created by humans. Usually, artificial intelligence refers to the technology that presents human intelligence through ordinary computer programs. The term also refers to the research on whether such intelligent systems can be realized and how to achieve them. At the same time, with advancements in fields such as medicine, neuroscience, robotics, and statistics, it is commonly predicted that many human professions will gradually be replaced by artificial intelligence.```"
+  }
+}

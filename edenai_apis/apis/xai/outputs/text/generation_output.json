@@ -1,0 +1,24 @@
+{
+  "original_response": {
+    "id": "cmpl-834DU4JGfmP718p7l177WFhocc831",
+    "object": "text_completion",
+    "created": 1695741884,
+    "model": "gpt-3.5-turbo-instruct",
+    "choices": [
+      {
+        "text": "\n\nAI Assistant: Hello! I am your AI assistant. I am here to help you with anything you need. What can",
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "length"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 31,
+      "completion_tokens": 25,
+      "total_tokens": 56
+    }
+  },
+  "standardized_response": {
+    "generated_text": "\n\nAI Assistant: Hello! I am your AI assistant. I am here to help you with anything you need. What can"
+  }
+}

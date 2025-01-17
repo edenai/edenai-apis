@@ -1,0 +1,93 @@
+{
+  "original_response": {
+    "id": "chatcmpl-8KTb6iYWSzQdX5wcj6auwSuoWU61L",
+    "object": "chat.completion",
+    "created": 1699891024,
+    "model": "gpt-3.5-turbo-1106",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\"classifications\": [\n    {\"input\": \"Confirm your email address\", \"label\": \"not spam\", \"confidence\": 0.9},\n    {\"input\": \"hey i need u to send some $\", \"label\": \"spam\", \"confidence\": 0.8},\n    {\"input\": \"Congratulations! You've won a free vacation! Click the link to claim your prize now!\", \"label\": \"spam\", \"confidence\": 0.95},\n    {\"input\": \"Make money fast! Join our exclusive program and start earning thousands in just a few days!\", \"label\": \"spam\", \"confidence\": 0.9},\n    {\"input\": \"Get rich quick with this amazing investment opportunity. Guaranteed returns!\", \"label\": \"spam\", \"confidence\": 0.85},\n    {\"input\": \"Unlock special discounts on luxury goods. Limited-time offer! Click here to shop now!\", \"label\": \"not spam\", \"confidence\": 0.95},\n    {\"input\": \"You've been selected for a special promotion. Act now to secure your spot!\", \"label\": \"spam\", \"confidence\": 0.8},\n    {\"input\": \"Meet hot singles in your area! Chat now and find your perfect match!\", \"label\": \"spam\", \"confidence\": 0.9},\n    {\"input\": \"Eliminate debt effortlessly! Our program can erase your financial worries.\", \"label\": \"spam\", \"confidence\": 0.85},\n    {\"input\": \"Claim your inheritance! Just provide your bank details for a seamless transfer.\", \"label\": \"spam\", \"confidence\": 0.9},\n    {\"input\": \"Reminder: Your appointment with Dr. Smith is scheduled for tomorrow at 2:00 PM.\", \"label\": \"not spam\", \"confidence\": 0.85},\n    {\"input\": \"Update: The event you registered for has been rescheduled to [New Date].\", \"label\": \"not spam\", \"confidence\": 0.9},\n    {\"input\": \"Welcome to our newsletter! Stay tuned for updates on our latest products and promotions.\", \"label\": \"not spam\", \"confidence\": 0.9}\n]}"
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 536,
+      "completion_tokens": 447,
+      "total_tokens": 983
+    },
+    "system_fingerprint": "fp_eeff13170a"
+  },
+  "standardized_response": {
+    "classifications": [
+      {
+        "input": "Confirm your email address",
+        "label": "not spam",
+        "confidence": 0.9
+      },
+      {
+        "input": "hey i need u to send some $",
+        "label": "spam",
+        "confidence": 0.8
+      },
+      {
+        "input": "Congratulations! You've won a free vacation! Click the link to claim your prize now!",
+        "label": "spam",
+        "confidence": 0.95
+      },
+      {
+        "input": "Make money fast! Join our exclusive program and start earning thousands in just a few days!",
+        "label": "spam",
+        "confidence": 0.9
+      },
+      {
+        "input": "Get rich quick with this amazing investment opportunity. Guaranteed returns!",
+        "label": "spam",
+        "confidence": 0.85
+      },
+      {
+        "input": "Unlock special discounts on luxury goods. Limited-time offer! Click here to shop now!",
+        "label": "not spam",
+        "confidence": 0.95
+      },
+      {
+        "input": "You've been selected for a special promotion. Act now to secure your spot!",
+        "label": "spam",
+        "confidence": 0.8
+      },
+      {
+        "input": "Meet hot singles in your area! Chat now and find your perfect match!",
+        "label": "spam",
+        "confidence": 0.9
+      },
+      {
+        "input": "Eliminate debt effortlessly! Our program can erase your financial worries.",
+        "label": "spam",
+        "confidence": 0.85
+      },
+      {
+        "input": "Claim your inheritance! Just provide your bank details for a seamless transfer.",
+        "label": "spam",
+        "confidence": 0.9
+      },
+      {
+        "input": "Reminder: Your appointment with Dr. Smith is scheduled for tomorrow at 2:00 PM.",
+        "label": "not spam",
+        "confidence": 0.85
+      },
+      {
+        "input": "Update: The event you registered for has been rescheduled to [New Date].",
+        "label": "not spam",
+        "confidence": 0.9
+      },
+      {
+        "input": "Welcome to our newsletter! Stay tuned for updates on our latest products and promotions.",
+        "label": "not spam",
+        "confidence": 0.9
+      }
+    ]
+  }
+}

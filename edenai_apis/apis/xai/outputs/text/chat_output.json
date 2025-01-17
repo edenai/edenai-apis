@@ -1,0 +1,53 @@
+{
+  "original_response": {
+    "id": "chatcmpl-AdJAXPB9SFyLEy1bUbzLo2fHTFM9T",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "content": "Barack Hussein Obama, American, politician, 44th president, United States, 2009, 2017, Democratic Party, African-American, U.S. senator, Illinois, 2005, 2008, state senator, 1997, 2004",
+          "refusal": null,
+          "role": "assistant"
+        }
+      }
+    ],
+    "created": 1733931841,
+    "model": "gpt-3.5-turbo-0125",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "usage": {
+      "completion_tokens": 56,
+      "prompt_tokens": 222,
+      "total_tokens": 278,
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "standardized_response": {
+    "generated_text": "Barack Hussein Obama, American, politician, 44th president, United States, 2009, 2017, Democratic Party, African-American, U.S. senator, Illinois, 2005, 2008, state senator, 1997, 2004",
+    "message": [
+      {
+        "role": "user",
+        "message": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+        "tools": null,
+        "tool_calls": null
+      },
+      {
+        "role": "assistant",
+        "message": "Barack Hussein Obama, American, politician, 44th president, United States, 2009, 2017, Democratic Party, African-American, U.S. senator, Illinois, 2005, 2008, state senator, 1997, 2004",
+        "tools": null,
+        "tool_calls": []
+      }
+    ]
+  }
+}

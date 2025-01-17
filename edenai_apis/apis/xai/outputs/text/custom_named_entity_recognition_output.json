@@ -1,0 +1,41 @@
+{
+  "original_response": {
+    "id": "cmpl-834L8MCs2zmq5MwcjXzhbXLYT44AQ",
+    "object": "text_completion",
+    "created": 1695742358,
+    "model": "gpt-3.5-turbo-instruct",
+    "choices": [
+      {
+        "text": " {\n            \"items\":[\n                {\"entity\":\"John Smith\", \"category\":\"person\"},\n                {\"entity\":\"Starbucks\", \"category\":\"location\"},\n                {\"entity\":\"New York City\", \"category\":\"location\"},\n                {\"entity\":\"IBM\", \"category\":\"organization\"}\n                ]\n        }",
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 199,
+      "completion_tokens": 58,
+      "total_tokens": 257
+    }
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "entity": "John Smith",
+        "category": "person"
+      },
+      {
+        "entity": "Starbucks",
+        "category": "location"
+      },
+      {
+        "entity": "New York City",
+        "category": "location"
+      },
+      {
+        "entity": "IBM",
+        "category": "organization"
+      }
+    ]
+  }
+}

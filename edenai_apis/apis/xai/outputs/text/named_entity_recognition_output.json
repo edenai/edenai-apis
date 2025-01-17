@@ -1,0 +1,68 @@
+{
+  "original_response": {
+    "id": "chatcmpl-8NkPf4JnTvVpdnWYEUWNWZHWxhflP",
+    "object": "chat.completion",
+    "created": 1700670647,
+    "model": "gpt-3.5-turbo-1106",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\n    \"items\": [\n        {\"entity\": \"Barack Hussein Obama\", \"category\": \"Person\", \"importance\": \"0.98\"},\n        {\"entity\": \"American\", \"category\": \"Nationality\", \"importance\": \"0.85\"},\n        {\"entity\": \"44th president\", \"category\": \"Position\", \"importance\": \"0.95\"},\n        {\"entity\": \"United States\", \"category\": \"Country\", \"importance\": \"0.99\"},\n        {\"entity\": \"Democratic Party\", \"category\": \"Organization\", \"importance\": \"0.90\"},\n        {\"entity\": \"African-American\", \"category\": \"Ethnicity\", \"importance\": \"0.85\"},\n        {\"entity\": \"U.S. senator\", \"category\": \"Position\", \"importance\": \"0.90\"},\n        {\"entity\": \"Illinois\", \"category\": \"State\", \"importance\": \"0.93\"}\n    ]\n}"
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 296,
+      "completion_tokens": 201,
+      "total_tokens": 497
+    },
+    "system_fingerprint": "fp_eeff13170a"
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "entity": "Barack Hussein Obama",
+        "category": "Person",
+        "importance": 0.98
+      },
+      {
+        "entity": "American",
+        "category": "Nationality",
+        "importance": 0.85
+      },
+      {
+        "entity": "44th president",
+        "category": "Position",
+        "importance": 0.95
+      },
+      {
+        "entity": "United States",
+        "category": "Country",
+        "importance": 0.99
+      },
+      {
+        "entity": "Democratic Party",
+        "category": "Organization",
+        "importance": 0.9
+      },
+      {
+        "entity": "African-American",
+        "category": "Ethnicity",
+        "importance": 0.85
+      },
+      {
+        "entity": "U.S. senator",
+        "category": "Position",
+        "importance": 0.9
+      },
+      {
+        "entity": "Illinois",
+        "category": "State",
+        "importance": 0.93
+      }
+    ]
+  }
+}

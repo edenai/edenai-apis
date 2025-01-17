@@ -1,0 +1,75 @@
+{
+  "original_response": {
+    "data": [
+      {
+        "id": "msg_8oVI2RyHYbhTGzsGPJ8RYvxB",
+        "assistant_id": "asst_NkLFHBzi7Q24ImW20cbuBDWr",
+        "attachments": [],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "{\n  \"nsfw_likelihood\": 5,\n  \"nsfw_likelihood_score\": 0.99,\n  \"items\": [\n    {\n      \"label\": \"Violence\",\n      \"likelihood\": 5,\n      \"likelihood_score\": 0.99,\n      \"category\": \"Violence\",\n      \"subcategory\": \"GraphicViolenceOrGore\"\n    }\n  ]\n}"
+            },
+            "type": "text"
+          }
+        ],
+        "created_at": 1721060031,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "assistant",
+        "run_id": "run_9vdrQy3qxAxKbSn7LWYiu2CF",
+        "thread_id": "thread_wroSi0a2rfGOeH3ASHV4Su0Q"
+      },
+      {
+        "id": "msg_h633LuzTFH9OrJnMF3ZFtIGa",
+        "assistant_id": null,
+        "attachments": [],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "Analys this image :"
+            },
+            "type": "text"
+          },
+          {
+            "image_file": {
+              "file_id": "file-FDfNMKttMaeDVv2RKlz8M5Jv",
+              "detail": "auto"
+            },
+            "type": "image_file"
+          }
+        ],
+        "created_at": 1721060029,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "user",
+        "run_id": null,
+        "thread_id": "thread_wroSi0a2rfGOeH3ASHV4Su0Q"
+      }
+    ],
+    "object": "list",
+    "first_id": "msg_8oVI2RyHYbhTGzsGPJ8RYvxB",
+    "last_id": "msg_h633LuzTFH9OrJnMF3ZFtIGa",
+    "has_more": false,
+    "usage": {
+      "completion_tokens": 84,
+      "prompt_tokens": 1488,
+      "total_tokens": 1572
+    }
+  },
+  "standardized_response": {
+    "nsfw_likelihood": 5,
+    "nsfw_likelihood_score": 0.99,
+    "items": [
+      {
+        "label": "Violence",
+        "likelihood": 5,
+        "likelihood_score": 0.99,
+        "category": "Violence",
+        "subcategory": null
+      }
+    ]
+  }
+}

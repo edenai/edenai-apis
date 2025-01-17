@@ -1,0 +1,47 @@
+{
+  "original_response": {
+    "id": "chatcmpl-8NjwRrJrVd7t3mdcuICmpBeH05bDF",
+    "object": "chat.completion",
+    "created": 1700668835,
+    "model": "gpt-3.5-turbo-1106",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"redactedText\": \"The phone number of *** is the ** ** ** ** ** ** ** **.\",\n  \"entities\": [\n    {\n      \"content\": \"Luc\",\n      \"label\": \"name\",\n      \"confidence_score\": 0.9,\n      \"offset\": 20\n    },\n    {\n      \"content\": \"06 21 32 43 54\",\n      \"label\": \"phonenumber\",\n      \"confidence_score\": 0.95,\n      \"offset\": 32\n    }\n  ]\n}"
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 298,
+      "completion_tokens": 111,
+      "total_tokens": 409
+    },
+    "system_fingerprint": "fp_eeff13170a"
+  },
+  "standardized_response": {
+    "result": "The phone number of *** is the **************.",
+    "entities": [
+      {
+        "offset": 20,
+        "length": 3,
+        "category": "PersonalInformation",
+        "subcategory": "Name",
+        "original_label": "name",
+        "content": "Luc",
+        "confidence_score": 0.9
+      },
+      {
+        "offset": 31,
+        "length": 14,
+        "category": "PersonalInformation",
+        "subcategory": "Phone",
+        "original_label": "phonenumber",
+        "content": "06 21 32 43 54",
+        "confidence_score": 0.95
+      }
+    ]
+  }
+}
