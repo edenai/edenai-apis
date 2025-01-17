@@ -42,6 +42,12 @@ attrs==23.2.0
     #   jsonschema
     #   referencing
     #   sagemaker
+    #   service-identity
+    #   twisted
+autobahn==24.4.2
+    # via watson-developer-cloud
+automat==24.8.1
+    # via twisted
 azure-ai-formrecognizer==3.3.0
     # via -r requirements.in
 azure-cognitiveservices-speech==1.36.0
@@ -90,15 +96,20 @@ clarifai-grpc==9.10.7
     # via -r requirements.in
 cloudpickle==2.2.1
     # via sagemaker
+constantly==23.10.4
+    # via twisted
 contextlib2==21.6.0
     # via schema
 coverage[toml]==7.4.4
     # via pytest-cov
 cryptography==42.0.5
     # via
+    #   autobahn
     #   azure-identity
     #   msal
     #   pyjwt
+    #   pyopenssl
+    #   service-identity
 dill==0.3.8
     # via
     #   multiprocess
@@ -230,10 +241,19 @@ httpx==0.27.0
     #   openai
 huggingface-hub==0.22.2
     # via tokenizers
+hyperlink==21.0.0
+    # via
+    #   autobahn
+    #   twisted
+ibm-cloud-sdk-core==3.22.1
+    # via ibm-watson
+ibm-watson==9.0.0
+    # via -r requirements.in
 idna==3.6
     # via
     #   anyio
     #   httpx
+    #   hyperlink
     #   requests
     #   yarl
 imagesize==1.4.1
@@ -242,6 +262,8 @@ importlib-metadata==6.11.0
     # via sagemaker
 importlib-resources==6.4.0
     # via python-liquid
+incremental==24.7.2
+    # via twisted
 iniconfig==2.0.0
     # via pytest
 isodate==0.6.1
@@ -384,8 +406,11 @@ pyasn1==0.6.0
     # via
     #   pyasn1-modules
     #   rsa
+    #   service-identity
 pyasn1-modules==0.4.0
-    # via google-auth
+    # via
+    #   google-auth
+    #   service-identity
 pycares==4.4.0
     # via aiodns
 pycountry==23.12.11
@@ -407,14 +432,16 @@ pygments==2.17.2
     #   sphinx
 pyjwt[crypto]==2.8.0
     # via
+    #   ibm-cloud-sdk-core
     #   msal
-    #   pyjwt
 pylint==3.1.0
     # via -r requirements.in
 pymupdf==1.24.8
     # via -r requirements.in
 pymupdfb==1.24.8
     # via pymupdf
+pyopenssl==25.0.0
+    # via watson-developer-cloud
 pyparsing==3.1.2
     # via httplib2
 pypdf==4.2.0
@@ -438,8 +465,11 @@ python-dateutil==2.9.0.post0
     # via
     #   botocore
     #   google-cloud-bigquery
+    #   ibm-cloud-sdk-core
+    #   ibm-watson
     #   pandas
     #   python-liquid
+    #   watson-developer-cloud
 python-dotenv==1.0.1
     # via -r requirements.in
 python-liquid==1.12.1
@@ -468,6 +498,8 @@ requests==2.31.0
     #   google-cloud-bigquery
     #   google-cloud-storage
     #   huggingface-hub
+    #   ibm-cloud-sdk-core
+    #   ibm-watson
     #   lettria
     #   msal
     #   msrest
@@ -475,6 +507,7 @@ requests==2.31.0
     #   responses
     #   sagemaker
     #   sphinx
+    #   watson-developer-cloud
 requests-oauthlib==2.0.0
     # via msrest
 responses==0.24.1
@@ -491,6 +524,8 @@ sagemaker==2.214.3
     # via -r requirements.in
 schema==0.7.5
     # via sagemaker
+service-identity==24.2.0
+    # via watson-developer-cloud
 shapely==2.0.3
     # via google-cloud-aiplatform
 six==1.16.0
@@ -544,6 +579,10 @@ tqdm==4.66.2
     #   huggingface-hub
     #   openai
     #   sagemaker
+twisted==24.11.0
+    # via watson-developer-cloud
+txaio==23.1.1
+    # via autobahn
 typing-extensions==4.11.0
     # via
     #   aleph-alpha-client
@@ -555,7 +594,9 @@ typing-extensions==4.11.0
     #   openai
     #   pydantic
     #   pydantic-core
+    #   pyopenssl
     #   python-liquid
+    #   twisted
 tzdata==2024.1
     # via pandas
 uritemplate==4.1.1
@@ -565,13 +606,20 @@ urllib3==2.2.1
     #   aleph-alpha-client
     #   botocore
     #   docker
+    #   ibm-cloud-sdk-core
     #   requests
     #   responses
     #   sagemaker
+watson-developer-cloud==2.0.0
+    # via -r requirements.in
+websocket-client==1.8.0
+    # via ibm-watson
 yarl==1.9.4
     # via aiohttp
 zipp==3.18.1
     # via importlib-metadata
+zope-interface==7.2
+    # via twisted
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools

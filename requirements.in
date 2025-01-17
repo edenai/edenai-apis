@@ -51,6 +51,10 @@ google-cloud-videointelligence==2.11.2
 google-cloud-automl==2.11.1
 google-cloud-aiplatform==1.35.0
 
+#ibm
+ibm-watson>=6.0.0
+watson-developer-cloud
+
 #lettria
 lettria==6.0.0
 
