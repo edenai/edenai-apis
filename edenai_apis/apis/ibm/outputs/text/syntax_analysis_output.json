@@ -1,0 +1,868 @@
+{
+  "original_response": {
+    "usage": {
+      "text_units": 1,
+      "text_characters": 345,
+      "features": 1
+    },
+    "syntax": {
+      "tokens": [
+        {
+          "text": "Barack",
+          "part_of_speech": "PROPN",
+          "location": [0, 6]
+        },
+        {
+          "text": "Hussein",
+          "part_of_speech": "PROPN",
+          "location": [7, 14]
+        },
+        {
+          "text": "Obama",
+          "part_of_speech": "PROPN",
+          "location": [15, 20]
+        },
+        {
+          "text": "is",
+          "part_of_speech": "AUX",
+          "location": [21, 23],
+          "lemma": "be"
+        },
+        {
+          "text": "an",
+          "part_of_speech": "DET",
+          "location": [24, 26],
+          "lemma": "a"
+        },
+        {
+          "text": "American",
+          "part_of_speech": "ADJ",
+          "location": [27, 35],
+          "lemma": "American"
+        },
+        {
+          "text": "politician",
+          "part_of_speech": "NOUN",
+          "location": [36, 46],
+          "lemma": "politician"
+        },
+        {
+          "text": "who",
+          "part_of_speech": "PRON",
+          "location": [47, 50],
+          "lemma": "who"
+        },
+        {
+          "text": "served",
+          "part_of_speech": "VERB",
+          "location": [51, 57],
+          "lemma": "serve"
+        },
+        {
+          "text": "as",
+          "part_of_speech": "ADP",
+          "location": [58, 60],
+          "lemma": "as"
+        },
+        {
+          "text": "the",
+          "part_of_speech": "DET",
+          "location": [61, 64],
+          "lemma": "the"
+        },
+        {
+          "text": "44th",
+          "part_of_speech": "ADJ",
+          "location": [65, 69]
+        },
+        {
+          "text": "president",
+          "part_of_speech": "NOUN",
+          "location": [70, 79],
+          "lemma": "president"
+        },
+        {
+          "text": "of",
+          "part_of_speech": "ADP",
+          "location": [80, 82],
+          "lemma": "of"
+        },
+        {
+          "text": "the",
+          "part_of_speech": "DET",
+          "location": [83, 86],
+          "lemma": "the"
+        },
+        {
+          "text": "United",
+          "part_of_speech": "PROPN",
+          "location": [87, 93]
+        },
+        {
+          "text": "States",
+          "part_of_speech": "PROPN",
+          "location": [94, 100],
+          "lemma": "State"
+        },
+        {
+          "text": "from",
+          "part_of_speech": "ADP",
+          "location": [101, 105],
+          "lemma": "from"
+        },
+        {
+          "text": "2009",
+          "part_of_speech": "NUM",
+          "location": [106, 110]
+        },
+        {
+          "text": "to",
+          "part_of_speech": "ADP",
+          "location": [111, 113],
+          "lemma": "to"
+        },
+        {
+          "text": "2017",
+          "part_of_speech": "NUM",
+          "location": [114, 118]
+        },
+        {
+          "text": ".",
+          "part_of_speech": "PUNCT",
+          "location": [118, 119]
+        },
+        {
+          "text": "A",
+          "part_of_speech": "DET",
+          "location": [120, 121],
+          "lemma": "a"
+        },
+        {
+          "text": "member",
+          "part_of_speech": "NOUN",
+          "location": [122, 128],
+          "lemma": "member"
+        },
+        {
+          "text": "of",
+          "part_of_speech": "ADP",
+          "location": [129, 131],
+          "lemma": "of"
+        },
+        {
+          "text": "the",
+          "part_of_speech": "DET",
+          "location": [132, 135],
+          "lemma": "the"
+        },
+        {
+          "text": "Democratic",
+          "part_of_speech": "PROPN",
+          "location": [136, 146]
+        },
+        {
+          "text": "Party",
+          "part_of_speech": "PROPN",
+          "location": [147, 152],
+          "lemma": "Party"
+        },
+        {
+          "text": ",",
+          "part_of_speech": "PUNCT",
+          "location": [152, 153]
+        },
+        {
+          "text": "Obama",
+          "part_of_speech": "PROPN",
+          "location": [154, 159]
+        },
+        {
+          "text": "was",
+          "part_of_speech": "AUX",
+          "location": [160, 163],
+          "lemma": "be"
+        },
+        {
+          "text": "the",
+          "part_of_speech": "DET",
+          "location": [164, 167],
+          "lemma": "the"
+        },
+        {
+          "text": "first",
+          "part_of_speech": "ADJ",
+          "location": [168, 173],
+          "lemma": "first"
+        },
+        {
+          "text": "African",
+          "part_of_speech": "ADJ",
+          "location": [174, 181],
+          "lemma": "African"
+        },
+        {
+          "text": "-",
+          "part_of_speech": "PUNCT",
+          "location": [181, 182]
+        },
+        {
+          "text": "American",
+          "part_of_speech": "ADJ",
+          "location": [182, 190],
+          "lemma": "American"
+        },
+        {
+          "text": "president",
+          "part_of_speech": "NOUN",
+          "location": [191, 200],
+          "lemma": "president"
+        },
+        {
+          "text": "of",
+          "part_of_speech": "ADP",
+          "location": [201, 203],
+          "lemma": "of"
+        },
+        {
+          "text": "the",
+          "part_of_speech": "DET",
+          "location": [204, 207],
+          "lemma": "the"
+        },
+        {
+          "text": "United",
+          "part_of_speech": "PROPN",
+          "location": [208, 214]
+        },
+        {
+          "text": "States",
+          "part_of_speech": "PROPN",
+          "location": [215, 221],
+          "lemma": "State"
+        },
+        {
+          "text": ".",
+          "part_of_speech": "PUNCT",
+          "location": [221, 222]
+        },
+        {
+          "text": "He",
+          "part_of_speech": "PRON",
+          "location": [223, 225],
+          "lemma": "he"
+        },
+        {
+          "text": "previously",
+          "part_of_speech": "ADV",
+          "location": [226, 236],
+          "lemma": "previously"
+        },
+        {
+          "text": "served",
+          "part_of_speech": "VERB",
+          "location": [237, 243],
+          "lemma": "serve"
+        },
+        {
+          "text": "as",
+          "part_of_speech": "ADP",
+          "location": [244, 246],
+          "lemma": "as"
+        },
+        {
+          "text": "a",
+          "part_of_speech": "DET",
+          "location": [247, 248],
+          "lemma": "a"
+        },
+        {
+          "text": "U.S.",
+          "part_of_speech": "PROPN",
+          "location": [249, 253]
+        },
+        {
+          "text": "senator",
+          "part_of_speech": "NOUN",
+          "location": [254, 261],
+          "lemma": "senator"
+        },
+        {
+          "text": "from",
+          "part_of_speech": "ADP",
+          "location": [262, 266],
+          "lemma": "from"
+        },
+        {
+          "text": "Illinois",
+          "part_of_speech": "PROPN",
+          "location": [267, 275]
+        },
+        {
+          "text": "from",
+          "part_of_speech": "ADP",
+          "location": [276, 280],
+          "lemma": "from"
+        },
+        {
+          "text": "2005",
+          "part_of_speech": "NUM",
+          "location": [281, 285]
+        },
+        {
+          "text": "to",
+          "part_of_speech": "ADP",
+          "location": [286, 288],
+          "lemma": "to"
+        },
+        {
+          "text": "2008",
+          "part_of_speech": "NUM",
+          "location": [289, 293]
+        },
+        {
+          "text": "and",
+          "part_of_speech": "CCONJ",
+          "location": [294, 297],
+          "lemma": "and"
+        },
+        {
+          "text": "as",
+          "part_of_speech": "ADP",
+          "location": [298, 300],
+          "lemma": "as"
+        },
+        {
+          "text": "an",
+          "part_of_speech": "DET",
+          "location": [301, 303],
+          "lemma": "a"
+        },
+        {
+          "text": "Illinois",
+          "part_of_speech": "PROPN",
+          "location": [304, 312]
+        },
+        {
+          "text": "state",
+          "part_of_speech": "NOUN",
+          "location": [313, 318],
+          "lemma": "state"
+        },
+        {
+          "text": "senator",
+          "part_of_speech": "NOUN",
+          "location": [319, 326],
+          "lemma": "senator"
+        },
+        {
+          "text": "from",
+          "part_of_speech": "ADP",
+          "location": [327, 331],
+          "lemma": "from"
+        },
+        {
+          "text": "1997",
+          "part_of_speech": "NUM",
+          "location": [332, 336]
+        },
+        {
+          "text": "to",
+          "part_of_speech": "ADP",
+          "location": [337, 339],
+          "lemma": "to"
+        },
+        {
+          "text": "2004",
+          "part_of_speech": "NUM",
+          "location": [340, 344]
+        },
+        {
+          "text": ".",
+          "part_of_speech": "PUNCT",
+          "location": [344, 345]
+        }
+      ],
+      "sentences": [
+        {
+          "text": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017.",
+          "location": [0, 119]
+        },
+        {
+          "text": "A member of the Democratic Party, Obama was the first African-American president of the United States.",
+          "location": [120, 222]
+        },
+        {
+          "text": "He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+          "location": [223, 345]
+        }
+      ]
+    },
+    "language": "en"
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "word": "Barack",
+        "importance": null,
+        "tag": "Proper noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "Hussein",
+        "importance": null,
+        "tag": "Proper noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "Obama",
+        "importance": null,
+        "tag": "Proper noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "is",
+        "importance": null,
+        "tag": "Auxiliary",
+        "lemma": "be",
+        "others": {}
+      },
+      {
+        "word": "an",
+        "importance": null,
+        "tag": "Determiner",
+        "lemma": "a",
+        "others": {}
+      },
+      {
+        "word": "American",
+        "importance": null,
+        "tag": "Adjactive",
+        "lemma": "American",
+        "others": {}
+      },
+      {
+        "word": "politician",
+        "importance": null,
+        "tag": "Noun",
+        "lemma": "politician",
+        "others": {}
+      },
+      {
+        "word": "who",
+        "importance": null,
+        "tag": "Pronoun",
+        "lemma": "who",
+        "others": {}
+      },
+      {
+        "word": "served",
+        "importance": null,
+        "tag": "Verb",
+        "lemma": "serve",
+        "others": {}
+      },
+      {
+        "word": "as",
+        "importance": null,
+        "tag": "Adposition",
+        "lemma": "as",
+        "others": {}
+      },
+      {
+        "word": "the",
+        "importance": null,
+        "tag": "Determiner",
+        "lemma": "the",
+        "others": {}
+      },
+      {
+        "word": "44th",
+        "importance": null,
+        "tag": "Adjactive",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "president",
+        "importance": null,
+        "tag": "Noun",
+        "lemma": "president",
+        "others": {}
+      },
+      {
+        "word": "of",
+        "importance": null,
+        "tag": "Adposition",
+        "lemma": "of",
+        "others": {}
+      },
+      {
+        "word": "the",
+        "importance": null,
+        "tag": "Determiner",
+        "lemma": "the",
+        "others": {}
+      },
+      {
+        "word": "United",
+        "importance": null,
+        "tag": "Proper noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "States",
+        "importance": null,
+        "tag": "Proper noun",
+        "lemma": "State",
+        "others": {}
+      },
+      {
+        "word": "from",
+        "importance": null,
+        "tag": "Adposition",
+        "lemma": "from",
+        "others": {}
+      },
+      {
+        "word": "2009",
+        "importance": null,
+        "tag": "Cardinal number",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "to",
+        "importance": null,
+        "tag": "Adposition",
+        "lemma": "to",
+        "others": {}
+      },
+      {
+        "word": "2017",
+        "importance": null,
+        "tag": "Cardinal number",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": ".",
+        "importance": null,
+        "tag": "Punctuation",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "A",
+        "importance": null,
+        "tag": "Determiner",
+        "lemma": "a",
+        "others": {}
+      },
+      {
+        "word": "member",
+        "importance": null,
+        "tag": "Noun",
+        "lemma": "member",
+        "others": {}
+      },
+      {
+        "word": "of",
+        "importance": null,
+        "tag": "Adposition",
+        "lemma": "of",
+        "others": {}
+      },
+      {
+        "word": "the",
+        "importance": null,
+        "tag": "Determiner",
+        "lemma": "the",
+        "others": {}
+      },
+      {
+        "word": "Democratic",
+        "importance": null,
+        "tag": "Proper noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "Party",
+        "importance": null,
+        "tag": "Proper noun",
+        "lemma": "Party",
+        "others": {}
+      },
+      {
+        "word": ",",
+        "importance": null,
+        "tag": "Punctuation",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "Obama",
+        "importance": null,
+        "tag": "Proper noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "was",
+        "importance": null,
+        "tag": "Auxiliary",
+        "lemma": "be",
+        "others": {}
+      },
+      {
+        "word": "the",
+        "importance": null,
+        "tag": "Determiner",
+        "lemma": "the",
+        "others": {}
+      },
+      {
+        "word": "first",
+        "importance": null,
+        "tag": "Adjactive",
+        "lemma": "first",
+        "others": {}
+      },
+      {
+        "word": "African",
+        "importance": null,
+        "tag": "Adjactive",
+        "lemma": "African",
+        "others": {}
+      },
+      {
+        "word": "-",
+        "importance": null,
+        "tag": "Punctuation",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "American",
+        "importance": null,
+        "tag": "Adjactive",
+        "lemma": "American",
+        "others": {}
+      },
+      {
+        "word": "president",
+        "importance": null,
+        "tag": "Noun",
+        "lemma": "president",
+        "others": {}
+      },
+      {
+        "word": "of",
+        "importance": null,
+        "tag": "Adposition",
+        "lemma": "of",
+        "others": {}
+      },
+      {
+        "word": "the",
+        "importance": null,
+        "tag": "Determiner",
+        "lemma": "the",
+        "others": {}
+      },
+      {
+        "word": "United",
+        "importance": null,
+        "tag": "Proper noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "States",
+        "importance": null,
+        "tag": "Proper noun",
+        "lemma": "State",
+        "others": {}
+      },
+      {
+        "word": ".",
+        "importance": null,
+        "tag": "Punctuation",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "He",
+        "importance": null,
+        "tag": "Pronoun",
+        "lemma": "he",
+        "others": {}
+      },
+      {
+        "word": "previously",
+        "importance": null,
+        "tag": "Adverb",
+        "lemma": "previously",
+        "others": {}
+      },
+      {
+        "word": "served",
+        "importance": null,
+        "tag": "Verb",
+        "lemma": "serve",
+        "others": {}
+      },
+      {
+        "word": "as",
+        "importance": null,
+        "tag": "Adposition",
+        "lemma": "as",
+        "others": {}
+      },
+      {
+        "word": "a",
+        "importance": null,
+        "tag": "Determiner",
+        "lemma": "a",
+        "others": {}
+      },
+      {
+        "word": "U.S.",
+        "importance": null,
+        "tag": "Proper noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "senator",
+        "importance": null,
+        "tag": "Noun",
+        "lemma": "senator",
+        "others": {}
+      },
+      {
+        "word": "from",
+        "importance": null,
+        "tag": "Adposition",
+        "lemma": "from",
+        "others": {}
+      },
+      {
+        "word": "Illinois",
+        "importance": null,
+        "tag": "Proper noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "from",
+        "importance": null,
+        "tag": "Adposition",
+        "lemma": "from",
+        "others": {}
+      },
+      {
+        "word": "2005",
+        "importance": null,
+        "tag": "Cardinal number",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "to",
+        "importance": null,
+        "tag": "Adposition",
+        "lemma": "to",
+        "others": {}
+      },
+      {
+        "word": "2008",
+        "importance": null,
+        "tag": "Cardinal number",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "and",
+        "importance": null,
+        "tag": "Coordinating_Conjunction",
+        "lemma": "and",
+        "others": {}
+      },
+      {
+        "word": "as",
+        "importance": null,
+        "tag": "Adposition",
+        "lemma": "as",
+        "others": {}
+      },
+      {
+        "word": "an",
+        "importance": null,
+        "tag": "Determiner",
+        "lemma": "a",
+        "others": {}
+      },
+      {
+        "word": "Illinois",
+        "importance": null,
+        "tag": "Proper noun",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "state",
+        "importance": null,
+        "tag": "Noun",
+        "lemma": "state",
+        "others": {}
+      },
+      {
+        "word": "senator",
+        "importance": null,
+        "tag": "Noun",
+        "lemma": "senator",
+        "others": {}
+      },
+      {
+        "word": "from",
+        "importance": null,
+        "tag": "Adposition",
+        "lemma": "from",
+        "others": {}
+      },
+      {
+        "word": "1997",
+        "importance": null,
+        "tag": "Cardinal number",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": "to",
+        "importance": null,
+        "tag": "Adposition",
+        "lemma": "to",
+        "others": {}
+      },
+      {
+        "word": "2004",
+        "importance": null,
+        "tag": "Cardinal number",
+        "lemma": null,
+        "others": {}
+      },
+      {
+        "word": ".",
+        "importance": null,
+        "tag": "Punctuation",
+        "lemma": null,
+        "others": {}
+      }
+    ]
+  }
+}
