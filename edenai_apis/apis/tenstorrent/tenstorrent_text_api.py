@@ -18,6 +18,9 @@ from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass import (
     TopicExtractionDataClass,
 )
+from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
+
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
