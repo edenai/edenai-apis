@@ -1,0 +1,33 @@
+{
+  "original_response": {
+    "id": "chatcmpl-8O20GGzcSGTmwRzGodPa59wq31JCe",
+    "object": "chat.completion",
+    "created": 1700738264,
+    "model": "grok-beta",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"items\": [\n    {\n      \"language\": \"it\",\n      \"display_name\": \"Italian\",\n      \"confidence\": 1.0\n    }\n  ]\n}"
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 332,
+      "completion_tokens": 37,
+      "total_tokens": 369
+    },
+    "system_fingerprint": "fp_eeff13170a"
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "language": "it",
+        "display_name": "Italian",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

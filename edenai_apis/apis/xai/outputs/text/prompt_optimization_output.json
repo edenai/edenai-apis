@@ -1,0 +1,54 @@
+{
+  "original_response": {
+    "id": "chatcmpl-7flhbek0mSbK3IhWH6An7JHaM6VVp",
+    "object": "chat.completion",
+    "created": 1690189171,
+    "model": "gpt-4-0613",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "\"Given the following text and a list of entities, please extract and list all occurrences of the specified entities in the text. The entities to be extracted are [entities]. The text for entity extraction is [text].\""
+        },
+        "finish_reason": "stop"
+      },
+      {
+        "index": 1,
+        "message": {
+          "role": "assistant",
+          "content": "\"Given the following text, please identify and extract all instances of the specified entities. The entities to look for are [Entity1, Entity2, Entity3]. Here is the text: [Insert Text Here]. Please list the extracted entities in a clear and organized manner.\""
+        },
+        "finish_reason": "stop"
+      },
+      {
+        "index": 2,
+        "message": {
+          "role": "assistant",
+          "content": "\"Given the following text and a list of entities, please extract and list all instances of the provided entities within the text. The entities are [list of entities]. The text is as follows: [text]. Please format your response as a bulleted list, with each bullet representing an instance of an entity found in the text.\""
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 328,
+      "completion_tokens": 164,
+      "total_tokens": 665,
+      "missing_information_tokens": 173
+    }
+  },
+  "standardized_response": {
+    "missing_information": "What type of entities are you specifically looking to extract (names, locations, organizations, etc.)? Do you have any specific language or data format preferences for the text? Do you need this tool to handle any particular size, complexity, or other special characteristics of the texts?",
+    "items": [
+      {
+        "text": "Given the following text and a list of entities, please extract and list all occurrences of the specified entities in the text. The entities to be extracted are [entities]. The text for entity extraction is [text]."
+      },
+      {
+        "text": "Given the following text, please identify and extract all instances of the specified entities. The entities to look for are [Entity1, Entity2, Entity3]. Here is the text: [Insert Text Here]. Please list the extracted entities in a clear and organized manner."
+      },
+      {
+        "text": "Given the following text and a list of entities, please extract and list all instances of the provided entities within the text. The entities are [list of entities]. The text is as follows: [text]. Please format your response as a bulleted list, with each bullet representing an instance of an entity found in the text."
+      }
+    ]
+  }
+}

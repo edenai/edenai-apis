@@ -14,11 +14,7 @@ from edenai_apis.features.text.anonymization.subcategory import (
 )
 
 
-class ACategoryType(str):
-    pass
-
-
-class CategoryType(ACategoryType, Enum):
+class CategoryType(str, Enum):
     """This enum are used to categorize the entities extracted from the text."""
 
     PersonalInformation = "PersonalInformation"
@@ -35,7 +31,7 @@ class CategoryType(ACategoryType, Enum):
         return [category for category in cls]
 
     @classmethod
-    def list_choices(cls) -> Dict["ACategoryType", SubCategoryBase]:
+    def list_choices(cls) -> Dict[str, SubCategoryBase]:
         return {
             cls.PersonalInformation: PersonalInformationSubCategoryType,
             cls.FinancialInformation: FinancialInformationSubCategoryType,

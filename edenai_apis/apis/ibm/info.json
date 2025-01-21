@@ -1,0 +1,24 @@
+{
+  "text": {
+    "sentiment_analysis": {
+      "constraints": {
+        "languages": [
+          "ar",
+          "zh",
+          "nl",
+          "en",
+          "fr",
+          "de",
+          "it",
+          "ja",
+          "ko",
+          "pt",
+          "ru",
+          "es"
+        ],
+        "allow_null_language": true
+      },
+      "version": "v1 (2021-08-01)"
+    }
+  }
+}

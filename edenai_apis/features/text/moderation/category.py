@@ -15,11 +15,7 @@ from edenai_apis.features.text.moderation.subcategory import (
 )
 
 
-class ACategoryType(str):
-    pass
-
-
-class CategoryType(ACategoryType, Enum):
+class CategoryType(str, Enum):
     """This enum are used to categorize the explicit content extracted from the text"""
 
     Toxic = "Toxic"
@@ -37,7 +33,7 @@ class CategoryType(ACategoryType, Enum):
         return [category for category in cls]
 
     @classmethod
-    def list_choices(cls) -> Dict["ACategoryType", SubCategoryBase]:
+    def list_choices(cls) -> Dict[str, SubCategoryBase]:
         return {
             cls.Toxic: ToxicSubCategoryType,
             cls.Content: ContentSubCategoryType,

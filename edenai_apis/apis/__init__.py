@@ -8,6 +8,7 @@ from .assembly import AssemblyApi
 from .astria import AstriaApi
 from .base64 import Base64Api
 from .clarifai import ClarifaiApi
+from .clipdrop import ClipdropApi
 from .cohere import CohereApi
 from .corticalio import CorticalioApi
 from .dataleon import DataleonApi
@@ -23,8 +24,11 @@ from .faker import FakerApi
 from .gladia import GladiaApi
 from .google import GoogleApi
 from .hireability import HireabilityApi
+from .ibm import IbmApi
+from .jina import JinaApi
 from .klippa import KlippaApi
 from .linkup import LinkupApi
+from .leonardo import LeonardoApi
 from .lovoai import LovoaiApi
 from .meaningcloud import MeaningcloudApi
 from .meta import MetaApi
@@ -53,15 +57,13 @@ from .stabilityai import StabilityAIApi
 from .symbl import SymblApi
 from .tabscanner import TabscannerApi
 from .tenstorrent import TenstorrentApi
+from .twelvelabs import TwelveLabsApi
 from .vernai import VernaiApi
 from .veryfi import VeryfiApi
 from .voci import VociApi
 from .voxist import VoxistApi
 from .winstonai import WinstonaiApi
 from .writesonic import WritesonicApi
-from .jina import JinaApi
-from .twelvelabs import TwelveLabsApi
-from .clipdrop import ClipdropApi
-from .leonardo import LeonardoApi
+from .xai import XAiApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

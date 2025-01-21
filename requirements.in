@@ -5,7 +5,7 @@ pandas
 pdf2image
 pillow
 pycountry
-pydantic
+pydantic==2.7.4
 pylint
 mypy
 pydub
@@ -51,6 +51,10 @@ google-cloud-videointelligence==2.11.2
 google-cloud-automl==2.11.1
 google-cloud-aiplatform==1.35.0
 
+#ibm
+ibm-watson>=6.0.0
+watson-developer-cloud
+
 #lettria
 lettria==6.0.0
 
@@ -63,7 +67,7 @@ azure-core
 aleph_alpha_client==6.0.0
 
 # openai
-openai==1.46.0
+openai==1.55.3
 
 python-dotenv
 

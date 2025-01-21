@@ -1,0 +1,108 @@
+{
+  "text": {
+    "summarize": {
+      "constraints": {
+        "languages": [
+          "en"
+        ],
+        "allow_null_language": true,
+        "models": [
+          "grok-beta",
+          "grok-2-latest",
+          "grok-2",
+          "grok-2-1212"
+        ],
+        "default_model": "grok-beta"
+      },
+      "version": "v3.0.0"
+    },
+    "generation": {
+      "constraints": {
+        "models": [
+          "grok-beta",
+          "grok-2-latest",
+          "grok-2",
+          "grok-2-1212"
+        ],
+        "default_model": "grok-beta"
+      },
+      "version": "v1"
+    },
+    "chat": {
+      "constraints": {
+        "models": [
+          "grok-beta",
+          "grok-2-latest",
+          "grok-2",
+          "grok-2-1212",
+          "grok-vision-beta",
+          "grok-2-vision",
+          "grok-2-vision-latest"
+        ],
+        "default_model": "grok-beta"
+      },
+      "version": "v1"
+    },
+    "code_generation": {
+      "version": "v1"
+    },
+    "named_entity_recognition": {
+      "version": "v3.0.0"
+    },
+    "custom_named_entity_recognition": {
+      "version": "v3.0.0"
+    },
+    "moderation": {
+      "constraints": {
+        "languages": [
+          "en",
+          "fr"
+        ],
+        "allow_null_language": true
+      },
+      "version": "v3.0.0"
+    },
+    "custom_classification": {
+      "version": "v3.0.0"
+    },
+    "prompt_optimization": {
+      "version": "v3.0.0"
+    }
+  },
+  "image": {
+    "question_answer": {
+      "constraints": {
+        "models": [
+          "grok-vision-beta",
+          "grok-2-vision",
+          "grok-2-vision-latest"
+        ],
+        "default_model": "grok-vision-beta"
+      },
+      "version": "v1"
+    },
+    "logo_detection": {
+      "version": "v1"
+    },
+    "explicit_content": {
+      "version": "v1"
+    }
+  },
+  "multimodal": {
+    "chat": {
+      "constraints": {
+        "models": [
+          "grok-beta",
+          "grok-2-latest",
+          "grok-2",
+          "grok-2-1212",
+          "grok-vision-beta",
+          "grok-2-vision",
+          "grok-2-vision-latest"
+        ],
+        "default_model": "grok-beta"
+      },
+      "version": "v1"
+    }
+  }
+}

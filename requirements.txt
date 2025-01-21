@@ -38,16 +38,15 @@ astroid==3.1.0
 attrs==23.2.0
     # via
     #   aiohttp
-    #   automat
     #   jsonlines
     #   jsonschema
     #   referencing
     #   sagemaker
     #   service-identity
     #   twisted
-autobahn==23.6.2
+autobahn==24.4.2
     # via watson-developer-cloud
-automat==22.10.0
+automat==24.8.1
     # via twisted
 azure-ai-formrecognizer==3.3.0
     # via -r requirements.in
@@ -246,6 +245,10 @@ hyperlink==21.0.0
     # via
     #   autobahn
     #   twisted
+ibm-cloud-sdk-core==3.22.1
+    # via ibm-watson
+ibm-watson==9.0.0
+    # via -r requirements.in
 idna==3.6
     # via
     #   anyio
@@ -259,7 +262,7 @@ importlib-metadata==6.11.0
     # via sagemaker
 importlib-resources==6.4.0
     # via python-liquid
-incremental==22.10.0
+incremental==24.7.2
     # via twisted
 iniconfig==2.0.0
     # via pytest
@@ -324,7 +327,7 @@ numpy==1.26.4
     #   shapely
 oauthlib==3.2.2
     # via requests-oauthlib
-openai==1.46.0
+openai==1.55.3
     # via -r requirements.in
 packaging==24.0
     # via
@@ -414,12 +417,12 @@ pycountry==23.12.11
     # via -r requirements.in
 pycparser==2.22
     # via cffi
-pydantic==2.6.4
+pydantic==2.7.4
     # via
     #   -r requirements.in
     #   anthropic-bedrock
     #   openai
-pydantic-core==2.16.3
+pydantic-core==2.18.4
     # via pydantic
 pydub==0.25.1
     # via -r requirements.in
@@ -430,7 +433,6 @@ pygments==2.17.2
 pyjwt[crypto]==2.8.0
     # via
     #   ibm-cloud-sdk-core
-    #   modernmt
     #   msal
 pylint==3.1.0
     # via -r requirements.in
@@ -438,7 +440,7 @@ pymupdf==1.24.8
     # via -r requirements.in
 pymupdfb==1.24.8
     # via pymupdf
-pyopenssl==24.1.0
+pyopenssl==25.0.0
     # via watson-developer-cloud
 pyparsing==3.1.2
     # via httplib2
@@ -499,7 +501,6 @@ requests==2.31.0
     #   ibm-cloud-sdk-core
     #   ibm-watson
     #   lettria
-    #   modernmt
     #   msal
     #   msrest
     #   requests-oauthlib
@@ -523,13 +524,12 @@ sagemaker==2.214.3
     # via -r requirements.in
 schema==0.7.5
     # via sagemaker
-service-identity==24.1.0
+service-identity==24.2.0
     # via watson-developer-cloud
 shapely==2.0.3
     # via google-cloud-aiplatform
 six==1.16.0
     # via
-    #   automat
     #   azure-core
     #   google-pasta
     #   isodate
@@ -579,7 +579,7 @@ tqdm==4.66.2
     #   huggingface-hub
     #   openai
     #   sagemaker
-twisted==24.3.0
+twisted==24.11.0
     # via watson-developer-cloud
 txaio==23.1.1
     # via autobahn
@@ -594,6 +594,7 @@ typing-extensions==4.11.0
     #   openai
     #   pydantic
     #   pydantic-core
+    #   pyopenssl
     #   python-liquid
     #   twisted
 tzdata==2024.1
@@ -611,13 +612,13 @@ urllib3==2.2.1
     #   sagemaker
 watson-developer-cloud==2.0.0
     # via -r requirements.in
-websocket-client==1.7.0
+websocket-client==1.8.0
     # via ibm-watson
 yarl==1.9.4
     # via aiohttp
 zipp==3.18.1
     # via importlib-metadata
-zope-interface==6.2
+zope-interface==7.2
     # via twisted
 
 # The following packages are considered to be unsafe in a requirements file:
