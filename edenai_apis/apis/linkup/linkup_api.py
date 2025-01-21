@@ -7,6 +7,8 @@ from edenai_apis.apis.linkup.linkup_source import LinkupSource
 
 
 class LinkupApi(ProviderInterface, LinkupSearch, LinkupSource):
+
+
     provider_name = "linkup"
 
     def __init__(self, api_keys: Dict = {}):

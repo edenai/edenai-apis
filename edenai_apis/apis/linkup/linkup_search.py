@@ -2,6 +2,7 @@ from edenai_apis.utils.exception import ProviderException
 from linkup import LinkupClient
 from typing import Optional, List
 
+
 class LinkupSearch:
     
     
@@ -17,7 +18,6 @@ class LinkupSearch:
         similarity_metric: str= "cosine"
     ):
         try:
-
             payload = {
                 "query": query,
                 "depth": depth,
