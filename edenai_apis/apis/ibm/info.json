@@ -19,39 +19,39 @@
         "allow_null_language": true
       },
       "version": "v1 (2021-08-01)"
-    }
-  },
-  "syntax_analysis": {
-    "constraints": {
-      "languages": [
-        "ar",
-        "zh",
-        "cs",
-        "da",
-        "nl",
-        "en",
-        "fi",
-        "fr",
-        "de",
-        "he",
-        "hi",
-        "it",
-        "ja",
-        "ko",
-        "no",
-        "no",
-        "no",
-        "pl",
-        "pt",
-        "ro",
-        "ru",
-        "sk",
-        "es",
-        "sv",
-        "tr"
-      ],
-      "allow_null_language": true
     },
-    "version": "v1 (2021-08-01)"
+    "syntax_analysis": {
+      "constraints": {
+        "languages": [
+          "ar",
+          "zh",
+          "cs",
+          "da",
+          "nl",
+          "en",
+          "fi",
+          "fr",
+          "de",
+          "he",
+          "hi",
+          "it",
+          "ja",
+          "ko",
+          "no",
+          "no",
+          "no",
+          "pl",
+          "pt",
+          "ro",
+          "ru",
+          "sk",
+          "es",
+          "sv",
+          "tr"
+        ],
+        "allow_null_language": true
+      },
+      "version": "v1 (2021-08-01)"
+    }
   }
 }
