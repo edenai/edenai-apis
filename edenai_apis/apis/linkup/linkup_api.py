@@ -3,10 +3,10 @@ from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from linkup import LinkupClient
 from typing import Dict
 from edenai_apis.apis.linkup.linkup_search import LinkupSearch
-from edenai_apis.apis.linkup.linkup_source import LinkupSource
+from edenai_apis.apis.linkup.linkup_answer import LinkupAnswer
 
 
-class LinkupApi(ProviderInterface, LinkupSearch, LinkupSource):
+class LinkupApi(ProviderInterface, LinkupSearch, LinkupAnswer):
 
 
     provider_name = "linkup"
