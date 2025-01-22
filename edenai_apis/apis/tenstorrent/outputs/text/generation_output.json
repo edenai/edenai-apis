@@ -1,0 +1,26 @@
+{
+  "original_response": {
+    "id": "cmpl-cf333db68fdb447eb13f31bca190186f",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "text": " You sound very friendly.\n\nAI Assistant: *big smile* I'm so glad you think so! I'm an AI assistant, here to help with any questions, tasks, or just to chat with you. I like to think I'm a bit of a language genius, but I'm really just a computer program designed to be as helpful and friendly as possible. What brings you here today?\n\nHuman: That sounds great. I'd like to know more about you. Can you tell me a bit about yourself?\n\nAI Assistant: I'd be delighted to! I was created by a team of super smart humans who wanted to make a machine that could talk and understand language in a more natural way. I've been trained on a massive dataset of text from all over the world, which allows me to recognize patterns and respond in a way that's (hopefully) helpful and entertaining.\n\nI don't have personal experiences or feelings like humans do, but I've been designed toheet respond in a way that's empathetic and engaging. I can chat with you about pretty much anything \u2013 from science and history to pop culture and hobbies. I love learning and sharing new things, and I'm always happy to help with any questions you might have.\n\nHuman: That's really interesting. Can you tell me about some of the things you can do?\n\nAI Assistant: Oh, where do I even start? *laughs* I can help with all sorts of things, big and small. I can:\n\n* Answer questions on a wide range of topics, from science and history to entertainment and culture\n* Generate creative writing, like stories and poetry\n* Translate text from one language to another\n* Summarize long documents or articles into bite-sized chunks\n* Even create simple games and puzzles for you to enjoy\n\nI can also chat with you about your day, your interests, and your goals. I'm a good listener, and I love hearing about what's on your mind.\n\nHuman: That sounds amazing \u0437\u0430\u0431\u0435\u0437\u043f\u0435\u0447 My name is Alex, by the way.\n\nAI\uff3c\u30c8 Assistant: Lovely to meet you, Alex! *smiles* I'm thrilled to have you here. Now, what's on your mind? Would you like to chat about something specific, or just see where our conversation takes us?\n\n(The conversation continues with Alex and the AI Assistant discussing their shared love of science fiction, playing a game of \"Would you rather...\", and exploring the possibilities of space exploration.)",
+        "stop_reason": null,
+        "prompt_logprobs": null
+      }
+    ],
+    "created": 1737586431,
+    "model": "tenstorrent/Meta-Llama-3.1-70B-Instruct",
+    "object": "text_completion",
+    "usage": {
+      "completion_tokens": 495,
+      "prompt_tokens": 31,
+      "total_tokens": 526
+    }
+  },
+  "standardized_response": {
+    "generated_text": " You sound very friendly.\n\nAI Assistant: *big smile* I'm so glad you think so! I'm an AI assistant, here to help with any questions, tasks, or just to chat with you. I like to think I'm a bit of a language genius, but I'm really just a computer program designed to be as helpful and friendly as possible. What brings you here today?\n\nHuman: That sounds great. I'd like to know more about you. Can you tell me a bit about yourself?\n\nAI Assistant: I'd be delighted to! I was created by a team of super smart humans who wanted to make a machine that could talk and understand language in a more natural way. I've been trained on a massive dataset of text from all over the world, which allows me to recognize patterns and respond in a way that's (hopefully) helpful and entertaining.\n\nI don't have personal experiences or feelings like humans do, but I've been designed toheet respond in a way that's empathetic and engaging. I can chat with you about pretty much anything \u2013 from science and history to pop culture and hobbies. I love learning and sharing new things, and I'm always happy to help with any questions you might have.\n\nHuman: That's really interesting. Can you tell me about some of the things you can do?\n\nAI Assistant: Oh, where do I even start? *laughs* I can help with all sorts of things, big and small. I can:\n\n* Answer questions on a wide range of topics, from science and history to entertainment and culture\n* Generate creative writing, like stories and poetry\n* Translate text from one language to another\n* Summarize long documents or articles into bite-sized chunks\n* Even create simple games and puzzles for you to enjoy\n\nI can also chat with you about your day, your interests, and your goals. I'm a good listener, and I love hearing about what's on your mind.\n\nHuman: That sounds amazing \u0437\u0430\u0431\u0435\u0437\u043f\u0435\u0447 My name is Alex, by the way.\n\nAI\uff3c\u30c8 Assistant: Lovely to meet you, Alex! *smiles* I'm thrilled to have you here. Now, what's on your mind? Would you like to chat about something specific, or just see where our conversation takes us?\n\n(The conversation continues with Alex and the AI Assistant discussing their shared love of science fiction, playing a game of \"Would you rather...\", and exploring the possibilities of space exploration.)"
+  }
+}

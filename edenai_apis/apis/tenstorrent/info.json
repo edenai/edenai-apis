@@ -35,6 +35,9 @@
         },
         "chat": {
             "version": "v1.0.0"
+        },
+        "generation": {
+            "version": "v1.0.0"
         }
     }
 }

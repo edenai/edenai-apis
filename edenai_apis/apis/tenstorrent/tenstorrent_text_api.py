@@ -23,6 +23,7 @@ from edenai_apis.features.text.chat.chat_dataclass import (
     StreamChat,
     ChatStreamResponse,
 )
+from edenai_apis.features.text.generation import GenerationDataClass
 from openai import OpenAI
 
 class TenstorrentTextApi(TextInterface):
@@ -257,6 +258,40 @@ class TenstorrentTextApi(TextInterface):
             return ResponseType[StreamChat](
                 original_response=None, standardized_response=StreamChat(stream=stream)
             )
+        
+    def text__generation(
+        self,
+        text: str,
+        temperature: float,
+        max_tokens: int,
+        model: str,
+    ) -> ResponseType[GenerationDataClass]:
+        payload = {
+            "model": model,
+            "prompt": text,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+        }
+
+        base_url = "https://vllm-tt-dev-8d232b47.workload.tenstorrent.com/v1"
+        client = OpenAI(base_url=base_url)
+
+        try:
+            response = client.completions.create(**payload)
+        except Exception as exc:
+            raise ProviderException(str(exc))
+
+        # Standardize the response
+        generated_text = response.choices[0].text
+
+        standardized_response = GenerationDataClass(
+            generated_text=generated_text,
+        )
+
+        return ResponseType[GenerationDataClass](
+            original_response=response.to_dict(),
+            standardized_response=standardized_response,
+        )
 
     def __check_for_errors(self, response, status_code = None):
         if "message" in response:
