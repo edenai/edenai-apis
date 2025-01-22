@@ -33,7 +33,6 @@ from openai import OpenAI
 
 
 class TenstorrentTextApi(TextInterface):
-    
     def text__keyword_extraction(
         self, language: str, text: str
     ) -> ResponseType[KeywordExtractionDataClass]:
@@ -113,7 +112,6 @@ class TenstorrentTextApi(TextInterface):
         }
         try:
             original_response = requests.post(url, json=payload, headers=self.headers)
-            original_response.raise_for_status()
         except requests.exceptions.RequestException as exc:
             raise ProviderException(message=str(exc), code=500)
         if original_response.status_code != 200:
@@ -143,7 +141,6 @@ class TenstorrentTextApi(TextInterface):
         }
         try:
             original_response = requests.post(url, json=payload, headers=self.headers)
-            original_response.raise_for_status()
         except requests.exceptions.RequestException as exc:
             raise ProviderException(message=str(exc), code=500)
         if original_response.status_code != 200:
@@ -173,7 +170,6 @@ class TenstorrentTextApi(TextInterface):
         }
         try:
             original_response = requests.post(url, json=payload, headers=self.headers)
-            original_response.raise_for_status()
         except requests.exceptions.RequestException as exc:
             raise ProviderException(message=str(exc), code=500)
         if original_response.status_code != 200:
@@ -184,7 +180,6 @@ class TenstorrentTextApi(TextInterface):
 
         # Check for errors
         self.__check_for_errors(original_response, status_code)
-        self.check_for_errors(original_response)
 
         standardized_response = TopicExtractionDataClass(
             items=original_response["items"]
