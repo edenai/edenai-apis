@@ -4,11 +4,14 @@ from typing import Dict, List, Literal, Optional, Sequence, Union
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
     KeywordExtractionDataClass,
 )
-from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
-    SentimentAnalysisDataClass,
+from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
+    NamedEntityRecognitionDataClass,
 )
 from edenai_apis.features.text.question_answer.question_answer_dataclass import (
     QuestionAnswerDataClass,
+)
+from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
+    SentimentAnalysisDataClass,
 )
 from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass import (
     TopicExtractionDataClass,
@@ -44,15 +47,16 @@ class TenstorrentTextApi(TextInterface):
         }
         try:
             original_response = requests.post(url, json=payload, headers=self.headers)
-            original_response.raise_for_status()
-        except Exception as exc:
-            raise ProviderException(original_response.text)
+        except requests.exceptions.RequestException as exc:
+            raise ProviderException(message=str(exc), code=500)
+        if original_response.status_code != 200:
+            raise ProviderException(message=original_response.text, code=original_response.status_code)
 
+        status_code = original_response.status_code
         original_response = original_response.json()
 
         # Check for errors
-        self.check_for_errors(original_response)
-
+        self.__check_for_errors(original_response, status_code)
         standardized_response = KeywordExtractionDataClass(
             items=original_response["items"]
         )
@@ -71,14 +75,16 @@ class TenstorrentTextApi(TextInterface):
         }
         try:
             original_response = requests.post(url, json=payload, headers=self.headers)
-            original_response.raise_for_status()
-        except Exception as exc:
-            raise ProviderException(original_response.text)
+        except requests.exceptions.RequestException as exc:
+            raise ProviderException(message=str(exc), code=500)
+        if original_response.status_code != 200:
+            raise ProviderException(message=original_response.text, code=original_response.status_code)
 
+        status_code = original_response.status_code
         original_response = original_response.json()
 
         # Check for errors
-        self.check_for_errors(original_response)
+        self.__check_for_errors(original_response, status_code)
 
         # Create output response
         confidence = float(original_response["confidence"])
@@ -111,14 +117,17 @@ class TenstorrentTextApi(TextInterface):
         try:
             original_response = requests.post(url, json=payload, headers=self.headers)
             original_response.raise_for_status()
-        except Exception as exc:
-            raise ProviderException(original_response.text)
+        except requests.exceptions.RequestException as exc:
+            raise ProviderException(message=str(exc), code=500)
+        if original_response.status_code != 200:
+            raise ProviderException(message=original_response.text, code=original_response.status_code)
 
+        status_code = original_response.status_code
         original_response = original_response.json()
 
         # Check for errors
-        self.check_for_errors(original_response)
-
+        self.__check_for_errors(original_response, status_code)
+        
         standardized_response = QuestionAnswerDataClass(
             answers=[original_response["answer"]]
         )
@@ -128,7 +137,7 @@ class TenstorrentTextApi(TextInterface):
         )
 
     def text__named_entity_recognition(
-        self, text: str
+        self, text: str, language : str
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         base_url = "https://named-entity-recognition--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/named_entity_recognition"
@@ -138,13 +147,16 @@ class TenstorrentTextApi(TextInterface):
         try:
             original_response = requests.post(url, json=payload, headers=self.headers)
             original_response.raise_for_status()
-        except Exception as exc:
-            raise ProviderException(original_response.text)
+        except requests.exceptions.RequestException as exc:
+            raise ProviderException(message=str(exc), code=500)
+        if original_response.status_code != 200:
+            raise ProviderException(message=original_response.text, code=original_response.status_code)
 
+        status_code = original_response.status_code
         original_response = original_response.json()
 
         # Check for errors
-        self.check_for_errors(original_response)
+        self.__check_for_errors(original_response, status_code)
 
         standardized_response = NamedEntityRecognitionDataClass(
             items=original_response["items"]
@@ -155,7 +167,7 @@ class TenstorrentTextApi(TextInterface):
         )
 
     def text__topic_extraction(
-        self, text: str
+        self, text: str, language : str
     ) -> ResponseType[TopicExtractionDataClass]:
         base_url = "https://topic-extraction--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/topic_extraction"
@@ -165,12 +177,16 @@ class TenstorrentTextApi(TextInterface):
         try:
             original_response = requests.post(url, json=payload, headers=self.headers)
             original_response.raise_for_status()
-        except Exception as exc:
-            raise ProviderException(original_response.text)
+        except requests.exceptions.RequestException as exc:
+            raise ProviderException(message=str(exc), code=500)
+        if original_response.status_code != 200:
+            raise ProviderException(message=original_response.text, code=original_response.status_code)
 
+        status_code = original_response.status_code
         original_response = original_response.json()
 
         # Check for errors
+        self.__check_for_errors(original_response, status_code)
         self.check_for_errors(original_response)
 
         standardized_response = TopicExtractionDataClass(
@@ -258,7 +274,8 @@ class TenstorrentTextApi(TextInterface):
                 original_response=None, standardized_response=StreamChat(stream=stream)
             )
 
-    def check_for_errors(self, response):
+    def __check_for_errors(self, response, status_code = None):
         if "message" in response:
-            raise ProviderException(response["message"])
+            raise ProviderException(response["message"], code= status_code)
+        
         
