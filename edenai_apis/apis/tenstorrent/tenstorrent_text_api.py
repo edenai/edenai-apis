@@ -190,59 +190,18 @@ class TenstorrentTextApi(TextInterface):
         max_tokens: int,
         model: str,
         stream=False,
-        # available_tools: Optional[List[dict]] = None,
-        # tool_choice: Literal["auto", "required", "none"] = "auto",
-        # tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-        previous_history = previous_history or []
-        # self.check_content_moderation(
-        #     text=text,
-        #     chatbot_global_action=chatbot_global_action,
-        #     previous_history=previous_history,
-        # )
-        # is_o1_model = "o1-" in model
         messages = []
         for msg in previous_history:
             message = {
                 "role": msg.get("role"),
                 "content": msg.get("message"),
             }
-            # if msg.get("tool_calls"):
-            #     message["tool_calls"] = [
-            #         {
-            #             "id": tool["id"],
-            #             "type": "function",
-            #             "function": {
-            #                 "name": tool["name"],
-            #                 "arguments": tool["arguments"],
-            #             },
-            #         }
-            #         for tool in msg["tool_calls"]
-            #     ]
             messages.append(message)
 
-        # if text and not tool_results:
         if text:    
             messages.append({"role": "user", "content": text})
 
-        # if tool_results:
-        #     for tool in tool_results or []:
-        #         tool_call = get_tool_call_from_history_by_id(
-        #             tool["id"], previous_history
-        #         )
-        #         try:
-        #             result = json.dumps(tool["result"])
-        #         except json.JSONDecodeError:
-        #             result = str(result)
-        #         messages.append(
-        #             {
-        #                 "role": "tool",
-        #                 "content": result,
-        #                 "tool_call_id": tool_call["id"],
-        #             }
-        #         )
-
-        # if chatbot_global_action and not is_o1_model:
         if chatbot_global_action:
             messages.insert(0, {"role": "system", "content": chatbot_global_action})
         payload = {
@@ -254,10 +213,6 @@ class TenstorrentTextApi(TextInterface):
         }
         print(payload)
 
-
-        # if available_tools and not tool_results:
-        #     payload["tools"] = convert_tools_to_openai(available_tools)
-        #     payload["tool_choice"] = tool_choice
         base_url = "https://vllm-tt-dev-8d232b47.workload.tenstorrent.com/v1"
         client = OpenAI(base_url=base_url)
 
@@ -270,23 +225,11 @@ class TenstorrentTextApi(TextInterface):
         if stream is False:
             message = response.choices[0].message
             generated_text = message.content
-            # original_tool_calls = message.tool_calls or []
-            # tool_calls = []
-            # for call in original_tool_calls:
-            #     tool_calls.append(
-            #         ToolCall(
-            #             id=call["id"],
-            #             name=call["function"]["name"],
-            #             arguments=call["function"]["arguments"],
-            #         )
-            #     )
             messages = [
-                # ChatMessageDataClass(role="user", message=text, tools=available_tools),
                 ChatMessageDataClass(role="user", message=text),
                 ChatMessageDataClass(
                     role="assistant",
                     message=generated_text,
-                    # tool_calls=tool_calls,
                 ),
             ]
             messages_json = [m.dict() for m in messages]
