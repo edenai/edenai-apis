@@ -16,9 +16,7 @@ from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass i
 from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass import (
     TopicExtractionDataClass,
 )
-from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
-    NamedEntityRecognitionDataClass,
-)
+
 from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
@@ -29,7 +27,6 @@ from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
 from edenai_apis.features.text.chat.chat_dataclass import (
     StreamChat,
     ChatStreamResponse,
-    ToolCall,
 )
 
 from openai import OpenAI
