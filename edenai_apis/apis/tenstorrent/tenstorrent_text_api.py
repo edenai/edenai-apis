@@ -1,6 +1,5 @@
 import requests
 from typing import Dict, List, Literal, Optional, Sequence, Union
-
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
     KeywordExtractionDataClass,
 )
@@ -16,21 +15,15 @@ from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass i
 from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass import (
     TopicExtractionDataClass,
 )
-
 from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-
 from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
-
-
 from edenai_apis.features.text.chat.chat_dataclass import (
     StreamChat,
     ChatStreamResponse,
 )
-
 from openai import OpenAI
-
 
 class TenstorrentTextApi(TextInterface):
     def text__keyword_extraction(
@@ -122,7 +115,6 @@ class TenstorrentTextApi(TextInterface):
 
         # Check for errors
         self.__check_for_errors(original_response, status_code)
-        
         standardized_response = QuestionAnswerDataClass(
             answers=[original_response["answer"]]
         )

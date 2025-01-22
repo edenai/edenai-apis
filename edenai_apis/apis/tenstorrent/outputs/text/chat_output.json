@@ -1,31 +1,31 @@
 {
   "original_response": {
-    "id": "chat-7366c5cd9ce7436eac1b9b7a06b91aa5",
+    "id": "chat-5516f2f29eb540c1b35b27abefae5a92",
     "choices": [
       {
         "finish_reason": "stop",
         "index": 0,
         "logprobs": null,
         "message": {
-          "content": "barack obama, united states, democratic party, illinois, president",
+          "content": "barack obama, united states, democratic party, illinois",
           "role": "assistant",
           "tool_calls": []
         },
         "stop_reason": null
       }
     ],
-    "created": 1737579967,
+    "created": 1737582759,
     "model": "tenstorrent/Meta-Llama-3.1-70B-Instruct",
     "object": "chat.completion",
     "usage": {
-      "completion_tokens": 16,
+      "completion_tokens": 14,
       "prompt_tokens": 248,
-      "total_tokens": 264
+      "total_tokens": 262
     },
     "prompt_logprobs": null
   },
   "standardized_response": {
-    "generated_text": "barack obama, united states, democratic party, illinois, president",
+    "generated_text": "barack obama, united states, democratic party, illinois",
     "message": [
       {
         "role": "user",
@@ -35,7 +35,7 @@
       },
       {
         "role": "assistant",
-        "message": "barack obama, united states, democratic party, illinois, president",
+        "message": "barack obama, united states, democratic party, illinois",
         "tools": null,
         "tool_calls": null
       }
