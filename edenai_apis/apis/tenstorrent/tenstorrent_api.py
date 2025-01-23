@@ -23,7 +23,7 @@ class TenstorrentApi(
             "content-type": "application/json",
             "Tenstorrent-Version": "2023-06-26",
         }
-        self.vllm_url = "https://vllm-tt-dev-49305ac9.workload.tenstorrent.com/v1"
+        self.chatgen_url = "https://vllm-tt-dev-49305ac9.workload.tenstorrent.com/v1"
         self.client = OpenAI(
-            api_key=self.api_key, base_url=self.vllm_url
+            api_key=self.api_key, base_url=self.chatgen_url
         )
