@@ -4,7 +4,7 @@ from edenai_apis.apis.tenstorrent.tenstorrent_text_api import TenstorrentTextApi
 from edenai_apis.features import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-
+from openai import OpenAI
 
 class TenstorrentApi(
     ProviderInterface,
@@ -23,3 +23,7 @@ class TenstorrentApi(
             "content-type": "application/json",
             "Tenstorrent-Version": "2023-06-26",
         }
+        self.vllm_url = "https://vllm-tt-dev-49305ac9.workload.tenstorrent.com/v1"
+        self.client = OpenAI(
+            api_key=self.api_key, base_url=self.vllm_url
+        )
