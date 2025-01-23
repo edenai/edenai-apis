@@ -245,8 +245,7 @@ class TenstorrentTextApi(TextInterface):
             stream = (
                 ChatStreamResponse(
                     text=chunk.to_dict()["choices"][0]["delta"].get("content", ""),
-                    blocked=not chunk.to_dict()["choices"][0].get("finish_reason")
-                    in (None, "stop"),
+                    blocked=not chunk.to_dict()["choices"][0].get("finish_reason") in (None, "stop"),
                     provider="tenstorrent",
                 )
                 for chunk in response
@@ -270,8 +269,6 @@ class TenstorrentTextApi(TextInterface):
             "temperature": temperature,
             "max_tokens": max_tokens,
         }
-
-        base_url = "https://vllm-tt-dev-49305ac9.workload.tenstorrent.com/v1"
 
         try:
             response = self.client.completions.create(**payload)
