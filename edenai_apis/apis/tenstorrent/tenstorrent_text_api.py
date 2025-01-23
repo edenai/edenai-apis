@@ -214,7 +214,7 @@ class TenstorrentTextApi(TextInterface):
         }
         print(payload)
 
-        base_url = "https://vllm-tt-dev-8d232b47.workload.tenstorrent.com/v1"
+        base_url = "https://vllm-tt-dev-49305ac9.workload.tenstorrent.com/v1"
         client = OpenAI(base_url=base_url)
 
         try:
@@ -273,7 +273,7 @@ class TenstorrentTextApi(TextInterface):
             "max_tokens": max_tokens,
         }
 
-        base_url = "https://vllm-tt-dev-8d232b47.workload.tenstorrent.com/v1"
+        base_url = "https://vllm-tt-dev-49305ac9.workload.tenstorrent.com/v1"
         client = OpenAI(base_url=base_url)
 
         try:
