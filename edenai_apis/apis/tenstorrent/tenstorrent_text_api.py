@@ -1,5 +1,5 @@
 import requests
-from typing import Dict, List, Literal, Optional, Sequence, Union
+from typing import Dict, List, Optional, Union
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
     KeywordExtractionDataClass,
 )
@@ -205,6 +205,7 @@ class TenstorrentTextApi(TextInterface):
 
         if chatbot_global_action:
             messages.insert(0, {"role": "system", "content": chatbot_global_action})
+        
         payload = {
             "model": model,
             "temperature": temperature,
@@ -212,10 +213,9 @@ class TenstorrentTextApi(TextInterface):
             "max_tokens": max_tokens,
             "stream": stream,
         }
-        print(payload)
 
         base_url = "https://vllm-tt-dev-49305ac9.workload.tenstorrent.com/v1"
-        client = OpenAI(base_url=base_url)
+        client = OpenAI(base_url=base_url,api_key=self.api_key)
 
         try:
             response = client.chat.completions.create(**payload)
@@ -274,7 +274,7 @@ class TenstorrentTextApi(TextInterface):
         }
 
         base_url = "https://vllm-tt-dev-49305ac9.workload.tenstorrent.com/v1"
-        client = OpenAI(base_url=base_url)
+        client = OpenAI(base_url=base_url, api_key=self.api_key)
 
         try:
             response = client.completions.create(**payload)
