@@ -213,6 +213,7 @@ class LiteLLMCompletionClient(CompletionClient):
     def embedding(
         self,
         input=[],
+        model: Optional[str] = None,
         # Optional params
         dimensions: Optional[int] = None,
         timeout=600,  # default to 10 minutes
@@ -244,6 +245,8 @@ class LiteLLMCompletionClient(CompletionClient):
         if input is None or len(input) == 0:
             raise CompletionClientError("Input is required for embedding")
         call_params["input"] = input if isinstance(input, list) else [input]
+        if model is not None:
+            self.model_name = model
         call_params["model"] = self.model_name
         call_params["timeout"] = timeout
         if dimensions is not None:

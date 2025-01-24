@@ -32,7 +32,6 @@ def llm_engine_instance_wo_oai_model():
 def mocked_completion_params():
     params = {
         "client_name": "litellm",
-        "application_name": "test_application",
         "model": "gpt-4o-mini",
         "messages": [{"role":"user", "content":"Hello"}],
         "temperature": 0.2,
@@ -42,5 +41,17 @@ def mocked_completion_params():
         "stop_sequences": ["\n\n"],
         "api_key": "Somerandomapikey",
         "mock_response": "Hey, this is the testing machine"
+    }
+    return params
+
+
+@pytest.fixture
+def mocked_embedding_params():
+    params = {
+        "client_name": "litellm",
+        "model": "text-embedding-ada-002",
+        "input": ["Embed this"],
+        "api_key": "Somerandomapikey",
+        "mock_response": [0, 0.2, 0.3, 0.4, 0.5]
     }
     return params

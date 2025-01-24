@@ -20,4 +20,11 @@ class TestLLMEngine:
         assert response.choices is not None
         assert response.choices[0].finish_reason == "stop"
         assert response.choices[0].message.content is not None
+
+
+    def test_llm_engine_embedding_call(self, llm_engine_instance_wo_oai_model, mocked_embedding_params):
+        llm_engine = LLMEngine(**llm_engine_instance_wo_oai_model)
+        response = llm_engine.embedding(**mocked_embedding_params)
+        print(response)
+        assert response is not None
         
