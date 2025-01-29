@@ -140,7 +140,7 @@ class DeepseekApi(ProviderInterface, TextInterface):
                     text=chunk.to_dict()["choices"][0]["delta"].get("content", ""),
                     blocked=not chunk.to_dict()["choices"][0].get("finish_reason")
                     in (None, "stop"),
-                    provider="openai",
+                    provider="deepseek",
                 )
                 for chunk in response
                 if chunk
