@@ -1,13 +1,8 @@
-import itertools
 import json
-import asyncio
 import os
 from time import sleep
 from typing import Dict, List, Literal, Optional, Sequence, Union
 from edenai_apis.features.text.chat.helpers import get_tool_call_from_history_by_id
-
-from openai import OpenAI
-
 import requests
 from pydantic_core._pydantic_core import ValidationError
 
@@ -35,9 +30,6 @@ from edenai_apis.features.text.custom_named_entity_recognition import (
 from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
 from edenai_apis.features.text.generation import GenerationDataClass
 from edenai_apis.features.text.keyword_extraction import KeywordExtractionDataClass
-from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
-    InfosKeywordExtractionDataClass,
-)
 from edenai_apis.features.text.moderation import ModerationDataClass, TextModerationItem
 from edenai_apis.features.text.moderation.category import (
     CategoryType as CategoryTypeModeration,
@@ -54,14 +46,11 @@ from edenai_apis.features.text.search import InfosSearchDataClass, SearchDataCla
 from edenai_apis.features.text.sentiment_analysis import SentimentAnalysisDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
-    SpellCheckItem,
-    SuggestionItem,
 )
 from edenai_apis.features.text.summarize import SummarizeDataClass
 from edenai_apis.features.text.topic_extraction import TopicExtractionDataClass
 from edenai_apis.utils.conversion import (
     closest_above_value,
-    construct_word_list,
     find_all_occurrence,
     standardized_confidence_score,
 )
@@ -70,17 +59,7 @@ from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
 from .helpers import (
     construct_anonymization_context,
-    construct_classification_instruction,
-    construct_custom_ner_instruction,
-    construct_keyword_extraction_context,
-    construct_ner_instruction,
     construct_prompt_optimization_instruction,
-    construct_sentiment_analysis_context,
-    construct_spell_check_instruction,
-    construct_topic_extraction_context,
-    convert_tool_results_to_openai_tool_calls,
-    convert_tools_to_openai,
-    finish_unterminated_json,
     get_openapi_response,
     prompt_optimization_missing_information,
 )
@@ -626,119 +605,23 @@ class OpenaiTextApi(TextInterface):
         tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         previous_history = previous_history or []
-        self.check_content_moderation(
+        # self.check_content_moderation(
+        #     text=text,
+        #     chatbot_global_action=chatbot_global_action,
+        #     previous_history=previous_history,
+        # )
+
+        response = self.llm_client.chat(
             text=text,
-            chatbot_global_action=chatbot_global_action,
             previous_history=previous_history,
+            chatbot_global_action=chatbot_global_action,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
+            tool_choice=tool_choice,
+            tool_results=tool_results,
         )
-        is_o1_model = "o1-" in model
-        messages = []
-        for msg in previous_history:
-            message = {
-                "role": msg.get("role"),
-                "content": msg.get("message"),
-            }
-            if msg.get("tool_calls"):
-                message["tool_calls"] = [
-                    {
-                        "id": tool["id"],
-                        "type": "function",
-                        "function": {
-                            "name": tool["name"],
-                            "arguments": tool["arguments"],
-                        },
-                    }
-                    for tool in msg["tool_calls"]
-                ]
-            messages.append(message)
-
-        if text and not tool_results:
-            messages.append({"role": "user", "content": text})
-
-        if tool_results:
-            for tool in tool_results or []:
-                tool_call = get_tool_call_from_history_by_id(
-                    tool["id"], previous_history
-                )
-                try:
-                    result = json.dumps(tool["result"])
-                except json.JSONDecodeError:
-                    result = str(result)
-                messages.append(
-                    {
-                        "role": "tool",
-                        "content": result,
-                        "tool_call_id": tool_call["id"],
-                    }
-                )
-
-        if chatbot_global_action and not is_o1_model:
-            messages.insert(0, {"role": "system", "content": chatbot_global_action})
-
-        payload = {
-            "model": model,
-            "temperature": temperature,
-            "messages": messages,
-            "max_completion_tokens": max_tokens,
-            "stream": stream,
-        }
-
-        if available_tools and not tool_results:
-            payload["tools"] = convert_tools_to_openai(available_tools)
-            payload["tool_choice"] = tool_choice
-
-        try:
-            response = self.client.chat.completions.create(**payload)
-        except Exception as exc:
-            raise ProviderException(str(exc))
-
-        # Standardize the response
-        if stream is False:
-            message = response.choices[0].message
-            generated_text = message.content
-            original_tool_calls = message.tool_calls or []
-            tool_calls = []
-            for call in original_tool_calls:
-                tool_calls.append(
-                    ToolCall(
-                        id=call["id"],
-                        name=call["function"]["name"],
-                        arguments=call["function"]["arguments"],
-                    )
-                )
-            messages = [
-                ChatMessageDataClass(role="user", message=text, tools=available_tools),
-                ChatMessageDataClass(
-                    role="assistant",
-                    message=generated_text,
-                    tool_calls=tool_calls,
-                ),
-            ]
-            messages_json = [m.dict() for m in messages]
-
-            standardized_response = ChatDataClass(
-                generated_text=generated_text, message=messages_json
-            )
-
-            return ResponseType[ChatDataClass](
-                original_response=response.to_dict(),
-                standardized_response=standardized_response,
-            )
-        else:
-            stream = (
-                ChatStreamResponse(
-                    text=chunk.to_dict()["choices"][0]["delta"].get("content", ""),
-                    blocked=not chunk.to_dict()["choices"][0].get("finish_reason")
-                    in (None, "stop"),
-                    provider="openai",
-                )
-                for chunk in response
-                if chunk
-            )
-
-            return ResponseType[StreamChat](
-                original_response=None, standardized_response=StreamChat(stream=stream)
-            )
+        return response
 
     def text__prompt_optimization(
         self, text: str, target_provider: str

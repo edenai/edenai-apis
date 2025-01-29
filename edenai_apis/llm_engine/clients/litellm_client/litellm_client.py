@@ -14,8 +14,8 @@ from litellm.exceptions import (
 from litellm.utils import get_supported_openai_params
 from llm_engine.clients.completion import CompletionClient
 from llm_engine.exceptions.llm_engine_exceptions import CompletionClientError
-from llm_engine.providers.utils import open_settings_file
 from llm_engine.types.response_types import CustomStreamWrapperModel, ResponseModel
+
 # from llm_engine.utils import find_a_model_from_provider
 from pydantic import BaseModel
 
@@ -26,23 +26,25 @@ class LiteLLMCompletionClient(CompletionClient):
 
     CLIENT_NAME = "litellm"
 
-    def __init__(self, model_name: Optional[str] = None, provider_name: str = None):
-        super().__init__(model_name=model_name, provider_name=provider_name)
+    def __init__(
+        self,
+        model_name: Optional[str] = None,
+        provider_name: str = None,
+        provider_config: dict = {},
+    ):
+        super().__init__(
+            model_name=model_name,
+            provider_name=provider_name,
+            provider_config=provider_config,
+        )
         self.model_capabilities = get_supported_openai_params(
             model=model_name, custom_llm_provider=provider_name
         )
-        # I don't know why for o1 models temperature is a supported param if
-        # it is not supported by the provider
-        #TODO move this below to the completion function
-        # if self.model_name.startswith("openai/o1-") or self.model_name.startswith("o1-"):
-        #     self.model_capabilities = list(
-        #         filter(lambda cap: cap != "temperature", self.model_capabilities)
-        #     )
 
     def completion(
         self,
         messages: List = [],
-        model: Optional[str] = None, # TODO This should be some by default thing 
+        model: Optional[str] = None,  # TODO This should be some by default thing
         # Optional OpenAI params: see https://platform.openai.com/docs/api-reference/chat/create
         timeout: Optional[Union[float, str, httpx.Timeout]] = None,
         temperature: Optional[float] = None,
@@ -57,7 +59,9 @@ class LiteLLMCompletionClient(CompletionClient):
         frequency_penalty: Optional[float] = None,
         logit_bias: Optional[dict] = None,
         # openai v1.0+ new params
-        response_format: Optional[Union[dict, Type[BaseModel]]] = None,  # Structured outputs
+        response_format: Optional[
+            Union[dict, Type[BaseModel]]
+        ] = None,  # Structured outputs
         seed: Optional[int] = None,
         tools: Optional[List] = None,
         tool_choice: Optional[Union[str, dict]] = None,
@@ -69,11 +73,8 @@ class LiteLLMCompletionClient(CompletionClient):
         # soon to be deprecated params by OpenAI -> This should be replaced by tools
         functions: Optional[List] = None,
         function_call: Optional[str] = None,
-        # set api_base, api_version, api_key
         base_url: Optional[str] = None,
         api_version: Optional[str] = None,
-        api_key: Optional[str] = None,
-        org_key: Optional[str] = None,
         model_list: Optional[list] = None,  # pass in a list of api_base,keys, etc.
         drop_invalid_params: bool = False,  # If true, all the invalid parameters will be ignored (dropped) before sending to the model
         user: str | None = None,
@@ -83,25 +84,6 @@ class LiteLLMCompletionClient(CompletionClient):
         if messages is None:
             raise CompletionClientError("In completion, the messages cannot be empty")
         call_params = {}
-        # Adapt the provider?
-        # Find the api_key here
-        if api_key is None:
-            api_key = self._get_the_keys()
-        # If api key is still None, raise an error
-        if api_key is None:
-            raise CompletionClientError("API key is not provided. Cannot continue.")
-        if "aws_access_key_id" in api_key:  # Bedrock
-            call_params["aws_access_key_id"] = api_key["aws_access_key_id"]
-            call_params["aws_secret_access_key"] = api_key["aws_secret_access_key"]
-            call_params["aws_region_name"] = api_key["aws_region_name"]
-            logger.info(f"Using Bedrock on the region {call_params['aws_region_name']}")
-            api_key = "EXTERNAL"
-        if api_key != "EXTERNAL":
-            call_params["api_key"] = api_key
-        if org_key is not None:
-            call_params["org_key"] = org_key
-        # Unpack everything here
-        # Check if the model is well suited for litellm
         if model is not None:
             self.model_name = f"{self.provider_name}/{model}"
         call_params["model"] = self.model_name
@@ -168,9 +150,8 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["model_list"] = model_list
         if user is not None:
             call_params["user"] = user
-
         try:
-            if drop_invalid_params:
+            if drop_invalid_params == True:
                 litellm.drop_params = True
             provider_start_time = time.time_ns()
             c_response = completion(**call_params, **kwargs)
@@ -181,8 +162,6 @@ class LiteLLMCompletionClient(CompletionClient):
                     if chunk is not None:
                         chunks.append(chunk)
                 c_response = litellm.stream_chunk_builder(chunks, messages=messages)
-            # if stream == False:
-            # response.provider_time = provider_end_time - provider_start_time
             response = {
                 **c_response.model_dump(),
                 "provider_time": provider_end_time - provider_start_time,
@@ -297,7 +276,9 @@ class LiteLLMCompletionClient(CompletionClient):
 
     def moderation(self, input: str, api_key: Optional[str] = None, **kwargs):
         if "openai" not in self.model_name:
-            raise CompletionClientError("This method is only available for OpenAI models")
+            raise CompletionClientError(
+                "This method is only available for OpenAI models"
+            )
         call_params = {}
         # Find the api_key here
         if api_key is None:
@@ -309,7 +290,9 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["aws_access_key_id"] = api_key["aws_access_key_id"]
             call_params["aws_secret_access_key"] = api_key["aws_secret_access_key"]
             call_params["aws_region_name"] = api_key["aws_region_name"]
-            logging.info(f"Using Bedrock on the region {call_params['aws_region_name']}")
+            logging.info(
+                f"Using Bedrock on the region {call_params['aws_region_name']}"
+            )
             api_key = "EXTERNAL"
         if api_key != "EXTERNAL":
             call_params["api_key"] = api_key
@@ -330,89 +313,6 @@ class LiteLLMCompletionClient(CompletionClient):
         except Exception as e:
             logging.error(f"There's an unexpected error: {e}")
             raise e
-
-    def _get_the_keys(self):
-        # Is gemini the provider?
-        if self.provider_name == "google":
-            SETTINGS_FILE = open_settings_file(provider_name="google")
-            # This is weird, but we need to change google to gemini...
-            logger.warning(f"Requested a Google model. Use gemini instead...")
-            self.provider_name = "gemini"
-            self.model_name = self.model_name.replace("google/gemini/", "gemini/")
-            self.model_name = self.model_name.replace("google/", "gemini/")
-            logger.warning(
-                f"This is the new configuration: model name: {self.model_name}, provider: {self.provider_name}"
-            )
-            self._configure_google(SETTINGS_FILE)
-            return "EXTERNAL"
-        # Is a vertex_ai config?
-        if self.provider_name.startswith("vertex_ai"):
-            SETTINGS_FILE = open_settings_file(provider_name="google")
-            self.provider_name = "vertex_ai"
-            return "EXTERNAL"
-        SETTINGS_FILE = open_settings_file(provider_name=self.provider_name)
-        # Is a bedrock anthropic model?
-        if self.provider_name == "anthropic" and self.model_name.endswith("-v1:0"):
-            logger.warning(f"Requested an Anthropic model served with bedrock...")
-            # change the provider for bedrock
-            self.provider_name = "bedrock"
-            if self.model_name.startswith("anthropic/"):
-                self.model_name = self.model_name.replace("anthropic/", "bedrock/anthropic.")
-            elif self.model_name.startswith("claude"):
-                self.model_name = self.model_name.replace("claude", "bedrock/anthropic.claude")
-            logger.warning(
-                f"This is the new configuration: model name: {self.model_name}, provider: {self.provider_name}"
-            )
-        if self.provider_name == "meta" and self.model_name.endswith("-v1:0"):
-            # Use bedrock instead
-            self.provider_name = "bedrock"
-            if self.model_name.startswith("meta/"):
-                self.model_name = self.model_name.replace("meta/", "bedrock/meta.")
-            logger.warning(f"Requested a Meta model served with bedrock...")
-            logger.warning(
-                f"This is the new configuration: model name: {self.model_name}, provider: {self.provider_name}"
-            )
-        if self.provider_name == "amazon":
-            if "amazon" not in self.model_name:
-                self.model_name = f"amazon.{self.model_name}"
-            else:
-                self.model_name = self.model_name.replace("amazon/", "amazon.")
-            self.provider_name = "bedrock"
-        if self.provider_name == "bedrock":
-            return self._configure_bedrock(SETTINGS_FILE)
-            # Is a bedrock served model?
-        if self.provider_name == "perplexityai":
-            SETTINGS_FILE = open_settings_file(provider_name=self.provider_name)
-            self.provider_name = "perplexity"
-            self.model_name = self.model_name.replace("perplexityai", "perplexity")
-            logger.warning(
-                f"This is the new configuration: model name: {self.model_name}, provider: {self.provider_name}"
-            )
-        if "api_key" not in SETTINGS_FILE.keys():
-            logger.error(f"API key not found in settings file.")
-            return None
-        return SETTINGS_FILE["api_key"]
-
-    def _is_model_canonical(self) -> bool:
-        """
-        i.e. the specified model is in the form provider/model?
-        """
-        provider_model = self.model_name.split("/", 1)
-        return len(provider_model) == 2 and provider_model[1] != ""
-
-    def _get_by_default_model(
-        self,
-        use: Literal[
-            "chat",
-            "completion",
-            "moderations",
-            "embeddings",
-            "image_generation",
-            "audio_transcription",
-        ],
-    ) -> str:
-        default_model = "gpt-4o-mini"# This is from the back, but the approach should change#find_a_model_from_provider(provider_name=self.provider_name, use=use)
-        return default_model
 
     def _process_response_format(self, input_response_format: any) -> any:
         """
