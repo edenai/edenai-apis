@@ -31,8 +31,7 @@ def list_features(
     feature: Optional[str] = None,
     subfeature: Optional[str] = None,
     as_dict: Literal[False] = False,
-) -> ProviderList:
-    ...
+) -> ProviderList: ...
 
 
 @overload
@@ -41,8 +40,7 @@ def list_features(
     feature: Optional[str] = None,
     subfeature: Optional[str] = None,
     as_dict: Literal[True] = True,
-) -> ProviderDict:
-    ...
+) -> ProviderDict: ...
 
 
 def list_features(
@@ -172,7 +170,6 @@ def list_providers(
 STATUS_SUCCESS = "success"
 
 
-@monitor_call(condition=IS_MONITORING)
 def compute_output(
     provider_name: str,
     feature: str,
@@ -345,7 +342,6 @@ def check_provider_constraints(
     return True, "All Good!"
 
 
-@monitor_call(condition=IS_MONITORING)
 def get_async_job_result(
     provider_name: str,
     feature: str,
