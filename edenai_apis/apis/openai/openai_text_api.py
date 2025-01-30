@@ -618,6 +618,8 @@ class OpenaiTextApi(TextInterface):
             temperature=temperature,
             max_tokens=max_tokens,
             model=model,
+            stream=stream,
+            available_tools=available_tools,
             tool_choice=tool_choice,
             tool_results=tool_results,
         )
