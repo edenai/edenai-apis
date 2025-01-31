@@ -15,8 +15,6 @@ from edenai_apis.features.image.logo_detection.logo_detection_dataclass import (
 from edenai_apis.features.text import GenerationDataClass, SummarizeDataClass
 from edenai_apis.features.text.chat.chat_dataclass import (
     StreamChat,
-    ChatStreamResponse,
-    ChatMessageDataClass,
     ChatDataClass,
 )
 from edenai_apis.features.multimodal.chat.chat_dataclass import (
@@ -31,6 +29,7 @@ from edenai_apis.apis.amazon.helpers import handle_amazon_call
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.loaders.data_loader import load_info_file
 from edenai_apis.apis.anthropic.prompts import LOGO_DETECTION_SYSTEM_PROMPT
+from edenai_apis.llm_engine.llm_engine import LLMEngine
 
 
 class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
@@ -45,6 +44,10 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
             region_name=self.api_settings["region_name"],
             aws_access_key_id=self.api_settings["aws_access_key_id"],
             aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        )
+        self.llm_client = LLMEngine(
+            provider_name=self.provider_name,
+            provider_config={"api_key": self.api_settings.get("api_key")},
         )
         self.client = AnthropicBedrock()
 
@@ -94,111 +97,6 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
             }
         except Exception:
             raise ProviderException("Client Error", status_code=500)
-
-    def __chat_stream_generator(self, response) -> Generator:
-        """returns a generator of chat messages
-
-        Args:
-            response : The post request response
-
-        Yields:
-            Generator: generator of messages
-        """
-        for event in response.get("body"):
-            chunk = json.loads(event["chunk"]["bytes"])
-
-            if chunk["type"] == "message_delta":
-                yield ChatStreamResponse(
-                    text="", blocked=True, provider=self.provider_name
-                )
-
-            if chunk["type"] == "content_block_delta":
-                if chunk["delta"]["type"] == "text_delta":
-                    yield ChatStreamResponse(
-                        text=chunk["delta"]["text"],
-                        blocked=False,
-                        provider=self.provider_name,
-                    )
-
-    @staticmethod
-    def __format_anthropic_messages(
-        messages: List[ChatMultimodalMessageDataClass],
-    ) -> List[Dict[str, str]]:
-        """
-        Format messages into a format accepted by Anthropic.
-
-        Args:
-            messages (List[ChatMessageDataClass]): List of messages to be formatted.
-
-        Returns:
-            List[Dict[str, str]]: Transformed messages in Anthropic accepted format.
-
-        >>> Accepted format:
-            [
-                {
-                    "role": <role>,
-                    "content": [
-                        {
-                            "type": "image",
-                            "source": {
-                                "type": "base64",
-                                "media_type": "image/jpeg",
-                                "data": "iVBORw..."
-                            }
-                        },
-                        {
-                            "type": "text",
-                            "text": <text_content>
-                        }
-                    ]
-                }
-            ]
-        """
-        transformed_messages = []
-        for item in messages:
-            if item["role"] == "user":
-                transformed_message = {"role": item["role"], "content": []}
-                for content_item in item["content"]:
-                    if content_item["type"] == "text":
-                        transformed_message["content"].append(
-                            {"type": "text", "text": content_item["content"]["text"]}
-                        )
-                    elif content_item["type"] == "media_url":
-                        media_url = content_item["content"]["media_url"]
-                        media_data = base64.b64encode(
-                            httpx.get(media_url).content
-                        ).decode("utf-8")
-                        if media_data:
-                            transformed_message["content"].append(
-                                {
-                                    "type": "image",
-                                    "source": {
-                                        "type": "base64",
-                                        "media_type": content_item["content"][
-                                            "media_type"
-                                        ],
-                                        "data": media_data,
-                                    },
-                                }
-                            )
-                    elif content_item["type"] == "media_base64":
-                        transformed_message["content"].append(
-                            {
-                                "type": "image",
-                                "source": {
-                                    "type": "base64",
-                                    "media_type": content_item["content"]["media_type"],
-                                    "data": content_item["content"]["media_base64"],
-                                },
-                            }
-                        )
-            else:
-                transformed_message = {
-                    "role": item["role"],
-                    "content": item.get("content")[0].get("content").get("text"),
-                }
-            transformed_messages.append(transformed_message)
-        return transformed_messages
 
     def text__generation(
         self,
@@ -285,70 +183,19 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-        messages = [{"role": "user", "content": text}]
-
-        if any([available_tools, tool_results]):
-            raise ProviderException("This provider does not support the use of tools")
-
-        if previous_history:
-            for idx, message in enumerate(previous_history):
-                messages.insert(
-                    idx,
-                    {"role": message.get("role"), "content": message.get("message")},
-                )
-
-        body = {
-            "anthropic_version": self.__get_anthropic_version(),
-            "max_tokens": max_tokens,
-            "temperature": temperature,
-            "messages": messages,
-        }
-
-        if chatbot_global_action:
-            body["system"] = chatbot_global_action
-
-        request_body = json.dumps(body)
-
-        if stream is False:
-            original_response = self.__anthropic_request(
-                request_body=request_body, model=model
-            )
-
-            # Calculate total usage
-            original_response["usage"]["total_tokens"] = (
-                original_response["usage"]["input_tokens"]
-                + original_response["usage"]["output_tokens"]
-            )
-
-            generated_text = original_response["content"][0]["text"]
-            message = [
-                ChatMessageDataClass(role="user", message=text),
-                ChatMessageDataClass(role="assistant", message=generated_text),
-            ]
-
-            standardized_response = ChatDataClass(
-                generated_text=generated_text, message=message
-            )
-
-            return ResponseType[ChatDataClass](
-                original_response=original_response,
-                standardized_response=standardized_response,
-            )
-        else:
-            # Parameters for the HTTP request
-            request_params = {
-                "body": request_body,
-                "modelId": f"{self.provider_name}.{model}",
-            }
-            response = handle_amazon_call(
-                self.bedrock.invoke_model_with_response_stream, **request_params
-            )
-            stream_response = self.__chat_stream_generator(response)
-
-            return ResponseType[StreamChat](
-                original_response=None,
-                standardized_response=StreamChat(stream=stream_response),
-            )
+        response = self.llm_client.chat(
+            text=text,
+            previous_history=previous_history,
+            chatbot_global_action=chatbot_global_action,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
+            stream=stream,
+            available_tools=available_tools,
+            tool_choice=tool_choice,
+            tool_results=tool_results,
+        )
+        return response
 
     def multimodal__chat(
         self,
@@ -362,67 +209,21 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
         top_p: Optional[int] = None,
         stream: bool = False,
         provider_params: Optional[dict] = None,
-        response_format = None,
+        response_format=None,
     ) -> ResponseType[Union[ChatMultimodalDataClass, StreamChatMultimodal]]:
-
-        formated_messages = self.__format_anthropic_messages(messages=messages)
-        body = {
-            "anthropic_version": self.__get_anthropic_version(),
-            "max_tokens": max_tokens,
-            "temperature": temperature,
-            "messages": formated_messages,
-        }
-        if stop_sequences:
-            body["stop_sequences"] = stop_sequences
-
-        if top_k:
-            body["top_k"] = top_k
-
-        if top_p:
-            body["top_p"] = top_p
-
-        if chatbot_global_action:
-            body["system"] = chatbot_global_action
-
-        request_body = json.dumps(body)
-
-        if stream is False:
-            original_response = self.__anthropic_request(
-                request_body=request_body, model=model
-            )
-            generated_text = original_response["content"][0]["text"]
-
-            # Calculate total usage
-            original_response["usage"]["total_tokens"] = (
-                original_response["usage"]["input_tokens"]
-                + original_response["usage"]["output_tokens"]
-            )
-
-            standardized_response = (
-                ChatMultimodalDataClass.generate_standardized_response(
-                    generated_text=generated_text, messages=messages
-                )
-            )
-            return ResponseType[ChatMultimodalDataClass](
-                original_response=original_response,
-                standardized_response=standardized_response,
-            )
-        else:
-            request_params = {
-                "body": request_body,
-                "modelId": f"{self.provider_name}.{model}",
-            }
-            response = handle_amazon_call(
-                self.bedrock.invoke_model_with_response_stream, **request_params
-            )
-            stream_response = self.__chat_stream_generator(response)
-
-            return (
-                ResponseType[StreamChat](
-                    original_response=None,
-                    standardized_response=StreamChat(stream=stream_response),
-                ),
-            )
+        response = self.llm_client.multimodal_chat(
+            messages=messages,
+            chatbot_global_action=chatbot_global_action,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
+            stop_sequences=stop_sequences,
+            top_k=top_k,
+            top_p=top_p,
+            stream=stream,
+            response_format=response_format,
+        )
+        return response
 
     def image__logo_detection(
         self, file: str, file_url: str = "", model: Optional[str] = None

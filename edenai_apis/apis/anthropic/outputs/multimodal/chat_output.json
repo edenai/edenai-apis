@@ -1,25 +1,40 @@
 {
   "original_response": {
-    "id": "msg_01KDs9mZ31EVLczTkdafmTDQ",
-    "type": "message",
-    "role": "assistant",
-    "content": [
+    "id": "chatcmpl-549d8599-df09-4b63-8a55-140d6340c954",
+    "created": 1738320404,
+    "model": "claude-3-5-sonnet-20241022",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
       {
-        "type": "text",
-        "text": "The image depicts a peaceful nature scene. In the foreground, there is a wooden boardwalk or trail that extends through a lush green meadow filled with tall grass. The boardwalk leads the viewer's eye towards the distance, where trees and bushes can be seen lining the horizon. The sky above is a beautiful shade of blue with scattered white clouds, creating a serene and tranquil atmosphere. The image conveys a sense of serenity and invites the viewer to explore the natural surroundings along the path."
+        "finish_reason": "length",
+        "index": 0,
+        "message": {
+          "content": "Arrr matey! Feast yer eyes on this magnificent sight! \n\n'Tis a wooden boardwalk, straight as an arrow, cuttin' through a sea of emerald grass that be swayin' in the breeze like waves on the ocean! The planks be weathered and gray, just like me old ship's deck, stretching far into the distance.\n\nAbove, the sky be a brilliant blue, with wispy white clouds sailin' across it like ghost ships on the horizon. The sunlight be makin' the grass glow like treasure, and off in the distance, ye can spot trees standin' guard like silent sentinels.\n\nThis here path would make for a fine walk for any landlubber, though it ain't quite as excitin' as walkin' the plank on me ship! The marsh grass be tall and thick on both sides, remindin' me of the reeds",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null
+        }
       }
     ],
-    "model": "claude-3-sonnet-28k-20240229",
-    "stop_reason": "end_turn",
-    "stop_sequence": null,
+    "provider_time": 6943321307,
+    "edenai_time": null,
     "usage": {
-      "input_tokens": 1613,
-      "output_tokens": 115,
-      "total_tokens": 1728
-    }
+      "completion_tokens": 200,
+      "prompt_tokens": 1590,
+      "total_tokens": 1790,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      },
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "cost": 0.00777
   },
   "standardized_response": {
-    "generated_text": "The image depicts a peaceful nature scene. In the foreground, there is a wooden boardwalk or trail that extends through a lush green meadow filled with tall grass. The boardwalk leads the viewer's eye towards the distance, where trees and bushes can be seen lining the horizon. The sky above is a beautiful shade of blue with scattered white clouds, creating a serene and tranquil atmosphere. The image conveys a sense of serenity and invites the viewer to explore the natural surroundings along the path.",
+    "generated_text": "Arrr matey! Feast yer eyes on this magnificent sight! \n\n'Tis a wooden boardwalk, straight as an arrow, cuttin' through a sea of emerald grass that be swayin' in the breeze like waves on the ocean! The planks be weathered and gray, just like me old ship's deck, stretching far into the distance.\n\nAbove, the sky be a brilliant blue, with wispy white clouds sailin' across it like ghost ships on the horizon. The sunlight be makin' the grass glow like treasure, and off in the distance, ye can spot trees standin' guard like silent sentinels.\n\nThis here path would make for a fine walk for any landlubber, though it ain't quite as excitin' as walkin' the plank on me ship! The marsh grass be tall and thick on both sides, remindin' me of the reeds",
     "messages": [
       {
         "role": "user",
@@ -52,12 +67,24 @@
             "content": {
               "media_url": null,
               "media_base64": null,
-              "text": "The image depicts a peaceful nature scene. In the foreground, there is a wooden boardwalk or trail that extends through a lush green meadow filled with tall grass. The boardwalk leads the viewer's eye towards the distance, where trees and bushes can be seen lining the horizon. The sky above is a beautiful shade of blue with scattered white clouds, creating a serene and tranquil atmosphere. The image conveys a sense of serenity and invites the viewer to explore the natural surroundings along the path.",
+              "text": "Arrr matey! Feast yer eyes on this magnificent sight! \n\n'Tis a wooden boardwalk, straight as an arrow, cuttin' through a sea of emerald grass that be swayin' in the breeze like waves on the ocean! The planks be weathered and gray, just like me old ship's deck, stretching far into the distance.\n\nAbove, the sky be a brilliant blue, with wispy white clouds sailin' across it like ghost ships on the horizon. The sunlight be makin' the grass glow like treasure, and off in the distance, ye can spot trees standin' guard like silent sentinels.\n\nThis here path would make for a fine walk for any landlubber, though it ain't quite as excitin' as walkin' the plank on me ship! The marsh grass be tall and thick on both sides, remindin' me of the reeds",
               "media_type": null
             }
           }
         ]
       }
     ]
+  },
+  "usage": {
+    "completion_tokens": 200,
+    "prompt_tokens": 1590,
+    "total_tokens": 1790,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
   }
 }
