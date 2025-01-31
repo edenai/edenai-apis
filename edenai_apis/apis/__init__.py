@@ -65,6 +65,6 @@ from .winstonai import WinstonaiApi
 from .writesonic import WritesonicApi
 from .xai import XAiApi
 from .deepseek import DeepseekApi
-from .togetherai import TogetherAiAPI
+from .togetherai import TogetheraiApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

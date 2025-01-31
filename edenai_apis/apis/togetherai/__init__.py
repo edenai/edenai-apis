@@ -1,1 +1,1 @@
-from .togetherai_api import TogetherAiAPI
+from .togetherai_api import TogetheraiApi

@@ -16,7 +16,7 @@ from edenai_apis.features.text.chat.helpers import get_tool_call_from_history_by
 from edenai_apis.apis.openai.helpers import convert_tools_to_openai
 
 
-class TogetherAiAPI(ProviderInterface, TextInterface):
+class TogetheraiApi(ProviderInterface, TextInterface):
     provider_name = "togetherai"
 
     def __init__(self, api_keys: Dict = {}) -> None:
