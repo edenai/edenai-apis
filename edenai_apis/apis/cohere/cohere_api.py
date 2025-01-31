@@ -11,7 +11,7 @@ from edenai_apis.apis.cohere.helpers import (
     cohere_roles,
 )
 from edenai_apis.features import ProviderInterface, TextInterface
-from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
+from edenai_apis.features.text import ChatDataClass
 from edenai_apis.features.text.chat.chat_dataclass import (
     StreamChat,
     ChatStreamResponse,
@@ -39,6 +39,7 @@ from edenai_apis.utils.conversion import construct_word_list
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.llm_engine.llm_engine import LLMEngine
 
 
 class CohereApi(ProviderInterface, TextInterface):
@@ -56,6 +57,9 @@ class CohereApi(ProviderInterface, TextInterface):
             "content-type": "application/json",
             "Cohere-Version": "2022-12-06",
         }
+        self.llm_client = LLMEngine(
+            provider_name=self.provider_name, provider_config={"api_key": self.api_key}
+        )
 
     @staticmethod
     def _calculate_summarize_length(output_sentences: int):
@@ -109,20 +113,6 @@ Examples of entry Text with misspelling: "Hallo my friend hw are you"
 Examples of response: ```json[{{"word": "Hallo", "correction": "hello"}}, {{"word": "hw", "correction": "how"}}]```
 List of corrected words:
 """
-
-    @staticmethod
-    def __text_to_json(
-        lst_data: List[str],
-    ) -> Generator[ChatStreamResponse, None, None]:
-        lst_json = []
-        for token in lst_data:
-            if token != "":
-                lst_json.append(json.loads(token))
-        for elt in lst_json:
-            if elt["event_type"] == "text-generation":
-                yield ChatStreamResponse(
-                    text=elt["text"], blocked=False, provider="cohere"
-                )
 
     def text__generation(
         self,
@@ -492,114 +482,16 @@ Your answer :
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-
-        # if any([available_tools, tool_results]):
-        #     raise ProviderException("This provider does not support the use of tools")
-
-        previous_history = previous_history or []
-
-        messages = []
-        for msg in previous_history:
-            message = {
-                "role": cohere_roles[msg.get("role", "user").lower()],
-                "message": msg.get("message"),
-            }
-            if msg.get("tool_calls"):
-                message["tool_calls"] = [
-                    convert_cohere_tool_call_to_edenai_tool_call(t)
-                    for t in msg["tool_calls"]
-                ]
-            messages.append(message)
-
-        if chatbot_global_action:
-            messages.insert(0, {"role": "CHATBOT", "message": chatbot_global_action})
-
-        payload = {
-            "message": text,
-            "temperature": temperature,
-            "model": model,
-            "chat_history": messages,
-            "stream": stream,
-        }
-
-        if tool_results:
-            payload["tool_results"] = convert_tools_results_to_cohere(
-                tool_results, previous_history
-            )
-            del payload["chat_history"]
-            payload["message"] = next(
-                filter(lambda msg: msg["role"].lower() == "user", previous_history)
-            )["message"]
-
-        if available_tools:
-            payload["tools"] = convert_tools_to_cohere(available_tools)
-            if tool_choice == "required":
-                payload["preamble"] = (
-                    "You must choose at least one tool among the available tools"
-                )
-            elif tool_choice == "none":
-                payload["preamble"] = (
-                    "You must directly answer the question, please ignore the available tools"
-                )
-            else:
-                payload["preamble"] = (
-                    "When a question is irrelevant or unrelated to the available tools, please choose to directly answer it."
-                )
-
-        if not available_tools and not tool_results:
-            payload["connectors"] = [{"id": "web-search"}]
-
-        response = requests.post(
-            f"{self.base_url}chat", headers=self.headers, json=payload
+        response = self.llm_client.chat(
+            text=text,
+            chatbot_global_action=chatbot_global_action,
+            previous_history=previous_history,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
+            stream=stream,
+            available_tools=available_tools,
+            tool_choice=tool_choice,
+            tool_results=tool_results,
         )
-
-        if response.status_code != 200:
-            raise ProviderException(response.text, response.status_code)
-
-        else:
-            if not stream:
-                try:
-                    original_response = response.json()
-                except requests.JSONDecodeError as exp:
-                    raise ProviderException(
-                        response.text, code=response.status_code
-                    ) from exp
-
-                generated_text = original_response["text"]
-                tool_calls = []
-                generation_id = original_response["generation_id"]
-                for index, tool in enumerate(original_response.get("tool_calls", [])):
-                    tool_id = f"{generation_id}-{tool['name']}-{index}"
-                    tool_calls.append(
-                        ToolCall(
-                            id=tool_id,
-                            name=tool["name"],
-                            arguments=json.dumps(tool["parameters"]),
-                        )
-                    )
-
-                message = [
-                    ChatMessageDataClass(
-                        role="user", message=text, tools=available_tools
-                    ),
-                    ChatMessageDataClass(
-                        role="assistant", message=generated_text, tool_calls=tool_calls
-                    ),
-                ]
-                standardized_response = ChatDataClass(
-                    generated_text=generated_text, message=message
-                )
-
-                return ResponseType[ChatDataClass](
-                    original_response=original_response,
-                    standardized_response=standardized_response,
-                )
-            else:
-                data = response.text
-                lst_data = data.split("\n")
-                return ResponseType[StreamChat](
-                    original_response=None,
-                    standardized_response=StreamChat(
-                        stream=self.__text_to_json(lst_data)
-                    ),
-                )
+        return response
