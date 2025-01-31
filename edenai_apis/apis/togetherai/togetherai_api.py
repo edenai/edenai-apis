@@ -17,7 +17,7 @@ from edenai_apis.apis.openai.helpers import convert_tools_to_openai
 
 
 class TogetherAiAPI(ProviderInterface, TextInterface):
-    provider_name = "together_ai"
+    provider_name = "togetherai"
 
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(
