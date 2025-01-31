@@ -14,9 +14,9 @@ from litellm.exceptions import (
 from litellm.utils import get_supported_openai_params
 from llm_engine.clients.completion import CompletionClient
 from llm_engine.exceptions.llm_engine_exceptions import CompletionClientError
+from edenai_apis.utils.exception import ProviderException
 from llm_engine.types.response_types import CustomStreamWrapperModel, ResponseModel
 
-# from llm_engine.utils import find_a_model_from_provider
 from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
@@ -37,9 +37,9 @@ class LiteLLMCompletionClient(CompletionClient):
             provider_name=provider_name,
             provider_config=provider_config,
         )
-        self.model_capabilities = get_supported_openai_params(
-            model=model_name, custom_llm_provider=provider_name
-        )
+        # self.model_capabilities = get_supported_openai_params(
+        #     model=model_name, custom_llm_provider=provider_name
+        # )
 
     def completion(
         self,
@@ -86,6 +86,7 @@ class LiteLLMCompletionClient(CompletionClient):
         call_params = {}
         if model is not None:
             self.model_name = f"{self.provider_name}/{model}"
+
         call_params["model"] = self.model_name
         call_params["messages"] = messages
         if timeout is not None:
@@ -164,30 +165,39 @@ class LiteLLMCompletionClient(CompletionClient):
                 c_response = litellm.stream_chunk_builder(chunks, messages=messages)
             response = {
                 **c_response.model_dump(),
+                "cost": completion_cost(c_response),
                 "provider_time": provider_end_time - provider_start_time,
             }
             return response
         except InternalServerError as e:
             logger.warning(f"There's an internal server error: {e}")
-            raise CompletionClientError(e.message, input=call_params) from e
+            raise ProviderException(
+                message=e.message.replace("litellm.InternalServerError: ", ""),
+                code=500,
+            ) from e
         except APIError as e:
             logger.warning(f"There's an LiteLLM API error: {e}")
-            raise CompletionClientError(e.message, input=call_params) from e
+            raise ProviderException(
+                message=e.message.replace("litellm.APIError: ", ""),
+                code=e.status_code,
+            ) from e
         except BadRequestError as e:
             logger.warning(
                 f"There's a Bad Request error calling the provider {self.provider_name}: {e}"
             )
-            raise CompletionClientError(
-                e.message, input=call_params, status_code=e.status_code
+            raise ProviderException(
+                message=e.message.replace("litellm.BadRequestError: ", ""),
+                code=e.status_code,
             ) from e
         except AuthenticationError as e:
             logger.error(f"There's an authentication error: {e}")
-            raise CompletionClientError(
-                e.message, input=call_params, status_code=e.status_code
+            raise ProviderException(
+                message=e.message.replace("litellm.AuthenticationError: ", ""),
+                code=e.status_code,
             ) from e
         except Exception as e:
             logger.exception(e)
-            raise e
+            raise ProviderException(message=str(e))
 
     def embedding(
         self,
