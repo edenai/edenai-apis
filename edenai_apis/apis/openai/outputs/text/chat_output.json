@@ -1,7 +1,7 @@
 {
   "original_response": {
-    "id": "chatcmpl-Auz9WEB7XyrkgWRvMDMc5TiDwgw89",
-    "created": 1738144802,
+    "id": "chatcmpl-AvRTZKE2WWoYXH1r5C5cffDu5GrIK",
+    "created": 1738253677,
     "model": "gpt-3.5-turbo-0125",
     "object": "chat.completion",
     "system_fingerprint": null,
@@ -10,19 +10,19 @@
         "finish_reason": "stop",
         "index": 0,
         "message": {
-          "content": "Barack Hussein Obama, American politician, 44th president, United States, Democratic Party, African-American, U.S. senator, Illinois, state senator",
+          "content": "barack hussein obama, american, politician, 44th president, united states, democratic party, african-american, u.s. senator, illinois, state senator",
           "role": "assistant",
           "tool_calls": null,
           "function_call": null
         }
       }
     ],
-    "provider_time": 1423209708,
+    "provider_time": 1351309530,
     "edenai_time": null,
     "usage": {
-      "completion_tokens": 32,
+      "completion_tokens": 37,
       "prompt_tokens": 222,
-      "total_tokens": 254,
+      "total_tokens": 259,
       "completion_tokens_details": {
         "accepted_prediction_tokens": 0,
         "audio_tokens": 0,
@@ -37,7 +37,7 @@
     "service_tier": "default"
   },
   "standardized_response": {
-    "generated_text": "Barack Hussein Obama, American politician, 44th president, United States, Democratic Party, African-American, U.S. senator, Illinois, state senator",
+    "generated_text": "barack hussein obama, american, politician, 44th president, united states, democratic party, african-american, u.s. senator, illinois, state senator",
     "message": [
       {
         "role": "user",
@@ -47,16 +47,16 @@
       },
       {
         "role": "assistant",
-        "message": "Barack Hussein Obama, American politician, 44th president, United States, Democratic Party, African-American, U.S. senator, Illinois, state senator",
+        "message": "barack hussein obama, american, politician, 44th president, united states, democratic party, african-american, u.s. senator, illinois, state senator",
         "tools": null,
         "tool_calls": []
       }
     ]
   },
   "usage": {
-    "completion_tokens": 32,
+    "completion_tokens": 37,
     "prompt_tokens": 222,
-    "total_tokens": 254,
+    "total_tokens": 259,
     "completion_tokens_details": {
       "accepted_prediction_tokens": 0,
       "audio_tokens": 0,

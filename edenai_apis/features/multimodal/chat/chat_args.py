@@ -27,7 +27,7 @@ def chat_arguments(provider_name: str):
         "stream": False,
         "settings": {
             "openai": "gpt-4-turbo",
-            "anthropic": "claude-3-sonnet-20240229-v1:0",
+            "anthropic": "claude-3-5-sonnet-latest",
             "google": "gemini-1.5-flash",
         },
         "provider_params": {},
