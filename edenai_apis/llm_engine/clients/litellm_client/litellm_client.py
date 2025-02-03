@@ -209,7 +209,6 @@ class LiteLLMCompletionClient(CompletionClient):
         # set api_base, api_version, api_key
         api_base: Optional[str] = None,
         api_version: Optional[str] = None,
-        api_key: Optional[str] = None,
         api_type: Optional[str] = None,
         caching: bool = False,
         drop_invalid_params: bool = False,  # If true, all the invalid parameters will be ignored (dropped) before sending to the model
@@ -217,22 +216,6 @@ class LiteLLMCompletionClient(CompletionClient):
         **kwargs,
     ):
         call_params = {}
-        # Find the api_key here
-        if api_key is None:
-            api_key = self._get_the_keys()
-        # If api key is still None, raise an error
-        if api_key is None:
-            raise CompletionClientError("API key is not provided. Cannot continue.")
-        if "aws_access_key_id" in api_key:  # Bedrock
-            call_params["aws_access_key_id"] = api_key["aws_access_key_id"]
-            call_params["aws_secret_access_key"] = api_key["aws_secret_access_key"]
-            call_params["aws_region_name"] = api_key["aws_region_name"]
-            logger.info(f"Using Bedrock on the region {call_params['aws_region_name']}")
-            api_key = "EXTERNAL"
-        if api_key != "EXTERNAL":
-            call_params["api_key"] = api_key
-        if input is None or len(input) == 0:
-            raise CompletionClientError("Input is required for embedding")
         call_params["input"] = input if isinstance(input, list) else [input]
         if model is not None:
             self.model_name = model
@@ -244,8 +227,6 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["api_base"] = api_base
         if api_version is not None:
             call_params["api_version"] = api_version
-        if api_key is not None:
-            call_params["api_key"] = api_key
         if api_type is not None:
             call_params["api_type"] = api_type
         if caching is not None:
@@ -264,52 +245,36 @@ class LiteLLMCompletionClient(CompletionClient):
             return response
         except InternalServerError as e:
             logger.warning(f"There's an internal server error: {e}")
-            raise CompletionClientError(e.message, input=call_params) from e
+            raise ProviderException(
+                message=e.message.replace("litellm.InternalServerError: ", ""),
+                code=500,
+            ) from e
         except APIError as e:
             logger.warning(f"There's an LiteLLM API error: {e}")
-            raise CompletionClientError(e.message, input=call_params) from e
+            raise ProviderException(
+                message=e.message.replace("litellm.APIError: ", ""),
+                code=e.status_code,
+            ) from e
         except BadRequestError as e:
             logger.warning(
                 f"There's a Bad Request error calling the provider {self.provider_name}: {e}"
             )
-            raise CompletionClientError(
-                e.message, input=call_params, status_code=e.status_code
+            raise ProviderException(
+                message=e.message.replace("litellm.BadRequestError: ", ""),
+                code=e.status_code,
             ) from e
         except AuthenticationError as e:
             logger.error(f"There's an authentication error: {e}")
-            raise CompletionClientError(
-                e.message, input=call_params, status_code=e.status_code
+            raise ProviderException(
+                message=e.message.replace("litellm.AuthenticationError: ", ""),
+                code=e.status_code,
             ) from e
         except Exception as e:
             logger.exception(e)
-            raise e
+            raise ProviderException(message=str(e))
 
-    def moderation(self, input: str, api_key: Optional[str] = None, **kwargs):
-        if "openai" not in self.model_name:
-            raise CompletionClientError(
-                "This method is only available for OpenAI models"
-            )
+    def moderation(self, input: str, **kwargs):
         call_params = {}
-        # Find the api_key here
-        if api_key is None:
-            api_key = self._get_the_keys()
-        # If api key is still None, raise an error
-        if api_key is None:
-            raise CompletionClientError("API key is not provided. Cannot continue.")
-        if "aws_access_key_id" in api_key:  # Bedrock
-            call_params["aws_access_key_id"] = api_key["aws_access_key_id"]
-            call_params["aws_secret_access_key"] = api_key["aws_secret_access_key"]
-            call_params["aws_region_name"] = api_key["aws_region_name"]
-            logging.info(
-                f"Using Bedrock on the region {call_params['aws_region_name']}"
-            )
-            api_key = "EXTERNAL"
-        if api_key != "EXTERNAL":
-            call_params["api_key"] = api_key
-        if input is None or len(input) == 0:
-            raise CompletionClientError("Input is required for embedding")
-        # model = self.model_name.replace("openai/", "")
-        # call_params["model"] = model
         call_params["input"] = input
         try:
             # litellm.drop_params = True
@@ -318,7 +283,7 @@ class LiteLLMCompletionClient(CompletionClient):
             response.provider_name = self.provider_name
             provider_end_time = time.time_ns()
             response.provider_time = provider_end_time - provider_start_time
-            response.cost = 0  # completion_cost(response)
+            response.cost = 0
             return response
         except Exception as e:
             logging.error(f"There's an unexpected error: {e}")

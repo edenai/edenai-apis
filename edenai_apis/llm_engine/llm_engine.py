@@ -1,27 +1,51 @@
-import logging
 import uuid
-from typing import Any, List, Literal, Optional, Union, Dict
+import json
+import base64
+import mimetypes
+from typing import List, Literal, Optional, Union, Dict, Type
 
-from llm_engine.types.response_types import ResponseModel
-from llm_engine.clients import LLM_COMPLETION_CLIENTS
-from llm_engine.clients.completion import CompletionClient
+from edenai_apis.llm_engine.types.response_types import (
+    ResponseModel,
+    EmbeddingResponseModel,
+)
+from edenai_apis.llm_engine.clients import LLM_COMPLETION_CLIENTS
+from edenai_apis.llm_engine.clients.completion import CompletionClient
 from edenai_apis.llm_engine.mapping import Mappings
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.exception import ProviderException
+from edenai_apis.features.text import (
+    SummarizeDataClass,
+    TopicExtractionDataClass,
+    SpellCheckDataClass,
+    SentimentAnalysisDataClass,
+    KeywordExtractionDataClass,
+    AnonymizationDataClass,
+    NamedEntityRecognitionDataClass,
+    CodeGenerationDataClass,
+    EmbeddingDataClass,
+    EmbeddingsDataClass,
+    ModerationDataClass,
+    TextModerationItem,
+    CustomClassificationDataClass,
+    CustomNamedEntityRecognitionDataClass,
+)
+from edenai_apis.features.text.moderation.category import (
+    CategoryType as CategoryTypeModeration,
+)
+from edenai_apis.utils.conversion import standardized_confidence_score
+from edenai_apis.features.image import LogoDetectionDataClass
 from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
 from edenai_apis.features.text.chat.chat_dataclass import (
     StreamChat,
     ChatStreamResponse,
     ToolCall,
 )
-
 from edenai_apis.features.multimodal.chat import (
     ChatDataClass as ChatMultimodalDataClass,
     StreamChat as StreamMultimodalChat,
-    ChatMessageDataClass as ChatMultimodalMessageDataClass,
     ChatStreamResponse as ChatMultimodalStreamResponse,
 )
-
-logger = logging.getLogger(__name__)
+from edenai_apis.llm_engine.prompts import BasePrompt
 
 
 class LLMEngine:
@@ -50,6 +74,32 @@ class LLMEngine:
             model_name=model, provider_name=self.provider_name
         )
 
+    def _prepare_args(self, model: str, **kwargs) -> Dict:
+        params = {
+            "model": model,
+            "drop_params": True,
+            "response_format": {"type": "json_object"},
+        }
+        params.update(self.provider_config)
+        params.update(kwargs)
+        return params
+
+    def _execute_completion(self, params: Dict, response_class: Type, **kwargs):
+        try:
+            response = self.completion_client.completion(**params, **kwargs)
+            response = ResponseModel.model_validate(response)
+            result = json.loads(response.choices[0].message.content)
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+        standardized_response = response_class(**result)
+        return ResponseType[response_class](
+            original_response=response.to_dict(),
+            standardized_response=standardized_response,
+            usage=response.usage,
+        )
+
     def chat(
         self,
         text: str,
@@ -67,17 +117,13 @@ class LLMEngine:
         messages = Mappings.format_chat_messages(
             text, chatbot_global_action, previous_history, tool_results
         )
-        call_params = {
-            "messages": messages,
-            "model": model,
-            "max_tokens": max_tokens,
-            "temperature": temperature,
-            "stream": stream,
-            "drop_params": True,
-        }
-        for config_key, config_value in self.provider_config.items():
-            call_params[config_key] = config_value
-
+        call_params = self._prepare_args(
+            model=model,
+            messages=messages,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            stream=stream,
+        )
         if available_tools and not tool_results:
             call_params["tools"] = Mappings.convert_tools_to_openai(
                 tools=available_tools
@@ -156,17 +202,15 @@ class LLMEngine:
         transformed_messages = Mappings.format_multimodal_messages(
             messages=messages, system_prompt=chatbot_global_action
         )
-        args = {
-            "messages": transformed_messages,
-            "temperature": temperature,
-            "max_tokens": max_tokens,
-            "model": model,
-            "stop_sequences": stop_sequences,
-            "top_p": top_p,
-            "stream": stream,
-        }
-        for config_key, config_value in self.provider_config.items():
-            args[config_key] = config_value
+        args = self._prepare_args(
+            model=model,
+            messages=transformed_messages,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            stop_sequences=stop_sequences,
+            top_p=top_p,
+            stream=stream,
+        )
 
         if available_tools and len(available_tools) > 0 and not tool_results:
             args["tools"] = Mappings.convert_tools_llmengine(available_tools)
@@ -177,8 +221,9 @@ class LLMEngine:
         response = self.completion_client.completion(**args, **kwargs)
         response = ResponseModel.model_validate(response)
         if stream is False:
-            message = response.choices[0].message
-            generated_text = message.content
+            generated_text = (
+                response.choices[0].message.content or "" if response.choices else ""
+            )
 
             standardized_response = (
                 ChatMultimodalDataClass.generate_standardized_response(
@@ -208,5 +253,264 @@ class LLMEngine:
                 standardized_response=StreamMultimodalChat(stream=stream),
             )
 
-    def summarize(self, text):
-        pass
+    def summarize(
+        self, text: str, model: str, **kwargs
+    ) -> ResponseType[SummarizeDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior="",
+            example_file="text/summarize/summarize_response.json",
+            dataclass=SummarizeDataClass,
+        )
+        messages.append({"role": "user", "content": text + "\nTLDR:"})
+        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        return self._execute_completion(params=args, response_class=SummarizeDataClass)
+
+    def logo_detection(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[LogoDetectionDataClass]:
+        mime_type = mimetypes.guess_type(file)[0]
+        with open(file, "rb") as fstream:
+            base64_data = base64.b64encode(fstream.read()).decode("utf-8")
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a Logo Detection model. You get an image input and return logos detected inside it. If no logo is detected the items list should be empty",
+            example_file="image/logo_detection/logo_detection_response.json",
+            dataclass=LogoDetectionDataClass,
+        )
+        messages.append(
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:{mime_type};base64,{base64_data}"},
+                    },
+                ],
+            }
+        )
+        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        return self._execute_completion(
+            params=args, response_class=LogoDetectionDataClass
+        )
+
+    def sentiment_analysis(
+        self, text: str, model: str, **kwargs
+    ) -> ResponseType[SentimentAnalysisDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a Text Sentiment Analysis model. You extract the sentiment of a textual input.",
+            example_file="text/sentiment_analysis/sentiment_analysis_response.json",
+            dataclass=SentimentAnalysisDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        return self._execute_completion(
+            params=args, response_class=SentimentAnalysisDataClass
+        )
+
+    def keyword_extraction(
+        self, text: str, model: str, **kwargs
+    ) -> ResponseType[KeywordExtractionDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior="You are an Keyword Extract model. You extract keywords from a text input.",
+            example_file="text/keyword_extraction/keyword_extraction_response.json",
+            dataclass=KeywordExtractionDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        return self._execute_completion(
+            params=args, response_class=KeywordExtractionDataClass
+        )
+
+    def spell_check(self, text: str, model: str, **kwargs):
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a Spell Checking model. You analyze a text input and proficiently detect and correct any grammar, syntax, spelling or other types of errors.",
+            example_file="text/spell_check/spell_check_response.json",
+            dataclass=SpellCheckDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        return self._execute_completion(params=args, response_class=SpellCheckDataClass)
+
+    def topic_extraction(
+        self, text: str, model: str, **kwargs
+    ) -> ResponseType[TopicExtractionDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a Text Topic Exstraction Model. You extract the main topic of a textual input.",
+            example_file="text/topic_extraction/topic_extraction_response.json",
+            dataclass=TopicExtractionDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        return self._execute_completion(
+            params=args, response_class=TopicExtractionDataClass
+        )
+
+    def named_entity_recognition(
+        self, text: str, model: str, **kwargs
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a Named Entity Extraction Model. Given an input text you should extract extract all entities in it.",
+            example_file="text/named_entity_recognition/named_entity_recognition_response.json",
+            dataclass=NamedEntityRecognitionDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        return self._execute_completion(
+            params=args, response_class=NamedEntityRecognitionDataClass
+        )
+
+    def pii(
+        self, text: str, model: str, **kwargs
+    ) -> ResponseType[AnonymizationDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a PII system that takes a text input containing personally identifiable information (PII) and generates an anonymized version of the text.",
+            example_file="text/anonymization/anonymization_response.json",
+            dataclass=AnonymizationDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        return self._execute_completion(
+            params=args, response_class=AnonymizationDataClass
+        )
+
+    def code_generation(
+        self,
+        instruction: str,
+        temperature: float,
+        max_tokens: int,
+        model: str,
+        **kwargs,
+    ) -> ResponseType[CodeGenerationDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a Code Generation Model. Given a text input, you should generate a code output.",
+            example_file="text/code_generation/code_generation_response.json",
+            dataclass=CodeGenerationDataClass,
+        )
+        messages.append({"role": "user", "content": instruction})
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            **kwargs,
+        )
+        return self._execute_completion(
+            params=args, response_class=CodeGenerationDataClass
+        )
+
+    def embeddings(
+        self, texts: List[str], model: str, **kwargs
+    ) -> ResponseType[EmbeddingsDataClass]:
+        args = {
+            "model": model,
+            "input": texts,
+        }
+        args.update(self.provider_config)
+        response = self.completion_client.embedding(**args, **kwargs)
+        # response = EmbeddingResponseModel.model_validate(response)
+        items = []
+        embeddings = response.get("data", [{}])
+        for embedding in embeddings:
+            items.append(EmbeddingDataClass(embedding=embedding["embedding"]))
+        standardized_response = EmbeddingsDataClass(items=items)
+        return ResponseType[EmbeddingsDataClass](
+            original_response=response.to_dict(),
+            standardized_response=standardized_response,
+            usage=response.usage,
+        )
+
+    def moderation(self, text: str, **kwargs) -> ResponseType[ModerationDataClass]:
+        args = {"input": text}
+        args.update(self.provider_config)
+        response = self.completion_client.moderation(**args, **kwargs)
+        classification = []
+        result = response.results
+        if result:
+            category_scores = result[0].category_scores
+            for key, value in category_scores.to_dict().items():
+                classificator = CategoryTypeModeration.choose_category_subcategory(key)
+                classification.append(
+                    TextModerationItem(
+                        label=key,
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        likelihood_score=value,
+                        likelihood=standardized_confidence_score(value),
+                    )
+                )
+        standardized_response: ModerationDataClass = ModerationDataClass(
+            nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
+                classification
+            ),
+            items=classification,
+            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(
+                classification
+            ),
+        )
+        return ResponseType[ModerationDataClass](
+            original_response=response.to_dict(),
+            standardized_response=standardized_response,
+        )
+
+    def custom_classification(
+        self,
+        texts: List[str],
+        labels: List[str],
+        model: str,
+        examples: List[List[str]],
+        **kwargs,
+    ) -> ResponseType[CustomClassificationDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior=" You are a Text Classification Model. Given a list of possible labels and a list of texts, you should classify each text by giving it one label.",
+            example_file="text/custom_classification/custom_classification_response.json",
+            dataclass=CustomClassificationDataClass,
+        )
+        formated_examples = Mappings.format_classification_examples(examples)
+
+        text = f"""
+                Possible Labels : 
+                {labels}
+
+                {formated_examples}
+                ======
+                List of texts : 
+
+                {texts}
+                """.format(
+            labels, formated_examples, texts
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            **kwargs,
+        )
+        return self._execute_completion(
+            params=args, response_class=CustomClassificationDataClass
+        )
+
+    def custom_named_entity_recognition(
+        self,
+        text: str,
+        entities: List[str],
+        model: str,
+        examples: Optional[List[Dict]] = None,
+        **kwargs,
+    ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
+        example_section = Mappings.format_ner_examples(examples=examples)
+        formatted_entities = ", ".join(entities)
+        instruction_message = f"list of entities types to extract : {formatted_entities}.\n {example_section  if example_section else ''}"
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a Named Entity Extraction Model. Given a list of Entities Types and a text input, you should extract extract all entities of the given entities types."
+            + instruction_message,
+            example_file="text/custom_classification/custom_classification_response.json",
+            dataclass=CustomClassificationDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            **kwargs,
+        )
+        return self._execute_completion(
+            params=args, response_class=CustomClassificationDataClass
+        )

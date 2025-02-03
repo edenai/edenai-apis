@@ -197,3 +197,41 @@ class Mappings:
             else:
                 openai_tools.append({"type": "function", "function": tool})
         return openai_tools
+
+    @staticmethod
+    def format_classification_examples(examples: List[List[str]]):
+        if not examples:
+            return ""
+        formated_texts = ""
+        for i, item in enumerate(examples, start=1):
+            formated_texts += f"""{i}. '{item}' """
+        text = f"""
+                ======
+                Example Classification:
+                {formated_texts}"""
+        return text
+
+    @staticmethod
+    def format_ner_examples(examples):
+        """Format examples into a clear, readable format for the prompt."""
+        if not examples:
+            return ""
+
+        formatted_examples = []
+        for idx, example in enumerate(examples, 1):
+            formatted_entities = "\n".join(
+                [
+                    f"    - Entity: {entity['entity']}"
+                    f"\n      Category: {entity['category']}"
+                    for entity in example["entities"]
+                ]
+            )
+
+            formatted_example = (
+                f"Example {idx}:\n"
+                f"  Text: {example['text']}\n"
+                f"  Entities:\n{formatted_entities}"
+            )
+            formatted_examples.append(formatted_example)
+
+        return "\n\n".join(formatted_examples)
