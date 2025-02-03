@@ -36,7 +36,7 @@ class TogetheraiApi(ProviderInterface, TextInterface):
         temperature: float,
         max_tokens: int,
         model: str,
-        stream=False,
+        stream: bool=False,
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
