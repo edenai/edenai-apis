@@ -1,5 +1,5 @@
 import json
-from typing import Dict, Generator, List, Literal, Optional, Sequence, Union
+from typing import Dict, List, Literal, Optional, Sequence, Union
 
 import requests
 from edenai_apis.apis.google.google_helpers import (
@@ -15,9 +15,8 @@ from edenai_apis.features.text import (
     CodeGenerationDataClass,
     GenerationDataClass,
 )
-from edenai_apis.features.text.chat.chat_dataclass import ChatStreamResponse, StreamChat
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.embeddings.embeddings_dataclass import (
-    EmbeddingDataClass,
     EmbeddingsDataClass,
 )
 from edenai_apis.features.text.entity_sentiment.entities import Entities
@@ -384,7 +383,7 @@ class GoogleTextApi(TextInterface):
         return response
 
     def text__embeddings(
-        self, texts: List[str], model: str
+        self, texts: List[str], model: Optional[str] = None
     ) -> ResponseType[EmbeddingsDataClass]:
         model = model.split("__")[1] if "__" in model else model
         response = self.clients["llm_client"].embeddings(texts=texts, model=model)

@@ -78,7 +78,6 @@ class LLMEngine:
         params = {
             "model": model,
             "drop_params": True,
-            "response_format": {"type": "json_object"},
         }
         params.update(self.provider_config)
         params.update(kwargs)
@@ -262,7 +261,12 @@ class LLMEngine:
             dataclass=SummarizeDataClass,
         )
         messages.append({"role": "user", "content": text + "\nTLDR:"})
-        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
         return self._execute_completion(params=args, response_class=SummarizeDataClass)
 
     def logo_detection(
@@ -287,7 +291,12 @@ class LLMEngine:
                 ],
             }
         )
-        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
         return self._execute_completion(
             params=args, response_class=LogoDetectionDataClass
         )
@@ -301,7 +310,12 @@ class LLMEngine:
             dataclass=SentimentAnalysisDataClass,
         )
         messages.append({"role": "user", "content": text})
-        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
         return self._execute_completion(
             params=args, response_class=SentimentAnalysisDataClass
         )
@@ -315,7 +329,12 @@ class LLMEngine:
             dataclass=KeywordExtractionDataClass,
         )
         messages.append({"role": "user", "content": text})
-        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
         return self._execute_completion(
             params=args, response_class=KeywordExtractionDataClass
         )
@@ -327,7 +346,12 @@ class LLMEngine:
             dataclass=SpellCheckDataClass,
         )
         messages.append({"role": "user", "content": text})
-        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
         return self._execute_completion(params=args, response_class=SpellCheckDataClass)
 
     def topic_extraction(
@@ -339,7 +363,12 @@ class LLMEngine:
             dataclass=TopicExtractionDataClass,
         )
         messages.append({"role": "user", "content": text})
-        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
         return self._execute_completion(
             params=args, response_class=TopicExtractionDataClass
         )
@@ -353,7 +382,12 @@ class LLMEngine:
             dataclass=NamedEntityRecognitionDataClass,
         )
         messages.append({"role": "user", "content": text})
-        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
         return self._execute_completion(
             params=args, response_class=NamedEntityRecognitionDataClass
         )
@@ -367,7 +401,12 @@ class LLMEngine:
             dataclass=AnonymizationDataClass,
         )
         messages.append({"role": "user", "content": text})
-        args = self._prepare_args(model=model, messages=messages, **kwargs)
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
         return self._execute_completion(
             params=args, response_class=AnonymizationDataClass
         )
@@ -391,6 +430,7 @@ class LLMEngine:
             messages=messages,
             temperature=temperature,
             max_tokens=max_tokens,
+            response_format={"type": "json_object"},
             **kwargs,
         )
         return self._execute_completion(
@@ -482,6 +522,7 @@ class LLMEngine:
         args = self._prepare_args(
             model=model,
             messages=messages,
+            response_format={"type": "json_object"},
             **kwargs,
         )
         return self._execute_completion(
@@ -509,6 +550,7 @@ class LLMEngine:
         args = self._prepare_args(
             model=model,
             messages=messages,
+            response_format={"type": "json_object"},
             **kwargs,
         )
         return self._execute_completion(

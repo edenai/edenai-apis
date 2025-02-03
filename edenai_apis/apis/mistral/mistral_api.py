@@ -8,7 +8,7 @@ from edenai_apis.features.multimodal.chat.chat_dataclass import (
     StreamChat as StreamChatMultimodal,
     ChatMessageDataClass as ChatMultimodalMessageDataClass,
 )
-from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
+from edenai_apis.features.text.embeddings import EmbeddingsDataClass
 from edenai_apis.features.text.generation.generation_dataclass import (
     GenerationDataClass,
 )

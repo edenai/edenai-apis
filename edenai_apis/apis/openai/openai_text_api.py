@@ -1,23 +1,8 @@
-import json
-import os
-from time import sleep
 from typing import Dict, List, Literal, Optional, Sequence, Union
-from edenai_apis.features.text.chat.helpers import get_tool_call_from_history_by_id
 import requests
-from pydantic_core._pydantic_core import ValidationError
-
 from edenai_apis.features import TextInterface
 from edenai_apis.features.text.anonymization import AnonymizationDataClass
-from edenai_apis.features.text.anonymization.anonymization_dataclass import (
-    AnonymizationEntity,
-)
-from edenai_apis.features.text.anonymization.category import CategoryType
-from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
-from edenai_apis.features.text.chat.chat_dataclass import (
-    StreamChat,
-    ChatStreamResponse,
-    ToolCall,
-)
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatDataClass
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
     CodeGenerationDataClass,
 )
@@ -27,13 +12,10 @@ from edenai_apis.features.text.custom_classification import (
 from edenai_apis.features.text.custom_named_entity_recognition import (
     CustomNamedEntityRecognitionDataClass,
 )
-from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
+from edenai_apis.features.text.embeddings import EmbeddingsDataClass
 from edenai_apis.features.text.generation import GenerationDataClass
 from edenai_apis.features.text.keyword_extraction import KeywordExtractionDataClass
-from edenai_apis.features.text.moderation import ModerationDataClass, TextModerationItem
-from edenai_apis.features.text.moderation.category import (
-    CategoryType as CategoryTypeModeration,
-)
+from edenai_apis.features.text.moderation import ModerationDataClass
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
     NamedEntityRecognitionDataClass,
 )
@@ -49,16 +31,9 @@ from edenai_apis.features.text.spell_check.spell_check_dataclass import (
 )
 from edenai_apis.features.text.summarize import SummarizeDataClass
 from edenai_apis.features.text.topic_extraction import TopicExtractionDataClass
-from edenai_apis.utils.conversion import (
-    closest_above_value,
-    find_all_occurrence,
-    standardized_confidence_score,
-)
-from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
 from .helpers import (
-    construct_anonymization_context,
     construct_prompt_optimization_instruction,
     get_openapi_response,
     prompt_optimization_missing_information,
@@ -66,59 +41,6 @@ from .helpers import (
 
 
 class OpenaiTextApi(TextInterface):
-
-    def __assistant_text(
-        self, name, instruction, message_text, example_file, dataclass
-    ):
-
-        with open(os.path.join(os.path.dirname(__file__), example_file), "r") as f:
-            output_response = json.load(f)["standardized_response"]
-
-        assistant = self.client.beta.assistants.create(
-            response_format={"type": "json_object"},
-            model="gpt-4o",
-            name=name,
-            instructions="{} You return a json output shaped like the following with the exact same structure and the exact same keys but the values would change : \n {} \n\n You should follow this pydantic dataclass schema {}".format(
-                instruction, output_response, dataclass.schema()
-            ),
-        )
-        thread = self.client.beta.threads.create(
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": message_text,
-                        }
-                    ],
-                }
-            ]
-        )
-
-        run = self.client.beta.threads.runs.create_and_poll(
-            thread_id=thread.id,
-            assistant_id=assistant.id,
-        )
-
-        while run.status != "completed":
-            sleep(1)
-
-        messages = self.client.beta.threads.messages.list(thread_id=thread.id)
-        usage = run.to_dict()["usage"]
-        original_response = messages.to_dict()
-        original_response["usage"] = usage
-
-        try:
-            standardized_response = json.loads(
-                json.loads(messages.data[0].content[0].json())["text"]["value"]
-            )
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response."
-            ) from exc
-
-        return original_response, standardized_response
 
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str

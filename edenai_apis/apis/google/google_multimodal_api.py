@@ -1,8 +1,4 @@
-from typing import Dict, List, Union, Generator, Optional
-import json
-import base64
-import requests
-import httpx
+from typing import List, Union, Optional
 from edenai_apis.features.multimodal.chat import (
     ChatDataClass,
     StreamChat,

@@ -24,7 +24,7 @@ def chat_arguments(provider_name: str):
             "perplexityai": "sonar-pro",
             "replicate": "llama-2-70b-chat",
             "anthropic": "claude-3-5-sonnet-latest",
-            "xai": "grok-beta",
+            "xai": "grok-2-latest",
         },
         "stream": False,
     }
