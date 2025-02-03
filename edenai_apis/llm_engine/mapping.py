@@ -40,7 +40,7 @@ class Mappings:
 
         if tool_results:
             for tool in tool_results or []:
-                tool_call = Mappingsget_tool_call_from_history_by_id(
+                tool_call = Mappings.get_tool_call_from_history_by_id(
                     tool["id"], previous_history
                 )
                 try:
@@ -176,7 +176,7 @@ class Mappings:
 
             if system_prompt:
                 transformed_messages.insert(
-                    0, {"role": "user", "content": system_prompt}
+                    0, {"role": "system", "content": system_prompt}
                 )
 
             return transformed_messages
